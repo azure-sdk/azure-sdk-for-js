@@ -26,7 +26,7 @@ import {
   JobsStopMultipleExecutionsOptionalParams,
   JobsStopMultipleExecutionsResponse,
   JobsListSecretsOptionalParams,
-  JobsListSecretsResponse
+  JobsListSecretsResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -37,7 +37,7 @@ export interface Jobs {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: JobsListBySubscriptionOptionalParams
+    options?: JobsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<Job>;
   /**
    * Get the Container Apps Jobs in a given resource group.
@@ -46,7 +46,7 @@ export interface Jobs {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: JobsListByResourceGroupOptionalParams
+    options?: JobsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Job>;
   /**
    * Get the properties of a Container Apps Job.
@@ -57,7 +57,7 @@ export interface Jobs {
   get(
     resourceGroupName: string,
     jobName: string,
-    options?: JobsGetOptionalParams
+    options?: JobsGetOptionalParams,
   ): Promise<JobsGetResponse>;
   /**
    * Create or Update a Container Apps Job.
@@ -70,7 +70,7 @@ export interface Jobs {
     resourceGroupName: string,
     jobName: string,
     jobEnvelope: Job,
-    options?: JobsCreateOrUpdateOptionalParams
+    options?: JobsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<JobsCreateOrUpdateResponse>,
@@ -88,7 +88,7 @@ export interface Jobs {
     resourceGroupName: string,
     jobName: string,
     jobEnvelope: Job,
-    options?: JobsCreateOrUpdateOptionalParams
+    options?: JobsCreateOrUpdateOptionalParams,
   ): Promise<JobsCreateOrUpdateResponse>;
   /**
    * Delete a Container Apps Job.
@@ -99,7 +99,7 @@ export interface Jobs {
   beginDelete(
     resourceGroupName: string,
     jobName: string,
-    options?: JobsDeleteOptionalParams
+    options?: JobsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a Container Apps Job.
@@ -110,7 +110,7 @@ export interface Jobs {
   beginDeleteAndWait(
     resourceGroupName: string,
     jobName: string,
-    options?: JobsDeleteOptionalParams
+    options?: JobsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Patches a Container Apps Job using JSON Merge Patch
@@ -123,7 +123,7 @@ export interface Jobs {
     resourceGroupName: string,
     jobName: string,
     jobEnvelope: JobPatchProperties,
-    options?: JobsUpdateOptionalParams
+    options?: JobsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<OperationState<JobsUpdateResponse>, JobsUpdateResponse>
   >;
@@ -138,7 +138,7 @@ export interface Jobs {
     resourceGroupName: string,
     jobName: string,
     jobEnvelope: JobPatchProperties,
-    options?: JobsUpdateOptionalParams
+    options?: JobsUpdateOptionalParams,
   ): Promise<JobsUpdateResponse>;
   /**
    * Start a Container Apps Job
@@ -149,7 +149,7 @@ export interface Jobs {
   beginStart(
     resourceGroupName: string,
     jobName: string,
-    options?: JobsStartOptionalParams
+    options?: JobsStartOptionalParams,
   ): Promise<
     SimplePollerLike<OperationState<JobsStartResponse>, JobsStartResponse>
   >;
@@ -162,7 +162,7 @@ export interface Jobs {
   beginStartAndWait(
     resourceGroupName: string,
     jobName: string,
-    options?: JobsStartOptionalParams
+    options?: JobsStartOptionalParams,
   ): Promise<JobsStartResponse>;
   /**
    * Terminates execution of a running container apps job
@@ -175,7 +175,7 @@ export interface Jobs {
     resourceGroupName: string,
     jobName: string,
     jobExecutionName: string,
-    options?: JobsStopExecutionOptionalParams
+    options?: JobsStopExecutionOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Terminates execution of a running container apps job
@@ -188,7 +188,7 @@ export interface Jobs {
     resourceGroupName: string,
     jobName: string,
     jobExecutionName: string,
-    options?: JobsStopExecutionOptionalParams
+    options?: JobsStopExecutionOptionalParams,
   ): Promise<void>;
   /**
    * Terminates execution of a running container apps job
@@ -199,7 +199,7 @@ export interface Jobs {
   beginStopMultipleExecutions(
     resourceGroupName: string,
     jobName: string,
-    options?: JobsStopMultipleExecutionsOptionalParams
+    options?: JobsStopMultipleExecutionsOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<JobsStopMultipleExecutionsResponse>,
@@ -215,7 +215,7 @@ export interface Jobs {
   beginStopMultipleExecutionsAndWait(
     resourceGroupName: string,
     jobName: string,
-    options?: JobsStopMultipleExecutionsOptionalParams
+    options?: JobsStopMultipleExecutionsOptionalParams,
   ): Promise<JobsStopMultipleExecutionsResponse>;
   /**
    * List secrets for a container apps job
@@ -226,6 +226,6 @@ export interface Jobs {
   listSecrets(
     resourceGroupName: string,
     jobName: string,
-    options?: JobsListSecretsOptionalParams
+    options?: JobsListSecretsOptionalParams,
   ): Promise<JobsListSecretsResponse>;
 }

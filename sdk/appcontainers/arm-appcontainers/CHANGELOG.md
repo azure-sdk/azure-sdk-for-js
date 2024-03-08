@@ -1,15 +1,13 @@
 # Release History
+    
+## 2.1.0 (2024-03-08)
+    
+**Features**
 
-## 2.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface ManagedEnvironmentPropertiesPeerTrafficConfiguration
+  - Added Interface ManagedEnvironmentPropertiesPeerTrafficConfigurationEncryption
+  - Interface ManagedEnvironment has a new optional parameter peerTrafficConfiguration
+    
 ## 2.0.0 (2023-08-08)
 
 **Features**
@@ -361,4 +359,4 @@
 
 ## 1.0.0 (2022-05-20)
 
-The package of @azure/arm-appcontainers is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+The package of @azure/arm-appcontainers is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).

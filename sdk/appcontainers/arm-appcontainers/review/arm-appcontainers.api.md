@@ -2275,6 +2275,7 @@ export interface ManagedEnvironment extends TrackedResource {
     kedaConfiguration?: KedaConfiguration;
     kind?: string;
     peerAuthentication?: ManagedEnvironmentPropertiesPeerAuthentication;
+    peerTrafficConfiguration?: ManagedEnvironmentPropertiesPeerTrafficConfiguration;
     readonly provisioningState?: EnvironmentProvisioningState;
     readonly staticIp?: string;
     vnetConfiguration?: VnetConfiguration;
@@ -2305,6 +2306,16 @@ export type ManagedEnvironmentDiagnosticsListDetectorsResponse = DiagnosticsColl
 // @public
 export interface ManagedEnvironmentPropertiesPeerAuthentication {
     mtls?: Mtls;
+}
+
+// @public
+export interface ManagedEnvironmentPropertiesPeerTrafficConfiguration {
+    encryption?: ManagedEnvironmentPropertiesPeerTrafficConfigurationEncryption;
+}
+
+// @public
+export interface ManagedEnvironmentPropertiesPeerTrafficConfigurationEncryption {
+    enabled?: boolean;
 }
 
 // @public
