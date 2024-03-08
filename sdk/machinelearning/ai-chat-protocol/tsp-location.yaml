@@ -1,0 +1,5 @@
+directory: specification/machinelearning/Azure.AI.ChatProtocol
+additionalDirectories: []
+commit: cd61d52ae47d9265df9d74eb303f9549dd29c5f7
+repo: Azure/azure-rest-api-specs
+
