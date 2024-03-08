@@ -1,14 +1,32 @@
+## 1.0.0-beta.3 (2024-03-08)
+    
+**Features**
+
+  - Interface ImageAnalysisResultOutput has a new optional parameter caption
+  - Interface ImageAnalysisResultOutput has a new optional parameter denseCaptions
+  - Interface ImageAnalysisResultOutput has a new optional parameter objects
+  - Interface ImageAnalysisResultOutput has a new optional parameter people
+  - Interface ImageAnalysisResultOutput has a new optional parameter read
+  - Interface ImageAnalysisResultOutput has a new optional parameter smartCrops
+  - Interface ImageAnalysisResultOutput has a new optional parameter tags
+
+**Breaking Changes**
+
+  - Operation AnalyzeFromImageData.post has a new signature
+  - Operation AnalyzeFromImageData.post has a new signature
+  - Interface ImageAnalysisResultOutput no longer has parameter captionResult
+  - Interface ImageAnalysisResultOutput no longer has parameter denseCaptionsResult
+  - Interface ImageAnalysisResultOutput no longer has parameter objectsResult
+  - Interface ImageAnalysisResultOutput no longer has parameter peopleResult
+  - Interface ImageAnalysisResultOutput no longer has parameter readResult
+  - Interface ImageAnalysisResultOutput no longer has parameter smartCropsResult
+  - Interface ImageAnalysisResultOutput no longer has parameter tagsResult
+  - Interface ImageBoundingBoxOutput no longer has parameter h
+  - Interface ImageBoundingBoxOutput no longer has parameter w
+  - Interface ImageBoundingBoxOutput has a new required parameter height
+  - Interface ImageBoundingBoxOutput has a new required parameter width
+    
 # Release History
-
-## 1.0.0-beta.3 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
 
 ## 1.0.0-beta.2 (2024-02-14)
 
