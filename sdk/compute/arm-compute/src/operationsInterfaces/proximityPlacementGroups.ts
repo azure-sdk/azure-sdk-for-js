@@ -10,7 +10,6 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   ProximityPlacementGroup,
   ProximityPlacementGroupsListBySubscriptionOptionalParams,
-  ProximityPlacementGroupsListByResourceGroupOptionalParams,
   ProximityPlacementGroupsCreateOrUpdateOptionalParams,
   ProximityPlacementGroupsCreateOrUpdateResponse,
   ProximityPlacementGroupUpdate,
@@ -18,7 +17,7 @@ import {
   ProximityPlacementGroupsUpdateResponse,
   ProximityPlacementGroupsDeleteOptionalParams,
   ProximityPlacementGroupsGetOptionalParams,
-  ProximityPlacementGroupsGetResponse
+  ProximityPlacementGroupsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,16 +28,7 @@ export interface ProximityPlacementGroups {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: ProximityPlacementGroupsListBySubscriptionOptionalParams
-  ): PagedAsyncIterableIterator<ProximityPlacementGroup>;
-  /**
-   * Lists all proximity placement groups in a resource group.
-   * @param resourceGroupName The name of the resource group.
-   * @param options The options parameters.
-   */
-  listByResourceGroup(
-    resourceGroupName: string,
-    options?: ProximityPlacementGroupsListByResourceGroupOptionalParams
+    options?: ProximityPlacementGroupsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<ProximityPlacementGroup>;
   /**
    * Create or update a proximity placement group.
@@ -51,7 +41,7 @@ export interface ProximityPlacementGroups {
     resourceGroupName: string,
     proximityPlacementGroupName: string,
     parameters: ProximityPlacementGroup,
-    options?: ProximityPlacementGroupsCreateOrUpdateOptionalParams
+    options?: ProximityPlacementGroupsCreateOrUpdateOptionalParams,
   ): Promise<ProximityPlacementGroupsCreateOrUpdateResponse>;
   /**
    * Update a proximity placement group.
@@ -64,7 +54,7 @@ export interface ProximityPlacementGroups {
     resourceGroupName: string,
     proximityPlacementGroupName: string,
     parameters: ProximityPlacementGroupUpdate,
-    options?: ProximityPlacementGroupsUpdateOptionalParams
+    options?: ProximityPlacementGroupsUpdateOptionalParams,
   ): Promise<ProximityPlacementGroupsUpdateResponse>;
   /**
    * Delete a proximity placement group.
@@ -75,7 +65,7 @@ export interface ProximityPlacementGroups {
   delete(
     resourceGroupName: string,
     proximityPlacementGroupName: string,
-    options?: ProximityPlacementGroupsDeleteOptionalParams
+    options?: ProximityPlacementGroupsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Retrieves information about a proximity placement group .
@@ -86,6 +76,6 @@ export interface ProximityPlacementGroups {
   get(
     resourceGroupName: string,
     proximityPlacementGroupName: string,
-    options?: ProximityPlacementGroupsGetOptionalParams
+    options?: ProximityPlacementGroupsGetOptionalParams,
   ): Promise<ProximityPlacementGroupsGetResponse>;
 }
