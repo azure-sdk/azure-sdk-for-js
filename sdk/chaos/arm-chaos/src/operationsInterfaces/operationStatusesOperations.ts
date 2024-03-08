@@ -7,21 +7,23 @@
  */
 
 import {
-  OperationStatusesGetOptionalParams,
-  OperationStatusesGetResponse,
+  OperationStatusesOperationsGetOptionalParams,
+  OperationStatusesOperationsGetResponse,
 } from "../models";
 
-/** Interface representing a OperationStatuses. */
-export interface OperationStatuses {
+/** Interface representing a OperationStatusesOperations. */
+export interface OperationStatusesOperations {
   /**
    * Get the status of a long running azure asynchronous operation.
-   * @param location The name of the Azure region.
+   * @param location The region name of operation.
    * @param asyncOperationId The operation Id.
+   * @param subscriptionId GUID that represents an Azure subscription ID.
    * @param options The options parameters.
    */
   get(
     location: string,
     asyncOperationId: string,
-    options?: OperationStatusesGetOptionalParams,
-  ): Promise<OperationStatusesGetResponse>;
+    subscriptionId: string,
+    options?: OperationStatusesOperationsGetOptionalParams,
+  ): Promise<OperationStatusesOperationsGetResponse>;
 }

@@ -15,12 +15,12 @@ import * as Parameters from "../models/parameters";
 import { ChaosManagementClient } from "../chaosManagementClient";
 import {
   TargetType,
-  TargetTypesListNextOptionalParams,
-  TargetTypesListOptionalParams,
-  TargetTypesListResponse,
+  TargetTypesListByLocationNextOptionalParams,
+  TargetTypesListByLocationOptionalParams,
+  TargetTypesListByLocationResponse,
   TargetTypesGetOptionalParams,
   TargetTypesGetResponse,
-  TargetTypesListNextResponse,
+  TargetTypesListByLocationNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -38,14 +38,14 @@ export class TargetTypesImpl implements TargetTypes {
 
   /**
    * Get a list of Target Type resources for given location.
-   * @param locationName String that represents a Location resource name.
+   * @param location The name of Azure region.
    * @param options The options parameters.
    */
-  public list(
-    locationName: string,
-    options?: TargetTypesListOptionalParams,
+  public listByLocation(
+    location: string,
+    options?: TargetTypesListByLocationOptionalParams,
   ): PagedAsyncIterableIterator<TargetType> {
-    const iter = this.listPagingAll(locationName, options);
+    const iter = this.listByLocationPagingAll(location, options);
     return {
       next() {
         return iter.next();
@@ -57,27 +57,31 @@ export class TargetTypesImpl implements TargetTypes {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(locationName, options, settings);
+        return this.listByLocationPagingPage(location, options, settings);
       },
     };
   }
 
-  private async *listPagingPage(
-    locationName: string,
-    options?: TargetTypesListOptionalParams,
+  private async *listByLocationPagingPage(
+    location: string,
+    options?: TargetTypesListByLocationOptionalParams,
     settings?: PageSettings,
   ): AsyncIterableIterator<TargetType[]> {
-    let result: TargetTypesListResponse;
+    let result: TargetTypesListByLocationResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(locationName, options);
+      result = await this._listByLocation(location, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(locationName, continuationToken, options);
+      result = await this._listByLocationNext(
+        location,
+        continuationToken,
+        options,
+      );
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -85,69 +89,69 @@ export class TargetTypesImpl implements TargetTypes {
     }
   }
 
-  private async *listPagingAll(
-    locationName: string,
-    options?: TargetTypesListOptionalParams,
+  private async *listByLocationPagingAll(
+    location: string,
+    options?: TargetTypesListByLocationOptionalParams,
   ): AsyncIterableIterator<TargetType> {
-    for await (const page of this.listPagingPage(locationName, options)) {
+    for await (const page of this.listByLocationPagingPage(location, options)) {
       yield* page;
     }
   }
 
   /**
    * Get a list of Target Type resources for given location.
-   * @param locationName String that represents a Location resource name.
+   * @param location The name of Azure region.
    * @param options The options parameters.
    */
-  private _list(
-    locationName: string,
-    options?: TargetTypesListOptionalParams,
-  ): Promise<TargetTypesListResponse> {
+  private _listByLocation(
+    location: string,
+    options?: TargetTypesListByLocationOptionalParams,
+  ): Promise<TargetTypesListByLocationResponse> {
     return this.client.sendOperationRequest(
-      { locationName, options },
-      listOperationSpec,
+      { location, options },
+      listByLocationOperationSpec,
     );
   }
 
   /**
    * Get a Target Type resources for given location.
-   * @param locationName String that represents a Location resource name.
+   * @param location The name of Azure region.
    * @param targetTypeName String that represents a Target Type resource name.
    * @param options The options parameters.
    */
   get(
-    locationName: string,
+    location: string,
     targetTypeName: string,
     options?: TargetTypesGetOptionalParams,
   ): Promise<TargetTypesGetResponse> {
     return this.client.sendOperationRequest(
-      { locationName, targetTypeName, options },
+      { location, targetTypeName, options },
       getOperationSpec,
     );
   }
 
   /**
-   * ListNext
-   * @param locationName String that represents a Location resource name.
-   * @param nextLink The nextLink from the previous successful call to the List method.
+   * ListByLocationNext
+   * @param location The name of Azure region.
+   * @param nextLink The nextLink from the previous successful call to the ListByLocation method.
    * @param options The options parameters.
    */
-  private _listNext(
-    locationName: string,
+  private _listByLocationNext(
+    location: string,
     nextLink: string,
-    options?: TargetTypesListNextOptionalParams,
-  ): Promise<TargetTypesListNextResponse> {
+    options?: TargetTypesListByLocationNextOptionalParams,
+  ): Promise<TargetTypesListByLocationNextResponse> {
     return this.client.sendOperationRequest(
-      { locationName, nextLink, options },
-      listNextOperationSpec,
+      { location, nextLink, options },
+      listByLocationNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Chaos/locations/{locationName}/targetTypes",
+const listByLocationOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Chaos/locations/{location}/targetTypes",
   httpMethod: "GET",
   responses: {
     200: {
@@ -161,13 +165,13 @@ const listOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.locationName,
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Chaos/locations/{locationName}/targetTypes/{targetTypeName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Chaos/locations/{location}/targetTypes/{targetTypeName}",
   httpMethod: "GET",
   responses: {
     200: {
@@ -181,13 +185,13 @@ const getOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.locationName,
+    Parameters.location,
     Parameters.targetTypeName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listNextOperationSpec: coreClient.OperationSpec = {
+const listByLocationNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
@@ -200,9 +204,9 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.locationName,
+    Parameters.subscriptionId,
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
   serializer,

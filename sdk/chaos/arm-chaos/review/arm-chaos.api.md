@@ -11,6 +11,12 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
+export interface Action {
+    name: string;
+    type: "continuous" | "delay" | "discrete";
+}
+
+// @public
 export interface ActionStatus {
     readonly actionId?: string;
     readonly actionName?: string;
@@ -23,6 +29,35 @@ export interface ActionStatus {
 // @public
 export type ActionType = string;
 
+// @public (undocumented)
+export type ActionUnion = Action | ContinuousAction | DelayAction | DiscreteAction;
+
+// @public
+export interface AzureCoreFoundationsError {
+    code: string;
+    details?: AzureCoreFoundationsError[];
+    innererror?: AzureCoreFoundationsInnerError;
+    message: string;
+    target?: string;
+}
+
+// @public
+export interface AzureCoreFoundationsErrorResponse {
+    error: AzureCoreFoundationsError;
+}
+
+// @public
+export interface AzureCoreFoundationsInnerError {
+    code?: string;
+    innererror?: AzureCoreFoundationsInnerError;
+}
+
+// @public
+export interface Branch {
+    actions: ActionUnion[];
+    name: string;
+}
+
 // @public
 export interface BranchStatus {
     readonly actions?: ActionStatus[];
@@ -33,10 +68,10 @@ export interface BranchStatus {
 
 // @public
 export interface Capabilities {
-    createOrUpdate(resourceGroupName: string, parentProviderNamespace: string, parentResourceType: string, parentResourceName: string, targetName: string, capabilityName: string, capability: Capability, options?: CapabilitiesCreateOrUpdateOptionalParams): Promise<CapabilitiesCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, parentProviderNamespace: string, parentResourceType: string, parentResourceName: string, targetName: string, capabilityName: string, options?: CapabilitiesDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, parentProviderNamespace: string, parentResourceType: string, parentResourceName: string, targetName: string, capabilityName: string, options?: CapabilitiesGetOptionalParams): Promise<CapabilitiesGetResponse>;
-    list(resourceGroupName: string, parentProviderNamespace: string, parentResourceType: string, parentResourceName: string, targetName: string, options?: CapabilitiesListOptionalParams): PagedAsyncIterableIterator<Capability>;
+    createOrUpdate(parentProviderNamespace: string, parentResourceType: string, parentResourceName: string, location: string, targetName: string, capabilityName: string, resource: Capability, options?: CapabilitiesCreateOrUpdateOptionalParams): Promise<CapabilitiesCreateOrUpdateResponse>;
+    delete(parentProviderNamespace: string, parentResourceType: string, parentResourceName: string, location: string, targetName: string, capabilityName: string, options?: CapabilitiesDeleteOptionalParams): Promise<void>;
+    get(parentProviderNamespace: string, parentResourceType: string, parentResourceName: string, location: string, targetName: string, capabilityName: string, options?: CapabilitiesGetOptionalParams): Promise<CapabilitiesGetResponse>;
+    listByTarget(parentProviderNamespace: string, parentResourceType: string, parentResourceName: string, location: string, targetName: string, options?: CapabilitiesListByTargetOptionalParams): PagedAsyncIterableIterator<Capability>;
 }
 
 // @public
@@ -58,56 +93,53 @@ export interface CapabilitiesGetOptionalParams extends coreClient.OperationOptio
 export type CapabilitiesGetResponse = Capability;
 
 // @public
-export interface CapabilitiesListNextOptionalParams extends coreClient.OperationOptions {
+export interface CapabilitiesListByTargetNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type CapabilitiesListNextResponse = CapabilityListResult;
+export type CapabilitiesListByTargetNextResponse = CapabilityListResult;
 
 // @public
-export interface CapabilitiesListOptionalParams extends coreClient.OperationOptions {
+export interface CapabilitiesListByTargetOptionalParams extends coreClient.OperationOptions {
     continuationToken?: string;
 }
 
 // @public
-export type CapabilitiesListResponse = CapabilityListResult;
+export type CapabilitiesListByTargetResponse = CapabilityListResult;
 
 // @public
-export interface Capability extends Resource {
+export interface Capability extends ProxyResource {
     readonly description?: string;
     readonly parametersSchema?: string;
     readonly publisher?: string;
-    readonly systemData?: SystemData;
     readonly targetType?: string;
     readonly urn?: string;
 }
 
 // @public
 export interface CapabilityListResult {
-    readonly nextLink?: string;
-    readonly value?: Capability[];
+    nextLink?: string;
+    value: Capability[];
 }
 
 // @public
-export interface CapabilityType extends Resource {
+export interface CapabilityType extends ProxyResource {
     azureRbacActions?: string[];
     azureRbacDataActions?: string[];
     readonly description?: string;
     readonly displayName?: string;
     readonly kind?: string;
-    location?: string;
     readonly parametersSchema?: string;
     readonly publisher?: string;
     runtimeProperties?: CapabilityTypePropertiesRuntimeProperties;
-    readonly systemData?: SystemData;
     readonly targetType?: string;
     readonly urn?: string;
 }
 
 // @public
 export interface CapabilityTypeListResult {
-    readonly nextLink?: string;
-    readonly value?: CapabilityType[];
+    nextLink?: string;
+    value: CapabilityType[];
 }
 
 // @public
@@ -117,8 +149,8 @@ export interface CapabilityTypePropertiesRuntimeProperties {
 
 // @public
 export interface CapabilityTypes {
-    get(locationName: string, targetTypeName: string, capabilityTypeName: string, options?: CapabilityTypesGetOptionalParams): Promise<CapabilityTypesGetResponse>;
-    list(locationName: string, targetTypeName: string, options?: CapabilityTypesListOptionalParams): PagedAsyncIterableIterator<CapabilityType>;
+    get(location: string, targetTypeName: string, capabilityTypeName: string, options?: CapabilityTypesGetOptionalParams): Promise<CapabilityTypesGetResponse>;
+    listByTargetType(location: string, targetTypeName: string, options?: CapabilityTypesListByTargetTypeOptionalParams): PagedAsyncIterableIterator<CapabilityType>;
 }
 
 // @public
@@ -129,40 +161,19 @@ export interface CapabilityTypesGetOptionalParams extends coreClient.OperationOp
 export type CapabilityTypesGetResponse = CapabilityType;
 
 // @public
-export interface CapabilityTypesListNextOptionalParams extends coreClient.OperationOptions {
+export interface CapabilityTypesListByTargetTypeNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type CapabilityTypesListNextResponse = CapabilityTypeListResult;
+export type CapabilityTypesListByTargetTypeNextResponse = CapabilityTypeListResult;
 
 // @public
-export interface CapabilityTypesListOptionalParams extends coreClient.OperationOptions {
+export interface CapabilityTypesListByTargetTypeOptionalParams extends coreClient.OperationOptions {
     continuationToken?: string;
 }
 
 // @public
-export type CapabilityTypesListResponse = CapabilityTypeListResult;
-
-// @public
-export interface ChaosExperimentAction {
-    name: string;
-    type: "delay" | "discrete" | "continuous";
-}
-
-// @public (undocumented)
-export type ChaosExperimentActionUnion = ChaosExperimentAction | DelayAction | DiscreteAction | ContinuousAction;
-
-// @public
-export interface ChaosExperimentBranch {
-    actions: ChaosExperimentActionUnion[];
-    name: string;
-}
-
-// @public
-export interface ChaosExperimentStep {
-    branches: ChaosExperimentBranch[];
-    name: string;
-}
+export type CapabilityTypesListByTargetTypeResponse = CapabilityTypeListResult;
 
 // @public (undocumented)
 export class ChaosManagementClient extends coreClient.ServiceClient {
@@ -177,11 +188,13 @@ export class ChaosManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     capabilityTypes: CapabilityTypes;
     // (undocumented)
+    experimentExecutions: ExperimentExecutions;
+    // (undocumented)
     experiments: Experiments;
     // (undocumented)
     operations: Operations;
     // (undocumented)
-    operationStatuses: OperationStatuses;
+    operationStatusesOperations: OperationStatusesOperations;
     // (undocumented)
     subscriptionId?: string;
     // (undocumented)
@@ -198,14 +211,6 @@ export interface ChaosManagementClientOptionalParams extends coreClient.ServiceC
 }
 
 // @public
-export interface ChaosTargetFilter {
-    type: "Simple";
-}
-
-// @public (undocumented)
-export type ChaosTargetFilterUnion = ChaosTargetFilter | ChaosTargetSimpleFilter;
-
-// @public
 export interface ChaosTargetListSelector extends ChaosTargetSelector {
     targets: TargetReference[];
     type: "List";
@@ -220,8 +225,7 @@ export interface ChaosTargetQuerySelector extends ChaosTargetSelector {
 
 // @public
 export interface ChaosTargetSelector {
-    [property: string]: any;
-    filter?: ChaosTargetFilterUnion;
+    filter?: FilterUnion;
     id: string;
     type: "List" | "Query";
 }
@@ -230,7 +234,7 @@ export interface ChaosTargetSelector {
 export type ChaosTargetSelectorUnion = ChaosTargetSelector | ChaosTargetListSelector | ChaosTargetQuerySelector;
 
 // @public
-export interface ChaosTargetSimpleFilter extends ChaosTargetFilter {
+export interface ChaosTargetSimpleFilter extends Filter {
     parameters?: ChaosTargetSimpleFilterParameters;
     type: "Simple";
 }
@@ -241,7 +245,7 @@ export interface ChaosTargetSimpleFilterParameters {
 }
 
 // @public
-export interface ContinuousAction extends ChaosExperimentAction {
+export interface ContinuousAction extends Action {
     duration: string;
     parameters: KeyValuePair[];
     selectorId: string;
@@ -252,13 +256,13 @@ export interface ContinuousAction extends ChaosExperimentAction {
 export type CreatedByType = string;
 
 // @public
-export interface DelayAction extends ChaosExperimentAction {
+export interface DelayAction extends Action {
     duration: string;
     type: "delay";
 }
 
 // @public
-export interface DiscreteAction extends ChaosExperimentAction {
+export interface DiscreteAction extends Action {
     parameters: KeyValuePair[];
     selectorId: string;
     type: "discrete";
@@ -286,21 +290,17 @@ export interface ErrorResponse {
 
 // @public
 export interface Experiment extends TrackedResource {
-    identity?: ResourceIdentity;
+    identity?: ManagedServiceIdentity;
     readonly provisioningState?: ProvisioningState;
-    selectors: ChaosTargetSelectorUnion[];
-    steps: ChaosExperimentStep[];
-    readonly systemData?: SystemData;
+    selectors?: ChaosTargetSelectorUnion[];
+    steps?: Step[];
 }
 
 // @public
-export interface ExperimentExecution {
-    readonly id?: string;
-    readonly name?: string;
+export interface ExperimentExecution extends ProxyResource {
     readonly startedAt?: Date;
     readonly status?: string;
     readonly stoppedAt?: Date;
-    readonly type?: string;
 }
 
 // @public
@@ -320,22 +320,20 @@ export interface ExperimentExecutionActionTargetDetailsProperties {
 
 // @public
 export interface ExperimentExecutionDetails {
-    readonly failureReason?: string;
     readonly id?: string;
-    readonly lastActionAt?: Date;
     readonly name?: string;
-    readonly runInformation?: ExperimentExecutionDetailsPropertiesRunInformation;
-    readonly startedAt?: Date;
-    readonly status?: string;
-    readonly stoppedAt?: Date;
+    readonly properties?: ExperimentExecutionDetailsProperties;
     readonly type?: string;
 }
 
 // @public
-export interface ExperimentExecutionDetailsProperties extends ExperimentExecutionProperties {
+export interface ExperimentExecutionDetailsProperties {
     readonly failureReason?: string;
     readonly lastActionAt?: Date;
     readonly runInformation?: ExperimentExecutionDetailsPropertiesRunInformation;
+    readonly startedAt?: Date;
+    readonly status?: string;
+    readonly stoppedAt?: Date;
 }
 
 // @public
@@ -345,47 +343,86 @@ export interface ExperimentExecutionDetailsPropertiesRunInformation {
 
 // @public
 export interface ExperimentExecutionListResult {
-    readonly nextLink?: string;
-    readonly value?: ExperimentExecution[];
+    nextLink?: string;
+    value: ExperimentExecution[];
 }
 
 // @public
-export interface ExperimentExecutionProperties {
-    readonly startedAt?: Date;
-    readonly status?: string;
-    readonly stoppedAt?: Date;
+export interface ExperimentExecutions {
+    executionDetails(resourceGroupName: string, experimentName: string, executionId: string, body: Record<string, unknown>, options?: ExperimentExecutionsExecutionDetailsOptionalParams): Promise<ExperimentExecutionsExecutionDetailsResponse>;
+    getExecution(resourceGroupName: string, experimentName: string, executionId: string, options?: ExperimentExecutionsGetExecutionOptionalParams): Promise<ExperimentExecutionsGetExecutionResponse>;
+    listByExperiment(resourceGroupName: string, experimentName: string, options?: ExperimentExecutionsListByExperimentOptionalParams): PagedAsyncIterableIterator<ExperimentExecution>;
 }
+
+// @public
+export interface ExperimentExecutionsExecutionDetailsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ExperimentExecutionsExecutionDetailsResponse = ExperimentExecutionDetails;
+
+// @public
+export interface ExperimentExecutionsGetExecutionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ExperimentExecutionsGetExecutionResponse = ExperimentExecution;
+
+// @public
+export interface ExperimentExecutionsListByExperimentNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ExperimentExecutionsListByExperimentNextResponse = ExperimentExecutionListResult;
+
+// @public
+export interface ExperimentExecutionsListByExperimentOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ExperimentExecutionsListByExperimentResponse = ExperimentExecutionListResult;
 
 // @public
 export interface ExperimentListResult {
-    readonly nextLink?: string;
-    readonly value?: Experiment[];
+    nextLink?: string;
+    value: Experiment[];
 }
 
 // @public
 export interface Experiments {
-    beginCancel(resourceGroupName: string, experimentName: string, options?: ExperimentsCancelOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginCancelAndWait(resourceGroupName: string, experimentName: string, options?: ExperimentsCancelOptionalParams): Promise<void>;
-    beginCreateOrUpdate(resourceGroupName: string, experimentName: string, experiment: Experiment, options?: ExperimentsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ExperimentsCreateOrUpdateResponse>, ExperimentsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, experimentName: string, experiment: Experiment, options?: ExperimentsCreateOrUpdateOptionalParams): Promise<ExperimentsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, experimentName: string, options?: ExperimentsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, experimentName: string, options?: ExperimentsDeleteOptionalParams): Promise<void>;
-    beginStart(resourceGroupName: string, experimentName: string, options?: ExperimentsStartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginStartAndWait(resourceGroupName: string, experimentName: string, options?: ExperimentsStartOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, experimentName: string, experiment: ExperimentUpdate, options?: ExperimentsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ExperimentsUpdateResponse>, ExperimentsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, experimentName: string, experiment: ExperimentUpdate, options?: ExperimentsUpdateOptionalParams): Promise<ExperimentsUpdateResponse>;
-    executionDetails(resourceGroupName: string, experimentName: string, executionId: string, options?: ExperimentsExecutionDetailsOptionalParams): Promise<ExperimentsExecutionDetailsResponse>;
+    beginCancel(resourceGroupName: string, experimentName: string, body: Record<string, unknown>, options?: ExperimentsCancelOptionalParams): Promise<SimplePollerLike<OperationState<ExperimentsCancelResponse>, ExperimentsCancelResponse>>;
+    beginCancelAndWait(resourceGroupName: string, experimentName: string, body: Record<string, unknown>, options?: ExperimentsCancelOptionalParams): Promise<ExperimentsCancelResponse>;
+    beginCreateOrUpdate(resourceGroupName: string, experimentName: string, resource: Experiment, options?: ExperimentsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ExperimentsCreateOrUpdateResponse>, ExperimentsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, experimentName: string, resource: Experiment, options?: ExperimentsCreateOrUpdateOptionalParams): Promise<ExperimentsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, experimentName: string, options?: ExperimentsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ExperimentsDeleteResponse>, ExperimentsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, experimentName: string, options?: ExperimentsDeleteOptionalParams): Promise<ExperimentsDeleteResponse>;
+    beginStart(resourceGroupName: string, experimentName: string, body: Record<string, unknown>, options?: ExperimentsStartOptionalParams): Promise<SimplePollerLike<OperationState<ExperimentsStartResponse>, ExperimentsStartResponse>>;
+    beginStartAndWait(resourceGroupName: string, experimentName: string, body: Record<string, unknown>, options?: ExperimentsStartOptionalParams): Promise<ExperimentsStartResponse>;
+    beginUpdate(resourceGroupName: string, experimentName: string, properties: ExperimentUpdate, options?: ExperimentsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ExperimentsUpdateResponse>, ExperimentsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, experimentName: string, properties: ExperimentUpdate, options?: ExperimentsUpdateOptionalParams): Promise<ExperimentsUpdateResponse>;
     get(resourceGroupName: string, experimentName: string, options?: ExperimentsGetOptionalParams): Promise<ExperimentsGetResponse>;
-    getExecution(resourceGroupName: string, experimentName: string, executionId: string, options?: ExperimentsGetExecutionOptionalParams): Promise<ExperimentsGetExecutionResponse>;
-    list(resourceGroupName: string, options?: ExperimentsListOptionalParams): PagedAsyncIterableIterator<Experiment>;
     listAll(options?: ExperimentsListAllOptionalParams): PagedAsyncIterableIterator<Experiment>;
-    listAllExecutions(resourceGroupName: string, experimentName: string, options?: ExperimentsListAllExecutionsOptionalParams): PagedAsyncIterableIterator<ExperimentExecution>;
+    listByResourceGroup(resourceGroupName: string, options?: ExperimentsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Experiment>;
+}
+
+// @public
+export interface ExperimentsCancelHeaders {
+    location?: string;
+    retryAfter?: number;
 }
 
 // @public
 export interface ExperimentsCancelOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+}
+
+// @public
+export type ExperimentsCancelResponse = ExperimentsCancelHeaders;
+
+// @public
+export interface ExperimentsCreateOrUpdateHeaders {
+    retryAfter?: number;
 }
 
 // @public
@@ -398,24 +435,19 @@ export interface ExperimentsCreateOrUpdateOptionalParams extends coreClient.Oper
 export type ExperimentsCreateOrUpdateResponse = Experiment;
 
 // @public
+export interface ExperimentsDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface ExperimentsDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface ExperimentsExecutionDetailsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ExperimentsExecutionDetailsResponse = ExperimentExecutionDetails;
-
-// @public
-export interface ExperimentsGetExecutionOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ExperimentsGetExecutionResponse = ExperimentExecution;
+export type ExperimentsDeleteResponse = ExperimentsDeleteHeaders;
 
 // @public
 export interface ExperimentsGetOptionalParams extends coreClient.OperationOptions {
@@ -423,20 +455,6 @@ export interface ExperimentsGetOptionalParams extends coreClient.OperationOption
 
 // @public
 export type ExperimentsGetResponse = Experiment;
-
-// @public
-export interface ExperimentsListAllExecutionsNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ExperimentsListAllExecutionsNextResponse = ExperimentExecutionListResult;
-
-// @public
-export interface ExperimentsListAllExecutionsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ExperimentsListAllExecutionsResponse = ExperimentExecutionListResult;
 
 // @public
 export interface ExperimentsListAllNextOptionalParams extends coreClient.OperationOptions {
@@ -447,33 +465,46 @@ export type ExperimentsListAllNextResponse = ExperimentListResult;
 
 // @public
 export interface ExperimentsListAllOptionalParams extends coreClient.OperationOptions {
-    continuationToken?: string;
-    running?: boolean;
 }
 
 // @public
 export type ExperimentsListAllResponse = ExperimentListResult;
 
 // @public
-export interface ExperimentsListNextOptionalParams extends coreClient.OperationOptions {
+export interface ExperimentsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type ExperimentsListNextResponse = ExperimentListResult;
+export type ExperimentsListByResourceGroupNextResponse = ExperimentListResult;
 
 // @public
-export interface ExperimentsListOptionalParams extends coreClient.OperationOptions {
+export interface ExperimentsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
     continuationToken?: string;
     running?: boolean;
 }
 
 // @public
-export type ExperimentsListResponse = ExperimentListResult;
+export type ExperimentsListByResourceGroupResponse = ExperimentListResult;
+
+// @public
+export interface ExperimentsStartHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface ExperimentsStartOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+}
+
+// @public
+export type ExperimentsStartResponse = ExperimentsStartHeaders;
+
+// @public
+export interface ExperimentsUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -488,13 +519,18 @@ export type ExperimentsUpdateResponse = Experiment;
 // @public
 export interface ExperimentUpdate {
     identity?: ResourceIdentity;
-    tags?: {
-        [propertyName: string]: string;
-    };
+}
+
+// @public
+export interface Filter {
+    type: "Simple";
 }
 
 // @public
 export type FilterType = string;
+
+// @public (undocumented)
+export type FilterUnion = Filter | ChaosTargetSimpleFilter;
 
 // @public
 export function getContinuationToken(page: unknown): string | undefined;
@@ -524,6 +560,14 @@ export enum KnownFilterType {
 }
 
 // @public
+export enum KnownManagedServiceIdentityType {
+    None = "None",
+    SystemAssigned = "SystemAssigned",
+    SystemAssignedUserAssigned = "SystemAssigned, UserAssigned",
+    UserAssigned = "UserAssigned"
+}
+
+// @public
 export enum KnownOrigin {
     System = "system",
     User = "user",
@@ -541,6 +585,13 @@ export enum KnownProvisioningState {
 }
 
 // @public
+export enum KnownResourceIdentityType {
+    None = "None",
+    SystemAssigned = "SystemAssigned",
+    UserAssigned = "UserAssigned"
+}
+
+// @public
 export enum KnownSelectorType {
     List = "List",
     Query = "Query"
@@ -550,6 +601,24 @@ export enum KnownSelectorType {
 export enum KnownTargetReferenceType {
     ChaosTarget = "ChaosTarget"
 }
+
+// @public
+export enum KnownVersions {
+    V20240101 = "2024-01-01"
+}
+
+// @public
+export interface ManagedServiceIdentity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type: ManagedServiceIdentityType;
+    userAssignedIdentities?: {
+        [propertyName: string]: UserAssignedIdentity;
+    };
+}
+
+// @public
+export type ManagedServiceIdentityType = string;
 
 // @public
 export interface Operation {
@@ -576,26 +645,27 @@ export interface OperationListResult {
 
 // @public
 export interface Operations {
-    listAll(options?: OperationsListAllOptionalParams): PagedAsyncIterableIterator<Operation>;
+    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
 }
 
 // @public
-export interface OperationsListAllNextOptionalParams extends coreClient.OperationOptions {
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type OperationsListAllNextResponse = OperationListResult;
+export type OperationsListNextResponse = OperationListResult;
 
 // @public
-export interface OperationsListAllOptionalParams extends coreClient.OperationOptions {
+export interface OperationsListOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type OperationsListAllResponse = OperationListResult;
+export type OperationsListResponse = OperationListResult;
 
 // @public
-export interface OperationStatus extends ErrorResponse {
+export interface OperationStatus {
     endTime?: string;
+    error?: ErrorDetail;
     id?: string;
     name?: string;
     startTime?: string;
@@ -603,16 +673,21 @@ export interface OperationStatus extends ErrorResponse {
 }
 
 // @public
-export interface OperationStatuses {
-    get(location: string, asyncOperationId: string, options?: OperationStatusesGetOptionalParams): Promise<OperationStatusesGetResponse>;
+export interface OperationStatusesOperations {
+    get(location: string, asyncOperationId: string, subscriptionId: string, options?: OperationStatusesOperationsGetOptionalParams): Promise<OperationStatusesOperationsGetResponse>;
 }
 
 // @public
-export interface OperationStatusesGetOptionalParams extends coreClient.OperationOptions {
+export interface OperationStatusesOperationsGetExceptionHeaders {
+    xMsErrorCode?: string;
 }
 
 // @public
-export type OperationStatusesGetResponse = OperationStatus;
+export interface OperationStatusesOperationsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OperationStatusesOperationsGetResponse = OperationStatus;
 
 // @public
 export type Origin = string;
@@ -621,27 +696,36 @@ export type Origin = string;
 export type ProvisioningState = string;
 
 // @public
+export interface ProxyResource extends Resource {
+}
+
+// @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
 // @public
 export interface ResourceIdentity {
-    readonly principalId?: string;
-    readonly tenantId?: string;
-    type: ResourceIdentityType;
+    type?: ResourceIdentityType;
     userAssignedIdentities?: {
-        [propertyName: string]: UserAssignedIdentity;
+        [propertyName: string]: UserAssignedIdentityAutoGenerated;
     };
 }
 
 // @public
-export type ResourceIdentityType = "None" | "SystemAssigned" | "UserAssigned";
+export type ResourceIdentityType = string;
 
 // @public
 export type SelectorType = string;
+
+// @public
+export interface Step {
+    branches: Branch[];
+    name: string;
+}
 
 // @public
 export interface StepStatus {
@@ -662,18 +746,16 @@ export interface SystemData {
 }
 
 // @public
-export interface Target extends Resource {
-    location?: string;
-    properties: {
+export interface Target extends ProxyResource {
+    properties?: {
         [propertyName: string]: any;
     };
-    readonly systemData?: SystemData;
 }
 
 // @public
 export interface TargetListResult {
-    readonly nextLink?: string;
-    readonly value?: Target[];
+    nextLink?: string;
+    value: Target[];
 }
 
 // @public
@@ -687,10 +769,10 @@ export type TargetReferenceType = string;
 
 // @public
 export interface Targets {
-    createOrUpdate(resourceGroupName: string, parentProviderNamespace: string, parentResourceType: string, parentResourceName: string, targetName: string, target: Target, options?: TargetsCreateOrUpdateOptionalParams): Promise<TargetsCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, parentProviderNamespace: string, parentResourceType: string, parentResourceName: string, targetName: string, options?: TargetsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, parentProviderNamespace: string, parentResourceType: string, parentResourceName: string, targetName: string, options?: TargetsGetOptionalParams): Promise<TargetsGetResponse>;
-    list(resourceGroupName: string, parentProviderNamespace: string, parentResourceType: string, parentResourceName: string, options?: TargetsListOptionalParams): PagedAsyncIterableIterator<Target>;
+    createOrUpdate(parentProviderNamespace: string, parentResourceType: string, parentResourceName: string, location: string, targetName: string, resource: Target, options?: TargetsCreateOrUpdateOptionalParams): Promise<TargetsCreateOrUpdateResponse>;
+    delete(parentProviderNamespace: string, parentResourceType: string, parentResourceName: string, location: string, targetName: string, options?: TargetsDeleteOptionalParams): Promise<void>;
+    get(parentProviderNamespace: string, parentResourceType: string, parentResourceName: string, location: string, targetName: string, options?: TargetsGetOptionalParams): Promise<TargetsGetResponse>;
+    listByLocation(parentProviderNamespace: string, parentResourceType: string, parentResourceName: string, location: string, options?: TargetsListByLocationOptionalParams): PagedAsyncIterableIterator<Target>;
 }
 
 // @public
@@ -712,40 +794,38 @@ export interface TargetsGetOptionalParams extends coreClient.OperationOptions {
 export type TargetsGetResponse = Target;
 
 // @public
-export interface TargetsListNextOptionalParams extends coreClient.OperationOptions {
+export interface TargetsListByLocationNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type TargetsListNextResponse = TargetListResult;
+export type TargetsListByLocationNextResponse = TargetListResult;
 
 // @public
-export interface TargetsListOptionalParams extends coreClient.OperationOptions {
+export interface TargetsListByLocationOptionalParams extends coreClient.OperationOptions {
     continuationToken?: string;
 }
 
 // @public
-export type TargetsListResponse = TargetListResult;
+export type TargetsListByLocationResponse = TargetListResult;
 
 // @public
-export interface TargetType extends Resource {
+export interface TargetType extends ProxyResource {
     readonly description?: string;
     readonly displayName?: string;
-    location?: string;
     readonly propertiesSchema?: string;
     readonly resourceTypes?: string[];
-    readonly systemData?: SystemData;
 }
 
 // @public
 export interface TargetTypeListResult {
-    readonly nextLink?: string;
-    readonly value?: TargetType[];
+    nextLink?: string;
+    value: TargetType[];
 }
 
 // @public
 export interface TargetTypes {
-    get(locationName: string, targetTypeName: string, options?: TargetTypesGetOptionalParams): Promise<TargetTypesGetResponse>;
-    list(locationName: string, options?: TargetTypesListOptionalParams): PagedAsyncIterableIterator<TargetType>;
+    get(location: string, targetTypeName: string, options?: TargetTypesGetOptionalParams): Promise<TargetTypesGetResponse>;
+    listByLocation(location: string, options?: TargetTypesListByLocationOptionalParams): PagedAsyncIterableIterator<TargetType>;
 }
 
 // @public
@@ -756,19 +836,19 @@ export interface TargetTypesGetOptionalParams extends coreClient.OperationOption
 export type TargetTypesGetResponse = TargetType;
 
 // @public
-export interface TargetTypesListNextOptionalParams extends coreClient.OperationOptions {
+export interface TargetTypesListByLocationNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type TargetTypesListNextResponse = TargetTypeListResult;
+export type TargetTypesListByLocationNextResponse = TargetTypeListResult;
 
 // @public
-export interface TargetTypesListOptionalParams extends coreClient.OperationOptions {
+export interface TargetTypesListByLocationOptionalParams extends coreClient.OperationOptions {
     continuationToken?: string;
 }
 
 // @public
-export type TargetTypesListResponse = TargetTypeListResult;
+export type TargetTypesListByLocationResponse = TargetTypeListResult;
 
 // @public
 export interface TrackedResource extends Resource {
@@ -783,6 +863,15 @@ export interface UserAssignedIdentity {
     readonly clientId?: string;
     readonly principalId?: string;
 }
+
+// @public
+export interface UserAssignedIdentityAutoGenerated {
+    readonly clientId?: string;
+    readonly principalId?: string;
+}
+
+// @public
+export type Versions = string;
 
 // (No @packageDocumentation comment for this package)
 

@@ -8,66 +8,79 @@
 
 import * as coreClient from "@azure/core-client";
 
-export type ChaosExperimentActionUnion =
-  | ChaosExperimentAction
+export type ActionUnion =
+  | Action
+  | ContinuousAction
   | DelayAction
-  | DiscreteAction
-  | ContinuousAction;
+  | DiscreteAction;
 export type ChaosTargetSelectorUnion =
   | ChaosTargetSelector
   | ChaosTargetListSelector
   | ChaosTargetQuerySelector;
-export type ChaosTargetFilterUnion =
-  | ChaosTargetFilter
-  | ChaosTargetSimpleFilter;
+export type FilterUnion = Filter | ChaosTargetSimpleFilter;
 
-/** Model that represents a list of Capability resources and a link for pagination. */
-export interface CapabilityListResult {
+/** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
+export interface OperationListResult {
   /**
-   * List of Capability resources.
+   * List of operations supported by the resource provider
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly value?: Capability[];
+  readonly value?: Operation[];
   /**
-   * URL to retrieve the next page of Capability resources.
+   * URL to get the next set of operation list results (if there are any).
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
 }
 
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
-}
-
-/** Common fields that are returned in the response for all Azure Resource Manager resources */
-export interface Resource {
+/** Details of a REST API operation, returned from the Resource Provider Operations API */
+export interface Operation {
   /**
-   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The name of the resource
+   * The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action"
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
   /**
-   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly type?: string;
+  readonly isDataAction?: boolean;
+  /** Localized display information for this particular operation. */
+  display?: OperationDisplay;
+  /**
+   * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly origin?: Origin;
+  /**
+   * Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly actionType?: ActionType;
+}
+
+/** Localized display information for this particular operation. */
+export interface OperationDisplay {
+  /**
+   * The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provider?: string;
+  /**
+   * The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resource?: string;
+  /**
+   * The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operation?: string;
+  /**
+   * The short, localized friendly description of the operation; suitable for tool tips and detailed views.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
 }
 
 /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
@@ -119,59 +132,126 @@ export interface ErrorAdditionalInfo {
   readonly info?: Record<string, unknown>;
 }
 
-/** Model that represents a list of Capability Type resources and a link for pagination. */
-export interface CapabilityTypeListResult {
-  /**
-   * List of Capability Type resources.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: CapabilityType[];
-  /**
-   * URL to retrieve the next page of Capability Type resources.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
+/** The response of a Target list operation. */
+export interface TargetListResult {
+  /** The Target items on this page */
+  value: Target[];
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
-/** Runtime properties of this Capability Type. */
-export interface CapabilityTypePropertiesRuntimeProperties {
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
   /**
-   * String of the kind of the resource's action type (continuous or discrete).
+   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly kind?: string;
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
 }
 
-/** Model that represents a list of Experiment resources and a link for pagination. */
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
+/** The response of a Capability list operation. */
+export interface CapabilityListResult {
+  /** The Capability items on this page */
+  value: Capability[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** The response of a Experiment list operation. */
 export interface ExperimentListResult {
-  /**
-   * List of Experiment resources.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: Experiment[];
-  /**
-   * URL to retrieve the next page of Experiment resources.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
+  /** The Experiment items on this page */
+  value: Experiment[];
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
-/** The identity of a resource. */
-export interface ResourceIdentity {
-  /** String of the resource identity type. */
-  type: ResourceIdentityType;
-  /** The list of user identities associated with the Experiment. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
+/** Model that represents a step in the Experiment resource. */
+export interface Step {
+  /** String of the step name. */
+  name: string;
+  /** List of branches. */
+  branches: Branch[];
+}
+
+/** Model that represents a branch in the step. 9 total per experiment. */
+export interface Branch {
+  /** String of the branch name. */
+  name: string;
+  /** List of actions. */
+  actions: ActionUnion[];
+}
+
+/** Model that represents the base action model. 9 total per experiment. */
+export interface Action {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "continuous" | "delay" | "discrete";
+  /** String that represents a Capability URN. */
+  name: string;
+}
+
+/** Model that represents a selector in the Experiment resource. */
+export interface ChaosTargetSelector {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "List" | "Query";
+  /** String of the selector ID. */
+  id: string;
+  /** Model that represents available filter types that can be applied to a targets list. */
+  filter?: FilterUnion;
+}
+
+/** Model that represents available filter types that can be applied to a targets list. */
+export interface Filter {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Simple";
+}
+
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface ManagedServiceIdentity {
   /**
-   * GUID that represents the principal ID of this resource identity.
+   * The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly principalId?: string;
   /**
-   * GUID that represents the tenant ID of this resource identity.
+   * The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly tenantId?: string;
+  /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
+  type: ManagedServiceIdentityType;
+  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+  userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
 }
 
 /** User assigned identity properties */
@@ -188,121 +268,111 @@ export interface UserAssignedIdentity {
   readonly clientId?: string;
 }
 
-/** Model that represents a step in the Experiment resource. */
-export interface ChaosExperimentStep {
-  /** String of the step name. */
-  name: string;
-  /** List of branches. */
-  branches: ChaosExperimentBranch[];
+/** The status of operation. */
+export interface OperationStatus {
+  /** The error object. */
+  error?: ErrorDetail;
+  /** The operation Id. */
+  id?: string;
+  /** The operation name. */
+  name?: string;
+  /** The start time of the operation. */
+  startTime?: string;
+  /** The end time of the operation. */
+  endTime?: string;
+  /** The status of the operation. */
+  status?: string;
 }
 
-/** Model that represents a branch in the step. 9 total per experiment. */
-export interface ChaosExperimentBranch {
-  /** String of the branch name. */
-  name: string;
-  /** List of actions. */
-  actions: ChaosExperimentActionUnion[];
+/** A response containing error details. */
+export interface AzureCoreFoundationsErrorResponse {
+  /** The error object. */
+  error: AzureCoreFoundationsError;
 }
 
-/** Model that represents the base action model. 9 total per experiment. */
-export interface ChaosExperimentAction {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "delay" | "discrete" | "continuous";
-  /** String that represents a Capability URN. */
-  name: string;
+/** The error object. */
+export interface AzureCoreFoundationsError {
+  /** One of a server-defined set of error codes. */
+  code: string;
+  /** A human-readable representation of the error. */
+  message: string;
+  /** The target of the error. */
+  target?: string;
+  /** An array of details about specific errors that led to this reported error. */
+  details?: AzureCoreFoundationsError[];
+  /** An object containing more specific information than the current object about the error. */
+  innererror?: AzureCoreFoundationsInnerError;
 }
 
-/** Model that represents a selector in the Experiment resource. */
-export interface ChaosTargetSelector {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "List" | "Query";
-  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
-  [property: string]: any;
-  /** String of the selector ID. */
-  id: string;
-  /** Model that represents available filter types that can be applied to a targets list. */
-  filter?: ChaosTargetFilterUnion;
+/** An object containing more specific information about the error. As per Microsoft One API guidelines - https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#7102-error-condition-responses. */
+export interface AzureCoreFoundationsInnerError {
+  /** One of a server-defined set of error codes. */
+  code?: string;
+  /** Inner error. */
+  innererror?: AzureCoreFoundationsInnerError;
 }
 
-/** Model that represents available filter types that can be applied to a targets list. */
-export interface ChaosTargetFilter {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "Simple";
+/** The response of a TargetType list operation. */
+export interface TargetTypeListResult {
+  /** The TargetType items on this page */
+  value: TargetType[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** The response of a CapabilityType list operation. */
+export interface CapabilityTypeListResult {
+  /** The CapabilityType items on this page */
+  value: CapabilityType[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** Runtime properties of this Capability Type. */
+export interface CapabilityTypePropertiesRuntimeProperties {
+  /**
+   * String of the kind of the resource's action type (continuous or discrete).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly kind?: string;
 }
 
 /** Describes an experiment update. */
 export interface ExperimentUpdate {
   /** The identity of the experiment resource. */
   identity?: ResourceIdentity;
-  /** The tags of the experiment resource. */
-  tags?: { [propertyName: string]: string };
 }
 
-/** Model that represents a list of Experiment executions and a link for pagination. */
+/** The identity of a resource. */
+export interface ResourceIdentity {
+  /** String of the resource identity type. */
+  type?: ResourceIdentityType;
+  /** The list of user identities associated with the Experiment. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
+  userAssignedIdentities?: {
+    [propertyName: string]: UserAssignedIdentityAutoGenerated;
+  };
+}
+
+/** User assigned identity properties */
+export interface UserAssignedIdentityAutoGenerated {
+  /**
+   * The principal ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The client ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientId?: string;
+}
+
+/** The response of a ExperimentExecution list operation. */
 export interface ExperimentExecutionListResult {
-  /**
-   * List of Experiment executions.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: ExperimentExecution[];
-  /**
-   * URL to retrieve the next page of Experiment executions.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** Model that represents the execution of a Experiment. */
-export interface ExperimentExecution {
-  /**
-   * String of the resource type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * String of the fully qualified resource ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * String of the resource name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The status of the execution.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: string;
-  /**
-   * String that represents the start date time.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly startedAt?: Date;
-  /**
-   * String that represents the stop date time.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly stoppedAt?: Date;
-}
-
-/** Model that represents the execution properties of an Experiment. */
-export interface ExperimentExecutionProperties {
-  /**
-   * The status of the execution.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: string;
-  /**
-   * String that represents the start date time.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly startedAt?: Date;
-  /**
-   * String that represents the stop date time.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly stoppedAt?: Date;
+  /** The ExperimentExecution items on this page */
+  value: ExperimentExecution[];
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
 /** Model that represents the execution details of an Experiment. */
@@ -322,6 +392,15 @@ export interface ExperimentExecutionDetails {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
+  /**
+   * The properties of the experiment execution details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly properties?: ExperimentExecutionDetailsProperties;
+}
+
+/** Model that represents the extended properties of an experiment execution. */
+export interface ExperimentExecutionDetailsProperties {
   /**
    * The status of the execution.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -488,106 +567,6 @@ export interface ExperimentExecutionActionTargetDetailsError {
   readonly message?: string;
 }
 
-/** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
-export interface OperationListResult {
-  /**
-   * List of operations supported by the resource provider
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: Operation[];
-  /**
-   * URL to get the next set of operation list results (if there are any).
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** Details of a REST API operation, returned from the Resource Provider Operations API */
-export interface Operation {
-  /**
-   * The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action"
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isDataAction?: boolean;
-  /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
-  /**
-   * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system"
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly origin?: Origin;
-  /**
-   * Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly actionType?: ActionType;
-}
-
-/** Localized display information for this particular operation. */
-export interface OperationDisplay {
-  /**
-   * The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute".
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provider?: string;
-  /**
-   * The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections".
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resource?: string;
-  /**
-   * The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine".
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly operation?: string;
-  /**
-   * The short, localized friendly description of the operation; suitable for tool tips and detailed views.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly description?: string;
-}
-
-/** Model that represents a list of Target Type resources and a link for pagination. */
-export interface TargetTypeListResult {
-  /**
-   * List of Target Type resources.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: TargetType[];
-  /**
-   * URL to retrieve the next page of Target Type resources.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** Model that represents a list of Target resources and a link for pagination. */
-export interface TargetListResult {
-  /**
-   * List of Target resources.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: Target[];
-  /**
-   * URL to retrieve the next page of Target resources.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** A map to describe the settings of an action. */
-export interface KeyValuePair {
-  /** The name of the setting for the action. */
-  key: string;
-  /** The value of the setting for the action. */
-  value: string;
-}
-
 /** Model that represents a reference to a Target in the selector. */
 export interface TargetReference {
   /** Enum of the Target reference type. */
@@ -602,13 +581,89 @@ export interface ChaosTargetSimpleFilterParameters {
   zones?: string[];
 }
 
+/** A map to describe the settings of an action. */
+export interface KeyValuePair {
+  /** The name of the setting for the action. */
+  key: string;
+  /** The value of the setting for the action. */
+  value: string;
+}
+
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
+
+/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
+export interface TrackedResource extends Resource {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** The geo-location where the resource lives */
+  location: string;
+}
+
+/** Model that represents a continuous action. */
+export interface ContinuousAction extends Action {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "continuous";
+  /** ISO8601 formatted string that represents a duration. */
+  duration: string;
+  /** List of key value pairs. */
+  parameters: KeyValuePair[];
+  /** String that represents a selector. */
+  selectorId: string;
+}
+
+/** Model that represents a delay action. */
+export interface DelayAction extends Action {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "delay";
+  /** ISO8601 formatted string that represents a duration. */
+  duration: string;
+}
+
+/** Model that represents a discrete action. */
+export interface DiscreteAction extends Action {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "discrete";
+  /** List of key value pairs. */
+  parameters: KeyValuePair[];
+  /** String that represents a selector. */
+  selectorId: string;
+}
+
+/** Model that represents a list selector. */
+export interface ChaosTargetListSelector extends ChaosTargetSelector {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "List";
+  /** List of Target references. */
+  targets: TargetReference[];
+}
+
+/** Model that represents a query selector. */
+export interface ChaosTargetQuerySelector extends ChaosTargetSelector {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Query";
+  /** Azure Resource Graph (ARG) Query Language query for target resources. */
+  queryString: string;
+  /** Subscription id list to scope resource query. */
+  subscriptionIds: string[];
+}
+
+/** Model that represents a simple target filter. */
+export interface ChaosTargetSimpleFilter extends Filter {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Simple";
+  /** Model that represents the Simple filter parameters. */
+  parameters?: ChaosTargetSimpleFilterParameters;
+}
+
+/** Model that represents a Target resource. */
+export interface Target extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: { [propertyName: string]: any };
+}
+
 /** Model that represents a Capability resource. */
-export interface Capability extends Resource {
-  /**
-   * The standard system metadata of a resource type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
+export interface Capability extends ProxyResource {
   /**
    * String of the Publisher that this Capability extends.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -636,15 +691,32 @@ export interface Capability extends Resource {
   readonly urn?: string;
 }
 
-/** Model that represents a Capability Type resource. */
-export interface CapabilityType extends Resource {
+/** Model that represents a Target Type resource. */
+export interface TargetType extends ProxyResource {
   /**
-   * The system metadata properties of the capability type resource.
+   * Localized string of the display name.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly systemData?: SystemData;
-  /** Location of the Capability Type resource. */
-  location?: string;
+  readonly displayName?: string;
+  /**
+   * Localized string of the description.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
+  /**
+   * URL to retrieve JSON schema of the Target Type properties.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly propertiesSchema?: string;
+  /**
+   * List of resource types this Target Type can extend.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceTypes?: string[];
+}
+
+/** Model that represents a Capability Type resource. */
+export interface CapabilityType extends ProxyResource {
   /**
    * String of the Publisher that this Capability Type extends.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -688,254 +760,83 @@ export interface CapabilityType extends Resource {
   runtimeProperties?: CapabilityTypePropertiesRuntimeProperties;
 }
 
-/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export interface TrackedResource extends Resource {
-  /** Resource tags. */
-  tags?: { [propertyName: string]: string };
-  /** The geo-location where the resource lives */
-  location: string;
-}
-
-/** Model that represents a Target Type resource. */
-export interface TargetType extends Resource {
+/** Model that represents the execution of a Experiment. */
+export interface ExperimentExecution extends ProxyResource {
   /**
-   * The system metadata properties of the target type resource.
+   * The status of the execution.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly systemData?: SystemData;
-  /** Location of the Target Type resource. */
-  location?: string;
+  readonly status?: string;
   /**
-   * Localized string of the display name.
+   * String that represents the start date time.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly displayName?: string;
+  readonly startedAt?: Date;
   /**
-   * Localized string of the description.
+   * String that represents the stop date time.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly description?: string;
-  /**
-   * URL to retrieve JSON schema of the Target Type properties.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly propertiesSchema?: string;
-  /**
-   * List of resource types this Target Type can extend.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resourceTypes?: string[];
-}
-
-/** Model that represents a Target resource. */
-export interface Target extends Resource {
-  /**
-   * The system metadata of the target resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /** Location of the target resource. */
-  location?: string;
-  /** The properties of the target resource. */
-  properties: { [propertyName: string]: any };
-}
-
-/** The status of operation. */
-export interface OperationStatus extends ErrorResponse {
-  /** The operation Id. */
-  id?: string;
-  /** The operation name. */
-  name?: string;
-  /** The start time of the operation. */
-  startTime?: string;
-  /** The end time of the operation. */
-  endTime?: string;
-  /** The status of the operation. */
-  status?: string;
-}
-
-/** Model that represents a delay action. */
-export interface DelayAction extends ChaosExperimentAction {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "delay";
-  /** ISO8601 formatted string that represents a duration. */
-  duration: string;
-}
-
-/** Model that represents a discrete action. */
-export interface DiscreteAction extends ChaosExperimentAction {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "discrete";
-  /** List of key value pairs. */
-  parameters: KeyValuePair[];
-  /** String that represents a selector. */
-  selectorId: string;
-}
-
-/** Model that represents a continuous action. */
-export interface ContinuousAction extends ChaosExperimentAction {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "continuous";
-  /** ISO8601 formatted string that represents a duration. */
-  duration: string;
-  /** List of key value pairs. */
-  parameters: KeyValuePair[];
-  /** String that represents a selector. */
-  selectorId: string;
-}
-
-/** Model that represents a list selector. */
-export interface ChaosTargetListSelector extends ChaosTargetSelector {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "List";
-  /** List of Target references. */
-  targets: TargetReference[];
-}
-
-/** Model that represents a query selector. */
-export interface ChaosTargetQuerySelector extends ChaosTargetSelector {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "Query";
-  /** Azure Resource Graph (ARG) Query Language query for target resources. */
-  queryString: string;
-  /** Subscription id list to scope resource query. */
-  subscriptionIds: string[];
-}
-
-/** Model that represents a simple target filter. */
-export interface ChaosTargetSimpleFilter extends ChaosTargetFilter {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "Simple";
-  /** Model that represents the Simple filter parameters. */
-  parameters?: ChaosTargetSimpleFilterParameters;
-}
-
-/** Model that represents the extended properties of an experiment execution. */
-export interface ExperimentExecutionDetailsProperties
-  extends ExperimentExecutionProperties {
-  /**
-   * The reason why the execution failed.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly failureReason?: string;
-  /**
-   * String that represents the last action date time.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastActionAt?: Date;
-  /**
-   * The information of the experiment run.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly runInformation?: ExperimentExecutionDetailsPropertiesRunInformation;
+  readonly stoppedAt?: Date;
 }
 
 /** Model that represents a Experiment resource. */
 export interface Experiment extends TrackedResource {
-  /**
-   * The system metadata of the experiment resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /** The identity of the experiment resource. */
-  identity?: ResourceIdentity;
+  /** The managed service identities assigned to this resource. */
+  identity?: ManagedServiceIdentity;
   /**
    * Most recent provisioning state for the given experiment resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
   /** List of steps. */
-  steps: ChaosExperimentStep[];
+  steps?: Step[];
   /** List of selectors. */
-  selectors: ChaosTargetSelectorUnion[];
+  selectors?: ChaosTargetSelectorUnion[];
 }
 
-/** Known values of {@link CreatedByType} that the service accepts. */
-export enum KnownCreatedByType {
-  /** User */
-  User = "User",
-  /** Application */
-  Application = "Application",
-  /** ManagedIdentity */
-  ManagedIdentity = "ManagedIdentity",
-  /** Key */
-  Key = "Key",
+/** Defines headers for Experiments_createOrUpdate operation. */
+export interface ExperimentsCreateOrUpdateHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
-/**
- * Defines values for CreatedByType. \
- * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **User** \
- * **Application** \
- * **ManagedIdentity** \
- * **Key**
- */
-export type CreatedByType = string;
-
-/** Known values of {@link ProvisioningState} that the service accepts. */
-export enum KnownProvisioningState {
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Failed */
-  Failed = "Failed",
-  /** Canceled */
-  Canceled = "Canceled",
-  /** Creating */
-  Creating = "Creating",
-  /** Updating */
-  Updating = "Updating",
-  /** Deleting */
-  Deleting = "Deleting",
+/** Defines headers for Experiments_update operation. */
+export interface ExperimentsUpdateHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 
-/**
- * Defines values for ProvisioningState. \
- * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Succeeded** \
- * **Failed** \
- * **Canceled** \
- * **Creating** \
- * **Updating** \
- * **Deleting**
- */
-export type ProvisioningState = string;
-
-/** Known values of {@link SelectorType} that the service accepts. */
-export enum KnownSelectorType {
-  /** List */
-  List = "List",
-  /** Query */
-  Query = "Query",
+/** Defines headers for Experiments_delete operation. */
+export interface ExperimentsDeleteHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 
-/**
- * Defines values for SelectorType. \
- * {@link KnownSelectorType} can be used interchangeably with SelectorType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **List** \
- * **Query**
- */
-export type SelectorType = string;
-
-/** Known values of {@link FilterType} that the service accepts. */
-export enum KnownFilterType {
-  /** Simple */
-  Simple = "Simple",
+/** Defines headers for Experiments_cancel operation. */
+export interface ExperimentsCancelHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 
-/**
- * Defines values for FilterType. \
- * {@link KnownFilterType} can be used interchangeably with FilterType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Simple**
- */
-export type FilterType = string;
+/** Defines headers for Experiments_start operation. */
+export interface ExperimentsStartHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+
+/** Defines headers for OperationStatusesOperations_get operation. */
+export interface OperationStatusesOperationsGetExceptionHeaders {
+  /** String error code indicating what went wrong. */
+  xMsErrorCode?: string;
+}
 
 /** Known values of {@link Origin} that the service accepts. */
 export enum KnownOrigin {
@@ -973,9 +874,108 @@ export enum KnownActionType {
  */
 export type ActionType = string;
 
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  /** User */
+  User = "User",
+  /** Application */
+  Application = "Application",
+  /** ManagedIdentity */
+  ManagedIdentity = "ManagedIdentity",
+  /** Key */
+  Key = "Key",
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
+
+/** Known values of {@link ProvisioningState} that the service accepts. */
+export enum KnownProvisioningState {
+  /** Provisioning succeeded. */
+  Succeeded = "Succeeded",
+  /** Provisioning failed. */
+  Failed = "Failed",
+  /** Provisioning was canceled. */
+  Canceled = "Canceled",
+  /** Resource is being created. */
+  Creating = "Creating",
+  /** Resource is being updated. */
+  Updating = "Updating",
+  /** Resource is being deleted. */
+  Deleting = "Deleting",
+}
+
+/**
+ * Defines values for ProvisioningState. \
+ * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded**: Provisioning succeeded. \
+ * **Failed**: Provisioning failed. \
+ * **Canceled**: Provisioning was canceled. \
+ * **Creating**: Resource is being created. \
+ * **Updating**: Resource is being updated. \
+ * **Deleting**: Resource is being deleted.
+ */
+export type ProvisioningState = string;
+
+/** Known values of {@link ManagedServiceIdentityType} that the service accepts. */
+export enum KnownManagedServiceIdentityType {
+  /** None */
+  None = "None",
+  /** SystemAssigned */
+  SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
+  UserAssigned = "UserAssigned",
+  /** SystemAssignedUserAssigned */
+  SystemAssignedUserAssigned = "SystemAssigned, UserAssigned",
+}
+
+/**
+ * Defines values for ManagedServiceIdentityType. \
+ * {@link KnownManagedServiceIdentityType} can be used interchangeably with ManagedServiceIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **SystemAssigned** \
+ * **UserAssigned** \
+ * **SystemAssigned, UserAssigned**
+ */
+export type ManagedServiceIdentityType = string;
+
+/** Known values of {@link ResourceIdentityType} that the service accepts. */
+export enum KnownResourceIdentityType {
+  /** There is no identity type. */
+  None = "None",
+  /** The identity is system assigned. */
+  SystemAssigned = "SystemAssigned",
+  /** The identity is user assigned. */
+  UserAssigned = "UserAssigned",
+}
+
+/**
+ * Defines values for ResourceIdentityType. \
+ * {@link KnownResourceIdentityType} can be used interchangeably with ResourceIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None**: There is no identity type. \
+ * **SystemAssigned**: The identity is system assigned. \
+ * **UserAssigned**: The identity is user assigned.
+ */
+export type ResourceIdentityType = string;
+
 /** Known values of {@link TargetReferenceType} that the service accepts. */
 export enum KnownTargetReferenceType {
-  /** ChaosTarget */
+  /** The target is a resource group. */
   ChaosTarget = "ChaosTarget",
 }
 
@@ -984,21 +984,115 @@ export enum KnownTargetReferenceType {
  * {@link KnownTargetReferenceType} can be used interchangeably with TargetReferenceType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **ChaosTarget**
+ * **ChaosTarget**: The target is a resource group.
  */
 export type TargetReferenceType = string;
-/** Defines values for ResourceIdentityType. */
-export type ResourceIdentityType = "None" | "SystemAssigned" | "UserAssigned";
+
+/** Known values of {@link FilterType} that the service accepts. */
+export enum KnownFilterType {
+  /** A simple filter. */
+  Simple = "Simple",
+}
+
+/**
+ * Defines values for FilterType. \
+ * {@link KnownFilterType} can be used interchangeably with FilterType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Simple**: A simple filter.
+ */
+export type FilterType = string;
+
+/** Known values of {@link SelectorType} that the service accepts. */
+export enum KnownSelectorType {
+  /** A list selector. */
+  List = "List",
+  /** A query selector. */
+  Query = "Query",
+}
+
+/**
+ * Defines values for SelectorType. \
+ * {@link KnownSelectorType} can be used interchangeably with SelectorType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **List**: A list selector. \
+ * **Query**: A query selector.
+ */
+export type SelectorType = string;
+
+/** Known values of {@link Versions} that the service accepts. */
+export enum KnownVersions {
+  /** The 2024-01-01 version of the Chaos service. */
+  V20240101 = "2024-01-01",
+}
+
+/**
+ * Defines values for Versions. \
+ * {@link KnownVersions} can be used interchangeably with Versions,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **2024-01-01**: The 2024-01-01 version of the Chaos service.
+ */
+export type Versions = string;
 
 /** Optional parameters. */
-export interface CapabilitiesListOptionalParams
+export interface OperationsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type OperationsListResponse = OperationListResult;
+
+/** Optional parameters. */
+export interface OperationsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type OperationsListNextResponse = OperationListResult;
+
+/** Optional parameters. */
+export interface TargetsListByLocationOptionalParams
   extends coreClient.OperationOptions {
   /** String that sets the continuation token. */
   continuationToken?: string;
 }
 
-/** Contains response data for the list operation. */
-export type CapabilitiesListResponse = CapabilityListResult;
+/** Contains response data for the listByLocation operation. */
+export type TargetsListByLocationResponse = TargetListResult;
+
+/** Optional parameters. */
+export interface TargetsGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type TargetsGetResponse = Target;
+
+/** Optional parameters. */
+export interface TargetsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type TargetsCreateOrUpdateResponse = Target;
+
+/** Optional parameters. */
+export interface TargetsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface TargetsListByLocationNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByLocationNext operation. */
+export type TargetsListByLocationNextResponse = TargetListResult;
+
+/** Optional parameters. */
+export interface CapabilitiesListByTargetOptionalParams
+  extends coreClient.OperationOptions {
+  /** String that sets the continuation token. */
+  continuationToken?: string;
+}
+
+/** Contains response data for the listByTarget operation. */
+export type CapabilitiesListByTargetResponse = CapabilityListResult;
 
 /** Optional parameters. */
 export interface CapabilitiesGetOptionalParams
@@ -1008,10 +1102,6 @@ export interface CapabilitiesGetOptionalParams
 export type CapabilitiesGetResponse = Capability;
 
 /** Optional parameters. */
-export interface CapabilitiesDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
 export interface CapabilitiesCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -1019,50 +1109,25 @@ export interface CapabilitiesCreateOrUpdateOptionalParams
 export type CapabilitiesCreateOrUpdateResponse = Capability;
 
 /** Optional parameters. */
-export interface CapabilitiesListNextOptionalParams
+export interface CapabilitiesDeleteOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listNext operation. */
-export type CapabilitiesListNextResponse = CapabilityListResult;
-
 /** Optional parameters. */
-export interface CapabilityTypesListOptionalParams
-  extends coreClient.OperationOptions {
-  /** String that sets the continuation token. */
-  continuationToken?: string;
-}
-
-/** Contains response data for the list operation. */
-export type CapabilityTypesListResponse = CapabilityTypeListResult;
-
-/** Optional parameters. */
-export interface CapabilityTypesGetOptionalParams
+export interface CapabilitiesListByTargetNextOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the get operation. */
-export type CapabilityTypesGetResponse = CapabilityType;
-
-/** Optional parameters. */
-export interface CapabilityTypesListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type CapabilityTypesListNextResponse = CapabilityTypeListResult;
+/** Contains response data for the listByTargetNext operation. */
+export type CapabilitiesListByTargetNextResponse = CapabilityListResult;
 
 /** Optional parameters. */
 export interface ExperimentsListAllOptionalParams
-  extends coreClient.OperationOptions {
-  /** String that sets the continuation token. */
-  continuationToken?: string;
-  /** Optional value that indicates whether to filter results based on if the Experiment is currently running. If null, then the results will not be filtered. */
-  running?: boolean;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAll operation. */
 export type ExperimentsListAllResponse = ExperimentListResult;
 
 /** Optional parameters. */
-export interface ExperimentsListOptionalParams
+export interface ExperimentsListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {
   /** String that sets the continuation token. */
   continuationToken?: string;
@@ -1070,17 +1135,8 @@ export interface ExperimentsListOptionalParams
   running?: boolean;
 }
 
-/** Contains response data for the list operation. */
-export type ExperimentsListResponse = ExperimentListResult;
-
-/** Optional parameters. */
-export interface ExperimentsDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
+/** Contains response data for the listByResourceGroup operation. */
+export type ExperimentsListByResourceGroupResponse = ExperimentListResult;
 
 /** Optional parameters. */
 export interface ExperimentsGetOptionalParams
@@ -1114,6 +1170,18 @@ export interface ExperimentsUpdateOptionalParams
 export type ExperimentsUpdateResponse = Experiment;
 
 /** Optional parameters. */
+export interface ExperimentsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type ExperimentsDeleteResponse = ExperimentsDeleteHeaders;
+
+/** Optional parameters. */
 export interface ExperimentsCancelOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -1121,6 +1189,9 @@ export interface ExperimentsCancelOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Contains response data for the cancel operation. */
+export type ExperimentsCancelResponse = ExperimentsCancelHeaders;
 
 /** Optional parameters. */
 export interface ExperimentsStartOptionalParams
@@ -1131,27 +1202,8 @@ export interface ExperimentsStartOptionalParams
   resumeFrom?: string;
 }
 
-/** Optional parameters. */
-export interface ExperimentsListAllExecutionsOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listAllExecutions operation. */
-export type ExperimentsListAllExecutionsResponse =
-  ExperimentExecutionListResult;
-
-/** Optional parameters. */
-export interface ExperimentsGetExecutionOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getExecution operation. */
-export type ExperimentsGetExecutionResponse = ExperimentExecution;
-
-/** Optional parameters. */
-export interface ExperimentsExecutionDetailsOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the executionDetails operation. */
-export type ExperimentsExecutionDetailsResponse = ExperimentExecutionDetails;
+/** Contains response data for the start operation. */
+export type ExperimentsStartResponse = ExperimentsStartHeaders;
 
 /** Optional parameters. */
 export interface ExperimentsListAllNextOptionalParams
@@ -1161,50 +1213,28 @@ export interface ExperimentsListAllNextOptionalParams
 export type ExperimentsListAllNextResponse = ExperimentListResult;
 
 /** Optional parameters. */
-export interface ExperimentsListNextOptionalParams
+export interface ExperimentsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listNext operation. */
-export type ExperimentsListNextResponse = ExperimentListResult;
+/** Contains response data for the listByResourceGroupNext operation. */
+export type ExperimentsListByResourceGroupNextResponse = ExperimentListResult;
 
 /** Optional parameters. */
-export interface ExperimentsListAllExecutionsNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listAllExecutionsNext operation. */
-export type ExperimentsListAllExecutionsNextResponse =
-  ExperimentExecutionListResult;
-
-/** Optional parameters. */
-export interface OperationStatusesGetOptionalParams
+export interface OperationStatusesOperationsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type OperationStatusesGetResponse = OperationStatus;
+export type OperationStatusesOperationsGetResponse = OperationStatus;
 
 /** Optional parameters. */
-export interface OperationsListAllOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listAll operation. */
-export type OperationsListAllResponse = OperationListResult;
-
-/** Optional parameters. */
-export interface OperationsListAllNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listAllNext operation. */
-export type OperationsListAllNextResponse = OperationListResult;
-
-/** Optional parameters. */
-export interface TargetTypesListOptionalParams
+export interface TargetTypesListByLocationOptionalParams
   extends coreClient.OperationOptions {
   /** String that sets the continuation token. */
   continuationToken?: string;
 }
 
-/** Contains response data for the list operation. */
-export type TargetTypesListResponse = TargetTypeListResult;
+/** Contains response data for the listByLocation operation. */
+export type TargetTypesListByLocationResponse = TargetTypeListResult;
 
 /** Optional parameters. */
 export interface TargetTypesGetOptionalParams
@@ -1214,44 +1244,67 @@ export interface TargetTypesGetOptionalParams
 export type TargetTypesGetResponse = TargetType;
 
 /** Optional parameters. */
-export interface TargetTypesListNextOptionalParams
+export interface TargetTypesListByLocationNextOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listNext operation. */
-export type TargetTypesListNextResponse = TargetTypeListResult;
+/** Contains response data for the listByLocationNext operation. */
+export type TargetTypesListByLocationNextResponse = TargetTypeListResult;
 
 /** Optional parameters. */
-export interface TargetsListOptionalParams extends coreClient.OperationOptions {
+export interface CapabilityTypesListByTargetTypeOptionalParams
+  extends coreClient.OperationOptions {
   /** String that sets the continuation token. */
   continuationToken?: string;
 }
 
-/** Contains response data for the list operation. */
-export type TargetsListResponse = TargetListResult;
+/** Contains response data for the listByTargetType operation. */
+export type CapabilityTypesListByTargetTypeResponse = CapabilityTypeListResult;
 
 /** Optional parameters. */
-export interface TargetsGetOptionalParams extends coreClient.OperationOptions {}
+export interface CapabilityTypesGetOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type TargetsGetResponse = Target;
+export type CapabilityTypesGetResponse = CapabilityType;
 
 /** Optional parameters. */
-export interface TargetsDeleteOptionalParams
+export interface CapabilityTypesListByTargetTypeNextOptionalParams
   extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByTargetTypeNext operation. */
+export type CapabilityTypesListByTargetTypeNextResponse =
+  CapabilityTypeListResult;
 
 /** Optional parameters. */
-export interface TargetsCreateOrUpdateOptionalParams
+export interface ExperimentExecutionsListByExperimentOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the createOrUpdate operation. */
-export type TargetsCreateOrUpdateResponse = Target;
+/** Contains response data for the listByExperiment operation. */
+export type ExperimentExecutionsListByExperimentResponse =
+  ExperimentExecutionListResult;
 
 /** Optional parameters. */
-export interface TargetsListNextOptionalParams
+export interface ExperimentExecutionsGetExecutionOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listNext operation. */
-export type TargetsListNextResponse = TargetListResult;
+/** Contains response data for the getExecution operation. */
+export type ExperimentExecutionsGetExecutionResponse = ExperimentExecution;
+
+/** Optional parameters. */
+export interface ExperimentExecutionsExecutionDetailsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the executionDetails operation. */
+export type ExperimentExecutionsExecutionDetailsResponse =
+  ExperimentExecutionDetails;
+
+/** Optional parameters. */
+export interface ExperimentExecutionsListByExperimentNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByExperimentNext operation. */
+export type ExperimentExecutionsListByExperimentNextResponse =
+  ExperimentExecutionListResult;
 
 /** Optional parameters. */
 export interface ChaosManagementClientOptionalParams

@@ -15,15 +15,15 @@ import * as Parameters from "../models/parameters";
 import { ChaosManagementClient } from "../chaosManagementClient";
 import {
   Target,
-  TargetsListNextOptionalParams,
-  TargetsListOptionalParams,
-  TargetsListResponse,
+  TargetsListByLocationNextOptionalParams,
+  TargetsListByLocationOptionalParams,
+  TargetsListByLocationResponse,
   TargetsGetOptionalParams,
   TargetsGetResponse,
-  TargetsDeleteOptionalParams,
   TargetsCreateOrUpdateOptionalParams,
   TargetsCreateOrUpdateResponse,
-  TargetsListNextResponse,
+  TargetsDeleteOptionalParams,
+  TargetsListByLocationNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -41,24 +41,24 @@ export class TargetsImpl implements Targets {
 
   /**
    * Get a list of Target resources that extend a tracked regional resource.
-   * @param resourceGroupName String that represents an Azure resource group.
-   * @param parentProviderNamespace String that represents a resource provider namespace.
-   * @param parentResourceType String that represents a resource type.
-   * @param parentResourceName String that represents a resource name.
+   * @param parentProviderNamespace The parent resource provider namespace.
+   * @param parentResourceType The parent resource type.
+   * @param parentResourceName The parent resource name.
+   * @param location The name of Azure region.
    * @param options The options parameters.
    */
-  public list(
-    resourceGroupName: string,
+  public listByLocation(
     parentProviderNamespace: string,
     parentResourceType: string,
     parentResourceName: string,
-    options?: TargetsListOptionalParams,
+    location: string,
+    options?: TargetsListByLocationOptionalParams,
   ): PagedAsyncIterableIterator<Target> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
+    const iter = this.listByLocationPagingAll(
       parentProviderNamespace,
       parentResourceType,
       parentResourceName,
+      location,
       options,
     );
     return {
@@ -72,11 +72,11 @@ export class TargetsImpl implements Targets {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
+        return this.listByLocationPagingPage(
           parentProviderNamespace,
           parentResourceType,
           parentResourceName,
+          location,
           options,
           settings,
         );
@@ -84,22 +84,22 @@ export class TargetsImpl implements Targets {
     };
   }
 
-  private async *listPagingPage(
-    resourceGroupName: string,
+  private async *listByLocationPagingPage(
     parentProviderNamespace: string,
     parentResourceType: string,
     parentResourceName: string,
-    options?: TargetsListOptionalParams,
+    location: string,
+    options?: TargetsListByLocationOptionalParams,
     settings?: PageSettings,
   ): AsyncIterableIterator<Target[]> {
-    let result: TargetsListResponse;
+    let result: TargetsListByLocationResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(
-        resourceGroupName,
+      result = await this._listByLocation(
         parentProviderNamespace,
         parentResourceType,
         parentResourceName,
+        location,
         options,
       );
       let page = result.value || [];
@@ -108,11 +108,11 @@ export class TargetsImpl implements Targets {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
+      result = await this._listByLocationNext(
         parentProviderNamespace,
         parentResourceType,
         parentResourceName,
+        location,
         continuationToken,
         options,
       );
@@ -123,18 +123,18 @@ export class TargetsImpl implements Targets {
     }
   }
 
-  private async *listPagingAll(
-    resourceGroupName: string,
+  private async *listByLocationPagingAll(
     parentProviderNamespace: string,
     parentResourceType: string,
     parentResourceName: string,
-    options?: TargetsListOptionalParams,
+    location: string,
+    options?: TargetsListByLocationOptionalParams,
   ): AsyncIterableIterator<Target> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
+    for await (const page of this.listByLocationPagingPage(
       parentProviderNamespace,
       parentResourceType,
       parentResourceName,
+      location,
       options,
     )) {
       yield* page;
@@ -143,54 +143,54 @@ export class TargetsImpl implements Targets {
 
   /**
    * Get a list of Target resources that extend a tracked regional resource.
-   * @param resourceGroupName String that represents an Azure resource group.
-   * @param parentProviderNamespace String that represents a resource provider namespace.
-   * @param parentResourceType String that represents a resource type.
-   * @param parentResourceName String that represents a resource name.
+   * @param parentProviderNamespace The parent resource provider namespace.
+   * @param parentResourceType The parent resource type.
+   * @param parentResourceName The parent resource name.
+   * @param location The name of Azure region.
    * @param options The options parameters.
    */
-  private _list(
-    resourceGroupName: string,
+  private _listByLocation(
     parentProviderNamespace: string,
     parentResourceType: string,
     parentResourceName: string,
-    options?: TargetsListOptionalParams,
-  ): Promise<TargetsListResponse> {
+    location: string,
+    options?: TargetsListByLocationOptionalParams,
+  ): Promise<TargetsListByLocationResponse> {
     return this.client.sendOperationRequest(
       {
-        resourceGroupName,
         parentProviderNamespace,
         parentResourceType,
         parentResourceName,
+        location,
         options,
       },
-      listOperationSpec,
+      listByLocationOperationSpec,
     );
   }
 
   /**
    * Get a Target resource that extends a tracked regional resource.
-   * @param resourceGroupName String that represents an Azure resource group.
-   * @param parentProviderNamespace String that represents a resource provider namespace.
-   * @param parentResourceType String that represents a resource type.
-   * @param parentResourceName String that represents a resource name.
+   * @param parentProviderNamespace The parent resource provider namespace.
+   * @param parentResourceType The parent resource type.
+   * @param parentResourceName The parent resource name.
+   * @param location The name of Azure region.
    * @param targetName String that represents a Target resource name.
    * @param options The options parameters.
    */
   get(
-    resourceGroupName: string,
     parentProviderNamespace: string,
     parentResourceType: string,
     parentResourceName: string,
+    location: string,
     targetName: string,
     options?: TargetsGetOptionalParams,
   ): Promise<TargetsGetResponse> {
     return this.client.sendOperationRequest(
       {
-        resourceGroupName,
         parentProviderNamespace,
         parentResourceType,
         parentResourceName,
+        location,
         targetName,
         options,
       },
@@ -199,28 +199,61 @@ export class TargetsImpl implements Targets {
   }
 
   /**
+   * Create or update a Target resource that extends a tracked regional resource.
+   * @param parentProviderNamespace The parent resource provider namespace.
+   * @param parentResourceType The parent resource type.
+   * @param parentResourceName The parent resource name.
+   * @param location The name of Azure region.
+   * @param targetName String that represents a Target resource name.
+   * @param resource Resource create parameters.
+   * @param options The options parameters.
+   */
+  createOrUpdate(
+    parentProviderNamespace: string,
+    parentResourceType: string,
+    parentResourceName: string,
+    location: string,
+    targetName: string,
+    resource: Target,
+    options?: TargetsCreateOrUpdateOptionalParams,
+  ): Promise<TargetsCreateOrUpdateResponse> {
+    return this.client.sendOperationRequest(
+      {
+        parentProviderNamespace,
+        parentResourceType,
+        parentResourceName,
+        location,
+        targetName,
+        resource,
+        options,
+      },
+      createOrUpdateOperationSpec,
+    );
+  }
+
+  /**
    * Delete a Target resource that extends a tracked regional resource.
-   * @param resourceGroupName String that represents an Azure resource group.
-   * @param parentProviderNamespace String that represents a resource provider namespace.
-   * @param parentResourceType String that represents a resource type.
-   * @param parentResourceName String that represents a resource name.
+   * @param parentProviderNamespace The parent resource provider namespace.
+   * @param parentResourceType The parent resource type.
+   * @param parentResourceName The parent resource name.
+   * @param location The name of Azure region.
    * @param targetName String that represents a Target resource name.
    * @param options The options parameters.
    */
   delete(
-    resourceGroupName: string,
     parentProviderNamespace: string,
     parentResourceType: string,
     parentResourceName: string,
+    location: string,
     targetName: string,
     options?: TargetsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       {
-        resourceGroupName,
         parentProviderNamespace,
         parentResourceType,
         parentResourceName,
+        location,
         targetName,
         options,
       },
@@ -229,73 +262,40 @@ export class TargetsImpl implements Targets {
   }
 
   /**
-   * Create or update a Target resource that extends a tracked regional resource.
-   * @param resourceGroupName String that represents an Azure resource group.
-   * @param parentProviderNamespace String that represents a resource provider namespace.
-   * @param parentResourceType String that represents a resource type.
-   * @param parentResourceName String that represents a resource name.
-   * @param targetName String that represents a Target resource name.
-   * @param target Target resource to be created or updated.
+   * ListByLocationNext
+   * @param parentProviderNamespace The parent resource provider namespace.
+   * @param parentResourceType The parent resource type.
+   * @param parentResourceName The parent resource name.
+   * @param location The name of Azure region.
+   * @param nextLink The nextLink from the previous successful call to the ListByLocation method.
    * @param options The options parameters.
    */
-  createOrUpdate(
-    resourceGroupName: string,
+  private _listByLocationNext(
     parentProviderNamespace: string,
     parentResourceType: string,
     parentResourceName: string,
-    targetName: string,
-    target: Target,
-    options?: TargetsCreateOrUpdateOptionalParams,
-  ): Promise<TargetsCreateOrUpdateResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        parentProviderNamespace,
-        parentResourceType,
-        parentResourceName,
-        targetName,
-        target,
-        options,
-      },
-      createOrUpdateOperationSpec,
-    );
-  }
-
-  /**
-   * ListNext
-   * @param resourceGroupName String that represents an Azure resource group.
-   * @param parentProviderNamespace String that represents a resource provider namespace.
-   * @param parentResourceType String that represents a resource type.
-   * @param parentResourceName String that represents a resource name.
-   * @param nextLink The nextLink from the previous successful call to the List method.
-   * @param options The options parameters.
-   */
-  private _listNext(
-    resourceGroupName: string,
-    parentProviderNamespace: string,
-    parentResourceType: string,
-    parentResourceName: string,
+    location: string,
     nextLink: string,
-    options?: TargetsListNextOptionalParams,
-  ): Promise<TargetsListNextResponse> {
+    options?: TargetsListByLocationNextOptionalParams,
+  ): Promise<TargetsListByLocationNextResponse> {
     return this.client.sendOperationRequest(
       {
-        resourceGroupName,
         parentProviderNamespace,
         parentResourceType,
         parentResourceName,
+        location,
         nextLink,
         options,
       },
-      listNextOperationSpec,
+      listByLocationNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{parentProviderNamespace}/{parentResourceType}/{parentResourceName}/providers/Microsoft.Chaos/targets",
+const listByLocationOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/{parentProviderNamespace}/{parentResourceType}/{parentResourceName}/providers/Microsoft.Chaos/locations/{location}/targets",
   httpMethod: "GET",
   responses: {
     200: {
@@ -309,16 +309,16 @@ const listOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.parentProviderNamespace,
     Parameters.parentResourceType,
     Parameters.parentResourceName,
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{parentProviderNamespace}/{parentResourceType}/{parentResourceName}/providers/Microsoft.Chaos/targets/{targetName}",
+  path: "/subscriptions/{subscriptionId}/providers/{parentProviderNamespace}/{parentResourceType}/{parentResourceName}/providers/Microsoft.Chaos/locations/{location}/targets/{targetName}",
   httpMethod: "GET",
   responses: {
     200: {
@@ -332,17 +332,46 @@ const getOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.parentProviderNamespace,
     Parameters.parentResourceType,
     Parameters.parentResourceName,
+    Parameters.location,
     Parameters.targetName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/{parentProviderNamespace}/{parentResourceType}/{parentResourceName}/providers/Microsoft.Chaos/locations/{location}/targets/{targetName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Target,
+    },
+    201: {
+      bodyMapper: Mappers.Target,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.resource,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.parentProviderNamespace,
+    Parameters.parentResourceType,
+    Parameters.parentResourceName,
+    Parameters.location,
+    Parameters.targetName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{parentProviderNamespace}/{parentResourceType}/{parentResourceName}/providers/Microsoft.Chaos/targets/{targetName}",
+  path: "/subscriptions/{subscriptionId}/providers/{parentProviderNamespace}/{parentResourceType}/{parentResourceName}/providers/Microsoft.Chaos/locations/{location}/targets/{targetName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -355,42 +384,16 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.parentProviderNamespace,
     Parameters.parentResourceType,
     Parameters.parentResourceName,
+    Parameters.location,
     Parameters.targetName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{parentProviderNamespace}/{parentResourceType}/{parentResourceName}/providers/Microsoft.Chaos/targets/{targetName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Target,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  requestBody: Parameters.target,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.parentProviderNamespace,
-    Parameters.parentResourceType,
-    Parameters.parentResourceName,
-    Parameters.targetName,
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer,
-};
-const listNextOperationSpec: coreClient.OperationSpec = {
+const listByLocationNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
@@ -403,12 +406,12 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.nextLink,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.parentProviderNamespace,
     Parameters.parentResourceType,
     Parameters.parentResourceName,
-    Parameters.nextLink,
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
   serializer,

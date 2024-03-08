@@ -6,22 +6,24 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { OperationStatuses } from "../operationsInterfaces";
+import { OperationStatusesOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ChaosManagementClient } from "../chaosManagementClient";
 import {
-  OperationStatusesGetOptionalParams,
-  OperationStatusesGetResponse,
+  OperationStatusesOperationsGetOptionalParams,
+  OperationStatusesOperationsGetResponse,
 } from "../models";
 
-/** Class containing OperationStatuses operations. */
-export class OperationStatusesImpl implements OperationStatuses {
+/** Class containing OperationStatusesOperations operations. */
+export class OperationStatusesOperationsImpl
+  implements OperationStatusesOperations
+{
   private readonly client: ChaosManagementClient;
 
   /**
-   * Initialize a new instance of the class OperationStatuses class.
+   * Initialize a new instance of the class OperationStatusesOperations class.
    * @param client Reference to the service client
    */
   constructor(client: ChaosManagementClient) {
@@ -30,17 +32,19 @@ export class OperationStatusesImpl implements OperationStatuses {
 
   /**
    * Get the status of a long running azure asynchronous operation.
-   * @param location The name of the Azure region.
+   * @param location The region name of operation.
    * @param asyncOperationId The operation Id.
+   * @param subscriptionId GUID that represents an Azure subscription ID.
    * @param options The options parameters.
    */
   get(
     location: string,
     asyncOperationId: string,
-    options?: OperationStatusesGetOptionalParams,
-  ): Promise<OperationStatusesGetResponse> {
+    subscriptionId: string,
+    options?: OperationStatusesOperationsGetOptionalParams,
+  ): Promise<OperationStatusesOperationsGetResponse> {
     return this.client.sendOperationRequest(
-      { location, asyncOperationId, options },
+      { location, asyncOperationId, subscriptionId, options },
       getOperationSpec,
     );
   }
@@ -49,22 +53,23 @@ export class OperationStatusesImpl implements OperationStatuses {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Chaos/locations/{location}/operationStatuses/{asyncOperationId}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Chaos/locations/{location}/operationsStatuses/{asyncOperationId}",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.AzureCoreFoundationsErrorResponse,
+      headersMapper: Mappers.OperationStatusesOperationsGetExceptionHeaders,
     },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location,
+    Parameters.location1,
     Parameters.asyncOperationId,
+    Parameters.subscriptionId1,
   ],
   headerParameters: [Parameters.accept],
   serializer,

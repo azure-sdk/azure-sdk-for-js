@@ -15,10 +15,10 @@ import * as Parameters from "../models/parameters";
 import { ChaosManagementClient } from "../chaosManagementClient";
 import {
   Operation,
-  OperationsListAllNextOptionalParams,
-  OperationsListAllOptionalParams,
-  OperationsListAllResponse,
-  OperationsListAllNextResponse,
+  OperationsListNextOptionalParams,
+  OperationsListOptionalParams,
+  OperationsListResponse,
+  OperationsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -35,13 +35,13 @@ export class OperationsImpl implements Operations {
   }
 
   /**
-   * Get a list all available Operations.
+   * List the operations for the provider
    * @param options The options parameters.
    */
-  public listAll(
-    options?: OperationsListAllOptionalParams,
+  public list(
+    options?: OperationsListOptionalParams,
   ): PagedAsyncIterableIterator<Operation> {
-    const iter = this.listAllPagingAll(options);
+    const iter = this.listPagingAll(options);
     return {
       next() {
         return iter.next();
@@ -53,26 +53,26 @@ export class OperationsImpl implements Operations {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listAllPagingPage(options, settings);
+        return this.listPagingPage(options, settings);
       },
     };
   }
 
-  private async *listAllPagingPage(
-    options?: OperationsListAllOptionalParams,
+  private async *listPagingPage(
+    options?: OperationsListOptionalParams,
     settings?: PageSettings,
   ): AsyncIterableIterator<Operation[]> {
-    let result: OperationsListAllResponse;
+    let result: OperationsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listAll(options);
+      result = await this._list(options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listAllNext(continuationToken, options);
+      result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -80,43 +80,43 @@ export class OperationsImpl implements Operations {
     }
   }
 
-  private async *listAllPagingAll(
-    options?: OperationsListAllOptionalParams,
+  private async *listPagingAll(
+    options?: OperationsListOptionalParams,
   ): AsyncIterableIterator<Operation> {
-    for await (const page of this.listAllPagingPage(options)) {
+    for await (const page of this.listPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * Get a list all available Operations.
+   * List the operations for the provider
    * @param options The options parameters.
    */
-  private _listAll(
-    options?: OperationsListAllOptionalParams,
-  ): Promise<OperationsListAllResponse> {
-    return this.client.sendOperationRequest({ options }, listAllOperationSpec);
+  private _list(
+    options?: OperationsListOptionalParams,
+  ): Promise<OperationsListResponse> {
+    return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
   /**
-   * ListAllNext
-   * @param nextLink The nextLink from the previous successful call to the ListAll method.
+   * ListNext
+   * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
-  private _listAllNext(
+  private _listNext(
     nextLink: string,
-    options?: OperationsListAllNextOptionalParams,
-  ): Promise<OperationsListAllNextResponse> {
+    options?: OperationsListNextOptionalParams,
+  ): Promise<OperationsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listAllNextOperationSpec,
+      listNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listAllOperationSpec: coreClient.OperationSpec = {
+const listOperationSpec: coreClient.OperationSpec = {
   path: "/providers/Microsoft.Chaos/operations",
   httpMethod: "GET",
   responses: {
@@ -132,7 +132,7 @@ const listAllOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listAllNextOperationSpec: coreClient.OperationSpec = {
+const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {

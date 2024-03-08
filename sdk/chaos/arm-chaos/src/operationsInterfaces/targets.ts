@@ -9,12 +9,12 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   Target,
-  TargetsListOptionalParams,
+  TargetsListByLocationOptionalParams,
   TargetsGetOptionalParams,
   TargetsGetResponse,
-  TargetsDeleteOptionalParams,
   TargetsCreateOrUpdateOptionalParams,
   TargetsCreateOrUpdateResponse,
+  TargetsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -22,70 +22,70 @@ import {
 export interface Targets {
   /**
    * Get a list of Target resources that extend a tracked regional resource.
-   * @param resourceGroupName String that represents an Azure resource group.
-   * @param parentProviderNamespace String that represents a resource provider namespace.
-   * @param parentResourceType String that represents a resource type.
-   * @param parentResourceName String that represents a resource name.
+   * @param parentProviderNamespace The parent resource provider namespace.
+   * @param parentResourceType The parent resource type.
+   * @param parentResourceName The parent resource name.
+   * @param location The name of Azure region.
    * @param options The options parameters.
    */
-  list(
-    resourceGroupName: string,
+  listByLocation(
     parentProviderNamespace: string,
     parentResourceType: string,
     parentResourceName: string,
-    options?: TargetsListOptionalParams,
+    location: string,
+    options?: TargetsListByLocationOptionalParams,
   ): PagedAsyncIterableIterator<Target>;
   /**
    * Get a Target resource that extends a tracked regional resource.
-   * @param resourceGroupName String that represents an Azure resource group.
-   * @param parentProviderNamespace String that represents a resource provider namespace.
-   * @param parentResourceType String that represents a resource type.
-   * @param parentResourceName String that represents a resource name.
+   * @param parentProviderNamespace The parent resource provider namespace.
+   * @param parentResourceType The parent resource type.
+   * @param parentResourceName The parent resource name.
+   * @param location The name of Azure region.
    * @param targetName String that represents a Target resource name.
    * @param options The options parameters.
    */
   get(
-    resourceGroupName: string,
     parentProviderNamespace: string,
     parentResourceType: string,
     parentResourceName: string,
+    location: string,
     targetName: string,
     options?: TargetsGetOptionalParams,
   ): Promise<TargetsGetResponse>;
   /**
+   * Create or update a Target resource that extends a tracked regional resource.
+   * @param parentProviderNamespace The parent resource provider namespace.
+   * @param parentResourceType The parent resource type.
+   * @param parentResourceName The parent resource name.
+   * @param location The name of Azure region.
+   * @param targetName String that represents a Target resource name.
+   * @param resource Resource create parameters.
+   * @param options The options parameters.
+   */
+  createOrUpdate(
+    parentProviderNamespace: string,
+    parentResourceType: string,
+    parentResourceName: string,
+    location: string,
+    targetName: string,
+    resource: Target,
+    options?: TargetsCreateOrUpdateOptionalParams,
+  ): Promise<TargetsCreateOrUpdateResponse>;
+  /**
    * Delete a Target resource that extends a tracked regional resource.
-   * @param resourceGroupName String that represents an Azure resource group.
-   * @param parentProviderNamespace String that represents a resource provider namespace.
-   * @param parentResourceType String that represents a resource type.
-   * @param parentResourceName String that represents a resource name.
+   * @param parentProviderNamespace The parent resource provider namespace.
+   * @param parentResourceType The parent resource type.
+   * @param parentResourceName The parent resource name.
+   * @param location The name of Azure region.
    * @param targetName String that represents a Target resource name.
    * @param options The options parameters.
    */
   delete(
-    resourceGroupName: string,
     parentProviderNamespace: string,
     parentResourceType: string,
     parentResourceName: string,
+    location: string,
     targetName: string,
     options?: TargetsDeleteOptionalParams,
   ): Promise<void>;
-  /**
-   * Create or update a Target resource that extends a tracked regional resource.
-   * @param resourceGroupName String that represents an Azure resource group.
-   * @param parentProviderNamespace String that represents a resource provider namespace.
-   * @param parentResourceType String that represents a resource type.
-   * @param parentResourceName String that represents a resource name.
-   * @param targetName String that represents a Target resource name.
-   * @param target Target resource to be created or updated.
-   * @param options The options parameters.
-   */
-  createOrUpdate(
-    resourceGroupName: string,
-    parentProviderNamespace: string,
-    parentResourceType: string,
-    parentResourceName: string,
-    targetName: string,
-    target: Target,
-    options?: TargetsCreateOrUpdateOptionalParams,
-  ): Promise<TargetsCreateOrUpdateResponse>;
 }
