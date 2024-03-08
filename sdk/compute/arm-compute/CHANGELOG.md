@@ -1,15 +1,38 @@
 # Release History
+    
+## 22.0.0 (2024-03-08)
+    
+**Features**
 
-## 21.4.1 (Unreleased)
+  - Interface GalleryArtifactVersionFullSource has a new optional parameter virtualMachineId
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation group RestorePoints
+  - Removed operation group VirtualMachineSizes
+  - Removed operation AvailabilitySets.listAvailableSizes
+  - Removed operation CapacityReservations.get
+  - Removed operation DedicatedHosts.listAvailableSizes
+  - Removed operation Images.list
+  - Removed operation LogAnalytics.beginExportThrottledRequests
+  - Removed operation LogAnalytics.beginExportThrottledRequestsAndWait
+  - Removed operation ProximityPlacementGroups.listByResourceGroup
+  - Removed operation SshPublicKeys.generateKeyPair
+  - Removed operation VirtualMachineExtensionImages.listVersions
+  - Removed operation VirtualMachineImagesEdgeZone.listSkus
+  - Removed operation VirtualMachines.beginAttachDetachDataDisks
+  - Removed operation VirtualMachines.beginAttachDetachDataDisksAndWait
+  - Removed operation VirtualMachines.beginInstallPatches
+  - Removed operation VirtualMachines.beginInstallPatchesAndWait
+  - Removed operation VirtualMachineScaleSets.beginPowerOff
+  - Removed operation VirtualMachineScaleSets.beginPowerOffAndWait
+  - Removed operation VirtualMachineScaleSetVMRunCommands.list
+  - Class ComputeManagementClient no longer has parameter restorePoints
+  - Class ComputeManagementClient no longer has parameter virtualMachineSizes
+  - Removed Enum KnownCapacityReservationInstanceViewTypes
+  - Removed Enum KnownRestorePointExpandOptions
+    
+    
 ## 21.4.0 (2023-12-28)
     
 **Features**

@@ -8,7 +8,6 @@
 
 export * from "./operations";
 export * from "./usageOperations";
-export * from "./virtualMachineSizes";
 export * from "./virtualMachineScaleSets";
 export * from "./virtualMachineScaleSetExtensions";
 export * from "./virtualMachineScaleSetRollingUpgrades";
@@ -26,7 +25,6 @@ export * from "./dedicatedHosts";
 export * from "./sshPublicKeys";
 export * from "./images";
 export * from "./restorePointCollections";
-export * from "./restorePoints";
 export * from "./capacityReservationGroups";
 export * from "./capacityReservations";
 export * from "./logAnalytics";

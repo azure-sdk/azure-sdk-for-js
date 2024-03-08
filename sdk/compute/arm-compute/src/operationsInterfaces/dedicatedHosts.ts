@@ -11,7 +11,6 @@ import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   DedicatedHost,
   DedicatedHostsListByHostGroupOptionalParams,
-  DedicatedHostsListAvailableSizesOptionalParams,
   DedicatedHostsCreateOrUpdateOptionalParams,
   DedicatedHostsCreateOrUpdateResponse,
   DedicatedHostUpdate,
@@ -22,7 +21,7 @@ import {
   DedicatedHostsGetResponse,
   DedicatedHostsRestartOptionalParams,
   DedicatedHostsRedeployOptionalParams,
-  DedicatedHostsRedeployResponse
+  DedicatedHostsRedeployResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -38,22 +37,8 @@ export interface DedicatedHosts {
   listByHostGroup(
     resourceGroupName: string,
     hostGroupName: string,
-    options?: DedicatedHostsListByHostGroupOptionalParams
+    options?: DedicatedHostsListByHostGroupOptionalParams,
   ): PagedAsyncIterableIterator<DedicatedHost>;
-  /**
-   * Lists all available dedicated host sizes to which the specified dedicated host can be resized. NOTE:
-   * The dedicated host sizes provided can be used to only scale up the existing dedicated host.
-   * @param resourceGroupName The name of the resource group.
-   * @param hostGroupName The name of the dedicated host group.
-   * @param hostName The name of the dedicated host.
-   * @param options The options parameters.
-   */
-  listAvailableSizes(
-    resourceGroupName: string,
-    hostGroupName: string,
-    hostName: string,
-    options?: DedicatedHostsListAvailableSizesOptionalParams
-  ): PagedAsyncIterableIterator<string>;
   /**
    * Create or update a dedicated host .
    * @param resourceGroupName The name of the resource group.
@@ -67,7 +52,7 @@ export interface DedicatedHosts {
     hostGroupName: string,
     hostName: string,
     parameters: DedicatedHost,
-    options?: DedicatedHostsCreateOrUpdateOptionalParams
+    options?: DedicatedHostsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DedicatedHostsCreateOrUpdateResponse>,
@@ -87,7 +72,7 @@ export interface DedicatedHosts {
     hostGroupName: string,
     hostName: string,
     parameters: DedicatedHost,
-    options?: DedicatedHostsCreateOrUpdateOptionalParams
+    options?: DedicatedHostsCreateOrUpdateOptionalParams,
   ): Promise<DedicatedHostsCreateOrUpdateResponse>;
   /**
    * Update a dedicated host .
@@ -102,7 +87,7 @@ export interface DedicatedHosts {
     hostGroupName: string,
     hostName: string,
     parameters: DedicatedHostUpdate,
-    options?: DedicatedHostsUpdateOptionalParams
+    options?: DedicatedHostsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DedicatedHostsUpdateResponse>,
@@ -122,7 +107,7 @@ export interface DedicatedHosts {
     hostGroupName: string,
     hostName: string,
     parameters: DedicatedHostUpdate,
-    options?: DedicatedHostsUpdateOptionalParams
+    options?: DedicatedHostsUpdateOptionalParams,
   ): Promise<DedicatedHostsUpdateResponse>;
   /**
    * Delete a dedicated host.
@@ -135,7 +120,7 @@ export interface DedicatedHosts {
     resourceGroupName: string,
     hostGroupName: string,
     hostName: string,
-    options?: DedicatedHostsDeleteOptionalParams
+    options?: DedicatedHostsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a dedicated host.
@@ -148,7 +133,7 @@ export interface DedicatedHosts {
     resourceGroupName: string,
     hostGroupName: string,
     hostName: string,
-    options?: DedicatedHostsDeleteOptionalParams
+    options?: DedicatedHostsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Retrieves information about a dedicated host.
@@ -161,7 +146,7 @@ export interface DedicatedHosts {
     resourceGroupName: string,
     hostGroupName: string,
     hostName: string,
-    options?: DedicatedHostsGetOptionalParams
+    options?: DedicatedHostsGetOptionalParams,
   ): Promise<DedicatedHostsGetResponse>;
   /**
    * Restart the dedicated host. The operation will complete successfully once the dedicated host has
@@ -177,7 +162,7 @@ export interface DedicatedHosts {
     resourceGroupName: string,
     hostGroupName: string,
     hostName: string,
-    options?: DedicatedHostsRestartOptionalParams
+    options?: DedicatedHostsRestartOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Restart the dedicated host. The operation will complete successfully once the dedicated host has
@@ -193,7 +178,7 @@ export interface DedicatedHosts {
     resourceGroupName: string,
     hostGroupName: string,
     hostName: string,
-    options?: DedicatedHostsRestartOptionalParams
+    options?: DedicatedHostsRestartOptionalParams,
   ): Promise<void>;
   /**
    * Redeploy the dedicated host. The operation will complete successfully once the dedicated host has
@@ -209,7 +194,7 @@ export interface DedicatedHosts {
     resourceGroupName: string,
     hostGroupName: string,
     hostName: string,
-    options?: DedicatedHostsRedeployOptionalParams
+    options?: DedicatedHostsRedeployOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DedicatedHostsRedeployResponse>,
@@ -230,6 +215,6 @@ export interface DedicatedHosts {
     resourceGroupName: string,
     hostGroupName: string,
     hostName: string,
-    options?: DedicatedHostsRedeployOptionalParams
+    options?: DedicatedHostsRedeployOptionalParams,
   ): Promise<DedicatedHostsRedeployResponse>;
 }

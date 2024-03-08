@@ -11,9 +11,6 @@ import {
   RequestRateByIntervalInput,
   LogAnalyticsExportRequestRateByIntervalOptionalParams,
   LogAnalyticsExportRequestRateByIntervalResponse,
-  ThrottledRequestsInput,
-  LogAnalyticsExportThrottledRequestsOptionalParams,
-  LogAnalyticsExportThrottledRequestsResponse
 } from "../models";
 
 /** Interface representing a LogAnalytics. */
@@ -28,7 +25,7 @@ export interface LogAnalytics {
   beginExportRequestRateByInterval(
     location: string,
     parameters: RequestRateByIntervalInput,
-    options?: LogAnalyticsExportRequestRateByIntervalOptionalParams
+    options?: LogAnalyticsExportRequestRateByIntervalOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<LogAnalyticsExportRequestRateByIntervalResponse>,
@@ -45,33 +42,6 @@ export interface LogAnalytics {
   beginExportRequestRateByIntervalAndWait(
     location: string,
     parameters: RequestRateByIntervalInput,
-    options?: LogAnalyticsExportRequestRateByIntervalOptionalParams
+    options?: LogAnalyticsExportRequestRateByIntervalOptionalParams,
   ): Promise<LogAnalyticsExportRequestRateByIntervalResponse>;
-  /**
-   * Export logs that show total throttled Api requests for this subscription in the given time window.
-   * @param location The location upon which virtual-machine-sizes is queried.
-   * @param parameters Parameters supplied to the LogAnalytics getThrottledRequests Api.
-   * @param options The options parameters.
-   */
-  beginExportThrottledRequests(
-    location: string,
-    parameters: ThrottledRequestsInput,
-    options?: LogAnalyticsExportThrottledRequestsOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<LogAnalyticsExportThrottledRequestsResponse>,
-      LogAnalyticsExportThrottledRequestsResponse
-    >
-  >;
-  /**
-   * Export logs that show total throttled Api requests for this subscription in the given time window.
-   * @param location The location upon which virtual-machine-sizes is queried.
-   * @param parameters Parameters supplied to the LogAnalytics getThrottledRequests Api.
-   * @param options The options parameters.
-   */
-  beginExportThrottledRequestsAndWait(
-    location: string,
-    parameters: ThrottledRequestsInput,
-    options?: LogAnalyticsExportThrottledRequestsOptionalParams
-  ): Promise<LogAnalyticsExportThrottledRequestsResponse>;
 }
