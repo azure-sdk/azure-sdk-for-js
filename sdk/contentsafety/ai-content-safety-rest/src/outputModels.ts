@@ -16,7 +16,7 @@ export interface AnalyzeTextOptionsOutput {
   /**
    * This refers to the type of text analysis output. If no value is assigned, the default value will be "FourSeverityLevels".
    *
-   * Possible values: FourSeverityLevels, EightSeverityLevels
+   * Possible values: "FourSeverityLevels", "EightSeverityLevels"
    */
   outputType?: string;
 }
@@ -44,11 +44,47 @@ export interface TextCategoriesAnalysisOutput {
   /**
    * The text analysis category.
    *
-   * Possible values: Hate, SelfHarm, Sexual, Violence
+   * Possible values: "Hate", "SelfHarm", "Sexual", "Violence"
    */
   category: string;
   /** The value increases with the severity of the input content. The value of this field is determined by the output type specified in the request. The output type could be ‘FourSeverityLevels’ or ‘EightSeverity Levels’, and the output value can be 0, 2, 4, 6 or 0, 1, 2, 3, 4, 5, 6, or 7. */
   severity?: number;
+}
+
+/** The text jailbreak analysis request. */
+export interface AnalyzeTextJailbreakOptionsOutput {
+  /** The text needs to be analyzed if it attempt to jailbreak. We support a maximum of 1k Unicode characters (Unicode code points) in the text of one request. */
+  text: string;
+}
+
+/** The text jailbreak analysis request. */
+export interface AnalyzeTextJailbreakResultOutput {
+  /** Analysis result for jailbreak. */
+  jailbreakAnalysis: JailbreakAnalysisResultOutput;
+}
+
+/** The text jailbreak analysis response. */
+export interface JailbreakAnalysisResultOutput {
+  /** Analysis result for jailbreak. */
+  detected: boolean;
+}
+
+/** The protected material analysis request. */
+export interface AnalyzeTextProtectedMaterialOptionsOutput {
+  /** The text needs to be analyzed. We support a maximum of 1k Unicode characters (Unicode code points) in the text of one request. */
+  text: string;
+}
+
+/** The protected material analysis response. */
+export interface AnalyzeTextProtectedMaterialResultOutput {
+  /** Analysis result for protected material. */
+  protectedMaterialAnalysis: ProtectedMaterialAnalysisResultOutput;
+}
+
+/** The text protected material analysis response. */
+export interface ProtectedMaterialAnalysisResultOutput {
+  /** Analysis result for protected material.. */
+  detected: boolean;
 }
 
 /** The image analysis request. */
@@ -60,7 +96,7 @@ export interface AnalyzeImageOptionsOutput {
   /**
    * This refers to the type of image analysis output. If no value is assigned, the default value will be "FourSeverityLevels".
    *
-   * Possible values: FourSeverityLevels
+   * Possible values: "FourSeverityLevels"
    */
   outputType?: string;
 }
@@ -84,7 +120,7 @@ export interface ImageCategoriesAnalysisOutput {
   /**
    * The image analysis category.
    *
-   * Possible values: Hate, SelfHarm, Sexual, Violence
+   * Possible values: "Hate", "SelfHarm", "Sexual", "Violence"
    */
   category: string;
   /** The value increases with the severity of the input content. The value of this field is determined by the output type specified in the request. The output type could be ‘FourSeverityLevels’, and the output value can be 0, 2, 4, 6. */
