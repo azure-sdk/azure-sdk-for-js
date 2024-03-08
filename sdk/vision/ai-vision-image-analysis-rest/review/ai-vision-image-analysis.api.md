@@ -195,21 +195,21 @@ export type ImageAnalysisClient = Client & {
 
 // @public
 export interface ImageAnalysisResultOutput {
-    captionResult?: CaptionResultOutput;
-    denseCaptionsResult?: DenseCaptionsResultOutput;
+    caption?: CaptionResultOutput;
+    denseCaptions?: DenseCaptionsResultOutput;
     metadata: ImageMetadataOutput;
     modelVersion: string;
-    objectsResult?: ObjectsResultOutput;
-    peopleResult?: PeopleResultOutput;
-    readResult?: ReadResultOutput;
-    smartCropsResult?: SmartCropsResultOutput;
-    tagsResult?: TagsResultOutput;
+    objects?: ObjectsResultOutput;
+    people?: PeopleResultOutput;
+    read?: ReadResultOutput;
+    smartCrops?: SmartCropsResultOutput;
+    tags?: TagsResultOutput;
 }
 
 // @public
 export interface ImageBoundingBoxOutput {
-    h: number;
-    w: number;
+    height: number;
+    width: number;
     x: number;
     y: number;
 }
