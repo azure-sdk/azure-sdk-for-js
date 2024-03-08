@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { ClusterJobs } from "../operationsInterfaces";
+import { ClusterLibraries } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,22 +20,24 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  ClusterJob,
-  ClusterJobsListNextOptionalParams,
-  ClusterJobsListOptionalParams,
-  ClusterJobsListResponse,
-  ClusterJobsRunJobOptionalParams,
-  ClusterJobsRunJobResponse,
-  ClusterJobsListNextResponse,
+  ClusterLibrary,
+  ClusterLibrariesListNextOptionalParams,
+  Category,
+  ClusterLibrariesListOptionalParams,
+  ClusterLibrariesListResponse,
+  ClusterLibraryManagementOperation,
+  ClusterLibrariesManageLibrariesOptionalParams,
+  ClusterLibrariesManageLibrariesResponse,
+  ClusterLibrariesListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing ClusterJobs operations. */
-export class ClusterJobsImpl implements ClusterJobs {
+/** Class containing ClusterLibraries operations. */
+export class ClusterLibrariesImpl implements ClusterLibraries {
   private readonly client: HDInsightContainersManagementClient;
 
   /**
-   * Initialize a new instance of the class ClusterJobs class.
+   * Initialize a new instance of the class ClusterLibraries class.
    * @param client Reference to the service client
    */
   constructor(client: HDInsightContainersManagementClient) {
@@ -43,22 +45,26 @@ export class ClusterJobsImpl implements ClusterJobs {
   }
 
   /**
-   * Get jobs of HDInsight on AKS cluster.
+   * Get all libraries of HDInsight on AKS cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterPoolName The name of the cluster pool.
    * @param clusterName The name of the HDInsight cluster.
+   * @param category The system query option to filter libraries returned in the response. Allowed value
+   *                 is 'custom' or 'predefined'.
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
     clusterPoolName: string,
     clusterName: string,
-    options?: ClusterJobsListOptionalParams,
-  ): PagedAsyncIterableIterator<ClusterJob> {
+    category: Category,
+    options?: ClusterLibrariesListOptionalParams,
+  ): PagedAsyncIterableIterator<ClusterLibrary> {
     const iter = this.listPagingAll(
       resourceGroupName,
       clusterPoolName,
       clusterName,
+      category,
       options,
     );
     return {
@@ -76,6 +82,7 @@ export class ClusterJobsImpl implements ClusterJobs {
           resourceGroupName,
           clusterPoolName,
           clusterName,
+          category,
           options,
           settings,
         );
@@ -87,16 +94,18 @@ export class ClusterJobsImpl implements ClusterJobs {
     resourceGroupName: string,
     clusterPoolName: string,
     clusterName: string,
-    options?: ClusterJobsListOptionalParams,
+    category: Category,
+    options?: ClusterLibrariesListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<ClusterJob[]> {
-    let result: ClusterJobsListResponse;
+  ): AsyncIterableIterator<ClusterLibrary[]> {
+    let result: ClusterLibrariesListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(
         resourceGroupName,
         clusterPoolName,
         clusterName,
+        category,
         options,
       );
       let page = result.value || [];
@@ -123,12 +132,14 @@ export class ClusterJobsImpl implements ClusterJobs {
     resourceGroupName: string,
     clusterPoolName: string,
     clusterName: string,
-    options?: ClusterJobsListOptionalParams,
-  ): AsyncIterableIterator<ClusterJob> {
+    category: Category,
+    options?: ClusterLibrariesListOptionalParams,
+  ): AsyncIterableIterator<ClusterLibrary> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       clusterPoolName,
       clusterName,
+      category,
       options,
     )) {
       yield* page;
@@ -136,29 +147,51 @@ export class ClusterJobsImpl implements ClusterJobs {
   }
 
   /**
-   * Operations on jobs of HDInsight on AKS cluster.
+   * Get all libraries of HDInsight on AKS cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterPoolName The name of the cluster pool.
    * @param clusterName The name of the HDInsight cluster.
-   * @param clusterJob The Cluster job.
+   * @param category The system query option to filter libraries returned in the response. Allowed value
+   *                 is 'custom' or 'predefined'.
    * @param options The options parameters.
    */
-  async beginRunJob(
+  private _list(
     resourceGroupName: string,
     clusterPoolName: string,
     clusterName: string,
-    clusterJob: ClusterJob,
-    options?: ClusterJobsRunJobOptionalParams,
+    category: Category,
+    options?: ClusterLibrariesListOptionalParams,
+  ): Promise<ClusterLibrariesListResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, clusterPoolName, clusterName, category, options },
+      listOperationSpec,
+    );
+  }
+
+  /**
+   * Library management operations on HDInsight on AKS cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterPoolName The name of the cluster pool.
+   * @param clusterName The name of the HDInsight cluster.
+   * @param operation The library management operation.
+   * @param options The options parameters.
+   */
+  async beginManageLibraries(
+    resourceGroupName: string,
+    clusterPoolName: string,
+    clusterName: string,
+    operation: ClusterLibraryManagementOperation,
+    options?: ClusterLibrariesManageLibrariesOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<ClusterJobsRunJobResponse>,
-      ClusterJobsRunJobResponse
+      OperationState<ClusterLibrariesManageLibrariesResponse>,
+      ClusterLibrariesManageLibrariesResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<ClusterJobsRunJobResponse> => {
+    ): Promise<ClusterLibrariesManageLibrariesResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -199,14 +232,14 @@ export class ClusterJobsImpl implements ClusterJobs {
         resourceGroupName,
         clusterPoolName,
         clusterName,
-        clusterJob,
+        operation,
         options,
       },
-      spec: runJobOperationSpec,
+      spec: manageLibrariesOperationSpec,
     });
     const poller = await createHttpPoller<
-      ClusterJobsRunJobResponse,
-      OperationState<ClusterJobsRunJobResponse>
+      ClusterLibrariesManageLibrariesResponse,
+      OperationState<ClusterLibrariesManageLibrariesResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -217,47 +250,28 @@ export class ClusterJobsImpl implements ClusterJobs {
   }
 
   /**
-   * Operations on jobs of HDInsight on AKS cluster.
+   * Library management operations on HDInsight on AKS cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterPoolName The name of the cluster pool.
    * @param clusterName The name of the HDInsight cluster.
-   * @param clusterJob The Cluster job.
+   * @param operation The library management operation.
    * @param options The options parameters.
    */
-  async beginRunJobAndWait(
+  async beginManageLibrariesAndWait(
     resourceGroupName: string,
     clusterPoolName: string,
     clusterName: string,
-    clusterJob: ClusterJob,
-    options?: ClusterJobsRunJobOptionalParams,
-  ): Promise<ClusterJobsRunJobResponse> {
-    const poller = await this.beginRunJob(
+    operation: ClusterLibraryManagementOperation,
+    options?: ClusterLibrariesManageLibrariesOptionalParams,
+  ): Promise<ClusterLibrariesManageLibrariesResponse> {
+    const poller = await this.beginManageLibraries(
       resourceGroupName,
       clusterPoolName,
       clusterName,
-      clusterJob,
+      operation,
       options,
     );
     return poller.pollUntilDone();
-  }
-
-  /**
-   * Get jobs of HDInsight on AKS cluster.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterPoolName The name of the cluster pool.
-   * @param clusterName The name of the HDInsight cluster.
-   * @param options The options parameters.
-   */
-  private _list(
-    resourceGroupName: string,
-    clusterPoolName: string,
-    clusterName: string,
-    options?: ClusterJobsListOptionalParams,
-  ): Promise<ClusterJobsListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, clusterPoolName, clusterName, options },
-      listOperationSpec,
-    );
   }
 
   /**
@@ -273,8 +287,8 @@ export class ClusterJobsImpl implements ClusterJobs {
     clusterPoolName: string,
     clusterName: string,
     nextLink: string,
-    options?: ClusterJobsListNextOptionalParams,
-  ): Promise<ClusterJobsListNextResponse> {
+    options?: ClusterLibrariesListNextOptionalParams,
+  ): Promise<ClusterLibrariesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterPoolName, clusterName, nextLink, options },
       listNextOperationSpec,
@@ -284,27 +298,49 @@ export class ClusterJobsImpl implements ClusterJobs {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const runJobOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusterpools/{clusterPoolName}/clusters/{clusterName}/runJob",
-  httpMethod: "POST",
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusterpools/{clusterPoolName}/clusters/{clusterName}/libraries",
+  httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ClusterJob,
-    },
-    201: {
-      bodyMapper: Mappers.ClusterJob,
-    },
-    202: {
-      bodyMapper: Mappers.ClusterJob,
-    },
-    204: {
-      bodyMapper: Mappers.ClusterJob,
+      bodyMapper: Mappers.ClusterLibraryList,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.clusterJob,
+  queryParameters: [Parameters.apiVersion, Parameters.category],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterPoolName,
+    Parameters.clusterName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const manageLibrariesOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusterpools/{clusterPoolName}/clusters/{clusterName}/manageLibraries",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper: Mappers.ClusterLibrariesManageLibrariesHeaders,
+    },
+    201: {
+      headersMapper: Mappers.ClusterLibrariesManageLibrariesHeaders,
+    },
+    202: {
+      headersMapper: Mappers.ClusterLibrariesManageLibrariesHeaders,
+    },
+    204: {
+      headersMapper: Mappers.ClusterLibrariesManageLibrariesHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.operation,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -317,34 +353,12 @@ const runJobOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer,
 };
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusterpools/{clusterPoolName}/clusters/{clusterName}/jobs",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ClusterJobList,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.clusterPoolName,
-    Parameters.clusterName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ClusterJobList,
+      bodyMapper: Mappers.ClusterLibraryList,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
