@@ -13,7 +13,7 @@ import {
   SentinelOnboardingStatesCreateResponse,
   SentinelOnboardingStatesDeleteOptionalParams,
   SentinelOnboardingStatesListOptionalParams,
-  SentinelOnboardingStatesListResponse
+  SentinelOnboardingStatesListResponse,
 } from "../models";
 
 /** Interface representing a SentinelOnboardingStates. */
@@ -29,7 +29,7 @@ export interface SentinelOnboardingStates {
     resourceGroupName: string,
     workspaceName: string,
     sentinelOnboardingStateName: string,
-    options?: SentinelOnboardingStatesGetOptionalParams
+    options?: SentinelOnboardingStatesGetOptionalParams,
   ): Promise<SentinelOnboardingStatesGetResponse>;
   /**
    * Create Sentinel onboarding state
@@ -42,7 +42,7 @@ export interface SentinelOnboardingStates {
     resourceGroupName: string,
     workspaceName: string,
     sentinelOnboardingStateName: string,
-    options?: SentinelOnboardingStatesCreateOptionalParams
+    options?: SentinelOnboardingStatesCreateOptionalParams,
   ): Promise<SentinelOnboardingStatesCreateResponse>;
   /**
    * Delete Sentinel onboarding state
@@ -55,7 +55,7 @@ export interface SentinelOnboardingStates {
     resourceGroupName: string,
     workspaceName: string,
     sentinelOnboardingStateName: string,
-    options?: SentinelOnboardingStatesDeleteOptionalParams
+    options?: SentinelOnboardingStatesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets all Sentinel onboarding states
@@ -66,6 +66,6 @@ export interface SentinelOnboardingStates {
   list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: SentinelOnboardingStatesListOptionalParams
+    options?: SentinelOnboardingStatesListOptionalParams,
   ): Promise<SentinelOnboardingStatesListResponse>;
 }

@@ -6,22 +6,22 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { DomainWhois } from "../operationsInterfaces";
+import { ProductPackage } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SecurityInsights } from "../securityInsights";
 import {
-  DomainWhoisGetOptionalParams,
-  DomainWhoisGetResponse
+  ProductPackageGetOptionalParams,
+  ProductPackageGetResponse,
 } from "../models";
 
-/** Class containing DomainWhois operations. */
-export class DomainWhoisImpl implements DomainWhois {
+/** Class containing ProductPackage operations. */
+export class ProductPackageImpl implements ProductPackage {
   private readonly client: SecurityInsights;
 
   /**
-   * Initialize a new instance of the class DomainWhois class.
+   * Initialize a new instance of the class ProductPackage class.
    * @param client Reference to the service client
    */
   constructor(client: SecurityInsights) {
@@ -29,19 +29,21 @@ export class DomainWhoisImpl implements DomainWhois {
   }
 
   /**
-   * Get whois information for a single domain name
+   * Gets a package by its identifier from the catalog.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param domain Domain name to be enriched
+   * @param workspaceName The name of the workspace.
+   * @param packageId package Id
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    domain: string,
-    options?: DomainWhoisGetOptionalParams
-  ): Promise<DomainWhoisGetResponse> {
+    workspaceName: string,
+    packageId: string,
+    options?: ProductPackageGetOptionalParams,
+  ): Promise<ProductPackageGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, domain, options },
-      getOperationSpec
+      { resourceGroupName, workspaceName, packageId, options },
+      getOperationSpec,
     );
   }
 }
@@ -49,23 +51,24 @@ export class DomainWhoisImpl implements DomainWhois {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SecurityInsights/enrichment/domain/whois/",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/contentProductPackages/{packageId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EnrichmentDomainWhois
+      bodyMapper: Mappers.ProductPackageModel,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.domain],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.packageId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

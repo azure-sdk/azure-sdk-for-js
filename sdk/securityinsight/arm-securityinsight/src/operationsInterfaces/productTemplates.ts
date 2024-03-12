@@ -6,27 +6,24 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  EntityTimelineParameters,
-  EntitiesGetTimelineListOptionalParams,
-  EntitiesGetTimelineListResponse
+  ProductTemplateModel,
+  ProductTemplatesListOptionalParams,
 } from "../models";
 
-/** Interface representing a EntitiesGetTimeline. */
-export interface EntitiesGetTimeline {
+/// <reference lib="esnext.asynciterable" />
+/** Interface representing a ProductTemplates. */
+export interface ProductTemplates {
   /**
-   * Timeline for an entity.
+   * Gets all templates in the catalog.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
-   * @param entityId entity ID
-   * @param parameters The parameters required to execute an timeline operation on the given entity.
    * @param options The options parameters.
    */
   list(
     resourceGroupName: string,
     workspaceName: string,
-    entityId: string,
-    parameters: EntityTimelineParameters,
-    options?: EntitiesGetTimelineListOptionalParams
-  ): Promise<EntitiesGetTimelineListResponse>;
+    options?: ProductTemplatesListOptionalParams,
+  ): PagedAsyncIterableIterator<ProductTemplateModel>;
 }
