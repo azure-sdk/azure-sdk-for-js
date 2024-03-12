@@ -15,7 +15,7 @@ import {
   GatewayRouteConfigsGetResponse,
   GatewayRouteConfigsCreateOrUpdateOptionalParams,
   GatewayRouteConfigsCreateOrUpdateResponse,
-  GatewayRouteConfigsDeleteOptionalParams
+  GatewayRouteConfigsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface GatewayRouteConfigs {
     resourceGroupName: string,
     serviceName: string,
     gatewayName: string,
-    options?: GatewayRouteConfigsListOptionalParams
+    options?: GatewayRouteConfigsListOptionalParams,
   ): PagedAsyncIterableIterator<GatewayRouteConfigResource>;
   /**
    * Get the Spring Cloud Gateway route configs.
@@ -49,7 +49,7 @@ export interface GatewayRouteConfigs {
     serviceName: string,
     gatewayName: string,
     routeConfigName: string,
-    options?: GatewayRouteConfigsGetOptionalParams
+    options?: GatewayRouteConfigsGetOptionalParams,
   ): Promise<GatewayRouteConfigsGetResponse>;
   /**
    * Create the default Spring Cloud Gateway route configs or update the existing Spring Cloud Gateway
@@ -69,7 +69,7 @@ export interface GatewayRouteConfigs {
     gatewayName: string,
     routeConfigName: string,
     gatewayRouteConfigResource: GatewayRouteConfigResource,
-    options?: GatewayRouteConfigsCreateOrUpdateOptionalParams
+    options?: GatewayRouteConfigsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<GatewayRouteConfigsCreateOrUpdateResponse>,
@@ -94,7 +94,7 @@ export interface GatewayRouteConfigs {
     gatewayName: string,
     routeConfigName: string,
     gatewayRouteConfigResource: GatewayRouteConfigResource,
-    options?: GatewayRouteConfigsCreateOrUpdateOptionalParams
+    options?: GatewayRouteConfigsCreateOrUpdateOptionalParams,
   ): Promise<GatewayRouteConfigsCreateOrUpdateResponse>;
   /**
    * Delete the Spring Cloud Gateway route config.
@@ -110,7 +110,7 @@ export interface GatewayRouteConfigs {
     serviceName: string,
     gatewayName: string,
     routeConfigName: string,
-    options?: GatewayRouteConfigsDeleteOptionalParams
+    options?: GatewayRouteConfigsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete the Spring Cloud Gateway route config.
@@ -126,6 +126,6 @@ export interface GatewayRouteConfigs {
     serviceName: string,
     gatewayName: string,
     routeConfigName: string,
-    options?: GatewayRouteConfigsDeleteOptionalParams
+    options?: GatewayRouteConfigsDeleteOptionalParams,
   ): Promise<void>;
 }

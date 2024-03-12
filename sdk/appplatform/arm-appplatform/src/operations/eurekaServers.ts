@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { MonitoringSettings } from "../operationsInterfaces";
+import { EurekaServers } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -18,21 +18,23 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  MonitoringSettingsGetOptionalParams,
-  MonitoringSettingsGetResponse,
-  MonitoringSettingResource,
-  MonitoringSettingsUpdatePutOptionalParams,
-  MonitoringSettingsUpdatePutResponse,
-  MonitoringSettingsUpdatePatchOptionalParams,
-  MonitoringSettingsUpdatePatchResponse,
+  EurekaServersListOptionalParams,
+  EurekaServersListResponse,
+  EurekaServersGetOptionalParams,
+  EurekaServersGetResponse,
+  EurekaServerResource,
+  EurekaServersUpdatePutOptionalParams,
+  EurekaServersUpdatePutResponse,
+  EurekaServersUpdatePatchOptionalParams,
+  EurekaServersUpdatePatchResponse,
 } from "../models";
 
-/** Class containing MonitoringSettings operations. */
-export class MonitoringSettingsImpl implements MonitoringSettings {
+/** Class containing EurekaServers operations. */
+export class EurekaServersImpl implements EurekaServers {
   private readonly client: AppPlatformManagementClient;
 
   /**
-   * Initialize a new instance of the class MonitoringSettings class.
+   * Initialize a new instance of the class EurekaServers class.
    * @param client Reference to the service client
    */
   constructor(client: AppPlatformManagementClient) {
@@ -40,7 +42,25 @@ export class MonitoringSettingsImpl implements MonitoringSettings {
   }
 
   /**
-   * Get the Monitoring Setting and its properties.
+   * List the eureka server settings.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param options The options parameters.
+   */
+  list(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: EurekaServersListOptionalParams,
+  ): Promise<EurekaServersListResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, options },
+      listOperationSpec,
+    );
+  }
+
+  /**
+   * Get the eureka server settings.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
@@ -49,8 +69,8 @@ export class MonitoringSettingsImpl implements MonitoringSettings {
   get(
     resourceGroupName: string,
     serviceName: string,
-    options?: MonitoringSettingsGetOptionalParams,
-  ): Promise<MonitoringSettingsGetResponse> {
+    options?: EurekaServersGetOptionalParams,
+  ): Promise<EurekaServersGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, options },
       getOperationSpec,
@@ -58,28 +78,28 @@ export class MonitoringSettingsImpl implements MonitoringSettings {
   }
 
   /**
-   * Update the Monitoring Setting.
+   * Update the eureka server settings.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param monitoringSettingResource Parameters for the update operation
+   * @param eurekaServerResource Parameters for the update operation
    * @param options The options parameters.
    */
   async beginUpdatePut(
     resourceGroupName: string,
     serviceName: string,
-    monitoringSettingResource: MonitoringSettingResource,
-    options?: MonitoringSettingsUpdatePutOptionalParams,
+    eurekaServerResource: EurekaServerResource,
+    options?: EurekaServersUpdatePutOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<MonitoringSettingsUpdatePutResponse>,
-      MonitoringSettingsUpdatePutResponse
+      OperationState<EurekaServersUpdatePutResponse>,
+      EurekaServersUpdatePutResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<MonitoringSettingsUpdatePutResponse> => {
+    ): Promise<EurekaServersUpdatePutResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -116,71 +136,67 @@ export class MonitoringSettingsImpl implements MonitoringSettings {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: {
-        resourceGroupName,
-        serviceName,
-        monitoringSettingResource,
-        options,
-      },
+      args: { resourceGroupName, serviceName, eurekaServerResource, options },
       spec: updatePutOperationSpec,
     });
     const poller = await createHttpPoller<
-      MonitoringSettingsUpdatePutResponse,
-      OperationState<MonitoringSettingsUpdatePutResponse>
+      EurekaServersUpdatePutResponse,
+      OperationState<EurekaServersUpdatePutResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Update the Monitoring Setting.
+   * Update the eureka server settings.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param monitoringSettingResource Parameters for the update operation
+   * @param eurekaServerResource Parameters for the update operation
    * @param options The options parameters.
    */
   async beginUpdatePutAndWait(
     resourceGroupName: string,
     serviceName: string,
-    monitoringSettingResource: MonitoringSettingResource,
-    options?: MonitoringSettingsUpdatePutOptionalParams,
-  ): Promise<MonitoringSettingsUpdatePutResponse> {
+    eurekaServerResource: EurekaServerResource,
+    options?: EurekaServersUpdatePutOptionalParams,
+  ): Promise<EurekaServersUpdatePutResponse> {
     const poller = await this.beginUpdatePut(
       resourceGroupName,
       serviceName,
-      monitoringSettingResource,
+      eurekaServerResource,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Update the Monitoring Setting.
+   * Update the eureka server settings.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param monitoringSettingResource Parameters for the update operation
+   * @param eurekaServerResource Parameters for the update operation
    * @param options The options parameters.
    */
   async beginUpdatePatch(
     resourceGroupName: string,
     serviceName: string,
-    monitoringSettingResource: MonitoringSettingResource,
-    options?: MonitoringSettingsUpdatePatchOptionalParams,
+    eurekaServerResource: EurekaServerResource,
+    options?: EurekaServersUpdatePatchOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<MonitoringSettingsUpdatePatchResponse>,
-      MonitoringSettingsUpdatePatchResponse
+      OperationState<EurekaServersUpdatePatchResponse>,
+      EurekaServersUpdatePatchResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<MonitoringSettingsUpdatePatchResponse> => {
+    ): Promise<EurekaServersUpdatePatchResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -217,43 +233,39 @@ export class MonitoringSettingsImpl implements MonitoringSettings {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: {
-        resourceGroupName,
-        serviceName,
-        monitoringSettingResource,
-        options,
-      },
+      args: { resourceGroupName, serviceName, eurekaServerResource, options },
       spec: updatePatchOperationSpec,
     });
     const poller = await createHttpPoller<
-      MonitoringSettingsUpdatePatchResponse,
-      OperationState<MonitoringSettingsUpdatePatchResponse>
+      EurekaServersUpdatePatchResponse,
+      OperationState<EurekaServersUpdatePatchResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Update the Monitoring Setting.
+   * Update the eureka server settings.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param monitoringSettingResource Parameters for the update operation
+   * @param eurekaServerResource Parameters for the update operation
    * @param options The options parameters.
    */
   async beginUpdatePatchAndWait(
     resourceGroupName: string,
     serviceName: string,
-    monitoringSettingResource: MonitoringSettingResource,
-    options?: MonitoringSettingsUpdatePatchOptionalParams,
-  ): Promise<MonitoringSettingsUpdatePatchResponse> {
+    eurekaServerResource: EurekaServerResource,
+    options?: EurekaServersUpdatePatchOptionalParams,
+  ): Promise<EurekaServersUpdatePatchResponse> {
     const poller = await this.beginUpdatePatch(
       resourceGroupName,
       serviceName,
-      monitoringSettingResource,
+      eurekaServerResource,
       options,
     );
     return poller.pollUntilDone();
@@ -262,12 +274,33 @@ export class MonitoringSettingsImpl implements MonitoringSettings {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/monitoringSettings/default",
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/eurekaServers",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MonitoringSettingResource,
+      bodyMapper: Mappers.EurekaServerResourceCollection,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/eurekaServers/default",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.EurekaServerResource,
     },
     default: {
       bodyMapper: Mappers.CloudError,
@@ -284,26 +317,26 @@ const getOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const updatePutOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/monitoringSettings/default",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/eurekaServers/default",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.MonitoringSettingResource,
+      bodyMapper: Mappers.EurekaServerResource,
     },
     201: {
-      bodyMapper: Mappers.MonitoringSettingResource,
+      bodyMapper: Mappers.EurekaServerResource,
     },
     202: {
-      bodyMapper: Mappers.MonitoringSettingResource,
+      bodyMapper: Mappers.EurekaServerResource,
     },
     204: {
-      bodyMapper: Mappers.MonitoringSettingResource,
+      bodyMapper: Mappers.EurekaServerResource,
     },
     default: {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.monitoringSettingResource,
+  requestBody: Parameters.eurekaServerResource,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -316,26 +349,26 @@ const updatePutOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const updatePatchOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/monitoringSettings/default",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/eurekaServers/default",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.MonitoringSettingResource,
+      bodyMapper: Mappers.EurekaServerResource,
     },
     201: {
-      bodyMapper: Mappers.MonitoringSettingResource,
+      bodyMapper: Mappers.EurekaServerResource,
     },
     202: {
-      bodyMapper: Mappers.MonitoringSettingResource,
+      bodyMapper: Mappers.EurekaServerResource,
     },
     204: {
-      bodyMapper: Mappers.MonitoringSettingResource,
+      bodyMapper: Mappers.EurekaServerResource,
     },
     default: {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.monitoringSettingResource,
+  requestBody: Parameters.eurekaServerResource,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
