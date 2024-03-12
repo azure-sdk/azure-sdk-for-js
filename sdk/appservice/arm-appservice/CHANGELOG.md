@@ -1,15 +1,27 @@
 # Release History
+    
+## 15.0.0 (2024-03-12)
+    
+**Features**
 
-## 14.1.1 (Unreleased)
+  - Added Type Alias AzureStorageProtocol
+  - Interface AzureStorageInfoValue has a new optional parameter protocol
+  - Added Enum KnownAzureStorageProtocol
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Operation AppServiceEnvironments.beginApproveOrRejectPrivateEndpointConnection has a new signature
+  - Operation AppServiceEnvironments.beginApproveOrRejectPrivateEndpointConnectionAndWait has a new signature
+  - Operation StaticSites.beginApproveOrRejectPrivateEndpointConnection has a new signature
+  - Operation StaticSites.beginApproveOrRejectPrivateEndpointConnectionAndWait has a new signature
+  - Operation WebApps.beginApproveOrRejectPrivateEndpointConnection has a new signature
+  - Operation WebApps.beginApproveOrRejectPrivateEndpointConnectionAndWait has a new signature
+  - Operation WebApps.beginApproveOrRejectPrivateEndpointConnectionSlot has a new signature
+  - Operation WebApps.beginApproveOrRejectPrivateEndpointConnectionSlotAndWait has a new signature
+  - Interface WebSiteManagementClientOptionalParams no longer has parameter apiVersion
+  - Class WebSiteManagementClient no longer has parameter apiVersion
+    
+    
 ## 14.1.0 (2023-11-16)
     
 **Features**
