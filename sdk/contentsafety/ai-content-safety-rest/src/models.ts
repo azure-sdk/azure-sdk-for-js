@@ -14,9 +14,21 @@ export interface AnalyzeTextOptions {
   /**
    * This refers to the type of text analysis output. If no value is assigned, the default value will be "FourSeverityLevels".
    *
-   * Possible values: FourSeverityLevels, EightSeverityLevels
+   * Possible values: "FourSeverityLevels", "EightSeverityLevels"
    */
   outputType?: string;
+}
+
+/** The text jailbreak analysis request. */
+export interface AnalyzeTextJailbreakOptions {
+  /** The text needs to be analyzed if it attempt to jailbreak. We support a maximum of 1k Unicode characters (Unicode code points) in the text of one request. */
+  text: string;
+}
+
+/** The protected material analysis request. */
+export interface AnalyzeTextProtectedMaterialOptions {
+  /** The text needs to be analyzed. We support a maximum of 1k Unicode characters (Unicode code points) in the text of one request. */
+  text: string;
 }
 
 /** The image analysis request. */
@@ -28,7 +40,7 @@ export interface AnalyzeImageOptions {
   /**
    * This refers to the type of image analysis output. If no value is assigned, the default value will be "FourSeverityLevels".
    *
-   * Possible values: FourSeverityLevels
+   * Possible values: "FourSeverityLevels"
    */
   outputType?: string;
 }
