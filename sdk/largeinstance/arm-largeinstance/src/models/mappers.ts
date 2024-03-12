@@ -234,6 +234,7 @@ export const AzureLargeInstanceListResult: coreClient.CompositeMapper = {
       },
       nextLink: {
         serializedName: "nextLink",
+        readOnly: true,
         type: {
           name: "String",
         },
@@ -579,6 +580,7 @@ export const AzureLargeStorageInstanceListResult: coreClient.CompositeMapper = {
       },
       nextLink: {
         serializedName: "nextLink",
+        readOnly: true,
         type: {
           name: "String",
         },
@@ -885,16 +887,16 @@ export const AzureLargeInstanceRestartHeaders: coreClient.CompositeMapper = {
     name: "Composite",
     className: "AzureLargeInstanceRestartHeaders",
     modelProperties: {
-      retryAfter: {
-        serializedName: "retry-after",
-        type: {
-          name: "Number",
-        },
-      },
       location: {
         serializedName: "location",
         type: {
           name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },
@@ -906,16 +908,16 @@ export const AzureLargeInstanceShutdownHeaders: coreClient.CompositeMapper = {
     name: "Composite",
     className: "AzureLargeInstanceShutdownHeaders",
     modelProperties: {
-      retryAfter: {
-        serializedName: "retry-after",
-        type: {
-          name: "Number",
-        },
-      },
       location: {
         serializedName: "location",
         type: {
           name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },
@@ -927,16 +929,16 @@ export const AzureLargeInstanceStartHeaders: coreClient.CompositeMapper = {
     name: "Composite",
     className: "AzureLargeInstanceStartHeaders",
     modelProperties: {
-      retryAfter: {
-        serializedName: "retry-after",
-        type: {
-          name: "Number",
-        },
-      },
       location: {
         serializedName: "location",
         type: {
           name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },

@@ -125,8 +125,11 @@ export interface ErrorAdditionalInfo {
 export interface AzureLargeInstanceListResult {
   /** The AzureLargeInstance items on this page */
   value: AzureLargeInstance[];
-  /** The link to the next page of items */
-  nextLink?: string;
+  /**
+   * The link to the next page of items
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
 }
 
 /** Describes the properties of an Azure Large Instance. */
@@ -293,8 +296,11 @@ export interface SystemData {
 export interface AzureLargeStorageInstanceListResult {
   /** The AzureLargeStorageInstance items on this page */
   value: AzureLargeStorageInstance[];
-  /** The link to the next page of items */
-  nextLink?: string;
+  /**
+   * The link to the next page of items
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
 }
 
 /** Describes the properties of an AzureLargeStorageInstance. */
@@ -414,26 +420,26 @@ export interface AzureLargeStorageInstance extends TrackedResource {
 
 /** Defines headers for AzureLargeInstance_restart operation. */
 export interface AzureLargeInstanceRestartHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for AzureLargeInstance_shutdown operation. */
 export interface AzureLargeInstanceShutdownHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for AzureLargeInstance_start operation. */
 export interface AzureLargeInstanceStartHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Known values of {@link Origin} that the service accepts. */
