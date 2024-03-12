@@ -125,8 +125,11 @@ export interface ErrorAdditionalInfo {
 export interface FleetListResult {
   /** The Fleet items on this page */
   value: Fleet[];
-  /** The link to the next page of items */
-  nextLink?: string;
+  /**
+   * The link to the next page of items
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
 }
 
 /** Managed service identity (system assigned and/or user assigned identities) */
@@ -236,8 +239,11 @@ export interface FleetCredentialResult {
 export interface FleetMemberListResult {
   /** The FleetMember items on this page */
   value: FleetMember[];
-  /** The link to the next page of items */
-  nextLink?: string;
+  /**
+   * The link to the next page of items
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
 }
 
 /** The type used for update operations of the FleetMember. */
@@ -250,8 +256,11 @@ export interface FleetMemberUpdate {
 export interface UpdateRunListResult {
   /** The UpdateRun items on this page */
   value: UpdateRun[];
-  /** The link to the next page of items */
-  nextLink?: string;
+  /**
+   * The link to the next page of items
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
 }
 
 /**
@@ -464,8 +473,11 @@ export interface NodeImageVersion {
 export interface FleetUpdateStrategyListResult {
   /** The FleetUpdateStrategy items on this page */
   value: FleetUpdateStrategy[];
-  /** The link to the next page of items */
-  nextLink?: string;
+  /**
+   * The link to the next page of items
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
 }
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
@@ -601,10 +613,10 @@ export interface FleetMembersCreateHeaders {
 
 /** Defines headers for FleetMembers_update operation. */
 export interface FleetMembersUpdateHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for FleetMembers_delete operation. */
@@ -666,7 +678,7 @@ export enum KnownOrigin {
   /** System */
   System = "system",
   /** UserSystem */
-  UserSystem = "user,system"
+  UserSystem = "user,system",
 }
 
 /**
@@ -683,7 +695,7 @@ export type Origin = string;
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
   /** Internal */
-  Internal = "Internal"
+  Internal = "Internal",
 }
 
 /**
@@ -708,7 +720,7 @@ export enum KnownFleetProvisioningState {
   /** The provisioning state of a fleet being updated. */
   Updating = "Updating",
   /** The provisioning state of a fleet being deleted. */
-  Deleting = "Deleting"
+  Deleting = "Deleting",
 }
 
 /**
@@ -734,7 +746,7 @@ export enum KnownManagedServiceIdentityType {
   /** UserAssigned */
   UserAssigned = "UserAssigned",
   /** SystemAssignedUserAssigned */
-  SystemAssignedUserAssigned = "SystemAssigned, UserAssigned"
+  SystemAssignedUserAssigned = "SystemAssigned, UserAssigned",
 }
 
 /**
@@ -758,7 +770,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -786,7 +798,7 @@ export enum KnownFleetMemberProvisioningState {
   /** The provisioning state of a member leaving a fleet. */
   Leaving = "Leaving",
   /** The provisioning state of a member being updated. */
-  Updating = "Updating"
+  Updating = "Updating",
 }
 
 /**
@@ -810,7 +822,7 @@ export enum KnownUpdateRunProvisioningState {
   /** Resource creation failed. */
   Failed = "Failed",
   /** Resource creation was canceled. */
-  Canceled = "Canceled"
+  Canceled = "Canceled",
 }
 
 /**
@@ -829,7 +841,7 @@ export enum KnownManagedClusterUpgradeType {
   /** Full upgrades the control plane and all agent pools of the target ManagedClusters. */
   Full = "Full",
   /** NodeImageOnly upgrades only the node images of the target ManagedClusters. */
-  NodeImageOnly = "NodeImageOnly"
+  NodeImageOnly = "NodeImageOnly",
 }
 
 /**
@@ -847,7 +859,7 @@ export enum KnownNodeImageSelectionType {
   /** Use the latest image version when upgrading nodes. Clusters may use different image versions (e.g., 'AKSUbuntu-1804gen2containerd-2021.10.12' and 'AKSUbuntu-1804gen2containerd-2021.10.19') because, for example, the latest available version is different in different regions. */
   Latest = "Latest",
   /** The image versions to upgrade nodes to are selected as described below: for each node pool in managed clusters affected by the update run, the system selects the latest image version such that it is available across all other node pools (in all other clusters) of the same image type. As a result, all node pools of the same image type will be upgraded to the same image version. For example, if the latest image version for image type 'AKSUbuntu-1804gen2containerd' is 'AKSUbuntu-1804gen2containerd-2021.10.12' for a node pool in cluster A in region X, and is 'AKSUbuntu-1804gen2containerd-2021.10.17' for a node pool in cluster B in region Y, the system will upgrade both node pools to image version 'AKSUbuntu-1804gen2containerd-2021.10.12'. */
-  Consistent = "Consistent"
+  Consistent = "Consistent",
 }
 
 /**
@@ -875,7 +887,7 @@ export enum KnownUpdateState {
   /** The state of an UpdateRun\/UpdateStage\/UpdateGroup\/MemberUpdate that has failed. */
   Failed = "Failed",
   /** The state of an UpdateRun\/UpdateStage\/UpdateGroup\/MemberUpdate that has completed. */
-  Completed = "Completed"
+  Completed = "Completed",
 }
 
 /**
@@ -900,7 +912,7 @@ export enum KnownFleetUpdateStrategyProvisioningState {
   /** Resource creation failed. */
   Failed = "Failed",
   /** Resource creation was canceled. */
-  Canceled = "Canceled"
+  Canceled = "Canceled",
 }
 
 /**
@@ -1153,7 +1165,8 @@ export interface FleetUpdateStrategiesListByFleetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByFleet operation. */
-export type FleetUpdateStrategiesListByFleetResponse = FleetUpdateStrategyListResult;
+export type FleetUpdateStrategiesListByFleetResponse =
+  FleetUpdateStrategyListResult;
 
 /** Optional parameters. */
 export interface FleetUpdateStrategiesGetOptionalParams
@@ -1194,7 +1207,8 @@ export interface FleetUpdateStrategiesListByFleetNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByFleetNext operation. */
-export type FleetUpdateStrategiesListByFleetNextResponse = FleetUpdateStrategyListResult;
+export type FleetUpdateStrategiesListByFleetNextResponse =
+  FleetUpdateStrategyListResult;
 
 /** Optional parameters. */
 export interface ContainerServiceFleetClientOptionalParams
