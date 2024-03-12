@@ -538,21 +538,21 @@ export type Versions = string;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type OperationsListResponse = OperationListResult;
 
 /** Optional parameters. */
 export interface OperationsListNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type OperationsListNextResponse = OperationListResult;
 
 /** Optional parameters. */
 export interface OrganizationsListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
 export type OrganizationsListBySubscriptionResponse =
@@ -560,7 +560,7 @@ export type OrganizationsListBySubscriptionResponse =
 
 /** Optional parameters. */
 export interface OrganizationsListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
 export type OrganizationsListByResourceGroupResponse =
@@ -568,7 +568,7 @@ export type OrganizationsListByResourceGroupResponse =
 
 /** Optional parameters. */
 export interface OrganizationsGetOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type OrganizationsGetResponse = OrganizationResource;
@@ -611,7 +611,7 @@ export type OrganizationsDeleteResponse = OrganizationsDeleteHeaders;
 
 /** Optional parameters. */
 export interface OrganizationsListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type OrganizationsListBySubscriptionNextResponse =
@@ -619,7 +619,7 @@ export type OrganizationsListBySubscriptionNextResponse =
 
 /** Optional parameters. */
 export interface OrganizationsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type OrganizationsListByResourceGroupNextResponse =
