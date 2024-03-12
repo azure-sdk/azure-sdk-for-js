@@ -98,17 +98,23 @@ export interface AnalyzeImageDefaultResponse extends HttpResponse {
 
 // @public
 export interface AnalyzeImageOptions {
-    categories?: string[];
+    categories?: ImageCategory[];
     image: ImageData_2;
-    outputType?: string;
+    outputType?: AnalyzeImageOutputType;
 }
 
 // @public
 export interface AnalyzeImageOptionsOutput {
-    categories?: string[];
+    categories?: ImageCategoryOutput[];
     image: ImageDataOutput;
-    outputType?: string;
+    outputType?: AnalyzeImageOutputTypeOutput;
 }
+
+// @public
+export type AnalyzeImageOutputType = string | "FourSeverityLevels";
+
+// @public
+export type AnalyzeImageOutputTypeOutput = string | "FourSeverityLevels";
 
 // @public (undocumented)
 export type AnalyzeImageParameters = AnalyzeImageBodyParam & RequestParameters;
@@ -152,25 +158,61 @@ export interface AnalyzeTextDefaultResponse extends HttpResponse {
 }
 
 // @public
+export interface AnalyzeTextJailbreakOptions {
+    text: string;
+}
+
+// @public
+export interface AnalyzeTextJailbreakOptionsOutput {
+    text: string;
+}
+
+// @public
+export interface AnalyzeTextJailbreakResultOutput {
+    jailbreakAnalysis: JailbreakAnalysisResultOutput;
+}
+
+// @public
 export interface AnalyzeTextOptions {
     blocklistNames?: string[];
-    categories?: string[];
+    categories?: TextCategory[];
     haltOnBlocklistHit?: boolean;
-    outputType?: string;
+    outputType?: AnalyzeTextOutputType;
     text: string;
 }
 
 // @public
 export interface AnalyzeTextOptionsOutput {
     blocklistNames?: string[];
-    categories?: string[];
+    categories?: TextCategoryOutput[];
     haltOnBlocklistHit?: boolean;
-    outputType?: string;
+    outputType?: AnalyzeTextOutputTypeOutput;
     text: string;
 }
 
+// @public
+export type AnalyzeTextOutputType = string | "FourSeverityLevels" | "EightSeverityLevels";
+
+// @public
+export type AnalyzeTextOutputTypeOutput = string | "FourSeverityLevels" | "EightSeverityLevels";
+
 // @public (undocumented)
 export type AnalyzeTextParameters = AnalyzeTextBodyParam & RequestParameters;
+
+// @public
+export interface AnalyzeTextProtectedMaterialOptions {
+    text: string;
+}
+
+// @public
+export interface AnalyzeTextProtectedMaterialOptionsOutput {
+    text: string;
+}
+
+// @public
+export interface AnalyzeTextProtectedMaterialResultOutput {
+    protectedMaterialAnalysis: ProtectedMaterialAnalysisResultOutput;
+}
 
 // @public
 export interface AnalyzeTextResultOutput {
@@ -255,6 +297,78 @@ export interface DeleteTextBlocklistDefaultResponse extends HttpResponse {
 // @public (undocumented)
 export type DeleteTextBlocklistParameters = RequestParameters;
 
+// @public (undocumented)
+export interface DetectTextJailbreak {
+    post(options: DetectTextJailbreakParameters): StreamableMethod<DetectTextJailbreak200Response | DetectTextJailbreakDefaultResponse>;
+}
+
+// @public
+export interface DetectTextJailbreak200Response extends HttpResponse {
+    // (undocumented)
+    body: AnalyzeTextJailbreakResultOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface DetectTextJailbreakBodyParam {
+    body: AnalyzeTextJailbreakOptions;
+}
+
+// @public (undocumented)
+export interface DetectTextJailbreakDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface DetectTextJailbreakDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & DetectTextJailbreakDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type DetectTextJailbreakParameters = DetectTextJailbreakBodyParam & RequestParameters;
+
+// @public (undocumented)
+export interface DetectTextProtectedMaterial {
+    post(options: DetectTextProtectedMaterialParameters): StreamableMethod<DetectTextProtectedMaterial200Response | DetectTextProtectedMaterialDefaultResponse>;
+}
+
+// @public
+export interface DetectTextProtectedMaterial200Response extends HttpResponse {
+    // (undocumented)
+    body: AnalyzeTextProtectedMaterialResultOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface DetectTextProtectedMaterialBodyParam {
+    body: AnalyzeTextProtectedMaterialOptions;
+}
+
+// @public (undocumented)
+export interface DetectTextProtectedMaterialDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface DetectTextProtectedMaterialDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & DetectTextProtectedMaterialDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type DetectTextProtectedMaterialParameters = DetectTextProtectedMaterialBodyParam & RequestParameters;
+
 // @public
 export type GetArrayType<T> = T extends Array<infer TData> ? TData : never;
 
@@ -330,9 +444,15 @@ export type GetTextBlocklistParameters = RequestParameters;
 
 // @public
 export interface ImageCategoriesAnalysisOutput {
-    category: string;
+    category: ImageCategoryOutput;
     severity?: number;
 }
+
+// @public
+export type ImageCategory = string | "Hate" | "SelfHarm" | "Sexual" | "Violence";
+
+// @public
+export type ImageCategoryOutput = string | "Hate" | "SelfHarm" | "Sexual" | "Violence";
 
 // @public
 interface ImageData_2 {
@@ -349,6 +469,12 @@ export interface ImageDataOutput {
 
 // @public (undocumented)
 export function isUnexpected(response: AnalyzeText200Response | AnalyzeTextDefaultResponse): response is AnalyzeTextDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: DetectTextJailbreak200Response | DetectTextJailbreakDefaultResponse): response is DetectTextJailbreakDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: DetectTextProtectedMaterial200Response | DetectTextProtectedMaterialDefaultResponse): response is DetectTextProtectedMaterialDefaultResponse;
 
 // @public (undocumented)
 export function isUnexpected(response: AnalyzeImage200Response | AnalyzeImageDefaultResponse): response is AnalyzeImageDefaultResponse;
@@ -376,6 +502,11 @@ export function isUnexpected(response: GetTextBlocklistItem200Response | GetText
 
 // @public (undocumented)
 export function isUnexpected(response: ListTextBlocklistItems200Response | ListTextBlocklistItemsDefaultResponse): response is ListTextBlocklistItemsDefaultResponse;
+
+// @public
+export interface JailbreakAnalysisResultOutput {
+    detected: boolean;
+}
 
 // @public (undocumented)
 export interface ListTextBlocklistItems {
@@ -473,6 +604,11 @@ export interface PagingOptions<TResponse> {
     customGetPage?: GetPage<PaginateReturn<TResponse>[]>;
 }
 
+// @public
+export interface ProtectedMaterialAnalysisResultOutput {
+    detected: boolean;
+}
+
 // @public (undocumented)
 export interface RemoveBlocklistItems {
     post(options: RemoveBlocklistItemsParameters): StreamableMethod<RemoveBlocklistItems204Response | RemoveBlocklistItemsDefaultResponse>;
@@ -515,6 +651,8 @@ export interface RemoveTextBlocklistItemsOptions {
 // @public (undocumented)
 export interface Routes {
     (path: "/text:analyze"): AnalyzeText;
+    (path: "/text:detectJailbreak"): DetectTextJailbreak;
+    (path: "/text:detectProtectedMaterial"): DetectTextProtectedMaterial;
     (path: "/image:analyze"): AnalyzeImage;
     (path: "/text/blocklists/{blocklistName}", blocklistName: string): GetTextBlocklist;
     (path: "/text/blocklists"): ListTextBlocklists;
@@ -561,9 +699,15 @@ export type TextBlocklistResourceMergeAndPatch = Partial<TextBlocklist>;
 
 // @public
 export interface TextCategoriesAnalysisOutput {
-    category: string;
+    category: TextCategoryOutput;
     severity?: number;
 }
+
+// @public
+export type TextCategory = string | "Hate" | "SelfHarm" | "Sexual" | "Violence";
+
+// @public
+export type TextCategoryOutput = string | "Hate" | "SelfHarm" | "Sexual" | "Violence";
 
 // (No @packageDocumentation comment for this package)
 
