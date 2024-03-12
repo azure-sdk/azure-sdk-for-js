@@ -6,28 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  CommunityGalleryImage,
-  CommunityGalleryImagesListOptionalParams,
   CommunityGalleryImagesGetOptionalParams,
-  CommunityGalleryImagesGetResponse
+  CommunityGalleryImagesGetResponse,
 } from "../models";
 
-/// <reference lib="esnext.asynciterable" />
 /** Interface representing a CommunityGalleryImages. */
 export interface CommunityGalleryImages {
-  /**
-   * List community gallery images inside a gallery.
-   * @param location Resource location.
-   * @param publicGalleryName The public name of the community gallery.
-   * @param options The options parameters.
-   */
-  list(
-    location: string,
-    publicGalleryName: string,
-    options?: CommunityGalleryImagesListOptionalParams
-  ): PagedAsyncIterableIterator<CommunityGalleryImage>;
   /**
    * Get a community gallery image.
    * @param location Resource location.
@@ -39,6 +24,6 @@ export interface CommunityGalleryImages {
     location: string,
     publicGalleryName: string,
     galleryImageName: string,
-    options?: CommunityGalleryImagesGetOptionalParams
+    options?: CommunityGalleryImagesGetOptionalParams,
   ): Promise<CommunityGalleryImagesGetResponse>;
 }

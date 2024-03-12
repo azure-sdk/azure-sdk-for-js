@@ -1,15 +1,283 @@
 # Release History
+    
+## 22.0.0-beta.1 (2024-03-12)
+    
+**Features**
 
-## 21.4.1 (Unreleased)
+  - Added operation group Diagnostics
+  - Added operation group DiskInspection
+  - Added operation group DiskInspectionStorageConfiguration
+  - Added Interface ComputeDiagnosticBase
+  - Added Interface ComputeDiagnosticsList
+  - Added Interface DiagnosticProperties
+  - Added Interface DiagnosticsListNextOptionalParams
+  - Added Interface DiagnosticsListOptionalParams
+  - Added Interface DiskInspectionCreateOptionalParams
+  - Added Interface DiskInspectionGetOptionalParams
+  - Added Interface DiskInspectionStorageConfigurationRegisterOptionalParams
+  - Added Interface DiskInspectionStorageConfigurationValidateOptionalParams
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface LoadBalancerFrontendIPConfiguration
+  - Added Interface LoadBalancerFrontendIPConfigurationProperties
+  - Added Interface RunDiskInspectionAsyncOperationResult
+  - Added Interface RunDiskInspectionInput
+  - Added Interface StorageConfigurationInput
+  - Added Interface StorageConfigurationResponse
+  - Added Interface VirtualMachineScaleSetIdentityUserAssignedIdentitiesValue
+  - Added Type Alias DiagnosticsListNextResponse
+  - Added Type Alias DiagnosticsListResponse
+  - Added Type Alias DiskInspectionCreateResponse
+  - Added Type Alias DiskInspectionGetResponse
+  - Added Type Alias DiskInspectionStorageConfigurationValidateResponse
+  - Added Type Alias GalleryApplicationVersionPropertiesProvisioningState
+  - Added Type Alias GalleryImagePropertiesProvisioningState
+  - Added Type Alias GalleryImageVersionPropertiesProvisioningState
+  - Added Type Alias GalleryPropertiesProvisioningState
+  - Added Type Alias ResultStatus
+  - Interface GalleryArtifactVersionSource has a new optional parameter uri
+  - Added Enum KnownGalleryApplicationVersionPropertiesProvisioningState
+  - Added Enum KnownGalleryImagePropertiesProvisioningState
+  - Added Enum KnownGalleryImageVersionPropertiesProvisioningState
+  - Added Enum KnownGalleryPropertiesProvisioningState
+  - Added Enum KnownResultStatus
+  - Enum KnownSharingProfileGroupTypes has a new value Community
+  - Enum KnownStorageAccountType has a new value StandardSSDLRS
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation CommunityGalleryImages.list
+  - Removed operation CommunityGalleryImageVersions.list
+  - Removed operation DedicatedHosts.beginRedeploy
+  - Removed operation DedicatedHosts.beginRedeployAndWait
+  - Removed operation DedicatedHosts.listAvailableSizes
+  - Removed operation VirtualMachineImages.listByEdgeZone
+  - Removed operation VirtualMachines.beginAttachDetachDataDisks
+  - Removed operation VirtualMachines.beginAttachDetachDataDisksAndWait
+  - Removed operation VirtualMachineScaleSets.beginApproveRollingUpgrade
+  - Removed operation VirtualMachineScaleSets.beginApproveRollingUpgradeAndWait
+  - Removed operation VirtualMachineScaleSets.beginReapply
+  - Removed operation VirtualMachineScaleSets.beginReapplyAndWait
+  - Removed operation VirtualMachineScaleSetVMs.beginApproveRollingUpgrade
+  - Removed operation VirtualMachineScaleSetVMs.beginApproveRollingUpgradeAndWait
+  - Removed operation VirtualMachineScaleSetVMs.beginAttachDetachDataDisks
+  - Removed operation VirtualMachineScaleSetVMs.beginAttachDetachDataDisksAndWait
+  - Interface AutomaticOSUpgradePolicy no longer has parameter osRollingUpgradeDeferral
+  - Interface AutomaticOSUpgradePolicy no longer has parameter useRollingUpgradePolicy
+  - Interface CapacityReservation no longer has parameter platformFaultDomainCount
+  - Interface CapacityReservationGroup no longer has parameter sharingProfile
+  - Interface CapacityReservationGroupInstanceView no longer has parameter sharedSubscriptionIds
+  - Interface CapacityReservationGroupUpdate no longer has parameter sharingProfile
+  - Interface CapacityReservationUpdate no longer has parameter platformFaultDomainCount
+  - Interface CapacityReservationUtilization no longer has parameter currentCapacity
+  - Interface CloudService no longer has parameter systemData
+  - Interface CloudService no longer has parameter zones
+  - Interface CloudServiceNetworkProfile no longer has parameter slotType
+  - Interface CommunityGallery no longer has parameter artifactTags
+  - Interface CommunityGallery no longer has parameter communityMetadata
+  - Interface CommunityGallery no longer has parameter disclaimer
+  - Interface CommunityGalleryImage no longer has parameter architecture
+  - Interface CommunityGalleryImage no longer has parameter artifactTags
+  - Interface CommunityGalleryImage no longer has parameter disclaimer
+  - Interface CommunityGalleryImage no longer has parameter eula
+  - Interface CommunityGalleryImage no longer has parameter privacyStatementUri
+  - Interface CommunityGalleryImageVersion no longer has parameter artifactTags
+  - Interface CommunityGalleryImageVersion no longer has parameter disclaimer
+  - Interface CommunityGalleryImageVersion no longer has parameter excludeFromLatest
+  - Interface CommunityGalleryImageVersion no longer has parameter storageProfile
+  - Interface CreationData no longer has parameter elasticSanResourceId
+  - Interface CreationData no longer has parameter performancePlus
+  - Interface CreationData no longer has parameter provisionedBandwidthCopySpeed
+  - Interface DedicatedHostGroup no longer has parameter additionalCapabilities
+  - Interface DedicatedHostGroupUpdate no longer has parameter additionalCapabilities
+  - Interface DedicatedHostUpdate no longer has parameter sku
+  - Interface Disk no longer has parameter burstingEnabledTime
+  - Interface Disk no longer has parameter lastOwnershipUpdateTime
+  - Interface Disk no longer has parameter optimizedForFrequentAttach
+  - Interface DiskEncryptionSet no longer has parameter federatedClientId
+  - Interface DiskEncryptionSetUpdate no longer has parameter federatedClientId
+  - Interface DiskRestorePoint no longer has parameter securityProfile
+  - Interface DiskRestorePointReplicationStatus no longer has parameter completionPercent
+  - Interface DiskUpdate no longer has parameter optimizedForFrequentAttach
+  - Interface EncryptionSetIdentity no longer has parameter userAssignedIdentities
+  - Interface GalleryApplication no longer has parameter customActions
+  - Interface GalleryApplicationUpdate no longer has parameter customActions
+  - Interface GalleryApplicationVersion no longer has parameter safetyProfile
+  - Interface GalleryApplicationVersionPublishingProfile no longer has parameter advancedSettings
+  - Interface GalleryApplicationVersionPublishingProfile no longer has parameter customActions
+  - Interface GalleryApplicationVersionPublishingProfile no longer has parameter settings
+  - Interface GalleryApplicationVersionUpdate no longer has parameter safetyProfile
+  - Interface GalleryImageVersion no longer has parameter safetyProfile
+  - Interface GalleryImageVersion no longer has parameter securityProfile
+  - Interface GalleryImageVersionUpdate no longer has parameter safetyProfile
+  - Interface GalleryImageVersionUpdate no longer has parameter securityProfile
+  - Interface GrantAccessData no longer has parameter fileFormat
+  - Interface ImageDiskReference no longer has parameter communityGalleryImageId
+  - Interface ImageDiskReference no longer has parameter sharedGalleryImageId
+  - Interface LinuxConfiguration no longer has parameter enableVMAgentPlatformUpdates
+  - Interface LinuxPatchSettings no longer has parameter automaticByPlatformSettings
+  - Interface LoadBalancerConfigurationProperties no longer has parameter frontendIpConfigurations
+  - Interface PatchSettings no longer has parameter automaticByPlatformSettings
+  - Interface ProximityPlacementGroup no longer has parameter intent
+  - Interface ProximityPlacementGroup no longer has parameter zones
+  - Interface RestorePointSourceMetadata no longer has parameter hyperVGeneration
+  - Interface RestorePointSourceMetadata no longer has parameter userData
+  - Interface RestorePointSourceVMDataDisk no longer has parameter writeAcceleratorEnabled
+  - Interface RestorePointSourceVmosDisk no longer has parameter writeAcceleratorEnabled
+  - Interface RestorePointSourceVMStorageProfile no longer has parameter diskControllerType
+  - Interface RollingUpgradePolicy no longer has parameter maxSurge
+  - Interface RollingUpgradePolicy no longer has parameter rollbackFailedInstancesOnPolicyBreach
+  - Interface ScheduledEventsProfile no longer has parameter osImageNotificationProfile
+  - Interface SecurityProfile no longer has parameter encryptionIdentity
+  - Interface SecurityProfile no longer has parameter proxyAgentSettings
+  - Interface SharedGallery no longer has parameter artifactTags
+  - Interface SharedGalleryImage no longer has parameter architecture
+  - Interface SharedGalleryImage no longer has parameter artifactTags
+  - Interface SharedGalleryImage no longer has parameter eula
+  - Interface SharedGalleryImage no longer has parameter privacyStatementUri
+  - Interface SharedGalleryImageVersion no longer has parameter artifactTags
+  - Interface SharedGalleryImageVersion no longer has parameter excludeFromLatest
+  - Interface SharedGalleryImageVersion no longer has parameter storageProfile
+  - Interface Snapshot no longer has parameter copyCompletionError
+  - Interface Snapshot no longer has parameter incrementalSnapshotFamilyId
+  - Interface SshPublicKeysGenerateKeyPairOptionalParams no longer has parameter parameters
+  - Interface StorageProfile no longer has parameter diskControllerType
+  - Interface SupportedCapabilities no longer has parameter diskControllerTypes
+  - Interface TargetRegion no longer has parameter excludeFromLatest
+  - Interface VirtualMachine no longer has parameter etag
+  - Interface VirtualMachine no longer has parameter managedBy
+  - Interface VirtualMachineExtension no longer has parameter provisionAfterExtensions
+  - Interface VirtualMachineImage no longer has parameter imageDeprecationStatus
+  - Interface VirtualMachineInstanceView no longer has parameter isVMInStandbyPool
+  - Interface VirtualMachineNetworkInterfaceConfiguration no longer has parameter auxiliaryMode
+  - Interface VirtualMachineNetworkInterfaceConfiguration no longer has parameter auxiliarySku
+  - Interface VirtualMachineNetworkInterfaceConfiguration no longer has parameter disableTcpStateTracking
+  - Interface VirtualMachinePublicIPAddressDnsSettingsConfiguration no longer has parameter domainNameLabelScope
+  - Interface VirtualMachineReimageParameters no longer has parameter exactVersion
+  - Interface VirtualMachineReimageParameters no longer has parameter osProfile
+  - Interface VirtualMachineRunCommand no longer has parameter errorBlobManagedIdentity
+  - Interface VirtualMachineRunCommand no longer has parameter outputBlobManagedIdentity
+  - Interface VirtualMachineRunCommand no longer has parameter treatFailureAsDeploymentFailure
+  - Interface VirtualMachineRunCommandScriptSource no longer has parameter scriptUriManagedIdentity
+  - Interface VirtualMachineRunCommandUpdate no longer has parameter errorBlobManagedIdentity
+  - Interface VirtualMachineRunCommandUpdate no longer has parameter outputBlobManagedIdentity
+  - Interface VirtualMachineRunCommandUpdate no longer has parameter treatFailureAsDeploymentFailure
+  - Interface VirtualMachineScaleSet no longer has parameter constrainedMaximumCapacity
+  - Interface VirtualMachineScaleSet no longer has parameter etag
+  - Interface VirtualMachineScaleSet no longer has parameter priorityMixPolicy
+  - Interface VirtualMachineScaleSet no longer has parameter resiliencyPolicy
+  - Interface VirtualMachineScaleSetDataDisk no longer has parameter deleteOption
+  - Interface VirtualMachineScaleSetNetworkConfiguration no longer has parameter auxiliaryMode
+  - Interface VirtualMachineScaleSetNetworkConfiguration no longer has parameter auxiliarySku
+  - Interface VirtualMachineScaleSetNetworkConfiguration no longer has parameter disableTcpStateTracking
+  - Interface VirtualMachineScaleSetOSDisk no longer has parameter deleteOption
+  - Interface VirtualMachineScaleSetOSProfile no longer has parameter requireGuestProvisionSignal
+  - Interface VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings no longer has parameter domainNameLabelScope
+  - Interface VirtualMachineScaleSetsCreateOrUpdateOptionalParams no longer has parameter ifMatch
+  - Interface VirtualMachineScaleSetsCreateOrUpdateOptionalParams no longer has parameter ifNoneMatch
+  - Interface VirtualMachineScaleSetsDeallocateOptionalParams no longer has parameter hibernate
+  - Interface VirtualMachineScaleSetStorageProfile no longer has parameter diskControllerType
+  - Interface VirtualMachineScaleSetsUpdateOptionalParams no longer has parameter ifMatch
+  - Interface VirtualMachineScaleSetsUpdateOptionalParams no longer has parameter ifNoneMatch
+  - Interface VirtualMachineScaleSetUpdate no longer has parameter priorityMixPolicy
+  - Interface VirtualMachineScaleSetUpdate no longer has parameter resiliencyPolicy
+  - Interface VirtualMachineScaleSetUpdate no longer has parameter spotRestorePolicy
+  - Interface VirtualMachineScaleSetUpdateNetworkConfiguration no longer has parameter auxiliaryMode
+  - Interface VirtualMachineScaleSetUpdateNetworkConfiguration no longer has parameter auxiliarySku
+  - Interface VirtualMachineScaleSetUpdateNetworkConfiguration no longer has parameter disableTcpStateTracking
+  - Interface VirtualMachineScaleSetUpdateOSDisk no longer has parameter deleteOption
+  - Interface VirtualMachineScaleSetUpdateStorageProfile no longer has parameter diskControllerType
+  - Interface VirtualMachineScaleSetUpdateVMProfile no longer has parameter hardwareProfile
+  - Interface VirtualMachineScaleSetVM no longer has parameter etag
+  - Interface VirtualMachineScaleSetVM no longer has parameter identity
+  - Interface VirtualMachineScaleSetVM no longer has parameter timeCreated
+  - Interface VirtualMachineScaleSetVMExtension no longer has parameter location
+  - Interface VirtualMachineScaleSetVMExtension no longer has parameter provisionAfterExtensions
+  - Interface VirtualMachineScaleSetVMInstanceView no longer has parameter computerName
+  - Interface VirtualMachineScaleSetVMInstanceView no longer has parameter hyperVGeneration
+  - Interface VirtualMachineScaleSetVMInstanceView no longer has parameter osName
+  - Interface VirtualMachineScaleSetVMInstanceView no longer has parameter osVersion
+  - Interface VirtualMachineScaleSetVMProfile no longer has parameter securityPostureReference
+  - Interface VirtualMachineScaleSetVMProfile no longer has parameter serviceArtifactReference
+  - Interface VirtualMachineScaleSetVMProfile no longer has parameter timeCreated
+  - Interface VirtualMachineScaleSetVMsUpdateOptionalParams no longer has parameter ifMatch
+  - Interface VirtualMachineScaleSetVMsUpdateOptionalParams no longer has parameter ifNoneMatch
+  - Interface VirtualMachinesCreateOrUpdateOptionalParams no longer has parameter ifMatch
+  - Interface VirtualMachinesCreateOrUpdateOptionalParams no longer has parameter ifNoneMatch
+  - Interface VirtualMachinesListAllOptionalParams no longer has parameter expand
+  - Interface VirtualMachinesListOptionalParams no longer has parameter expand
+  - Interface VirtualMachinesUpdateOptionalParams no longer has parameter ifMatch
+  - Interface VirtualMachinesUpdateOptionalParams no longer has parameter ifNoneMatch
+  - Interface VMGalleryApplication no longer has parameter enableAutomaticUpgrade
+  - Interface VMGalleryApplication no longer has parameter treatFailureAsDeploymentFailure
+  - Interface WindowsConfiguration no longer has parameter enableVMAgentPlatformUpdates
+  - Interface LoadBalancerConfigurationProperties has a new required parameter frontendIPConfigurations
+  - Parameter id of interface ImageDiskReference is now required
+  - Type of parameter protectedSettings of interface CloudServiceExtensionProperties is changed from any to string
+  - Type of parameter settings of interface CloudServiceExtensionProperties is changed from any to string
+  - Type of parameter identifier of interface CommunityGalleryImage is changed from CommunityGalleryImageIdentifier to GalleryImageIdentifier
+  - Type of parameter replicationStatus of interface DiskRestorePointInstanceView is changed from DiskRestorePointReplicationStatus to any
+  - Type of parameter status of interface DiskRestorePointReplicationStatus is changed from InstanceViewStatus to any
+  - Type of parameter provisioningState of interface Gallery is changed from GalleryProvisioningState to GalleryPropertiesProvisioningState
+  - Type of parameter provisioningState of interface GalleryApplicationVersion is changed from GalleryProvisioningState to GalleryApplicationVersionPropertiesProvisioningState
+  - Type of parameter provisioningState of interface GalleryApplicationVersionUpdate is changed from GalleryProvisioningState to GalleryApplicationVersionPropertiesProvisioningState
+  - Type of parameter source of interface GalleryDiskImage is changed from GalleryDiskImageSource to GalleryArtifactVersionSource
+  - Type of parameter provisioningState of interface GalleryImage is changed from GalleryProvisioningState to GalleryImagePropertiesProvisioningState
+  - Type of parameter provisioningState of interface GalleryImageUpdate is changed from GalleryProvisioningState to GalleryImagePropertiesProvisioningState
+  - Type of parameter provisioningState of interface GalleryImageVersion is changed from GalleryProvisioningState to GalleryImageVersionPropertiesProvisioningState
+  - Type of parameter source of interface GalleryImageVersionStorageProfile is changed from GalleryArtifactVersionFullSource to GalleryArtifactVersionSource
+  - Type of parameter provisioningState of interface GalleryImageVersionUpdate is changed from GalleryProvisioningState to GalleryImageVersionPropertiesProvisioningState
+  - Type of parameter storageAccountType of interface GalleryTargetExtendedLocation is changed from EdgeZoneStorageAccountType to StorageAccountType
+  - Type of parameter provisioningState of interface GalleryUpdate is changed from GalleryProvisioningState to GalleryPropertiesProvisioningState
+  - Type of parameter diskRestorePoint of interface RestorePointSourceVMDataDisk is changed from DiskRestorePointAttributes to ApiEntityReference
+  - Type of parameter diskRestorePoint of interface RestorePointSourceVmosDisk is changed from DiskRestorePointAttributes to ApiEntityReference
+  - Type of parameter protectedSettingsFromKeyVault of interface VirtualMachineExtension is changed from KeyVaultSecretReference to any
+  - Type of parameter protectedSettingsFromKeyVault of interface VirtualMachineExtensionUpdate is changed from KeyVaultSecretReference to any
+  - Type of parameter protectedSettingsFromKeyVault of interface VirtualMachineScaleSetExtension is changed from KeyVaultSecretReference to any
+  - Type of parameter protectedSettingsFromKeyVault of interface VirtualMachineScaleSetExtensionUpdate is changed from KeyVaultSecretReference to any
+  - Type of parameter userAssignedIdentities of interface VirtualMachineScaleSetIdentity is changed from {
+        [propertyName: string]: UserAssignedIdentitiesValue;
+    } to {
+        [propertyName: string]: VirtualMachineScaleSetIdentityUserAssignedIdentitiesValue;
+    }
+  - Type of parameter protectedSettingsFromKeyVault of interface VirtualMachineScaleSetVMExtension is changed from KeyVaultSecretReference to any
+  - Type of parameter protectedSettingsFromKeyVault of interface VirtualMachineScaleSetVMExtensionUpdate is changed from KeyVaultSecretReference to any
+  - Removed Enum KnownAlternativeType
+  - Removed Enum KnownCloudServiceSlotType
+  - Removed Enum KnownCopyCompletionErrorReason
+  - Removed Enum KnownDiskControllerTypes
+  - Removed Enum KnownDomainNameLabelScopeTypes
+  - Removed Enum KnownEdgeZoneStorageAccountType
+  - Removed Enum KnownExpandTypeForListVMs
+  - Removed Enum KnownExpandTypesForListVMs
+  - Removed Enum KnownFileFormat
+  - Removed Enum KnownGalleryProvisioningState
+  - Removed Enum KnownImageState
+  - Removed Enum KnownLinuxVMGuestPatchAutomaticByPlatformRebootSetting
+  - Removed Enum KnownMode
+  - Removed Enum KnownNetworkInterfaceAuxiliaryMode
+  - Removed Enum KnownNetworkInterfaceAuxiliarySku
+  - Removed Enum KnownPolicyViolationCategory
+  - Removed Enum KnownProvisionedBandwidthCopyOption
+  - Removed Enum KnownRestorePointEncryptionType
+  - Removed Enum KnownSharedGalleryHostCaching
+  - Removed Enum KnownSshEncryptionTypes
+  - Removed Enum KnownUefiKeyType
+  - Removed Enum KnownUefiSignatureTemplateName
+  - Removed Enum KnownWindowsVMGuestPatchAutomaticByPlatformRebootSetting
+  - Enum KnownConfidentialVMEncryptionType no longer has value NonPersistedTPM
+  - Enum KnownDiskCreateOption no longer has value CopyFromSanSnapshot
+  - Enum KnownDiskEncryptionSetIdentityType no longer has value SystemAssignedUserAssigned
+  - Enum KnownDiskEncryptionSetIdentityType no longer has value UserAssigned
+  - Enum KnownDiskSecurityTypes no longer has value ConfidentialVMNonPersistedTPM
+  - Enum KnownDiskStorageAccountTypes no longer has value PremiumV2LRS
+  - Enum KnownGallerySharingPermissionTypes no longer has value Community
+  - Enum KnownOrchestrationServiceNames no longer has value DummyOrchestrationServiceName
+  - Enum KnownReplicationStatusTypes no longer has value UefiSettings
+  - Enum KnownSecurityEncryptionTypes no longer has value NonPersistedTPM
+  - Enum KnownStorageAccountTypes no longer has value PremiumV2LRS
+    
+    
 ## 21.4.0 (2023-12-28)
     
 **Features**

@@ -9,31 +9,9 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
-  VirtualMachineScaleSet as VirtualMachineScaleSetMapper,
-  VirtualMachineScaleSetUpdate as VirtualMachineScaleSetUpdateMapper,
-  VirtualMachineScaleSetVMInstanceIDs as VirtualMachineScaleSetVMInstanceIDsMapper,
-  VirtualMachineScaleSetVMInstanceRequiredIDs as VirtualMachineScaleSetVMInstanceRequiredIDsMapper,
-  VirtualMachineScaleSetReimageParameters as VirtualMachineScaleSetReimageParametersMapper,
-  VMScaleSetConvertToSinglePlacementGroupInput as VMScaleSetConvertToSinglePlacementGroupInputMapper,
-  OrchestrationServiceStateInput as OrchestrationServiceStateInputMapper,
-  VirtualMachineScaleSetExtension as VirtualMachineScaleSetExtensionMapper,
-  VirtualMachineScaleSetExtensionUpdate as VirtualMachineScaleSetExtensionUpdateMapper,
-  VirtualMachineScaleSetVMExtension as VirtualMachineScaleSetVMExtensionMapper,
-  VirtualMachineScaleSetVMExtensionUpdate as VirtualMachineScaleSetVMExtensionUpdateMapper,
-  VirtualMachineScaleSetVMReimageParameters as VirtualMachineScaleSetVMReimageParametersMapper,
-  VirtualMachineScaleSetVM as VirtualMachineScaleSetVMMapper,
-  AttachDetachDataDisksRequest as AttachDetachDataDisksRequestMapper,
-  RunCommandInput as RunCommandInputMapper,
-  VirtualMachineExtension as VirtualMachineExtensionMapper,
-  VirtualMachineExtensionUpdate as VirtualMachineExtensionUpdateMapper,
-  VirtualMachineCaptureParameters as VirtualMachineCaptureParametersMapper,
-  VirtualMachine as VirtualMachineMapper,
-  VirtualMachineUpdate as VirtualMachineUpdateMapper,
-  VirtualMachineReimageParameters as VirtualMachineReimageParametersMapper,
-  VirtualMachineInstallPatchesParameters as VirtualMachineInstallPatchesParametersMapper,
   AvailabilitySet as AvailabilitySetMapper,
   AvailabilitySetUpdate as AvailabilitySetUpdateMapper,
   ProximityPlacementGroup as ProximityPlacementGroupMapper,
@@ -44,7 +22,21 @@ import {
   DedicatedHostUpdate as DedicatedHostUpdateMapper,
   SshPublicKeyResource as SshPublicKeyResourceMapper,
   SshPublicKeyUpdateResource as SshPublicKeyUpdateResourceMapper,
-  SshGenerateKeyPairInputParameters as SshGenerateKeyPairInputParametersMapper,
+  VirtualMachineExtension as VirtualMachineExtensionMapper,
+  VirtualMachineExtensionUpdate as VirtualMachineExtensionUpdateMapper,
+  VirtualMachineCaptureParameters as VirtualMachineCaptureParametersMapper,
+  VirtualMachine as VirtualMachineMapper,
+  VirtualMachineUpdate as VirtualMachineUpdateMapper,
+  VirtualMachineReimageParameters as VirtualMachineReimageParametersMapper,
+  VirtualMachineInstallPatchesParameters as VirtualMachineInstallPatchesParametersMapper,
+  RunCommandInput as RunCommandInputMapper,
+  VirtualMachineScaleSet as VirtualMachineScaleSetMapper,
+  VirtualMachineScaleSetUpdate as VirtualMachineScaleSetUpdateMapper,
+  VirtualMachineScaleSetVMInstanceIDs as VirtualMachineScaleSetVMInstanceIDsMapper,
+  VirtualMachineScaleSetVMInstanceRequiredIDs as VirtualMachineScaleSetVMInstanceRequiredIDsMapper,
+  VirtualMachineScaleSetReimageParameters as VirtualMachineScaleSetReimageParametersMapper,
+  VMScaleSetConvertToSinglePlacementGroupInput as VMScaleSetConvertToSinglePlacementGroupInputMapper,
+  OrchestrationServiceStateInput as OrchestrationServiceStateInputMapper,
   Image as ImageMapper,
   ImageUpdate as ImageUpdateMapper,
   RestorePointCollection as RestorePointCollectionMapper,
@@ -54,6 +46,12 @@ import {
   CapacityReservationGroupUpdate as CapacityReservationGroupUpdateMapper,
   CapacityReservation as CapacityReservationMapper,
   CapacityReservationUpdate as CapacityReservationUpdateMapper,
+  VirtualMachineScaleSetExtension as VirtualMachineScaleSetExtensionMapper,
+  VirtualMachineScaleSetExtensionUpdate as VirtualMachineScaleSetExtensionUpdateMapper,
+  VirtualMachineScaleSetVMExtension as VirtualMachineScaleSetVMExtensionMapper,
+  VirtualMachineScaleSetVMExtensionUpdate as VirtualMachineScaleSetVMExtensionUpdateMapper,
+  VirtualMachineScaleSetVMReimageParameters as VirtualMachineScaleSetVMReimageParametersMapper,
+  VirtualMachineScaleSetVM as VirtualMachineScaleSetVMMapper,
   RequestRateByIntervalInput as RequestRateByIntervalInputMapper,
   ThrottledRequestsInput as ThrottledRequestsInputMapper,
   VirtualMachineRunCommand as VirtualMachineRunCommandMapper,
@@ -61,13 +59,13 @@ import {
   Disk as DiskMapper,
   DiskUpdate as DiskUpdateMapper,
   GrantAccessData as GrantAccessDataMapper,
+  Snapshot as SnapshotMapper,
+  SnapshotUpdate as SnapshotUpdateMapper,
+  DiskEncryptionSet as DiskEncryptionSetMapper,
+  DiskEncryptionSetUpdate as DiskEncryptionSetUpdateMapper,
   DiskAccess as DiskAccessMapper,
   DiskAccessUpdate as DiskAccessUpdateMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
-  DiskEncryptionSet as DiskEncryptionSetMapper,
-  DiskEncryptionSetUpdate as DiskEncryptionSetUpdateMapper,
-  Snapshot as SnapshotMapper,
-  SnapshotUpdate as SnapshotUpdateMapper,
   Gallery as GalleryMapper,
   GalleryUpdate as GalleryUpdateMapper,
   GalleryImage as GalleryImageMapper,
@@ -82,7 +80,9 @@ import {
   CloudService as CloudServiceMapper,
   CloudServiceUpdate as CloudServiceUpdateMapper,
   RoleInstances as RoleInstancesMapper,
-  UpdateDomain as UpdateDomainMapper
+  UpdateDomain as UpdateDomainMapper,
+  RunDiskInspectionInput as RunDiskInspectionInputMapper,
+  StorageConfigurationInput as StorageConfigurationInputMapper,
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -92,9 +92,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -103,59 +103,22 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-09-01",
+    defaultValue: "2021-11-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
-};
-
-export const location: OperationURLParameter = {
-  parameterPath: "location",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[-\\w\\._]+$")
+      name: "String",
     },
-    serializedName: "location",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const subscriptionId: OperationURLParameter = {
-  parameterPath: "subscriptionId",
-  mapper: {
-    serializedName: "subscriptionId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
-  mapper: {
-    serializedName: "nextLink",
-    required: true,
-    type: {
-      name: "String"
-    }
   },
-  skipEncoding: true
 };
 
 export const contentType: OperationParameter = {
@@ -165,14 +128,14 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters: OperationParameter = {
   parameterPath: "parameters",
-  mapper: VirtualMachineScaleSetMapper
+  mapper: AvailabilitySetMapper,
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -181,55 +144,36 @@ export const resourceGroupName: OperationURLParameter = {
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const vmScaleSetName: OperationURLParameter = {
-  parameterPath: "vmScaleSetName",
+export const availabilitySetName: OperationURLParameter = {
+  parameterPath: "availabilitySetName",
   mapper: {
-    serializedName: "vmScaleSetName",
+    serializedName: "availabilitySetName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const ifMatch: OperationParameter = {
-  parameterPath: ["options", "ifMatch"],
+export const subscriptionId: OperationURLParameter = {
+  parameterPath: "subscriptionId",
   mapper: {
-    serializedName: "If-Match",
+    serializedName: "subscriptionId",
+    required: true,
     type: {
-      name: "String"
-    }
-  }
-};
-
-export const ifNoneMatch: OperationParameter = {
-  parameterPath: ["options", "ifNoneMatch"],
-  mapper: {
-    serializedName: "If-None-Match",
-    type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters1: OperationParameter = {
   parameterPath: "parameters",
-  mapper: VirtualMachineScaleSetUpdateMapper
-};
-
-export const forceDeletion: OperationQueryParameter = {
-  parameterPath: ["options", "forceDeletion"],
-  mapper: {
-    serializedName: "forceDeletion",
-    type: {
-      name: "Boolean"
-    }
-  }
+  mapper: AvailabilitySetUpdateMapper,
 };
 
 export const expand: OperationQueryParameter = {
@@ -237,107 +181,73 @@ export const expand: OperationQueryParameter = {
   mapper: {
     serializedName: "$expand",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const vmInstanceIDs: OperationParameter = {
-  parameterPath: ["options", "vmInstanceIDs"],
-  mapper: VirtualMachineScaleSetVMInstanceIDsMapper
-};
-
-export const hibernate: OperationQueryParameter = {
-  parameterPath: ["options", "hibernate"],
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
   mapper: {
-    serializedName: "hibernate",
-    type: {
-      name: "Boolean"
-    }
-  }
-};
-
-export const vmInstanceIDs1: OperationParameter = {
-  parameterPath: "vmInstanceIDs",
-  mapper: VirtualMachineScaleSetVMInstanceRequiredIDsMapper
-};
-
-export const skipShutdown: OperationQueryParameter = {
-  parameterPath: ["options", "skipShutdown"],
-  mapper: {
-    defaultValue: false,
-    serializedName: "skipShutdown",
-    type: {
-      name: "Boolean"
-    }
-  }
-};
-
-export const vmScaleSetReimageInput: OperationParameter = {
-  parameterPath: ["options", "vmScaleSetReimageInput"],
-  mapper: VirtualMachineScaleSetReimageParametersMapper
-};
-
-export const platformUpdateDomain: OperationQueryParameter = {
-  parameterPath: "platformUpdateDomain",
-  mapper: {
-    serializedName: "platformUpdateDomain",
+    serializedName: "nextLink",
     required: true,
     type: {
-      name: "Number"
-    }
-  }
-};
-
-export const zone: OperationQueryParameter = {
-  parameterPath: ["options", "zone"],
-  mapper: {
-    serializedName: "zone",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const placementGroupId: OperationQueryParameter = {
-  parameterPath: ["options", "placementGroupId"],
-  mapper: {
-    serializedName: "placementGroupId",
-    type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
+  skipEncoding: true,
 };
 
 export const parameters2: OperationParameter = {
   parameterPath: "parameters",
-  mapper: VMScaleSetConvertToSinglePlacementGroupInputMapper
+  mapper: ProximityPlacementGroupMapper,
+};
+
+export const proximityPlacementGroupName: OperationURLParameter = {
+  parameterPath: "proximityPlacementGroupName",
+  mapper: {
+    serializedName: "proximityPlacementGroupName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const parameters3: OperationParameter = {
   parameterPath: "parameters",
-  mapper: OrchestrationServiceStateInputMapper
+  mapper: ProximityPlacementGroupUpdateMapper,
 };
 
-export const extensionParameters: OperationParameter = {
-  parameterPath: "extensionParameters",
-  mapper: VirtualMachineScaleSetExtensionMapper
-};
-
-export const vmssExtensionName: OperationURLParameter = {
-  parameterPath: "vmssExtensionName",
+export const includeColocationStatus: OperationQueryParameter = {
+  parameterPath: ["options", "includeColocationStatus"],
   mapper: {
-    serializedName: "vmssExtensionName",
+    serializedName: "includeColocationStatus",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters4: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: DedicatedHostGroupMapper,
+};
+
+export const hostGroupName: OperationURLParameter = {
+  parameterPath: "hostGroupName",
+  mapper: {
+    serializedName: "hostGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const extensionParameters1: OperationParameter = {
-  parameterPath: "extensionParameters",
-  mapper: VirtualMachineScaleSetExtensionUpdateMapper
+export const parameters5: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: DedicatedHostGroupUpdateMapper,
 };
 
 export const expand1: OperationQueryParameter = {
@@ -345,25 +255,142 @@ export const expand1: OperationQueryParameter = {
   mapper: {
     serializedName: "$expand",
     type: {
-      name: "String"
-    }
-  }
+      name: "Enum",
+      allowedValues: ["instanceView", "userData"],
+    },
+  },
 };
 
-export const extensionParameters2: OperationParameter = {
-  parameterPath: "extensionParameters",
-  mapper: VirtualMachineScaleSetVMExtensionMapper
+export const parameters6: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: DedicatedHostMapper,
 };
 
-export const instanceId: OperationURLParameter = {
-  parameterPath: "instanceId",
+export const hostName: OperationURLParameter = {
+  parameterPath: "hostName",
   mapper: {
-    serializedName: "instanceId",
+    serializedName: "hostName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const parameters7: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: DedicatedHostUpdateMapper,
+};
+
+export const parameters8: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: SshPublicKeyResourceMapper,
+};
+
+export const sshPublicKeyName: OperationURLParameter = {
+  parameterPath: "sshPublicKeyName",
+  mapper: {
+    serializedName: "sshPublicKeyName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters9: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: SshPublicKeyUpdateResourceMapper,
+};
+
+export const location: OperationURLParameter = {
+  parameterPath: "location",
+  mapper: {
+    serializedName: "location",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const publisherName: OperationURLParameter = {
+  parameterPath: "publisherName",
+  mapper: {
+    serializedName: "publisherName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const typeParam: OperationURLParameter = {
+  parameterPath: "typeParam",
+  mapper: {
+    serializedName: "type",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const version: OperationURLParameter = {
+  parameterPath: "version",
+  mapper: {
+    serializedName: "version",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const filter: OperationQueryParameter = {
+  parameterPath: ["options", "filter"],
+  mapper: {
+    serializedName: "$filter",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const top: OperationQueryParameter = {
+  parameterPath: ["options", "top"],
+  mapper: {
+    serializedName: "$top",
+    type: {
+      name: "Number",
+    },
+  },
+};
+
+export const orderby: OperationQueryParameter = {
+  parameterPath: ["options", "orderby"],
+  mapper: {
+    serializedName: "$orderby",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const extensionParameters: OperationParameter = {
+  parameterPath: "extensionParameters",
+  mapper: VirtualMachineExtensionMapper,
+};
+
+export const vmName: OperationURLParameter = {
+  parameterPath: "vmName",
+  mapper: {
+    serializedName: "vmName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const vmExtensionName: OperationURLParameter = {
@@ -372,66 +399,122 @@ export const vmExtensionName: OperationURLParameter = {
     serializedName: "vmExtensionName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const extensionParameters3: OperationParameter = {
+export const extensionParameters1: OperationParameter = {
   parameterPath: "extensionParameters",
-  mapper: VirtualMachineScaleSetVMExtensionUpdateMapper
+  mapper: VirtualMachineExtensionUpdateMapper,
 };
 
-export const vmScaleSetVMReimageInput: OperationParameter = {
-  parameterPath: ["options", "vmScaleSetVMReimageInput"],
-  mapper: VirtualMachineScaleSetVMReimageParametersMapper
-};
-
-export const parameters4: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: VirtualMachineScaleSetVMMapper
-};
-
-export const expand2: OperationQueryParameter = {
-  parameterPath: ["options", "expand"],
+export const offer: OperationURLParameter = {
+  parameterPath: "offer",
   mapper: {
-    serializedName: "$expand",
-    type: {
-      name: "Enum",
-      allowedValues: ["instanceView", "userData"]
-    }
-  }
-};
-
-export const virtualMachineScaleSetName: OperationURLParameter = {
-  parameterPath: "virtualMachineScaleSetName",
-  mapper: {
-    serializedName: "virtualMachineScaleSetName",
+    serializedName: "offer",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const filter: OperationQueryParameter = {
-  parameterPath: ["options", "filter"],
+export const skus: OperationURLParameter = {
+  parameterPath: "skus",
   mapper: {
-    serializedName: "$filter",
+    serializedName: "skus",
+    required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const select: OperationQueryParameter = {
-  parameterPath: ["options", "select"],
+export const edgeZone: OperationURLParameter = {
+  parameterPath: "edgeZone",
   mapper: {
-    serializedName: "$select",
+    serializedName: "edgeZone",
+    required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const location1: OperationURLParameter = {
+  parameterPath: "location",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-\\w\\._]+$"),
+    },
+    serializedName: "location",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters10: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: VirtualMachineCaptureParametersMapper,
+};
+
+export const parameters11: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: VirtualMachineMapper,
+};
+
+export const parameters12: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: VirtualMachineUpdateMapper,
+};
+
+export const forceDeletion: OperationQueryParameter = {
+  parameterPath: ["options", "forceDeletion"],
+  mapper: {
+    serializedName: "forceDeletion",
+    type: {
+      name: "Boolean",
+    },
+  },
+};
+
+export const hibernate: OperationQueryParameter = {
+  parameterPath: ["options", "hibernate"],
+  mapper: {
+    serializedName: "hibernate",
+    type: {
+      name: "Boolean",
+    },
+  },
+};
+
+export const statusOnly: OperationQueryParameter = {
+  parameterPath: ["options", "statusOnly"],
+  mapper: {
+    serializedName: "statusOnly",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const skipShutdown: OperationQueryParameter = {
+  parameterPath: ["options", "skipShutdown"],
+  mapper: {
+    defaultValue: false,
+    serializedName: "skipShutdown",
+    type: {
+      name: "Boolean",
+    },
+  },
+};
+
+export const parameters13: OperationParameter = {
+  parameterPath: ["options", "parameters"],
+  mapper: VirtualMachineReimageParametersMapper,
 };
 
 export const sasUriExpirationTimeInMinutes: OperationQueryParameter = {
@@ -439,19 +522,19 @@ export const sasUriExpirationTimeInMinutes: OperationQueryParameter = {
   mapper: {
     serializedName: "sasUriExpirationTimeInMinutes",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
-export const parameters5: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: AttachDetachDataDisksRequestMapper
+export const installPatchesInput: OperationParameter = {
+  parameterPath: "installPatchesInput",
+  mapper: VirtualMachineInstallPatchesParametersMapper,
 };
 
-export const parameters6: OperationParameter = {
+export const parameters14: OperationParameter = {
   parameterPath: "parameters",
-  mapper: RunCommandInputMapper
+  mapper: RunCommandInputMapper,
 };
 
 export const accept1: OperationParameter = {
@@ -461,335 +544,101 @@ export const accept1: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
-};
-
-export const extensionParameters4: OperationParameter = {
-  parameterPath: "extensionParameters",
-  mapper: VirtualMachineExtensionMapper
-};
-
-export const vmName: OperationURLParameter = {
-  parameterPath: "vmName",
-  mapper: {
-    serializedName: "vmName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const extensionParameters5: OperationParameter = {
-  parameterPath: "extensionParameters",
-  mapper: VirtualMachineExtensionUpdateMapper
-};
-
-export const parameters7: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: VirtualMachineCaptureParametersMapper
-};
-
-export const parameters8: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: VirtualMachineMapper
-};
-
-export const parameters9: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: VirtualMachineUpdateMapper
-};
-
-export const expand3: OperationQueryParameter = {
-  parameterPath: ["options", "expand"],
-  mapper: {
-    serializedName: "$expand",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const statusOnly: OperationQueryParameter = {
-  parameterPath: ["options", "statusOnly"],
-  mapper: {
-    serializedName: "statusOnly",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const expand4: OperationQueryParameter = {
-  parameterPath: ["options", "expand"],
-  mapper: {
-    serializedName: "$expand",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const parameters10: OperationParameter = {
-  parameterPath: ["options", "parameters"],
-  mapper: VirtualMachineReimageParametersMapper
-};
-
-export const installPatchesInput: OperationParameter = {
-  parameterPath: "installPatchesInput",
-  mapper: VirtualMachineInstallPatchesParametersMapper
-};
-
-export const location1: OperationURLParameter = {
-  parameterPath: "location",
-  mapper: {
-    serializedName: "location",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const publisherName: OperationURLParameter = {
-  parameterPath: "publisherName",
-  mapper: {
-    serializedName: "publisherName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const offer: OperationURLParameter = {
-  parameterPath: "offer",
-  mapper: {
-    serializedName: "offer",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const skus: OperationURLParameter = {
-  parameterPath: "skus",
-  mapper: {
-    serializedName: "skus",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const version: OperationURLParameter = {
-  parameterPath: "version",
-  mapper: {
-    serializedName: "version",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const top: OperationQueryParameter = {
-  parameterPath: ["options", "top"],
-  mapper: {
-    serializedName: "$top",
-    type: {
-      name: "Number"
-    }
-  }
-};
-
-export const orderby: OperationQueryParameter = {
-  parameterPath: ["options", "orderby"],
-  mapper: {
-    serializedName: "$orderby",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const edgeZone: OperationURLParameter = {
-  parameterPath: "edgeZone",
-  mapper: {
-    serializedName: "edgeZone",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const typeParam: OperationURLParameter = {
-  parameterPath: "typeParam",
-  mapper: {
-    serializedName: "type",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const parameters11: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: AvailabilitySetMapper
-};
-
-export const availabilitySetName: OperationURLParameter = {
-  parameterPath: "availabilitySetName",
-  mapper: {
-    serializedName: "availabilitySetName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const parameters12: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: AvailabilitySetUpdateMapper
-};
-
-export const parameters13: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: ProximityPlacementGroupMapper
-};
-
-export const proximityPlacementGroupName: OperationURLParameter = {
-  parameterPath: "proximityPlacementGroupName",
-  mapper: {
-    serializedName: "proximityPlacementGroupName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const parameters14: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: ProximityPlacementGroupUpdateMapper
-};
-
-export const includeColocationStatus: OperationQueryParameter = {
-  parameterPath: ["options", "includeColocationStatus"],
-  mapper: {
-    serializedName: "includeColocationStatus",
-    type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters15: OperationParameter = {
   parameterPath: "parameters",
-  mapper: DedicatedHostGroupMapper
+  mapper: VirtualMachineScaleSetMapper,
 };
 
-export const hostGroupName: OperationURLParameter = {
-  parameterPath: "hostGroupName",
+export const vmScaleSetName: OperationURLParameter = {
+  parameterPath: "vmScaleSetName",
   mapper: {
-    serializedName: "hostGroupName",
+    serializedName: "vmScaleSetName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters16: OperationParameter = {
   parameterPath: "parameters",
-  mapper: DedicatedHostGroupUpdateMapper
+  mapper: VirtualMachineScaleSetUpdateMapper,
+};
+
+export const expand2: OperationQueryParameter = {
+  parameterPath: ["options", "expand"],
+  mapper: {
+    serializedName: "$expand",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const vmInstanceIDs: OperationParameter = {
+  parameterPath: ["options", "vmInstanceIDs"],
+  mapper: VirtualMachineScaleSetVMInstanceIDsMapper,
+};
+
+export const vmInstanceIDs1: OperationParameter = {
+  parameterPath: "vmInstanceIDs",
+  mapper: VirtualMachineScaleSetVMInstanceRequiredIDsMapper,
+};
+
+export const vmScaleSetReimageInput: OperationParameter = {
+  parameterPath: ["options", "vmScaleSetReimageInput"],
+  mapper: VirtualMachineScaleSetReimageParametersMapper,
+};
+
+export const platformUpdateDomain: OperationQueryParameter = {
+  parameterPath: "platformUpdateDomain",
+  mapper: {
+    serializedName: "platformUpdateDomain",
+    required: true,
+    type: {
+      name: "Number",
+    },
+  },
+};
+
+export const zone: OperationQueryParameter = {
+  parameterPath: ["options", "zone"],
+  mapper: {
+    serializedName: "zone",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const placementGroupId: OperationQueryParameter = {
+  parameterPath: ["options", "placementGroupId"],
+  mapper: {
+    serializedName: "placementGroupId",
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const parameters17: OperationParameter = {
   parameterPath: "parameters",
-  mapper: DedicatedHostMapper
-};
-
-export const hostName: OperationURLParameter = {
-  parameterPath: "hostName",
-  mapper: {
-    serializedName: "hostName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
+  mapper: VMScaleSetConvertToSinglePlacementGroupInputMapper,
 };
 
 export const parameters18: OperationParameter = {
   parameterPath: "parameters",
-  mapper: DedicatedHostUpdateMapper
-};
-
-export const hostGroupName1: OperationURLParameter = {
-  parameterPath: "hostGroupName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[-\\w\\._]+$")
-    },
-    serializedName: "hostGroupName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const hostName1: OperationURLParameter = {
-  parameterPath: "hostName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[-\\w\\._]+$")
-    },
-    serializedName: "hostName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
+  mapper: OrchestrationServiceStateInputMapper,
 };
 
 export const parameters19: OperationParameter = {
   parameterPath: "parameters",
-  mapper: SshPublicKeyResourceMapper
-};
-
-export const sshPublicKeyName: OperationURLParameter = {
-  parameterPath: "sshPublicKeyName",
-  mapper: {
-    serializedName: "sshPublicKeyName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const parameters20: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: SshPublicKeyUpdateResourceMapper
-};
-
-export const parameters21: OperationParameter = {
-  parameterPath: ["options", "parameters"],
-  mapper: SshGenerateKeyPairInputParametersMapper
-};
-
-export const parameters22: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: ImageMapper
+  mapper: ImageMapper,
 };
 
 export const imageName: OperationURLParameter = {
@@ -798,19 +647,19 @@ export const imageName: OperationURLParameter = {
     serializedName: "imageName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const parameters23: OperationParameter = {
+export const parameters20: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ImageUpdateMapper
+  mapper: ImageUpdateMapper,
 };
 
-export const parameters24: OperationParameter = {
+export const parameters21: OperationParameter = {
   parameterPath: "parameters",
-  mapper: RestorePointCollectionMapper
+  mapper: RestorePointCollectionMapper,
 };
 
 export const restorePointCollectionName: OperationURLParameter = {
@@ -819,29 +668,29 @@ export const restorePointCollectionName: OperationURLParameter = {
     serializedName: "restorePointCollectionName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const parameters25: OperationParameter = {
+export const parameters22: OperationParameter = {
   parameterPath: "parameters",
-  mapper: RestorePointCollectionUpdateMapper
+  mapper: RestorePointCollectionUpdateMapper,
 };
 
-export const expand5: OperationQueryParameter = {
+export const expand3: OperationQueryParameter = {
   parameterPath: ["options", "expand"],
   mapper: {
     serializedName: "$expand",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const parameters26: OperationParameter = {
+export const parameters23: OperationParameter = {
   parameterPath: "parameters",
-  mapper: RestorePointMapper
+  mapper: RestorePointMapper,
 };
 
 export const restorePointName: OperationURLParameter = {
@@ -850,24 +699,24 @@ export const restorePointName: OperationURLParameter = {
     serializedName: "restorePointName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const expand6: OperationQueryParameter = {
+export const expand4: OperationQueryParameter = {
   parameterPath: ["options", "expand"],
   mapper: {
     serializedName: "$expand",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const parameters27: OperationParameter = {
+export const parameters24: OperationParameter = {
   parameterPath: "parameters",
-  mapper: CapacityReservationGroupMapper
+  mapper: CapacityReservationGroupMapper,
 };
 
 export const capacityReservationGroupName: OperationURLParameter = {
@@ -876,39 +725,39 @@ export const capacityReservationGroupName: OperationURLParameter = {
     serializedName: "capacityReservationGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const parameters28: OperationParameter = {
+export const parameters25: OperationParameter = {
   parameterPath: "parameters",
-  mapper: CapacityReservationGroupUpdateMapper
+  mapper: CapacityReservationGroupUpdateMapper,
 };
 
-export const expand7: OperationQueryParameter = {
+export const expand5: OperationQueryParameter = {
   parameterPath: ["options", "expand"],
   mapper: {
     serializedName: "$expand",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const expand8: OperationQueryParameter = {
+export const expand6: OperationQueryParameter = {
   parameterPath: ["options", "expand"],
   mapper: {
     serializedName: "$expand",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const parameters29: OperationParameter = {
+export const parameters26: OperationParameter = {
   parameterPath: "parameters",
-  mapper: CapacityReservationMapper
+  mapper: CapacityReservationMapper,
 };
 
 export const capacityReservationName: OperationURLParameter = {
@@ -917,34 +766,107 @@ export const capacityReservationName: OperationURLParameter = {
     serializedName: "capacityReservationName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const parameters30: OperationParameter = {
+export const parameters27: OperationParameter = {
   parameterPath: "parameters",
-  mapper: CapacityReservationUpdateMapper
+  mapper: CapacityReservationUpdateMapper,
 };
 
-export const expand9: OperationQueryParameter = {
+export const expand7: OperationQueryParameter = {
   parameterPath: ["options", "expand"],
   mapper: {
     serializedName: "$expand",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const parameters31: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: RequestRateByIntervalInputMapper
+export const extensionParameters2: OperationParameter = {
+  parameterPath: "extensionParameters",
+  mapper: VirtualMachineScaleSetExtensionMapper,
 };
 
-export const parameters32: OperationParameter = {
+export const vmssExtensionName: OperationURLParameter = {
+  parameterPath: "vmssExtensionName",
+  mapper: {
+    serializedName: "vmssExtensionName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const extensionParameters3: OperationParameter = {
+  parameterPath: "extensionParameters",
+  mapper: VirtualMachineScaleSetExtensionUpdateMapper,
+};
+
+export const extensionParameters4: OperationParameter = {
+  parameterPath: "extensionParameters",
+  mapper: VirtualMachineScaleSetVMExtensionMapper,
+};
+
+export const instanceId: OperationURLParameter = {
+  parameterPath: "instanceId",
+  mapper: {
+    serializedName: "instanceId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const extensionParameters5: OperationParameter = {
+  parameterPath: "extensionParameters",
+  mapper: VirtualMachineScaleSetVMExtensionUpdateMapper,
+};
+
+export const vmScaleSetVMReimageInput: OperationParameter = {
+  parameterPath: ["options", "vmScaleSetVMReimageInput"],
+  mapper: VirtualMachineScaleSetVMReimageParametersMapper,
+};
+
+export const parameters28: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ThrottledRequestsInputMapper
+  mapper: VirtualMachineScaleSetVMMapper,
+};
+
+export const virtualMachineScaleSetName: OperationURLParameter = {
+  parameterPath: "virtualMachineScaleSetName",
+  mapper: {
+    serializedName: "virtualMachineScaleSetName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const select: OperationQueryParameter = {
+  parameterPath: ["options", "select"],
+  mapper: {
+    serializedName: "$select",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters29: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: RequestRateByIntervalInputMapper,
+};
+
+export const parameters30: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ThrottledRequestsInputMapper,
 };
 
 export const commandId: OperationURLParameter = {
@@ -953,14 +875,14 @@ export const commandId: OperationURLParameter = {
     serializedName: "commandId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const runCommand: OperationParameter = {
   parameterPath: "runCommand",
-  mapper: VirtualMachineRunCommandMapper
+  mapper: VirtualMachineRunCommandMapper,
 };
 
 export const runCommandName: OperationURLParameter = {
@@ -969,19 +891,41 @@ export const runCommandName: OperationURLParameter = {
     serializedName: "runCommandName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const runCommand1: OperationParameter = {
   parameterPath: "runCommand",
-  mapper: VirtualMachineRunCommandUpdateMapper
+  mapper: VirtualMachineRunCommandUpdateMapper,
+};
+
+export const apiVersion1: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2021-07-01",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const includeExtendedLocations: OperationQueryParameter = {
+  parameterPath: ["options", "includeExtendedLocations"],
+  mapper: {
+    serializedName: "includeExtendedLocations",
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const disk: OperationParameter = {
   parameterPath: "disk",
-  mapper: DiskMapper
+  mapper: DiskMapper,
 };
 
 export const diskName: OperationURLParameter = {
@@ -990,116 +934,36 @@ export const diskName: OperationURLParameter = {
     serializedName: "diskName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const apiVersion1: OperationQueryParameter = {
+export const apiVersion2: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-10-02",
+    defaultValue: "2021-12-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const disk1: OperationParameter = {
   parameterPath: "disk",
-  mapper: DiskUpdateMapper
+  mapper: DiskUpdateMapper,
 };
 
 export const grantAccessData: OperationParameter = {
   parameterPath: "grantAccessData",
-  mapper: GrantAccessDataMapper
-};
-
-export const diskAccess: OperationParameter = {
-  parameterPath: "diskAccess",
-  mapper: DiskAccessMapper
-};
-
-export const diskAccessName: OperationURLParameter = {
-  parameterPath: "diskAccessName",
-  mapper: {
-    serializedName: "diskAccessName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const diskAccess1: OperationParameter = {
-  parameterPath: "diskAccess",
-  mapper: DiskAccessUpdateMapper
-};
-
-export const privateEndpointConnection: OperationParameter = {
-  parameterPath: "privateEndpointConnection",
-  mapper: PrivateEndpointConnectionMapper
-};
-
-export const privateEndpointConnectionName: OperationURLParameter = {
-  parameterPath: "privateEndpointConnectionName",
-  mapper: {
-    serializedName: "privateEndpointConnectionName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const diskEncryptionSet: OperationParameter = {
-  parameterPath: "diskEncryptionSet",
-  mapper: DiskEncryptionSetMapper
-};
-
-export const diskEncryptionSetName: OperationURLParameter = {
-  parameterPath: "diskEncryptionSetName",
-  mapper: {
-    serializedName: "diskEncryptionSetName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const diskEncryptionSet1: OperationParameter = {
-  parameterPath: "diskEncryptionSet",
-  mapper: DiskEncryptionSetUpdateMapper
-};
-
-export const vmRestorePointName: OperationURLParameter = {
-  parameterPath: "vmRestorePointName",
-  mapper: {
-    serializedName: "vmRestorePointName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const diskRestorePointName: OperationURLParameter = {
-  parameterPath: "diskRestorePointName",
-  mapper: {
-    serializedName: "diskRestorePointName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
+  mapper: GrantAccessDataMapper,
 };
 
 export const snapshot: OperationParameter = {
   parameterPath: "snapshot",
-  mapper: SnapshotMapper
+  mapper: SnapshotMapper,
 };
 
 export const snapshotName: OperationURLParameter = {
@@ -1108,41 +972,99 @@ export const snapshotName: OperationURLParameter = {
     serializedName: "snapshotName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const snapshot1: OperationParameter = {
   parameterPath: "snapshot",
-  mapper: SnapshotUpdateMapper
+  mapper: SnapshotUpdateMapper,
 };
 
-export const apiVersion2: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2021-07-01",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
+export const diskEncryptionSet: OperationParameter = {
+  parameterPath: "diskEncryptionSet",
+  mapper: DiskEncryptionSetMapper,
 };
 
-export const includeExtendedLocations: OperationQueryParameter = {
-  parameterPath: ["options", "includeExtendedLocations"],
+export const diskEncryptionSetName: OperationURLParameter = {
+  parameterPath: "diskEncryptionSetName",
   mapper: {
-    serializedName: "includeExtendedLocations",
+    serializedName: "diskEncryptionSetName",
+    required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const diskEncryptionSet1: OperationParameter = {
+  parameterPath: "diskEncryptionSet",
+  mapper: DiskEncryptionSetUpdateMapper,
+};
+
+export const diskAccess: OperationParameter = {
+  parameterPath: "diskAccess",
+  mapper: DiskAccessMapper,
+};
+
+export const diskAccessName: OperationURLParameter = {
+  parameterPath: "diskAccessName",
+  mapper: {
+    serializedName: "diskAccessName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const diskAccess1: OperationParameter = {
+  parameterPath: "diskAccess",
+  mapper: DiskAccessUpdateMapper,
+};
+
+export const privateEndpointConnection: OperationParameter = {
+  parameterPath: "privateEndpointConnection",
+  mapper: PrivateEndpointConnectionMapper,
+};
+
+export const privateEndpointConnectionName: OperationURLParameter = {
+  parameterPath: "privateEndpointConnectionName",
+  mapper: {
+    serializedName: "privateEndpointConnectionName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const vmRestorePointName: OperationURLParameter = {
+  parameterPath: "vmRestorePointName",
+  mapper: {
+    serializedName: "vmRestorePointName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const diskRestorePointName: OperationURLParameter = {
+  parameterPath: "diskRestorePointName",
+  mapper: {
+    serializedName: "diskRestorePointName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const gallery: OperationParameter = {
   parameterPath: "gallery",
-  mapper: GalleryMapper
+  mapper: GalleryMapper,
 };
 
 export const galleryName: OperationURLParameter = {
@@ -1151,26 +1073,26 @@ export const galleryName: OperationURLParameter = {
     serializedName: "galleryName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const apiVersion3: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-08-03",
+    defaultValue: "2021-10-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const gallery1: OperationParameter = {
   parameterPath: "gallery",
-  mapper: GalleryUpdateMapper
+  mapper: GalleryUpdateMapper,
 };
 
 export const select1: OperationQueryParameter = {
@@ -1178,24 +1100,24 @@ export const select1: OperationQueryParameter = {
   mapper: {
     serializedName: "$select",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const expand10: OperationQueryParameter = {
+export const expand8: OperationQueryParameter = {
   parameterPath: ["options", "expand"],
   mapper: {
     serializedName: "$expand",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const galleryImage: OperationParameter = {
   parameterPath: "galleryImage",
-  mapper: GalleryImageMapper
+  mapper: GalleryImageMapper,
 };
 
 export const galleryImageName: OperationURLParameter = {
@@ -1204,19 +1126,19 @@ export const galleryImageName: OperationURLParameter = {
     serializedName: "galleryImageName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const galleryImage1: OperationParameter = {
   parameterPath: "galleryImage",
-  mapper: GalleryImageUpdateMapper
+  mapper: GalleryImageUpdateMapper,
 };
 
 export const galleryImageVersion: OperationParameter = {
   parameterPath: "galleryImageVersion",
-  mapper: GalleryImageVersionMapper
+  mapper: GalleryImageVersionMapper,
 };
 
 export const galleryImageVersionName: OperationURLParameter = {
@@ -1225,29 +1147,29 @@ export const galleryImageVersionName: OperationURLParameter = {
     serializedName: "galleryImageVersionName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const galleryImageVersion1: OperationParameter = {
   parameterPath: "galleryImageVersion",
-  mapper: GalleryImageVersionUpdateMapper
+  mapper: GalleryImageVersionUpdateMapper,
 };
 
-export const expand11: OperationQueryParameter = {
+export const expand9: OperationQueryParameter = {
   parameterPath: ["options", "expand"],
   mapper: {
     serializedName: "$expand",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const galleryApplication: OperationParameter = {
   parameterPath: "galleryApplication",
-  mapper: GalleryApplicationMapper
+  mapper: GalleryApplicationMapper,
 };
 
 export const galleryApplicationName: OperationURLParameter = {
@@ -1256,19 +1178,19 @@ export const galleryApplicationName: OperationURLParameter = {
     serializedName: "galleryApplicationName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const galleryApplication1: OperationParameter = {
   parameterPath: "galleryApplication",
-  mapper: GalleryApplicationUpdateMapper
+  mapper: GalleryApplicationUpdateMapper,
 };
 
 export const galleryApplicationVersion: OperationParameter = {
   parameterPath: "galleryApplicationVersion",
-  mapper: GalleryApplicationVersionMapper
+  mapper: GalleryApplicationVersionMapper,
 };
 
 export const galleryApplicationVersionName: OperationURLParameter = {
@@ -1277,19 +1199,19 @@ export const galleryApplicationVersionName: OperationURLParameter = {
     serializedName: "galleryApplicationVersionName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const galleryApplicationVersion1: OperationParameter = {
   parameterPath: "galleryApplicationVersion",
-  mapper: GalleryApplicationVersionUpdateMapper
+  mapper: GalleryApplicationVersionUpdateMapper,
 };
 
 export const sharingUpdate: OperationParameter = {
   parameterPath: "sharingUpdate",
-  mapper: SharingUpdateMapper
+  mapper: SharingUpdateMapper,
 };
 
 export const sharedTo: OperationQueryParameter = {
@@ -1297,9 +1219,9 @@ export const sharedTo: OperationQueryParameter = {
   mapper: {
     serializedName: "sharedTo",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const galleryUniqueName: OperationURLParameter = {
@@ -1308,9 +1230,9 @@ export const galleryUniqueName: OperationURLParameter = {
     serializedName: "galleryUniqueName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const publicGalleryName: OperationURLParameter = {
@@ -1319,9 +1241,9 @@ export const publicGalleryName: OperationURLParameter = {
     serializedName: "publicGalleryName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const roleInstanceName: OperationURLParameter = {
@@ -1330,9 +1252,9 @@ export const roleInstanceName: OperationURLParameter = {
     serializedName: "roleInstanceName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const cloudServiceName: OperationURLParameter = {
@@ -1341,21 +1263,21 @@ export const cloudServiceName: OperationURLParameter = {
     serializedName: "cloudServiceName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const apiVersion4: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-09-04",
+    defaultValue: "2021-03-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const accept2: OperationParameter = {
@@ -1365,9 +1287,9 @@ export const accept2: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const roleName: OperationURLParameter = {
@@ -1376,29 +1298,29 @@ export const roleName: OperationURLParameter = {
     serializedName: "roleName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const parameters31: OperationParameter = {
+  parameterPath: ["options", "parameters"],
+  mapper: CloudServiceMapper,
+};
+
+export const parameters32: OperationParameter = {
+  parameterPath: ["options", "parameters"],
+  mapper: CloudServiceUpdateMapper,
 };
 
 export const parameters33: OperationParameter = {
   parameterPath: ["options", "parameters"],
-  mapper: CloudServiceMapper
+  mapper: RoleInstancesMapper,
 };
 
 export const parameters34: OperationParameter = {
   parameterPath: ["options", "parameters"],
-  mapper: CloudServiceUpdateMapper
-};
-
-export const parameters35: OperationParameter = {
-  parameterPath: ["options", "parameters"],
-  mapper: RoleInstancesMapper
-};
-
-export const parameters36: OperationParameter = {
-  parameterPath: ["options", "parameters"],
-  mapper: UpdateDomainMapper
+  mapper: UpdateDomainMapper,
 };
 
 export const updateDomain: OperationURLParameter = {
@@ -1407,9 +1329,9 @@ export const updateDomain: OperationURLParameter = {
     serializedName: "updateDomain",
     required: true,
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const osVersionName: OperationURLParameter = {
@@ -1418,9 +1340,9 @@ export const osVersionName: OperationURLParameter = {
     serializedName: "osVersionName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const osFamilyName: OperationURLParameter = {
@@ -1429,7 +1351,29 @@ export const osFamilyName: OperationURLParameter = {
     serializedName: "osFamilyName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const runDiskInspectionInput: OperationParameter = {
+  parameterPath: "runDiskInspectionInput",
+  mapper: RunDiskInspectionInputMapper,
+};
+
+export const apiVersion5: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2021-06-01-preview",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const storageConfigurationInput: OperationParameter = {
+  parameterPath: "storageConfigurationInput",
+  mapper: StorageConfigurationInputMapper,
 };

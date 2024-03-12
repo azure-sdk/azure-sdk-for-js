@@ -8,26 +8,26 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { UsageOperations } from "../operationsInterfaces";
+import { Diagnostics } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ComputeManagementClient } from "../computeManagementClient";
 import {
-  Usage,
-  UsageListNextOptionalParams,
-  UsageListOptionalParams,
-  UsageListResponse,
-  UsageListNextResponse,
+  ComputeDiagnosticBase,
+  DiagnosticsListNextOptionalParams,
+  DiagnosticsListOptionalParams,
+  DiagnosticsListResponse,
+  DiagnosticsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing UsageOperations operations. */
-export class UsageOperationsImpl implements UsageOperations {
+/** Class containing Diagnostics operations. */
+export class DiagnosticsImpl implements Diagnostics {
   private readonly client: ComputeManagementClient;
 
   /**
-   * Initialize a new instance of the class UsageOperations class.
+   * Initialize a new instance of the class Diagnostics class.
    * @param client Reference to the service client
    */
   constructor(client: ComputeManagementClient) {
@@ -35,15 +35,14 @@ export class UsageOperationsImpl implements UsageOperations {
   }
 
   /**
-   * Gets, for the specified location, the current compute resource usage information as well as the
-   * limits for compute resources under the subscription.
-   * @param location The location for which resource usage is queried.
+   * Lists all available Compute diagnostics for a subscription in a location.
+   * @param location The location used to execute the diagnostic operation.
    * @param options The options parameters.
    */
   public list(
     location: string,
-    options?: UsageListOptionalParams,
-  ): PagedAsyncIterableIterator<Usage> {
+    options?: DiagnosticsListOptionalParams,
+  ): PagedAsyncIterableIterator<ComputeDiagnosticBase> {
     const iter = this.listPagingAll(location, options);
     return {
       next() {
@@ -63,10 +62,10 @@ export class UsageOperationsImpl implements UsageOperations {
 
   private async *listPagingPage(
     location: string,
-    options?: UsageListOptionalParams,
+    options?: DiagnosticsListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<Usage[]> {
-    let result: UsageListResponse;
+  ): AsyncIterableIterator<ComputeDiagnosticBase[]> {
+    let result: DiagnosticsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(location, options);
@@ -86,23 +85,22 @@ export class UsageOperationsImpl implements UsageOperations {
 
   private async *listPagingAll(
     location: string,
-    options?: UsageListOptionalParams,
-  ): AsyncIterableIterator<Usage> {
+    options?: DiagnosticsListOptionalParams,
+  ): AsyncIterableIterator<ComputeDiagnosticBase> {
     for await (const page of this.listPagingPage(location, options)) {
       yield* page;
     }
   }
 
   /**
-   * Gets, for the specified location, the current compute resource usage information as well as the
-   * limits for compute resources under the subscription.
-   * @param location The location for which resource usage is queried.
+   * Lists all available Compute diagnostics for a subscription in a location.
+   * @param location The location used to execute the diagnostic operation.
    * @param options The options parameters.
    */
   private _list(
     location: string,
-    options?: UsageListOptionalParams,
-  ): Promise<UsageListResponse> {
+    options?: DiagnosticsListOptionalParams,
+  ): Promise<DiagnosticsListResponse> {
     return this.client.sendOperationRequest(
       { location, options },
       listOperationSpec,
@@ -111,15 +109,15 @@ export class UsageOperationsImpl implements UsageOperations {
 
   /**
    * ListNext
-   * @param location The location for which resource usage is queried.
+   * @param location The location used to execute the diagnostic operation.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
     location: string,
     nextLink: string,
-    options?: UsageListNextOptionalParams,
-  ): Promise<UsageListNextResponse> {
+    options?: DiagnosticsListNextOptionalParams,
+  ): Promise<DiagnosticsListNextResponse> {
     return this.client.sendOperationRequest(
       { location, nextLink, options },
       listNextOperationSpec,
@@ -130,17 +128,16 @@ export class UsageOperationsImpl implements UsageOperations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/usages",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/diagnostics",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ListUsagesResult,
+      bodyMapper: Mappers.ComputeDiagnosticsList,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -154,10 +151,10 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ListUsagesResult,
+      bodyMapper: Mappers.ComputeDiagnosticsList,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [
