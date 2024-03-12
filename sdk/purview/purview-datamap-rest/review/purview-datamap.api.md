@@ -3657,10 +3657,10 @@ export interface QueryOptions {
 
 // @public
 export interface QueryResultOutput {
+    "@search.count"?: number;
+    "@search.count.approximate"?: boolean;
+    "@search.facets"?: SearchFacetResultValueOutput;
     continuationToken?: string;
-    searchCount?: number;
-    searchCountApproximate?: boolean;
-    searchFacets?: SearchFacetResultValueOutput;
     value?: Array<SearchResultValueOutput>;
 }
 
@@ -3898,6 +3898,8 @@ export interface SearchHighlightsOutput {
 
 // @public
 export interface SearchResultValueOutput {
+    "@search.highlights"?: SearchHighlightsOutput;
+    "@search.score"?: number;
     assetType?: string[];
     classification?: string[];
     contact?: Array<ContactSearchResultValueOutput>;
@@ -3914,8 +3916,6 @@ export interface SearchResultValueOutput {
     objectType?: string;
     owner?: string;
     qualifiedName?: string;
-    searchHighlights?: SearchHighlightsOutput;
-    searchScore?: number;
     term?: Array<TermSearchResultValueOutput>;
     termStatus?: string;
     termTemplate?: string[];
@@ -3942,6 +3942,8 @@ export interface SuggestResultOutput {
 
 // @public
 export interface SuggestResultValueOutput {
+    "@search.score"?: number;
+    "@search.text"?: string;
     assetType?: string[];
     classification?: string[];
     contact?: Array<ContactSearchResultValueOutput>;
@@ -3958,8 +3960,6 @@ export interface SuggestResultValueOutput {
     objectType?: string;
     owner?: string;
     qualifiedName?: string;
-    searchScore?: number;
-    searchText?: string;
     term?: Array<TermSearchResultValueOutput>;
     termStatus?: string;
     termTemplate?: string[];
