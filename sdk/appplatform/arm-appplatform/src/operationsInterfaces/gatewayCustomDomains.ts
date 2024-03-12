@@ -15,7 +15,7 @@ import {
   GatewayCustomDomainsGetResponse,
   GatewayCustomDomainsCreateOrUpdateOptionalParams,
   GatewayCustomDomainsCreateOrUpdateResponse,
-  GatewayCustomDomainsDeleteOptionalParams
+  GatewayCustomDomainsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface GatewayCustomDomains {
     resourceGroupName: string,
     serviceName: string,
     gatewayName: string,
-    options?: GatewayCustomDomainsListOptionalParams
+    options?: GatewayCustomDomainsListOptionalParams,
   ): PagedAsyncIterableIterator<GatewayCustomDomainResource>;
   /**
    * Get the Spring Cloud Gateway custom domain.
@@ -49,7 +49,7 @@ export interface GatewayCustomDomains {
     serviceName: string,
     gatewayName: string,
     domainName: string,
-    options?: GatewayCustomDomainsGetOptionalParams
+    options?: GatewayCustomDomainsGetOptionalParams,
   ): Promise<GatewayCustomDomainsGetResponse>;
   /**
    * Create or update the Spring Cloud Gateway custom domain.
@@ -68,7 +68,7 @@ export interface GatewayCustomDomains {
     gatewayName: string,
     domainName: string,
     gatewayCustomDomainResource: GatewayCustomDomainResource,
-    options?: GatewayCustomDomainsCreateOrUpdateOptionalParams
+    options?: GatewayCustomDomainsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<GatewayCustomDomainsCreateOrUpdateResponse>,
@@ -92,7 +92,7 @@ export interface GatewayCustomDomains {
     gatewayName: string,
     domainName: string,
     gatewayCustomDomainResource: GatewayCustomDomainResource,
-    options?: GatewayCustomDomainsCreateOrUpdateOptionalParams
+    options?: GatewayCustomDomainsCreateOrUpdateOptionalParams,
   ): Promise<GatewayCustomDomainsCreateOrUpdateResponse>;
   /**
    * Delete the Spring Cloud Gateway custom domain.
@@ -108,7 +108,7 @@ export interface GatewayCustomDomains {
     serviceName: string,
     gatewayName: string,
     domainName: string,
-    options?: GatewayCustomDomainsDeleteOptionalParams
+    options?: GatewayCustomDomainsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete the Spring Cloud Gateway custom domain.
@@ -124,6 +124,6 @@ export interface GatewayCustomDomains {
     serviceName: string,
     gatewayName: string,
     domainName: string,
-    options?: GatewayCustomDomainsDeleteOptionalParams
+    options?: GatewayCustomDomainsDeleteOptionalParams,
   ): Promise<void>;
 }
