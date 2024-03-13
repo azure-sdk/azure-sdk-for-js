@@ -170,6 +170,30 @@ export interface ProviderInstance extends ProxyResource {
   readonly provisioningState?: HanaProvisioningStatesEnum;
 }
 
+/** Defines headers for SapMonitors_create operation. */
+export interface SapMonitorsCreateHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+
+/** Defines headers for SapMonitors_delete operation. */
+export interface SapMonitorsDeleteHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+
+/** Defines headers for ProviderInstances_create operation. */
+export interface ProviderInstancesCreateHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+
+/** Defines headers for ProviderInstances_delete operation. */
+export interface ProviderInstancesDeleteHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+
 /** Known values of {@link HanaProvisioningStatesEnum} that the service accepts. */
 export enum KnownHanaProvisioningStatesEnum {
   /** Accepted */
@@ -185,7 +209,7 @@ export enum KnownHanaProvisioningStatesEnum {
   /** Deleting */
   Deleting = "Deleting",
   /** Migrating */
-  Migrating = "Migrating"
+  Migrating = "Migrating",
 }
 
 /**

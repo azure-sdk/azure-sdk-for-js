@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { HanaManagementClient } from "../hanaManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   ProviderInstance,
   ProviderInstancesListNextOptionalParams,
@@ -25,7 +29,7 @@ import {
   ProviderInstancesCreateOptionalParams,
   ProviderInstancesCreateResponse,
   ProviderInstancesDeleteOptionalParams,
-  ProviderInstancesListNextResponse
+  ProviderInstancesListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -42,8 +46,7 @@ export class ProviderInstancesImpl implements ProviderInstances {
   }
 
   /**
-   * Gets a list of provider instances in the specified SAP monitor. The operations returns various
-   * properties of each provider instances.
+   * The product Microsoft.Workloads/sapMonitors (AMS Classic) is officially retired as of May 31, 2023.
    * @param resourceGroupName Name of the resource group.
    * @param sapMonitorName Name of the SAP monitor resource.
    * @param options The options parameters.
@@ -51,7 +54,7 @@ export class ProviderInstancesImpl implements ProviderInstances {
   public list(
     resourceGroupName: string,
     sapMonitorName: string,
-    options?: ProviderInstancesListOptionalParams
+    options?: ProviderInstancesListOptionalParams,
   ): PagedAsyncIterableIterator<ProviderInstance> {
     const iter = this.listPagingAll(resourceGroupName, sapMonitorName, options);
     return {
@@ -69,9 +72,9 @@ export class ProviderInstancesImpl implements ProviderInstances {
           resourceGroupName,
           sapMonitorName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -79,7 +82,7 @@ export class ProviderInstancesImpl implements ProviderInstances {
     resourceGroupName: string,
     sapMonitorName: string,
     options?: ProviderInstancesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ProviderInstance[]> {
     let result: ProviderInstancesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -95,7 +98,7 @@ export class ProviderInstancesImpl implements ProviderInstances {
         resourceGroupName,
         sapMonitorName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -107,20 +110,19 @@ export class ProviderInstancesImpl implements ProviderInstances {
   private async *listPagingAll(
     resourceGroupName: string,
     sapMonitorName: string,
-    options?: ProviderInstancesListOptionalParams
+    options?: ProviderInstancesListOptionalParams,
   ): AsyncIterableIterator<ProviderInstance> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       sapMonitorName,
-      options
+      options,
     )) {
       yield* page;
     }
   }
 
   /**
-   * Gets a list of provider instances in the specified SAP monitor. The operations returns various
-   * properties of each provider instances.
+   * The product Microsoft.Workloads/sapMonitors (AMS Classic) is officially retired as of May 31, 2023.
    * @param resourceGroupName Name of the resource group.
    * @param sapMonitorName Name of the SAP monitor resource.
    * @param options The options parameters.
@@ -128,17 +130,16 @@ export class ProviderInstancesImpl implements ProviderInstances {
   private _list(
     resourceGroupName: string,
     sapMonitorName: string,
-    options?: ProviderInstancesListOptionalParams
+    options?: ProviderInstancesListOptionalParams,
   ): Promise<ProviderInstancesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, sapMonitorName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
   /**
-   * Gets properties of a provider instance for the specified subscription, resource group, SapMonitor
-   * name, and resource name.
+   * The product Microsoft.Workloads/sapMonitors (AMS Classic) is officially retired as of May 31, 2023.
    * @param resourceGroupName Name of the resource group.
    * @param sapMonitorName Name of the SAP monitor resource.
    * @param providerInstanceName Name of the provider instance.
@@ -148,17 +149,16 @@ export class ProviderInstancesImpl implements ProviderInstances {
     resourceGroupName: string,
     sapMonitorName: string,
     providerInstanceName: string,
-    options?: ProviderInstancesGetOptionalParams
+    options?: ProviderInstancesGetOptionalParams,
   ): Promise<ProviderInstancesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, sapMonitorName, providerInstanceName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
   /**
-   * Creates a provider instance for the specified subscription, resource group, SapMonitor name, and
-   * resource name.
+   * The product Microsoft.Workloads/sapMonitors (AMS Classic) is officially retired as of May 31, 2023.
    * @param resourceGroupName Name of the resource group.
    * @param sapMonitorName Name of the SAP monitor resource.
    * @param providerInstanceName Name of the provider instance.
@@ -170,30 +170,29 @@ export class ProviderInstancesImpl implements ProviderInstances {
     sapMonitorName: string,
     providerInstanceName: string,
     providerInstanceParameter: ProviderInstance,
-    options?: ProviderInstancesCreateOptionalParams
+    options?: ProviderInstancesCreateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ProviderInstancesCreateResponse>,
+    SimplePollerLike<
+      OperationState<ProviderInstancesCreateResponse>,
       ProviderInstancesCreateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ProviderInstancesCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -202,8 +201,8 @@ export class ProviderInstancesImpl implements ProviderInstances {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -211,33 +210,35 @@ export class ProviderInstancesImpl implements ProviderInstances {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         sapMonitorName,
         providerInstanceName,
         providerInstanceParameter,
-        options
+        options,
       },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: createOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ProviderInstancesCreateResponse,
+      OperationState<ProviderInstancesCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Creates a provider instance for the specified subscription, resource group, SapMonitor name, and
-   * resource name.
+   * The product Microsoft.Workloads/sapMonitors (AMS Classic) is officially retired as of May 31, 2023.
    * @param resourceGroupName Name of the resource group.
    * @param sapMonitorName Name of the SAP monitor resource.
    * @param providerInstanceName Name of the provider instance.
@@ -249,21 +250,20 @@ export class ProviderInstancesImpl implements ProviderInstances {
     sapMonitorName: string,
     providerInstanceName: string,
     providerInstanceParameter: ProviderInstance,
-    options?: ProviderInstancesCreateOptionalParams
+    options?: ProviderInstancesCreateOptionalParams,
   ): Promise<ProviderInstancesCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       sapMonitorName,
       providerInstanceName,
       providerInstanceParameter,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Deletes a provider instance for the specified subscription, resource group, SapMonitor name, and
-   * resource name.
+   * The product Microsoft.Workloads/sapMonitors (AMS Classic) is officially retired as of May 31, 2023.
    * @param resourceGroupName Name of the resource group.
    * @param sapMonitorName Name of the SAP monitor resource.
    * @param providerInstanceName Name of the provider instance.
@@ -273,25 +273,24 @@ export class ProviderInstancesImpl implements ProviderInstances {
     resourceGroupName: string,
     sapMonitorName: string,
     providerInstanceName: string,
-    options?: ProviderInstancesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: ProviderInstancesDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -300,8 +299,8 @@ export class ProviderInstancesImpl implements ProviderInstances {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -309,27 +308,31 @@ export class ProviderInstancesImpl implements ProviderInstances {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, sapMonitorName, providerInstanceName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        sapMonitorName,
+        providerInstanceName,
+        options,
+      },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Deletes a provider instance for the specified subscription, resource group, SapMonitor name, and
-   * resource name.
+   * The product Microsoft.Workloads/sapMonitors (AMS Classic) is officially retired as of May 31, 2023.
    * @param resourceGroupName Name of the resource group.
    * @param sapMonitorName Name of the SAP monitor resource.
    * @param providerInstanceName Name of the provider instance.
@@ -339,13 +342,13 @@ export class ProviderInstancesImpl implements ProviderInstances {
     resourceGroupName: string,
     sapMonitorName: string,
     providerInstanceName: string,
-    options?: ProviderInstancesDeleteOptionalParams
+    options?: ProviderInstancesDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       sapMonitorName,
       providerInstanceName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -361,11 +364,11 @@ export class ProviderInstancesImpl implements ProviderInstances {
     resourceGroupName: string,
     sapMonitorName: string,
     nextLink: string,
-    options?: ProviderInstancesListNextOptionalParams
+    options?: ProviderInstancesListNextOptionalParams,
   ): Promise<ProviderInstancesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, sapMonitorName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -373,38 +376,15 @@ export class ProviderInstancesImpl implements ProviderInstances {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HanaOnAzure/sapMonitors/{sapMonitorName}/providerInstances",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HanaOnAzure/sapMonitors/{sapMonitorName}/providerInstances",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProviderInstanceListResult
+      bodyMapper: Mappers.ProviderInstanceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.sapMonitorName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HanaOnAzure/sapMonitors/{sapMonitorName}/providerInstances/{providerInstanceName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ProviderInstance
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -412,31 +392,51 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.sapMonitorName,
-    Parameters.providerInstanceName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HanaOnAzure/sapMonitors/{sapMonitorName}/providerInstances/{providerInstanceName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ProviderInstance,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.sapMonitorName,
+    Parameters.providerInstanceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HanaOnAzure/sapMonitors/{sapMonitorName}/providerInstances/{providerInstanceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HanaOnAzure/sapMonitors/{sapMonitorName}/providerInstances/{providerInstanceName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ProviderInstance
+      bodyMapper: Mappers.ProviderInstance,
     },
     201: {
-      bodyMapper: Mappers.ProviderInstance
+      bodyMapper: Mappers.ProviderInstance,
     },
     202: {
-      bodyMapper: Mappers.ProviderInstance
+      bodyMapper: Mappers.ProviderInstance,
     },
     204: {
-      bodyMapper: Mappers.ProviderInstance
+      bodyMapper: Mappers.ProviderInstance,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.providerInstanceParameter,
   queryParameters: [Parameters.apiVersion],
@@ -445,15 +445,14 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.sapMonitorName,
-    Parameters.providerInstanceName
+    Parameters.providerInstanceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HanaOnAzure/sapMonitors/{sapMonitorName}/providerInstances/{providerInstanceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HanaOnAzure/sapMonitors/{sapMonitorName}/providerInstances/{providerInstanceName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -461,8 +460,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -470,30 +469,29 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.sapMonitorName,
-    Parameters.providerInstanceName
+    Parameters.providerInstanceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProviderInstanceListResult
+      bodyMapper: Mappers.ProviderInstanceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.sapMonitorName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

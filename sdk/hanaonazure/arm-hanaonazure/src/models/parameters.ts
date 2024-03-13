@@ -9,12 +9,12 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   SapMonitor as SapMonitorMapper,
   Tags as TagsMapper,
-  ProviderInstance as ProviderInstanceMapper
+  ProviderInstance as ProviderInstanceMapper,
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -24,9 +24,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -35,10 +35,10 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const apiVersion: OperationQueryParameter = {
@@ -48,9 +48,9 @@ export const apiVersion: OperationQueryParameter = {
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const subscriptionId: OperationURLParameter = {
@@ -59,9 +59,9 @@ export const subscriptionId: OperationURLParameter = {
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -70,9 +70,9 @@ export const resourceGroupName: OperationURLParameter = {
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const sapMonitorName: OperationURLParameter = {
@@ -81,9 +81,9 @@ export const sapMonitorName: OperationURLParameter = {
     serializedName: "sapMonitorName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -93,19 +93,19 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const sapMonitorParameter: OperationParameter = {
   parameterPath: "sapMonitorParameter",
-  mapper: SapMonitorMapper
+  mapper: SapMonitorMapper,
 };
 
 export const tagsParameter: OperationParameter = {
   parameterPath: "tagsParameter",
-  mapper: TagsMapper
+  mapper: TagsMapper,
 };
 
 export const nextLink: OperationURLParameter = {
@@ -114,10 +114,10 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const providerInstanceName: OperationURLParameter = {
@@ -126,12 +126,12 @@ export const providerInstanceName: OperationURLParameter = {
     serializedName: "providerInstanceName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const providerInstanceParameter: OperationParameter = {
   parameterPath: "providerInstanceParameter",
-  mapper: ProviderInstanceMapper
+  mapper: ProviderInstanceMapper,
 };

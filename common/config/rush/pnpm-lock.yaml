@@ -8515,6 +8515,7 @@ packages:
 
   /queue-tick@1.0.1:
     resolution: {integrity: sha512-kJt5qhMxoszgU/62PLP1CJytzd2NKetjSRnyuj31fDd3Rlcz3fzlFdFLD1SItunPwyqEOkca6GbV612BWfaBag==}
+    requiresBuild: true
     dev: false
 
   /randombytes@2.1.0:
@@ -13682,7 +13683,7 @@ packages:
     dev: false
 
   file:projects/arm-hanaonazure.tgz:
-    resolution: {integrity: sha512-ws5mhvxHYC6HQl5DHRne0d5IWSVunp5PZ10NqYgl0hA+Kx3X4gVPg5/6olxJapbpymXfUAbms09JK56bSdk6Tw==, tarball: file:projects/arm-hanaonazure.tgz}
+    resolution: {integrity: sha512-D6k0exX9ddKCUadgIxhJ4oXj0tibKJHK3Hpchq8fEo5jSg1Ter5fbK4Ar1WsLPi8Bv0GJ3O189U/YBndKmcEGQ==, tarball: file:projects/arm-hanaonazure.tgz}
     name: '@rush-temp/arm-hanaonazure'
     version: 0.0.0
     dependencies:
@@ -13694,7 +13695,9 @@ packages:
       '@types/node': 18.19.22
       chai: 4.3.10
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.4.5
+      esm: 3.2.25
+      mkdirp: 2.1.6
       mocha: 10.3.0
       rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.22)(typescript@5.3.3)
