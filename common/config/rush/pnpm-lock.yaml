@@ -8515,6 +8515,7 @@ packages:
 
   /queue-tick@1.0.1:
     resolution: {integrity: sha512-kJt5qhMxoszgU/62PLP1CJytzd2NKetjSRnyuj31fDd3Rlcz3fzlFdFLD1SItunPwyqEOkca6GbV612BWfaBag==}
+    requiresBuild: true
     dev: false
 
   /randombytes@2.1.0:
@@ -15298,7 +15299,7 @@ packages:
     dev: false
 
   file:projects/arm-orbital.tgz:
-    resolution: {integrity: sha512-tXA9+IdDIWnwYyeoe6bUpNT3Q5rcPnA7BsBtGaIsdW6oN+nqpbg9098U6BT5Q8ak36o0TBiT+dx/Tu6dEWhL8w==, tarball: file:projects/arm-orbital.tgz}
+    resolution: {integrity: sha512-rdoYddz11QSAJxSY6OXUyNQWq8qMJKf3dP9nci5mO46xZtDbtYTQnHZLzWt+DkGrvDsEQz7FXt0x2nO7wxpVow==, tarball: file:projects/arm-orbital.tgz}
     name: '@rush-temp/arm-orbital'
     version: 0.0.0
     dependencies:
@@ -15311,6 +15312,7 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.3.0
       rimraf: 5.0.5

@@ -23,7 +23,7 @@ import {
   SpacecraftsDeleteOptionalParams,
   TagsObject,
   SpacecraftsUpdateTagsOptionalParams,
-  SpacecraftsUpdateTagsResponse
+  SpacecraftsUpdateTagsResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,7 +34,7 @@ export interface Spacecrafts {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: SpacecraftsListBySubscriptionOptionalParams
+    options?: SpacecraftsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<Spacecraft>;
   /**
    * Returns list of spacecrafts by resource group.
@@ -43,7 +43,7 @@ export interface Spacecrafts {
    */
   list(
     resourceGroupName: string,
-    options?: SpacecraftsListOptionalParams
+    options?: SpacecraftsListOptionalParams,
   ): PagedAsyncIterableIterator<Spacecraft>;
   /**
    * Returns list of available contacts. A contact is available if the spacecraft is visible from the
@@ -63,7 +63,7 @@ export interface Spacecrafts {
     groundStationName: string,
     startTime: Date,
     endTime: Date,
-    options?: SpacecraftsListAvailableContactsOptionalParams
+    options?: SpacecraftsListAvailableContactsOptionalParams,
   ): PagedAsyncIterableIterator<AvailableContacts>;
   /**
    * Gets the specified spacecraft in a specified resource group.
@@ -74,7 +74,7 @@ export interface Spacecrafts {
   get(
     resourceGroupName: string,
     spacecraftName: string,
-    options?: SpacecraftsGetOptionalParams
+    options?: SpacecraftsGetOptionalParams,
   ): Promise<SpacecraftsGetResponse>;
   /**
    * Creates or updates a spacecraft resource.
@@ -95,7 +95,7 @@ export interface Spacecrafts {
     tleLine1: string,
     tleLine2: string,
     links: SpacecraftLink[],
-    options?: SpacecraftsCreateOrUpdateOptionalParams
+    options?: SpacecraftsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SpacecraftsCreateOrUpdateResponse>,
@@ -121,7 +121,7 @@ export interface Spacecrafts {
     tleLine1: string,
     tleLine2: string,
     links: SpacecraftLink[],
-    options?: SpacecraftsCreateOrUpdateOptionalParams
+    options?: SpacecraftsCreateOrUpdateOptionalParams,
   ): Promise<SpacecraftsCreateOrUpdateResponse>;
   /**
    * Deletes a specified spacecraft resource.
@@ -132,7 +132,7 @@ export interface Spacecrafts {
   beginDelete(
     resourceGroupName: string,
     spacecraftName: string,
-    options?: SpacecraftsDeleteOptionalParams
+    options?: SpacecraftsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a specified spacecraft resource.
@@ -143,7 +143,7 @@ export interface Spacecrafts {
   beginDeleteAndWait(
     resourceGroupName: string,
     spacecraftName: string,
-    options?: SpacecraftsDeleteOptionalParams
+    options?: SpacecraftsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Updates the specified spacecraft tags.
@@ -156,7 +156,7 @@ export interface Spacecrafts {
     resourceGroupName: string,
     spacecraftName: string,
     parameters: TagsObject,
-    options?: SpacecraftsUpdateTagsOptionalParams
+    options?: SpacecraftsUpdateTagsOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SpacecraftsUpdateTagsResponse>,
@@ -174,6 +174,6 @@ export interface Spacecrafts {
     resourceGroupName: string,
     spacecraftName: string,
     parameters: TagsObject,
-    options?: SpacecraftsUpdateTagsOptionalParams
+    options?: SpacecraftsUpdateTagsOptionalParams,
   ): Promise<SpacecraftsUpdateTagsResponse>;
 }

@@ -21,7 +21,7 @@ import {
   ContactProfilesDeleteOptionalParams,
   TagsObject,
   ContactProfilesUpdateTagsOptionalParams,
-  ContactProfilesUpdateTagsResponse
+  ContactProfilesUpdateTagsResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface ContactProfiles {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: ContactProfilesListBySubscriptionOptionalParams
+    options?: ContactProfilesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<ContactProfile>;
   /**
    * Returns list of contact profiles by Resource Group.
@@ -41,7 +41,7 @@ export interface ContactProfiles {
    */
   list(
     resourceGroupName: string,
-    options?: ContactProfilesListOptionalParams
+    options?: ContactProfilesListOptionalParams,
   ): PagedAsyncIterableIterator<ContactProfile>;
   /**
    * Gets the specified contact Profile in a specified resource group.
@@ -52,7 +52,7 @@ export interface ContactProfiles {
   get(
     resourceGroupName: string,
     contactProfileName: string,
-    options?: ContactProfilesGetOptionalParams
+    options?: ContactProfilesGetOptionalParams,
   ): Promise<ContactProfilesGetResponse>;
   /**
    * Creates or updates a contact profile.
@@ -69,7 +69,7 @@ export interface ContactProfiles {
     location: string,
     networkConfiguration: ContactProfilesPropertiesNetworkConfiguration,
     links: ContactProfileLink[],
-    options?: ContactProfilesCreateOrUpdateOptionalParams
+    options?: ContactProfilesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ContactProfilesCreateOrUpdateResponse>,
@@ -91,7 +91,7 @@ export interface ContactProfiles {
     location: string,
     networkConfiguration: ContactProfilesPropertiesNetworkConfiguration,
     links: ContactProfileLink[],
-    options?: ContactProfilesCreateOrUpdateOptionalParams
+    options?: ContactProfilesCreateOrUpdateOptionalParams,
   ): Promise<ContactProfilesCreateOrUpdateResponse>;
   /**
    * Deletes a specified contact profile resource.
@@ -102,7 +102,7 @@ export interface ContactProfiles {
   beginDelete(
     resourceGroupName: string,
     contactProfileName: string,
-    options?: ContactProfilesDeleteOptionalParams
+    options?: ContactProfilesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a specified contact profile resource.
@@ -113,7 +113,7 @@ export interface ContactProfiles {
   beginDeleteAndWait(
     resourceGroupName: string,
     contactProfileName: string,
-    options?: ContactProfilesDeleteOptionalParams
+    options?: ContactProfilesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Updates the specified contact profile tags.
@@ -126,7 +126,7 @@ export interface ContactProfiles {
     resourceGroupName: string,
     contactProfileName: string,
     parameters: TagsObject,
-    options?: ContactProfilesUpdateTagsOptionalParams
+    options?: ContactProfilesUpdateTagsOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ContactProfilesUpdateTagsResponse>,
@@ -144,6 +144,6 @@ export interface ContactProfiles {
     resourceGroupName: string,
     contactProfileName: string,
     parameters: TagsObject,
-    options?: ContactProfilesUpdateTagsOptionalParams
+    options?: ContactProfilesUpdateTagsOptionalParams,
   ): Promise<ContactProfilesUpdateTagsResponse>;
 }
