@@ -91,7 +91,7 @@ export const springbootsitesName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-01-01-preview",
+    defaultValue: "2024-04-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
