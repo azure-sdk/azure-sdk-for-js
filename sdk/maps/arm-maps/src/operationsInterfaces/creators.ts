@@ -17,7 +17,7 @@ import {
   CreatorsUpdateResponse,
   CreatorsDeleteOptionalParams,
   CreatorsGetOptionalParams,
-  CreatorsGetResponse
+  CreatorsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface Creators {
   listByAccount(
     resourceGroupName: string,
     accountName: string,
-    options?: CreatorsListByAccountOptionalParams
+    options?: CreatorsListByAccountOptionalParams,
   ): PagedAsyncIterableIterator<Creator>;
   /**
    * Create or update a Maps Creator resource. Creator resource will manage Azure resources required to
@@ -48,7 +48,7 @@ export interface Creators {
     accountName: string,
     creatorName: string,
     creatorResource: Creator,
-    options?: CreatorsCreateOrUpdateOptionalParams
+    options?: CreatorsCreateOrUpdateOptionalParams,
   ): Promise<CreatorsCreateOrUpdateResponse>;
   /**
    * Updates the Maps Creator resource. Only a subset of the parameters may be updated after creation,
@@ -64,7 +64,7 @@ export interface Creators {
     accountName: string,
     creatorName: string,
     creatorUpdateParameters: CreatorUpdateParameters,
-    options?: CreatorsUpdateOptionalParams
+    options?: CreatorsUpdateOptionalParams,
   ): Promise<CreatorsUpdateResponse>;
   /**
    * Delete a Maps Creator resource.
@@ -77,7 +77,7 @@ export interface Creators {
     resourceGroupName: string,
     accountName: string,
     creatorName: string,
-    options?: CreatorsDeleteOptionalParams
+    options?: CreatorsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Get a Maps Creator resource.
@@ -90,6 +90,6 @@ export interface Creators {
     resourceGroupName: string,
     accountName: string,
     creatorName: string,
-    options?: CreatorsGetOptionalParams
+    options?: CreatorsGetOptionalParams,
   ): Promise<CreatorsGetResponse>;
 }

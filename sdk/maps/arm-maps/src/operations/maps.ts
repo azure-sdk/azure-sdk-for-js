@@ -14,15 +14,11 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureMapsManagementClient } from "../azureMapsManagementClient";
 import {
-  OperationDetail,
+  Operation,
   MapsListOperationsNextOptionalParams,
   MapsListOperationsOptionalParams,
   MapsListOperationsResponse,
-  MapsListSubscriptionOperationsNextOptionalParams,
-  MapsListSubscriptionOperationsOptionalParams,
-  MapsListSubscriptionOperationsResponse,
   MapsListOperationsNextResponse,
-  MapsListSubscriptionOperationsNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -43,8 +39,8 @@ export class MapsImpl implements Maps {
    * @param options The options parameters.
    */
   public listOperations(
-    options?: MapsListOperationsOptionalParams
-  ): PagedAsyncIterableIterator<OperationDetail> {
+    options?: MapsListOperationsOptionalParams,
+  ): PagedAsyncIterableIterator<Operation> {
     const iter = this.listOperationsPagingAll(options);
     return {
       next() {
@@ -58,14 +54,14 @@ export class MapsImpl implements Maps {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listOperationsPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listOperationsPagingPage(
     options?: MapsListOperationsOptionalParams,
-    settings?: PageSettings
-  ): AsyncIterableIterator<OperationDetail[]> {
+    settings?: PageSettings,
+  ): AsyncIterableIterator<Operation[]> {
     let result: MapsListOperationsResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
@@ -85,8 +81,8 @@ export class MapsImpl implements Maps {
   }
 
   private async *listOperationsPagingAll(
-    options?: MapsListOperationsOptionalParams
-  ): AsyncIterableIterator<OperationDetail> {
+    options?: MapsListOperationsOptionalParams,
+  ): AsyncIterableIterator<Operation> {
     for await (const page of this.listOperationsPagingPage(options)) {
       yield* page;
     }
@@ -96,84 +92,12 @@ export class MapsImpl implements Maps {
    * List operations available for the Maps Resource Provider
    * @param options The options parameters.
    */
-  public listSubscriptionOperations(
-    options?: MapsListSubscriptionOperationsOptionalParams
-  ): PagedAsyncIterableIterator<OperationDetail> {
-    const iter = this.listSubscriptionOperationsPagingAll(options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listSubscriptionOperationsPagingPage(options, settings);
-      }
-    };
-  }
-
-  private async *listSubscriptionOperationsPagingPage(
-    options?: MapsListSubscriptionOperationsOptionalParams,
-    settings?: PageSettings
-  ): AsyncIterableIterator<OperationDetail[]> {
-    let result: MapsListSubscriptionOperationsResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listSubscriptionOperations(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listSubscriptionOperationsNext(
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listSubscriptionOperationsPagingAll(
-    options?: MapsListSubscriptionOperationsOptionalParams
-  ): AsyncIterableIterator<OperationDetail> {
-    for await (const page of this.listSubscriptionOperationsPagingPage(
-      options
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
-   * List operations available for the Maps Resource Provider
-   * @param options The options parameters.
-   */
   private _listOperations(
-    options?: MapsListOperationsOptionalParams
+    options?: MapsListOperationsOptionalParams,
   ): Promise<MapsListOperationsResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listOperationsOperationSpec
-    );
-  }
-
-  /**
-   * List operations available for the Maps Resource Provider
-   * @param options The options parameters.
-   */
-  private _listSubscriptionOperations(
-    options?: MapsListSubscriptionOperationsOptionalParams
-  ): Promise<MapsListSubscriptionOperationsResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listSubscriptionOperationsOperationSpec
+      listOperationsOperationSpec,
     );
   }
 
@@ -184,27 +108,11 @@ export class MapsImpl implements Maps {
    */
   private _listOperationsNext(
     nextLink: string,
-    options?: MapsListOperationsNextOptionalParams
+    options?: MapsListOperationsNextOptionalParams,
   ): Promise<MapsListOperationsNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listOperationsNextOperationSpec
-    );
-  }
-
-  /**
-   * ListSubscriptionOperationsNext
-   * @param nextLink The nextLink from the previous successful call to the ListSubscriptionOperations
-   *                 method.
-   * @param options The options parameters.
-   */
-  private _listSubscriptionOperationsNext(
-    nextLink: string,
-    options?: MapsListSubscriptionOperationsNextOptionalParams
-  ): Promise<MapsListSubscriptionOperationsNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listSubscriptionOperationsNextOperationSpec
+      listOperationsNextOperationSpec,
     );
   }
 }
@@ -216,64 +124,29 @@ const listOperationsOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MapsOperations
+      bodyMapper: Mappers.OperationListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
-  serializer
-};
-const listSubscriptionOperationsOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Maps/operations",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.MapsOperations
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MapsOperations
+      bodyMapper: Mappers.OperationListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
-};
-const listSubscriptionOperationsNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.MapsOperations
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

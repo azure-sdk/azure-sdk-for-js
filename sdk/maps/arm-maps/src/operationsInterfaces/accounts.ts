@@ -26,7 +26,7 @@ import {
   AccountsListKeysResponse,
   MapsKeySpecification,
   AccountsRegenerateKeysOptionalParams,
-  AccountsRegenerateKeysResponse
+  AccountsRegenerateKeysResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -39,14 +39,14 @@ export interface Accounts {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: AccountsListByResourceGroupOptionalParams
+    options?: AccountsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<MapsAccount>;
   /**
    * Get all Maps Accounts in a Subscription
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: AccountsListBySubscriptionOptionalParams
+    options?: AccountsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<MapsAccount>;
   /**
    * Create or update a Maps Account. A Maps Account holds the keys which allow access to the Maps REST
@@ -60,7 +60,7 @@ export interface Accounts {
     resourceGroupName: string,
     accountName: string,
     mapsAccount: MapsAccount,
-    options?: AccountsCreateOrUpdateOptionalParams
+    options?: AccountsCreateOrUpdateOptionalParams,
   ): Promise<AccountsCreateOrUpdateResponse>;
   /**
    * Updates a Maps Account. Only a subset of the parameters may be updated after creation, such as Sku,
@@ -74,7 +74,7 @@ export interface Accounts {
     resourceGroupName: string,
     accountName: string,
     mapsAccountUpdateParameters: MapsAccountUpdateParameters,
-    options?: AccountsUpdateOptionalParams
+    options?: AccountsUpdateOptionalParams,
   ): Promise<AccountsUpdateResponse>;
   /**
    * Delete a Maps Account.
@@ -85,7 +85,7 @@ export interface Accounts {
   delete(
     resourceGroupName: string,
     accountName: string,
-    options?: AccountsDeleteOptionalParams
+    options?: AccountsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Get a Maps Account.
@@ -96,7 +96,7 @@ export interface Accounts {
   get(
     resourceGroupName: string,
     accountName: string,
-    options?: AccountsGetOptionalParams
+    options?: AccountsGetOptionalParams,
   ): Promise<AccountsGetResponse>;
   /**
    * Create and list an account shared access signature token. Use this SAS token for authentication to
@@ -105,7 +105,7 @@ export interface Accounts {
    * Prerequisites:
    * 1. Create or have an existing User Assigned Managed Identity in the same Azure region as the
    * account.
-   * 2. Create or update an Azure Map account with the same Azure region as the User Assigned Managed
+   * 2. Create or update an Azure Maps account with the same Azure region as the User Assigned Managed
    * Identity is placed.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the Maps Account.
@@ -116,7 +116,7 @@ export interface Accounts {
     resourceGroupName: string,
     accountName: string,
     mapsAccountSasParameters: AccountSasParameters,
-    options?: AccountsListSasOptionalParams
+    options?: AccountsListSasOptionalParams,
   ): Promise<AccountsListSasResponse>;
   /**
    * Get the keys to use with the Maps APIs. A key is used to authenticate and authorize access to the
@@ -129,7 +129,7 @@ export interface Accounts {
   listKeys(
     resourceGroupName: string,
     accountName: string,
-    options?: AccountsListKeysOptionalParams
+    options?: AccountsListKeysOptionalParams,
   ): Promise<AccountsListKeysResponse>;
   /**
    * Regenerate either the primary or secondary key for use with the Maps APIs. The old key will stop
@@ -143,6 +143,6 @@ export interface Accounts {
     resourceGroupName: string,
     accountName: string,
     keySpecification: MapsKeySpecification,
-    options?: AccountsRegenerateKeysOptionalParams
+    options?: AccountsRegenerateKeysOptionalParams,
   ): Promise<AccountsRegenerateKeysResponse>;
 }
