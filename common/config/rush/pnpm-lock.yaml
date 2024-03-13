@@ -8515,6 +8515,7 @@ packages:
 
   /queue-tick@1.0.1:
     resolution: {integrity: sha512-kJt5qhMxoszgU/62PLP1CJytzd2NKetjSRnyuj31fDd3Rlcz3fzlFdFLD1SItunPwyqEOkca6GbV612BWfaBag==}
+    requiresBuild: true
     dev: false
 
   /randombytes@2.1.0:
@@ -14034,7 +14035,7 @@ packages:
     dev: false
 
   file:projects/arm-iotfirmwaredefense.tgz:
-    resolution: {integrity: sha512-TVCRaGPO1/PFRav4n7v79oTPfBsAUROLR/IAhd/zuhPM9eVfXFjB2yzPzpbtKEe+GxREpOgCEy4qxpbBTYpE/g==, tarball: file:projects/arm-iotfirmwaredefense.tgz}
+    resolution: {integrity: sha512-KJO58tiVH0W5RyytvReD1JWPpbixlItXu7zyQgGAqzKQMPLhshcU657DBVcVahr6to/5fsC2g6meh9seVDuxFA==, tarball: file:projects/arm-iotfirmwaredefense.tgz}
     name: '@rush-temp/arm-iotfirmwaredefense'
     version: 0.0.0
     dependencies:
@@ -14046,6 +14047,7 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.3.0
       rimraf: 5.0.5
