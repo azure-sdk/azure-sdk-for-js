@@ -68,7 +68,7 @@ export interface AnalyzeFromImageDataQueryParamProperties {
     "gender-neutral-caption"?: boolean;
     "model-version"?: string;
     "smartcrops-aspect-ratios"?: number[];
-    features: string[];
+    features: VisualFeatures[];
     language?: string;
 }
 
@@ -119,7 +119,7 @@ export interface AnalyzeFromUrlQueryParamProperties {
     "gender-neutral-caption"?: boolean;
     "model-version"?: string;
     "smartcrops-aspect-ratios"?: number[];
-    features: string[];
+    features: VisualFeatures[];
     language?: string;
 }
 
@@ -268,6 +268,12 @@ export interface SmartCropsResultOutput {
 export interface TagsResultOutput {
     values: Array<DetectedTagOutput>;
 }
+
+// @public
+export type VisualFeatures = string | "tags" | "caption" | "denseCaptions" | "objects" | "read" | "smartCrops" | "people";
+
+// @public
+export type VisualFeaturesOutput = string | "tags" | "caption" | "denseCaptions" | "objects" | "read" | "smartCrops" | "people";
 
 // (No @packageDocumentation comment for this package)
 

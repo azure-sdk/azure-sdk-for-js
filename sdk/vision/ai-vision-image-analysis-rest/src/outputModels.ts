@@ -209,3 +209,14 @@ export interface ImageUrlOutput {
   /** Publicly reachable URL of an image to analyze. */
   url: string;
 }
+
+/** Alias for VisualFeaturesOutput */
+export type VisualFeaturesOutput =
+  | string
+  | "tags"
+  | "caption"
+  | "denseCaptions"
+  | "objects"
+  | "read"
+  | "smartCrops"
+  | "people";
