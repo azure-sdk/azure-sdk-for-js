@@ -1,15 +1,19 @@
 # Release History
+    
+## 3.0.0 (2024-03-13)
+    
+**Features**
 
-## 2.1.1 (Unreleased)
+  - Enum KnownClientType has a new value KafkaSpringBoot
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation group Operations
+  - Class ServiceLinkerManagementClient no longer has parameter operations
+  - Removed Enum KnownActionType
+  - Removed Enum KnownOrigin
+    
+    
 ## 2.1.0 (2022-12-16)
     
 **Features**
@@ -45,4 +49,4 @@
     
 ## 1.0.0 (2022-04-27)
 
-The package of @azure/arm-servicelinker is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+The package of @azure/arm-servicelinker is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).

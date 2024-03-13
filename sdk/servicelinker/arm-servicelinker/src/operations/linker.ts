@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ServiceLinkerManagementClient } from "../serviceLinkerManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   LinkerResource,
   LinkerListNextOptionalParams,
@@ -32,7 +36,7 @@ import {
   LinkerValidateResponse,
   LinkerListConfigurationsOptionalParams,
   LinkerListConfigurationsResponse,
-  LinkerListNextResponse
+  LinkerListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -56,7 +60,7 @@ export class LinkerImpl implements Linker {
    */
   public list(
     resourceUri: string,
-    options?: LinkerListOptionalParams
+    options?: LinkerListOptionalParams,
   ): PagedAsyncIterableIterator<LinkerResource> {
     const iter = this.listPagingAll(resourceUri, options);
     return {
@@ -71,14 +75,14 @@ export class LinkerImpl implements Linker {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(resourceUri, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     resourceUri: string,
     options?: LinkerListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<LinkerResource[]> {
     let result: LinkerListResponse;
     let continuationToken = settings?.continuationToken;
@@ -100,7 +104,7 @@ export class LinkerImpl implements Linker {
 
   private async *listPagingAll(
     resourceUri: string,
-    options?: LinkerListOptionalParams
+    options?: LinkerListOptionalParams,
   ): AsyncIterableIterator<LinkerResource> {
     for await (const page of this.listPagingPage(resourceUri, options)) {
       yield* page;
@@ -115,11 +119,11 @@ export class LinkerImpl implements Linker {
    */
   private _list(
     resourceUri: string,
-    options?: LinkerListOptionalParams
+    options?: LinkerListOptionalParams,
   ): Promise<LinkerListResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -133,11 +137,11 @@ export class LinkerImpl implements Linker {
   get(
     resourceUri: string,
     linkerName: string,
-    options?: LinkerGetOptionalParams
+    options?: LinkerGetOptionalParams,
   ): Promise<LinkerGetResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, linkerName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -153,30 +157,29 @@ export class LinkerImpl implements Linker {
     resourceUri: string,
     linkerName: string,
     parameters: LinkerResource,
-    options?: LinkerCreateOrUpdateOptionalParams
+    options?: LinkerCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<LinkerCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<LinkerCreateOrUpdateResponse>,
       LinkerCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<LinkerCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -185,8 +188,8 @@ export class LinkerImpl implements Linker {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -194,20 +197,23 @@ export class LinkerImpl implements Linker {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceUri, linkerName, parameters, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceUri, linkerName, parameters, options },
+      spec: createOrUpdateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      LinkerCreateOrUpdateResponse,
+      OperationState<LinkerCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -225,13 +231,13 @@ export class LinkerImpl implements Linker {
     resourceUri: string,
     linkerName: string,
     parameters: LinkerResource,
-    options?: LinkerCreateOrUpdateOptionalParams
+    options?: LinkerCreateOrUpdateOptionalParams,
   ): Promise<LinkerCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceUri,
       linkerName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -246,25 +252,24 @@ export class LinkerImpl implements Linker {
   async beginDelete(
     resourceUri: string,
     linkerName: string,
-    options?: LinkerDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: LinkerDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -273,8 +278,8 @@ export class LinkerImpl implements Linker {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -282,20 +287,20 @@ export class LinkerImpl implements Linker {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceUri, linkerName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceUri, linkerName, options },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -311,7 +316,7 @@ export class LinkerImpl implements Linker {
   async beginDeleteAndWait(
     resourceUri: string,
     linkerName: string,
-    options?: LinkerDeleteOptionalParams
+    options?: LinkerDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(resourceUri, linkerName, options);
     return poller.pollUntilDone();
@@ -329,27 +334,26 @@ export class LinkerImpl implements Linker {
     resourceUri: string,
     linkerName: string,
     parameters: LinkerPatch,
-    options?: LinkerUpdateOptionalParams
+    options?: LinkerUpdateOptionalParams,
   ): Promise<
-    PollerLike<PollOperationState<LinkerUpdateResponse>, LinkerUpdateResponse>
+    SimplePollerLike<OperationState<LinkerUpdateResponse>, LinkerUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<LinkerUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -358,8 +362,8 @@ export class LinkerImpl implements Linker {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -367,20 +371,23 @@ export class LinkerImpl implements Linker {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceUri, linkerName, parameters, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceUri, linkerName, parameters, options },
+      spec: updateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      LinkerUpdateResponse,
+      OperationState<LinkerUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -398,13 +405,13 @@ export class LinkerImpl implements Linker {
     resourceUri: string,
     linkerName: string,
     parameters: LinkerPatch,
-    options?: LinkerUpdateOptionalParams
+    options?: LinkerUpdateOptionalParams,
   ): Promise<LinkerUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceUri,
       linkerName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -419,30 +426,29 @@ export class LinkerImpl implements Linker {
   async beginValidate(
     resourceUri: string,
     linkerName: string,
-    options?: LinkerValidateOptionalParams
+    options?: LinkerValidateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<LinkerValidateResponse>,
+    SimplePollerLike<
+      OperationState<LinkerValidateResponse>,
       LinkerValidateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<LinkerValidateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -451,8 +457,8 @@ export class LinkerImpl implements Linker {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -460,20 +466,23 @@ export class LinkerImpl implements Linker {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceUri, linkerName, options },
-      validateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceUri, linkerName, options },
+      spec: validateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      LinkerValidateResponse,
+      OperationState<LinkerValidateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -489,7 +498,7 @@ export class LinkerImpl implements Linker {
   async beginValidateAndWait(
     resourceUri: string,
     linkerName: string,
-    options?: LinkerValidateOptionalParams
+    options?: LinkerValidateOptionalParams,
   ): Promise<LinkerValidateResponse> {
     const poller = await this.beginValidate(resourceUri, linkerName, options);
     return poller.pollUntilDone();
@@ -505,11 +514,11 @@ export class LinkerImpl implements Linker {
   listConfigurations(
     resourceUri: string,
     linkerName: string,
-    options?: LinkerListConfigurationsOptionalParams
+    options?: LinkerListConfigurationsOptionalParams,
   ): Promise<LinkerListConfigurationsResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, linkerName, options },
-      listConfigurationsOperationSpec
+      listConfigurationsOperationSpec,
     );
   }
 
@@ -523,11 +532,11 @@ export class LinkerImpl implements Linker {
   private _listNext(
     resourceUri: string,
     nextLink: string,
-    options?: LinkerListNextOptionalParams
+    options?: LinkerListNextOptionalParams,
   ): Promise<LinkerListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -539,67 +548,67 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LinkerList
+      bodyMapper: Mappers.LinkerList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.resourceUri],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path: "/{resourceUri}/providers/Microsoft.ServiceLinker/linkers/{linkerName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LinkerResource
+      bodyMapper: Mappers.LinkerResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceUri,
-    Parameters.linkerName
+    Parameters.linkerName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path: "/{resourceUri}/providers/Microsoft.ServiceLinker/linkers/{linkerName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.LinkerResource
+      bodyMapper: Mappers.LinkerResource,
     },
     201: {
-      bodyMapper: Mappers.LinkerResource
+      bodyMapper: Mappers.LinkerResource,
     },
     202: {
-      bodyMapper: Mappers.LinkerResource
+      bodyMapper: Mappers.LinkerResource,
     },
     204: {
-      bodyMapper: Mappers.LinkerResource
+      bodyMapper: Mappers.LinkerResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceUri,
-    Parameters.linkerName
+    Parameters.linkerName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/{resourceUri}/providers/Microsoft.ServiceLinker/linkers/{linkerName}",
@@ -610,116 +619,114 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceUri,
-    Parameters.linkerName
+    Parameters.linkerName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
   path: "/{resourceUri}/providers/Microsoft.ServiceLinker/linkers/{linkerName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.LinkerResource
+      bodyMapper: Mappers.LinkerResource,
     },
     201: {
-      bodyMapper: Mappers.LinkerResource
+      bodyMapper: Mappers.LinkerResource,
     },
     202: {
-      bodyMapper: Mappers.LinkerResource
+      bodyMapper: Mappers.LinkerResource,
     },
     204: {
-      bodyMapper: Mappers.LinkerResource
+      bodyMapper: Mappers.LinkerResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceUri,
-    Parameters.linkerName
+    Parameters.linkerName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const validateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceUri}/providers/Microsoft.ServiceLinker/linkers/{linkerName}/validateLinker",
+  path: "/{resourceUri}/providers/Microsoft.ServiceLinker/linkers/{linkerName}/validateLinker",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ValidateOperationResult
+      bodyMapper: Mappers.ValidateOperationResult,
     },
     201: {
-      bodyMapper: Mappers.ValidateOperationResult
+      bodyMapper: Mappers.ValidateOperationResult,
     },
     202: {
-      bodyMapper: Mappers.ValidateOperationResult
+      bodyMapper: Mappers.ValidateOperationResult,
     },
     204: {
-      bodyMapper: Mappers.ValidateOperationResult
+      bodyMapper: Mappers.ValidateOperationResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceUri,
-    Parameters.linkerName
+    Parameters.linkerName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listConfigurationsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceUri}/providers/Microsoft.ServiceLinker/linkers/{linkerName}/listConfigurations",
+  path: "/{resourceUri}/providers/Microsoft.ServiceLinker/linkers/{linkerName}/listConfigurations",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.SourceConfigurationResult
+      bodyMapper: Mappers.SourceConfigurationResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceUri,
-    Parameters.linkerName
+    Parameters.linkerName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LinkerList
+      bodyMapper: Mappers.LinkerList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceUri,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
