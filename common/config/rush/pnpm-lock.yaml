@@ -122,6 +122,9 @@ dependencies:
   '@rush-temp/arm-azureadexternalidentities':
     specifier: file:./projects/arm-azureadexternalidentities.tgz
     version: file:projects/arm-azureadexternalidentities.tgz
+  '@rush-temp/arm-azuredatatransfer':
+    specifier: file:./projects/arm-azuredatatransfer.tgz
+    version: file:projects/arm-azuredatatransfer.tgz
   '@rush-temp/arm-azurestack':
     specifier: file:./projects/arm-azurestack.tgz
     version: file:projects/arm-azurestack.tgz
@@ -3283,7 +3286,7 @@ packages:
     resolution: {integrity: sha512-yTbItCNreRooED33qjunPthRcSjERP1r4MqCZc7wv0u2sUkzTFp45tgUfS5+r7FrZPdmCCNflLhVSP/o+SemsQ==}
     dependencies:
       '@types/jsonfile': 6.1.4
-      '@types/node': 18.19.22
+      '@types/node': 20.10.8
     dev: false
 
   /@types/fs-extra@8.1.5:
@@ -3330,7 +3333,7 @@ packages:
   /@types/jsonfile@6.1.4:
     resolution: {integrity: sha512-D5qGUYwjvnNNextdU59/+fI+spnwtTFmyQP0h+PfIOSkNfpU6AOICUOkm4i0OnSk+NyjdPJrxCDro0sJsWlRpQ==}
     dependencies:
-      '@types/node': 18.19.22
+      '@types/node': 20.10.8
     dev: false
 
   /@types/jsonwebtoken@9.0.6:
@@ -3452,7 +3455,7 @@ packages:
   /@types/readdir-glob@1.1.5:
     resolution: {integrity: sha512-raiuEPUYqXu+nvtY2Pe8s8FEmZ3x5yAH4VkLdihcPdalvsHltomrRC9BzuStrJ9yk06470hS0Crw0f1pXqD+Hg==}
     dependencies:
-      '@types/node': 18.19.22
+      '@types/node': 20.10.8
     dev: false
 
   /@types/resolve@1.20.2:
@@ -8515,6 +8518,7 @@ packages:
 
   /queue-tick@1.0.1:
     resolution: {integrity: sha512-kJt5qhMxoszgU/62PLP1CJytzd2NKetjSRnyuj31fDd3Rlcz3fzlFdFLD1SItunPwyqEOkca6GbV612BWfaBag==}
+    requiresBuild: true
     dev: false
 
   /randombytes@2.1.0:
@@ -11782,6 +11786,34 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       mkdirp: 1.0.4
+      mocha: 10.3.0
+      rimraf: 5.0.5
+      ts-node: 10.9.2(@types/node@18.19.22)(typescript@5.3.3)
+      tslib: 2.6.2
+      typescript: 5.3.3
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - supports-color
+    dev: false
+
+  file:projects/arm-azuredatatransfer.tgz:
+    resolution: {integrity: sha512-hP2GyRK3F6vspfyZLkkjFF+gmFlyubhep3ZezGsd+ybSWlWCafNA8XSWKIyX/cjwXH3C3SiSLczMtD9gYsoHcQ==, tarball: file:projects/arm-azuredatatransfer.tgz}
+    name: '@rush-temp/arm-azuredatatransfer'
+    version: 0.0.0
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/identity': 4.0.1
+      '@microsoft/api-extractor': 7.42.3(@types/node@18.19.22)
+      '@types/chai': 4.3.12
+      '@types/mocha': 10.0.6
+      '@types/node': 18.19.22
+      chai: 4.3.10
+      cross-env: 7.0.3
+      dotenv: 16.4.5
+      esm: 3.2.25
+      mkdirp: 2.1.6
       mocha: 10.3.0
       rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.22)(typescript@5.3.3)
