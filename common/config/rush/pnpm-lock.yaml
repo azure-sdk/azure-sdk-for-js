@@ -8515,6 +8515,7 @@ packages:
 
   /queue-tick@1.0.1:
     resolution: {integrity: sha512-kJt5qhMxoszgU/62PLP1CJytzd2NKetjSRnyuj31fDd3Rlcz3fzlFdFLD1SItunPwyqEOkca6GbV612BWfaBag==}
+    requiresBuild: true
     dev: false
 
   /randombytes@2.1.0:
@@ -15919,7 +15920,7 @@ packages:
     dev: false
 
   file:projects/arm-relay.tgz:
-    resolution: {integrity: sha512-JlXpIV1zrOr+LpiWchISq1AlyNe8NpFmbnd8Us1TNJ5UrYOv942PP25GjqjOTIPt9dfmvx7+WyvxT11YPK+Mag==, tarball: file:projects/arm-relay.tgz}
+    resolution: {integrity: sha512-9iT7x6wfFrtvUaVTNrm/t4zJ6CrOE3t2dA8UZNwf7UME6/NhEYEknmbYbVkdArDi3+W7rxBpDt5GWiVFBt6Y/Q==, tarball: file:projects/arm-relay.tgz}
     name: '@rush-temp/arm-relay'
     version: 0.0.0
     dependencies:
@@ -15932,7 +15933,8 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      mkdirp: 1.0.4
+      esm: 3.2.25
+      mkdirp: 2.1.6
       mocha: 10.3.0
       rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.22)(typescript@5.3.3)
