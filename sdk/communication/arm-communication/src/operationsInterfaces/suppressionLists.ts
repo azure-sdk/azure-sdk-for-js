@@ -14,7 +14,7 @@ import {
   SuppressionListsGetResponse,
   SuppressionListsCreateOrUpdateOptionalParams,
   SuppressionListsCreateOrUpdateResponse,
-  SuppressionListsDeleteOptionalParams
+  SuppressionListsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface SuppressionLists {
     resourceGroupName: string,
     emailServiceName: string,
     domainName: string,
-    options?: SuppressionListsListByDomainOptionalParams
+    options?: SuppressionListsListByDomainOptionalParams,
   ): PagedAsyncIterableIterator<SuppressionListResource>;
   /**
    * Get a SuppressionList resource.
@@ -46,7 +46,7 @@ export interface SuppressionLists {
     emailServiceName: string,
     domainName: string,
     suppressionListName: string,
-    options?: SuppressionListsGetOptionalParams
+    options?: SuppressionListsGetOptionalParams,
   ): Promise<SuppressionListsGetResponse>;
   /**
    * Add a new SuppressionList resource under the parent Domains resource or update an existing
@@ -64,7 +64,7 @@ export interface SuppressionLists {
     domainName: string,
     suppressionListName: string,
     parameters: SuppressionListResource,
-    options?: SuppressionListsCreateOrUpdateOptionalParams
+    options?: SuppressionListsCreateOrUpdateOptionalParams,
   ): Promise<SuppressionListsCreateOrUpdateResponse>;
   /**
    * Delete a SuppressionList.
@@ -79,6 +79,6 @@ export interface SuppressionLists {
     emailServiceName: string,
     domainName: string,
     suppressionListName: string,
-    options?: SuppressionListsDeleteOptionalParams
+    options?: SuppressionListsDeleteOptionalParams,
   ): Promise<void>;
 }
