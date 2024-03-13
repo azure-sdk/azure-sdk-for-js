@@ -15,7 +15,7 @@ import {
   SignalRSharedPrivateLinkResourcesGetResponse,
   SignalRSharedPrivateLinkResourcesCreateOrUpdateOptionalParams,
   SignalRSharedPrivateLinkResourcesCreateOrUpdateResponse,
-  SignalRSharedPrivateLinkResourcesDeleteOptionalParams
+  SignalRSharedPrivateLinkResourcesDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface SignalRSharedPrivateLinkResources {
   list(
     resourceGroupName: string,
     resourceName: string,
-    options?: SignalRSharedPrivateLinkResourcesListOptionalParams
+    options?: SignalRSharedPrivateLinkResourcesListOptionalParams,
   ): PagedAsyncIterableIterator<SharedPrivateLinkResource>;
   /**
    * Get the specified shared private link resource
@@ -43,7 +43,7 @@ export interface SignalRSharedPrivateLinkResources {
     sharedPrivateLinkResourceName: string,
     resourceGroupName: string,
     resourceName: string,
-    options?: SignalRSharedPrivateLinkResourcesGetOptionalParams
+    options?: SignalRSharedPrivateLinkResourcesGetOptionalParams,
   ): Promise<SignalRSharedPrivateLinkResourcesGetResponse>;
   /**
    * Create or update a shared private link resource
@@ -58,7 +58,7 @@ export interface SignalRSharedPrivateLinkResources {
     resourceGroupName: string,
     resourceName: string,
     parameters: SharedPrivateLinkResource,
-    options?: SignalRSharedPrivateLinkResourcesCreateOrUpdateOptionalParams
+    options?: SignalRSharedPrivateLinkResourcesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SignalRSharedPrivateLinkResourcesCreateOrUpdateResponse>,
@@ -78,7 +78,7 @@ export interface SignalRSharedPrivateLinkResources {
     resourceGroupName: string,
     resourceName: string,
     parameters: SharedPrivateLinkResource,
-    options?: SignalRSharedPrivateLinkResourcesCreateOrUpdateOptionalParams
+    options?: SignalRSharedPrivateLinkResourcesCreateOrUpdateOptionalParams,
   ): Promise<SignalRSharedPrivateLinkResourcesCreateOrUpdateResponse>;
   /**
    * Delete the specified shared private link resource
@@ -91,7 +91,7 @@ export interface SignalRSharedPrivateLinkResources {
     sharedPrivateLinkResourceName: string,
     resourceGroupName: string,
     resourceName: string,
-    options?: SignalRSharedPrivateLinkResourcesDeleteOptionalParams
+    options?: SignalRSharedPrivateLinkResourcesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete the specified shared private link resource
@@ -104,6 +104,6 @@ export interface SignalRSharedPrivateLinkResources {
     sharedPrivateLinkResourceName: string,
     resourceGroupName: string,
     resourceName: string,
-    options?: SignalRSharedPrivateLinkResourcesDeleteOptionalParams
+    options?: SignalRSharedPrivateLinkResourcesDeleteOptionalParams,
   ): Promise<void>;
 }

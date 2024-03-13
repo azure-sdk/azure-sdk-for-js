@@ -692,6 +692,8 @@ export class SignalRManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     signalRPrivateLinkResources: SignalRPrivateLinkResources;
     // (undocumented)
+    signalRReplica: SignalRReplica;
+    // (undocumented)
     signalRReplicas: SignalRReplicas;
     // (undocumented)
     signalRSharedPrivateLinkResources: SignalRSharedPrivateLinkResources;
@@ -794,6 +796,14 @@ export interface SignalRRegenerateKeyOptionalParams extends coreClient.Operation
 export type SignalRRegenerateKeyResponse = SignalRKeys;
 
 // @public
+export interface SignalRReplica {
+    beginSharedPrivateLinkResourcesCreateOrUpdate(resourceGroupName: string, resourceName: string, replicaName: string, sharedPrivateLinkResourceName: string, parameters: SharedPrivateLinkResource, options?: SignalRReplicaSharedPrivateLinkResourcesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SignalRReplicaSharedPrivateLinkResourcesCreateOrUpdateResponse>, SignalRReplicaSharedPrivateLinkResourcesCreateOrUpdateResponse>>;
+    beginSharedPrivateLinkResourcesCreateOrUpdateAndWait(resourceGroupName: string, resourceName: string, replicaName: string, sharedPrivateLinkResourceName: string, parameters: SharedPrivateLinkResource, options?: SignalRReplicaSharedPrivateLinkResourcesCreateOrUpdateOptionalParams): Promise<SignalRReplicaSharedPrivateLinkResourcesCreateOrUpdateResponse>;
+    listSharedPrivateLinkResourcesList(resourceGroupName: string, resourceName: string, replicaName: string, options?: SignalRReplicaSharedPrivateLinkResourcesListOptionalParams): PagedAsyncIterableIterator<SharedPrivateLinkResource>;
+    sharedPrivateLinkResourcesGet(resourceGroupName: string, resourceName: string, replicaName: string, sharedPrivateLinkResourceName: string, options?: SignalRReplicaSharedPrivateLinkResourcesGetOptionalParams): Promise<SignalRReplicaSharedPrivateLinkResourcesGetResponse>;
+}
+
+// @public
 export interface SignalRReplicas {
     beginCreateOrUpdate(resourceGroupName: string, resourceName: string, replicaName: string, parameters: Replica, options?: SignalRReplicasCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SignalRReplicasCreateOrUpdateResponse>, SignalRReplicasCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, resourceName: string, replicaName: string, parameters: Replica, options?: SignalRReplicasCreateOrUpdateOptionalParams): Promise<SignalRReplicasCreateOrUpdateResponse>;
@@ -825,6 +835,36 @@ export interface SignalRReplicasGetOptionalParams extends coreClient.OperationOp
 
 // @public
 export type SignalRReplicasGetResponse = Replica;
+
+// @public
+export interface SignalRReplicaSharedPrivateLinkResourcesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SignalRReplicaSharedPrivateLinkResourcesCreateOrUpdateResponse = SharedPrivateLinkResource;
+
+// @public
+export interface SignalRReplicaSharedPrivateLinkResourcesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SignalRReplicaSharedPrivateLinkResourcesGetResponse = SharedPrivateLinkResource;
+
+// @public
+export interface SignalRReplicaSharedPrivateLinkResourcesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SignalRReplicaSharedPrivateLinkResourcesListNextResponse = SharedPrivateLinkResourceList;
+
+// @public
+export interface SignalRReplicaSharedPrivateLinkResourcesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SignalRReplicaSharedPrivateLinkResourcesListResponse = SharedPrivateLinkResourceList;
 
 // @public
 export interface SignalRReplicasListNextOptionalParams extends coreClient.OperationOptions {
