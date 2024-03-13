@@ -8515,6 +8515,7 @@ packages:
 
   /queue-tick@1.0.1:
     resolution: {integrity: sha512-kJt5qhMxoszgU/62PLP1CJytzd2NKetjSRnyuj31fDd3Rlcz3fzlFdFLD1SItunPwyqEOkca6GbV612BWfaBag==}
+    requiresBuild: true
     dev: false
 
   /randombytes@2.1.0:
@@ -13040,10 +13041,11 @@ packages:
     dev: false
 
   file:projects/arm-desktopvirtualization.tgz:
-    resolution: {integrity: sha512-zV09nRqplUpK5w5By61XKVG/v70haO0z+1yA3ZtgMinQyV6qwGyRf8BQAt1VPWV5sgUiL6MtkFPKrJe3oNgctA==, tarball: file:projects/arm-desktopvirtualization.tgz}
+    resolution: {integrity: sha512-ZcrCQEAcwc/H9SypCuYpXR4nAGqhOiC65DpXOTo+mpVTBLXD7eyoAwul7tvdKkDzhUn97jnp/kbhlCuvN+9tgg==, tarball: file:projects/arm-desktopvirtualization.tgz}
     name: '@rush-temp/arm-desktopvirtualization'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.42.3(@types/node@18.19.22)
       '@types/chai': 4.3.12
@@ -13052,6 +13054,7 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.3.0
       rimraf: 5.0.5
