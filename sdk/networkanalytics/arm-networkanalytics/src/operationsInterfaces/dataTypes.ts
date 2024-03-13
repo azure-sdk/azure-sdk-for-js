@@ -24,7 +24,7 @@ import {
   DataTypesDeleteDataResponse,
   ContainerSaS,
   DataTypesGenerateStorageContainerSasTokenOptionalParams,
-  DataTypesGenerateStorageContainerSasTokenResponse
+  DataTypesGenerateStorageContainerSasTokenResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -39,7 +39,7 @@ export interface DataTypes {
   listByDataProduct(
     resourceGroupName: string,
     dataProductName: string,
-    options?: DataTypesListByDataProductOptionalParams
+    options?: DataTypesListByDataProductOptionalParams,
   ): PagedAsyncIterableIterator<DataType>;
   /**
    * Retrieve data type resource.
@@ -52,7 +52,7 @@ export interface DataTypes {
     resourceGroupName: string,
     dataProductName: string,
     dataTypeName: string,
-    options?: DataTypesGetOptionalParams
+    options?: DataTypesGetOptionalParams,
   ): Promise<DataTypesGetResponse>;
   /**
    * Create data type resource.
@@ -67,7 +67,7 @@ export interface DataTypes {
     dataProductName: string,
     dataTypeName: string,
     resource: DataType,
-    options?: DataTypesCreateOptionalParams
+    options?: DataTypesCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DataTypesCreateResponse>,
@@ -87,7 +87,7 @@ export interface DataTypes {
     dataProductName: string,
     dataTypeName: string,
     resource: DataType,
-    options?: DataTypesCreateOptionalParams
+    options?: DataTypesCreateOptionalParams,
   ): Promise<DataTypesCreateResponse>;
   /**
    * Update data type resource.
@@ -102,7 +102,7 @@ export interface DataTypes {
     dataProductName: string,
     dataTypeName: string,
     properties: DataTypeUpdate,
-    options?: DataTypesUpdateOptionalParams
+    options?: DataTypesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DataTypesUpdateResponse>,
@@ -122,7 +122,7 @@ export interface DataTypes {
     dataProductName: string,
     dataTypeName: string,
     properties: DataTypeUpdate,
-    options?: DataTypesUpdateOptionalParams
+    options?: DataTypesUpdateOptionalParams,
   ): Promise<DataTypesUpdateResponse>;
   /**
    * Delete data type resource.
@@ -135,7 +135,7 @@ export interface DataTypes {
     resourceGroupName: string,
     dataProductName: string,
     dataTypeName: string,
-    options?: DataTypesDeleteOptionalParams
+    options?: DataTypesDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DataTypesDeleteResponse>,
@@ -153,7 +153,7 @@ export interface DataTypes {
     resourceGroupName: string,
     dataProductName: string,
     dataTypeName: string,
-    options?: DataTypesDeleteOptionalParams
+    options?: DataTypesDeleteOptionalParams,
   ): Promise<DataTypesDeleteResponse>;
   /**
    * Delete data for data type.
@@ -168,7 +168,7 @@ export interface DataTypes {
     dataProductName: string,
     dataTypeName: string,
     body: Record<string, unknown>,
-    options?: DataTypesDeleteDataOptionalParams
+    options?: DataTypesDeleteDataOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DataTypesDeleteDataResponse>,
@@ -188,7 +188,7 @@ export interface DataTypes {
     dataProductName: string,
     dataTypeName: string,
     body: Record<string, unknown>,
-    options?: DataTypesDeleteDataOptionalParams
+    options?: DataTypesDeleteDataOptionalParams,
   ): Promise<DataTypesDeleteDataResponse>;
   /**
    * Generate sas token for storage container.
@@ -203,6 +203,6 @@ export interface DataTypes {
     dataProductName: string,
     dataTypeName: string,
     body: ContainerSaS,
-    options?: DataTypesGenerateStorageContainerSasTokenOptionalParams
+    options?: DataTypesGenerateStorageContainerSasTokenOptionalParams,
   ): Promise<DataTypesGenerateStorageContainerSasTokenResponse>;
 }
