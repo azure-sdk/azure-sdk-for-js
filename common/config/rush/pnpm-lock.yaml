@@ -8515,6 +8515,7 @@ packages:
 
   /queue-tick@1.0.1:
     resolution: {integrity: sha512-kJt5qhMxoszgU/62PLP1CJytzd2NKetjSRnyuj31fDd3Rlcz3fzlFdFLD1SItunPwyqEOkca6GbV612BWfaBag==}
+    requiresBuild: true
     dev: false
 
   /randombytes@2.1.0:
@@ -13628,7 +13629,7 @@ packages:
     dev: false
 
   file:projects/arm-frontdoor.tgz:
-    resolution: {integrity: sha512-WiPoeP0wmVQm+wF3/1No2z4+1dhaNHMpIczIEj2lgvSqDZOUg7Vsky2Ypwf6ayRCyWG1xMqxkHn8VSsxSGjhrA==, tarball: file:projects/arm-frontdoor.tgz}
+    resolution: {integrity: sha512-D4otCvzwNMhKT5ckU8TtwJCfM3CN7SFhvUXFmNBom1+5jCCSkAuqX5iO02cdGkVjkhDotd6+CEgiS1y1N3Ldgg==, tarball: file:projects/arm-frontdoor.tgz}
     name: '@rush-temp/arm-frontdoor'
     version: 0.0.0
     dependencies:
@@ -13641,6 +13642,7 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.3.0
       rimraf: 5.0.5
