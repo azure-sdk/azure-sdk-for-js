@@ -1,15 +1,13 @@
 # Release History
+    
+## 2.1.0 (2024-03-13)
+    
+**Features**
 
-## 2.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface KubernetesClusterRestoreCriteria has a new optional parameter resourceModifierReference
+  - Interface KubernetesClusterVaultTierRestoreCriteria has a new optional parameter resourceModifierReference
+    
+    
 ## 2.0.0 (2023-12-05)
     
 **Features**

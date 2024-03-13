@@ -14,12 +14,13 @@ import { DataProtectionClient } from "../dataProtectionClient";
 import {
   CrossRegionRestoreJobRequest,
   FetchCrossRegionRestoreJobGetOptionalParams,
-  FetchCrossRegionRestoreJobGetResponse
+  FetchCrossRegionRestoreJobGetResponse,
 } from "../models";
 
 /** Class containing FetchCrossRegionRestoreJob operations. */
 export class FetchCrossRegionRestoreJobImpl
-  implements FetchCrossRegionRestoreJob {
+  implements FetchCrossRegionRestoreJob
+{
   private readonly client: DataProtectionClient;
 
   /**
@@ -41,11 +42,11 @@ export class FetchCrossRegionRestoreJobImpl
     resourceGroupName: string,
     location: string,
     parameters: CrossRegionRestoreJobRequest,
-    options?: FetchCrossRegionRestoreJobGetOptionalParams
+    options?: FetchCrossRegionRestoreJobGetOptionalParams,
   ): Promise<FetchCrossRegionRestoreJobGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, location, parameters, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -53,16 +54,15 @@ export class FetchCrossRegionRestoreJobImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/locations/{location}/fetchCrossRegionRestoreJob",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/locations/{location}/fetchCrossRegionRestoreJob",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.AzureBackupJobResource
+      bodyMapper: Mappers.AzureBackupJobResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters15,
   queryParameters: [Parameters.apiVersion],
@@ -70,9 +70,9 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.location1
+    Parameters.location1,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
