@@ -8515,6 +8515,7 @@ packages:
 
   /queue-tick@1.0.1:
     resolution: {integrity: sha512-kJt5qhMxoszgU/62PLP1CJytzd2NKetjSRnyuj31fDd3Rlcz3fzlFdFLD1SItunPwyqEOkca6GbV612BWfaBag==}
+    requiresBuild: true
     dev: false
 
   /randombytes@2.1.0:
@@ -12717,7 +12718,7 @@ packages:
     dev: false
 
   file:projects/arm-databox.tgz:
-    resolution: {integrity: sha512-9Ho7a21W7lc5nfCXQMrjEatGfcwGbA4n+tEiRUwhFc5iF6BCdw5yP+qU192soLinMW1WHagom40zXT3/suIJ4w==, tarball: file:projects/arm-databox.tgz}
+    resolution: {integrity: sha512-YrQof6NtijIXi8opDFlNnnbgnngcmIqdj+GfL8ci4lzC14t+bpm+JxNJ9vEmPNUOJblrj1oPnkuLjVpSSRgQsg==, tarball: file:projects/arm-databox.tgz}
     name: '@rush-temp/arm-databox'
     version: 0.0.0
     dependencies:
@@ -12730,6 +12731,7 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.3.0
       rimraf: 5.0.5
