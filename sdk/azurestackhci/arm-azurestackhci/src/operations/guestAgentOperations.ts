@@ -14,7 +14,7 @@ import { AzureStackHCIClient } from "../azureStackHCIClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -23,7 +23,7 @@ import {
   GuestAgentGetOptionalParams,
   GuestAgentGetResponse,
   GuestAgentDeleteOptionalParams,
-  GuestAgentDeleteResponse
+  GuestAgentDeleteResponse,
 } from "../models";
 
 /** Class containing GuestAgentOperations operations. */
@@ -46,7 +46,7 @@ export class GuestAgentOperationsImpl implements GuestAgentOperations {
    */
   async beginCreate(
     resourceUri: string,
-    options?: GuestAgentCreateOptionalParams
+    options?: GuestAgentCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<GuestAgentCreateResponse>,
@@ -55,21 +55,20 @@ export class GuestAgentOperationsImpl implements GuestAgentOperations {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<GuestAgentCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -78,8 +77,8 @@ export class GuestAgentOperationsImpl implements GuestAgentOperations {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -87,15 +86,15 @@ export class GuestAgentOperationsImpl implements GuestAgentOperations {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceUri, options },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       GuestAgentCreateResponse,
@@ -103,7 +102,7 @@ export class GuestAgentOperationsImpl implements GuestAgentOperations {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -117,7 +116,7 @@ export class GuestAgentOperationsImpl implements GuestAgentOperations {
    */
   async beginCreateAndWait(
     resourceUri: string,
-    options?: GuestAgentCreateOptionalParams
+    options?: GuestAgentCreateOptionalParams,
   ): Promise<GuestAgentCreateResponse> {
     const poller = await this.beginCreate(resourceUri, options);
     return poller.pollUntilDone();
@@ -131,11 +130,11 @@ export class GuestAgentOperationsImpl implements GuestAgentOperations {
    */
   get(
     resourceUri: string,
-    options?: GuestAgentGetOptionalParams
+    options?: GuestAgentGetOptionalParams,
   ): Promise<GuestAgentGetResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -147,7 +146,7 @@ export class GuestAgentOperationsImpl implements GuestAgentOperations {
    */
   async beginDelete(
     resourceUri: string,
-    options?: GuestAgentDeleteOptionalParams
+    options?: GuestAgentDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<GuestAgentDeleteResponse>,
@@ -156,21 +155,20 @@ export class GuestAgentOperationsImpl implements GuestAgentOperations {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<GuestAgentDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -179,8 +177,8 @@ export class GuestAgentOperationsImpl implements GuestAgentOperations {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -188,22 +186,22 @@ export class GuestAgentOperationsImpl implements GuestAgentOperations {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceUri, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
       GuestAgentDeleteResponse,
       OperationState<GuestAgentDeleteResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -217,7 +215,7 @@ export class GuestAgentOperationsImpl implements GuestAgentOperations {
    */
   async beginDeleteAndWait(
     resourceUri: string,
-    options?: GuestAgentDeleteOptionalParams
+    options?: GuestAgentDeleteOptionalParams,
   ): Promise<GuestAgentDeleteResponse> {
     const poller = await this.beginDelete(resourceUri, options);
     return poller.pollUntilDone();
@@ -227,73 +225,70 @@ export class GuestAgentOperationsImpl implements GuestAgentOperations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/guestAgents/default",
+  path: "/{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/guestAgents/default",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.GuestAgent
+      bodyMapper: Mappers.GuestAgent,
     },
     201: {
-      bodyMapper: Mappers.GuestAgent
+      bodyMapper: Mappers.GuestAgent,
     },
     202: {
-      bodyMapper: Mappers.GuestAgent
+      bodyMapper: Mappers.GuestAgent,
     },
     204: {
-      bodyMapper: Mappers.GuestAgent
+      bodyMapper: Mappers.GuestAgent,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.resourceUri],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/guestAgents/default",
+  path: "/{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/guestAgents/default",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GuestAgent
+      bodyMapper: Mappers.GuestAgent,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.resourceUri],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/guestAgents/default",
+  path: "/{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/guestAgents/default",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.GuestAgentDeleteHeaders
+      headersMapper: Mappers.GuestAgentDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.GuestAgentDeleteHeaders
+      headersMapper: Mappers.GuestAgentDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.GuestAgentDeleteHeaders
+      headersMapper: Mappers.GuestAgentDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.GuestAgentDeleteHeaders
+      headersMapper: Mappers.GuestAgentDeleteHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.resourceUri],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
