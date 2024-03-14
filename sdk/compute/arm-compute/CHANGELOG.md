@@ -1,15 +1,36 @@
 # Release History
+    
+## 21.5.0 (2024-03-14)
+    
+**Features**
 
-## 21.4.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface EventGridAndResourceGraph
+  - Added Interface Placement
+  - Added Interface ScheduledEventsAdditionalPublishingTargets
+  - Added Interface ScheduledEventsPolicy
+  - Added Interface UserInitiatedReboot
+  - Added Interface UserInitiatedRedeploy
+  - Added Type Alias ResourceIdOptionsForGetCapacityReservationGroups
+  - Added Type Alias ZonePlacementPolicyType
+  - Interface CapacityReservationGroupsListBySubscriptionOptionalParams has a new optional parameter resourceIdsOnly
+  - Interface DataDisk has a new optional parameter sourceResource
+  - Interface DataDisksToAttach has a new optional parameter caching
+  - Interface DataDisksToAttach has a new optional parameter deleteOption
+  - Interface DataDisksToAttach has a new optional parameter diskEncryptionSet
+  - Interface DataDisksToAttach has a new optional parameter writeAcceleratorEnabled
+  - Interface GalleryArtifactVersionFullSource has a new optional parameter virtualMachineId
+  - Interface VirtualMachine has a new optional parameter placement
+  - Interface VirtualMachine has a new optional parameter scheduledEventsPolicy
+  - Interface VirtualMachineScaleSetUpdateOSDisk has a new optional parameter diffDiskSettings
+  - Interface VirtualMachineScaleSetVMReimageParameters has a new optional parameter forceUpdateOSDiskForEphemeral
+  - Interface VirtualMachineUpdate has a new optional parameter scheduledEventsPolicy
+  - Added Enum KnownResourceIdOptionsForGetCapacityReservationGroups
+  - Added Enum KnownZonePlacementPolicyType
+  - Enum KnownDiffDiskPlacement has a new value NvmeDisk
+  - Enum KnownDiskCreateOptionTypes has a new value Copy
+  - Enum KnownDiskCreateOptionTypes has a new value Restore
+    
+    
 ## 21.4.0 (2023-12-28)
     
 **Features**

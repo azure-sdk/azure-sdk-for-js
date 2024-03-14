@@ -330,6 +330,7 @@ export type CapacityReservationGroupsListBySubscriptionNextResponse = CapacityRe
 // @public
 export interface CapacityReservationGroupsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
     expand?: ExpandTypesForGetCapacityReservationGroups;
+    resourceIdsOnly?: ResourceIdOptionsForGetCapacityReservationGroups;
 }
 
 // @public
@@ -1248,6 +1249,7 @@ export interface DataDisk {
     lun: number;
     managedDisk?: ManagedDiskParameters;
     name?: string;
+    sourceResource?: ApiEntityReference;
     toBeDetached?: boolean;
     vhd?: VirtualHardDisk;
     writeAcceleratorEnabled?: boolean;
@@ -1265,8 +1267,12 @@ export interface DataDiskImageEncryption extends DiskImageEncryption {
 
 // @public
 export interface DataDisksToAttach {
+    caching?: CachingTypes;
+    deleteOption?: DiskDeleteOptionTypes;
+    diskEncryptionSet?: DiskEncryptionSetParameters;
     diskId: string;
     lun?: number;
+    writeAcceleratorEnabled?: boolean;
 }
 
 // @public
@@ -2194,6 +2200,11 @@ export interface EncryptionSettingsElement {
 export type EncryptionType = string;
 
 // @public
+export interface EventGridAndResourceGraph {
+    enable?: boolean;
+}
+
+// @public
 export type ExecutionState = string;
 
 // @public
@@ -2540,6 +2551,7 @@ export interface GalleryArtifactSource {
 // @public
 export interface GalleryArtifactVersionFullSource extends GalleryArtifactVersionSource {
     communityGalleryImageId?: string;
+    virtualMachineId?: string;
 }
 
 // @public
@@ -3222,6 +3234,7 @@ export enum KnownDiffDiskOptions {
 // @public
 export enum KnownDiffDiskPlacement {
     CacheDisk = "CacheDisk",
+    NvmeDisk = "NvmeDisk",
     ResourceDisk = "ResourceDisk"
 }
 
@@ -3249,8 +3262,10 @@ export enum KnownDiskCreateOption {
 // @public
 export enum KnownDiskCreateOptionTypes {
     Attach = "Attach",
+    Copy = "Copy",
     Empty = "Empty",
-    FromImage = "FromImage"
+    FromImage = "FromImage",
+    Restore = "Restore"
 }
 
 // @public
@@ -3644,6 +3659,13 @@ export enum KnownReplicationStatusTypes {
 }
 
 // @public
+export enum KnownResourceIdOptionsForGetCapacityReservationGroups {
+    All = "All",
+    CreatedInSubscription = "CreatedInSubscription",
+    SharedWithSubscription = "SharedWithSubscription"
+}
+
+// @public
 export enum KnownRestorePointCollectionExpandOptions {
     RestorePoints = "restorePoints"
 }
@@ -4015,6 +4037,11 @@ export enum KnownWindowsVMGuestPatchMode {
     AutomaticByOS = "AutomaticByOS",
     AutomaticByPlatform = "AutomaticByPlatform",
     Manual = "Manual"
+}
+
+// @public
+export enum KnownZonePlacementPolicyType {
+    Any = "Any"
 }
 
 // @public
@@ -4414,6 +4441,13 @@ export interface PirSharedGalleryResource extends PirResource {
 }
 
 // @public
+export interface Placement {
+    excludeZones?: string[];
+    includeZones?: string[];
+    zonePlacementPolicy?: ZonePlacementPolicyType;
+}
+
+// @public
 export interface Plan {
     name?: string;
     product?: string;
@@ -4722,6 +4756,9 @@ export interface Resource {
 
 // @public
 export type ResourceIdentityType = "SystemAssigned" | "UserAssigned" | "SystemAssigned, UserAssigned" | "None";
+
+// @public
+export type ResourceIdOptionsForGetCapacityReservationGroups = string;
 
 // @public
 export interface ResourceInstanceViewStatus {
@@ -5221,6 +5258,18 @@ export interface RunCommandResult {
 export interface ScaleInPolicy {
     forceDeletion?: boolean;
     rules?: VirtualMachineScaleSetScaleInRules[];
+}
+
+// @public (undocumented)
+export interface ScheduledEventsAdditionalPublishingTargets {
+    eventGridAndResourceGraph?: EventGridAndResourceGraph;
+}
+
+// @public
+export interface ScheduledEventsPolicy {
+    scheduledEventsAdditionalPublishingTargets?: ScheduledEventsAdditionalPublishingTargets;
+    userInitiatedReboot?: UserInitiatedReboot;
+    userInitiatedRedeploy?: UserInitiatedRedeploy;
 }
 
 // @public (undocumented)
@@ -5981,6 +6030,16 @@ export interface UserAssignedIdentitiesValue {
 }
 
 // @public
+export interface UserInitiatedReboot {
+    automaticallyApprove?: boolean;
+}
+
+// @public
+export interface UserInitiatedRedeploy {
+    automaticallyApprove?: boolean;
+}
+
+// @public
 export interface VaultCertificate {
     certificateStore?: string;
     certificateUrl?: string;
@@ -6018,12 +6077,14 @@ export interface VirtualMachine extends Resource {
     readonly managedBy?: string;
     networkProfile?: NetworkProfile;
     osProfile?: OSProfile;
+    placement?: Placement;
     plan?: Plan;
     platformFaultDomain?: number;
     priority?: VirtualMachinePriorityTypes;
     readonly provisioningState?: string;
     proximityPlacementGroup?: SubResource;
     readonly resources?: VirtualMachineExtension[];
+    scheduledEventsPolicy?: ScheduledEventsPolicy;
     scheduledEventsProfile?: ScheduledEventsProfile;
     securityProfile?: SecurityProfile;
     storageProfile?: StorageProfile;
@@ -7419,6 +7480,7 @@ export interface VirtualMachineScaleSetUpdateNetworkProfile {
 export interface VirtualMachineScaleSetUpdateOSDisk {
     caching?: CachingTypes;
     deleteOption?: DiskDeleteOptionTypes;
+    diffDiskSettings?: DiffDiskSettings;
     diskSizeGB?: number;
     image?: VirtualHardDisk;
     managedDisk?: VirtualMachineScaleSetManagedDiskParameters;
@@ -7666,6 +7728,7 @@ export interface VirtualMachineScaleSetVMProtectionPolicy {
 
 // @public
 export interface VirtualMachineScaleSetVMReimageParameters extends VirtualMachineReimageParameters {
+    forceUpdateOSDiskForEphemeral?: boolean;
 }
 
 // @public
@@ -8184,6 +8247,7 @@ export interface VirtualMachineUpdate extends UpdateResource {
     priority?: VirtualMachinePriorityTypes;
     readonly provisioningState?: string;
     proximityPlacementGroup?: SubResource;
+    scheduledEventsPolicy?: ScheduledEventsPolicy;
     scheduledEventsProfile?: ScheduledEventsProfile;
     securityProfile?: SecurityProfile;
     storageProfile?: StorageProfile;
@@ -8290,6 +8354,9 @@ export interface WinRMListener {
     certificateUrl?: string;
     protocol?: ProtocolTypes;
 }
+
+// @public
+export type ZonePlacementPolicyType = string;
 
 // (No @packageDocumentation comment for this package)
 

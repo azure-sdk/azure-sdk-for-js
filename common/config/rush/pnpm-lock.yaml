@@ -1206,6 +1206,21 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/arm-compute@21.4.0:
+    resolution: {integrity: sha512-c0oZwFYkpf1klmI6yYDkpbWtJkTHKDFO602/M4lZARwqutu9mSdErGHZAK+re32rpS4uOuoq67TBwIzkWdPe6g==}
+    engines: {node: '>=18.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.6.0
+      '@azure/core-client': 1.8.0
+      '@azure/core-lro': 2.6.0
+      '@azure/core-paging': 1.5.0
+      '@azure/core-rest-pipeline': 1.14.0
+      tslib: 2.6.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/arm-cosmosdb@16.0.0-beta.6:
     resolution: {integrity: sha512-Ue4ocP8qCsFDeBZ/MjMNyVt4e9QhU3UgrRfZSw6kWiMzdrCgDePnZvjzZs9PQpjAsXbHGd9HlEIXg9Dl6Y/uww==}
     engines: {node: '>=14.0.0'}
@@ -8515,6 +8530,7 @@ packages:
 
   /queue-tick@1.0.1:
     resolution: {integrity: sha512-kJt5qhMxoszgU/62PLP1CJytzd2NKetjSRnyuj31fDd3Rlcz3fzlFdFLD1SItunPwyqEOkca6GbV612BWfaBag==}
+    requiresBuild: true
     dev: false
 
   /randombytes@2.1.0:
@@ -12219,7 +12235,7 @@ packages:
     dev: false
 
   file:projects/arm-compute-1.tgz:
-    resolution: {integrity: sha512-j5ZxYBDOMNSO0GulYlTmjT9vYMOd4CgHsYczwi5yMg9IeCAVscfPlXCKwC5rt2B8DpSxbqDGuBlUJc5bkWOQHQ==, tarball: file:projects/arm-compute-1.tgz}
+    resolution: {integrity: sha512-haMr9BZyDgrAYmCjxA6GxF7qg9P+oNT+fDC7PS6WuyeYGw558azhIhFeg9oHT4IxswY+lyy/922PeQJsxi1yUw==, tarball: file:projects/arm-compute-1.tgz}
     name: '@rush-temp/arm-compute-1'
     version: 0.0.0
     dependencies:
@@ -13980,11 +13996,12 @@ packages:
     dev: false
 
   file:projects/arm-imagebuilder.tgz:
-    resolution: {integrity: sha512-EDPsPyOrfkNm5eGS2F0IhirUBQidpeOBlKVDj/uByJzVznz56yxIAuRTRxWbNYUZfC2fLSgRmdgTN+q6ahd6cA==, tarball: file:projects/arm-imagebuilder.tgz}
+    resolution: {integrity: sha512-IAGWGPxsNximORNrdgDkBae2Hnj/KVE+/GIi0OSBPB+c7bdsxG4V7jQkRdaSiGFQ25qjwQbhaLSEsu6tziOurg==, tarball: file:projects/arm-imagebuilder.tgz}
     name: '@rush-temp/arm-imagebuilder'
     version: 0.0.0
     dependencies:
       '@azure/abort-controller': 1.1.0
+      '@azure/arm-compute': 21.4.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.42.3(@types/node@18.19.22)
       '@types/chai': 4.3.12
