@@ -357,9 +357,6 @@ export interface CapacityReservationInstanceView {
 }
 
 // @public
-export type CapacityReservationInstanceViewTypes = string;
-
-// @public
 export interface CapacityReservationInstanceViewWithName extends CapacityReservationInstanceView {
     readonly name?: string;
 }
@@ -383,7 +380,6 @@ export interface CapacityReservations {
     beginDeleteAndWait(resourceGroupName: string, capacityReservationGroupName: string, capacityReservationName: string, options?: CapacityReservationsDeleteOptionalParams): Promise<void>;
     beginUpdate(resourceGroupName: string, capacityReservationGroupName: string, capacityReservationName: string, parameters: CapacityReservationUpdate, options?: CapacityReservationsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<CapacityReservationsUpdateResponse>, CapacityReservationsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, capacityReservationGroupName: string, capacityReservationName: string, parameters: CapacityReservationUpdate, options?: CapacityReservationsUpdateOptionalParams): Promise<CapacityReservationsUpdateResponse>;
-    get(resourceGroupName: string, capacityReservationGroupName: string, capacityReservationName: string, options?: CapacityReservationsGetOptionalParams): Promise<CapacityReservationsGetResponse>;
     listByCapacityReservationGroup(resourceGroupName: string, capacityReservationGroupName: string, options?: CapacityReservationsListByCapacityReservationGroupOptionalParams): PagedAsyncIterableIterator<CapacityReservation>;
 }
 
@@ -401,14 +397,6 @@ export interface CapacityReservationsDeleteOptionalParams extends coreClient.Ope
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
-
-// @public
-export interface CapacityReservationsGetOptionalParams extends coreClient.OperationOptions {
-    expand?: CapacityReservationInstanceViewTypes;
-}
-
-// @public
-export type CapacityReservationsGetResponse = CapacityReservation;
 
 // @public
 export interface CapacityReservationsListByCapacityReservationGroupNextOptionalParams extends coreClient.OperationOptions {
@@ -1175,8 +1163,6 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
     virtualMachineScaleSetVMRunCommands: VirtualMachineScaleSetVMRunCommands;
     // (undocumented)
     virtualMachineScaleSetVMs: VirtualMachineScaleSetVMs;
-    // (undocumented)
-    virtualMachineSizes: VirtualMachineSizes;
 }
 
 // @public
@@ -1434,7 +1420,6 @@ export interface DedicatedHosts {
     beginUpdate(resourceGroupName: string, hostGroupName: string, hostName: string, parameters: DedicatedHostUpdate, options?: DedicatedHostsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DedicatedHostsUpdateResponse>, DedicatedHostsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, hostGroupName: string, hostName: string, parameters: DedicatedHostUpdate, options?: DedicatedHostsUpdateOptionalParams): Promise<DedicatedHostsUpdateResponse>;
     get(resourceGroupName: string, hostGroupName: string, hostName: string, options?: DedicatedHostsGetOptionalParams): Promise<DedicatedHostsGetResponse>;
-    listAvailableSizes(resourceGroupName: string, hostGroupName: string, hostName: string, options?: DedicatedHostsListAvailableSizesOptionalParams): PagedAsyncIterableIterator<string>;
     listByHostGroup(resourceGroupName: string, hostGroupName: string, options?: DedicatedHostsListByHostGroupOptionalParams): PagedAsyncIterableIterator<DedicatedHost>;
 }
 
@@ -1465,13 +1450,6 @@ export type DedicatedHostsGetResponse = DedicatedHost;
 export interface DedicatedHostSizeListResult {
     value?: string[];
 }
-
-// @public
-export interface DedicatedHostsListAvailableSizesOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DedicatedHostsListAvailableSizesResponse = DedicatedHostSizeListResult;
 
 // @public
 export interface DedicatedHostsListByHostGroupNextOptionalParams extends coreClient.OperationOptions {
@@ -2540,6 +2518,7 @@ export interface GalleryArtifactSource {
 // @public
 export interface GalleryArtifactVersionFullSource extends GalleryArtifactVersionSource {
     communityGalleryImageId?: string;
+    virtualMachineId?: string;
 }
 
 // @public
@@ -2964,7 +2943,6 @@ export interface Images {
     beginUpdate(resourceGroupName: string, imageName: string, parameters: ImageUpdate, options?: ImagesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ImagesUpdateResponse>, ImagesUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, imageName: string, parameters: ImageUpdate, options?: ImagesUpdateOptionalParams): Promise<ImagesUpdateResponse>;
     get(resourceGroupName: string, imageName: string, options?: ImagesGetOptionalParams): Promise<ImagesGetResponse>;
-    list(options?: ImagesListOptionalParams): PagedAsyncIterableIterator<Image_2>;
     listByResourceGroup(resourceGroupName: string, options?: ImagesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Image_2>;
 }
 
@@ -3004,20 +2982,6 @@ export interface ImagesListByResourceGroupOptionalParams extends coreClient.Oper
 
 // @public
 export type ImagesListByResourceGroupResponse = ImageListResult;
-
-// @public
-export interface ImagesListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ImagesListNextResponse = ImageListResult;
-
-// @public
-export interface ImagesListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ImagesListResponse = ImageListResult;
 
 // @public
 export type ImageState = string;
@@ -3161,11 +3125,6 @@ export enum KnownAvailabilitySetSkuTypes {
 
 // @public
 export enum KnownCapacityReservationGroupInstanceViewTypes {
-    InstanceView = "instanceView"
-}
-
-// @public
-export enum KnownCapacityReservationInstanceViewTypes {
     InstanceView = "instanceView"
 }
 
@@ -7995,18 +7954,6 @@ export interface VirtualMachineSize {
 export interface VirtualMachineSizeListResult {
     value?: VirtualMachineSize[];
 }
-
-// @public
-export interface VirtualMachineSizes {
-    list(location: string, options?: VirtualMachineSizesListOptionalParams): PagedAsyncIterableIterator<VirtualMachineSize>;
-}
-
-// @public
-export interface VirtualMachineSizesListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type VirtualMachineSizesListResponse = VirtualMachineSizeListResult;
 
 // @public
 export type VirtualMachineSizeTypes = string;
