@@ -71,7 +71,7 @@ export interface DataProductInformation {
 
 // @public
 export interface DataProductListResult {
-    nextLink?: string;
+    readonly nextLink?: string;
     value: DataProduct[];
 }
 
@@ -139,7 +139,7 @@ export interface DataProductsCatalog extends ProxyResource {
 
 // @public
 export interface DataProductsCatalogListResult {
-    nextLink?: string;
+    readonly nextLink?: string;
     value: DataProductsCatalog[];
 }
 
@@ -325,7 +325,7 @@ export interface DataType extends ProxyResource {
 
 // @public
 export interface DataTypeListResult {
-    nextLink?: string;
+    readonly nextLink?: string;
     value: DataType[];
 }
 
