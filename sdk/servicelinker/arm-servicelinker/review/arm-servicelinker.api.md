@@ -6,12 +6,8 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
-
-// @public
-export type ActionType = string;
+import { OperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface AuthInfoBase {
@@ -87,9 +83,6 @@ export interface ErrorResponse {
 }
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
-
-// @public
 export interface KeyVaultSecretReferenceSecretInfo extends SecretInfoBase {
     name?: string;
     secretType: "keyVaultSecretReference";
@@ -100,11 +93,6 @@ export interface KeyVaultSecretReferenceSecretInfo extends SecretInfoBase {
 export interface KeyVaultSecretUriSecretInfo extends SecretInfoBase {
     secretType: "keyVaultSecretUri";
     value?: string;
-}
-
-// @public
-export enum KnownActionType {
-    Internal = "Internal"
 }
 
 // @public
@@ -127,6 +115,7 @@ export enum KnownClientType {
     Dotnet = "dotnet",
     Go = "go",
     Java = "java",
+    KafkaSpringBoot = "kafka-springBoot",
     Nodejs = "nodejs",
     None = "none",
     Php = "php",
@@ -141,13 +130,6 @@ export enum KnownCreatedByType {
     Key = "Key",
     ManagedIdentity = "ManagedIdentity",
     User = "User"
-}
-
-// @public
-export enum KnownOrigin {
-    System = "system",
-    User = "user",
-    UserSystem = "user,system"
 }
 
 // @public
@@ -179,16 +161,15 @@ export enum KnownVNetSolutionType {
 
 // @public
 export interface Linker {
-    beginCreateOrUpdate(resourceUri: string, linkerName: string, parameters: LinkerResource, options?: LinkerCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<LinkerCreateOrUpdateResponse>, LinkerCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceUri: string, linkerName: string, parameters: LinkerResource, options?: LinkerCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<LinkerCreateOrUpdateResponse>, LinkerCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceUri: string, linkerName: string, parameters: LinkerResource, options?: LinkerCreateOrUpdateOptionalParams): Promise<LinkerCreateOrUpdateResponse>;
-    beginDelete(resourceUri: string, linkerName: string, options?: LinkerDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceUri: string, linkerName: string, options?: LinkerDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceUri: string, linkerName: string, options?: LinkerDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceUri: string, linkerName: string, parameters: LinkerPatch, options?: LinkerUpdateOptionalParams): Promise<PollerLike<PollOperationState<LinkerUpdateResponse>, LinkerUpdateResponse>>;
+    beginUpdate(resourceUri: string, linkerName: string, parameters: LinkerPatch, options?: LinkerUpdateOptionalParams): Promise<SimplePollerLike<OperationState<LinkerUpdateResponse>, LinkerUpdateResponse>>;
     beginUpdateAndWait(resourceUri: string, linkerName: string, parameters: LinkerPatch, options?: LinkerUpdateOptionalParams): Promise<LinkerUpdateResponse>;
-    beginValidate(resourceUri: string, linkerName: string, options?: LinkerValidateOptionalParams): Promise<PollerLike<PollOperationState<LinkerValidateResponse>, LinkerValidateResponse>>;
+    beginValidate(resourceUri: string, linkerName: string, options?: LinkerValidateOptionalParams): Promise<SimplePollerLike<OperationState<LinkerValidateResponse>, LinkerValidateResponse>>;
     beginValidateAndWait(resourceUri: string, linkerName: string, options?: LinkerValidateOptionalParams): Promise<LinkerValidateResponse>;
     get(resourceUri: string, linkerName: string, options?: LinkerGetOptionalParams): Promise<LinkerGetResponse>;
-    list(resourceUri: string, options?: LinkerListOptionalParams): PagedAsyncIterableIterator<LinkerResource>;
     listConfigurations(resourceUri: string, linkerName: string, options?: LinkerListConfigurationsOptionalParams): Promise<LinkerListConfigurationsResponse>;
 }
 
@@ -226,20 +207,6 @@ export interface LinkerListConfigurationsOptionalParams extends coreClient.Opera
 
 // @public
 export type LinkerListConfigurationsResponse = SourceConfigurationResult;
-
-// @public
-export interface LinkerListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type LinkerListNextResponse = LinkerList;
-
-// @public
-export interface LinkerListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type LinkerListResponse = LinkerList;
 
 // @public
 export interface LinkerPatch {
@@ -281,51 +248,6 @@ export interface LinkerValidateOptionalParams extends coreClient.OperationOption
 
 // @public
 export type LinkerValidateResponse = ValidateOperationResult;
-
-// @public
-export interface Operation {
-    readonly actionType?: ActionType;
-    display?: OperationDisplay;
-    readonly isDataAction?: boolean;
-    readonly name?: string;
-    readonly origin?: Origin;
-}
-
-// @public
-export interface OperationDisplay {
-    readonly description?: string;
-    readonly operation?: string;
-    readonly provider?: string;
-    readonly resource?: string;
-}
-
-// @public
-export interface OperationListResult {
-    readonly nextLink?: string;
-    readonly value?: Operation[];
-}
-
-// @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
-}
-
-// @public
-export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListNextResponse = OperationListResult;
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListResponse = OperationListResult;
-
-// @public
-export type Origin = string;
 
 // @public
 export interface ProxyResource extends Resource {
@@ -370,8 +292,6 @@ export class ServiceLinkerManagementClient extends coreClient.ServiceClient {
     apiVersion: string;
     // (undocumented)
     linker: Linker;
-    // (undocumented)
-    operations: Operations;
 }
 
 // @public
