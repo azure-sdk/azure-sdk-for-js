@@ -1206,6 +1206,21 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/arm-compute@21.4.0:
+    resolution: {integrity: sha512-c0oZwFYkpf1klmI6yYDkpbWtJkTHKDFO602/M4lZARwqutu9mSdErGHZAK+re32rpS4uOuoq67TBwIzkWdPe6g==}
+    engines: {node: '>=18.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.6.0
+      '@azure/core-client': 1.8.0
+      '@azure/core-lro': 2.6.0
+      '@azure/core-paging': 1.5.0
+      '@azure/core-rest-pipeline': 1.14.0
+      tslib: 2.6.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/arm-cosmosdb@16.0.0-beta.6:
     resolution: {integrity: sha512-Ue4ocP8qCsFDeBZ/MjMNyVt4e9QhU3UgrRfZSw6kWiMzdrCgDePnZvjzZs9PQpjAsXbHGd9HlEIXg9Dl6Y/uww==}
     engines: {node: '>=14.0.0'}
@@ -8551,6 +8566,7 @@ packages:
 
   /queue-tick@1.0.1:
     resolution: {integrity: sha512-kJt5qhMxoszgU/62PLP1CJytzd2NKetjSRnyuj31fDd3Rlcz3fzlFdFLD1SItunPwyqEOkca6GbV612BWfaBag==}
+    requiresBuild: true
     dev: false
 
   /randombytes@2.1.0:
@@ -11911,7 +11927,7 @@ packages:
     dev: false
 
   file:projects/arm-batch.tgz:
-    resolution: {integrity: sha512-pWMLj2SwHE9cooxAADD0taGAJlO+ZNiwbqFHUrgUHzmEAg/MRGrjZrq5wnhLTaR7XBWXue7nfwdd8sN9yCV94w==, tarball: file:projects/arm-batch.tgz}
+    resolution: {integrity: sha512-V6C++GjFY5KAp/hFheQfC9oNTOAVRQL9/Rl6ENTAb4UvPp2+Vu+7UQD01g+dwjQln3AcO/Kyf+clRUoFyXH4/g==, tarball: file:projects/arm-batch.tgz}
     name: '@rush-temp/arm-batch'
     version: 0.0.0
     dependencies:
@@ -12255,7 +12271,7 @@ packages:
     dev: false
 
   file:projects/arm-compute-1.tgz:
-    resolution: {integrity: sha512-j5ZxYBDOMNSO0GulYlTmjT9vYMOd4CgHsYczwi5yMg9IeCAVscfPlXCKwC5rt2B8DpSxbqDGuBlUJc5bkWOQHQ==, tarball: file:projects/arm-compute-1.tgz}
+    resolution: {integrity: sha512-haMr9BZyDgrAYmCjxA6GxF7qg9P+oNT+fDC7PS6WuyeYGw558azhIhFeg9oHT4IxswY+lyy/922PeQJsxi1yUw==, tarball: file:projects/arm-compute-1.tgz}
     name: '@rush-temp/arm-compute-1'
     version: 0.0.0
     dependencies:
@@ -12382,7 +12398,7 @@ packages:
     dev: false
 
   file:projects/arm-confluent.tgz:
-    resolution: {integrity: sha512-nJjOjZ00EbI/BClYWgzLvAPYRKzxdXuf+OCzB7A5p8nOTHL+IiOJc0H+4FNsc3CNJxCWBoOSEYIpL0GKnygItQ==, tarball: file:projects/arm-confluent.tgz}
+    resolution: {integrity: sha512-4y6dOLhKtG2MSxZ2bmgTHIzUVjrQ0PwFxsTqjIOBbkfGtp814bTA++xOgnrE9vmVEaC+ZkdAMNBd1FmBfq001g==, tarball: file:projects/arm-confluent.tgz}
     name: '@rush-temp/arm-confluent'
     version: 0.0.0
     dependencies:
@@ -12915,7 +12931,7 @@ packages:
     dev: false
 
   file:projects/arm-datafactory.tgz:
-    resolution: {integrity: sha512-DEESanPBKFpZDHHeIkAkVYya0p+L95cmwlI/3B7V6ZcagEEX34to4tLeGIqW3yQ+Gx0P9z5XxWilDnbI6iP6jg==, tarball: file:projects/arm-datafactory.tgz}
+    resolution: {integrity: sha512-8AsJuc9IpOlfzJlkgk4zIABqvfio4qXh9YvPN5WlC/QBaB7U0/5fWXq1dzrZcLJvOGo8ePvJo79dZg2uDdvTcQ==, tarball: file:projects/arm-datafactory.tgz}
     name: '@rush-temp/arm-datafactory'
     version: 0.0.0
     dependencies:
@@ -14016,11 +14032,12 @@ packages:
     dev: false
 
   file:projects/arm-imagebuilder.tgz:
-    resolution: {integrity: sha512-EDPsPyOrfkNm5eGS2F0IhirUBQidpeOBlKVDj/uByJzVznz56yxIAuRTRxWbNYUZfC2fLSgRmdgTN+q6ahd6cA==, tarball: file:projects/arm-imagebuilder.tgz}
+    resolution: {integrity: sha512-IAGWGPxsNximORNrdgDkBae2Hnj/KVE+/GIi0OSBPB+c7bdsxG4V7jQkRdaSiGFQ25qjwQbhaLSEsu6tziOurg==, tarball: file:projects/arm-imagebuilder.tgz}
     name: '@rush-temp/arm-imagebuilder'
     version: 0.0.0
     dependencies:
       '@azure/abort-controller': 1.1.0
+      '@azure/arm-compute': 21.4.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.42.3(@types/node@18.19.22)
       '@types/chai': 4.3.12
@@ -17454,7 +17471,7 @@ packages:
     dev: false
 
   file:projects/communication-call-automation.tgz:
-    resolution: {integrity: sha512-GlfaW8LpMQIUhPvcm8hPXAhIFXJm0ya38369m1RHeWxOY0MMGU11jUOYLlv2FLUVEIomHS9Qsj34SLNxiZ5s+w==, tarball: file:projects/communication-call-automation.tgz}
+    resolution: {integrity: sha512-7ik+mCe+DXNguC7eA3dmLuvrEzmZbZMMtBnja563UuHfxesOf5qd9zRlOjRRswl3RyxOpGOQekgDiMGgkIQH3g==, tarball: file:projects/communication-call-automation.tgz}
     name: '@rush-temp/communication-call-automation'
     version: 0.0.0
     dependencies:
