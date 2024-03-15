@@ -16,7 +16,7 @@ import {
   PrivateEndpointConnectionsImpl,
   OutboundNetworkDependenciesEndpointsImpl,
   VNetPeeringImpl,
-  AccessConnectorsImpl
+  AccessConnectorsImpl,
 } from "./operations";
 import {
   Workspaces,
@@ -25,7 +25,7 @@ import {
   PrivateEndpointConnections,
   OutboundNetworkDependenciesEndpoints,
   VNetPeering,
-  AccessConnectors
+  AccessConnectors,
 } from "./operationsInterfaces";
 import { AzureDatabricksManagementClientOptionalParams } from "./models";
 
@@ -42,7 +42,7 @@ export class AzureDatabricksManagementClient extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: AzureDatabricksManagementClientOptionalParams
+    options?: AzureDatabricksManagementClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -57,10 +57,10 @@ export class AzureDatabricksManagementClient extends coreClient.ServiceClient {
     }
     const defaults: AzureDatabricksManagementClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-databricks/3.0.1`;
+    const packageDetails = `azsdk-js-arm-databricks/4.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -70,20 +70,21 @@ export class AzureDatabricksManagementClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -93,7 +94,7 @@ export class AzureDatabricksManagementClient extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -103,9 +104,9 @@ export class AzureDatabricksManagementClient extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -117,9 +118,8 @@ export class AzureDatabricksManagementClient extends coreClient.ServiceClient {
     this.operations = new OperationsImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
-    this.outboundNetworkDependenciesEndpoints = new OutboundNetworkDependenciesEndpointsImpl(
-      this
-    );
+    this.outboundNetworkDependenciesEndpoints =
+      new OutboundNetworkDependenciesEndpointsImpl(this);
     this.vNetPeering = new VNetPeeringImpl(this);
     this.accessConnectors = new AccessConnectorsImpl(this);
   }
