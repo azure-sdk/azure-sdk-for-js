@@ -1511,16 +1511,16 @@ export const ServicesExportMetadataSchemaHeaders: coreClient.CompositeMapper = {
     name: "Composite",
     className: "ServicesExportMetadataSchemaHeaders",
     modelProperties: {
-      retryAfter: {
-        serializedName: "retry-after",
-        type: {
-          name: "Number",
-        },
-      },
       location: {
         serializedName: "location",
         type: {
           name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },
@@ -1714,16 +1714,16 @@ export const ApiDefinitionsExportSpecificationHeaders: coreClient.CompositeMappe
       name: "Composite",
       className: "ApiDefinitionsExportSpecificationHeaders",
       modelProperties: {
-        retryAfter: {
-          serializedName: "retry-after",
-          type: {
-            name: "Number",
-          },
-        },
         location: {
           serializedName: "location",
           type: {
             name: "String",
+          },
+        },
+        retryAfter: {
+          serializedName: "retry-after",
+          type: {
+            name: "Number",
           },
         },
       },
@@ -1736,16 +1736,16 @@ export const ApiDefinitionsImportSpecificationHeaders: coreClient.CompositeMappe
       name: "Composite",
       className: "ApiDefinitionsImportSpecificationHeaders",
       modelProperties: {
-        retryAfter: {
-          serializedName: "retry-after",
-          type: {
-            name: "Number",
-          },
-        },
         location: {
           serializedName: "location",
           type: {
             name: "String",
+          },
+        },
+        retryAfter: {
+          serializedName: "retry-after",
+          type: {
+            name: "Number",
           },
         },
       },
