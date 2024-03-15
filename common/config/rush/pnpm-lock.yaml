@@ -8551,6 +8551,7 @@ packages:
 
   /queue-tick@1.0.1:
     resolution: {integrity: sha512-kJt5qhMxoszgU/62PLP1CJytzd2NKetjSRnyuj31fDd3Rlcz3fzlFdFLD1SItunPwyqEOkca6GbV612BWfaBag==}
+    requiresBuild: true
     dev: false
 
   /randombytes@2.1.0:
@@ -11911,7 +11912,7 @@ packages:
     dev: false
 
   file:projects/arm-batch.tgz:
-    resolution: {integrity: sha512-pWMLj2SwHE9cooxAADD0taGAJlO+ZNiwbqFHUrgUHzmEAg/MRGrjZrq5wnhLTaR7XBWXue7nfwdd8sN9yCV94w==, tarball: file:projects/arm-batch.tgz}
+    resolution: {integrity: sha512-V6C++GjFY5KAp/hFheQfC9oNTOAVRQL9/Rl6ENTAb4UvPp2+Vu+7UQD01g+dwjQln3AcO/Kyf+clRUoFyXH4/g==, tarball: file:projects/arm-batch.tgz}
     name: '@rush-temp/arm-batch'
     version: 0.0.0
     dependencies:
@@ -12018,7 +12019,7 @@ packages:
     dev: false
 
   file:projects/arm-cdn.tgz:
-    resolution: {integrity: sha512-hdoZpJkxaB/yaRxVRdvNAraroDsYzLyO+glVTjNQ1AMaxOmTBt/Lh7QGjbqRlOLViXBCom9kBxoJ8L3NHTqfMw==, tarball: file:projects/arm-cdn.tgz}
+    resolution: {integrity: sha512-rTQjzz4cZPb4NBtp0F4ap4CpSKRrIiAm2Xs1MmT5AY8w8mMqucxk7923eCzVc63+iVhutEQIA5vYCAV3s3LGiA==, tarball: file:projects/arm-cdn.tgz}
     name: '@rush-temp/arm-cdn'
     version: 0.0.0
     dependencies:
@@ -12031,7 +12032,8 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      mkdirp: 1.0.4
+      esm: 3.2.25
+      mkdirp: 2.1.6
       mocha: 10.3.0
       rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.22)(typescript@5.3.3)
@@ -12255,7 +12257,7 @@ packages:
     dev: false
 
   file:projects/arm-compute-1.tgz:
-    resolution: {integrity: sha512-j5ZxYBDOMNSO0GulYlTmjT9vYMOd4CgHsYczwi5yMg9IeCAVscfPlXCKwC5rt2B8DpSxbqDGuBlUJc5bkWOQHQ==, tarball: file:projects/arm-compute-1.tgz}
+    resolution: {integrity: sha512-GmSc4au3ItOwRPZuFTvlOQ405FH/44+FrzSso66b7gXaoDiVs2WpB4lEtjJsiPkL88hmErJG+H8zyBj4dfIGpQ==, tarball: file:projects/arm-compute-1.tgz}
     name: '@rush-temp/arm-compute-1'
     version: 0.0.0
     dependencies:
@@ -12382,7 +12384,7 @@ packages:
     dev: false
 
   file:projects/arm-confluent.tgz:
-    resolution: {integrity: sha512-nJjOjZ00EbI/BClYWgzLvAPYRKzxdXuf+OCzB7A5p8nOTHL+IiOJc0H+4FNsc3CNJxCWBoOSEYIpL0GKnygItQ==, tarball: file:projects/arm-confluent.tgz}
+    resolution: {integrity: sha512-4y6dOLhKtG2MSxZ2bmgTHIzUVjrQ0PwFxsTqjIOBbkfGtp814bTA++xOgnrE9vmVEaC+ZkdAMNBd1FmBfq001g==, tarball: file:projects/arm-confluent.tgz}
     name: '@rush-temp/arm-confluent'
     version: 0.0.0
     dependencies:
@@ -12915,7 +12917,7 @@ packages:
     dev: false
 
   file:projects/arm-datafactory.tgz:
-    resolution: {integrity: sha512-DEESanPBKFpZDHHeIkAkVYya0p+L95cmwlI/3B7V6ZcagEEX34to4tLeGIqW3yQ+Gx0P9z5XxWilDnbI6iP6jg==, tarball: file:projects/arm-datafactory.tgz}
+    resolution: {integrity: sha512-8AsJuc9IpOlfzJlkgk4zIABqvfio4qXh9YvPN5WlC/QBaB7U0/5fWXq1dzrZcLJvOGo8ePvJo79dZg2uDdvTcQ==, tarball: file:projects/arm-datafactory.tgz}
     name: '@rush-temp/arm-datafactory'
     version: 0.0.0
     dependencies:
@@ -17454,7 +17456,7 @@ packages:
     dev: false
 
   file:projects/communication-call-automation.tgz:
-    resolution: {integrity: sha512-GlfaW8LpMQIUhPvcm8hPXAhIFXJm0ya38369m1RHeWxOY0MMGU11jUOYLlv2FLUVEIomHS9Qsj34SLNxiZ5s+w==, tarball: file:projects/communication-call-automation.tgz}
+    resolution: {integrity: sha512-7ik+mCe+DXNguC7eA3dmLuvrEzmZbZMMtBnja563UuHfxesOf5qd9zRlOjRRswl3RyxOpGOQekgDiMGgkIQH3g==, tarball: file:projects/communication-call-automation.tgz}
     name: '@rush-temp/communication-call-automation'
     version: 0.0.0
     dependencies:
