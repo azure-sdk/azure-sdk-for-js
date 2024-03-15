@@ -607,10 +607,10 @@ export interface Environment extends ProxyResource {
 
 /** Defines headers for Services_exportMetadataSchema operation. */
 export interface ServicesExportMetadataSchemaHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for MetadataSchemas_get operation. */
@@ -687,18 +687,18 @@ export interface ApiDefinitionsCreateOrUpdateHeaders {
 
 /** Defines headers for ApiDefinitions_exportSpecification operation. */
 export interface ApiDefinitionsExportSpecificationHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for ApiDefinitions_importSpecification operation. */
 export interface ApiDefinitionsImportSpecificationHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for Environments_get operation. */
