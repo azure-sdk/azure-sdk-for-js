@@ -9178,6 +9178,51 @@ export const HyperVReplicaAzureDiskInputDetails: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      sectorSizeInBytes: {
+        serializedName: "sectorSizeInBytes",
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const SecurityProfileProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SecurityProfileProperties",
+    modelProperties: {
+      targetVmSecurityType: {
+        serializedName: "targetVmSecurityType",
+        type: {
+          name: "String",
+        },
+      },
+      targetVmSecureBoot: {
+        serializedName: "targetVmSecureBoot",
+        type: {
+          name: "String",
+        },
+      },
+      targetVmTpm: {
+        serializedName: "targetVmTpm",
+        type: {
+          name: "String",
+        },
+      },
+      targetVmMonitoring: {
+        serializedName: "targetVmMonitoring",
+        type: {
+          name: "String",
+        },
+      },
+      targetVmConfidentialEncryption: {
+        serializedName: "targetVmConfidentialEncryption",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -9210,6 +9255,18 @@ export const HyperVReplicaAzureManagedDiskDetails: coreClient.CompositeMapper =
           serializedName: "diskEncryptionSetId",
           type: {
             name: "String",
+          },
+        },
+        targetDiskAccountType: {
+          serializedName: "targetDiskAccountType",
+          type: {
+            name: "String",
+          },
+        },
+        sectorSizeInBytes: {
+          serializedName: "sectorSizeInBytes",
+          type: {
+            name: "Number",
           },
         },
       },
@@ -9274,6 +9331,12 @@ export const OSDetails: coreClient.CompositeMapper = {
       },
       oSMinorVersion: {
         serializedName: "oSMinorVersion",
+        type: {
+          name: "String",
+        },
+      },
+      userSelectedOSName: {
+        serializedName: "userSelectedOSName",
         type: {
           name: "String",
         },
@@ -9984,6 +10047,48 @@ export const InMageProtectedDiskDetails: coreClient.CompositeMapper = {
         serializedName: "progressStatus",
         type: {
           name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const InMageRcmDiskInput: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "InMageRcmDiskInput",
+    modelProperties: {
+      diskId: {
+        serializedName: "diskId",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      logStorageAccountId: {
+        serializedName: "logStorageAccountId",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      diskType: {
+        serializedName: "diskType",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      diskEncryptionSetId: {
+        serializedName: "diskEncryptionSetId",
+        type: {
+          name: "String",
+        },
+      },
+      sectorSizeInBytes: {
+        serializedName: "sectorSizeInBytes",
+        type: {
+          name: "Number",
         },
       },
     },
@@ -10947,42 +11052,6 @@ export const InMageRcmDiscoveredProtectedVmDetails: coreClient.CompositeMapper =
     },
   };
 
-export const InMageRcmDiskInput: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "InMageRcmDiskInput",
-    modelProperties: {
-      diskId: {
-        serializedName: "diskId",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-      logStorageAccountId: {
-        serializedName: "logStorageAccountId",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-      diskType: {
-        serializedName: "diskType",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-      diskEncryptionSetId: {
-        serializedName: "diskEncryptionSetId",
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
 export const InMageRcmDisksDefaultInput: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -11004,6 +11073,39 @@ export const InMageRcmDisksDefaultInput: coreClient.CompositeMapper = {
       },
       diskEncryptionSetId: {
         serializedName: "diskEncryptionSetId",
+        type: {
+          name: "String",
+        },
+      },
+      sectorSizeInBytes: {
+        serializedName: "sectorSizeInBytes",
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const UserCreatedResourceTag: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UserCreatedResourceTag",
+    modelProperties: {
+      tagName: {
+        constraints: {
+          MaxLength: 512,
+        },
+        serializedName: "tagName",
+        type: {
+          name: "String",
+        },
+      },
+      tagValue: {
+        constraints: {
+          MaxLength: 256,
+        },
+        serializedName: "tagValue",
         type: {
           name: "String",
         },
@@ -11699,6 +11801,13 @@ export const InMageRcmProtectedDiskDetails: coreClient.CompositeMapper = {
           name: "Number",
         },
       },
+      diskState: {
+        serializedName: "diskState",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
       logStorageAccountId: {
         serializedName: "logStorageAccountId",
         readOnly: true,
@@ -11775,6 +11884,18 @@ export const InMageRcmProtectedDiskDetails: coreClient.CompositeMapper = {
           className: "InMageRcmSyncDetails",
         },
       },
+      customTargetDiskName: {
+        serializedName: "customTargetDiskName",
+        type: {
+          name: "String",
+        },
+      },
+      sectorSizeInBytes: {
+        serializedName: "sectorSizeInBytes",
+        type: {
+          name: "Number",
+        },
+      },
     },
   },
 };
@@ -11844,6 +11965,36 @@ export const InMageRcmSyncDetails: coreClient.CompositeMapper = {
   },
 };
 
+export const InMageRcmUnProtectedDiskDetails: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "InMageRcmUnProtectedDiskDetails",
+    modelProperties: {
+      diskId: {
+        serializedName: "diskId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      diskName: {
+        serializedName: "diskName",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      capacityInBytes: {
+        serializedName: "capacityInBytes",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
 export const OSDiskDetails: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -11863,6 +12014,36 @@ export const OSDiskDetails: coreClient.CompositeMapper = {
       },
       vhdName: {
         serializedName: "vhdName",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ManagedRunCommandScriptInput: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedRunCommandScriptInput",
+    modelProperties: {
+      stepName: {
+        serializedName: "stepName",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      scriptUrl: {
+        serializedName: "scriptUrl",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      scriptParameters: {
+        serializedName: "scriptParameters",
+        required: true,
         type: {
           name: "String",
         },
@@ -12524,6 +12705,12 @@ export const VMwareCbtDiskInput: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      sectorSizeInBytes: {
+        serializedName: "sectorSizeInBytes",
+        type: {
+          name: "Number",
+        },
+      },
     },
   },
 };
@@ -12673,6 +12860,12 @@ export const VMwareCbtProtectedDiskDetails: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "GatewayOperationDetails",
+        },
+      },
+      sectorSizeInBytes: {
+        serializedName: "sectorSizeInBytes",
+        type: {
+          name: "Number",
         },
       },
     },
@@ -14660,6 +14853,12 @@ export const VMwareCbtMigrationDetails: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      linuxLicenseType: {
+        serializedName: "linuxLicenseType",
+        type: {
+          name: "String",
+        },
+      },
       dataMoverRunAsAccountId: {
         serializedName: "dataMoverRunAsAccountId",
         readOnly: true,
@@ -14996,6 +15195,12 @@ export const VMwareCbtEnableMigrationInput: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      linuxLicenseType: {
+        serializedName: "linuxLicenseType",
+        type: {
+          name: "String",
+        },
+      },
       performSqlBulkRegistration: {
         serializedName: "performSqlBulkRegistration",
         type: {
@@ -15131,6 +15336,12 @@ export const VMwareCbtEnableMigrationInput: coreClient.CompositeMapper = {
           value: { type: { name: "String" } },
         },
       },
+      userSelectedOSName: {
+        serializedName: "userSelectedOSName",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -15235,6 +15446,12 @@ export const VMwareCbtUpdateMigrationItemInput: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      linuxLicenseType: {
+        serializedName: "linuxLicenseType",
+        type: {
+          name: "String",
+        },
+      },
       performAutoResync: {
         serializedName: "performAutoResync",
         type: {
@@ -15287,6 +15504,18 @@ export const VMwareCbtMigrateInput: coreClient.CompositeMapper = {
         serializedName: "osUpgradeVersion",
         type: {
           name: "String",
+        },
+      },
+      postMigrationSteps: {
+        serializedName: "postMigrationSteps",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ManagedRunCommandScriptInput",
+            },
+          },
         },
       },
     },
@@ -15374,6 +15603,18 @@ export const VMwareCbtTestMigrateInput: coreClient.CompositeMapper = {
         serializedName: "osUpgradeVersion",
         type: {
           name: "String",
+        },
+      },
+      postMigrationSteps: {
+        serializedName: "postMigrationSteps",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ManagedRunCommandScriptInput",
+            },
+          },
         },
       },
     },
@@ -16221,6 +16462,13 @@ export const HyperVReplicaAzureReplicationDetails: coreClient.CompositeMapper =
                 className: "OSUpgradeSupportedVersions",
               },
             },
+          },
+        },
+        targetVmSecurityProfile: {
+          serializedName: "targetVmSecurityProfile",
+          type: {
+            name: "Composite",
+            className: "SecurityProfileProperties",
           },
         },
       },
@@ -17473,6 +17721,18 @@ export const InMageRcmReplicationDetails: coreClient.CompositeMapper = {
           },
         },
       },
+      unprotectedDisks: {
+        serializedName: "unprotectedDisks",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "InMageRcmUnProtectedDiskDetails",
+            },
+          },
+        },
+      },
       isLastUpgradeSuccessful: {
         serializedName: "isLastUpgradeSuccessful",
         readOnly: true,
@@ -17535,6 +17795,84 @@ export const InMageRcmReplicationDetails: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "InMageRcmDiscoveredProtectedVmDetails",
+        },
+      },
+      targetVmTags: {
+        serializedName: "targetVmTags",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "UserCreatedResourceTag",
+            },
+          },
+        },
+      },
+      seedManagedDiskTags: {
+        serializedName: "seedManagedDiskTags",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "UserCreatedResourceTag",
+            },
+          },
+        },
+      },
+      targetManagedDiskTags: {
+        serializedName: "targetManagedDiskTags",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "UserCreatedResourceTag",
+            },
+          },
+        },
+      },
+      targetNicTags: {
+        serializedName: "targetNicTags",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "UserCreatedResourceTag",
+            },
+          },
+        },
+      },
+      sqlServerLicenseType: {
+        serializedName: "sqlServerLicenseType",
+        type: {
+          name: "String",
+        },
+      },
+      supportedOSVersions: {
+        serializedName: "supportedOSVersions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+      osName: {
+        serializedName: "osName",
+        type: {
+          name: "String",
+        },
+      },
+      targetVmSecurityProfile: {
+        serializedName: "targetVmSecurityProfile",
+        type: {
+          name: "Composite",
+          className: "SecurityProfileProperties",
         },
       },
     },
@@ -18021,6 +18359,12 @@ export const HyperVReplicaAzureEnableProtectionInput: coreClient.CompositeMapper
             name: "String",
           },
         },
+        userSelectedOSName: {
+          serializedName: "userSelectedOSName",
+          type: {
+            name: "String",
+          },
+        },
         vhdId: {
           serializedName: "vhdId",
           type: {
@@ -18114,6 +18458,13 @@ export const HyperVReplicaAzureEnableProtectionInput: coreClient.CompositeMapper
           serializedName: "sqlServerLicenseType",
           type: {
             name: "String",
+          },
+        },
+        targetVmSecurityProfile: {
+          serializedName: "targetVmSecurityProfile",
+          type: {
+            name: "Composite",
+            className: "SecurityProfileProperties",
           },
         },
         targetVmSize: {
@@ -18583,6 +18934,73 @@ export const InMageRcmEnableProtectionInput: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      sqlServerLicenseType: {
+        serializedName: "sqlServerLicenseType",
+        type: {
+          name: "String",
+        },
+      },
+      targetVmTags: {
+        serializedName: "targetVmTags",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "UserCreatedResourceTag",
+            },
+          },
+        },
+      },
+      seedManagedDiskTags: {
+        serializedName: "seedManagedDiskTags",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "UserCreatedResourceTag",
+            },
+          },
+        },
+      },
+      targetManagedDiskTags: {
+        serializedName: "targetManagedDiskTags",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "UserCreatedResourceTag",
+            },
+          },
+        },
+      },
+      targetNicTags: {
+        serializedName: "targetNicTags",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "UserCreatedResourceTag",
+            },
+          },
+        },
+      },
+      userSelectedOSName: {
+        serializedName: "userSelectedOSName",
+        type: {
+          name: "String",
+        },
+      },
+      targetVmSecurityProfile: {
+        serializedName: "targetVmSecurityProfile",
+        type: {
+          name: "Composite",
+          className: "SecurityProfileProperties",
+        },
+      },
     },
   },
 };
@@ -18925,6 +19343,48 @@ export const InMageRcmUpdateReplicationProtectedItemInput: coreClient.CompositeM
             name: "String",
           },
         },
+        sqlServerLicenseType: {
+          serializedName: "sqlServerLicenseType",
+          type: {
+            name: "String",
+          },
+        },
+        targetVmTags: {
+          serializedName: "targetVmTags",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "UserCreatedResourceTag",
+              },
+            },
+          },
+        },
+        targetManagedDiskTags: {
+          serializedName: "targetManagedDiskTags",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "UserCreatedResourceTag",
+              },
+            },
+          },
+        },
+        targetNicTags: {
+          serializedName: "targetNicTags",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "UserCreatedResourceTag",
+              },
+            },
+          },
+        },
       },
     },
   };
@@ -18959,6 +19419,33 @@ export const A2AAddDisksInput: coreClient.CompositeMapper = {
             type: {
               name: "Composite",
               className: "A2AVmManagedDiskInputDetails",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const InMageRcmAddDisksInput: coreClient.CompositeMapper = {
+  serializedName: "InMageRcm",
+  type: {
+    name: "Composite",
+    className: "InMageRcmAddDisksInput",
+    uberParent: "AddDisksProviderSpecificInput",
+    polymorphicDiscriminator:
+      AddDisksProviderSpecificInput.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...AddDisksProviderSpecificInput.type.modelProperties,
+      disks: {
+        serializedName: "disks",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "InMageRcmDiskInput",
             },
           },
         },
@@ -22854,6 +23341,7 @@ export let discriminators = {
   "UpdateReplicationProtectedItemProviderInput.InMageRcm":
     InMageRcmUpdateReplicationProtectedItemInput,
   "AddDisksProviderSpecificInput.A2A": A2AAddDisksInput,
+  "AddDisksProviderSpecificInput.InMageRcm": InMageRcmAddDisksInput,
   "ApplyRecoveryPointProviderSpecificInput.A2A": A2AApplyRecoveryPointInput,
   "ApplyRecoveryPointProviderSpecificInput.A2ACrossClusterMigration":
     A2ACrossClusterMigrationApplyRecoveryPointInput,

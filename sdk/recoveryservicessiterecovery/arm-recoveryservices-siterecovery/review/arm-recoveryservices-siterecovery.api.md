@@ -481,11 +481,11 @@ export interface AddDisksInputProperties {
 
 // @public
 export interface AddDisksProviderSpecificInput {
-    instanceType: "A2A";
+    instanceType: "A2A" | "InMageRcm";
 }
 
 // @public (undocumented)
-export type AddDisksProviderSpecificInputUnion = AddDisksProviderSpecificInput | A2AAddDisksInput;
+export type AddDisksProviderSpecificInputUnion = AddDisksProviderSpecificInput | A2AAddDisksInput | InMageRcmAddDisksInput;
 
 // @public
 export interface AddRecoveryServicesProviderInput {
@@ -931,6 +931,9 @@ export interface DiskEncryptionKeyInfo {
 export type DiskReplicationProgressHealth = string;
 
 // @public
+export type DiskState = string;
+
+// @public
 export interface DiskVolumeDetails {
     label?: string;
     name?: string;
@@ -1355,6 +1358,7 @@ export interface HyperVReplicaAzureDiskInputDetails {
     diskId?: string;
     diskType?: DiskAccountType;
     logStorageAccountId?: string;
+    sectorSizeInBytes?: number;
 }
 
 // @public
@@ -1388,12 +1392,14 @@ export interface HyperVReplicaAzureEnableProtectionInput extends EnableProtectio
     };
     targetProximityPlacementGroupId?: string;
     targetStorageAccountId?: string;
+    targetVmSecurityProfile?: SecurityProfileProperties;
     targetVmSize?: string;
     targetVmTags?: {
         [propertyName: string]: string;
     };
     useManagedDisks?: string;
     useManagedDisksForReplication?: string;
+    userSelectedOSName?: string;
     vhdId?: string;
     vmName?: string;
 }
@@ -1419,7 +1425,9 @@ export interface HyperVReplicaAzureManagedDiskDetails {
     diskEncryptionSetId?: string;
     diskId?: string;
     replicaDiskType?: string;
+    sectorSizeInBytes?: number;
     seedManagedDiskId?: string;
+    targetDiskAccountType?: DiskAccountType;
 }
 
 // @public
@@ -1489,6 +1497,7 @@ export interface HyperVReplicaAzureReplicationDetails extends ReplicationProvide
         [propertyName: string]: string;
     };
     targetProximityPlacementGroupId?: string;
+    targetVmSecurityProfile?: SecurityProfileProperties;
     targetVmTags?: {
         [propertyName: string]: string;
     };
@@ -2133,6 +2142,12 @@ export interface InMageProtectedDiskDetails {
 }
 
 // @public
+export interface InMageRcmAddDisksInput extends AddDisksProviderSpecificInput {
+    disks: InMageRcmDiskInput[];
+    instanceType: "InMageRcm";
+}
+
+// @public
 export interface InMageRcmAgentUpgradeBlockingErrorDetails {
     readonly errorCode?: string;
     readonly errorMessage?: string;
@@ -2195,6 +2210,7 @@ export interface InMageRcmDiskInput {
     diskId: string;
     diskType: DiskAccountType;
     logStorageAccountId: string;
+    sectorSizeInBytes?: number;
 }
 
 // @public
@@ -2202,6 +2218,7 @@ export interface InMageRcmDisksDefaultInput {
     diskEncryptionSetId?: string;
     diskType: DiskAccountType;
     logStorageAccountId: string;
+    sectorSizeInBytes?: number;
 }
 
 // @public
@@ -2214,17 +2231,24 @@ export interface InMageRcmEnableProtectionInput extends EnableProtectionProvider
     multiVmGroupName?: string;
     processServerId: string;
     runAsAccountId?: string;
+    seedManagedDiskTags?: UserCreatedResourceTag[];
+    sqlServerLicenseType?: SqlServerLicenseType;
     targetAvailabilitySetId?: string;
     targetAvailabilityZone?: string;
     targetBootDiagnosticsStorageAccountId?: string;
+    targetManagedDiskTags?: UserCreatedResourceTag[];
     targetNetworkId?: string;
+    targetNicTags?: UserCreatedResourceTag[];
     targetProximityPlacementGroupId?: string;
     targetResourceGroupId: string;
     targetSubnetName?: string;
     targetVmName?: string;
+    targetVmSecurityProfile?: SecurityProfileProperties;
     targetVmSize?: string;
+    targetVmTags?: UserCreatedResourceTag[];
     testNetworkId?: string;
     testSubnetName?: string;
+    userSelectedOSName?: string;
 }
 
 // @public
@@ -2499,17 +2523,20 @@ export interface InMageRcmPolicyDetails extends PolicyProviderSpecificDetails {
 // @public
 export interface InMageRcmProtectedDiskDetails {
     readonly capacityInBytes?: number;
+    customTargetDiskName?: string;
     readonly dataPendingAtSourceAgentInMB?: number;
     readonly dataPendingInLogDataStoreInMB?: number;
     readonly diskEncryptionSetId?: string;
     readonly diskId?: string;
     readonly diskName?: string;
+    readonly diskState?: DiskState;
     diskType?: DiskAccountType;
     irDetails?: InMageRcmSyncDetails;
     readonly isInitialReplicationComplete?: string;
     readonly isOSDisk?: string;
     readonly logStorageAccountId?: string;
     resyncDetails?: InMageRcmSyncDetails;
+    sectorSizeInBytes?: number;
     readonly seedBlobUri?: string;
     readonly seedManagedDiskId?: string;
     readonly targetManagedDiskId?: string;
@@ -2556,6 +2583,7 @@ export interface InMageRcmReplicationDetails extends ReplicationProviderSpecific
     licenseType?: string;
     mobilityAgentDetails?: InMageRcmMobilityAgentDetails;
     readonly multiVmGroupName?: string;
+    osName?: string;
     readonly osType?: string;
     readonly primaryNicIpAddress?: string;
     readonly processorCoreCount?: number;
@@ -2569,18 +2597,26 @@ export interface InMageRcmReplicationDetails extends ReplicationProviderSpecific
     readonly resyncState?: ResyncState;
     readonly resyncTransferredBytes?: number;
     readonly runAsAccountId?: string;
+    seedManagedDiskTags?: UserCreatedResourceTag[];
+    sqlServerLicenseType?: string;
     readonly storageAccountId?: string;
+    supportedOSVersions?: string[];
     targetAvailabilitySetId?: string;
     targetAvailabilityZone?: string;
     targetBootDiagnosticsStorageAccountId?: string;
     readonly targetGeneration?: string;
     targetLocation?: string;
+    targetManagedDiskTags?: UserCreatedResourceTag[];
     targetNetworkId?: string;
+    targetNicTags?: UserCreatedResourceTag[];
     targetProximityPlacementGroupId?: string;
     targetResourceGroupId?: string;
     targetVmName?: string;
+    targetVmSecurityProfile?: SecurityProfileProperties;
     targetVmSize?: string;
+    targetVmTags?: UserCreatedResourceTag[];
     testNetworkId?: string;
+    unprotectedDisks?: InMageRcmUnProtectedDiskDetails[];
     vmNics?: InMageRcmNicDetails[];
 }
 
@@ -2620,6 +2656,13 @@ export interface InMageRcmUnplannedFailoverInput extends UnplannedFailoverProvid
 }
 
 // @public
+export interface InMageRcmUnProtectedDiskDetails {
+    readonly capacityInBytes?: number;
+    readonly diskId?: string;
+    readonly diskName?: string;
+}
+
+// @public
 export interface InMageRcmUpdateApplianceForReplicationProtectedItemInput extends UpdateApplianceForReplicationProtectedItemProviderSpecificInput {
     instanceType: "InMageRcm";
     runAsAccountId?: string;
@@ -2635,14 +2678,18 @@ export interface InMageRcmUpdateContainerMappingInput extends ReplicationProvide
 export interface InMageRcmUpdateReplicationProtectedItemInput extends UpdateReplicationProtectedItemProviderInput {
     instanceType: "InMageRcm";
     licenseType?: LicenseType;
+    sqlServerLicenseType?: SqlServerLicenseType;
     targetAvailabilitySetId?: string;
     targetAvailabilityZone?: string;
     targetBootDiagnosticsStorageAccountId?: string;
+    targetManagedDiskTags?: UserCreatedResourceTag[];
     targetNetworkId?: string;
+    targetNicTags?: UserCreatedResourceTag[];
     targetProximityPlacementGroupId?: string;
     targetResourceGroupId?: string;
     targetVmName?: string;
     targetVmSize?: string;
+    targetVmTags?: UserCreatedResourceTag[];
     testNetworkId?: string;
     vmNics?: InMageRcmNicInput[];
 }
@@ -3002,8 +3049,12 @@ export enum KnownDisableProtectionReason {
 // @public
 export enum KnownDiskAccountType {
     PremiumLRS = "Premium_LRS",
+    PremiumV2LRS = "PremiumV2_LRS",
+    PremiumZRS = "Premium_ZRS",
     StandardLRS = "Standard_LRS",
-    StandardSSDLRS = "StandardSSD_LRS"
+    StandardSSDLRS = "StandardSSD_LRS",
+    StandardSSDZRS = "StandardSSD_ZRS",
+    UltraSSDLRS = "UltraSSD_LRS"
 }
 
 // @public
@@ -3013,6 +3064,14 @@ export enum KnownDiskReplicationProgressHealth {
     NoProgress = "NoProgress",
     Queued = "Queued",
     SlowProgress = "SlowProgress"
+}
+
+// @public
+export enum KnownDiskState {
+    InitialReplicationFailed = "InitialReplicationFailed",
+    InitialReplicationPending = "InitialReplicationPending",
+    Protected = "Protected",
+    Unavailable = "Unavailable"
 }
 
 // @public
@@ -3087,6 +3146,13 @@ export enum KnownLicenseType {
     NoLicenseType = "NoLicenseType",
     NotSpecified = "NotSpecified",
     WindowsServer = "WindowsServer"
+}
+
+// @public
+export enum KnownLinuxLicenseType {
+    LinuxServer = "LinuxServer",
+    NoLicenseType = "NoLicenseType",
+    NotSpecified = "NotSpecified"
 }
 
 // @public
@@ -3252,6 +3318,12 @@ export enum KnownRpInMageRecoveryPointType {
 }
 
 // @public
+export enum KnownSecurityConfiguration {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownSecurityType {
     ConfidentialVM = "ConfidentialVM",
     None = "None",
@@ -3316,6 +3388,9 @@ export enum KnownVmReplicationProgressHealth {
 export type LicenseType = string;
 
 // @public
+export type LinuxLicenseType = string;
+
+// @public
 export interface LogicalNetwork extends Resource {
     properties?: LogicalNetworkProperties;
 }
@@ -3332,6 +3407,13 @@ export interface LogicalNetworkProperties {
     logicalNetworkDefinitionsStatus?: string;
     logicalNetworkUsage?: string;
     networkVirtualizationStatus?: string;
+}
+
+// @public
+export interface ManagedRunCommandScriptInput {
+    scriptParameters: string;
+    scriptUrl: string;
+    stepName: string;
 }
 
 // @public
@@ -3623,6 +3705,7 @@ export interface OSDetails {
     osType?: string;
     oSVersion?: string;
     productType?: string;
+    userSelectedOSName?: string;
 }
 
 // @public
@@ -6235,6 +6318,18 @@ export interface ScriptActionTaskDetails extends TaskTypeDetails {
 }
 
 // @public
+export type SecurityConfiguration = string;
+
+// @public
+export interface SecurityProfileProperties {
+    targetVmConfidentialEncryption?: SecurityConfiguration;
+    targetVmMonitoring?: SecurityConfiguration;
+    targetVmSecureBoot?: SecurityConfiguration;
+    targetVmSecurityType?: SecurityType;
+    targetVmTpm?: SecurityConfiguration;
+}
+
+// @public
 export type SecurityType = string;
 
 // @public
@@ -6754,6 +6849,12 @@ export interface UpdateVCenterRequestProperties {
 }
 
 // @public
+export interface UserCreatedResourceTag {
+    tagName?: string;
+    tagValue?: string;
+}
+
+// @public
 export interface VaultHealthDetails extends Resource {
     properties?: VaultHealthProperties;
 }
@@ -6953,6 +7054,7 @@ export interface VMwareCbtDiskInput {
     isOSDisk: string;
     logStorageAccountId: string;
     logStorageAccountSasSecretName: string;
+    sectorSizeInBytes?: number;
 }
 
 // @public
@@ -6962,6 +7064,7 @@ export interface VMwareCbtEnableMigrationInput extends EnableMigrationProviderSp
     disksToInclude: VMwareCbtDiskInput[];
     instanceType: "VMwareCbt";
     licenseType?: LicenseType;
+    linuxLicenseType?: LinuxLicenseType;
     performAutoResync?: string;
     performSqlBulkRegistration?: string;
     seedDiskTags?: {
@@ -6990,6 +7093,7 @@ export interface VMwareCbtEnableMigrationInput extends EnableMigrationProviderSp
     };
     testNetworkId?: string;
     testSubnetName?: string;
+    userSelectedOSName?: string;
     vmwareMachineId: string;
 }
 
@@ -7004,6 +7108,7 @@ export interface VMwareCbtMigrateInput extends MigrateProviderSpecificInput {
     instanceType: "VMwareCbt";
     osUpgradeVersion?: string;
     performShutdown: string;
+    postMigrationSteps?: ManagedRunCommandScriptInput[];
 }
 
 // @public
@@ -7022,6 +7127,7 @@ export interface VMwareCbtMigrationDetails extends MigrationProviderSpecificSett
     readonly lastRecoveryPointId?: string;
     readonly lastRecoveryPointReceived?: Date;
     licenseType?: string;
+    linuxLicenseType?: LinuxLicenseType;
     readonly migrationProgressPercentage?: number;
     readonly migrationRecoveryPointId?: string;
     readonly operationName?: string;
@@ -7125,6 +7231,7 @@ export interface VMwareCbtProtectedDiskDetails {
     readonly isOSDisk?: string;
     readonly logStorageAccountId?: string;
     readonly logStorageAccountSasSecretName?: string;
+    sectorSizeInBytes?: number;
     readonly seedBlobUri?: string;
     readonly seedManagedDiskId?: string;
     readonly targetBlobUri?: string;
@@ -7173,6 +7280,7 @@ export interface VMwareCbtTestMigrateInput extends TestMigrateProviderSpecificIn
     instanceType: "VMwareCbt";
     networkId: string;
     osUpgradeVersion?: string;
+    postMigrationSteps?: ManagedRunCommandScriptInput[];
     recoveryPointId: string;
     vmNics?: VMwareCbtNicInput[];
 }
@@ -7188,6 +7296,7 @@ export interface VMwareCbtUpdateDiskInput {
 export interface VMwareCbtUpdateMigrationItemInput extends UpdateMigrationItemProviderSpecificInput {
     instanceType: "VMwareCbt";
     licenseType?: LicenseType;
+    linuxLicenseType?: LinuxLicenseType;
     performAutoResync?: string;
     sqlServerLicenseType?: SqlServerLicenseType;
     targetAvailabilitySetId?: string;

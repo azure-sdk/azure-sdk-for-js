@@ -1,5 +1,67 @@
 # Release History
     
+## 5.3.0 (2024-03-16)
+    
+**Features**
+
+  - Added Interface InMageRcmAddDisksInput
+  - Added Interface InMageRcmUnProtectedDiskDetails
+  - Added Interface ManagedRunCommandScriptInput
+  - Added Interface SecurityProfileProperties
+  - Added Interface UserCreatedResourceTag
+  - Added Type Alias DiskState
+  - Added Type Alias LinuxLicenseType
+  - Added Type Alias SecurityConfiguration
+  - Interface HyperVReplicaAzureDiskInputDetails has a new optional parameter sectorSizeInBytes
+  - Interface HyperVReplicaAzureEnableProtectionInput has a new optional parameter targetVmSecurityProfile
+  - Interface HyperVReplicaAzureEnableProtectionInput has a new optional parameter userSelectedOSName
+  - Interface HyperVReplicaAzureManagedDiskDetails has a new optional parameter sectorSizeInBytes
+  - Interface HyperVReplicaAzureManagedDiskDetails has a new optional parameter targetDiskAccountType
+  - Interface HyperVReplicaAzureReplicationDetails has a new optional parameter targetVmSecurityProfile
+  - Interface InMageRcmDiskInput has a new optional parameter sectorSizeInBytes
+  - Interface InMageRcmDisksDefaultInput has a new optional parameter sectorSizeInBytes
+  - Interface InMageRcmEnableProtectionInput has a new optional parameter seedManagedDiskTags
+  - Interface InMageRcmEnableProtectionInput has a new optional parameter sqlServerLicenseType
+  - Interface InMageRcmEnableProtectionInput has a new optional parameter targetManagedDiskTags
+  - Interface InMageRcmEnableProtectionInput has a new optional parameter targetNicTags
+  - Interface InMageRcmEnableProtectionInput has a new optional parameter targetVmSecurityProfile
+  - Interface InMageRcmEnableProtectionInput has a new optional parameter targetVmTags
+  - Interface InMageRcmEnableProtectionInput has a new optional parameter userSelectedOSName
+  - Interface InMageRcmProtectedDiskDetails has a new optional parameter customTargetDiskName
+  - Interface InMageRcmProtectedDiskDetails has a new optional parameter diskState
+  - Interface InMageRcmProtectedDiskDetails has a new optional parameter sectorSizeInBytes
+  - Interface InMageRcmReplicationDetails has a new optional parameter osName
+  - Interface InMageRcmReplicationDetails has a new optional parameter seedManagedDiskTags
+  - Interface InMageRcmReplicationDetails has a new optional parameter sqlServerLicenseType
+  - Interface InMageRcmReplicationDetails has a new optional parameter supportedOSVersions
+  - Interface InMageRcmReplicationDetails has a new optional parameter targetManagedDiskTags
+  - Interface InMageRcmReplicationDetails has a new optional parameter targetNicTags
+  - Interface InMageRcmReplicationDetails has a new optional parameter targetVmSecurityProfile
+  - Interface InMageRcmReplicationDetails has a new optional parameter targetVmTags
+  - Interface InMageRcmReplicationDetails has a new optional parameter unprotectedDisks
+  - Interface InMageRcmUpdateReplicationProtectedItemInput has a new optional parameter sqlServerLicenseType
+  - Interface InMageRcmUpdateReplicationProtectedItemInput has a new optional parameter targetManagedDiskTags
+  - Interface InMageRcmUpdateReplicationProtectedItemInput has a new optional parameter targetNicTags
+  - Interface InMageRcmUpdateReplicationProtectedItemInput has a new optional parameter targetVmTags
+  - Interface OSDetails has a new optional parameter userSelectedOSName
+  - Interface VMwareCbtDiskInput has a new optional parameter sectorSizeInBytes
+  - Interface VMwareCbtEnableMigrationInput has a new optional parameter linuxLicenseType
+  - Interface VMwareCbtEnableMigrationInput has a new optional parameter userSelectedOSName
+  - Interface VMwareCbtMigrateInput has a new optional parameter postMigrationSteps
+  - Interface VMwareCbtMigrationDetails has a new optional parameter linuxLicenseType
+  - Interface VMwareCbtProtectedDiskDetails has a new optional parameter sectorSizeInBytes
+  - Interface VMwareCbtTestMigrateInput has a new optional parameter postMigrationSteps
+  - Interface VMwareCbtUpdateMigrationItemInput has a new optional parameter linuxLicenseType
+  - Type of parameter instanceType of interface AddDisksProviderSpecificInput is changed from "A2A" to "A2A" | "InMageRcm"
+  - Added Enum KnownDiskState
+  - Added Enum KnownLinuxLicenseType
+  - Added Enum KnownSecurityConfiguration
+  - Enum KnownDiskAccountType has a new value PremiumV2LRS
+  - Enum KnownDiskAccountType has a new value PremiumZRS
+  - Enum KnownDiskAccountType has a new value StandardSSDZRS
+  - Enum KnownDiskAccountType has a new value UltraSSDLRS
+    
+    
 ## 5.2.0 (2024-02-09)
     
 **Features**
@@ -536,4 +598,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).

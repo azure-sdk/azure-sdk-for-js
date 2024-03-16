@@ -112,7 +112,8 @@ export type UpdateReplicationProtectedItemProviderInputUnion =
   | InMageRcmUpdateReplicationProtectedItemInput;
 export type AddDisksProviderSpecificInputUnion =
   | AddDisksProviderSpecificInput
-  | A2AAddDisksInput;
+  | A2AAddDisksInput
+  | InMageRcmAddDisksInput;
 export type ApplyRecoveryPointProviderSpecificInputUnion =
   | ApplyRecoveryPointProviderSpecificInput
   | A2AApplyRecoveryPointInput
@@ -1497,7 +1498,7 @@ export interface AddDisksInputProperties {
 /** Add Disks provider specific input. */
 export interface AddDisksProviderSpecificInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  instanceType: "A2A";
+  instanceType: "A2A" | "InMageRcm";
 }
 
 /** Input to apply recovery point. */
@@ -3574,10 +3575,26 @@ export interface HyperVReplicaAzureDiskInputDetails {
   diskId?: string;
   /** The LogStorageAccountId. */
   logStorageAccountId?: string;
-  /** The DiskType. */
+  /** The disk type. */
   diskType?: DiskAccountType;
   /** The DiskEncryptionSet ARM ID. */
   diskEncryptionSetId?: string;
+  /** The logical sector size (in bytes), 512 by default. */
+  sectorSizeInBytes?: number;
+}
+
+/** Security profile input. */
+export interface SecurityProfileProperties {
+  /** The target VM security type. */
+  targetVmSecurityType?: SecurityType;
+  /** A value indicating whether secure boot to be enabled. */
+  targetVmSecureBoot?: SecurityConfiguration;
+  /** A value indicating whether trusted platform module to be enabled. */
+  targetVmTpm?: SecurityConfiguration;
+  /** A value indicating whether integrity monitoring to be enabled. */
+  targetVmMonitoring?: SecurityConfiguration;
+  /** A value indicating whether confidential compute encryption to be enabled. */
+  targetVmConfidentialEncryption?: SecurityConfiguration;
 }
 
 /** Hyper-V Managed disk details. */
@@ -3590,6 +3607,10 @@ export interface HyperVReplicaAzureManagedDiskDetails {
   replicaDiskType?: string;
   /** The disk encryption set ARM Id. */
   diskEncryptionSetId?: string;
+  /** The disk type. */
+  targetDiskAccountType?: DiskAccountType;
+  /** The logical sector size (in bytes), 512 by default. */
+  sectorSizeInBytes?: number;
 }
 
 /** Initial replication details. */
@@ -3614,6 +3635,8 @@ export interface OSDetails {
   oSMajorVersion?: string;
   /** The OS Minor Version. */
   oSMinorVersion?: string;
+  /** The OS name selected by user. */
+  userSelectedOSName?: string;
 }
 
 /** Supported OS upgrade versions. */
@@ -3656,7 +3679,7 @@ export interface InMageAzureV2DiskInputDetails {
   diskId?: string;
   /** The LogStorageAccountId. */
   logStorageAccountId?: string;
-  /** The DiskType. */
+  /** The disk type. */
   diskType?: DiskAccountType;
   /** The DiskEncryptionSet ARM ID. */
   diskEncryptionSetId?: string;
@@ -3902,6 +3925,20 @@ export interface InMageProtectedDiskDetails {
   progressHealth?: string;
   /** The Progress Status. */
   progressStatus?: string;
+}
+
+/** InMageRcm disk input. */
+export interface InMageRcmDiskInput {
+  /** The disk Id. */
+  diskId: string;
+  /** The log storage account ARM Id. */
+  logStorageAccountId: string;
+  /** The disk type. */
+  diskType: DiskAccountType;
+  /** The DiskEncryptionSet ARM Id. */
+  diskEncryptionSetId?: string;
+  /** The logical sector size (in bytes), 512 by default. */
+  sectorSizeInBytes?: number;
 }
 
 /** InMageRcm source agent upgrade blocking error details. */
@@ -4515,18 +4552,6 @@ export interface InMageRcmDiscoveredProtectedVmDetails {
 }
 
 /** InMageRcm disk input. */
-export interface InMageRcmDiskInput {
-  /** The disk Id. */
-  diskId: string;
-  /** The log storage account ARM Id. */
-  logStorageAccountId: string;
-  /** The disk type. */
-  diskType: DiskAccountType;
-  /** The DiskEncryptionSet ARM Id. */
-  diskEncryptionSetId?: string;
-}
-
-/** InMageRcm disk input. */
 export interface InMageRcmDisksDefaultInput {
   /** The log storage account ARM Id. */
   logStorageAccountId: string;
@@ -4534,6 +4559,16 @@ export interface InMageRcmDisksDefaultInput {
   diskType: DiskAccountType;
   /** The DiskEncryptionSet ARM Id. */
   diskEncryptionSetId?: string;
+  /** The logical sector size (in bytes), 512 by default. */
+  sectorSizeInBytes?: number;
+}
+
+/** Resource tag input. */
+export interface UserCreatedResourceTag {
+  /** The tag name. Please read for more information: https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/tag-resources#limitations */
+  tagName?: string;
+  /** The tag value. Please read her for more information: https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/tag-resources#limitations */
+  tagValue?: string;
 }
 
 /** InMageRcmFailback discovered VM details. */
@@ -4944,6 +4979,11 @@ export interface InMageRcmProtectedDiskDetails {
    */
   readonly capacityInBytes?: number;
   /**
+   * The disk state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly diskState?: DiskState;
+  /**
    * The log storage account ARM Id.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -4989,6 +5029,10 @@ export interface InMageRcmProtectedDiskDetails {
   irDetails?: InMageRcmSyncDetails;
   /** The resync details. */
   resyncDetails?: InMageRcmSyncDetails;
+  /** The custom target Azure disk name. */
+  customTargetDiskName?: string;
+  /** The logical sector size (in bytes), 512 by default. */
+  sectorSizeInBytes?: number;
 }
 
 /** InMageRcm disk level sync details. */
@@ -5035,6 +5079,25 @@ export interface InMageRcmSyncDetails {
   readonly progressPercentage?: number;
 }
 
+/** InMageRcm un-protected disk details. */
+export interface InMageRcmUnProtectedDiskDetails {
+  /**
+   * The disk Id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly diskId?: string;
+  /**
+   * The disk name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly diskName?: string;
+  /**
+   * The disk capacity in bytes.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly capacityInBytes?: number;
+}
+
 /** Details of the OS Disk. */
 export interface OSDiskDetails {
   /** The id of the disk containing the OS. */
@@ -5043,6 +5106,16 @@ export interface OSDiskDetails {
   osType?: string;
   /** The OS disk VHD name. */
   vhdName?: string;
+}
+
+/** Managed RunCommand script input */
+export interface ManagedRunCommandScriptInput {
+  /** The step name. */
+  stepName: string;
+  /** The script url. */
+  scriptUrl: string;
+  /** The script parameters. */
+  scriptParameters: string;
 }
 
 /** Details of a Master Target Server. */
@@ -5279,6 +5352,8 @@ export interface VMwareCbtDiskInput {
   logStorageAccountSasSecretName: string;
   /** The DiskEncryptionSet ARM Id. */
   diskEncryptionSetId?: string;
+  /** The logical sector size (in bytes), 512 by default. */
+  sectorSizeInBytes?: number;
 }
 
 /** VMwareCbt security profile input. */
@@ -5366,6 +5441,8 @@ export interface VMwareCbtProtectedDiskDetails {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly gatewayOperationDetails?: GatewayOperationDetails;
+  /** The logical sector size (in bytes), 512 by default. */
+  sectorSizeInBytes?: number;
 }
 
 /** VMwareCbt NIC details. */
@@ -6184,6 +6261,8 @@ export interface VMwareCbtMigrationDetails
   licenseType?: string;
   /** The SQL Server license type. */
   sqlServerLicenseType?: string;
+  /** The license type for Linux VM's. */
+  linuxLicenseType?: LinuxLicenseType;
   /**
    * The data mover run as account Id.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -6347,6 +6426,8 @@ export interface VMwareCbtEnableMigrationInput
   licenseType?: LicenseType;
   /** The SQL Server license type. */
   sqlServerLicenseType?: SqlServerLicenseType;
+  /** The license type for Linux VM's. */
+  linuxLicenseType?: LinuxLicenseType;
   /** A value indicating whether bulk SQL RP registration to be done. */
   performSqlBulkRegistration?: string;
   /** The data mover run as account Id. */
@@ -6389,6 +6470,8 @@ export interface VMwareCbtEnableMigrationInput
   targetDiskTags?: { [propertyName: string]: string };
   /** The tags for the target NICs. */
   targetNicTags?: { [propertyName: string]: string };
+  /** The OS name selected by user. */
+  userSelectedOSName?: string;
 }
 
 /** VMwareCbt specific update migration item input. */
@@ -6422,6 +6505,8 @@ export interface VMwareCbtUpdateMigrationItemInput
   licenseType?: LicenseType;
   /** The SQL Server license type. */
   sqlServerLicenseType?: SqlServerLicenseType;
+  /** The license type for Linux VM's. */
+  linuxLicenseType?: LinuxLicenseType;
   /** A value indicating whether auto resync is to be done. */
   performAutoResync?: string;
   /** The target VM tags. */
@@ -6440,6 +6525,8 @@ export interface VMwareCbtMigrateInput extends MigrateProviderSpecificInput {
   performShutdown: string;
   /** A value indicating the inplace OS Upgrade version. */
   osUpgradeVersion?: string;
+  /** The managed run command script input. */
+  postMigrationSteps?: ManagedRunCommandScriptInput[];
 }
 
 /** VMwareCbt specific resume replication input. */
@@ -6472,6 +6559,8 @@ export interface VMwareCbtTestMigrateInput
   vmNics?: VMwareCbtNicInput[];
   /** A value indicating the inplace OS Upgrade version. */
   osUpgradeVersion?: string;
+  /** The managed run command script input. */
+  postMigrationSteps?: ManagedRunCommandScriptInput[];
 }
 
 /** Single Host fabric provider specific VM settings. */
@@ -6762,6 +6851,8 @@ export interface HyperVReplicaAzureReplicationDetails
   protectedManagedDisks?: HyperVReplicaAzureManagedDiskDetails[];
   /** A value indicating all available inplace OS Upgrade configurations. */
   allAvailableOSUpgradeConfigurations?: OSUpgradeSupportedVersions[];
+  /** The target VM security profile. */
+  targetVmSecurityProfile?: SecurityProfileProperties;
 }
 
 /** Hyper V replica provider specific settings base class. */
@@ -7314,6 +7405,8 @@ export interface InMageRcmReplicationDetails
   readonly agentUpgradeAttemptToVersion?: string;
   /** The list of protected disks. */
   protectedDisks?: InMageRcmProtectedDiskDetails[];
+  /** The list of unprotected disks. */
+  unprotectedDisks?: InMageRcmUnProtectedDiskDetails[];
   /**
    * A value indicating whether last agent upgrade was successful or not.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -7334,6 +7427,22 @@ export interface InMageRcmReplicationDetails
   vmNics?: InMageRcmNicDetails[];
   /** The discovered VM details. */
   discoveredVmDetails?: InMageRcmDiscoveredProtectedVmDetails;
+  /** The target VM tags. */
+  targetVmTags?: UserCreatedResourceTag[];
+  /** The tags for the seed managed disks. */
+  seedManagedDiskTags?: UserCreatedResourceTag[];
+  /** The tags for the target managed disks. */
+  targetManagedDiskTags?: UserCreatedResourceTag[];
+  /** The tags for the target NICs. */
+  targetNicTags?: UserCreatedResourceTag[];
+  /** The SQL Server license type. */
+  sqlServerLicenseType?: string;
+  /** A value indicating the inplace OS Upgrade version. */
+  supportedOSVersions?: string[];
+  /** The OS name associated with VM. */
+  osName?: string;
+  /** The target VM security profile. */
+  targetVmSecurityProfile?: SecurityProfileProperties;
 }
 
 /** InMage provider specific settings. */
@@ -7490,6 +7599,8 @@ export interface HyperVReplicaAzureEnableProtectionInput
   vmName?: string;
   /** The OS type associated with VM. */
   osType?: string;
+  /** The OS name selected by user. */
+  userSelectedOSName?: string;
   /** The OS disk VHD id associated with VM. */
   vhdId?: string;
   /** The storage account Id. */
@@ -7520,13 +7631,15 @@ export interface HyperVReplicaAzureEnableProtectionInput
   licenseType?: LicenseType;
   /** The SQL Server license type. */
   sqlServerLicenseType?: SqlServerLicenseType;
+  /** The target VM security profile. */
+  targetVmSecurityProfile?: SecurityProfileProperties;
   /** The target VM size. */
   targetVmSize?: string;
   /** The proximity placement group ARM Id. */
   targetProximityPlacementGroupId?: string;
   /** A value indicating whether managed disks should be used during replication. */
   useManagedDisksForReplication?: string;
-  /** The DiskType. */
+  /** The disk type. */
   diskType?: DiskAccountType;
   /** The disks to include list for managed disks. */
   disksToIncludeForManagedDisks?: HyperVReplicaAzureDiskInputDetails[];
@@ -7575,7 +7688,7 @@ export interface InMageAzureV2EnableProtectionInput
   targetAzureV1ResourceGroupId?: string;
   /** The Id of the target resource group (for resource manager deployment) in which the failover VM is to be created. */
   targetAzureV2ResourceGroupId?: string;
-  /** The DiskType. */
+  /** The disk type. */
   diskType?: DiskAccountType;
   /** The target availability set ARM Id for resource manager deployment. */
   targetAvailabilitySetId?: string;
@@ -7669,6 +7782,20 @@ export interface InMageRcmEnableProtectionInput
   processServerId: string;
   /** The multi VM group name. */
   multiVmGroupName?: string;
+  /** The SQL Server license type. */
+  sqlServerLicenseType?: SqlServerLicenseType;
+  /** The target VM tags. */
+  targetVmTags?: UserCreatedResourceTag[];
+  /** The tags for the seed managed disks. */
+  seedManagedDiskTags?: UserCreatedResourceTag[];
+  /** The tags for the target managed disks. */
+  targetManagedDiskTags?: UserCreatedResourceTag[];
+  /** The tags for the target NICs. */
+  targetNicTags?: UserCreatedResourceTag[];
+  /** The OS name selected by user. */
+  userSelectedOSName?: string;
+  /** The target VM security profile. */
+  targetVmSecurityProfile?: SecurityProfileProperties;
 }
 
 /** InMage Azure V2 input to update replication protected item. */
@@ -7779,6 +7906,14 @@ export interface InMageRcmUpdateReplicationProtectedItemInput
   vmNics?: InMageRcmNicInput[];
   /** The license type. */
   licenseType?: LicenseType;
+  /** The SQL Server license type. */
+  sqlServerLicenseType?: SqlServerLicenseType;
+  /** The target VM tags. */
+  targetVmTags?: UserCreatedResourceTag[];
+  /** The tags for the target managed disks. */
+  targetManagedDiskTags?: UserCreatedResourceTag[];
+  /** The tags for the target NICs. */
+  targetNicTags?: UserCreatedResourceTag[];
 }
 
 /** A2A add disk(s) input. */
@@ -7789,6 +7924,14 @@ export interface A2AAddDisksInput extends AddDisksProviderSpecificInput {
   vmDisks?: A2AVmDiskInputDetails[];
   /** The list of vm managed disk details. */
   vmManagedDisks?: A2AVmManagedDiskInputDetails[];
+}
+
+/** InMageRcm add disk(s) input. */
+export interface InMageRcmAddDisksInput extends AddDisksProviderSpecificInput {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  instanceType: "InMageRcm";
+  /** The list of disk details. */
+  disks: InMageRcmDiskInput[];
 }
 
 /** ApplyRecoveryPoint input specific to A2A provider. */
@@ -9864,6 +10007,14 @@ export enum KnownDiskAccountType {
   PremiumLRS = "Premium_LRS",
   /** StandardSSDLRS */
   StandardSSDLRS = "StandardSSD_LRS",
+  /** PremiumV2LRS */
+  PremiumV2LRS = "PremiumV2_LRS",
+  /** UltraSSDLRS */
+  UltraSSDLRS = "UltraSSD_LRS",
+  /** StandardSSDZRS */
+  StandardSSDZRS = "StandardSSD_ZRS",
+  /** PremiumZRS */
+  PremiumZRS = "Premium_ZRS",
 }
 
 /**
@@ -9873,7 +10024,11 @@ export enum KnownDiskAccountType {
  * ### Known values supported by the service
  * **Standard_LRS** \
  * **Premium_LRS** \
- * **StandardSSD_LRS**
+ * **StandardSSD_LRS** \
+ * **PremiumV2_LRS** \
+ * **UltraSSD_LRS** \
+ * **StandardSSD_ZRS** \
+ * **Premium_ZRS**
  */
 export type DiskAccountType = string;
 
@@ -9900,6 +10055,45 @@ export enum KnownSqlServerLicenseType {
  * **AHUB**
  */
 export type SqlServerLicenseType = string;
+
+/** Known values of {@link SecurityType} that the service accepts. */
+export enum KnownSecurityType {
+  /** None */
+  None = "None",
+  /** TrustedLaunch */
+  TrustedLaunch = "TrustedLaunch",
+  /** ConfidentialVM */
+  ConfidentialVM = "ConfidentialVM",
+}
+
+/**
+ * Defines values for SecurityType. \
+ * {@link KnownSecurityType} can be used interchangeably with SecurityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **TrustedLaunch** \
+ * **ConfidentialVM**
+ */
+export type SecurityType = string;
+
+/** Known values of {@link SecurityConfiguration} that the service accepts. */
+export enum KnownSecurityConfiguration {
+  /** Disabled */
+  Disabled = "Disabled",
+  /** Enabled */
+  Enabled = "Enabled",
+}
+
+/**
+ * Defines values for SecurityConfiguration. \
+ * {@link KnownSecurityConfiguration} can be used interchangeably with SecurityConfiguration,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Disabled** \
+ * **Enabled**
+ */
+export type SecurityConfiguration = string;
 
 /** Known values of {@link PresenceStatus} that the service accepts. */
 export enum KnownPresenceStatus {
@@ -10132,6 +10326,30 @@ export enum KnownEthernetAddressType {
  */
 export type EthernetAddressType = string;
 
+/** Known values of {@link DiskState} that the service accepts. */
+export enum KnownDiskState {
+  /** Unavailable */
+  Unavailable = "Unavailable",
+  /** InitialReplicationPending */
+  InitialReplicationPending = "InitialReplicationPending",
+  /** InitialReplicationFailed */
+  InitialReplicationFailed = "InitialReplicationFailed",
+  /** Protected */
+  Protected = "Protected",
+}
+
+/**
+ * Defines values for DiskState. \
+ * {@link KnownDiskState} can be used interchangeably with DiskState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unavailable** \
+ * **InitialReplicationPending** \
+ * **InitialReplicationFailed** \
+ * **Protected**
+ */
+export type DiskState = string;
+
 /** Known values of {@link MobilityAgentUpgradeState} that the service accepts. */
 export enum KnownMobilityAgentUpgradeState {
   /** None */
@@ -10363,26 +10581,26 @@ export enum KnownRecoveryPlanPointType {
  */
 export type RecoveryPlanPointType = string;
 
-/** Known values of {@link SecurityType} that the service accepts. */
-export enum KnownSecurityType {
-  /** None */
-  None = "None",
-  /** TrustedLaunch */
-  TrustedLaunch = "TrustedLaunch",
-  /** ConfidentialVM */
-  ConfidentialVM = "ConfidentialVM",
+/** Known values of {@link LinuxLicenseType} that the service accepts. */
+export enum KnownLinuxLicenseType {
+  /** NotSpecified */
+  NotSpecified = "NotSpecified",
+  /** NoLicenseType */
+  NoLicenseType = "NoLicenseType",
+  /** LinuxServer */
+  LinuxServer = "LinuxServer",
 }
 
 /**
- * Defines values for SecurityType. \
- * {@link KnownSecurityType} can be used interchangeably with SecurityType,
+ * Defines values for LinuxLicenseType. \
+ * {@link KnownLinuxLicenseType} can be used interchangeably with LinuxLicenseType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **None** \
- * **TrustedLaunch** \
- * **ConfidentialVM**
+ * **NotSpecified** \
+ * **NoLicenseType** \
+ * **LinuxServer**
  */
-export type SecurityType = string;
+export type LinuxLicenseType = string;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
