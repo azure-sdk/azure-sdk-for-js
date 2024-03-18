@@ -152,6 +152,22 @@ export const filter: OperationQueryParameter = {
   },
 };
 
+export const deletedServiceName: OperationURLParameter = {
+  parameterPath: "deletedServiceName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9-]{3,90}$"),
+      MaxLength: 90,
+      MinLength: 1,
+    },
+    serializedName: "deletedServiceName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
 export const metadataSchemaName: OperationURLParameter = {
   parameterPath: "metadataSchemaName",
   mapper: {

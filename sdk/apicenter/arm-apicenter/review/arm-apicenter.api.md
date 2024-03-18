@@ -335,6 +335,8 @@ export class AzureAPICenter extends coreClient.ServiceClient {
     // (undocumented)
     apiVersions: ApiVersions;
     // (undocumented)
+    deletedServices: DeletedServices;
+    // (undocumented)
     deployments: Deployments;
     // (undocumented)
     environments: Environments;
@@ -366,6 +368,61 @@ export interface Contact {
 
 // @public
 export type CreatedByType = string;
+
+// @public
+export interface DeletedService extends ProxyResource {
+    properties?: DeletedServiceProperties;
+}
+
+// @public
+export interface DeletedServiceListResult {
+    readonly nextLink?: string;
+    readonly value: DeletedService[];
+}
+
+// @public
+export interface DeletedServiceProperties {
+    deletedOn?: Date;
+    expiresOn?: Date;
+}
+
+// @public
+export interface DeletedServices {
+    delete(resourceGroupName: string, deletedServiceName: string, options?: DeletedServicesDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, deletedServiceName: string, options?: DeletedServicesGetOptionalParams): Promise<DeletedServicesGetResponse>;
+    list(resourceGroupName: string, options?: DeletedServicesListOptionalParams): PagedAsyncIterableIterator<DeletedService>;
+}
+
+// @public
+export interface DeletedServicesDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface DeletedServicesGetHeaders {
+    eTag?: string;
+}
+
+// @public
+export interface DeletedServicesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DeletedServicesGetResponse = DeletedServicesGetHeaders & DeletedService;
+
+// @public
+export interface DeletedServicesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DeletedServicesListNextResponse = DeletedServiceListResult;
+
+// @public
+export interface DeletedServicesListOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+}
+
+// @public
+export type DeletedServicesListResponse = DeletedServiceListResult;
 
 // @public
 export interface Deployment extends ProxyResource {

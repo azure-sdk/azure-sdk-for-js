@@ -17,6 +17,7 @@ import * as coreAuth from "@azure/core-auth";
 import {
   OperationsImpl,
   ServicesImpl,
+  DeletedServicesImpl,
   MetadataSchemasImpl,
   WorkspacesImpl,
   ApisImpl,
@@ -28,6 +29,7 @@ import {
 import {
   Operations,
   Services,
+  DeletedServices,
   MetadataSchemas,
   Workspaces,
   Apis,
@@ -70,7 +72,7 @@ export class AzureAPICenter extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-apicenter/1.0.0`;
+    const packageDetails = `azsdk-js-arm-apicenter/1.1.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -127,6 +129,7 @@ export class AzureAPICenter extends coreClient.ServiceClient {
     this.apiVersion = options.apiVersion || "2024-03-01";
     this.operations = new OperationsImpl(this);
     this.services = new ServicesImpl(this);
+    this.deletedServices = new DeletedServicesImpl(this);
     this.metadataSchemas = new MetadataSchemasImpl(this);
     this.workspaces = new WorkspacesImpl(this);
     this.apis = new ApisImpl(this);
@@ -167,6 +170,7 @@ export class AzureAPICenter extends coreClient.ServiceClient {
 
   operations: Operations;
   services: Services;
+  deletedServices: DeletedServices;
   metadataSchemas: MetadataSchemas;
   workspaces: Workspaces;
   apis: Apis;

@@ -218,6 +218,28 @@ export interface SystemData {
   lastModifiedAt?: Date;
 }
 
+/** The response of a DeletedService list operation. */
+export interface DeletedServiceListResult {
+  /**
+   * The DeletedService items on this page
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value: DeletedService[];
+  /**
+   * The link to the next page of items
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Deleted service properties. */
+export interface DeletedServiceProperties {
+  /** UTC date and time when the service will be automatically purged. The date conforms to the following format: yyyy-MM-ddTHH:mm:ssZ as specified by the ISO 8601 standard. */
+  expiresOn?: Date;
+  /** UTC date and time when the service was soft-deleted. The date conforms to the following format: yyyy-MM-ddTHH:mm:ssZ as specified by the ISO 8601 standard. */
+  deletedOn?: Date;
+}
+
 /** The type used for update operations of the Service. */
 export interface ServiceUpdate {
   /** The managed service identities assigned to this resource. */
@@ -563,6 +585,12 @@ export interface Service extends TrackedResource {
   identity?: ManagedServiceIdentity;
 }
 
+/** Soft-deleted service entity. */
+export interface DeletedService extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: DeletedServiceProperties;
+}
+
 /** Metadata schema entity. Used to define metadata for the entities in API catalog. */
 export interface MetadataSchema extends ProxyResource {
   /** The resource-specific properties for this resource. */
@@ -611,6 +639,12 @@ export interface ServicesExportMetadataSchemaHeaders {
   retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+}
+
+/** Defines headers for DeletedServices_get operation. */
+export interface DeletedServicesGetHeaders {
+  /** The entity tag for the response. */
+  eTag?: string;
 }
 
 /** Defines headers for MetadataSchemas_get operation. */
@@ -1128,6 +1162,35 @@ export interface ServicesListByResourceGroupNextOptionalParams
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type ServicesListByResourceGroupNextResponse = ServiceListResult;
+
+/** Optional parameters. */
+export interface DeletedServicesListOptionalParams
+  extends coreClient.OperationOptions {
+  /** OData filter parameter. */
+  filter?: string;
+}
+
+/** Contains response data for the list operation. */
+export type DeletedServicesListResponse = DeletedServiceListResult;
+
+/** Optional parameters. */
+export interface DeletedServicesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type DeletedServicesGetResponse = DeletedServicesGetHeaders &
+  DeletedService;
+
+/** Optional parameters. */
+export interface DeletedServicesDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface DeletedServicesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type DeletedServicesListNextResponse = DeletedServiceListResult;
 
 /** Optional parameters. */
 export interface MetadataSchemasListOptionalParams

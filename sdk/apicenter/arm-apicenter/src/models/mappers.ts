@@ -404,6 +404,57 @@ export const SystemData: coreClient.CompositeMapper = {
   },
 };
 
+export const DeletedServiceListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DeletedServiceListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DeletedService",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const DeletedServiceProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DeletedServiceProperties",
+    modelProperties: {
+      expiresOn: {
+        serializedName: "expiresOn",
+        type: {
+          name: "DateTime",
+        },
+      },
+      deletedOn: {
+        serializedName: "deletedOn",
+        type: {
+          name: "DateTime",
+        },
+      },
+    },
+  },
+};
+
 export const ServiceUpdate: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1387,6 +1438,23 @@ export const Service: coreClient.CompositeMapper = {
   },
 };
 
+export const DeletedService: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DeletedService",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "DeletedServiceProperties",
+        },
+      },
+    },
+  },
+};
+
 export const MetadataSchema: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1519,6 +1587,21 @@ export const ServicesExportMetadataSchemaHeaders: coreClient.CompositeMapper = {
       },
       location: {
         serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const DeletedServicesGetHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DeletedServicesGetHeaders",
+    modelProperties: {
+      eTag: {
+        serializedName: "etag",
         type: {
           name: "String",
         },

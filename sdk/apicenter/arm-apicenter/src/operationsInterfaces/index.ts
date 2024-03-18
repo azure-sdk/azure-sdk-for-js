@@ -8,6 +8,7 @@
 
 export * from "./operations";
 export * from "./services";
+export * from "./deletedServices";
 export * from "./metadataSchemas";
 export * from "./workspaces";
 export * from "./apis";
