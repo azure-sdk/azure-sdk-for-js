@@ -27,7 +27,7 @@ export type AzureDeveloperDevCenterClient = Client & {
 
 // @public
 export interface CatalogOutput {
-    name: string;
+    readonly name: string;
 }
 
 // @public
@@ -324,7 +324,7 @@ export type DeleteEnvironmentParameters = RequestParameters;
 
 // @public
 export interface DevBox {
-    localAdministrator?: string;
+    localAdministrator?: LocalAdminStatus;
     poolName: string;
 }
 
@@ -333,17 +333,23 @@ export interface DevBoxActionDelayResultOutput {
     action?: DevBoxActionOutput;
     error?: ErrorModel;
     name: string;
-    result: string;
+    result: DevBoxActionDelayResultStatusOutput;
 }
 
 // @public
+export type DevBoxActionDelayResultStatusOutput = "Succeeded" | "Failed" | string;
+
+// @public
 export interface DevBoxActionOutput {
-    actionType: string;
+    actionType: DevBoxActionTypeOutput;
     readonly name: string;
     next?: DevBoxNextActionOutput;
     sourceId: string;
     suspendedUntil?: string;
 }
+
+// @public
+export type DevBoxActionTypeOutput = "Stop" | string;
 
 // @public
 export interface DevBoxNextActionOutput {
@@ -356,27 +362,33 @@ export interface DevBoxOutput {
     readonly createdTime?: string;
     readonly error?: ErrorModel;
     readonly hardwareProfile?: HardwareProfileOutput;
-    readonly hibernateSupport?: string;
+    readonly hibernateSupport?: HibernateSupportOutput;
     readonly imageReference?: ImageReferenceOutput;
-    localAdministrator?: string;
+    localAdministrator?: LocalAdminStatusOutput;
     readonly location?: string;
     readonly name: string;
-    readonly osType?: string;
+    readonly osType?: OsTypeOutput;
     poolName: string;
-    readonly powerState?: string;
+    readonly powerState?: PowerStateOutput;
     readonly projectName?: string;
-    readonly provisioningState?: string;
+    readonly provisioningState?: DevBoxProvisioningStateOutput;
     readonly storageProfile?: StorageProfileOutput;
     readonly uniqueId?: string;
     readonly user?: string;
 }
 
 // @public
+export type DevBoxProvisioningState = "Succeeded" | "Failed" | "Canceled" | "Creating" | "Deleting" | "Updating" | "Starting" | "Stopping" | "Provisioning" | "ProvisionedWithWarning" | "InGracePeriod" | "NotProvisioned" | string;
+
+// @public
+export type DevBoxProvisioningStateOutput = "Succeeded" | "Failed" | "Canceled" | "Creating" | "Deleting" | "Updating" | "Starting" | "Stopping" | "Provisioning" | "ProvisionedWithWarning" | "InGracePeriod" | "NotProvisioned" | string;
+
+// @public
 export interface Environment {
     catalogName: string;
     environmentDefinitionName: string;
     environmentType: string;
-    parameters?: unknown;
+    parameters?: Record<string, unknown>;
 }
 
 // @public
@@ -384,7 +396,7 @@ export interface EnvironmentDefinitionOutput {
     catalogName: string;
     description?: string;
     id: string;
-    name: string;
+    readonly name: string;
     parameters?: Array<EnvironmentDefinitionParameterOutput>;
     parametersSchema?: string;
     templatePath?: string;
@@ -399,7 +411,7 @@ export interface EnvironmentDefinitionParameterOutput {
     name?: string;
     readOnly?: boolean;
     required: boolean;
-    type: string;
+    type: ParameterTypeOutput;
 }
 
 // @public
@@ -408,18 +420,27 @@ export interface EnvironmentOutput {
     environmentDefinitionName: string;
     environmentType: string;
     readonly error?: ErrorModel;
-    readonly name?: string;
-    parameters?: any;
-    readonly provisioningState?: string;
+    readonly name: string;
+    parameters?: Record<string, any>;
+    readonly provisioningState?: EnvironmentProvisioningStateOutput;
     readonly resourceGroupId?: string;
     readonly user?: string;
 }
 
 // @public
+export type EnvironmentProvisioningState = "Succeeded" | "Failed" | "Canceled" | "Creating" | "Accepted" | "Deleting" | "Updating" | "Preparing" | "Running" | "Syncing" | "MovingResources" | "TransientFailure" | "StorageProvisioningFailed" | string;
+
+// @public
+export type EnvironmentProvisioningStateOutput = "Succeeded" | "Failed" | "Canceled" | "Creating" | "Accepted" | "Deleting" | "Updating" | "Preparing" | "Running" | "Syncing" | "MovingResources" | "TransientFailure" | "StorageProvisioningFailed" | string;
+
+// @public
+export type EnvironmentTypeEnableStatusOutput = "Enabled" | "Disabled" | string;
+
+// @public
 export interface EnvironmentTypeOutput {
     deploymentTargetId: string;
     name: string;
-    status: string;
+    status: EnvironmentTypeEnableStatusOutput;
 }
 
 // @public
@@ -773,9 +794,15 @@ export interface HardwareProfile {
 // @public
 export interface HardwareProfileOutput {
     readonly memoryGB?: number;
-    readonly skuName?: string;
+    readonly skuName?: SkuNameOutput;
     readonly vCPUs?: number;
 }
+
+// @public
+export type HibernateSupport = "Enabled" | "Disabled" | "OsUnsupported" | string;
+
+// @public
+export type HibernateSupportOutput = "Enabled" | "Disabled" | "OsUnsupported" | string;
 
 // @public
 export interface ImageReference {
@@ -931,19 +958,7 @@ export interface ListAllDevBoxesByUserDefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
-export type ListAllDevBoxesByUserParameters = ListAllDevBoxesByUserQueryParam & RequestParameters;
-
-// @public (undocumented)
-export interface ListAllDevBoxesByUserQueryParam {
-    // (undocumented)
-    queryParameters?: ListAllDevBoxesByUserQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface ListAllDevBoxesByUserQueryParamProperties {
-    filter?: string;
-    top?: number;
-}
+export type ListAllDevBoxesByUserParameters = RequestParameters;
 
 // @public (undocumented)
 export interface ListAllDevBoxesDefaultHeaders {
@@ -961,19 +976,7 @@ export interface ListAllDevBoxesDefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
-export type ListAllDevBoxesParameters = ListAllDevBoxesQueryParam & RequestParameters;
-
-// @public (undocumented)
-export interface ListAllDevBoxesQueryParam {
-    // (undocumented)
-    queryParameters?: ListAllDevBoxesQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface ListAllDevBoxesQueryParamProperties {
-    filter?: string;
-    top?: number;
-}
+export type ListAllDevBoxesParameters = RequestParameters;
 
 // @public (undocumented)
 export interface ListAllEnvironments {
@@ -1004,18 +1007,7 @@ export interface ListAllEnvironmentsDefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
-export type ListAllEnvironmentsParameters = ListAllEnvironmentsQueryParam & RequestParameters;
-
-// @public (undocumented)
-export interface ListAllEnvironmentsQueryParam {
-    // (undocumented)
-    queryParameters?: ListAllEnvironmentsQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface ListAllEnvironmentsQueryParamProperties {
-    top?: number;
-}
+export type ListAllEnvironmentsParameters = RequestParameters;
 
 // @public (undocumented)
 export interface ListCatalogs {
@@ -1046,18 +1038,7 @@ export interface ListCatalogsDefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
-export type ListCatalogsParameters = ListCatalogsQueryParam & RequestParameters;
-
-// @public (undocumented)
-export interface ListCatalogsQueryParam {
-    // (undocumented)
-    queryParameters?: ListCatalogsQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface ListCatalogsQueryParamProperties {
-    top?: number;
-}
+export type ListCatalogsParameters = RequestParameters;
 
 // @public (undocumented)
 export interface ListDevBoxActions {
@@ -1119,19 +1100,7 @@ export interface ListDevBoxesDefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
-export type ListDevBoxesParameters = ListDevBoxesQueryParam & RequestParameters;
-
-// @public (undocumented)
-export interface ListDevBoxesQueryParam {
-    // (undocumented)
-    queryParameters?: ListDevBoxesQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface ListDevBoxesQueryParamProperties {
-    filter?: string;
-    top?: number;
-}
+export type ListDevBoxesParameters = RequestParameters;
 
 // @public (undocumented)
 export interface ListEnvironmentDefinitions {
@@ -1175,18 +1144,7 @@ export interface ListEnvironmentDefinitionsByCatalogDefaultResponse extends Http
 }
 
 // @public (undocumented)
-export type ListEnvironmentDefinitionsByCatalogParameters = ListEnvironmentDefinitionsByCatalogQueryParam & RequestParameters;
-
-// @public (undocumented)
-export interface ListEnvironmentDefinitionsByCatalogQueryParam {
-    // (undocumented)
-    queryParameters?: ListEnvironmentDefinitionsByCatalogQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface ListEnvironmentDefinitionsByCatalogQueryParamProperties {
-    top?: number;
-}
+export type ListEnvironmentDefinitionsByCatalogParameters = RequestParameters;
 
 // @public (undocumented)
 export interface ListEnvironmentDefinitionsDefaultHeaders {
@@ -1204,18 +1162,7 @@ export interface ListEnvironmentDefinitionsDefaultResponse extends HttpResponse 
 }
 
 // @public (undocumented)
-export type ListEnvironmentDefinitionsParameters = ListEnvironmentDefinitionsQueryParam & RequestParameters;
-
-// @public (undocumented)
-export interface ListEnvironmentDefinitionsQueryParam {
-    // (undocumented)
-    queryParameters?: ListEnvironmentDefinitionsQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface ListEnvironmentDefinitionsQueryParamProperties {
-    top?: number;
-}
+export type ListEnvironmentDefinitionsParameters = RequestParameters;
 
 // @public (undocumented)
 export interface ListEnvironments {
@@ -1246,18 +1193,7 @@ export interface ListEnvironmentsDefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
-export type ListEnvironmentsParameters = ListEnvironmentsQueryParam & RequestParameters;
-
-// @public (undocumented)
-export interface ListEnvironmentsQueryParam {
-    // (undocumented)
-    queryParameters?: ListEnvironmentsQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface ListEnvironmentsQueryParamProperties {
-    top?: number;
-}
+export type ListEnvironmentsParameters = RequestParameters;
 
 // @public (undocumented)
 export interface ListEnvironmentTypes {
@@ -1288,18 +1224,7 @@ export interface ListEnvironmentTypesDefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
-export type ListEnvironmentTypesParameters = ListEnvironmentTypesQueryParam & RequestParameters;
-
-// @public (undocumented)
-export interface ListEnvironmentTypesQueryParam {
-    // (undocumented)
-    queryParameters?: ListEnvironmentTypesQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface ListEnvironmentTypesQueryParamProperties {
-    top?: number;
-}
+export type ListEnvironmentTypesParameters = RequestParameters;
 
 // @public (undocumented)
 export interface ListPools {
@@ -1330,19 +1255,7 @@ export interface ListPoolsDefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
-export type ListPoolsParameters = ListPoolsQueryParam & RequestParameters;
-
-// @public (undocumented)
-export interface ListPoolsQueryParam {
-    // (undocumented)
-    queryParameters?: ListPoolsQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface ListPoolsQueryParamProperties {
-    filter?: string;
-    top?: number;
-}
+export type ListPoolsParameters = RequestParameters;
 
 // @public (undocumented)
 export interface ListProjects {
@@ -1373,19 +1286,7 @@ export interface ListProjectsDefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
-export type ListProjectsParameters = ListProjectsQueryParam & RequestParameters;
-
-// @public (undocumented)
-export interface ListProjectsQueryParam {
-    // (undocumented)
-    queryParameters?: ListProjectsQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface ListProjectsQueryParamProperties {
-    filter?: string;
-    top?: number;
-}
+export type ListProjectsParameters = RequestParameters;
 
 // @public (undocumented)
 export interface ListSchedules {
@@ -1416,31 +1317,19 @@ export interface ListSchedulesDefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
-export type ListSchedulesParameters = ListSchedulesQueryParam & RequestParameters;
-
-// @public (undocumented)
-export interface ListSchedulesQueryParam {
-    // (undocumented)
-    queryParameters?: ListSchedulesQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface ListSchedulesQueryParamProperties {
-    filter?: string;
-    top?: number;
-}
+export type ListSchedulesParameters = RequestParameters;
 
 // @public
-export interface OperationStatusErrorOutput {
-    code?: string;
-    message?: string;
-}
+export type LocalAdminStatus = "Enabled" | "Disabled" | string;
+
+// @public
+export type LocalAdminStatusOutput = "Enabled" | "Disabled" | string;
 
 // @public
 export interface OperationStatusOutput {
     endTime?: string;
-    error?: OperationStatusErrorOutput;
-    id?: string;
+    error?: ErrorModel;
+    readonly id: string;
     name?: string;
     percentComplete?: number;
     properties?: any;
@@ -1450,13 +1339,19 @@ export interface OperationStatusOutput {
 }
 
 // @public
-export interface OSDisk {
+export interface OsDisk {
 }
 
 // @public
-export interface OSDiskOutput {
+export interface OsDiskOutput {
     readonly diskSizeGB?: number;
 }
+
+// @public
+export type OsType = "Windows" | string;
+
+// @public
+export type OsTypeOutput = "Windows" | string;
 
 // @public
 export type PagedCatalogOutput = Paged<CatalogOutput>;
@@ -1504,18 +1399,30 @@ export interface PagingOptions<TResponse> {
 }
 
 // @public
+export type ParameterTypeOutput = "array" | "boolean" | "integer" | "number" | "object" | "string" | string;
+
+// @public
+export type PoolHealthStatusOutput = "Unknown" | "Pending" | "Healthy" | "Warning" | "Unhealthy" | string;
+
+// @public
 export interface PoolOutput {
     hardwareProfile?: HardwareProfileOutput;
-    healthStatus: string;
-    hibernateSupport?: string;
+    healthStatus: PoolHealthStatusOutput;
+    hibernateSupport?: HibernateSupportOutput;
     imageReference?: ImageReferenceOutput;
-    localAdministrator?: string;
+    localAdministrator?: LocalAdminStatusOutput;
     location: string;
     readonly name: string;
-    osType?: string;
+    osType?: OsTypeOutput;
     stopOnDisconnect?: StopOnDisconnectConfigurationOutput;
     storageProfile?: StorageProfileOutput;
 }
+
+// @public
+export type PowerState = "Unknown" | "Running" | "Deallocated" | "PoweredOff" | "Hibernated" | string;
+
+// @public
+export type PowerStateOutput = "Unknown" | "Running" | "Deallocated" | "PoweredOff" | "Hibernated" | string;
 
 // @public
 export interface ProjectOutput {
@@ -1610,12 +1517,18 @@ export interface Routes {
 }
 
 // @public
+export type ScheduledFrequencyOutput = "Daily" | string;
+
+// @public
+export type ScheduledTypeOutput = "StopDevBox" | string;
+
+// @public
 export interface ScheduleOutput {
-    frequency: string;
+    frequency: ScheduledFrequencyOutput;
     readonly name: string;
     time: string;
     timeZone: string;
-    type: string;
+    type: ScheduledTypeOutput;
 }
 
 // @public (undocumented)
@@ -1646,6 +1559,12 @@ export interface SkipActionDefaultResponse extends HttpResponse {
 
 // @public (undocumented)
 export type SkipActionParameters = RequestParameters;
+
+// @public
+export type SkuName = "general_i_8c32gb256ssd_v2" | "general_i_8c32gb512ssd_v2" | "general_i_8c32gb1024ssd_v2" | "general_i_8c32gb2048ssd_v2" | "general_i_16c64gb256ssd_v2" | "general_i_16c64gb512ssd_v2" | "general_i_16c64gb1024ssd_v2" | "general_i_16c64gb2048ssd_v2" | "general_i_32c128gb512ssd_v2" | "general_i_32c128gb1024ssd_v2" | "general_i_32c128gb2048ssd_v2" | "general_a_8c32gb256ssd_v2" | "general_a_8c32gb512ssd_v2" | "general_a_8c32gb1024ssd_v2" | "general_a_8c32gb2048ssd_v2" | "general_a_16c64gb256ssd_v2" | "general_a_16c64gb512ssd_v2" | "general_a_16c64gb1024ssd_v2" | "general_a_16c64gb2048ssd_v2" | "general_a_32c128gb512ssd_v2" | "general_a_32c128gb1024ssd_v2" | "general_a_32c128gb2048ssd_v2" | string;
+
+// @public
+export type SkuNameOutput = "general_i_8c32gb256ssd_v2" | "general_i_8c32gb512ssd_v2" | "general_i_8c32gb1024ssd_v2" | "general_i_8c32gb2048ssd_v2" | "general_i_16c64gb256ssd_v2" | "general_i_16c64gb512ssd_v2" | "general_i_16c64gb1024ssd_v2" | "general_i_16c64gb2048ssd_v2" | "general_i_32c128gb512ssd_v2" | "general_i_32c128gb1024ssd_v2" | "general_i_32c128gb2048ssd_v2" | "general_a_8c32gb256ssd_v2" | "general_a_8c32gb512ssd_v2" | "general_a_8c32gb1024ssd_v2" | "general_a_8c32gb2048ssd_v2" | "general_a_16c64gb256ssd_v2" | "general_a_16c64gb512ssd_v2" | "general_a_16c64gb1024ssd_v2" | "general_a_16c64gb2048ssd_v2" | "general_a_32c128gb512ssd_v2" | "general_a_32c128gb1024ssd_v2" | "general_a_32c128gb2048ssd_v2" | string;
 
 // @public (undocumented)
 export interface StartDevBox {
@@ -1753,17 +1672,20 @@ export interface StopDevBoxQueryParamProperties {
 // @public
 export interface StopOnDisconnectConfigurationOutput {
     gracePeriodMinutes?: number;
-    status: string;
+    status: StopOnDisconnectEnableStatusOutput;
 }
 
 // @public
+export type StopOnDisconnectEnableStatusOutput = "Enabled" | "Disabled" | string;
+
+// @public
 export interface StorageProfile {
-    osDisk?: OSDisk;
+    osDisk?: OsDisk;
 }
 
 // @public
 export interface StorageProfileOutput {
-    osDisk?: OSDiskOutput;
+    osDisk?: OsDiskOutput;
 }
 
 // (No @packageDocumentation comment for this package)
