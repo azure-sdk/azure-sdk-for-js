@@ -39,19 +39,19 @@ export class ChargesImpl implements Charges {
    *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for billingAccount scope,
    *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
    *              for billingProfile scope,
-   *              'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/invoiceSections/{invoiceSectionId}'
+   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/invoiceSections/{invoiceSectionId}'
    *              for invoiceSection scope, and
-   *              'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/customers/{customerId}' specific for
-   *              partners.
+   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/customers/{customerId}' specific
+   *              for partners.
    * @param options The options parameters.
    */
   list(
     scope: string,
-    options?: ChargesListOptionalParams
+    options?: ChargesListOptionalParams,
   ): Promise<ChargesListResponse> {
     return this.client.sendOperationRequest(
       { scope, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 }
@@ -63,20 +63,20 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ChargesListResult
+      bodyMapper: Mappers.ChargesListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
     Parameters.filter,
     Parameters.apiVersion,
     Parameters.startDate,
     Parameters.endDate,
-    Parameters.apply
+    Parameters.apply,
   ],
   urlParameters: [Parameters.$host, Parameters.scope],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -30,6 +30,6 @@ export interface Marketplaces {
    */
   list(
     scope: string,
-    options?: MarketplacesListOptionalParams
+    options?: MarketplacesListOptionalParams,
   ): PagedAsyncIterableIterator<Marketplace>;
 }
