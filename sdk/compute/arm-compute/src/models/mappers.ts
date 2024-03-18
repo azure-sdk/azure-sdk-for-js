@@ -564,6 +564,98 @@ export const AutomaticOSUpgradePolicy: coreClient.CompositeMapper = {
   },
 };
 
+export const ScheduledEventsPolicy: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ScheduledEventsPolicy",
+    modelProperties: {
+      userInitiatedRedeploy: {
+        serializedName: "userInitiatedRedeploy",
+        type: {
+          name: "Composite",
+          className: "UserInitiatedRedeploy",
+        },
+      },
+      userInitiatedReboot: {
+        serializedName: "userInitiatedReboot",
+        type: {
+          name: "Composite",
+          className: "UserInitiatedReboot",
+        },
+      },
+      scheduledEventsAdditionalPublishingTargets: {
+        serializedName: "scheduledEventsAdditionalPublishingTargets",
+        type: {
+          name: "Composite",
+          className: "ScheduledEventsAdditionalPublishingTargets",
+        },
+      },
+    },
+  },
+};
+
+export const UserInitiatedRedeploy: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UserInitiatedRedeploy",
+    modelProperties: {
+      automaticallyApprove: {
+        serializedName: "automaticallyApprove",
+        type: {
+          name: "Boolean",
+        },
+      },
+    },
+  },
+};
+
+export const UserInitiatedReboot: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UserInitiatedReboot",
+    modelProperties: {
+      automaticallyApprove: {
+        serializedName: "automaticallyApprove",
+        type: {
+          name: "Boolean",
+        },
+      },
+    },
+  },
+};
+
+export const ScheduledEventsAdditionalPublishingTargets: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ScheduledEventsAdditionalPublishingTargets",
+      modelProperties: {
+        eventGridAndResourceGraph: {
+          serializedName: "eventGridAndResourceGraph",
+          type: {
+            name: "Composite",
+            className: "EventGridAndResourceGraph",
+          },
+        },
+      },
+    },
+  };
+
+export const EventGridAndResourceGraph: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EventGridAndResourceGraph",
+    modelProperties: {
+      enable: {
+        serializedName: "enable",
+        type: {
+          name: "Boolean",
+        },
+      },
+    },
+  },
+};
+
 export const AutomaticRepairsPolicy: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -2920,6 +3012,13 @@ export const VirtualMachineScaleSetUpdateOSDisk: coreClient.CompositeMapper = {
           name: "Boolean",
         },
       },
+      diffDiskSettings: {
+        serializedName: "diffDiskSettings",
+        type: {
+          name: "Composite",
+          className: "DiffDiskSettings",
+        },
+      },
       diskSizeGB: {
         serializedName: "diskSizeGB",
         type: {
@@ -4587,6 +4686,13 @@ export const DataDisk: coreClient.CompositeMapper = {
           className: "ManagedDiskParameters",
         },
       },
+      sourceResource: {
+        serializedName: "sourceResource",
+        type: {
+          name: "Composite",
+          className: "ApiEntityReference",
+        },
+      },
       toBeDetached: {
         serializedName: "toBeDetached",
         type: {
@@ -5248,6 +5354,32 @@ export const DataDisksToAttach: coreClient.CompositeMapper = {
           name: "Number",
         },
       },
+      caching: {
+        serializedName: "caching",
+        type: {
+          name: "Enum",
+          allowedValues: ["None", "ReadOnly", "ReadWrite"],
+        },
+      },
+      deleteOption: {
+        serializedName: "deleteOption",
+        type: {
+          name: "String",
+        },
+      },
+      diskEncryptionSet: {
+        serializedName: "diskEncryptionSet",
+        type: {
+          name: "Composite",
+          className: "DiskEncryptionSetParameters",
+        },
+      },
+      writeAcceleratorEnabled: {
+        serializedName: "writeAcceleratorEnabled",
+        type: {
+          name: "Boolean",
+        },
+      },
     },
   },
 };
@@ -5640,6 +5772,43 @@ export const LastPatchInstallationSummary: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ApiError",
+        },
+      },
+    },
+  },
+};
+
+export const Placement: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Placement",
+    modelProperties: {
+      zonePlacementPolicy: {
+        serializedName: "zonePlacementPolicy",
+        type: {
+          name: "String",
+        },
+      },
+      includeZones: {
+        serializedName: "includeZones",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+      excludeZones: {
+        serializedName: "excludeZones",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
         },
       },
     },
@@ -13309,6 +13478,13 @@ export const VirtualMachineScaleSet: coreClient.CompositeMapper = {
           className: "UpgradePolicy",
         },
       },
+      scheduledEventsPolicy: {
+        serializedName: "properties.scheduledEventsPolicy",
+        type: {
+          name: "Composite",
+          className: "ScheduledEventsPolicy",
+        },
+      },
       automaticRepairsPolicy: {
         serializedName: "properties.automaticRepairsPolicy",
         type: {
@@ -13715,6 +13891,13 @@ export const VirtualMachine: coreClient.CompositeMapper = {
           },
         },
       },
+      placement: {
+        serializedName: "placement",
+        type: {
+          name: "Composite",
+          className: "Placement",
+        },
+      },
       extendedLocation: {
         serializedName: "extendedLocation",
         type: {
@@ -13741,6 +13924,13 @@ export const VirtualMachine: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "HardwareProfile",
+        },
+      },
+      scheduledEventsPolicy: {
+        serializedName: "properties.scheduledEventsPolicy",
+        type: {
+          name: "Composite",
+          className: "ScheduledEventsPolicy",
         },
       },
       storageProfile: {
@@ -15717,6 +15907,13 @@ export const VirtualMachineUpdate: coreClient.CompositeMapper = {
           className: "HardwareProfile",
         },
       },
+      scheduledEventsPolicy: {
+        serializedName: "properties.scheduledEventsPolicy",
+        type: {
+          name: "Composite",
+          className: "ScheduledEventsPolicy",
+        },
+      },
       storageProfile: {
         serializedName: "properties.storageProfile",
         type: {
@@ -16454,6 +16651,12 @@ export const VirtualMachineScaleSetVMReimageParameters: coreClient.CompositeMapp
       className: "VirtualMachineScaleSetVMReimageParameters",
       modelProperties: {
         ...VirtualMachineReimageParameters.type.modelProperties,
+        forceUpdateOSDiskForEphemeral: {
+          serializedName: "forceUpdateOSDiskForEphemeral",
+          type: {
+            name: "Boolean",
+          },
+        },
       },
     },
   };
