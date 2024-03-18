@@ -16,7 +16,7 @@ import {
   DevToolPortalsCreateOrUpdateOptionalParams,
   DevToolPortalsCreateOrUpdateResponse,
   DevToolPortalsDeleteOptionalParams,
-  DevToolPortalsDeleteResponse
+  DevToolPortalsDeleteResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface DevToolPortals {
   list(
     resourceGroupName: string,
     serviceName: string,
-    options?: DevToolPortalsListOptionalParams
+    options?: DevToolPortalsListOptionalParams,
   ): PagedAsyncIterableIterator<DevToolPortalResource>;
   /**
    * Get the Application Live  and its properties.
@@ -46,7 +46,7 @@ export interface DevToolPortals {
     resourceGroupName: string,
     serviceName: string,
     devToolPortalName: string,
-    options?: DevToolPortalsGetOptionalParams
+    options?: DevToolPortalsGetOptionalParams,
   ): Promise<DevToolPortalsGetResponse>;
   /**
    * Create the default Dev Tool Portal or update the existing Dev Tool Portal.
@@ -62,7 +62,7 @@ export interface DevToolPortals {
     serviceName: string,
     devToolPortalName: string,
     devToolPortalResource: DevToolPortalResource,
-    options?: DevToolPortalsCreateOrUpdateOptionalParams
+    options?: DevToolPortalsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DevToolPortalsCreateOrUpdateResponse>,
@@ -83,7 +83,7 @@ export interface DevToolPortals {
     serviceName: string,
     devToolPortalName: string,
     devToolPortalResource: DevToolPortalResource,
-    options?: DevToolPortalsCreateOrUpdateOptionalParams
+    options?: DevToolPortalsCreateOrUpdateOptionalParams,
   ): Promise<DevToolPortalsCreateOrUpdateResponse>;
   /**
    * Disable the default Dev Tool Portal.
@@ -97,7 +97,7 @@ export interface DevToolPortals {
     resourceGroupName: string,
     serviceName: string,
     devToolPortalName: string,
-    options?: DevToolPortalsDeleteOptionalParams
+    options?: DevToolPortalsDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DevToolPortalsDeleteResponse>,
@@ -116,6 +116,6 @@ export interface DevToolPortals {
     resourceGroupName: string,
     serviceName: string,
     devToolPortalName: string,
-    options?: DevToolPortalsDeleteOptionalParams
+    options?: DevToolPortalsDeleteOptionalParams,
   ): Promise<DevToolPortalsDeleteResponse>;
 }
