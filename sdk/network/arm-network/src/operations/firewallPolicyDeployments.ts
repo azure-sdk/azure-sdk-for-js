@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { InboundSecurityRuleOperations } from "../operationsInterfaces";
+import { FirewallPolicyDeployments } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -18,19 +18,18 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  InboundSecurityRule,
-  InboundSecurityRuleCreateOrUpdateOptionalParams,
-  InboundSecurityRuleCreateOrUpdateResponse,
+  FirewallPolicyDeploymentsDeployOptionalParams,
+  FirewallPolicyDeploymentsDeployResponse,
 } from "../models";
 
-/** Class containing InboundSecurityRuleOperations operations. */
-export class InboundSecurityRuleOperationsImpl
-  implements InboundSecurityRuleOperations
+/** Class containing FirewallPolicyDeployments operations. */
+export class FirewallPolicyDeploymentsImpl
+  implements FirewallPolicyDeployments
 {
   private readonly client: NetworkManagementClient;
 
   /**
-   * Initialize a new instance of the class InboundSecurityRuleOperations class.
+   * Initialize a new instance of the class FirewallPolicyDeployments class.
    * @param client Reference to the service client
    */
   constructor(client: NetworkManagementClient) {
@@ -38,30 +37,25 @@ export class InboundSecurityRuleOperationsImpl
   }
 
   /**
-   * Creates or updates the specified Network Virtual Appliance Inbound Security Rules.
+   * Deploys the firewall policy draft and child rule collection group drafts.
    * @param resourceGroupName The name of the resource group.
-   * @param networkVirtualApplianceName The name of the Network Virtual Appliance.
-   * @param ruleCollectionName The name of security rule collection.
-   * @param parameters Parameters supplied to the create or update Network Virtual Appliance Inbound
-   *                   Security Rules operation.
+   * @param firewallPolicyName The name of the Firewall Policy.
    * @param options The options parameters.
    */
-  async beginCreateOrUpdate(
+  async beginDeploy(
     resourceGroupName: string,
-    networkVirtualApplianceName: string,
-    ruleCollectionName: string,
-    parameters: InboundSecurityRule,
-    options?: InboundSecurityRuleCreateOrUpdateOptionalParams,
+    firewallPolicyName: string,
+    options?: FirewallPolicyDeploymentsDeployOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<InboundSecurityRuleCreateOrUpdateResponse>,
-      InboundSecurityRuleCreateOrUpdateResponse
+      OperationState<FirewallPolicyDeploymentsDeployResponse>,
+      FirewallPolicyDeploymentsDeployResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<InboundSecurityRuleCreateOrUpdateResponse> => {
+    ): Promise<FirewallPolicyDeploymentsDeployResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -98,18 +92,12 @@ export class InboundSecurityRuleOperationsImpl
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: {
-        resourceGroupName,
-        networkVirtualApplianceName,
-        ruleCollectionName,
-        parameters,
-        options,
-      },
-      spec: createOrUpdateOperationSpec,
+      args: { resourceGroupName, firewallPolicyName, options },
+      spec: deployOperationSpec,
     });
     const poller = await createHttpPoller<
-      InboundSecurityRuleCreateOrUpdateResponse,
-      OperationState<InboundSecurityRuleCreateOrUpdateResponse>
+      FirewallPolicyDeploymentsDeployResponse,
+      OperationState<FirewallPolicyDeploymentsDeployResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -120,26 +108,19 @@ export class InboundSecurityRuleOperationsImpl
   }
 
   /**
-   * Creates or updates the specified Network Virtual Appliance Inbound Security Rules.
+   * Deploys the firewall policy draft and child rule collection group drafts.
    * @param resourceGroupName The name of the resource group.
-   * @param networkVirtualApplianceName The name of the Network Virtual Appliance.
-   * @param ruleCollectionName The name of security rule collection.
-   * @param parameters Parameters supplied to the create or update Network Virtual Appliance Inbound
-   *                   Security Rules operation.
+   * @param firewallPolicyName The name of the Firewall Policy.
    * @param options The options parameters.
    */
-  async beginCreateOrUpdateAndWait(
+  async beginDeployAndWait(
     resourceGroupName: string,
-    networkVirtualApplianceName: string,
-    ruleCollectionName: string,
-    parameters: InboundSecurityRule,
-    options?: InboundSecurityRuleCreateOrUpdateOptionalParams,
-  ): Promise<InboundSecurityRuleCreateOrUpdateResponse> {
-    const poller = await this.beginCreateOrUpdate(
+    firewallPolicyName: string,
+    options?: FirewallPolicyDeploymentsDeployOptionalParams,
+  ): Promise<FirewallPolicyDeploymentsDeployResponse> {
+    const poller = await this.beginDeploy(
       resourceGroupName,
-      networkVirtualApplianceName,
-      ruleCollectionName,
-      parameters,
+      firewallPolicyName,
       options,
     );
     return poller.pollUntilDone();
@@ -148,36 +129,33 @@ export class InboundSecurityRuleOperationsImpl
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}/inboundSecurityRules/{ruleCollectionName}",
-  httpMethod: "PUT",
+const deployOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/deploy",
+  httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.InboundSecurityRule,
+      headersMapper: Mappers.FirewallPolicyDeploymentsDeployHeaders,
     },
     201: {
-      bodyMapper: Mappers.InboundSecurityRule,
+      headersMapper: Mappers.FirewallPolicyDeploymentsDeployHeaders,
     },
     202: {
-      bodyMapper: Mappers.InboundSecurityRule,
+      headersMapper: Mappers.FirewallPolicyDeploymentsDeployHeaders,
     },
     204: {
-      bodyMapper: Mappers.InboundSecurityRule,
+      headersMapper: Mappers.FirewallPolicyDeploymentsDeployHeaders,
     },
     default: {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters46,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.ruleCollectionName,
-    Parameters.networkVirtualApplianceName,
+    Parameters.firewallPolicyName1,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
+  headerParameters: [Parameters.accept],
   serializer,
 };
