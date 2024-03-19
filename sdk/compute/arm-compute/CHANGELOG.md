@@ -1,15 +1,21 @@
 # Release History
+    
+## 22.0.0 (2024-03-19)
+    
+**Features**
 
-## 21.4.1 (Unreleased)
+  - Interface GalleryArtifactVersionFullSource has a new optional parameter virtualMachineId
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation group VirtualMachineSizes
+  - Removed operation CapacityReservations.get
+  - Removed operation DedicatedHosts.listAvailableSizes
+  - Removed operation Images.list
+  - Class ComputeManagementClient no longer has parameter virtualMachineSizes
+  - Removed Enum KnownCapacityReservationInstanceViewTypes
+    
+    
 ## 21.4.0 (2023-12-28)
     
 **Features**

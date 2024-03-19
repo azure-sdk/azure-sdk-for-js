@@ -8,7 +8,6 @@
 
 export * from "./operations";
 export * from "./usageOperations";
-export * from "./virtualMachineSizes";
 export * from "./virtualMachineScaleSets";
 export * from "./virtualMachineScaleSetExtensions";
 export * from "./virtualMachineScaleSetRollingUpgrades";
