@@ -35,6 +35,7 @@ import {
   NetworkVirtualAppliancesUpdateTagsResponse,
   NetworkVirtualAppliancesCreateOrUpdateOptionalParams,
   NetworkVirtualAppliancesCreateOrUpdateResponse,
+  NetworkVirtualAppliancesRestartOptionalParams,
   NetworkVirtualAppliancesListByResourceGroupNextResponse,
   NetworkVirtualAppliancesListNextResponse,
 } from "../models";
@@ -394,6 +395,23 @@ export class NetworkVirtualAppliancesImpl implements NetworkVirtualAppliances {
   }
 
   /**
+   * Restarts one or more VMs belonging to the specified Network Virtual Appliance.
+   * @param resourceGroupName The name of the resource group.
+   * @param networkVirtualApplianceName The name of Network Virtual Appliance.
+   * @param options The options parameters.
+   */
+  restart(
+    resourceGroupName: string,
+    networkVirtualApplianceName: string,
+    options?: NetworkVirtualAppliancesRestartOptionalParams,
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, networkVirtualApplianceName, options },
+      restartOperationSpec,
+    );
+  }
+
+  /**
    * Lists all Network Virtual Appliances in a resource group.
    * @param resourceGroupName The name of the resource group.
    * @param options The options parameters.
@@ -539,7 +557,28 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters42,
+  requestBody: Parameters.parameters44,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.networkVirtualApplianceName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const restartOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}/restart",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  requestBody: Parameters.networkVirtualApplianceInstanceIds,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
