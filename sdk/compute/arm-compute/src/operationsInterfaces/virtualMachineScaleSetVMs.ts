@@ -13,8 +13,6 @@ import {
   VirtualMachineScaleSetVMsListOptionalParams,
   VirtualMachineScaleSetVMsReimageOptionalParams,
   VirtualMachineScaleSetVMsReimageAllOptionalParams,
-  VirtualMachineScaleSetVMsApproveRollingUpgradeOptionalParams,
-  VirtualMachineScaleSetVMsApproveRollingUpgradeResponse,
   VirtualMachineScaleSetVMsDeallocateOptionalParams,
   VirtualMachineScaleSetVMsUpdateOptionalParams,
   VirtualMachineScaleSetVMsUpdateResponse,
@@ -31,12 +29,9 @@ import {
   VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataResponse,
   VirtualMachineScaleSetVMsPerformMaintenanceOptionalParams,
   VirtualMachineScaleSetVMsSimulateEvictionOptionalParams,
-  AttachDetachDataDisksRequest,
-  VirtualMachineScaleSetVMsAttachDetachDataDisksOptionalParams,
-  VirtualMachineScaleSetVMsAttachDetachDataDisksResponse,
   RunCommandInput,
   VirtualMachineScaleSetVMsRunCommandOptionalParams,
-  VirtualMachineScaleSetVMsRunCommandResponse
+  VirtualMachineScaleSetVMsRunCommandResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -51,7 +46,7 @@ export interface VirtualMachineScaleSetVMs {
   list(
     resourceGroupName: string,
     virtualMachineScaleSetName: string,
-    options?: VirtualMachineScaleSetVMsListOptionalParams
+    options?: VirtualMachineScaleSetVMsListOptionalParams,
   ): PagedAsyncIterableIterator<VirtualMachineScaleSetVM>;
   /**
    * Reimages (upgrade the operating system) a specific virtual machine in a VM scale set.
@@ -64,7 +59,7 @@ export interface VirtualMachineScaleSetVMs {
     resourceGroupName: string,
     vmScaleSetName: string,
     instanceId: string,
-    options?: VirtualMachineScaleSetVMsReimageOptionalParams
+    options?: VirtualMachineScaleSetVMsReimageOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Reimages (upgrade the operating system) a specific virtual machine in a VM scale set.
@@ -77,7 +72,7 @@ export interface VirtualMachineScaleSetVMs {
     resourceGroupName: string,
     vmScaleSetName: string,
     instanceId: string,
-    options?: VirtualMachineScaleSetVMsReimageOptionalParams
+    options?: VirtualMachineScaleSetVMsReimageOptionalParams,
   ): Promise<void>;
   /**
    * Allows you to re-image all the disks ( including data disks ) in the a VM scale set instance. This
@@ -91,7 +86,7 @@ export interface VirtualMachineScaleSetVMs {
     resourceGroupName: string,
     vmScaleSetName: string,
     instanceId: string,
-    options?: VirtualMachineScaleSetVMsReimageAllOptionalParams
+    options?: VirtualMachineScaleSetVMsReimageAllOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Allows you to re-image all the disks ( including data disks ) in the a VM scale set instance. This
@@ -105,39 +100,8 @@ export interface VirtualMachineScaleSetVMs {
     resourceGroupName: string,
     vmScaleSetName: string,
     instanceId: string,
-    options?: VirtualMachineScaleSetVMsReimageAllOptionalParams
+    options?: VirtualMachineScaleSetVMsReimageAllOptionalParams,
   ): Promise<void>;
-  /**
-   * Approve upgrade on deferred rolling upgrade for OS disk on a VM scale set instance.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set.
-   * @param instanceId The instance ID of the virtual machine.
-   * @param options The options parameters.
-   */
-  beginApproveRollingUpgrade(
-    resourceGroupName: string,
-    vmScaleSetName: string,
-    instanceId: string,
-    options?: VirtualMachineScaleSetVMsApproveRollingUpgradeOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<VirtualMachineScaleSetVMsApproveRollingUpgradeResponse>,
-      VirtualMachineScaleSetVMsApproveRollingUpgradeResponse
-    >
-  >;
-  /**
-   * Approve upgrade on deferred rolling upgrade for OS disk on a VM scale set instance.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set.
-   * @param instanceId The instance ID of the virtual machine.
-   * @param options The options parameters.
-   */
-  beginApproveRollingUpgradeAndWait(
-    resourceGroupName: string,
-    vmScaleSetName: string,
-    instanceId: string,
-    options?: VirtualMachineScaleSetVMsApproveRollingUpgradeOptionalParams
-  ): Promise<VirtualMachineScaleSetVMsApproveRollingUpgradeResponse>;
   /**
    * Deallocates a specific virtual machine in a VM scale set. Shuts down the virtual machine and
    * releases the compute resources it uses. You are not billed for the compute resources of this virtual
@@ -151,7 +115,7 @@ export interface VirtualMachineScaleSetVMs {
     resourceGroupName: string,
     vmScaleSetName: string,
     instanceId: string,
-    options?: VirtualMachineScaleSetVMsDeallocateOptionalParams
+    options?: VirtualMachineScaleSetVMsDeallocateOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deallocates a specific virtual machine in a VM scale set. Shuts down the virtual machine and
@@ -166,7 +130,7 @@ export interface VirtualMachineScaleSetVMs {
     resourceGroupName: string,
     vmScaleSetName: string,
     instanceId: string,
-    options?: VirtualMachineScaleSetVMsDeallocateOptionalParams
+    options?: VirtualMachineScaleSetVMsDeallocateOptionalParams,
   ): Promise<void>;
   /**
    * Updates a virtual machine of a VM scale set.
@@ -181,7 +145,7 @@ export interface VirtualMachineScaleSetVMs {
     vmScaleSetName: string,
     instanceId: string,
     parameters: VirtualMachineScaleSetVM,
-    options?: VirtualMachineScaleSetVMsUpdateOptionalParams
+    options?: VirtualMachineScaleSetVMsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VirtualMachineScaleSetVMsUpdateResponse>,
@@ -201,7 +165,7 @@ export interface VirtualMachineScaleSetVMs {
     vmScaleSetName: string,
     instanceId: string,
     parameters: VirtualMachineScaleSetVM,
-    options?: VirtualMachineScaleSetVMsUpdateOptionalParams
+    options?: VirtualMachineScaleSetVMsUpdateOptionalParams,
   ): Promise<VirtualMachineScaleSetVMsUpdateResponse>;
   /**
    * Deletes a virtual machine from a VM scale set.
@@ -214,7 +178,7 @@ export interface VirtualMachineScaleSetVMs {
     resourceGroupName: string,
     vmScaleSetName: string,
     instanceId: string,
-    options?: VirtualMachineScaleSetVMsDeleteOptionalParams
+    options?: VirtualMachineScaleSetVMsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a virtual machine from a VM scale set.
@@ -227,7 +191,7 @@ export interface VirtualMachineScaleSetVMs {
     resourceGroupName: string,
     vmScaleSetName: string,
     instanceId: string,
-    options?: VirtualMachineScaleSetVMsDeleteOptionalParams
+    options?: VirtualMachineScaleSetVMsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets a virtual machine from a VM scale set.
@@ -240,7 +204,7 @@ export interface VirtualMachineScaleSetVMs {
     resourceGroupName: string,
     vmScaleSetName: string,
     instanceId: string,
-    options?: VirtualMachineScaleSetVMsGetOptionalParams
+    options?: VirtualMachineScaleSetVMsGetOptionalParams,
   ): Promise<VirtualMachineScaleSetVMsGetResponse>;
   /**
    * Gets the status of a virtual machine from a VM scale set.
@@ -253,7 +217,7 @@ export interface VirtualMachineScaleSetVMs {
     resourceGroupName: string,
     vmScaleSetName: string,
     instanceId: string,
-    options?: VirtualMachineScaleSetVMsGetInstanceViewOptionalParams
+    options?: VirtualMachineScaleSetVMsGetInstanceViewOptionalParams,
   ): Promise<VirtualMachineScaleSetVMsGetInstanceViewResponse>;
   /**
    * Power off (stop) a virtual machine in a VM scale set. Note that resources are still attached and you
@@ -268,7 +232,7 @@ export interface VirtualMachineScaleSetVMs {
     resourceGroupName: string,
     vmScaleSetName: string,
     instanceId: string,
-    options?: VirtualMachineScaleSetVMsPowerOffOptionalParams
+    options?: VirtualMachineScaleSetVMsPowerOffOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Power off (stop) a virtual machine in a VM scale set. Note that resources are still attached and you
@@ -283,7 +247,7 @@ export interface VirtualMachineScaleSetVMs {
     resourceGroupName: string,
     vmScaleSetName: string,
     instanceId: string,
-    options?: VirtualMachineScaleSetVMsPowerOffOptionalParams
+    options?: VirtualMachineScaleSetVMsPowerOffOptionalParams,
   ): Promise<void>;
   /**
    * Restarts a virtual machine in a VM scale set.
@@ -296,7 +260,7 @@ export interface VirtualMachineScaleSetVMs {
     resourceGroupName: string,
     vmScaleSetName: string,
     instanceId: string,
-    options?: VirtualMachineScaleSetVMsRestartOptionalParams
+    options?: VirtualMachineScaleSetVMsRestartOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Restarts a virtual machine in a VM scale set.
@@ -309,7 +273,7 @@ export interface VirtualMachineScaleSetVMs {
     resourceGroupName: string,
     vmScaleSetName: string,
     instanceId: string,
-    options?: VirtualMachineScaleSetVMsRestartOptionalParams
+    options?: VirtualMachineScaleSetVMsRestartOptionalParams,
   ): Promise<void>;
   /**
    * Starts a virtual machine in a VM scale set.
@@ -322,7 +286,7 @@ export interface VirtualMachineScaleSetVMs {
     resourceGroupName: string,
     vmScaleSetName: string,
     instanceId: string,
-    options?: VirtualMachineScaleSetVMsStartOptionalParams
+    options?: VirtualMachineScaleSetVMsStartOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Starts a virtual machine in a VM scale set.
@@ -335,7 +299,7 @@ export interface VirtualMachineScaleSetVMs {
     resourceGroupName: string,
     vmScaleSetName: string,
     instanceId: string,
-    options?: VirtualMachineScaleSetVMsStartOptionalParams
+    options?: VirtualMachineScaleSetVMsStartOptionalParams,
   ): Promise<void>;
   /**
    * Shuts down the virtual machine in the virtual machine scale set, moves it to a new node, and powers
@@ -349,7 +313,7 @@ export interface VirtualMachineScaleSetVMs {
     resourceGroupName: string,
     vmScaleSetName: string,
     instanceId: string,
-    options?: VirtualMachineScaleSetVMsRedeployOptionalParams
+    options?: VirtualMachineScaleSetVMsRedeployOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Shuts down the virtual machine in the virtual machine scale set, moves it to a new node, and powers
@@ -363,7 +327,7 @@ export interface VirtualMachineScaleSetVMs {
     resourceGroupName: string,
     vmScaleSetName: string,
     instanceId: string,
-    options?: VirtualMachineScaleSetVMsRedeployOptionalParams
+    options?: VirtualMachineScaleSetVMsRedeployOptionalParams,
   ): Promise<void>;
   /**
    * The operation to retrieve SAS URIs of boot diagnostic logs for a virtual machine in a VM scale set.
@@ -376,7 +340,7 @@ export interface VirtualMachineScaleSetVMs {
     resourceGroupName: string,
     vmScaleSetName: string,
     instanceId: string,
-    options?: VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataOptionalParams
+    options?: VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataOptionalParams,
   ): Promise<VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataResponse>;
   /**
    * Performs maintenance on a virtual machine in a VM scale set.
@@ -389,7 +353,7 @@ export interface VirtualMachineScaleSetVMs {
     resourceGroupName: string,
     vmScaleSetName: string,
     instanceId: string,
-    options?: VirtualMachineScaleSetVMsPerformMaintenanceOptionalParams
+    options?: VirtualMachineScaleSetVMsPerformMaintenanceOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Performs maintenance on a virtual machine in a VM scale set.
@@ -402,7 +366,7 @@ export interface VirtualMachineScaleSetVMs {
     resourceGroupName: string,
     vmScaleSetName: string,
     instanceId: string,
-    options?: VirtualMachineScaleSetVMsPerformMaintenanceOptionalParams
+    options?: VirtualMachineScaleSetVMsPerformMaintenanceOptionalParams,
   ): Promise<void>;
   /**
    * The operation to simulate the eviction of spot virtual machine in a VM scale set.
@@ -415,45 +379,8 @@ export interface VirtualMachineScaleSetVMs {
     resourceGroupName: string,
     vmScaleSetName: string,
     instanceId: string,
-    options?: VirtualMachineScaleSetVMsSimulateEvictionOptionalParams
+    options?: VirtualMachineScaleSetVMsSimulateEvictionOptionalParams,
   ): Promise<void>;
-  /**
-   * Attach and detach data disks to/from a virtual machine in a VM scale set.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set.
-   * @param instanceId The instance ID of the virtual machine.
-   * @param parameters Parameters supplied to the attach and detach data disks operation on a Virtual
-   *                   Machine Scale Sets VM.
-   * @param options The options parameters.
-   */
-  beginAttachDetachDataDisks(
-    resourceGroupName: string,
-    vmScaleSetName: string,
-    instanceId: string,
-    parameters: AttachDetachDataDisksRequest,
-    options?: VirtualMachineScaleSetVMsAttachDetachDataDisksOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<VirtualMachineScaleSetVMsAttachDetachDataDisksResponse>,
-      VirtualMachineScaleSetVMsAttachDetachDataDisksResponse
-    >
-  >;
-  /**
-   * Attach and detach data disks to/from a virtual machine in a VM scale set.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set.
-   * @param instanceId The instance ID of the virtual machine.
-   * @param parameters Parameters supplied to the attach and detach data disks operation on a Virtual
-   *                   Machine Scale Sets VM.
-   * @param options The options parameters.
-   */
-  beginAttachDetachDataDisksAndWait(
-    resourceGroupName: string,
-    vmScaleSetName: string,
-    instanceId: string,
-    parameters: AttachDetachDataDisksRequest,
-    options?: VirtualMachineScaleSetVMsAttachDetachDataDisksOptionalParams
-  ): Promise<VirtualMachineScaleSetVMsAttachDetachDataDisksResponse>;
   /**
    * Run command on a virtual machine in a VM scale set.
    * @param resourceGroupName The name of the resource group.
@@ -467,7 +394,7 @@ export interface VirtualMachineScaleSetVMs {
     vmScaleSetName: string,
     instanceId: string,
     parameters: RunCommandInput,
-    options?: VirtualMachineScaleSetVMsRunCommandOptionalParams
+    options?: VirtualMachineScaleSetVMsRunCommandOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VirtualMachineScaleSetVMsRunCommandResponse>,
@@ -487,6 +414,6 @@ export interface VirtualMachineScaleSetVMs {
     vmScaleSetName: string,
     instanceId: string,
     parameters: RunCommandInput,
-    options?: VirtualMachineScaleSetVMsRunCommandOptionalParams
+    options?: VirtualMachineScaleSetVMsRunCommandOptionalParams,
   ): Promise<VirtualMachineScaleSetVMsRunCommandResponse>;
 }
