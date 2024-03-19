@@ -29,14 +29,6 @@ export type SecretInfoBaseUnion =
   | KeyVaultSecretReferenceSecretInfo
   | KeyVaultSecretUriSecretInfo;
 
-/** The list of Linker. */
-export interface LinkerList {
-  /** The link used to get the next page of Linker list. */
-  nextLink?: string;
-  /** The list of Linkers. */
-  value?: LinkerResource[];
-}
-
 /** The target service properties */
 export interface TargetServiceBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -226,70 +218,6 @@ export interface SourceConfiguration {
   value?: string;
 }
 
-/** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
-export interface OperationListResult {
-  /**
-   * List of operations supported by the resource provider
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: Operation[];
-  /**
-   * URL to get the next set of operation list results (if there are any).
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** Details of a REST API operation, returned from the Resource Provider Operations API */
-export interface Operation {
-  /**
-   * The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action"
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isDataAction?: boolean;
-  /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
-  /**
-   * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system"
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly origin?: Origin;
-  /**
-   * Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly actionType?: ActionType;
-}
-
-/** Localized display information for this particular operation. */
-export interface OperationDisplay {
-  /**
-   * The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute".
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provider?: string;
-  /**
-   * The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections".
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resource?: string;
-  /**
-   * The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine".
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly operation?: string;
-  /**
-   * The short, localized friendly description of the operation; suitable for tool tips and detailed views.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly description?: string;
-}
-
 /** The azure resource properties */
 export interface AzureResourcePropertiesBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -300,6 +228,14 @@ export interface AzureResourcePropertiesBase {
 export interface SecretInfoBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   secretType: "rawValue" | "keyVaultSecretReference" | "keyVaultSecretUri";
+}
+
+/** The list of Linker. */
+export interface LinkerList {
+  /** The link used to get the next page of Linker list. */
+  nextLink?: string;
+  /** The list of Linkers. */
+  value?: LinkerResource[];
 }
 
 /** The azure resource info when target service type is AzureResource */
@@ -448,7 +384,7 @@ export enum KnownTargetServiceType {
   /** ConfluentBootstrapServer */
   ConfluentBootstrapServer = "ConfluentBootstrapServer",
   /** ConfluentSchemaRegistry */
-  ConfluentSchemaRegistry = "ConfluentSchemaRegistry"
+  ConfluentSchemaRegistry = "ConfluentSchemaRegistry",
 }
 
 /**
@@ -473,7 +409,7 @@ export enum KnownAuthType {
   /** ServicePrincipalCertificate */
   ServicePrincipalCertificate = "servicePrincipalCertificate",
   /** Secret */
-  Secret = "secret"
+  Secret = "secret",
 }
 
 /**
@@ -510,7 +446,9 @@ export enum KnownClientType {
   /** Nodejs */
   Nodejs = "nodejs",
   /** SpringBoot */
-  SpringBoot = "springBoot"
+  SpringBoot = "springBoot",
+  /** KafkaSpringBoot */
+  KafkaSpringBoot = "kafka-springBoot",
 }
 
 /**
@@ -527,7 +465,8 @@ export enum KnownClientType {
  * **ruby** \
  * **django** \
  * **nodejs** \
- * **springBoot**
+ * **springBoot** \
+ * **kafka-springBoot**
  */
 export type ClientType = string;
 
@@ -536,7 +475,7 @@ export enum KnownVNetSolutionType {
   /** ServiceEndpoint */
   ServiceEndpoint = "serviceEndpoint",
   /** PrivateLink */
-  PrivateLink = "privateLink"
+  PrivateLink = "privateLink",
 }
 
 /**
@@ -558,7 +497,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -580,7 +519,7 @@ export enum KnownValidationResultStatus {
   /** Failure */
   Failure = "failure",
   /** Warning */
-  Warning = "warning"
+  Warning = "warning",
 }
 
 /**
@@ -594,46 +533,10 @@ export enum KnownValidationResultStatus {
  */
 export type ValidationResultStatus = string;
 
-/** Known values of {@link Origin} that the service accepts. */
-export enum KnownOrigin {
-  /** User */
-  User = "user",
-  /** System */
-  System = "system",
-  /** UserSystem */
-  UserSystem = "user,system"
-}
-
-/**
- * Defines values for Origin. \
- * {@link KnownOrigin} can be used interchangeably with Origin,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **user** \
- * **system** \
- * **user,system**
- */
-export type Origin = string;
-
-/** Known values of {@link ActionType} that the service accepts. */
-export enum KnownActionType {
-  /** Internal */
-  Internal = "Internal"
-}
-
-/**
- * Defines values for ActionType. \
- * {@link KnownActionType} can be used interchangeably with ActionType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Internal**
- */
-export type ActionType = string;
-
 /** Known values of {@link AzureResourceType} that the service accepts. */
 export enum KnownAzureResourceType {
   /** KeyVault */
-  KeyVault = "KeyVault"
+  KeyVault = "KeyVault",
 }
 
 /**
@@ -652,7 +555,7 @@ export enum KnownSecretType {
   /** KeyVaultSecretUri */
   KeyVaultSecretUri = "keyVaultSecretUri",
   /** KeyVaultSecretReference */
-  KeyVaultSecretReference = "keyVaultSecretReference"
+  KeyVaultSecretReference = "keyVaultSecretReference",
 }
 
 /**
@@ -665,12 +568,6 @@ export enum KnownSecretType {
  * **keyVaultSecretReference**
  */
 export type SecretType = string;
-
-/** Optional parameters. */
-export interface LinkerListOptionalParams extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type LinkerListResponse = LinkerList;
 
 /** Optional parameters. */
 export interface LinkerGetOptionalParams extends coreClient.OperationOptions {}
@@ -729,27 +626,6 @@ export interface LinkerListConfigurationsOptionalParams
 
 /** Contains response data for the listConfigurations operation. */
 export type LinkerListConfigurationsResponse = SourceConfigurationResult;
-
-/** Optional parameters. */
-export interface LinkerListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type LinkerListNextResponse = LinkerList;
-
-/** Optional parameters. */
-export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type OperationsListResponse = OperationListResult;
-
-/** Optional parameters. */
-export interface OperationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type OperationsListNextResponse = OperationListResult;
 
 /** Optional parameters. */
 export interface ServiceLinkerManagementClientOptionalParams

@@ -7,4 +7,3 @@
  */
 
 export * from "./linker";
-export * from "./operations";
