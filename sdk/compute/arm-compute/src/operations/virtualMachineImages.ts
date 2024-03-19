@@ -22,8 +22,6 @@ import {
   VirtualMachineImagesListPublishersResponse,
   VirtualMachineImagesListSkusOptionalParams,
   VirtualMachineImagesListSkusResponse,
-  VirtualMachineImagesListByEdgeZoneOptionalParams,
-  VirtualMachineImagesListByEdgeZoneResponse
 } from "../models";
 
 /** Class containing VirtualMachineImages operations. */
@@ -53,11 +51,11 @@ export class VirtualMachineImagesImpl implements VirtualMachineImages {
     offer: string,
     skus: string,
     version: string,
-    options?: VirtualMachineImagesGetOptionalParams
+    options?: VirtualMachineImagesGetOptionalParams,
   ): Promise<VirtualMachineImagesGetResponse> {
     return this.client.sendOperationRequest(
       { location, publisherName, offer, skus, version, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -75,11 +73,11 @@ export class VirtualMachineImagesImpl implements VirtualMachineImages {
     publisherName: string,
     offer: string,
     skus: string,
-    options?: VirtualMachineImagesListOptionalParams
+    options?: VirtualMachineImagesListOptionalParams,
   ): Promise<VirtualMachineImagesListResponse> {
     return this.client.sendOperationRequest(
       { location, publisherName, offer, skus, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -92,11 +90,11 @@ export class VirtualMachineImagesImpl implements VirtualMachineImages {
   listOffers(
     location: string,
     publisherName: string,
-    options?: VirtualMachineImagesListOffersOptionalParams
+    options?: VirtualMachineImagesListOffersOptionalParams,
   ): Promise<VirtualMachineImagesListOffersResponse> {
     return this.client.sendOperationRequest(
       { location, publisherName, options },
-      listOffersOperationSpec
+      listOffersOperationSpec,
     );
   }
 
@@ -107,11 +105,11 @@ export class VirtualMachineImagesImpl implements VirtualMachineImages {
    */
   listPublishers(
     location: string,
-    options?: VirtualMachineImagesListPublishersOptionalParams
+    options?: VirtualMachineImagesListPublishersOptionalParams,
   ): Promise<VirtualMachineImagesListPublishersResponse> {
     return this.client.sendOperationRequest(
       { location, options },
-      listPublishersOperationSpec
+      listPublishersOperationSpec,
     );
   }
 
@@ -126,28 +124,11 @@ export class VirtualMachineImagesImpl implements VirtualMachineImages {
     location: string,
     publisherName: string,
     offer: string,
-    options?: VirtualMachineImagesListSkusOptionalParams
+    options?: VirtualMachineImagesListSkusOptionalParams,
   ): Promise<VirtualMachineImagesListSkusResponse> {
     return this.client.sendOperationRequest(
       { location, publisherName, offer, options },
-      listSkusOperationSpec
-    );
-  }
-
-  /**
-   * Gets a list of all virtual machine image versions for the specified edge zone
-   * @param location The name of a supported Azure region.
-   * @param edgeZone The name of the edge zone.
-   * @param options The options parameters.
-   */
-  listByEdgeZone(
-    location: string,
-    edgeZone: string,
-    options?: VirtualMachineImagesListByEdgeZoneOptionalParams
-  ): Promise<VirtualMachineImagesListByEdgeZoneResponse> {
-    return this.client.sendOperationRequest(
-      { location, edgeZone, options },
-      listByEdgeZoneOperationSpec
+      listSkusOperationSpec,
     );
   }
 }
@@ -155,33 +136,31 @@ export class VirtualMachineImagesImpl implements VirtualMachineImages {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers/{publisherName}/artifacttypes/vmimage/offers/{offer}/skus/{skus}/versions/{version}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers/{publisherName}/artifacttypes/vmimage/offers/{offer}/skus/{skus}/versions/{version}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VirtualMachineImage
+      bodyMapper: Mappers.VirtualMachineImage,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location1,
+    Parameters.location,
     Parameters.publisherName,
+    Parameters.version,
     Parameters.offer,
     Parameters.skus,
-    Parameters.version
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers/{publisherName}/artifacttypes/vmimage/offers/{offer}/skus/{skus}/versions",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers/{publisherName}/artifacttypes/vmimage/offers/{offer}/skus/{skus}/versions",
   httpMethod: "GET",
   responses: {
     200: {
@@ -191,36 +170,35 @@ const listOperationSpec: coreClient.OperationSpec = {
           element: {
             type: {
               name: "Composite",
-              className: "VirtualMachineImageResource"
-            }
-          }
-        }
-      }
+              className: "VirtualMachineImageResource",
+            },
+          },
+        },
+      },
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.expand1,
+    Parameters.expand,
     Parameters.top,
-    Parameters.orderby
+    Parameters.orderby,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location1,
+    Parameters.location,
     Parameters.publisherName,
     Parameters.offer,
-    Parameters.skus
+    Parameters.skus,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOffersOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers/{publisherName}/artifacttypes/vmimage/offers",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers/{publisherName}/artifacttypes/vmimage/offers",
   httpMethod: "GET",
   responses: {
     200: {
@@ -230,29 +208,28 @@ const listOffersOperationSpec: coreClient.OperationSpec = {
           element: {
             type: {
               name: "Composite",
-              className: "VirtualMachineImageResource"
-            }
-          }
-        }
-      }
+              className: "VirtualMachineImageResource",
+            },
+          },
+        },
+      },
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location1,
-    Parameters.publisherName
+    Parameters.location,
+    Parameters.publisherName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listPublishersOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers",
   httpMethod: "GET",
   responses: {
     200: {
@@ -262,28 +239,27 @@ const listPublishersOperationSpec: coreClient.OperationSpec = {
           element: {
             type: {
               name: "Composite",
-              className: "VirtualMachineImageResource"
-            }
-          }
-        }
-      }
+              className: "VirtualMachineImageResource",
+            },
+          },
+        },
+      },
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location1
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listSkusOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers/{publisherName}/artifacttypes/vmimage/offers/{offer}/skus",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers/{publisherName}/artifacttypes/vmimage/offers/{offer}/skus",
   httpMethod: "GET",
   responses: {
     200: {
@@ -293,46 +269,24 @@ const listSkusOperationSpec: coreClient.OperationSpec = {
           element: {
             type: {
               name: "Composite",
-              className: "VirtualMachineImageResource"
-            }
-          }
-        }
-      }
+              className: "VirtualMachineImageResource",
+            },
+          },
+        },
+      },
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location1,
+    Parameters.location,
     Parameters.publisherName,
-    Parameters.offer
+    Parameters.offer,
   ],
   headerParameters: [Parameters.accept],
-  serializer
-};
-const listByEdgeZoneOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/edgeZones/{edgeZone}/vmimages",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.VmImagesInEdgeZoneListResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location1,
-    Parameters.edgeZone
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
