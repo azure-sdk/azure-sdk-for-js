@@ -8,6 +8,7 @@
 
 export * from "./services";
 export * from "./apms";
+export * from "./eurekaServers";
 export * from "./configServers";
 export * from "./configurationServices";
 export * from "./serviceRegistries";
@@ -15,6 +16,8 @@ export * from "./applicationLiveViews";
 export * from "./devToolPortals";
 export * from "./containerRegistries";
 export * from "./buildServiceOperations";
+export * from "./buildSettings";
+export * from "./buildSetting";
 export * from "./buildpackBinding";
 export * from "./buildServiceBuilder";
 export * from "./buildServiceAgentPool";
@@ -36,3 +39,7 @@ export * from "./apiPortalCustomDomains";
 export * from "./applicationAccelerators";
 export * from "./customizedAccelerators";
 export * from "./predefinedAccelerators";
+export * from "./jobs";
+export * from "./job";
+export * from "./jobExecutionOperations";
+export * from "./jobExecutions";

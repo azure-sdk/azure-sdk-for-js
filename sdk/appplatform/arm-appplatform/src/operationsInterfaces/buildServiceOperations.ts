@@ -38,7 +38,7 @@ import {
   BuildServiceListSupportedStacksOptionalParams,
   BuildServiceListSupportedStacksResponse,
   BuildServiceGetSupportedStackOptionalParams,
-  BuildServiceGetSupportedStackResponse
+  BuildServiceGetSupportedStackResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -54,7 +54,7 @@ export interface BuildServiceOperations {
   listBuildServices(
     resourceGroupName: string,
     serviceName: string,
-    options?: BuildServiceListBuildServicesOptionalParams
+    options?: BuildServiceListBuildServicesOptionalParams,
   ): PagedAsyncIterableIterator<BuildService>;
   /**
    * List KPack builds.
@@ -68,7 +68,7 @@ export interface BuildServiceOperations {
     resourceGroupName: string,
     serviceName: string,
     buildServiceName: string,
-    options?: BuildServiceListBuildsOptionalParams
+    options?: BuildServiceListBuildsOptionalParams,
   ): PagedAsyncIterableIterator<Build>;
   /**
    * List KPack build results.
@@ -84,7 +84,7 @@ export interface BuildServiceOperations {
     serviceName: string,
     buildServiceName: string,
     buildName: string,
-    options?: BuildServiceListBuildResultsOptionalParams
+    options?: BuildServiceListBuildResultsOptionalParams,
   ): PagedAsyncIterableIterator<BuildResult>;
   /**
    * Get a build service resource.
@@ -98,7 +98,7 @@ export interface BuildServiceOperations {
     resourceGroupName: string,
     serviceName: string,
     buildServiceName: string,
-    options?: BuildServiceGetBuildServiceOptionalParams
+    options?: BuildServiceGetBuildServiceOptionalParams,
   ): Promise<BuildServiceGetBuildServiceResponse>;
   /**
    * Create a build service resource.
@@ -114,7 +114,7 @@ export interface BuildServiceOperations {
     serviceName: string,
     buildServiceName: string,
     buildService: BuildService,
-    options?: BuildServiceCreateOrUpdateOptionalParams
+    options?: BuildServiceCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BuildServiceCreateOrUpdateResponse>,
@@ -135,7 +135,7 @@ export interface BuildServiceOperations {
     serviceName: string,
     buildServiceName: string,
     buildService: BuildService,
-    options?: BuildServiceCreateOrUpdateOptionalParams
+    options?: BuildServiceCreateOrUpdateOptionalParams,
   ): Promise<BuildServiceCreateOrUpdateResponse>;
   /**
    * Get a KPack build.
@@ -151,7 +151,7 @@ export interface BuildServiceOperations {
     serviceName: string,
     buildServiceName: string,
     buildName: string,
-    options?: BuildServiceGetBuildOptionalParams
+    options?: BuildServiceGetBuildOptionalParams,
   ): Promise<BuildServiceGetBuildResponse>;
   /**
    * Create or update a KPack build.
@@ -169,7 +169,7 @@ export interface BuildServiceOperations {
     buildServiceName: string,
     buildName: string,
     build: Build,
-    options?: BuildServiceCreateOrUpdateBuildOptionalParams
+    options?: BuildServiceCreateOrUpdateBuildOptionalParams,
   ): Promise<BuildServiceCreateOrUpdateBuildResponse>;
   /**
    * delete a KPack build.
@@ -185,7 +185,7 @@ export interface BuildServiceOperations {
     serviceName: string,
     buildServiceName: string,
     buildName: string,
-    options?: BuildServiceDeleteBuildOptionalParams
+    options?: BuildServiceDeleteBuildOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BuildServiceDeleteBuildResponse>,
@@ -206,7 +206,7 @@ export interface BuildServiceOperations {
     serviceName: string,
     buildServiceName: string,
     buildName: string,
-    options?: BuildServiceDeleteBuildOptionalParams
+    options?: BuildServiceDeleteBuildOptionalParams,
   ): Promise<BuildServiceDeleteBuildResponse>;
   /**
    * Get a KPack build result.
@@ -224,7 +224,7 @@ export interface BuildServiceOperations {
     buildServiceName: string,
     buildName: string,
     buildResultName: string,
-    options?: BuildServiceGetBuildResultOptionalParams
+    options?: BuildServiceGetBuildResultOptionalParams,
   ): Promise<BuildServiceGetBuildResultResponse>;
   /**
    * Get a KPack build result log download URL.
@@ -242,7 +242,7 @@ export interface BuildServiceOperations {
     buildServiceName: string,
     buildName: string,
     buildResultName: string,
-    options?: BuildServiceGetBuildResultLogOptionalParams
+    options?: BuildServiceGetBuildResultLogOptionalParams,
   ): Promise<BuildServiceGetBuildResultLogResponse>;
   /**
    * Get an resource upload URL for build service, which may be artifacts or source archive.
@@ -256,7 +256,7 @@ export interface BuildServiceOperations {
     resourceGroupName: string,
     serviceName: string,
     buildServiceName: string,
-    options?: BuildServiceGetResourceUploadUrlOptionalParams
+    options?: BuildServiceGetResourceUploadUrlOptionalParams,
   ): Promise<BuildServiceGetResourceUploadUrlResponse>;
   /**
    * Get all supported buildpacks.
@@ -270,7 +270,7 @@ export interface BuildServiceOperations {
     resourceGroupName: string,
     serviceName: string,
     buildServiceName: string,
-    options?: BuildServiceListSupportedBuildpacksOptionalParams
+    options?: BuildServiceListSupportedBuildpacksOptionalParams,
   ): Promise<BuildServiceListSupportedBuildpacksResponse>;
   /**
    * Get the supported buildpack resource.
@@ -286,7 +286,7 @@ export interface BuildServiceOperations {
     serviceName: string,
     buildServiceName: string,
     buildpackName: string,
-    options?: BuildServiceGetSupportedBuildpackOptionalParams
+    options?: BuildServiceGetSupportedBuildpackOptionalParams,
   ): Promise<BuildServiceGetSupportedBuildpackResponse>;
   /**
    * Get all supported stacks.
@@ -300,7 +300,7 @@ export interface BuildServiceOperations {
     resourceGroupName: string,
     serviceName: string,
     buildServiceName: string,
-    options?: BuildServiceListSupportedStacksOptionalParams
+    options?: BuildServiceListSupportedStacksOptionalParams,
   ): Promise<BuildServiceListSupportedStacksResponse>;
   /**
    * Get the supported stack resource.
@@ -316,6 +316,6 @@ export interface BuildServiceOperations {
     serviceName: string,
     buildServiceName: string,
     stackName: string,
-    options?: BuildServiceGetSupportedStackOptionalParams
+    options?: BuildServiceGetSupportedStackOptionalParams,
   ): Promise<BuildServiceGetSupportedStackResponse>;
 }
