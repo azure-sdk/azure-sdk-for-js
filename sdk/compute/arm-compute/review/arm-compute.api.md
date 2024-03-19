@@ -127,7 +127,6 @@ export interface AvailabilitySets {
     delete(resourceGroupName: string, availabilitySetName: string, options?: AvailabilitySetsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, availabilitySetName: string, options?: AvailabilitySetsGetOptionalParams): Promise<AvailabilitySetsGetResponse>;
     list(resourceGroupName: string, options?: AvailabilitySetsListOptionalParams): PagedAsyncIterableIterator<AvailabilitySet>;
-    listAvailableSizes(resourceGroupName: string, availabilitySetName: string, options?: AvailabilitySetsListAvailableSizesOptionalParams): PagedAsyncIterableIterator<VirtualMachineSize>;
     listBySubscription(options?: AvailabilitySetsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<AvailabilitySet>;
     update(resourceGroupName: string, availabilitySetName: string, parameters: AvailabilitySetUpdate, options?: AvailabilitySetsUpdateOptionalParams): Promise<AvailabilitySetsUpdateResponse>;
 }
@@ -152,13 +151,6 @@ export type AvailabilitySetsGetResponse = AvailabilitySet;
 
 // @public
 export type AvailabilitySetSkuTypes = string;
-
-// @public
-export interface AvailabilitySetsListAvailableSizesOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AvailabilitySetsListAvailableSizesResponse = VirtualMachineSizeListResult;
 
 // @public
 export interface AvailabilitySetsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
@@ -283,7 +275,6 @@ export interface CapacityReservationGroups {
     get(resourceGroupName: string, capacityReservationGroupName: string, options?: CapacityReservationGroupsGetOptionalParams): Promise<CapacityReservationGroupsGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: CapacityReservationGroupsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<CapacityReservationGroup>;
     listBySubscription(options?: CapacityReservationGroupsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<CapacityReservationGroup>;
-    update(resourceGroupName: string, capacityReservationGroupName: string, parameters: CapacityReservationGroupUpdate, options?: CapacityReservationGroupsUpdateOptionalParams): Promise<CapacityReservationGroupsUpdateResponse>;
 }
 
 // @public
@@ -334,13 +325,6 @@ export interface CapacityReservationGroupsListBySubscriptionOptionalParams exten
 
 // @public
 export type CapacityReservationGroupsListBySubscriptionResponse = CapacityReservationGroupListResult;
-
-// @public
-export interface CapacityReservationGroupsUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CapacityReservationGroupsUpdateResponse = CapacityReservationGroup;
 
 // @public
 export interface CapacityReservationGroupUpdate extends UpdateResource {
@@ -1136,8 +1120,6 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     restorePointCollections: RestorePointCollections;
     // (undocumented)
-    restorePoints: RestorePoints;
-    // (undocumented)
     sharedGalleries: SharedGalleries;
     // (undocumented)
     sharedGalleryImages: SharedGalleryImages;
@@ -1434,7 +1416,6 @@ export interface DedicatedHosts {
     beginUpdate(resourceGroupName: string, hostGroupName: string, hostName: string, parameters: DedicatedHostUpdate, options?: DedicatedHostsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DedicatedHostsUpdateResponse>, DedicatedHostsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, hostGroupName: string, hostName: string, parameters: DedicatedHostUpdate, options?: DedicatedHostsUpdateOptionalParams): Promise<DedicatedHostsUpdateResponse>;
     get(resourceGroupName: string, hostGroupName: string, hostName: string, options?: DedicatedHostsGetOptionalParams): Promise<DedicatedHostsGetResponse>;
-    listAvailableSizes(resourceGroupName: string, hostGroupName: string, hostName: string, options?: DedicatedHostsListAvailableSizesOptionalParams): PagedAsyncIterableIterator<string>;
     listByHostGroup(resourceGroupName: string, hostGroupName: string, options?: DedicatedHostsListByHostGroupOptionalParams): PagedAsyncIterableIterator<DedicatedHost>;
 }
 
@@ -1465,13 +1446,6 @@ export type DedicatedHostsGetResponse = DedicatedHost;
 export interface DedicatedHostSizeListResult {
     value?: string[];
 }
-
-// @public
-export interface DedicatedHostsListAvailableSizesOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DedicatedHostsListAvailableSizesResponse = DedicatedHostSizeListResult;
 
 // @public
 export interface DedicatedHostsListByHostGroupNextOptionalParams extends coreClient.OperationOptions {
@@ -2540,6 +2514,7 @@ export interface GalleryArtifactSource {
 // @public
 export interface GalleryArtifactVersionFullSource extends GalleryArtifactVersionSource {
     communityGalleryImageId?: string;
+    virtualMachineId?: string;
 }
 
 // @public
@@ -3656,11 +3631,6 @@ export enum KnownRestorePointEncryptionType {
 }
 
 // @public
-export enum KnownRestorePointExpandOptions {
-    InstanceView = "instanceView"
-}
-
-// @public
 export enum KnownSecurityEncryptionTypes {
     DiskWithVMGuestState = "DiskWithVMGuestState",
     NonPersistedTPM = "NonPersistedTPM",
@@ -4523,7 +4493,6 @@ export interface ProximityPlacementGroups {
     createOrUpdate(resourceGroupName: string, proximityPlacementGroupName: string, parameters: ProximityPlacementGroup, options?: ProximityPlacementGroupsCreateOrUpdateOptionalParams): Promise<ProximityPlacementGroupsCreateOrUpdateResponse>;
     delete(resourceGroupName: string, proximityPlacementGroupName: string, options?: ProximityPlacementGroupsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, proximityPlacementGroupName: string, options?: ProximityPlacementGroupsGetOptionalParams): Promise<ProximityPlacementGroupsGetResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: ProximityPlacementGroupsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ProximityPlacementGroup>;
     listBySubscription(options?: ProximityPlacementGroupsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<ProximityPlacementGroup>;
     update(resourceGroupName: string, proximityPlacementGroupName: string, parameters: ProximityPlacementGroupUpdate, options?: ProximityPlacementGroupsUpdateOptionalParams): Promise<ProximityPlacementGroupsUpdateResponse>;
 }
@@ -4546,20 +4515,6 @@ export interface ProximityPlacementGroupsGetOptionalParams extends coreClient.Op
 
 // @public
 export type ProximityPlacementGroupsGetResponse = ProximityPlacementGroup;
-
-// @public
-export interface ProximityPlacementGroupsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ProximityPlacementGroupsListByResourceGroupNextResponse = ProximityPlacementGroupListResult;
-
-// @public
-export interface ProximityPlacementGroupsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ProximityPlacementGroupsListByResourceGroupResponse = ProximityPlacementGroupListResult;
 
 // @public
 export interface ProximityPlacementGroupsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
@@ -4982,45 +4937,10 @@ export interface RestorePointEncryption {
 export type RestorePointEncryptionType = string;
 
 // @public
-export type RestorePointExpandOptions = string;
-
-// @public
 export interface RestorePointInstanceView {
     diskRestorePoints?: DiskRestorePointInstanceView[];
     statuses?: InstanceViewStatus[];
 }
-
-// @public
-export interface RestorePoints {
-    beginCreate(resourceGroupName: string, restorePointCollectionName: string, restorePointName: string, parameters: RestorePoint, options?: RestorePointsCreateOptionalParams): Promise<SimplePollerLike<OperationState<RestorePointsCreateResponse>, RestorePointsCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, restorePointCollectionName: string, restorePointName: string, parameters: RestorePoint, options?: RestorePointsCreateOptionalParams): Promise<RestorePointsCreateResponse>;
-    beginDelete(resourceGroupName: string, restorePointCollectionName: string, restorePointName: string, options?: RestorePointsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, restorePointCollectionName: string, restorePointName: string, options?: RestorePointsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, restorePointCollectionName: string, restorePointName: string, options?: RestorePointsGetOptionalParams): Promise<RestorePointsGetResponse>;
-}
-
-// @public
-export interface RestorePointsCreateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type RestorePointsCreateResponse = RestorePoint;
-
-// @public
-export interface RestorePointsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface RestorePointsGetOptionalParams extends coreClient.OperationOptions {
-    expand?: RestorePointExpandOptions;
-}
-
-// @public
-export type RestorePointsGetResponse = RestorePoint;
 
 // @public
 export interface RestorePointSourceMetadata {
@@ -5678,7 +5598,6 @@ export interface SshPublicKeyResource extends Resource {
 export interface SshPublicKeys {
     create(resourceGroupName: string, sshPublicKeyName: string, parameters: SshPublicKeyResource, options?: SshPublicKeysCreateOptionalParams): Promise<SshPublicKeysCreateResponse>;
     delete(resourceGroupName: string, sshPublicKeyName: string, options?: SshPublicKeysDeleteOptionalParams): Promise<void>;
-    generateKeyPair(resourceGroupName: string, sshPublicKeyName: string, options?: SshPublicKeysGenerateKeyPairOptionalParams): Promise<SshPublicKeysGenerateKeyPairResponse>;
     get(resourceGroupName: string, sshPublicKeyName: string, options?: SshPublicKeysGetOptionalParams): Promise<SshPublicKeysGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: SshPublicKeysListByResourceGroupOptionalParams): PagedAsyncIterableIterator<SshPublicKeyResource>;
     listBySubscription(options?: SshPublicKeysListBySubscriptionOptionalParams): PagedAsyncIterableIterator<SshPublicKeyResource>;
@@ -5695,14 +5614,6 @@ export type SshPublicKeysCreateResponse = SshPublicKeyResource;
 // @public
 export interface SshPublicKeysDeleteOptionalParams extends coreClient.OperationOptions {
 }
-
-// @public
-export interface SshPublicKeysGenerateKeyPairOptionalParams extends coreClient.OperationOptions {
-    parameters?: SshGenerateKeyPairInputParameters;
-}
-
-// @public
-export type SshPublicKeysGenerateKeyPairResponse = SshPublicKeyGenerateKeyPairResult;
 
 // @public
 export interface SshPublicKeysGetOptionalParams extends coreClient.OperationOptions {
@@ -6643,8 +6554,6 @@ export interface VirtualMachineRunCommandUpdate extends UpdateResource {
 export interface VirtualMachines {
     beginAssessPatches(resourceGroupName: string, vmName: string, options?: VirtualMachinesAssessPatchesOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachinesAssessPatchesResponse>, VirtualMachinesAssessPatchesResponse>>;
     beginAssessPatchesAndWait(resourceGroupName: string, vmName: string, options?: VirtualMachinesAssessPatchesOptionalParams): Promise<VirtualMachinesAssessPatchesResponse>;
-    beginAttachDetachDataDisks(resourceGroupName: string, vmName: string, parameters: AttachDetachDataDisksRequest, options?: VirtualMachinesAttachDetachDataDisksOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachinesAttachDetachDataDisksResponse>, VirtualMachinesAttachDetachDataDisksResponse>>;
-    beginAttachDetachDataDisksAndWait(resourceGroupName: string, vmName: string, parameters: AttachDetachDataDisksRequest, options?: VirtualMachinesAttachDetachDataDisksOptionalParams): Promise<VirtualMachinesAttachDetachDataDisksResponse>;
     beginCapture(resourceGroupName: string, vmName: string, parameters: VirtualMachineCaptureParameters, options?: VirtualMachinesCaptureOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachinesCaptureResponse>, VirtualMachinesCaptureResponse>>;
     beginCaptureAndWait(resourceGroupName: string, vmName: string, parameters: VirtualMachineCaptureParameters, options?: VirtualMachinesCaptureOptionalParams): Promise<VirtualMachinesCaptureResponse>;
     beginConvertToManagedDisks(resourceGroupName: string, vmName: string, options?: VirtualMachinesConvertToManagedDisksOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
@@ -6655,8 +6564,6 @@ export interface VirtualMachines {
     beginDeallocateAndWait(resourceGroupName: string, vmName: string, options?: VirtualMachinesDeallocateOptionalParams): Promise<void>;
     beginDelete(resourceGroupName: string, vmName: string, options?: VirtualMachinesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, vmName: string, options?: VirtualMachinesDeleteOptionalParams): Promise<void>;
-    beginInstallPatches(resourceGroupName: string, vmName: string, installPatchesInput: VirtualMachineInstallPatchesParameters, options?: VirtualMachinesInstallPatchesOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachinesInstallPatchesResponse>, VirtualMachinesInstallPatchesResponse>>;
-    beginInstallPatchesAndWait(resourceGroupName: string, vmName: string, installPatchesInput: VirtualMachineInstallPatchesParameters, options?: VirtualMachinesInstallPatchesOptionalParams): Promise<VirtualMachinesInstallPatchesResponse>;
     beginPerformMaintenance(resourceGroupName: string, vmName: string, options?: VirtualMachinesPerformMaintenanceOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginPerformMaintenanceAndWait(resourceGroupName: string, vmName: string, options?: VirtualMachinesPerformMaintenanceOptionalParams): Promise<void>;
     beginPowerOff(resourceGroupName: string, vmName: string, options?: VirtualMachinesPowerOffOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
@@ -6694,21 +6601,6 @@ export interface VirtualMachinesAssessPatchesOptionalParams extends coreClient.O
 
 // @public
 export type VirtualMachinesAssessPatchesResponse = VirtualMachineAssessPatchesResult;
-
-// @public
-export interface VirtualMachinesAttachDetachDataDisksHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface VirtualMachinesAttachDetachDataDisksOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type VirtualMachinesAttachDetachDataDisksResponse = StorageProfile;
 
 // @public
 export interface VirtualMachineScaleSet extends Resource {
@@ -7677,7 +7569,6 @@ export interface VirtualMachineScaleSetVMRunCommands {
     beginUpdate(resourceGroupName: string, vmScaleSetName: string, instanceId: string, runCommandName: string, runCommand: VirtualMachineRunCommandUpdate, options?: VirtualMachineScaleSetVMRunCommandsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachineScaleSetVMRunCommandsUpdateResponse>, VirtualMachineScaleSetVMRunCommandsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, vmScaleSetName: string, instanceId: string, runCommandName: string, runCommand: VirtualMachineRunCommandUpdate, options?: VirtualMachineScaleSetVMRunCommandsUpdateOptionalParams): Promise<VirtualMachineScaleSetVMRunCommandsUpdateResponse>;
     get(resourceGroupName: string, vmScaleSetName: string, instanceId: string, runCommandName: string, options?: VirtualMachineScaleSetVMRunCommandsGetOptionalParams): Promise<VirtualMachineScaleSetVMRunCommandsGetResponse>;
-    list(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMRunCommandsListOptionalParams): PagedAsyncIterableIterator<VirtualMachineRunCommand>;
 }
 
 // @public
@@ -7702,21 +7593,6 @@ export interface VirtualMachineScaleSetVMRunCommandsGetOptionalParams extends co
 
 // @public
 export type VirtualMachineScaleSetVMRunCommandsGetResponse = VirtualMachineRunCommand;
-
-// @public
-export interface VirtualMachineScaleSetVMRunCommandsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type VirtualMachineScaleSetVMRunCommandsListNextResponse = VirtualMachineRunCommandsListResult;
-
-// @public
-export interface VirtualMachineScaleSetVMRunCommandsListOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-}
-
-// @public
-export type VirtualMachineScaleSetVMRunCommandsListResponse = VirtualMachineRunCommandsListResult;
 
 // @public
 export interface VirtualMachineScaleSetVMRunCommandsUpdateOptionalParams extends coreClient.OperationOptions {
@@ -7964,15 +7840,6 @@ export interface VirtualMachinesGetOptionalParams extends coreClient.OperationOp
 
 // @public
 export type VirtualMachinesGetResponse = VirtualMachine;
-
-// @public
-export interface VirtualMachinesInstallPatchesOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type VirtualMachinesInstallPatchesResponse = VirtualMachineInstallPatchesResult;
 
 // @public
 export interface VirtualMachinesInstanceViewOptionalParams extends coreClient.OperationOptions {
