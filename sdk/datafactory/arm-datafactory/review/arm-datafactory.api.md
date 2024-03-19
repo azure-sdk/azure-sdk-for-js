@@ -1621,15 +1621,15 @@ export { Credential_2 as Credential }
 // @public
 export interface CredentialListResponse {
     nextLink?: string;
-    value: ManagedIdentityCredentialResource[];
+    value: CredentialResource[];
 }
 
 // @public
 export interface CredentialOperations {
-    createOrUpdate(resourceGroupName: string, factoryName: string, credentialName: string, credential: ManagedIdentityCredentialResource, options?: CredentialOperationsCreateOrUpdateOptionalParams): Promise<CredentialOperationsCreateOrUpdateResponse>;
+    createOrUpdate(resourceGroupName: string, factoryName: string, credentialName: string, credential: CredentialResource, options?: CredentialOperationsCreateOrUpdateOptionalParams): Promise<CredentialOperationsCreateOrUpdateResponse>;
     delete(resourceGroupName: string, factoryName: string, credentialName: string, options?: CredentialOperationsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, factoryName: string, credentialName: string, options?: CredentialOperationsGetOptionalParams): Promise<CredentialOperationsGetResponse>;
-    listByFactory(resourceGroupName: string, factoryName: string, options?: CredentialOperationsListByFactoryOptionalParams): PagedAsyncIterableIterator<ManagedIdentityCredentialResource>;
+    listByFactory(resourceGroupName: string, factoryName: string, options?: CredentialOperationsListByFactoryOptionalParams): PagedAsyncIterableIterator<CredentialResource>;
 }
 
 // @public
@@ -1638,7 +1638,7 @@ export interface CredentialOperationsCreateOrUpdateOptionalParams extends coreCl
 }
 
 // @public
-export type CredentialOperationsCreateOrUpdateResponse = ManagedIdentityCredentialResource;
+export type CredentialOperationsCreateOrUpdateResponse = CredentialResource;
 
 // @public
 export interface CredentialOperationsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -1650,7 +1650,7 @@ export interface CredentialOperationsGetOptionalParams extends coreClient.Operat
 }
 
 // @public
-export type CredentialOperationsGetResponse = ManagedIdentityCredentialResource;
+export type CredentialOperationsGetResponse = CredentialResource;
 
 // @public
 export interface CredentialOperationsListByFactoryNextOptionalParams extends coreClient.OperationOptions {
@@ -5363,12 +5363,11 @@ export interface MagentoSource extends TabularSource {
 
 // @public
 export interface ManagedIdentityCredential extends Credential_2 {
-    resourceId?: string;
     type: "ManagedIdentity";
 }
 
 // @public
-export interface ManagedIdentityCredentialResource extends SubResource {
+export interface ManagedIdentityCredentialResource extends CredentialResource {
     properties: ManagedIdentityCredential;
 }
 
@@ -7618,6 +7617,11 @@ export interface ServicePrincipalCredential extends Credential_2 {
     servicePrincipalKey?: AzureKeyVaultSecretReference;
     tenant?: any;
     type: "ServicePrincipal";
+}
+
+// @public
+export interface ServicePrincipalCredentialResource extends CredentialResource {
+    properties: ServicePrincipalCredential;
 }
 
 // @public
