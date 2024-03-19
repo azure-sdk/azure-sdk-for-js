@@ -237,12 +237,39 @@ export interface SpringAppDiscoveryManagementClientOptionalParams extends coreCl
 
 // @public
 export interface Springbootapps {
-    beginUpdate(resourceGroupName: string, siteName: string, springbootappsName: string, springbootapps: SpringbootappsPatch, options?: SpringbootappsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SpringbootappsUpdateResponse>, SpringbootappsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, siteName: string, springbootappsName: string, springbootapps: SpringbootappsPatch, options?: SpringbootappsUpdateOptionalParams): Promise<SpringbootappsUpdateResponse>;
+    beginCreateOrUpdate(resourceGroupName: string, siteName: string, springbootappsName: string, springbootapps: SpringbootappsModel, options?: SpringbootappsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SpringbootappsCreateOrUpdateResponse>, SpringbootappsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, siteName: string, springbootappsName: string, springbootapps: SpringbootappsModel, options?: SpringbootappsCreateOrUpdateOptionalParams): Promise<SpringbootappsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, siteName: string, springbootappsName: string, options?: SpringbootappsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<SpringbootappsDeleteResponse>, SpringbootappsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, siteName: string, springbootappsName: string, options?: SpringbootappsDeleteOptionalParams): Promise<SpringbootappsDeleteResponse>;
     get(resourceGroupName: string, siteName: string, springbootappsName: string, options?: SpringbootappsGetOptionalParams): Promise<SpringbootappsGetResponse>;
     listByResourceGroup(resourceGroupName: string, siteName: string, options?: SpringbootappsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<SpringbootappsModel>;
     listBySubscription(siteName: string, options?: SpringbootappsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<SpringbootappsModel>;
+    update(resourceGroupName: string, siteName: string, springbootappsName: string, springbootapps: SpringbootappsPatch, options?: SpringbootappsUpdateOptionalParams): Promise<SpringbootappsUpdateResponse>;
 }
+
+// @public
+export interface SpringbootappsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SpringbootappsCreateOrUpdateResponse = SpringbootappsModel;
+
+// @public
+export interface SpringbootappsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface SpringbootappsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SpringbootappsDeleteResponse = SpringbootappsDeleteHeaders;
 
 // @public
 export interface SpringbootappsGetOptionalParams extends coreClient.OperationOptions {
@@ -288,17 +315,11 @@ export interface SpringbootappsListResult {
 // @public
 export interface SpringbootappsModel extends ProxyResource {
     properties?: SpringbootappsProperties;
-    tags?: {
-        [propertyName: string]: string;
-    };
 }
 
 // @public
 export interface SpringbootappsPatch extends ProxyResource {
     properties?: SpringbootappsProperties;
-    tags?: {
-        [propertyName: string]: string;
-    };
 }
 
 // @public
@@ -321,14 +342,16 @@ export interface SpringbootappsProperties {
     jarFileLocation?: string;
     jvmMemoryInMB?: number;
     jvmOptions?: string[];
+    labels?: {
+        [propertyName: string]: string;
+    };
     lastModifiedTime?: Date;
     lastUpdatedTime?: Date;
     machineArmIds?: string[];
     miscs?: SpringbootappsPropertiesMiscsItem[];
-    provisioningState?: ProvisioningState;
+    readonly provisioningState?: ProvisioningState;
     runtimeJdkVersion?: string;
     servers?: string[];
-    siteName?: string;
     springBootVersion?: string;
     staticContentLocations?: string[];
 }
@@ -353,15 +376,7 @@ export interface SpringbootappsPropertiesMiscsItem {
 }
 
 // @public
-export interface SpringbootappsUpdateHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
 export interface SpringbootappsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
 }
 
 // @public
@@ -371,12 +386,11 @@ export type SpringbootappsUpdateResponse = SpringbootappsModel;
 export interface Springbootservers {
     beginDelete(resourceGroupName: string, siteName: string, springbootserversName: string, options?: SpringbootserversDeleteOptionalParams): Promise<SimplePollerLike<OperationState<SpringbootserversDeleteResponse>, SpringbootserversDeleteResponse>>;
     beginDeleteAndWait(resourceGroupName: string, siteName: string, springbootserversName: string, options?: SpringbootserversDeleteOptionalParams): Promise<SpringbootserversDeleteResponse>;
-    beginUpdate(resourceGroupName: string, siteName: string, springbootserversName: string, springbootservers: SpringbootserversPatch, options?: SpringbootserversUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SpringbootserversUpdateResponse>, SpringbootserversUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, siteName: string, springbootserversName: string, springbootservers: SpringbootserversPatch, options?: SpringbootserversUpdateOptionalParams): Promise<SpringbootserversUpdateResponse>;
     createOrUpdate(resourceGroupName: string, siteName: string, springbootserversName: string, springbootservers: SpringbootserversModel, options?: SpringbootserversCreateOrUpdateOptionalParams): Promise<SpringbootserversCreateOrUpdateResponse>;
     get(resourceGroupName: string, siteName: string, springbootserversName: string, options?: SpringbootserversGetOptionalParams): Promise<SpringbootserversGetResponse>;
     listByResourceGroup(resourceGroupName: string, siteName: string, options?: SpringbootserversListByResourceGroupOptionalParams): PagedAsyncIterableIterator<SpringbootserversModel>;
     listBySubscription(siteName: string, options?: SpringbootserversListBySubscriptionOptionalParams): PagedAsyncIterableIterator<SpringbootserversModel>;
+    update(resourceGroupName: string, siteName: string, springbootserversName: string, springbootservers: SpringbootserversPatch, options?: SpringbootserversUpdateOptionalParams): Promise<SpringbootserversUpdateResponse>;
 }
 
 // @public
@@ -445,23 +459,20 @@ export interface SpringbootserversListResult {
 // @public
 export interface SpringbootserversModel extends ProxyResource {
     properties?: SpringbootserversProperties;
-    tags?: {
-        [propertyName: string]: string;
-    };
 }
 
 // @public
 export interface SpringbootserversPatch extends ProxyResource {
     properties?: SpringbootserversProperties;
-    tags?: {
-        [propertyName: string]: string;
-    };
 }
 
 // @public
 export interface SpringbootserversProperties {
     errors?: ErrorModel[];
     fqdnAndIpAddressList?: string[];
+    labels?: {
+        [propertyName: string]: string;
+    };
     machineArmId?: string;
     port?: number;
     provisioningState?: ProvisioningState;
@@ -471,15 +482,7 @@ export interface SpringbootserversProperties {
 }
 
 // @public
-export interface SpringbootserversUpdateHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
 export interface SpringbootserversUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
 }
 
 // @public

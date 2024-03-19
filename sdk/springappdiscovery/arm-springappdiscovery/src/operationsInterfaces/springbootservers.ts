@@ -113,27 +113,7 @@ export interface Springbootservers {
    * @param springbootservers Update a springbootservers payload.
    * @param options The options parameters.
    */
-  beginUpdate(
-    resourceGroupName: string,
-    siteName: string,
-    springbootserversName: string,
-    springbootservers: SpringbootserversPatch,
-    options?: SpringbootserversUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<SpringbootserversUpdateResponse>,
-      SpringbootserversUpdateResponse
-    >
-  >;
-  /**
-   * Update springbootservers resource.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param siteName The springbootsites name.
-   * @param springbootserversName The springbootservers name.
-   * @param springbootservers Update a springbootservers payload.
-   * @param options The options parameters.
-   */
-  beginUpdateAndWait(
+  update(
     resourceGroupName: string,
     siteName: string,
     springbootserversName: string,

@@ -351,102 +351,23 @@ export class SpringbootserversImpl implements Springbootservers {
    * @param springbootservers Update a springbootservers payload.
    * @param options The options parameters.
    */
-  async beginUpdate(
-    resourceGroupName: string,
-    siteName: string,
-    springbootserversName: string,
-    springbootservers: SpringbootserversPatch,
-    options?: SpringbootserversUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<SpringbootserversUpdateResponse>,
-      SpringbootserversUpdateResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<SpringbootserversUpdateResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
-        resourceGroupName,
-        siteName,
-        springbootserversName,
-        springbootservers,
-        options,
-      },
-      spec: updateOperationSpec,
-    });
-    const poller = await createHttpPoller<
-      SpringbootserversUpdateResponse,
-      OperationState<SpringbootserversUpdateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Update springbootservers resource.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param siteName The springbootsites name.
-   * @param springbootserversName The springbootservers name.
-   * @param springbootservers Update a springbootservers payload.
-   * @param options The options parameters.
-   */
-  async beginUpdateAndWait(
+  update(
     resourceGroupName: string,
     siteName: string,
     springbootserversName: string,
     springbootservers: SpringbootserversPatch,
     options?: SpringbootserversUpdateOptionalParams,
   ): Promise<SpringbootserversUpdateResponse> {
-    const poller = await this.beginUpdate(
-      resourceGroupName,
-      siteName,
-      springbootserversName,
-      springbootservers,
-      options,
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        siteName,
+        springbootserversName,
+        springbootservers,
+        options,
+      },
+      updateOperationSpec,
     );
-    return poller.pollUntilDone();
   }
 
   /**
@@ -605,15 +526,6 @@ const updateOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.SpringbootserversModel,
-    },
-    201: {
-      bodyMapper: Mappers.SpringbootserversModel,
-    },
-    202: {
-      bodyMapper: Mappers.SpringbootserversModel,
-    },
-    204: {
       bodyMapper: Mappers.SpringbootserversModel,
     },
     default: {

@@ -29,6 +29,10 @@ import {
   SpringbootappsListBySubscriptionResponse,
   SpringbootappsGetOptionalParams,
   SpringbootappsGetResponse,
+  SpringbootappsCreateOrUpdateOptionalParams,
+  SpringbootappsCreateOrUpdateResponse,
+  SpringbootappsDeleteOptionalParams,
+  SpringbootappsDeleteResponse,
   SpringbootappsPatch,
   SpringbootappsUpdateOptionalParams,
   SpringbootappsUpdateResponse,
@@ -218,29 +222,29 @@ export class SpringbootappsImpl implements Springbootapps {
   }
 
   /**
-   * Update a springbootapps resource.
+   * Create a springbootapps resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param siteName The springbootsites name.
    * @param springbootappsName The springbootapps name.
-   * @param springbootapps Update a springbootapps payload.
+   * @param springbootapps Create a springbootapps payload.
    * @param options The options parameters.
    */
-  async beginUpdate(
+  async beginCreateOrUpdate(
     resourceGroupName: string,
     siteName: string,
     springbootappsName: string,
-    springbootapps: SpringbootappsPatch,
-    options?: SpringbootappsUpdateOptionalParams,
+    springbootapps: SpringbootappsModel,
+    options?: SpringbootappsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<SpringbootappsUpdateResponse>,
-      SpringbootappsUpdateResponse
+      OperationState<SpringbootappsCreateOrUpdateResponse>,
+      SpringbootappsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<SpringbootappsUpdateResponse> => {
+    ): Promise<SpringbootappsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -284,11 +288,11 @@ export class SpringbootappsImpl implements Springbootapps {
         springbootapps,
         options,
       },
-      spec: updateOperationSpec,
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
-      SpringbootappsUpdateResponse,
-      OperationState<SpringbootappsUpdateResponse>
+      SpringbootappsCreateOrUpdateResponse,
+      OperationState<SpringbootappsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -299,21 +303,21 @@ export class SpringbootappsImpl implements Springbootapps {
   }
 
   /**
-   * Update a springbootapps resource.
+   * Create a springbootapps resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param siteName The springbootsites name.
    * @param springbootappsName The springbootapps name.
-   * @param springbootapps Update a springbootapps payload.
+   * @param springbootapps Create a springbootapps payload.
    * @param options The options parameters.
    */
-  async beginUpdateAndWait(
+  async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     siteName: string,
     springbootappsName: string,
-    springbootapps: SpringbootappsPatch,
-    options?: SpringbootappsUpdateOptionalParams,
-  ): Promise<SpringbootappsUpdateResponse> {
-    const poller = await this.beginUpdate(
+    springbootapps: SpringbootappsModel,
+    options?: SpringbootappsCreateOrUpdateOptionalParams,
+  ): Promise<SpringbootappsCreateOrUpdateResponse> {
+    const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       siteName,
       springbootappsName,
@@ -321,6 +325,128 @@ export class SpringbootappsImpl implements Springbootapps {
       options,
     );
     return poller.pollUntilDone();
+  }
+
+  /**
+   * Delete a springbootapps resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param siteName The springbootsites name.
+   * @param springbootappsName The springbootapps name.
+   * @param options The options parameters.
+   */
+  async beginDelete(
+    resourceGroupName: string,
+    siteName: string,
+    springbootappsName: string,
+    options?: SpringbootappsDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<SpringbootappsDeleteResponse>,
+      SpringbootappsDeleteResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<SpringbootappsDeleteResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, siteName, springbootappsName, options },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      SpringbootappsDeleteResponse,
+      OperationState<SpringbootappsDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Delete a springbootapps resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param siteName The springbootsites name.
+   * @param springbootappsName The springbootapps name.
+   * @param options The options parameters.
+   */
+  async beginDeleteAndWait(
+    resourceGroupName: string,
+    siteName: string,
+    springbootappsName: string,
+    options?: SpringbootappsDeleteOptionalParams,
+  ): Promise<SpringbootappsDeleteResponse> {
+    const poller = await this.beginDelete(
+      resourceGroupName,
+      siteName,
+      springbootappsName,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Update a springbootapps resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param siteName The springbootsites name.
+   * @param springbootappsName The springbootapps name.
+   * @param springbootapps Update a springbootapps payload.
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    siteName: string,
+    springbootappsName: string,
+    springbootapps: SpringbootappsPatch,
+    options?: SpringbootappsUpdateOptionalParams,
+  ): Promise<SpringbootappsUpdateResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        siteName,
+        springbootappsName,
+        springbootapps,
+        options,
+      },
+      updateOperationSpec,
+    );
   }
 
   /**
@@ -416,9 +542,9 @@ const getOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const updateOperationSpec: coreClient.OperationSpec = {
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OffAzureSpringBoot/springbootsites/{siteName}/springbootapps/{springbootappsName}",
-  httpMethod: "PATCH",
+  httpMethod: "PUT",
   responses: {
     200: {
       bodyMapper: Mappers.SpringbootappsModel,
@@ -437,6 +563,61 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.springbootapps,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.siteName,
+    Parameters.springbootappsName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OffAzureSpringBoot/springbootsites/{siteName}/springbootapps/{springbootappsName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {
+      headersMapper: Mappers.SpringbootappsDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.SpringbootappsDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.SpringbootappsDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.SpringbootappsDeleteHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.siteName,
+    Parameters.springbootappsName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const updateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OffAzureSpringBoot/springbootsites/{siteName}/springbootapps/{springbootappsName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SpringbootappsModel,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.springbootapps1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
