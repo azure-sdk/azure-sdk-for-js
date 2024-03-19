@@ -15,8 +15,6 @@ import {
   VirtualMachineImagesEdgeZoneListOffersResponse,
   VirtualMachineImagesEdgeZoneListPublishersOptionalParams,
   VirtualMachineImagesEdgeZoneListPublishersResponse,
-  VirtualMachineImagesEdgeZoneListSkusOptionalParams,
-  VirtualMachineImagesEdgeZoneListSkusResponse
 } from "../models";
 
 /** Interface representing a VirtualMachineImagesEdgeZone. */
@@ -38,7 +36,7 @@ export interface VirtualMachineImagesEdgeZone {
     offer: string,
     skus: string,
     version: string,
-    options?: VirtualMachineImagesEdgeZoneGetOptionalParams
+    options?: VirtualMachineImagesEdgeZoneGetOptionalParams,
   ): Promise<VirtualMachineImagesEdgeZoneGetResponse>;
   /**
    * Gets a list of all virtual machine image versions for the specified location, edge zone, publisher,
@@ -56,7 +54,7 @@ export interface VirtualMachineImagesEdgeZone {
     publisherName: string,
     offer: string,
     skus: string,
-    options?: VirtualMachineImagesEdgeZoneListOptionalParams
+    options?: VirtualMachineImagesEdgeZoneListOptionalParams,
   ): Promise<VirtualMachineImagesEdgeZoneListResponse>;
   /**
    * Gets a list of virtual machine image offers for the specified location, edge zone and publisher.
@@ -69,7 +67,7 @@ export interface VirtualMachineImagesEdgeZone {
     location: string,
     edgeZone: string,
     publisherName: string,
-    options?: VirtualMachineImagesEdgeZoneListOffersOptionalParams
+    options?: VirtualMachineImagesEdgeZoneListOffersOptionalParams,
   ): Promise<VirtualMachineImagesEdgeZoneListOffersResponse>;
   /**
    * Gets a list of virtual machine image publishers for the specified Azure location and edge zone.
@@ -80,22 +78,6 @@ export interface VirtualMachineImagesEdgeZone {
   listPublishers(
     location: string,
     edgeZone: string,
-    options?: VirtualMachineImagesEdgeZoneListPublishersOptionalParams
+    options?: VirtualMachineImagesEdgeZoneListPublishersOptionalParams,
   ): Promise<VirtualMachineImagesEdgeZoneListPublishersResponse>;
-  /**
-   * Gets a list of virtual machine image SKUs for the specified location, edge zone, publisher, and
-   * offer.
-   * @param location The name of a supported Azure region.
-   * @param edgeZone The name of the edge zone.
-   * @param publisherName A valid image publisher.
-   * @param offer A valid image publisher offer.
-   * @param options The options parameters.
-   */
-  listSkus(
-    location: string,
-    edgeZone: string,
-    publisherName: string,
-    offer: string,
-    options?: VirtualMachineImagesEdgeZoneListSkusOptionalParams
-  ): Promise<VirtualMachineImagesEdgeZoneListSkusResponse>;
 }
