@@ -503,6 +503,8 @@ export interface SavingsPlanOrderAliasModel extends Resource {
   appliedScopeProperties?: AppliedScopeProperties;
   /** Commitment towards the benefit. */
   commitment?: Commitment;
+  /** Setting this to true will automatically purchase a new benefit on the expiration date time. */
+  renew?: boolean;
 }
 
 /** Savings plan order */
@@ -730,7 +732,7 @@ export enum KnownOrigin {
   /** System */
   System = "system",
   /** UserSystem */
-  UserSystem = "user,system"
+  UserSystem = "user,system",
 }
 
 /**
@@ -747,7 +749,7 @@ export type Origin = string;
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
   /** Internal */
-  Internal = "Internal"
+  Internal = "Internal",
 }
 
 /**
@@ -776,7 +778,7 @@ export enum KnownProvisioningState {
   /** Expired */
   Expired = "Expired",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -802,7 +804,7 @@ export enum KnownTerm {
   /** P3Y */
   P3Y = "P3Y",
   /** P5Y */
-  P5Y = "P5Y"
+  P5Y = "P5Y",
 }
 
 /**
@@ -819,7 +821,7 @@ export type Term = string;
 /** Known values of {@link BillingPlan} that the service accepts. */
 export enum KnownBillingPlan {
   /** P1M */
-  P1M = "P1M"
+  P1M = "P1M",
 }
 
 /**
@@ -838,7 +840,7 @@ export enum KnownAppliedScopeType {
   /** Shared */
   Shared = "Shared",
   /** ManagementGroup */
-  ManagementGroup = "ManagementGroup"
+  ManagementGroup = "ManagementGroup",
 }
 
 /**
@@ -855,7 +857,7 @@ export type AppliedScopeType = string;
 /** Known values of {@link CommitmentGrain} that the service accepts. */
 export enum KnownCommitmentGrain {
   /** Hourly */
-  Hourly = "Hourly"
+  Hourly = "Hourly",
 }
 
 /**
@@ -876,7 +878,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -900,7 +902,7 @@ export enum KnownPaymentStatus {
   /** Scheduled */
   Scheduled = "Scheduled",
   /** Cancelled */
-  Cancelled = "Cancelled"
+  Cancelled = "Cancelled",
 }
 
 /**
@@ -968,7 +970,7 @@ export enum KnownReservedResourceType {
   /** SqlEdge */
   SqlEdge = "SqlEdge",
   /** VirtualMachineSoftware */
-  VirtualMachineSoftware = "VirtualMachineSoftware"
+  VirtualMachineSoftware = "VirtualMachineSoftware",
 }
 
 /**
@@ -1010,7 +1012,7 @@ export enum KnownInstanceFlexibility {
   /** On */
   On = "On",
   /** Off */
-  Off = "Off"
+  Off = "Off",
 }
 
 /**
@@ -1030,7 +1032,7 @@ export enum KnownPricingCurrencyDuration {
   /** P1Y */
   P1Y = "P1Y",
   /** P3Y */
-  P3Y = "P3Y"
+  P3Y = "P3Y",
 }
 
 /**

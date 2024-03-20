@@ -18,7 +18,7 @@ import {
   SavingsPlanUpdateResponse,
   SavingsPlanUpdateValidateRequest,
   SavingsPlanValidateUpdateOptionalParams,
-  SavingsPlanValidateUpdateResponse
+  SavingsPlanValidateUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,14 +31,14 @@ export interface SavingsPlan {
    */
   list(
     savingsPlanOrderId: string,
-    options?: SavingsPlanListOptionalParams
+    options?: SavingsPlanListOptionalParams,
   ): PagedAsyncIterableIterator<SavingsPlanModel>;
   /**
    * List savings plans.
    * @param options The options parameters.
    */
   listAll(
-    options?: SavingsPlanListAllOptionalParams
+    options?: SavingsPlanListAllOptionalParams,
   ): PagedAsyncIterableIterator<SavingsPlanModel>;
   /**
    * Get savings plan.
@@ -49,7 +49,7 @@ export interface SavingsPlan {
   get(
     savingsPlanOrderId: string,
     savingsPlanId: string,
-    options?: SavingsPlanGetOptionalParams
+    options?: SavingsPlanGetOptionalParams,
   ): Promise<SavingsPlanGetResponse>;
   /**
    * Update savings plan.
@@ -62,7 +62,7 @@ export interface SavingsPlan {
     savingsPlanOrderId: string,
     savingsPlanId: string,
     body: SavingsPlanUpdateRequest,
-    options?: SavingsPlanUpdateOptionalParams
+    options?: SavingsPlanUpdateOptionalParams,
   ): Promise<SavingsPlanUpdateResponse>;
   /**
    * Validate savings plan patch.
@@ -75,6 +75,6 @@ export interface SavingsPlan {
     savingsPlanOrderId: string,
     savingsPlanId: string,
     body: SavingsPlanUpdateValidateRequest,
-    options?: SavingsPlanValidateUpdateOptionalParams
+    options?: SavingsPlanValidateUpdateOptionalParams,
   ): Promise<SavingsPlanValidateUpdateResponse>;
 }

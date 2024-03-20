@@ -9,14 +9,14 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   SavingsPlanOrderAliasModel as SavingsPlanOrderAliasModelMapper,
   SavingsPlanUpdateRequest as SavingsPlanUpdateRequestMapper,
   SavingsPlanUpdateValidateRequest as SavingsPlanUpdateValidateRequestMapper,
   SavingsPlanPurchaseValidateRequest as SavingsPlanPurchaseValidateRequestMapper,
-  ReservationOrderAliasRequest as ReservationOrderAliasRequestMapper
+  ReservationOrderAliasRequest as ReservationOrderAliasRequestMapper,
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -26,9 +26,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -37,10 +37,10 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const apiVersion: OperationQueryParameter = {
@@ -50,9 +50,9 @@ export const apiVersion: OperationQueryParameter = {
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const nextLink: OperationURLParameter = {
@@ -61,10 +61,10 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const contentType: OperationParameter = {
@@ -74,28 +74,28 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const body: OperationParameter = {
   parameterPath: "body",
-  mapper: SavingsPlanOrderAliasModelMapper
+  mapper: SavingsPlanOrderAliasModelMapper,
 };
 
 export const savingsPlanOrderAliasName: OperationURLParameter = {
   parameterPath: "savingsPlanOrderAliasName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^[a-zA-Z0-9_\\-\\.]+$")
+      Pattern: new RegExp("^[a-zA-Z0-9_\\-\\.]+$"),
     },
     serializedName: "savingsPlanOrderAliasName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const savingsPlanOrderId: OperationURLParameter = {
@@ -104,9 +104,9 @@ export const savingsPlanOrderId: OperationURLParameter = {
     serializedName: "savingsPlanOrderId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const expand: OperationQueryParameter = {
@@ -114,9 +114,9 @@ export const expand: OperationQueryParameter = {
   mapper: {
     serializedName: "$expand",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const filter: OperationQueryParameter = {
@@ -124,9 +124,9 @@ export const filter: OperationQueryParameter = {
   mapper: {
     serializedName: "$filter",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const orderby: OperationQueryParameter = {
@@ -134,9 +134,9 @@ export const orderby: OperationQueryParameter = {
   mapper: {
     serializedName: "$orderby",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const refreshSummary: OperationQueryParameter = {
@@ -144,9 +144,9 @@ export const refreshSummary: OperationQueryParameter = {
   mapper: {
     serializedName: "refreshSummary",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const skiptoken: OperationQueryParameter = {
@@ -154,9 +154,9 @@ export const skiptoken: OperationQueryParameter = {
   mapper: {
     serializedName: "$skiptoken",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const selectedState: OperationQueryParameter = {
@@ -164,9 +164,9 @@ export const selectedState: OperationQueryParameter = {
   mapper: {
     serializedName: "selectedState",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const take: OperationQueryParameter = {
@@ -174,9 +174,9 @@ export const take: OperationQueryParameter = {
   mapper: {
     serializedName: "take",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const savingsPlanId: OperationURLParameter = {
@@ -185,41 +185,41 @@ export const savingsPlanId: OperationURLParameter = {
     serializedName: "savingsPlanId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const body1: OperationParameter = {
   parameterPath: "body",
-  mapper: SavingsPlanUpdateRequestMapper
+  mapper: SavingsPlanUpdateRequestMapper,
 };
 
 export const body2: OperationParameter = {
   parameterPath: "body",
-  mapper: SavingsPlanUpdateValidateRequestMapper
+  mapper: SavingsPlanUpdateValidateRequestMapper,
 };
 
 export const body3: OperationParameter = {
   parameterPath: "body",
-  mapper: SavingsPlanPurchaseValidateRequestMapper
+  mapper: SavingsPlanPurchaseValidateRequestMapper,
 };
 
 export const body4: OperationParameter = {
   parameterPath: "body",
-  mapper: ReservationOrderAliasRequestMapper
+  mapper: ReservationOrderAliasRequestMapper,
 };
 
 export const reservationOrderAliasName: OperationURLParameter = {
   parameterPath: "reservationOrderAliasName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^[a-zA-Z0-9_\\-\\.]+$")
+      Pattern: new RegExp("^[a-zA-Z0-9_\\-\\.]+$"),
     },
     serializedName: "reservationOrderAliasName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
