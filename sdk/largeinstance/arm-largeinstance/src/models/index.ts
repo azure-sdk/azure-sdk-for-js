@@ -125,8 +125,11 @@ export interface ErrorAdditionalInfo {
 export interface AzureLargeInstanceListResult {
   /** The AzureLargeInstance items on this page */
   value: AzureLargeInstance[];
-  /** The link to the next page of items */
-  nextLink?: string;
+  /**
+   * The link to the next page of items
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
 }
 
 /** Describes the properties of an Azure Large Instance. */
@@ -293,8 +296,11 @@ export interface SystemData {
 export interface AzureLargeStorageInstanceListResult {
   /** The AzureLargeStorageInstance items on this page */
   value: AzureLargeStorageInstance[];
-  /** The link to the next page of items */
-  nextLink?: string;
+  /**
+   * The link to the next page of items
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
 }
 
 /** Describes the properties of an AzureLargeStorageInstance. */

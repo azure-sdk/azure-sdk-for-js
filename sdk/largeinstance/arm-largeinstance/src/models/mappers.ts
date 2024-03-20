@@ -234,6 +234,7 @@ export const AzureLargeInstanceListResult: coreClient.CompositeMapper = {
       },
       nextLink: {
         serializedName: "nextLink",
+        readOnly: true,
         type: {
           name: "String",
         },
@@ -579,6 +580,7 @@ export const AzureLargeStorageInstanceListResult: coreClient.CompositeMapper = {
       },
       nextLink: {
         serializedName: "nextLink",
+        readOnly: true,
         type: {
           name: "String",
         },
