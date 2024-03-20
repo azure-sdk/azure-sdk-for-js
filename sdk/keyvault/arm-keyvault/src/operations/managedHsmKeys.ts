@@ -21,15 +21,10 @@ import {
   ManagedHsmKeysListVersionsNextOptionalParams,
   ManagedHsmKeysListVersionsOptionalParams,
   ManagedHsmKeysListVersionsResponse,
-  ManagedHsmKeyCreateParameters,
-  ManagedHsmKeysCreateIfNotExistOptionalParams,
-  ManagedHsmKeysCreateIfNotExistResponse,
-  ManagedHsmKeysGetOptionalParams,
-  ManagedHsmKeysGetResponse,
   ManagedHsmKeysGetVersionOptionalParams,
   ManagedHsmKeysGetVersionResponse,
   ManagedHsmKeysListNextResponse,
-  ManagedHsmKeysListVersionsNextResponse
+  ManagedHsmKeysListVersionsNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -54,7 +49,7 @@ export class ManagedHsmKeysImpl implements ManagedHsmKeys {
   public list(
     resourceGroupName: string,
     name: string,
-    options?: ManagedHsmKeysListOptionalParams
+    options?: ManagedHsmKeysListOptionalParams,
   ): PagedAsyncIterableIterator<ManagedHsmKey> {
     const iter = this.listPagingAll(resourceGroupName, name, options);
     return {
@@ -69,7 +64,7 @@ export class ManagedHsmKeysImpl implements ManagedHsmKeys {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(resourceGroupName, name, options, settings);
-      }
+      },
     };
   }
 
@@ -77,7 +72,7 @@ export class ManagedHsmKeysImpl implements ManagedHsmKeys {
     resourceGroupName: string,
     name: string,
     options?: ManagedHsmKeysListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ManagedHsmKey[]> {
     let result: ManagedHsmKeysListResponse;
     let continuationToken = settings?.continuationToken;
@@ -93,7 +88,7 @@ export class ManagedHsmKeysImpl implements ManagedHsmKeys {
         resourceGroupName,
         name,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -105,12 +100,12 @@ export class ManagedHsmKeysImpl implements ManagedHsmKeys {
   private async *listPagingAll(
     resourceGroupName: string,
     name: string,
-    options?: ManagedHsmKeysListOptionalParams
+    options?: ManagedHsmKeysListOptionalParams,
   ): AsyncIterableIterator<ManagedHsmKey> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       name,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -129,13 +124,13 @@ export class ManagedHsmKeysImpl implements ManagedHsmKeys {
     resourceGroupName: string,
     name: string,
     keyName: string,
-    options?: ManagedHsmKeysListVersionsOptionalParams
+    options?: ManagedHsmKeysListVersionsOptionalParams,
   ): PagedAsyncIterableIterator<ManagedHsmKey> {
     const iter = this.listVersionsPagingAll(
       resourceGroupName,
       name,
       keyName,
-      options
+      options,
     );
     return {
       next() {
@@ -153,9 +148,9 @@ export class ManagedHsmKeysImpl implements ManagedHsmKeys {
           name,
           keyName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -164,7 +159,7 @@ export class ManagedHsmKeysImpl implements ManagedHsmKeys {
     name: string,
     keyName: string,
     options?: ManagedHsmKeysListVersionsOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ManagedHsmKey[]> {
     let result: ManagedHsmKeysListVersionsResponse;
     let continuationToken = settings?.continuationToken;
@@ -173,7 +168,7 @@ export class ManagedHsmKeysImpl implements ManagedHsmKeys {
         resourceGroupName,
         name,
         keyName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -186,7 +181,7 @@ export class ManagedHsmKeysImpl implements ManagedHsmKeys {
         name,
         keyName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -199,62 +194,16 @@ export class ManagedHsmKeysImpl implements ManagedHsmKeys {
     resourceGroupName: string,
     name: string,
     keyName: string,
-    options?: ManagedHsmKeysListVersionsOptionalParams
+    options?: ManagedHsmKeysListVersionsOptionalParams,
   ): AsyncIterableIterator<ManagedHsmKey> {
     for await (const page of this.listVersionsPagingPage(
       resourceGroupName,
       name,
       keyName,
-      options
+      options,
     )) {
       yield* page;
     }
-  }
-
-  /**
-   * Creates the first version of a new key if it does not exist. If it already exists, then the existing
-   * key is returned without any write operations being performed. This API does not create subsequent
-   * versions, and does not update existing keys.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param name The name of the Managed HSM Pool within the specified resource group.
-   * @param keyName The name of the key to be created. The value you provide may be copied globally for
-   *                the purpose of running the service. The value provided should not include personally identifiable or
-   *                sensitive information.
-   * @param parameters The parameters used to create the specified key.
-   * @param options The options parameters.
-   */
-  createIfNotExist(
-    resourceGroupName: string,
-    name: string,
-    keyName: string,
-    parameters: ManagedHsmKeyCreateParameters,
-    options?: ManagedHsmKeysCreateIfNotExistOptionalParams
-  ): Promise<ManagedHsmKeysCreateIfNotExistResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, name, keyName, parameters, options },
-      createIfNotExistOperationSpec
-    );
-  }
-
-  /**
-   * Gets the current version of the specified key from the specified managed HSM.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param name The name of the Managed HSM Pool within the specified resource group.
-   * @param keyName The name of the key to be created. The value you provide may be copied globally for
-   *                the purpose of running the service. The value provided should not include personally identifiable or
-   *                sensitive information.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    name: string,
-    keyName: string,
-    options?: ManagedHsmKeysGetOptionalParams
-  ): Promise<ManagedHsmKeysGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, name, keyName, options },
-      getOperationSpec
-    );
   }
 
   /**
@@ -266,11 +215,11 @@ export class ManagedHsmKeysImpl implements ManagedHsmKeys {
   private _list(
     resourceGroupName: string,
     name: string,
-    options?: ManagedHsmKeysListOptionalParams
+    options?: ManagedHsmKeysListOptionalParams,
   ): Promise<ManagedHsmKeysListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, name, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -289,11 +238,11 @@ export class ManagedHsmKeysImpl implements ManagedHsmKeys {
     name: string,
     keyName: string,
     keyVersion: string,
-    options?: ManagedHsmKeysGetVersionOptionalParams
+    options?: ManagedHsmKeysGetVersionOptionalParams,
   ): Promise<ManagedHsmKeysGetVersionResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, name, keyName, keyVersion, options },
-      getVersionOperationSpec
+      getVersionOperationSpec,
     );
   }
 
@@ -310,11 +259,11 @@ export class ManagedHsmKeysImpl implements ManagedHsmKeys {
     resourceGroupName: string,
     name: string,
     keyName: string,
-    options?: ManagedHsmKeysListVersionsOptionalParams
+    options?: ManagedHsmKeysListVersionsOptionalParams,
   ): Promise<ManagedHsmKeysListVersionsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, name, keyName, options },
-      listVersionsOperationSpec
+      listVersionsOperationSpec,
     );
   }
 
@@ -329,11 +278,11 @@ export class ManagedHsmKeysImpl implements ManagedHsmKeys {
     resourceGroupName: string,
     name: string,
     nextLink: string,
-    options?: ManagedHsmKeysListNextOptionalParams
+    options?: ManagedHsmKeysListNextOptionalParams,
   ): Promise<ManagedHsmKeysListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, name, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 
@@ -352,98 +301,48 @@ export class ManagedHsmKeysImpl implements ManagedHsmKeys {
     name: string,
     keyName: string,
     nextLink: string,
-    options?: ManagedHsmKeysListVersionsNextOptionalParams
+    options?: ManagedHsmKeysListVersionsNextOptionalParams,
   ): Promise<ManagedHsmKeysListVersionsNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, name, keyName, nextLink, options },
-      listVersionsNextOperationSpec
+      listVersionsNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const createIfNotExistOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}/keys/{keyName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ManagedHsmKey
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.parameters1,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.keyName,
-    Parameters.resourceGroupName1,
-    Parameters.name
-  ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}/keys/{keyName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ManagedHsmKey
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.keyName,
-    Parameters.resourceGroupName1,
-    Parameters.name
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}/keys",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}/keys",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedHsmKeyListResult
+      bodyMapper: Mappers.ManagedHsmKeyListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName1,
-    Parameters.name
+    Parameters.name,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getVersionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}/keys/{keyName}/versions/{keyVersion}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}/keys/{keyName}/versions/{keyVersion}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedHsmKey
+      bodyMapper: Mappers.ManagedHsmKey,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -452,22 +351,21 @@ const getVersionOperationSpec: coreClient.OperationSpec = {
     Parameters.keyName,
     Parameters.keyVersion,
     Parameters.resourceGroupName1,
-    Parameters.name
+    Parameters.name,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listVersionsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}/keys/{keyName}/versions",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}/keys/{keyName}/versions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedHsmKeyListResult
+      bodyMapper: Mappers.ManagedHsmKeyListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -475,42 +373,42 @@ const listVersionsOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.keyName,
     Parameters.resourceGroupName1,
-    Parameters.name
+    Parameters.name,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedHsmKeyListResult
+      bodyMapper: Mappers.ManagedHsmKeyListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.resourceGroupName1,
-    Parameters.name
+    Parameters.name,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listVersionsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedHsmKeyListResult
+      bodyMapper: Mappers.ManagedHsmKeyListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -518,8 +416,8 @@ const listVersionsNextOperationSpec: coreClient.OperationSpec = {
     Parameters.keyName,
     Parameters.nextLink,
     Parameters.resourceGroupName1,
-    Parameters.name
+    Parameters.name,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
