@@ -183,8 +183,12 @@ export interface MetadataEntityListResult {
 
 /** The metadata supported value detail. */
 export interface MetadataSupportedValueDetail {
-  /** The id. */
+  /** The id of the metadata value */
   id?: string;
+  /** The previous value of the id field incase the data has changed. */
+  previousId?: string;
+  /** The permanent guid for the service. Used when the id is a service name. */
+  serviceGuid?: string;
   /** The display name. */
   displayName?: string;
   /** The list of associated resource types. */
@@ -297,6 +301,8 @@ export interface LinkDisplayText {
 export interface Impact {
   /** Impacted service name. */
   impactedService?: string;
+  /** Impacted service guid. This is the permanent identifier for the impacted service. */
+  impactedServiceGuid?: string;
   /** List regions impacted by the service health event. */
   impactedRegions?: ImpactedServiceRegion[];
 }
@@ -453,31 +459,6 @@ export interface EventImpactedResource extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly targetRegion?: string;
-  /**
-   * Resource name of the impacted resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resourceName?: string;
-  /**
-   * Resource group name of the impacted resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resourceGroup?: string;
-  /**
-   * Status of the impacted resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: string;
-  /**
-   * Start time of maintenance for the impacted resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly maintenanceStartTime?: string;
-  /**
-   * End time of maintenance for the impacted resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly maintenanceEndTime?: string;
   /** Additional information. */
   info?: KeyValueItem[];
 }
@@ -486,8 +467,6 @@ export interface EventImpactedResource extends ProxyResource {
 export interface Event extends ProxyResource {
   /** Type of event. */
   eventType?: EventTypeValues;
-  /** Sub type of the event. Currently used to determine retirement communications for health advisory events */
-  eventSubType?: EventSubTypeValues;
   /** Source of event. */
   eventSource?: EventSourceValues;
   /** Current status of event. */
@@ -542,12 +521,6 @@ export interface Event extends ProxyResource {
   duration?: number;
   /** The type of the impact */
   impactType?: string;
-  /** Unique identifier for planned maintenance event. */
-  maintenanceId?: string;
-  /** The type of planned maintenance event. */
-  maintenanceType?: string;
-  /** Azure Resource Graph query to fetch the affected resources from their existing Azure Resource Graph locations. */
-  argQuery?: string;
 }
 
 /** The Get EmergingIssues operation response. */
@@ -583,7 +556,7 @@ export enum KnownAvailabilityStateValues {
   /** Degraded */
   Degraded = "Degraded",
   /** Unknown */
-  Unknown = "Unknown"
+  Unknown = "Unknown",
 }
 
 /**
@@ -603,7 +576,7 @@ export enum KnownReasonChronicityTypes {
   /** Transient */
   Transient = "Transient",
   /** Persistent */
-  Persistent = "Persistent"
+  Persistent = "Persistent",
 }
 
 /**
@@ -619,7 +592,7 @@ export type ReasonChronicityTypes = string;
 /** Known values of {@link Scenario} that the service accepts. */
 export enum KnownScenario {
   /** Alerts */
-  Alerts = "Alerts"
+  Alerts = "Alerts",
 }
 
 /**
@@ -640,7 +613,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -668,7 +641,7 @@ export enum KnownEventTypeValues {
   /** EmergingIssues */
   EmergingIssues = "EmergingIssues",
   /** SecurityAdvisory */
-  SecurityAdvisory = "SecurityAdvisory"
+  SecurityAdvisory = "SecurityAdvisory",
 }
 
 /**
@@ -685,27 +658,12 @@ export enum KnownEventTypeValues {
  */
 export type EventTypeValues = string;
 
-/** Known values of {@link EventSubTypeValues} that the service accepts. */
-export enum KnownEventSubTypeValues {
-  /** Retirement */
-  Retirement = "Retirement"
-}
-
-/**
- * Defines values for EventSubTypeValues. \
- * {@link KnownEventSubTypeValues} can be used interchangeably with EventSubTypeValues,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Retirement**
- */
-export type EventSubTypeValues = string;
-
 /** Known values of {@link EventSourceValues} that the service accepts. */
 export enum KnownEventSourceValues {
   /** ResourceHealth */
   ResourceHealth = "ResourceHealth",
   /** ServiceHealth */
-  ServiceHealth = "ServiceHealth"
+  ServiceHealth = "ServiceHealth",
 }
 
 /**
@@ -723,7 +681,7 @@ export enum KnownEventStatusValues {
   /** Active */
   Active = "Active",
   /** Resolved */
-  Resolved = "Resolved"
+  Resolved = "Resolved",
 }
 
 /**
@@ -741,7 +699,7 @@ export enum KnownLevelValues {
   /** Critical */
   Critical = "Critical",
   /** Warning */
-  Warning = "Warning"
+  Warning = "Warning",
 }
 
 /**
@@ -763,7 +721,7 @@ export enum KnownEventLevelValues {
   /** Warning */
   Warning = "Warning",
   /** Informational */
-  Informational = "Informational"
+  Informational = "Informational",
 }
 
 /**
@@ -783,7 +741,7 @@ export enum KnownLinkTypeValues {
   /** Button */
   Button = "Button",
   /** Hyperlink */
-  Hyperlink = "Hyperlink"
+  Hyperlink = "Hyperlink",
 }
 
 /**
@@ -803,7 +761,7 @@ export enum KnownSeverityValues {
   /** Warning */
   Warning = "Warning",
   /** Error */
-  Error = "Error"
+  Error = "Error",
 }
 
 /**
@@ -824,7 +782,7 @@ export enum KnownStageValues {
   /** Resolve */
   Resolve = "Resolve",
   /** Archived */
-  Archived = "Archived"
+  Archived = "Archived",
 }
 
 /**
@@ -841,7 +799,7 @@ export type StageValues = string;
 /** Known values of {@link IssueNameParameter} that the service accepts. */
 export enum KnownIssueNameParameter {
   /** Default */
-  Default = "default"
+  Default = "default",
 }
 
 /**
@@ -860,7 +818,7 @@ export enum KnownReasonTypeValues {
   /** Planned */
   Planned = "Planned",
   /** UserInitiated */
-  UserInitiated = "UserInitiated"
+  UserInitiated = "UserInitiated",
 }
 
 /**
@@ -884,7 +842,8 @@ export interface AvailabilityStatusesListBySubscriptionIdOptionalParams
 }
 
 /** Contains response data for the listBySubscriptionId operation. */
-export type AvailabilityStatusesListBySubscriptionIdResponse = AvailabilityStatusListResult;
+export type AvailabilityStatusesListBySubscriptionIdResponse =
+  AvailabilityStatusListResult;
 
 /** Optional parameters. */
 export interface AvailabilityStatusesListByResourceGroupOptionalParams
@@ -896,7 +855,8 @@ export interface AvailabilityStatusesListByResourceGroupOptionalParams
 }
 
 /** Contains response data for the listByResourceGroup operation. */
-export type AvailabilityStatusesListByResourceGroupResponse = AvailabilityStatusListResult;
+export type AvailabilityStatusesListByResourceGroupResponse =
+  AvailabilityStatusListResult;
 
 /** Optional parameters. */
 export interface AvailabilityStatusesGetByResourceOptionalParams
@@ -927,14 +887,16 @@ export interface AvailabilityStatusesListBySubscriptionIdNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionIdNext operation. */
-export type AvailabilityStatusesListBySubscriptionIdNextResponse = AvailabilityStatusListResult;
+export type AvailabilityStatusesListBySubscriptionIdNextResponse =
+  AvailabilityStatusListResult;
 
 /** Optional parameters. */
 export interface AvailabilityStatusesListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type AvailabilityStatusesListByResourceGroupNextResponse = AvailabilityStatusListResult;
+export type AvailabilityStatusesListByResourceGroupNextResponse =
+  AvailabilityStatusListResult;
 
 /** Optional parameters. */
 export interface AvailabilityStatusesListNextOptionalParams
@@ -979,7 +941,8 @@ export interface ImpactedResourcesListBySubscriptionIdAndEventIdOptionalParams
 }
 
 /** Contains response data for the listBySubscriptionIdAndEventId operation. */
-export type ImpactedResourcesListBySubscriptionIdAndEventIdResponse = EventImpactedResourceListResult;
+export type ImpactedResourcesListBySubscriptionIdAndEventIdResponse =
+  EventImpactedResourceListResult;
 
 /** Optional parameters. */
 export interface ImpactedResourcesGetOptionalParams
@@ -996,7 +959,8 @@ export interface ImpactedResourcesListByTenantIdAndEventIdOptionalParams
 }
 
 /** Contains response data for the listByTenantIdAndEventId operation. */
-export type ImpactedResourcesListByTenantIdAndEventIdResponse = EventImpactedResourceListResult;
+export type ImpactedResourcesListByTenantIdAndEventIdResponse =
+  EventImpactedResourceListResult;
 
 /** Optional parameters. */
 export interface ImpactedResourcesGetByTenantIdOptionalParams
@@ -1010,14 +974,16 @@ export interface ImpactedResourcesListBySubscriptionIdAndEventIdNextOptionalPara
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionIdAndEventIdNext operation. */
-export type ImpactedResourcesListBySubscriptionIdAndEventIdNextResponse = EventImpactedResourceListResult;
+export type ImpactedResourcesListBySubscriptionIdAndEventIdNextResponse =
+  EventImpactedResourceListResult;
 
 /** Optional parameters. */
 export interface ImpactedResourcesListByTenantIdAndEventIdNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByTenantIdAndEventIdNext operation. */
-export type ImpactedResourcesListByTenantIdAndEventIdNextResponse = EventImpactedResourceListResult;
+export type ImpactedResourcesListByTenantIdAndEventIdNextResponse =
+  EventImpactedResourceListResult;
 
 /** Optional parameters. */
 export interface SecurityAdvisoryImpactedResourcesListBySubscriptionIdAndEventIdOptionalParams
@@ -1027,7 +993,8 @@ export interface SecurityAdvisoryImpactedResourcesListBySubscriptionIdAndEventId
 }
 
 /** Contains response data for the listBySubscriptionIdAndEventId operation. */
-export type SecurityAdvisoryImpactedResourcesListBySubscriptionIdAndEventIdResponse = EventImpactedResourceListResult;
+export type SecurityAdvisoryImpactedResourcesListBySubscriptionIdAndEventIdResponse =
+  EventImpactedResourceListResult;
 
 /** Optional parameters. */
 export interface SecurityAdvisoryImpactedResourcesListByTenantIdAndEventIdOptionalParams
@@ -1037,21 +1004,24 @@ export interface SecurityAdvisoryImpactedResourcesListByTenantIdAndEventIdOption
 }
 
 /** Contains response data for the listByTenantIdAndEventId operation. */
-export type SecurityAdvisoryImpactedResourcesListByTenantIdAndEventIdResponse = EventImpactedResourceListResult;
+export type SecurityAdvisoryImpactedResourcesListByTenantIdAndEventIdResponse =
+  EventImpactedResourceListResult;
 
 /** Optional parameters. */
 export interface SecurityAdvisoryImpactedResourcesListBySubscriptionIdAndEventIdNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionIdAndEventIdNext operation. */
-export type SecurityAdvisoryImpactedResourcesListBySubscriptionIdAndEventIdNextResponse = EventImpactedResourceListResult;
+export type SecurityAdvisoryImpactedResourcesListBySubscriptionIdAndEventIdNextResponse =
+  EventImpactedResourceListResult;
 
 /** Optional parameters. */
 export interface SecurityAdvisoryImpactedResourcesListByTenantIdAndEventIdNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByTenantIdAndEventIdNext operation. */
-export type SecurityAdvisoryImpactedResourcesListByTenantIdAndEventIdNextResponse = EventImpactedResourceListResult;
+export type SecurityAdvisoryImpactedResourcesListByTenantIdAndEventIdNextResponse =
+  EventImpactedResourceListResult;
 
 /** Optional parameters. */
 export interface EventsListBySubscriptionIdOptionalParams
@@ -1168,14 +1138,16 @@ export interface ChildAvailabilityStatusesListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type ChildAvailabilityStatusesListResponse = AvailabilityStatusListResult;
+export type ChildAvailabilityStatusesListResponse =
+  AvailabilityStatusListResult;
 
 /** Optional parameters. */
 export interface ChildAvailabilityStatusesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ChildAvailabilityStatusesListNextResponse = AvailabilityStatusListResult;
+export type ChildAvailabilityStatusesListNextResponse =
+  AvailabilityStatusListResult;
 
 /** Optional parameters. */
 export interface ChildResourcesListOptionalParams
