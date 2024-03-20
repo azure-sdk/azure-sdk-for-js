@@ -11,7 +11,7 @@ import {
   AccessReviewInstanceResetDecisionsOptionalParams,
   AccessReviewInstanceApplyDecisionsOptionalParams,
   AccessReviewInstanceSendRemindersOptionalParams,
-  AccessReviewInstanceAcceptRecommendationsOptionalParams
+  AccessReviewInstanceAcceptRecommendationsOptionalParams,
 } from "../models";
 
 /** Interface representing a AccessReviewInstanceOperations. */
@@ -25,7 +25,7 @@ export interface AccessReviewInstanceOperations {
   stop(
     scheduleDefinitionId: string,
     id: string,
-    options?: AccessReviewInstanceStopOptionalParams
+    options?: AccessReviewInstanceStopOptionalParams,
   ): Promise<void>;
   /**
    * An action to reset all decisions for an access review instance.
@@ -36,7 +36,7 @@ export interface AccessReviewInstanceOperations {
   resetDecisions(
     scheduleDefinitionId: string,
     id: string,
-    options?: AccessReviewInstanceResetDecisionsOptionalParams
+    options?: AccessReviewInstanceResetDecisionsOptionalParams,
   ): Promise<void>;
   /**
    * An action to apply all decisions for an access review instance.
@@ -47,7 +47,7 @@ export interface AccessReviewInstanceOperations {
   applyDecisions(
     scheduleDefinitionId: string,
     id: string,
-    options?: AccessReviewInstanceApplyDecisionsOptionalParams
+    options?: AccessReviewInstanceApplyDecisionsOptionalParams,
   ): Promise<void>;
   /**
    * An action to send reminders for an access review instance.
@@ -58,7 +58,7 @@ export interface AccessReviewInstanceOperations {
   sendReminders(
     scheduleDefinitionId: string,
     id: string,
-    options?: AccessReviewInstanceSendRemindersOptionalParams
+    options?: AccessReviewInstanceSendRemindersOptionalParams,
   ): Promise<void>;
   /**
    * An action to accept recommendations for decision in an access review instance.
@@ -69,6 +69,6 @@ export interface AccessReviewInstanceOperations {
   acceptRecommendations(
     scheduleDefinitionId: string,
     id: string,
-    options?: AccessReviewInstanceAcceptRecommendationsOptionalParams
+    options?: AccessReviewInstanceAcceptRecommendationsOptionalParams,
   ): Promise<void>;
 }

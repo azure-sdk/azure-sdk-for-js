@@ -25,7 +25,7 @@ import {
   RoleAssignmentsCreateByIdOptionalParams,
   RoleAssignmentsCreateByIdResponse,
   RoleAssignmentsDeleteByIdOptionalParams,
-  RoleAssignmentsDeleteByIdResponse
+  RoleAssignmentsDeleteByIdResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -36,7 +36,7 @@ export interface RoleAssignments {
    * @param options The options parameters.
    */
   listForSubscription(
-    options?: RoleAssignmentsListForSubscriptionOptionalParams
+    options?: RoleAssignmentsListForSubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<RoleAssignment>;
   /**
    * List all role assignments that apply to a resource group.
@@ -45,7 +45,7 @@ export interface RoleAssignments {
    */
   listForResourceGroup(
     resourceGroupName: string,
-    options?: RoleAssignmentsListForResourceGroupOptionalParams
+    options?: RoleAssignmentsListForResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<RoleAssignment>;
   /**
    * List all role assignments that apply to a resource.
@@ -61,7 +61,7 @@ export interface RoleAssignments {
     resourceProviderNamespace: string,
     resourceType: string,
     resourceName: string,
-    options?: RoleAssignmentsListForResourceOptionalParams
+    options?: RoleAssignmentsListForResourceOptionalParams,
   ): PagedAsyncIterableIterator<RoleAssignment>;
   /**
    * List all role assignments that apply to a scope.
@@ -73,7 +73,7 @@ export interface RoleAssignments {
    */
   listForScope(
     scope: string,
-    options?: RoleAssignmentsListForScopeOptionalParams
+    options?: RoleAssignmentsListForScopeOptionalParams,
   ): PagedAsyncIterableIterator<RoleAssignment>;
   /**
    * Get a role assignment by scope and name.
@@ -87,7 +87,7 @@ export interface RoleAssignments {
   get(
     scope: string,
     roleAssignmentName: string,
-    options?: RoleAssignmentsGetOptionalParams
+    options?: RoleAssignmentsGetOptionalParams,
   ): Promise<RoleAssignmentsGetResponse>;
   /**
    * Create or update a role assignment by scope and name.
@@ -103,7 +103,7 @@ export interface RoleAssignments {
     scope: string,
     roleAssignmentName: string,
     parameters: RoleAssignmentCreateParameters,
-    options?: RoleAssignmentsCreateOptionalParams
+    options?: RoleAssignmentsCreateOptionalParams,
   ): Promise<RoleAssignmentsCreateResponse>;
   /**
    * Delete a role assignment by scope and name.
@@ -117,7 +117,7 @@ export interface RoleAssignments {
   delete(
     scope: string,
     roleAssignmentName: string,
-    options?: RoleAssignmentsDeleteOptionalParams
+    options?: RoleAssignmentsDeleteOptionalParams,
   ): Promise<RoleAssignmentsDeleteResponse>;
   /**
    * Get a role assignment by ID.
@@ -129,7 +129,7 @@ export interface RoleAssignments {
    */
   getById(
     roleAssignmentId: string,
-    options?: RoleAssignmentsGetByIdOptionalParams
+    options?: RoleAssignmentsGetByIdOptionalParams,
   ): Promise<RoleAssignmentsGetByIdResponse>;
   /**
    * Create or update a role assignment by ID.
@@ -143,7 +143,7 @@ export interface RoleAssignments {
   createById(
     roleAssignmentId: string,
     parameters: RoleAssignmentCreateParameters,
-    options?: RoleAssignmentsCreateByIdOptionalParams
+    options?: RoleAssignmentsCreateByIdOptionalParams,
   ): Promise<RoleAssignmentsCreateByIdResponse>;
   /**
    * Delete a role assignment by ID.
@@ -155,6 +155,6 @@ export interface RoleAssignments {
    */
   deleteById(
     roleAssignmentId: string,
-    options?: RoleAssignmentsDeleteByIdOptionalParams
+    options?: RoleAssignmentsDeleteByIdOptionalParams,
   ): Promise<RoleAssignmentsDeleteByIdResponse>;
 }
