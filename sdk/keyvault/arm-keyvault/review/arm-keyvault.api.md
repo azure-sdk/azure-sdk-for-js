@@ -1586,8 +1586,6 @@ export interface Vaults {
     beginPurgeDeleted(vaultName: string, location: string, options?: VaultsPurgeDeletedOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginPurgeDeletedAndWait(vaultName: string, location: string, options?: VaultsPurgeDeletedOptionalParams): Promise<void>;
     checkNameAvailability(vaultName: VaultCheckNameAvailabilityParameters, options?: VaultsCheckNameAvailabilityOptionalParams): Promise<VaultsCheckNameAvailabilityResponse>;
-    delete(resourceGroupName: string, vaultName: string, options?: VaultsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, vaultName: string, options?: VaultsGetOptionalParams): Promise<VaultsGetResponse>;
     getDeleted(vaultName: string, location: string, options?: VaultsGetDeletedOptionalParams): Promise<VaultsGetDeletedResponse>;
     list(options?: VaultsListOptionalParams): PagedAsyncIterableIterator<Resource>;
     listByResourceGroup(resourceGroupName: string, options?: VaultsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Vault>;
@@ -1614,22 +1612,11 @@ export interface VaultsCreateOrUpdateOptionalParams extends coreClient.Operation
 export type VaultsCreateOrUpdateResponse = Vault;
 
 // @public
-export interface VaultsDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
 export interface VaultsGetDeletedOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
 export type VaultsGetDeletedResponse = DeletedVault;
-
-// @public
-export interface VaultsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type VaultsGetResponse = Vault;
 
 // @public
 export interface VaultsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
