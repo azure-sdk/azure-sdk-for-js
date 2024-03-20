@@ -5,12 +5,16 @@ import { RawHttpHeaders } from "@azure/core-rest-pipeline";
 import { HttpResponse, ErrorResponse } from "@azure-rest/core-client";
 import {
   AnalyzeTextResultOutput,
+  AnalyzeTextJailbreakResultOutput,
+  AnalyzeTextProtectedMaterialResultOutput,
+  AnalyzeTextPromptInjectionResultOutput,
   AnalyzeImageResultOutput,
   TextBlocklistOutput,
   PagedTextBlocklistOutput,
   AddOrUpdateTextBlocklistItemsResultOutput,
   TextBlocklistItemOutput,
   PagedTextBlocklistItemOutput,
+  AnalyzeTextGroundednessResultOutput,
 } from "./outputModels";
 
 /** The request has succeeded. */
@@ -28,6 +32,60 @@ export interface AnalyzeTextDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & AnalyzeTextDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface DetectTextJailbreak200Response extends HttpResponse {
+  status: "200";
+  body: AnalyzeTextJailbreakResultOutput;
+}
+
+export interface DetectTextJailbreakDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface DetectTextJailbreakDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & DetectTextJailbreakDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface DetectTextProtectedMaterial200Response extends HttpResponse {
+  status: "200";
+  body: AnalyzeTextProtectedMaterialResultOutput;
+}
+
+export interface DetectTextProtectedMaterialDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface DetectTextProtectedMaterialDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & DetectTextProtectedMaterialDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface DetectTextPromptInjectionOptions200Response
+  extends HttpResponse {
+  status: "200";
+  body: AnalyzeTextPromptInjectionResultOutput;
+}
+
+export interface DetectTextPromptInjectionOptionsDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface DetectTextPromptInjectionOptionsDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & DetectTextPromptInjectionOptionsDefaultHeaders;
 }
 
 /** The request has succeeded. */
@@ -81,7 +139,8 @@ export interface CreateOrUpdateTextBlocklistDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface CreateOrUpdateTextBlocklistDefaultResponse extends HttpResponse {
+export interface CreateOrUpdateTextBlocklistDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & CreateOrUpdateTextBlocklistDefaultHeaders;
@@ -185,4 +244,21 @@ export interface ListTextBlocklistItemsDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & ListTextBlocklistItemsDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface DetectGroundednessOptions200Response extends HttpResponse {
+  status: "200";
+  body: AnalyzeTextGroundednessResultOutput;
+}
+
+export interface DetectGroundednessOptionsDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface DetectGroundednessOptionsDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & DetectGroundednessOptionsDefaultHeaders;
 }
