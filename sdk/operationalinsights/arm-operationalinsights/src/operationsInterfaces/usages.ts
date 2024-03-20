@@ -21,6 +21,6 @@ export interface Usages {
   list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: UsagesListOptionalParams
+    options?: UsagesListOptionalParams,
   ): PagedAsyncIterableIterator<UsageMetric>;
 }

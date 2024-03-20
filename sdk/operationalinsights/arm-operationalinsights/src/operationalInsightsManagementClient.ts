@@ -10,6 +10,10 @@ import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
+  OperationsImpl,
+  WorkspacesImpl,
+  DeletedWorkspacesImpl,
+  TablesImpl,
   QueryPacksImpl,
   QueriesImpl,
   DataExportsImpl,
@@ -28,12 +32,12 @@ import {
   SchemaOperationsImpl,
   WorkspacePurgeImpl,
   ClustersImpl,
-  OperationsImpl,
-  WorkspacesImpl,
-  DeletedWorkspacesImpl,
-  TablesImpl
 } from "./operations";
 import {
+  Operations,
+  Workspaces,
+  DeletedWorkspaces,
+  Tables,
   QueryPacks,
   Queries,
   DataExports,
@@ -52,10 +56,6 @@ import {
   SchemaOperations,
   WorkspacePurge,
   Clusters,
-  Operations,
-  Workspaces,
-  DeletedWorkspaces,
-  Tables
 } from "./operationsInterfaces";
 import { OperationalInsightsManagementClientOptionalParams } from "./models";
 
@@ -72,7 +72,7 @@ export class OperationalInsightsManagementClient extends coreClient.ServiceClien
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: OperationalInsightsManagementClientOptionalParams
+    options?: OperationalInsightsManagementClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -87,10 +87,10 @@ export class OperationalInsightsManagementClient extends coreClient.ServiceClien
     }
     const defaults: OperationalInsightsManagementClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-operationalinsights/9.0.1`;
+    const packageDetails = `azsdk-js-arm-operationalinsights/10.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -100,20 +100,21 @@ export class OperationalInsightsManagementClient extends coreClient.ServiceClien
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -123,7 +124,7 @@ export class OperationalInsightsManagementClient extends coreClient.ServiceClien
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -133,9 +134,9 @@ export class OperationalInsightsManagementClient extends coreClient.ServiceClien
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -143,6 +144,10 @@ export class OperationalInsightsManagementClient extends coreClient.ServiceClien
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
+    this.operations = new OperationsImpl(this);
+    this.workspaces = new WorkspacesImpl(this);
+    this.deletedWorkspaces = new DeletedWorkspacesImpl(this);
+    this.tables = new TablesImpl(this);
     this.queryPacks = new QueryPacksImpl(this);
     this.queries = new QueriesImpl(this);
     this.dataExports = new DataExportsImpl(this);
@@ -161,12 +166,12 @@ export class OperationalInsightsManagementClient extends coreClient.ServiceClien
     this.schemaOperations = new SchemaOperationsImpl(this);
     this.workspacePurge = new WorkspacePurgeImpl(this);
     this.clusters = new ClustersImpl(this);
-    this.operations = new OperationsImpl(this);
-    this.workspaces = new WorkspacesImpl(this);
-    this.deletedWorkspaces = new DeletedWorkspacesImpl(this);
-    this.tables = new TablesImpl(this);
   }
 
+  operations: Operations;
+  workspaces: Workspaces;
+  deletedWorkspaces: DeletedWorkspaces;
+  tables: Tables;
   queryPacks: QueryPacks;
   queries: Queries;
   dataExports: DataExports;
@@ -185,8 +190,4 @@ export class OperationalInsightsManagementClient extends coreClient.ServiceClien
   schemaOperations: SchemaOperations;
   workspacePurge: WorkspacePurge;
   clusters: Clusters;
-  operations: Operations;
-  workspaces: Workspaces;
-  deletedWorkspaces: DeletedWorkspaces;
-  tables: Tables;
 }

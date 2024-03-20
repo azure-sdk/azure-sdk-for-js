@@ -19,6 +19,6 @@ export interface SchemaOperations {
   get(
     resourceGroupName: string,
     workspaceName: string,
-    options?: SchemaGetOptionalParams
+    options?: SchemaGetOptionalParams,
   ): Promise<SchemaGetResponse>;
 }

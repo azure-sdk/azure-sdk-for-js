@@ -8,35 +8,35 @@
 
 import * as coreClient from "@azure/core-client";
 
-/** Describes the list of Log Analytics QueryPack resources. */
-export interface LogAnalyticsQueryPackListResult {
-  /** List of Log Analytics QueryPack definitions. */
-  value: LogAnalyticsQueryPack[];
-  /** The URI to get the next set of Log Analytics QueryPack definitions if too many QueryPacks where returned in the result set. */
-  nextLink?: string;
+/** Result of the request to list solution operations. */
+export interface OperationListResult {
+  /** List of solution operations supported by the OperationsManagement resource provider. */
+  value?: Operation[];
+  /**
+   * URL to get the next set of operation list results if there are any.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
 }
 
-/** An azure resource object */
-export interface QueryPacksResource {
-  /**
-   * Azure resource Id
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Azure resource name
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Azure resource type
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** Resource location */
-  location: string;
-  /** Resource tags */
-  tags?: { [propertyName: string]: string };
+/** Supported operation of OperationalInsights resource provider. */
+export interface Operation {
+  /** Operation name: {provider}/{resource}/{operation} */
+  name?: string;
+  /** Display metadata associated with the operation. */
+  display?: OperationDisplay;
+}
+
+/** Display metadata associated with the operation. */
+export interface OperationDisplay {
+  /** Service provider: Microsoft OperationsManagement. */
+  provider?: string;
+  /** Resource on which the operation is performed etc. */
+  resource?: string;
+  /** Type of operation: get, read, delete, etc. */
+  operation?: string;
+  /** Description of operation */
+  description?: string;
 }
 
 /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
@@ -88,6 +88,303 @@ export interface ErrorAdditionalInfo {
   readonly info?: Record<string, unknown>;
 }
 
+/** The list workspaces operation response. */
+export interface WorkspaceListResult {
+  /** A list of workspaces. */
+  value?: Workspace[];
+}
+
+/** The SKU (tier) of a workspace. */
+export interface WorkspaceSku {
+  /** The name of the SKU. */
+  name: WorkspaceSkuNameEnum;
+  /** The capacity reservation level in GB for this workspace, when CapacityReservation sku is selected. */
+  capacityReservationLevel?: CapacityReservationLevel;
+  /**
+   * The last time when the sku was updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastSkuUpdate?: string;
+}
+
+/** The daily volume cap for ingestion. */
+export interface WorkspaceCapping {
+  /** The workspace daily quota for ingestion. */
+  dailyQuotaGb?: number;
+  /**
+   * The time when the quota will be rest.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly quotaNextResetTime?: string;
+  /**
+   * The status of data ingestion for this workspace.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dataIngestionStatus?: DataIngestionStatus;
+}
+
+/** The private link scope resource reference. */
+export interface PrivateLinkScopedResource {
+  /** The full resource Id of the private link scope resource. */
+  resourceId?: string;
+  /** The private link scope unique Identifier. */
+  scopeId?: string;
+}
+
+/** Workspace features. */
+export interface WorkspaceFeatures {
+  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
+  [property: string]: any;
+  /** Flag that indicate if data should be exported. */
+  enableDataExport?: boolean;
+  /** Flag that describes if we want to remove the data after 30 days. */
+  immediatePurgeDataOn30Days?: boolean;
+  /** Flag that indicate which permission to use - resource or workspace or both. */
+  enableLogAccessUsingOnlyResourcePermissions?: boolean;
+  /** Dedicated LA cluster resourceId that is linked to the workspaces. */
+  clusterResourceId?: string;
+  /** Disable Non-AAD based Auth. */
+  disableLocalAuth?: boolean;
+  /**
+   * An indication if the specify workspace is limited to sentinel's unified billing model only.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly unifiedSentinelBillingOnly?: boolean;
+}
+
+/** Identity for the resource. */
+export interface Identity {
+  /**
+   * The principal ID of resource identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant ID of resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /** Type of managed service identity. */
+  type: IdentityType;
+  /** The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
+  userAssignedIdentities?: { [propertyName: string]: UserIdentityProperties };
+}
+
+/** User assigned identity properties. */
+export interface UserIdentityProperties {
+  /**
+   * The principal id of user assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The client id of user assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientId?: string;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /**
+   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+}
+
+/** The list tables operation response. */
+export interface TablesListResult {
+  /** A list of data tables. */
+  value?: Table[];
+}
+
+/** Parameters of the search job that initiated this table. */
+export interface SearchResults {
+  /** Search job query. */
+  query?: string;
+  /** Search job Description. */
+  description?: string;
+  /** Limit the search job to return up to specified number of rows. */
+  limit?: number;
+  /** The timestamp to start the search from (UTC) */
+  startSearchTime?: Date;
+  /** The timestamp to end the search by (UTC) */
+  endSearchTime?: Date;
+  /**
+   * The table used in the search job.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sourceTable?: string;
+  /**
+   * Search results table async operation id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly azureAsyncOperationId?: string;
+}
+
+/** Restore parameters. */
+export interface RestoredLogs {
+  /** The timestamp to start the restore from (UTC). */
+  startRestoreTime?: Date;
+  /** The timestamp to end the restore by (UTC). */
+  endRestoreTime?: Date;
+  /** The table to restore data from. */
+  sourceTable?: string;
+  /**
+   * Search results table async operation id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly azureAsyncOperationId?: string;
+}
+
+/** Search job execution statistics. */
+export interface ResultStatistics {
+  /**
+   * Search job completion percentage.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly progress?: number;
+  /**
+   * The number of rows that were returned by the search job.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ingestedRecords?: number;
+  /**
+   * Search job: Amount of scanned data.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly scannedGb?: number;
+}
+
+/** Table's schema. */
+export interface Schema {
+  /** Table name. */
+  name?: string;
+  /** Table display name. */
+  displayName?: string;
+  /** Table description. */
+  description?: string;
+  /** A list of table custom columns. */
+  columns?: Column[];
+  /**
+   * A list of table standard columns.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly standardColumns?: Column[];
+  /**
+   * Table category.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly categories?: string[];
+  /**
+   * Table labels.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly labels?: string[];
+  /**
+   * Table's creator.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly source?: SourceEnum;
+  /**
+   * Table's creator.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tableType?: TableTypeEnum;
+  /**
+   * The subtype describes what APIs can be used to interact with the table, and what features are available against it.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tableSubType?: TableSubTypeEnum;
+  /**
+   * List of solutions the table is affiliated with
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly solutions?: string[];
+}
+
+/** Table column. */
+export interface Column {
+  /** Column name. */
+  name?: string;
+  /** Column data type. */
+  type?: ColumnTypeEnum;
+  /** Column data type logical hint. */
+  dataTypeHint?: ColumnDataTypeHintEnum;
+  /** Column display name. */
+  displayName?: string;
+  /** Column description. */
+  description?: string;
+  /**
+   * Is displayed by default.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isDefaultDisplay?: boolean;
+  /**
+   * Is column hidden.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isHidden?: boolean;
+}
+
+/** Describes the list of Log Analytics QueryPack resources. */
+export interface LogAnalyticsQueryPackListResult {
+  /** List of Log Analytics QueryPack definitions. */
+  value: LogAnalyticsQueryPack[];
+  /** The URI to get the next set of Log Analytics QueryPack definitions if too many QueryPacks where returned in the result set. */
+  nextLink?: string;
+}
+
+/** An azure resource object */
+export interface QueryPacksResource {
+  /**
+   * Azure resource Id
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * Azure resource name
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Azure resource type
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /** Resource location */
+  location: string;
+  /** Resource tags */
+  tags?: { [propertyName: string]: string };
+}
+
 /** A container holding only the Tags for a resource, allowing the user to update the tags on a QueryPack instance. */
 export interface TagsResource {
   /** Resource tags */
@@ -133,11 +430,11 @@ export interface AzureResourceProperties {
    * Read only system data
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly systemData?: SystemData;
+  readonly systemData?: SystemDataAutoGenerated;
 }
 
 /** Read only system data */
-export interface SystemData {
+export interface SystemDataAutoGenerated {
   /** An identifier for the identity that created the resource */
   createdBy?: string;
   /** The type of identity that created the resource */
@@ -174,25 +471,6 @@ export interface LogAnalyticsQueryPackQuerySearchPropertiesRelated {
 export interface DataExportListResult {
   /** List of data export instances within a workspace.. */
   value?: DataExport[];
-}
-
-/** Common fields that are returned in the response for all Azure Resource Manager resources */
-export interface Resource {
-  /**
-   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The name of the resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
 }
 
 /** The list data source by workspace operation response. */
@@ -510,33 +788,35 @@ export interface ClusterListResult {
   value?: Cluster[];
 }
 
-/** Identity for the resource. */
-export interface Identity {
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface ManagedServiceIdentity {
   /**
-   * The principal ID of resource identity.
+   * The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly principalId?: string;
   /**
-   * The tenant ID of resource.
+   * The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly tenantId?: string;
-  /** Type of managed service identity. */
-  type: IdentityType;
-  /** The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: { [propertyName: string]: UserIdentityProperties };
+  /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
+  type: ManagedServiceIdentityType;
+  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+  userAssignedIdentities?: {
+    [propertyName: string]: UserAssignedIdentity | null;
+  };
 }
 
-/** User assigned identity properties. */
-export interface UserIdentityProperties {
+/** User assigned identity properties */
+export interface UserAssignedIdentity {
   /**
-   * The principal id of user assigned identity.
+   * The principal ID of the assigned identity.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly principalId?: string;
   /**
-   * The client id of user assigned identity.
+   * The client ID of the assigned identity.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly clientId?: string;
@@ -544,9 +824,9 @@ export interface UserIdentityProperties {
 
 /** The cluster sku definition. */
 export interface ClusterSku {
-  /** The capacity value */
+  /** The capacity reservation level in Gigabytes for this cluster. */
   capacity?: Capacity;
-  /** The name of the SKU. */
+  /** The SKU (tier) of a cluster. */
   name?: ClusterSkuNameEnum;
 }
 
@@ -565,17 +845,17 @@ export interface KeyVaultProperties {
 /** The list of Log Analytics workspaces associated with the cluster. */
 export interface AssociatedWorkspace {
   /**
-   * The id of the assigned workspace.
+   * Associated workspace immutable id.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly workspaceId?: string;
   /**
-   * The name id the assigned workspace.
+   * Associated workspace resource name.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly workspaceName?: string;
   /**
-   * The ResourceId id the assigned workspace.
+   * Associated workspace arm resource id, in the form of: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resourceId?: string;
@@ -594,7 +874,7 @@ export interface CapacityReservationProperties {
    */
   readonly lastSkuUpdate?: string;
   /**
-   * Minimum CapacityReservation value in GB.
+   * Minimum CapacityReservation value in Gigabytes.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly minCapacity?: number;
@@ -602,8 +882,8 @@ export interface CapacityReservationProperties {
 
 /** The top level Log Analytics cluster resource container. */
 export interface ClusterPatch {
-  /** The identity of the resource. */
-  identity?: Identity;
+  /** Resource's identity. */
+  identity?: ManagedServiceIdentity;
   /** The sku properties. */
   sku?: ClusterSku;
   /** Resource tags. */
@@ -614,252 +894,31 @@ export interface ClusterPatch {
   billingType?: BillingType;
 }
 
-/** Result of the request to list solution operations. */
-export interface OperationListResult {
-  /** List of solution operations supported by the OperationsManagement resource provider. */
-  value?: Operation[];
-  /**
-   * URL to get the next set of operation list results if there are any.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** Supported operation of OperationalInsights resource provider. */
-export interface Operation {
-  /** Operation name: {provider}/{resource}/{operation} */
-  name?: string;
-  /** Display metadata associated with the operation. */
-  display?: OperationDisplay;
-}
-
-/** Display metadata associated with the operation. */
-export interface OperationDisplay {
-  /** Service provider: Microsoft OperationsManagement. */
-  provider?: string;
-  /** Resource on which the operation is performed etc. */
-  resource?: string;
-  /** Type of operation: get, read, delete, etc. */
-  operation?: string;
-  /** Description of operation */
-  description?: string;
-}
-
-/** The list workspaces operation response. */
-export interface WorkspaceListResult {
-  /** A list of workspaces. */
-  value?: Workspace[];
-}
-
-/** The SKU (tier) of a workspace. */
-export interface WorkspaceSku {
-  /** The name of the SKU. */
-  name: WorkspaceSkuNameEnum;
-  /** The capacity reservation level in GB for this workspace, when CapacityReservation sku is selected. */
-  capacityReservationLevel?: CapacityReservationLevel;
-  /**
-   * The last time when the sku was updated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastSkuUpdate?: string;
-}
-
-/** The daily volume cap for ingestion. */
-export interface WorkspaceCapping {
-  /** The workspace daily quota for ingestion. */
-  dailyQuotaGb?: number;
-  /**
-   * The time when the quota will be rest.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly quotaNextResetTime?: string;
-  /**
-   * The status of data ingestion for this workspace.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly dataIngestionStatus?: DataIngestionStatus;
-}
-
-/** The private link scope resource reference. */
-export interface PrivateLinkScopedResource {
-  /** The full resource Id of the private link scope resource. */
-  resourceId?: string;
-  /** The private link scope unique Identifier. */
-  scopeId?: string;
-}
-
-/** Workspace features. */
-export interface WorkspaceFeatures {
-  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
-  [property: string]: any;
-  /** Flag that indicate if data should be exported. */
-  enableDataExport?: boolean;
-  /** Flag that describes if we want to remove the data after 30 days. */
-  immediatePurgeDataOn30Days?: boolean;
-  /** Flag that indicate which permission to use - resource or workspace or both. */
-  enableLogAccessUsingOnlyResourcePermissions?: boolean;
-  /** Dedicated LA cluster resourceId that is linked to the workspaces. */
-  clusterResourceId?: string;
-  /** Disable Non-AAD based Auth. */
-  disableLocalAuth?: boolean;
-}
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemDataAutoGenerated {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
-}
-
-/** The list tables operation response. */
-export interface TablesListResult {
-  /** A list of data tables. */
-  value?: Table[];
-}
-
-/** Parameters of the search job that initiated this table. */
-export interface SearchResults {
-  /** Search job query. */
-  query?: string;
-  /** Search job Description. */
-  description?: string;
-  /** Limit the search job to return up to specified number of rows. */
-  limit?: number;
-  /** The timestamp to start the search from (UTC) */
-  startSearchTime?: Date;
-  /** The timestamp to end the search by (UTC) */
-  endSearchTime?: Date;
-  /**
-   * The table used in the search job.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly sourceTable?: string;
-  /**
-   * Search results table async operation id.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly azureAsyncOperationId?: string;
-}
-
-/** Restore parameters. */
-export interface RestoredLogs {
-  /** The timestamp to start the restore from (UTC). */
-  startRestoreTime?: Date;
-  /** The timestamp to end the restore by (UTC). */
-  endRestoreTime?: Date;
-  /** The table to restore data from. */
-  sourceTable?: string;
-  /**
-   * Search results table async operation id.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly azureAsyncOperationId?: string;
-}
-
-/** Search job execution statistics. */
-export interface ResultStatistics {
-  /**
-   * Search job completion percentage.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly progress?: number;
-  /**
-   * The number of rows that were returned by the search job.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly ingestedRecords?: number;
-  /**
-   * Search job: Amount of scanned data.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly scannedGb?: number;
-}
-
-/** Table's schema. */
-export interface Schema {
-  /** Table name. */
-  name?: string;
-  /** Table display name. */
-  displayName?: string;
-  /** Table description. */
-  description?: string;
-  /** A list of table custom columns. */
-  columns?: Column[];
-  /**
-   * A list of table standard columns.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly standardColumns?: Column[];
-  /**
-   * Table category.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly categories?: string[];
-  /**
-   * Table labels.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly labels?: string[];
-  /**
-   * Table's creator.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly source?: SourceEnum;
-  /**
-   * Table's creator.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly tableType?: TableTypeEnum;
-  /**
-   * The subtype describes what APIs can be used to interact with the table, and what features are available against it.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly tableSubType?: TableSubTypeEnum;
-  /**
-   * List of solutions the table is affiliated with
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly solutions?: string[];
-}
-
-/** Table column. */
-export interface Column {
-  /** Column name. */
-  name?: string;
-  /** Column data type. */
-  type?: ColumnTypeEnum;
-  /** Column data type logical hint. */
-  dataTypeHint?: ColumnDataTypeHintEnum;
-  /** Column display name. */
-  displayName?: string;
-  /** Column description. */
-  description?: string;
-  /**
-   * Is displayed by default.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isDefaultDisplay?: boolean;
-  /**
-   * Is column hidden.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isHidden?: boolean;
-}
-
 /** DataSource filter. Right now, only filter by kind is supported. */
 export interface DataSourceFilter {
   /** The kind of the DataSource. */
   kind?: DataSourceKind;
 }
+
+/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
+export interface TrackedResource extends Resource {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** The geo-location where the resource lives */
+  location: string;
+}
+
+/** The resource model definition for an Azure Resource Manager resource with an etag. */
+export interface AzureEntityResource extends Resource {
+  /**
+   * Resource Etag.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+}
+
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
 
 /** An Log Analytics QueryPack definition. */
 export interface LogAnalyticsQueryPack extends QueryPacksResource {
@@ -921,24 +980,198 @@ export interface LogAnalyticsQueryPackQuery extends AzureResourceProperties {
   properties?: Record<string, unknown>;
 }
 
-/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export interface ProxyResource extends Resource {}
-
-/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export interface TrackedResource extends Resource {
-  /** Resource tags. */
-  tags?: { [propertyName: string]: string };
-  /** The geo-location where the resource lives */
-  location: string;
-}
-
-/** The resource model definition for an Azure Resource Manager resource with an etag. */
-export interface AzureEntityResource extends Resource {
+/** The top level Workspace resource container. */
+export interface Workspace extends TrackedResource {
+  /** The identity of the resource. */
+  identity?: Identity;
   /**
-   * Resource Etag.
+   * Metadata pertaining to creation and last modification of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly etag?: string;
+  readonly systemData?: SystemData;
+  /** The etag of the workspace. */
+  etag?: string;
+  /**
+   * The provisioning state of the workspace.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: WorkspaceEntityStatus;
+  /**
+   * This is a read-only property. Represents the ID associated with the workspace.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly customerId?: string;
+  /** The SKU of the workspace. */
+  sku?: WorkspaceSku;
+  /** The workspace data retention in days. Allowed values are per pricing plan. See pricing tiers documentation for details. */
+  retentionInDays?: number;
+  /** The daily volume cap for ingestion. */
+  workspaceCapping?: WorkspaceCapping;
+  /**
+   * Workspace creation date.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdDate?: string;
+  /**
+   * Workspace modification date.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly modifiedDate?: string;
+  /** The network access type for accessing Log Analytics ingestion. */
+  publicNetworkAccessForIngestion?: PublicNetworkAccessType;
+  /** The network access type for accessing Log Analytics query. */
+  publicNetworkAccessForQuery?: PublicNetworkAccessType;
+  /** Indicates whether customer managed storage is mandatory for query management. */
+  forceCmkForQuery?: boolean;
+  /**
+   * List of linked private link scope resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateLinkScopedResources?: PrivateLinkScopedResource[];
+  /** Workspace features. */
+  features?: WorkspaceFeatures;
+  /** The resource ID of the default Data Collection Rule to use for this workspace. Expected format is - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/dataCollectionRules/{dcrName}. */
+  defaultDataCollectionRuleResourceId?: string;
+}
+
+/** The top level Log Analytics cluster resource container. */
+export interface Cluster extends TrackedResource {
+  /** Resource's identity. */
+  identity?: ManagedServiceIdentity;
+  /** The sku properties. */
+  sku?: ClusterSku;
+  /**
+   * The ID associated with the cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clusterId?: string;
+  /**
+   * The provisioning state of the cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ClusterEntityStatus;
+  /** Configures whether cluster will use double encryption. This Property can not be modified after cluster creation. Default value is 'true' */
+  isDoubleEncryptionEnabled?: boolean;
+  /** Sets whether the cluster will support availability zones. This can be set as true only in regions where Azure Data Explorer support Availability Zones. This Property can not be modified after cluster creation. Default value is 'true' if region supports Availability Zones. */
+  isAvailabilityZonesEnabled?: boolean;
+  /** The cluster's billing type. */
+  billingType?: BillingType;
+  /** The associated key properties. */
+  keyVaultProperties?: KeyVaultProperties;
+  /**
+   * The last time the cluster was updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastModifiedDate?: string;
+  /**
+   * The cluster creation time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdDate?: string;
+  /** The list of Log Analytics workspaces associated with the cluster */
+  associatedWorkspaces?: AssociatedWorkspace[];
+  /** Additional properties for capacity reservation */
+  capacityReservationProperties?: CapacityReservationProperties;
+}
+
+/** The top level Workspace resource container. */
+export interface WorkspacePatch extends AzureEntityResource {
+  /** The identity of the resource. */
+  identity?: Identity;
+  /** Resource tags. Optional. */
+  tags?: { [propertyName: string]: string };
+  /**
+   * The provisioning state of the workspace.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: WorkspaceEntityStatus;
+  /**
+   * This is a read-only property. Represents the ID associated with the workspace.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly customerId?: string;
+  /** The SKU of the workspace. */
+  sku?: WorkspaceSku;
+  /** The workspace data retention in days. Allowed values are per pricing plan. See pricing tiers documentation for details. */
+  retentionInDays?: number;
+  /** The daily volume cap for ingestion. */
+  workspaceCapping?: WorkspaceCapping;
+  /**
+   * Workspace creation date.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdDate?: string;
+  /**
+   * Workspace modification date.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly modifiedDate?: string;
+  /** The network access type for accessing Log Analytics ingestion. */
+  publicNetworkAccessForIngestion?: PublicNetworkAccessType;
+  /** The network access type for accessing Log Analytics query. */
+  publicNetworkAccessForQuery?: PublicNetworkAccessType;
+  /** Indicates whether customer managed storage is mandatory for query management. */
+  forceCmkForQuery?: boolean;
+  /**
+   * List of linked private link scope resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateLinkScopedResources?: PrivateLinkScopedResource[];
+  /** Workspace features. */
+  features?: WorkspaceFeatures;
+  /** The resource ID of the default Data Collection Rule to use for this workspace. Expected format is - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/dataCollectionRules/{dcrName}. */
+  defaultDataCollectionRuleResourceId?: string;
+}
+
+/** Workspace data table definition. */
+export interface Table extends ProxyResource {
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** The table retention in days, between 4 and 730. Setting this property to -1 will default to the workspace retention. */
+  retentionInDays?: number;
+  /** The table total retention in days, between 4 and 4383. Setting this property to -1 will default to table retention. */
+  totalRetentionInDays?: number;
+  /**
+   * The table data archive retention in days. Calculated as (totalRetentionInDays-retentionInDays)
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly archiveRetentionInDays?: number;
+  /** Parameters of the search job that initiated this table. */
+  searchResults?: SearchResults;
+  /** Parameters of the restore operation that initiated this table. */
+  restoredLogs?: RestoredLogs;
+  /**
+   * Search job execution statistics.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resultStatistics?: ResultStatistics;
+  /** Instruct the system how to handle and charge the logs ingested to this table. */
+  plan?: TablePlanEnum;
+  /**
+   * The timestamp that table plan was last modified (UTC).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastPlanModifiedDate?: string;
+  /** Table schema. */
+  schema?: Schema;
+  /**
+   * Table's current provisioning state. If set to 'updating', indicates a resource lock due to ongoing operation, forbidding any update to the table until the ongoing operation is concluded.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningStateEnum;
+  /**
+   * True - Value originates from workspace retention in days, False - Customer specific.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly retentionInDaysAsDefault?: boolean;
+  /**
+   * True - Value originates from retention in days, False - Customer specific.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly totalRetentionInDaysAsDefault?: boolean;
 }
 
 /** The top level data export resource container. */
@@ -1038,205 +1271,128 @@ export interface SavedSearch extends ProxyResource {
   tags?: Tag[];
 }
 
-/** Workspace data table definition. */
-export interface Table extends ProxyResource {
-  /**
-   * Metadata pertaining to creation and last modification of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemDataAutoGenerated;
-  /** The table retention in days, between 4 and 730. Setting this property to -1 will default to the workspace retention. */
-  retentionInDays?: number;
-  /** The table total retention in days, between 4 and 2555. Setting this property to -1 will default to table retention. */
-  totalRetentionInDays?: number;
-  /**
-   * The table data archive retention in days. Calculated as (totalRetentionInDays-retentionInDays)
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly archiveRetentionInDays?: number;
-  /** Parameters of the search job that initiated this table. */
-  searchResults?: SearchResults;
-  /** Parameters of the restore operation that initiated this table. */
-  restoredLogs?: RestoredLogs;
-  /**
-   * Search job execution statistics.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resultStatistics?: ResultStatistics;
-  /** Instruct the system how to handle and charge the logs ingested to this table. */
-  plan?: TablePlanEnum;
-  /**
-   * The timestamp that table plan was last modified (UTC).
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastPlanModifiedDate?: string;
-  /** Table schema. */
-  schema?: Schema;
-  /**
-   * Table's current provisioning state. If set to 'updating', indicates a resource lock due to ongoing operation, forbidding any update to the table until the ongoing operation is concluded.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningStateEnum;
-  /**
-   * True - Value originates from workspace retention in days, False - Customer specific.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly retentionInDaysAsDefault?: boolean;
-  /**
-   * True - Value originates from retention in days, False - Customer specific.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly totalRetentionInDaysAsDefault?: boolean;
-}
-
-/** The top level Log Analytics cluster resource container. */
-export interface Cluster extends TrackedResource {
-  /** The identity of the resource. */
-  identity?: Identity;
-  /** The sku properties. */
-  sku?: ClusterSku;
-  /**
-   * The ID associated with the cluster.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly clusterId?: string;
-  /**
-   * The provisioning state of the cluster.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ClusterEntityStatus;
-  /** Configures whether cluster will use double encryption. This Property can not be modified after cluster creation. Default value is 'true' */
-  isDoubleEncryptionEnabled?: boolean;
-  /** Sets whether the cluster will support availability zones. This can be set as true only in regions where Azure Data Explorer support Availability Zones. This Property can not be modified after cluster creation. Default value is 'true' if region supports Availability Zones. */
-  isAvailabilityZonesEnabled?: boolean;
-  /** The cluster's billing type. */
-  billingType?: BillingType;
-  /** The associated key properties. */
-  keyVaultProperties?: KeyVaultProperties;
-  /**
-   * The last time the cluster was updated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastModifiedDate?: string;
-  /**
-   * The cluster creation time
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly createdDate?: string;
-  /** The list of Log Analytics workspaces associated with the cluster */
-  associatedWorkspaces?: AssociatedWorkspace[];
-  /** Additional properties for capacity reservation */
-  capacityReservationProperties?: CapacityReservationProperties;
-}
-
-/** The top level Workspace resource container. */
-export interface Workspace extends TrackedResource {
-  /** The identity of the resource. */
-  identity?: Identity;
-  /**
-   * Metadata pertaining to creation and last modification of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemDataAutoGenerated;
-  /** The etag of the workspace. */
-  etag?: string;
-  /**
-   * The provisioning state of the workspace.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: WorkspaceEntityStatus;
-  /**
-   * This is a read-only property. Represents the ID associated with the workspace.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly customerId?: string;
-  /** The SKU of the workspace. */
-  sku?: WorkspaceSku;
-  /** The workspace data retention in days. Allowed values are per pricing plan. See pricing tiers documentation for details. */
-  retentionInDays?: number;
-  /** The daily volume cap for ingestion. */
-  workspaceCapping?: WorkspaceCapping;
-  /**
-   * Workspace creation date.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly createdDate?: string;
-  /**
-   * Workspace modification date.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly modifiedDate?: string;
-  /** The network access type for accessing Log Analytics ingestion. */
-  publicNetworkAccessForIngestion?: PublicNetworkAccessType;
-  /** The network access type for accessing Log Analytics query. */
-  publicNetworkAccessForQuery?: PublicNetworkAccessType;
-  /** Indicates whether customer managed storage is mandatory for query management. */
-  forceCmkForQuery?: boolean;
-  /**
-   * List of linked private link scope resources.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly privateLinkScopedResources?: PrivateLinkScopedResource[];
-  /** Workspace features. */
-  features?: WorkspaceFeatures;
-  /** The resource ID of the default Data Collection Rule to use for this workspace. Expected format is - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/dataCollectionRules/{dcrName}. */
-  defaultDataCollectionRuleResourceId?: string;
-}
-
-/** The top level Workspace resource container. */
-export interface WorkspacePatch extends AzureEntityResource {
-  /** The identity of the resource. */
-  identity?: Identity;
-  /** Resource tags. Optional. */
-  tags?: { [propertyName: string]: string };
-  /**
-   * The provisioning state of the workspace.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: WorkspaceEntityStatus;
-  /**
-   * This is a read-only property. Represents the ID associated with the workspace.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly customerId?: string;
-  /** The SKU of the workspace. */
-  sku?: WorkspaceSku;
-  /** The workspace data retention in days. Allowed values are per pricing plan. See pricing tiers documentation for details. */
-  retentionInDays?: number;
-  /** The daily volume cap for ingestion. */
-  workspaceCapping?: WorkspaceCapping;
-  /**
-   * Workspace creation date.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly createdDate?: string;
-  /**
-   * Workspace modification date.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly modifiedDate?: string;
-  /** The network access type for accessing Log Analytics ingestion. */
-  publicNetworkAccessForIngestion?: PublicNetworkAccessType;
-  /** The network access type for accessing Log Analytics query. */
-  publicNetworkAccessForQuery?: PublicNetworkAccessType;
-  /** Indicates whether customer managed storage is mandatory for query management. */
-  forceCmkForQuery?: boolean;
-  /**
-   * List of linked private link scope resources.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly privateLinkScopedResources?: PrivateLinkScopedResource[];
-  /** Workspace features. */
-  features?: WorkspaceFeatures;
-  /** The resource ID of the default Data Collection Rule to use for this workspace. Expected format is - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/dataCollectionRules/{dcrName}. */
-  defaultDataCollectionRuleResourceId?: string;
-}
-
 /** Defines headers for WorkspacePurge_purge operation. */
 export interface WorkspacePurgePurgeHeaders {
   /** The location from which to request the operation status. */
   xMsStatusLocation?: string;
 }
+
+/** Known values of {@link WorkspaceEntityStatus} that the service accepts. */
+export enum KnownWorkspaceEntityStatus {
+  /** Creating */
+  Creating = "Creating",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** ProvisioningAccount */
+  ProvisioningAccount = "ProvisioningAccount",
+  /** Updating */
+  Updating = "Updating",
+}
+
+/**
+ * Defines values for WorkspaceEntityStatus. \
+ * {@link KnownWorkspaceEntityStatus} can be used interchangeably with WorkspaceEntityStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Creating** \
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled** \
+ * **Deleting** \
+ * **ProvisioningAccount** \
+ * **Updating**
+ */
+export type WorkspaceEntityStatus = string;
+
+/** Known values of {@link WorkspaceSkuNameEnum} that the service accepts. */
+export enum KnownWorkspaceSkuNameEnum {
+  /** Free */
+  Free = "Free",
+  /** Standard */
+  Standard = "Standard",
+  /** Premium */
+  Premium = "Premium",
+  /** PerNode */
+  PerNode = "PerNode",
+  /** PerGB2018 */
+  PerGB2018 = "PerGB2018",
+  /** Standalone */
+  Standalone = "Standalone",
+  /** CapacityReservation */
+  CapacityReservation = "CapacityReservation",
+  /** LACluster */
+  LACluster = "LACluster",
+}
+
+/**
+ * Defines values for WorkspaceSkuNameEnum. \
+ * {@link KnownWorkspaceSkuNameEnum} can be used interchangeably with WorkspaceSkuNameEnum,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Free** \
+ * **Standard** \
+ * **Premium** \
+ * **PerNode** \
+ * **PerGB2018** \
+ * **Standalone** \
+ * **CapacityReservation** \
+ * **LACluster**
+ */
+export type WorkspaceSkuNameEnum = string;
+
+/** Known values of {@link DataIngestionStatus} that the service accepts. */
+export enum KnownDataIngestionStatus {
+  /** Ingestion enabled following daily cap quota reset, or subscription enablement. */
+  RespectQuota = "RespectQuota",
+  /** Ingestion started following service setting change. */
+  ForceOn = "ForceOn",
+  /** Ingestion stopped following service setting change. */
+  ForceOff = "ForceOff",
+  /** Reached daily cap quota, ingestion stopped. */
+  OverQuota = "OverQuota",
+  /** Ingestion stopped following suspended subscription. */
+  SubscriptionSuspended = "SubscriptionSuspended",
+  /** 80% of daily cap quota reached. */
+  ApproachingQuota = "ApproachingQuota",
+}
+
+/**
+ * Defines values for DataIngestionStatus. \
+ * {@link KnownDataIngestionStatus} can be used interchangeably with DataIngestionStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **RespectQuota**: Ingestion enabled following daily cap quota reset, or subscription enablement. \
+ * **ForceOn**: Ingestion started following service setting change. \
+ * **ForceOff**: Ingestion stopped following service setting change. \
+ * **OverQuota**: Reached daily cap quota, ingestion stopped. \
+ * **SubscriptionSuspended**: Ingestion stopped following suspended subscription. \
+ * **ApproachingQuota**: 80% of daily cap quota reached.
+ */
+export type DataIngestionStatus = string;
+
+/** Known values of {@link PublicNetworkAccessType} that the service accepts. */
+export enum KnownPublicNetworkAccessType {
+  /** Enables connectivity to Log Analytics through public DNS. */
+  Enabled = "Enabled",
+  /** Disables public connectivity to Log Analytics through public DNS. */
+  Disabled = "Disabled",
+}
+
+/**
+ * Defines values for PublicNetworkAccessType. \
+ * {@link KnownPublicNetworkAccessType} can be used interchangeably with PublicNetworkAccessType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled**: Enables connectivity to Log Analytics through public DNS. \
+ * **Disabled**: Disables public connectivity to Log Analytics through public DNS.
+ */
+export type PublicNetworkAccessType = string;
 
 /** Known values of {@link IdentityType} that the service accepts. */
 export enum KnownIdentityType {
@@ -1253,7 +1409,7 @@ export enum KnownIdentityType {
   /** UserAssigned */
   UserAssigned = "UserAssigned",
   /** None */
-  None = "None"
+  None = "None",
 }
 
 /**
@@ -1271,12 +1427,201 @@ export enum KnownIdentityType {
  */
 export type IdentityType = string;
 
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  /** User */
+  User = "User",
+  /** Application */
+  Application = "Application",
+  /** ManagedIdentity */
+  ManagedIdentity = "ManagedIdentity",
+  /** Key */
+  Key = "Key",
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
+
+/** Known values of {@link TablePlanEnum} that the service accepts. */
+export enum KnownTablePlanEnum {
+  /** Logs  that are adjusted to support high volume low value verbose logs. */
+  Basic = "Basic",
+  /** Logs  that allow monitoring and analytics. */
+  Analytics = "Analytics",
+}
+
+/**
+ * Defines values for TablePlanEnum. \
+ * {@link KnownTablePlanEnum} can be used interchangeably with TablePlanEnum,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Basic**: Logs  that are adjusted to support high volume low value verbose logs. \
+ * **Analytics**: Logs  that allow monitoring and analytics.
+ */
+export type TablePlanEnum = string;
+
+/** Known values of {@link ColumnTypeEnum} that the service accepts. */
+export enum KnownColumnTypeEnum {
+  /** String */
+  String = "string",
+  /** Int */
+  Int = "int",
+  /** Long */
+  Long = "long",
+  /** Real */
+  Real = "real",
+  /** Boolean */
+  Boolean = "boolean",
+  /** DateTime */
+  DateTime = "dateTime",
+  /** Guid */
+  Guid = "guid",
+  /** Dynamic */
+  Dynamic = "dynamic",
+}
+
+/**
+ * Defines values for ColumnTypeEnum. \
+ * {@link KnownColumnTypeEnum} can be used interchangeably with ColumnTypeEnum,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **string** \
+ * **int** \
+ * **long** \
+ * **real** \
+ * **boolean** \
+ * **dateTime** \
+ * **guid** \
+ * **dynamic**
+ */
+export type ColumnTypeEnum = string;
+
+/** Known values of {@link ColumnDataTypeHintEnum} that the service accepts. */
+export enum KnownColumnDataTypeHintEnum {
+  /** A string that matches the pattern of a URI, for example, scheme:\//username:password@host:1234\/this\/is\/a\/path?k1=v1&k2=v2#fragment */
+  Uri = "uri",
+  /** A standard 128-bit GUID following the standard shape, xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx */
+  Guid = "guid",
+  /** An Azure Resource Model (ARM) path: \/subscriptions\/{...}\/resourceGroups\/{...}\/providers\/Microsoft.{...}\/{...}\/{...}\/{...}... */
+  ArmPath = "armPath",
+  /** A standard V4\/V6 ip address following the standard shape, x.x.x.x\/y:y:y:y:y:y:y:y */
+  Ip = "ip",
+}
+
+/**
+ * Defines values for ColumnDataTypeHintEnum. \
+ * {@link KnownColumnDataTypeHintEnum} can be used interchangeably with ColumnDataTypeHintEnum,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **uri**: A string that matches the pattern of a URI, for example, scheme:\/\/username:password@host:1234\/this\/is\/a\/path?k1=v1&k2=v2#fragment \
+ * **guid**: A standard 128-bit GUID following the standard shape, xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx \
+ * **armPath**: An Azure Resource Model (ARM) path: \/subscriptions\/{...}\/resourceGroups\/{...}\/providers\/Microsoft.{...}\/{...}\/{...}\/{...}... \
+ * **ip**: A standard V4\/V6 ip address following the standard shape, x.x.x.x\/y:y:y:y:y:y:y:y
+ */
+export type ColumnDataTypeHintEnum = string;
+
+/** Known values of {@link SourceEnum} that the service accepts. */
+export enum KnownSourceEnum {
+  /** Tables provisioned by the system, as collected via Diagnostic Settings, the Agents, or any other standard data collection means. */
+  Microsoft = "microsoft",
+  /** Tables created by the owner of the Workspace, and only found in this Workspace. */
+  Customer = "customer",
+}
+
+/**
+ * Defines values for SourceEnum. \
+ * {@link KnownSourceEnum} can be used interchangeably with SourceEnum,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **microsoft**: Tables provisioned by the system, as collected via Diagnostic Settings, the Agents, or any other standard data collection means. \
+ * **customer**: Tables created by the owner of the Workspace, and only found in this Workspace.
+ */
+export type SourceEnum = string;
+
+/** Known values of {@link TableTypeEnum} that the service accepts. */
+export enum KnownTableTypeEnum {
+  /** Standard data collected by Azure Monitor. */
+  Microsoft = "Microsoft",
+  /** Custom log table. */
+  CustomLog = "CustomLog",
+  /** Restored data. */
+  RestoredLogs = "RestoredLogs",
+  /** Data collected by a search job. */
+  SearchResults = "SearchResults",
+}
+
+/**
+ * Defines values for TableTypeEnum. \
+ * {@link KnownTableTypeEnum} can be used interchangeably with TableTypeEnum,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Microsoft**: Standard data collected by Azure Monitor. \
+ * **CustomLog**: Custom log table. \
+ * **RestoredLogs**: Restored data. \
+ * **SearchResults**: Data collected by a search job.
+ */
+export type TableTypeEnum = string;
+
+/** Known values of {@link TableSubTypeEnum} that the service accepts. */
+export enum KnownTableSubTypeEnum {
+  /** The default subtype with which built-in tables are created. */
+  Any = "Any",
+  /** Indicates a table created through the Data Collector API or with the custom logs feature of the MMA agent, or any table against which Custom Fields were created. */
+  Classic = "Classic",
+  /** A table eligible to have data sent into it via any of the means supported by Data Collection Rules: the Data Collection Endpoint API, ingestion-time transformations, or any other mechanism provided by Data Collection Rules */
+  DataCollectionRuleBased = "DataCollectionRuleBased",
+}
+
+/**
+ * Defines values for TableSubTypeEnum. \
+ * {@link KnownTableSubTypeEnum} can be used interchangeably with TableSubTypeEnum,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Any**: The default subtype with which built-in tables are created. \
+ * **Classic**: Indicates a table created through the Data Collector API or with the custom logs feature of the MMA agent, or any table against which Custom Fields were created. \
+ * **DataCollectionRuleBased**: A table eligible to have data sent into it via any of the means supported by Data Collection Rules: the Data Collection Endpoint API, ingestion-time transformations, or any other mechanism provided by Data Collection Rules
+ */
+export type TableSubTypeEnum = string;
+
+/** Known values of {@link ProvisioningStateEnum} that the service accepts. */
+export enum KnownProvisioningStateEnum {
+  /** Table schema is still being built and updated, table is currently locked for any changes till the procedure is done. */
+  Updating = "Updating",
+  /** Table schema is stable and without changes, table data is being updated. */
+  InProgress = "InProgress",
+  /** Table state is stable and without changes, table is unlocked and open for new updates. */
+  Succeeded = "Succeeded",
+  /** Table state is deleting. */
+  Deleting = "Deleting",
+}
+
+/**
+ * Defines values for ProvisioningStateEnum. \
+ * {@link KnownProvisioningStateEnum} can be used interchangeably with ProvisioningStateEnum,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Updating**: Table schema is still being built and updated, table is currently locked for any changes till the procedure is done. \
+ * **InProgress**: Table schema is stable and without changes, table data is being updated. \
+ * **Succeeded**: Table state is stable and without changes, table is unlocked and open for new updates. \
+ * **Deleting**: Table state is deleting.
+ */
+export type ProvisioningStateEnum = string;
+
 /** Known values of {@link Type} that the service accepts. */
 export enum KnownType {
   /** StorageAccount */
   StorageAccount = "StorageAccount",
   /** EventHub */
-  EventHub = "EventHub"
+  EventHub = "EventHub",
 }
 
 /**
@@ -1356,7 +1701,7 @@ export enum KnownDataSourceKind {
   /** ApplicationInsights */
   ApplicationInsights = "ApplicationInsights",
   /** SqlDataClassification */
-  SqlDataClassification = "SqlDataClassification"
+  SqlDataClassification = "SqlDataClassification",
 }
 
 /**
@@ -1409,7 +1754,7 @@ export enum KnownLinkedServiceEntityStatus {
   /** ProvisioningAccount */
   ProvisioningAccount = "ProvisioningAccount",
   /** Updating */
-  Updating = "Updating"
+  Updating = "Updating",
 }
 
 /**
@@ -1429,7 +1774,7 @@ export enum KnownStorageInsightState {
   /** OK */
   OK = "OK",
   /** Error */
-  Error = "ERROR"
+  Error = "ERROR",
 }
 
 /**
@@ -1457,7 +1802,7 @@ export enum KnownSkuNameEnum {
   /** Standalone */
   Standalone = "Standalone",
   /** CapacityReservation */
-  CapacityReservation = "CapacityReservation"
+  CapacityReservation = "CapacityReservation",
 }
 
 /**
@@ -1480,7 +1825,7 @@ export enum KnownSearchSortEnum {
   /** Asc */
   Asc = "asc",
   /** Desc */
-  Desc = "desc"
+  Desc = "desc",
 }
 
 /**
@@ -1498,7 +1843,7 @@ export enum KnownPurgeState {
   /** Pending */
   Pending = "pending",
   /** Completed */
-  Completed = "completed"
+  Completed = "completed",
 }
 
 /**
@@ -1511,10 +1856,34 @@ export enum KnownPurgeState {
  */
 export type PurgeState = string;
 
+/** Known values of {@link ManagedServiceIdentityType} that the service accepts. */
+export enum KnownManagedServiceIdentityType {
+  /** None */
+  None = "None",
+  /** SystemAssigned */
+  SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
+  UserAssigned = "UserAssigned",
+  /** SystemAssignedUserAssigned */
+  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
+}
+
+/**
+ * Defines values for ManagedServiceIdentityType. \
+ * {@link KnownManagedServiceIdentityType} can be used interchangeably with ManagedServiceIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **SystemAssigned** \
+ * **UserAssigned** \
+ * **SystemAssigned,UserAssigned**
+ */
+export type ManagedServiceIdentityType = string;
+
 /** Known values of {@link ClusterSkuNameEnum} that the service accepts. */
 export enum KnownClusterSkuNameEnum {
   /** CapacityReservation */
-  CapacityReservation = "CapacityReservation"
+  CapacityReservation = "CapacityReservation",
 }
 
 /**
@@ -1541,7 +1910,7 @@ export enum KnownClusterEntityStatus {
   /** ProvisioningAccount */
   ProvisioningAccount = "ProvisioningAccount",
   /** Updating */
-  Updating = "Updating"
+  Updating = "Updating",
 }
 
 /**
@@ -1564,7 +1933,7 @@ export enum KnownBillingType {
   /** Cluster */
   Cluster = "Cluster",
   /** Workspaces */
-  Workspaces = "Workspaces"
+  Workspaces = "Workspaces",
 }
 
 /**
@@ -1576,318 +1945,6 @@ export enum KnownBillingType {
  * **Workspaces**
  */
 export type BillingType = string;
-
-/** Known values of {@link WorkspaceEntityStatus} that the service accepts. */
-export enum KnownWorkspaceEntityStatus {
-  /** Creating */
-  Creating = "Creating",
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Failed */
-  Failed = "Failed",
-  /** Canceled */
-  Canceled = "Canceled",
-  /** Deleting */
-  Deleting = "Deleting",
-  /** ProvisioningAccount */
-  ProvisioningAccount = "ProvisioningAccount",
-  /** Updating */
-  Updating = "Updating"
-}
-
-/**
- * Defines values for WorkspaceEntityStatus. \
- * {@link KnownWorkspaceEntityStatus} can be used interchangeably with WorkspaceEntityStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Creating** \
- * **Succeeded** \
- * **Failed** \
- * **Canceled** \
- * **Deleting** \
- * **ProvisioningAccount** \
- * **Updating**
- */
-export type WorkspaceEntityStatus = string;
-
-/** Known values of {@link WorkspaceSkuNameEnum} that the service accepts. */
-export enum KnownWorkspaceSkuNameEnum {
-  /** Free */
-  Free = "Free",
-  /** Standard */
-  Standard = "Standard",
-  /** Premium */
-  Premium = "Premium",
-  /** PerNode */
-  PerNode = "PerNode",
-  /** PerGB2018 */
-  PerGB2018 = "PerGB2018",
-  /** Standalone */
-  Standalone = "Standalone",
-  /** CapacityReservation */
-  CapacityReservation = "CapacityReservation",
-  /** LACluster */
-  LACluster = "LACluster"
-}
-
-/**
- * Defines values for WorkspaceSkuNameEnum. \
- * {@link KnownWorkspaceSkuNameEnum} can be used interchangeably with WorkspaceSkuNameEnum,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Free** \
- * **Standard** \
- * **Premium** \
- * **PerNode** \
- * **PerGB2018** \
- * **Standalone** \
- * **CapacityReservation** \
- * **LACluster**
- */
-export type WorkspaceSkuNameEnum = string;
-
-/** Known values of {@link DataIngestionStatus} that the service accepts. */
-export enum KnownDataIngestionStatus {
-  /** Ingestion enabled following daily cap quota reset, or subscription enablement. */
-  RespectQuota = "RespectQuota",
-  /** Ingestion started following service setting change. */
-  ForceOn = "ForceOn",
-  /** Ingestion stopped following service setting change. */
-  ForceOff = "ForceOff",
-  /** Reached daily cap quota, ingestion stopped. */
-  OverQuota = "OverQuota",
-  /** Ingestion stopped following suspended subscription. */
-  SubscriptionSuspended = "SubscriptionSuspended",
-  /** 80% of daily cap quota reached. */
-  ApproachingQuota = "ApproachingQuota"
-}
-
-/**
- * Defines values for DataIngestionStatus. \
- * {@link KnownDataIngestionStatus} can be used interchangeably with DataIngestionStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **RespectQuota**: Ingestion enabled following daily cap quota reset, or subscription enablement. \
- * **ForceOn**: Ingestion started following service setting change. \
- * **ForceOff**: Ingestion stopped following service setting change. \
- * **OverQuota**: Reached daily cap quota, ingestion stopped. \
- * **SubscriptionSuspended**: Ingestion stopped following suspended subscription. \
- * **ApproachingQuota**: 80% of daily cap quota reached.
- */
-export type DataIngestionStatus = string;
-
-/** Known values of {@link PublicNetworkAccessType} that the service accepts. */
-export enum KnownPublicNetworkAccessType {
-  /** Enables connectivity to Log Analytics through public DNS. */
-  Enabled = "Enabled",
-  /** Disables public connectivity to Log Analytics through public DNS. */
-  Disabled = "Disabled"
-}
-
-/**
- * Defines values for PublicNetworkAccessType. \
- * {@link KnownPublicNetworkAccessType} can be used interchangeably with PublicNetworkAccessType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Enabled**: Enables connectivity to Log Analytics through public DNS. \
- * **Disabled**: Disables public connectivity to Log Analytics through public DNS.
- */
-export type PublicNetworkAccessType = string;
-
-/** Known values of {@link CreatedByType} that the service accepts. */
-export enum KnownCreatedByType {
-  /** User */
-  User = "User",
-  /** Application */
-  Application = "Application",
-  /** ManagedIdentity */
-  ManagedIdentity = "ManagedIdentity",
-  /** Key */
-  Key = "Key"
-}
-
-/**
- * Defines values for CreatedByType. \
- * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **User** \
- * **Application** \
- * **ManagedIdentity** \
- * **Key**
- */
-export type CreatedByType = string;
-
-/** Known values of {@link TablePlanEnum} that the service accepts. */
-export enum KnownTablePlanEnum {
-  /** Logs  that are adjusted to support high volume low value verbose logs. */
-  Basic = "Basic",
-  /** Logs  that allow monitoring and analytics. */
-  Analytics = "Analytics"
-}
-
-/**
- * Defines values for TablePlanEnum. \
- * {@link KnownTablePlanEnum} can be used interchangeably with TablePlanEnum,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Basic**: Logs  that are adjusted to support high volume low value verbose logs. \
- * **Analytics**: Logs  that allow monitoring and analytics.
- */
-export type TablePlanEnum = string;
-
-/** Known values of {@link ColumnTypeEnum} that the service accepts. */
-export enum KnownColumnTypeEnum {
-  /** String */
-  String = "string",
-  /** Int */
-  Int = "int",
-  /** Long */
-  Long = "long",
-  /** Real */
-  Real = "real",
-  /** Boolean */
-  Boolean = "boolean",
-  /** DateTime */
-  DateTime = "dateTime",
-  /** Guid */
-  Guid = "guid",
-  /** Dynamic */
-  Dynamic = "dynamic"
-}
-
-/**
- * Defines values for ColumnTypeEnum. \
- * {@link KnownColumnTypeEnum} can be used interchangeably with ColumnTypeEnum,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **string** \
- * **int** \
- * **long** \
- * **real** \
- * **boolean** \
- * **dateTime** \
- * **guid** \
- * **dynamic**
- */
-export type ColumnTypeEnum = string;
-
-/** Known values of {@link ColumnDataTypeHintEnum} that the service accepts. */
-export enum KnownColumnDataTypeHintEnum {
-  /** A string that matches the pattern of a URI, for example, scheme://username:password@host:1234/this/is/a/path?k1=v1&k2=v2#fragment */
-  Uri = "uri",
-  /** A standard 128-bit GUID following the standard shape, xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx */
-  Guid = "guid",
-  /** An Azure Resource Model (ARM) path: /subscriptions/{...}/resourceGroups/{...}/providers/Microsoft.{...}/{...}/{...}/{...}... */
-  ArmPath = "armPath",
-  /** A standard V4/V6 ip address following the standard shape, x.x.x.x/y:y:y:y:y:y:y:y */
-  Ip = "ip"
-}
-
-/**
- * Defines values for ColumnDataTypeHintEnum. \
- * {@link KnownColumnDataTypeHintEnum} can be used interchangeably with ColumnDataTypeHintEnum,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **uri**: A string that matches the pattern of a URI, for example, scheme:\/\/username:password@host:1234\/this\/is\/a\/path?k1=v1&k2=v2#fragment \
- * **guid**: A standard 128-bit GUID following the standard shape, xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx \
- * **armPath**: An Azure Resource Model (ARM) path: \/subscriptions\/{...}\/resourceGroups\/{...}\/providers\/Microsoft.{...}\/{...}\/{...}\/{...}... \
- * **ip**: A standard V4\/V6 ip address following the standard shape, x.x.x.x\/y:y:y:y:y:y:y:y
- */
-export type ColumnDataTypeHintEnum = string;
-
-/** Known values of {@link SourceEnum} that the service accepts. */
-export enum KnownSourceEnum {
-  /** Tables provisioned by the system, as collected via Diagnostic Settings, the Agents, or any other standard data collection means. */
-  Microsoft = "microsoft",
-  /** Tables created by the owner of the Workspace, and only found in this Workspace. */
-  Customer = "customer"
-}
-
-/**
- * Defines values for SourceEnum. \
- * {@link KnownSourceEnum} can be used interchangeably with SourceEnum,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **microsoft**: Tables provisioned by the system, as collected via Diagnostic Settings, the Agents, or any other standard data collection means. \
- * **customer**: Tables created by the owner of the Workspace, and only found in this Workspace.
- */
-export type SourceEnum = string;
-
-/** Known values of {@link TableTypeEnum} that the service accepts. */
-export enum KnownTableTypeEnum {
-  /** Standard data collected by Azure Monitor. */
-  Microsoft = "Microsoft",
-  /** Custom log table. */
-  CustomLog = "CustomLog",
-  /** Restored data. */
-  RestoredLogs = "RestoredLogs",
-  /** Data collected by a search job. */
-  SearchResults = "SearchResults"
-}
-
-/**
- * Defines values for TableTypeEnum. \
- * {@link KnownTableTypeEnum} can be used interchangeably with TableTypeEnum,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Microsoft**: Standard data collected by Azure Monitor. \
- * **CustomLog**: Custom log table. \
- * **RestoredLogs**: Restored data. \
- * **SearchResults**: Data collected by a search job.
- */
-export type TableTypeEnum = string;
-
-/** Known values of {@link TableSubTypeEnum} that the service accepts. */
-export enum KnownTableSubTypeEnum {
-  /** The default subtype with which built-in tables are created. */
-  Any = "Any",
-  /** Indicates a table created through the Data Collector API or with the custom logs feature of the MMA agent, or any table against which Custom Fields were created. */
-  Classic = "Classic",
-  /** A table eligible to have data sent into it via any of the means supported by Data Collection Rules: the Data Collection Endpoint API, ingestion-time transformations, or any other mechanism provided by Data Collection Rules */
-  DataCollectionRuleBased = "DataCollectionRuleBased"
-}
-
-/**
- * Defines values for TableSubTypeEnum. \
- * {@link KnownTableSubTypeEnum} can be used interchangeably with TableSubTypeEnum,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Any**: The default subtype with which built-in tables are created. \
- * **Classic**: Indicates a table created through the Data Collector API or with the custom logs feature of the MMA agent, or any table against which Custom Fields were created. \
- * **DataCollectionRuleBased**: A table eligible to have data sent into it via any of the means supported by Data Collection Rules: the Data Collection Endpoint API, ingestion-time transformations, or any other mechanism provided by Data Collection Rules
- */
-export type TableSubTypeEnum = string;
-
-/** Known values of {@link ProvisioningStateEnum} that the service accepts. */
-export enum KnownProvisioningStateEnum {
-  /** Table schema is still being built and updated, table is currently locked for any changes till the procedure is done. */
-  Updating = "Updating",
-  /** Table schema is stable and without changes, table data is being updated. */
-  InProgress = "InProgress",
-  /** Table state is stable and without changes, table is unlocked and open for new updates. */
-  Succeeded = "Succeeded"
-}
-
-/**
- * Defines values for ProvisioningStateEnum. \
- * {@link KnownProvisioningStateEnum} can be used interchangeably with ProvisioningStateEnum,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Updating**: Table schema is still being built and updated, table is currently locked for any changes till the procedure is done. \
- * **InProgress**: Table schema is stable and without changes, table data is being updated. \
- * **Succeeded**: Table state is stable and without changes, table is unlocked and open for new updates.
- */
-export type ProvisioningStateEnum = string;
-/** Defines values for DataSourceType. */
-export type DataSourceType =
-  | "CustomLogs"
-  | "AzureWatson"
-  | "Query"
-  | "Ingestion"
-  | "Alerts";
-/** Defines values for Capacity. */
-export type Capacity = 500 | 1000 | 2000 | 5000;
 /** Defines values for CapacityReservationLevel. */
 export type CapacityReservationLevel =
   | 100
@@ -1897,7 +1954,163 @@ export type CapacityReservationLevel =
   | 500
   | 1000
   | 2000
-  | 5000;
+  | 5000
+  | 10000
+  | 25000
+  | 50000;
+/** Defines values for DataSourceType. */
+export type DataSourceType =
+  | "CustomLogs"
+  | "AzureWatson"
+  | "Query"
+  | "Ingestion"
+  | "Alerts";
+/** Defines values for Capacity. */
+export type Capacity =
+  | 100
+  | 200
+  | 300
+  | 400
+  | 500
+  | 1000
+  | 2000
+  | 5000
+  | 10000
+  | 25000
+  | 50000;
+
+/** Optional parameters. */
+export interface OperationsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type OperationsListResponse = OperationListResult;
+
+/** Optional parameters. */
+export interface OperationsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type OperationsListNextResponse = OperationListResult;
+
+/** Optional parameters. */
+export interface WorkspacesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type WorkspacesListResponse = WorkspaceListResult;
+
+/** Optional parameters. */
+export interface WorkspacesListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type WorkspacesListByResourceGroupResponse = WorkspaceListResult;
+
+/** Optional parameters. */
+export interface WorkspacesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type WorkspacesCreateOrUpdateResponse = Workspace;
+
+/** Optional parameters. */
+export interface WorkspacesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Deletes the workspace without the recovery option. A workspace that was deleted with this flag cannot be recovered. */
+  force?: boolean;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface WorkspacesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type WorkspacesGetResponse = Workspace;
+
+/** Optional parameters. */
+export interface WorkspacesUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type WorkspacesUpdateResponse = Workspace;
+
+/** Optional parameters. */
+export interface DeletedWorkspacesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type DeletedWorkspacesListResponse = WorkspaceListResult;
+
+/** Optional parameters. */
+export interface DeletedWorkspacesListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type DeletedWorkspacesListByResourceGroupResponse = WorkspaceListResult;
+
+/** Optional parameters. */
+export interface TablesListByWorkspaceOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByWorkspace operation. */
+export type TablesListByWorkspaceResponse = TablesListResult;
+
+/** Optional parameters. */
+export interface TablesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type TablesCreateOrUpdateResponse = Table;
+
+/** Optional parameters. */
+export interface TablesUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type TablesUpdateResponse = Table;
+
+/** Optional parameters. */
+export interface TablesGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type TablesGetResponse = Table;
+
+/** Optional parameters. */
+export interface TablesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface TablesMigrateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface TablesCancelSearchOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface QueryPacksListOptionalParams
@@ -1911,7 +2124,8 @@ export interface QueryPacksListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type QueryPacksListByResourceGroupResponse = LogAnalyticsQueryPackListResult;
+export type QueryPacksListByResourceGroupResponse =
+  LogAnalyticsQueryPackListResult;
 
 /** Optional parameters. */
 export interface QueryPacksCreateOrUpdateWithoutNameOptionalParams
@@ -1957,7 +2171,8 @@ export interface QueryPacksListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type QueryPacksListByResourceGroupNextResponse = LogAnalyticsQueryPackListResult;
+export type QueryPacksListByResourceGroupNextResponse =
+  LogAnalyticsQueryPackListResult;
 
 /** Optional parameters. */
 export interface QueriesListOptionalParams extends coreClient.OperationOptions {
@@ -2141,7 +2356,8 @@ export interface LinkedStorageAccountsCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
-export type LinkedStorageAccountsCreateOrUpdateResponse = LinkedStorageAccountsResource;
+export type LinkedStorageAccountsCreateOrUpdateResponse =
+  LinkedStorageAccountsResource;
 
 /** Optional parameters. */
 export interface LinkedStorageAccountsDeleteOptionalParams
@@ -2159,7 +2375,8 @@ export interface LinkedStorageAccountsListByWorkspaceOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByWorkspace operation. */
-export type LinkedStorageAccountsListByWorkspaceResponse = LinkedStorageAccountsListResult;
+export type LinkedStorageAccountsListByWorkspaceResponse =
+  LinkedStorageAccountsListResult;
 
 /** Optional parameters. */
 export interface ManagementGroupsListOptionalParams
@@ -2218,14 +2435,16 @@ export interface StorageInsightConfigsListByWorkspaceOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByWorkspace operation. */
-export type StorageInsightConfigsListByWorkspaceResponse = StorageInsightListResult;
+export type StorageInsightConfigsListByWorkspaceResponse =
+  StorageInsightListResult;
 
 /** Optional parameters. */
 export interface StorageInsightConfigsListByWorkspaceNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByWorkspaceNext operation. */
-export type StorageInsightConfigsListByWorkspaceNextResponse = StorageInsightListResult;
+export type StorageInsightConfigsListByWorkspaceNextResponse =
+  StorageInsightListResult;
 
 /** Optional parameters. */
 export interface SavedSearchesDeleteOptionalParams
@@ -2257,7 +2476,8 @@ export interface AvailableServiceTiersListByWorkspaceOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByWorkspace operation. */
-export type AvailableServiceTiersListByWorkspaceResponse = AvailableServiceTier[];
+export type AvailableServiceTiersListByWorkspaceResponse =
+  AvailableServiceTier[];
 
 /** Optional parameters. */
 export interface GatewaysDeleteOptionalParams
@@ -2351,139 +2571,6 @@ export interface ClustersListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type ClustersListNextResponse = ClusterListResult;
-
-/** Optional parameters. */
-export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type OperationsListResponse = OperationListResult;
-
-/** Optional parameters. */
-export interface OperationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type OperationsListNextResponse = OperationListResult;
-
-/** Optional parameters. */
-export interface WorkspacesListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type WorkspacesListResponse = WorkspaceListResult;
-
-/** Optional parameters. */
-export interface WorkspacesListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroup operation. */
-export type WorkspacesListByResourceGroupResponse = WorkspaceListResult;
-
-/** Optional parameters. */
-export interface WorkspacesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type WorkspacesCreateOrUpdateResponse = Workspace;
-
-/** Optional parameters. */
-export interface WorkspacesDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Deletes the workspace without the recovery option. A workspace that was deleted with this flag cannot be recovered. */
-  force?: boolean;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface WorkspacesGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type WorkspacesGetResponse = Workspace;
-
-/** Optional parameters. */
-export interface WorkspacesUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the update operation. */
-export type WorkspacesUpdateResponse = Workspace;
-
-/** Optional parameters. */
-export interface DeletedWorkspacesListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type DeletedWorkspacesListResponse = WorkspaceListResult;
-
-/** Optional parameters. */
-export interface DeletedWorkspacesListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroup operation. */
-export type DeletedWorkspacesListByResourceGroupResponse = WorkspaceListResult;
-
-/** Optional parameters. */
-export interface TablesListByWorkspaceOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByWorkspace operation. */
-export type TablesListByWorkspaceResponse = TablesListResult;
-
-/** Optional parameters. */
-export interface TablesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type TablesCreateOrUpdateResponse = Table;
-
-/** Optional parameters. */
-export interface TablesUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the update operation. */
-export type TablesUpdateResponse = Table;
-
-/** Optional parameters. */
-export interface TablesGetOptionalParams extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type TablesGetResponse = Table;
-
-/** Optional parameters. */
-export interface TablesDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface TablesMigrateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface TablesCancelSearchOptionalParams
-  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface OperationalInsightsManagementClientOptionalParams
