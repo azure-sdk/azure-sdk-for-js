@@ -8,7 +8,7 @@
 
 export * from "./operations";
 export * from "./cloudManifestFile";
+export * from "./deploymentLicense";
 export * from "./customerSubscriptions";
 export * from "./products";
 export * from "./registrations";
-export * from "./linkedSubscriptions";
