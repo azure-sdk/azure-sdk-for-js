@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export type ActionType = string;
@@ -25,43 +25,7 @@ export type AuthInfoBaseUnion = AuthInfoBase | SecretAuthInfo | UserAssignedIden
 export type AuthType = string;
 
 // @public
-export interface AzureKeyVaultProperties extends AzureResourcePropertiesBase {
-    connectAsKubernetesCsiDriver?: boolean;
-    type: "KeyVault";
-}
-
-// @public
-export interface AzureResource extends TargetServiceBase {
-    id?: string;
-    resourceProperties?: AzureResourcePropertiesBaseUnion;
-    type: "AzureResource";
-}
-
-// @public
-export interface AzureResourcePropertiesBase {
-    type: "KeyVault";
-}
-
-// @public (undocumented)
-export type AzureResourcePropertiesBaseUnion = AzureResourcePropertiesBase | AzureKeyVaultProperties;
-
-// @public
-export type AzureResourceType = string;
-
-// @public
 export type ClientType = string;
-
-// @public
-export interface ConfluentBootstrapServer extends TargetServiceBase {
-    endpoint?: string;
-    type: "ConfluentBootstrapServer";
-}
-
-// @public
-export interface ConfluentSchemaRegistry extends TargetServiceBase {
-    endpoint?: string;
-    type: "ConfluentSchemaRegistry";
-}
 
 // @public
 export type CreatedByType = string;
@@ -90,19 +54,6 @@ export interface ErrorResponse {
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
-export interface KeyVaultSecretReferenceSecretInfo extends SecretInfoBase {
-    name?: string;
-    secretType: "keyVaultSecretReference";
-    version?: string;
-}
-
-// @public
-export interface KeyVaultSecretUriSecretInfo extends SecretInfoBase {
-    secretType: "keyVaultSecretUri";
-    value?: string;
-}
-
-// @public
 export enum KnownActionType {
     Internal = "Internal"
 }
@@ -114,11 +65,6 @@ export enum KnownAuthType {
     ServicePrincipalSecret = "servicePrincipalSecret",
     SystemAssignedIdentity = "systemAssignedIdentity",
     UserAssignedIdentity = "userAssignedIdentity"
-}
-
-// @public
-export enum KnownAzureResourceType {
-    KeyVault = "KeyVault"
 }
 
 // @public
@@ -144,31 +90,16 @@ export enum KnownCreatedByType {
 }
 
 // @public
+export enum KnownLinkerStatus {
+    Healthy = "Healthy",
+    NotHealthy = "Not healthy"
+}
+
+// @public
 export enum KnownOrigin {
     System = "system",
     User = "user",
     UserSystem = "user,system"
-}
-
-// @public
-export enum KnownSecretType {
-    KeyVaultSecretReference = "keyVaultSecretReference",
-    KeyVaultSecretUri = "keyVaultSecretUri",
-    RawValue = "rawValue"
-}
-
-// @public
-export enum KnownTargetServiceType {
-    AzureResource = "AzureResource",
-    ConfluentBootstrapServer = "ConfluentBootstrapServer",
-    ConfluentSchemaRegistry = "ConfluentSchemaRegistry"
-}
-
-// @public
-export enum KnownValidationResultStatus {
-    Failure = "failure",
-    Success = "success",
-    Warning = "warning"
 }
 
 // @public
@@ -179,13 +110,13 @@ export enum KnownVNetSolutionType {
 
 // @public
 export interface Linker {
-    beginCreateOrUpdate(resourceUri: string, linkerName: string, parameters: LinkerResource, options?: LinkerCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<LinkerCreateOrUpdateResponse>, LinkerCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceUri: string, linkerName: string, parameters: LinkerResource, options?: LinkerCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<LinkerCreateOrUpdateResponse>, LinkerCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceUri: string, linkerName: string, parameters: LinkerResource, options?: LinkerCreateOrUpdateOptionalParams): Promise<LinkerCreateOrUpdateResponse>;
-    beginDelete(resourceUri: string, linkerName: string, options?: LinkerDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceUri: string, linkerName: string, options?: LinkerDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceUri: string, linkerName: string, options?: LinkerDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceUri: string, linkerName: string, parameters: LinkerPatch, options?: LinkerUpdateOptionalParams): Promise<PollerLike<PollOperationState<LinkerUpdateResponse>, LinkerUpdateResponse>>;
+    beginUpdate(resourceUri: string, linkerName: string, parameters: LinkerPatch, options?: LinkerUpdateOptionalParams): Promise<SimplePollerLike<OperationState<LinkerUpdateResponse>, LinkerUpdateResponse>>;
     beginUpdateAndWait(resourceUri: string, linkerName: string, parameters: LinkerPatch, options?: LinkerUpdateOptionalParams): Promise<LinkerUpdateResponse>;
-    beginValidate(resourceUri: string, linkerName: string, options?: LinkerValidateOptionalParams): Promise<PollerLike<PollOperationState<LinkerValidateResponse>, LinkerValidateResponse>>;
+    beginValidate(resourceUri: string, linkerName: string, options?: LinkerValidateOptionalParams): Promise<SimplePollerLike<OperationState<LinkerValidateResponse>, LinkerValidateResponse>>;
     beginValidateAndWait(resourceUri: string, linkerName: string, options?: LinkerValidateOptionalParams): Promise<LinkerValidateResponse>;
     get(resourceUri: string, linkerName: string, options?: LinkerGetOptionalParams): Promise<LinkerGetResponse>;
     list(resourceUri: string, options?: LinkerListOptionalParams): PagedAsyncIterableIterator<LinkerResource>;
@@ -246,9 +177,8 @@ export interface LinkerPatch {
     authInfo?: AuthInfoBaseUnion;
     clientType?: ClientType;
     readonly provisioningState?: string;
-    scope?: string;
     secretStore?: SecretStore;
-    targetService?: TargetServiceBaseUnion;
+    targetId?: string;
     vNetSolution?: VNetSolution;
 }
 
@@ -257,12 +187,14 @@ export interface LinkerResource extends ProxyResource {
     authInfo?: AuthInfoBaseUnion;
     clientType?: ClientType;
     readonly provisioningState?: string;
-    scope?: string;
     secretStore?: SecretStore;
     readonly systemData?: SystemData;
-    targetService?: TargetServiceBaseUnion;
+    targetId?: string;
     vNetSolution?: VNetSolution;
 }
+
+// @public
+export type LinkerStatus = string;
 
 // @public
 export interface LinkerUpdateOptionalParams extends coreClient.OperationOptions {
@@ -280,7 +212,7 @@ export interface LinkerValidateOptionalParams extends coreClient.OperationOption
 }
 
 // @public
-export type LinkerValidateResponse = ValidateOperationResult;
+export type LinkerValidateResponse = ValidateResult;
 
 // @public
 export interface Operation {
@@ -342,24 +274,13 @@ export interface Resource {
 export interface SecretAuthInfo extends AuthInfoBase {
     authType: "secret";
     name?: string;
-    secretInfo?: SecretInfoBaseUnion;
+    secret?: string;
 }
-
-// @public
-export interface SecretInfoBase {
-    secretType: "rawValue" | "keyVaultSecretReference" | "keyVaultSecretUri";
-}
-
-// @public (undocumented)
-export type SecretInfoBaseUnion = SecretInfoBase | ValueSecretInfo | KeyVaultSecretReferenceSecretInfo | KeyVaultSecretUriSecretInfo;
 
 // @public
 export interface SecretStore {
     keyVaultId?: string;
 }
-
-// @public
-export type SecretType = string;
 
 // @public (undocumented)
 export class ServiceLinkerManagementClient extends coreClient.ServiceClient {
@@ -424,53 +345,21 @@ export interface SystemData {
 }
 
 // @public
-export interface TargetServiceBase {
-    type: "AzureResource" | "ConfluentBootstrapServer" | "ConfluentSchemaRegistry";
-}
-
-// @public (undocumented)
-export type TargetServiceBaseUnion = TargetServiceBase | AzureResource | ConfluentBootstrapServer | ConfluentSchemaRegistry;
-
-// @public
-export type TargetServiceType = string;
-
-// @public
 export interface UserAssignedIdentityAuthInfo extends AuthInfoBase {
     authType: "userAssignedIdentity";
-    clientId?: string;
-    subscriptionId?: string;
+    clientId: string;
+    subscriptionId: string;
 }
 
 // @public
-export interface ValidateOperationResult {
+export interface ValidateResult {
     authType?: AuthType;
-    isConnectionAvailable?: boolean;
-    linkerName?: string;
+    linkerStatus?: LinkerStatus;
+    name?: string;
+    reason?: string;
     reportEndTimeUtc?: Date;
     reportStartTimeUtc?: Date;
-    resourceId?: string;
-    sourceId?: string;
-    status?: string;
     targetId?: string;
-    validationDetail?: ValidationResultItem[];
-}
-
-// @public
-export interface ValidationResultItem {
-    description?: string;
-    errorCode?: string;
-    errorMessage?: string;
-    name?: string;
-    result?: ValidationResultStatus;
-}
-
-// @public
-export type ValidationResultStatus = string;
-
-// @public
-export interface ValueSecretInfo extends SecretInfoBase {
-    secretType: "rawValue";
-    value?: string;
 }
 
 // @public
