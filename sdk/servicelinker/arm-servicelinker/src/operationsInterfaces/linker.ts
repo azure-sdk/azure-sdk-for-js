@@ -6,38 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
-  LinkerResource,
-  LinkerListOptionalParams,
   LinkerGetOptionalParams,
   LinkerGetResponse,
-  LinkerCreateOrUpdateOptionalParams,
-  LinkerCreateOrUpdateResponse,
-  LinkerDeleteOptionalParams,
   LinkerPatch,
   LinkerUpdateOptionalParams,
   LinkerUpdateResponse,
   LinkerValidateOptionalParams,
   LinkerValidateResponse,
   LinkerListConfigurationsOptionalParams,
-  LinkerListConfigurationsResponse
+  LinkerListConfigurationsResponse,
 } from "../models";
 
-/// <reference lib="esnext.asynciterable" />
 /** Interface representing a Linker. */
 export interface Linker {
-  /**
-   * Returns list of Linkers which connects to the resource.
-   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
-   *                    connected.
-   * @param options The options parameters.
-   */
-  list(
-    resourceUri: string,
-    options?: LinkerListOptionalParams
-  ): PagedAsyncIterableIterator<LinkerResource>;
   /**
    * Returns Linker resource for a given name.
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
@@ -48,65 +31,8 @@ export interface Linker {
   get(
     resourceUri: string,
     linkerName: string,
-    options?: LinkerGetOptionalParams
+    options?: LinkerGetOptionalParams,
   ): Promise<LinkerGetResponse>;
-  /**
-   * Create or update linker resource.
-   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
-   *                    connected.
-   * @param linkerName The name Linker resource.
-   * @param parameters Linker details.
-   * @param options The options parameters.
-   */
-  beginCreateOrUpdate(
-    resourceUri: string,
-    linkerName: string,
-    parameters: LinkerResource,
-    options?: LinkerCreateOrUpdateOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<LinkerCreateOrUpdateResponse>,
-      LinkerCreateOrUpdateResponse
-    >
-  >;
-  /**
-   * Create or update linker resource.
-   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
-   *                    connected.
-   * @param linkerName The name Linker resource.
-   * @param parameters Linker details.
-   * @param options The options parameters.
-   */
-  beginCreateOrUpdateAndWait(
-    resourceUri: string,
-    linkerName: string,
-    parameters: LinkerResource,
-    options?: LinkerCreateOrUpdateOptionalParams
-  ): Promise<LinkerCreateOrUpdateResponse>;
-  /**
-   * Delete a link.
-   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
-   *                    connected.
-   * @param linkerName The name Linker resource.
-   * @param options The options parameters.
-   */
-  beginDelete(
-    resourceUri: string,
-    linkerName: string,
-    options?: LinkerDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
-  /**
-   * Delete a link.
-   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
-   *                    connected.
-   * @param linkerName The name Linker resource.
-   * @param options The options parameters.
-   */
-  beginDeleteAndWait(
-    resourceUri: string,
-    linkerName: string,
-    options?: LinkerDeleteOptionalParams
-  ): Promise<void>;
   /**
    * Operation to update an existing link.
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
@@ -119,9 +45,9 @@ export interface Linker {
     resourceUri: string,
     linkerName: string,
     parameters: LinkerPatch,
-    options?: LinkerUpdateOptionalParams
+    options?: LinkerUpdateOptionalParams,
   ): Promise<
-    PollerLike<PollOperationState<LinkerUpdateResponse>, LinkerUpdateResponse>
+    SimplePollerLike<OperationState<LinkerUpdateResponse>, LinkerUpdateResponse>
   >;
   /**
    * Operation to update an existing link.
@@ -135,7 +61,7 @@ export interface Linker {
     resourceUri: string,
     linkerName: string,
     parameters: LinkerPatch,
-    options?: LinkerUpdateOptionalParams
+    options?: LinkerUpdateOptionalParams,
   ): Promise<LinkerUpdateResponse>;
   /**
    * Validate a link.
@@ -147,10 +73,10 @@ export interface Linker {
   beginValidate(
     resourceUri: string,
     linkerName: string,
-    options?: LinkerValidateOptionalParams
+    options?: LinkerValidateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<LinkerValidateResponse>,
+    SimplePollerLike<
+      OperationState<LinkerValidateResponse>,
       LinkerValidateResponse
     >
   >;
@@ -164,7 +90,7 @@ export interface Linker {
   beginValidateAndWait(
     resourceUri: string,
     linkerName: string,
-    options?: LinkerValidateOptionalParams
+    options?: LinkerValidateOptionalParams,
   ): Promise<LinkerValidateResponse>;
   /**
    * list source configurations for a linker.
@@ -176,6 +102,6 @@ export interface Linker {
   listConfigurations(
     resourceUri: string,
     linkerName: string,
-    options?: LinkerListConfigurationsOptionalParams
+    options?: LinkerListConfigurationsOptionalParams,
   ): Promise<LinkerListConfigurationsResponse>;
 }
