@@ -15,7 +15,7 @@ import {
   NetworkStatusListByServiceOptionalParams,
   NetworkStatusListByServiceResponse,
   NetworkStatusListByLocationOptionalParams,
-  NetworkStatusListByLocationResponse
+  NetworkStatusListByLocationResponse,
 } from "../models";
 
 /** Class containing NetworkStatus operations. */
@@ -40,11 +40,11 @@ export class NetworkStatusImpl implements NetworkStatus {
   listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: NetworkStatusListByServiceOptionalParams
+    options?: NetworkStatusListByServiceOptionalParams,
   ): Promise<NetworkStatusListByServiceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, options },
-      listByServiceOperationSpec
+      listByServiceOperationSpec,
     );
   }
 
@@ -61,11 +61,11 @@ export class NetworkStatusImpl implements NetworkStatus {
     resourceGroupName: string,
     serviceName: string,
     locationName: string,
-    options?: NetworkStatusListByLocationOptionalParams
+    options?: NetworkStatusListByLocationOptionalParams,
   ): Promise<NetworkStatusListByLocationResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, locationName, options },
-      listByLocationOperationSpec
+      listByLocationOperationSpec,
     );
   }
 }
@@ -73,8 +73,7 @@ export class NetworkStatusImpl implements NetworkStatus {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByServiceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/networkstatus",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/networkstatus",
   httpMethod: "GET",
   responses: {
     200: {
@@ -84,37 +83,15 @@ const listByServiceOperationSpec: coreClient.OperationSpec = {
           element: {
             type: {
               name: "Composite",
-              className: "NetworkStatusContractByLocation"
-            }
-          }
-        }
-      }
+              className: "NetworkStatusContractByLocation",
+            },
+          },
+        },
+      },
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listByLocationOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/locations/{locationName}/networkstatus",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.NetworkStatusContract
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -122,8 +99,29 @@ const listByLocationOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.locationName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const listByLocationOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/locations/{locationName}/networkstatus",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.NetworkStatusContract,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+    Parameters.subscriptionId,
+    Parameters.locationName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
