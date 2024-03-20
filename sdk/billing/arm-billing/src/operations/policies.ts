@@ -21,7 +21,7 @@ import {
   PoliciesGetByCustomerResponse,
   CustomerPolicy,
   PoliciesUpdateCustomerOptionalParams,
-  PoliciesUpdateCustomerResponse
+  PoliciesUpdateCustomerResponse,
 } from "../models";
 
 /** Class containing Policies operations. */
@@ -46,11 +46,11 @@ export class PoliciesImpl implements Policies {
   getByBillingProfile(
     billingAccountName: string,
     billingProfileName: string,
-    options?: PoliciesGetByBillingProfileOptionalParams
+    options?: PoliciesGetByBillingProfileOptionalParams,
   ): Promise<PoliciesGetByBillingProfileResponse> {
     return this.client.sendOperationRequest(
       { billingAccountName, billingProfileName, options },
-      getByBillingProfileOperationSpec
+      getByBillingProfileOperationSpec,
     );
   }
 
@@ -66,11 +66,11 @@ export class PoliciesImpl implements Policies {
     billingAccountName: string,
     billingProfileName: string,
     parameters: Policy,
-    options?: PoliciesUpdateOptionalParams
+    options?: PoliciesUpdateOptionalParams,
   ): Promise<PoliciesUpdateResponse> {
     return this.client.sendOperationRequest(
       { billingAccountName, billingProfileName, parameters, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -84,11 +84,11 @@ export class PoliciesImpl implements Policies {
   getByCustomer(
     billingAccountName: string,
     customerName: string,
-    options?: PoliciesGetByCustomerOptionalParams
+    options?: PoliciesGetByCustomerOptionalParams,
   ): Promise<PoliciesGetByCustomerResponse> {
     return this.client.sendOperationRequest(
       { billingAccountName, customerName, options },
-      getByCustomerOperationSpec
+      getByCustomerOperationSpec,
     );
   }
 
@@ -104,11 +104,11 @@ export class PoliciesImpl implements Policies {
     billingAccountName: string,
     customerName: string,
     parameters: CustomerPolicy,
-    options?: PoliciesUpdateCustomerOptionalParams
+    options?: PoliciesUpdateCustomerOptionalParams,
   ): Promise<PoliciesUpdateCustomerResponse> {
     return this.client.sendOperationRequest(
       { billingAccountName, customerName, parameters, options },
-      updateCustomerOperationSpec
+      updateCustomerOperationSpec,
     );
   }
 }
@@ -116,90 +116,86 @@ export class PoliciesImpl implements Policies {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getByBillingProfileOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/policies/default",
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/policies/default",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Policy
+      bodyMapper: Mappers.Policy,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,
-    Parameters.billingProfileName
+    Parameters.billingProfileName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/policies/default",
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/policies/default",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Policy
+      bodyMapper: Mappers.Policy,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters8,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,
-    Parameters.billingProfileName
+    Parameters.billingProfileName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getByCustomerOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/customers/{customerName}/policies/default",
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/customers/{customerName}/policies/default",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CustomerPolicy
+      bodyMapper: Mappers.CustomerPolicy,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,
-    Parameters.customerName
+    Parameters.customerName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateCustomerOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/customers/{customerName}/policies/default",
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/customers/{customerName}/policies/default",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.CustomerPolicy
+      bodyMapper: Mappers.CustomerPolicy,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters9,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,
-    Parameters.customerName
+    Parameters.customerName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

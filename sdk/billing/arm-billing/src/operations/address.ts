@@ -14,7 +14,7 @@ import { BillingManagementClient } from "../billingManagementClient";
 import {
   AddressDetails,
   AddressValidateOptionalParams,
-  AddressValidateResponse
+  AddressValidateResponse,
 } from "../models";
 
 /** Class containing Address operations. */
@@ -37,11 +37,11 @@ export class AddressImpl implements Address {
    */
   validate(
     address: AddressDetails,
-    options?: AddressValidateOptionalParams
+    options?: AddressValidateOptionalParams,
   ): Promise<AddressValidateResponse> {
     return this.client.sendOperationRequest(
       { address, options },
-      validateOperationSpec
+      validateOperationSpec,
     );
   }
 }
@@ -53,16 +53,16 @@ const validateOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ValidateAddressResponse
+      bodyMapper: Mappers.ValidateAddressResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.address,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

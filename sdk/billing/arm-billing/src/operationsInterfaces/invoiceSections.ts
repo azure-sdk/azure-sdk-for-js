@@ -7,14 +7,14 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   InvoiceSection,
   InvoiceSectionsListByBillingProfileOptionalParams,
   InvoiceSectionsGetOptionalParams,
   InvoiceSectionsGetResponse,
   InvoiceSectionsCreateOrUpdateOptionalParams,
-  InvoiceSectionsCreateOrUpdateResponse
+  InvoiceSectionsCreateOrUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface InvoiceSections {
   listByBillingProfile(
     billingAccountName: string,
     billingProfileName: string,
-    options?: InvoiceSectionsListByBillingProfileOptionalParams
+    options?: InvoiceSectionsListByBillingProfileOptionalParams,
   ): PagedAsyncIterableIterator<InvoiceSection>;
   /**
    * Gets an invoice section by its ID. The operation is supported only for billing accounts with
@@ -44,7 +44,7 @@ export interface InvoiceSections {
     billingAccountName: string,
     billingProfileName: string,
     invoiceSectionName: string,
-    options?: InvoiceSectionsGetOptionalParams
+    options?: InvoiceSectionsGetOptionalParams,
   ): Promise<InvoiceSectionsGetResponse>;
   /**
    * Creates or updates an invoice section. The operation is supported only for billing accounts with
@@ -60,10 +60,10 @@ export interface InvoiceSections {
     billingProfileName: string,
     invoiceSectionName: string,
     parameters: InvoiceSection,
-    options?: InvoiceSectionsCreateOrUpdateOptionalParams
+    options?: InvoiceSectionsCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<InvoiceSectionsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<InvoiceSectionsCreateOrUpdateResponse>,
       InvoiceSectionsCreateOrUpdateResponse
     >
   >;
@@ -81,6 +81,6 @@ export interface InvoiceSections {
     billingProfileName: string,
     invoiceSectionName: string,
     parameters: InvoiceSection,
-    options?: InvoiceSectionsCreateOrUpdateOptionalParams
+    options?: InvoiceSectionsCreateOrUpdateOptionalParams,
   ): Promise<InvoiceSectionsCreateOrUpdateResponse>;
 }

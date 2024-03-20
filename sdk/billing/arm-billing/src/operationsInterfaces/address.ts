@@ -9,7 +9,7 @@
 import {
   AddressDetails,
   AddressValidateOptionalParams,
-  AddressValidateResponse
+  AddressValidateResponse,
 } from "../models";
 
 /** Interface representing a Address. */
@@ -22,6 +22,6 @@ export interface Address {
    */
   validate(
     address: AddressDetails,
-    options?: AddressValidateOptionalParams
+    options?: AddressValidateOptionalParams,
   ): Promise<AddressValidateResponse>;
 }

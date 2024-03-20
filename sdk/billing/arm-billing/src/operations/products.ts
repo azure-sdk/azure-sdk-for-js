@@ -39,7 +39,7 @@ import {
   ProductsListByCustomerNextResponse,
   ProductsListByBillingAccountNextResponse,
   ProductsListByBillingProfileNextResponse,
-  ProductsListByInvoiceSectionNextResponse
+  ProductsListByInvoiceSectionNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -65,12 +65,12 @@ export class ProductsImpl implements Products {
   public listByCustomer(
     billingAccountName: string,
     customerName: string,
-    options?: ProductsListByCustomerOptionalParams
+    options?: ProductsListByCustomerOptionalParams,
   ): PagedAsyncIterableIterator<Product> {
     const iter = this.listByCustomerPagingAll(
       billingAccountName,
       customerName,
-      options
+      options,
     );
     return {
       next() {
@@ -87,9 +87,9 @@ export class ProductsImpl implements Products {
           billingAccountName,
           customerName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -97,7 +97,7 @@ export class ProductsImpl implements Products {
     billingAccountName: string,
     customerName: string,
     options?: ProductsListByCustomerOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Product[]> {
     let result: ProductsListByCustomerResponse;
     let continuationToken = settings?.continuationToken;
@@ -105,7 +105,7 @@ export class ProductsImpl implements Products {
       result = await this._listByCustomer(
         billingAccountName,
         customerName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -117,7 +117,7 @@ export class ProductsImpl implements Products {
         billingAccountName,
         customerName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -129,12 +129,12 @@ export class ProductsImpl implements Products {
   private async *listByCustomerPagingAll(
     billingAccountName: string,
     customerName: string,
-    options?: ProductsListByCustomerOptionalParams
+    options?: ProductsListByCustomerOptionalParams,
   ): AsyncIterableIterator<Product> {
     for await (const page of this.listByCustomerPagingPage(
       billingAccountName,
       customerName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -149,11 +149,11 @@ export class ProductsImpl implements Products {
    */
   public listByBillingAccount(
     billingAccountName: string,
-    options?: ProductsListByBillingAccountOptionalParams
+    options?: ProductsListByBillingAccountOptionalParams,
   ): PagedAsyncIterableIterator<Product> {
     const iter = this.listByBillingAccountPagingAll(
       billingAccountName,
-      options
+      options,
     );
     return {
       next() {
@@ -169,16 +169,16 @@ export class ProductsImpl implements Products {
         return this.listByBillingAccountPagingPage(
           billingAccountName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByBillingAccountPagingPage(
     billingAccountName: string,
     options?: ProductsListByBillingAccountOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Product[]> {
     let result: ProductsListByBillingAccountResponse;
     let continuationToken = settings?.continuationToken;
@@ -193,7 +193,7 @@ export class ProductsImpl implements Products {
       result = await this._listByBillingAccountNext(
         billingAccountName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -204,11 +204,11 @@ export class ProductsImpl implements Products {
 
   private async *listByBillingAccountPagingAll(
     billingAccountName: string,
-    options?: ProductsListByBillingAccountOptionalParams
+    options?: ProductsListByBillingAccountOptionalParams,
   ): AsyncIterableIterator<Product> {
     for await (const page of this.listByBillingAccountPagingPage(
       billingAccountName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -225,12 +225,12 @@ export class ProductsImpl implements Products {
   public listByBillingProfile(
     billingAccountName: string,
     billingProfileName: string,
-    options?: ProductsListByBillingProfileOptionalParams
+    options?: ProductsListByBillingProfileOptionalParams,
   ): PagedAsyncIterableIterator<Product> {
     const iter = this.listByBillingProfilePagingAll(
       billingAccountName,
       billingProfileName,
-      options
+      options,
     );
     return {
       next() {
@@ -247,9 +247,9 @@ export class ProductsImpl implements Products {
           billingAccountName,
           billingProfileName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -257,7 +257,7 @@ export class ProductsImpl implements Products {
     billingAccountName: string,
     billingProfileName: string,
     options?: ProductsListByBillingProfileOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Product[]> {
     let result: ProductsListByBillingProfileResponse;
     let continuationToken = settings?.continuationToken;
@@ -265,7 +265,7 @@ export class ProductsImpl implements Products {
       result = await this._listByBillingProfile(
         billingAccountName,
         billingProfileName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -277,7 +277,7 @@ export class ProductsImpl implements Products {
         billingAccountName,
         billingProfileName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -289,12 +289,12 @@ export class ProductsImpl implements Products {
   private async *listByBillingProfilePagingAll(
     billingAccountName: string,
     billingProfileName: string,
-    options?: ProductsListByBillingProfileOptionalParams
+    options?: ProductsListByBillingProfileOptionalParams,
   ): AsyncIterableIterator<Product> {
     for await (const page of this.listByBillingProfilePagingPage(
       billingAccountName,
       billingProfileName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -312,13 +312,13 @@ export class ProductsImpl implements Products {
     billingAccountName: string,
     billingProfileName: string,
     invoiceSectionName: string,
-    options?: ProductsListByInvoiceSectionOptionalParams
+    options?: ProductsListByInvoiceSectionOptionalParams,
   ): PagedAsyncIterableIterator<Product> {
     const iter = this.listByInvoiceSectionPagingAll(
       billingAccountName,
       billingProfileName,
       invoiceSectionName,
-      options
+      options,
     );
     return {
       next() {
@@ -336,9 +336,9 @@ export class ProductsImpl implements Products {
           billingProfileName,
           invoiceSectionName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -347,7 +347,7 @@ export class ProductsImpl implements Products {
     billingProfileName: string,
     invoiceSectionName: string,
     options?: ProductsListByInvoiceSectionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Product[]> {
     let result: ProductsListByInvoiceSectionResponse;
     let continuationToken = settings?.continuationToken;
@@ -356,7 +356,7 @@ export class ProductsImpl implements Products {
         billingAccountName,
         billingProfileName,
         invoiceSectionName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -369,7 +369,7 @@ export class ProductsImpl implements Products {
         billingProfileName,
         invoiceSectionName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -382,13 +382,13 @@ export class ProductsImpl implements Products {
     billingAccountName: string,
     billingProfileName: string,
     invoiceSectionName: string,
-    options?: ProductsListByInvoiceSectionOptionalParams
+    options?: ProductsListByInvoiceSectionOptionalParams,
   ): AsyncIterableIterator<Product> {
     for await (const page of this.listByInvoiceSectionPagingPage(
       billingAccountName,
       billingProfileName,
       invoiceSectionName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -404,11 +404,11 @@ export class ProductsImpl implements Products {
   private _listByCustomer(
     billingAccountName: string,
     customerName: string,
-    options?: ProductsListByCustomerOptionalParams
+    options?: ProductsListByCustomerOptionalParams,
   ): Promise<ProductsListByCustomerResponse> {
     return this.client.sendOperationRequest(
       { billingAccountName, customerName, options },
-      listByCustomerOperationSpec
+      listByCustomerOperationSpec,
     );
   }
 
@@ -421,11 +421,11 @@ export class ProductsImpl implements Products {
    */
   private _listByBillingAccount(
     billingAccountName: string,
-    options?: ProductsListByBillingAccountOptionalParams
+    options?: ProductsListByBillingAccountOptionalParams,
   ): Promise<ProductsListByBillingAccountResponse> {
     return this.client.sendOperationRequest(
       { billingAccountName, options },
-      listByBillingAccountOperationSpec
+      listByBillingAccountOperationSpec,
     );
   }
 
@@ -440,11 +440,11 @@ export class ProductsImpl implements Products {
   private _listByBillingProfile(
     billingAccountName: string,
     billingProfileName: string,
-    options?: ProductsListByBillingProfileOptionalParams
+    options?: ProductsListByBillingProfileOptionalParams,
   ): Promise<ProductsListByBillingProfileResponse> {
     return this.client.sendOperationRequest(
       { billingAccountName, billingProfileName, options },
-      listByBillingProfileOperationSpec
+      listByBillingProfileOperationSpec,
     );
   }
 
@@ -460,11 +460,11 @@ export class ProductsImpl implements Products {
     billingAccountName: string,
     billingProfileName: string,
     invoiceSectionName: string,
-    options?: ProductsListByInvoiceSectionOptionalParams
+    options?: ProductsListByInvoiceSectionOptionalParams,
   ): Promise<ProductsListByInvoiceSectionResponse> {
     return this.client.sendOperationRequest(
       { billingAccountName, billingProfileName, invoiceSectionName, options },
-      listByInvoiceSectionOperationSpec
+      listByInvoiceSectionOperationSpec,
     );
   }
 
@@ -478,11 +478,11 @@ export class ProductsImpl implements Products {
   get(
     billingAccountName: string,
     productName: string,
-    options?: ProductsGetOptionalParams
+    options?: ProductsGetOptionalParams,
   ): Promise<ProductsGetResponse> {
     return this.client.sendOperationRequest(
       { billingAccountName, productName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -498,11 +498,11 @@ export class ProductsImpl implements Products {
     billingAccountName: string,
     productName: string,
     parameters: Product,
-    options?: ProductsUpdateOptionalParams
+    options?: ProductsUpdateOptionalParams,
   ): Promise<ProductsUpdateResponse> {
     return this.client.sendOperationRequest(
       { billingAccountName, productName, parameters, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -520,11 +520,11 @@ export class ProductsImpl implements Products {
     billingAccountName: string,
     productName: string,
     parameters: TransferProductRequestProperties,
-    options?: ProductsMoveOptionalParams
+    options?: ProductsMoveOptionalParams,
   ): Promise<ProductsMoveResponse> {
     return this.client.sendOperationRequest(
       { billingAccountName, productName, parameters, options },
-      moveOperationSpec
+      moveOperationSpec,
     );
   }
 
@@ -541,11 +541,11 @@ export class ProductsImpl implements Products {
     billingAccountName: string,
     productName: string,
     parameters: TransferProductRequestProperties,
-    options?: ProductsValidateMoveOptionalParams
+    options?: ProductsValidateMoveOptionalParams,
   ): Promise<ProductsValidateMoveResponse> {
     return this.client.sendOperationRequest(
       { billingAccountName, productName, parameters, options },
-      validateMoveOperationSpec
+      validateMoveOperationSpec,
     );
   }
 
@@ -560,11 +560,11 @@ export class ProductsImpl implements Products {
     billingAccountName: string,
     customerName: string,
     nextLink: string,
-    options?: ProductsListByCustomerNextOptionalParams
+    options?: ProductsListByCustomerNextOptionalParams,
   ): Promise<ProductsListByCustomerNextResponse> {
     return this.client.sendOperationRequest(
       { billingAccountName, customerName, nextLink, options },
-      listByCustomerNextOperationSpec
+      listByCustomerNextOperationSpec,
     );
   }
 
@@ -577,11 +577,11 @@ export class ProductsImpl implements Products {
   private _listByBillingAccountNext(
     billingAccountName: string,
     nextLink: string,
-    options?: ProductsListByBillingAccountNextOptionalParams
+    options?: ProductsListByBillingAccountNextOptionalParams,
   ): Promise<ProductsListByBillingAccountNextResponse> {
     return this.client.sendOperationRequest(
       { billingAccountName, nextLink, options },
-      listByBillingAccountNextOperationSpec
+      listByBillingAccountNextOperationSpec,
     );
   }
 
@@ -596,11 +596,11 @@ export class ProductsImpl implements Products {
     billingAccountName: string,
     billingProfileName: string,
     nextLink: string,
-    options?: ProductsListByBillingProfileNextOptionalParams
+    options?: ProductsListByBillingProfileNextOptionalParams,
   ): Promise<ProductsListByBillingProfileNextResponse> {
     return this.client.sendOperationRequest(
       { billingAccountName, billingProfileName, nextLink, options },
-      listByBillingProfileNextOperationSpec
+      listByBillingProfileNextOperationSpec,
     );
   }
 
@@ -617,7 +617,7 @@ export class ProductsImpl implements Products {
     billingProfileName: string,
     invoiceSectionName: string,
     nextLink: string,
-    options?: ProductsListByInvoiceSectionNextOptionalParams
+    options?: ProductsListByInvoiceSectionNextOptionalParams,
   ): Promise<ProductsListByInvoiceSectionNextResponse> {
     return this.client.sendOperationRequest(
       {
@@ -625,9 +625,9 @@ export class ProductsImpl implements Products {
         billingProfileName,
         invoiceSectionName,
         nextLink,
-        options
+        options,
       },
-      listByInvoiceSectionNextOperationSpec
+      listByInvoiceSectionNextOperationSpec,
     );
   }
 }
@@ -635,260 +635,248 @@ export class ProductsImpl implements Products {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByCustomerOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/customers/{customerName}/products",
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/customers/{customerName}/products",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProductsListResult
+      bodyMapper: Mappers.ProductsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,
-    Parameters.customerName
+    Parameters.customerName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByBillingAccountOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/products",
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/products",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProductsListResult
+      bodyMapper: Mappers.ProductsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [Parameters.$host, Parameters.billingAccountName],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByBillingProfileOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/products",
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/products",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProductsListResult
+      bodyMapper: Mappers.ProductsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.billingProfileName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listByInvoiceSectionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/products",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ProductsListResult
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,
     Parameters.billingProfileName,
-    Parameters.invoiceSectionName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/products/{productName}",
+const listByInvoiceSectionOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/products",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Product
+      bodyMapper: Mappers.ProductsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.filter],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.billingAccountName,
+    Parameters.billingProfileName,
+    Parameters.invoiceSectionName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/products/{productName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Product,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,
-    Parameters.productName
+    Parameters.productName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/products/{productName}",
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/products/{productName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Product
+      bodyMapper: Mappers.Product,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters6,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,
-    Parameters.productName
+    Parameters.productName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const moveOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/products/{productName}/move",
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/products/{productName}/move",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.Product
+      bodyMapper: Mappers.Product,
     },
     202: {
-      headersMapper: Mappers.ProductsMoveHeaders
+      headersMapper: Mappers.ProductsMoveHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters7,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,
-    Parameters.productName
+    Parameters.productName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const validateMoveOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/products/{productName}/validateMoveEligibility",
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/products/{productName}/validateMoveEligibility",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ValidateProductTransferEligibilityResult
+      bodyMapper: Mappers.ValidateProductTransferEligibilityResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters7,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,
-    Parameters.productName
+    Parameters.productName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByCustomerNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProductsListResult
+      bodyMapper: Mappers.ProductsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,
     Parameters.nextLink,
-    Parameters.customerName
+    Parameters.customerName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByBillingAccountNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProductsListResult
+      bodyMapper: Mappers.ProductsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByBillingProfileNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProductsListResult
+      bodyMapper: Mappers.ProductsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,
     Parameters.nextLink,
-    Parameters.billingProfileName
+    Parameters.billingProfileName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByInvoiceSectionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProductsListResult
+      bodyMapper: Mappers.ProductsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,
     Parameters.nextLink,
     Parameters.billingProfileName,
-    Parameters.invoiceSectionName
+    Parameters.invoiceSectionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

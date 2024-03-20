@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   BillingAccount,
   BillingAccountsListOptionalParams,
@@ -17,7 +17,7 @@ import {
   BillingAccountsGetResponse,
   BillingAccountUpdateRequest,
   BillingAccountsUpdateOptionalParams,
-  BillingAccountsUpdateResponse
+  BillingAccountsUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -28,7 +28,7 @@ export interface BillingAccounts {
    * @param options The options parameters.
    */
   list(
-    options?: BillingAccountsListOptionalParams
+    options?: BillingAccountsListOptionalParams,
   ): PagedAsyncIterableIterator<BillingAccount>;
   /**
    * Lists the invoice sections for which the user has permission to create Azure subscriptions. The
@@ -38,7 +38,7 @@ export interface BillingAccounts {
    */
   listInvoiceSectionsByCreateSubscriptionPermission(
     billingAccountName: string,
-    options?: BillingAccountsListInvoiceSectionsByCreateSubscriptionPermissionOptionalParams
+    options?: BillingAccountsListInvoiceSectionsByCreateSubscriptionPermissionOptionalParams,
   ): PagedAsyncIterableIterator<InvoiceSectionWithCreateSubPermission>;
   /**
    * Gets a billing account by its ID.
@@ -47,7 +47,7 @@ export interface BillingAccounts {
    */
   get(
     billingAccountName: string,
-    options?: BillingAccountsGetOptionalParams
+    options?: BillingAccountsGetOptionalParams,
   ): Promise<BillingAccountsGetResponse>;
   /**
    * Updates the properties of a billing account. Currently, displayName and address can be updated. The
@@ -59,10 +59,10 @@ export interface BillingAccounts {
   beginUpdate(
     billingAccountName: string,
     parameters: BillingAccountUpdateRequest,
-    options?: BillingAccountsUpdateOptionalParams
+    options?: BillingAccountsUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<BillingAccountsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<BillingAccountsUpdateResponse>,
       BillingAccountsUpdateResponse
     >
   >;
@@ -76,6 +76,6 @@ export interface BillingAccounts {
   beginUpdateAndWait(
     billingAccountName: string,
     parameters: BillingAccountUpdateRequest,
-    options?: BillingAccountsUpdateOptionalParams
+    options?: BillingAccountsUpdateOptionalParams,
   ): Promise<BillingAccountsUpdateResponse>;
 }

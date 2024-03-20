@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Invoice,
   InvoicesListByBillingAccountOptionalParams,
@@ -26,7 +26,7 @@ import {
   InvoicesDownloadBillingSubscriptionInvoiceOptionalParams,
   InvoicesDownloadBillingSubscriptionInvoiceResponse,
   InvoicesDownloadMultipleBillingSubscriptionInvoicesOptionalParams,
-  InvoicesDownloadMultipleBillingSubscriptionInvoicesResponse
+  InvoicesDownloadMultipleBillingSubscriptionInvoicesResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -47,7 +47,7 @@ export interface Invoices {
     billingAccountName: string,
     periodStartDate: string,
     periodEndDate: string,
-    options?: InvoicesListByBillingAccountOptionalParams
+    options?: InvoicesListByBillingAccountOptionalParams,
   ): PagedAsyncIterableIterator<Invoice>;
   /**
    * Lists the invoices for a billing profile for a given start date and end date. The operation is
@@ -66,7 +66,7 @@ export interface Invoices {
     billingProfileName: string,
     periodStartDate: string,
     periodEndDate: string,
-    options?: InvoicesListByBillingProfileOptionalParams
+    options?: InvoicesListByBillingProfileOptionalParams,
   ): PagedAsyncIterableIterator<Invoice>;
   /**
    * Lists the invoices for a subscription.
@@ -77,7 +77,7 @@ export interface Invoices {
   listByBillingSubscription(
     periodStartDate: string,
     periodEndDate: string,
-    options?: InvoicesListByBillingSubscriptionOptionalParams
+    options?: InvoicesListByBillingSubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<Invoice>;
   /**
    * Gets an invoice by billing account name and ID. The operation is supported for billing accounts with
@@ -89,7 +89,7 @@ export interface Invoices {
   get(
     billingAccountName: string,
     invoiceName: string,
-    options?: InvoicesGetOptionalParams
+    options?: InvoicesGetOptionalParams,
   ): Promise<InvoicesGetResponse>;
   /**
    * Gets an invoice by ID. The operation is supported for billing accounts with agreement type Microsoft
@@ -99,7 +99,7 @@ export interface Invoices {
    */
   getById(
     invoiceName: string,
-    options?: InvoicesGetByIdOptionalParams
+    options?: InvoicesGetByIdOptionalParams,
   ): Promise<InvoicesGetByIdResponse>;
   /**
    * Gets a URL to download an invoice. The operation is supported for billing accounts with agreement
@@ -113,10 +113,10 @@ export interface Invoices {
     billingAccountName: string,
     invoiceName: string,
     downloadToken: string,
-    options?: InvoicesDownloadInvoiceOptionalParams
+    options?: InvoicesDownloadInvoiceOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<InvoicesDownloadInvoiceResponse>,
+    SimplePollerLike<
+      OperationState<InvoicesDownloadInvoiceResponse>,
       InvoicesDownloadInvoiceResponse
     >
   >;
@@ -132,7 +132,7 @@ export interface Invoices {
     billingAccountName: string,
     invoiceName: string,
     downloadToken: string,
-    options?: InvoicesDownloadInvoiceOptionalParams
+    options?: InvoicesDownloadInvoiceOptionalParams,
   ): Promise<InvoicesDownloadInvoiceResponse>;
   /**
    * Gets a URL to download multiple invoice documents (invoice pdf, tax receipts, credit notes) as a zip
@@ -145,12 +145,10 @@ export interface Invoices {
   beginDownloadMultipleBillingProfileInvoices(
     billingAccountName: string,
     downloadUrls: string[],
-    options?: InvoicesDownloadMultipleBillingProfileInvoicesOptionalParams
+    options?: InvoicesDownloadMultipleBillingProfileInvoicesOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        InvoicesDownloadMultipleBillingProfileInvoicesResponse
-      >,
+    SimplePollerLike<
+      OperationState<InvoicesDownloadMultipleBillingProfileInvoicesResponse>,
       InvoicesDownloadMultipleBillingProfileInvoicesResponse
     >
   >;
@@ -165,7 +163,7 @@ export interface Invoices {
   beginDownloadMultipleBillingProfileInvoicesAndWait(
     billingAccountName: string,
     downloadUrls: string[],
-    options?: InvoicesDownloadMultipleBillingProfileInvoicesOptionalParams
+    options?: InvoicesDownloadMultipleBillingProfileInvoicesOptionalParams,
   ): Promise<InvoicesDownloadMultipleBillingProfileInvoicesResponse>;
   /**
    * Gets an invoice by subscription ID and invoice ID.
@@ -174,7 +172,7 @@ export interface Invoices {
    */
   getBySubscriptionAndInvoiceId(
     invoiceName: string,
-    options?: InvoicesGetBySubscriptionAndInvoiceIdOptionalParams
+    options?: InvoicesGetBySubscriptionAndInvoiceIdOptionalParams,
   ): Promise<InvoicesGetBySubscriptionAndInvoiceIdResponse>;
   /**
    * Gets a URL to download an invoice.
@@ -185,10 +183,10 @@ export interface Invoices {
   beginDownloadBillingSubscriptionInvoice(
     invoiceName: string,
     downloadToken: string,
-    options?: InvoicesDownloadBillingSubscriptionInvoiceOptionalParams
+    options?: InvoicesDownloadBillingSubscriptionInvoiceOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<InvoicesDownloadBillingSubscriptionInvoiceResponse>,
+    SimplePollerLike<
+      OperationState<InvoicesDownloadBillingSubscriptionInvoiceResponse>,
       InvoicesDownloadBillingSubscriptionInvoiceResponse
     >
   >;
@@ -201,7 +199,7 @@ export interface Invoices {
   beginDownloadBillingSubscriptionInvoiceAndWait(
     invoiceName: string,
     downloadToken: string,
-    options?: InvoicesDownloadBillingSubscriptionInvoiceOptionalParams
+    options?: InvoicesDownloadBillingSubscriptionInvoiceOptionalParams,
   ): Promise<InvoicesDownloadBillingSubscriptionInvoiceResponse>;
   /**
    * Gets a URL to download multiple invoice documents (invoice pdf, tax receipts, credit notes) as a zip
@@ -211,12 +209,10 @@ export interface Invoices {
    */
   beginDownloadMultipleBillingSubscriptionInvoices(
     downloadUrls: string[],
-    options?: InvoicesDownloadMultipleBillingSubscriptionInvoicesOptionalParams
+    options?: InvoicesDownloadMultipleBillingSubscriptionInvoicesOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        InvoicesDownloadMultipleBillingSubscriptionInvoicesResponse
-      >,
+    SimplePollerLike<
+      OperationState<InvoicesDownloadMultipleBillingSubscriptionInvoicesResponse>,
       InvoicesDownloadMultipleBillingSubscriptionInvoicesResponse
     >
   >;
@@ -228,6 +224,6 @@ export interface Invoices {
    */
   beginDownloadMultipleBillingSubscriptionInvoicesAndWait(
     downloadUrls: string[],
-    options?: InvoicesDownloadMultipleBillingSubscriptionInvoicesOptionalParams
+    options?: InvoicesDownloadMultipleBillingSubscriptionInvoicesOptionalParams,
   ): Promise<InvoicesDownloadMultipleBillingSubscriptionInvoicesResponse>;
 }

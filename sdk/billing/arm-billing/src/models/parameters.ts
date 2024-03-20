@@ -9,7 +9,7 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   BillingAccountUpdateRequest as BillingAccountUpdateRequestMapper,
@@ -23,7 +23,7 @@ import {
   TransferProductRequestProperties as TransferProductRequestPropertiesMapper,
   Policy as PolicyMapper,
   CustomerPolicy as CustomerPolicyMapper,
-  BillingProperty as BillingPropertyMapper
+  BillingProperty as BillingPropertyMapper,
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -33,9 +33,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -44,10 +44,10 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const apiVersion: OperationQueryParameter = {
@@ -57,9 +57,9 @@ export const apiVersion: OperationQueryParameter = {
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const expand: OperationQueryParameter = {
@@ -67,9 +67,9 @@ export const expand: OperationQueryParameter = {
   mapper: {
     serializedName: "$expand",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const billingAccountName: OperationURLParameter = {
@@ -78,9 +78,9 @@ export const billingAccountName: OperationURLParameter = {
     serializedName: "billingAccountName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -90,14 +90,14 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters: OperationParameter = {
   parameterPath: "parameters",
-  mapper: BillingAccountUpdateRequestMapper
+  mapper: BillingAccountUpdateRequestMapper,
 };
 
 export const nextLink: OperationURLParameter = {
@@ -106,15 +106,15 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const address: OperationParameter = {
   parameterPath: "address",
-  mapper: AddressDetailsMapper
+  mapper: AddressDetailsMapper,
 };
 
 export const billingProfileName: OperationURLParameter = {
@@ -123,9 +123,9 @@ export const billingProfileName: OperationURLParameter = {
     serializedName: "billingProfileName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const instructionName: OperationURLParameter = {
@@ -134,19 +134,19 @@ export const instructionName: OperationURLParameter = {
     serializedName: "instructionName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters1: OperationParameter = {
   parameterPath: "parameters",
-  mapper: InstructionMapper
+  mapper: InstructionMapper,
 };
 
 export const parameters2: OperationParameter = {
   parameterPath: "parameters",
-  mapper: BillingProfileMapper
+  mapper: BillingProfileMapper,
 };
 
 export const search: OperationQueryParameter = {
@@ -154,9 +154,9 @@ export const search: OperationQueryParameter = {
   mapper: {
     serializedName: "$search",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const filter: OperationQueryParameter = {
@@ -164,9 +164,9 @@ export const filter: OperationQueryParameter = {
   mapper: {
     serializedName: "$filter",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const customerName: OperationURLParameter = {
@@ -175,9 +175,9 @@ export const customerName: OperationURLParameter = {
     serializedName: "customerName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const invoiceSectionName: OperationURLParameter = {
@@ -186,14 +186,14 @@ export const invoiceSectionName: OperationURLParameter = {
     serializedName: "invoiceSectionName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters3: OperationParameter = {
   parameterPath: "parameters",
-  mapper: InvoiceSectionMapper
+  mapper: InvoiceSectionMapper,
 };
 
 export const subscriptionId: OperationURLParameter = {
@@ -202,19 +202,19 @@ export const subscriptionId: OperationURLParameter = {
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters4: OperationParameter = {
   parameterPath: "parameters",
-  mapper: BillingSubscriptionMapper
+  mapper: BillingSubscriptionMapper,
 };
 
 export const parameters5: OperationParameter = {
   parameterPath: "parameters",
-  mapper: TransferBillingSubscriptionRequestPropertiesMapper
+  mapper: TransferBillingSubscriptionRequestPropertiesMapper,
 };
 
 export const productName: OperationURLParameter = {
@@ -223,19 +223,19 @@ export const productName: OperationURLParameter = {
     serializedName: "productName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters6: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ProductMapper
+  mapper: ProductMapper,
 };
 
 export const parameters7: OperationParameter = {
   parameterPath: "parameters",
-  mapper: TransferProductRequestPropertiesMapper
+  mapper: TransferProductRequestPropertiesMapper,
 };
 
 export const periodStartDate: OperationQueryParameter = {
@@ -244,9 +244,9 @@ export const periodStartDate: OperationQueryParameter = {
     serializedName: "periodStartDate",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const periodEndDate: OperationQueryParameter = {
@@ -255,9 +255,9 @@ export const periodEndDate: OperationQueryParameter = {
     serializedName: "periodEndDate",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const invoiceName: OperationURLParameter = {
@@ -266,9 +266,9 @@ export const invoiceName: OperationURLParameter = {
     serializedName: "invoiceName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const downloadToken: OperationQueryParameter = {
@@ -277,9 +277,9 @@ export const downloadToken: OperationQueryParameter = {
     serializedName: "downloadToken",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const downloadUrls: OperationParameter = {
@@ -291,26 +291,26 @@ export const downloadUrls: OperationParameter = {
       name: "Sequence",
       element: {
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const parameters8: OperationParameter = {
   parameterPath: "parameters",
-  mapper: PolicyMapper
+  mapper: PolicyMapper,
 };
 
 export const parameters9: OperationParameter = {
   parameterPath: "parameters",
-  mapper: CustomerPolicyMapper
+  mapper: CustomerPolicyMapper,
 };
 
 export const parameters10: OperationParameter = {
   parameterPath: "parameters",
-  mapper: BillingPropertyMapper
+  mapper: BillingPropertyMapper,
 };
 
 export const billingRoleDefinitionName: OperationURLParameter = {
@@ -319,9 +319,9 @@ export const billingRoleDefinitionName: OperationURLParameter = {
     serializedName: "billingRoleDefinitionName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const billingRoleAssignmentName: OperationURLParameter = {
@@ -330,9 +330,9 @@ export const billingRoleAssignmentName: OperationURLParameter = {
     serializedName: "billingRoleAssignmentName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const agreementName: OperationURLParameter = {
@@ -341,9 +341,9 @@ export const agreementName: OperationURLParameter = {
     serializedName: "agreementName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const orderby: OperationQueryParameter = {
@@ -351,9 +351,9 @@ export const orderby: OperationQueryParameter = {
   mapper: {
     serializedName: "$orderby",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const refreshSummary: OperationQueryParameter = {
@@ -361,9 +361,9 @@ export const refreshSummary: OperationQueryParameter = {
   mapper: {
     serializedName: "refreshSummary",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const selectedState: OperationQueryParameter = {
@@ -371,9 +371,9 @@ export const selectedState: OperationQueryParameter = {
   mapper: {
     serializedName: "selectedState",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const apiVersion1: OperationQueryParameter = {
@@ -383,9 +383,9 @@ export const apiVersion1: OperationQueryParameter = {
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const name: OperationURLParameter = {
@@ -394,9 +394,9 @@ export const name: OperationURLParameter = {
     serializedName: "name",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const skiptoken: OperationQueryParameter = {
@@ -404,9 +404,9 @@ export const skiptoken: OperationQueryParameter = {
   mapper: {
     serializedName: "$skiptoken",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const top: OperationQueryParameter = {
@@ -414,13 +414,13 @@ export const top: OperationQueryParameter = {
   mapper: {
     constraints: {
       InclusiveMaximum: 100,
-      InclusiveMinimum: 1
+      InclusiveMinimum: 1,
     },
     serializedName: "$top",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const billingPeriodName: OperationURLParameter = {
@@ -429,7 +429,7 @@ export const billingPeriodName: OperationURLParameter = {
     serializedName: "billingPeriodName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };

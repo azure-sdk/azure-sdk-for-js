@@ -17,7 +17,7 @@ import {
   BillingRoleDefinitionsGetByInvoiceSectionOptionalParams,
   BillingRoleDefinitionsGetByInvoiceSectionResponse,
   BillingRoleDefinitionsGetByBillingProfileOptionalParams,
-  BillingRoleDefinitionsGetByBillingProfileResponse
+  BillingRoleDefinitionsGetByBillingProfileResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface BillingRoleDefinitions {
    */
   listByBillingAccount(
     billingAccountName: string,
-    options?: BillingRoleDefinitionsListByBillingAccountOptionalParams
+    options?: BillingRoleDefinitionsListByBillingAccountOptionalParams,
   ): PagedAsyncIterableIterator<BillingRoleDefinition>;
   /**
    * Lists the role definitions for an invoice section. The operation is supported for billing accounts
@@ -45,7 +45,7 @@ export interface BillingRoleDefinitions {
     billingAccountName: string,
     billingProfileName: string,
     invoiceSectionName: string,
-    options?: BillingRoleDefinitionsListByInvoiceSectionOptionalParams
+    options?: BillingRoleDefinitionsListByInvoiceSectionOptionalParams,
   ): PagedAsyncIterableIterator<BillingRoleDefinition>;
   /**
    * Lists the role definitions for a billing profile. The operation is supported for billing accounts
@@ -57,7 +57,7 @@ export interface BillingRoleDefinitions {
   listByBillingProfile(
     billingAccountName: string,
     billingProfileName: string,
-    options?: BillingRoleDefinitionsListByBillingProfileOptionalParams
+    options?: BillingRoleDefinitionsListByBillingProfileOptionalParams,
   ): PagedAsyncIterableIterator<BillingRoleDefinition>;
   /**
    * Gets the definition for a role on a billing account. The operation is supported for billing accounts
@@ -69,7 +69,7 @@ export interface BillingRoleDefinitions {
   getByBillingAccount(
     billingAccountName: string,
     billingRoleDefinitionName: string,
-    options?: BillingRoleDefinitionsGetByBillingAccountOptionalParams
+    options?: BillingRoleDefinitionsGetByBillingAccountOptionalParams,
   ): Promise<BillingRoleDefinitionsGetByBillingAccountResponse>;
   /**
    * Gets the definition for a role on an invoice section. The operation is supported only for billing
@@ -85,7 +85,7 @@ export interface BillingRoleDefinitions {
     billingProfileName: string,
     invoiceSectionName: string,
     billingRoleDefinitionName: string,
-    options?: BillingRoleDefinitionsGetByInvoiceSectionOptionalParams
+    options?: BillingRoleDefinitionsGetByInvoiceSectionOptionalParams,
   ): Promise<BillingRoleDefinitionsGetByInvoiceSectionResponse>;
   /**
    * Gets the definition for a role on a billing profile. The operation is supported for billing accounts
@@ -99,6 +99,6 @@ export interface BillingRoleDefinitions {
     billingAccountName: string,
     billingProfileName: string,
     billingRoleDefinitionName: string,
-    options?: BillingRoleDefinitionsGetByBillingProfileOptionalParams
+    options?: BillingRoleDefinitionsGetByBillingProfileOptionalParams,
   ): Promise<BillingRoleDefinitionsGetByBillingProfileResponse>;
 }

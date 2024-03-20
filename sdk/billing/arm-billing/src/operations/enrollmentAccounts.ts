@@ -20,7 +20,7 @@ import {
   EnrollmentAccountsListResponse,
   EnrollmentAccountsGetOptionalParams,
   EnrollmentAccountsGetResponse,
-  EnrollmentAccountsListNextResponse
+  EnrollmentAccountsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -41,7 +41,7 @@ export class EnrollmentAccountsImpl implements EnrollmentAccounts {
    * @param options The options parameters.
    */
   public list(
-    options?: EnrollmentAccountsListOptionalParams
+    options?: EnrollmentAccountsListOptionalParams,
   ): PagedAsyncIterableIterator<EnrollmentAccountSummary> {
     const iter = this.listPagingAll(options);
     return {
@@ -56,13 +56,13 @@ export class EnrollmentAccountsImpl implements EnrollmentAccounts {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: EnrollmentAccountsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<EnrollmentAccountSummary[]> {
     let result: EnrollmentAccountsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -83,7 +83,7 @@ export class EnrollmentAccountsImpl implements EnrollmentAccounts {
   }
 
   private async *listPagingAll(
-    options?: EnrollmentAccountsListOptionalParams
+    options?: EnrollmentAccountsListOptionalParams,
   ): AsyncIterableIterator<EnrollmentAccountSummary> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -95,7 +95,7 @@ export class EnrollmentAccountsImpl implements EnrollmentAccounts {
    * @param options The options parameters.
    */
   private _list(
-    options?: EnrollmentAccountsListOptionalParams
+    options?: EnrollmentAccountsListOptionalParams,
   ): Promise<EnrollmentAccountsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -107,11 +107,11 @@ export class EnrollmentAccountsImpl implements EnrollmentAccounts {
    */
   get(
     name: string,
-    options?: EnrollmentAccountsGetOptionalParams
+    options?: EnrollmentAccountsGetOptionalParams,
   ): Promise<EnrollmentAccountsGetResponse> {
     return this.client.sendOperationRequest(
       { name, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -122,11 +122,11 @@ export class EnrollmentAccountsImpl implements EnrollmentAccounts {
    */
   private _listNext(
     nextLink: string,
-    options?: EnrollmentAccountsListNextOptionalParams
+    options?: EnrollmentAccountsListNextOptionalParams,
   ): Promise<EnrollmentAccountsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -138,46 +138,45 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EnrollmentAccountListResult
+      bodyMapper: Mappers.EnrollmentAccountListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path: "/providers/Microsoft.Billing/enrollmentAccounts/{name}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EnrollmentAccountSummary
+      bodyMapper: Mappers.EnrollmentAccountSummary,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.name],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EnrollmentAccountListResult
+      bodyMapper: Mappers.EnrollmentAccountListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -8,7 +8,7 @@
 
 import {
   AvailableBalancesGetOptionalParams,
-  AvailableBalancesGetResponse
+  AvailableBalancesGetResponse,
 } from "../models";
 
 /** Interface representing a AvailableBalances. */
@@ -24,6 +24,6 @@ export interface AvailableBalances {
   get(
     billingAccountName: string,
     billingProfileName: string,
-    options?: AvailableBalancesGetOptionalParams
+    options?: AvailableBalancesGetOptionalParams,
   ): Promise<AvailableBalancesGetResponse>;
 }

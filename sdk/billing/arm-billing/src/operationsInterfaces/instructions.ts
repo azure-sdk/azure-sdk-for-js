@@ -13,7 +13,7 @@ import {
   InstructionsGetOptionalParams,
   InstructionsGetResponse,
   InstructionsPutOptionalParams,
-  InstructionsPutResponse
+  InstructionsPutResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -28,7 +28,7 @@ export interface Instructions {
   listByBillingProfile(
     billingAccountName: string,
     billingProfileName: string,
-    options?: InstructionsListByBillingProfileOptionalParams
+    options?: InstructionsListByBillingProfileOptionalParams,
   ): PagedAsyncIterableIterator<Instruction>;
   /**
    * Get the instruction by name. These are custom billing instructions and are only applicable for
@@ -42,7 +42,7 @@ export interface Instructions {
     billingAccountName: string,
     billingProfileName: string,
     instructionName: string,
-    options?: InstructionsGetOptionalParams
+    options?: InstructionsGetOptionalParams,
   ): Promise<InstructionsGetResponse>;
   /**
    * Creates or updates an instruction. These are custom billing instructions and are only applicable for
@@ -58,6 +58,6 @@ export interface Instructions {
     billingProfileName: string,
     instructionName: string,
     parameters: Instruction,
-    options?: InstructionsPutOptionalParams
+    options?: InstructionsPutOptionalParams,
   ): Promise<InstructionsPutResponse>;
 }

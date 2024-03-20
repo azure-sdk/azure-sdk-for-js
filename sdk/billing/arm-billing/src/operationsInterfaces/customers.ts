@@ -12,7 +12,7 @@ import {
   CustomersListByBillingProfileOptionalParams,
   CustomersListByBillingAccountOptionalParams,
   CustomersGetOptionalParams,
-  CustomersGetResponse
+  CustomersGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -28,7 +28,7 @@ export interface Customers {
   listByBillingProfile(
     billingAccountName: string,
     billingProfileName: string,
-    options?: CustomersListByBillingProfileOptionalParams
+    options?: CustomersListByBillingProfileOptionalParams,
   ): PagedAsyncIterableIterator<Customer>;
   /**
    * Lists the customers that are billed to a billing account. The operation is supported only for
@@ -38,7 +38,7 @@ export interface Customers {
    */
   listByBillingAccount(
     billingAccountName: string,
-    options?: CustomersListByBillingAccountOptionalParams
+    options?: CustomersListByBillingAccountOptionalParams,
   ): PagedAsyncIterableIterator<Customer>;
   /**
    * Gets a customer by its ID. The operation is supported only for billing accounts with agreement type
@@ -50,6 +50,6 @@ export interface Customers {
   get(
     billingAccountName: string,
     customerName: string,
-    options?: CustomersGetOptionalParams
+    options?: CustomersGetOptionalParams,
   ): Promise<CustomersGetResponse>;
 }

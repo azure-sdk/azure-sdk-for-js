@@ -32,7 +32,7 @@ import {
   BillingRoleDefinitionsGetByBillingProfileResponse,
   BillingRoleDefinitionsListByBillingAccountNextResponse,
   BillingRoleDefinitionsListByInvoiceSectionNextResponse,
-  BillingRoleDefinitionsListByBillingProfileNextResponse
+  BillingRoleDefinitionsListByBillingProfileNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -56,11 +56,11 @@ export class BillingRoleDefinitionsImpl implements BillingRoleDefinitions {
    */
   public listByBillingAccount(
     billingAccountName: string,
-    options?: BillingRoleDefinitionsListByBillingAccountOptionalParams
+    options?: BillingRoleDefinitionsListByBillingAccountOptionalParams,
   ): PagedAsyncIterableIterator<BillingRoleDefinition> {
     const iter = this.listByBillingAccountPagingAll(
       billingAccountName,
-      options
+      options,
     );
     return {
       next() {
@@ -76,16 +76,16 @@ export class BillingRoleDefinitionsImpl implements BillingRoleDefinitions {
         return this.listByBillingAccountPagingPage(
           billingAccountName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByBillingAccountPagingPage(
     billingAccountName: string,
     options?: BillingRoleDefinitionsListByBillingAccountOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<BillingRoleDefinition[]> {
     let result: BillingRoleDefinitionsListByBillingAccountResponse;
     let continuationToken = settings?.continuationToken;
@@ -100,7 +100,7 @@ export class BillingRoleDefinitionsImpl implements BillingRoleDefinitions {
       result = await this._listByBillingAccountNext(
         billingAccountName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -111,11 +111,11 @@ export class BillingRoleDefinitionsImpl implements BillingRoleDefinitions {
 
   private async *listByBillingAccountPagingAll(
     billingAccountName: string,
-    options?: BillingRoleDefinitionsListByBillingAccountOptionalParams
+    options?: BillingRoleDefinitionsListByBillingAccountOptionalParams,
   ): AsyncIterableIterator<BillingRoleDefinition> {
     for await (const page of this.listByBillingAccountPagingPage(
       billingAccountName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -133,13 +133,13 @@ export class BillingRoleDefinitionsImpl implements BillingRoleDefinitions {
     billingAccountName: string,
     billingProfileName: string,
     invoiceSectionName: string,
-    options?: BillingRoleDefinitionsListByInvoiceSectionOptionalParams
+    options?: BillingRoleDefinitionsListByInvoiceSectionOptionalParams,
   ): PagedAsyncIterableIterator<BillingRoleDefinition> {
     const iter = this.listByInvoiceSectionPagingAll(
       billingAccountName,
       billingProfileName,
       invoiceSectionName,
-      options
+      options,
     );
     return {
       next() {
@@ -157,9 +157,9 @@ export class BillingRoleDefinitionsImpl implements BillingRoleDefinitions {
           billingProfileName,
           invoiceSectionName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -168,7 +168,7 @@ export class BillingRoleDefinitionsImpl implements BillingRoleDefinitions {
     billingProfileName: string,
     invoiceSectionName: string,
     options?: BillingRoleDefinitionsListByInvoiceSectionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<BillingRoleDefinition[]> {
     let result: BillingRoleDefinitionsListByInvoiceSectionResponse;
     let continuationToken = settings?.continuationToken;
@@ -177,7 +177,7 @@ export class BillingRoleDefinitionsImpl implements BillingRoleDefinitions {
         billingAccountName,
         billingProfileName,
         invoiceSectionName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -190,7 +190,7 @@ export class BillingRoleDefinitionsImpl implements BillingRoleDefinitions {
         billingProfileName,
         invoiceSectionName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -203,13 +203,13 @@ export class BillingRoleDefinitionsImpl implements BillingRoleDefinitions {
     billingAccountName: string,
     billingProfileName: string,
     invoiceSectionName: string,
-    options?: BillingRoleDefinitionsListByInvoiceSectionOptionalParams
+    options?: BillingRoleDefinitionsListByInvoiceSectionOptionalParams,
   ): AsyncIterableIterator<BillingRoleDefinition> {
     for await (const page of this.listByInvoiceSectionPagingPage(
       billingAccountName,
       billingProfileName,
       invoiceSectionName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -225,12 +225,12 @@ export class BillingRoleDefinitionsImpl implements BillingRoleDefinitions {
   public listByBillingProfile(
     billingAccountName: string,
     billingProfileName: string,
-    options?: BillingRoleDefinitionsListByBillingProfileOptionalParams
+    options?: BillingRoleDefinitionsListByBillingProfileOptionalParams,
   ): PagedAsyncIterableIterator<BillingRoleDefinition> {
     const iter = this.listByBillingProfilePagingAll(
       billingAccountName,
       billingProfileName,
-      options
+      options,
     );
     return {
       next() {
@@ -247,9 +247,9 @@ export class BillingRoleDefinitionsImpl implements BillingRoleDefinitions {
           billingAccountName,
           billingProfileName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -257,7 +257,7 @@ export class BillingRoleDefinitionsImpl implements BillingRoleDefinitions {
     billingAccountName: string,
     billingProfileName: string,
     options?: BillingRoleDefinitionsListByBillingProfileOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<BillingRoleDefinition[]> {
     let result: BillingRoleDefinitionsListByBillingProfileResponse;
     let continuationToken = settings?.continuationToken;
@@ -265,7 +265,7 @@ export class BillingRoleDefinitionsImpl implements BillingRoleDefinitions {
       result = await this._listByBillingProfile(
         billingAccountName,
         billingProfileName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -277,7 +277,7 @@ export class BillingRoleDefinitionsImpl implements BillingRoleDefinitions {
         billingAccountName,
         billingProfileName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -289,12 +289,12 @@ export class BillingRoleDefinitionsImpl implements BillingRoleDefinitions {
   private async *listByBillingProfilePagingAll(
     billingAccountName: string,
     billingProfileName: string,
-    options?: BillingRoleDefinitionsListByBillingProfileOptionalParams
+    options?: BillingRoleDefinitionsListByBillingProfileOptionalParams,
   ): AsyncIterableIterator<BillingRoleDefinition> {
     for await (const page of this.listByBillingProfilePagingPage(
       billingAccountName,
       billingProfileName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -310,11 +310,11 @@ export class BillingRoleDefinitionsImpl implements BillingRoleDefinitions {
   getByBillingAccount(
     billingAccountName: string,
     billingRoleDefinitionName: string,
-    options?: BillingRoleDefinitionsGetByBillingAccountOptionalParams
+    options?: BillingRoleDefinitionsGetByBillingAccountOptionalParams,
   ): Promise<BillingRoleDefinitionsGetByBillingAccountResponse> {
     return this.client.sendOperationRequest(
       { billingAccountName, billingRoleDefinitionName, options },
-      getByBillingAccountOperationSpec
+      getByBillingAccountOperationSpec,
     );
   }
 
@@ -332,7 +332,7 @@ export class BillingRoleDefinitionsImpl implements BillingRoleDefinitions {
     billingProfileName: string,
     invoiceSectionName: string,
     billingRoleDefinitionName: string,
-    options?: BillingRoleDefinitionsGetByInvoiceSectionOptionalParams
+    options?: BillingRoleDefinitionsGetByInvoiceSectionOptionalParams,
   ): Promise<BillingRoleDefinitionsGetByInvoiceSectionResponse> {
     return this.client.sendOperationRequest(
       {
@@ -340,9 +340,9 @@ export class BillingRoleDefinitionsImpl implements BillingRoleDefinitions {
         billingProfileName,
         invoiceSectionName,
         billingRoleDefinitionName,
-        options
+        options,
       },
-      getByInvoiceSectionOperationSpec
+      getByInvoiceSectionOperationSpec,
     );
   }
 
@@ -358,16 +358,16 @@ export class BillingRoleDefinitionsImpl implements BillingRoleDefinitions {
     billingAccountName: string,
     billingProfileName: string,
     billingRoleDefinitionName: string,
-    options?: BillingRoleDefinitionsGetByBillingProfileOptionalParams
+    options?: BillingRoleDefinitionsGetByBillingProfileOptionalParams,
   ): Promise<BillingRoleDefinitionsGetByBillingProfileResponse> {
     return this.client.sendOperationRequest(
       {
         billingAccountName,
         billingProfileName,
         billingRoleDefinitionName,
-        options
+        options,
       },
-      getByBillingProfileOperationSpec
+      getByBillingProfileOperationSpec,
     );
   }
 
@@ -379,11 +379,11 @@ export class BillingRoleDefinitionsImpl implements BillingRoleDefinitions {
    */
   private _listByBillingAccount(
     billingAccountName: string,
-    options?: BillingRoleDefinitionsListByBillingAccountOptionalParams
+    options?: BillingRoleDefinitionsListByBillingAccountOptionalParams,
   ): Promise<BillingRoleDefinitionsListByBillingAccountResponse> {
     return this.client.sendOperationRequest(
       { billingAccountName, options },
-      listByBillingAccountOperationSpec
+      listByBillingAccountOperationSpec,
     );
   }
 
@@ -399,11 +399,11 @@ export class BillingRoleDefinitionsImpl implements BillingRoleDefinitions {
     billingAccountName: string,
     billingProfileName: string,
     invoiceSectionName: string,
-    options?: BillingRoleDefinitionsListByInvoiceSectionOptionalParams
+    options?: BillingRoleDefinitionsListByInvoiceSectionOptionalParams,
   ): Promise<BillingRoleDefinitionsListByInvoiceSectionResponse> {
     return this.client.sendOperationRequest(
       { billingAccountName, billingProfileName, invoiceSectionName, options },
-      listByInvoiceSectionOperationSpec
+      listByInvoiceSectionOperationSpec,
     );
   }
 
@@ -417,11 +417,11 @@ export class BillingRoleDefinitionsImpl implements BillingRoleDefinitions {
   private _listByBillingProfile(
     billingAccountName: string,
     billingProfileName: string,
-    options?: BillingRoleDefinitionsListByBillingProfileOptionalParams
+    options?: BillingRoleDefinitionsListByBillingProfileOptionalParams,
   ): Promise<BillingRoleDefinitionsListByBillingProfileResponse> {
     return this.client.sendOperationRequest(
       { billingAccountName, billingProfileName, options },
-      listByBillingProfileOperationSpec
+      listByBillingProfileOperationSpec,
     );
   }
 
@@ -434,11 +434,11 @@ export class BillingRoleDefinitionsImpl implements BillingRoleDefinitions {
   private _listByBillingAccountNext(
     billingAccountName: string,
     nextLink: string,
-    options?: BillingRoleDefinitionsListByBillingAccountNextOptionalParams
+    options?: BillingRoleDefinitionsListByBillingAccountNextOptionalParams,
   ): Promise<BillingRoleDefinitionsListByBillingAccountNextResponse> {
     return this.client.sendOperationRequest(
       { billingAccountName, nextLink, options },
-      listByBillingAccountNextOperationSpec
+      listByBillingAccountNextOperationSpec,
     );
   }
 
@@ -455,7 +455,7 @@ export class BillingRoleDefinitionsImpl implements BillingRoleDefinitions {
     billingProfileName: string,
     invoiceSectionName: string,
     nextLink: string,
-    options?: BillingRoleDefinitionsListByInvoiceSectionNextOptionalParams
+    options?: BillingRoleDefinitionsListByInvoiceSectionNextOptionalParams,
   ): Promise<BillingRoleDefinitionsListByInvoiceSectionNextResponse> {
     return this.client.sendOperationRequest(
       {
@@ -463,9 +463,9 @@ export class BillingRoleDefinitionsImpl implements BillingRoleDefinitions {
         billingProfileName,
         invoiceSectionName,
         nextLink,
-        options
+        options,
       },
-      listByInvoiceSectionNextOperationSpec
+      listByInvoiceSectionNextOperationSpec,
     );
   }
 
@@ -480,11 +480,11 @@ export class BillingRoleDefinitionsImpl implements BillingRoleDefinitions {
     billingAccountName: string,
     billingProfileName: string,
     nextLink: string,
-    options?: BillingRoleDefinitionsListByBillingProfileNextOptionalParams
+    options?: BillingRoleDefinitionsListByBillingProfileNextOptionalParams,
   ): Promise<BillingRoleDefinitionsListByBillingProfileNextResponse> {
     return this.client.sendOperationRequest(
       { billingAccountName, billingProfileName, nextLink, options },
-      listByBillingProfileNextOperationSpec
+      listByBillingProfileNextOperationSpec,
     );
   }
 }
@@ -492,37 +492,35 @@ export class BillingRoleDefinitionsImpl implements BillingRoleDefinitions {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getByBillingAccountOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingRoleDefinitions/{billingRoleDefinitionName}",
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingRoleDefinitions/{billingRoleDefinitionName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BillingRoleDefinition
+      bodyMapper: Mappers.BillingRoleDefinition,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,
-    Parameters.billingRoleDefinitionName
+    Parameters.billingRoleDefinitionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getByInvoiceSectionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/billingRoleDefinitions/{billingRoleDefinitionName}",
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/billingRoleDefinitions/{billingRoleDefinitionName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BillingRoleDefinition
+      bodyMapper: Mappers.BillingRoleDefinition,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -530,153 +528,146 @@ const getByInvoiceSectionOperationSpec: coreClient.OperationSpec = {
     Parameters.billingAccountName,
     Parameters.billingProfileName,
     Parameters.invoiceSectionName,
-    Parameters.billingRoleDefinitionName
+    Parameters.billingRoleDefinitionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getByBillingProfileOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/billingRoleDefinitions/{billingRoleDefinitionName}",
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/billingRoleDefinitions/{billingRoleDefinitionName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BillingRoleDefinition
+      bodyMapper: Mappers.BillingRoleDefinition,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,
     Parameters.billingProfileName,
-    Parameters.billingRoleDefinitionName
+    Parameters.billingRoleDefinitionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByBillingAccountOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingRoleDefinitions",
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingRoleDefinitions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BillingRoleDefinitionListResult
+      bodyMapper: Mappers.BillingRoleDefinitionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.billingAccountName],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByInvoiceSectionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/billingRoleDefinitions",
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/billingRoleDefinitions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BillingRoleDefinitionListResult
+      bodyMapper: Mappers.BillingRoleDefinitionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,
     Parameters.billingProfileName,
-    Parameters.invoiceSectionName
+    Parameters.invoiceSectionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByBillingProfileOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/billingRoleDefinitions",
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/billingRoleDefinitions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BillingRoleDefinitionListResult
+      bodyMapper: Mappers.BillingRoleDefinitionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,
-    Parameters.billingProfileName
+    Parameters.billingProfileName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByBillingAccountNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BillingRoleDefinitionListResult
+      bodyMapper: Mappers.BillingRoleDefinitionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByInvoiceSectionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BillingRoleDefinitionListResult
+      bodyMapper: Mappers.BillingRoleDefinitionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,
     Parameters.nextLink,
     Parameters.billingProfileName,
-    Parameters.invoiceSectionName
+    Parameters.invoiceSectionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByBillingProfileNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BillingRoleDefinitionListResult
+      bodyMapper: Mappers.BillingRoleDefinitionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,
     Parameters.nextLink,
-    Parameters.billingProfileName
+    Parameters.billingProfileName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

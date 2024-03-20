@@ -16,12 +16,13 @@ import {
   BillingPropertyGetResponse,
   BillingProperty,
   BillingPropertyUpdateOptionalParams,
-  BillingPropertyUpdateResponse
+  BillingPropertyUpdateResponse,
 } from "../models";
 
 /** Class containing BillingPropertyOperations operations. */
 export class BillingPropertyOperationsImpl
-  implements BillingPropertyOperations {
+  implements BillingPropertyOperations
+{
   private readonly client: BillingManagementClient;
 
   /**
@@ -38,7 +39,7 @@ export class BillingPropertyOperationsImpl
    * @param options The options parameters.
    */
   get(
-    options?: BillingPropertyGetOptionalParams
+    options?: BillingPropertyGetOptionalParams,
   ): Promise<BillingPropertyGetResponse> {
     return this.client.sendOperationRequest({ options }, getOperationSpec);
   }
@@ -51,11 +52,11 @@ export class BillingPropertyOperationsImpl
    */
   update(
     parameters: BillingProperty,
-    options?: BillingPropertyUpdateOptionalParams
+    options?: BillingPropertyUpdateOptionalParams,
   ): Promise<BillingPropertyUpdateResponse> {
     return this.client.sendOperationRequest(
       { parameters, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 }
@@ -63,38 +64,36 @@ export class BillingPropertyOperationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Billing/billingProperty/default",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Billing/billingProperty/default",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BillingProperty
+      bodyMapper: Mappers.BillingProperty,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Billing/billingProperty/default",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Billing/billingProperty/default",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.BillingProperty
+      bodyMapper: Mappers.BillingProperty,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters10,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

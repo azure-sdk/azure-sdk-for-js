@@ -11,7 +11,7 @@ import {
   BillingPeriod,
   BillingPeriodsListOptionalParams,
   BillingPeriodsGetOptionalParams,
-  BillingPeriodsGetResponse
+  BillingPeriodsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -24,7 +24,7 @@ export interface BillingPeriods {
    * @param options The options parameters.
    */
   list(
-    options?: BillingPeriodsListOptionalParams
+    options?: BillingPeriodsListOptionalParams,
   ): PagedAsyncIterableIterator<BillingPeriod>;
   /**
    * Gets a named billing period.  This is only supported for Azure Web-Direct subscriptions. Other
@@ -35,6 +35,6 @@ export interface BillingPeriods {
    */
   get(
     billingPeriodName: string,
-    options?: BillingPeriodsGetOptionalParams
+    options?: BillingPeriodsGetOptionalParams,
   ): Promise<BillingPeriodsGetResponse>;
 }

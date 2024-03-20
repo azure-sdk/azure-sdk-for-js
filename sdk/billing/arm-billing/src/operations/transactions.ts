@@ -18,7 +18,7 @@ import {
   TransactionsListByInvoiceNextOptionalParams,
   TransactionsListByInvoiceOptionalParams,
   TransactionsListByInvoiceResponse,
-  TransactionsListByInvoiceNextResponse
+  TransactionsListByInvoiceNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -44,12 +44,12 @@ export class TransactionsImpl implements Transactions {
   public listByInvoice(
     billingAccountName: string,
     invoiceName: string,
-    options?: TransactionsListByInvoiceOptionalParams
+    options?: TransactionsListByInvoiceOptionalParams,
   ): PagedAsyncIterableIterator<Transaction> {
     const iter = this.listByInvoicePagingAll(
       billingAccountName,
       invoiceName,
-      options
+      options,
     );
     return {
       next() {
@@ -66,9 +66,9 @@ export class TransactionsImpl implements Transactions {
           billingAccountName,
           invoiceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -76,7 +76,7 @@ export class TransactionsImpl implements Transactions {
     billingAccountName: string,
     invoiceName: string,
     options?: TransactionsListByInvoiceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Transaction[]> {
     let result: TransactionsListByInvoiceResponse;
     let continuationToken = settings?.continuationToken;
@@ -84,7 +84,7 @@ export class TransactionsImpl implements Transactions {
       result = await this._listByInvoice(
         billingAccountName,
         invoiceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -96,7 +96,7 @@ export class TransactionsImpl implements Transactions {
         billingAccountName,
         invoiceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -108,12 +108,12 @@ export class TransactionsImpl implements Transactions {
   private async *listByInvoicePagingAll(
     billingAccountName: string,
     invoiceName: string,
-    options?: TransactionsListByInvoiceOptionalParams
+    options?: TransactionsListByInvoiceOptionalParams,
   ): AsyncIterableIterator<Transaction> {
     for await (const page of this.listByInvoicePagingPage(
       billingAccountName,
       invoiceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -129,11 +129,11 @@ export class TransactionsImpl implements Transactions {
   private _listByInvoice(
     billingAccountName: string,
     invoiceName: string,
-    options?: TransactionsListByInvoiceOptionalParams
+    options?: TransactionsListByInvoiceOptionalParams,
   ): Promise<TransactionsListByInvoiceResponse> {
     return this.client.sendOperationRequest(
       { billingAccountName, invoiceName, options },
-      listByInvoiceOperationSpec
+      listByInvoiceOperationSpec,
     );
   }
 
@@ -148,11 +148,11 @@ export class TransactionsImpl implements Transactions {
     billingAccountName: string,
     invoiceName: string,
     nextLink: string,
-    options?: TransactionsListByInvoiceNextOptionalParams
+    options?: TransactionsListByInvoiceNextOptionalParams,
   ): Promise<TransactionsListByInvoiceNextResponse> {
     return this.client.sendOperationRequest(
       { billingAccountName, invoiceName, nextLink, options },
-      listByInvoiceNextOperationSpec
+      listByInvoiceNextOperationSpec,
     );
   }
 }
@@ -160,44 +160,42 @@ export class TransactionsImpl implements Transactions {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByInvoiceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/invoices/{invoiceName}/transactions",
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/invoices/{invoiceName}/transactions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TransactionListResult
+      bodyMapper: Mappers.TransactionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,
-    Parameters.invoiceName
+    Parameters.invoiceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByInvoiceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TransactionListResult
+      bodyMapper: Mappers.TransactionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,
     Parameters.nextLink,
-    Parameters.invoiceName
+    Parameters.invoiceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

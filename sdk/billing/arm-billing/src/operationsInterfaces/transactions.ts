@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   Transaction,
-  TransactionsListByInvoiceOptionalParams
+  TransactionsListByInvoiceOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -25,6 +25,6 @@ export interface Transactions {
   listByInvoice(
     billingAccountName: string,
     invoiceName: string,
-    options?: TransactionsListByInvoiceOptionalParams
+    options?: TransactionsListByInvoiceOptionalParams,
   ): PagedAsyncIterableIterator<Transaction>;
 }

@@ -12,7 +12,7 @@ import {
   BillingPermissionsListByCustomerOptionalParams,
   BillingPermissionsListByBillingAccountOptionalParams,
   BillingPermissionsListByInvoiceSectionsOptionalParams,
-  BillingPermissionsListByBillingProfileOptionalParams
+  BillingPermissionsListByBillingProfileOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -27,7 +27,7 @@ export interface BillingPermissions {
   listByCustomer(
     billingAccountName: string,
     customerName: string,
-    options?: BillingPermissionsListByCustomerOptionalParams
+    options?: BillingPermissionsListByCustomerOptionalParams,
   ): PagedAsyncIterableIterator<BillingPermissionsProperties>;
   /**
    * Lists the billing permissions the caller has on a billing account.
@@ -36,7 +36,7 @@ export interface BillingPermissions {
    */
   listByBillingAccount(
     billingAccountName: string,
-    options?: BillingPermissionsListByBillingAccountOptionalParams
+    options?: BillingPermissionsListByBillingAccountOptionalParams,
   ): PagedAsyncIterableIterator<BillingPermissionsProperties>;
   /**
    * Lists the billing permissions the caller has on an invoice section.
@@ -49,7 +49,7 @@ export interface BillingPermissions {
     billingAccountName: string,
     billingProfileName: string,
     invoiceSectionName: string,
-    options?: BillingPermissionsListByInvoiceSectionsOptionalParams
+    options?: BillingPermissionsListByInvoiceSectionsOptionalParams,
   ): PagedAsyncIterableIterator<BillingPermissionsProperties>;
   /**
    * Lists the billing permissions the caller has on a billing profile.
@@ -60,6 +60,6 @@ export interface BillingPermissions {
   listByBillingProfile(
     billingAccountName: string,
     billingProfileName: string,
-    options?: BillingPermissionsListByBillingProfileOptionalParams
+    options?: BillingPermissionsListByBillingProfileOptionalParams,
   ): PagedAsyncIterableIterator<BillingPermissionsProperties>;
 }

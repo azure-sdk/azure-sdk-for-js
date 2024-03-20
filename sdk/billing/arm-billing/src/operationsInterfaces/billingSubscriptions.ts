@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   BillingSubscription,
   BillingSubscriptionsListByCustomerOptionalParams,
@@ -22,7 +22,7 @@ import {
   BillingSubscriptionsMoveOptionalParams,
   BillingSubscriptionsMoveResponse,
   BillingSubscriptionsValidateMoveOptionalParams,
-  BillingSubscriptionsValidateMoveResponse
+  BillingSubscriptionsValidateMoveResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -38,7 +38,7 @@ export interface BillingSubscriptions {
   listByCustomer(
     billingAccountName: string,
     customerName: string,
-    options?: BillingSubscriptionsListByCustomerOptionalParams
+    options?: BillingSubscriptionsListByCustomerOptionalParams,
   ): PagedAsyncIterableIterator<BillingSubscription>;
   /**
    * Lists the subscriptions for a billing account. The operation is supported for billing accounts with
@@ -48,7 +48,7 @@ export interface BillingSubscriptions {
    */
   listByBillingAccount(
     billingAccountName: string,
-    options?: BillingSubscriptionsListByBillingAccountOptionalParams
+    options?: BillingSubscriptionsListByBillingAccountOptionalParams,
   ): PagedAsyncIterableIterator<BillingSubscription>;
   /**
    * Lists the subscriptions that are billed to a billing profile. The operation is supported for billing
@@ -60,7 +60,7 @@ export interface BillingSubscriptions {
   listByBillingProfile(
     billingAccountName: string,
     billingProfileName: string,
-    options?: BillingSubscriptionsListByBillingProfileOptionalParams
+    options?: BillingSubscriptionsListByBillingProfileOptionalParams,
   ): PagedAsyncIterableIterator<BillingSubscription>;
   /**
    * Lists the subscriptions that are billed to an invoice section. The operation is supported only for
@@ -74,7 +74,7 @@ export interface BillingSubscriptions {
     billingAccountName: string,
     billingProfileName: string,
     invoiceSectionName: string,
-    options?: BillingSubscriptionsListByInvoiceSectionOptionalParams
+    options?: BillingSubscriptionsListByInvoiceSectionOptionalParams,
   ): PagedAsyncIterableIterator<BillingSubscription>;
   /**
    * Gets a subscription by its ID. The operation is supported for billing accounts with agreement type
@@ -84,7 +84,7 @@ export interface BillingSubscriptions {
    */
   get(
     billingAccountName: string,
-    options?: BillingSubscriptionsGetOptionalParams
+    options?: BillingSubscriptionsGetOptionalParams,
   ): Promise<BillingSubscriptionsGetResponse>;
   /**
    * Updates the properties of a billing subscription. Currently, cost center can be updated. The
@@ -96,7 +96,7 @@ export interface BillingSubscriptions {
   update(
     billingAccountName: string,
     parameters: BillingSubscription,
-    options?: BillingSubscriptionsUpdateOptionalParams
+    options?: BillingSubscriptionsUpdateOptionalParams,
   ): Promise<BillingSubscriptionsUpdateResponse>;
   /**
    * Moves a subscription's charges to a new invoice section. The new invoice section must belong to the
@@ -109,10 +109,10 @@ export interface BillingSubscriptions {
   beginMove(
     billingAccountName: string,
     parameters: TransferBillingSubscriptionRequestProperties,
-    options?: BillingSubscriptionsMoveOptionalParams
+    options?: BillingSubscriptionsMoveOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<BillingSubscriptionsMoveResponse>,
+    SimplePollerLike<
+      OperationState<BillingSubscriptionsMoveResponse>,
       BillingSubscriptionsMoveResponse
     >
   >;
@@ -127,7 +127,7 @@ export interface BillingSubscriptions {
   beginMoveAndWait(
     billingAccountName: string,
     parameters: TransferBillingSubscriptionRequestProperties,
-    options?: BillingSubscriptionsMoveOptionalParams
+    options?: BillingSubscriptionsMoveOptionalParams,
   ): Promise<BillingSubscriptionsMoveResponse>;
   /**
    * Validates if a subscription's charges can be moved to a new invoice section. This operation is
@@ -139,6 +139,6 @@ export interface BillingSubscriptions {
   validateMove(
     billingAccountName: string,
     parameters: TransferBillingSubscriptionRequestProperties,
-    options?: BillingSubscriptionsValidateMoveOptionalParams
+    options?: BillingSubscriptionsValidateMoveOptionalParams,
   ): Promise<BillingSubscriptionsValidateMoveResponse>;
 }

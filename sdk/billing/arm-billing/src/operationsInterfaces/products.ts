@@ -21,7 +21,7 @@ import {
   ProductsMoveOptionalParams,
   ProductsMoveResponse,
   ProductsValidateMoveOptionalParams,
-  ProductsValidateMoveResponse
+  ProductsValidateMoveResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -37,7 +37,7 @@ export interface Products {
   listByCustomer(
     billingAccountName: string,
     customerName: string,
-    options?: ProductsListByCustomerOptionalParams
+    options?: ProductsListByCustomerOptionalParams,
   ): PagedAsyncIterableIterator<Product>;
   /**
    * Lists the products for a billing account. These don't include products billed based on usage. The
@@ -48,7 +48,7 @@ export interface Products {
    */
   listByBillingAccount(
     billingAccountName: string,
-    options?: ProductsListByBillingAccountOptionalParams
+    options?: ProductsListByBillingAccountOptionalParams,
   ): PagedAsyncIterableIterator<Product>;
   /**
    * Lists the products for a billing profile. These don't include products billed based on usage. The
@@ -61,7 +61,7 @@ export interface Products {
   listByBillingProfile(
     billingAccountName: string,
     billingProfileName: string,
-    options?: ProductsListByBillingProfileOptionalParams
+    options?: ProductsListByBillingProfileOptionalParams,
   ): PagedAsyncIterableIterator<Product>;
   /**
    * Lists the products for an invoice section. These don't include products billed based on usage. The
@@ -75,7 +75,7 @@ export interface Products {
     billingAccountName: string,
     billingProfileName: string,
     invoiceSectionName: string,
-    options?: ProductsListByInvoiceSectionOptionalParams
+    options?: ProductsListByInvoiceSectionOptionalParams,
   ): PagedAsyncIterableIterator<Product>;
   /**
    * Gets a product by ID. The operation is supported only for billing accounts with agreement type
@@ -87,7 +87,7 @@ export interface Products {
   get(
     billingAccountName: string,
     productName: string,
-    options?: ProductsGetOptionalParams
+    options?: ProductsGetOptionalParams,
   ): Promise<ProductsGetResponse>;
   /**
    * Updates the properties of a Product. Currently, auto renew can be updated. The operation is
@@ -101,7 +101,7 @@ export interface Products {
     billingAccountName: string,
     productName: string,
     parameters: Product,
-    options?: ProductsUpdateOptionalParams
+    options?: ProductsUpdateOptionalParams,
   ): Promise<ProductsUpdateResponse>;
   /**
    * Moves a product's charges to a new invoice section. The new invoice section must belong to the same
@@ -117,7 +117,7 @@ export interface Products {
     billingAccountName: string,
     productName: string,
     parameters: TransferProductRequestProperties,
-    options?: ProductsMoveOptionalParams
+    options?: ProductsMoveOptionalParams,
   ): Promise<ProductsMoveResponse>;
   /**
    * Validates if a product's charges can be moved to a new invoice section. This operation is supported
@@ -132,6 +132,6 @@ export interface Products {
     billingAccountName: string,
     productName: string,
     parameters: TransferProductRequestProperties,
-    options?: ProductsValidateMoveOptionalParams
+    options?: ProductsValidateMoveOptionalParams,
   ): Promise<ProductsValidateMoveResponse>;
 }

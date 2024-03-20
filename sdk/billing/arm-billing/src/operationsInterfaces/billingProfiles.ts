@@ -7,14 +7,14 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   BillingProfile,
   BillingProfilesListByBillingAccountOptionalParams,
   BillingProfilesGetOptionalParams,
   BillingProfilesGetResponse,
   BillingProfilesCreateOrUpdateOptionalParams,
-  BillingProfilesCreateOrUpdateResponse
+  BillingProfilesCreateOrUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -28,7 +28,7 @@ export interface BillingProfiles {
    */
   listByBillingAccount(
     billingAccountName: string,
-    options?: BillingProfilesListByBillingAccountOptionalParams
+    options?: BillingProfilesListByBillingAccountOptionalParams,
   ): PagedAsyncIterableIterator<BillingProfile>;
   /**
    * Gets a billing profile by its ID. The operation is supported for billing accounts with agreement
@@ -40,7 +40,7 @@ export interface BillingProfiles {
   get(
     billingAccountName: string,
     billingProfileName: string,
-    options?: BillingProfilesGetOptionalParams
+    options?: BillingProfilesGetOptionalParams,
   ): Promise<BillingProfilesGetResponse>;
   /**
    * Creates or updates a billing profile. The operation is supported for billing accounts with agreement
@@ -54,10 +54,10 @@ export interface BillingProfiles {
     billingAccountName: string,
     billingProfileName: string,
     parameters: BillingProfile,
-    options?: BillingProfilesCreateOrUpdateOptionalParams
+    options?: BillingProfilesCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<BillingProfilesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<BillingProfilesCreateOrUpdateResponse>,
       BillingProfilesCreateOrUpdateResponse
     >
   >;
@@ -73,6 +73,6 @@ export interface BillingProfiles {
     billingAccountName: string,
     billingProfileName: string,
     parameters: BillingProfile,
-    options?: BillingProfilesCreateOrUpdateOptionalParams
+    options?: BillingProfilesCreateOrUpdateOptionalParams,
   ): Promise<BillingProfilesCreateOrUpdateResponse>;
 }

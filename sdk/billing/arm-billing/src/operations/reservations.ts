@@ -22,7 +22,7 @@ import {
   ReservationsListByBillingProfileOptionalParams,
   ReservationsListByBillingProfileResponse,
   ReservationsListByBillingAccountNextResponse,
-  ReservationsListByBillingProfileNextResponse
+  ReservationsListByBillingProfileNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -46,11 +46,11 @@ export class ReservationsImpl implements Reservations {
    */
   public listByBillingAccount(
     billingAccountName: string,
-    options?: ReservationsListByBillingAccountOptionalParams
+    options?: ReservationsListByBillingAccountOptionalParams,
   ): PagedAsyncIterableIterator<Reservation> {
     const iter = this.listByBillingAccountPagingAll(
       billingAccountName,
-      options
+      options,
     );
     return {
       next() {
@@ -66,16 +66,16 @@ export class ReservationsImpl implements Reservations {
         return this.listByBillingAccountPagingPage(
           billingAccountName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByBillingAccountPagingPage(
     billingAccountName: string,
     options?: ReservationsListByBillingAccountOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Reservation[]> {
     let result: ReservationsListByBillingAccountResponse;
     let continuationToken = settings?.continuationToken;
@@ -90,7 +90,7 @@ export class ReservationsImpl implements Reservations {
       result = await this._listByBillingAccountNext(
         billingAccountName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -101,11 +101,11 @@ export class ReservationsImpl implements Reservations {
 
   private async *listByBillingAccountPagingAll(
     billingAccountName: string,
-    options?: ReservationsListByBillingAccountOptionalParams
+    options?: ReservationsListByBillingAccountOptionalParams,
   ): AsyncIterableIterator<Reservation> {
     for await (const page of this.listByBillingAccountPagingPage(
       billingAccountName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -121,12 +121,12 @@ export class ReservationsImpl implements Reservations {
   public listByBillingProfile(
     billingAccountName: string,
     billingProfileName: string,
-    options?: ReservationsListByBillingProfileOptionalParams
+    options?: ReservationsListByBillingProfileOptionalParams,
   ): PagedAsyncIterableIterator<Reservation> {
     const iter = this.listByBillingProfilePagingAll(
       billingAccountName,
       billingProfileName,
-      options
+      options,
     );
     return {
       next() {
@@ -143,9 +143,9 @@ export class ReservationsImpl implements Reservations {
           billingAccountName,
           billingProfileName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -153,7 +153,7 @@ export class ReservationsImpl implements Reservations {
     billingAccountName: string,
     billingProfileName: string,
     options?: ReservationsListByBillingProfileOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Reservation[]> {
     let result: ReservationsListByBillingProfileResponse;
     let continuationToken = settings?.continuationToken;
@@ -161,7 +161,7 @@ export class ReservationsImpl implements Reservations {
       result = await this._listByBillingProfile(
         billingAccountName,
         billingProfileName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -173,7 +173,7 @@ export class ReservationsImpl implements Reservations {
         billingAccountName,
         billingProfileName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -185,12 +185,12 @@ export class ReservationsImpl implements Reservations {
   private async *listByBillingProfilePagingAll(
     billingAccountName: string,
     billingProfileName: string,
-    options?: ReservationsListByBillingProfileOptionalParams
+    options?: ReservationsListByBillingProfileOptionalParams,
   ): AsyncIterableIterator<Reservation> {
     for await (const page of this.listByBillingProfilePagingPage(
       billingAccountName,
       billingProfileName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -204,11 +204,11 @@ export class ReservationsImpl implements Reservations {
    */
   private _listByBillingAccount(
     billingAccountName: string,
-    options?: ReservationsListByBillingAccountOptionalParams
+    options?: ReservationsListByBillingAccountOptionalParams,
   ): Promise<ReservationsListByBillingAccountResponse> {
     return this.client.sendOperationRequest(
       { billingAccountName, options },
-      listByBillingAccountOperationSpec
+      listByBillingAccountOperationSpec,
     );
   }
 
@@ -222,11 +222,11 @@ export class ReservationsImpl implements Reservations {
   private _listByBillingProfile(
     billingAccountName: string,
     billingProfileName: string,
-    options?: ReservationsListByBillingProfileOptionalParams
+    options?: ReservationsListByBillingProfileOptionalParams,
   ): Promise<ReservationsListByBillingProfileResponse> {
     return this.client.sendOperationRequest(
       { billingAccountName, billingProfileName, options },
-      listByBillingProfileOperationSpec
+      listByBillingProfileOperationSpec,
     );
   }
 
@@ -239,11 +239,11 @@ export class ReservationsImpl implements Reservations {
   private _listByBillingAccountNext(
     billingAccountName: string,
     nextLink: string,
-    options?: ReservationsListByBillingAccountNextOptionalParams
+    options?: ReservationsListByBillingAccountNextOptionalParams,
   ): Promise<ReservationsListByBillingAccountNextResponse> {
     return this.client.sendOperationRequest(
       { billingAccountName, nextLink, options },
-      listByBillingAccountNextOperationSpec
+      listByBillingAccountNextOperationSpec,
     );
   }
 
@@ -258,11 +258,11 @@ export class ReservationsImpl implements Reservations {
     billingAccountName: string,
     billingProfileName: string,
     nextLink: string,
-    options?: ReservationsListByBillingProfileNextOptionalParams
+    options?: ReservationsListByBillingProfileNextOptionalParams,
   ): Promise<ReservationsListByBillingProfileNextResponse> {
     return this.client.sendOperationRequest(
       { billingAccountName, billingProfileName, nextLink, options },
-      listByBillingProfileNextOperationSpec
+      listByBillingProfileNextOperationSpec,
     );
   }
 }
@@ -270,105 +270,89 @@ export class ReservationsImpl implements Reservations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByBillingAccountOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/reservations",
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/reservations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ReservationsListResult
+      bodyMapper: Mappers.ReservationsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.filter,
     Parameters.orderby,
     Parameters.refreshSummary,
-    Parameters.selectedState
+    Parameters.selectedState,
   ],
   urlParameters: [Parameters.$host, Parameters.billingAccountName],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByBillingProfileOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/reservations",
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/reservations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ReservationsListResult
+      bodyMapper: Mappers.ReservationsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.filter,
     Parameters.orderby,
     Parameters.refreshSummary,
-    Parameters.selectedState
+    Parameters.selectedState,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,
-    Parameters.billingProfileName
+    Parameters.billingProfileName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByBillingAccountNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ReservationsListResult
+      bodyMapper: Mappers.ReservationsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.orderby,
-    Parameters.refreshSummary,
-    Parameters.selectedState
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByBillingProfileNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ReservationsListResult
+      bodyMapper: Mappers.ReservationsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.orderby,
-    Parameters.refreshSummary,
-    Parameters.selectedState
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,
     Parameters.nextLink,
-    Parameters.billingProfileName
+    Parameters.billingProfileName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

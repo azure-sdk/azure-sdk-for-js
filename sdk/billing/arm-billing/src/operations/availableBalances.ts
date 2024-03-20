@@ -13,7 +13,7 @@ import * as Parameters from "../models/parameters";
 import { BillingManagementClient } from "../billingManagementClient";
 import {
   AvailableBalancesGetOptionalParams,
-  AvailableBalancesGetResponse
+  AvailableBalancesGetResponse,
 } from "../models";
 
 /** Class containing AvailableBalances operations. */
@@ -39,11 +39,11 @@ export class AvailableBalancesImpl implements AvailableBalances {
   get(
     billingAccountName: string,
     billingProfileName: string,
-    options?: AvailableBalancesGetOptionalParams
+    options?: AvailableBalancesGetOptionalParams,
   ): Promise<AvailableBalancesGetResponse> {
     return this.client.sendOperationRequest(
       { billingAccountName, billingProfileName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -51,23 +51,22 @@ export class AvailableBalancesImpl implements AvailableBalances {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/availableBalance/default",
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/availableBalance/default",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AvailableBalance
+      bodyMapper: Mappers.AvailableBalance,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,
-    Parameters.billingProfileName
+    Parameters.billingProfileName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

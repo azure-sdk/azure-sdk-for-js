@@ -11,7 +11,7 @@ import {
   EnrollmentAccountSummary,
   EnrollmentAccountsListOptionalParams,
   EnrollmentAccountsGetOptionalParams,
-  EnrollmentAccountsGetResponse
+  EnrollmentAccountsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -22,7 +22,7 @@ export interface EnrollmentAccounts {
    * @param options The options parameters.
    */
   list(
-    options?: EnrollmentAccountsListOptionalParams
+    options?: EnrollmentAccountsListOptionalParams,
   ): PagedAsyncIterableIterator<EnrollmentAccountSummary>;
   /**
    * Gets a enrollment account by name.
@@ -31,6 +31,6 @@ export interface EnrollmentAccounts {
    */
   get(
     name: string,
-    options?: EnrollmentAccountsGetOptionalParams
+    options?: EnrollmentAccountsGetOptionalParams,
   ): Promise<EnrollmentAccountsGetResponse>;
 }

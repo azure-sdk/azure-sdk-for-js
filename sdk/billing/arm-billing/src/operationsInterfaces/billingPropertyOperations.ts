@@ -11,7 +11,7 @@ import {
   BillingPropertyGetResponse,
   BillingProperty,
   BillingPropertyUpdateOptionalParams,
-  BillingPropertyUpdateResponse
+  BillingPropertyUpdateResponse,
 } from "../models";
 
 /** Interface representing a BillingPropertyOperations. */
@@ -22,7 +22,7 @@ export interface BillingPropertyOperations {
    * @param options The options parameters.
    */
   get(
-    options?: BillingPropertyGetOptionalParams
+    options?: BillingPropertyGetOptionalParams,
   ): Promise<BillingPropertyGetResponse>;
   /**
    * Updates the billing property of a subscription. Currently, cost center can be updated. The operation
@@ -32,6 +32,6 @@ export interface BillingPropertyOperations {
    */
   update(
     parameters: BillingProperty,
-    options?: BillingPropertyUpdateOptionalParams
+    options?: BillingPropertyUpdateOptionalParams,
   ): Promise<BillingPropertyUpdateResponse>;
 }

@@ -10,7 +10,7 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   Reservation,
   ReservationsListByBillingAccountOptionalParams,
-  ReservationsListByBillingProfileOptionalParams
+  ReservationsListByBillingProfileOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -24,7 +24,7 @@ export interface Reservations {
    */
   listByBillingAccount(
     billingAccountName: string,
-    options?: ReservationsListByBillingAccountOptionalParams
+    options?: ReservationsListByBillingAccountOptionalParams,
   ): PagedAsyncIterableIterator<Reservation>;
   /**
    * Lists the reservations for a billing profile and the roll up counts of reservations group by
@@ -36,6 +36,6 @@ export interface Reservations {
   listByBillingProfile(
     billingAccountName: string,
     billingProfileName: string,
-    options?: ReservationsListByBillingProfileOptionalParams
+    options?: ReservationsListByBillingProfileOptionalParams,
   ): PagedAsyncIterableIterator<Reservation>;
 }

@@ -23,7 +23,7 @@ import {
   BillingRoleAssignmentsGetByBillingProfileOptionalParams,
   BillingRoleAssignmentsGetByBillingProfileResponse,
   BillingRoleAssignmentsDeleteByBillingProfileOptionalParams,
-  BillingRoleAssignmentsDeleteByBillingProfileResponse
+  BillingRoleAssignmentsDeleteByBillingProfileResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -37,7 +37,7 @@ export interface BillingRoleAssignments {
    */
   listByBillingAccount(
     billingAccountName: string,
-    options?: BillingRoleAssignmentsListByBillingAccountOptionalParams
+    options?: BillingRoleAssignmentsListByBillingAccountOptionalParams,
   ): PagedAsyncIterableIterator<BillingRoleAssignment>;
   /**
    * Lists the role assignments for the caller on an invoice section. The operation is supported for
@@ -51,7 +51,7 @@ export interface BillingRoleAssignments {
     billingAccountName: string,
     billingProfileName: string,
     invoiceSectionName: string,
-    options?: BillingRoleAssignmentsListByInvoiceSectionOptionalParams
+    options?: BillingRoleAssignmentsListByInvoiceSectionOptionalParams,
   ): PagedAsyncIterableIterator<BillingRoleAssignment>;
   /**
    * Lists the role assignments for the caller on a billing profile. The operation is supported for
@@ -63,7 +63,7 @@ export interface BillingRoleAssignments {
   listByBillingProfile(
     billingAccountName: string,
     billingProfileName: string,
-    options?: BillingRoleAssignmentsListByBillingProfileOptionalParams
+    options?: BillingRoleAssignmentsListByBillingProfileOptionalParams,
   ): PagedAsyncIterableIterator<BillingRoleAssignment>;
   /**
    * Gets a role assignment for the caller on a billing account. The operation is supported for billing
@@ -75,7 +75,7 @@ export interface BillingRoleAssignments {
   getByBillingAccount(
     billingAccountName: string,
     billingRoleAssignmentName: string,
-    options?: BillingRoleAssignmentsGetByBillingAccountOptionalParams
+    options?: BillingRoleAssignmentsGetByBillingAccountOptionalParams,
   ): Promise<BillingRoleAssignmentsGetByBillingAccountResponse>;
   /**
    * Deletes a role assignment for the caller on a billing account. The operation is supported for
@@ -87,7 +87,7 @@ export interface BillingRoleAssignments {
   deleteByBillingAccount(
     billingAccountName: string,
     billingRoleAssignmentName: string,
-    options?: BillingRoleAssignmentsDeleteByBillingAccountOptionalParams
+    options?: BillingRoleAssignmentsDeleteByBillingAccountOptionalParams,
   ): Promise<BillingRoleAssignmentsDeleteByBillingAccountResponse>;
   /**
    * Gets a role assignment for the caller on an invoice section. The operation is supported for billing
@@ -103,7 +103,7 @@ export interface BillingRoleAssignments {
     billingProfileName: string,
     invoiceSectionName: string,
     billingRoleAssignmentName: string,
-    options?: BillingRoleAssignmentsGetByInvoiceSectionOptionalParams
+    options?: BillingRoleAssignmentsGetByInvoiceSectionOptionalParams,
   ): Promise<BillingRoleAssignmentsGetByInvoiceSectionResponse>;
   /**
    * Deletes a role assignment for the caller on an invoice section. The operation is supported for
@@ -119,7 +119,7 @@ export interface BillingRoleAssignments {
     billingProfileName: string,
     invoiceSectionName: string,
     billingRoleAssignmentName: string,
-    options?: BillingRoleAssignmentsDeleteByInvoiceSectionOptionalParams
+    options?: BillingRoleAssignmentsDeleteByInvoiceSectionOptionalParams,
   ): Promise<BillingRoleAssignmentsDeleteByInvoiceSectionResponse>;
   /**
    * Gets a role assignment for the caller on a billing profile. The operation is supported for billing
@@ -133,7 +133,7 @@ export interface BillingRoleAssignments {
     billingAccountName: string,
     billingProfileName: string,
     billingRoleAssignmentName: string,
-    options?: BillingRoleAssignmentsGetByBillingProfileOptionalParams
+    options?: BillingRoleAssignmentsGetByBillingProfileOptionalParams,
   ): Promise<BillingRoleAssignmentsGetByBillingProfileResponse>;
   /**
    * Deletes a role assignment for the caller on a billing profile. The operation is supported for
@@ -147,6 +147,6 @@ export interface BillingRoleAssignments {
     billingAccountName: string,
     billingProfileName: string,
     billingRoleAssignmentName: string,
-    options?: BillingRoleAssignmentsDeleteByBillingProfileOptionalParams
+    options?: BillingRoleAssignmentsDeleteByBillingProfileOptionalParams,
   ): Promise<BillingRoleAssignmentsDeleteByBillingProfileResponse>;
 }

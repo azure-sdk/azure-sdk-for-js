@@ -22,7 +22,7 @@ import {
   InstructionsGetResponse,
   InstructionsPutOptionalParams,
   InstructionsPutResponse,
-  InstructionsListByBillingProfileNextResponse
+  InstructionsListByBillingProfileNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -47,12 +47,12 @@ export class InstructionsImpl implements Instructions {
   public listByBillingProfile(
     billingAccountName: string,
     billingProfileName: string,
-    options?: InstructionsListByBillingProfileOptionalParams
+    options?: InstructionsListByBillingProfileOptionalParams,
   ): PagedAsyncIterableIterator<Instruction> {
     const iter = this.listByBillingProfilePagingAll(
       billingAccountName,
       billingProfileName,
-      options
+      options,
     );
     return {
       next() {
@@ -69,9 +69,9 @@ export class InstructionsImpl implements Instructions {
           billingAccountName,
           billingProfileName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -79,7 +79,7 @@ export class InstructionsImpl implements Instructions {
     billingAccountName: string,
     billingProfileName: string,
     options?: InstructionsListByBillingProfileOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Instruction[]> {
     let result: InstructionsListByBillingProfileResponse;
     let continuationToken = settings?.continuationToken;
@@ -87,7 +87,7 @@ export class InstructionsImpl implements Instructions {
       result = await this._listByBillingProfile(
         billingAccountName,
         billingProfileName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -99,7 +99,7 @@ export class InstructionsImpl implements Instructions {
         billingAccountName,
         billingProfileName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -111,12 +111,12 @@ export class InstructionsImpl implements Instructions {
   private async *listByBillingProfilePagingAll(
     billingAccountName: string,
     billingProfileName: string,
-    options?: InstructionsListByBillingProfileOptionalParams
+    options?: InstructionsListByBillingProfileOptionalParams,
   ): AsyncIterableIterator<Instruction> {
     for await (const page of this.listByBillingProfilePagingPage(
       billingAccountName,
       billingProfileName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -131,11 +131,11 @@ export class InstructionsImpl implements Instructions {
   private _listByBillingProfile(
     billingAccountName: string,
     billingProfileName: string,
-    options?: InstructionsListByBillingProfileOptionalParams
+    options?: InstructionsListByBillingProfileOptionalParams,
   ): Promise<InstructionsListByBillingProfileResponse> {
     return this.client.sendOperationRequest(
       { billingAccountName, billingProfileName, options },
-      listByBillingProfileOperationSpec
+      listByBillingProfileOperationSpec,
     );
   }
 
@@ -151,11 +151,11 @@ export class InstructionsImpl implements Instructions {
     billingAccountName: string,
     billingProfileName: string,
     instructionName: string,
-    options?: InstructionsGetOptionalParams
+    options?: InstructionsGetOptionalParams,
   ): Promise<InstructionsGetResponse> {
     return this.client.sendOperationRequest(
       { billingAccountName, billingProfileName, instructionName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -173,7 +173,7 @@ export class InstructionsImpl implements Instructions {
     billingProfileName: string,
     instructionName: string,
     parameters: Instruction,
-    options?: InstructionsPutOptionalParams
+    options?: InstructionsPutOptionalParams,
   ): Promise<InstructionsPutResponse> {
     return this.client.sendOperationRequest(
       {
@@ -181,9 +181,9 @@ export class InstructionsImpl implements Instructions {
         billingProfileName,
         instructionName,
         parameters,
-        options
+        options,
       },
-      putOperationSpec
+      putOperationSpec,
     );
   }
 
@@ -198,11 +198,11 @@ export class InstructionsImpl implements Instructions {
     billingAccountName: string,
     billingProfileName: string,
     nextLink: string,
-    options?: InstructionsListByBillingProfileNextOptionalParams
+    options?: InstructionsListByBillingProfileNextOptionalParams,
   ): Promise<InstructionsListByBillingProfileNextResponse> {
     return this.client.sendOperationRequest(
       { billingAccountName, billingProfileName, nextLink, options },
-      listByBillingProfileNextOperationSpec
+      listByBillingProfileNextOperationSpec,
     );
   }
 }
@@ -210,59 +210,56 @@ export class InstructionsImpl implements Instructions {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByBillingProfileOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/instructions",
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/instructions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.InstructionListResult
+      bodyMapper: Mappers.InstructionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.billingProfileName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/instructions/{instructionName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Instruction
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,
     Parameters.billingProfileName,
-    Parameters.instructionName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/instructions/{instructionName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Instruction,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.billingAccountName,
+    Parameters.billingProfileName,
+    Parameters.instructionName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const putOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/instructions/{instructionName}",
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/instructions/{instructionName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Instruction
+      bodyMapper: Mappers.Instruction,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
@@ -270,30 +267,29 @@ const putOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.billingAccountName,
     Parameters.billingProfileName,
-    Parameters.instructionName
+    Parameters.instructionName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByBillingProfileNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.InstructionListResult
+      bodyMapper: Mappers.InstructionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,
     Parameters.nextLink,
-    Parameters.billingProfileName
+    Parameters.billingProfileName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

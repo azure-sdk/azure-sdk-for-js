@@ -16,7 +16,7 @@ import {
   PoliciesGetByCustomerResponse,
   CustomerPolicy,
   PoliciesUpdateCustomerOptionalParams,
-  PoliciesUpdateCustomerResponse
+  PoliciesUpdateCustomerResponse,
 } from "../models";
 
 /** Interface representing a Policies. */
@@ -31,7 +31,7 @@ export interface Policies {
   getByBillingProfile(
     billingAccountName: string,
     billingProfileName: string,
-    options?: PoliciesGetByBillingProfileOptionalParams
+    options?: PoliciesGetByBillingProfileOptionalParams,
   ): Promise<PoliciesGetByBillingProfileResponse>;
   /**
    * Updates the policies for a billing profile. This operation is supported only for billing accounts
@@ -45,7 +45,7 @@ export interface Policies {
     billingAccountName: string,
     billingProfileName: string,
     parameters: Policy,
-    options?: PoliciesUpdateOptionalParams
+    options?: PoliciesUpdateOptionalParams,
   ): Promise<PoliciesUpdateResponse>;
   /**
    * Lists the policies for a customer. This operation is supported only for billing accounts with
@@ -57,7 +57,7 @@ export interface Policies {
   getByCustomer(
     billingAccountName: string,
     customerName: string,
-    options?: PoliciesGetByCustomerOptionalParams
+    options?: PoliciesGetByCustomerOptionalParams,
   ): Promise<PoliciesGetByCustomerResponse>;
   /**
    * Updates the policies for a customer. This operation is supported only for billing accounts with
@@ -71,6 +71,6 @@ export interface Policies {
     billingAccountName: string,
     customerName: string,
     parameters: CustomerPolicy,
-    options?: PoliciesUpdateCustomerOptionalParams
+    options?: PoliciesUpdateCustomerOptionalParams,
   ): Promise<PoliciesUpdateCustomerResponse>;
 }
