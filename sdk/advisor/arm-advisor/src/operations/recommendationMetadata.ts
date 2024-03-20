@@ -20,7 +20,7 @@ import {
   RecommendationMetadataListResponse,
   RecommendationMetadataGetOptionalParams,
   RecommendationMetadataGetResponse,
-  RecommendationMetadataListNextResponse
+  RecommendationMetadataListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -41,7 +41,7 @@ export class RecommendationMetadataImpl implements RecommendationMetadata {
    * @param options The options parameters.
    */
   public list(
-    options?: RecommendationMetadataListOptionalParams
+    options?: RecommendationMetadataListOptionalParams,
   ): PagedAsyncIterableIterator<MetadataEntity> {
     const iter = this.listPagingAll(options);
     return {
@@ -56,13 +56,13 @@ export class RecommendationMetadataImpl implements RecommendationMetadata {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: RecommendationMetadataListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<MetadataEntity[]> {
     let result: RecommendationMetadataListResponse;
     let continuationToken = settings?.continuationToken;
@@ -83,7 +83,7 @@ export class RecommendationMetadataImpl implements RecommendationMetadata {
   }
 
   private async *listPagingAll(
-    options?: RecommendationMetadataListOptionalParams
+    options?: RecommendationMetadataListOptionalParams,
   ): AsyncIterableIterator<MetadataEntity> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -97,11 +97,11 @@ export class RecommendationMetadataImpl implements RecommendationMetadata {
    */
   get(
     name: string,
-    options?: RecommendationMetadataGetOptionalParams
+    options?: RecommendationMetadataGetOptionalParams,
   ): Promise<RecommendationMetadataGetResponse> {
     return this.client.sendOperationRequest(
       { name, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -110,7 +110,7 @@ export class RecommendationMetadataImpl implements RecommendationMetadata {
    * @param options The options parameters.
    */
   private _list(
-    options?: RecommendationMetadataListOptionalParams
+    options?: RecommendationMetadataListOptionalParams,
   ): Promise<RecommendationMetadataListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -122,11 +122,11 @@ export class RecommendationMetadataImpl implements RecommendationMetadata {
    */
   private _listNext(
     nextLink: string,
-    options?: RecommendationMetadataListNextOptionalParams
+    options?: RecommendationMetadataListNextOptionalParams,
   ): Promise<RecommendationMetadataListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -138,49 +138,49 @@ const getOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MetadataEntity
+      bodyMapper: Mappers.MetadataEntity,
     },
     404: {
       bodyMapper: Mappers.ARMErrorResponseBody,
-      isError: true
+      isError: true,
     },
     default: {
-      bodyMapper: Mappers.ArmErrorResponse
-    }
+      bodyMapper: Mappers.ArmErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.name],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
   path: "/providers/Microsoft.Advisor/metadata",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MetadataEntityListResult
+      bodyMapper: Mappers.MetadataEntityListResult,
     },
     default: {
-      bodyMapper: Mappers.ArmErrorResponse
-    }
+      bodyMapper: Mappers.ArmErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MetadataEntityListResult
+      bodyMapper: Mappers.MetadataEntityListResult,
     },
     default: {
-      bodyMapper: Mappers.ArmErrorResponse
-    }
+      bodyMapper: Mappers.ArmErrorResponse,
+    },
   },
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

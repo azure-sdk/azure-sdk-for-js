@@ -25,7 +25,7 @@ import {
   ConfigurationsCreateInSubscriptionResponse,
   ConfigurationsCreateInResourceGroupOptionalParams,
   ConfigurationsCreateInResourceGroupResponse,
-  ConfigurationsListBySubscriptionNextResponse
+  ConfigurationsListBySubscriptionNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -46,7 +46,7 @@ export class ConfigurationsImpl implements Configurations {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: ConfigurationsListBySubscriptionOptionalParams
+    options?: ConfigurationsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<ConfigData> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -61,13 +61,13 @@ export class ConfigurationsImpl implements Configurations {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: ConfigurationsListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ConfigData[]> {
     let result: ConfigurationsListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -88,7 +88,7 @@ export class ConfigurationsImpl implements Configurations {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: ConfigurationsListBySubscriptionOptionalParams
+    options?: ConfigurationsListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<ConfigData> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -102,7 +102,7 @@ export class ConfigurationsImpl implements Configurations {
    */
   public listByResourceGroup(
     resourceGroup: string,
-    options?: ConfigurationsListByResourceGroupOptionalParams
+    options?: ConfigurationsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<ConfigData> {
     const iter = this.listByResourceGroupPagingAll(resourceGroup, options);
     return {
@@ -119,16 +119,16 @@ export class ConfigurationsImpl implements Configurations {
         return this.listByResourceGroupPagingPage(
           resourceGroup,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroup: string,
     options?: ConfigurationsListByResourceGroupOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<ConfigData[]> {
     let result: ConfigurationsListByResourceGroupResponse;
     result = await this._listByResourceGroup(resourceGroup, options);
@@ -137,11 +137,11 @@ export class ConfigurationsImpl implements Configurations {
 
   private async *listByResourceGroupPagingAll(
     resourceGroup: string,
-    options?: ConfigurationsListByResourceGroupOptionalParams
+    options?: ConfigurationsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<ConfigData> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroup,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -152,11 +152,11 @@ export class ConfigurationsImpl implements Configurations {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: ConfigurationsListBySubscriptionOptionalParams
+    options?: ConfigurationsListBySubscriptionOptionalParams,
   ): Promise<ConfigurationsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -170,11 +170,11 @@ export class ConfigurationsImpl implements Configurations {
   createInSubscription(
     configurationName: ConfigurationName,
     configContract: ConfigData,
-    options?: ConfigurationsCreateInSubscriptionOptionalParams
+    options?: ConfigurationsCreateInSubscriptionOptionalParams,
   ): Promise<ConfigurationsCreateInSubscriptionResponse> {
     return this.client.sendOperationRequest(
       { configurationName, configContract, options },
-      createInSubscriptionOperationSpec
+      createInSubscriptionOperationSpec,
     );
   }
 
@@ -185,11 +185,11 @@ export class ConfigurationsImpl implements Configurations {
    */
   private _listByResourceGroup(
     resourceGroup: string,
-    options?: ConfigurationsListByResourceGroupOptionalParams
+    options?: ConfigurationsListByResourceGroupOptionalParams,
   ): Promise<ConfigurationsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroup, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -204,11 +204,11 @@ export class ConfigurationsImpl implements Configurations {
     configurationName: ConfigurationName,
     resourceGroup: string,
     configContract: ConfigData,
-    options?: ConfigurationsCreateInResourceGroupOptionalParams
+    options?: ConfigurationsCreateInResourceGroupOptionalParams,
   ): Promise<ConfigurationsCreateInResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { configurationName, resourceGroup, configContract, options },
-      createInResourceGroupOperationSpec
+      createInResourceGroupOperationSpec,
     );
   }
 
@@ -219,11 +219,11 @@ export class ConfigurationsImpl implements Configurations {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: ConfigurationsListBySubscriptionNextOptionalParams
+    options?: ConfigurationsListBySubscriptionNextOptionalParams,
   ): Promise<ConfigurationsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 }
@@ -231,77 +231,31 @@ export class ConfigurationsImpl implements Configurations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Advisor/configurations",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Advisor/configurations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigurationListResult
+      bodyMapper: Mappers.ConfigurationListResult,
     },
     default: {
-      bodyMapper: Mappers.ArmErrorResponse
-    }
+      bodyMapper: Mappers.ArmErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createInSubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Advisor/configurations/{configurationName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Advisor/configurations/{configurationName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigData
+      bodyMapper: Mappers.ConfigData,
     },
     default: {
-      bodyMapper: Mappers.ArmErrorResponse
-    }
-  },
-  requestBody: Parameters.configContract,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.configurationName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Advisor/configurations",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ConfigurationListResult
+      bodyMapper: Mappers.ArmErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ArmErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroup
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const createInResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Advisor/configurations/{configurationName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ConfigData
-    },
-    default: {
-      bodyMapper: Mappers.ArmErrorResponse
-    }
   },
   requestBody: Parameters.configContract,
   queryParameters: [Parameters.apiVersion],
@@ -309,28 +263,70 @@ const createInResourceGroupOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.configurationName,
-    Parameters.resourceGroup
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
+};
+const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Advisor/configurations",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ConfigurationListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ArmErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroup,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const createInResourceGroupOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Advisor/configurations/{configurationName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ConfigData,
+    },
+    default: {
+      bodyMapper: Mappers.ArmErrorResponse,
+    },
+  },
+  requestBody: Parameters.configContract,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.configurationName,
+    Parameters.resourceGroup,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigurationListResult
+      bodyMapper: Mappers.ConfigurationListResult,
     },
     default: {
-      bodyMapper: Mappers.ArmErrorResponse
-    }
+      bodyMapper: Mappers.ArmErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
