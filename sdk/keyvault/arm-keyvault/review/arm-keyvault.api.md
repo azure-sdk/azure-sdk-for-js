@@ -18,9 +18,6 @@ export interface AccessPolicyEntry {
     tenantId: string;
 }
 
-// @public
-export type AccessPolicyUpdateKind = "add" | "replace" | "remove";
-
 // @public (undocumented)
 export interface Action {
     type?: KeyRotationPolicyActionType;
@@ -1586,15 +1583,12 @@ export interface Vaults {
     beginPurgeDeleted(vaultName: string, location: string, options?: VaultsPurgeDeletedOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginPurgeDeletedAndWait(vaultName: string, location: string, options?: VaultsPurgeDeletedOptionalParams): Promise<void>;
     checkNameAvailability(vaultName: VaultCheckNameAvailabilityParameters, options?: VaultsCheckNameAvailabilityOptionalParams): Promise<VaultsCheckNameAvailabilityResponse>;
-    delete(resourceGroupName: string, vaultName: string, options?: VaultsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, vaultName: string, options?: VaultsGetOptionalParams): Promise<VaultsGetResponse>;
     getDeleted(vaultName: string, location: string, options?: VaultsGetDeletedOptionalParams): Promise<VaultsGetDeletedResponse>;
     list(options?: VaultsListOptionalParams): PagedAsyncIterableIterator<Resource>;
     listByResourceGroup(resourceGroupName: string, options?: VaultsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Vault>;
     listBySubscription(options?: VaultsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Vault>;
     listDeleted(options?: VaultsListDeletedOptionalParams): PagedAsyncIterableIterator<DeletedVault>;
     update(resourceGroupName: string, vaultName: string, parameters: VaultPatchParameters, options?: VaultsUpdateOptionalParams): Promise<VaultsUpdateResponse>;
-    updateAccessPolicy(resourceGroupName: string, vaultName: string, operationKind: AccessPolicyUpdateKind, parameters: VaultAccessPolicyParameters, options?: VaultsUpdateAccessPolicyOptionalParams): Promise<VaultsUpdateAccessPolicyResponse>;
 }
 
 // @public
@@ -1614,22 +1608,11 @@ export interface VaultsCreateOrUpdateOptionalParams extends coreClient.Operation
 export type VaultsCreateOrUpdateResponse = Vault;
 
 // @public
-export interface VaultsDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
 export interface VaultsGetDeletedOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
 export type VaultsGetDeletedResponse = DeletedVault;
-
-// @public
-export interface VaultsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type VaultsGetResponse = Vault;
 
 // @public
 export interface VaultsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
@@ -1695,13 +1678,6 @@ export interface VaultsPurgeDeletedOptionalParams extends coreClient.OperationOp
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
-
-// @public
-export interface VaultsUpdateAccessPolicyOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type VaultsUpdateAccessPolicyResponse = VaultAccessPolicyParameters;
 
 // @public
 export interface VaultsUpdateOptionalParams extends coreClient.OperationOptions {
