@@ -694,6 +694,8 @@ export class SignalRManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     signalRReplicas: SignalRReplicas;
     // (undocumented)
+    signalRReplicaSharedPrivateLinkResources: SignalRReplicaSharedPrivateLinkResources;
+    // (undocumented)
     signalRSharedPrivateLinkResources: SignalRSharedPrivateLinkResources;
     // (undocumented)
     subscriptionId: string;
@@ -825,6 +827,44 @@ export interface SignalRReplicasGetOptionalParams extends coreClient.OperationOp
 
 // @public
 export type SignalRReplicasGetResponse = Replica;
+
+// @public
+export interface SignalRReplicaSharedPrivateLinkResources {
+    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, replicaName: string, sharedPrivateLinkResourceName: string, parameters: SharedPrivateLinkResource, options?: SignalRReplicaSharedPrivateLinkResourcesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SignalRReplicaSharedPrivateLinkResourcesCreateOrUpdateResponse>, SignalRReplicaSharedPrivateLinkResourcesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, resourceName: string, replicaName: string, sharedPrivateLinkResourceName: string, parameters: SharedPrivateLinkResource, options?: SignalRReplicaSharedPrivateLinkResourcesCreateOrUpdateOptionalParams): Promise<SignalRReplicaSharedPrivateLinkResourcesCreateOrUpdateResponse>;
+    get(resourceGroupName: string, resourceName: string, replicaName: string, sharedPrivateLinkResourceName: string, options?: SignalRReplicaSharedPrivateLinkResourcesGetOptionalParams): Promise<SignalRReplicaSharedPrivateLinkResourcesGetResponse>;
+    list(resourceGroupName: string, resourceName: string, replicaName: string, options?: SignalRReplicaSharedPrivateLinkResourcesListOptionalParams): PagedAsyncIterableIterator<SharedPrivateLinkResource>;
+}
+
+// @public
+export interface SignalRReplicaSharedPrivateLinkResourcesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SignalRReplicaSharedPrivateLinkResourcesCreateOrUpdateResponse = SharedPrivateLinkResource;
+
+// @public
+export interface SignalRReplicaSharedPrivateLinkResourcesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SignalRReplicaSharedPrivateLinkResourcesGetResponse = SharedPrivateLinkResource;
+
+// @public
+export interface SignalRReplicaSharedPrivateLinkResourcesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SignalRReplicaSharedPrivateLinkResourcesListNextResponse = SharedPrivateLinkResourceList;
+
+// @public
+export interface SignalRReplicaSharedPrivateLinkResourcesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SignalRReplicaSharedPrivateLinkResourcesListResponse = SharedPrivateLinkResourceList;
 
 // @public
 export interface SignalRReplicasListNextOptionalParams extends coreClient.OperationOptions {
