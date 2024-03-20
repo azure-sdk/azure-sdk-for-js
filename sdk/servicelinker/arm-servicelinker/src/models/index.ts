@@ -8,11 +8,6 @@
 
 import * as coreClient from "@azure/core-client";
 
-export type TargetServiceBaseUnion =
-  | TargetServiceBase
-  | AzureResource
-  | ConfluentBootstrapServer
-  | ConfluentSchemaRegistry;
 export type AuthInfoBaseUnion =
   | AuthInfoBase
   | SecretAuthInfo
@@ -20,14 +15,6 @@ export type AuthInfoBaseUnion =
   | SystemAssignedIdentityAuthInfo
   | ServicePrincipalSecretAuthInfo
   | ServicePrincipalCertificateAuthInfo;
-export type AzureResourcePropertiesBaseUnion =
-  | AzureResourcePropertiesBase
-  | AzureKeyVaultProperties;
-export type SecretInfoBaseUnion =
-  | SecretInfoBase
-  | ValueSecretInfo
-  | KeyVaultSecretReferenceSecretInfo
-  | KeyVaultSecretUriSecretInfo;
 
 /** The list of Linker. */
 export interface LinkerList {
@@ -35,15 +22,6 @@ export interface LinkerList {
   nextLink?: string;
   /** The list of Linkers. */
   value?: LinkerResource[];
-}
-
-/** The target service properties */
-export interface TargetServiceBase {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type:
-    | "AzureResource"
-    | "ConfluentBootstrapServer"
-    | "ConfluentSchemaRegistry";
 }
 
 /** The authentication info */
@@ -155,8 +133,8 @@ export interface ErrorAdditionalInfo {
 
 /** A linker to be updated. */
 export interface LinkerPatch {
-  /** The target service properties */
-  targetService?: TargetServiceBaseUnion;
+  /** The resource Id of target service. */
+  targetId?: string;
   /** The authentication type. */
   authInfo?: AuthInfoBaseUnion;
   /** The application client type */
@@ -170,46 +148,24 @@ export interface LinkerPatch {
   vNetSolution?: VNetSolution;
   /** An option to store secret value in secure place */
   secretStore?: SecretStore;
-  /** connection scope in source service. */
-  scope?: string;
 }
 
-/** The validation operation result for a linker. */
-export interface ValidateOperationResult {
-  /** Validated linker id. */
-  resourceId?: string;
-  /** Validation operation status. */
-  status?: string;
+/** The validation result for a linker. */
+export interface ValidateResult {
   /** The linker name. */
-  linkerName?: string;
-  /** A boolean value indicating whether the connection is available or not */
-  isConnectionAvailable?: boolean;
+  name?: string;
+  /** Specifies if the linker is healthy. */
+  linkerStatus?: LinkerStatus;
+  /** The reason of the error. */
+  reason?: string;
   /** The start time of the validation report. */
   reportStartTimeUtc?: Date;
   /** The end time of the validation report. */
   reportEndTimeUtc?: Date;
-  /** The resource id of the linker source application. */
-  sourceId?: string;
   /** The resource Id of target service. */
   targetId?: string;
   /** The authentication type. */
   authType?: AuthType;
-  /** The detail of validation result */
-  validationDetail?: ValidationResultItem[];
-}
-
-/** The validation item for a linker. */
-export interface ValidationResultItem {
-  /** The validation item name. */
-  name?: string;
-  /** The display name of validation item */
-  description?: string;
-  /** The result of validation */
-  result?: ValidationResultStatus;
-  /** The error message of validation result */
-  errorMessage?: string;
-  /** The error code of validation result */
-  errorCode?: string;
 }
 
 /** Configurations for source resource, include appSettings, connectionString and serviceBindings */
@@ -290,52 +246,14 @@ export interface OperationDisplay {
   readonly description?: string;
 }
 
-/** The azure resource properties */
-export interface AzureResourcePropertiesBase {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "KeyVault";
-}
-
-/** The secret info */
-export interface SecretInfoBase {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  secretType: "rawValue" | "keyVaultSecretReference" | "keyVaultSecretUri";
-}
-
-/** The azure resource info when target service type is AzureResource */
-export interface AzureResource extends TargetServiceBase {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "AzureResource";
-  /** The Id of azure resource. */
-  id?: string;
-  /** The azure resource connection related properties. */
-  resourceProperties?: AzureResourcePropertiesBaseUnion;
-}
-
-/** The service properties when target service type is ConfluentBootstrapServer */
-export interface ConfluentBootstrapServer extends TargetServiceBase {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "ConfluentBootstrapServer";
-  /** The endpoint of service. */
-  endpoint?: string;
-}
-
-/** The service properties when target service type is ConfluentSchemaRegistry */
-export interface ConfluentSchemaRegistry extends TargetServiceBase {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "ConfluentSchemaRegistry";
-  /** The endpoint of service. */
-  endpoint?: string;
-}
-
 /** The authentication info when authType is secret */
 export interface SecretAuthInfo extends AuthInfoBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   authType: "secret";
   /** Username or account name for secret auth. */
   name?: string;
-  /** Password or key vault secret for secret auth. */
-  secretInfo?: SecretInfoBaseUnion;
+  /** Password or account key for secret auth. */
+  secret?: string;
 }
 
 /** The authentication info when authType is userAssignedIdentity */
@@ -343,9 +261,9 @@ export interface UserAssignedIdentityAuthInfo extends AuthInfoBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   authType: "userAssignedIdentity";
   /** Client Id for userAssignedIdentity. */
-  clientId?: string;
+  clientId: string;
   /** Subscription id for userAssignedIdentity. */
-  subscriptionId?: string;
+  subscriptionId: string;
 }
 
 /** The authentication info when authType is systemAssignedIdentity */
@@ -381,40 +299,6 @@ export interface ServicePrincipalCertificateAuthInfo extends AuthInfoBase {
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-/** The resource properties when type is Azure Key Vault */
-export interface AzureKeyVaultProperties extends AzureResourcePropertiesBase {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "KeyVault";
-  /** True if connect via Kubernetes CSI Driver. */
-  connectAsKubernetesCsiDriver?: boolean;
-}
-
-/** The secret info when type is rawValue. It's for scenarios that user input the secret. */
-export interface ValueSecretInfo extends SecretInfoBase {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  secretType: "rawValue";
-  /** The actual value of the secret. */
-  value?: string;
-}
-
-/** The secret info when type is keyVaultSecretReference. It's for scenario that user provides a secret stored in user's keyvault and source is Azure Kubernetes. The key Vault's resource id is linked to secretStore.keyVaultId. */
-export interface KeyVaultSecretReferenceSecretInfo extends SecretInfoBase {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  secretType: "keyVaultSecretReference";
-  /** Name of the Key Vault secret. */
-  name?: string;
-  /** Version of the Key Vault secret. */
-  version?: string;
-}
-
-/** The secret info when type is keyVaultSecretUri. It's for scenario that user provides a secret stored in user's keyvault and source is Web App, Spring Cloud or Container App. */
-export interface KeyVaultSecretUriSecretInfo extends SecretInfoBase {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  secretType: "keyVaultSecretUri";
-  /** URI to the keyvault secret */
-  value?: string;
-}
-
 /** Linker of source and target resource */
 export interface LinkerResource extends ProxyResource {
   /**
@@ -422,8 +306,8 @@ export interface LinkerResource extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
-  /** The target service properties */
-  targetService?: TargetServiceBaseUnion;
+  /** The resource Id of target service. */
+  targetId?: string;
   /** The authentication type. */
   authInfo?: AuthInfoBaseUnion;
   /** The application client type */
@@ -437,30 +321,7 @@ export interface LinkerResource extends ProxyResource {
   vNetSolution?: VNetSolution;
   /** An option to store secret value in secure place */
   secretStore?: SecretStore;
-  /** connection scope in source service. */
-  scope?: string;
 }
-
-/** Known values of {@link TargetServiceType} that the service accepts. */
-export enum KnownTargetServiceType {
-  /** AzureResource */
-  AzureResource = "AzureResource",
-  /** ConfluentBootstrapServer */
-  ConfluentBootstrapServer = "ConfluentBootstrapServer",
-  /** ConfluentSchemaRegistry */
-  ConfluentSchemaRegistry = "ConfluentSchemaRegistry"
-}
-
-/**
- * Defines values for TargetServiceType. \
- * {@link KnownTargetServiceType} can be used interchangeably with TargetServiceType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **AzureResource** \
- * **ConfluentBootstrapServer** \
- * **ConfluentSchemaRegistry**
- */
-export type TargetServiceType = string;
 
 /** Known values of {@link AuthType} that the service accepts. */
 export enum KnownAuthType {
@@ -473,7 +334,7 @@ export enum KnownAuthType {
   /** ServicePrincipalCertificate */
   ServicePrincipalCertificate = "servicePrincipalCertificate",
   /** Secret */
-  Secret = "secret"
+  Secret = "secret",
 }
 
 /**
@@ -510,7 +371,7 @@ export enum KnownClientType {
   /** Nodejs */
   Nodejs = "nodejs",
   /** SpringBoot */
-  SpringBoot = "springBoot"
+  SpringBoot = "springBoot",
 }
 
 /**
@@ -536,7 +397,7 @@ export enum KnownVNetSolutionType {
   /** ServiceEndpoint */
   ServiceEndpoint = "serviceEndpoint",
   /** PrivateLink */
-  PrivateLink = "privateLink"
+  PrivateLink = "privateLink",
 }
 
 /**
@@ -558,7 +419,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -573,26 +434,23 @@ export enum KnownCreatedByType {
  */
 export type CreatedByType = string;
 
-/** Known values of {@link ValidationResultStatus} that the service accepts. */
-export enum KnownValidationResultStatus {
-  /** Success */
-  Success = "success",
-  /** Failure */
-  Failure = "failure",
-  /** Warning */
-  Warning = "warning"
+/** Known values of {@link LinkerStatus} that the service accepts. */
+export enum KnownLinkerStatus {
+  /** Healthy */
+  Healthy = "Healthy",
+  /** NotHealthy */
+  NotHealthy = "Not healthy",
 }
 
 /**
- * Defines values for ValidationResultStatus. \
- * {@link KnownValidationResultStatus} can be used interchangeably with ValidationResultStatus,
+ * Defines values for LinkerStatus. \
+ * {@link KnownLinkerStatus} can be used interchangeably with LinkerStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **success** \
- * **failure** \
- * **warning**
+ * **Healthy** \
+ * **Not healthy**
  */
-export type ValidationResultStatus = string;
+export type LinkerStatus = string;
 
 /** Known values of {@link Origin} that the service accepts. */
 export enum KnownOrigin {
@@ -601,7 +459,7 @@ export enum KnownOrigin {
   /** System */
   System = "system",
   /** UserSystem */
-  UserSystem = "user,system"
+  UserSystem = "user,system",
 }
 
 /**
@@ -618,7 +476,7 @@ export type Origin = string;
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
   /** Internal */
-  Internal = "Internal"
+  Internal = "Internal",
 }
 
 /**
@@ -629,42 +487,6 @@ export enum KnownActionType {
  * **Internal**
  */
 export type ActionType = string;
-
-/** Known values of {@link AzureResourceType} that the service accepts. */
-export enum KnownAzureResourceType {
-  /** KeyVault */
-  KeyVault = "KeyVault"
-}
-
-/**
- * Defines values for AzureResourceType. \
- * {@link KnownAzureResourceType} can be used interchangeably with AzureResourceType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **KeyVault**
- */
-export type AzureResourceType = string;
-
-/** Known values of {@link SecretType} that the service accepts. */
-export enum KnownSecretType {
-  /** RawValue */
-  RawValue = "rawValue",
-  /** KeyVaultSecretUri */
-  KeyVaultSecretUri = "keyVaultSecretUri",
-  /** KeyVaultSecretReference */
-  KeyVaultSecretReference = "keyVaultSecretReference"
-}
-
-/**
- * Defines values for SecretType. \
- * {@link KnownSecretType} can be used interchangeably with SecretType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **rawValue** \
- * **keyVaultSecretUri** \
- * **keyVaultSecretReference**
- */
-export type SecretType = string;
 
 /** Optional parameters. */
 export interface LinkerListOptionalParams extends coreClient.OperationOptions {}
@@ -721,7 +543,7 @@ export interface LinkerValidateOptionalParams
 }
 
 /** Contains response data for the validate operation. */
-export type LinkerValidateResponse = ValidateOperationResult;
+export type LinkerValidateResponse = ValidateResult;
 
 /** Optional parameters. */
 export interface LinkerListConfigurationsOptionalParams

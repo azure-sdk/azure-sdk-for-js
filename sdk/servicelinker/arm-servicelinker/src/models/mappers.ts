@@ -15,10 +15,9 @@ export const LinkerList: coreClient.CompositeMapper = {
     modelProperties: {
       nextLink: {
         serializedName: "nextLink",
-        nullable: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       value: {
         serializedName: "value",
@@ -27,34 +26,13 @@ export const LinkerList: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "LinkerResource"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const TargetServiceBase: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "TargetServiceBase",
-    uberParent: "TargetServiceBase",
-    polymorphicDiscriminator: {
-      serializedName: "type",
-      clientName: "type"
+              className: "LinkerResource",
+            },
+          },
+        },
+      },
     },
-    modelProperties: {
-      type: {
-        serializedName: "type",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
+  },
 };
 
 export const AuthInfoBase: coreClient.CompositeMapper = {
@@ -64,18 +42,18 @@ export const AuthInfoBase: coreClient.CompositeMapper = {
     uberParent: "AuthInfoBase",
     polymorphicDiscriminator: {
       serializedName: "authType",
-      clientName: "authType"
+      clientName: "authType",
     },
     modelProperties: {
       authType: {
         serializedName: "authType",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const VNetSolution: coreClient.CompositeMapper = {
@@ -85,13 +63,12 @@ export const VNetSolution: coreClient.CompositeMapper = {
     modelProperties: {
       type: {
         serializedName: "type",
-        nullable: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const SecretStore: coreClient.CompositeMapper = {
@@ -101,13 +78,12 @@ export const SecretStore: coreClient.CompositeMapper = {
     modelProperties: {
       keyVaultId: {
         serializedName: "keyVaultId",
-        nullable: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const SystemData: coreClient.CompositeMapper = {
@@ -118,41 +94,41 @@ export const SystemData: coreClient.CompositeMapper = {
       createdBy: {
         serializedName: "createdBy",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       createdByType: {
         serializedName: "createdByType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       createdAt: {
         serializedName: "createdAt",
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       lastModifiedBy: {
         serializedName: "lastModifiedBy",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       lastModifiedByType: {
         serializedName: "lastModifiedByType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       lastModifiedAt: {
         serializedName: "lastModifiedAt",
         type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
+          name: "DateTime",
+        },
+      },
+    },
+  },
 };
 
 export const Resource: coreClient.CompositeMapper = {
@@ -164,25 +140,25 @@ export const Resource: coreClient.CompositeMapper = {
         serializedName: "id",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       type: {
         serializedName: "type",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ErrorResponse: coreClient.CompositeMapper = {
@@ -194,11 +170,11 @@ export const ErrorResponse: coreClient.CompositeMapper = {
         serializedName: "error",
         type: {
           name: "Composite",
-          className: "ErrorDetail"
-        }
-      }
-    }
-  }
+          className: "ErrorDetail",
+        },
+      },
+    },
+  },
 };
 
 export const ErrorDetail: coreClient.CompositeMapper = {
@@ -210,22 +186,22 @@ export const ErrorDetail: coreClient.CompositeMapper = {
         serializedName: "code",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       message: {
         serializedName: "message",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       target: {
         serializedName: "target",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       details: {
         serializedName: "details",
@@ -235,10 +211,10 @@ export const ErrorDetail: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ErrorDetail"
-            }
-          }
-        }
+              className: "ErrorDetail",
+            },
+          },
+        },
       },
       additionalInfo: {
         serializedName: "additionalInfo",
@@ -248,13 +224,13 @@ export const ErrorDetail: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ErrorAdditionalInfo"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "ErrorAdditionalInfo",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
@@ -266,19 +242,19 @@ export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
         serializedName: "type",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       info: {
         serializedName: "info",
         readOnly: true,
         type: {
           name: "Dictionary",
-          value: { type: { name: "any" } }
-        }
-      }
-    }
-  }
+          value: { type: { name: "any" } },
+        },
+      },
+    },
+  },
 };
 
 export const LinkerPatch: coreClient.CompositeMapper = {
@@ -286,184 +262,99 @@ export const LinkerPatch: coreClient.CompositeMapper = {
     name: "Composite",
     className: "LinkerPatch",
     modelProperties: {
-      targetService: {
-        serializedName: "properties.targetService",
+      targetId: {
+        serializedName: "properties.targetId",
         type: {
-          name: "Composite",
-          className: "TargetServiceBase"
-        }
+          name: "String",
+        },
       },
       authInfo: {
         serializedName: "properties.authInfo",
         type: {
           name: "Composite",
-          className: "AuthInfoBase"
-        }
+          className: "AuthInfoBase",
+        },
       },
       clientType: {
         serializedName: "properties.clientType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       provisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       vNetSolution: {
         serializedName: "properties.vNetSolution",
         type: {
           name: "Composite",
-          className: "VNetSolution"
-        }
+          className: "VNetSolution",
+        },
       },
       secretStore: {
         serializedName: "properties.secretStore",
         type: {
           name: "Composite",
-          className: "SecretStore"
-        }
+          className: "SecretStore",
+        },
       },
-      scope: {
-        serializedName: "properties.scope",
-        nullable: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
+    },
+  },
 };
 
-export const ValidateOperationResult: coreClient.CompositeMapper = {
+export const ValidateResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ValidateOperationResult",
-    modelProperties: {
-      resourceId: {
-        serializedName: "resourceId",
-        nullable: true,
-        type: {
-          name: "String"
-        }
-      },
-      status: {
-        serializedName: "status",
-        nullable: true,
-        type: {
-          name: "String"
-        }
-      },
-      linkerName: {
-        serializedName: "properties.linkerName",
-        nullable: true,
-        type: {
-          name: "String"
-        }
-      },
-      isConnectionAvailable: {
-        serializedName: "properties.isConnectionAvailable",
-        nullable: true,
-        type: {
-          name: "Boolean"
-        }
-      },
-      reportStartTimeUtc: {
-        serializedName: "properties.reportStartTimeUtc",
-        nullable: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      reportEndTimeUtc: {
-        serializedName: "properties.reportEndTimeUtc",
-        nullable: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      sourceId: {
-        serializedName: "properties.sourceId",
-        nullable: true,
-        type: {
-          name: "String"
-        }
-      },
-      targetId: {
-        serializedName: "properties.targetId",
-        nullable: true,
-        type: {
-          name: "String"
-        }
-      },
-      authType: {
-        serializedName: "properties.authType",
-        nullable: true,
-        type: {
-          name: "String"
-        }
-      },
-      validationDetail: {
-        serializedName: "properties.validationDetail",
-        nullable: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ValidationResultItem"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const ValidationResultItem: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ValidationResultItem",
+    className: "ValidateResult",
     modelProperties: {
       name: {
         serializedName: "name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
-      description: {
-        serializedName: "description",
-        nullable: true,
+      linkerStatus: {
+        serializedName: "linkerStatus",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
-      result: {
-        serializedName: "result",
-        nullable: true,
+      reason: {
+        serializedName: "reason",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
-      errorMessage: {
-        serializedName: "errorMessage",
-        nullable: true,
+      reportStartTimeUtc: {
+        serializedName: "reportStartTimeUtc",
         type: {
-          name: "String"
-        }
+          name: "DateTime",
+        },
       },
-      errorCode: {
-        serializedName: "errorCode",
-        nullable: true,
+      reportEndTimeUtc: {
+        serializedName: "reportEndTimeUtc",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "DateTime",
+        },
+      },
+      targetId: {
+        serializedName: "targetId",
+        type: {
+          name: "String",
+        },
+      },
+      authType: {
+        serializedName: "authType",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const SourceConfigurationResult: coreClient.CompositeMapper = {
@@ -478,13 +369,13 @@ export const SourceConfigurationResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "SourceConfiguration"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "SourceConfiguration",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const SourceConfiguration: coreClient.CompositeMapper = {
@@ -495,18 +386,17 @@ export const SourceConfiguration: coreClient.CompositeMapper = {
       name: {
         serializedName: "name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       value: {
         serializedName: "value",
-        nullable: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const OperationListResult: coreClient.CompositeMapper = {
@@ -522,20 +412,20 @@ export const OperationListResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "Operation"
-            }
-          }
-        }
+              className: "Operation",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const Operation: coreClient.CompositeMapper = {
@@ -547,39 +437,39 @@ export const Operation: coreClient.CompositeMapper = {
         serializedName: "name",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       isDataAction: {
         serializedName: "isDataAction",
         readOnly: true,
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       display: {
         serializedName: "display",
         type: {
           name: "Composite",
-          className: "OperationDisplay"
-        }
+          className: "OperationDisplay",
+        },
       },
       origin: {
         serializedName: "origin",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       actionType: {
         serializedName: "actionType",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const OperationDisplay: coreClient.CompositeMapper = {
@@ -591,138 +481,32 @@ export const OperationDisplay: coreClient.CompositeMapper = {
         serializedName: "provider",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       resource: {
         serializedName: "resource",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       operation: {
         serializedName: "operation",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       description: {
         serializedName: "description",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const AzureResourcePropertiesBase: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "AzureResourcePropertiesBase",
-    uberParent: "AzureResourcePropertiesBase",
-    polymorphicDiscriminator: {
-      serializedName: "type",
-      clientName: "type"
-    },
-    modelProperties: {
-      type: {
-        serializedName: "type",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const SecretInfoBase: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SecretInfoBase",
-    uberParent: "SecretInfoBase",
-    polymorphicDiscriminator: {
-      serializedName: "secretType",
-      clientName: "secretType"
-    },
-    modelProperties: {
-      secretType: {
-        serializedName: "secretType",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const AzureResource: coreClient.CompositeMapper = {
-  serializedName: "AzureResource",
-  type: {
-    name: "Composite",
-    className: "AzureResource",
-    uberParent: "TargetServiceBase",
-    polymorphicDiscriminator: TargetServiceBase.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...TargetServiceBase.type.modelProperties,
-      id: {
-        serializedName: "id",
-        type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
-      resourceProperties: {
-        serializedName: "resourceProperties",
-        type: {
-          name: "Composite",
-          className: "AzureResourcePropertiesBase"
-        }
-      }
-    }
-  }
-};
-
-export const ConfluentBootstrapServer: coreClient.CompositeMapper = {
-  serializedName: "ConfluentBootstrapServer",
-  type: {
-    name: "Composite",
-    className: "ConfluentBootstrapServer",
-    uberParent: "TargetServiceBase",
-    polymorphicDiscriminator: TargetServiceBase.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...TargetServiceBase.type.modelProperties,
-      endpoint: {
-        serializedName: "endpoint",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ConfluentSchemaRegistry: coreClient.CompositeMapper = {
-  serializedName: "ConfluentSchemaRegistry",
-  type: {
-    name: "Composite",
-    className: "ConfluentSchemaRegistry",
-    uberParent: "TargetServiceBase",
-    polymorphicDiscriminator: TargetServiceBase.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...TargetServiceBase.type.modelProperties,
-      endpoint: {
-        serializedName: "endpoint",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
+    },
+  },
 };
 
 export const SecretAuthInfo: coreClient.CompositeMapper = {
@@ -736,20 +520,18 @@ export const SecretAuthInfo: coreClient.CompositeMapper = {
       ...AuthInfoBase.type.modelProperties,
       name: {
         serializedName: "name",
-        nullable: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
-      secretInfo: {
-        serializedName: "secretInfo",
+      secret: {
+        serializedName: "secret",
         type: {
-          name: "Composite",
-          className: "SecretInfoBase"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const UserAssignedIdentityAuthInfo: coreClient.CompositeMapper = {
@@ -763,18 +545,20 @@ export const UserAssignedIdentityAuthInfo: coreClient.CompositeMapper = {
       ...AuthInfoBase.type.modelProperties,
       clientId: {
         serializedName: "clientId",
+        required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       subscriptionId: {
         serializedName: "subscriptionId",
+        required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const SystemAssignedIdentityAuthInfo: coreClient.CompositeMapper = {
@@ -785,9 +569,9 @@ export const SystemAssignedIdentityAuthInfo: coreClient.CompositeMapper = {
     uberParent: "AuthInfoBase",
     polymorphicDiscriminator: AuthInfoBase.type.polymorphicDiscriminator,
     modelProperties: {
-      ...AuthInfoBase.type.modelProperties
-    }
-  }
+      ...AuthInfoBase.type.modelProperties,
+    },
+  },
 };
 
 export const ServicePrincipalSecretAuthInfo: coreClient.CompositeMapper = {
@@ -803,25 +587,25 @@ export const ServicePrincipalSecretAuthInfo: coreClient.CompositeMapper = {
         serializedName: "clientId",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       principalId: {
         serializedName: "principalId",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       secret: {
         serializedName: "secret",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ServicePrincipalCertificateAuthInfo: coreClient.CompositeMapper = {
@@ -837,25 +621,25 @@ export const ServicePrincipalCertificateAuthInfo: coreClient.CompositeMapper = {
         serializedName: "clientId",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       principalId: {
         serializedName: "principalId",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       certificate: {
         serializedName: "certificate",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ProxyResource: coreClient.CompositeMapper = {
@@ -863,95 +647,9 @@ export const ProxyResource: coreClient.CompositeMapper = {
     name: "Composite",
     className: "ProxyResource",
     modelProperties: {
-      ...Resource.type.modelProperties
-    }
-  }
-};
-
-export const AzureKeyVaultProperties: coreClient.CompositeMapper = {
-  serializedName: "KeyVault",
-  type: {
-    name: "Composite",
-    className: "AzureKeyVaultProperties",
-    uberParent: "AzureResourcePropertiesBase",
-    polymorphicDiscriminator:
-      AzureResourcePropertiesBase.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...AzureResourcePropertiesBase.type.modelProperties,
-      connectAsKubernetesCsiDriver: {
-        serializedName: "connectAsKubernetesCsiDriver",
-        nullable: true,
-        type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
-};
-
-export const ValueSecretInfo: coreClient.CompositeMapper = {
-  serializedName: "rawValue",
-  type: {
-    name: "Composite",
-    className: "ValueSecretInfo",
-    uberParent: "SecretInfoBase",
-    polymorphicDiscriminator: SecretInfoBase.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...SecretInfoBase.type.modelProperties,
-      value: {
-        serializedName: "value",
-        nullable: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const KeyVaultSecretReferenceSecretInfo: coreClient.CompositeMapper = {
-  serializedName: "keyVaultSecretReference",
-  type: {
-    name: "Composite",
-    className: "KeyVaultSecretReferenceSecretInfo",
-    uberParent: "SecretInfoBase",
-    polymorphicDiscriminator: SecretInfoBase.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...SecretInfoBase.type.modelProperties,
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      version: {
-        serializedName: "version",
-        nullable: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const KeyVaultSecretUriSecretInfo: coreClient.CompositeMapper = {
-  serializedName: "keyVaultSecretUri",
-  type: {
-    name: "Composite",
-    className: "KeyVaultSecretUriSecretInfo",
-    uberParent: "SecretInfoBase",
-    polymorphicDiscriminator: SecretInfoBase.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...SecretInfoBase.type.modelProperties,
-      value: {
-        serializedName: "value",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
+      ...Resource.type.modelProperties,
+    },
+  },
 };
 
 export const LinkerResource: coreClient.CompositeMapper = {
@@ -964,76 +662,59 @@ export const LinkerResource: coreClient.CompositeMapper = {
         serializedName: "systemData",
         type: {
           name: "Composite",
-          className: "SystemData"
-        }
+          className: "SystemData",
+        },
       },
-      targetService: {
-        serializedName: "properties.targetService",
+      targetId: {
+        serializedName: "properties.targetId",
         type: {
-          name: "Composite",
-          className: "TargetServiceBase"
-        }
+          name: "String",
+        },
       },
       authInfo: {
         serializedName: "properties.authInfo",
         type: {
           name: "Composite",
-          className: "AuthInfoBase"
-        }
+          className: "AuthInfoBase",
+        },
       },
       clientType: {
         serializedName: "properties.clientType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       provisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       vNetSolution: {
         serializedName: "properties.vNetSolution",
         type: {
           name: "Composite",
-          className: "VNetSolution"
-        }
+          className: "VNetSolution",
+        },
       },
       secretStore: {
         serializedName: "properties.secretStore",
         type: {
           name: "Composite",
-          className: "SecretStore"
-        }
+          className: "SecretStore",
+        },
       },
-      scope: {
-        serializedName: "properties.scope",
-        nullable: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
+    },
+  },
 };
 
 export let discriminators = {
-  TargetServiceBase: TargetServiceBase,
   AuthInfoBase: AuthInfoBase,
-  AzureResourcePropertiesBase: AzureResourcePropertiesBase,
-  SecretInfoBase: SecretInfoBase,
-  "TargetServiceBase.AzureResource": AzureResource,
-  "TargetServiceBase.ConfluentBootstrapServer": ConfluentBootstrapServer,
-  "TargetServiceBase.ConfluentSchemaRegistry": ConfluentSchemaRegistry,
   "AuthInfoBase.secret": SecretAuthInfo,
   "AuthInfoBase.userAssignedIdentity": UserAssignedIdentityAuthInfo,
   "AuthInfoBase.systemAssignedIdentity": SystemAssignedIdentityAuthInfo,
   "AuthInfoBase.servicePrincipalSecret": ServicePrincipalSecretAuthInfo,
-  "AuthInfoBase.servicePrincipalCertificate": ServicePrincipalCertificateAuthInfo,
-  "AzureResourcePropertiesBase.KeyVault": AzureKeyVaultProperties,
-  "SecretInfoBase.rawValue": ValueSecretInfo,
-  "SecretInfoBase.keyVaultSecretReference": KeyVaultSecretReferenceSecretInfo,
-  "SecretInfoBase.keyVaultSecretUri": KeyVaultSecretUriSecretInfo
+  "AuthInfoBase.servicePrincipalCertificate":
+    ServicePrincipalCertificateAuthInfo,
 };
