@@ -21,15 +21,12 @@ import {
   KeysListVersionsNextOptionalParams,
   KeysListVersionsOptionalParams,
   KeysListVersionsResponse,
-  KeyCreateParameters,
-  KeysCreateIfNotExistOptionalParams,
-  KeysCreateIfNotExistResponse,
   KeysGetOptionalParams,
   KeysGetResponse,
   KeysGetVersionOptionalParams,
   KeysGetVersionResponse,
   KeysListNextResponse,
-  KeysListVersionsNextResponse
+  KeysListVersionsNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -54,7 +51,7 @@ export class KeysImpl implements Keys {
   public list(
     resourceGroupName: string,
     vaultName: string,
-    options?: KeysListOptionalParams
+    options?: KeysListOptionalParams,
   ): PagedAsyncIterableIterator<Key> {
     const iter = this.listPagingAll(resourceGroupName, vaultName, options);
     return {
@@ -72,9 +69,9 @@ export class KeysImpl implements Keys {
           resourceGroupName,
           vaultName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -82,7 +79,7 @@ export class KeysImpl implements Keys {
     resourceGroupName: string,
     vaultName: string,
     options?: KeysListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Key[]> {
     let result: KeysListResponse;
     let continuationToken = settings?.continuationToken;
@@ -98,7 +95,7 @@ export class KeysImpl implements Keys {
         resourceGroupName,
         vaultName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -110,12 +107,12 @@ export class KeysImpl implements Keys {
   private async *listPagingAll(
     resourceGroupName: string,
     vaultName: string,
-    options?: KeysListOptionalParams
+    options?: KeysListOptionalParams,
   ): AsyncIterableIterator<Key> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       vaultName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -132,13 +129,13 @@ export class KeysImpl implements Keys {
     resourceGroupName: string,
     vaultName: string,
     keyName: string,
-    options?: KeysListVersionsOptionalParams
+    options?: KeysListVersionsOptionalParams,
   ): PagedAsyncIterableIterator<Key> {
     const iter = this.listVersionsPagingAll(
       resourceGroupName,
       vaultName,
       keyName,
-      options
+      options,
     );
     return {
       next() {
@@ -156,9 +153,9 @@ export class KeysImpl implements Keys {
           vaultName,
           keyName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -167,7 +164,7 @@ export class KeysImpl implements Keys {
     vaultName: string,
     keyName: string,
     options?: KeysListVersionsOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Key[]> {
     let result: KeysListVersionsResponse;
     let continuationToken = settings?.continuationToken;
@@ -176,7 +173,7 @@ export class KeysImpl implements Keys {
         resourceGroupName,
         vaultName,
         keyName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -189,7 +186,7 @@ export class KeysImpl implements Keys {
         vaultName,
         keyName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -202,41 +199,16 @@ export class KeysImpl implements Keys {
     resourceGroupName: string,
     vaultName: string,
     keyName: string,
-    options?: KeysListVersionsOptionalParams
+    options?: KeysListVersionsOptionalParams,
   ): AsyncIterableIterator<Key> {
     for await (const page of this.listVersionsPagingPage(
       resourceGroupName,
       vaultName,
       keyName,
-      options
+      options,
     )) {
       yield* page;
     }
-  }
-
-  /**
-   * Creates the first version of a new key if it does not exist. If it already exists, then the existing
-   * key is returned without any write operations being performed. This API does not create subsequent
-   * versions, and does not update existing keys.
-   * @param resourceGroupName The name of the resource group which contains the specified key vault.
-   * @param vaultName The name of the key vault which contains the key to be created.
-   * @param keyName The name of the key to be created. The value you provide may be copied globally for
-   *                the purpose of running the service. The value provided should not include personally identifiable or
-   *                sensitive information.
-   * @param parameters The parameters used to create the specified key.
-   * @param options The options parameters.
-   */
-  createIfNotExist(
-    resourceGroupName: string,
-    vaultName: string,
-    keyName: string,
-    parameters: KeyCreateParameters,
-    options?: KeysCreateIfNotExistOptionalParams
-  ): Promise<KeysCreateIfNotExistResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, vaultName, keyName, parameters, options },
-      createIfNotExistOperationSpec
-    );
   }
 
   /**
@@ -250,11 +222,11 @@ export class KeysImpl implements Keys {
     resourceGroupName: string,
     vaultName: string,
     keyName: string,
-    options?: KeysGetOptionalParams
+    options?: KeysGetOptionalParams,
   ): Promise<KeysGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, keyName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -267,11 +239,11 @@ export class KeysImpl implements Keys {
   private _list(
     resourceGroupName: string,
     vaultName: string,
-    options?: KeysListOptionalParams
+    options?: KeysListOptionalParams,
   ): Promise<KeysListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -288,11 +260,11 @@ export class KeysImpl implements Keys {
     vaultName: string,
     keyName: string,
     keyVersion: string,
-    options?: KeysGetVersionOptionalParams
+    options?: KeysGetVersionOptionalParams,
   ): Promise<KeysGetVersionResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, keyName, keyVersion, options },
-      getVersionOperationSpec
+      getVersionOperationSpec,
     );
   }
 
@@ -307,11 +279,11 @@ export class KeysImpl implements Keys {
     resourceGroupName: string,
     vaultName: string,
     keyName: string,
-    options?: KeysListVersionsOptionalParams
+    options?: KeysListVersionsOptionalParams,
   ): Promise<KeysListVersionsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, keyName, options },
-      listVersionsOperationSpec
+      listVersionsOperationSpec,
     );
   }
 
@@ -326,11 +298,11 @@ export class KeysImpl implements Keys {
     resourceGroupName: string,
     vaultName: string,
     nextLink: string,
-    options?: KeysListNextOptionalParams
+    options?: KeysListNextOptionalParams,
   ): Promise<KeysListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 
@@ -347,98 +319,27 @@ export class KeysImpl implements Keys {
     vaultName: string,
     keyName: string,
     nextLink: string,
-    options?: KeysListVersionsNextOptionalParams
+    options?: KeysListVersionsNextOptionalParams,
   ): Promise<KeysListVersionsNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, keyName, nextLink, options },
-      listVersionsNextOperationSpec
+      listVersionsNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const createIfNotExistOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/keys/{keyName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Key
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.parameters,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vaultName,
-    Parameters.keyName
-  ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/keys/{keyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/keys/{keyName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Key
+      bodyMapper: Mappers.Key,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vaultName,
-    Parameters.keyName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/keys",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.KeyListResult
+      bodyMapper: Mappers.CloudError,
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vaultName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getVersionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/keys/{keyName}/versions/{keyVersion}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Key
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -447,22 +348,20 @@ const getVersionOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.vaultName,
     Parameters.keyName,
-    Parameters.keyVersion
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listVersionsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/keys/{keyName}/versions",
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/keys",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.KeyListResult
+      bodyMapper: Mappers.KeyListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -470,42 +369,86 @@ const listVersionsOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vaultName,
-    Parameters.keyName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getVersionOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/keys/{keyName}/versions/{keyVersion}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Key,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.vaultName,
+    Parameters.keyName,
+    Parameters.keyVersion,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listVersionsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/keys/{keyName}/versions",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.KeyListResult,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.vaultName,
+    Parameters.keyName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.KeyListResult
+      bodyMapper: Mappers.KeyListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vaultName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listVersionsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.KeyListResult
+      bodyMapper: Mappers.KeyListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -513,8 +456,8 @@ const listVersionsNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.vaultName,
     Parameters.keyName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

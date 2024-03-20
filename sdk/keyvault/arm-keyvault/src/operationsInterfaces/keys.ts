@@ -11,13 +11,10 @@ import {
   Key,
   KeysListOptionalParams,
   KeysListVersionsOptionalParams,
-  KeyCreateParameters,
-  KeysCreateIfNotExistOptionalParams,
-  KeysCreateIfNotExistResponse,
   KeysGetOptionalParams,
   KeysGetResponse,
   KeysGetVersionOptionalParams,
-  KeysGetVersionResponse
+  KeysGetVersionResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +29,7 @@ export interface Keys {
   list(
     resourceGroupName: string,
     vaultName: string,
-    options?: KeysListOptionalParams
+    options?: KeysListOptionalParams,
   ): PagedAsyncIterableIterator<Key>;
   /**
    * Lists the versions of the specified key in the specified key vault.
@@ -45,27 +42,8 @@ export interface Keys {
     resourceGroupName: string,
     vaultName: string,
     keyName: string,
-    options?: KeysListVersionsOptionalParams
+    options?: KeysListVersionsOptionalParams,
   ): PagedAsyncIterableIterator<Key>;
-  /**
-   * Creates the first version of a new key if it does not exist. If it already exists, then the existing
-   * key is returned without any write operations being performed. This API does not create subsequent
-   * versions, and does not update existing keys.
-   * @param resourceGroupName The name of the resource group which contains the specified key vault.
-   * @param vaultName The name of the key vault which contains the key to be created.
-   * @param keyName The name of the key to be created. The value you provide may be copied globally for
-   *                the purpose of running the service. The value provided should not include personally identifiable or
-   *                sensitive information.
-   * @param parameters The parameters used to create the specified key.
-   * @param options The options parameters.
-   */
-  createIfNotExist(
-    resourceGroupName: string,
-    vaultName: string,
-    keyName: string,
-    parameters: KeyCreateParameters,
-    options?: KeysCreateIfNotExistOptionalParams
-  ): Promise<KeysCreateIfNotExistResponse>;
   /**
    * Gets the current version of the specified key from the specified key vault.
    * @param resourceGroupName The name of the resource group which contains the specified key vault.
@@ -77,7 +55,7 @@ export interface Keys {
     resourceGroupName: string,
     vaultName: string,
     keyName: string,
-    options?: KeysGetOptionalParams
+    options?: KeysGetOptionalParams,
   ): Promise<KeysGetResponse>;
   /**
    * Gets the specified version of the specified key in the specified key vault.
@@ -92,6 +70,6 @@ export interface Keys {
     vaultName: string,
     keyName: string,
     keyVersion: string,
-    options?: KeysGetVersionOptionalParams
+    options?: KeysGetVersionOptionalParams,
   ): Promise<KeysGetVersionResponse>;
 }
