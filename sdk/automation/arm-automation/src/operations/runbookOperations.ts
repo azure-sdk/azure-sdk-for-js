@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AutomationClient } from "../automationClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   Runbook,
   RunbookListByAutomationAccountNextOptionalParams,
@@ -33,7 +37,7 @@ import {
   RunbookUpdateOptionalParams,
   RunbookUpdateResponse,
   RunbookDeleteOptionalParams,
-  RunbookListByAutomationAccountNextResponse
+  RunbookListByAutomationAccountNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -58,12 +62,12 @@ export class RunbookOperationsImpl implements RunbookOperations {
   public listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: RunbookListByAutomationAccountOptionalParams
+    options?: RunbookListByAutomationAccountOptionalParams,
   ): PagedAsyncIterableIterator<Runbook> {
     const iter = this.listByAutomationAccountPagingAll(
       resourceGroupName,
       automationAccountName,
-      options
+      options,
     );
     return {
       next() {
@@ -80,9 +84,9 @@ export class RunbookOperationsImpl implements RunbookOperations {
           resourceGroupName,
           automationAccountName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -90,7 +94,7 @@ export class RunbookOperationsImpl implements RunbookOperations {
     resourceGroupName: string,
     automationAccountName: string,
     options?: RunbookListByAutomationAccountOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Runbook[]> {
     let result: RunbookListByAutomationAccountResponse;
     let continuationToken = settings?.continuationToken;
@@ -98,7 +102,7 @@ export class RunbookOperationsImpl implements RunbookOperations {
       result = await this._listByAutomationAccount(
         resourceGroupName,
         automationAccountName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -110,7 +114,7 @@ export class RunbookOperationsImpl implements RunbookOperations {
         resourceGroupName,
         automationAccountName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -122,12 +126,12 @@ export class RunbookOperationsImpl implements RunbookOperations {
   private async *listByAutomationAccountPagingAll(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: RunbookListByAutomationAccountOptionalParams
+    options?: RunbookListByAutomationAccountOptionalParams,
   ): AsyncIterableIterator<Runbook> {
     for await (const page of this.listByAutomationAccountPagingPage(
       resourceGroupName,
       automationAccountName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -144,30 +148,29 @@ export class RunbookOperationsImpl implements RunbookOperations {
     resourceGroupName: string,
     automationAccountName: string,
     runbookName: string,
-    options?: RunbookPublishOptionalParams
+    options?: RunbookPublishOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<RunbookPublishResponse>,
+    SimplePollerLike<
+      OperationState<RunbookPublishResponse>,
       RunbookPublishResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<RunbookPublishResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -176,8 +179,8 @@ export class RunbookOperationsImpl implements RunbookOperations {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -185,19 +188,22 @@ export class RunbookOperationsImpl implements RunbookOperations {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, automationAccountName, runbookName, options },
-      publishOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, automationAccountName, runbookName, options },
+      spec: publishOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      RunbookPublishResponse,
+      OperationState<RunbookPublishResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -214,13 +220,13 @@ export class RunbookOperationsImpl implements RunbookOperations {
     resourceGroupName: string,
     automationAccountName: string,
     runbookName: string,
-    options?: RunbookPublishOptionalParams
+    options?: RunbookPublishOptionalParams,
   ): Promise<RunbookPublishResponse> {
     const poller = await this.beginPublish(
       resourceGroupName,
       automationAccountName,
       runbookName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -236,11 +242,11 @@ export class RunbookOperationsImpl implements RunbookOperations {
     resourceGroupName: string,
     automationAccountName: string,
     runbookName: string,
-    options?: RunbookGetContentOptionalParams
+    options?: RunbookGetContentOptionalParams,
   ): Promise<RunbookGetContentResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, runbookName, options },
-      getContentOperationSpec
+      getContentOperationSpec,
     );
   }
 
@@ -255,11 +261,11 @@ export class RunbookOperationsImpl implements RunbookOperations {
     resourceGroupName: string,
     automationAccountName: string,
     runbookName: string,
-    options?: RunbookGetOptionalParams
+    options?: RunbookGetOptionalParams,
   ): Promise<RunbookGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, runbookName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -277,7 +283,7 @@ export class RunbookOperationsImpl implements RunbookOperations {
     automationAccountName: string,
     runbookName: string,
     parameters: RunbookCreateOrUpdateParameters,
-    options?: RunbookCreateOrUpdateOptionalParams
+    options?: RunbookCreateOrUpdateOptionalParams,
   ): Promise<RunbookCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -285,9 +291,9 @@ export class RunbookOperationsImpl implements RunbookOperations {
         automationAccountName,
         runbookName,
         parameters,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -304,7 +310,7 @@ export class RunbookOperationsImpl implements RunbookOperations {
     automationAccountName: string,
     runbookName: string,
     parameters: RunbookUpdateParameters,
-    options?: RunbookUpdateOptionalParams
+    options?: RunbookUpdateOptionalParams,
   ): Promise<RunbookUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -312,9 +318,9 @@ export class RunbookOperationsImpl implements RunbookOperations {
         automationAccountName,
         runbookName,
         parameters,
-        options
+        options,
       },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -329,11 +335,11 @@ export class RunbookOperationsImpl implements RunbookOperations {
     resourceGroupName: string,
     automationAccountName: string,
     runbookName: string,
-    options?: RunbookDeleteOptionalParams
+    options?: RunbookDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, runbookName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -346,11 +352,11 @@ export class RunbookOperationsImpl implements RunbookOperations {
   private _listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: RunbookListByAutomationAccountOptionalParams
+    options?: RunbookListByAutomationAccountOptionalParams,
   ): Promise<RunbookListByAutomationAccountResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, options },
-      listByAutomationAccountOperationSpec
+      listByAutomationAccountOperationSpec,
     );
   }
 
@@ -366,11 +372,11 @@ export class RunbookOperationsImpl implements RunbookOperations {
     resourceGroupName: string,
     automationAccountName: string,
     nextLink: string,
-    options?: RunbookListByAutomationAccountNextOptionalParams
+    options?: RunbookListByAutomationAccountNextOptionalParams,
   ): Promise<RunbookListByAutomationAccountNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, nextLink, options },
-      listByAutomationAccountNextOperationSpec
+      listByAutomationAccountNextOperationSpec,
     );
   }
 }
@@ -378,196 +384,189 @@ export class RunbookOperationsImpl implements RunbookOperations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const publishOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}/publish",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}/publish",
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper: Mappers.RunbookPublishHeaders
+      headersMapper: Mappers.RunbookPublishHeaders,
     },
     201: {
-      headersMapper: Mappers.RunbookPublishHeaders
+      headersMapper: Mappers.RunbookPublishHeaders,
     },
     202: {
-      headersMapper: Mappers.RunbookPublishHeaders
+      headersMapper: Mappers.RunbookPublishHeaders,
     },
     204: {
-      headersMapper: Mappers.RunbookPublishHeaders
+      headersMapper: Mappers.RunbookPublishHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
-    Parameters.runbookName
+    Parameters.runbookName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getContentOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}/content",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}/content",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: { type: { name: "Stream" } }
+      bodyMapper: { type: { name: "Stream" } },
     },
-    default: {}
+    default: {},
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
-    Parameters.runbookName
+    Parameters.runbookName,
   ],
   headerParameters: [Parameters.accept2],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Runbook
+      bodyMapper: Mappers.Runbook,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
-    Parameters.runbookName
+    Parameters.runbookName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Runbook
+      bodyMapper: Mappers.Runbook,
     },
     201: {
-      bodyMapper: Mappers.Runbook
+      bodyMapper: Mappers.Runbook,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters34,
-  queryParameters: [Parameters.apiVersion3],
+  requestBody: Parameters.parameters29,
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
-    Parameters.runbookName
+    Parameters.runbookName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Runbook
+      bodyMapper: Mappers.Runbook,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters35,
-  queryParameters: [Parameters.apiVersion3],
+  requestBody: Parameters.parameters30,
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
-    Parameters.runbookName
+    Parameters.runbookName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
-    Parameters.runbookName
+    Parameters.runbookName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByAutomationAccountOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RunbookListResult
+      bodyMapper: Mappers.RunbookListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.automationAccountName
+    Parameters.automationAccountName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByAutomationAccountNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RunbookListResult
+      bodyMapper: Mappers.RunbookListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

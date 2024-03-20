@@ -8,35 +8,35 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { CertificateOperations } from "../operationsInterfaces";
+import { Python3Package } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AutomationClient } from "../automationClient";
 import {
-  Certificate,
-  CertificateListByAutomationAccountNextOptionalParams,
-  CertificateListByAutomationAccountOptionalParams,
-  CertificateListByAutomationAccountResponse,
-  CertificateDeleteOptionalParams,
-  CertificateGetOptionalParams,
-  CertificateGetResponse,
-  CertificateCreateOrUpdateParameters,
-  CertificateCreateOrUpdateOptionalParams,
-  CertificateCreateOrUpdateResponse,
-  CertificateUpdateParameters,
-  CertificateUpdateOptionalParams,
-  CertificateUpdateResponse,
-  CertificateListByAutomationAccountNextResponse,
+  Module,
+  Python3PackageListByAutomationAccountNextOptionalParams,
+  Python3PackageListByAutomationAccountOptionalParams,
+  Python3PackageListByAutomationAccountResponse,
+  Python3PackageDeleteOptionalParams,
+  Python3PackageGetOptionalParams,
+  Python3PackageGetResponse,
+  PythonPackageCreateParameters,
+  Python3PackageCreateOrUpdateOptionalParams,
+  Python3PackageCreateOrUpdateResponse,
+  PythonPackageUpdateParameters,
+  Python3PackageUpdateOptionalParams,
+  Python3PackageUpdateResponse,
+  Python3PackageListByAutomationAccountNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing CertificateOperations operations. */
-export class CertificateOperationsImpl implements CertificateOperations {
+/** Class containing Python3Package operations. */
+export class Python3PackageImpl implements Python3Package {
   private readonly client: AutomationClient;
 
   /**
-   * Initialize a new instance of the class CertificateOperations class.
+   * Initialize a new instance of the class Python3Package class.
    * @param client Reference to the service client
    */
   constructor(client: AutomationClient) {
@@ -44,7 +44,7 @@ export class CertificateOperationsImpl implements CertificateOperations {
   }
 
   /**
-   * Retrieve a list of certificates.
+   * Retrieve a list of python 3 packages.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param options The options parameters.
@@ -52,8 +52,8 @@ export class CertificateOperationsImpl implements CertificateOperations {
   public listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: CertificateListByAutomationAccountOptionalParams,
-  ): PagedAsyncIterableIterator<Certificate> {
+    options?: Python3PackageListByAutomationAccountOptionalParams,
+  ): PagedAsyncIterableIterator<Module> {
     const iter = this.listByAutomationAccountPagingAll(
       resourceGroupName,
       automationAccountName,
@@ -83,10 +83,10 @@ export class CertificateOperationsImpl implements CertificateOperations {
   private async *listByAutomationAccountPagingPage(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: CertificateListByAutomationAccountOptionalParams,
+    options?: Python3PackageListByAutomationAccountOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<Certificate[]> {
-    let result: CertificateListByAutomationAccountResponse;
+  ): AsyncIterableIterator<Module[]> {
+    let result: Python3PackageListByAutomationAccountResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByAutomationAccount(
@@ -116,8 +116,8 @@ export class CertificateOperationsImpl implements CertificateOperations {
   private async *listByAutomationAccountPagingAll(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: CertificateListByAutomationAccountOptionalParams,
-  ): AsyncIterableIterator<Certificate> {
+    options?: Python3PackageListByAutomationAccountOptionalParams,
+  ): AsyncIterableIterator<Module> {
     for await (const page of this.listByAutomationAccountPagingPage(
       resourceGroupName,
       automationAccountName,
@@ -128,63 +128,63 @@ export class CertificateOperationsImpl implements CertificateOperations {
   }
 
   /**
-   * Delete the certificate.
+   * Delete the python 3 package by name.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
-   * @param certificateName The name of certificate.
+   * @param packageName The python package name.
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     automationAccountName: string,
-    certificateName: string,
-    options?: CertificateDeleteOptionalParams,
+    packageName: string,
+    options?: Python3PackageDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, automationAccountName, certificateName, options },
+      { resourceGroupName, automationAccountName, packageName, options },
       deleteOperationSpec,
     );
   }
 
   /**
-   * Retrieve the certificate identified by certificate name.
+   * Retrieve the python 3 package identified by package name.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
-   * @param certificateName The name of certificate.
+   * @param packageName The python package name.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     automationAccountName: string,
-    certificateName: string,
-    options?: CertificateGetOptionalParams,
-  ): Promise<CertificateGetResponse> {
+    packageName: string,
+    options?: Python3PackageGetOptionalParams,
+  ): Promise<Python3PackageGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, automationAccountName, certificateName, options },
+      { resourceGroupName, automationAccountName, packageName, options },
       getOperationSpec,
     );
   }
 
   /**
-   * Create a certificate.
+   * Create or Update the python 3 package identified by package name.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
-   * @param certificateName The parameters supplied to the create or update certificate operation.
-   * @param parameters The parameters supplied to the create or update certificate operation.
+   * @param packageName The name of python package.
+   * @param parameters The create or update parameters for python package.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     automationAccountName: string,
-    certificateName: string,
-    parameters: CertificateCreateOrUpdateParameters,
-    options?: CertificateCreateOrUpdateOptionalParams,
-  ): Promise<CertificateCreateOrUpdateResponse> {
+    packageName: string,
+    parameters: PythonPackageCreateParameters,
+    options?: Python3PackageCreateOrUpdateOptionalParams,
+  ): Promise<Python3PackageCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         automationAccountName,
-        certificateName,
+        packageName,
         parameters,
         options,
       },
@@ -193,25 +193,25 @@ export class CertificateOperationsImpl implements CertificateOperations {
   }
 
   /**
-   * Update a certificate.
+   * Update the python 3 package identified by package name.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
-   * @param certificateName The parameters supplied to the update certificate operation.
-   * @param parameters The parameters supplied to the update certificate operation.
+   * @param packageName The name of python package.
+   * @param parameters The update parameters for python package.
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
     automationAccountName: string,
-    certificateName: string,
-    parameters: CertificateUpdateParameters,
-    options?: CertificateUpdateOptionalParams,
-  ): Promise<CertificateUpdateResponse> {
+    packageName: string,
+    parameters: PythonPackageUpdateParameters,
+    options?: Python3PackageUpdateOptionalParams,
+  ): Promise<Python3PackageUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         automationAccountName,
-        certificateName,
+        packageName,
         parameters,
         options,
       },
@@ -220,7 +220,7 @@ export class CertificateOperationsImpl implements CertificateOperations {
   }
 
   /**
-   * Retrieve a list of certificates.
+   * Retrieve a list of python 3 packages.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param options The options parameters.
@@ -228,8 +228,8 @@ export class CertificateOperationsImpl implements CertificateOperations {
   private _listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: CertificateListByAutomationAccountOptionalParams,
-  ): Promise<CertificateListByAutomationAccountResponse> {
+    options?: Python3PackageListByAutomationAccountOptionalParams,
+  ): Promise<Python3PackageListByAutomationAccountResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, options },
       listByAutomationAccountOperationSpec,
@@ -248,8 +248,8 @@ export class CertificateOperationsImpl implements CertificateOperations {
     resourceGroupName: string,
     automationAccountName: string,
     nextLink: string,
-    options?: CertificateListByAutomationAccountNextOptionalParams,
-  ): Promise<CertificateListByAutomationAccountNextResponse> {
+    options?: Python3PackageListByAutomationAccountNextOptionalParams,
+  ): Promise<Python3PackageListByAutomationAccountNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, nextLink, options },
       listByAutomationAccountNextOperationSpec,
@@ -260,10 +260,11 @@ export class CertificateOperationsImpl implements CertificateOperations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/certificates/{certificateName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/python3Packages/{packageName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
+    204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
@@ -274,17 +275,17 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
-    Parameters.certificateName,
+    Parameters.packageName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/certificates/{certificateName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/python3Packages/{packageName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Certificate,
+      bodyMapper: Mappers.Module,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -296,68 +297,68 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
-    Parameters.certificateName,
+    Parameters.packageName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/certificates/{certificateName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/python3Packages/{packageName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Certificate,
+      bodyMapper: Mappers.Module,
     },
     201: {
-      bodyMapper: Mappers.Certificate,
+      bodyMapper: Mappers.Module,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters10,
+  requestBody: Parameters.parameters27,
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
-    Parameters.certificateName,
+    Parameters.packageName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/certificates/{certificateName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/python3Packages/{packageName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Certificate,
+      bodyMapper: Mappers.Module,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters11,
+  requestBody: Parameters.parameters28,
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
-    Parameters.certificateName,
+    Parameters.packageName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const listByAutomationAccountOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/certificates",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/python3Packages",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CertificateListResult,
+      bodyMapper: Mappers.ModuleListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -378,7 +379,7 @@ const listByAutomationAccountNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CertificateListResult,
+      bodyMapper: Mappers.ModuleListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
