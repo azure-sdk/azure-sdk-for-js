@@ -11,7 +11,7 @@ import {
   BestPractice,
   BestPracticesVersionsListByTenantOptionalParams,
   BestPracticesVersionsGetOptionalParams,
-  BestPracticesVersionsGetResponse
+  BestPracticesVersionsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -24,7 +24,7 @@ export interface BestPracticesVersions {
    */
   listByTenant(
     bestPracticeName: string,
-    options?: BestPracticesVersionsListByTenantOptionalParams
+    options?: BestPracticesVersionsListByTenantOptionalParams,
   ): PagedAsyncIterableIterator<BestPractice>;
   /**
    * Get information about a Automanage best practice version
@@ -35,6 +35,6 @@ export interface BestPracticesVersions {
   get(
     bestPracticeName: string,
     versionName: string,
-    options?: BestPracticesVersionsGetOptionalParams
+    options?: BestPracticesVersionsGetOptionalParams,
   ): Promise<BestPracticesVersionsGetResponse>;
 }

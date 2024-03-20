@@ -17,7 +17,7 @@ import {
   BestPracticesListByTenantOptionalParams,
   BestPracticesListByTenantResponse,
   BestPracticesGetOptionalParams,
-  BestPracticesGetResponse
+  BestPracticesGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -38,7 +38,7 @@ export class BestPracticesImpl implements BestPractices {
    * @param options The options parameters.
    */
   public listByTenant(
-    options?: BestPracticesListByTenantOptionalParams
+    options?: BestPracticesListByTenantOptionalParams,
   ): PagedAsyncIterableIterator<BestPractice> {
     const iter = this.listByTenantPagingAll(options);
     return {
@@ -53,13 +53,13 @@ export class BestPracticesImpl implements BestPractices {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listByTenantPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listByTenantPagingPage(
     options?: BestPracticesListByTenantOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<BestPractice[]> {
     let result: BestPracticesListByTenantResponse;
     result = await this._listByTenant(options);
@@ -67,7 +67,7 @@ export class BestPracticesImpl implements BestPractices {
   }
 
   private async *listByTenantPagingAll(
-    options?: BestPracticesListByTenantOptionalParams
+    options?: BestPracticesListByTenantOptionalParams,
   ): AsyncIterableIterator<BestPractice> {
     for await (const page of this.listByTenantPagingPage(options)) {
       yield* page;
@@ -81,11 +81,11 @@ export class BestPracticesImpl implements BestPractices {
    */
   get(
     bestPracticeName: string,
-    options?: BestPracticesGetOptionalParams
+    options?: BestPracticesGetOptionalParams,
   ): Promise<BestPracticesGetResponse> {
     return this.client.sendOperationRequest(
       { bestPracticeName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -94,11 +94,11 @@ export class BestPracticesImpl implements BestPractices {
    * @param options The options parameters.
    */
   private _listByTenant(
-    options?: BestPracticesListByTenantOptionalParams
+    options?: BestPracticesListByTenantOptionalParams,
   ): Promise<BestPracticesListByTenantResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listByTenantOperationSpec
+      listByTenantOperationSpec,
     );
   }
 }
@@ -110,30 +110,30 @@ const getOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BestPractice
+      bodyMapper: Mappers.BestPractice,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.bestPracticeName],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByTenantOperationSpec: coreClient.OperationSpec = {
   path: "/providers/Microsoft.Automanage/bestPractices",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BestPracticeList
+      bodyMapper: Mappers.BestPracticeList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

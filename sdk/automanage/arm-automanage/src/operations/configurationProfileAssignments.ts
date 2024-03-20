@@ -28,13 +28,14 @@ import {
   ConfigurationProfileAssignmentsCreateOrUpdateResponse,
   ConfigurationProfileAssignmentsGetOptionalParams,
   ConfigurationProfileAssignmentsGetResponse,
-  ConfigurationProfileAssignmentsDeleteOptionalParams
+  ConfigurationProfileAssignmentsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ConfigurationProfileAssignments operations. */
 export class ConfigurationProfileAssignmentsImpl
-  implements ConfigurationProfileAssignments {
+  implements ConfigurationProfileAssignments
+{
   private readonly client: AutomanageClient;
 
   /**
@@ -54,12 +55,12 @@ export class ConfigurationProfileAssignmentsImpl
   public listByVirtualMachines(
     resourceGroupName: string,
     vmName: string,
-    options?: ConfigurationProfileAssignmentsListByVirtualMachinesOptionalParams
+    options?: ConfigurationProfileAssignmentsListByVirtualMachinesOptionalParams,
   ): PagedAsyncIterableIterator<ConfigurationProfileAssignment> {
     const iter = this.listByVirtualMachinesPagingAll(
       resourceGroupName,
       vmName,
-      options
+      options,
     );
     return {
       next() {
@@ -76,9 +77,9 @@ export class ConfigurationProfileAssignmentsImpl
           resourceGroupName,
           vmName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -86,13 +87,13 @@ export class ConfigurationProfileAssignmentsImpl
     resourceGroupName: string,
     vmName: string,
     options?: ConfigurationProfileAssignmentsListByVirtualMachinesOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<ConfigurationProfileAssignment[]> {
     let result: ConfigurationProfileAssignmentsListByVirtualMachinesResponse;
     result = await this._listByVirtualMachines(
       resourceGroupName,
       vmName,
-      options
+      options,
     );
     yield result.value || [];
   }
@@ -100,12 +101,12 @@ export class ConfigurationProfileAssignmentsImpl
   private async *listByVirtualMachinesPagingAll(
     resourceGroupName: string,
     vmName: string,
-    options?: ConfigurationProfileAssignmentsListByVirtualMachinesOptionalParams
+    options?: ConfigurationProfileAssignmentsListByVirtualMachinesOptionalParams,
   ): AsyncIterableIterator<ConfigurationProfileAssignment> {
     for await (const page of this.listByVirtualMachinesPagingPage(
       resourceGroupName,
       vmName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -118,7 +119,7 @@ export class ConfigurationProfileAssignmentsImpl
    */
   public list(
     resourceGroupName: string,
-    options?: ConfigurationProfileAssignmentsListOptionalParams
+    options?: ConfigurationProfileAssignmentsListOptionalParams,
   ): PagedAsyncIterableIterator<ConfigurationProfileAssignment> {
     const iter = this.listPagingAll(resourceGroupName, options);
     return {
@@ -133,14 +134,14 @@ export class ConfigurationProfileAssignmentsImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(resourceGroupName, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     resourceGroupName: string,
     options?: ConfigurationProfileAssignmentsListOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<ConfigurationProfileAssignment[]> {
     let result: ConfigurationProfileAssignmentsListResponse;
     result = await this._list(resourceGroupName, options);
@@ -149,7 +150,7 @@ export class ConfigurationProfileAssignmentsImpl
 
   private async *listPagingAll(
     resourceGroupName: string,
-    options?: ConfigurationProfileAssignmentsListOptionalParams
+    options?: ConfigurationProfileAssignmentsListOptionalParams,
   ): AsyncIterableIterator<ConfigurationProfileAssignment> {
     for await (const page of this.listPagingPage(resourceGroupName, options)) {
       yield* page;
@@ -161,7 +162,7 @@ export class ConfigurationProfileAssignmentsImpl
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: ConfigurationProfileAssignmentsListBySubscriptionOptionalParams
+    options?: ConfigurationProfileAssignmentsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<ConfigurationProfileAssignment> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -176,13 +177,13 @@ export class ConfigurationProfileAssignmentsImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: ConfigurationProfileAssignmentsListBySubscriptionOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<ConfigurationProfileAssignment[]> {
     let result: ConfigurationProfileAssignmentsListBySubscriptionResponse;
     result = await this._listBySubscription(options);
@@ -190,7 +191,7 @@ export class ConfigurationProfileAssignmentsImpl
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: ConfigurationProfileAssignmentsListBySubscriptionOptionalParams
+    options?: ConfigurationProfileAssignmentsListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<ConfigurationProfileAssignment> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -206,12 +207,12 @@ export class ConfigurationProfileAssignmentsImpl
   public listByMachineName(
     resourceGroupName: string,
     machineName: string,
-    options?: ConfigurationProfileAssignmentsListByMachineNameOptionalParams
+    options?: ConfigurationProfileAssignmentsListByMachineNameOptionalParams,
   ): PagedAsyncIterableIterator<ConfigurationProfileAssignment> {
     const iter = this.listByMachineNamePagingAll(
       resourceGroupName,
       machineName,
-      options
+      options,
     );
     return {
       next() {
@@ -228,9 +229,9 @@ export class ConfigurationProfileAssignmentsImpl
           resourceGroupName,
           machineName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -238,13 +239,13 @@ export class ConfigurationProfileAssignmentsImpl
     resourceGroupName: string,
     machineName: string,
     options?: ConfigurationProfileAssignmentsListByMachineNameOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<ConfigurationProfileAssignment[]> {
     let result: ConfigurationProfileAssignmentsListByMachineNameResponse;
     result = await this._listByMachineName(
       resourceGroupName,
       machineName,
-      options
+      options,
     );
     yield result.value || [];
   }
@@ -252,12 +253,12 @@ export class ConfigurationProfileAssignmentsImpl
   private async *listByMachineNamePagingAll(
     resourceGroupName: string,
     machineName: string,
-    options?: ConfigurationProfileAssignmentsListByMachineNameOptionalParams
+    options?: ConfigurationProfileAssignmentsListByMachineNameOptionalParams,
   ): AsyncIterableIterator<ConfigurationProfileAssignment> {
     for await (const page of this.listByMachineNamePagingPage(
       resourceGroupName,
       machineName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -272,12 +273,12 @@ export class ConfigurationProfileAssignmentsImpl
   public listByClusterName(
     resourceGroupName: string,
     clusterName: string,
-    options?: ConfigurationProfileAssignmentsListByClusterNameOptionalParams
+    options?: ConfigurationProfileAssignmentsListByClusterNameOptionalParams,
   ): PagedAsyncIterableIterator<ConfigurationProfileAssignment> {
     const iter = this.listByClusterNamePagingAll(
       resourceGroupName,
       clusterName,
-      options
+      options,
     );
     return {
       next() {
@@ -294,9 +295,9 @@ export class ConfigurationProfileAssignmentsImpl
           resourceGroupName,
           clusterName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -304,13 +305,13 @@ export class ConfigurationProfileAssignmentsImpl
     resourceGroupName: string,
     clusterName: string,
     options?: ConfigurationProfileAssignmentsListByClusterNameOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<ConfigurationProfileAssignment[]> {
     let result: ConfigurationProfileAssignmentsListByClusterNameResponse;
     result = await this._listByClusterName(
       resourceGroupName,
       clusterName,
-      options
+      options,
     );
     yield result.value || [];
   }
@@ -318,12 +319,12 @@ export class ConfigurationProfileAssignmentsImpl
   private async *listByClusterNamePagingAll(
     resourceGroupName: string,
     clusterName: string,
-    options?: ConfigurationProfileAssignmentsListByClusterNameOptionalParams
+    options?: ConfigurationProfileAssignmentsListByClusterNameOptionalParams,
   ): AsyncIterableIterator<ConfigurationProfileAssignment> {
     for await (const page of this.listByClusterNamePagingPage(
       resourceGroupName,
       clusterName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -343,7 +344,7 @@ export class ConfigurationProfileAssignmentsImpl
     resourceGroupName: string,
     vmName: string,
     parameters: ConfigurationProfileAssignment,
-    options?: ConfigurationProfileAssignmentsCreateOrUpdateOptionalParams
+    options?: ConfigurationProfileAssignmentsCreateOrUpdateOptionalParams,
   ): Promise<ConfigurationProfileAssignmentsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -351,9 +352,9 @@ export class ConfigurationProfileAssignmentsImpl
         resourceGroupName,
         vmName,
         parameters,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -368,16 +369,16 @@ export class ConfigurationProfileAssignmentsImpl
     resourceGroupName: string,
     configurationProfileAssignmentName: string,
     vmName: string,
-    options?: ConfigurationProfileAssignmentsGetOptionalParams
+    options?: ConfigurationProfileAssignmentsGetOptionalParams,
   ): Promise<ConfigurationProfileAssignmentsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         configurationProfileAssignmentName,
         vmName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -392,16 +393,16 @@ export class ConfigurationProfileAssignmentsImpl
     resourceGroupName: string,
     configurationProfileAssignmentName: string,
     vmName: string,
-    options?: ConfigurationProfileAssignmentsDeleteOptionalParams
+    options?: ConfigurationProfileAssignmentsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         configurationProfileAssignmentName,
         vmName,
-        options
+        options,
       },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -414,11 +415,11 @@ export class ConfigurationProfileAssignmentsImpl
   private _listByVirtualMachines(
     resourceGroupName: string,
     vmName: string,
-    options?: ConfigurationProfileAssignmentsListByVirtualMachinesOptionalParams
+    options?: ConfigurationProfileAssignmentsListByVirtualMachinesOptionalParams,
   ): Promise<ConfigurationProfileAssignmentsListByVirtualMachinesResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vmName, options },
-      listByVirtualMachinesOperationSpec
+      listByVirtualMachinesOperationSpec,
     );
   }
 
@@ -429,11 +430,11 @@ export class ConfigurationProfileAssignmentsImpl
    */
   private _list(
     resourceGroupName: string,
-    options?: ConfigurationProfileAssignmentsListOptionalParams
+    options?: ConfigurationProfileAssignmentsListOptionalParams,
   ): Promise<ConfigurationProfileAssignmentsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -442,11 +443,11 @@ export class ConfigurationProfileAssignmentsImpl
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: ConfigurationProfileAssignmentsListBySubscriptionOptionalParams
+    options?: ConfigurationProfileAssignmentsListBySubscriptionOptionalParams,
   ): Promise<ConfigurationProfileAssignmentsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -459,11 +460,11 @@ export class ConfigurationProfileAssignmentsImpl
   private _listByMachineName(
     resourceGroupName: string,
     machineName: string,
-    options?: ConfigurationProfileAssignmentsListByMachineNameOptionalParams
+    options?: ConfigurationProfileAssignmentsListByMachineNameOptionalParams,
   ): Promise<ConfigurationProfileAssignmentsListByMachineNameResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, machineName, options },
-      listByMachineNameOperationSpec
+      listByMachineNameOperationSpec,
     );
   }
 
@@ -476,11 +477,11 @@ export class ConfigurationProfileAssignmentsImpl
   private _listByClusterName(
     resourceGroupName: string,
     clusterName: string,
-    options?: ConfigurationProfileAssignmentsListByClusterNameOptionalParams
+    options?: ConfigurationProfileAssignmentsListByClusterNameOptionalParams,
   ): Promise<ConfigurationProfileAssignmentsListByClusterNameResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, options },
-      listByClusterNameOperationSpec
+      listByClusterNameOperationSpec,
     );
   }
 }
@@ -488,19 +489,18 @@ export class ConfigurationProfileAssignmentsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/providers/Microsoft.Automanage/configurationProfileAssignments/{configurationProfileAssignmentName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/providers/Microsoft.Automanage/configurationProfileAssignments/{configurationProfileAssignmentName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigurationProfileAssignment
+      bodyMapper: Mappers.ConfigurationProfileAssignment,
     },
     201: {
-      bodyMapper: Mappers.ConfigurationProfileAssignment
+      bodyMapper: Mappers.ConfigurationProfileAssignment,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters2,
   queryParameters: [Parameters.apiVersion],
@@ -509,23 +509,22 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.configurationProfileAssignmentName,
-    Parameters.vmName
+    Parameters.vmName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/providers/Microsoft.Automanage/configurationProfileAssignments/{configurationProfileAssignmentName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/providers/Microsoft.Automanage/configurationProfileAssignments/{configurationProfileAssignmentName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigurationProfileAssignment
+      bodyMapper: Mappers.ConfigurationProfileAssignment,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -533,21 +532,20 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.configurationProfileAssignmentName,
-    Parameters.vmName
+    Parameters.vmName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/providers/Microsoft.Automanage/configurationProfileAssignments/{configurationProfileAssignmentName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/providers/Microsoft.Automanage/configurationProfileAssignments/{configurationProfileAssignmentName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -555,112 +553,107 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.configurationProfileAssignmentName,
-    Parameters.vmName
+    Parameters.vmName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByVirtualMachinesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/providers/Microsoft.Automanage/configurationProfileAssignments",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/providers/Microsoft.Automanage/configurationProfileAssignments",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigurationProfileAssignmentList
+      bodyMapper: Mappers.ConfigurationProfileAssignmentList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.vmName
+    Parameters.vmName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automanage/configurationProfileAssignments",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automanage/configurationProfileAssignments",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigurationProfileAssignmentList
+      bodyMapper: Mappers.ConfigurationProfileAssignmentList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Automanage/configurationProfileAssignments",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Automanage/configurationProfileAssignments",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigurationProfileAssignmentList
+      bodyMapper: Mappers.ConfigurationProfileAssignmentList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByMachineNameOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/providers/Microsoft.Automanage/configurationProfileAssignments",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/providers/Microsoft.Automanage/configurationProfileAssignments",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigurationProfileAssignmentList
+      bodyMapper: Mappers.ConfigurationProfileAssignmentList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.machineName
+    Parameters.machineName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByClusterNameOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHci/clusters/{clusterName}/providers/Microsoft.Automanage/configurationProfileAssignments",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHci/clusters/{clusterName}/providers/Microsoft.Automanage/configurationProfileAssignments",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigurationProfileAssignmentList
+      bodyMapper: Mappers.ConfigurationProfileAssignmentList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.clusterName
+    Parameters.clusterName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

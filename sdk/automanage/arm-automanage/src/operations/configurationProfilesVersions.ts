@@ -20,13 +20,14 @@ import {
   ConfigurationProfilesVersionsCreateOrUpdateResponse,
   ConfigurationProfilesVersionsGetOptionalParams,
   ConfigurationProfilesVersionsGetResponse,
-  ConfigurationProfilesVersionsDeleteOptionalParams
+  ConfigurationProfilesVersionsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ConfigurationProfilesVersions operations. */
 export class ConfigurationProfilesVersionsImpl
-  implements ConfigurationProfilesVersions {
+  implements ConfigurationProfilesVersions
+{
   private readonly client: AutomanageClient;
 
   /**
@@ -46,12 +47,12 @@ export class ConfigurationProfilesVersionsImpl
   public listChildResources(
     configurationProfileName: string,
     resourceGroupName: string,
-    options?: ConfigurationProfilesVersionsListChildResourcesOptionalParams
+    options?: ConfigurationProfilesVersionsListChildResourcesOptionalParams,
   ): PagedAsyncIterableIterator<ConfigurationProfile> {
     const iter = this.listChildResourcesPagingAll(
       configurationProfileName,
       resourceGroupName,
-      options
+      options,
     );
     return {
       next() {
@@ -68,9 +69,9 @@ export class ConfigurationProfilesVersionsImpl
           configurationProfileName,
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -78,13 +79,13 @@ export class ConfigurationProfilesVersionsImpl
     configurationProfileName: string,
     resourceGroupName: string,
     options?: ConfigurationProfilesVersionsListChildResourcesOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<ConfigurationProfile[]> {
     let result: ConfigurationProfilesVersionsListChildResourcesResponse;
     result = await this._listChildResources(
       configurationProfileName,
       resourceGroupName,
-      options
+      options,
     );
     yield result.value || [];
   }
@@ -92,12 +93,12 @@ export class ConfigurationProfilesVersionsImpl
   private async *listChildResourcesPagingAll(
     configurationProfileName: string,
     resourceGroupName: string,
-    options?: ConfigurationProfilesVersionsListChildResourcesOptionalParams
+    options?: ConfigurationProfilesVersionsListChildResourcesOptionalParams,
   ): AsyncIterableIterator<ConfigurationProfile> {
     for await (const page of this.listChildResourcesPagingPage(
       configurationProfileName,
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -116,7 +117,7 @@ export class ConfigurationProfilesVersionsImpl
     versionName: string,
     resourceGroupName: string,
     parameters: ConfigurationProfile,
-    options?: ConfigurationProfilesVersionsCreateOrUpdateOptionalParams
+    options?: ConfigurationProfilesVersionsCreateOrUpdateOptionalParams,
   ): Promise<ConfigurationProfilesVersionsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -124,9 +125,9 @@ export class ConfigurationProfilesVersionsImpl
         versionName,
         resourceGroupName,
         parameters,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -141,11 +142,11 @@ export class ConfigurationProfilesVersionsImpl
     configurationProfileName: string,
     versionName: string,
     resourceGroupName: string,
-    options?: ConfigurationProfilesVersionsGetOptionalParams
+    options?: ConfigurationProfilesVersionsGetOptionalParams,
   ): Promise<ConfigurationProfilesVersionsGetResponse> {
     return this.client.sendOperationRequest(
       { configurationProfileName, versionName, resourceGroupName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -160,11 +161,11 @@ export class ConfigurationProfilesVersionsImpl
     resourceGroupName: string,
     configurationProfileName: string,
     versionName: string,
-    options?: ConfigurationProfilesVersionsDeleteOptionalParams
+    options?: ConfigurationProfilesVersionsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, configurationProfileName, versionName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -177,11 +178,11 @@ export class ConfigurationProfilesVersionsImpl
   private _listChildResources(
     configurationProfileName: string,
     resourceGroupName: string,
-    options?: ConfigurationProfilesVersionsListChildResourcesOptionalParams
+    options?: ConfigurationProfilesVersionsListChildResourcesOptionalParams,
   ): Promise<ConfigurationProfilesVersionsListChildResourcesResponse> {
     return this.client.sendOperationRequest(
       { configurationProfileName, resourceGroupName, options },
-      listChildResourcesOperationSpec
+      listChildResourcesOperationSpec,
     );
   }
 }
@@ -189,19 +190,18 @@ export class ConfigurationProfilesVersionsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automanage/configurationProfiles/{configurationProfileName}/versions/{versionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automanage/configurationProfiles/{configurationProfileName}/versions/{versionName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigurationProfile
+      bodyMapper: Mappers.ConfigurationProfile,
     },
     201: {
-      bodyMapper: Mappers.ConfigurationProfile
+      bodyMapper: Mappers.ConfigurationProfile,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters,
   queryParameters: [Parameters.apiVersion],
@@ -210,23 +210,22 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.versionName,
     Parameters.configurationProfileName,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automanage/configurationProfiles/{configurationProfileName}/versions/{versionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automanage/configurationProfiles/{configurationProfileName}/versions/{versionName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigurationProfile
+      bodyMapper: Mappers.ConfigurationProfile,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -234,21 +233,20 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.versionName,
     Parameters.configurationProfileName,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automanage/configurationProfiles/{configurationProfileName}/versions/{versionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automanage/configurationProfiles/{configurationProfileName}/versions/{versionName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -256,30 +254,29 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.versionName,
     Parameters.configurationProfileName,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listChildResourcesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automanage/configurationProfiles/{configurationProfileName}/versions",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automanage/configurationProfiles/{configurationProfileName}/versions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigurationProfileList
+      bodyMapper: Mappers.ConfigurationProfileList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.configurationProfileName,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

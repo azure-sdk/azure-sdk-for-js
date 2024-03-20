@@ -17,7 +17,7 @@ import {
   HCIReportsListByConfigurationProfileAssignmentsOptionalParams,
   HCIReportsListByConfigurationProfileAssignmentsResponse,
   HCIReportsGetOptionalParams,
-  HCIReportsGetResponse
+  HCIReportsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -44,13 +44,13 @@ export class HCIReportsImpl implements HCIReports {
     resourceGroupName: string,
     clusterName: string,
     configurationProfileAssignmentName: string,
-    options?: HCIReportsListByConfigurationProfileAssignmentsOptionalParams
+    options?: HCIReportsListByConfigurationProfileAssignmentsOptionalParams,
   ): PagedAsyncIterableIterator<Report> {
     const iter = this.listByConfigurationProfileAssignmentsPagingAll(
       resourceGroupName,
       clusterName,
       configurationProfileAssignmentName,
-      options
+      options,
     );
     return {
       next() {
@@ -68,9 +68,9 @@ export class HCIReportsImpl implements HCIReports {
           clusterName,
           configurationProfileAssignmentName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -79,14 +79,14 @@ export class HCIReportsImpl implements HCIReports {
     clusterName: string,
     configurationProfileAssignmentName: string,
     options?: HCIReportsListByConfigurationProfileAssignmentsOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<Report[]> {
     let result: HCIReportsListByConfigurationProfileAssignmentsResponse;
     result = await this._listByConfigurationProfileAssignments(
       resourceGroupName,
       clusterName,
       configurationProfileAssignmentName,
-      options
+      options,
     );
     yield result.value || [];
   }
@@ -95,13 +95,13 @@ export class HCIReportsImpl implements HCIReports {
     resourceGroupName: string,
     clusterName: string,
     configurationProfileAssignmentName: string,
-    options?: HCIReportsListByConfigurationProfileAssignmentsOptionalParams
+    options?: HCIReportsListByConfigurationProfileAssignmentsOptionalParams,
   ): AsyncIterableIterator<Report> {
     for await (const page of this.listByConfigurationProfileAssignmentsPagingPage(
       resourceGroupName,
       clusterName,
       configurationProfileAssignmentName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -120,7 +120,7 @@ export class HCIReportsImpl implements HCIReports {
     clusterName: string,
     configurationProfileAssignmentName: string,
     reportName: string,
-    options?: HCIReportsGetOptionalParams
+    options?: HCIReportsGetOptionalParams,
   ): Promise<HCIReportsGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -128,9 +128,9 @@ export class HCIReportsImpl implements HCIReports {
         clusterName,
         configurationProfileAssignmentName,
         reportName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -145,16 +145,16 @@ export class HCIReportsImpl implements HCIReports {
     resourceGroupName: string,
     clusterName: string,
     configurationProfileAssignmentName: string,
-    options?: HCIReportsListByConfigurationProfileAssignmentsOptionalParams
+    options?: HCIReportsListByConfigurationProfileAssignmentsOptionalParams,
   ): Promise<HCIReportsListByConfigurationProfileAssignmentsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         clusterName,
         configurationProfileAssignmentName,
-        options
+        options,
       },
-      listByConfigurationProfileAssignmentsOperationSpec
+      listByConfigurationProfileAssignmentsOperationSpec,
     );
   }
 }
@@ -162,16 +162,15 @@ export class HCIReportsImpl implements HCIReports {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHci/clusters/{clusterName}/providers/Microsoft.Automanage/configurationProfileAssignments/{configurationProfileAssignmentName}/reports/{reportName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHci/clusters/{clusterName}/providers/Microsoft.Automanage/configurationProfileAssignments/{configurationProfileAssignmentName}/reports/{reportName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Report
+      bodyMapper: Mappers.Report,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -180,31 +179,31 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.configurationProfileAssignmentName,
     Parameters.clusterName,
-    Parameters.reportName
+    Parameters.reportName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listByConfigurationProfileAssignmentsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHci/clusters/{clusterName}/providers/Microsoft.Automanage/configurationProfileAssignments/{configurationProfileAssignmentName}/reports",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ReportList
+const listByConfigurationProfileAssignmentsOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHci/clusters/{clusterName}/providers/Microsoft.Automanage/configurationProfileAssignments/{configurationProfileAssignmentName}/reports",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.ReportList,
+      },
+      default: {
+        bodyMapper: Mappers.ErrorResponse,
+      },
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.configurationProfileAssignmentName,
-    Parameters.clusterName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.configurationProfileAssignmentName,
+      Parameters.clusterName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
