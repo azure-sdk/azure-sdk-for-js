@@ -6,23 +6,23 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
-  CertificateResource,
-  CertificatesListOptionalParams,
-  CertificatesGetOptionalParams,
-  CertificatesGetResponse,
-  CertificatesCreateOrUpdateOptionalParams,
-  CertificatesCreateOrUpdateResponse,
-  CertificatesDeleteOptionalParams,
+  EurekaServersListOptionalParams,
+  EurekaServersListResponse,
+  EurekaServersGetOptionalParams,
+  EurekaServersGetResponse,
+  EurekaServerResource,
+  EurekaServersUpdatePutOptionalParams,
+  EurekaServersUpdatePutResponse,
+  EurekaServersUpdatePatchOptionalParams,
+  EurekaServersUpdatePatchResponse,
 } from "../models";
 
-/// <reference lib="esnext.asynciterable" />
-/** Interface representing a Certificates. */
-export interface Certificates {
+/** Interface representing a EurekaServers. */
+export interface EurekaServers {
   /**
-   * List all the certificates of one user.
+   * List the eureka server settings.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
@@ -31,85 +31,84 @@ export interface Certificates {
   list(
     resourceGroupName: string,
     serviceName: string,
-    options?: CertificatesListOptionalParams,
-  ): PagedAsyncIterableIterator<CertificateResource>;
+    options?: EurekaServersListOptionalParams,
+  ): Promise<EurekaServersListResponse>;
   /**
-   * Get the certificate resource.
+   * Get the eureka server settings.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param certificateName The name of the certificate resource.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     serviceName: string,
-    certificateName: string,
-    options?: CertificatesGetOptionalParams,
-  ): Promise<CertificatesGetResponse>;
+    options?: EurekaServersGetOptionalParams,
+  ): Promise<EurekaServersGetResponse>;
   /**
-   * Create or update certificate resource.
+   * Update the eureka server settings.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param certificateName The name of the certificate resource.
-   * @param certificateResource Parameters for the create or update operation
+   * @param eurekaServerResource Parameters for the update operation
    * @param options The options parameters.
    */
-  beginCreateOrUpdate(
+  beginUpdatePut(
     resourceGroupName: string,
     serviceName: string,
-    certificateName: string,
-    certificateResource: CertificateResource,
-    options?: CertificatesCreateOrUpdateOptionalParams,
+    eurekaServerResource: EurekaServerResource,
+    options?: EurekaServersUpdatePutOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<CertificatesCreateOrUpdateResponse>,
-      CertificatesCreateOrUpdateResponse
+      OperationState<EurekaServersUpdatePutResponse>,
+      EurekaServersUpdatePutResponse
     >
   >;
   /**
-   * Create or update certificate resource.
+   * Update the eureka server settings.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param certificateName The name of the certificate resource.
-   * @param certificateResource Parameters for the create or update operation
+   * @param eurekaServerResource Parameters for the update operation
    * @param options The options parameters.
    */
-  beginCreateOrUpdateAndWait(
+  beginUpdatePutAndWait(
     resourceGroupName: string,
     serviceName: string,
-    certificateName: string,
-    certificateResource: CertificateResource,
-    options?: CertificatesCreateOrUpdateOptionalParams,
-  ): Promise<CertificatesCreateOrUpdateResponse>;
+    eurekaServerResource: EurekaServerResource,
+    options?: EurekaServersUpdatePutOptionalParams,
+  ): Promise<EurekaServersUpdatePutResponse>;
   /**
-   * Delete the certificate resource.
+   * Update the eureka server settings.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param certificateName The name of the certificate resource.
+   * @param eurekaServerResource Parameters for the update operation
    * @param options The options parameters.
    */
-  beginDelete(
+  beginUpdatePatch(
     resourceGroupName: string,
     serviceName: string,
-    certificateName: string,
-    options?: CertificatesDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+    eurekaServerResource: EurekaServerResource,
+    options?: EurekaServersUpdatePatchOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<EurekaServersUpdatePatchResponse>,
+      EurekaServersUpdatePatchResponse
+    >
+  >;
   /**
-   * Delete the certificate resource.
+   * Update the eureka server settings.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param certificateName The name of the certificate resource.
+   * @param eurekaServerResource Parameters for the update operation
    * @param options The options parameters.
    */
-  beginDeleteAndWait(
+  beginUpdatePatchAndWait(
     resourceGroupName: string,
     serviceName: string,
-    certificateName: string,
-    options?: CertificatesDeleteOptionalParams,
-  ): Promise<void>;
+    eurekaServerResource: EurekaServerResource,
+    options?: EurekaServersUpdatePatchOptionalParams,
+  ): Promise<EurekaServersUpdatePatchResponse>;
 }

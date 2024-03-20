@@ -6,9 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { DevToolPortals } from "../operationsInterfaces";
+import { Job } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,26 +18,25 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  DevToolPortalResource,
-  DevToolPortalsListNextOptionalParams,
-  DevToolPortalsListOptionalParams,
-  DevToolPortalsListResponse,
-  DevToolPortalsGetOptionalParams,
-  DevToolPortalsGetResponse,
-  DevToolPortalsCreateOrUpdateOptionalParams,
-  DevToolPortalsCreateOrUpdateResponse,
-  DevToolPortalsDeleteOptionalParams,
-  DevToolPortalsDeleteResponse,
-  DevToolPortalsListNextResponse,
+  JobGetOptionalParams,
+  JobGetResponse,
+  JobResource,
+  JobCreateOrUpdateOptionalParams,
+  JobCreateOrUpdateResponse,
+  JobDeleteOptionalParams,
+  JobDeleteResponse,
+  JobStartOptionalParams,
+  JobStartResponse,
+  JobListEnvSecretsOptionalParams,
+  JobListEnvSecretsResponse,
 } from "../models";
 
-/// <reference lib="esnext.asynciterable" />
-/** Class containing DevToolPortals operations. */
-export class DevToolPortalsImpl implements DevToolPortals {
+/** Class containing Job operations. */
+export class JobImpl implements Job {
   private readonly client: AppPlatformManagementClient;
 
   /**
-   * Initialize a new instance of the class DevToolPortals class.
+   * Initialize a new instance of the class Job class.
    * @param client Reference to the service client
    */
   constructor(client: AppPlatformManagementClient) {
@@ -47,145 +44,50 @@ export class DevToolPortalsImpl implements DevToolPortals {
   }
 
   /**
-   * Handles requests to list all resources in a Service.
+   * Get a Job and its properties.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param options The options parameters.
-   */
-  public list(
-    resourceGroupName: string,
-    serviceName: string,
-    options?: DevToolPortalsListOptionalParams,
-  ): PagedAsyncIterableIterator<DevToolPortalResource> {
-    const iter = this.listPagingAll(resourceGroupName, serviceName, options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listPagingPage(
-          resourceGroupName,
-          serviceName,
-          options,
-          settings,
-        );
-      },
-    };
-  }
-
-  private async *listPagingPage(
-    resourceGroupName: string,
-    serviceName: string,
-    options?: DevToolPortalsListOptionalParams,
-    settings?: PageSettings,
-  ): AsyncIterableIterator<DevToolPortalResource[]> {
-    let result: DevToolPortalsListResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._list(resourceGroupName, serviceName, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        serviceName,
-        continuationToken,
-        options,
-      );
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listPagingAll(
-    resourceGroupName: string,
-    serviceName: string,
-    options?: DevToolPortalsListOptionalParams,
-  ): AsyncIterableIterator<DevToolPortalResource> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      serviceName,
-      options,
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
-   * Handles requests to list all resources in a Service.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serviceName The name of the Service resource.
-   * @param options The options parameters.
-   */
-  private _list(
-    resourceGroupName: string,
-    serviceName: string,
-    options?: DevToolPortalsListOptionalParams,
-  ): Promise<DevToolPortalsListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, options },
-      listOperationSpec,
-    );
-  }
-
-  /**
-   * Get the Application Live  and its properties.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serviceName The name of the Service resource.
-   * @param devToolPortalName The name of Dev Tool Portal.
+   * @param jobName The name of the Job resource.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     serviceName: string,
-    devToolPortalName: string,
-    options?: DevToolPortalsGetOptionalParams,
-  ): Promise<DevToolPortalsGetResponse> {
+    jobName: string,
+    options?: JobGetOptionalParams,
+  ): Promise<JobGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, devToolPortalName, options },
+      { resourceGroupName, serviceName, jobName, options },
       getOperationSpec,
     );
   }
 
   /**
-   * Create the default Dev Tool Portal or update the existing Dev Tool Portal.
+   * Create a new Job or update an exiting Job.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param devToolPortalName The name of Dev Tool Portal.
-   * @param devToolPortalResource Parameters for the create or update operation
+   * @param jobName The name of the Job resource.
+   * @param jobResource Parameters for the create or update operation
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     serviceName: string,
-    devToolPortalName: string,
-    devToolPortalResource: DevToolPortalResource,
-    options?: DevToolPortalsCreateOrUpdateOptionalParams,
+    jobName: string,
+    jobResource: JobResource,
+    options?: JobCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<DevToolPortalsCreateOrUpdateResponse>,
-      DevToolPortalsCreateOrUpdateResponse
+      OperationState<JobCreateOrUpdateResponse>,
+      JobCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<DevToolPortalsCreateOrUpdateResponse> => {
+    ): Promise<JobCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -222,18 +124,12 @@ export class DevToolPortalsImpl implements DevToolPortals {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: {
-        resourceGroupName,
-        serviceName,
-        devToolPortalName,
-        devToolPortalResource,
-        options,
-      },
+      args: { resourceGroupName, serviceName, jobName, jobResource, options },
       spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
-      DevToolPortalsCreateOrUpdateResponse,
-      OperationState<DevToolPortalsCreateOrUpdateResponse>
+      JobCreateOrUpdateResponse,
+      OperationState<JobCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -243,54 +139,51 @@ export class DevToolPortalsImpl implements DevToolPortals {
   }
 
   /**
-   * Create the default Dev Tool Portal or update the existing Dev Tool Portal.
+   * Create a new Job or update an exiting Job.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param devToolPortalName The name of Dev Tool Portal.
-   * @param devToolPortalResource Parameters for the create or update operation
+   * @param jobName The name of the Job resource.
+   * @param jobResource Parameters for the create or update operation
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     serviceName: string,
-    devToolPortalName: string,
-    devToolPortalResource: DevToolPortalResource,
-    options?: DevToolPortalsCreateOrUpdateOptionalParams,
-  ): Promise<DevToolPortalsCreateOrUpdateResponse> {
+    jobName: string,
+    jobResource: JobResource,
+    options?: JobCreateOrUpdateOptionalParams,
+  ): Promise<JobCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       serviceName,
-      devToolPortalName,
-      devToolPortalResource,
+      jobName,
+      jobResource,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Disable the default Dev Tool Portal.
+   * Operation to delete a Job.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param devToolPortalName The name of Dev Tool Portal.
+   * @param jobName The name of the Job resource.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     serviceName: string,
-    devToolPortalName: string,
-    options?: DevToolPortalsDeleteOptionalParams,
+    jobName: string,
+    options?: JobDeleteOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<DevToolPortalsDeleteResponse>,
-      DevToolPortalsDeleteResponse
-    >
+    SimplePollerLike<OperationState<JobDeleteResponse>, JobDeleteResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<DevToolPortalsDeleteResponse> => {
+    ): Promise<JobDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -327,12 +220,12 @@ export class DevToolPortalsImpl implements DevToolPortals {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, serviceName, devToolPortalName, options },
+      args: { resourceGroupName, serviceName, jobName, options },
       spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
-      DevToolPortalsDeleteResponse,
-      OperationState<DevToolPortalsDeleteResponse>
+      JobDeleteResponse,
+      OperationState<JobDeleteResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -342,78 +235,151 @@ export class DevToolPortalsImpl implements DevToolPortals {
   }
 
   /**
-   * Disable the default Dev Tool Portal.
+   * Operation to delete a Job.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param devToolPortalName The name of Dev Tool Portal.
+   * @param jobName The name of the Job resource.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     serviceName: string,
-    devToolPortalName: string,
-    options?: DevToolPortalsDeleteOptionalParams,
-  ): Promise<DevToolPortalsDeleteResponse> {
+    jobName: string,
+    options?: JobDeleteOptionalParams,
+  ): Promise<JobDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       serviceName,
-      devToolPortalName,
+      jobName,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * ListNext
+   * Start an Azure Spring Apps Job
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param nextLink The nextLink from the previous successful call to the List method.
+   * @param jobName The name of the Job resource.
    * @param options The options parameters.
    */
-  private _listNext(
+  async beginStart(
     resourceGroupName: string,
     serviceName: string,
-    nextLink: string,
-    options?: DevToolPortalsListNextOptionalParams,
-  ): Promise<DevToolPortalsListNextResponse> {
+    jobName: string,
+    options?: JobStartOptionalParams,
+  ): Promise<
+    SimplePollerLike<OperationState<JobStartResponse>, JobStartResponse>
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<JobStartResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, serviceName, jobName, options },
+      spec: startOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      JobStartResponse,
+      OperationState<JobStartResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Start an Azure Spring Apps Job
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param jobName The name of the Job resource.
+   * @param options The options parameters.
+   */
+  async beginStartAndWait(
+    resourceGroupName: string,
+    serviceName: string,
+    jobName: string,
+    options?: JobStartOptionalParams,
+  ): Promise<JobStartResponse> {
+    const poller = await this.beginStart(
+      resourceGroupName,
+      serviceName,
+      jobName,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * List sensitive environment variables of the Job.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param jobName The name of the Job resource.
+   * @param options The options parameters.
+   */
+  listEnvSecrets(
+    resourceGroupName: string,
+    serviceName: string,
+    jobName: string,
+    options?: JobListEnvSecretsOptionalParams,
+  ): Promise<JobListEnvSecretsResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, nextLink, options },
-      listNextOperationSpec,
+      { resourceGroupName, serviceName, jobName, options },
+      listEnvSecretsOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/devToolPortals",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DevToolPortalResourceCollection,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/DevToolPortals/{devToolPortalName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/jobs/{jobName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DevToolPortalResource,
+      bodyMapper: Mappers.JobResource,
     },
     default: {
       bodyMapper: Mappers.CloudError,
@@ -425,59 +391,59 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.devToolPortalName,
+    Parameters.jobName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/DevToolPortals/{devToolPortalName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/jobs/{jobName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.DevToolPortalResource,
+      bodyMapper: Mappers.JobResource,
     },
     201: {
-      bodyMapper: Mappers.DevToolPortalResource,
+      bodyMapper: Mappers.JobResource,
     },
     202: {
-      bodyMapper: Mappers.DevToolPortalResource,
+      bodyMapper: Mappers.JobResource,
     },
     204: {
-      bodyMapper: Mappers.DevToolPortalResource,
+      bodyMapper: Mappers.JobResource,
     },
     default: {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.devToolPortalResource,
+  requestBody: Parameters.jobResource,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.devToolPortalName,
+    Parameters.jobName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/DevToolPortals/{devToolPortalName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/jobs/{jobName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.DevToolPortalsDeleteHeaders,
+      headersMapper: Mappers.JobDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.DevToolPortalsDeleteHeaders,
+      headersMapper: Mappers.JobDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.DevToolPortalsDeleteHeaders,
+      headersMapper: Mappers.JobDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.DevToolPortalsDeleteHeaders,
+      headersMapper: Mappers.JobDeleteHeaders,
     },
     default: {
       bodyMapper: Mappers.CloudError,
@@ -489,28 +455,62 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.devToolPortalName,
+    Parameters.jobName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
+const startOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/jobs/{jobName}/start",
+  httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.DevToolPortalResourceCollection,
+      bodyMapper: Mappers.JobExecution,
+    },
+    201: {
+      bodyMapper: Mappers.JobExecution,
+    },
+    202: {
+      bodyMapper: Mappers.JobExecution,
+    },
+    204: {
+      bodyMapper: Mappers.JobExecution,
     },
     default: {
       bodyMapper: Mappers.CloudError,
     },
   },
+  requestBody: Parameters.template,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.nextLink,
+    Parameters.jobName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const listEnvSecretsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/jobs/{jobName}/listEnvSecrets",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.EnvSecretsCollection,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+    Parameters.jobName,
   ],
   headerParameters: [Parameters.accept],
   serializer,

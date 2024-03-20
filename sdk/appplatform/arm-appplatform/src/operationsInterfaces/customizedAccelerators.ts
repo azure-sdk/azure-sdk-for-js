@@ -19,7 +19,7 @@ import {
   CustomizedAcceleratorsDeleteResponse,
   CustomizedAcceleratorProperties,
   CustomizedAcceleratorsValidateOptionalParams,
-  CustomizedAcceleratorsValidateResponse
+  CustomizedAcceleratorsValidateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -37,7 +37,7 @@ export interface CustomizedAccelerators {
     resourceGroupName: string,
     serviceName: string,
     applicationAcceleratorName: string,
-    options?: CustomizedAcceleratorsListOptionalParams
+    options?: CustomizedAcceleratorsListOptionalParams,
   ): PagedAsyncIterableIterator<CustomizedAcceleratorResource>;
   /**
    * Get the customized accelerator.
@@ -53,7 +53,7 @@ export interface CustomizedAccelerators {
     serviceName: string,
     applicationAcceleratorName: string,
     customizedAcceleratorName: string,
-    options?: CustomizedAcceleratorsGetOptionalParams
+    options?: CustomizedAcceleratorsGetOptionalParams,
   ): Promise<CustomizedAcceleratorsGetResponse>;
   /**
    * Create or update the customized accelerator.
@@ -71,7 +71,7 @@ export interface CustomizedAccelerators {
     applicationAcceleratorName: string,
     customizedAcceleratorName: string,
     customizedAcceleratorResource: CustomizedAcceleratorResource,
-    options?: CustomizedAcceleratorsCreateOrUpdateOptionalParams
+    options?: CustomizedAcceleratorsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<CustomizedAcceleratorsCreateOrUpdateResponse>,
@@ -94,7 +94,7 @@ export interface CustomizedAccelerators {
     applicationAcceleratorName: string,
     customizedAcceleratorName: string,
     customizedAcceleratorResource: CustomizedAcceleratorResource,
-    options?: CustomizedAcceleratorsCreateOrUpdateOptionalParams
+    options?: CustomizedAcceleratorsCreateOrUpdateOptionalParams,
   ): Promise<CustomizedAcceleratorsCreateOrUpdateResponse>;
   /**
    * Delete the customized accelerator.
@@ -110,7 +110,7 @@ export interface CustomizedAccelerators {
     serviceName: string,
     applicationAcceleratorName: string,
     customizedAcceleratorName: string,
-    options?: CustomizedAcceleratorsDeleteOptionalParams
+    options?: CustomizedAcceleratorsDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<CustomizedAcceleratorsDeleteResponse>,
@@ -131,7 +131,7 @@ export interface CustomizedAccelerators {
     serviceName: string,
     applicationAcceleratorName: string,
     customizedAcceleratorName: string,
-    options?: CustomizedAcceleratorsDeleteOptionalParams
+    options?: CustomizedAcceleratorsDeleteOptionalParams,
   ): Promise<CustomizedAcceleratorsDeleteResponse>;
   /**
    * Check the customized accelerator are valid.
@@ -149,7 +149,7 @@ export interface CustomizedAccelerators {
     applicationAcceleratorName: string,
     customizedAcceleratorName: string,
     properties: CustomizedAcceleratorProperties,
-    options?: CustomizedAcceleratorsValidateOptionalParams
+    options?: CustomizedAcceleratorsValidateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<CustomizedAcceleratorsValidateResponse>,
@@ -172,6 +172,6 @@ export interface CustomizedAccelerators {
     applicationAcceleratorName: string,
     customizedAcceleratorName: string,
     properties: CustomizedAcceleratorProperties,
-    options?: CustomizedAcceleratorsValidateOptionalParams
+    options?: CustomizedAcceleratorsValidateOptionalParams,
   ): Promise<CustomizedAcceleratorsValidateResponse>;
 }
