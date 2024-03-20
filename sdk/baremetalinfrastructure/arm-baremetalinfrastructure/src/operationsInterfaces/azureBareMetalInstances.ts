@@ -22,7 +22,7 @@ import {
   AzureBareMetalInstancesGetResponse,
   Tags,
   AzureBareMetalInstancesUpdateOptionalParams,
-  AzureBareMetalInstancesUpdateResponse
+  AzureBareMetalInstancesUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,7 +34,7 @@ export interface AzureBareMetalInstances {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: AzureBareMetalInstancesListBySubscriptionOptionalParams
+    options?: AzureBareMetalInstancesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<AzureBareMetalInstance>;
   /**
    * Gets a list of Azure Bare Metal Instances in the specified subscription and resource group. The
@@ -44,7 +44,7 @@ export interface AzureBareMetalInstances {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: AzureBareMetalInstancesListByResourceGroupOptionalParams
+    options?: AzureBareMetalInstancesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<AzureBareMetalInstance>;
   /**
    * The operation to start an Azure Bare Metal instance
@@ -56,7 +56,7 @@ export interface AzureBareMetalInstances {
   beginStart(
     resourceGroupName: string,
     azureBareMetalInstanceName: string,
-    options?: AzureBareMetalInstancesStartOptionalParams
+    options?: AzureBareMetalInstancesStartOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AzureBareMetalInstancesStartResponse>,
@@ -73,7 +73,7 @@ export interface AzureBareMetalInstances {
   beginStartAndWait(
     resourceGroupName: string,
     azureBareMetalInstanceName: string,
-    options?: AzureBareMetalInstancesStartOptionalParams
+    options?: AzureBareMetalInstancesStartOptionalParams,
   ): Promise<AzureBareMetalInstancesStartResponse>;
   /**
    * The operation to restart an Azure Bare Metal Instance
@@ -85,7 +85,7 @@ export interface AzureBareMetalInstances {
   beginRestart(
     resourceGroupName: string,
     azureBareMetalInstanceName: string,
-    options?: AzureBareMetalInstancesRestartOptionalParams
+    options?: AzureBareMetalInstancesRestartOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AzureBareMetalInstancesRestartResponse>,
@@ -102,7 +102,7 @@ export interface AzureBareMetalInstances {
   beginRestartAndWait(
     resourceGroupName: string,
     azureBareMetalInstanceName: string,
-    options?: AzureBareMetalInstancesRestartOptionalParams
+    options?: AzureBareMetalInstancesRestartOptionalParams,
   ): Promise<AzureBareMetalInstancesRestartResponse>;
   /**
    * The operation to shutdown an Azure Bare Metal Instance
@@ -114,7 +114,7 @@ export interface AzureBareMetalInstances {
   beginShutdown(
     resourceGroupName: string,
     azureBareMetalInstanceName: string,
-    options?: AzureBareMetalInstancesShutdownOptionalParams
+    options?: AzureBareMetalInstancesShutdownOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AzureBareMetalInstancesShutdownResponse>,
@@ -131,7 +131,7 @@ export interface AzureBareMetalInstances {
   beginShutdownAndWait(
     resourceGroupName: string,
     azureBareMetalInstanceName: string,
-    options?: AzureBareMetalInstancesShutdownOptionalParams
+    options?: AzureBareMetalInstancesShutdownOptionalParams,
   ): Promise<AzureBareMetalInstancesShutdownResponse>;
   /**
    * Gets an Azure Bare Metal Instance for the specified subscription, resource group, and instance name.
@@ -143,7 +143,7 @@ export interface AzureBareMetalInstances {
   get(
     resourceGroupName: string,
     azureBareMetalInstanceName: string,
-    options?: AzureBareMetalInstancesGetOptionalParams
+    options?: AzureBareMetalInstancesGetOptionalParams,
   ): Promise<AzureBareMetalInstancesGetResponse>;
   /**
    * Patches the Tags field of a Azure Bare Metal Instance for the specified subscription, resource
@@ -158,6 +158,6 @@ export interface AzureBareMetalInstances {
     resourceGroupName: string,
     azureBareMetalInstanceName: string,
     tagsParameter: Tags,
-    options?: AzureBareMetalInstancesUpdateOptionalParams
+    options?: AzureBareMetalInstancesUpdateOptionalParams,
   ): Promise<AzureBareMetalInstancesUpdateResponse>;
 }

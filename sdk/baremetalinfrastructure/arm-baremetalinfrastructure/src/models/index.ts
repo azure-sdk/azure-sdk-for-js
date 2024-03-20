@@ -308,6 +308,30 @@ export interface StorageBillingProperties {
   azureBareMetalStorageInstanceSize?: string;
 }
 
+/** Identity for Azure Bare Metal Storage Instance. */
+export interface AzureBareMetalStorageInstanceIdentity {
+  /**
+   * The principal ID of Azure Bare Metal Storage Instance identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant ID associated with the Azure Bare Metal Storage Instance. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /** The type of identity used for the Azure Bare Metal Storage Instance. The type 'SystemAssigned' refers to an implicitly created identity. The type 'None' will remove any identities from the Azure Bare Metal Storage Instance. */
+  type?: ResourceIdentityType;
+}
+
+/** properties of body during PUT/PATCH for an AzureBareMetalStorageInstance. */
+export interface AzureBareMetalStorageInstanceBody {
+  /** The identity of Azure Bare Metal Storage Instance, if configured. */
+  identity?: AzureBareMetalStorageInstanceIdentity;
+  /** Tags field of the AzureBareMetal/AzureBareMetaStorage instance. */
+  tags?: { [propertyName: string]: string };
+}
+
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
 export interface TrackedResource extends Resource {
   /** Resource tags. */
@@ -357,6 +381,8 @@ export interface AzureBareMetalInstance extends TrackedResource {
 
 /** AzureBareMetalStorageInstance info on Azure (ARM properties and AzureBareMetalStorage properties) */
 export interface AzureBareMetalStorageInstance extends TrackedResource {
+  /** The identity of Azure Bare Metal Storage Instance, if configured. */
+  identity?: AzureBareMetalStorageInstanceIdentity;
   /** Specifies the AzureBareMetaStorageInstance unique ID. */
   azureBareMetalStorageInstanceUniqueIdentifier?: string;
   /** Specifies the storage properties for the AzureBareMetalStorage instance. */
@@ -390,7 +416,7 @@ export enum KnownAsyncOperationStatus {
   /** Succeeded */
   Succeeded = "Succeeded",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -410,7 +436,7 @@ export enum KnownAzureBareMetalInstanceForcePowerState {
   /** Active */
   Active = "active",
   /** Inactive */
-  Inactive = "inactive"
+  Inactive = "inactive",
 }
 
 /**
@@ -430,7 +456,7 @@ export enum KnownAzureBareMetalHardwareTypeNamesEnum {
   /** HPE */
   HPE = "HPE",
   /** Sdflex */
-  Sdflex = "SDFLEX"
+  Sdflex = "SDFLEX",
 }
 
 /**
@@ -533,7 +559,7 @@ export enum KnownAzureBareMetalInstanceSizeNamesEnum {
   /** S896Ooo */
   S896Ooo = "S896ooo",
   /** S960M */
-  S960M = "S960m"
+  S960M = "S960m",
 }
 
 /**
@@ -601,7 +627,7 @@ export enum KnownAzureBareMetalInstancePowerStateEnum {
   /** Restarting */
   Restarting = "restarting",
   /** Unknown */
-  Unknown = "unknown"
+  Unknown = "unknown",
 }
 
 /**
@@ -633,7 +659,7 @@ export enum KnownAzureBareMetalProvisioningStatesEnum {
   /** Deleting */
   Deleting = "Deleting",
   /** Migrating */
-  Migrating = "Migrating"
+  Migrating = "Migrating",
 }
 
 /**
@@ -660,7 +686,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -682,7 +708,7 @@ export enum KnownOrigin {
   /** System */
   System = "system",
   /** UserSystem */
-  UserSystem = "user,system"
+  UserSystem = "user,system",
 }
 
 /**
@@ -699,7 +725,7 @@ export type Origin = string;
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
   /** Internal */
-  Internal = "Internal"
+  Internal = "Internal",
 }
 
 /**
@@ -728,7 +754,7 @@ export enum KnownProvisioningState {
   /** Canceled */
   Canceled = "Canceled",
   /** Migrating */
-  Migrating = "Migrating"
+  Migrating = "Migrating",
 }
 
 /**
@@ -746,6 +772,24 @@ export enum KnownProvisioningState {
  * **Migrating**
  */
 export type ProvisioningState = string;
+
+/** Known values of {@link ResourceIdentityType} that the service accepts. */
+export enum KnownResourceIdentityType {
+  /** SystemAssigned */
+  SystemAssigned = "SystemAssigned",
+  /** None */
+  None = "None",
+}
+
+/**
+ * Defines values for ResourceIdentityType. \
+ * {@link KnownResourceIdentityType} can be used interchangeably with ResourceIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SystemAssigned** \
+ * **None**
+ */
+export type ResourceIdentityType = string;
 
 /** Optional parameters. */
 export interface AzureBareMetalInstancesStartOptionalParams
@@ -790,14 +834,16 @@ export interface AzureBareMetalInstancesListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type AzureBareMetalInstancesListBySubscriptionResponse = AzureBareMetalInstancesListResult;
+export type AzureBareMetalInstancesListBySubscriptionResponse =
+  AzureBareMetalInstancesListResult;
 
 /** Optional parameters. */
 export interface AzureBareMetalInstancesListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type AzureBareMetalInstancesListByResourceGroupResponse = AzureBareMetalInstancesListResult;
+export type AzureBareMetalInstancesListByResourceGroupResponse =
+  AzureBareMetalInstancesListResult;
 
 /** Optional parameters. */
 export interface AzureBareMetalInstancesGetOptionalParams
@@ -818,14 +864,16 @@ export interface AzureBareMetalInstancesListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type AzureBareMetalInstancesListBySubscriptionNextResponse = AzureBareMetalInstancesListResult;
+export type AzureBareMetalInstancesListBySubscriptionNextResponse =
+  AzureBareMetalInstancesListResult;
 
 /** Optional parameters. */
 export interface AzureBareMetalInstancesListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type AzureBareMetalInstancesListByResourceGroupNextResponse = AzureBareMetalInstancesListResult;
+export type AzureBareMetalInstancesListByResourceGroupNextResponse =
+  AzureBareMetalInstancesListResult;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
@@ -839,35 +887,40 @@ export interface AzureBareMetalStorageInstancesListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type AzureBareMetalStorageInstancesListBySubscriptionResponse = AzureBareMetalStorageInstancesListResult;
+export type AzureBareMetalStorageInstancesListBySubscriptionResponse =
+  AzureBareMetalStorageInstancesListResult;
 
 /** Optional parameters. */
 export interface AzureBareMetalStorageInstancesListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type AzureBareMetalStorageInstancesListByResourceGroupResponse = AzureBareMetalStorageInstancesListResult;
+export type AzureBareMetalStorageInstancesListByResourceGroupResponse =
+  AzureBareMetalStorageInstancesListResult;
 
 /** Optional parameters. */
 export interface AzureBareMetalStorageInstancesGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type AzureBareMetalStorageInstancesGetResponse = AzureBareMetalStorageInstance;
+export type AzureBareMetalStorageInstancesGetResponse =
+  AzureBareMetalStorageInstance;
 
 /** Optional parameters. */
 export interface AzureBareMetalStorageInstancesCreateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the create operation. */
-export type AzureBareMetalStorageInstancesCreateResponse = AzureBareMetalStorageInstance;
+export type AzureBareMetalStorageInstancesCreateResponse =
+  AzureBareMetalStorageInstance;
 
 /** Optional parameters. */
 export interface AzureBareMetalStorageInstancesUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
-export type AzureBareMetalStorageInstancesUpdateResponse = AzureBareMetalStorageInstance;
+export type AzureBareMetalStorageInstancesUpdateResponse =
+  AzureBareMetalStorageInstance;
 
 /** Optional parameters. */
 export interface AzureBareMetalStorageInstancesDeleteOptionalParams
@@ -878,14 +931,16 @@ export interface AzureBareMetalStorageInstancesListBySubscriptionNextOptionalPar
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type AzureBareMetalStorageInstancesListBySubscriptionNextResponse = AzureBareMetalStorageInstancesListResult;
+export type AzureBareMetalStorageInstancesListBySubscriptionNextResponse =
+  AzureBareMetalStorageInstancesListResult;
 
 /** Optional parameters. */
 export interface AzureBareMetalStorageInstancesListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type AzureBareMetalStorageInstancesListByResourceGroupNextResponse = AzureBareMetalStorageInstancesListResult;
+export type AzureBareMetalStorageInstancesListByResourceGroupNextResponse =
+  AzureBareMetalStorageInstancesListResult;
 
 /** Optional parameters. */
 export interface BareMetalInfrastructureClientOptionalParams
