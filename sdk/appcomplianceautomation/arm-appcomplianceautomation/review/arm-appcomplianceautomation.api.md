@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export type ActionType = string;
@@ -355,11 +355,11 @@ export interface ProxyResource extends Resource {
 
 // @public
 interface Report_2 {
-    beginCreateOrUpdate(reportName: string, parameters: ReportResource, options?: ReportCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ReportCreateOrUpdateResponse>, ReportCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(reportName: string, parameters: ReportResource, options?: ReportCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ReportCreateOrUpdateResponse>, ReportCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(reportName: string, parameters: ReportResource, options?: ReportCreateOrUpdateOptionalParams): Promise<ReportCreateOrUpdateResponse>;
-    beginDelete(reportName: string, options?: ReportDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(reportName: string, options?: ReportDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(reportName: string, options?: ReportDeleteOptionalParams): Promise<void>;
-    beginUpdate(reportName: string, parameters: ReportResourcePatch, options?: ReportUpdateOptionalParams): Promise<PollerLike<PollOperationState<ReportUpdateResponse>, ReportUpdateResponse>>;
+    beginUpdate(reportName: string, parameters: ReportResourcePatch, options?: ReportUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ReportUpdateResponse>, ReportUpdateResponse>>;
     beginUpdateAndWait(reportName: string, parameters: ReportResourcePatch, options?: ReportUpdateOptionalParams): Promise<ReportUpdateResponse>;
     get(reportName: string, options?: ReportGetOptionalParams): Promise<ReportGetResponse>;
 }
@@ -432,11 +432,6 @@ export interface Reports {
 
 // @public
 export interface ReportsListNextOptionalParams extends coreClient.OperationOptions {
-    offerGuid?: string;
-    reportCreatorTenantId?: string;
-    select?: string;
-    skipToken?: string;
-    top?: number;
 }
 
 // @public
@@ -498,7 +493,7 @@ export type ResourceStatus = string;
 
 // @public
 export interface Snapshot {
-    beginDownload(reportName: string, snapshotName: string, parameters: SnapshotDownloadRequest, options?: SnapshotDownloadOptionalParams): Promise<PollerLike<PollOperationState<SnapshotDownloadResponse>, SnapshotDownloadResponse>>;
+    beginDownload(reportName: string, snapshotName: string, parameters: SnapshotDownloadRequest, options?: SnapshotDownloadOptionalParams): Promise<SimplePollerLike<OperationState<SnapshotDownloadResponse>, SnapshotDownloadResponse>>;
     beginDownloadAndWait(reportName: string, snapshotName: string, parameters: SnapshotDownloadRequest, options?: SnapshotDownloadOptionalParams): Promise<SnapshotDownloadResponse>;
     get(reportName: string, snapshotName: string, options?: SnapshotGetOptionalParams): Promise<SnapshotGetResponse>;
 }
@@ -555,11 +550,6 @@ export interface Snapshots {
 
 // @public
 export interface SnapshotsListNextOptionalParams extends coreClient.OperationOptions {
-    offerGuid?: string;
-    reportCreatorTenantId?: string;
-    select?: string;
-    skipToken?: string;
-    top?: number;
 }
 
 // @public

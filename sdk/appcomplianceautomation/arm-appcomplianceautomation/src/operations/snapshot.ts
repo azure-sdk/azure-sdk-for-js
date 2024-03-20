@@ -11,14 +11,18 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AppComplianceAutomationToolForMicrosoft365 } from "../appComplianceAutomationToolForMicrosoft365";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   SnapshotGetOptionalParams,
   SnapshotGetResponse,
   SnapshotDownloadRequest,
   SnapshotDownloadOptionalParams,
-  SnapshotDownloadResponse
+  SnapshotDownloadResponse,
 } from "../models";
 
 /** Class containing Snapshot operations. */
@@ -42,11 +46,11 @@ export class SnapshotImpl implements Snapshot {
   get(
     reportName: string,
     snapshotName: string,
-    options?: SnapshotGetOptionalParams
+    options?: SnapshotGetOptionalParams,
   ): Promise<SnapshotGetResponse> {
     return this.client.sendOperationRequest(
       { reportName, snapshotName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -61,30 +65,29 @@ export class SnapshotImpl implements Snapshot {
     reportName: string,
     snapshotName: string,
     parameters: SnapshotDownloadRequest,
-    options?: SnapshotDownloadOptionalParams
+    options?: SnapshotDownloadOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<SnapshotDownloadResponse>,
+    SimplePollerLike<
+      OperationState<SnapshotDownloadResponse>,
       SnapshotDownloadResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<SnapshotDownloadResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -93,8 +96,8 @@ export class SnapshotImpl implements Snapshot {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -102,20 +105,23 @@ export class SnapshotImpl implements Snapshot {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { reportName, snapshotName, parameters, options },
-      downloadOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { reportName, snapshotName, parameters, options },
+      spec: downloadOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      SnapshotDownloadResponse,
+      OperationState<SnapshotDownloadResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -132,13 +138,13 @@ export class SnapshotImpl implements Snapshot {
     reportName: string,
     snapshotName: string,
     parameters: SnapshotDownloadRequest,
-    options?: SnapshotDownloadOptionalParams
+    options?: SnapshotDownloadOptionalParams,
   ): Promise<SnapshotDownloadResponse> {
     const poller = await this.beginDownload(
       reportName,
       snapshotName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -147,55 +153,53 @@ export class SnapshotImpl implements Snapshot {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/snapshots/{snapshotName}",
+  path: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/snapshots/{snapshotName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SnapshotResource
+      bodyMapper: Mappers.SnapshotResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.reportName,
-    Parameters.snapshotName
+    Parameters.snapshotName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const downloadOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/snapshots/{snapshotName}/download",
+  path: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/snapshots/{snapshotName}/download",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.DownloadResponse
+      bodyMapper: Mappers.DownloadResponse,
     },
     201: {
-      bodyMapper: Mappers.DownloadResponse
+      bodyMapper: Mappers.DownloadResponse,
     },
     202: {
-      bodyMapper: Mappers.DownloadResponse
+      bodyMapper: Mappers.DownloadResponse,
     },
     204: {
-      bodyMapper: Mappers.DownloadResponse
+      bodyMapper: Mappers.DownloadResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.reportName,
-    Parameters.snapshotName
+    Parameters.snapshotName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

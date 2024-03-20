@@ -663,7 +663,7 @@ export enum KnownOrigin {
   /** System */
   System = "system",
   /** UserSystem */
-  UserSystem = "user,system"
+  UserSystem = "user,system",
 }
 
 /**
@@ -680,7 +680,7 @@ export type Origin = string;
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
   /** Internal */
-  Internal = "Internal"
+  Internal = "Internal",
 }
 
 /**
@@ -699,7 +699,7 @@ export enum KnownReportStatus {
   /** Failed */
   Failed = "Failed",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -726,7 +726,7 @@ export enum KnownProvisioningState {
   /** Deleting */
   Deleting = "Deleting",
   /** Updating */
-  Updating = "Updating"
+  Updating = "Updating",
 }
 
 /**
@@ -752,7 +752,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -774,7 +774,7 @@ export enum KnownCategoryType {
   /** PartiallyAutomated */
   PartiallyAutomated = "PartiallyAutomated",
   /** Manual */
-  Manual = "Manual"
+  Manual = "Manual",
 }
 
 /**
@@ -793,7 +793,7 @@ export enum KnownCategoryStatus {
   /** Healthy */
   Healthy = "Healthy",
   /** Unhealthy */
-  Unhealthy = "Unhealthy"
+  Unhealthy = "Unhealthy",
 }
 
 /**
@@ -813,7 +813,7 @@ export enum KnownControlFamilyType {
   /** PartiallyAutomated */
   PartiallyAutomated = "PartiallyAutomated",
   /** Manual */
-  Manual = "Manual"
+  Manual = "Manual",
 }
 
 /**
@@ -832,7 +832,7 @@ export enum KnownControlFamilyStatus {
   /** Healthy */
   Healthy = "Healthy",
   /** Unhealthy */
-  Unhealthy = "Unhealthy"
+  Unhealthy = "Unhealthy",
 }
 
 /**
@@ -852,7 +852,7 @@ export enum KnownControlType {
   /** PartiallyAutomated */
   PartiallyAutomated = "PartiallyAutomated",
   /** Manual */
-  Manual = "Manual"
+  Manual = "Manual",
 }
 
 /**
@@ -873,7 +873,7 @@ export enum KnownControlStatus {
   /** Failed */
   Failed = "Failed",
   /** NotApplicable */
-  NotApplicable = "NotApplicable"
+  NotApplicable = "NotApplicable",
 }
 
 /**
@@ -894,7 +894,7 @@ export enum KnownAssessmentSeverity {
   /** Medium */
   Medium = "Medium",
   /** Low */
-  Low = "Low"
+  Low = "Low",
 }
 
 /**
@@ -913,7 +913,7 @@ export enum KnownIsPass {
   /** True */
   True = "True",
   /** False */
-  False = "False"
+  False = "False",
 }
 
 /**
@@ -933,7 +933,7 @@ export enum KnownResourceStatus {
   /** Unhealthy */
   Unhealthy = "Unhealthy",
   /** NotApplicable */
-  NotApplicable = "NotApplicable"
+  NotApplicable = "NotApplicable",
 }
 
 /**
@@ -956,7 +956,7 @@ export enum KnownDownloadType {
   /** ComplianceDetailedPdfReport */
   ComplianceDetailedPdfReport = "ComplianceDetailedPdfReport",
   /** ResourceList */
-  ResourceList = "ResourceList"
+  ResourceList = "ResourceList",
 }
 
 /**
@@ -976,7 +976,7 @@ export enum KnownComplianceState {
   /** Healthy */
   Healthy = "Healthy",
   /** Unhealthy */
-  Unhealthy = "Unhealthy"
+  Unhealthy = "Unhealthy",
 }
 
 /**
@@ -1022,18 +1022,7 @@ export type ReportsListResponse = ReportResourceList;
 
 /** Optional parameters. */
 export interface ReportsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Skip over when retrieving results. */
-  skipToken?: string;
-  /** Number of elements to return when retrieving results. */
-  top?: number;
-  /** OData Select statement. Limits the properties on each entry to just those requested, e.g. ?$select=reportName,id. */
-  select?: string;
-  /** The offerGuid which mapping to the reports. */
-  offerGuid?: string;
-  /** The tenant id of the report creator. */
-  reportCreatorTenantId?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ReportsListNextResponse = ReportResourceList;
@@ -1097,18 +1086,7 @@ export type SnapshotsListResponse = SnapshotResourceList;
 
 /** Optional parameters. */
 export interface SnapshotsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Skip over when retrieving results. */
-  skipToken?: string;
-  /** Number of elements to return when retrieving results. */
-  top?: number;
-  /** OData Select statement. Limits the properties on each entry to just those requested, e.g. ?$select=reportName,id. */
-  select?: string;
-  /** The offerGuid which mapping to the reports. */
-  offerGuid?: string;
-  /** The tenant id of the report creator. */
-  reportCreatorTenantId?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type SnapshotsListNextResponse = SnapshotResourceList;

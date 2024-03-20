@@ -18,7 +18,7 @@ import {
   SnapshotsListNextOptionalParams,
   SnapshotsListOptionalParams,
   SnapshotsListResponse,
-  SnapshotsListNextResponse
+  SnapshotsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -41,7 +41,7 @@ export class SnapshotsImpl implements Snapshots {
    */
   public list(
     reportName: string,
-    options?: SnapshotsListOptionalParams
+    options?: SnapshotsListOptionalParams,
   ): PagedAsyncIterableIterator<SnapshotResource> {
     const iter = this.listPagingAll(reportName, options);
     return {
@@ -56,14 +56,14 @@ export class SnapshotsImpl implements Snapshots {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(reportName, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     reportName: string,
     options?: SnapshotsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SnapshotResource[]> {
     let result: SnapshotsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -85,7 +85,7 @@ export class SnapshotsImpl implements Snapshots {
 
   private async *listPagingAll(
     reportName: string,
-    options?: SnapshotsListOptionalParams
+    options?: SnapshotsListOptionalParams,
   ): AsyncIterableIterator<SnapshotResource> {
     for await (const page of this.listPagingPage(reportName, options)) {
       yield* page;
@@ -99,11 +99,11 @@ export class SnapshotsImpl implements Snapshots {
    */
   private _list(
     reportName: string,
-    options?: SnapshotsListOptionalParams
+    options?: SnapshotsListOptionalParams,
   ): Promise<SnapshotsListResponse> {
     return this.client.sendOperationRequest(
       { reportName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -116,11 +116,11 @@ export class SnapshotsImpl implements Snapshots {
   private _listNext(
     reportName: string,
     nextLink: string,
-    options?: SnapshotsListNextOptionalParams
+    options?: SnapshotsListNextOptionalParams,
   ): Promise<SnapshotsListNextResponse> {
     return this.client.sendOperationRequest(
       { reportName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -128,16 +128,15 @@ export class SnapshotsImpl implements Snapshots {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/snapshots",
+  path: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/snapshots",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SnapshotResourceList
+      bodyMapper: Mappers.SnapshotResourceList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
@@ -145,32 +144,24 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.top,
     Parameters.select,
     Parameters.offerGuid,
-    Parameters.reportCreatorTenantId
+    Parameters.reportCreatorTenantId,
   ],
   urlParameters: [Parameters.$host, Parameters.reportName],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SnapshotResourceList
+      bodyMapper: Mappers.SnapshotResourceList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skipToken,
-    Parameters.top,
-    Parameters.select,
-    Parameters.offerGuid,
-    Parameters.reportCreatorTenantId
-  ],
   urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.reportName],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ReportGetOptionalParams,
   ReportGetResponse,
@@ -16,7 +16,7 @@ import {
   ReportResourcePatch,
   ReportUpdateOptionalParams,
   ReportUpdateResponse,
-  ReportDeleteOptionalParams
+  ReportDeleteOptionalParams,
 } from "../models";
 
 /** Interface representing a Report. */
@@ -28,7 +28,7 @@ export interface Report {
    */
   get(
     reportName: string,
-    options?: ReportGetOptionalParams
+    options?: ReportGetOptionalParams,
   ): Promise<ReportGetResponse>;
   /**
    * Create a new AppComplianceAutomation report or update an exiting AppComplianceAutomation report.
@@ -39,10 +39,10 @@ export interface Report {
   beginCreateOrUpdate(
     reportName: string,
     parameters: ReportResource,
-    options?: ReportCreateOrUpdateOptionalParams
+    options?: ReportCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ReportCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ReportCreateOrUpdateResponse>,
       ReportCreateOrUpdateResponse
     >
   >;
@@ -55,7 +55,7 @@ export interface Report {
   beginCreateOrUpdateAndWait(
     reportName: string,
     parameters: ReportResource,
-    options?: ReportCreateOrUpdateOptionalParams
+    options?: ReportCreateOrUpdateOptionalParams,
   ): Promise<ReportCreateOrUpdateResponse>;
   /**
    * Update an exiting AppComplianceAutomation report.
@@ -66,9 +66,9 @@ export interface Report {
   beginUpdate(
     reportName: string,
     parameters: ReportResourcePatch,
-    options?: ReportUpdateOptionalParams
+    options?: ReportUpdateOptionalParams,
   ): Promise<
-    PollerLike<PollOperationState<ReportUpdateResponse>, ReportUpdateResponse>
+    SimplePollerLike<OperationState<ReportUpdateResponse>, ReportUpdateResponse>
   >;
   /**
    * Update an exiting AppComplianceAutomation report.
@@ -79,7 +79,7 @@ export interface Report {
   beginUpdateAndWait(
     reportName: string,
     parameters: ReportResourcePatch,
-    options?: ReportUpdateOptionalParams
+    options?: ReportUpdateOptionalParams,
   ): Promise<ReportUpdateResponse>;
   /**
    * Delete an AppComplianceAutomation report.
@@ -88,8 +88,8 @@ export interface Report {
    */
   beginDelete(
     reportName: string,
-    options?: ReportDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: ReportDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete an AppComplianceAutomation report.
    * @param reportName Report Name.
@@ -97,6 +97,6 @@ export interface Report {
    */
   beginDeleteAndWait(
     reportName: string,
-    options?: ReportDeleteOptionalParams
+    options?: ReportDeleteOptionalParams,
   ): Promise<void>;
 }

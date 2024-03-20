@@ -19,6 +19,6 @@ export interface Snapshots {
    */
   list(
     reportName: string,
-    options?: SnapshotsListOptionalParams
+    options?: SnapshotsListOptionalParams,
   ): PagedAsyncIterableIterator<SnapshotResource>;
 }

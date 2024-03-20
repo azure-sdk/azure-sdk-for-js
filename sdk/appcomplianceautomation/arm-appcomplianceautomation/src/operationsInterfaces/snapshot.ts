@@ -6,13 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   SnapshotGetOptionalParams,
   SnapshotGetResponse,
   SnapshotDownloadRequest,
   SnapshotDownloadOptionalParams,
-  SnapshotDownloadResponse
+  SnapshotDownloadResponse,
 } from "../models";
 
 /** Interface representing a Snapshot. */
@@ -26,7 +26,7 @@ export interface Snapshot {
   get(
     reportName: string,
     snapshotName: string,
-    options?: SnapshotGetOptionalParams
+    options?: SnapshotGetOptionalParams,
   ): Promise<SnapshotGetResponse>;
   /**
    * Download compliance needs from snapshot, like: Compliance Report, Resource List.
@@ -39,10 +39,10 @@ export interface Snapshot {
     reportName: string,
     snapshotName: string,
     parameters: SnapshotDownloadRequest,
-    options?: SnapshotDownloadOptionalParams
+    options?: SnapshotDownloadOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<SnapshotDownloadResponse>,
+    SimplePollerLike<
+      OperationState<SnapshotDownloadResponse>,
       SnapshotDownloadResponse
     >
   >;
@@ -57,6 +57,6 @@ export interface Snapshot {
     reportName: string,
     snapshotName: string,
     parameters: SnapshotDownloadRequest,
-    options?: SnapshotDownloadOptionalParams
+    options?: SnapshotDownloadOptionalParams,
   ): Promise<SnapshotDownloadResponse>;
 }

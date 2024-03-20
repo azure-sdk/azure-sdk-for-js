@@ -11,8 +11,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AppComplianceAutomationToolForMicrosoft365 } from "../appComplianceAutomationToolForMicrosoft365";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   ReportGetOptionalParams,
   ReportGetResponse,
@@ -22,7 +26,7 @@ import {
   ReportResourcePatch,
   ReportUpdateOptionalParams,
   ReportUpdateResponse,
-  ReportDeleteOptionalParams
+  ReportDeleteOptionalParams,
 } from "../models";
 
 /** Class containing Report operations. */
@@ -44,11 +48,11 @@ export class ReportImpl implements Report {
    */
   get(
     reportName: string,
-    options?: ReportGetOptionalParams
+    options?: ReportGetOptionalParams,
   ): Promise<ReportGetResponse> {
     return this.client.sendOperationRequest(
       { reportName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -61,30 +65,29 @@ export class ReportImpl implements Report {
   async beginCreateOrUpdate(
     reportName: string,
     parameters: ReportResource,
-    options?: ReportCreateOrUpdateOptionalParams
+    options?: ReportCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ReportCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ReportCreateOrUpdateResponse>,
       ReportCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ReportCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -93,8 +96,8 @@ export class ReportImpl implements Report {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -102,20 +105,23 @@ export class ReportImpl implements Report {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { reportName, parameters, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { reportName, parameters, options },
+      spec: createOrUpdateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ReportCreateOrUpdateResponse,
+      OperationState<ReportCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -130,12 +136,12 @@ export class ReportImpl implements Report {
   async beginCreateOrUpdateAndWait(
     reportName: string,
     parameters: ReportResource,
-    options?: ReportCreateOrUpdateOptionalParams
+    options?: ReportCreateOrUpdateOptionalParams,
   ): Promise<ReportCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       reportName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -149,27 +155,26 @@ export class ReportImpl implements Report {
   async beginUpdate(
     reportName: string,
     parameters: ReportResourcePatch,
-    options?: ReportUpdateOptionalParams
+    options?: ReportUpdateOptionalParams,
   ): Promise<
-    PollerLike<PollOperationState<ReportUpdateResponse>, ReportUpdateResponse>
+    SimplePollerLike<OperationState<ReportUpdateResponse>, ReportUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ReportUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -178,8 +183,8 @@ export class ReportImpl implements Report {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -187,20 +192,23 @@ export class ReportImpl implements Report {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { reportName, parameters, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { reportName, parameters, options },
+      spec: updateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ReportUpdateResponse,
+      OperationState<ReportUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -215,7 +223,7 @@ export class ReportImpl implements Report {
   async beginUpdateAndWait(
     reportName: string,
     parameters: ReportResourcePatch,
-    options?: ReportUpdateOptionalParams
+    options?: ReportUpdateOptionalParams,
   ): Promise<ReportUpdateResponse> {
     const poller = await this.beginUpdate(reportName, parameters, options);
     return poller.pollUntilDone();
@@ -228,25 +236,24 @@ export class ReportImpl implements Report {
    */
   async beginDelete(
     reportName: string,
-    options?: ReportDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: ReportDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -255,8 +262,8 @@ export class ReportImpl implements Report {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -264,20 +271,20 @@ export class ReportImpl implements Report {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { reportName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { reportName, options },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -290,7 +297,7 @@ export class ReportImpl implements Report {
    */
   async beginDeleteAndWait(
     reportName: string,
-    options?: ReportDeleteOptionalParams
+    options?: ReportDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(reportName, options);
     return poller.pollUntilDone();
@@ -304,70 +311,70 @@ const getOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ReportResource
+      bodyMapper: Mappers.ReportResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.reportName],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ReportResource
+      bodyMapper: Mappers.ReportResource,
     },
     201: {
-      bodyMapper: Mappers.ReportResource
+      bodyMapper: Mappers.ReportResource,
     },
     202: {
-      bodyMapper: Mappers.ReportResource
+      bodyMapper: Mappers.ReportResource,
     },
     204: {
-      bodyMapper: Mappers.ReportResource
+      bodyMapper: Mappers.ReportResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.reportName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
   path: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.ReportResource
+      bodyMapper: Mappers.ReportResource,
     },
     201: {
-      bodyMapper: Mappers.ReportResource
+      bodyMapper: Mappers.ReportResource,
     },
     202: {
-      bodyMapper: Mappers.ReportResource
+      bodyMapper: Mappers.ReportResource,
     },
     204: {
-      bodyMapper: Mappers.ReportResource
+      bodyMapper: Mappers.ReportResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.reportName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}",
@@ -378,11 +385,11 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.reportName],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

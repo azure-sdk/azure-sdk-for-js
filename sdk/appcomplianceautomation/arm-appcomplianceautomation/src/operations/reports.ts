@@ -18,7 +18,7 @@ import {
   ReportsListNextOptionalParams,
   ReportsListOptionalParams,
   ReportsListResponse,
-  ReportsListNextResponse
+  ReportsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -39,7 +39,7 @@ export class ReportsImpl implements Reports {
    * @param options The options parameters.
    */
   public list(
-    options?: ReportsListOptionalParams
+    options?: ReportsListOptionalParams,
   ): PagedAsyncIterableIterator<ReportResource> {
     const iter = this.listPagingAll(options);
     return {
@@ -54,13 +54,13 @@ export class ReportsImpl implements Reports {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: ReportsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ReportResource[]> {
     let result: ReportsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -81,7 +81,7 @@ export class ReportsImpl implements Reports {
   }
 
   private async *listPagingAll(
-    options?: ReportsListOptionalParams
+    options?: ReportsListOptionalParams,
   ): AsyncIterableIterator<ReportResource> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -93,7 +93,7 @@ export class ReportsImpl implements Reports {
    * @param options The options parameters.
    */
   private _list(
-    options?: ReportsListOptionalParams
+    options?: ReportsListOptionalParams,
   ): Promise<ReportsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -105,11 +105,11 @@ export class ReportsImpl implements Reports {
    */
   private _listNext(
     nextLink: string,
-    options?: ReportsListNextOptionalParams
+    options?: ReportsListNextOptionalParams,
   ): Promise<ReportsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -121,11 +121,11 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ReportResourceList
+      bodyMapper: Mappers.ReportResourceList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
@@ -133,32 +133,24 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.top,
     Parameters.select,
     Parameters.offerGuid,
-    Parameters.reportCreatorTenantId
+    Parameters.reportCreatorTenantId,
   ],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ReportResourceList
+      bodyMapper: Mappers.ReportResourceList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skipToken,
-    Parameters.top,
-    Parameters.select,
-    Parameters.offerGuid,
-    Parameters.reportCreatorTenantId
-  ],
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

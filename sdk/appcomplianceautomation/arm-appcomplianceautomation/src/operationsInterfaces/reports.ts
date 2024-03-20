@@ -17,6 +17,6 @@ export interface Reports {
    * @param options The options parameters.
    */
   list(
-    options?: ReportsListOptionalParams
+    options?: ReportsListOptionalParams,
   ): PagedAsyncIterableIterator<ReportResource>;
 }
