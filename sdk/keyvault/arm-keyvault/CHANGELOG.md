@@ -1,15 +1,12 @@
 # Release History
+    
+## 4.0.0 (2024-03-20)
+    
+**Breaking Changes**
 
-## 3.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation Keys.getVersion
+    
+    
 ## 3.1.0 (2023-10-18)
     
 **Features**

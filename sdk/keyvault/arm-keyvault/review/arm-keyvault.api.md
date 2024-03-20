@@ -245,7 +245,6 @@ export interface KeyRotationPolicyAttributes {
 export interface Keys {
     createIfNotExist(resourceGroupName: string, vaultName: string, keyName: string, parameters: KeyCreateParameters, options?: KeysCreateIfNotExistOptionalParams): Promise<KeysCreateIfNotExistResponse>;
     get(resourceGroupName: string, vaultName: string, keyName: string, options?: KeysGetOptionalParams): Promise<KeysGetResponse>;
-    getVersion(resourceGroupName: string, vaultName: string, keyName: string, keyVersion: string, options?: KeysGetVersionOptionalParams): Promise<KeysGetVersionResponse>;
     list(resourceGroupName: string, vaultName: string, options?: KeysListOptionalParams): PagedAsyncIterableIterator<Key>;
     listVersions(resourceGroupName: string, vaultName: string, keyName: string, options?: KeysListVersionsOptionalParams): PagedAsyncIterableIterator<Key>;
 }
@@ -263,13 +262,6 @@ export interface KeysGetOptionalParams extends coreClient.OperationOptions {
 
 // @public
 export type KeysGetResponse = Key;
-
-// @public
-export interface KeysGetVersionOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type KeysGetVersionResponse = Key;
 
 // @public
 export interface KeysListNextOptionalParams extends coreClient.OperationOptions {

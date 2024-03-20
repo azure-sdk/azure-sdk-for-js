@@ -16,8 +16,6 @@ import {
   KeysCreateIfNotExistResponse,
   KeysGetOptionalParams,
   KeysGetResponse,
-  KeysGetVersionOptionalParams,
-  KeysGetVersionResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +30,7 @@ export interface Keys {
   list(
     resourceGroupName: string,
     vaultName: string,
-    options?: KeysListOptionalParams
+    options?: KeysListOptionalParams,
   ): PagedAsyncIterableIterator<Key>;
   /**
    * Lists the versions of the specified key in the specified key vault.
@@ -45,7 +43,7 @@ export interface Keys {
     resourceGroupName: string,
     vaultName: string,
     keyName: string,
-    options?: KeysListVersionsOptionalParams
+    options?: KeysListVersionsOptionalParams,
   ): PagedAsyncIterableIterator<Key>;
   /**
    * Creates the first version of a new key if it does not exist. If it already exists, then the existing
@@ -64,7 +62,7 @@ export interface Keys {
     vaultName: string,
     keyName: string,
     parameters: KeyCreateParameters,
-    options?: KeysCreateIfNotExistOptionalParams
+    options?: KeysCreateIfNotExistOptionalParams,
   ): Promise<KeysCreateIfNotExistResponse>;
   /**
    * Gets the current version of the specified key from the specified key vault.
@@ -77,21 +75,6 @@ export interface Keys {
     resourceGroupName: string,
     vaultName: string,
     keyName: string,
-    options?: KeysGetOptionalParams
+    options?: KeysGetOptionalParams,
   ): Promise<KeysGetResponse>;
-  /**
-   * Gets the specified version of the specified key in the specified key vault.
-   * @param resourceGroupName The name of the resource group which contains the specified key vault.
-   * @param vaultName The name of the vault which contains the key version to be retrieved.
-   * @param keyName The name of the key version to be retrieved.
-   * @param keyVersion The version of the key to be retrieved.
-   * @param options The options parameters.
-   */
-  getVersion(
-    resourceGroupName: string,
-    vaultName: string,
-    keyName: string,
-    keyVersion: string,
-    options?: KeysGetVersionOptionalParams
-  ): Promise<KeysGetVersionResponse>;
 }
