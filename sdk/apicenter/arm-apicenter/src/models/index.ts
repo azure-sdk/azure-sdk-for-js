@@ -121,6 +121,68 @@ export interface ErrorAdditionalInfo {
   readonly info?: Record<string, unknown>;
 }
 
+/** The response of a DeletedService list operation. */
+export interface DeletedServiceListResult {
+  /**
+   * The DeletedService items on this page
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value: DeletedService[];
+  /**
+   * The link to the next page of items
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Deleted service properties. */
+export interface DeletedServiceProperties {
+  /** UTC date and time when the service will be automatically purged. The date conforms to the following format: yyyy-MM-ddTHH:mm:ssZ as specified by the ISO 8601 standard. */
+  expiresOn?: Date;
+  /** UTC date and time when the service was soft-deleted. The date conforms to the following format: yyyy-MM-ddTHH:mm:ssZ as specified by the ISO 8601 standard. */
+  deletedOn?: Date;
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /**
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
 /** The response of a Service list operation. */
 export interface ServiceListResult {
   /**
@@ -176,46 +238,6 @@ export interface UserAssignedIdentity {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly clientId?: string;
-}
-
-/** Common fields that are returned in the response for all Azure Resource Manager resources */
-export interface Resource {
-  /**
-   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The name of the resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-}
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
 }
 
 /** The type used for update operations of the Service. */
@@ -544,6 +566,9 @@ export interface Onboarding {
   developerPortalUri?: string[];
 }
 
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
+
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
 export interface TrackedResource extends Resource {
   /** Resource tags. */
@@ -552,15 +577,10 @@ export interface TrackedResource extends Resource {
   location: string;
 }
 
-/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export interface ProxyResource extends Resource {}
-
-/** The service entity. */
-export interface Service extends TrackedResource {
+/** Soft-deleted service entity. */
+export interface DeletedService extends ProxyResource {
   /** The resource-specific properties for this resource. */
-  properties?: ServiceProperties;
-  /** The managed service identities assigned to this resource. */
-  identity?: ManagedServiceIdentity;
+  properties?: DeletedServiceProperties;
 }
 
 /** Metadata schema entity. Used to define metadata for the entities in API catalog. */
@@ -603,6 +623,20 @@ export interface ApiDefinition extends ProxyResource {
 export interface Environment extends ProxyResource {
   /** The resource-specific properties for this resource. */
   properties?: EnvironmentProperties;
+}
+
+/** The service entity. */
+export interface Service extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: ServiceProperties;
+  /** The managed service identities assigned to this resource. */
+  identity?: ManagedServiceIdentity;
+}
+
+/** Defines headers for DeletedServices_get operation. */
+export interface DeletedServicesGetHeaders {
+  /** The entity tag for the response. */
+  eTag?: string;
 }
 
 /** Defines headers for Services_exportMetadataSchema operation. */
@@ -749,6 +783,30 @@ export enum KnownActionType {
  */
 export type ActionType = string;
 
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  /** User */
+  User = "User",
+  /** Application */
+  Application = "Application",
+  /** ManagedIdentity */
+  ManagedIdentity = "ManagedIdentity",
+  /** Key */
+  Key = "Key",
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
+
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
   /** Resource has been created. */
@@ -793,30 +851,6 @@ export enum KnownManagedServiceIdentityType {
  * **SystemAssigned,UserAssigned**
  */
 export type ManagedServiceIdentityType = string;
-
-/** Known values of {@link CreatedByType} that the service accepts. */
-export enum KnownCreatedByType {
-  /** User */
-  User = "User",
-  /** Application */
-  Application = "Application",
-  /** ManagedIdentity */
-  ManagedIdentity = "ManagedIdentity",
-  /** Key */
-  Key = "Key",
-}
-
-/**
- * Defines values for CreatedByType. \
- * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **User** \
- * **Application** \
- * **ManagedIdentity** \
- * **Key**
- */
-export type CreatedByType = string;
 
 /** Known values of {@link MetadataAssignmentEntity} that the service accepts. */
 export enum KnownMetadataAssignmentEntity {
@@ -1039,6 +1073,8 @@ export type EnvironmentServerType = string;
 export enum KnownVersions {
   /** The initial service version */
   V20240301 = "2024-03-01",
+  /** Azure API Center 2024-03-15-preview */
+  V20240315Preview = "2024-03-15-preview",
 }
 
 /**
@@ -1046,7 +1082,8 @@ export enum KnownVersions {
  * {@link KnownVersions} can be used interchangeably with Versions,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **2024-03-01**: The initial service version
+ * **2024-03-01**: The initial service version \
+ * **2024-03-15-preview**: Azure API Center 2024-03-15-preview
  */
 export type Versions = string;
 
@@ -1063,6 +1100,51 @@ export interface OperationsListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type OperationsListNextResponse = OperationListResult;
+
+/** Optional parameters. */
+export interface DeletedServicesListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscription operation. */
+export type DeletedServicesListBySubscriptionResponse =
+  DeletedServiceListResult;
+
+/** Optional parameters. */
+export interface DeletedServicesListOptionalParams
+  extends coreClient.OperationOptions {
+  /** OData filter parameter. */
+  filter?: string;
+}
+
+/** Contains response data for the list operation. */
+export type DeletedServicesListResponse = DeletedServiceListResult;
+
+/** Optional parameters. */
+export interface DeletedServicesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type DeletedServicesGetResponse = DeletedServicesGetHeaders &
+  DeletedService;
+
+/** Optional parameters. */
+export interface DeletedServicesDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface DeletedServicesListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type DeletedServicesListBySubscriptionNextResponse =
+  DeletedServiceListResult;
+
+/** Optional parameters. */
+export interface DeletedServicesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type DeletedServicesListNextResponse = DeletedServiceListResult;
 
 /** Optional parameters. */
 export interface ServicesListBySubscriptionOptionalParams
