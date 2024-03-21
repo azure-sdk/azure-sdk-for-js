@@ -16,7 +16,7 @@ import { AppPlatformManagementClient } from "../appPlatformManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -28,7 +28,7 @@ import {
   BuildServiceAgentPoolGetResponse,
   BuildServiceAgentPoolUpdatePutOptionalParams,
   BuildServiceAgentPoolUpdatePutResponse,
-  BuildServiceAgentPoolListNextResponse
+  BuildServiceAgentPoolListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -56,13 +56,13 @@ export class BuildServiceAgentPoolImpl implements BuildServiceAgentPool {
     resourceGroupName: string,
     serviceName: string,
     buildServiceName: string,
-    options?: BuildServiceAgentPoolListOptionalParams
+    options?: BuildServiceAgentPoolListOptionalParams,
   ): PagedAsyncIterableIterator<BuildServiceAgentPoolResource> {
     const iter = this.listPagingAll(
       resourceGroupName,
       serviceName,
       buildServiceName,
-      options
+      options,
     );
     return {
       next() {
@@ -80,9 +80,9 @@ export class BuildServiceAgentPoolImpl implements BuildServiceAgentPool {
           serviceName,
           buildServiceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -91,7 +91,7 @@ export class BuildServiceAgentPoolImpl implements BuildServiceAgentPool {
     serviceName: string,
     buildServiceName: string,
     options?: BuildServiceAgentPoolListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<BuildServiceAgentPoolResource[]> {
     let result: BuildServiceAgentPoolListResponse;
     let continuationToken = settings?.continuationToken;
@@ -100,7 +100,7 @@ export class BuildServiceAgentPoolImpl implements BuildServiceAgentPool {
         resourceGroupName,
         serviceName,
         buildServiceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -113,7 +113,7 @@ export class BuildServiceAgentPoolImpl implements BuildServiceAgentPool {
         serviceName,
         buildServiceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -126,13 +126,13 @@ export class BuildServiceAgentPoolImpl implements BuildServiceAgentPool {
     resourceGroupName: string,
     serviceName: string,
     buildServiceName: string,
-    options?: BuildServiceAgentPoolListOptionalParams
+    options?: BuildServiceAgentPoolListOptionalParams,
   ): AsyncIterableIterator<BuildServiceAgentPoolResource> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       serviceName,
       buildServiceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -150,11 +150,11 @@ export class BuildServiceAgentPoolImpl implements BuildServiceAgentPool {
     resourceGroupName: string,
     serviceName: string,
     buildServiceName: string,
-    options?: BuildServiceAgentPoolListOptionalParams
+    options?: BuildServiceAgentPoolListOptionalParams,
   ): Promise<BuildServiceAgentPoolListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, buildServiceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -172,7 +172,7 @@ export class BuildServiceAgentPoolImpl implements BuildServiceAgentPool {
     serviceName: string,
     buildServiceName: string,
     agentPoolName: string,
-    options?: BuildServiceAgentPoolGetOptionalParams
+    options?: BuildServiceAgentPoolGetOptionalParams,
   ): Promise<BuildServiceAgentPoolGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -180,9 +180,9 @@ export class BuildServiceAgentPoolImpl implements BuildServiceAgentPool {
         serviceName,
         buildServiceName,
         agentPoolName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -202,7 +202,7 @@ export class BuildServiceAgentPoolImpl implements BuildServiceAgentPool {
     buildServiceName: string,
     agentPoolName: string,
     agentPoolResource: BuildServiceAgentPoolResource,
-    options?: BuildServiceAgentPoolUpdatePutOptionalParams
+    options?: BuildServiceAgentPoolUpdatePutOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BuildServiceAgentPoolUpdatePutResponse>,
@@ -211,21 +211,20 @@ export class BuildServiceAgentPoolImpl implements BuildServiceAgentPool {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<BuildServiceAgentPoolUpdatePutResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -234,8 +233,8 @@ export class BuildServiceAgentPoolImpl implements BuildServiceAgentPool {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -243,8 +242,8 @@ export class BuildServiceAgentPoolImpl implements BuildServiceAgentPool {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -256,16 +255,16 @@ export class BuildServiceAgentPoolImpl implements BuildServiceAgentPool {
         buildServiceName,
         agentPoolName,
         agentPoolResource,
-        options
+        options,
       },
-      spec: updatePutOperationSpec
+      spec: updatePutOperationSpec,
     });
     const poller = await createHttpPoller<
       BuildServiceAgentPoolUpdatePutResponse,
       OperationState<BuildServiceAgentPoolUpdatePutResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -287,7 +286,7 @@ export class BuildServiceAgentPoolImpl implements BuildServiceAgentPool {
     buildServiceName: string,
     agentPoolName: string,
     agentPoolResource: BuildServiceAgentPoolResource,
-    options?: BuildServiceAgentPoolUpdatePutOptionalParams
+    options?: BuildServiceAgentPoolUpdatePutOptionalParams,
   ): Promise<BuildServiceAgentPoolUpdatePutResponse> {
     const poller = await this.beginUpdatePut(
       resourceGroupName,
@@ -295,7 +294,7 @@ export class BuildServiceAgentPoolImpl implements BuildServiceAgentPool {
       buildServiceName,
       agentPoolName,
       agentPoolResource,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -314,11 +313,11 @@ export class BuildServiceAgentPoolImpl implements BuildServiceAgentPool {
     serviceName: string,
     buildServiceName: string,
     nextLink: string,
-    options?: BuildServiceAgentPoolListNextOptionalParams
+    options?: BuildServiceAgentPoolListNextOptionalParams,
   ): Promise<BuildServiceAgentPoolListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, buildServiceName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -326,39 +325,15 @@ export class BuildServiceAgentPoolImpl implements BuildServiceAgentPool {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}/agentPools",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}/agentPools",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BuildServiceAgentPoolResourceCollection
+      bodyMapper: Mappers.BuildServiceAgentPoolResourceCollection,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.buildServiceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}/agentPools/{agentPoolName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.BuildServiceAgentPoolResource
+      bodyMapper: Mappers.CloudError,
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -367,31 +342,52 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.buildServiceName,
-    Parameters.agentPoolName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}/agentPools/{agentPoolName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.BuildServiceAgentPoolResource,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+    Parameters.buildServiceName,
+    Parameters.agentPoolName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const updatePutOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}/agentPools/{agentPoolName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}/agentPools/{agentPoolName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.BuildServiceAgentPoolResource
+      bodyMapper: Mappers.BuildServiceAgentPoolResource,
     },
     201: {
-      bodyMapper: Mappers.BuildServiceAgentPoolResource
+      bodyMapper: Mappers.BuildServiceAgentPoolResource,
     },
     202: {
-      bodyMapper: Mappers.BuildServiceAgentPoolResource
+      bodyMapper: Mappers.BuildServiceAgentPoolResource,
     },
     204: {
-      bodyMapper: Mappers.BuildServiceAgentPoolResource
+      bodyMapper: Mappers.BuildServiceAgentPoolResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.agentPoolResource,
   queryParameters: [Parameters.apiVersion],
@@ -401,22 +397,22 @@ const updatePutOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.buildServiceName,
-    Parameters.agentPoolName
+    Parameters.agentPoolName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BuildServiceAgentPoolResourceCollection
+      bodyMapper: Mappers.BuildServiceAgentPoolResourceCollection,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -424,8 +420,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.nextLink,
-    Parameters.buildServiceName
+    Parameters.buildServiceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
