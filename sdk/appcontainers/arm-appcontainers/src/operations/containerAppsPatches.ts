@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { DotNetComponents } from "../operationsInterfaces";
+import { ContainerAppsPatches } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,28 +20,29 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  DotNetComponent,
-  DotNetComponentsListNextOptionalParams,
-  DotNetComponentsListOptionalParams,
-  DotNetComponentsListResponse,
-  DotNetComponentsGetOptionalParams,
-  DotNetComponentsGetResponse,
-  DotNetComponentsCreateOrUpdateOptionalParams,
-  DotNetComponentsCreateOrUpdateResponse,
-  DotNetComponentsUpdateOptionalParams,
-  DotNetComponentsUpdateResponse,
-  DotNetComponentsDeleteOptionalParams,
-  DotNetComponentsDeleteResponse,
-  DotNetComponentsListNextResponse,
+  ContainerAppsPatchResource,
+  ContainerAppsPatchesListByContainerAppNextOptionalParams,
+  ContainerAppsPatchesListByContainerAppOptionalParams,
+  ContainerAppsPatchesListByContainerAppResponse,
+  ContainerAppsPatchesGetOptionalParams,
+  ContainerAppsPatchesGetResponse,
+  ContainerAppsPatchesDeleteOptionalParams,
+  ContainerAppsPatchesDeleteResponse,
+  PatchSkipConfig,
+  ContainerAppsPatchesSkipConfigureOptionalParams,
+  ContainerAppsPatchesSkipConfigureResponse,
+  ContainerAppsPatchesApplyOptionalParams,
+  ContainerAppsPatchesApplyResponse,
+  ContainerAppsPatchesListByContainerAppNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing DotNetComponents operations. */
-export class DotNetComponentsImpl implements DotNetComponents {
+/** Class containing ContainerAppsPatches operations. */
+export class ContainerAppsPatchesImpl implements ContainerAppsPatches {
   private readonly client: ContainerAppsAPIClient;
 
   /**
-   * Initialize a new instance of the class DotNetComponents class.
+   * Initialize a new instance of the class ContainerAppsPatches class.
    * @param client Reference to the service client
    */
   constructor(client: ContainerAppsAPIClient) {
@@ -49,21 +50,15 @@ export class DotNetComponentsImpl implements DotNetComponents {
   }
 
   /**
-   * Get the .NET Components for a managed environment.
+   * List Container Apps Patch resources by ContainerApp.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param environmentName Name of the Managed Environment.
    * @param options The options parameters.
    */
-  public list(
+  public listByContainerApp(
     resourceGroupName: string,
-    environmentName: string,
-    options?: DotNetComponentsListOptionalParams,
-  ): PagedAsyncIterableIterator<DotNetComponent> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      environmentName,
-      options,
-    );
+    options?: ContainerAppsPatchesListByContainerAppOptionalParams,
+  ): PagedAsyncIterableIterator<ContainerAppsPatchResource> {
+    const iter = this.listByContainerAppPagingAll(resourceGroupName, options);
     return {
       next() {
         return iter.next();
@@ -75,9 +70,8 @@ export class DotNetComponentsImpl implements DotNetComponents {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
+        return this.listByContainerAppPagingPage(
           resourceGroupName,
-          environmentName,
           options,
           settings,
         );
@@ -85,25 +79,23 @@ export class DotNetComponentsImpl implements DotNetComponents {
     };
   }
 
-  private async *listPagingPage(
+  private async *listByContainerAppPagingPage(
     resourceGroupName: string,
-    environmentName: string,
-    options?: DotNetComponentsListOptionalParams,
+    options?: ContainerAppsPatchesListByContainerAppOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<DotNetComponent[]> {
-    let result: DotNetComponentsListResponse;
+  ): AsyncIterableIterator<ContainerAppsPatchResource[]> {
+    let result: ContainerAppsPatchesListByContainerAppResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(resourceGroupName, environmentName, options);
+      result = await this._listByContainerApp(resourceGroupName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
+      result = await this._listByContainerAppNext(
         resourceGroupName,
-        environmentName,
         continuationToken,
         options,
       );
@@ -114,14 +106,12 @@ export class DotNetComponentsImpl implements DotNetComponents {
     }
   }
 
-  private async *listPagingAll(
+  private async *listByContainerAppPagingAll(
     resourceGroupName: string,
-    environmentName: string,
-    options?: DotNetComponentsListOptionalParams,
-  ): AsyncIterableIterator<DotNetComponent> {
-    for await (const page of this.listPagingPage(
+    options?: ContainerAppsPatchesListByContainerAppOptionalParams,
+  ): AsyncIterableIterator<ContainerAppsPatchResource> {
+    for await (const page of this.listByContainerAppPagingPage(
       resourceGroupName,
-      environmentName,
       options,
     )) {
       yield* page;
@@ -129,274 +119,57 @@ export class DotNetComponentsImpl implements DotNetComponents {
   }
 
   /**
-   * Get the .NET Components for a managed environment.
+   * List Container Apps Patch resources by ContainerApp.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param environmentName Name of the Managed Environment.
    * @param options The options parameters.
    */
-  private _list(
+  private _listByContainerApp(
     resourceGroupName: string,
-    environmentName: string,
-    options?: DotNetComponentsListOptionalParams,
-  ): Promise<DotNetComponentsListResponse> {
+    options?: ContainerAppsPatchesListByContainerAppOptionalParams,
+  ): Promise<ContainerAppsPatchesListByContainerAppResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, environmentName, options },
-      listOperationSpec,
+      { resourceGroupName, options },
+      listByContainerAppOperationSpec,
     );
   }
 
   /**
-   * Get a .NET Component.
+   * Get details for specific Container Apps Patch by patch name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param environmentName Name of the Managed Environment.
-   * @param name Name of the .NET Component.
+   * @param patchName The name of the patch
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    environmentName: string,
-    name: string,
-    options?: DotNetComponentsGetOptionalParams,
-  ): Promise<DotNetComponentsGetResponse> {
+    patchName: string,
+    options?: ContainerAppsPatchesGetOptionalParams,
+  ): Promise<ContainerAppsPatchesGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, environmentName, name, options },
+      { resourceGroupName, patchName, options },
       getOperationSpec,
     );
   }
 
   /**
-   * Creates or updates a .NET Component in a Managed Environment.
+   * Delete specific Container Apps Patch by patch name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param environmentName Name of the Managed Environment.
-   * @param name Name of the .NET Component.
-   * @param dotNetComponentEnvelope Configuration details of the .NET Component.
-   * @param options The options parameters.
-   */
-  async beginCreateOrUpdate(
-    resourceGroupName: string,
-    environmentName: string,
-    name: string,
-    dotNetComponentEnvelope: DotNetComponent,
-    options?: DotNetComponentsCreateOrUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<DotNetComponentsCreateOrUpdateResponse>,
-      DotNetComponentsCreateOrUpdateResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<DotNetComponentsCreateOrUpdateResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
-        resourceGroupName,
-        environmentName,
-        name,
-        dotNetComponentEnvelope,
-        options,
-      },
-      spec: createOrUpdateOperationSpec,
-    });
-    const poller = await createHttpPoller<
-      DotNetComponentsCreateOrUpdateResponse,
-      OperationState<DotNetComponentsCreateOrUpdateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation",
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Creates or updates a .NET Component in a Managed Environment.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param environmentName Name of the Managed Environment.
-   * @param name Name of the .NET Component.
-   * @param dotNetComponentEnvelope Configuration details of the .NET Component.
-   * @param options The options parameters.
-   */
-  async beginCreateOrUpdateAndWait(
-    resourceGroupName: string,
-    environmentName: string,
-    name: string,
-    dotNetComponentEnvelope: DotNetComponent,
-    options?: DotNetComponentsCreateOrUpdateOptionalParams,
-  ): Promise<DotNetComponentsCreateOrUpdateResponse> {
-    const poller = await this.beginCreateOrUpdate(
-      resourceGroupName,
-      environmentName,
-      name,
-      dotNetComponentEnvelope,
-      options,
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Patches a .NET Component using JSON Merge Patch
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param environmentName Name of the Managed Environment.
-   * @param name Name of the .NET Component.
-   * @param dotNetComponentEnvelope Configuration details of the .NET Component.
-   * @param options The options parameters.
-   */
-  async beginUpdate(
-    resourceGroupName: string,
-    environmentName: string,
-    name: string,
-    dotNetComponentEnvelope: DotNetComponent,
-    options?: DotNetComponentsUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<DotNetComponentsUpdateResponse>,
-      DotNetComponentsUpdateResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<DotNetComponentsUpdateResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
-        resourceGroupName,
-        environmentName,
-        name,
-        dotNetComponentEnvelope,
-        options,
-      },
-      spec: updateOperationSpec,
-    });
-    const poller = await createHttpPoller<
-      DotNetComponentsUpdateResponse,
-      OperationState<DotNetComponentsUpdateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Patches a .NET Component using JSON Merge Patch
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param environmentName Name of the Managed Environment.
-   * @param name Name of the .NET Component.
-   * @param dotNetComponentEnvelope Configuration details of the .NET Component.
-   * @param options The options parameters.
-   */
-  async beginUpdateAndWait(
-    resourceGroupName: string,
-    environmentName: string,
-    name: string,
-    dotNetComponentEnvelope: DotNetComponent,
-    options?: DotNetComponentsUpdateOptionalParams,
-  ): Promise<DotNetComponentsUpdateResponse> {
-    const poller = await this.beginUpdate(
-      resourceGroupName,
-      environmentName,
-      name,
-      dotNetComponentEnvelope,
-      options,
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Delete a .NET Component.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param environmentName Name of the Managed Environment.
-   * @param name Name of the .NET Component.
+   * @param patchName The name of the patch
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
-    environmentName: string,
-    name: string,
-    options?: DotNetComponentsDeleteOptionalParams,
+    patchName: string,
+    options?: ContainerAppsPatchesDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<DotNetComponentsDeleteResponse>,
-      DotNetComponentsDeleteResponse
+      OperationState<ContainerAppsPatchesDeleteResponse>,
+      ContainerAppsPatchesDeleteResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<DotNetComponentsDeleteResponse> => {
+    ): Promise<ContainerAppsPatchesDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -433,12 +206,12 @@ export class DotNetComponentsImpl implements DotNetComponents {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, environmentName, name, options },
+      args: { resourceGroupName, patchName, options },
       spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
-      DotNetComponentsDeleteResponse,
-      OperationState<DotNetComponentsDeleteResponse>
+      ContainerAppsPatchesDeleteResponse,
+      OperationState<ContainerAppsPatchesDeleteResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -449,76 +222,252 @@ export class DotNetComponentsImpl implements DotNetComponents {
   }
 
   /**
-   * Delete a .NET Component.
+   * Delete specific Container Apps Patch by patch name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param environmentName Name of the Managed Environment.
-   * @param name Name of the .NET Component.
+   * @param patchName The name of the patch
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
-    environmentName: string,
-    name: string,
-    options?: DotNetComponentsDeleteOptionalParams,
-  ): Promise<DotNetComponentsDeleteResponse> {
+    patchName: string,
+    options?: ContainerAppsPatchesDeleteOptionalParams,
+  ): Promise<ContainerAppsPatchesDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
-      environmentName,
-      name,
+      patchName,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * ListNext
+   * Configure the Container Apps Patch skip option by patch name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param environmentName Name of the Managed Environment.
-   * @param nextLink The nextLink from the previous successful call to the List method.
+   * @param patchName The name of the patch
+   * @param patchSkipConfig Configure patcher to skip a patch or not.
    * @param options The options parameters.
    */
-  private _listNext(
+  async beginSkipConfigure(
     resourceGroupName: string,
-    environmentName: string,
+    patchName: string,
+    patchSkipConfig: PatchSkipConfig,
+    options?: ContainerAppsPatchesSkipConfigureOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ContainerAppsPatchesSkipConfigureResponse>,
+      ContainerAppsPatchesSkipConfigureResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<ContainerAppsPatchesSkipConfigureResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, patchName, patchSkipConfig, options },
+      spec: skipConfigureOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ContainerAppsPatchesSkipConfigureResponse,
+      OperationState<ContainerAppsPatchesSkipConfigureResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Configure the Container Apps Patch skip option by patch name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param patchName The name of the patch
+   * @param patchSkipConfig Configure patcher to skip a patch or not.
+   * @param options The options parameters.
+   */
+  async beginSkipConfigureAndWait(
+    resourceGroupName: string,
+    patchName: string,
+    patchSkipConfig: PatchSkipConfig,
+    options?: ContainerAppsPatchesSkipConfigureOptionalParams,
+  ): Promise<ContainerAppsPatchesSkipConfigureResponse> {
+    const poller = await this.beginSkipConfigure(
+      resourceGroupName,
+      patchName,
+      patchSkipConfig,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Apply a Container Apps Patch resource with patch name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param patchName The name of the patch
+   * @param options The options parameters.
+   */
+  async beginApply(
+    resourceGroupName: string,
+    patchName: string,
+    options?: ContainerAppsPatchesApplyOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ContainerAppsPatchesApplyResponse>,
+      ContainerAppsPatchesApplyResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<ContainerAppsPatchesApplyResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, patchName, options },
+      spec: applyOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ContainerAppsPatchesApplyResponse,
+      OperationState<ContainerAppsPatchesApplyResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Apply a Container Apps Patch resource with patch name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param patchName The name of the patch
+   * @param options The options parameters.
+   */
+  async beginApplyAndWait(
+    resourceGroupName: string,
+    patchName: string,
+    options?: ContainerAppsPatchesApplyOptionalParams,
+  ): Promise<ContainerAppsPatchesApplyResponse> {
+    const poller = await this.beginApply(resourceGroupName, patchName, options);
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * ListByContainerAppNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param nextLink The nextLink from the previous successful call to the ListByContainerApp method.
+   * @param options The options parameters.
+   */
+  private _listByContainerAppNext(
+    resourceGroupName: string,
     nextLink: string,
-    options?: DotNetComponentsListNextOptionalParams,
-  ): Promise<DotNetComponentsListNextResponse> {
+    options?: ContainerAppsPatchesListByContainerAppNextOptionalParams,
+  ): Promise<ContainerAppsPatchesListByContainerAppNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, environmentName, nextLink, options },
-      listNextOperationSpec,
+      { resourceGroupName, nextLink, options },
+      listByContainerAppNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/dotNetComponents",
+const listByContainerAppOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/patches",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DotNetComponentsCollection,
+      bodyMapper: Mappers.PatchCollection,
     },
     default: {
       bodyMapper: Mappers.ErrorResponseAutoGenerated,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.environmentName1,
+    Parameters.containerAppName2,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/dotNetComponents/{name}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/patches/{patchName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DotNetComponent,
+      bodyMapper: Mappers.ContainerAppsPatchResource,
     },
     default: {
       bodyMapper: Mappers.ErrorResponseAutoGenerated,
@@ -529,93 +478,27 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.environmentName1,
+    Parameters.containerAppName2,
+    Parameters.patchName,
   ],
   headerParameters: [Parameters.accept],
-  serializer,
-};
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/dotNetComponents/{name}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DotNetComponent,
-    },
-    201: {
-      bodyMapper: Mappers.DotNetComponent,
-    },
-    202: {
-      bodyMapper: Mappers.DotNetComponent,
-    },
-    204: {
-      bodyMapper: Mappers.DotNetComponent,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated,
-    },
-  },
-  requestBody: Parameters.dotNetComponentEnvelope,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.environmentName1,
-  ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer,
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/dotNetComponents/{name}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DotNetComponent,
-    },
-    201: {
-      bodyMapper: Mappers.DotNetComponent,
-    },
-    202: {
-      bodyMapper: Mappers.DotNetComponent,
-    },
-    204: {
-      bodyMapper: Mappers.DotNetComponent,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated,
-    },
-  },
-  requestBody: Parameters.dotNetComponentEnvelope,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.environmentName1,
-  ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/dotNetComponents/{name}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/patches/{patchName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.DotNetComponentsDeleteHeaders,
+      headersMapper: Mappers.ContainerAppsPatchesDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.DotNetComponentsDeleteHeaders,
+      headersMapper: Mappers.ContainerAppsPatchesDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.DotNetComponentsDeleteHeaders,
+      headersMapper: Mappers.ContainerAppsPatchesDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.DotNetComponentsDeleteHeaders,
+      headersMapper: Mappers.ContainerAppsPatchesDeleteHeaders,
     },
     default: {
       bodyMapper: Mappers.ErrorResponseAutoGenerated,
@@ -626,18 +509,82 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.environmentName1,
+    Parameters.containerAppName2,
+    Parameters.patchName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listNextOperationSpec: coreClient.OperationSpec = {
+const skipConfigureOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/patches/{patchName}/skipConfig",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper: Mappers.ContainerAppsPatchesSkipConfigureHeaders,
+    },
+    201: {
+      headersMapper: Mappers.ContainerAppsPatchesSkipConfigureHeaders,
+    },
+    202: {
+      headersMapper: Mappers.ContainerAppsPatchesSkipConfigureHeaders,
+    },
+    204: {
+      headersMapper: Mappers.ContainerAppsPatchesSkipConfigureHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponseAutoGenerated,
+    },
+  },
+  requestBody: Parameters.patchSkipConfig,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.containerAppName2,
+    Parameters.patchName,
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer,
+};
+const applyOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/patches/{patchName}/apply",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ContainerAppsPatchResource,
+    },
+    201: {
+      bodyMapper: Mappers.ContainerAppsPatchResource,
+    },
+    202: {
+      bodyMapper: Mappers.ContainerAppsPatchResource,
+    },
+    204: {
+      bodyMapper: Mappers.ContainerAppsPatchResource,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponseAutoGenerated,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.containerAppName2,
+    Parameters.patchName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listByContainerAppNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DotNetComponentsCollection,
+      bodyMapper: Mappers.PatchCollection,
     },
     default: {
       bodyMapper: Mappers.ErrorResponseAutoGenerated,
@@ -648,7 +595,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.environmentName1,
+    Parameters.containerAppName2,
   ],
   headerParameters: [Parameters.accept],
   serializer,

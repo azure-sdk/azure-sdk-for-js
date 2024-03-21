@@ -8,26 +8,28 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { BuildsByBuilderResource } from "../operationsInterfaces";
+import { ContainerAppsBuildsByContainerApp } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ContainerAppsAPIClient } from "../containerAppsAPIClient";
 import {
-  BuildResource,
-  BuildsByBuilderResourceListNextOptionalParams,
-  BuildsByBuilderResourceListOptionalParams,
-  BuildsByBuilderResourceListResponse,
-  BuildsByBuilderResourceListNextResponse,
+  ContainerAppsBuildResource,
+  ContainerAppsBuildsByContainerAppListNextOptionalParams,
+  ContainerAppsBuildsByContainerAppListOptionalParams,
+  ContainerAppsBuildsByContainerAppListResponse,
+  ContainerAppsBuildsByContainerAppListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing BuildsByBuilderResource operations. */
-export class BuildsByBuilderResourceImpl implements BuildsByBuilderResource {
+/** Class containing ContainerAppsBuildsByContainerApp operations. */
+export class ContainerAppsBuildsByContainerAppImpl
+  implements ContainerAppsBuildsByContainerApp
+{
   private readonly client: ContainerAppsAPIClient;
 
   /**
-   * Initialize a new instance of the class BuildsByBuilderResource class.
+   * Initialize a new instance of the class ContainerAppsBuildsByContainerApp class.
    * @param client Reference to the service client
    */
   constructor(client: ContainerAppsAPIClient) {
@@ -35,17 +37,15 @@ export class BuildsByBuilderResourceImpl implements BuildsByBuilderResource {
   }
 
   /**
-   * List BuildResource resources by BuilderResource
+   * List Container Apps Build resources by Container App
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param builderName The name of the builder.
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
-    builderName: string,
-    options?: BuildsByBuilderResourceListOptionalParams,
-  ): PagedAsyncIterableIterator<BuildResource> {
-    const iter = this.listPagingAll(resourceGroupName, builderName, options);
+    options?: ContainerAppsBuildsByContainerAppListOptionalParams,
+  ): PagedAsyncIterableIterator<ContainerAppsBuildResource> {
+    const iter = this.listPagingAll(resourceGroupName, options);
     return {
       next() {
         return iter.next();
@@ -57,26 +57,20 @@ export class BuildsByBuilderResourceImpl implements BuildsByBuilderResource {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          builderName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, options, settings);
       },
     };
   }
 
   private async *listPagingPage(
     resourceGroupName: string,
-    builderName: string,
-    options?: BuildsByBuilderResourceListOptionalParams,
+    options?: ContainerAppsBuildsByContainerAppListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<BuildResource[]> {
-    let result: BuildsByBuilderResourceListResponse;
+  ): AsyncIterableIterator<ContainerAppsBuildResource[]> {
+    let result: ContainerAppsBuildsByContainerAppListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(resourceGroupName, builderName, options);
+      result = await this._list(resourceGroupName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -85,7 +79,6 @@ export class BuildsByBuilderResourceImpl implements BuildsByBuilderResource {
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
-        builderName,
         continuationToken,
         options,
       );
@@ -98,31 +91,24 @@ export class BuildsByBuilderResourceImpl implements BuildsByBuilderResource {
 
   private async *listPagingAll(
     resourceGroupName: string,
-    builderName: string,
-    options?: BuildsByBuilderResourceListOptionalParams,
-  ): AsyncIterableIterator<BuildResource> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      builderName,
-      options,
-    )) {
+    options?: ContainerAppsBuildsByContainerAppListOptionalParams,
+  ): AsyncIterableIterator<ContainerAppsBuildResource> {
+    for await (const page of this.listPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
 
   /**
-   * List BuildResource resources by BuilderResource
+   * List Container Apps Build resources by Container App
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param builderName The name of the builder.
    * @param options The options parameters.
    */
   private _list(
     resourceGroupName: string,
-    builderName: string,
-    options?: BuildsByBuilderResourceListOptionalParams,
-  ): Promise<BuildsByBuilderResourceListResponse> {
+    options?: ContainerAppsBuildsByContainerAppListOptionalParams,
+  ): Promise<ContainerAppsBuildsByContainerAppListResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, builderName, options },
+      { resourceGroupName, options },
       listOperationSpec,
     );
   }
@@ -130,18 +116,16 @@ export class BuildsByBuilderResourceImpl implements BuildsByBuilderResource {
   /**
    * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param builderName The name of the builder.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
     resourceGroupName: string,
-    builderName: string,
     nextLink: string,
-    options?: BuildsByBuilderResourceListNextOptionalParams,
-  ): Promise<BuildsByBuilderResourceListNextResponse> {
+    options?: ContainerAppsBuildsByContainerAppListNextOptionalParams,
+  ): Promise<ContainerAppsBuildsByContainerAppListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, builderName, nextLink, options },
+      { resourceGroupName, nextLink, options },
       listNextOperationSpec,
     );
   }
@@ -150,11 +134,11 @@ export class BuildsByBuilderResourceImpl implements BuildsByBuilderResource {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/builders/{builderName}/builds",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/builds",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BuildCollection,
+      bodyMapper: Mappers.ContainerAppsBuildCollection,
     },
     default: {
       bodyMapper: Mappers.ErrorResponseAutoGenerated,
@@ -165,7 +149,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.builderName,
+    Parameters.containerAppName2,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -175,7 +159,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BuildCollection,
+      bodyMapper: Mappers.ContainerAppsBuildCollection,
     },
     default: {
       bodyMapper: Mappers.ErrorResponseAutoGenerated,
@@ -186,7 +170,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.builderName,
+    Parameters.containerAppName2,
   ],
   headerParameters: [Parameters.accept],
   serializer,
