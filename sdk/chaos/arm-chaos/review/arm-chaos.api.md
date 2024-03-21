@@ -11,6 +11,12 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
+export interface Action {
+    name: string;
+    type: "delay" | "discrete" | "continuous";
+}
+
+// @public
 export interface ActionStatus {
     readonly actionId?: string;
     readonly actionName?: string;
@@ -22,6 +28,15 @@ export interface ActionStatus {
 
 // @public
 export type ActionType = string;
+
+// @public (undocumented)
+export type ActionUnion = Action | DelayAction | DiscreteAction | ContinuousAction;
+
+// @public
+export interface Branch {
+    actions: ActionUnion[];
+    name: string;
+}
 
 // @public
 export interface BranchStatus {
@@ -143,27 +158,6 @@ export interface CapabilityTypesListOptionalParams extends coreClient.OperationO
 // @public
 export type CapabilityTypesListResponse = CapabilityTypeListResult;
 
-// @public
-export interface ChaosExperimentAction {
-    name: string;
-    type: "delay" | "discrete" | "continuous";
-}
-
-// @public (undocumented)
-export type ChaosExperimentActionUnion = ChaosExperimentAction | DelayAction | DiscreteAction | ContinuousAction;
-
-// @public
-export interface ChaosExperimentBranch {
-    actions: ChaosExperimentActionUnion[];
-    name: string;
-}
-
-// @public
-export interface ChaosExperimentStep {
-    branches: ChaosExperimentBranch[];
-    name: string;
-}
-
 // @public (undocumented)
 export class ChaosManagementClient extends coreClient.ServiceClient {
     // (undocumented)
@@ -183,6 +177,8 @@ export class ChaosManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     operationStatuses: OperationStatuses;
     // (undocumented)
+    privateAccesses: PrivateAccesses;
+    // (undocumented)
     subscriptionId?: string;
     // (undocumented)
     targets: Targets;
@@ -198,50 +194,7 @@ export interface ChaosManagementClientOptionalParams extends coreClient.ServiceC
 }
 
 // @public
-export interface ChaosTargetFilter {
-    type: "Simple";
-}
-
-// @public (undocumented)
-export type ChaosTargetFilterUnion = ChaosTargetFilter | ChaosTargetSimpleFilter;
-
-// @public
-export interface ChaosTargetListSelector extends ChaosTargetSelector {
-    targets: TargetReference[];
-    type: "List";
-}
-
-// @public
-export interface ChaosTargetQuerySelector extends ChaosTargetSelector {
-    queryString: string;
-    subscriptionIds: string[];
-    type: "Query";
-}
-
-// @public
-export interface ChaosTargetSelector {
-    [property: string]: any;
-    filter?: ChaosTargetFilterUnion;
-    id: string;
-    type: "List" | "Query";
-}
-
-// @public (undocumented)
-export type ChaosTargetSelectorUnion = ChaosTargetSelector | ChaosTargetListSelector | ChaosTargetQuerySelector;
-
-// @public
-export interface ChaosTargetSimpleFilter extends ChaosTargetFilter {
-    parameters?: ChaosTargetSimpleFilterParameters;
-    type: "Simple";
-}
-
-// @public
-export interface ChaosTargetSimpleFilterParameters {
-    zones?: string[];
-}
-
-// @public
-export interface ContinuousAction extends ChaosExperimentAction {
+export interface ContinuousAction extends Action {
     duration: string;
     parameters: KeyValuePair[];
     selectorId: string;
@@ -252,13 +205,19 @@ export interface ContinuousAction extends ChaosExperimentAction {
 export type CreatedByType = string;
 
 // @public
-export interface DelayAction extends ChaosExperimentAction {
+export interface CustomerDataStorageProperties {
+    blobContainerName?: string;
+    storageAccountResourceId?: string;
+}
+
+// @public
+export interface DelayAction extends Action {
     duration: string;
     type: "delay";
 }
 
 // @public
-export interface DiscreteAction extends ChaosExperimentAction {
+export interface DiscreteAction extends Action {
     parameters: KeyValuePair[];
     selectorId: string;
     type: "discrete";
@@ -286,10 +245,11 @@ export interface ErrorResponse {
 
 // @public
 export interface Experiment extends TrackedResource {
+    customerDataStorage?: CustomerDataStorageProperties;
     identity?: ResourceIdentity;
     readonly provisioningState?: ProvisioningState;
-    selectors: ChaosTargetSelectorUnion[];
-    steps: ChaosExperimentStep[];
+    selectors: SelectorUnion[];
+    steps: Step[];
     readonly systemData?: SystemData;
 }
 
@@ -494,7 +454,15 @@ export interface ExperimentUpdate {
 }
 
 // @public
+export interface Filter {
+    type: "Simple";
+}
+
+// @public
 export type FilterType = string;
+
+// @public (undocumented)
+export type FilterUnion = Filter | SimpleFilter;
 
 // @public
 export function getContinuationToken(page: unknown): string | undefined;
@@ -531,6 +499,21 @@ export enum KnownOrigin {
 }
 
 // @public
+export enum KnownPrivateEndpointConnectionProvisioningState {
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownPrivateEndpointServiceConnectionStatus {
+    Approved = "Approved",
+    Pending = "Pending",
+    Rejected = "Rejected"
+}
+
+// @public
 export enum KnownProvisioningState {
     Canceled = "Canceled",
     Creating = "Creating",
@@ -538,6 +521,12 @@ export enum KnownProvisioningState {
     Failed = "Failed",
     Succeeded = "Succeeded",
     Updating = "Updating"
+}
+
+// @public
+export enum KnownPublicNetworkAccessOption {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
 }
 
 // @public
@@ -549,6 +538,12 @@ export enum KnownSelectorType {
 // @public
 export enum KnownTargetReferenceType {
     ChaosTarget = "ChaosTarget"
+}
+
+// @public
+export interface ListSelector extends Selector {
+    targets: TargetReference[];
+    type: "List";
 }
 
 // @public
@@ -618,12 +613,205 @@ export type OperationStatusesGetResponse = OperationStatus;
 export type Origin = string;
 
 // @public
+export interface PrivateAccess extends TrackedResourceAutoGenerated {
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
+    publicNetworkAccess?: PublicNetworkAccessOption;
+}
+
+// @public
+export interface PrivateAccesses {
+    beginCreateOrUpdate(resourceGroupName: string, privateAccessName: string, privateAccess: PrivateAccess, options?: PrivateAccessesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PrivateAccessesCreateOrUpdateResponse>, PrivateAccessesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, privateAccessName: string, privateAccess: PrivateAccess, options?: PrivateAccessesCreateOrUpdateOptionalParams): Promise<PrivateAccessesCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, privateAccessName: string, options?: PrivateAccessesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, privateAccessName: string, options?: PrivateAccessesDeleteOptionalParams): Promise<void>;
+    beginDeleteAPrivateEndpointConnection(resourceGroupName: string, privateAccessName: string, privateEndpointConnectionName: string, options?: PrivateAccessesDeleteAPrivateEndpointConnectionOptionalParams): Promise<SimplePollerLike<OperationState<PrivateAccessesDeleteAPrivateEndpointConnectionResponse>, PrivateAccessesDeleteAPrivateEndpointConnectionResponse>>;
+    beginDeleteAPrivateEndpointConnectionAndWait(resourceGroupName: string, privateAccessName: string, privateEndpointConnectionName: string, options?: PrivateAccessesDeleteAPrivateEndpointConnectionOptionalParams): Promise<PrivateAccessesDeleteAPrivateEndpointConnectionResponse>;
+    get(resourceGroupName: string, privateAccessName: string, options?: PrivateAccessesGetOptionalParams): Promise<PrivateAccessesGetResponse>;
+    getAPrivateEndpointConnection(resourceGroupName: string, privateAccessName: string, privateEndpointConnectionName: string, options?: PrivateAccessesGetAPrivateEndpointConnectionOptionalParams): Promise<PrivateAccessesGetAPrivateEndpointConnectionResponse>;
+    list(resourceGroupName: string, options?: PrivateAccessesListOptionalParams): PagedAsyncIterableIterator<PrivateAccess>;
+    listAll(options?: PrivateAccessesListAllOptionalParams): PagedAsyncIterableIterator<PrivateAccess>;
+    listPrivateEndpointConnections(resourceGroupName: string, privateAccessName: string, options?: PrivateAccessesListPrivateEndpointConnectionsOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnection>;
+    listPrivateLinkResources(resourceGroupName: string, privateAccessName: string, options?: PrivateAccessesGetPrivateLinkResourcesOptionalParams): PagedAsyncIterableIterator<PrivateLinkResource>;
+}
+
+// @public
+export interface PrivateAccessesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type PrivateAccessesCreateOrUpdateResponse = PrivateAccess;
+
+// @public
+export interface PrivateAccessesDeleteAPrivateEndpointConnectionHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface PrivateAccessesDeleteAPrivateEndpointConnectionOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type PrivateAccessesDeleteAPrivateEndpointConnectionResponse = PrivateAccessesDeleteAPrivateEndpointConnectionHeaders;
+
+// @public
+export interface PrivateAccessesDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface PrivateAccessesGetAPrivateEndpointConnectionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateAccessesGetAPrivateEndpointConnectionResponse = PrivateEndpointConnection;
+
+// @public
+export interface PrivateAccessesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface PrivateAccessesGetPrivateLinkResourcesNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateAccessesGetPrivateLinkResourcesNextResponse = PrivateLinkResourceListResult;
+
+// @public
+export interface PrivateAccessesGetPrivateLinkResourcesOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateAccessesGetPrivateLinkResourcesResponse = PrivateLinkResourceListResult;
+
+// @public
+export type PrivateAccessesGetResponse = PrivateAccess;
+
+// @public
+export interface PrivateAccessesListAllNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateAccessesListAllNextResponse = PrivateAccessListResult;
+
+// @public
+export interface PrivateAccessesListAllOptionalParams extends coreClient.OperationOptions {
+    continuationToken?: string;
+}
+
+// @public
+export type PrivateAccessesListAllResponse = PrivateAccessListResult;
+
+// @public
+export interface PrivateAccessesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateAccessesListNextResponse = PrivateAccessListResult;
+
+// @public
+export interface PrivateAccessesListOptionalParams extends coreClient.OperationOptions {
+    continuationToken?: string;
+}
+
+// @public
+export interface PrivateAccessesListPrivateEndpointConnectionsNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateAccessesListPrivateEndpointConnectionsNextResponse = PrivateEndpointConnectionListResult;
+
+// @public
+export interface PrivateAccessesListPrivateEndpointConnectionsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateAccessesListPrivateEndpointConnectionsResponse = PrivateEndpointConnectionListResult;
+
+// @public
+export type PrivateAccessesListResponse = PrivateAccessListResult;
+
+// @public
+export interface PrivateAccessListResult {
+    readonly nextLink?: string;
+    readonly value?: PrivateAccess[];
+}
+
+// @public
+export interface PrivateEndpoint {
+    readonly id?: string;
+}
+
+// @public
+export interface PrivateEndpointConnection extends ResourceAutoGenerated {
+    readonly groupIds?: string[];
+    privateEndpoint?: PrivateEndpoint;
+    privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+    readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
+}
+
+// @public
+export interface PrivateEndpointConnectionListResult {
+    readonly nextLink?: string;
+    value?: PrivateEndpointConnection[];
+}
+
+// @public
+export type PrivateEndpointConnectionProvisioningState = string;
+
+// @public
+export type PrivateEndpointServiceConnectionStatus = string;
+
+// @public
+export interface PrivateLinkResource extends ResourceAutoGenerated {
+    readonly groupId?: string;
+    readonly requiredMembers?: string[];
+    requiredZoneNames?: string[];
+}
+
+// @public
+export interface PrivateLinkResourceListResult {
+    readonly nextLink?: string;
+    value?: PrivateLinkResource[];
+}
+
+// @public
+export interface PrivateLinkServiceConnectionState {
+    actionsRequired?: string;
+    description?: string;
+    status?: PrivateEndpointServiceConnectionStatus;
+}
+
+// @public
 export type ProvisioningState = string;
+
+// @public
+export type PublicNetworkAccessOption = string;
+
+// @public
+export interface QuerySelector extends Selector {
+    queryString: string;
+    subscriptionIds: string[];
+    type: "Query";
+}
 
 // @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
+    readonly type?: string;
+}
+
+// @public
+export interface ResourceAutoGenerated {
+    readonly id?: string;
+    readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
@@ -641,7 +829,35 @@ export interface ResourceIdentity {
 export type ResourceIdentityType = "None" | "SystemAssigned" | "UserAssigned";
 
 // @public
+export interface Selector {
+    [property: string]: any;
+    filter?: FilterUnion;
+    id: string;
+    type: "List" | "Query";
+}
+
+// @public
 export type SelectorType = string;
+
+// @public (undocumented)
+export type SelectorUnion = Selector | ListSelector | QuerySelector;
+
+// @public
+export interface SimpleFilter extends Filter {
+    parameters?: SimpleFilterParameters;
+    type: "Simple";
+}
+
+// @public
+export interface SimpleFilterParameters {
+    zones?: string[];
+}
+
+// @public
+export interface Step {
+    branches: Branch[];
+    name: string;
+}
 
 // @public
 export interface StepStatus {
@@ -772,6 +988,14 @@ export type TargetTypesListResponse = TargetTypeListResult;
 
 // @public
 export interface TrackedResource extends Resource {
+    location: string;
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface TrackedResourceAutoGenerated extends ResourceAutoGenerated {
     location: string;
     tags?: {
         [propertyName: string]: string;
