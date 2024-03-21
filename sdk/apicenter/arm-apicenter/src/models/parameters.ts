@@ -52,7 +52,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-03-01",
+    defaultValue: "2024-03-15-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -92,6 +92,32 @@ export const resourceGroupName: OperationURLParameter = {
       MinLength: 1,
     },
     serializedName: "resourceGroupName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const filter: OperationQueryParameter = {
+  parameterPath: ["options", "filter"],
+  mapper: {
+    serializedName: "$filter",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const deletedServiceName: OperationURLParameter = {
+  parameterPath: "deletedServiceName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9-]{3,90}$"),
+      MaxLength: 90,
+      MinLength: 1,
+    },
+    serializedName: "deletedServiceName",
     required: true,
     type: {
       name: "String",
@@ -140,16 +166,6 @@ export const properties: OperationParameter = {
 export const body: OperationParameter = {
   parameterPath: "body",
   mapper: MetadataSchemaExportRequestMapper,
-};
-
-export const filter: OperationQueryParameter = {
-  parameterPath: ["options", "filter"],
-  mapper: {
-    serializedName: "$filter",
-    type: {
-      name: "String",
-    },
-  },
 };
 
 export const metadataSchemaName: OperationURLParameter = {
