@@ -11625,8 +11625,15 @@ export interface DefaultAdminRule extends BaseAdminRule {
   readonly resourceGuid?: string;
 }
 
+/** Defines headers for AzureFirewalls_delete operation. */
+export interface AzureFirewallsDeleteHeaders {
+  /** The URL of the resource used to check the status of the asynchronous operation. */
+  location?: string;
+}
+
 /** Defines headers for AzureFirewalls_packetCapture operation. */
 export interface AzureFirewallsPacketCaptureHeaders {
+  /** The URL of the resource used to check the status of the asynchronous operation. */
   location?: string;
 }
 

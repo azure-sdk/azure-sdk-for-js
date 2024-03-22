@@ -31065,6 +31065,21 @@ export const DefaultAdminRule: coreClient.CompositeMapper = {
   },
 };
 
+export const AzureFirewallsDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AzureFirewallsDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const AzureFirewallsPacketCaptureHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",

@@ -1,5 +1,12 @@
 # Release History
     
+## 33.2.0 (2024-03-22)
+    
+**Features**
+
+  - Added Interface AzureFirewallsDeleteHeaders
+    
+    
 ## 33.1.0 (2024-02-02)
     
 **Features**
