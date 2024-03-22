@@ -98,17 +98,23 @@ export interface AnalyzeImageDefaultResponse extends HttpResponse {
 
 // @public
 export interface AnalyzeImageOptions {
-    categories?: string[];
+    categories?: ImageCategory[];
     image: ImageData_2;
-    outputType?: string;
+    outputType?: AnalyzeImageOutputType;
 }
 
 // @public
 export interface AnalyzeImageOptionsOutput {
-    categories?: string[];
+    categories?: ImageCategoryOutput[];
     image: ImageDataOutput;
-    outputType?: string;
+    outputType?: AnalyzeImageOutputTypeOutput;
 }
+
+// @public
+export type AnalyzeImageOutputType = string | "FourSeverityLevels";
+
+// @public
+export type AnalyzeImageOutputTypeOutput = string | "FourSeverityLevels";
 
 // @public (undocumented)
 export type AnalyzeImageParameters = AnalyzeImageBodyParam & RequestParameters;
@@ -154,20 +160,26 @@ export interface AnalyzeTextDefaultResponse extends HttpResponse {
 // @public
 export interface AnalyzeTextOptions {
     blocklistNames?: string[];
-    categories?: string[];
+    categories?: TextCategory[];
     haltOnBlocklistHit?: boolean;
-    outputType?: string;
+    outputType?: AnalyzeTextOutputType;
     text: string;
 }
 
 // @public
 export interface AnalyzeTextOptionsOutput {
     blocklistNames?: string[];
-    categories?: string[];
+    categories?: TextCategoryOutput[];
     haltOnBlocklistHit?: boolean;
-    outputType?: string;
+    outputType?: AnalyzeTextOutputTypeOutput;
     text: string;
 }
+
+// @public
+export type AnalyzeTextOutputType = string | "FourSeverityLevels" | "EightSeverityLevels";
+
+// @public
+export type AnalyzeTextOutputTypeOutput = string | "FourSeverityLevels" | "EightSeverityLevels";
 
 // @public (undocumented)
 export type AnalyzeTextParameters = AnalyzeTextBodyParam & RequestParameters;
@@ -330,9 +342,15 @@ export type GetTextBlocklistParameters = RequestParameters;
 
 // @public
 export interface ImageCategoriesAnalysisOutput {
-    category: string;
+    category: ImageCategoryOutput;
     severity?: number;
 }
+
+// @public
+export type ImageCategory = string | "Hate" | "SelfHarm" | "Sexual" | "Violence";
+
+// @public
+export type ImageCategoryOutput = string | "Hate" | "SelfHarm" | "Sexual" | "Violence";
 
 // @public
 interface ImageData_2 {
@@ -561,9 +579,15 @@ export type TextBlocklistResourceMergeAndPatch = Partial<TextBlocklist>;
 
 // @public
 export interface TextCategoriesAnalysisOutput {
-    category: string;
+    category: TextCategoryOutput;
     severity?: number;
 }
+
+// @public
+export type TextCategory = string | "Hate" | "SelfHarm" | "Sexual" | "Violence";
+
+// @public
+export type TextCategoryOutput = string | "Hate" | "SelfHarm" | "Sexual" | "Violence";
 
 // (No @packageDocumentation comment for this package)
 
