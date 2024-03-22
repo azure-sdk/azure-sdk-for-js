@@ -18,8 +18,6 @@ import {
   UpdateIntegrationRuntimeNodeRequest,
   IntegrationRuntimeNodesUpdateOptionalParams,
   IntegrationRuntimeNodesUpdateResponse,
-  IntegrationRuntimeNodesGetIpAddressOptionalParams,
-  IntegrationRuntimeNodesGetIpAddressResponse,
 } from "../models";
 
 /** Class containing IntegrationRuntimeNodes operations. */
@@ -117,33 +115,6 @@ export class IntegrationRuntimeNodesImpl implements IntegrationRuntimeNodes {
       updateOperationSpec,
     );
   }
-
-  /**
-   * Get the IP address of self-hosted integration runtime node.
-   * @param resourceGroupName The resource group name.
-   * @param factoryName The factory name.
-   * @param integrationRuntimeName The integration runtime name.
-   * @param nodeName The integration runtime node name.
-   * @param options The options parameters.
-   */
-  getIpAddress(
-    resourceGroupName: string,
-    factoryName: string,
-    integrationRuntimeName: string,
-    nodeName: string,
-    options?: IntegrationRuntimeNodesGetIpAddressOptionalParams,
-  ): Promise<IntegrationRuntimeNodesGetIpAddressResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        factoryName,
-        integrationRuntimeName,
-        nodeName,
-        options,
-      },
-      getIpAddressOperationSpec,
-    );
-  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -216,28 +187,5 @@ const updateOperationSpec: coreClient.OperationSpec = {
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
-};
-const getIpAddressOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/nodes/{nodeName}/ipAddress",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.IntegrationRuntimeNodeIpAddress,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.factoryName,
-    Parameters.integrationRuntimeName,
-    Parameters.nodeName,
-  ],
-  headerParameters: [Parameters.accept],
   serializer,
 };
