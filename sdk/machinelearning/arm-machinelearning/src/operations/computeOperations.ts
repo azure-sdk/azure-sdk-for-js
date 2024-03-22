@@ -12,9 +12,13 @@ import { ComputeOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AzureMachineLearningWorkspaces } from "../azureMachineLearningWorkspaces";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import { AzureMachineLearningServices } from "../azureMachineLearningServices";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   ComputeResource,
   ComputeListNextOptionalParams,
@@ -33,25 +37,36 @@ import {
   ComputeUpdateResponse,
   UnderlyingResourceAction,
   ComputeDeleteOptionalParams,
+  CustomService,
+  ComputeUpdateCustomServicesOptionalParams,
   ComputeListKeysOptionalParams,
   ComputeListKeysResponse,
+  ComputeInstanceDataMount,
+  ComputeUpdateDataMountsOptionalParams,
   ComputeStartOptionalParams,
   ComputeStopOptionalParams,
   ComputeRestartOptionalParams,
+  IdleShutdownSetting,
+  ComputeUpdateIdleShutdownSettingOptionalParams,
+  ComputeGetAllowedResizeSizesOptionalParams,
+  ComputeGetAllowedResizeSizesResponse,
+  ResizeSchema,
+  ComputeResizeOptionalParams,
+  ComputeResizeResponse,
   ComputeListNextResponse,
-  ComputeListNodesNextResponse
+  ComputeListNodesNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ComputeOperations operations. */
 export class ComputeOperationsImpl implements ComputeOperations {
-  private readonly client: AzureMachineLearningWorkspaces;
+  private readonly client: AzureMachineLearningServices;
 
   /**
    * Initialize a new instance of the class ComputeOperations class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureMachineLearningWorkspaces) {
+  constructor(client: AzureMachineLearningServices) {
     this.client = client;
   }
 
@@ -64,7 +79,7 @@ export class ComputeOperationsImpl implements ComputeOperations {
   public list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: ComputeListOptionalParams
+    options?: ComputeListOptionalParams,
   ): PagedAsyncIterableIterator<ComputeResource> {
     const iter = this.listPagingAll(resourceGroupName, workspaceName, options);
     return {
@@ -82,9 +97,9 @@ export class ComputeOperationsImpl implements ComputeOperations {
           resourceGroupName,
           workspaceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -92,7 +107,7 @@ export class ComputeOperationsImpl implements ComputeOperations {
     resourceGroupName: string,
     workspaceName: string,
     options?: ComputeListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ComputeResource[]> {
     let result: ComputeListResponse;
     let continuationToken = settings?.continuationToken;
@@ -108,7 +123,7 @@ export class ComputeOperationsImpl implements ComputeOperations {
         resourceGroupName,
         workspaceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -120,12 +135,12 @@ export class ComputeOperationsImpl implements ComputeOperations {
   private async *listPagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: ComputeListOptionalParams
+    options?: ComputeListOptionalParams,
   ): AsyncIterableIterator<ComputeResource> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -142,13 +157,13 @@ export class ComputeOperationsImpl implements ComputeOperations {
     resourceGroupName: string,
     workspaceName: string,
     computeName: string,
-    options?: ComputeListNodesOptionalParams
+    options?: ComputeListNodesOptionalParams,
   ): PagedAsyncIterableIterator<AmlComputeNodeInformation> {
     const iter = this.listNodesPagingAll(
       resourceGroupName,
       workspaceName,
       computeName,
-      options
+      options,
     );
     return {
       next() {
@@ -166,9 +181,9 @@ export class ComputeOperationsImpl implements ComputeOperations {
           workspaceName,
           computeName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -177,7 +192,7 @@ export class ComputeOperationsImpl implements ComputeOperations {
     workspaceName: string,
     computeName: string,
     options?: ComputeListNodesOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AmlComputeNodeInformation[]> {
     let result: ComputeListNodesResponse;
     let continuationToken = settings?.continuationToken;
@@ -186,7 +201,7 @@ export class ComputeOperationsImpl implements ComputeOperations {
         resourceGroupName,
         workspaceName,
         computeName,
-        options
+        options,
       );
       let page = result.nodes || [];
       continuationToken = result.nextLink;
@@ -199,7 +214,7 @@ export class ComputeOperationsImpl implements ComputeOperations {
         workspaceName,
         computeName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.nodes || [];
@@ -212,13 +227,13 @@ export class ComputeOperationsImpl implements ComputeOperations {
     resourceGroupName: string,
     workspaceName: string,
     computeName: string,
-    options?: ComputeListNodesOptionalParams
+    options?: ComputeListNodesOptionalParams,
   ): AsyncIterableIterator<AmlComputeNodeInformation> {
     for await (const page of this.listNodesPagingPage(
       resourceGroupName,
       workspaceName,
       computeName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -233,11 +248,11 @@ export class ComputeOperationsImpl implements ComputeOperations {
   private _list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: ComputeListOptionalParams
+    options?: ComputeListOptionalParams,
   ): Promise<ComputeListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -253,11 +268,11 @@ export class ComputeOperationsImpl implements ComputeOperations {
     resourceGroupName: string,
     workspaceName: string,
     computeName: string,
-    options?: ComputeGetOptionalParams
+    options?: ComputeGetOptionalParams,
   ): Promise<ComputeGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, computeName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -276,30 +291,29 @@ export class ComputeOperationsImpl implements ComputeOperations {
     workspaceName: string,
     computeName: string,
     parameters: ComputeResource,
-    options?: ComputeCreateOrUpdateOptionalParams
+    options?: ComputeCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ComputeCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ComputeCreateOrUpdateResponse>,
       ComputeCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ComputeCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -308,8 +322,8 @@ export class ComputeOperationsImpl implements ComputeOperations {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -317,19 +331,28 @@ export class ComputeOperationsImpl implements ComputeOperations {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, computeName, parameters, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        workspaceName,
+        computeName,
+        parameters,
+        options,
+      },
+      spec: createOrUpdateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ComputeCreateOrUpdateResponse,
+      OperationState<ComputeCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -350,14 +373,14 @@ export class ComputeOperationsImpl implements ComputeOperations {
     workspaceName: string,
     computeName: string,
     parameters: ComputeResource,
-    options?: ComputeCreateOrUpdateOptionalParams
+    options?: ComputeCreateOrUpdateOptionalParams,
   ): Promise<ComputeCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       workspaceName,
       computeName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -376,27 +399,29 @@ export class ComputeOperationsImpl implements ComputeOperations {
     workspaceName: string,
     computeName: string,
     parameters: ClusterUpdateParameters,
-    options?: ComputeUpdateOptionalParams
+    options?: ComputeUpdateOptionalParams,
   ): Promise<
-    PollerLike<PollOperationState<ComputeUpdateResponse>, ComputeUpdateResponse>
+    SimplePollerLike<
+      OperationState<ComputeUpdateResponse>,
+      ComputeUpdateResponse
+    >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ComputeUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -405,8 +430,8 @@ export class ComputeOperationsImpl implements ComputeOperations {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -414,19 +439,28 @@ export class ComputeOperationsImpl implements ComputeOperations {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, computeName, parameters, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        workspaceName,
+        computeName,
+        parameters,
+        options,
+      },
+      spec: updateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ComputeUpdateResponse,
+      OperationState<ComputeUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -446,14 +480,14 @@ export class ComputeOperationsImpl implements ComputeOperations {
     workspaceName: string,
     computeName: string,
     parameters: ClusterUpdateParameters,
-    options?: ComputeUpdateOptionalParams
+    options?: ComputeUpdateOptionalParams,
   ): Promise<ComputeUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       workspaceName,
       computeName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -472,25 +506,24 @@ export class ComputeOperationsImpl implements ComputeOperations {
     workspaceName: string,
     computeName: string,
     underlyingResourceAction: UnderlyingResourceAction,
-    options?: ComputeDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: ComputeDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -499,8 +532,8 @@ export class ComputeOperationsImpl implements ComputeOperations {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -508,25 +541,25 @@ export class ComputeOperationsImpl implements ComputeOperations {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         workspaceName,
         computeName,
         underlyingResourceAction,
-        options
+        options,
       },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -546,16 +579,43 @@ export class ComputeOperationsImpl implements ComputeOperations {
     workspaceName: string,
     computeName: string,
     underlyingResourceAction: UnderlyingResourceAction,
-    options?: ComputeDeleteOptionalParams
+    options?: ComputeDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       workspaceName,
       computeName,
       underlyingResourceAction,
-      options
+      options,
     );
     return poller.pollUntilDone();
+  }
+
+  /**
+   * Updates the custom services list. The list of custom services provided shall be overwritten
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param computeName Name of the Azure Machine Learning compute.
+   * @param customServices New list of Custom Services.
+   * @param options The options parameters.
+   */
+  updateCustomServices(
+    resourceGroupName: string,
+    workspaceName: string,
+    computeName: string,
+    customServices: CustomService[],
+    options?: ComputeUpdateCustomServicesOptionalParams,
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        workspaceName,
+        computeName,
+        customServices,
+        options,
+      },
+      updateCustomServicesOperationSpec,
+    );
   }
 
   /**
@@ -569,11 +629,11 @@ export class ComputeOperationsImpl implements ComputeOperations {
     resourceGroupName: string,
     workspaceName: string,
     computeName: string,
-    options?: ComputeListNodesOptionalParams
+    options?: ComputeListNodesOptionalParams,
   ): Promise<ComputeListNodesResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, computeName, options },
-      listNodesOperationSpec
+      listNodesOperationSpec,
     );
   }
 
@@ -588,11 +648,32 @@ export class ComputeOperationsImpl implements ComputeOperations {
     resourceGroupName: string,
     workspaceName: string,
     computeName: string,
-    options?: ComputeListKeysOptionalParams
+    options?: ComputeListKeysOptionalParams,
   ): Promise<ComputeListKeysResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, computeName, options },
-      listKeysOperationSpec
+      listKeysOperationSpec,
+    );
+  }
+
+  /**
+   * Update Data Mounts of a Machine Learning compute.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param computeName Name of the Azure Machine Learning compute.
+   * @param dataMounts The parameters for creating or updating a machine learning workspace.
+   * @param options The options parameters.
+   */
+  updateDataMounts(
+    resourceGroupName: string,
+    workspaceName: string,
+    computeName: string,
+    dataMounts: ComputeInstanceDataMount[],
+    options?: ComputeUpdateDataMountsOptionalParams,
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, workspaceName, computeName, dataMounts, options },
+      updateDataMountsOperationSpec,
     );
   }
 
@@ -607,25 +688,24 @@ export class ComputeOperationsImpl implements ComputeOperations {
     resourceGroupName: string,
     workspaceName: string,
     computeName: string,
-    options?: ComputeStartOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: ComputeStartOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -634,8 +714,8 @@ export class ComputeOperationsImpl implements ComputeOperations {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -643,19 +723,19 @@ export class ComputeOperationsImpl implements ComputeOperations {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, computeName, options },
-      startOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, workspaceName, computeName, options },
+      spec: startOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -672,13 +752,13 @@ export class ComputeOperationsImpl implements ComputeOperations {
     resourceGroupName: string,
     workspaceName: string,
     computeName: string,
-    options?: ComputeStartOptionalParams
+    options?: ComputeStartOptionalParams,
   ): Promise<void> {
     const poller = await this.beginStart(
       resourceGroupName,
       workspaceName,
       computeName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -694,25 +774,24 @@ export class ComputeOperationsImpl implements ComputeOperations {
     resourceGroupName: string,
     workspaceName: string,
     computeName: string,
-    options?: ComputeStopOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: ComputeStopOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -721,8 +800,8 @@ export class ComputeOperationsImpl implements ComputeOperations {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -730,19 +809,19 @@ export class ComputeOperationsImpl implements ComputeOperations {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, computeName, options },
-      stopOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, workspaceName, computeName, options },
+      spec: stopOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -759,13 +838,13 @@ export class ComputeOperationsImpl implements ComputeOperations {
     resourceGroupName: string,
     workspaceName: string,
     computeName: string,
-    options?: ComputeStopOptionalParams
+    options?: ComputeStopOptionalParams,
   ): Promise<void> {
     const poller = await this.beginStop(
       resourceGroupName,
       workspaceName,
       computeName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -781,25 +860,24 @@ export class ComputeOperationsImpl implements ComputeOperations {
     resourceGroupName: string,
     workspaceName: string,
     computeName: string,
-    options?: ComputeRestartOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: ComputeRestartOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -808,8 +886,8 @@ export class ComputeOperationsImpl implements ComputeOperations {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -817,19 +895,19 @@ export class ComputeOperationsImpl implements ComputeOperations {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, computeName, options },
-      restartOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, workspaceName, computeName, options },
+      spec: restartOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -846,13 +924,158 @@ export class ComputeOperationsImpl implements ComputeOperations {
     resourceGroupName: string,
     workspaceName: string,
     computeName: string,
-    options?: ComputeRestartOptionalParams
+    options?: ComputeRestartOptionalParams,
   ): Promise<void> {
     const poller = await this.beginRestart(
       resourceGroupName,
       workspaceName,
       computeName,
-      options
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Updates the idle shutdown setting of a compute instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param computeName Name of the Azure Machine Learning compute.
+   * @param parameters The object for updating idle shutdown setting of specified ComputeInstance.
+   * @param options The options parameters.
+   */
+  updateIdleShutdownSetting(
+    resourceGroupName: string,
+    workspaceName: string,
+    computeName: string,
+    parameters: IdleShutdownSetting,
+    options?: ComputeUpdateIdleShutdownSettingOptionalParams,
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, workspaceName, computeName, parameters, options },
+      updateIdleShutdownSettingOperationSpec,
+    );
+  }
+
+  /**
+   * Returns supported virtual machine sizes for resize
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param computeName Name of the Azure Machine Learning compute.
+   * @param options The options parameters.
+   */
+  getAllowedResizeSizes(
+    resourceGroupName: string,
+    workspaceName: string,
+    computeName: string,
+    options?: ComputeGetAllowedResizeSizesOptionalParams,
+  ): Promise<ComputeGetAllowedResizeSizesResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, workspaceName, computeName, options },
+      getAllowedResizeSizesOperationSpec,
+    );
+  }
+
+  /**
+   * Updates the size of a Compute Instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param computeName Name of the Azure Machine Learning compute.
+   * @param parameters The object for updating VM size setting of specified Compute Instance.
+   * @param options The options parameters.
+   */
+  async beginResize(
+    resourceGroupName: string,
+    workspaceName: string,
+    computeName: string,
+    parameters: ResizeSchema,
+    options?: ComputeResizeOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ComputeResizeResponse>,
+      ComputeResizeResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<ComputeResizeResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        workspaceName,
+        computeName,
+        parameters,
+        options,
+      },
+      spec: resizeOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ComputeResizeResponse,
+      OperationState<ComputeResizeResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Updates the size of a Compute Instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param computeName Name of the Azure Machine Learning compute.
+   * @param parameters The object for updating VM size setting of specified Compute Instance.
+   * @param options The options parameters.
+   */
+  async beginResizeAndWait(
+    resourceGroupName: string,
+    workspaceName: string,
+    computeName: string,
+    parameters: ResizeSchema,
+    options?: ComputeResizeOptionalParams,
+  ): Promise<ComputeResizeResponse> {
+    const poller = await this.beginResize(
+      resourceGroupName,
+      workspaceName,
+      computeName,
+      parameters,
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -868,11 +1091,11 @@ export class ComputeOperationsImpl implements ComputeOperations {
     resourceGroupName: string,
     workspaceName: string,
     nextLink: string,
-    options?: ComputeListNextOptionalParams
+    options?: ComputeListNextOptionalParams,
   ): Promise<ComputeListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 
@@ -889,11 +1112,11 @@ export class ComputeOperationsImpl implements ComputeOperations {
     workspaceName: string,
     computeName: string,
     nextLink: string,
-    options?: ComputeListNodesNextOptionalParams
+    options?: ComputeListNodesNextOptionalParams,
   ): Promise<ComputeListNodesNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, computeName, nextLink, options },
-      listNodesNextOperationSpec
+      listNodesNextOperationSpec,
     );
   }
 }
@@ -901,38 +1124,36 @@ export class ComputeOperationsImpl implements ComputeOperations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PaginatedComputeResourcesList
+      bodyMapper: Mappers.PaginatedComputeResourcesList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.skip],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ComputeResource
+      bodyMapper: Mappers.ComputeResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -940,31 +1161,320 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.computeName
+    Parameters.computeName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ComputeResource
+      bodyMapper: Mappers.ComputeResource,
     },
     201: {
-      bodyMapper: Mappers.ComputeResource
+      bodyMapper: Mappers.ComputeResource,
     },
     202: {
-      bodyMapper: Mappers.ComputeResource
+      bodyMapper: Mappers.ComputeResource,
     },
     204: {
-      bodyMapper: Mappers.ComputeResource
+      bodyMapper: Mappers.ComputeResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters1,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.computeName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const updateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ComputeResource,
+    },
+    201: {
+      bodyMapper: Mappers.ComputeResource,
+    },
+    202: {
+      bodyMapper: Mappers.ComputeResource,
+    },
+    204: {
+      bodyMapper: Mappers.ComputeResource,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters2,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.computeName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.underlyingResourceAction],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.computeName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const updateCustomServicesOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}/customServices",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.customServices,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.computeName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const listNodesOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}/listNodes",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AmlComputeNodesInformation,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.computeName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listKeysOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}/listKeys",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ComputeSecrets,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.computeName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const updateDataMountsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}/updateDataMounts",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.dataMounts,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.computeName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const startOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}/start",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.computeName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const stopOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}/stop",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.computeName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const restartOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}/restart",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.computeName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const updateIdleShutdownSettingOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}/updateIdleShutdownSetting",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters3,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.computeName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const getAllowedResizeSizesOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}/getAllowedVmSizesForResize",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.VirtualMachineSizeListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.computeName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const resizeOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}/resize",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper: Mappers.ComputeResizeHeaders,
+    },
+    201: {
+      headersMapper: Mappers.ComputeResizeHeaders,
+    },
+    202: {
+      headersMapper: Mappers.ComputeResizeHeaders,
+    },
+    204: {
+      headersMapper: Mappers.ComputeResizeHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters4,
   queryParameters: [Parameters.apiVersion],
@@ -973,230 +1483,52 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.computeName
+    Parameters.computeName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ComputeResource
-    },
-    201: {
-      bodyMapper: Mappers.ComputeResource
-    },
-    202: {
-      bodyMapper: Mappers.ComputeResource
-    },
-    204: {
-      bodyMapper: Mappers.ComputeResource
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.parameters5,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.computeName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.underlyingResourceAction],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.computeName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listNodesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}/listNodes",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AmlComputeNodesInformation
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.computeName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listKeysOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}/listKeys",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ComputeSecrets
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.computeName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const startOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}/start",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.computeName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const stopOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}/stop",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.computeName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const restartOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}/restart",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.computeName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PaginatedComputeResourcesList
+      bodyMapper: Mappers.PaginatedComputeResourcesList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.skip],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.nextLink,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNodesNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AmlComputeNodesInformation
+      bodyMapper: Mappers.AmlComputeNodesInformation,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.nextLink,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.nextLink,
-    Parameters.computeName
+    Parameters.computeName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
