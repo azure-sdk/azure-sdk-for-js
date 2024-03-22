@@ -104,6 +104,7 @@ export type LinkedServiceUnion =
   | DrillLinkedService
   | EloquaLinkedService
   | GoogleBigQueryLinkedService
+  | GoogleBigQueryV2LinkedService
   | GreenplumLinkedService
   | HBaseLinkedService
   | HiveLinkedService
@@ -145,7 +146,8 @@ export type LinkedServiceUnion =
   | LakeHouseLinkedService
   | SalesforceV2LinkedService
   | SalesforceServiceCloudV2LinkedService
-  | WarehouseLinkedService;
+  | WarehouseLinkedService
+  | ServiceNowV2LinkedService;
 export type DatasetUnion =
   | Dataset
   | AmazonS3Dataset
@@ -213,6 +215,7 @@ export type DatasetUnion =
   | DrillTableDataset
   | EloquaObjectDataset
   | GoogleBigQueryObjectDataset
+  | GoogleBigQueryV2ObjectDataset
   | GreenplumTableDataset
   | HBaseObjectDataset
   | HiveObjectDataset
@@ -248,7 +251,8 @@ export type DatasetUnion =
   | LakeHouseTableDataset
   | SalesforceV2ObjectDataset
   | SalesforceServiceCloudV2ObjectDataset
-  | WarehouseTableDataset;
+  | WarehouseTableDataset
+  | ServiceNowV2ObjectDataset;
 export type ActivityUnion =
   | Activity
   | ControlActivityUnion
@@ -537,6 +541,7 @@ export type TabularSourceUnion =
   | DrillSource
   | EloquaSource
   | GoogleBigQuerySource
+  | GoogleBigQueryV2Source
   | GreenplumSource
   | HBaseSource
   | HiveSource
@@ -566,7 +571,8 @@ export type TabularSourceUnion =
   | GoogleAdWordsSource
   | AmazonRedshiftSource
   | WarehouseSource
-  | SalesforceV2Source;
+  | SalesforceV2Source
+  | ServiceNowV2Source;
 export type TriggerDependencyReferenceUnion =
   | TriggerDependencyReference
   | TumblingWindowTriggerDependencyReference;
@@ -675,6 +681,40 @@ export interface CloudError {
   details?: CloudError[];
 }
 
+/** The exposure control request. */
+export interface ExposureControlRequest {
+  /** The feature name. */
+  featureName?: string;
+  /** The feature type. */
+  featureType?: string;
+}
+
+/** The exposure control response. */
+export interface ExposureControlResponse {
+  /**
+   * The feature name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly featureName?: string;
+  /**
+   * The feature value.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: string;
+}
+
+/** A list of exposure control features. */
+export interface ExposureControlBatchRequest {
+  /** List of exposure control features. */
+  exposureControlRequests: ExposureControlRequest[];
+}
+
+/** A list of exposure control feature values. */
+export interface ExposureControlBatchResponse {
+  /** List of exposure control feature values. */
+  exposureControlResponses: ExposureControlResponse[];
+}
+
 /** A list of factory resources. */
 export interface FactoryListResponse {
   /** List of factories. */
@@ -777,48 +817,6 @@ export interface Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly eTag?: string;
-}
-
-/** Factory's git repo information. */
-export interface FactoryRepoUpdate {
-  /** The factory resource id. */
-  factoryResourceId?: string;
-  /** Git repo information of the factory. */
-  repoConfiguration?: FactoryRepoConfigurationUnion;
-}
-
-/** The exposure control request. */
-export interface ExposureControlRequest {
-  /** The feature name. */
-  featureName?: string;
-  /** The feature type. */
-  featureType?: string;
-}
-
-/** The exposure control response. */
-export interface ExposureControlResponse {
-  /**
-   * The feature name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly featureName?: string;
-  /**
-   * The feature value.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: string;
-}
-
-/** A list of exposure control features. */
-export interface ExposureControlBatchRequest {
-  /** List of exposure control features. */
-  exposureControlRequests: ExposureControlRequest[];
-}
-
-/** A list of exposure control feature values. */
-export interface ExposureControlBatchResponse {
-  /** List of exposure control feature values. */
-  exposureControlResponses: ExposureControlResponse[];
 }
 
 /** Parameters for updating a factory resource. */
@@ -1347,6 +1345,7 @@ export interface LinkedService {
     | "Drill"
     | "Eloqua"
     | "GoogleBigQuery"
+    | "GoogleBigQueryV2"
     | "Greenplum"
     | "HBase"
     | "Hive"
@@ -1388,7 +1387,8 @@ export interface LinkedService {
     | "LakeHouse"
     | "SalesforceV2"
     | "SalesforceServiceCloudV2"
-    | "Warehouse";
+    | "Warehouse"
+    | "ServiceNowV2";
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /** The integration runtime reference. */
@@ -1496,6 +1496,7 @@ export interface Dataset {
     | "DrillTable"
     | "EloquaObject"
     | "GoogleBigQueryObject"
+    | "GoogleBigQueryV2Object"
     | "GreenplumTable"
     | "HBaseObject"
     | "HiveObject"
@@ -1531,7 +1532,8 @@ export interface Dataset {
     | "LakeHouseTable"
     | "SalesforceV2Object"
     | "SalesforceServiceCloudV2Object"
-    | "WarehouseTable";
+    | "WarehouseTable"
+    | "ServiceNowV2Object";
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /** Dataset description. */
@@ -2546,6 +2548,14 @@ export interface IntegrationRuntimeStatusListResponse {
   nextLink?: string;
 }
 
+/** Factory's git repo information. */
+export interface FactoryRepoUpdate {
+  /** The factory resource id. */
+  factoryResourceId?: string;
+  /** Git repo information of the factory. */
+  repoConfiguration?: FactoryRepoConfigurationUnion;
+}
+
 /** Pipeline reference type. */
 export interface PipelineReference {
   /** Pipeline reference type. */
@@ -3259,6 +3269,7 @@ export interface CopySource {
     | "DrillSource"
     | "EloquaSource"
     | "GoogleBigQuerySource"
+    | "GoogleBigQueryV2Source"
     | "GreenplumSource"
     | "HBaseSource"
     | "HiveSource"
@@ -3294,7 +3305,8 @@ export interface CopySource {
     | "WarehouseSource"
     | "SharePointOnlineListSource"
     | "SalesforceV2Source"
-    | "SalesforceServiceCloudV2Source";
+    | "SalesforceServiceCloudV2Source"
+    | "ServiceNowV2Source";
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /** Source retry count. Type: integer (or Expression with resultType integer). */
@@ -3891,6 +3903,18 @@ export interface SynapseSparkJobReference {
   type: SparkJobReferenceType;
   /** Reference spark job name. Expression with resultType string. */
   referenceName: any;
+}
+
+/** Nested representation of a complex expression. */
+export interface ExpressionV2 {
+  /** Type of expressions supported by the system. Type: string. */
+  type?: ExpressionV2Type;
+  /** Value for Constant/Field Type: string. */
+  value?: string;
+  /** Expression operator value Type: string. */
+  operator?: string;
+  /** List of nested expressions. */
+  operands?: ExpressionV2[];
 }
 
 /** The workflow trigger recurrence. */
@@ -5782,6 +5806,26 @@ export interface GoogleBigQueryLinkedService extends LinkedService {
   encryptedCredential?: string;
 }
 
+/** Google BigQuery service linked service. */
+export interface GoogleBigQueryV2LinkedService extends LinkedService {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "GoogleBigQueryV2";
+  /** The default BigQuery project id to query against. Type: string (or Expression with resultType string). */
+  projectId: any;
+  /** The OAuth 2.0 authentication mechanism used for authentication. */
+  authenticationType: GoogleBigQueryV2AuthenticationType;
+  /** The client id of the google application used to acquire the refresh token. Type: string (or Expression with resultType string). */
+  clientId?: any;
+  /** The client secret of the google application used to acquire the refresh token. */
+  clientSecret?: SecretBaseUnion;
+  /** The refresh token obtained from Google for authorizing access to BigQuery for UserAuthentication. */
+  refreshToken?: SecretBaseUnion;
+  /** The content of the .json key file that is used to authenticate the service account. Type: string (or Expression with resultType string). */
+  keyFileContent?: SecretBaseUnion;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
+}
+
 /** Greenplum Database linked service. */
 export interface GreenplumLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -6787,6 +6831,28 @@ export interface WarehouseLinkedService extends LinkedService {
   servicePrincipalCredential?: SecretBaseUnion;
 }
 
+/** ServiceNowV2 server linked service. */
+export interface ServiceNowV2LinkedService extends LinkedService {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "ServiceNowV2";
+  /** The endpoint of the ServiceNowV2 server. (i.e. <instance>.service-now.com) */
+  endpoint: any;
+  /** The authentication type to use. */
+  authenticationType: ServiceNowV2AuthenticationType;
+  /** The user name used to connect to the ServiceNowV2 server for Basic and OAuth2 authentication. */
+  username?: any;
+  /** The password corresponding to the user name for Basic and OAuth2 authentication. */
+  password?: SecretBaseUnion;
+  /** The client id for OAuth2 authentication. */
+  clientId?: any;
+  /** The client secret for OAuth2 authentication. */
+  clientSecret?: SecretBaseUnion;
+  /** GrantType for OAuth2 authentication. Default value is password. */
+  grantType?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
+}
+
 /** A single Amazon Simple Storage Service (S3) object or a set of S3 objects. */
 export interface AmazonS3Dataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -7492,6 +7558,16 @@ export interface GoogleBigQueryObjectDataset extends Dataset {
   dataset?: any;
 }
 
+/** Google BigQuery service dataset. */
+export interface GoogleBigQueryV2ObjectDataset extends Dataset {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "GoogleBigQueryV2Object";
+  /** The table name of the Google BigQuery. Type: string (or Expression with resultType string). */
+  table?: any;
+  /** The database name of the Google BigQuery. Type: string (or Expression with resultType string). */
+  dataset?: any;
+}
+
 /** Greenplum Database dataset. */
 export interface GreenplumTableDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -7822,6 +7898,14 @@ export interface WarehouseTableDataset extends Dataset {
   schemaTypePropertiesSchema?: any;
   /** The table name of the Microsoft Fabric Warehouse. Type: string (or Expression with resultType string). */
   table?: any;
+}
+
+/** ServiceNowV2 server dataset. */
+export interface ServiceNowV2ObjectDataset extends Dataset {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "ServiceNowV2Object";
+  /** The table name. Type: string (or Expression with resultType string). */
+  tableName?: any;
 }
 
 /** Base class for all control activities like IfCondition, ForEach , Until. */
@@ -9002,6 +9086,7 @@ export interface TabularSource extends CopySource {
     | "DrillSource"
     | "EloquaSource"
     | "GoogleBigQuerySource"
+    | "GoogleBigQueryV2Source"
     | "GreenplumSource"
     | "HBaseSource"
     | "HiveSource"
@@ -9031,7 +9116,8 @@ export interface TabularSource extends CopySource {
     | "GoogleAdWordsSource"
     | "AmazonRedshiftSource"
     | "WarehouseSource"
-    | "SalesforceV2Source";
+    | "SalesforceV2Source"
+    | "ServiceNowV2Source";
   /** Query timeout. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). */
   queryTimeout?: any;
   /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
@@ -11120,6 +11206,14 @@ export interface GoogleBigQuerySource extends TabularSource {
   query?: any;
 }
 
+/** A copy activity Google BigQuery service source. */
+export interface GoogleBigQueryV2Source extends TabularSource {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "GoogleBigQueryV2Source";
+  /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
+  query?: any;
+}
+
 /** A copy activity Greenplum Database source. */
 export interface GreenplumSource extends TabularSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -11378,6 +11472,14 @@ export interface SalesforceV2Source extends TabularSource {
   soqlQuery?: any;
   /** This property control whether query result contains Deleted objects. Default is false. Type: boolean (or Expression with resultType boolean). */
   includeDeletedObjects?: any;
+}
+
+/** A copy activity ServiceNowV2 server source. */
+export interface ServiceNowV2Source extends TabularSource {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "ServiceNowV2Source";
+  /** Expression to filter data from source. */
+  expression?: ExpressionV2;
 }
 
 /** Referenced tumbling window trigger dependency. */
@@ -12609,6 +12711,24 @@ export enum KnownGoogleBigQueryAuthenticationType {
  */
 export type GoogleBigQueryAuthenticationType = string;
 
+/** Known values of {@link GoogleBigQueryV2AuthenticationType} that the service accepts. */
+export enum KnownGoogleBigQueryV2AuthenticationType {
+  /** ServiceAuthentication */
+  ServiceAuthentication = "ServiceAuthentication",
+  /** UserAuthentication */
+  UserAuthentication = "UserAuthentication",
+}
+
+/**
+ * Defines values for GoogleBigQueryV2AuthenticationType. \
+ * {@link KnownGoogleBigQueryV2AuthenticationType} can be used interchangeably with GoogleBigQueryV2AuthenticationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ServiceAuthentication** \
+ * **UserAuthentication**
+ */
+export type GoogleBigQueryV2AuthenticationType = string;
+
 /** Known values of {@link HBaseAuthenticationType} that the service accepts. */
 export enum KnownHBaseAuthenticationType {
   /** Anonymous */
@@ -12875,6 +12995,24 @@ export enum KnownSnowflakeAuthenticationType {
  * **AADServicePrincipal**
  */
 export type SnowflakeAuthenticationType = string;
+
+/** Known values of {@link ServiceNowV2AuthenticationType} that the service accepts. */
+export enum KnownServiceNowV2AuthenticationType {
+  /** Basic */
+  Basic = "Basic",
+  /** OAuth2 */
+  OAuth2 = "OAuth2",
+}
+
+/**
+ * Defines values for ServiceNowV2AuthenticationType. \
+ * {@link KnownServiceNowV2AuthenticationType} can be used interchangeably with ServiceNowV2AuthenticationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Basic** \
+ * **OAuth2**
+ */
+export type ServiceNowV2AuthenticationType = string;
 
 /** Known values of {@link CassandraSourceReadConsistencyLevels} that the service accepts. */
 export enum KnownCassandraSourceReadConsistencyLevels {
@@ -13397,6 +13535,30 @@ export enum KnownSalesforceV2SinkWriteBehavior {
  * **Upsert**
  */
 export type SalesforceV2SinkWriteBehavior = string;
+
+/** Known values of {@link ExpressionV2Type} that the service accepts. */
+export enum KnownExpressionV2Type {
+  /** Constant */
+  Constant = "Constant",
+  /** Field */
+  Field = "Field",
+  /** Unary */
+  Unary = "Unary",
+  /** Binary */
+  Binary = "Binary",
+}
+
+/**
+ * Defines values for ExpressionV2Type. \
+ * {@link KnownExpressionV2Type} can be used interchangeably with ExpressionV2Type,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Constant** \
+ * **Field** \
+ * **Unary** \
+ * **Binary**
+ */
+export type ExpressionV2Type = string;
 
 /** Known values of {@link RecurrenceFrequency} that the service accepts. */
 export enum KnownRecurrenceFrequency {
@@ -13977,18 +14139,27 @@ export interface OperationsListNextOptionalParams
 export type OperationsListNextResponse = OperationListResponse;
 
 /** Optional parameters. */
-export interface FactoriesListOptionalParams
+export interface ExposureControlGetFeatureValueOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the list operation. */
-export type FactoriesListResponse = FactoryListResponse;
+/** Contains response data for the getFeatureValue operation. */
+export type ExposureControlGetFeatureValueResponse = ExposureControlResponse;
 
 /** Optional parameters. */
-export interface FactoriesConfigureFactoryRepoOptionalParams
+export interface ExposureControlGetFeatureValueByFactoryOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the configureFactoryRepo operation. */
-export type FactoriesConfigureFactoryRepoResponse = Factory;
+/** Contains response data for the getFeatureValueByFactory operation. */
+export type ExposureControlGetFeatureValueByFactoryResponse =
+  ExposureControlResponse;
+
+/** Optional parameters. */
+export interface ExposureControlQueryFeatureValuesByFactoryOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the queryFeatureValuesByFactory operation. */
+export type ExposureControlQueryFeatureValuesByFactoryResponse =
+  ExposureControlBatchResponse;
 
 /** Optional parameters. */
 export interface FactoriesListByResourceGroupOptionalParams
@@ -14043,41 +14214,11 @@ export interface FactoriesGetDataPlaneAccessOptionalParams
 export type FactoriesGetDataPlaneAccessResponse = AccessPolicyResponse;
 
 /** Optional parameters. */
-export interface FactoriesListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type FactoriesListNextResponse = FactoryListResponse;
-
-/** Optional parameters. */
 export interface FactoriesListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type FactoriesListByResourceGroupNextResponse = FactoryListResponse;
-
-/** Optional parameters. */
-export interface ExposureControlGetFeatureValueOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getFeatureValue operation. */
-export type ExposureControlGetFeatureValueResponse = ExposureControlResponse;
-
-/** Optional parameters. */
-export interface ExposureControlGetFeatureValueByFactoryOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getFeatureValueByFactory operation. */
-export type ExposureControlGetFeatureValueByFactoryResponse =
-  ExposureControlResponse;
-
-/** Optional parameters. */
-export interface ExposureControlQueryFeatureValuesByFactoryOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the queryFeatureValuesByFactory operation. */
-export type ExposureControlQueryFeatureValuesByFactoryResponse =
-  ExposureControlBatchResponse;
 
 /** Optional parameters. */
 export interface IntegrationRuntimesListByFactoryOptionalParams

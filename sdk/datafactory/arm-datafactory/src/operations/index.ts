@@ -7,8 +7,8 @@
  */
 
 export * from "./operations";
-export * from "./factories";
 export * from "./exposureControl";
+export * from "./factories";
 export * from "./integrationRuntimes";
 export * from "./integrationRuntimeObjectMetadata";
 export * from "./integrationRuntimeNodes";

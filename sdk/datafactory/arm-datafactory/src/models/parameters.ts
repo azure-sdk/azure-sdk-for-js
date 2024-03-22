@@ -12,13 +12,12 @@ import {
   OperationQueryParameter,
 } from "@azure/core-client";
 import {
-  FactoryRepoUpdate as FactoryRepoUpdateMapper,
+  ExposureControlRequest as ExposureControlRequestMapper,
+  ExposureControlBatchRequest as ExposureControlBatchRequestMapper,
   Factory as FactoryMapper,
   FactoryUpdateParameters as FactoryUpdateParametersMapper,
   GitHubAccessTokenRequest as GitHubAccessTokenRequestMapper,
   UserAccessPolicy as UserAccessPolicyMapper,
-  ExposureControlRequest as ExposureControlRequestMapper,
-  ExposureControlBatchRequest as ExposureControlBatchRequestMapper,
   IntegrationRuntimeResource as IntegrationRuntimeResourceMapper,
   UpdateIntegrationRuntimeRequest as UpdateIntegrationRuntimeRequestMapper,
   IntegrationRuntimeRegenerateKeyParameters as IntegrationRuntimeRegenerateKeyParametersMapper,
@@ -93,17 +92,6 @@ export const nextLink: OperationURLParameter = {
   skipEncoding: true,
 };
 
-export const subscriptionId: OperationURLParameter = {
-  parameterPath: "subscriptionId",
-  mapper: {
-    serializedName: "subscriptionId",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],
   mapper: {
@@ -116,9 +104,20 @@ export const contentType: OperationParameter = {
   },
 };
 
-export const factoryRepoUpdate: OperationParameter = {
-  parameterPath: "factoryRepoUpdate",
-  mapper: FactoryRepoUpdateMapper,
+export const exposureControlRequest: OperationParameter = {
+  parameterPath: "exposureControlRequest",
+  mapper: ExposureControlRequestMapper,
+};
+
+export const subscriptionId: OperationURLParameter = {
+  parameterPath: "subscriptionId",
+  mapper: {
+    serializedName: "subscriptionId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const locationId: OperationURLParameter = {
@@ -148,11 +147,6 @@ export const resourceGroupName: OperationURLParameter = {
   },
 };
 
-export const factory: OperationParameter = {
-  parameterPath: "factory",
-  mapper: FactoryMapper,
-};
-
 export const factoryName: OperationURLParameter = {
   parameterPath: "factoryName",
   mapper: {
@@ -167,6 +161,16 @@ export const factoryName: OperationURLParameter = {
       name: "String",
     },
   },
+};
+
+export const exposureControlBatchRequest: OperationParameter = {
+  parameterPath: "exposureControlBatchRequest",
+  mapper: ExposureControlBatchRequestMapper,
+};
+
+export const factory: OperationParameter = {
+  parameterPath: "factory",
+  mapper: FactoryMapper,
 };
 
 export const ifMatch: OperationParameter = {
@@ -202,16 +206,6 @@ export const gitHubAccessTokenRequest: OperationParameter = {
 export const policy: OperationParameter = {
   parameterPath: "policy",
   mapper: UserAccessPolicyMapper,
-};
-
-export const exposureControlRequest: OperationParameter = {
-  parameterPath: "exposureControlRequest",
-  mapper: ExposureControlRequestMapper,
-};
-
-export const exposureControlBatchRequest: OperationParameter = {
-  parameterPath: "exposureControlBatchRequest",
-  mapper: ExposureControlBatchRequestMapper,
 };
 
 export const integrationRuntime: OperationParameter = {

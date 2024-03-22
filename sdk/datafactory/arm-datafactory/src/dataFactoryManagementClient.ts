@@ -16,8 +16,8 @@ import {
 import * as coreAuth from "@azure/core-auth";
 import {
   OperationsImpl,
-  FactoriesImpl,
   ExposureControlImpl,
+  FactoriesImpl,
   IntegrationRuntimesImpl,
   IntegrationRuntimeObjectMetadataImpl,
   IntegrationRuntimeNodesImpl,
@@ -41,8 +41,8 @@ import {
 } from "./operations";
 import {
   Operations,
-  Factories,
   ExposureControl,
+  Factories,
   IntegrationRuntimes,
   IntegrationRuntimeObjectMetadata,
   IntegrationRuntimeNodes,
@@ -98,7 +98,7 @@ export class DataFactoryManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-datafactory/14.0.0`;
+    const packageDetails = `azsdk-js-arm-datafactory/15.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -154,8 +154,8 @@ export class DataFactoryManagementClient extends coreClient.ServiceClient {
     this.$host = options.$host || "https://management.azure.com";
     this.apiVersion = options.apiVersion || "2018-06-01";
     this.operations = new OperationsImpl(this);
-    this.factories = new FactoriesImpl(this);
     this.exposureControl = new ExposureControlImpl(this);
+    this.factories = new FactoriesImpl(this);
     this.integrationRuntimes = new IntegrationRuntimesImpl(this);
     this.integrationRuntimeObjectMetadata =
       new IntegrationRuntimeObjectMetadataImpl(this);
@@ -209,8 +209,8 @@ export class DataFactoryManagementClient extends coreClient.ServiceClient {
   }
 
   operations: Operations;
-  factories: Factories;
   exposureControl: ExposureControl;
+  factories: Factories;
   integrationRuntimes: IntegrationRuntimes;
   integrationRuntimeObjectMetadata: IntegrationRuntimeObjectMetadata;
   integrationRuntimeNodes: IntegrationRuntimeNodes;
