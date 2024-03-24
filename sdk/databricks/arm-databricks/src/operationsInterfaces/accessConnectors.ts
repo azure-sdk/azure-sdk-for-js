@@ -19,7 +19,7 @@ import {
   AccessConnectorsCreateOrUpdateResponse,
   AccessConnectorUpdate,
   AccessConnectorsUpdateOptionalParams,
-  AccessConnectorsUpdateResponse
+  AccessConnectorsUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,14 +32,14 @@ export interface AccessConnectors {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: AccessConnectorsListByResourceGroupOptionalParams
+    options?: AccessConnectorsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<AccessConnector>;
   /**
    * Gets all the azure databricks accessConnectors within a subscription.
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: AccessConnectorsListBySubscriptionOptionalParams
+    options?: AccessConnectorsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<AccessConnector>;
   /**
    * Gets an azure databricks accessConnector.
@@ -50,7 +50,7 @@ export interface AccessConnectors {
   get(
     resourceGroupName: string,
     connectorName: string,
-    options?: AccessConnectorsGetOptionalParams
+    options?: AccessConnectorsGetOptionalParams,
   ): Promise<AccessConnectorsGetResponse>;
   /**
    * Deletes the azure databricks accessConnector.
@@ -61,7 +61,7 @@ export interface AccessConnectors {
   beginDelete(
     resourceGroupName: string,
     connectorName: string,
-    options?: AccessConnectorsDeleteOptionalParams
+    options?: AccessConnectorsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the azure databricks accessConnector.
@@ -72,7 +72,7 @@ export interface AccessConnectors {
   beginDeleteAndWait(
     resourceGroupName: string,
     connectorName: string,
-    options?: AccessConnectorsDeleteOptionalParams
+    options?: AccessConnectorsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Creates or updates azure databricks accessConnector.
@@ -85,7 +85,7 @@ export interface AccessConnectors {
     resourceGroupName: string,
     connectorName: string,
     parameters: AccessConnector,
-    options?: AccessConnectorsCreateOrUpdateOptionalParams
+    options?: AccessConnectorsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AccessConnectorsCreateOrUpdateResponse>,
@@ -103,7 +103,7 @@ export interface AccessConnectors {
     resourceGroupName: string,
     connectorName: string,
     parameters: AccessConnector,
-    options?: AccessConnectorsCreateOrUpdateOptionalParams
+    options?: AccessConnectorsCreateOrUpdateOptionalParams,
   ): Promise<AccessConnectorsCreateOrUpdateResponse>;
   /**
    * Updates an azure databricks accessConnector.
@@ -116,7 +116,7 @@ export interface AccessConnectors {
     resourceGroupName: string,
     connectorName: string,
     parameters: AccessConnectorUpdate,
-    options?: AccessConnectorsUpdateOptionalParams
+    options?: AccessConnectorsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AccessConnectorsUpdateResponse>,
@@ -134,6 +134,6 @@ export interface AccessConnectors {
     resourceGroupName: string,
     connectorName: string,
     parameters: AccessConnectorUpdate,
-    options?: AccessConnectorsUpdateOptionalParams
+    options?: AccessConnectorsUpdateOptionalParams,
   ): Promise<AccessConnectorsUpdateResponse>;
 }
