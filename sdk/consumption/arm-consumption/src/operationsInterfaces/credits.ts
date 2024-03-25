@@ -19,6 +19,6 @@ export interface Credits {
   get(
     billingAccountId: string,
     billingProfileId: string,
-    options?: CreditsGetOptionalParams
+    options?: CreditsGetOptionalParams,
   ): Promise<CreditsGetResponse>;
 }
