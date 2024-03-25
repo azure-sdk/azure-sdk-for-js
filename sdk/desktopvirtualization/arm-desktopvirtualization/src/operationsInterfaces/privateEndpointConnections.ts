@@ -21,7 +21,7 @@ import {
   PrivateEndpointConnectionsGetByHostPoolResponse,
   PrivateEndpointConnectionsDeleteByHostPoolOptionalParams,
   PrivateEndpointConnectionsUpdateByHostPoolOptionalParams,
-  PrivateEndpointConnectionsUpdateByHostPoolResponse
+  PrivateEndpointConnectionsUpdateByHostPoolResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -36,7 +36,7 @@ export interface PrivateEndpointConnections {
   listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: PrivateEndpointConnectionsListByWorkspaceOptionalParams
+    options?: PrivateEndpointConnectionsListByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<PrivateEndpointConnectionWithSystemData>;
   /**
    * List private endpoint connections associated with hostpool.
@@ -47,7 +47,7 @@ export interface PrivateEndpointConnections {
   listByHostPool(
     resourceGroupName: string,
     hostPoolName: string,
-    options?: PrivateEndpointConnectionsListByHostPoolOptionalParams
+    options?: PrivateEndpointConnectionsListByHostPoolOptionalParams,
   ): PagedAsyncIterableIterator<PrivateEndpointConnectionWithSystemData>;
   /**
    * Get a private endpoint connection.
@@ -61,7 +61,7 @@ export interface PrivateEndpointConnections {
     resourceGroupName: string,
     workspaceName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsGetByWorkspaceOptionalParams
+    options?: PrivateEndpointConnectionsGetByWorkspaceOptionalParams,
   ): Promise<PrivateEndpointConnectionsGetByWorkspaceResponse>;
   /**
    * Remove a connection.
@@ -75,7 +75,7 @@ export interface PrivateEndpointConnections {
     resourceGroupName: string,
     workspaceName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsDeleteByWorkspaceOptionalParams
+    options?: PrivateEndpointConnectionsDeleteByWorkspaceOptionalParams,
   ): Promise<void>;
   /**
    * Approve or reject a private endpoint connection.
@@ -91,7 +91,7 @@ export interface PrivateEndpointConnections {
     workspaceName: string,
     privateEndpointConnectionName: string,
     connection: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionsUpdateByWorkspaceOptionalParams
+    options?: PrivateEndpointConnectionsUpdateByWorkspaceOptionalParams,
   ): Promise<PrivateEndpointConnectionsUpdateByWorkspaceResponse>;
   /**
    * Get a private endpoint connection.
@@ -105,7 +105,7 @@ export interface PrivateEndpointConnections {
     resourceGroupName: string,
     hostPoolName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsGetByHostPoolOptionalParams
+    options?: PrivateEndpointConnectionsGetByHostPoolOptionalParams,
   ): Promise<PrivateEndpointConnectionsGetByHostPoolResponse>;
   /**
    * Remove a connection.
@@ -119,7 +119,7 @@ export interface PrivateEndpointConnections {
     resourceGroupName: string,
     hostPoolName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsDeleteByHostPoolOptionalParams
+    options?: PrivateEndpointConnectionsDeleteByHostPoolOptionalParams,
   ): Promise<void>;
   /**
    * Approve or reject a private endpoint connection.
@@ -135,6 +135,6 @@ export interface PrivateEndpointConnections {
     hostPoolName: string,
     privateEndpointConnectionName: string,
     connection: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionsUpdateByHostPoolOptionalParams
+    options?: PrivateEndpointConnectionsUpdateByHostPoolOptionalParams,
   ): Promise<PrivateEndpointConnectionsUpdateByHostPoolResponse>;
 }

@@ -1,15 +1,189 @@
 # Release History
+    
+## 1.2.0-beta.1 (2024-03-25)
+    
+**Features**
 
-## 1.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group ActiveSessionHostConfigurations
+  - Added operation group AppAttachPackageInfo
+  - Added operation group AppAttachPackageOperations
+  - Added operation group ControlSessionHostUpdate
+  - Added operation group InitiateSessionHostUpdate
+  - Added operation group SessionHostConfigurations
+  - Added operation group SessionHostConfigurationsOperationStatus
+  - Added operation group SessionHostManagements
+  - Added operation group SessionHostManagementsOperationStatus
+  - Added operation group SessionHostOperations
+  - Added Interface ActiveDirectoryInfoPatchProperties
+  - Added Interface ActiveDirectoryInfoProperties
+  - Added Interface ActiveSessionHostConfiguration
+  - Added Interface ActiveSessionHostConfigurationList
+  - Added Interface ActiveSessionHostConfigurationsGetOptionalParams
+  - Added Interface ActiveSessionHostConfigurationsListByHostPoolNextOptionalParams
+  - Added Interface ActiveSessionHostConfigurationsListByHostPoolOptionalParams
+  - Added Interface AppAttachPackage
+  - Added Interface AppAttachPackageCreateOrUpdateOptionalParams
+  - Added Interface AppAttachPackageDeleteOptionalParams
+  - Added Interface AppAttachPackageGetOptionalParams
+  - Added Interface AppAttachPackageInfoImportNextOptionalParams
+  - Added Interface AppAttachPackageInfoImportOptionalParams
+  - Added Interface AppAttachPackageInfoProperties
+  - Added Interface AppAttachPackageList
+  - Added Interface AppAttachPackageListByResourceGroupNextOptionalParams
+  - Added Interface AppAttachPackageListByResourceGroupOptionalParams
+  - Added Interface AppAttachPackageListBySubscriptionNextOptionalParams
+  - Added Interface AppAttachPackageListBySubscriptionOptionalParams
+  - Added Interface AppAttachPackagePatch
+  - Added Interface AppAttachPackagePatchProperties
+  - Added Interface AppAttachPackageProperties
+  - Added Interface AppAttachPackageUpdateOptionalParams
+  - Added Interface AzureActiveDirectoryInfoProperties
+  - Added Interface BootDiagnosticsInfoPatchProperties
+  - Added Interface BootDiagnosticsInfoProperties
+  - Added Interface ControlSessionHostUpdatePostHeaders
+  - Added Interface ControlSessionHostUpdatePostOptionalParams
+  - Added Interface CustomInfoPatchProperties
+  - Added Interface CustomInfoProperties
+  - Added Interface DiskInfoPatchProperties
+  - Added Interface DiskInfoProperties
+  - Added Interface DomainInfoPatchProperties
+  - Added Interface DomainInfoProperties
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface HostPoolControlParameter
+  - Added Interface HostPoolUpdateConfigurationPatchProperties
+  - Added Interface HostPoolUpdateConfigurationProperties
+  - Added Interface HostPoolUpdateFault
+  - Added Interface ImageInfoPatchProperties
+  - Added Interface ImageInfoProperties
+  - Added Interface ImportPackageInfoRequest
+  - Added Interface InitiateSessionHostUpdatePostHeaders
+  - Added Interface InitiateSessionHostUpdatePostOptionalParams
+  - Added Interface KeyVaultCredentialsPatchProperties
+  - Added Interface KeyVaultCredentialsProperties
+  - Added Interface MarketplaceInfoPatchProperties
+  - Added Interface MarketplaceInfoProperties
+  - Added Interface NetworkInfoPatchProperties
+  - Added Interface NetworkInfoProperties
+  - Added Interface SecurityInfoPatchProperties
+  - Added Interface SecurityInfoProperties
+  - Added Interface SessionHostConfiguration
+  - Added Interface SessionHostConfigurationList
+  - Added Interface SessionHostConfigurationOperationStatus
+  - Added Interface SessionHostConfigurationOperationStatusList
+  - Added Interface SessionHostConfigurationPatch
+  - Added Interface SessionHostConfigurationsCreateOrUpdateHeaders
+  - Added Interface SessionHostConfigurationsCreateOrUpdateOptionalParams
+  - Added Interface SessionHostConfigurationsGetOptionalParams
+  - Added Interface SessionHostConfigurationsListByHostPoolNextOptionalParams
+  - Added Interface SessionHostConfigurationsListByHostPoolOptionalParams
+  - Added Interface SessionHostConfigurationsOperationStatusGetOptionalParams
+  - Added Interface SessionHostConfigurationsOperationStatusListNextOptionalParams
+  - Added Interface SessionHostConfigurationsOperationStatusListOptionalParams
+  - Added Interface SessionHostConfigurationsUpdateHeaders
+  - Added Interface SessionHostConfigurationsUpdateOptionalParams
+  - Added Interface SessionHostManagement
+  - Added Interface SessionHostManagementList
+  - Added Interface SessionHostManagementOperationProgress
+  - Added Interface SessionHostManagementOperationStatus
+  - Added Interface SessionHostManagementOperationStatusList
+  - Added Interface SessionHostManagementPatch
+  - Added Interface SessionHostManagementProgressError
+  - Added Interface SessionHostManagementsCreateOrUpdateOptionalParams
+  - Added Interface SessionHostManagementsGetOptionalParams
+  - Added Interface SessionHostManagementsListByHostPoolNextOptionalParams
+  - Added Interface SessionHostManagementsListByHostPoolOptionalParams
+  - Added Interface SessionHostManagementsOperationStatusGetOptionalParams
+  - Added Interface SessionHostManagementsOperationStatusListNextOptionalParams
+  - Added Interface SessionHostManagementsOperationStatusListOptionalParams
+  - Added Interface SessionHostManagementsUpdateOptionalParams
+  - Added Interface SessionHostRetryProvisioningOptionalParams
+  - Added Interface TrackedResource
+  - Added Interface UpdateSessionHostsRequestBody
+  - Added Type Alias ActiveSessionHostConfigurationsGetResponse
+  - Added Type Alias ActiveSessionHostConfigurationsListByHostPoolNextResponse
+  - Added Type Alias ActiveSessionHostConfigurationsListByHostPoolResponse
+  - Added Type Alias AppAttachPackageArchitectures
+  - Added Type Alias AppAttachPackageCreateOrUpdateResponse
+  - Added Type Alias AppAttachPackageGetResponse
+  - Added Type Alias AppAttachPackageInfoImportNextResponse
+  - Added Type Alias AppAttachPackageInfoImportResponse
+  - Added Type Alias AppAttachPackageListByResourceGroupNextResponse
+  - Added Type Alias AppAttachPackageListByResourceGroupResponse
+  - Added Type Alias AppAttachPackageListBySubscriptionNextResponse
+  - Added Type Alias AppAttachPackageListBySubscriptionResponse
+  - Added Type Alias AppAttachPackageUpdateResponse
+  - Added Type Alias ControlSessionHostUpdatePostResponse
+  - Added Type Alias DirectUDP
+  - Added Type Alias DomainJoinType
+  - Added Type Alias FailHealthCheckOnStagingFailure
+  - Added Type Alias FaultType
+  - Added Type Alias HostPoolUpdateAction
+  - Added Type Alias InitiateSessionHostUpdatePostResponse
+  - Added Type Alias ManagedPrivateUDP
+  - Added Type Alias ManagementType
+  - Added Type Alias OperationActionSHM
+  - Added Type Alias OperationTypeSHM
+  - Added Type Alias PackageTimestamped
+  - Added Type Alias ProvisioningState
+  - Added Type Alias ProvisioningStateSHC
+  - Added Type Alias PublicUDP
+  - Added Type Alias RelayUDP
+  - Added Type Alias SessionHostConfigurationsCreateOrUpdateResponse
+  - Added Type Alias SessionHostConfigurationsGetResponse
+  - Added Type Alias SessionHostConfigurationsListByHostPoolNextResponse
+  - Added Type Alias SessionHostConfigurationsListByHostPoolResponse
+  - Added Type Alias SessionHostConfigurationsOperationStatusGetResponse
+  - Added Type Alias SessionHostConfigurationsOperationStatusListNextResponse
+  - Added Type Alias SessionHostConfigurationsOperationStatusListResponse
+  - Added Type Alias SessionHostConfigurationsUpdateResponse
+  - Added Type Alias SessionHostManagementsCreateOrUpdateResponse
+  - Added Type Alias SessionHostManagementsGetResponse
+  - Added Type Alias SessionHostManagementsListByHostPoolNextResponse
+  - Added Type Alias SessionHostManagementsListByHostPoolResponse
+  - Added Type Alias SessionHostManagementsOperationStatusGetResponse
+  - Added Type Alias SessionHostManagementsOperationStatusListNextResponse
+  - Added Type Alias SessionHostManagementsOperationStatusListResponse
+  - Added Type Alias SessionHostManagementsUpdateResponse
+  - Added Type Alias Type
+  - Added Type Alias VirtualMachineDiskType
+  - Added Type Alias VirtualMachineSecurityType
+  - Interface ExpandMsixImage has a new optional parameter certificateExpiry
+  - Interface ExpandMsixImage has a new optional parameter certificateName
+  - Interface HostPool has a new optional parameter appAttachPackageReferences
+  - Interface HostPool has a new optional parameter directUDP
+  - Interface HostPool has a new optional parameter managedPrivateUDP
+  - Interface HostPool has a new optional parameter managementType
+  - Interface HostPool has a new optional parameter publicUDP
+  - Interface HostPool has a new optional parameter relayUDP
+  - Interface HostPoolPatch has a new optional parameter directUDP
+  - Interface HostPoolPatch has a new optional parameter managedPrivateUDP
+  - Interface HostPoolPatch has a new optional parameter publicUDP
+  - Interface HostPoolPatch has a new optional parameter relayUDP
+  - Interface SessionHost has a new optional parameter lastSessionHostUpdateTime
+  - Interface SessionHost has a new optional parameter sessionHostConfiguration
+  - Added Enum KnownAppAttachPackageArchitectures
+  - Added Enum KnownDirectUDP
+  - Added Enum KnownDomainJoinType
+  - Added Enum KnownFailHealthCheckOnStagingFailure
+  - Added Enum KnownFaultType
+  - Added Enum KnownHostPoolUpdateAction
+  - Added Enum KnownManagedPrivateUDP
+  - Added Enum KnownManagementType
+  - Added Enum KnownOperationActionSHM
+  - Added Enum KnownOperationTypeSHM
+  - Added Enum KnownPackageTimestamped
+  - Added Enum KnownProvisioningState
+  - Added Enum KnownProvisioningStateSHC
+  - Added Enum KnownPublicUDP
+  - Added Enum KnownRelayUDP
+  - Added Enum KnownType
+  - Added Enum KnownVirtualMachineDiskType
+  - Added Enum KnownVirtualMachineSecurityType
+  - Enum KnownLoadBalancerType has a new value MultiplePersistent
+    
+    
 ## 1.1.0 (2023-10-08)
     
 **Features**
