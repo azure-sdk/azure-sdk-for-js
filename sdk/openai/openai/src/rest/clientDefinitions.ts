@@ -8,8 +8,8 @@ import {
   GetAudioTranslationAsResponseObjectParameters,
   GetCompletionsParameters,
   GetChatCompletionsParameters,
-  GetChatCompletionsWithAzureExtensionsParameters,
   GetImageGenerationsParameters,
+  GenerateSpeechFromTextParameters,
   GetEmbeddingsParameters,
   GetAzureBatchImageGenerationOperationStatusParameters,
   BeginAzureBatchImageGenerationParameters,
@@ -27,10 +27,10 @@ import {
   GetCompletionsDefaultResponse,
   GetChatCompletions200Response,
   GetChatCompletionsDefaultResponse,
-  GetChatCompletionsWithAzureExtensions200Response,
-  GetChatCompletionsWithAzureExtensionsDefaultResponse,
   GetImageGenerations200Response,
   GetImageGenerationsDefaultResponse,
+  GenerateSpeechFromText200Response,
+  GenerateSpeechFromTextDefaultResponse,
   GetEmbeddings200Response,
   GetEmbeddingsDefaultResponse,
   GetAzureBatchImageGenerationOperationStatus200Response,
@@ -46,9 +46,10 @@ export interface GetAudioTranscriptionAsPlainText {
    * written language corresponding to the language it was spoken in.
    */
   post(
-    options?: GetAudioTranscriptionAsPlainTextParameters,
+    options: GetAudioTranscriptionAsPlainTextParameters,
   ): StreamableMethod<
-    GetAudioTranscriptionAsPlainText200Response | GetAudioTranscriptionAsPlainTextDefaultResponse
+    | GetAudioTranscriptionAsPlainText200Response
+    | GetAudioTranscriptionAsPlainTextDefaultResponse
   >;
   /**
    * Gets transcribed text and associated metadata from provided spoken audio data. Audio will be transcribed in the
@@ -65,9 +66,10 @@ export interface GetAudioTranscriptionAsPlainText {
 export interface GetAudioTranslationAsPlainText {
   /** Gets English language transcribed text and associated metadata from provided spoken audio data. */
   post(
-    options?: GetAudioTranslationAsPlainTextParameters,
+    options: GetAudioTranslationAsPlainTextParameters,
   ): StreamableMethod<
-    GetAudioTranslationAsPlainText200Response | GetAudioTranslationAsPlainTextDefaultResponse
+    | GetAudioTranslationAsPlainText200Response
+    | GetAudioTranslationAsPlainTextDefaultResponse
   >;
   /** Gets English language transcribed text and associated metadata from provided spoken audio data. */
   post(
@@ -86,7 +88,9 @@ export interface GetCompletions {
    */
   post(
     options?: GetCompletionsParameters,
-  ): StreamableMethod<GetCompletions200Response | GetCompletionsDefaultResponse>;
+  ): StreamableMethod<
+    GetCompletions200Response | GetCompletionsDefaultResponse
+  >;
 }
 
 export interface GetChatCompletions {
@@ -97,20 +101,8 @@ export interface GetChatCompletions {
    */
   post(
     options?: GetChatCompletionsParameters,
-  ): StreamableMethod<GetChatCompletions200Response | GetChatCompletionsDefaultResponse>;
-}
-
-export interface GetChatCompletionsWithAzureExtensions {
-  /**
-   * Gets chat completions for the provided chat messages.
-   * This is an Azure-specific version of chat completions that supports integration with configured data sources and
-   * other augmentations to the base chat completions capabilities.
-   */
-  post(
-    options?: GetChatCompletionsWithAzureExtensionsParameters,
   ): StreamableMethod<
-    | GetChatCompletionsWithAzureExtensions200Response
-    | GetChatCompletionsWithAzureExtensionsDefaultResponse
+    GetChatCompletions200Response | GetChatCompletionsDefaultResponse
   >;
 }
 
@@ -118,7 +110,18 @@ export interface GetImageGenerations {
   /** Creates an image given a prompt. */
   post(
     options?: GetImageGenerationsParameters,
-  ): StreamableMethod<GetImageGenerations200Response | GetImageGenerationsDefaultResponse>;
+  ): StreamableMethod<
+    GetImageGenerations200Response | GetImageGenerationsDefaultResponse
+  >;
+}
+
+export interface GenerateSpeechFromText {
+  /** Generates text-to-speech audio from the input text. */
+  post(
+    options?: GenerateSpeechFromTextParameters,
+  ): StreamableMethod<
+    GenerateSpeechFromText200Response | GenerateSpeechFromTextDefaultResponse
+  >;
 }
 
 export interface GetEmbeddings {
@@ -143,7 +146,8 @@ export interface BeginAzureBatchImageGeneration {
   post(
     options?: BeginAzureBatchImageGenerationParameters,
   ): StreamableMethod<
-    BeginAzureBatchImageGeneration202Response | BeginAzureBatchImageGenerationDefaultResponse
+    | BeginAzureBatchImageGeneration202Response
+    | BeginAzureBatchImageGenerationDefaultResponse
   >;
 }
 
@@ -159,21 +163,30 @@ export interface Routes {
     deploymentId: string,
   ): GetAudioTranslationAsPlainText;
   /** Resource for '/deployments/\{deploymentId\}/completions' has methods for the following verbs: post */
-  (path: "/deployments/{deploymentId}/completions", deploymentId: string): GetCompletions;
-  /** Resource for '/deployments/\{deploymentId\}/chat/completions' has methods for the following verbs: post */
-  (path: "/deployments/{deploymentId}/chat/completions", deploymentId: string): GetChatCompletions;
-  /** Resource for '/deployments/\{deploymentId\}/extensions/chat/completions' has methods for the following verbs: post */
   (
-    path: "/deployments/{deploymentId}/extensions/chat/completions",
+    path: "/deployments/{deploymentId}/completions",
     deploymentId: string,
-  ): GetChatCompletionsWithAzureExtensions;
+  ): GetCompletions;
+  /** Resource for '/deployments/\{deploymentId\}/chat/completions' has methods for the following verbs: post */
+  (
+    path: "/deployments/{deploymentId}/chat/completions",
+    deploymentId: string,
+  ): GetChatCompletions;
   /** Resource for '/deployments/\{deploymentId\}/images/generations' has methods for the following verbs: post */
   (
     path: "/deployments/{deploymentId}/images/generations",
     deploymentId: string,
   ): GetImageGenerations;
+  /** Resource for '/deployments/\{deploymentId\}/audio/speech' has methods for the following verbs: post */
+  (
+    path: "/deployments/{deploymentId}/audio/speech",
+    deploymentId: string,
+  ): GenerateSpeechFromText;
   /** Resource for '/deployments/\{deploymentId\}/embeddings' has methods for the following verbs: post */
-  (path: "/deployments/{deploymentId}/embeddings", deploymentId: string): GetEmbeddings;
+  (
+    path: "/deployments/{deploymentId}/embeddings",
+    deploymentId: string,
+  ): GetEmbeddings;
   /** Resource for '/operations/images/\{operationId\}' has methods for the following verbs: get */
   (
     path: "/operations/images/{operationId}",
