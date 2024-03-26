@@ -7,6 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ComponentVersion,
   ComponentVersionsListOptionalParams,
@@ -14,7 +15,10 @@ import {
   ComponentVersionsGetOptionalParams,
   ComponentVersionsGetResponse,
   ComponentVersionsCreateOrUpdateOptionalParams,
-  ComponentVersionsCreateOrUpdateResponse
+  ComponentVersionsCreateOrUpdateResponse,
+  DestinationAsset,
+  ComponentVersionsPublishOptionalParams,
+  ComponentVersionsPublishResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +35,7 @@ export interface ComponentVersions {
     resourceGroupName: string,
     workspaceName: string,
     name: string,
-    options?: ComponentVersionsListOptionalParams
+    options?: ComponentVersionsListOptionalParams,
   ): PagedAsyncIterableIterator<ComponentVersion>;
   /**
    * Delete version.
@@ -46,7 +50,7 @@ export interface ComponentVersions {
     workspaceName: string,
     name: string,
     version: string,
-    options?: ComponentVersionsDeleteOptionalParams
+    options?: ComponentVersionsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Get version.
@@ -61,7 +65,7 @@ export interface ComponentVersions {
     workspaceName: string,
     name: string,
     version: string,
-    options?: ComponentVersionsGetOptionalParams
+    options?: ComponentVersionsGetOptionalParams,
   ): Promise<ComponentVersionsGetResponse>;
   /**
    * Create or update version.
@@ -78,6 +82,45 @@ export interface ComponentVersions {
     name: string,
     version: string,
     body: ComponentVersion,
-    options?: ComponentVersionsCreateOrUpdateOptionalParams
+    options?: ComponentVersionsCreateOrUpdateOptionalParams,
   ): Promise<ComponentVersionsCreateOrUpdateResponse>;
+  /**
+   * Publish version asset into registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param name Container name.
+   * @param version Version identifier.
+   * @param body Destination registry info
+   * @param options The options parameters.
+   */
+  beginPublish(
+    resourceGroupName: string,
+    workspaceName: string,
+    name: string,
+    version: string,
+    body: DestinationAsset,
+    options?: ComponentVersionsPublishOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ComponentVersionsPublishResponse>,
+      ComponentVersionsPublishResponse
+    >
+  >;
+  /**
+   * Publish version asset into registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param name Container name.
+   * @param version Version identifier.
+   * @param body Destination registry info
+   * @param options The options parameters.
+   */
+  beginPublishAndWait(
+    resourceGroupName: string,
+    workspaceName: string,
+    name: string,
+    version: string,
+    body: DestinationAsset,
+    options?: ComponentVersionsPublishOptionalParams,
+  ): Promise<ComponentVersionsPublishResponse>;
 }
