@@ -618,6 +618,7 @@ export interface BackupSchedule {
 
 // @public
 export interface BackupVault {
+    readonly bcdrSecurityLevel?: BcdrSecurityLevel;
     featureSettings?: FeatureSettings;
     readonly isVaultProtectedByResourceGuard?: boolean;
     monitoringSettings?: MonitoringSettings;
@@ -778,6 +779,9 @@ export interface BaseResourceProperties {
 export type BaseResourcePropertiesUnion = BaseResourceProperties | DefaultResourceProperties;
 
 // @public
+export type BcdrSecurityLevel = string;
+
+// @public
 export interface BlobBackupDatasourceParameters extends BackupDatasourceParameters {
     containersList: string[];
     objectType: "BlobBackupDatasourceParameters";
@@ -839,6 +843,17 @@ export interface ClientDiscoveryValueForSingleApi {
 // @public
 export interface CloudError {
     error?: ErrorModel;
+}
+
+// @public
+export interface CmkKekIdentity {
+    identityId?: string;
+    identityType?: IdentityType;
+}
+
+// @public
+export interface CmkKeyVaultProperties {
+    keyUri?: string;
 }
 
 // @public
@@ -1270,6 +1285,17 @@ export interface DppWorkerRequest {
 }
 
 // @public
+export interface EncryptionSettings {
+    infrastructureEncryption?: InfrastructureEncryptionState;
+    kekIdentity?: CmkKekIdentity;
+    keyVaultProperties?: CmkKeyVaultProperties;
+    state?: EncryptionState;
+}
+
+// @public
+export type EncryptionState = string;
+
+// @public
 export interface ErrorAdditionalInfo {
     readonly info?: Record<string, unknown>;
     readonly type?: string;
@@ -1454,6 +1480,9 @@ export interface IdentityDetails {
 }
 
 // @public
+export type IdentityType = string;
+
+// @public
 export interface ImmediateCopyOption extends CopyOption {
     objectType: "ImmediateCopyOption";
 }
@@ -1465,6 +1494,9 @@ export interface ImmutabilitySettings {
 
 // @public
 export type ImmutabilityState = string;
+
+// @public
+export type InfrastructureEncryptionState = string;
 
 // @public
 export interface InnerError {
@@ -1568,6 +1600,15 @@ export enum KnownAlertsState {
 }
 
 // @public
+export enum KnownBcdrSecurityLevel {
+    Excellent = "Excellent",
+    Fair = "Fair",
+    Good = "Good",
+    NotSupported = "NotSupported",
+    Poor = "Poor"
+}
+
+// @public
 export enum KnownCreatedByType {
     Application = "Application",
     Key = "Key",
@@ -1623,6 +1664,13 @@ export enum KnownDayOfWeek {
 }
 
 // @public
+export enum KnownEncryptionState {
+    Disabled = "Disabled",
+    Enabled = "Enabled",
+    Inconsistent = "Inconsistent"
+}
+
+// @public
 export enum KnownExistingResourcePolicy {
     Patch = "Patch",
     Skip = "Skip"
@@ -1645,10 +1693,22 @@ export enum KnownFeatureType {
 }
 
 // @public
+export enum KnownIdentityType {
+    SystemAssigned = "SystemAssigned",
+    UserAssigned = "UserAssigned"
+}
+
+// @public
 export enum KnownImmutabilityState {
     Disabled = "Disabled",
     Locked = "Locked",
     Unlocked = "Unlocked"
+}
+
+// @public
+export enum KnownInfrastructureEncryptionState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
 }
 
 // @public
@@ -1844,6 +1904,7 @@ export interface KubernetesClusterRestoreCriteria extends ItemLevelRestoreCriter
     };
     objectType: "KubernetesClusterRestoreCriteria";
     persistentVolumeRestoreMode?: PersistentVolumeRestoreMode;
+    resourceModifierReference?: NamespacedNameResource;
     restoreHookReferences?: NamespacedNameResource[];
 }
 
@@ -1861,6 +1922,7 @@ export interface KubernetesClusterVaultTierRestoreCriteria extends ItemLevelRest
     };
     objectType: "KubernetesClusterVaultTierRestoreCriteria";
     persistentVolumeRestoreMode?: PersistentVolumeRestoreMode;
+    resourceModifierReference?: NamespacedNameResource;
     restoreHookReferences?: NamespacedNameResource[];
     stagingResourceGroupId?: string;
     stagingStorageAccountId?: string;
@@ -2484,6 +2546,7 @@ export type SecureScoreLevel = string;
 
 // @public
 export interface SecuritySettings {
+    encryptionSettings?: EncryptionSettings;
     immutabilitySettings?: ImmutabilitySettings;
     softDeleteSettings?: SoftDeleteSettings;
 }

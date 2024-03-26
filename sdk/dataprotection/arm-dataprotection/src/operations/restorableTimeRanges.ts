@@ -14,7 +14,7 @@ import { DataProtectionClient } from "../dataProtectionClient";
 import {
   AzureBackupFindRestorableTimeRangesRequest,
   RestorableTimeRangesFindOptionalParams,
-  RestorableTimeRangesFindResponse
+  RestorableTimeRangesFindResponse,
 } from "../models";
 
 /** Class containing RestorableTimeRanges operations. */
@@ -41,11 +41,11 @@ export class RestorableTimeRangesImpl implements RestorableTimeRanges {
     vaultName: string,
     backupInstanceName: string,
     parameters: AzureBackupFindRestorableTimeRangesRequest,
-    options?: RestorableTimeRangesFindOptionalParams
+    options?: RestorableTimeRangesFindOptionalParams,
   ): Promise<RestorableTimeRangesFindResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, backupInstanceName, parameters, options },
-      findOperationSpec
+      findOperationSpec,
     );
   }
 }
@@ -53,16 +53,15 @@ export class RestorableTimeRangesImpl implements RestorableTimeRanges {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const findOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupInstances/{backupInstanceName}/findRestorableTimeRanges",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupInstances/{backupInstanceName}/findRestorableTimeRanges",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.AzureBackupFindRestorableTimeRangesResponseResource
+      bodyMapper: Mappers.AzureBackupFindRestorableTimeRangesResponseResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters17,
   queryParameters: [Parameters.apiVersion],
@@ -71,9 +70,9 @@ const findOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vaultName,
-    Parameters.backupInstanceName
+    Parameters.backupInstanceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

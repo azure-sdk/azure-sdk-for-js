@@ -11,7 +11,7 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
@@ -35,7 +35,7 @@ import {
   ExportJobsOperationResultImpl,
   DeletedBackupInstancesImpl,
   ResourceGuardsImpl,
-  DppResourceGuardProxyImpl
+  DppResourceGuardProxyImpl,
 } from "./operations";
 import {
   BackupVaults,
@@ -58,7 +58,7 @@ import {
   ExportJobsOperationResult,
   DeletedBackupInstances,
   ResourceGuards,
-  DppResourceGuardProxy
+  DppResourceGuardProxy,
 } from "./operationsInterfaces";
 import { DataProtectionClientOptionalParams } from "./models";
 
@@ -76,16 +76,16 @@ export class DataProtectionClient extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: DataProtectionClientOptionalParams
+    options?: DataProtectionClientOptionalParams,
   );
   constructor(
     credentials: coreAuth.TokenCredential,
-    options?: DataProtectionClientOptionalParams
+    options?: DataProtectionClientOptionalParams,
   );
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionIdOrOptions?: DataProtectionClientOptionalParams | string,
-    options?: DataProtectionClientOptionalParams
+    options?: DataProtectionClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -105,10 +105,10 @@ export class DataProtectionClient extends coreClient.ServiceClient {
     }
     const defaults: DataProtectionClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-dataprotection/2.0.1`;
+    const packageDetails = `azsdk-js-arm-dataprotection/2.1.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -118,20 +118,21 @@ export class DataProtectionClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -141,7 +142,7 @@ export class DataProtectionClient extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -151,9 +152,9 @@ export class DataProtectionClient extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -161,18 +162,16 @@ export class DataProtectionClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-11-01";
+    this.apiVersion = options.apiVersion || "2024-03-01";
     this.backupVaults = new BackupVaultsImpl(this);
     this.operationResult = new OperationResultImpl(this);
     this.operationStatus = new OperationStatusImpl(this);
-    this.operationStatusBackupVaultContext = new OperationStatusBackupVaultContextImpl(
-      this
-    );
-    this.operationStatusResourceGroupContext = new OperationStatusResourceGroupContextImpl(
-      this
-    );
+    this.operationStatusBackupVaultContext =
+      new OperationStatusBackupVaultContextImpl(this);
+    this.operationStatusResourceGroupContext =
+      new OperationStatusResourceGroupContextImpl(this);
     this.backupVaultOperationResults = new BackupVaultOperationResultsImpl(
-      this
+      this,
     );
     this.dataProtection = new DataProtectionImpl(this);
     this.dataProtectionOperations = new DataProtectionOperationsImpl(this);
@@ -180,11 +179,11 @@ export class DataProtectionClient extends coreClient.ServiceClient {
     this.backupInstances = new BackupInstancesImpl(this);
     this.recoveryPoints = new RecoveryPointsImpl(this);
     this.fetchSecondaryRecoveryPoints = new FetchSecondaryRecoveryPointsImpl(
-      this
+      this,
     );
     this.fetchCrossRegionRestoreJob = new FetchCrossRegionRestoreJobImpl(this);
     this.fetchCrossRegionRestoreJobs = new FetchCrossRegionRestoreJobsImpl(
-      this
+      this,
     );
     this.jobs = new JobsImpl(this);
     this.restorableTimeRanges = new RestorableTimeRangesImpl(this);
@@ -205,7 +204,7 @@ export class DataProtectionClient extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -219,7 +218,7 @@ export class DataProtectionClient extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }

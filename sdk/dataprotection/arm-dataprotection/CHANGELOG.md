@@ -1,15 +1,26 @@
 # Release History
+    
+## 2.1.0 (2024-03-26)
+    
+**Features**
 
-## 2.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface CmkKekIdentity
+  - Added Interface CmkKeyVaultProperties
+  - Added Interface EncryptionSettings
+  - Added Type Alias BcdrSecurityLevel
+  - Added Type Alias EncryptionState
+  - Added Type Alias IdentityType
+  - Added Type Alias InfrastructureEncryptionState
+  - Interface BackupVault has a new optional parameter bcdrSecurityLevel
+  - Interface KubernetesClusterRestoreCriteria has a new optional parameter resourceModifierReference
+  - Interface KubernetesClusterVaultTierRestoreCriteria has a new optional parameter resourceModifierReference
+  - Interface SecuritySettings has a new optional parameter encryptionSettings
+  - Added Enum KnownBcdrSecurityLevel
+  - Added Enum KnownEncryptionState
+  - Added Enum KnownIdentityType
+  - Added Enum KnownInfrastructureEncryptionState
+    
+    
 ## 2.0.0 (2023-12-05)
     
 **Features**
