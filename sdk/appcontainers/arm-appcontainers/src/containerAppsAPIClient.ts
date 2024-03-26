@@ -15,14 +15,9 @@ import {
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
-  AppResiliencyOperationsImpl,
   ContainerAppsAuthConfigsImpl,
   AvailableWorkloadProfilesImpl,
   BillingMetersImpl,
-  BuildersImpl,
-  BuildsByBuilderResourceImpl,
-  BuildsImpl,
-  BuildAuthTokenImpl,
   ConnectedEnvironmentsImpl,
   ConnectedEnvironmentsCertificatesImpl,
   ConnectedEnvironmentsDaprComponentsImpl,
@@ -33,32 +28,21 @@ import {
   ContainerAppsDiagnosticsImpl,
   ManagedEnvironmentDiagnosticsImpl,
   ManagedEnvironmentsDiagnosticsImpl,
-  JobsImpl,
   OperationsImpl,
+  JobsImpl,
   JobsExecutionsImpl,
   ManagedEnvironmentsImpl,
   CertificatesImpl,
   ManagedCertificatesImpl,
   NamespacesImpl,
-  DaprComponentResiliencyPoliciesImpl,
   DaprComponentsImpl,
-  DaprSubscriptionsImpl,
   ManagedEnvironmentsStoragesImpl,
   ContainerAppsSourceControlsImpl,
-  UsagesImpl,
-  ManagedEnvironmentUsagesImpl,
-  JavaComponentsImpl,
-  DotNetComponentsImpl,
 } from "./operations";
 import {
-  AppResiliencyOperations,
   ContainerAppsAuthConfigs,
   AvailableWorkloadProfiles,
   BillingMeters,
-  Builders,
-  BuildsByBuilderResource,
-  Builds,
-  BuildAuthToken,
   ConnectedEnvironments,
   ConnectedEnvironmentsCertificates,
   ConnectedEnvironmentsDaprComponents,
@@ -69,22 +53,16 @@ import {
   ContainerAppsDiagnostics,
   ManagedEnvironmentDiagnostics,
   ManagedEnvironmentsDiagnostics,
-  Jobs,
   Operations,
+  Jobs,
   JobsExecutions,
   ManagedEnvironments,
   Certificates,
   ManagedCertificates,
   Namespaces,
-  DaprComponentResiliencyPolicies,
   DaprComponents,
-  DaprSubscriptions,
   ManagedEnvironmentsStorages,
   ContainerAppsSourceControls,
-  Usages,
-  ManagedEnvironmentUsages,
-  JavaComponents,
-  DotNetComponents,
 } from "./operationsInterfaces";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
@@ -92,8 +70,6 @@ import {
   ContainerAppsAPIClientOptionalParams,
   JobExecutionOptionalParams,
   JobExecutionResponse,
-  GetCustomDomainVerificationIdOptionalParams,
-  GetCustomDomainVerificationIdResponse,
 } from "./models";
 
 export class ContainerAppsAPIClient extends coreClient.ServiceClient {
@@ -104,7 +80,7 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
   /**
    * Initializes a new instance of the ContainerAppsAPIClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
+   * @param subscriptionId The ID of the target subscription.
    * @param options The parameter options
    */
   constructor(
@@ -128,7 +104,7 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-appcontainers/2.1.0-beta.1`;
+    const packageDetails = `azsdk-js-arm-appcontainers/2.1.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -182,15 +158,10 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-11-02-preview";
-    this.appResiliencyOperations = new AppResiliencyOperationsImpl(this);
+    this.apiVersion = options.apiVersion || "2024-03-01";
     this.containerAppsAuthConfigs = new ContainerAppsAuthConfigsImpl(this);
     this.availableWorkloadProfiles = new AvailableWorkloadProfilesImpl(this);
     this.billingMeters = new BillingMetersImpl(this);
-    this.builders = new BuildersImpl(this);
-    this.buildsByBuilderResource = new BuildsByBuilderResourceImpl(this);
-    this.builds = new BuildsImpl(this);
-    this.buildAuthToken = new BuildAuthTokenImpl(this);
     this.connectedEnvironments = new ConnectedEnvironmentsImpl(this);
     this.connectedEnvironmentsCertificates =
       new ConnectedEnvironmentsCertificatesImpl(this);
@@ -210,27 +181,20 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
     );
     this.managedEnvironmentsDiagnostics =
       new ManagedEnvironmentsDiagnosticsImpl(this);
-    this.jobs = new JobsImpl(this);
     this.operations = new OperationsImpl(this);
+    this.jobs = new JobsImpl(this);
     this.jobsExecutions = new JobsExecutionsImpl(this);
     this.managedEnvironments = new ManagedEnvironmentsImpl(this);
     this.certificates = new CertificatesImpl(this);
     this.managedCertificates = new ManagedCertificatesImpl(this);
     this.namespaces = new NamespacesImpl(this);
-    this.daprComponentResiliencyPolicies =
-      new DaprComponentResiliencyPoliciesImpl(this);
     this.daprComponents = new DaprComponentsImpl(this);
-    this.daprSubscriptions = new DaprSubscriptionsImpl(this);
     this.managedEnvironmentsStorages = new ManagedEnvironmentsStoragesImpl(
       this,
     );
     this.containerAppsSourceControls = new ContainerAppsSourceControlsImpl(
       this,
     );
-    this.usages = new UsagesImpl(this);
-    this.managedEnvironmentUsages = new ManagedEnvironmentUsagesImpl(this);
-    this.javaComponents = new JavaComponentsImpl(this);
-    this.dotNetComponents = new DotNetComponentsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -281,27 +245,9 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
     );
   }
 
-  /**
-   * Get the verification id of a subscription used for verifying custom domains
-   * @param options The options parameters.
-   */
-  getCustomDomainVerificationId(
-    options?: GetCustomDomainVerificationIdOptionalParams,
-  ): Promise<GetCustomDomainVerificationIdResponse> {
-    return this.sendOperationRequest(
-      { options },
-      getCustomDomainVerificationIdOperationSpec,
-    );
-  }
-
-  appResiliencyOperations: AppResiliencyOperations;
   containerAppsAuthConfigs: ContainerAppsAuthConfigs;
   availableWorkloadProfiles: AvailableWorkloadProfiles;
   billingMeters: BillingMeters;
-  builders: Builders;
-  buildsByBuilderResource: BuildsByBuilderResource;
-  builds: Builds;
-  buildAuthToken: BuildAuthToken;
   connectedEnvironments: ConnectedEnvironments;
   connectedEnvironmentsCertificates: ConnectedEnvironmentsCertificates;
   connectedEnvironmentsDaprComponents: ConnectedEnvironmentsDaprComponents;
@@ -312,22 +258,16 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
   containerAppsDiagnostics: ContainerAppsDiagnostics;
   managedEnvironmentDiagnostics: ManagedEnvironmentDiagnostics;
   managedEnvironmentsDiagnostics: ManagedEnvironmentsDiagnostics;
-  jobs: Jobs;
   operations: Operations;
+  jobs: Jobs;
   jobsExecutions: JobsExecutions;
   managedEnvironments: ManagedEnvironments;
   certificates: Certificates;
   managedCertificates: ManagedCertificates;
   namespaces: Namespaces;
-  daprComponentResiliencyPolicies: DaprComponentResiliencyPolicies;
   daprComponents: DaprComponents;
-  daprSubscriptions: DaprSubscriptions;
   managedEnvironmentsStorages: ManagedEnvironmentsStorages;
   containerAppsSourceControls: ContainerAppsSourceControls;
-  usages: Usages;
-  managedEnvironmentUsages: ManagedEnvironmentUsages;
-  javaComponents: JavaComponents;
-  dotNetComponents: DotNetComponents;
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -351,22 +291,6 @@ const jobExecutionOperationSpec: coreClient.OperationSpec = {
     Parameters.jobName,
     Parameters.jobExecutionName,
   ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const getCustomDomainVerificationIdOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.App/getCustomDomainVerificationId",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: { type: { name: "String" } },
-    },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
 };
