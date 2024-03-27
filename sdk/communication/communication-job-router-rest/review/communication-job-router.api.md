@@ -8,7 +8,6 @@ import { Client } from '@azure-rest/core-client';
 import { ClientOptions } from '@azure-rest/core-client';
 import { ErrorResponse } from '@azure-rest/core-client';
 import { HttpResponse } from '@azure-rest/core-client';
-import { KeyCredential } from '@azure/core-auth';
 import { Paged } from '@azure/core-paging';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PathUncheckedResponse } from '@azure-rest/core-client';
@@ -16,7 +15,6 @@ import { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
 import { RequestParameters } from '@azure-rest/core-client';
 import { StreamableMethod } from '@azure-rest/core-client';
-import { TokenCredential } from '@azure/core-auth';
 
 // @public (undocumented)
 export interface Accept {
@@ -279,10 +277,7 @@ export interface ConditionalWorkerSelectorAttachmentOutput extends WorkerSelecto
 }
 
 // @public
-function createClient(connectionString: string, options: ClientOptions): AzureCommunicationRoutingServiceClient;
-
-// @public
-function createClient(endpoint: string, credentialOrOptions?: KeyCredential | TokenCredential, options?: ClientOptions): AzureCommunicationRoutingServiceClient;
+function createClient(endpoint: string, options?: ClientOptions): AzureCommunicationRoutingServiceClient;
 export default createClient;
 
 // @public (undocumented)
@@ -488,13 +483,19 @@ export interface DirectMapRouterRuleOutput extends RouterRuleOutputParent {
 export type DistributionMode = DistributionModeParent | BestWorkerMode | LongestIdleMode | RoundRobinMode;
 
 // @public
+export type DistributionModeKind = string | "bestWorker" | "longestIdle" | "roundRobin";
+
+// @public
+export type DistributionModeKindOutput = string | "bestWorker" | "longestIdle" | "roundRobin";
+
+// @public
 export type DistributionModeOutput = DistributionModeOutputParent | BestWorkerModeOutput | LongestIdleModeOutput | RoundRobinModeOutput;
 
 // @public
 export interface DistributionModeOutputParent {
     bypassSelectors?: boolean;
     // (undocumented)
-    kind: string;
+    kind: DistributionModeKindOutput;
     maxConcurrentOffers?: number;
     minConcurrentOffers?: number;
 }
@@ -503,7 +504,7 @@ export interface DistributionModeOutputParent {
 export interface DistributionModeParent {
     bypassSelectors?: boolean;
     // (undocumented)
-    kind: string;
+    kind: DistributionModeKind;
     maxConcurrentOffers?: number;
     minConcurrentOffers?: number;
 }
@@ -531,20 +532,26 @@ export type DistributionPolicyResourceMergeAndPatch = Partial<DistributionPolicy
 export type ExceptionAction = ExceptionActionParent | CancelExceptionAction | ManualReclassifyExceptionAction | ReclassifyExceptionAction;
 
 // @public
+export type ExceptionActionKind = string | "cancel" | "manualReclassify" | "reclassify";
+
+// @public
+export type ExceptionActionKindOutput = string | "cancel" | "manualReclassify" | "reclassify";
+
+// @public
 export type ExceptionActionOutput = ExceptionActionOutputParent | CancelExceptionActionOutput | ManualReclassifyExceptionActionOutput | ReclassifyExceptionActionOutput;
 
 // @public
 export interface ExceptionActionOutputParent {
     id?: string;
     // (undocumented)
-    kind: string;
+    kind: ExceptionActionKindOutput;
 }
 
 // @public
 export interface ExceptionActionParent {
     id?: string;
     // (undocumented)
-    kind: string;
+    kind: ExceptionActionKind;
 }
 
 // @public
@@ -582,32 +589,44 @@ export interface ExceptionRuleOutput {
 export type ExceptionTrigger = ExceptionTriggerParent | QueueLengthExceptionTrigger | WaitTimeExceptionTrigger;
 
 // @public
+export type ExceptionTriggerKind = string | "queueLength" | "waitTime";
+
+// @public
+export type ExceptionTriggerKindOutput = string | "queueLength" | "waitTime";
+
+// @public
 export type ExceptionTriggerOutput = ExceptionTriggerOutputParent | QueueLengthExceptionTriggerOutput | WaitTimeExceptionTriggerOutput;
 
 // @public
 export interface ExceptionTriggerOutputParent {
     // (undocumented)
-    kind: string;
+    kind: ExceptionTriggerKindOutput;
 }
 
 // @public
 export interface ExceptionTriggerParent {
     // (undocumented)
-    kind: string;
+    kind: ExceptionTriggerKind;
 }
 
 // @public
 export interface ExpressionRouterRule extends RouterRuleParent {
     expression: string;
     kind: "expression";
-    language?: string;
+    language?: ExpressionRouterRuleLanguage;
 }
+
+// @public
+export type ExpressionRouterRuleLanguage = string | "powerFx";
+
+// @public
+export type ExpressionRouterRuleLanguageOutput = string | "powerFx";
 
 // @public
 export interface ExpressionRouterRuleOutput extends RouterRuleOutputParent {
     expression: string;
     kind: "expression";
-    language?: string;
+    language?: ExpressionRouterRuleLanguageOutput;
 }
 
 // @public
@@ -1016,19 +1035,31 @@ export function isUnexpected(response: ListWorkers200Response | ListWorkersDefau
 export type JobMatchingMode = JobMatchingModeParent | ScheduleAndSuspendMode | QueueAndMatchMode | SuspendMode;
 
 // @public
+export type JobMatchingModeKind = string | "queueAndMatch" | "scheduleAndSuspend" | "suspend";
+
+// @public
+export type JobMatchingModeKindOutput = string | "queueAndMatch" | "scheduleAndSuspend" | "suspend";
+
+// @public
 export type JobMatchingModeOutput = JobMatchingModeOutputParent | ScheduleAndSuspendModeOutput | QueueAndMatchModeOutput | SuspendModeOutput;
 
 // @public
 export interface JobMatchingModeOutputParent {
     // (undocumented)
-    kind: string;
+    kind: JobMatchingModeKindOutput;
 }
 
 // @public
 export interface JobMatchingModeParent {
     // (undocumented)
-    kind: string;
+    kind: JobMatchingModeKind;
 }
+
+// @public
+export type LabelOperator = string | "equal" | "notEqual" | "lessThan" | "lessThanOrEqual" | "greaterThan" | "greaterThanOrEqual";
+
+// @public
+export type LabelOperatorOutput = string | "equal" | "notEqual" | "lessThan" | "lessThanOrEqual" | "greaterThan" | "greaterThanOrEqual";
 
 // @public (undocumented)
 export interface ListClassificationPolicies {
@@ -1201,7 +1232,7 @@ export interface ListJobsQueryParamProperties {
     queueId?: string;
     scheduledAfter?: Date | string;
     scheduledBefore?: Date | string;
-    status?: string;
+    status?: RouterJobStatusSelector;
 }
 
 // @public (undocumented)
@@ -1289,7 +1320,7 @@ export interface ListWorkersQueryParamProperties {
     hasCapacity?: boolean;
     maxpagesize?: number;
     queueId?: string;
-    state?: string;
+    state?: RouterWorkerStateSelector;
 }
 
 // @public
@@ -1367,14 +1398,14 @@ export interface PagingOptions<TResponse> {
 export interface PassThroughQueueSelectorAttachment extends QueueSelectorAttachmentParent {
     key: string;
     kind: "passThrough";
-    labelOperator: string;
+    labelOperator: LabelOperator;
 }
 
 // @public
 export interface PassThroughQueueSelectorAttachmentOutput extends QueueSelectorAttachmentOutputParent {
     key: string;
     kind: "passThrough";
-    labelOperator: string;
+    labelOperator: LabelOperatorOutput;
 }
 
 // @public
@@ -1382,7 +1413,7 @@ export interface PassThroughWorkerSelectorAttachment extends WorkerSelectorAttac
     expiresAfterSeconds?: number;
     key: string;
     kind: "passThrough";
-    labelOperator: string;
+    labelOperator: LabelOperator;
 }
 
 // @public
@@ -1390,7 +1421,7 @@ export interface PassThroughWorkerSelectorAttachmentOutput extends WorkerSelecto
     expiresAfterSeconds?: number;
     key: string;
     kind: "passThrough";
-    labelOperator: string;
+    labelOperator: LabelOperatorOutput;
 }
 
 // @public
@@ -1419,18 +1450,24 @@ export interface QueueLengthExceptionTriggerOutput extends ExceptionTriggerOutpu
 export type QueueSelectorAttachment = QueueSelectorAttachmentParent | ConditionalQueueSelectorAttachment | PassThroughQueueSelectorAttachment | RuleEngineQueueSelectorAttachment | StaticQueueSelectorAttachment | WeightedAllocationQueueSelectorAttachment;
 
 // @public
+export type QueueSelectorAttachmentKind = string | "conditional" | "passThrough" | "ruleEngine" | "static" | "weightedAllocation";
+
+// @public
+export type QueueSelectorAttachmentKindOutput = string | "conditional" | "passThrough" | "ruleEngine" | "static" | "weightedAllocation";
+
+// @public
 export type QueueSelectorAttachmentOutput = QueueSelectorAttachmentOutputParent | ConditionalQueueSelectorAttachmentOutput | PassThroughQueueSelectorAttachmentOutput | RuleEngineQueueSelectorAttachmentOutput | StaticQueueSelectorAttachmentOutput | WeightedAllocationQueueSelectorAttachmentOutput;
 
 // @public
 export interface QueueSelectorAttachmentOutputParent {
     // (undocumented)
-    kind: string;
+    kind: QueueSelectorAttachmentKindOutput;
 }
 
 // @public
 export interface QueueSelectorAttachmentParent {
     // (undocumented)
-    kind: string;
+    kind: QueueSelectorAttachmentKind;
 }
 
 // @public
@@ -1610,7 +1647,7 @@ export interface RouterJobOutput {
     queueId?: string;
     requestedWorkerSelectors?: Array<RouterWorkerSelectorOutput>;
     readonly scheduledAt?: string;
-    readonly status?: string;
+    readonly status?: RouterJobStatusOutput;
     tags?: Record<string, any>;
 }
 
@@ -1625,6 +1662,15 @@ export interface RouterJobPositionDetailsOutput {
 
 // @public
 export type RouterJobResourceMergeAndPatch = Partial<RouterJob>;
+
+// @public
+export type RouterJobStatus = string | "pendingClassification" | "queued" | "assigned" | "completed" | "closed" | "cancelled" | "classificationFailed" | "created" | "pendingSchedule" | "scheduled" | "scheduleFailed" | "waitingForActivation";
+
+// @public
+export type RouterJobStatusOutput = string | "pendingClassification" | "queued" | "assigned" | "completed" | "closed" | "cancelled" | "classificationFailed" | "created" | "pendingSchedule" | "scheduled" | "scheduleFailed" | "waitingForActivation";
+
+// @public
+export type RouterJobStatusSelector = string | "all" | "pendingClassification" | "queued" | "assigned" | "completed" | "closed" | "cancelled" | "classificationFailed" | "created" | "pendingSchedule" | "scheduled" | "scheduleFailed" | "waitingForActivation" | "active";
 
 // @public
 export interface RouterQueue {
@@ -1650,14 +1696,14 @@ export type RouterQueueResourceMergeAndPatch = Partial<RouterQueue>;
 // @public
 export interface RouterQueueSelector {
     key: string;
-    labelOperator: string;
+    labelOperator: LabelOperator;
     value?: unknown;
 }
 
 // @public
 export interface RouterQueueSelectorOutput {
     key: string;
-    labelOperator: string;
+    labelOperator: LabelOperatorOutput;
     value?: any;
 }
 
@@ -1673,18 +1719,24 @@ export interface RouterQueueStatisticsOutput {
 export type RouterRule = RouterRuleParent | DirectMapRouterRule | ExpressionRouterRule | FunctionRouterRule | StaticRouterRule | WebhookRouterRule;
 
 // @public
+export type RouterRuleKind = string | "directMap" | "expression" | "function" | "static" | "webhook";
+
+// @public
+export type RouterRuleKindOutput = string | "directMap" | "expression" | "function" | "static" | "webhook";
+
+// @public
 export type RouterRuleOutput = RouterRuleOutputParent | DirectMapRouterRuleOutput | ExpressionRouterRuleOutput | FunctionRouterRuleOutput | StaticRouterRuleOutput | WebhookRouterRuleOutput;
 
 // @public
 export interface RouterRuleOutputParent {
     // (undocumented)
-    kind: string;
+    kind: RouterRuleKindOutput;
 }
 
 // @public
 export interface RouterRuleParent {
     // (undocumented)
-    kind: string;
+    kind: RouterRuleKind;
 }
 
 // @public
@@ -1727,7 +1779,7 @@ export interface RouterWorkerOutput {
     maxConcurrentOffers?: number;
     readonly offers?: Array<RouterJobOfferOutput>;
     queues?: string[];
-    readonly state?: string;
+    readonly state?: RouterWorkerStateOutput;
     tags?: Record<string, any>;
 }
 
@@ -1739,7 +1791,7 @@ export interface RouterWorkerSelector {
     expedite?: boolean;
     expiresAfterSeconds?: number;
     key: string;
-    labelOperator: string;
+    labelOperator: LabelOperator;
     value?: unknown;
 }
 
@@ -1749,10 +1801,25 @@ export interface RouterWorkerSelectorOutput {
     expiresAfterSeconds?: number;
     readonly expiresAt?: string;
     key: string;
-    labelOperator: string;
-    readonly status?: string;
+    labelOperator: LabelOperatorOutput;
+    readonly status?: RouterWorkerSelectorStatusOutput;
     value?: any;
 }
+
+// @public
+export type RouterWorkerSelectorStatus = string | "active" | "expired";
+
+// @public
+export type RouterWorkerSelectorStatusOutput = string | "active" | "expired";
+
+// @public
+export type RouterWorkerState = string | "active" | "draining" | "inactive";
+
+// @public
+export type RouterWorkerStateOutput = string | "active" | "draining" | "inactive";
+
+// @public
+export type RouterWorkerStateSelector = string | "active" | "draining" | "inactive" | "all";
 
 // @public (undocumented)
 export interface Routes {
@@ -1820,7 +1887,7 @@ export interface ScoringRuleOptions {
     batchSize?: number;
     descendingOrder?: boolean;
     isBatchScoringEnabled?: boolean;
-    scoringParameters?: string[];
+    scoringParameters?: ScoringRuleParameterSelector[];
 }
 
 // @public
@@ -1828,8 +1895,14 @@ export interface ScoringRuleOptionsOutput {
     batchSize?: number;
     descendingOrder?: boolean;
     isBatchScoringEnabled?: boolean;
-    scoringParameters?: string[];
+    scoringParameters?: ScoringRuleParameterSelectorOutput[];
 }
+
+// @public
+export type ScoringRuleParameterSelector = string | "jobLabels" | "workerSelectors";
+
+// @public
+export type ScoringRuleParameterSelectorOutput = string | "jobLabels" | "workerSelectors";
 
 // @public
 export interface StaticQueueSelectorAttachment extends QueueSelectorAttachmentParent {
@@ -2454,18 +2527,24 @@ export interface WeightedAllocationWorkerSelectorAttachmentOutput extends Worker
 export type WorkerSelectorAttachment = WorkerSelectorAttachmentParent | ConditionalWorkerSelectorAttachment | PassThroughWorkerSelectorAttachment | RuleEngineWorkerSelectorAttachment | StaticWorkerSelectorAttachment | WeightedAllocationWorkerSelectorAttachment;
 
 // @public
+export type WorkerSelectorAttachmentKind = string | "conditional" | "passThrough" | "ruleEngine" | "static" | "weightedAllocation";
+
+// @public
+export type WorkerSelectorAttachmentKindOutput = string | "conditional" | "passThrough" | "ruleEngine" | "static" | "weightedAllocation";
+
+// @public
 export type WorkerSelectorAttachmentOutput = WorkerSelectorAttachmentOutputParent | ConditionalWorkerSelectorAttachmentOutput | PassThroughWorkerSelectorAttachmentOutput | RuleEngineWorkerSelectorAttachmentOutput | StaticWorkerSelectorAttachmentOutput | WeightedAllocationWorkerSelectorAttachmentOutput;
 
 // @public
 export interface WorkerSelectorAttachmentOutputParent {
     // (undocumented)
-    kind: string;
+    kind: WorkerSelectorAttachmentKindOutput;
 }
 
 // @public
 export interface WorkerSelectorAttachmentParent {
     // (undocumented)
-    kind: string;
+    kind: WorkerSelectorAttachmentKind;
 }
 
 // @public
