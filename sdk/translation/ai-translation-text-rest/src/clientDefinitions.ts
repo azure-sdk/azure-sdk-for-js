@@ -50,14 +50,18 @@ export interface FindSentenceBoundaries {
   /** Find Sentence Boundaries */
   post(
     options: FindSentenceBoundariesParameters,
-  ): StreamableMethod<FindSentenceBoundaries200Response | FindSentenceBoundariesDefaultResponse>;
+  ): StreamableMethod<
+    FindSentenceBoundaries200Response | FindSentenceBoundariesDefaultResponse
+  >;
 }
 
 export interface LookupDictionaryEntries {
   /** Lookup Dictionary Entries */
   post(
     options: LookupDictionaryEntriesParameters,
-  ): StreamableMethod<LookupDictionaryEntries200Response | LookupDictionaryEntriesDefaultResponse>;
+  ): StreamableMethod<
+    LookupDictionaryEntries200Response | LookupDictionaryEntriesDefaultResponse
+  >;
 }
 
 export interface LookupDictionaryExamples {
@@ -65,7 +69,8 @@ export interface LookupDictionaryExamples {
   post(
     options: LookupDictionaryExamplesParameters,
   ): StreamableMethod<
-    LookupDictionaryExamples200Response | LookupDictionaryExamplesDefaultResponse
+    | LookupDictionaryExamples200Response
+    | LookupDictionaryExamplesDefaultResponse
   >;
 }
 

@@ -3,7 +3,13 @@
 
 import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
 import { RequestParameters } from "@azure-rest/core-client";
-import { InputTextItem, DictionaryExampleTextItem } from "./models";
+import {
+  TextType,
+  ProfanityAction,
+  ProfanityMarker,
+  InputTextItem,
+  DictionaryExampleTextItem,
+} from "./models";
 
 export interface GetLanguagesHeaders {
   /** A client-generated GUID to uniquely identify the request. */
@@ -78,7 +84,7 @@ export interface TranslateQueryParamProperties {
    * Defines whether the text being translated is plain text or HTML text. Any HTML needs to be a well-formed,
    * complete element. Possible values are: plain (default) or html.
    */
-  textType?: string;
+  textType?: TextType;
   /**
    * A string specifying the category (domain) of the translation. This parameter is used to get translations
    * from a customized system built with Custom Translator. Add the Category ID from your Custom Translator
@@ -89,12 +95,12 @@ export interface TranslateQueryParamProperties {
    * Specifies how profanities should be treated in translations.
    * Possible values are: NoAction (default), Marked or Deleted.
    */
-  profanityAction?: string;
+  profanityAction?: ProfanityAction;
   /**
    * Specifies how profanities should be marked in translations.
    * Possible values are: Asterisk (default) or Tag.
    */
-  profanityMarker?: string;
+  profanityMarker?: ProfanityMarker;
   /**
    * Specifies whether to include alignment projection from source text to translated text.
    * Possible values are: true or false (default).
@@ -214,10 +220,11 @@ export interface FindSentenceBoundariesHeaderParam {
   headers?: RawHttpHeadersInput & FindSentenceBoundariesHeaders;
 }
 
-export type FindSentenceBoundariesParameters = FindSentenceBoundariesQueryParam &
-  FindSentenceBoundariesHeaderParam &
-  FindSentenceBoundariesBodyParam &
-  RequestParameters;
+export type FindSentenceBoundariesParameters =
+  FindSentenceBoundariesQueryParam &
+    FindSentenceBoundariesHeaderParam &
+    FindSentenceBoundariesBodyParam &
+    RequestParameters;
 
 export interface LookupDictionaryEntriesHeaders {
   /** A client-generated GUID to uniquely identify the request. */
@@ -250,10 +257,11 @@ export interface LookupDictionaryEntriesHeaderParam {
   headers?: RawHttpHeadersInput & LookupDictionaryEntriesHeaders;
 }
 
-export type LookupDictionaryEntriesParameters = LookupDictionaryEntriesQueryParam &
-  LookupDictionaryEntriesHeaderParam &
-  LookupDictionaryEntriesBodyParam &
-  RequestParameters;
+export type LookupDictionaryEntriesParameters =
+  LookupDictionaryEntriesQueryParam &
+    LookupDictionaryEntriesHeaderParam &
+    LookupDictionaryEntriesBodyParam &
+    RequestParameters;
 
 export interface LookupDictionaryExamplesHeaders {
   /** A client-generated GUID to uniquely identify the request. */
@@ -286,7 +294,8 @@ export interface LookupDictionaryExamplesHeaderParam {
   headers?: RawHttpHeadersInput & LookupDictionaryExamplesHeaders;
 }
 
-export type LookupDictionaryExamplesParameters = LookupDictionaryExamplesQueryParam &
-  LookupDictionaryExamplesHeaderParam &
-  LookupDictionaryExamplesBodyParam &
-  RequestParameters;
+export type LookupDictionaryExamplesParameters =
+  LookupDictionaryExamplesQueryParam &
+    LookupDictionaryExamplesHeaderParam &
+    LookupDictionaryExamplesBodyParam &
+    RequestParameters;

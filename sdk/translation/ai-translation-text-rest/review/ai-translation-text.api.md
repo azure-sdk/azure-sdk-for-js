@@ -7,12 +7,10 @@
 import { Client } from '@azure-rest/core-client';
 import { ClientOptions } from '@azure-rest/core-client';
 import { HttpResponse } from '@azure-rest/core-client';
-import { KeyCredential } from '@azure/core-auth';
 import { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
 import { RequestParameters } from '@azure-rest/core-client';
 import { StreamableMethod } from '@azure-rest/core-client';
-import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface BackTranslationOutput {
@@ -40,7 +38,7 @@ export interface CommonScriptModelOutput {
 }
 
 // @public
-function createClient(endpoint: undefined | string, credential?: undefined | TranslatorCredential | KeyCredential | TokenCredential, options?: ClientOptions): TextTranslationClient;
+function createClient(endpoint: string, options?: ClientOptions): TextTranslationClient;
 export default createClient;
 
 // @public
@@ -390,6 +388,12 @@ export interface LookupDictionaryExamplesQueryParamProperties {
     to: string;
 }
 
+// @public
+export type ProfanityAction = string | "NoAction" | "Marked" | "Deleted";
+
+// @public
+export type ProfanityMarker = string | "Asterisk" | "Tag";
+
 // @public (undocumented)
 export interface Routes {
     (path: "/languages"): GetLanguages;
@@ -431,6 +435,9 @@ export interface TargetDictionaryLanguageOutput {
 export type TextTranslationClient = Client & {
     path: Routes;
 };
+
+// @public
+export type TextType = string | "Plain" | "Html";
 
 // @public (undocumented)
 export interface Translate {
@@ -514,10 +521,10 @@ export interface TranslateQueryParamProperties {
     fromScript?: string;
     includeAlignment?: boolean;
     includeSentenceLength?: boolean;
-    profanityAction?: string;
-    profanityMarker?: string;
+    profanityAction?: ProfanityAction;
+    profanityMarker?: ProfanityMarker;
     suggestedFrom?: string;
-    textType?: string;
+    textType?: TextType;
     to: string;
     toScript?: string;
 }
@@ -536,14 +543,6 @@ export interface TranslationOutput {
     text: string;
     to: string;
     transliteration?: TransliteratedTextOutput;
-}
-
-// @public (undocumented)
-export interface TranslatorCredential {
-    // (undocumented)
-    key: string;
-    // (undocumented)
-    region: string;
 }
 
 // @public
