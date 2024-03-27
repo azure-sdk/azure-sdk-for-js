@@ -1,6 +1,6 @@
 # Release History
     
-## 16.0.0-beta.7 (2024-03-08)
+## 16.0.0-beta.8 (2024-03-27)
     
 **Features**
 
@@ -335,17 +335,19 @@
   - Added Enum KnownScheduledEventStrategy
   - Added Enum KnownThroughputPolicyType
   - Enum KnownCreateMode has a new value PointInTimeRestore
+  - Enum KnownServerVersion has a new value Five0
+  - Enum KnownServerVersion has a new value Six0
   - Enum KnownStatus has a new value Canceled
   - Enum KnownStatus has a new value Failed
   - Enum KnownStatus has a new value Succeeded
   - Enum KnownStatus has a new value Updating
-  - Type of parameter arguments of interface CommandPostBody is changed from {
-        [propertyName: string]: string;
-    } to Record<string, unknown>
 
 **Breaking Changes**
 
   - Interface CommandPostBody no longer has parameter readwrite
+  - Type of parameter arguments of interface CommandPostBody is changed from {
+        [propertyName: string]: string;
+    } to Record<string, unknown>
     
     
 ## 15.6.0 (2023-12-25)

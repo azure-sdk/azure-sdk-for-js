@@ -4968,6 +4968,10 @@ export enum KnownServerVersion {
   Four0 = "4.0",
   /** Four2 */
   Four2 = "4.2",
+  /** Five0 */
+  Five0 = "5.0",
+  /** Six0 */
+  Six0 = "6.0",
 }
 
 /**
@@ -4978,7 +4982,9 @@ export enum KnownServerVersion {
  * **3.2** \
  * **3.6** \
  * **4.0** \
- * **4.2**
+ * **4.2** \
+ * **5.0** \
+ * **6.0**
  */
 export type ServerVersion = string;
 

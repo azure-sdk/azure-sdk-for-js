@@ -2764,8 +2764,10 @@ export enum KnownScheduledEventStrategy {
 
 // @public
 export enum KnownServerVersion {
+    Five0 = "5.0",
     Four0 = "4.0",
     Four2 = "4.2",
+    Six0 = "6.0",
     Three2 = "3.2",
     Three6 = "3.6"
 }
