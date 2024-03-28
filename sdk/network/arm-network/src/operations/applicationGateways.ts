@@ -43,6 +43,10 @@ import {
   ApplicationGatewaysStopOptionalParams,
   ApplicationGatewaysBackendHealthOptionalParams,
   ApplicationGatewaysBackendHealthResponse,
+  ApplicationGatewayMigrationRequest,
+  ApplicationGatewaysPrepareMigrationOptionalParams,
+  ApplicationGatewaysExecuteMigrationOptionalParams,
+  ApplicationGatewaysCommitMigrationOptionalParams,
   ApplicationGatewayOnDemandProbe,
   ApplicationGatewaysBackendHealthOnDemandOptionalParams,
   ApplicationGatewaysBackendHealthOnDemandResponse,
@@ -747,6 +751,284 @@ export class ApplicationGatewaysImpl implements ApplicationGateways {
   }
 
   /**
+   * Validates the feasibility of the specified application gateway in a resource group for v1 to v2
+   * migration and spins up a parallel v2 gateway.
+   * @param resourceGroupName The name of the resource group.
+   * @param applicationGatewayName The name of the application gateway.
+   * @param migrationRequest Application gateway migration request body.
+   * @param options The options parameters.
+   */
+  async beginPrepareMigration(
+    resourceGroupName: string,
+    applicationGatewayName: string,
+    migrationRequest: ApplicationGatewayMigrationRequest,
+    options?: ApplicationGatewaysPrepareMigrationOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        applicationGatewayName,
+        migrationRequest,
+        options,
+      },
+      spec: prepareMigrationOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Validates the feasibility of the specified application gateway in a resource group for v1 to v2
+   * migration and spins up a parallel v2 gateway.
+   * @param resourceGroupName The name of the resource group.
+   * @param applicationGatewayName The name of the application gateway.
+   * @param migrationRequest Application gateway migration request body.
+   * @param options The options parameters.
+   */
+  async beginPrepareMigrationAndWait(
+    resourceGroupName: string,
+    applicationGatewayName: string,
+    migrationRequest: ApplicationGatewayMigrationRequest,
+    options?: ApplicationGatewaysPrepareMigrationOptionalParams,
+  ): Promise<void> {
+    const poller = await this.beginPrepareMigration(
+      resourceGroupName,
+      applicationGatewayName,
+      migrationRequest,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * To switch the existing v1 data plane to v2 dataplane.
+   * @param resourceGroupName The name of the resource group.
+   * @param applicationGatewayName The name of the application gateway.
+   * @param migrationRequest Application gateway migration request body.
+   * @param options The options parameters.
+   */
+  async beginExecuteMigration(
+    resourceGroupName: string,
+    applicationGatewayName: string,
+    migrationRequest: ApplicationGatewayMigrationRequest,
+    options?: ApplicationGatewaysExecuteMigrationOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        applicationGatewayName,
+        migrationRequest,
+        options,
+      },
+      spec: executeMigrationOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * To switch the existing v1 data plane to v2 dataplane.
+   * @param resourceGroupName The name of the resource group.
+   * @param applicationGatewayName The name of the application gateway.
+   * @param migrationRequest Application gateway migration request body.
+   * @param options The options parameters.
+   */
+  async beginExecuteMigrationAndWait(
+    resourceGroupName: string,
+    applicationGatewayName: string,
+    migrationRequest: ApplicationGatewayMigrationRequest,
+    options?: ApplicationGatewaysExecuteMigrationOptionalParams,
+  ): Promise<void> {
+    const poller = await this.beginExecuteMigration(
+      resourceGroupName,
+      applicationGatewayName,
+      migrationRequest,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Deletes the v1 gateway.
+   * @param resourceGroupName The name of the resource group.
+   * @param applicationGatewayName The name of the application gateway.
+   * @param migrationRequest Application gateway migration request body.
+   * @param options The options parameters.
+   */
+  async beginCommitMigration(
+    resourceGroupName: string,
+    applicationGatewayName: string,
+    migrationRequest: ApplicationGatewayMigrationRequest,
+    options?: ApplicationGatewaysCommitMigrationOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        applicationGatewayName,
+        migrationRequest,
+        options,
+      },
+      spec: commitMigrationOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Deletes the v1 gateway.
+   * @param resourceGroupName The name of the resource group.
+   * @param applicationGatewayName The name of the application gateway.
+   * @param migrationRequest Application gateway migration request body.
+   * @param options The options parameters.
+   */
+  async beginCommitMigrationAndWait(
+    resourceGroupName: string,
+    applicationGatewayName: string,
+    migrationRequest: ApplicationGatewayMigrationRequest,
+    options?: ApplicationGatewaysCommitMigrationOptionalParams,
+  ): Promise<void> {
+    const poller = await this.beginCommitMigration(
+      resourceGroupName,
+      applicationGatewayName,
+      migrationRequest,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * Gets the backend health for given combination of backend pool and http setting of the specified
    * application gateway in a resource group.
    * @param resourceGroupName The name of the resource group.
@@ -1198,6 +1480,78 @@ const backendHealthOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
+  serializer,
+};
+const prepareMigrationOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/prepareMigration",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  requestBody: Parameters.migrationRequest,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.applicationGatewayName,
+    Parameters.subscriptionId,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const executeMigrationOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/executeMigration",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  requestBody: Parameters.migrationRequest,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.applicationGatewayName,
+    Parameters.subscriptionId,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const commitMigrationOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/commitMigration",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  requestBody: Parameters.migrationRequest,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.applicationGatewayName,
+    Parameters.subscriptionId,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer,
 };
 const backendHealthOnDemandOperationSpec: coreClient.OperationSpec = {

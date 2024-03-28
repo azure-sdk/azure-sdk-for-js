@@ -26,6 +26,10 @@ import {
   ApplicationGatewaysStopOptionalParams,
   ApplicationGatewaysBackendHealthOptionalParams,
   ApplicationGatewaysBackendHealthResponse,
+  ApplicationGatewayMigrationRequest,
+  ApplicationGatewaysPrepareMigrationOptionalParams,
+  ApplicationGatewaysExecuteMigrationOptionalParams,
+  ApplicationGatewaysCommitMigrationOptionalParams,
   ApplicationGatewayOnDemandProbe,
   ApplicationGatewaysBackendHealthOnDemandOptionalParams,
   ApplicationGatewaysBackendHealthOnDemandResponse,
@@ -217,6 +221,86 @@ export interface ApplicationGateways {
     applicationGatewayName: string,
     options?: ApplicationGatewaysBackendHealthOptionalParams,
   ): Promise<ApplicationGatewaysBackendHealthResponse>;
+  /**
+   * Validates the feasibility of the specified application gateway in a resource group for v1 to v2
+   * migration and spins up a parallel v2 gateway.
+   * @param resourceGroupName The name of the resource group.
+   * @param applicationGatewayName The name of the application gateway.
+   * @param migrationRequest Application gateway migration request body.
+   * @param options The options parameters.
+   */
+  beginPrepareMigration(
+    resourceGroupName: string,
+    applicationGatewayName: string,
+    migrationRequest: ApplicationGatewayMigrationRequest,
+    options?: ApplicationGatewaysPrepareMigrationOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Validates the feasibility of the specified application gateway in a resource group for v1 to v2
+   * migration and spins up a parallel v2 gateway.
+   * @param resourceGroupName The name of the resource group.
+   * @param applicationGatewayName The name of the application gateway.
+   * @param migrationRequest Application gateway migration request body.
+   * @param options The options parameters.
+   */
+  beginPrepareMigrationAndWait(
+    resourceGroupName: string,
+    applicationGatewayName: string,
+    migrationRequest: ApplicationGatewayMigrationRequest,
+    options?: ApplicationGatewaysPrepareMigrationOptionalParams,
+  ): Promise<void>;
+  /**
+   * To switch the existing v1 data plane to v2 dataplane.
+   * @param resourceGroupName The name of the resource group.
+   * @param applicationGatewayName The name of the application gateway.
+   * @param migrationRequest Application gateway migration request body.
+   * @param options The options parameters.
+   */
+  beginExecuteMigration(
+    resourceGroupName: string,
+    applicationGatewayName: string,
+    migrationRequest: ApplicationGatewayMigrationRequest,
+    options?: ApplicationGatewaysExecuteMigrationOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * To switch the existing v1 data plane to v2 dataplane.
+   * @param resourceGroupName The name of the resource group.
+   * @param applicationGatewayName The name of the application gateway.
+   * @param migrationRequest Application gateway migration request body.
+   * @param options The options parameters.
+   */
+  beginExecuteMigrationAndWait(
+    resourceGroupName: string,
+    applicationGatewayName: string,
+    migrationRequest: ApplicationGatewayMigrationRequest,
+    options?: ApplicationGatewaysExecuteMigrationOptionalParams,
+  ): Promise<void>;
+  /**
+   * Deletes the v1 gateway.
+   * @param resourceGroupName The name of the resource group.
+   * @param applicationGatewayName The name of the application gateway.
+   * @param migrationRequest Application gateway migration request body.
+   * @param options The options parameters.
+   */
+  beginCommitMigration(
+    resourceGroupName: string,
+    applicationGatewayName: string,
+    migrationRequest: ApplicationGatewayMigrationRequest,
+    options?: ApplicationGatewaysCommitMigrationOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Deletes the v1 gateway.
+   * @param resourceGroupName The name of the resource group.
+   * @param applicationGatewayName The name of the application gateway.
+   * @param migrationRequest Application gateway migration request body.
+   * @param options The options parameters.
+   */
+  beginCommitMigrationAndWait(
+    resourceGroupName: string,
+    applicationGatewayName: string,
+    migrationRequest: ApplicationGatewayMigrationRequest,
+    options?: ApplicationGatewaysCommitMigrationOptionalParams,
+  ): Promise<void>;
   /**
    * Gets the backend health for given combination of backend pool and http setting of the specified
    * application gateway in a resource group.
