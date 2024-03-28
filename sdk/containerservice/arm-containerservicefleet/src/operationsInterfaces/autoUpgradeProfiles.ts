@@ -9,20 +9,20 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
-  FleetUpdateStrategy,
-  FleetUpdateStrategiesListByFleetOptionalParams,
-  FleetUpdateStrategiesGetOptionalParams,
-  FleetUpdateStrategiesGetResponse,
-  FleetUpdateStrategiesCreateOrUpdateOptionalParams,
-  FleetUpdateStrategiesCreateOrUpdateResponse,
-  FleetUpdateStrategiesDeleteOptionalParams,
+  AutoUpgradeProfile,
+  AutoUpgradeProfilesListByFleetOptionalParams,
+  AutoUpgradeProfilesGetOptionalParams,
+  AutoUpgradeProfilesGetResponse,
+  AutoUpgradeProfilesCreateOrUpdateOptionalParams,
+  AutoUpgradeProfilesCreateOrUpdateResponse,
+  AutoUpgradeProfilesDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a FleetUpdateStrategies. */
-export interface FleetUpdateStrategies {
+/** Interface representing a AutoUpgradeProfiles. */
+export interface AutoUpgradeProfiles {
   /**
-   * List FleetUpdateStrategy resources by Fleet
+   * List AutoUpgradeProfile resources by Fleet
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param fleetName The name of the Fleet resource.
    * @param options The options parameters.
@@ -30,80 +30,80 @@ export interface FleetUpdateStrategies {
   listByFleet(
     resourceGroupName: string,
     fleetName: string,
-    options?: FleetUpdateStrategiesListByFleetOptionalParams,
-  ): PagedAsyncIterableIterator<FleetUpdateStrategy>;
+    options?: AutoUpgradeProfilesListByFleetOptionalParams,
+  ): PagedAsyncIterableIterator<AutoUpgradeProfile>;
   /**
-   * Get a FleetUpdateStrategy
+   * Get a AutoUpgradeProfile
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param fleetName The name of the Fleet resource.
-   * @param updateStrategyName The name of the UpdateStrategy resource.
+   * @param autoUpgradeProfileName The name of the AutoUpgradeProfile resource.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     fleetName: string,
-    updateStrategyName: string,
-    options?: FleetUpdateStrategiesGetOptionalParams,
-  ): Promise<FleetUpdateStrategiesGetResponse>;
+    autoUpgradeProfileName: string,
+    options?: AutoUpgradeProfilesGetOptionalParams,
+  ): Promise<AutoUpgradeProfilesGetResponse>;
   /**
-   * Create a FleetUpdateStrategy
+   * Create a AutoUpgradeProfile
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param fleetName The name of the Fleet resource.
-   * @param updateStrategyName The name of the UpdateStrategy resource.
+   * @param autoUpgradeProfileName The name of the AutoUpgradeProfile resource.
    * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
     fleetName: string,
-    updateStrategyName: string,
-    resource: FleetUpdateStrategy,
-    options?: FleetUpdateStrategiesCreateOrUpdateOptionalParams,
+    autoUpgradeProfileName: string,
+    resource: AutoUpgradeProfile,
+    options?: AutoUpgradeProfilesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<FleetUpdateStrategiesCreateOrUpdateResponse>,
-      FleetUpdateStrategiesCreateOrUpdateResponse
+      OperationState<AutoUpgradeProfilesCreateOrUpdateResponse>,
+      AutoUpgradeProfilesCreateOrUpdateResponse
     >
   >;
   /**
-   * Create a FleetUpdateStrategy
+   * Create a AutoUpgradeProfile
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param fleetName The name of the Fleet resource.
-   * @param updateStrategyName The name of the UpdateStrategy resource.
+   * @param autoUpgradeProfileName The name of the AutoUpgradeProfile resource.
    * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     fleetName: string,
-    updateStrategyName: string,
-    resource: FleetUpdateStrategy,
-    options?: FleetUpdateStrategiesCreateOrUpdateOptionalParams,
-  ): Promise<FleetUpdateStrategiesCreateOrUpdateResponse>;
+    autoUpgradeProfileName: string,
+    resource: AutoUpgradeProfile,
+    options?: AutoUpgradeProfilesCreateOrUpdateOptionalParams,
+  ): Promise<AutoUpgradeProfilesCreateOrUpdateResponse>;
   /**
-   * Delete a FleetUpdateStrategy
+   * Delete a AutoUpgradeProfile
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param fleetName The name of the Fleet resource.
-   * @param updateStrategyName The name of the UpdateStrategy resource.
+   * @param autoUpgradeProfileName The name of the AutoUpgradeProfile resource.
    * @param options The options parameters.
    */
   beginDelete(
     resourceGroupName: string,
     fleetName: string,
-    updateStrategyName: string,
-    options?: FleetUpdateStrategiesDeleteOptionalParams,
+    autoUpgradeProfileName: string,
+    options?: AutoUpgradeProfilesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
-   * Delete a FleetUpdateStrategy
+   * Delete a AutoUpgradeProfile
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param fleetName The name of the Fleet resource.
-   * @param updateStrategyName The name of the UpdateStrategy resource.
+   * @param autoUpgradeProfileName The name of the AutoUpgradeProfile resource.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
     resourceGroupName: string,
     fleetName: string,
-    updateStrategyName: string,
-    options?: FleetUpdateStrategiesDeleteOptionalParams,
+    autoUpgradeProfileName: string,
+    options?: AutoUpgradeProfilesDeleteOptionalParams,
   ): Promise<void>;
 }

@@ -13,6 +13,98 @@ import { SimplePollerLike } from '@azure/core-lro';
 // @public
 export type ActionType = string;
 
+// @public
+export interface AgentProfile {
+    subnetId?: string;
+    vmSize?: string;
+}
+
+// @public
+export interface APIServerAccessProfile {
+    enablePrivateCluster?: boolean;
+    enableVnetIntegration?: boolean;
+    subnetId?: string;
+}
+
+// @public
+export interface AutoUpgradeProfile extends ProxyResource {
+    channel?: UpgradeChannel;
+    disabled?: boolean;
+    readonly eTag?: string;
+    nodeImageSelection?: NodeImageSelection;
+    readonly provisioningState?: AutoUpgradeProfileProvisioningState;
+    updateStrategyId?: string;
+}
+
+// @public
+export interface AutoUpgradeProfileListResult {
+    nextLink?: string;
+    value: AutoUpgradeProfile[];
+}
+
+// @public
+export type AutoUpgradeProfileProvisioningState = string;
+
+// @public
+export interface AutoUpgradeProfiles {
+    beginCreateOrUpdate(resourceGroupName: string, fleetName: string, autoUpgradeProfileName: string, resource: AutoUpgradeProfile, options?: AutoUpgradeProfilesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AutoUpgradeProfilesCreateOrUpdateResponse>, AutoUpgradeProfilesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, fleetName: string, autoUpgradeProfileName: string, resource: AutoUpgradeProfile, options?: AutoUpgradeProfilesCreateOrUpdateOptionalParams): Promise<AutoUpgradeProfilesCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, fleetName: string, autoUpgradeProfileName: string, options?: AutoUpgradeProfilesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, fleetName: string, autoUpgradeProfileName: string, options?: AutoUpgradeProfilesDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, fleetName: string, autoUpgradeProfileName: string, options?: AutoUpgradeProfilesGetOptionalParams): Promise<AutoUpgradeProfilesGetResponse>;
+    listByFleet(resourceGroupName: string, fleetName: string, options?: AutoUpgradeProfilesListByFleetOptionalParams): PagedAsyncIterableIterator<AutoUpgradeProfile>;
+}
+
+// @public
+export interface AutoUpgradeProfilesCreateOrUpdateHeaders {
+    retryAfter?: number;
+}
+
+// @public
+export interface AutoUpgradeProfilesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type AutoUpgradeProfilesCreateOrUpdateResponse = AutoUpgradeProfile;
+
+// @public
+export interface AutoUpgradeProfilesDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface AutoUpgradeProfilesDeleteOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface AutoUpgradeProfilesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AutoUpgradeProfilesGetResponse = AutoUpgradeProfile;
+
+// @public
+export interface AutoUpgradeProfilesListByFleetNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AutoUpgradeProfilesListByFleetNextResponse = AutoUpgradeProfileListResult;
+
+// @public
+export interface AutoUpgradeProfilesListByFleetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AutoUpgradeProfilesListByFleetResponse = AutoUpgradeProfileListResult;
+
 // @public (undocumented)
 export class ContainerServiceFleetClient extends coreClient.ServiceClient {
     // (undocumented)
@@ -20,6 +112,8 @@ export class ContainerServiceFleetClient extends coreClient.ServiceClient {
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ContainerServiceFleetClientOptionalParams);
     // (undocumented)
     apiVersion: string;
+    // (undocumented)
+    autoUpgradeProfiles: AutoUpgradeProfiles;
     // (undocumented)
     fleetMembers: FleetMembers;
     // (undocumented)
@@ -67,6 +161,7 @@ export interface ErrorResponse {
 // @public
 export interface Fleet extends TrackedResource {
     readonly eTag?: string;
+    hubProfile?: FleetHubProfile;
     identity?: ManagedServiceIdentity;
     readonly provisioningState?: FleetProvisioningState;
 }
@@ -80,6 +175,16 @@ export interface FleetCredentialResult {
 // @public
 export interface FleetCredentialResults {
     readonly kubeconfigs?: FleetCredentialResult[];
+}
+
+// @public
+export interface FleetHubProfile {
+    agentProfile?: AgentProfile;
+    apiServerAccessProfile?: APIServerAccessProfile;
+    dnsPrefix?: string;
+    readonly fqdn?: string;
+    readonly kubernetesVersion?: string;
+    readonly portalFqdn?: string;
 }
 
 // @public
@@ -385,6 +490,13 @@ export enum KnownActionType {
 }
 
 // @public
+export enum KnownAutoUpgradeProfileProvisioningState {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    Succeeded = "Succeeded"
+}
+
+// @public
 export enum KnownCreatedByType {
     Application = "Application",
     Key = "Key",
@@ -447,6 +559,14 @@ export enum KnownOrigin {
 }
 
 // @public
+export enum KnownTargetType {
+    AfterStageWait = "AfterStageWait",
+    Group = "Group",
+    Member = "Member",
+    Stage = "Stage"
+}
+
+// @public
 export enum KnownUpdateRunProvisioningState {
     Canceled = "Canceled",
     Failed = "Failed",
@@ -462,6 +582,13 @@ export enum KnownUpdateState {
     Skipped = "Skipped",
     Stopped = "Stopped",
     Stopping = "Stopping"
+}
+
+// @public
+export enum KnownUpgradeChannel {
+    NodeImage = "NodeImage",
+    Rapid = "Rapid",
+    Stable = "Stable"
 }
 
 // @public
@@ -577,6 +704,17 @@ export interface Resource {
 }
 
 // @public
+export interface SkipProperties {
+    targets: SkipTarget[];
+}
+
+// @public
+export interface SkipTarget {
+    name: string;
+    type: TargetType;
+}
+
+// @public
 export interface SystemData {
     createdAt?: Date;
     createdBy?: string;
@@ -585,6 +723,9 @@ export interface SystemData {
     lastModifiedBy?: string;
     lastModifiedByType?: CreatedByType;
 }
+
+// @public
+export type TargetType = string;
 
 // @public
 export interface TrackedResource extends Resource {
@@ -637,6 +778,7 @@ export interface UpdateRuns {
     beginStopAndWait(resourceGroupName: string, fleetName: string, updateRunName: string, options?: UpdateRunsStopOptionalParams): Promise<UpdateRunsStopResponse>;
     get(resourceGroupName: string, fleetName: string, updateRunName: string, options?: UpdateRunsGetOptionalParams): Promise<UpdateRunsGetResponse>;
     listByFleet(resourceGroupName: string, fleetName: string, options?: UpdateRunsListByFleetOptionalParams): PagedAsyncIterableIterator<UpdateRun>;
+    skip(resourceGroupName: string, fleetName: string, updateRunName: string, body: SkipProperties, options?: UpdateRunsSkipOptionalParams): Promise<UpdateRunsSkipResponse>;
 }
 
 // @public
@@ -688,6 +830,14 @@ export interface UpdateRunsListByFleetOptionalParams extends coreClient.Operatio
 
 // @public
 export type UpdateRunsListByFleetResponse = UpdateRunListResult;
+
+// @public
+export interface UpdateRunsSkipOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+}
+
+// @public
+export type UpdateRunsSkipResponse = UpdateRun;
 
 // @public
 export interface UpdateRunsStartHeaders {
@@ -758,6 +908,9 @@ export interface UpdateStatus {
     readonly startTime?: Date;
     readonly state?: UpdateState;
 }
+
+// @public
+export type UpgradeChannel = string;
 
 // @public
 export interface UserAssignedIdentity {
