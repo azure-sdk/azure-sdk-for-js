@@ -2212,6 +2212,11 @@
       "packageName": "@azure/arm-storageactions",
       "projectFolder": "sdk/storageactions/arm-storageactions",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-devopsinfrastructure",
+      "projectFolder": "sdk/devopsinfrastructure/arm-devopsinfrastructure",
+      "versionPolicyName": "management"
     }
   ]
 }
