@@ -1652,22 +1652,6 @@ export const UpdateIntegrationRuntimeNodeRequest: coreClient.CompositeMapper = {
   },
 };
 
-export const IntegrationRuntimeNodeIpAddress: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "IntegrationRuntimeNodeIpAddress",
-    modelProperties: {
-      ipAddress: {
-        serializedName: "ipAddress",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
 export const LinkedServiceListResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -5441,6 +5425,22 @@ export const LinkedIntegrationRuntime: coreClient.CompositeMapper = {
   },
 };
 
+export const IntegrationRuntimeNodeIpAddress: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "IntegrationRuntimeNodeIpAddress",
+    modelProperties: {
+      ipAddress: {
+        serializedName: "ipAddress",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const SsisEnvironmentReference: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -7536,6 +7536,45 @@ export const SynapseSparkJobReference: coreClient.CompositeMapper = {
         required: true,
         type: {
           name: "any",
+        },
+      },
+    },
+  },
+};
+
+export const ExpressionV2: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExpressionV2",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String",
+        },
+      },
+      value: {
+        serializedName: "value",
+        type: {
+          name: "String",
+        },
+      },
+      operator: {
+        serializedName: "operator",
+        type: {
+          name: "String",
+        },
+      },
+      operands: {
+        serializedName: "operands",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ExpressionV2",
+            },
+          },
         },
       },
     },
@@ -12970,6 +13009,67 @@ export const GoogleBigQueryLinkedService: coreClient.CompositeMapper = {
   },
 };
 
+export const GoogleBigQueryV2LinkedService: coreClient.CompositeMapper = {
+  serializedName: "GoogleBigQueryV2",
+  type: {
+    name: "Composite",
+    className: "GoogleBigQueryV2LinkedService",
+    uberParent: "LinkedService",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator: LinkedService.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...LinkedService.type.modelProperties,
+      projectId: {
+        serializedName: "typeProperties.projectId",
+        required: true,
+        type: {
+          name: "any",
+        },
+      },
+      authenticationType: {
+        serializedName: "typeProperties.authenticationType",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      clientId: {
+        serializedName: "typeProperties.clientId",
+        type: {
+          name: "any",
+        },
+      },
+      clientSecret: {
+        serializedName: "typeProperties.clientSecret",
+        type: {
+          name: "Composite",
+          className: "SecretBase",
+        },
+      },
+      refreshToken: {
+        serializedName: "typeProperties.refreshToken",
+        type: {
+          name: "Composite",
+          className: "SecretBase",
+        },
+      },
+      keyFileContent: {
+        serializedName: "typeProperties.keyFileContent",
+        type: {
+          name: "Composite",
+          className: "SecretBase",
+        },
+      },
+      encryptedCredential: {
+        serializedName: "typeProperties.encryptedCredential",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const GreenplumLinkedService: coreClient.CompositeMapper = {
   serializedName: "Greenplum",
   type: {
@@ -15948,6 +16048,72 @@ export const WarehouseLinkedService: coreClient.CompositeMapper = {
   },
 };
 
+export const ServiceNowV2LinkedService: coreClient.CompositeMapper = {
+  serializedName: "ServiceNowV2",
+  type: {
+    name: "Composite",
+    className: "ServiceNowV2LinkedService",
+    uberParent: "LinkedService",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator: LinkedService.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...LinkedService.type.modelProperties,
+      endpoint: {
+        serializedName: "typeProperties.endpoint",
+        required: true,
+        type: {
+          name: "any",
+        },
+      },
+      authenticationType: {
+        serializedName: "typeProperties.authenticationType",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      username: {
+        serializedName: "typeProperties.username",
+        type: {
+          name: "any",
+        },
+      },
+      password: {
+        serializedName: "typeProperties.password",
+        type: {
+          name: "Composite",
+          className: "SecretBase",
+        },
+      },
+      clientId: {
+        serializedName: "typeProperties.clientId",
+        type: {
+          name: "any",
+        },
+      },
+      clientSecret: {
+        serializedName: "typeProperties.clientSecret",
+        type: {
+          name: "Composite",
+          className: "SecretBase",
+        },
+      },
+      grantType: {
+        serializedName: "typeProperties.grantType",
+        type: {
+          name: "any",
+        },
+      },
+      encryptedCredential: {
+        serializedName: "typeProperties.encryptedCredential",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const AmazonS3Dataset: coreClient.CompositeMapper = {
   serializedName: "AmazonS3Object",
   type: {
@@ -17842,6 +18008,32 @@ export const GoogleBigQueryObjectDataset: coreClient.CompositeMapper = {
   },
 };
 
+export const GoogleBigQueryV2ObjectDataset: coreClient.CompositeMapper = {
+  serializedName: "GoogleBigQueryV2Object",
+  type: {
+    name: "Composite",
+    className: "GoogleBigQueryV2ObjectDataset",
+    uberParent: "Dataset",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator: Dataset.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...Dataset.type.modelProperties,
+      table: {
+        serializedName: "typeProperties.table",
+        type: {
+          name: "any",
+        },
+      },
+      dataset: {
+        serializedName: "typeProperties.dataset",
+        type: {
+          name: "any",
+        },
+      },
+    },
+  },
+};
+
 export const GreenplumTableDataset: coreClient.CompositeMapper = {
   serializedName: "GreenplumTable",
   type: {
@@ -18689,6 +18881,26 @@ export const WarehouseTableDataset: coreClient.CompositeMapper = {
       },
       table: {
         serializedName: "typeProperties.table",
+        type: {
+          name: "any",
+        },
+      },
+    },
+  },
+};
+
+export const ServiceNowV2ObjectDataset: coreClient.CompositeMapper = {
+  serializedName: "ServiceNowV2Object",
+  type: {
+    name: "Composite",
+    className: "ServiceNowV2ObjectDataset",
+    uberParent: "Dataset",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator: Dataset.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...Dataset.type.modelProperties,
+      tableName: {
+        serializedName: "typeProperties.tableName",
         type: {
           name: "any",
         },
@@ -27855,6 +28067,26 @@ export const GoogleBigQuerySource: coreClient.CompositeMapper = {
   },
 };
 
+export const GoogleBigQueryV2Source: coreClient.CompositeMapper = {
+  serializedName: "GoogleBigQueryV2Source",
+  type: {
+    name: "Composite",
+    className: "GoogleBigQueryV2Source",
+    uberParent: "TabularSource",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator: TabularSource.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...TabularSource.type.modelProperties,
+      query: {
+        serializedName: "query",
+        type: {
+          name: "any",
+        },
+      },
+    },
+  },
+};
+
 export const GreenplumSource: coreClient.CompositeMapper = {
   serializedName: "GreenplumSource",
   type: {
@@ -28518,6 +28750,27 @@ export const SalesforceV2Source: coreClient.CompositeMapper = {
   },
 };
 
+export const ServiceNowV2Source: coreClient.CompositeMapper = {
+  serializedName: "ServiceNowV2Source",
+  type: {
+    name: "Composite",
+    className: "ServiceNowV2Source",
+    uberParent: "TabularSource",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator: TabularSource.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...TabularSource.type.modelProperties,
+      expression: {
+        serializedName: "expression",
+        type: {
+          name: "Composite",
+          className: "ExpressionV2",
+        },
+      },
+    },
+  },
+};
+
 export const TumblingWindowTriggerDependencyReference: coreClient.CompositeMapper =
   {
     serializedName: "TumblingWindowTriggerDependencyReference",
@@ -28706,6 +28959,7 @@ export let discriminators = {
   "LinkedService.Drill": DrillLinkedService,
   "LinkedService.Eloqua": EloquaLinkedService,
   "LinkedService.GoogleBigQuery": GoogleBigQueryLinkedService,
+  "LinkedService.GoogleBigQueryV2": GoogleBigQueryV2LinkedService,
   "LinkedService.Greenplum": GreenplumLinkedService,
   "LinkedService.HBase": HBaseLinkedService,
   "LinkedService.Hive": HiveLinkedService,
@@ -28751,6 +29005,7 @@ export let discriminators = {
   "LinkedService.SalesforceServiceCloudV2":
     SalesforceServiceCloudV2LinkedService,
   "LinkedService.Warehouse": WarehouseLinkedService,
+  "LinkedService.ServiceNowV2": ServiceNowV2LinkedService,
   "Dataset.AmazonS3Object": AmazonS3Dataset,
   "Dataset.Avro": AvroDataset,
   "Dataset.Excel": ExcelDataset,
@@ -28817,6 +29072,7 @@ export let discriminators = {
   "Dataset.DrillTable": DrillTableDataset,
   "Dataset.EloquaObject": EloquaObjectDataset,
   "Dataset.GoogleBigQueryObject": GoogleBigQueryObjectDataset,
+  "Dataset.GoogleBigQueryV2Object": GoogleBigQueryV2ObjectDataset,
   "Dataset.GreenplumTable": GreenplumTableDataset,
   "Dataset.HBaseObject": HBaseObjectDataset,
   "Dataset.HiveObject": HiveObjectDataset,
@@ -28855,6 +29111,7 @@ export let discriminators = {
   "Dataset.SalesforceServiceCloudV2Object":
     SalesforceServiceCloudV2ObjectDataset,
   "Dataset.WarehouseTable": WarehouseTableDataset,
+  "Dataset.ServiceNowV2Object": ServiceNowV2ObjectDataset,
   "Activity.Container": ControlActivity,
   "Activity.Execution": ExecutionActivity,
   "Activity.ExecuteWranglingDataflow": ExecuteWranglingDataflowActivity,
@@ -29111,6 +29368,7 @@ export let discriminators = {
   "TabularSource.DrillSource": DrillSource,
   "TabularSource.EloquaSource": EloquaSource,
   "TabularSource.GoogleBigQuerySource": GoogleBigQuerySource,
+  "TabularSource.GoogleBigQueryV2Source": GoogleBigQueryV2Source,
   "TabularSource.GreenplumSource": GreenplumSource,
   "TabularSource.HBaseSource": HBaseSource,
   "TabularSource.HiveSource": HiveSource,
@@ -29142,6 +29400,7 @@ export let discriminators = {
   "TabularSource.AmazonRedshiftSource": AmazonRedshiftSource,
   "TabularSource.WarehouseSource": WarehouseSource,
   "TabularSource.SalesforceV2Source": SalesforceV2Source,
+  "TabularSource.ServiceNowV2Source": ServiceNowV2Source,
   "TriggerDependencyReference.TumblingWindowTriggerDependencyReference":
     TumblingWindowTriggerDependencyReference,
 };
