@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { Pools } from "../operationsInterfaces";
+import { ProjectCatalogs } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,31 +20,35 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  Pool,
-  PoolsListByProjectNextOptionalParams,
-  PoolsListByProjectOptionalParams,
-  PoolsListByProjectResponse,
-  PoolsGetOptionalParams,
-  PoolsGetResponse,
-  PoolsCreateOrUpdateOptionalParams,
-  PoolsCreateOrUpdateResponse,
-  PoolUpdate,
-  PoolsUpdateOptionalParams,
-  PoolsUpdateResponse,
-  PoolsDeleteOptionalParams,
-  PoolsDeleteResponse,
-  PoolsRunHealthChecksOptionalParams,
-  PoolsRunHealthChecksResponse,
-  PoolsListByProjectNextResponse,
+  Catalog,
+  ProjectCatalogsListNextOptionalParams,
+  ProjectCatalogsListOptionalParams,
+  ProjectCatalogsListResponse,
+  ProjectCatalogsGetOptionalParams,
+  ProjectCatalogsGetResponse,
+  ProjectCatalogsCreateOrUpdateOptionalParams,
+  ProjectCatalogsCreateOrUpdateResponse,
+  CatalogUpdate,
+  ProjectCatalogsPatchOptionalParams,
+  ProjectCatalogsPatchResponse,
+  ProjectCatalogsDeleteOptionalParams,
+  ProjectCatalogsDeleteResponse,
+  ProjectCatalogsGetSyncErrorDetailsOptionalParams,
+  ProjectCatalogsGetSyncErrorDetailsResponse,
+  ProjectCatalogsSyncOptionalParams,
+  ProjectCatalogsSyncResponse,
+  ProjectCatalogsConnectOptionalParams,
+  ProjectCatalogsConnectResponse,
+  ProjectCatalogsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Pools operations. */
-export class PoolsImpl implements Pools {
+/** Class containing ProjectCatalogs operations. */
+export class ProjectCatalogsImpl implements ProjectCatalogs {
   private readonly client: DevCenterClient;
 
   /**
-   * Initialize a new instance of the class Pools class.
+   * Initialize a new instance of the class ProjectCatalogs class.
    * @param client Reference to the service client
    */
   constructor(client: DevCenterClient) {
@@ -52,21 +56,17 @@ export class PoolsImpl implements Pools {
   }
 
   /**
-   * Lists pools for a project
+   * Lists the catalogs associated with a project.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param options The options parameters.
    */
-  public listByProject(
+  public list(
     resourceGroupName: string,
     projectName: string,
-    options?: PoolsListByProjectOptionalParams,
-  ): PagedAsyncIterableIterator<Pool> {
-    const iter = this.listByProjectPagingAll(
-      resourceGroupName,
-      projectName,
-      options,
-    );
+    options?: ProjectCatalogsListOptionalParams,
+  ): PagedAsyncIterableIterator<Catalog> {
+    const iter = this.listPagingAll(resourceGroupName, projectName, options);
     return {
       next() {
         return iter.next();
@@ -78,7 +78,7 @@ export class PoolsImpl implements Pools {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByProjectPagingPage(
+        return this.listPagingPage(
           resourceGroupName,
           projectName,
           options,
@@ -88,27 +88,23 @@ export class PoolsImpl implements Pools {
     };
   }
 
-  private async *listByProjectPagingPage(
+  private async *listPagingPage(
     resourceGroupName: string,
     projectName: string,
-    options?: PoolsListByProjectOptionalParams,
+    options?: ProjectCatalogsListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<Pool[]> {
-    let result: PoolsListByProjectResponse;
+  ): AsyncIterableIterator<Catalog[]> {
+    let result: ProjectCatalogsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByProject(
-        resourceGroupName,
-        projectName,
-        options,
-      );
+      result = await this._list(resourceGroupName, projectName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByProjectNext(
+      result = await this._listNext(
         resourceGroupName,
         projectName,
         continuationToken,
@@ -121,12 +117,12 @@ export class PoolsImpl implements Pools {
     }
   }
 
-  private async *listByProjectPagingAll(
+  private async *listPagingAll(
     resourceGroupName: string,
     projectName: string,
-    options?: PoolsListByProjectOptionalParams,
-  ): AsyncIterableIterator<Pool> {
-    for await (const page of this.listByProjectPagingPage(
+    options?: ProjectCatalogsListOptionalParams,
+  ): AsyncIterableIterator<Catalog> {
+    for await (const page of this.listPagingPage(
       resourceGroupName,
       projectName,
       options,
@@ -136,65 +132,65 @@ export class PoolsImpl implements Pools {
   }
 
   /**
-   * Lists pools for a project
+   * Lists the catalogs associated with a project.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
    * @param options The options parameters.
    */
-  private _listByProject(
+  private _list(
     resourceGroupName: string,
     projectName: string,
-    options?: PoolsListByProjectOptionalParams,
-  ): Promise<PoolsListByProjectResponse> {
+    options?: ProjectCatalogsListOptionalParams,
+  ): Promise<ProjectCatalogsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, projectName, options },
-      listByProjectOperationSpec,
+      listOperationSpec,
     );
   }
 
   /**
-   * Gets a machine pool
+   * Gets an associated project catalog.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
-   * @param poolName Name of the pool.
+   * @param catalogName The name of the Catalog.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     projectName: string,
-    poolName: string,
-    options?: PoolsGetOptionalParams,
-  ): Promise<PoolsGetResponse> {
+    catalogName: string,
+    options?: ProjectCatalogsGetOptionalParams,
+  ): Promise<ProjectCatalogsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, projectName, poolName, options },
+      { resourceGroupName, projectName, catalogName, options },
       getOperationSpec,
     );
   }
 
   /**
-   * Creates or updates a machine pool
+   * Creates or updates a project catalog.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
-   * @param poolName Name of the pool.
-   * @param body Represents a machine pool
+   * @param catalogName The name of the Catalog.
+   * @param body Represents a catalog.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     projectName: string,
-    poolName: string,
-    body: Pool,
-    options?: PoolsCreateOrUpdateOptionalParams,
+    catalogName: string,
+    body: Catalog,
+    options?: ProjectCatalogsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<PoolsCreateOrUpdateResponse>,
-      PoolsCreateOrUpdateResponse
+      OperationState<ProjectCatalogsCreateOrUpdateResponse>,
+      ProjectCatalogsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<PoolsCreateOrUpdateResponse> => {
+    ): Promise<ProjectCatalogsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -231,12 +227,12 @@ export class PoolsImpl implements Pools {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, projectName, poolName, body, options },
+      args: { resourceGroupName, projectName, catalogName, body, options },
       spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
-      PoolsCreateOrUpdateResponse,
-      OperationState<PoolsCreateOrUpdateResponse>
+      ProjectCatalogsCreateOrUpdateResponse,
+      OperationState<ProjectCatalogsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -247,24 +243,24 @@ export class PoolsImpl implements Pools {
   }
 
   /**
-   * Creates or updates a machine pool
+   * Creates or updates a project catalog.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
-   * @param poolName Name of the pool.
-   * @param body Represents a machine pool
+   * @param catalogName The name of the Catalog.
+   * @param body Represents a catalog.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     projectName: string,
-    poolName: string,
-    body: Pool,
-    options?: PoolsCreateOrUpdateOptionalParams,
-  ): Promise<PoolsCreateOrUpdateResponse> {
+    catalogName: string,
+    body: Catalog,
+    options?: ProjectCatalogsCreateOrUpdateOptionalParams,
+  ): Promise<ProjectCatalogsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       projectName,
-      poolName,
+      catalogName,
       body,
       options,
     );
@@ -272,216 +268,29 @@ export class PoolsImpl implements Pools {
   }
 
   /**
-   * Partially updates a machine pool
+   * Partially updates a project catalog.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
-   * @param poolName Name of the pool.
-   * @param body Represents a machine pool
+   * @param catalogName The name of the Catalog.
+   * @param body Updatable project catalog properties.
    * @param options The options parameters.
    */
-  async beginUpdate(
+  async beginPatch(
     resourceGroupName: string,
     projectName: string,
-    poolName: string,
-    body: PoolUpdate,
-    options?: PoolsUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<OperationState<PoolsUpdateResponse>, PoolsUpdateResponse>
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<PoolsUpdateResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, projectName, poolName, body, options },
-      spec: updateOperationSpec,
-    });
-    const poller = await createHttpPoller<
-      PoolsUpdateResponse,
-      OperationState<PoolsUpdateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation",
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Partially updates a machine pool
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param projectName The name of the project.
-   * @param poolName Name of the pool.
-   * @param body Represents a machine pool
-   * @param options The options parameters.
-   */
-  async beginUpdateAndWait(
-    resourceGroupName: string,
-    projectName: string,
-    poolName: string,
-    body: PoolUpdate,
-    options?: PoolsUpdateOptionalParams,
-  ): Promise<PoolsUpdateResponse> {
-    const poller = await this.beginUpdate(
-      resourceGroupName,
-      projectName,
-      poolName,
-      body,
-      options,
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Deletes a machine pool
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param projectName The name of the project.
-   * @param poolName Name of the pool.
-   * @param options The options parameters.
-   */
-  async beginDelete(
-    resourceGroupName: string,
-    projectName: string,
-    poolName: string,
-    options?: PoolsDeleteOptionalParams,
-  ): Promise<
-    SimplePollerLike<OperationState<PoolsDeleteResponse>, PoolsDeleteResponse>
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<PoolsDeleteResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, projectName, poolName, options },
-      spec: deleteOperationSpec,
-    });
-    const poller = await createHttpPoller<
-      PoolsDeleteResponse,
-      OperationState<PoolsDeleteResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation",
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Deletes a machine pool
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param projectName The name of the project.
-   * @param poolName Name of the pool.
-   * @param options The options parameters.
-   */
-  async beginDeleteAndWait(
-    resourceGroupName: string,
-    projectName: string,
-    poolName: string,
-    options?: PoolsDeleteOptionalParams,
-  ): Promise<PoolsDeleteResponse> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      projectName,
-      poolName,
-      options,
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Triggers a refresh of the pool status.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param projectName The name of the project.
-   * @param poolName Name of the pool.
-   * @param options The options parameters.
-   */
-  async beginRunHealthChecks(
-    resourceGroupName: string,
-    projectName: string,
-    poolName: string,
-    options?: PoolsRunHealthChecksOptionalParams,
+    catalogName: string,
+    body: CatalogUpdate,
+    options?: ProjectCatalogsPatchOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<PoolsRunHealthChecksResponse>,
-      PoolsRunHealthChecksResponse
+      OperationState<ProjectCatalogsPatchResponse>,
+      ProjectCatalogsPatchResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<PoolsRunHealthChecksResponse> => {
+    ): Promise<ProjectCatalogsPatchResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -518,12 +327,12 @@ export class PoolsImpl implements Pools {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, projectName, poolName, options },
-      spec: runHealthChecksOperationSpec,
+      args: { resourceGroupName, projectName, catalogName, body, options },
+      spec: patchOperationSpec,
     });
     const poller = await createHttpPoller<
-      PoolsRunHealthChecksResponse,
-      OperationState<PoolsRunHealthChecksResponse>
+      ProjectCatalogsPatchResponse,
+      OperationState<ProjectCatalogsPatchResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -534,55 +343,362 @@ export class PoolsImpl implements Pools {
   }
 
   /**
-   * Triggers a refresh of the pool status.
+   * Partially updates a project catalog.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
-   * @param poolName Name of the pool.
+   * @param catalogName The name of the Catalog.
+   * @param body Updatable project catalog properties.
    * @param options The options parameters.
    */
-  async beginRunHealthChecksAndWait(
+  async beginPatchAndWait(
     resourceGroupName: string,
     projectName: string,
-    poolName: string,
-    options?: PoolsRunHealthChecksOptionalParams,
-  ): Promise<PoolsRunHealthChecksResponse> {
-    const poller = await this.beginRunHealthChecks(
+    catalogName: string,
+    body: CatalogUpdate,
+    options?: ProjectCatalogsPatchOptionalParams,
+  ): Promise<ProjectCatalogsPatchResponse> {
+    const poller = await this.beginPatch(
       resourceGroupName,
       projectName,
-      poolName,
+      catalogName,
+      body,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * ListByProjectNext
+   * Deletes a project catalog resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param projectName The name of the project.
-   * @param nextLink The nextLink from the previous successful call to the ListByProject method.
+   * @param catalogName The name of the Catalog.
    * @param options The options parameters.
    */
-  private _listByProjectNext(
+  async beginDelete(
+    resourceGroupName: string,
+    projectName: string,
+    catalogName: string,
+    options?: ProjectCatalogsDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ProjectCatalogsDeleteResponse>,
+      ProjectCatalogsDeleteResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<ProjectCatalogsDeleteResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, projectName, catalogName, options },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ProjectCatalogsDeleteResponse,
+      OperationState<ProjectCatalogsDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Deletes a project catalog resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param projectName The name of the project.
+   * @param catalogName The name of the Catalog.
+   * @param options The options parameters.
+   */
+  async beginDeleteAndWait(
+    resourceGroupName: string,
+    projectName: string,
+    catalogName: string,
+    options?: ProjectCatalogsDeleteOptionalParams,
+  ): Promise<ProjectCatalogsDeleteResponse> {
+    const poller = await this.beginDelete(
+      resourceGroupName,
+      projectName,
+      catalogName,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Gets project catalog synchronization error details
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param projectName The name of the project.
+   * @param catalogName The name of the Catalog.
+   * @param options The options parameters.
+   */
+  getSyncErrorDetails(
+    resourceGroupName: string,
+    projectName: string,
+    catalogName: string,
+    options?: ProjectCatalogsGetSyncErrorDetailsOptionalParams,
+  ): Promise<ProjectCatalogsGetSyncErrorDetailsResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, projectName, catalogName, options },
+      getSyncErrorDetailsOperationSpec,
+    );
+  }
+
+  /**
+   * Syncs templates for a template source.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param projectName The name of the project.
+   * @param catalogName The name of the Catalog.
+   * @param options The options parameters.
+   */
+  async beginSync(
+    resourceGroupName: string,
+    projectName: string,
+    catalogName: string,
+    options?: ProjectCatalogsSyncOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ProjectCatalogsSyncResponse>,
+      ProjectCatalogsSyncResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<ProjectCatalogsSyncResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, projectName, catalogName, options },
+      spec: syncOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ProjectCatalogsSyncResponse,
+      OperationState<ProjectCatalogsSyncResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Syncs templates for a template source.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param projectName The name of the project.
+   * @param catalogName The name of the Catalog.
+   * @param options The options parameters.
+   */
+  async beginSyncAndWait(
+    resourceGroupName: string,
+    projectName: string,
+    catalogName: string,
+    options?: ProjectCatalogsSyncOptionalParams,
+  ): Promise<ProjectCatalogsSyncResponse> {
+    const poller = await this.beginSync(
+      resourceGroupName,
+      projectName,
+      catalogName,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Connects a project catalog to enable syncing.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param projectName The name of the project.
+   * @param catalogName The name of the Catalog.
+   * @param options The options parameters.
+   */
+  async beginConnect(
+    resourceGroupName: string,
+    projectName: string,
+    catalogName: string,
+    options?: ProjectCatalogsConnectOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ProjectCatalogsConnectResponse>,
+      ProjectCatalogsConnectResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<ProjectCatalogsConnectResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, projectName, catalogName, options },
+      spec: connectOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ProjectCatalogsConnectResponse,
+      OperationState<ProjectCatalogsConnectResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Connects a project catalog to enable syncing.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param projectName The name of the project.
+   * @param catalogName The name of the Catalog.
+   * @param options The options parameters.
+   */
+  async beginConnectAndWait(
+    resourceGroupName: string,
+    projectName: string,
+    catalogName: string,
+    options?: ProjectCatalogsConnectOptionalParams,
+  ): Promise<ProjectCatalogsConnectResponse> {
+    const poller = await this.beginConnect(
+      resourceGroupName,
+      projectName,
+      catalogName,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * ListNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param projectName The name of the project.
+   * @param nextLink The nextLink from the previous successful call to the List method.
+   * @param options The options parameters.
+   */
+  private _listNext(
     resourceGroupName: string,
     projectName: string,
     nextLink: string,
-    options?: PoolsListByProjectNextOptionalParams,
-  ): Promise<PoolsListByProjectNextResponse> {
+    options?: ProjectCatalogsListNextOptionalParams,
+  ): Promise<ProjectCatalogsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, projectName, nextLink, options },
-      listByProjectNextOperationSpec,
+      listNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listByProjectOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/pools",
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/catalogs",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PoolListResult,
+      bodyMapper: Mappers.CatalogListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -599,11 +715,11 @@ const listByProjectOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/pools/{poolName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/catalogs/{catalogName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Pool,
+      bodyMapper: Mappers.Catalog,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -615,92 +731,92 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.projectName,
-    Parameters.poolName,
+    Parameters.catalogName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/pools/{poolName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/catalogs/{catalogName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Pool,
+      bodyMapper: Mappers.Catalog,
     },
     201: {
-      bodyMapper: Mappers.Pool,
+      bodyMapper: Mappers.Catalog,
     },
     202: {
-      bodyMapper: Mappers.Pool,
+      bodyMapper: Mappers.Catalog,
     },
     204: {
-      bodyMapper: Mappers.Pool,
+      bodyMapper: Mappers.Catalog,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body14,
+  requestBody: Parameters.body5,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.projectName,
-    Parameters.poolName,
+    Parameters.catalogName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
-const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/pools/{poolName}",
+const patchOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/catalogs/{catalogName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Pool,
+      bodyMapper: Mappers.Catalog,
     },
     201: {
-      bodyMapper: Mappers.Pool,
+      bodyMapper: Mappers.Catalog,
     },
     202: {
-      bodyMapper: Mappers.Pool,
+      bodyMapper: Mappers.Catalog,
     },
     204: {
-      bodyMapper: Mappers.Pool,
+      bodyMapper: Mappers.Catalog,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body15,
+  requestBody: Parameters.body6,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.projectName,
-    Parameters.poolName,
+    Parameters.catalogName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/pools/{poolName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/catalogs/{catalogName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.PoolsDeleteHeaders,
+      headersMapper: Mappers.ProjectCatalogsDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.PoolsDeleteHeaders,
+      headersMapper: Mappers.ProjectCatalogsDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.PoolsDeleteHeaders,
+      headersMapper: Mappers.ProjectCatalogsDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.PoolsDeleteHeaders,
+      headersMapper: Mappers.ProjectCatalogsDeleteHeaders,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -712,26 +828,17 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.projectName,
-    Parameters.poolName,
+    Parameters.catalogName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const runHealthChecksOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/pools/{poolName}/runHealthChecks",
+const getSyncErrorDetailsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/catalogs/{catalogName}/getSyncErrorDetails",
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper: Mappers.PoolsRunHealthChecksHeaders,
-    },
-    201: {
-      headersMapper: Mappers.PoolsRunHealthChecksHeaders,
-    },
-    202: {
-      headersMapper: Mappers.PoolsRunHealthChecksHeaders,
-    },
-    204: {
-      headersMapper: Mappers.PoolsRunHealthChecksHeaders,
+      bodyMapper: Mappers.SyncErrorDetails,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -743,17 +850,79 @@ const runHealthChecksOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.projectName,
-    Parameters.poolName,
+    Parameters.catalogName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listByProjectNextOperationSpec: coreClient.OperationSpec = {
+const syncOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/catalogs/{catalogName}/sync",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper: Mappers.ProjectCatalogsSyncHeaders,
+    },
+    201: {
+      headersMapper: Mappers.ProjectCatalogsSyncHeaders,
+    },
+    202: {
+      headersMapper: Mappers.ProjectCatalogsSyncHeaders,
+    },
+    204: {
+      headersMapper: Mappers.ProjectCatalogsSyncHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.projectName,
+    Parameters.catalogName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const connectOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/catalogs/{catalogName}/connect",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper: Mappers.ProjectCatalogsConnectHeaders,
+    },
+    201: {
+      headersMapper: Mappers.ProjectCatalogsConnectHeaders,
+    },
+    202: {
+      headersMapper: Mappers.ProjectCatalogsConnectHeaders,
+    },
+    204: {
+      headersMapper: Mappers.ProjectCatalogsConnectHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.projectName,
+    Parameters.catalogName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PoolListResult,
+      bodyMapper: Mappers.CatalogListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,

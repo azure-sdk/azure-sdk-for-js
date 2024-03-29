@@ -6,23 +6,25 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { CheckNameAvailability } from "../operationsInterfaces";
+import { CheckScopedNameAvailability } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DevCenterClient } from "../devCenterClient";
 import {
-  CheckNameAvailabilityRequest,
-  CheckNameAvailabilityExecuteOptionalParams,
-  CheckNameAvailabilityExecuteResponse,
+  CheckScopedNameAvailabilityRequest,
+  CheckScopedNameAvailabilityExecuteOptionalParams,
+  CheckScopedNameAvailabilityExecuteResponse,
 } from "../models";
 
-/** Class containing CheckNameAvailability operations. */
-export class CheckNameAvailabilityImpl implements CheckNameAvailability {
+/** Class containing CheckScopedNameAvailability operations. */
+export class CheckScopedNameAvailabilityImpl
+  implements CheckScopedNameAvailability
+{
   private readonly client: DevCenterClient;
 
   /**
-   * Initialize a new instance of the class CheckNameAvailability class.
+   * Initialize a new instance of the class CheckScopedNameAvailability class.
    * @param client Reference to the service client
    */
   constructor(client: DevCenterClient) {
@@ -35,9 +37,9 @@ export class CheckNameAvailabilityImpl implements CheckNameAvailability {
    * @param options The options parameters.
    */
   execute(
-    nameAvailabilityRequest: CheckNameAvailabilityRequest,
-    options?: CheckNameAvailabilityExecuteOptionalParams,
-  ): Promise<CheckNameAvailabilityExecuteResponse> {
+    nameAvailabilityRequest: CheckScopedNameAvailabilityRequest,
+    options?: CheckScopedNameAvailabilityExecuteOptionalParams,
+  ): Promise<CheckScopedNameAvailabilityExecuteResponse> {
     return this.client.sendOperationRequest(
       { nameAvailabilityRequest, options },
       executeOperationSpec,
@@ -48,7 +50,7 @@ export class CheckNameAvailabilityImpl implements CheckNameAvailability {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const executeOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DevCenter/checkNameAvailability",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DevCenter/checkScopedNameAvailability",
   httpMethod: "POST",
   responses: {
     200: {
@@ -58,7 +60,7 @@ const executeOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.nameAvailabilityRequest,
+  requestBody: Parameters.nameAvailabilityRequest1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept, Parameters.contentType],

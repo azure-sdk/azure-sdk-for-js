@@ -10,222 +10,225 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Catalog,
-  CatalogsListByDevCenterOptionalParams,
-  CatalogsGetOptionalParams,
-  CatalogsGetResponse,
-  CatalogsCreateOrUpdateOptionalParams,
-  CatalogsCreateOrUpdateResponse,
+  ProjectCatalogsListOptionalParams,
+  ProjectCatalogsGetOptionalParams,
+  ProjectCatalogsGetResponse,
+  ProjectCatalogsCreateOrUpdateOptionalParams,
+  ProjectCatalogsCreateOrUpdateResponse,
   CatalogUpdate,
-  CatalogsUpdateOptionalParams,
-  CatalogsUpdateResponse,
-  CatalogsDeleteOptionalParams,
-  CatalogsDeleteResponse,
-  CatalogsGetSyncErrorDetailsOptionalParams,
-  CatalogsGetSyncErrorDetailsResponse,
-  CatalogsSyncOptionalParams,
-  CatalogsSyncResponse,
-  CatalogsConnectOptionalParams,
-  CatalogsConnectResponse,
+  ProjectCatalogsPatchOptionalParams,
+  ProjectCatalogsPatchResponse,
+  ProjectCatalogsDeleteOptionalParams,
+  ProjectCatalogsDeleteResponse,
+  ProjectCatalogsGetSyncErrorDetailsOptionalParams,
+  ProjectCatalogsGetSyncErrorDetailsResponse,
+  ProjectCatalogsSyncOptionalParams,
+  ProjectCatalogsSyncResponse,
+  ProjectCatalogsConnectOptionalParams,
+  ProjectCatalogsConnectResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a Catalogs. */
-export interface Catalogs {
+/** Interface representing a ProjectCatalogs. */
+export interface ProjectCatalogs {
   /**
-   * Lists catalogs for a devcenter.
+   * Lists the catalogs associated with a project.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param devCenterName The name of the devcenter.
+   * @param projectName The name of the project.
    * @param options The options parameters.
    */
-  listByDevCenter(
+  list(
     resourceGroupName: string,
-    devCenterName: string,
-    options?: CatalogsListByDevCenterOptionalParams,
+    projectName: string,
+    options?: ProjectCatalogsListOptionalParams,
   ): PagedAsyncIterableIterator<Catalog>;
   /**
-   * Gets a catalog
+   * Gets an associated project catalog.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param devCenterName The name of the devcenter.
+   * @param projectName The name of the project.
    * @param catalogName The name of the Catalog.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    devCenterName: string,
+    projectName: string,
     catalogName: string,
-    options?: CatalogsGetOptionalParams,
-  ): Promise<CatalogsGetResponse>;
+    options?: ProjectCatalogsGetOptionalParams,
+  ): Promise<ProjectCatalogsGetResponse>;
   /**
-   * Creates or updates a catalog.
+   * Creates or updates a project catalog.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param devCenterName The name of the devcenter.
+   * @param projectName The name of the project.
    * @param catalogName The name of the Catalog.
    * @param body Represents a catalog.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
-    devCenterName: string,
+    projectName: string,
     catalogName: string,
     body: Catalog,
-    options?: CatalogsCreateOrUpdateOptionalParams,
+    options?: ProjectCatalogsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<CatalogsCreateOrUpdateResponse>,
-      CatalogsCreateOrUpdateResponse
+      OperationState<ProjectCatalogsCreateOrUpdateResponse>,
+      ProjectCatalogsCreateOrUpdateResponse
     >
   >;
   /**
-   * Creates or updates a catalog.
+   * Creates or updates a project catalog.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param devCenterName The name of the devcenter.
+   * @param projectName The name of the project.
    * @param catalogName The name of the Catalog.
    * @param body Represents a catalog.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
-    devCenterName: string,
+    projectName: string,
     catalogName: string,
     body: Catalog,
-    options?: CatalogsCreateOrUpdateOptionalParams,
-  ): Promise<CatalogsCreateOrUpdateResponse>;
+    options?: ProjectCatalogsCreateOrUpdateOptionalParams,
+  ): Promise<ProjectCatalogsCreateOrUpdateResponse>;
   /**
-   * Partially updates a catalog.
+   * Partially updates a project catalog.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param devCenterName The name of the devcenter.
+   * @param projectName The name of the project.
    * @param catalogName The name of the Catalog.
-   * @param body Updatable catalog properties.
+   * @param body Updatable project catalog properties.
    * @param options The options parameters.
    */
-  beginUpdate(
+  beginPatch(
     resourceGroupName: string,
-    devCenterName: string,
+    projectName: string,
     catalogName: string,
     body: CatalogUpdate,
-    options?: CatalogsUpdateOptionalParams,
+    options?: ProjectCatalogsPatchOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<CatalogsUpdateResponse>,
-      CatalogsUpdateResponse
+      OperationState<ProjectCatalogsPatchResponse>,
+      ProjectCatalogsPatchResponse
     >
   >;
   /**
-   * Partially updates a catalog.
+   * Partially updates a project catalog.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param devCenterName The name of the devcenter.
+   * @param projectName The name of the project.
    * @param catalogName The name of the Catalog.
-   * @param body Updatable catalog properties.
+   * @param body Updatable project catalog properties.
    * @param options The options parameters.
    */
-  beginUpdateAndWait(
+  beginPatchAndWait(
     resourceGroupName: string,
-    devCenterName: string,
+    projectName: string,
     catalogName: string,
     body: CatalogUpdate,
-    options?: CatalogsUpdateOptionalParams,
-  ): Promise<CatalogsUpdateResponse>;
+    options?: ProjectCatalogsPatchOptionalParams,
+  ): Promise<ProjectCatalogsPatchResponse>;
   /**
-   * Deletes a catalog resource.
+   * Deletes a project catalog resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param devCenterName The name of the devcenter.
+   * @param projectName The name of the project.
    * @param catalogName The name of the Catalog.
    * @param options The options parameters.
    */
   beginDelete(
     resourceGroupName: string,
-    devCenterName: string,
+    projectName: string,
     catalogName: string,
-    options?: CatalogsDeleteOptionalParams,
+    options?: ProjectCatalogsDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<CatalogsDeleteResponse>,
-      CatalogsDeleteResponse
+      OperationState<ProjectCatalogsDeleteResponse>,
+      ProjectCatalogsDeleteResponse
     >
   >;
   /**
-   * Deletes a catalog resource.
+   * Deletes a project catalog resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param devCenterName The name of the devcenter.
+   * @param projectName The name of the project.
    * @param catalogName The name of the Catalog.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
     resourceGroupName: string,
-    devCenterName: string,
+    projectName: string,
     catalogName: string,
-    options?: CatalogsDeleteOptionalParams,
-  ): Promise<CatalogsDeleteResponse>;
+    options?: ProjectCatalogsDeleteOptionalParams,
+  ): Promise<ProjectCatalogsDeleteResponse>;
   /**
-   * Gets catalog synchronization error details
+   * Gets project catalog synchronization error details
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param devCenterName The name of the devcenter.
+   * @param projectName The name of the project.
    * @param catalogName The name of the Catalog.
    * @param options The options parameters.
    */
   getSyncErrorDetails(
     resourceGroupName: string,
-    devCenterName: string,
+    projectName: string,
     catalogName: string,
-    options?: CatalogsGetSyncErrorDetailsOptionalParams,
-  ): Promise<CatalogsGetSyncErrorDetailsResponse>;
+    options?: ProjectCatalogsGetSyncErrorDetailsOptionalParams,
+  ): Promise<ProjectCatalogsGetSyncErrorDetailsResponse>;
   /**
    * Syncs templates for a template source.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param devCenterName The name of the devcenter.
+   * @param projectName The name of the project.
    * @param catalogName The name of the Catalog.
    * @param options The options parameters.
    */
   beginSync(
     resourceGroupName: string,
-    devCenterName: string,
+    projectName: string,
     catalogName: string,
-    options?: CatalogsSyncOptionalParams,
+    options?: ProjectCatalogsSyncOptionalParams,
   ): Promise<
-    SimplePollerLike<OperationState<CatalogsSyncResponse>, CatalogsSyncResponse>
+    SimplePollerLike<
+      OperationState<ProjectCatalogsSyncResponse>,
+      ProjectCatalogsSyncResponse
+    >
   >;
   /**
    * Syncs templates for a template source.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param devCenterName The name of the devcenter.
+   * @param projectName The name of the project.
    * @param catalogName The name of the Catalog.
    * @param options The options parameters.
    */
   beginSyncAndWait(
     resourceGroupName: string,
-    devCenterName: string,
+    projectName: string,
     catalogName: string,
-    options?: CatalogsSyncOptionalParams,
-  ): Promise<CatalogsSyncResponse>;
+    options?: ProjectCatalogsSyncOptionalParams,
+  ): Promise<ProjectCatalogsSyncResponse>;
   /**
-   * Connects a catalog to enable syncing.
+   * Connects a project catalog to enable syncing.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param devCenterName The name of the devcenter.
+   * @param projectName The name of the project.
    * @param catalogName The name of the Catalog.
    * @param options The options parameters.
    */
   beginConnect(
     resourceGroupName: string,
-    devCenterName: string,
+    projectName: string,
     catalogName: string,
-    options?: CatalogsConnectOptionalParams,
+    options?: ProjectCatalogsConnectOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<CatalogsConnectResponse>,
-      CatalogsConnectResponse
+      OperationState<ProjectCatalogsConnectResponse>,
+      ProjectCatalogsConnectResponse
     >
   >;
   /**
-   * Connects a catalog to enable syncing.
+   * Connects a project catalog to enable syncing.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param devCenterName The name of the devcenter.
+   * @param projectName The name of the project.
    * @param catalogName The name of the Catalog.
    * @param options The options parameters.
    */
   beginConnectAndWait(
     resourceGroupName: string,
-    devCenterName: string,
+    projectName: string,
     catalogName: string,
-    options?: CatalogsConnectOptionalParams,
-  ): Promise<CatalogsConnectResponse>;
+    options?: ProjectCatalogsConnectOptionalParams,
+  ): Promise<ProjectCatalogsConnectResponse>;
 }

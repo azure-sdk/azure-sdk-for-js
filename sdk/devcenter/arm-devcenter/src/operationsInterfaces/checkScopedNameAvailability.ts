@@ -7,20 +7,20 @@
  */
 
 import {
-  CheckNameAvailabilityRequest,
-  CheckNameAvailabilityExecuteOptionalParams,
-  CheckNameAvailabilityExecuteResponse,
+  CheckScopedNameAvailabilityRequest,
+  CheckScopedNameAvailabilityExecuteOptionalParams,
+  CheckScopedNameAvailabilityExecuteResponse,
 } from "../models";
 
-/** Interface representing a CheckNameAvailability. */
-export interface CheckNameAvailability {
+/** Interface representing a CheckScopedNameAvailability. */
+export interface CheckScopedNameAvailability {
   /**
    * Check the availability of name for resource
    * @param nameAvailabilityRequest The required parameters for checking if resource name is available.
    * @param options The options parameters.
    */
   execute(
-    nameAvailabilityRequest: CheckNameAvailabilityRequest,
-    options?: CheckNameAvailabilityExecuteOptionalParams,
-  ): Promise<CheckNameAvailabilityExecuteResponse>;
+    nameAvailabilityRequest: CheckScopedNameAvailabilityRequest,
+    options?: CheckScopedNameAvailabilityExecuteOptionalParams,
+  ): Promise<CheckScopedNameAvailabilityExecuteResponse>;
 }
