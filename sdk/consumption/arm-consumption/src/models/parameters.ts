@@ -9,7 +9,7 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import { Budget as BudgetMapper } from "../models/mappers";
 
@@ -20,9 +20,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -31,10 +31,10 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const scope: OperationURLParameter = {
@@ -43,10 +43,10 @@ export const scope: OperationURLParameter = {
     serializedName: "scope",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const expand: OperationQueryParameter = {
@@ -54,9 +54,9 @@ export const expand: OperationQueryParameter = {
   mapper: {
     serializedName: "$expand",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const filter: OperationQueryParameter = {
@@ -64,9 +64,9 @@ export const filter: OperationQueryParameter = {
   mapper: {
     serializedName: "$filter",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const skiptoken: OperationQueryParameter = {
@@ -74,9 +74,9 @@ export const skiptoken: OperationQueryParameter = {
   mapper: {
     serializedName: "$skiptoken",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const top: OperationQueryParameter = {
@@ -84,25 +84,25 @@ export const top: OperationQueryParameter = {
   mapper: {
     constraints: {
       InclusiveMaximum: 1000,
-      InclusiveMinimum: 1
+      InclusiveMinimum: 1,
     },
     serializedName: "$top",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-10-01",
+    defaultValue: "2024-04-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const metric: OperationQueryParameter = {
@@ -110,9 +110,9 @@ export const metric: OperationQueryParameter = {
   mapper: {
     serializedName: "metric",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const nextLink: OperationURLParameter = {
@@ -121,10 +121,10 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const budgetName: OperationURLParameter = {
@@ -133,9 +133,9 @@ export const budgetName: OperationURLParameter = {
     serializedName: "budgetName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -145,14 +145,14 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters: OperationParameter = {
   parameterPath: "parameters",
-  mapper: BudgetMapper
+  mapper: BudgetMapper,
 };
 
 export const startDate: OperationQueryParameter = {
@@ -160,9 +160,9 @@ export const startDate: OperationQueryParameter = {
   mapper: {
     serializedName: "startDate",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const endDate: OperationQueryParameter = {
@@ -170,9 +170,9 @@ export const endDate: OperationQueryParameter = {
   mapper: {
     serializedName: "endDate",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const apply: OperationQueryParameter = {
@@ -180,9 +180,9 @@ export const apply: OperationQueryParameter = {
   mapper: {
     serializedName: "$apply",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const billingAccountId: OperationURLParameter = {
@@ -191,9 +191,9 @@ export const billingAccountId: OperationURLParameter = {
     serializedName: "billingAccountId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const billingPeriodName: OperationURLParameter = {
@@ -202,9 +202,9 @@ export const billingPeriodName: OperationURLParameter = {
     serializedName: "billingPeriodName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const reservationOrderId: OperationURLParameter = {
@@ -213,9 +213,9 @@ export const reservationOrderId: OperationURLParameter = {
     serializedName: "reservationOrderId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const grain: OperationQueryParameter = {
@@ -224,9 +224,9 @@ export const grain: OperationQueryParameter = {
     serializedName: "grain",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const reservationId: OperationURLParameter = {
@@ -235,9 +235,21 @@ export const reservationId: OperationURLParameter = {
     serializedName: "reservationId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const resourceScope: OperationURLParameter = {
+  parameterPath: "resourceScope",
+  mapper: {
+    serializedName: "resourceScope",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+  skipEncoding: true,
 };
 
 export const reservationId1: OperationQueryParameter = {
@@ -245,9 +257,9 @@ export const reservationId1: OperationQueryParameter = {
   mapper: {
     serializedName: "reservationId",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const reservationOrderId1: OperationQueryParameter = {
@@ -255,9 +267,9 @@ export const reservationOrderId1: OperationQueryParameter = {
   mapper: {
     serializedName: "reservationOrderId",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const filter1: OperationQueryParameter = {
@@ -266,9 +278,20 @@ export const filter1: OperationQueryParameter = {
     serializedName: "$filter",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const scope1: OperationQueryParameter = {
+  parameterPath: "scope",
+  mapper: {
+    serializedName: "scope",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const region: OperationQueryParameter = {
@@ -277,9 +300,9 @@ export const region: OperationQueryParameter = {
     serializedName: "region",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const term: OperationQueryParameter = {
@@ -288,9 +311,9 @@ export const term: OperationQueryParameter = {
     serializedName: "term",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const lookBackPeriod: OperationQueryParameter = {
@@ -299,9 +322,9 @@ export const lookBackPeriod: OperationQueryParameter = {
     serializedName: "lookBackPeriod",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const product: OperationQueryParameter = {
@@ -310,9 +333,29 @@ export const product: OperationQueryParameter = {
     serializedName: "product",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const useMarkupIfPartner: OperationQueryParameter = {
+  parameterPath: ["options", "useMarkupIfPartner"],
+  mapper: {
+    serializedName: "useMarkupIfPartner",
+    type: {
+      name: "Boolean",
+    },
+  },
+};
+
+export const previewMarkupPercentage: OperationQueryParameter = {
+  parameterPath: ["options", "previewMarkupPercentage"],
+  mapper: {
+    serializedName: "previewMarkupPercentage",
+    type: {
+      name: "Number",
+    },
+  },
 };
 
 export const billingProfileId: OperationURLParameter = {
@@ -321,9 +364,9 @@ export const billingProfileId: OperationURLParameter = {
     serializedName: "billingProfileId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const subscriptionId: OperationURLParameter = {
@@ -332,9 +375,23 @@ export const subscriptionId: OperationURLParameter = {
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const billingPeriodName1: OperationURLParameter = {
+  parameterPath: "billingPeriodName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[0-9]*$"),
+    },
+    serializedName: "billingPeriodName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const managementGroupId: OperationURLParameter = {
@@ -343,9 +400,9 @@ export const managementGroupId: OperationURLParameter = {
     serializedName: "managementGroupId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const startDate1: OperationQueryParameter = {
@@ -354,9 +411,9 @@ export const startDate1: OperationQueryParameter = {
     serializedName: "startDate",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const endDate1: OperationQueryParameter = {
@@ -365,7 +422,28 @@ export const endDate1: OperationQueryParameter = {
     serializedName: "endDate",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const extendedProperties: OperationQueryParameter = {
+  parameterPath: ["options", "extendedProperties"],
+  mapper: {
+    serializedName: "extendedProperties",
+    type: {
+      name: "Boolean",
+    },
+  },
+};
+
+export const customerId: OperationURLParameter = {
+  parameterPath: "customerId",
+  mapper: {
+    serializedName: "customerId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };

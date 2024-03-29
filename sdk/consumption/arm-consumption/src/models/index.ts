@@ -12,6 +12,10 @@ export type LegacyReservationRecommendationPropertiesUnion =
   | LegacyReservationRecommendationProperties
   | LegacySingleScopeReservationRecommendationProperties
   | LegacySharedScopeReservationRecommendationProperties;
+export type ModernReservationRecommendationPropertiesUnion =
+  | ModernReservationRecommendationProperties
+  | ModernSingleScopeReservationRecommendationProperties
+  | ModernSharedScopeReservationRecommendationProperties;
 export type UsageDetailUnion =
   | UsageDetail
   | LegacyUsageDetail
@@ -136,8 +140,6 @@ export interface BudgetTimePeriod {
 export interface BudgetFilter {
   /** The logical "AND" expression. Must have at least 2 items. */
   and?: BudgetFilterProperties[];
-  /** The logical "NOT" expression. */
-  not?: BudgetFilterProperties;
   /** Has comparison expression for a dimension */
   dimensions?: BudgetComparisonExpression;
   /** Has comparison expression for a tag */
@@ -343,7 +345,7 @@ export interface ReservationRecommendationDetailsResourceProperties {
    */
   readonly appliedScopes?: string[];
   /**
-   * On demand rate of the resource.
+   * Hourly on-demand rate of the resource. Includes only hardware rate i.e, software rate is not included.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly onDemandRate?: number;
@@ -358,7 +360,7 @@ export interface ReservationRecommendationDetailsResourceProperties {
    */
   readonly region?: string;
   /**
-   * Reservation rate of the resource.
+   * Hourly reservation rate of the resource. Varies based on the term.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly reservationRate?: number;
@@ -400,15 +402,15 @@ export interface ReservationRecommendationDetailsSavingsProperties {
   readonly unitOfMeasure?: string;
 }
 
-/** Details of estimated savings. */
+/** Details of estimated savings. The costs and savings are estimated for the term. */
 export interface ReservationRecommendationDetailsCalculatedSavingsProperties {
   /**
-   * The cost without reservation.
+   * The cost without reservation. Includes hardware and software cost.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly onDemandCost?: number;
   /**
-   * The difference between total reservation cost and reservation cost.
+   * Hardware and software cost of the resources not covered by the reservation.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly overageCost?: number;
@@ -418,19 +420,19 @@ export interface ReservationRecommendationDetailsCalculatedSavingsProperties {
    */
   readonly quantity?: number;
   /**
-   * The exact cost of the estimated usage using reservation.
+   * Hardware cost of the resources covered by the reservation.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly reservationCost?: number;
   /**
-   * The cost of the suggested quantity.
+   * Reservation cost + software cost of the resources covered by the reservation + overage cost.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly totalReservationCost?: number;
   /** The number of reserved units used to calculate savings. Always 1 for virtual machines. */
   reservedUnitCount?: number;
   /**
-   * The amount saved by purchasing the recommended quantity of reservation.
+   * The amount saved by purchasing the recommended quantity of reservation. This is equal to onDemandCost - totalReservationCost.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly savings?: number;
@@ -592,6 +594,11 @@ export interface PriceSheetProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly offerId?: string;
+  /**
+   * SavingsPlan Details
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly savingsPlan?: SavingsPlan;
 }
 
 /** The properties of the meter detail. */
@@ -641,6 +648,25 @@ export interface MeterDetails {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly serviceTier?: string;
+}
+
+/** The properties of the SavingsPlan. */
+export interface SavingsPlan {
+  /**
+   * SavingsPlan term
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly term?: string;
+  /**
+   * SavingsPlan Market Price
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly marketPrice?: number;
+  /**
+   * SavingsPlan Effective Price
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly effectivePrice?: number;
 }
 
 /** Result of listing consumption operations. It contains a list of operations and a URL link to get the next set of results. */
@@ -772,6 +798,71 @@ export interface CreditBalanceSummary {
   readonly estimatedBalanceInBillingCurrency?: AmountWithExchangeRate;
 }
 
+/** The status of the long running operation. */
+export interface OperationStatus {
+  /** The status of the long running operation. */
+  status?: OperationStatusType;
+  /**
+   * The link (url) to download the pricesheet.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly downloadUrl?: string;
+  /**
+   * Download link validity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly validTill?: Date;
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponseAutoGenerated {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
+}
+
 /** The properties of the meter detail. */
 export interface MeterDetailsResponse {
   /**
@@ -875,6 +966,16 @@ export interface LegacyReservationRecommendationProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly skuProperties?: SkuProperty[];
+  /**
+   * The last usage date used for looking back for computing the recommendation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastUsageDate?: Date;
+  /**
+   * The total hours for which the cost is covered.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly totalHours?: number;
 }
 
 /** The Sku property */
@@ -889,6 +990,102 @@ export interface SkuProperty {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly value?: string;
+}
+
+/** The properties of the reservation recommendation. */
+export interface ModernReservationRecommendationProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  scope: "Single" | "Shared";
+  /**
+   * Resource Location.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly location?: string;
+  /**
+   * The number of days of usage to look back for recommendation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lookBackPeriod?: number;
+  /**
+   * The instance Flexibility Ratio.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly instanceFlexibilityRatio?: number;
+  /**
+   * The instance Flexibility Group.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly instanceFlexibilityGroup?: string;
+  /**
+   * The normalized Size.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly normalizedSize?: string;
+  /**
+   * The recommended Quantity Normalized.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly recommendedQuantityNormalized?: number;
+  /**
+   * The meter id (GUID)
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly meterId?: string;
+  /**
+   * RI recommendations in one or three year terms.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly term?: string;
+  /**
+   * The total amount of cost without reserved instances.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly costWithNoReservedInstances?: Amount;
+  /**
+   * Recommended quality for reserved instances.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly recommendedQuantity?: number;
+  /**
+   * Resource type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceType?: string;
+  /**
+   * The total amount of cost with reserved instances.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly totalCostWithReservedInstances?: Amount;
+  /**
+   * Total estimated savings with reserved instances.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly netSavings?: Amount;
+  /**
+   * The usage date for looking back.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly firstUsageDate?: Date;
+  /**
+   * List of sku properties
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly skuProperties?: SkuProperty[];
+  /**
+   * This is the ARM Sku name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly skuName?: string;
+  /**
+   * The last usage date used for looking back for computing the recommendation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastUsageDate?: Date;
+  /**
+   * The total hours for which the cost is covered.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly totalHours?: number;
 }
 
 /** The properties of the price sheet download. */
@@ -1109,6 +1306,11 @@ export interface Balance extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly priceHidden?: boolean;
+  /**
+   * Overage Refunds
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly overageRefund?: number;
   /**
    * List of new purchases.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1369,50 +1571,6 @@ export interface ManagementGroupAggregatedCostResult extends Resource {
   excludedSubscriptions?: string[];
 }
 
-/** A credit summary resource. */
-export interface CreditSummary extends Resource {
-  /**
-   * Summary of balances associated with this credit summary.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly balanceSummary?: CreditBalanceSummary;
-  /**
-   * Pending credit adjustments.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly pendingCreditAdjustments?: Amount;
-  /**
-   * Expired credit.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly expiredCredit?: Amount;
-  /**
-   * Pending eligible charges.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly pendingEligibleCharges?: Amount;
-  /**
-   * The credit currency.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly creditCurrency?: string;
-  /**
-   * The billing currency.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly billingCurrency?: string;
-  /**
-   * Credit's reseller.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly reseller?: Reseller;
-  /**
-   * The eTag for the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly eTag?: string;
-}
-
 /** A budget resource. */
 export interface Budget extends ProxyResource {
   /** The category of the budget, whether the budget tracks cost or usage. */
@@ -1494,10 +1652,20 @@ export interface EventSummary extends ProxyResource {
    */
   readonly charges?: Amount;
   /**
-   * The balance after the event.
+   * The balance after the event, Note: This will not be returned for Contributor Organization Type in Multi-Entity consumption commitment
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly closedBalance?: Amount;
+  /**
+   * Identifier of the billing account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingAccountId?: string;
+  /**
+   * Name of the billing account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingAccountDisplayName?: string;
   /** Identifies the type of the event. */
   eventType?: EventType;
   /**
@@ -1566,10 +1734,15 @@ export interface EventSummary extends ProxyResource {
    */
   readonly chargesInBillingCurrency?: AmountWithExchangeRate;
   /**
-   * The balance in billing currency after the event.
+   * The balance in billing currency after the event, Note: This will not be returned for Contributor Organization Type in Multi-Entity consumption commitment
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly closedBalanceInBillingCurrency?: AmountWithExchangeRate;
+  /**
+   * If true, the listed details are based on an estimation and it will be subjected to change.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isEstimatedBalance?: boolean;
   /**
    * The eTag for the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1580,10 +1753,15 @@ export interface EventSummary extends ProxyResource {
 /** A lot summary resource. */
 export interface LotSummary extends ProxyResource {
   /**
-   * The original amount of a lot.
+   * The original amount of a lot, Note: This will not be returned for Contributor Organization Type in Multi-Entity consumption commitment
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly originalAmount?: Amount;
+  /**
+   * The used amount from the lot.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly usedAmount?: Amount;
   /**
    * The balance as of the last invoice.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1594,6 +1772,16 @@ export interface LotSummary extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly source?: LotSource;
+  /**
+   * The source of the lot.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lotSource?: LotSource;
+  /**
+   * The type of the lot.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lotType?: LotType;
   /**
    * The date when the lot became effective.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1630,7 +1818,7 @@ export interface LotSummary extends ProxyResource {
    */
   readonly billingCurrency?: string;
   /**
-   * The original amount of a lot in billing currency.
+   * The original amount of a lot in billing currency,  Note: This will not be returned for Contributor Organization Type in Multi-Entity consumption commitment
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly originalAmountInBillingCurrency?: AmountWithExchangeRate;
@@ -1644,6 +1832,70 @@ export interface LotSummary extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly reseller?: Reseller;
+  /**
+   * If true, the listed details are based on an estimation and it will be subjected to change.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isEstimatedBalance?: boolean;
+  /**
+   * The eTag for the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly eTagPropertiesETag?: string;
+  /**
+   * The organization type of the lot.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly organizationType?: OrganizationType;
+  /**
+   * The extended properties of the lot returned as a json string. This is only returned when extendedProperties=true in query string params
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly extendedProperties?: Record<string, unknown>;
+}
+
+/** A credit summary resource. */
+export interface CreditSummary extends ProxyResource {
+  /**
+   * Summary of balances associated with this credit summary.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly balanceSummary?: CreditBalanceSummary;
+  /**
+   * Pending credit adjustments.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly pendingCreditAdjustments?: Amount;
+  /**
+   * Expired credit.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly expiredCredit?: Amount;
+  /**
+   * Pending eligible charges.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly pendingEligibleCharges?: Amount;
+  /**
+   * The credit currency.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly creditCurrency?: string;
+  /**
+   * The billing currency.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingCurrency?: string;
+  /**
+   * Credit's reseller.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly reseller?: Reseller;
+  /**
+   * If true, the listed details are based on an estimation and it will be subjected to change.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isEstimatedBalance?: boolean;
   /**
    * The eTag for the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1669,7 +1921,7 @@ export interface ReservationTransaction extends ReservationTransactionResource {
    */
   readonly description?: string;
   /**
-   * The type of the transaction (Purchase, Cancel, etc.)
+   * The type of the transaction (Purchase, Cancel or Refund).
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly eventType?: string;
@@ -1814,7 +2066,7 @@ export interface ModernReservationTransaction
    */
   readonly eventDate?: Date;
   /**
-   * The type of the transaction (Purchase, Cancel, etc.)
+   * The type of the transaction (Purchase, Cancel or Refund).
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly eventType?: string;
@@ -1904,6 +2156,25 @@ export interface LegacySingleScopeReservationRecommendationProperties
 /** The properties of the legacy reservation recommendation for shared scope. */
 export interface LegacySharedScopeReservationRecommendationProperties
   extends LegacyReservationRecommendationProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  scope: "Shared";
+}
+
+/** The properties of the modern reservation recommendation for single scope. */
+export interface ModernSingleScopeReservationRecommendationProperties
+  extends ModernReservationRecommendationProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  scope: "Single";
+  /**
+   * Subscription ID associated with single scoped recommendation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subscriptionId?: string;
+}
+
+/** The properties of the modern reservation recommendation for shared scope. */
+export interface ModernSharedScopeReservationRecommendationProperties
+  extends ModernReservationRecommendationProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   scope: "Shared";
 }
@@ -2127,6 +2398,16 @@ export interface LegacyUsageDetail extends UsageDetail {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly payGPrice?: number;
+  /**
+   * Unique identifier for the applicable benefit.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly benefitId?: string;
+  /**
+   * Name of the applicable benefit.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly benefitName?: string;
   /**
    * Identifier that indicates how the meter is priced.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2577,6 +2858,16 @@ export interface LegacyReservationRecommendation
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly skuProperties?: SkuProperty[];
+  /**
+   * The last usage date used for looking back for computing the recommendation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastUsageDate?: Date;
+  /**
+   * The total hours for which the cost is covered.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly totalHours?: number;
 }
 
 /** Modern reservation recommendation. */
@@ -2635,6 +2926,11 @@ export interface ModernReservationRecommendation
    */
   readonly recommendedQuantity?: number;
   /**
+   * Resource type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceType?: string;
+  /**
    * The total amount of cost with reserved instances.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -2649,11 +2945,8 @@ export interface ModernReservationRecommendation
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly firstUsageDate?: Date;
-  /**
-   * Shared or single recommendation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly scope?: string;
+  /** Shared or single recommendation. */
+  scope: string;
   /**
    * List of sku properties
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2664,6 +2957,16 @@ export interface ModernReservationRecommendation
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly skuName?: string;
+  /**
+   * The last usage date used for looking back for computing the recommendation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastUsageDate?: Date;
+  /**
+   * The total hours for which the cost is covered.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly totalHours?: number;
 }
 
 /** Legacy charge summary. */
@@ -2699,7 +3002,7 @@ export interface LegacyChargeSummary extends ChargeSummary {
    * Marketplace Charges.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly marketplaceCharges?: number;
+  readonly azureMarketplaceCharges?: number;
   /**
    * Currency Code
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2766,10 +3069,21 @@ export interface ModernChargeSummary extends ChargeSummary {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly isInvoiced?: boolean;
+  /**
+   * Subscription guid.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subscriptionId?: string;
 }
 
 /** Legacy Reservation transaction resource. */
 export interface LegacyReservationTransaction extends ReservationTransaction {}
+
+/** Defines headers for PriceSheet_downloadByBillingAccountPeriod operation. */
+export interface PriceSheetDownloadByBillingAccountPeriodHeaders {
+  location?: string;
+  retryAfter?: number;
+}
 
 /** Known values of {@link Metrictype} that the service accepts. */
 export enum KnownMetrictype {
@@ -2778,7 +3092,7 @@ export enum KnownMetrictype {
   /** Amortized cost data. */
   AmortizedCostMetricType = "amortizedcost",
   /** Usage data. */
-  UsageMetricType = "usage"
+  UsageMetricType = "usage",
 }
 
 /**
@@ -2797,7 +3111,7 @@ export enum KnownUsageDetailsKind {
   /** Legacy */
   Legacy = "legacy",
   /** Modern */
-  Modern = "modern"
+  Modern = "modern",
 }
 
 /**
@@ -2813,7 +3127,7 @@ export type UsageDetailsKind = string;
 /** Known values of {@link CategoryType} that the service accepts. */
 export enum KnownCategoryType {
   /** Cost */
-  Cost = "Cost"
+  Cost = "Cost",
 }
 
 /**
@@ -2838,7 +3152,7 @@ export enum KnownTimeGrainType {
   /** BillingQuarter */
   BillingQuarter = "BillingQuarter",
   /** BillingAnnual */
-  BillingAnnual = "BillingAnnual"
+  BillingAnnual = "BillingAnnual",
 }
 
 /**
@@ -2858,7 +3172,7 @@ export type TimeGrainType = string;
 /** Known values of {@link BudgetOperatorType} that the service accepts. */
 export enum KnownBudgetOperatorType {
   /** In */
-  In = "In"
+  In = "In",
 }
 
 /**
@@ -2872,12 +3186,12 @@ export type BudgetOperatorType = string;
 
 /** Known values of {@link OperatorType} that the service accepts. */
 export enum KnownOperatorType {
-  /** EqualTo */
+  /** Alert will be triggered if the evaluated cost is the same as threshold value. Note: It’s not recommended to use this OperatorType as there’s low chance of cost being exactly the same as threshold value, leading to missing of your alert. This OperatorType will be deprecated in future. */
   EqualTo = "EqualTo",
-  /** GreaterThan */
+  /** Alert will be triggered if the evaluated cost is greater than the threshold value. Note: This is the recommended OperatorType while configuring Budget Alert. */
   GreaterThan = "GreaterThan",
-  /** GreaterThanOrEqualTo */
-  GreaterThanOrEqualTo = "GreaterThanOrEqualTo"
+  /** Alert will be triggered if the evaluated cost is greater than or equal to the threshold value. */
+  GreaterThanOrEqualTo = "GreaterThanOrEqualTo",
 }
 
 /**
@@ -2885,18 +3199,18 @@ export enum KnownOperatorType {
  * {@link KnownOperatorType} can be used interchangeably with OperatorType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **EqualTo** \
- * **GreaterThan** \
- * **GreaterThanOrEqualTo**
+ * **EqualTo**: Alert will be triggered if the evaluated cost is the same as threshold value. Note: It’s not recommended to use this OperatorType as there’s low chance of cost being exactly the same as threshold value, leading to missing of your alert. This OperatorType will be deprecated in future.  \
+ * **GreaterThan**: Alert will be triggered if the evaluated cost is greater than the threshold value. Note: This is the recommended OperatorType while configuring Budget Alert. \
+ * **GreaterThanOrEqualTo**: Alert will be triggered if the evaluated cost is greater than or equal to the threshold value.
  */
 export type OperatorType = string;
 
 /** Known values of {@link ThresholdType} that the service accepts. */
 export enum KnownThresholdType {
-  /** Actual */
+  /** Actual costs budget alerts notify when the actual accrued cost exceeds the allocated budget . */
   Actual = "Actual",
-  /** Forecasted */
-  Forecasted = "Forecasted"
+  /** Forecasted costs budget alerts provide advanced notification that your spending trends are likely to exceed your allocated budget, as it relies on forecasted cost predictions. */
+  Forecasted = "Forecasted",
 }
 
 /**
@@ -2904,8 +3218,8 @@ export enum KnownThresholdType {
  * {@link KnownThresholdType} can be used interchangeably with ThresholdType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Actual** \
- * **Forecasted**
+ * **Actual**: Actual costs budget alerts notify when the actual accrued cost exceeds the allocated budget . \
+ * **Forecasted**: Forecasted costs budget alerts provide advanced notification that your spending trends are likely to exceed your allocated budget, as it relies on forecasted cost predictions.
  */
 export type ThresholdType = string;
 
@@ -2952,7 +3266,7 @@ export enum KnownCultureCode {
   /** PtPt */
   PtPt = "pt-pt",
   /** SvSe */
-  SvSe = "sv-se"
+  SvSe = "sv-se",
 }
 
 /**
@@ -2989,7 +3303,7 @@ export enum KnownChargeSummaryKind {
   /** Legacy */
   Legacy = "legacy",
   /** Modern */
-  Modern = "modern"
+  Modern = "modern",
 }
 
 /**
@@ -3009,7 +3323,7 @@ export enum KnownBillingFrequency {
   /** Quarter */
   Quarter = "Quarter",
   /** Year */
-  Year = "Year"
+  Year = "Year",
 }
 
 /**
@@ -3028,7 +3342,7 @@ export enum KnownDatagrain {
   /** Daily grain of data */
   DailyGrain = "daily",
   /** Monthly grain of data */
-  MonthlyGrain = "monthly"
+  MonthlyGrain = "monthly",
 }
 
 /**
@@ -3046,7 +3360,7 @@ export enum KnownReservationRecommendationKind {
   /** Legacy */
   Legacy = "legacy",
   /** Modern */
-  Modern = "modern"
+  Modern = "modern",
 }
 
 /**
@@ -3059,12 +3373,30 @@ export enum KnownReservationRecommendationKind {
  */
 export type ReservationRecommendationKind = string;
 
+/** Known values of {@link Scope} that the service accepts. */
+export enum KnownScope {
+  /** Single */
+  Single = "Single",
+  /** Shared */
+  Shared = "Shared",
+}
+
+/**
+ * Defines values for Scope. \
+ * {@link KnownScope} can be used interchangeably with Scope,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Single** \
+ * **Shared**
+ */
+export type Scope = string;
+
 /** Known values of {@link Term} that the service accepts. */
 export enum KnownTerm {
   /** 1 year reservation term */
   P1Y = "P1Y",
   /** 3 year reservation term */
-  P3Y = "P3Y"
+  P3Y = "P3Y",
 }
 
 /**
@@ -3084,7 +3416,7 @@ export enum KnownLookBackPeriod {
   /** Use 30 days of data for recommendations */
   Last30Days = "Last30Days",
   /** Use 60 days of data for recommendations */
-  Last60Days = "Last60Days"
+  Last60Days = "Last60Days",
 }
 
 /**
@@ -3113,7 +3445,9 @@ export enum KnownEventType {
   /** UnKnown */
   UnKnown = "UnKnown",
   /** NewCredit */
-  NewCredit = "NewCredit"
+  NewCredit = "NewCredit",
+  /** CreditExpired */
+  CreditExpired = "CreditExpired",
 }
 
 /**
@@ -3127,7 +3461,8 @@ export enum KnownEventType {
  * **PendingNewCredit** \
  * **PendingExpiredCredit** \
  * **UnKnown** \
- * **NewCredit**
+ * **NewCredit** \
+ * **CreditExpired**
  */
 export type EventType = string;
 
@@ -3138,7 +3473,11 @@ export enum KnownLotSource {
   /** PromotionalCredit */
   PromotionalCredit = "PromotionalCredit",
   /** ConsumptionCommitment */
-  ConsumptionCommitment = "ConsumptionCommitment"
+  ConsumptionCommitment = "ConsumptionCommitment",
+  /** AwardedCredit */
+  AwardedCredit = "AwardedCredit",
+  /** ServiceSpecificCredit */
+  ServiceSpecificCredit = "ServiceSpecificCredit",
 }
 
 /**
@@ -3148,9 +3487,47 @@ export enum KnownLotSource {
  * ### Known values supported by the service
  * **PurchasedCredit** \
  * **PromotionalCredit** \
- * **ConsumptionCommitment**
+ * **ConsumptionCommitment** \
+ * **AwardedCredit** \
+ * **ServiceSpecificCredit**
  */
 export type LotSource = string;
+
+/** Known values of {@link LotType} that the service accepts. */
+export enum KnownLotType {
+  /** Macc */
+  Macc = "MACC",
+  /** MonetaryCommitment */
+  MonetaryCommitment = "MonetaryCommitment",
+  /** OutageCredit */
+  OutageCredit = "OutageCredit",
+  /** GoodwillCredit */
+  GoodwillCredit = "GoodwillCredit",
+  /** SubscriptionInterruptionCredit */
+  SubscriptionInterruptionCredit = "SubscriptionInterruptionCredit",
+  /** BillingCorrectionCredit */
+  BillingCorrectionCredit = "BillingCorrectionCredit",
+  /** FreeTrial */
+  FreeTrial = "FreeTrial",
+  /** SSC */
+  SSC = "SSC",
+}
+
+/**
+ * Defines values for LotType. \
+ * {@link KnownLotType} can be used interchangeably with LotType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **MACC** \
+ * **MonetaryCommitment** \
+ * **OutageCredit** \
+ * **GoodwillCredit** \
+ * **SubscriptionInterruptionCredit** \
+ * **BillingCorrectionCredit** \
+ * **FreeTrial** \
+ * **SSC**
+ */
+export type LotType = string;
 
 /** Known values of {@link Status} that the service accepts. */
 export enum KnownStatus {
@@ -3165,7 +3542,7 @@ export enum KnownStatus {
   /** Complete */
   Complete = "Complete",
   /** Canceled */
-  Canceled = "Canceled"
+  Canceled = "Canceled",
 }
 
 /**
@@ -3182,6 +3559,45 @@ export enum KnownStatus {
  */
 export type Status = string;
 
+/** Known values of {@link OrganizationType} that the service accepts. */
+export enum KnownOrganizationType {
+  /** Primary organization type for Multi-Entity consumption commitment. */
+  PrimaryOrganizationType = "Primary",
+  /** Contributor organization type for Multi-Entity consumption commitment. */
+  ContributorOrganizationType = "Contributor",
+}
+
+/**
+ * Defines values for OrganizationType. \
+ * {@link KnownOrganizationType} can be used interchangeably with OrganizationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Primary**: Primary organization type for Multi-Entity consumption commitment. \
+ * **Contributor**: Contributor organization type for Multi-Entity consumption commitment.
+ */
+export type OrganizationType = string;
+
+/** Known values of {@link OperationStatusType} that the service accepts. */
+export enum KnownOperationStatusType {
+  /** Running */
+  Running = "Running",
+  /** Completed */
+  Completed = "Completed",
+  /** Failed */
+  Failed = "Failed",
+}
+
+/**
+ * Defines values for OperationStatusType. \
+ * {@link KnownOperationStatusType} can be used interchangeably with OperationStatusType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Running** \
+ * **Completed** \
+ * **Failed**
+ */
+export type OperationStatusType = string;
+
 /** Known values of {@link PricingModelType} that the service accepts. */
 export enum KnownPricingModelType {
   /** OnDemand */
@@ -3189,7 +3605,7 @@ export enum KnownPricingModelType {
   /** Reservation */
   Reservation = "Reservation",
   /** Spot */
-  Spot = "Spot"
+  Spot = "Spot",
 }
 
 /**
@@ -3202,24 +3618,6 @@ export enum KnownPricingModelType {
  * **Spot**
  */
 export type PricingModelType = string;
-
-/** Known values of {@link Scope} that the service accepts. */
-export enum KnownScope {
-  /** Single */
-  Single = "Single",
-  /** Shared */
-  Shared = "Shared"
-}
-
-/**
- * Defines values for Scope. \
- * {@link KnownScope} can be used interchangeably with Scope,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Single** \
- * **Shared**
- */
-export type Scope = string;
 
 /** Optional parameters. */
 export interface UsageDetailsListOptionalParams
@@ -3341,7 +3739,8 @@ export interface ReservationsSummariesListByReservationOrderOptionalParams
 }
 
 /** Contains response data for the listByReservationOrder operation. */
-export type ReservationsSummariesListByReservationOrderResponse = ReservationSummariesListResult;
+export type ReservationsSummariesListByReservationOrderResponse =
+  ReservationSummariesListResult;
 
 /** Optional parameters. */
 export interface ReservationsSummariesListByReservationOrderAndReservationOptionalParams
@@ -3351,7 +3750,8 @@ export interface ReservationsSummariesListByReservationOrderAndReservationOption
 }
 
 /** Contains response data for the listByReservationOrderAndReservation operation. */
-export type ReservationsSummariesListByReservationOrderAndReservationResponse = ReservationSummariesListResult;
+export type ReservationsSummariesListByReservationOrderAndReservationResponse =
+  ReservationSummariesListResult;
 
 /** Optional parameters. */
 export interface ReservationsSummariesListOptionalParams
@@ -3376,35 +3776,40 @@ export interface ReservationsSummariesListByReservationOrderNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByReservationOrderNext operation. */
-export type ReservationsSummariesListByReservationOrderNextResponse = ReservationSummariesListResult;
+export type ReservationsSummariesListByReservationOrderNextResponse =
+  ReservationSummariesListResult;
 
 /** Optional parameters. */
 export interface ReservationsSummariesListByReservationOrderAndReservationNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByReservationOrderAndReservationNext operation. */
-export type ReservationsSummariesListByReservationOrderAndReservationNextResponse = ReservationSummariesListResult;
+export type ReservationsSummariesListByReservationOrderAndReservationNextResponse =
+  ReservationSummariesListResult;
 
 /** Optional parameters. */
 export interface ReservationsSummariesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ReservationsSummariesListNextResponse = ReservationSummariesListResult;
+export type ReservationsSummariesListNextResponse =
+  ReservationSummariesListResult;
 
 /** Optional parameters. */
 export interface ReservationsDetailsListByReservationOrderOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByReservationOrder operation. */
-export type ReservationsDetailsListByReservationOrderResponse = ReservationDetailsListResult;
+export type ReservationsDetailsListByReservationOrderResponse =
+  ReservationDetailsListResult;
 
 /** Optional parameters. */
 export interface ReservationsDetailsListByReservationOrderAndReservationOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByReservationOrderAndReservation operation. */
-export type ReservationsDetailsListByReservationOrderAndReservationResponse = ReservationDetailsListResult;
+export type ReservationsDetailsListByReservationOrderAndReservationResponse =
+  ReservationDetailsListResult;
 
 /** Optional parameters. */
 export interface ReservationsDetailsListOptionalParams
@@ -3429,14 +3834,16 @@ export interface ReservationsDetailsListByReservationOrderNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByReservationOrderNext operation. */
-export type ReservationsDetailsListByReservationOrderNextResponse = ReservationDetailsListResult;
+export type ReservationsDetailsListByReservationOrderNextResponse =
+  ReservationDetailsListResult;
 
 /** Optional parameters. */
 export interface ReservationsDetailsListByReservationOrderAndReservationNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByReservationOrderAndReservationNext operation. */
-export type ReservationsDetailsListByReservationOrderAndReservationNextResponse = ReservationDetailsListResult;
+export type ReservationsDetailsListByReservationOrderAndReservationNextResponse =
+  ReservationDetailsListResult;
 
 /** Optional parameters. */
 export interface ReservationsDetailsListNextOptionalParams
@@ -3453,55 +3860,69 @@ export interface ReservationRecommendationsListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type ReservationRecommendationsListResponse = ReservationRecommendationsListResult;
+export type ReservationRecommendationsListResponse =
+  ReservationRecommendationsListResult;
 
 /** Optional parameters. */
 export interface ReservationRecommendationsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ReservationRecommendationsListNextResponse = ReservationRecommendationsListResult;
+export type ReservationRecommendationsListNextResponse =
+  ReservationRecommendationsListResult;
 
 /** Optional parameters. */
 export interface ReservationRecommendationDetailsGetOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Used to filter reservation recommendation details by: properties/subscriptionId can be specified for billing account and billing profile paths. */
+  filter?: string;
+}
 
 /** Contains response data for the get operation. */
-export type ReservationRecommendationDetailsGetResponse = ReservationRecommendationDetailsModel;
+export type ReservationRecommendationDetailsGetResponse =
+  ReservationRecommendationDetailsModel;
 
 /** Optional parameters. */
 export interface ReservationTransactionsListOptionalParams
   extends coreClient.OperationOptions {
-  /** Filter reservation transactions by date range. The properties/EventDate for start date and end date. The filter supports 'le' and  'ge' */
+  /** Filter reservation transactions by date range. The properties/EventDate for start date and end date. The filter supports 'le' and  'ge'. Note: API returns data for the entire start date's and end date's billing month. For example, filter properties/eventDate+ge+2020-01-01+AND+properties/eventDate+le+2020-12-29 will include data for the entire December 2020 month (i.e. will contain records for dates December 30 and 31) */
   filter?: string;
+  /** Applies mark up to the transactions if the caller is a partner. */
+  useMarkupIfPartner?: boolean;
+  /** Preview markup percentage to be applied. */
+  previewMarkupPercentage?: number;
 }
 
 /** Contains response data for the list operation. */
-export type ReservationTransactionsListResponse = ReservationTransactionsListResult;
+export type ReservationTransactionsListResponse =
+  ReservationTransactionsListResult;
 
 /** Optional parameters. */
 export interface ReservationTransactionsListByBillingProfileOptionalParams
   extends coreClient.OperationOptions {
-  /** Filter reservation transactions by date range. The properties/EventDate for start date and end date. The filter supports 'le' and  'ge' */
+  /** Filter reservation transactions by date range. The properties/EventDate for start date and end date. The filter supports 'le' and  'ge'. Note: API returns data for the entire start date's and end date's billing month. For example, filter properties/eventDate+ge+2020-01-01+AND+properties/eventDate+le+2020-12-29 will include data for entire December 2020 month (i.e. will contain records for dates December 30 and 31) */
   filter?: string;
 }
 
 /** Contains response data for the listByBillingProfile operation. */
-export type ReservationTransactionsListByBillingProfileResponse = ModernReservationTransactionsListResult;
+export type ReservationTransactionsListByBillingProfileResponse =
+  ModernReservationTransactionsListResult;
 
 /** Optional parameters. */
 export interface ReservationTransactionsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ReservationTransactionsListNextResponse = ReservationTransactionsListResult;
+export type ReservationTransactionsListNextResponse =
+  ReservationTransactionsListResult;
 
 /** Optional parameters. */
 export interface ReservationTransactionsListByBillingProfileNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBillingProfileNext operation. */
-export type ReservationTransactionsListByBillingProfileNextResponse = ModernReservationTransactionsListResult;
+export type ReservationTransactionsListByBillingProfileNextResponse =
+  ModernReservationTransactionsListResult;
 
 /** Optional parameters. */
 export interface PriceSheetGetOptionalParams
@@ -3532,6 +3953,18 @@ export interface PriceSheetGetByBillingPeriodOptionalParams
 export type PriceSheetGetByBillingPeriodResponse = PriceSheetResult;
 
 /** Optional parameters. */
+export interface PriceSheetDownloadByBillingAccountPeriodOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the downloadByBillingAccountPeriod operation. */
+export type PriceSheetDownloadByBillingAccountPeriodResponse = OperationStatus;
+
+/** Optional parameters. */
 export interface OperationsListOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -3553,14 +3986,16 @@ export interface AggregatedCostGetByManagementGroupOptionalParams
 }
 
 /** Contains response data for the getByManagementGroup operation. */
-export type AggregatedCostGetByManagementGroupResponse = ManagementGroupAggregatedCostResult;
+export type AggregatedCostGetByManagementGroupResponse =
+  ManagementGroupAggregatedCostResult;
 
 /** Optional parameters. */
 export interface AggregatedCostGetForBillingPeriodByManagementGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getForBillingPeriodByManagementGroup operation. */
-export type AggregatedCostGetForBillingPeriodByManagementGroupResponse = ManagementGroupAggregatedCostResult;
+export type AggregatedCostGetForBillingPeriodByManagementGroupResponse =
+  ManagementGroupAggregatedCostResult;
 
 /** Optional parameters. */
 export interface EventsListByBillingProfileOptionalParams
@@ -3605,10 +4040,22 @@ export interface LotsListByBillingAccountOptionalParams
   extends coreClient.OperationOptions {
   /** May be used to filter the lots by Status, Source etc. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'. Tag filter is a key value pair string where key and value is separated by a colon (:). */
   filter?: string;
+  /** Includes the extendedProperties in the response. */
+  extendedProperties?: boolean;
 }
 
 /** Contains response data for the listByBillingAccount operation. */
 export type LotsListByBillingAccountResponse = Lots;
+
+/** Optional parameters. */
+export interface LotsListByCustomerOptionalParams
+  extends coreClient.OperationOptions {
+  /** May be used to filter the lots by Status, Source etc. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. Tag filter is a key value pair string where key and value is separated by a colon (:). */
+  filter?: string;
+}
+
+/** Contains response data for the listByCustomer operation. */
+export type LotsListByCustomerResponse = Lots;
 
 /** Optional parameters. */
 export interface LotsListByBillingProfileNextOptionalParams
@@ -3623,6 +4070,13 @@ export interface LotsListByBillingAccountNextOptionalParams
 
 /** Contains response data for the listByBillingAccountNext operation. */
 export type LotsListByBillingAccountNextResponse = Lots;
+
+/** Optional parameters. */
+export interface LotsListByCustomerNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByCustomerNext operation. */
+export type LotsListByCustomerNextResponse = Lots;
 
 /** Optional parameters. */
 export interface CreditsGetOptionalParams extends coreClient.OperationOptions {}
