@@ -6,6 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+export * from "./operations";
+export * from "./workspaces";
+export * from "./deletedWorkspaces";
+export * from "./tables";
 export * from "./queryPacks";
 export * from "./queries";
 export * from "./dataExports";
@@ -24,7 +28,3 @@ export * from "./gateways";
 export * from "./schemaOperations";
 export * from "./workspacePurge";
 export * from "./clusters";
-export * from "./operations";
-export * from "./workspaces";
-export * from "./deletedWorkspaces";
-export * from "./tables";
