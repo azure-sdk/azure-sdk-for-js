@@ -3,7 +3,7 @@
 
 import { getClient, ClientOptions } from "@azure-rest/core-client";
 import { logger } from "./logger";
-import { KeyCredential } from "@azure/core-auth";
+import { TokenCredential, KeyCredential } from "@azure/core-auth";
 import { ImageAnalysisClient } from "./clientDefinitions";
 
 /**
@@ -15,12 +15,12 @@ import { ImageAnalysisClient } from "./clientDefinitions";
  */
 export default function createClient(
   endpoint: string,
-  credentials: KeyCredential,
+  credentials: TokenCredential | KeyCredential,
   options: ClientOptions = {},
 ): ImageAnalysisClient {
   const baseUrl = options.baseUrl ?? `${endpoint}/computervision`;
   options.apiVersion = options.apiVersion ?? "2023-10-01";
-  const userAgentInfo = `azsdk-js-ai-vision-image-analysis-rest/1.0.0-beta.3`;
+  const userAgentInfo = `azsdk-js-ai-vision-image-analysis-rest/1.0.0-beta.1`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
@@ -34,11 +34,19 @@ export default function createClient(
       logger: options.loggingOptions?.logger ?? logger.info,
     },
     credentials: {
-      apiKeyHeaderName: options.credentials?.apiKeyHeaderName ?? "Ocp-Apim-Subscription-Key",
+      scopes: options.credentials?.scopes ?? [
+        "https://cognitiveservices.azure.com/.default",
+      ],
+      apiKeyHeaderName:
+        options.credentials?.apiKeyHeaderName ?? "Ocp-Apim-Subscription-Key",
     },
   };
 
-  const client = getClient(baseUrl, credentials, options) as ImageAnalysisClient;
+  const client = getClient(
+    baseUrl,
+    credentials,
+    options,
+  ) as ImageAnalysisClient;
 
   return client;
 }
