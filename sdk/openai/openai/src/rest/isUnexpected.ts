@@ -14,8 +14,15 @@ import {
   GetChatCompletionsDefaultResponse,
   GetImageGenerations200Response,
   GetImageGenerationsDefaultResponse,
+  GenerateSpeechFromText200Response,
+  GenerateSpeechFromTextDefaultResponse,
   GetEmbeddings200Response,
   GetEmbeddingsDefaultResponse,
+  GetAzureBatchImageGenerationOperationStatus200Response,
+  GetAzureBatchImageGenerationOperationStatusDefaultResponse,
+  BeginAzureBatchImageGeneration202Response,
+  BeginAzureBatchImageGenerationLogicalResponse,
+  BeginAzureBatchImageGenerationDefaultResponse,
 } from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
@@ -24,6 +31,7 @@ const responseMap: Record<string, string[]> = {
   "POST /deployments/{deploymentId}/completions": ["200"],
   "POST /deployments/{deploymentId}/chat/completions": ["200"],
   "POST /deployments/{deploymentId}/images/generations": ["200"],
+  "POST /deployments/{deploymentId}/audio/speech": ["200"],
   "POST /deployments/{deploymentId}/embeddings": ["200"],
   "GET /operations/images/{operationId}": ["200"],
   "POST /images/generations:submit": ["202"],
@@ -52,8 +60,24 @@ export function isUnexpected(
   response: GetImageGenerations200Response | GetImageGenerationsDefaultResponse,
 ): response is GetImageGenerationsDefaultResponse;
 export function isUnexpected(
+  response:
+    | GenerateSpeechFromText200Response
+    | GenerateSpeechFromTextDefaultResponse,
+): response is GenerateSpeechFromTextDefaultResponse;
+export function isUnexpected(
   response: GetEmbeddings200Response | GetEmbeddingsDefaultResponse,
 ): response is GetEmbeddingsDefaultResponse;
+export function isUnexpected(
+  response:
+    | GetAzureBatchImageGenerationOperationStatus200Response
+    | GetAzureBatchImageGenerationOperationStatusDefaultResponse,
+): response is GetAzureBatchImageGenerationOperationStatusDefaultResponse;
+export function isUnexpected(
+  response:
+    | BeginAzureBatchImageGeneration202Response
+    | BeginAzureBatchImageGenerationLogicalResponse
+    | BeginAzureBatchImageGenerationDefaultResponse,
+): response is BeginAzureBatchImageGenerationDefaultResponse;
 export function isUnexpected(
   response:
     | GetAudioTranscriptionAsPlainText200Response
@@ -68,15 +92,25 @@ export function isUnexpected(
     | GetChatCompletionsDefaultResponse
     | GetImageGenerations200Response
     | GetImageGenerationsDefaultResponse
+    | GenerateSpeechFromText200Response
+    | GenerateSpeechFromTextDefaultResponse
     | GetEmbeddings200Response
-    | GetEmbeddingsDefaultResponse,
+    | GetEmbeddingsDefaultResponse
+    | GetAzureBatchImageGenerationOperationStatus200Response
+    | GetAzureBatchImageGenerationOperationStatusDefaultResponse
+    | BeginAzureBatchImageGeneration202Response
+    | BeginAzureBatchImageGenerationLogicalResponse
+    | BeginAzureBatchImageGenerationDefaultResponse,
 ): response is
   | GetAudioTranscriptionAsPlainTextDefaultResponse
   | GetAudioTranslationAsPlainTextDefaultResponse
   | GetCompletionsDefaultResponse
   | GetChatCompletionsDefaultResponse
   | GetImageGenerationsDefaultResponse
-  | GetEmbeddingsDefaultResponse {
+  | GenerateSpeechFromTextDefaultResponse
+  | GetEmbeddingsDefaultResponse
+  | GetAzureBatchImageGenerationOperationStatusDefaultResponse
+  | BeginAzureBatchImageGenerationDefaultResponse {
   const lroOriginal = response.headers["x-ms-original-url"];
   const url = new URL(lroOriginal ?? response.request.url);
   const method = response.request.method;
@@ -109,17 +143,24 @@ function getParametrizedPathSuccess(method: string, path: string): string[] {
 
     // track if we have found a match to return the values found.
     let found = true;
-    for (let i = candidateParts.length - 1, j = pathParts.length - 1; i >= 1 && j >= 1; i--, j--) {
-      if (candidateParts[i]?.startsWith("{") && candidateParts[i]?.indexOf("}") !== -1) {
+    for (
+      let i = candidateParts.length - 1, j = pathParts.length - 1;
+      i >= 1 && j >= 1;
+      i--, j--
+    ) {
+      if (
+        candidateParts[i]?.startsWith("{") &&
+        candidateParts[i]?.indexOf("}") !== -1
+      ) {
         const start = candidateParts[i]!.indexOf("}") + 1,
           end = candidateParts[i]?.length;
         // If the current part of the candidate is a "template" part
         // Try to use the suffix of pattern to match the path
         // {guid} ==> $
         // {guid}:export ==> :export$
-        const isMatched = new RegExp(`${candidateParts[i]?.slice(start, end)}`).test(
-          pathParts[j] || "",
-        );
+        const isMatched = new RegExp(
+          `${candidateParts[i]?.slice(start, end)}`,
+        ).test(pathParts[j] || "");
 
         if (!isMatched) {
           found = false;

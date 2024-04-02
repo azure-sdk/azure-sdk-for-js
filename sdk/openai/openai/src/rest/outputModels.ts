@@ -327,7 +327,8 @@ export interface ChatCompletionsToolCallOutputParent {
  * A tool call to a function tool, issued by the model in evaluation of a configured function tool, that represents
  * a function invocation needed for a subsequent chat completions request to resolve.
  */
-export interface ChatCompletionsFunctionToolCallOutput extends ChatCompletionsToolCallOutputParent {
+export interface ChatCompletionsFunctionToolCallOutput
+  extends ChatCompletionsToolCallOutputParent {
   /** The type of tool call, in this case always 'function'. */
   type: "function";
   /** The details of the function invocation requested by the tool call. */
@@ -366,6 +367,8 @@ export interface ChatCompletionsOutput {
    * Token limits and other settings may limit the number of choices generated.
    */
   choices: Array<ChatChoiceOutput>;
+  /** The model name used for this completions request. */
+  model?: string;
   /**
    * Content filtering results for zero or more prompts in the request. In a streaming request,
    * results for different prompts may arrive at different times or in different orders.
@@ -518,7 +521,8 @@ export interface StopFinishDetailsOutput extends ChatFinishDetailsOutputParent {
  * A structured representation of a stop reason that signifies a token limit was reached before the model could naturally
  * complete.
  */
-export interface MaxTokensFinishDetailsOutput extends ChatFinishDetailsOutputParent {
+export interface MaxTokensFinishDetailsOutput
+  extends ChatFinishDetailsOutputParent {
   /** The object type, which is always 'max_tokens' for this object. */
   type: "max_tokens";
 }
@@ -737,6 +741,22 @@ export interface EmbeddingsUsageOutput {
   total_tokens: number;
 }
 
+/** A polling status update or final response payload for an image operation. */
+export interface BatchImageGenerationOperationResponseOutput {
+  /** The ID of the operation. */
+  id: string;
+  /** A timestamp when this job or item was created (in unix epochs). */
+  created: number;
+  /** A timestamp when this operation and its associated images expire and will be deleted (in unix epochs). */
+  expires?: number;
+  /** The result of the operation if the operation succeeded. */
+  result?: ImageGenerationsOutput;
+  /** The status of the operation */
+  status: AzureOpenAIOperationStateOutput;
+  /** The error if the operation failed. */
+  error?: ErrorModel;
+}
+
 /**
  * An abstract representation of a tool call that must be resolved in a subsequent request to perform the requested
  * chat completion.
@@ -752,7 +772,12 @@ export type ChatFinishDetailsOutput =
 /** Alias for AudioTaskLabelOutput */
 export type AudioTaskLabelOutput = string | "transcribe" | "translate";
 /** Alias for ContentFilterSeverityOutput */
-export type ContentFilterSeverityOutput = string | "safe" | "low" | "medium" | "high";
+export type ContentFilterSeverityOutput =
+  | string
+  | "safe"
+  | "low"
+  | "medium"
+  | "high";
 /** Alias for CompletionsFinishReasonOutput */
 export type CompletionsFinishReasonOutput =
   | string
@@ -762,7 +787,13 @@ export type CompletionsFinishReasonOutput =
   | "function_call"
   | "tool_calls";
 /** Alias for ChatRoleOutput */
-export type ChatRoleOutput = string | "system" | "assistant" | "user" | "function" | "tool";
+export type ChatRoleOutput =
+  | string
+  | "system"
+  | "assistant"
+  | "user"
+  | "function"
+  | "tool";
 /** Alias for ImageSizeOutput */
 export type ImageSizeOutput =
   | string

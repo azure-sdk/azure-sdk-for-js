@@ -1,24 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/** *
- * [Azure OpenAI](https://learn.microsoft.com/azure/cognitive-services/openai/overview)
- * provides REST API access to OpenAI's powerful language models including the GPT-3,
- * Codex and Embeddings model series. In addition, the new GPT-4 and ChatGPT (gpt-35-turbo)
- * model series have now reached general availability. These models can be easily adapted
- * to your specific task including but not limited to content generation, summarization,
- * semantic search, and natural language to code translation.
- *
- * @packageDocumentation
- */
-
-export { AzureKeyCredential } from "@azure/core-auth";
 export { OpenAIClient, OpenAIClientOptions } from "./OpenAIClient.js";
-export { OpenAIKeyCredential } from "./OpenAIKeyCredential.js";
-export * from "./models/audio.js";
 export {
-  AzureChatExtensionConfigurationUnion,
-  AzureExtensionsOptions,
+  AudioTranscriptionOptions,
+  AudioTranscriptionFormat,
+  AudioTranscription,
+  AudioTaskLabel,
+  AudioTranscriptionSegment,
+  AudioTranslationOptions,
+  AudioTranslationFormat,
+  AudioTranslation,
+  AudioTranslationSegment,
+  CompletionsOptions,
   Completions,
   ContentFilterResultsForPrompt,
   ContentFilterResultDetailsForPrompt,
@@ -28,13 +22,11 @@ export {
   ContentFilterBlocklistIdResult,
   Choice,
   ContentFilterResultsForChoice,
-  ContentFilterSuccessResultDetailsForPrompt,
-  ContentFilterErrorResults,
-  ContentFilterSuccessResultsForChoice,
   ContentFilterCitedDetectionResult,
   CompletionsLogProbabilityModel,
   CompletionsFinishReason,
   CompletionsUsage,
+  ChatCompletionsOptions,
   ChatRequestMessage,
   ChatRequestSystemMessage,
   ChatRequestUserMessage,
@@ -55,6 +47,7 @@ export {
   FunctionName,
   AzureChatExtensionConfiguration,
   AzureSearchChatExtensionConfiguration,
+  AzureSearchChatExtensionParameters,
   OnYourDataAuthenticationOptions,
   OnYourDataApiKeyAuthenticationOptions,
   OnYourDataConnectionStringAuthenticationOptions,
@@ -72,12 +65,16 @@ export {
   OnYourDataModelIdVectorizationSource,
   OnYourDataVectorizationSourceType,
   AzureMachineLearningIndexChatExtensionConfiguration,
+  AzureMachineLearningIndexChatExtensionParameters,
   AzureCosmosDBChatExtensionConfiguration,
+  AzureCosmosDBChatExtensionParameters,
   AzureCosmosDBFieldMappingOptions,
   ElasticsearchChatExtensionConfiguration,
+  ElasticsearchChatExtensionParameters,
   ElasticsearchIndexFieldMappingOptions,
   ElasticsearchQueryType,
   PineconeChatExtensionConfiguration,
+  PineconeChatExtensionParameters,
   PineconeFieldMappingOptions,
   AzureChatExtensionType,
   AzureChatEnhancementConfiguration,
@@ -108,6 +105,7 @@ export {
   AzureGroundingEnhancementLine,
   AzureGroundingEnhancementLineSpan,
   AzureGroundingEnhancementCoordinatePoint,
+  ImageGenerationOptions,
   ImageSize,
   ImageGenerationResponseFormat,
   ImageGenerationQuality,
@@ -116,21 +114,31 @@ export {
   ImageGenerationData,
   ImageGenerationContentFilterResults,
   ImageGenerationPromptFilterResults,
+  SpeechGenerationOptions,
+  SpeechVoice,
+  SpeechGenerationResponseFormat,
+  EmbeddingsOptions,
+  EmbeddingEncodingFormat,
   Embeddings,
   EmbeddingItem,
   EmbeddingsUsage,
   ChatRequestMessageUnion,
   ChatMessageContentItemUnion,
   ChatCompletionsToolCallUnion,
+  AzureChatExtensionConfigurationUnion,
   OnYourDataAuthenticationOptionsUnion,
   OnYourDataVectorizationSourceUnion,
   ChatCompletionsResponseFormatUnion,
   ChatCompletionsToolDefinitionUnion,
   ChatCompletionsNamedToolSelectionUnion,
   ChatFinishDetailsUnion,
+  GetAudioTranscriptionAsPlainTextOptions,
+  GetAudioTranscriptionAsResponseObjectOptions,
+  GetAudioTranslationAsPlainTextOptions,
+  GetAudioTranslationAsResponseObjectOptions,
   GetCompletionsOptions,
   GetChatCompletionsOptions,
-  GetImagesOptions,
+  GetImageGenerationsOptions,
+  GenerateSpeechFromTextOptions,
   GetEmbeddingsOptions,
-  EventStream,
 } from "./models/index.js";
