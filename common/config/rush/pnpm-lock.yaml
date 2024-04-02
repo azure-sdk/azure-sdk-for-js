@@ -11450,7 +11450,7 @@ packages:
     dev: false
 
   file:projects/ai-vision-image-analysis.tgz:
-    resolution: {integrity: sha512-JUZesAtPW5+co2z7r7Lu/PSCz5P6YYck1YDjq/Fz/DzUYUxlkEI+RlEEprInfCtP4bx/E3QJoJmPKN3Mb3YWRg==, tarball: file:projects/ai-vision-image-analysis.tgz}
+    resolution: {integrity: sha512-FpXRl2YmfsAmDNcqPjWWDSlp+5te7NE+kDEMIym9LzDMFJjcpk24HZV0pOPFUjg49163yL2J0vv2O9WIJosumg==, tarball: file:projects/ai-vision-image-analysis.tgz}
     name: '@rush-temp/ai-vision-image-analysis'
     version: 0.0.0
     dependencies:
@@ -17059,7 +17059,7 @@ packages:
     dev: false
 
   file:projects/arm-security.tgz:
-    resolution: {integrity: sha512-BnG6Nk7vc3Jn8PsT67pgLDXSf0IRLsNIIk1U9l5WiOres1kc1T8+2fLEDJk7N7liPkyHVGFqmuvrFvFlyiJUKg==, tarball: file:projects/arm-security.tgz}
+    resolution: {integrity: sha512-sTZ5giQ+aN83gxROlsHpvDvXWf5B+S5cVLIKplqw4S6JVTvJ+bX3pfOwuobcSv1Ji74JNCRhyiRknj8MomMbwQ==, tarball: file:projects/arm-security.tgz}
     name: '@rush-temp/arm-security'
     version: 0.0.0
     dependencies:
@@ -17074,6 +17074,7 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -20160,7 +20161,7 @@ packages:
     dev: false
 
   file:projects/functions-authentication-events.tgz:
-    resolution: {integrity: sha512-+PeVPYgDheciVjGgaKhcJuCP/KLiTkZk+hNISB7QRC15O8nb/bfd7dV/qR/NDgVB3YqQwMr7pOPrMyOp824lGw==, tarball: file:projects/functions-authentication-events.tgz}
+    resolution: {integrity: sha512-wPvG8Uhbv8Oh0fFLEFv4UY8T5eaEMyGrypwtcya0rwKdnn+wL+sRpW85HyZRNJUjwfGzJenljtD1bbm+86NCiQ==, tarball: file:projects/functions-authentication-events.tgz}
     name: '@rush-temp/functions-authentication-events'
     version: 0.0.0
     dependencies:
@@ -20792,7 +20793,7 @@ packages:
     dev: false
 
   file:projects/load-testing.tgz:
-    resolution: {integrity: sha512-AmGY5BOyGMd3kUuCq6TM6i+fuNgG/yMpe+LYwn5Og6MdeaMP2FEO6B/eabe7EmaCIHkj5XNCI9IIsX1C9nHz5Q==, tarball: file:projects/load-testing.tgz}
+    resolution: {integrity: sha512-tFjkZwnucc4eaV4w7wrmjQo3kMnBWDU81z7Zqk0847lwmv8v7/GX0Gn64NjvBRLSmqM244uq0jmV3Pxba3pr0A==, tarball: file:projects/load-testing.tgz}
     name: '@rush-temp/load-testing'
     version: 0.0.0
     dependencies:
@@ -21188,7 +21189,7 @@ packages:
     dev: false
 
   file:projects/monitor-ingestion.tgz:
-    resolution: {integrity: sha512-35wVvAFyA02DphRAw4HBLO3Xco0Ai3qpMVy5qbUe6200MbxqUgYPpEM1TvFJa0sIfmZjxTs+Tuj87vcQPqT/IQ==, tarball: file:projects/monitor-ingestion.tgz}
+    resolution: {integrity: sha512-jupuFG2vTwsBVNqvNnikZ+v55xdWqFrwg3s1k0d0LMH345YWE9/yt4Fw53HsMjIyrUmQT4SyMh+d6mLaInS08Q==, tarball: file:projects/monitor-ingestion.tgz}
     name: '@rush-temp/monitor-ingestion'
     version: 0.0.0
     dependencies:
@@ -23139,7 +23140,7 @@ packages:
     dev: false
 
   file:projects/template-dpg.tgz:
-    resolution: {integrity: sha512-gl0BqM3gpQnWF9O8U2z1nBejA8Ket0ldcjXqj6my9B9/IISGW8ytU1n82PDoOcm8Eo5RV6BM2Bsk7XxTS+2WWQ==, tarball: file:projects/template-dpg.tgz}
+    resolution: {integrity: sha512-EXVd5nsFpKxvwGXFXw/IG6JnrgNRhzC/V3uX6AgD1uuMLLK9WVFudPncFyuT3MWWUf2WoINfH063q2dyaQVnPg==, tarball: file:projects/template-dpg.tgz}
     name: '@rush-temp/template-dpg'
     version: 0.0.0
     dependencies:
