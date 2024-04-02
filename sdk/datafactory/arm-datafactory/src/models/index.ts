@@ -104,6 +104,7 @@ export type LinkedServiceUnion =
   | DrillLinkedService
   | EloquaLinkedService
   | GoogleBigQueryLinkedService
+  | GoogleBigQueryV2LinkedService
   | GreenplumLinkedService
   | HBaseLinkedService
   | HiveLinkedService
@@ -145,7 +146,8 @@ export type LinkedServiceUnion =
   | LakeHouseLinkedService
   | SalesforceV2LinkedService
   | SalesforceServiceCloudV2LinkedService
-  | WarehouseLinkedService;
+  | WarehouseLinkedService
+  | ServiceNowV2LinkedService;
 export type DatasetUnion =
   | Dataset
   | AmazonS3Dataset
@@ -213,6 +215,7 @@ export type DatasetUnion =
   | DrillTableDataset
   | EloquaObjectDataset
   | GoogleBigQueryObjectDataset
+  | GoogleBigQueryV2ObjectDataset
   | GreenplumTableDataset
   | HBaseObjectDataset
   | HiveObjectDataset
@@ -248,7 +251,8 @@ export type DatasetUnion =
   | LakeHouseTableDataset
   | SalesforceV2ObjectDataset
   | SalesforceServiceCloudV2ObjectDataset
-  | WarehouseTableDataset;
+  | WarehouseTableDataset
+  | ServiceNowV2ObjectDataset;
 export type ActivityUnion =
   | Activity
   | ControlActivityUnion
@@ -537,6 +541,7 @@ export type TabularSourceUnion =
   | DrillSource
   | EloquaSource
   | GoogleBigQuerySource
+  | GoogleBigQueryV2Source
   | GreenplumSource
   | HBaseSource
   | HiveSource
@@ -566,114 +571,11 @@ export type TabularSourceUnion =
   | GoogleAdWordsSource
   | AmazonRedshiftSource
   | WarehouseSource
-  | SalesforceV2Source;
+  | SalesforceV2Source
+  | ServiceNowV2Source;
 export type TriggerDependencyReferenceUnion =
   | TriggerDependencyReference
   | TumblingWindowTriggerDependencyReference;
-
-/** A list of operations that can be performed by the Data Factory service. */
-export interface OperationListResponse {
-  /** List of Data Factory operations supported by the Data Factory resource provider. */
-  value?: Operation[];
-  /** The link to the next page of results, if any remaining results exist. */
-  nextLink?: string;
-}
-
-/** Azure Data Factory API operation definition. */
-export interface Operation {
-  /** Operation name: {provider}/{resource}/{operation} */
-  name?: string;
-  /** The intended executor of the operation. */
-  origin?: string;
-  /** Metadata associated with the operation. */
-  display?: OperationDisplay;
-  /** Details about a service operation. */
-  serviceSpecification?: OperationServiceSpecification;
-}
-
-/** Metadata associated with the operation. */
-export interface OperationDisplay {
-  /** The description of the operation. */
-  description?: string;
-  /** The name of the provider. */
-  provider?: string;
-  /** The name of the resource type on which the operation is performed. */
-  resource?: string;
-  /** The type of operation: get, read, delete, etc. */
-  operation?: string;
-}
-
-/** Details about a service operation. */
-export interface OperationServiceSpecification {
-  /** Details about operations related to logs. */
-  logSpecifications?: OperationLogSpecification[];
-  /** Details about operations related to metrics. */
-  metricSpecifications?: OperationMetricSpecification[];
-}
-
-/** Details about an operation related to logs. */
-export interface OperationLogSpecification {
-  /** The name of the log category. */
-  name?: string;
-  /** Localized display name. */
-  displayName?: string;
-  /** Blobs created in the customer storage account, per hour. */
-  blobDuration?: string;
-}
-
-/** Details about an operation related to metrics. */
-export interface OperationMetricSpecification {
-  /** The name of the metric. */
-  name?: string;
-  /** Localized display name of the metric. */
-  displayName?: string;
-  /** The description of the metric. */
-  displayDescription?: string;
-  /** The unit that the metric is measured in. */
-  unit?: string;
-  /** The type of metric aggregation. */
-  aggregationType?: string;
-  /** Whether or not the service is using regional MDM accounts. */
-  enableRegionalMdmAccount?: string;
-  /** The name of the MDM account. */
-  sourceMdmAccount?: string;
-  /** The name of the MDM namespace. */
-  sourceMdmNamespace?: string;
-  /** Defines how often data for metrics becomes available. */
-  availabilities?: OperationMetricAvailability[];
-  /** Defines the metric dimension. */
-  dimensions?: OperationMetricDimension[];
-}
-
-/** Defines how often data for a metric becomes available. */
-export interface OperationMetricAvailability {
-  /** The granularity for the metric. */
-  timeGrain?: string;
-  /** Blob created in the customer storage account, per hour. */
-  blobDuration?: string;
-}
-
-/** Defines the metric dimension. */
-export interface OperationMetricDimension {
-  /** The name of the dimension for the metric. */
-  name?: string;
-  /** The display name of the metric dimension. */
-  displayName?: string;
-  /** Whether the dimension should be exported to Azure Monitor. */
-  toBeExportedForShoebox?: boolean;
-}
-
-/** The object that defines the structure of an Azure Data Factory error response. */
-export interface CloudError {
-  /** Error code. */
-  code: string;
-  /** Error message. */
-  message: string;
-  /** Property name/path in request associated with error. */
-  target?: string;
-  /** Array with additional error details. */
-  details?: CloudError[];
-}
 
 /** A list of factory resources. */
 export interface FactoryListResponse {
@@ -777,6 +679,18 @@ export interface Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly eTag?: string;
+}
+
+/** The object that defines the structure of an Azure Data Factory error response. */
+export interface CloudError {
+  /** Error code. */
+  code: string;
+  /** Error message. */
+  message: string;
+  /** Property name/path in request associated with error. */
+  target?: string;
+  /** Array with additional error details. */
+  details?: CloudError[];
 }
 
 /** Factory's git repo information. */
@@ -1347,6 +1261,7 @@ export interface LinkedService {
     | "Drill"
     | "Eloqua"
     | "GoogleBigQuery"
+    | "GoogleBigQueryV2"
     | "Greenplum"
     | "HBase"
     | "Hive"
@@ -1388,7 +1303,8 @@ export interface LinkedService {
     | "LakeHouse"
     | "SalesforceV2"
     | "SalesforceServiceCloudV2"
-    | "Warehouse";
+    | "Warehouse"
+    | "ServiceNowV2";
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /** The integration runtime reference. */
@@ -1496,6 +1412,7 @@ export interface Dataset {
     | "DrillTable"
     | "EloquaObject"
     | "GoogleBigQueryObject"
+    | "GoogleBigQueryV2Object"
     | "GreenplumTable"
     | "HBaseObject"
     | "HiveObject"
@@ -1531,7 +1448,8 @@ export interface Dataset {
     | "LakeHouseTable"
     | "SalesforceV2Object"
     | "SalesforceServiceCloudV2Object"
-    | "WarehouseTable";
+    | "WarehouseTable"
+    | "ServiceNowV2Object";
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /** Dataset description. */
@@ -2574,6 +2492,98 @@ export interface DatasetReference {
   parameters?: { [propertyName: string]: any };
 }
 
+/** A list of operations that can be performed by the Data Factory service. */
+export interface OperationListResponse {
+  /** List of Data Factory operations supported by the Data Factory resource provider. */
+  value?: Operation[];
+  /** The link to the next page of results, if any remaining results exist. */
+  nextLink?: string;
+}
+
+/** Azure Data Factory API operation definition. */
+export interface Operation {
+  /** Operation name: {provider}/{resource}/{operation} */
+  name?: string;
+  /** The intended executor of the operation. */
+  origin?: string;
+  /** Metadata associated with the operation. */
+  display?: OperationDisplay;
+  /** Details about a service operation. */
+  serviceSpecification?: OperationServiceSpecification;
+}
+
+/** Metadata associated with the operation. */
+export interface OperationDisplay {
+  /** The description of the operation. */
+  description?: string;
+  /** The name of the provider. */
+  provider?: string;
+  /** The name of the resource type on which the operation is performed. */
+  resource?: string;
+  /** The type of operation: get, read, delete, etc. */
+  operation?: string;
+}
+
+/** Details about a service operation. */
+export interface OperationServiceSpecification {
+  /** Details about operations related to logs. */
+  logSpecifications?: OperationLogSpecification[];
+  /** Details about operations related to metrics. */
+  metricSpecifications?: OperationMetricSpecification[];
+}
+
+/** Details about an operation related to logs. */
+export interface OperationLogSpecification {
+  /** The name of the log category. */
+  name?: string;
+  /** Localized display name. */
+  displayName?: string;
+  /** Blobs created in the customer storage account, per hour. */
+  blobDuration?: string;
+}
+
+/** Details about an operation related to metrics. */
+export interface OperationMetricSpecification {
+  /** The name of the metric. */
+  name?: string;
+  /** Localized display name of the metric. */
+  displayName?: string;
+  /** The description of the metric. */
+  displayDescription?: string;
+  /** The unit that the metric is measured in. */
+  unit?: string;
+  /** The type of metric aggregation. */
+  aggregationType?: string;
+  /** Whether or not the service is using regional MDM accounts. */
+  enableRegionalMdmAccount?: string;
+  /** The name of the MDM account. */
+  sourceMdmAccount?: string;
+  /** The name of the MDM namespace. */
+  sourceMdmNamespace?: string;
+  /** Defines how often data for metrics becomes available. */
+  availabilities?: OperationMetricAvailability[];
+  /** Defines the metric dimension. */
+  dimensions?: OperationMetricDimension[];
+}
+
+/** Defines how often data for a metric becomes available. */
+export interface OperationMetricAvailability {
+  /** The granularity for the metric. */
+  timeGrain?: string;
+  /** Blob created in the customer storage account, per hour. */
+  blobDuration?: string;
+}
+
+/** Defines the metric dimension. */
+export interface OperationMetricDimension {
+  /** The name of the dimension for the metric. */
+  name?: string;
+  /** The display name of the metric dimension. */
+  displayName?: string;
+  /** Whether the dimension should be exported to Azure Monitor. */
+  toBeExportedForShoebox?: boolean;
+}
+
 /** Response body structure for get data factory operation status. */
 export interface GetDataFactoryOperationStatusResponse {
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
@@ -3259,6 +3269,7 @@ export interface CopySource {
     | "DrillSource"
     | "EloquaSource"
     | "GoogleBigQuerySource"
+    | "GoogleBigQueryV2Source"
     | "GreenplumSource"
     | "HBaseSource"
     | "HiveSource"
@@ -3294,7 +3305,8 @@ export interface CopySource {
     | "WarehouseSource"
     | "SharePointOnlineListSource"
     | "SalesforceV2Source"
-    | "SalesforceServiceCloudV2Source";
+    | "SalesforceServiceCloudV2Source"
+    | "ServiceNowV2Source";
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /** Source retry count. Type: integer (or Expression with resultType integer). */
@@ -3891,6 +3903,18 @@ export interface SynapseSparkJobReference {
   type: SparkJobReferenceType;
   /** Reference spark job name. Expression with resultType string. */
   referenceName: any;
+}
+
+/** Nested representation of a complex expression. */
+export interface ExpressionV2 {
+  /** Type of expressions supported by the system. Type: string. */
+  type?: ExpressionV2Type;
+  /** Value for Constant/Field Type: string. */
+  value?: string;
+  /** Expression operator value Type: string. */
+  operator?: string;
+  /** List of nested expressions. */
+  operands?: ExpressionV2[];
 }
 
 /** The workflow trigger recurrence. */
@@ -5782,6 +5806,26 @@ export interface GoogleBigQueryLinkedService extends LinkedService {
   encryptedCredential?: string;
 }
 
+/** Google BigQuery service linked service. */
+export interface GoogleBigQueryV2LinkedService extends LinkedService {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "GoogleBigQueryV2";
+  /** The default BigQuery project id to query against. Type: string (or Expression with resultType string). */
+  projectId: any;
+  /** The OAuth 2.0 authentication mechanism used for authentication. */
+  authenticationType: GoogleBigQueryV2AuthenticationType;
+  /** The client id of the google application used to acquire the refresh token. Type: string (or Expression with resultType string). */
+  clientId?: any;
+  /** The client secret of the google application used to acquire the refresh token. */
+  clientSecret?: SecretBaseUnion;
+  /** The refresh token obtained from Google for authorizing access to BigQuery for UserAuthentication. */
+  refreshToken?: SecretBaseUnion;
+  /** The content of the .json key file that is used to authenticate the service account. Type: string (or Expression with resultType string). */
+  keyFileContent?: SecretBaseUnion;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
+}
+
 /** Greenplum Database linked service. */
 export interface GreenplumLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -6787,6 +6831,28 @@ export interface WarehouseLinkedService extends LinkedService {
   servicePrincipalCredential?: SecretBaseUnion;
 }
 
+/** ServiceNowV2 server linked service. */
+export interface ServiceNowV2LinkedService extends LinkedService {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "ServiceNowV2";
+  /** The endpoint of the ServiceNowV2 server. (i.e. <instance>.service-now.com) */
+  endpoint: any;
+  /** The authentication type to use. */
+  authenticationType: ServiceNowV2AuthenticationType;
+  /** The user name used to connect to the ServiceNowV2 server for Basic and OAuth2 authentication. */
+  username?: any;
+  /** The password corresponding to the user name for Basic and OAuth2 authentication. */
+  password?: SecretBaseUnion;
+  /** The client id for OAuth2 authentication. */
+  clientId?: any;
+  /** The client secret for OAuth2 authentication. */
+  clientSecret?: SecretBaseUnion;
+  /** GrantType for OAuth2 authentication. Default value is password. */
+  grantType?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
+}
+
 /** A single Amazon Simple Storage Service (S3) object or a set of S3 objects. */
 export interface AmazonS3Dataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -7492,6 +7558,16 @@ export interface GoogleBigQueryObjectDataset extends Dataset {
   dataset?: any;
 }
 
+/** Google BigQuery service dataset. */
+export interface GoogleBigQueryV2ObjectDataset extends Dataset {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "GoogleBigQueryV2Object";
+  /** The table name of the Google BigQuery. Type: string (or Expression with resultType string). */
+  table?: any;
+  /** The database name of the Google BigQuery. Type: string (or Expression with resultType string). */
+  dataset?: any;
+}
+
 /** Greenplum Database dataset. */
 export interface GreenplumTableDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -7822,6 +7898,14 @@ export interface WarehouseTableDataset extends Dataset {
   schemaTypePropertiesSchema?: any;
   /** The table name of the Microsoft Fabric Warehouse. Type: string (or Expression with resultType string). */
   table?: any;
+}
+
+/** ServiceNowV2 server dataset. */
+export interface ServiceNowV2ObjectDataset extends Dataset {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "ServiceNowV2Object";
+  /** The table name. Type: string (or Expression with resultType string). */
+  tableName?: any;
 }
 
 /** Base class for all control activities like IfCondition, ForEach , Until. */
@@ -9002,6 +9086,7 @@ export interface TabularSource extends CopySource {
     | "DrillSource"
     | "EloquaSource"
     | "GoogleBigQuerySource"
+    | "GoogleBigQueryV2Source"
     | "GreenplumSource"
     | "HBaseSource"
     | "HiveSource"
@@ -9031,7 +9116,8 @@ export interface TabularSource extends CopySource {
     | "GoogleAdWordsSource"
     | "AmazonRedshiftSource"
     | "WarehouseSource"
-    | "SalesforceV2Source";
+    | "SalesforceV2Source"
+    | "ServiceNowV2Source";
   /** Query timeout. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). */
   queryTimeout?: any;
   /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
@@ -11120,6 +11206,14 @@ export interface GoogleBigQuerySource extends TabularSource {
   query?: any;
 }
 
+/** A copy activity Google BigQuery service source. */
+export interface GoogleBigQueryV2Source extends TabularSource {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "GoogleBigQueryV2Source";
+  /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
+  query?: any;
+}
+
 /** A copy activity Greenplum Database source. */
 export interface GreenplumSource extends TabularSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -11378,6 +11472,14 @@ export interface SalesforceV2Source extends TabularSource {
   soqlQuery?: any;
   /** This property control whether query result contains Deleted objects. Default is false. Type: boolean (or Expression with resultType boolean). */
   includeDeletedObjects?: any;
+}
+
+/** A copy activity ServiceNowV2 server source. */
+export interface ServiceNowV2Source extends TabularSource {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "ServiceNowV2Source";
+  /** Expression to filter data from source. */
+  expression?: ExpressionV2;
 }
 
 /** Referenced tumbling window trigger dependency. */
@@ -12609,6 +12711,24 @@ export enum KnownGoogleBigQueryAuthenticationType {
  */
 export type GoogleBigQueryAuthenticationType = string;
 
+/** Known values of {@link GoogleBigQueryV2AuthenticationType} that the service accepts. */
+export enum KnownGoogleBigQueryV2AuthenticationType {
+  /** ServiceAuthentication */
+  ServiceAuthentication = "ServiceAuthentication",
+  /** UserAuthentication */
+  UserAuthentication = "UserAuthentication",
+}
+
+/**
+ * Defines values for GoogleBigQueryV2AuthenticationType. \
+ * {@link KnownGoogleBigQueryV2AuthenticationType} can be used interchangeably with GoogleBigQueryV2AuthenticationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ServiceAuthentication** \
+ * **UserAuthentication**
+ */
+export type GoogleBigQueryV2AuthenticationType = string;
+
 /** Known values of {@link HBaseAuthenticationType} that the service accepts. */
 export enum KnownHBaseAuthenticationType {
   /** Anonymous */
@@ -12875,6 +12995,24 @@ export enum KnownSnowflakeAuthenticationType {
  * **AADServicePrincipal**
  */
 export type SnowflakeAuthenticationType = string;
+
+/** Known values of {@link ServiceNowV2AuthenticationType} that the service accepts. */
+export enum KnownServiceNowV2AuthenticationType {
+  /** Basic */
+  Basic = "Basic",
+  /** OAuth2 */
+  OAuth2 = "OAuth2",
+}
+
+/**
+ * Defines values for ServiceNowV2AuthenticationType. \
+ * {@link KnownServiceNowV2AuthenticationType} can be used interchangeably with ServiceNowV2AuthenticationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Basic** \
+ * **OAuth2**
+ */
+export type ServiceNowV2AuthenticationType = string;
 
 /** Known values of {@link CassandraSourceReadConsistencyLevels} that the service accepts. */
 export enum KnownCassandraSourceReadConsistencyLevels {
@@ -13397,6 +13535,30 @@ export enum KnownSalesforceV2SinkWriteBehavior {
  * **Upsert**
  */
 export type SalesforceV2SinkWriteBehavior = string;
+
+/** Known values of {@link ExpressionV2Type} that the service accepts. */
+export enum KnownExpressionV2Type {
+  /** Constant */
+  Constant = "Constant",
+  /** Field */
+  Field = "Field",
+  /** Unary */
+  Unary = "Unary",
+  /** Binary */
+  Binary = "Binary",
+}
+
+/**
+ * Defines values for ExpressionV2Type. \
+ * {@link KnownExpressionV2Type} can be used interchangeably with ExpressionV2Type,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Constant** \
+ * **Field** \
+ * **Unary** \
+ * **Binary**
+ */
+export type ExpressionV2Type = string;
 
 /** Known values of {@link RecurrenceFrequency} that the service accepts. */
 export enum KnownRecurrenceFrequency {
@@ -13961,20 +14123,6 @@ export type DayOfWeek =
   | "Thursday"
   | "Friday"
   | "Saturday";
-
-/** Optional parameters. */
-export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type OperationsListResponse = OperationListResponse;
-
-/** Optional parameters. */
-export interface OperationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type OperationsListNextResponse = OperationListResponse;
 
 /** Optional parameters. */
 export interface FactoriesListOptionalParams
