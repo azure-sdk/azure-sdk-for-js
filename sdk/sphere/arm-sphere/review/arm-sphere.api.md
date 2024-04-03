@@ -60,7 +60,7 @@ export interface Catalog extends TrackedResource {
 
 // @public
 export interface CatalogListResult {
-    readonly nextLink?: string;
+    nextLink?: string;
     value: Catalog[];
 }
 
@@ -270,7 +270,7 @@ export interface CertificateChainResponse {
 
 // @public
 export interface CertificateListResult {
-    readonly nextLink?: string;
+    nextLink?: string;
     value: Certificate[];
 }
 
@@ -363,7 +363,7 @@ export interface Deployment extends ProxyResource {
 
 // @public
 export interface DeploymentListResult {
-    readonly nextLink?: string;
+    nextLink?: string;
     value: Deployment[];
 }
 
@@ -448,7 +448,7 @@ export interface DeviceGroup extends ProxyResource {
 
 // @public
 export interface DeviceGroupListResult {
-    readonly nextLink?: string;
+    nextLink?: string;
     value: DeviceGroup[];
 }
 
@@ -594,7 +594,7 @@ export interface DeviceInsight {
 
 // @public
 export interface DeviceListResult {
-    readonly nextLink?: string;
+    nextLink?: string;
     value: Device[];
 }
 
@@ -686,11 +686,6 @@ export interface DevicesListByDeviceGroupOptionalParams extends coreClient.Opera
 export type DevicesListByDeviceGroupResponse = DeviceListResult;
 
 // @public
-export interface DevicesUpdateHeaders {
-    retryAfter?: number;
-}
-
-// @public
 export interface DevicesUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -745,7 +740,7 @@ export { Image_2 as Image }
 
 // @public
 export interface ImageListResult {
-    readonly nextLink?: string;
+    nextLink?: string;
     value: Image_2[];
 }
 
@@ -978,7 +973,7 @@ export type OSFeedType = string;
 
 // @public
 export interface PagedDeviceInsight {
-    readonly nextLink?: string;
+    nextLink?: string;
     value: DeviceInsight[];
 }
 
@@ -989,7 +984,7 @@ export interface Product extends ProxyResource {
 
 // @public
 export interface ProductListResult {
-    readonly nextLink?: string;
+    nextLink?: string;
     value: Product[];
 }
 
