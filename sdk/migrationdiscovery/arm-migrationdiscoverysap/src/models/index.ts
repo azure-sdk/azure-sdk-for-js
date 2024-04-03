@@ -17,11 +17,8 @@ export type PerformanceDataUnion =
 export interface SAPDiscoverySiteListResult {
   /** The SAPDiscoverySite items on this page */
   value: SAPDiscoverySite[];
-  /**
-   * The link to the next page of items
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
 /** Defines the SAP Migration discovery site resource properties. */
@@ -199,11 +196,8 @@ export interface OperationStatusResult {
 export interface SAPInstanceListResult {
   /** The SAPInstance items on this page */
   value: SAPInstance[];
-  /**
-   * The link to the next page of items
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
 /** Defines the SAP Instance properties. */
@@ -250,11 +244,8 @@ export interface SAPInstanceTagsUpdate {
 export interface ServerInstanceListResult {
   /** The ServerInstance items on this page */
   value: ServerInstance[];
-  /**
-   * The link to the next page of items
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
 /** Defines the SAP Instance properties. */
@@ -507,18 +498,18 @@ export interface SapDiscoverySitesCreateHeaders {
 
 /** Defines headers for SapDiscoverySites_delete operation. */
 export interface SapDiscoverySitesDeleteHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for SapDiscoverySites_importEntities operation. */
 export interface SapDiscoverySitesImportEntitiesHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for SapInstances_create operation. */
@@ -529,10 +520,10 @@ export interface SapInstancesCreateHeaders {
 
 /** Defines headers for SapInstances_delete operation. */
 export interface SapInstancesDeleteHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for ServerInstances_create operation. */
@@ -543,10 +534,10 @@ export interface ServerInstancesCreateHeaders {
 
 /** Defines headers for ServerInstances_delete operation. */
 export interface ServerInstancesDeleteHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Known values of {@link ProvisioningState} that the service accepts. */

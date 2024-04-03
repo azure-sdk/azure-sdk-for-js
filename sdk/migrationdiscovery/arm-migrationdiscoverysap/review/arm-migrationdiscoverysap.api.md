@@ -264,7 +264,7 @@ export interface SAPDiscoverySite extends TrackedResource {
 
 // @public
 export interface SAPDiscoverySiteListResult {
-    readonly nextLink?: string;
+    nextLink?: string;
     value: SAPDiscoverySite[];
 }
 
@@ -390,7 +390,7 @@ export type SapInstanceEnvironment = string;
 
 // @public
 export interface SAPInstanceListResult {
-    readonly nextLink?: string;
+    nextLink?: string;
     value: SAPInstance[];
 }
 
@@ -491,7 +491,7 @@ export interface ServerInstance extends ProxyResource {
 
 // @public
 export interface ServerInstanceListResult {
-    readonly nextLink?: string;
+    nextLink?: string;
     value: ServerInstance[];
 }
 
