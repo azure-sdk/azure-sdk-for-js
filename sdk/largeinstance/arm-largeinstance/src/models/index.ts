@@ -414,26 +414,26 @@ export interface AzureLargeStorageInstance extends TrackedResource {
 
 /** Defines headers for AzureLargeInstance_restart operation. */
 export interface AzureLargeInstanceRestartHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for AzureLargeInstance_shutdown operation. */
 export interface AzureLargeInstanceShutdownHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for AzureLargeInstance_start operation. */
 export interface AzureLargeInstanceStartHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Known values of {@link Origin} that the service accepts. */
