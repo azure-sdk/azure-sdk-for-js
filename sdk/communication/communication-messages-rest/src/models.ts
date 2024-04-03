@@ -7,7 +7,7 @@ export interface NotificationContentParent {
   channelRegistrationId: string;
   /** The native external platform user identifiers of the recipient. */
   to: string[];
-  kind: string;
+  kind: CommunicationMessageKind;
 }
 
 /** A request to send a text notification. */
@@ -52,7 +52,7 @@ export interface MessageTemplate {
 export interface MessageTemplateValueParent {
   /** Template binding reference name */
   name: string;
-  kind: string;
+  kind: MessageTemplateValueKind;
 }
 
 /** The message template's text value information. */
@@ -125,7 +125,7 @@ export interface MessageTemplateQuickAction extends MessageTemplateValueParent {
 
 /** The binding object to link values to the template specific locations */
 export interface MessageTemplateBindingsParent {
-  kind: string;
+  kind: MessageTemplateBindingsKind;
 }
 
 /** The template bindings for WhatsApp */
@@ -151,12 +151,8 @@ export interface WhatsAppMessageTemplateBindingsComponent {
 
 /** The template bindings component button for WhatsApp */
 export interface WhatsAppMessageTemplateBindingsButton {
-  /**
-   * The WhatsApp button sub type
-   *
-   * Possible values: "quickReply", "url"
-   */
-  subType: string;
+  /** The WhatsApp button sub type */
+  subType: WhatsAppMessageButtonSubType;
   /** The name of the referenced item in the template values. */
   refValue: string;
 }
@@ -180,3 +176,18 @@ export type MessageTemplateValue =
 export type MessageTemplateBindings =
   | MessageTemplateBindingsParent
   | WhatsAppMessageTemplateBindings;
+/** Alias for CommunicationMessageKind */
+export type CommunicationMessageKind = string | "text" | "image" | "template";
+/** Alias for MessageTemplateValueKind */
+export type MessageTemplateValueKind =
+  | string
+  | "text"
+  | "image"
+  | "document"
+  | "video"
+  | "location"
+  | "quickAction";
+/** Alias for MessageTemplateBindingsKind */
+export type MessageTemplateBindingsKind = string | "whatsApp";
+/** Alias for WhatsAppMessageButtonSubType */
+export type WhatsAppMessageButtonSubType = string | "quickReply" | "url";
