@@ -32,7 +32,7 @@ import {
   RoleAssignmentDetail,
   DataProductsRemoveUserRoleOptionalParams,
   KeyVaultInfo,
-  DataProductsRotateKeyOptionalParams
+  DataProductsRotateKeyOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -43,7 +43,7 @@ export interface DataProducts {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: DataProductsListBySubscriptionOptionalParams
+    options?: DataProductsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<DataProduct>;
   /**
    * List data products by resource group.
@@ -52,7 +52,7 @@ export interface DataProducts {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: DataProductsListByResourceGroupOptionalParams
+    options?: DataProductsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<DataProduct>;
   /**
    * Retrieve data product resource.
@@ -63,7 +63,7 @@ export interface DataProducts {
   get(
     resourceGroupName: string,
     dataProductName: string,
-    options?: DataProductsGetOptionalParams
+    options?: DataProductsGetOptionalParams,
   ): Promise<DataProductsGetResponse>;
   /**
    * Create data product resource.
@@ -76,7 +76,7 @@ export interface DataProducts {
     resourceGroupName: string,
     dataProductName: string,
     resource: DataProduct,
-    options?: DataProductsCreateOptionalParams
+    options?: DataProductsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DataProductsCreateResponse>,
@@ -94,7 +94,7 @@ export interface DataProducts {
     resourceGroupName: string,
     dataProductName: string,
     resource: DataProduct,
-    options?: DataProductsCreateOptionalParams
+    options?: DataProductsCreateOptionalParams,
   ): Promise<DataProductsCreateResponse>;
   /**
    * Update data product resource.
@@ -107,7 +107,7 @@ export interface DataProducts {
     resourceGroupName: string,
     dataProductName: string,
     properties: DataProductUpdate,
-    options?: DataProductsUpdateOptionalParams
+    options?: DataProductsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DataProductsUpdateResponse>,
@@ -125,7 +125,7 @@ export interface DataProducts {
     resourceGroupName: string,
     dataProductName: string,
     properties: DataProductUpdate,
-    options?: DataProductsUpdateOptionalParams
+    options?: DataProductsUpdateOptionalParams,
   ): Promise<DataProductsUpdateResponse>;
   /**
    * Delete data product resource.
@@ -136,7 +136,7 @@ export interface DataProducts {
   beginDelete(
     resourceGroupName: string,
     dataProductName: string,
-    options?: DataProductsDeleteOptionalParams
+    options?: DataProductsDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DataProductsDeleteResponse>,
@@ -152,7 +152,7 @@ export interface DataProducts {
   beginDeleteAndWait(
     resourceGroupName: string,
     dataProductName: string,
-    options?: DataProductsDeleteOptionalParams
+    options?: DataProductsDeleteOptionalParams,
   ): Promise<DataProductsDeleteResponse>;
   /**
    * Assign role to the data product.
@@ -165,7 +165,7 @@ export interface DataProducts {
     resourceGroupName: string,
     dataProductName: string,
     body: RoleAssignmentCommonProperties,
-    options?: DataProductsAddUserRoleOptionalParams
+    options?: DataProductsAddUserRoleOptionalParams,
   ): Promise<DataProductsAddUserRoleResponse>;
   /**
    * Generate sas token for storage account.
@@ -178,7 +178,7 @@ export interface DataProducts {
     resourceGroupName: string,
     dataProductName: string,
     body: AccountSas,
-    options?: DataProductsGenerateStorageAccountSasTokenOptionalParams
+    options?: DataProductsGenerateStorageAccountSasTokenOptionalParams,
   ): Promise<DataProductsGenerateStorageAccountSasTokenResponse>;
   /**
    * List user roles associated with the data product.
@@ -191,7 +191,7 @@ export interface DataProducts {
     resourceGroupName: string,
     dataProductName: string,
     body: Record<string, unknown>,
-    options?: DataProductsListRolesAssignmentsOptionalParams
+    options?: DataProductsListRolesAssignmentsOptionalParams,
   ): Promise<DataProductsListRolesAssignmentsResponse>;
   /**
    * Remove role from the data product.
@@ -204,7 +204,7 @@ export interface DataProducts {
     resourceGroupName: string,
     dataProductName: string,
     body: RoleAssignmentDetail,
-    options?: DataProductsRemoveUserRoleOptionalParams
+    options?: DataProductsRemoveUserRoleOptionalParams,
   ): Promise<void>;
   /**
    * Initiate key rotation on Data Product.
@@ -217,6 +217,6 @@ export interface DataProducts {
     resourceGroupName: string,
     dataProductName: string,
     body: KeyVaultInfo,
-    options?: DataProductsRotateKeyOptionalParams
+    options?: DataProductsRotateKeyOptionalParams,
   ): Promise<void>;
 }
