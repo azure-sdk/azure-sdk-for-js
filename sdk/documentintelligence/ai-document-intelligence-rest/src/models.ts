@@ -19,12 +19,8 @@ export interface AzureBlobFileListContentSource {
 
 /** Classifier document type info. */
 export interface ClassifierDocumentTypeDetails {
-  /**
-   * Type of training data source.
-   *
-   * Possible values: "url", "base64", "azureBlob", "azureBlobFileList"
-   */
-  sourceKind?: string;
+  /** Type of training data source. */
+  sourceKind?: ContentSourceKind;
   /**
    * Azure Blob Storage location containing the training data for a classifier
    * document type.  Either azureBlobSource or azureBlobFileListSource must be
@@ -56,12 +52,8 @@ export interface BuildDocumentModelRequest {
   modelId: string;
   /** Document model description. */
   description?: string;
-  /**
-   * Custom document model build mode.
-   *
-   * Possible values: "template", "neural"
-   */
-  buildMode: string;
+  /** Custom document model build mode. */
+  buildMode: DocumentBuildMode;
   /**
    * Azure Blob Storage location containing the training data.  Either
    * azureBlobSource or azureBlobFileListSource must be specified.
@@ -148,3 +140,33 @@ export interface ClassifyDocumentRequest {
    */
   base64Source?: string;
 }
+
+/** Alias for DocumentBuildMode */
+export type DocumentBuildMode = string | "template" | "neural";
+/** Alias for ContentSourceKind */
+export type ContentSourceKind =
+  | string
+  | "url"
+  | "base64"
+  | "azureBlob"
+  | "azureBlobFileList";
+/** Alias for StringIndexType */
+export type StringIndexType =
+  | string
+  | "textElements"
+  | "unicodeCodePoint"
+  | "utf16CodeUnit";
+/** Alias for ContentFormat */
+export type ContentFormat = string | "text" | "markdown";
+/** Alias for DocumentAnalysisFeature */
+export type DocumentAnalysisFeature =
+  | string
+  | "ocrHighResolution"
+  | "languages"
+  | "barcodes"
+  | "formulas"
+  | "keyValuePairs"
+  | "styleFont"
+  | "queryFields";
+/** Alias for SplitMode */
+export type SplitMode = string | "auto" | "none" | "perPage";
