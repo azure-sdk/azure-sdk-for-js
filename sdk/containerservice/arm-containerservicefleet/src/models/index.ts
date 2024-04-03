@@ -125,11 +125,8 @@ export interface ErrorAdditionalInfo {
 export interface FleetListResult {
   /** The Fleet items on this page */
   value: Fleet[];
-  /**
-   * The link to the next page of items
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
 /** The FleetHubProfile configures the fleet hub. */
@@ -282,11 +279,8 @@ export interface FleetCredentialResult {
 export interface FleetMemberListResult {
   /** The FleetMember items on this page */
   value: FleetMember[];
-  /**
-   * The link to the next page of items
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
 /** The type used for update operations of the FleetMember. */
@@ -299,11 +293,8 @@ export interface FleetMemberUpdate {
 export interface UpdateRunListResult {
   /** The UpdateRun items on this page */
   value: UpdateRun[];
-  /**
-   * The link to the next page of items
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
 /**
@@ -530,11 +521,8 @@ export interface SkipTarget {
 export interface FleetUpdateStrategyListResult {
   /** The FleetUpdateStrategy items on this page */
   value: FleetUpdateStrategy[];
-  /**
-   * The link to the next page of items
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
@@ -650,18 +638,18 @@ export interface FleetsCreateOrUpdateHeaders {
 
 /** Defines headers for Fleets_update operation. */
 export interface FleetsUpdateHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for Fleets_delete operation. */
 export interface FleetsDeleteHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for FleetMembers_create operation. */
@@ -672,18 +660,18 @@ export interface FleetMembersCreateHeaders {
 
 /** Defines headers for FleetMembers_update operation. */
 export interface FleetMembersUpdateHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for FleetMembers_delete operation. */
 export interface FleetMembersDeleteHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for UpdateRuns_createOrUpdate operation. */
@@ -702,10 +690,10 @@ export interface UpdateRunsDeleteHeaders {
 
 /** Defines headers for UpdateRuns_skip operation. */
 export interface UpdateRunsSkipHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for UpdateRuns_start operation. */
