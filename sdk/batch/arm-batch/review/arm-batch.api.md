@@ -342,17 +342,6 @@ export interface BatchAccountListDetectorsOptionalParams extends coreClient.Oper
 export type BatchAccountListDetectorsResponse = DetectorListResult;
 
 // @public
-export interface BatchAccountListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type BatchAccountListNextResponse = BatchAccountListResult;
-
-// @public
-export interface BatchAccountListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
 export interface BatchAccountListOutboundNetworkDependenciesEndpointsNextOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -365,9 +354,6 @@ export interface BatchAccountListOutboundNetworkDependenciesEndpointsOptionalPar
 
 // @public
 export type BatchAccountListOutboundNetworkDependenciesEndpointsResponse = OutboundEnvironmentEndpointCollection;
-
-// @public
-export type BatchAccountListResponse = BatchAccountListResult;
 
 // @public
 export interface BatchAccountListResult {
@@ -384,7 +370,6 @@ export interface BatchAccountOperations {
     get(resourceGroupName: string, accountName: string, options?: BatchAccountGetOptionalParams): Promise<BatchAccountGetResponse>;
     getDetector(resourceGroupName: string, accountName: string, detectorId: string, options?: BatchAccountGetDetectorOptionalParams): Promise<BatchAccountGetDetectorResponse>;
     getKeys(resourceGroupName: string, accountName: string, options?: BatchAccountGetKeysOptionalParams): Promise<BatchAccountGetKeysResponse>;
-    list(options?: BatchAccountListOptionalParams): PagedAsyncIterableIterator<BatchAccount>;
     listByResourceGroup(resourceGroupName: string, options?: BatchAccountListByResourceGroupOptionalParams): PagedAsyncIterableIterator<BatchAccount>;
     listDetectors(resourceGroupName: string, accountName: string, options?: BatchAccountListDetectorsOptionalParams): PagedAsyncIterableIterator<DetectorResponse>;
     listOutboundNetworkDependenciesEndpoints(resourceGroupName: string, accountName: string, options?: BatchAccountListOutboundNetworkDependenciesEndpointsOptionalParams): PagedAsyncIterableIterator<OutboundEnvironmentEndpoint>;

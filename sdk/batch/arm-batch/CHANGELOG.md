@@ -1,15 +1,26 @@
 # Release History
+    
+## 10.0.0 (2024-04-03)
+    
+**Breaking Changes**
 
-## 9.1.1 (Unreleased)
+  - Removed operation BatchAccountOperations.list
+  - Interface Pool no longer has parameter upgradePolicy
+  - Interface SupportedSku no longer has parameter batchSupportEndOfLife
+    
+    
+## 9.2.0 (2024-03-13)
+    
+**Features**
 
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface AutomaticOSUpgradePolicy
+  - Added Interface RollingUpgradePolicy
+  - Added Interface UpgradePolicy
+  - Added Type Alias UpgradeMode
+  - Interface Pool has a new optional parameter upgradePolicy
+  - Interface SupportedSku has a new optional parameter batchSupportEndOfLife
+    
+    
 ## 9.1.0 (2023-12-08)
     
 **Features**

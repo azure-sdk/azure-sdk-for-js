@@ -1555,7 +1555,7 @@ export enum KnownContainerType {
   /** A Docker compatible container technology will be used to launch the containers. */
   DockerCompatible = "DockerCompatible",
   /** A CRI based technology will be used to launch the containers. */
-  CriCompatible = "CriCompatible"
+  CriCompatible = "CriCompatible",
 }
 
 /**
@@ -1709,13 +1709,6 @@ export interface BatchAccountGetOptionalParams
 export type BatchAccountGetResponse = BatchAccount;
 
 /** Optional parameters. */
-export interface BatchAccountListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type BatchAccountListResponse = BatchAccountListResult;
-
-/** Optional parameters. */
 export interface BatchAccountListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -1759,21 +1752,16 @@ export interface BatchAccountListOutboundNetworkDependenciesEndpointsOptionalPar
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listOutboundNetworkDependenciesEndpoints operation. */
-export type BatchAccountListOutboundNetworkDependenciesEndpointsResponse = OutboundEnvironmentEndpointCollection;
-
-/** Optional parameters. */
-export interface BatchAccountListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type BatchAccountListNextResponse = BatchAccountListResult;
+export type BatchAccountListOutboundNetworkDependenciesEndpointsResponse =
+  OutboundEnvironmentEndpointCollection;
 
 /** Optional parameters. */
 export interface BatchAccountListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type BatchAccountListByResourceGroupNextResponse = BatchAccountListResult;
+export type BatchAccountListByResourceGroupNextResponse =
+  BatchAccountListResult;
 
 /** Optional parameters. */
 export interface BatchAccountListDetectorsNextOptionalParams
@@ -1787,7 +1775,8 @@ export interface BatchAccountListOutboundNetworkDependenciesEndpointsNextOptiona
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listOutboundNetworkDependenciesEndpointsNext operation. */
-export type BatchAccountListOutboundNetworkDependenciesEndpointsNextResponse = OutboundEnvironmentEndpointCollection;
+export type BatchAccountListOutboundNetworkDependenciesEndpointsNextResponse =
+  OutboundEnvironmentEndpointCollection;
 
 /** Optional parameters. */
 export interface ApplicationPackageActivateOptionalParams
@@ -1896,7 +1885,8 @@ export interface LocationListSupportedVirtualMachineSkusOptionalParams
 }
 
 /** Contains response data for the listSupportedVirtualMachineSkus operation. */
-export type LocationListSupportedVirtualMachineSkusResponse = SupportedSkusResult;
+export type LocationListSupportedVirtualMachineSkusResponse =
+  SupportedSkusResult;
 
 /** Optional parameters. */
 export interface LocationListSupportedCloudServiceSkusOptionalParams
@@ -1922,14 +1912,16 @@ export interface LocationListSupportedVirtualMachineSkusNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSupportedVirtualMachineSkusNext operation. */
-export type LocationListSupportedVirtualMachineSkusNextResponse = SupportedSkusResult;
+export type LocationListSupportedVirtualMachineSkusNextResponse =
+  SupportedSkusResult;
 
 /** Optional parameters. */
 export interface LocationListSupportedCloudServiceSkusNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSupportedCloudServiceSkusNext operation. */
-export type LocationListSupportedCloudServiceSkusNextResponse = SupportedSkusResult;
+export type LocationListSupportedCloudServiceSkusNextResponse =
+  SupportedSkusResult;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
@@ -2002,8 +1994,8 @@ export interface CertificateCancelDeletionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the cancelDeletion operation. */
-export type CertificateCancelDeletionResponse = CertificateCancelDeletionHeaders &
-  Certificate;
+export type CertificateCancelDeletionResponse =
+  CertificateCancelDeletionHeaders & Certificate;
 
 /** Optional parameters. */
 export interface CertificateListByBatchAccountNextOptionalParams
@@ -2020,7 +2012,8 @@ export interface PrivateLinkResourceListByBatchAccountOptionalParams
 }
 
 /** Contains response data for the listByBatchAccount operation. */
-export type PrivateLinkResourceListByBatchAccountResponse = ListPrivateLinkResourcesResult;
+export type PrivateLinkResourceListByBatchAccountResponse =
+  ListPrivateLinkResourcesResult;
 
 /** Optional parameters. */
 export interface PrivateLinkResourceGetOptionalParams
@@ -2034,7 +2027,8 @@ export interface PrivateLinkResourceListByBatchAccountNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBatchAccountNext operation. */
-export type PrivateLinkResourceListByBatchAccountNextResponse = ListPrivateLinkResourcesResult;
+export type PrivateLinkResourceListByBatchAccountNextResponse =
+  ListPrivateLinkResourcesResult;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionListByBatchAccountOptionalParams
@@ -2044,7 +2038,8 @@ export interface PrivateEndpointConnectionListByBatchAccountOptionalParams
 }
 
 /** Contains response data for the listByBatchAccount operation. */
-export type PrivateEndpointConnectionListByBatchAccountResponse = ListPrivateEndpointConnectionsResult;
+export type PrivateEndpointConnectionListByBatchAccountResponse =
+  ListPrivateEndpointConnectionsResult;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionGetOptionalParams
@@ -2077,14 +2072,16 @@ export interface PrivateEndpointConnectionDeleteOptionalParams
 }
 
 /** Contains response data for the delete operation. */
-export type PrivateEndpointConnectionDeleteResponse = PrivateEndpointConnectionDeleteHeaders;
+export type PrivateEndpointConnectionDeleteResponse =
+  PrivateEndpointConnectionDeleteHeaders;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionListByBatchAccountNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBatchAccountNext operation. */
-export type PrivateEndpointConnectionListByBatchAccountNextResponse = ListPrivateEndpointConnectionsResult;
+export type PrivateEndpointConnectionListByBatchAccountNextResponse =
+  ListPrivateEndpointConnectionsResult;
 
 /** Optional parameters. */
 export interface PoolListByBatchAccountOptionalParams

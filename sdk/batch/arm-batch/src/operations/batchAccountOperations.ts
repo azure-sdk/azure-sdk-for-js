@@ -16,14 +16,11 @@ import { BatchManagementClient } from "../batchManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
   BatchAccount,
-  BatchAccountListNextOptionalParams,
-  BatchAccountListOptionalParams,
-  BatchAccountListResponse,
   BatchAccountListByResourceGroupNextOptionalParams,
   BatchAccountListByResourceGroupOptionalParams,
   BatchAccountListByResourceGroupResponse,
@@ -52,10 +49,9 @@ import {
   BatchAccountGetKeysResponse,
   BatchAccountGetDetectorOptionalParams,
   BatchAccountGetDetectorResponse,
-  BatchAccountListNextResponse,
   BatchAccountListByResourceGroupNextResponse,
   BatchAccountListDetectorsNextResponse,
-  BatchAccountListOutboundNetworkDependenciesEndpointsNextResponse
+  BatchAccountListOutboundNetworkDependenciesEndpointsNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -72,67 +68,13 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
   }
 
   /**
-   * Gets information about the Batch accounts associated with the subscription.
-   * @param options The options parameters.
-   */
-  public list(
-    options?: BatchAccountListOptionalParams
-  ): PagedAsyncIterableIterator<BatchAccount> {
-    const iter = this.listPagingAll(options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listPagingPage(options, settings);
-      }
-    };
-  }
-
-  private async *listPagingPage(
-    options?: BatchAccountListOptionalParams,
-    settings?: PageSettings
-  ): AsyncIterableIterator<BatchAccount[]> {
-    let result: BatchAccountListResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._list(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listNext(continuationToken, options);
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listPagingAll(
-    options?: BatchAccountListOptionalParams
-  ): AsyncIterableIterator<BatchAccount> {
-    for await (const page of this.listPagingPage(options)) {
-      yield* page;
-    }
-  }
-
-  /**
    * Gets information about the Batch accounts associated with the specified resource group.
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param options The options parameters.
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: BatchAccountListByResourceGroupOptionalParams
+    options?: BatchAccountListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<BatchAccount> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -149,16 +91,16 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: BatchAccountListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<BatchAccount[]> {
     let result: BatchAccountListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -173,7 +115,7 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -184,11 +126,11 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: BatchAccountListByResourceGroupOptionalParams
+    options?: BatchAccountListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<BatchAccount> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -203,12 +145,12 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
   public listDetectors(
     resourceGroupName: string,
     accountName: string,
-    options?: BatchAccountListDetectorsOptionalParams
+    options?: BatchAccountListDetectorsOptionalParams,
   ): PagedAsyncIterableIterator<DetectorResponse> {
     const iter = this.listDetectorsPagingAll(
       resourceGroupName,
       accountName,
-      options
+      options,
     );
     return {
       next() {
@@ -225,9 +167,9 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
           resourceGroupName,
           accountName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -235,7 +177,7 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
     resourceGroupName: string,
     accountName: string,
     options?: BatchAccountListDetectorsOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DetectorResponse[]> {
     let result: BatchAccountListDetectorsResponse;
     let continuationToken = settings?.continuationToken;
@@ -243,7 +185,7 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
       result = await this._listDetectors(
         resourceGroupName,
         accountName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -255,7 +197,7 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
         resourceGroupName,
         accountName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -267,12 +209,12 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
   private async *listDetectorsPagingAll(
     resourceGroupName: string,
     accountName: string,
-    options?: BatchAccountListDetectorsOptionalParams
+    options?: BatchAccountListDetectorsOptionalParams,
   ): AsyncIterableIterator<DetectorResponse> {
     for await (const page of this.listDetectorsPagingPage(
       resourceGroupName,
       accountName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -284,7 +226,7 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
    * you must make sure your network allows outbound access to these endpoints. Failure to allow access
    * to these endpoints may cause Batch to mark the affected nodes as unusable. For more information
    * about creating a pool inside of a virtual network, see
-   * https://docs.microsoft.com/azure/batch/batch-virtual-network.
+   * https://docs.microsoft.com/en-us/azure/batch/batch-virtual-network.
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
    * @param options The options parameters.
@@ -292,12 +234,12 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
   public listOutboundNetworkDependenciesEndpoints(
     resourceGroupName: string,
     accountName: string,
-    options?: BatchAccountListOutboundNetworkDependenciesEndpointsOptionalParams
+    options?: BatchAccountListOutboundNetworkDependenciesEndpointsOptionalParams,
   ): PagedAsyncIterableIterator<OutboundEnvironmentEndpoint> {
     const iter = this.listOutboundNetworkDependenciesEndpointsPagingAll(
       resourceGroupName,
       accountName,
-      options
+      options,
     );
     return {
       next() {
@@ -314,9 +256,9 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
           resourceGroupName,
           accountName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -324,7 +266,7 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
     resourceGroupName: string,
     accountName: string,
     options?: BatchAccountListOutboundNetworkDependenciesEndpointsOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<OutboundEnvironmentEndpoint[]> {
     let result: BatchAccountListOutboundNetworkDependenciesEndpointsResponse;
     let continuationToken = settings?.continuationToken;
@@ -332,7 +274,7 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
       result = await this._listOutboundNetworkDependenciesEndpoints(
         resourceGroupName,
         accountName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -344,7 +286,7 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
         resourceGroupName,
         accountName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -356,12 +298,12 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
   private async *listOutboundNetworkDependenciesEndpointsPagingAll(
     resourceGroupName: string,
     accountName: string,
-    options?: BatchAccountListOutboundNetworkDependenciesEndpointsOptionalParams
+    options?: BatchAccountListOutboundNetworkDependenciesEndpointsOptionalParams,
   ): AsyncIterableIterator<OutboundEnvironmentEndpoint> {
     for await (const page of this.listOutboundNetworkDependenciesEndpointsPagingPage(
       resourceGroupName,
       accountName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -382,7 +324,7 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
     resourceGroupName: string,
     accountName: string,
     parameters: BatchAccountCreateParameters,
-    options?: BatchAccountCreateOptionalParams
+    options?: BatchAccountCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BatchAccountCreateResponse>,
@@ -391,21 +333,20 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<BatchAccountCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -414,8 +355,8 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -423,15 +364,15 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, accountName, parameters, options },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       BatchAccountCreateResponse,
@@ -439,7 +380,7 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -460,13 +401,13 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
     resourceGroupName: string,
     accountName: string,
     parameters: BatchAccountCreateParameters,
-    options?: BatchAccountCreateOptionalParams
+    options?: BatchAccountCreateOptionalParams,
   ): Promise<BatchAccountCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       accountName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -482,11 +423,11 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
     resourceGroupName: string,
     accountName: string,
     parameters: BatchAccountUpdateParameters,
-    options?: BatchAccountUpdateOptionalParams
+    options?: BatchAccountUpdateOptionalParams,
   ): Promise<BatchAccountUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, parameters, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -499,25 +440,24 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
   async beginDelete(
     resourceGroupName: string,
     accountName: string,
-    options?: BatchAccountDeleteOptionalParams
+    options?: BatchAccountDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -526,8 +466,8 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -535,20 +475,20 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, accountName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -563,12 +503,12 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
   async beginDeleteAndWait(
     resourceGroupName: string,
     accountName: string,
-    options?: BatchAccountDeleteOptionalParams
+    options?: BatchAccountDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       accountName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -582,22 +522,12 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
   get(
     resourceGroupName: string,
     accountName: string,
-    options?: BatchAccountGetOptionalParams
+    options?: BatchAccountGetOptionalParams,
   ): Promise<BatchAccountGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
-      getOperationSpec
+      getOperationSpec,
     );
-  }
-
-  /**
-   * Gets information about the Batch accounts associated with the subscription.
-   * @param options The options parameters.
-   */
-  private _list(
-    options?: BatchAccountListOptionalParams
-  ): Promise<BatchAccountListResponse> {
-    return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
   /**
@@ -607,11 +537,11 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: BatchAccountListByResourceGroupOptionalParams
+    options?: BatchAccountListByResourceGroupOptionalParams,
   ): Promise<BatchAccountListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -625,11 +555,11 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
   synchronizeAutoStorageKeys(
     resourceGroupName: string,
     accountName: string,
-    options?: BatchAccountSynchronizeAutoStorageKeysOptionalParams
+    options?: BatchAccountSynchronizeAutoStorageKeysOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
-      synchronizeAutoStorageKeysOperationSpec
+      synchronizeAutoStorageKeysOperationSpec,
     );
   }
 
@@ -647,11 +577,11 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
     resourceGroupName: string,
     accountName: string,
     parameters: BatchAccountRegenerateKeyParameters,
-    options?: BatchAccountRegenerateKeyOptionalParams
+    options?: BatchAccountRegenerateKeyOptionalParams,
   ): Promise<BatchAccountRegenerateKeyResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, parameters, options },
-      regenerateKeyOperationSpec
+      regenerateKeyOperationSpec,
     );
   }
 
@@ -667,11 +597,11 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
   getKeys(
     resourceGroupName: string,
     accountName: string,
-    options?: BatchAccountGetKeysOptionalParams
+    options?: BatchAccountGetKeysOptionalParams,
   ): Promise<BatchAccountGetKeysResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
-      getKeysOperationSpec
+      getKeysOperationSpec,
     );
   }
 
@@ -684,11 +614,11 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
   private _listDetectors(
     resourceGroupName: string,
     accountName: string,
-    options?: BatchAccountListDetectorsOptionalParams
+    options?: BatchAccountListDetectorsOptionalParams,
   ): Promise<BatchAccountListDetectorsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
-      listDetectorsOperationSpec
+      listDetectorsOperationSpec,
     );
   }
 
@@ -703,11 +633,11 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
     resourceGroupName: string,
     accountName: string,
     detectorId: string,
-    options?: BatchAccountGetDetectorOptionalParams
+    options?: BatchAccountGetDetectorOptionalParams,
   ): Promise<BatchAccountGetDetectorResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, detectorId, options },
-      getDetectorOperationSpec
+      getDetectorOperationSpec,
     );
   }
 
@@ -717,7 +647,7 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
    * you must make sure your network allows outbound access to these endpoints. Failure to allow access
    * to these endpoints may cause Batch to mark the affected nodes as unusable. For more information
    * about creating a pool inside of a virtual network, see
-   * https://docs.microsoft.com/azure/batch/batch-virtual-network.
+   * https://docs.microsoft.com/en-us/azure/batch/batch-virtual-network.
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
    * @param options The options parameters.
@@ -725,26 +655,11 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
   private _listOutboundNetworkDependenciesEndpoints(
     resourceGroupName: string,
     accountName: string,
-    options?: BatchAccountListOutboundNetworkDependenciesEndpointsOptionalParams
+    options?: BatchAccountListOutboundNetworkDependenciesEndpointsOptionalParams,
   ): Promise<BatchAccountListOutboundNetworkDependenciesEndpointsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
-      listOutboundNetworkDependenciesEndpointsOperationSpec
-    );
-  }
-
-  /**
-   * ListNext
-   * @param nextLink The nextLink from the previous successful call to the List method.
-   * @param options The options parameters.
-   */
-  private _listNext(
-    nextLink: string,
-    options?: BatchAccountListNextOptionalParams
-  ): Promise<BatchAccountListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec
+      listOutboundNetworkDependenciesEndpointsOperationSpec,
     );
   }
 
@@ -757,11 +672,11 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: BatchAccountListByResourceGroupNextOptionalParams
+    options?: BatchAccountListByResourceGroupNextOptionalParams,
   ): Promise<BatchAccountListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 
@@ -776,11 +691,11 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
     resourceGroupName: string,
     accountName: string,
     nextLink: string,
-    options?: BatchAccountListDetectorsNextOptionalParams
+    options?: BatchAccountListDetectorsNextOptionalParams,
   ): Promise<BatchAccountListDetectorsNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, nextLink, options },
-      listDetectorsNextOperationSpec
+      listDetectorsNextOperationSpec,
     );
   }
 
@@ -796,11 +711,11 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
     resourceGroupName: string,
     accountName: string,
     nextLink: string,
-    options?: BatchAccountListOutboundNetworkDependenciesEndpointsNextOptionalParams
+    options?: BatchAccountListOutboundNetworkDependenciesEndpointsNextOptionalParams,
   ): Promise<BatchAccountListOutboundNetworkDependenciesEndpointsNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, nextLink, options },
-      listOutboundNetworkDependenciesEndpointsNextOperationSpec
+      listOutboundNetworkDependenciesEndpointsNextOperationSpec,
     );
   }
 }
@@ -808,25 +723,24 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.BatchAccount
+      bodyMapper: Mappers.BatchAccount,
     },
     201: {
-      bodyMapper: Mappers.BatchAccount
+      bodyMapper: Mappers.BatchAccount,
     },
     202: {
-      bodyMapper: Mappers.BatchAccount
+      bodyMapper: Mappers.BatchAccount,
     },
     204: {
-      bodyMapper: Mappers.BatchAccount
+      bodyMapper: Mappers.BatchAccount,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters,
   queryParameters: [Parameters.apiVersion],
@@ -834,23 +748,22 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.BatchAccount
+      bodyMapper: Mappers.BatchAccount,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
@@ -858,15 +771,14 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.accountName1
+    Parameters.accountName1,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -874,110 +786,89 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.accountName1
+    Parameters.accountName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BatchAccount
+      bodyMapper: Mappers.BatchAccount,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.accountName1
+    Parameters.accountName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
-};
-const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Batch/batchAccounts",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.BatchAccountListResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BatchAccountListResult
+      bodyMapper: Mappers.BatchAccountListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const synchronizeAutoStorageKeysOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/syncAutoStorageKeys",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/syncAutoStorageKeys",
   httpMethod: "POST",
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.accountName1
+    Parameters.accountName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const regenerateKeyOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/regenerateKeys",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/regenerateKeys",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.BatchAccountKeys
+      bodyMapper: Mappers.BatchAccountKeys,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters2,
   queryParameters: [Parameters.apiVersion],
@@ -985,67 +876,22 @@ const regenerateKeyOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.accountName1
+    Parameters.accountName1,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getKeysOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/listKeys",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/listKeys",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.BatchAccountKeys
+      bodyMapper: Mappers.BatchAccountKeys,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.accountName1
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listDetectorsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/detectors",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DetectorListResult
+      bodyMapper: Mappers.CloudError,
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.accountName1
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getDetectorOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/detectors/{detectorId}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DetectorResponse
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1053,111 +899,135 @@ const getDetectorOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.accountName1,
-    Parameters.detectorId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listOutboundNetworkDependenciesEndpointsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/outboundNetworkDependenciesEndpoints",
+const listDetectorsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/detectors",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OutboundEnvironmentEndpointCollection
+      bodyMapper: Mappers.DetectorListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.accountName1
+    Parameters.accountName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
+const getDetectorOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/detectors/{detectorId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BatchAccountListResult
+      bodyMapper: Mappers.DetectorResponse,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.accountName1,
+    Parameters.detectorId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
+const listOutboundNetworkDependenciesEndpointsOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/outboundNetworkDependenciesEndpoints",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.OutboundEnvironmentEndpointCollection,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
+    },
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.resourceGroupName,
+      Parameters.subscriptionId,
+      Parameters.accountName1,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BatchAccountListResult
+      bodyMapper: Mappers.BatchAccountListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listDetectorsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DetectorListResult
+      bodyMapper: Mappers.DetectorListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.accountName1,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listOutboundNetworkDependenciesEndpointsNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.OutboundEnvironmentEndpointCollection
+const listOutboundNetworkDependenciesEndpointsNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.OutboundEnvironmentEndpointCollection,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.accountName1,
-    Parameters.nextLink
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
+    urlParameters: [
+      Parameters.$host,
+      Parameters.resourceGroupName,
+      Parameters.subscriptionId,
+      Parameters.accountName1,
+      Parameters.nextLink,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
