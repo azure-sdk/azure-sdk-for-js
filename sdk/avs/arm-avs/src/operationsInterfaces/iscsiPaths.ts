@@ -9,101 +9,91 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
-  Addon,
-  AddonsListOptionalParams,
-  AddonsGetOptionalParams,
-  AddonsGetResponse,
-  AddonsCreateOrUpdateOptionalParams,
-  AddonsCreateOrUpdateResponse,
-  AddonsDeleteOptionalParams,
+  IscsiPath,
+  IscsiPathsListByPrivateCloudOptionalParams,
+  IscsiPathsGetOptionalParams,
+  IscsiPathsGetResponse,
+  IscsiPathsCreateOrUpdateOptionalParams,
+  IscsiPathsCreateOrUpdateResponse,
+  IscsiPathsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a Addons. */
-export interface Addons {
+/** Interface representing a IscsiPaths. */
+export interface IscsiPaths {
   /**
-   * List Addon resources by PrivateCloud
+   * List IscsiPath resources by PrivateCloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param options The options parameters.
    */
-  list(
+  listByPrivateCloud(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: AddonsListOptionalParams,
-  ): PagedAsyncIterableIterator<Addon>;
+    options?: IscsiPathsListByPrivateCloudOptionalParams,
+  ): PagedAsyncIterableIterator<IscsiPath>;
   /**
-   * Get a Addon
+   * Get a IscsiPath
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param addonName Name of the addon.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     privateCloudName: string,
-    addonName: string,
-    options?: AddonsGetOptionalParams,
-  ): Promise<AddonsGetResponse>;
+    options?: IscsiPathsGetOptionalParams,
+  ): Promise<IscsiPathsGetResponse>;
   /**
-   * Create a Addon
+   * Create a IscsiPath
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param addonName Name of the addon.
-   * @param addon Resource create parameters.
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
     privateCloudName: string,
-    addonName: string,
-    addon: Addon,
-    options?: AddonsCreateOrUpdateOptionalParams,
+    resource: IscsiPath,
+    options?: IscsiPathsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<AddonsCreateOrUpdateResponse>,
-      AddonsCreateOrUpdateResponse
+      OperationState<IscsiPathsCreateOrUpdateResponse>,
+      IscsiPathsCreateOrUpdateResponse
     >
   >;
   /**
-   * Create a Addon
+   * Create a IscsiPath
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param addonName Name of the addon.
-   * @param addon Resource create parameters.
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     privateCloudName: string,
-    addonName: string,
-    addon: Addon,
-    options?: AddonsCreateOrUpdateOptionalParams,
-  ): Promise<AddonsCreateOrUpdateResponse>;
+    resource: IscsiPath,
+    options?: IscsiPathsCreateOrUpdateOptionalParams,
+  ): Promise<IscsiPathsCreateOrUpdateResponse>;
   /**
-   * Delete a Addon
+   * Delete a IscsiPath
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param addonName Name of the addon.
    * @param options The options parameters.
    */
   beginDelete(
     resourceGroupName: string,
     privateCloudName: string,
-    addonName: string,
-    options?: AddonsDeleteOptionalParams,
+    options?: IscsiPathsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
-   * Delete a Addon
+   * Delete a IscsiPath
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param addonName Name of the addon.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
     resourceGroupName: string,
     privateCloudName: string,
-    addonName: string,
-    options?: AddonsDeleteOptionalParams,
+    options?: IscsiPathsDeleteOptionalParams,
   ): Promise<void>;
 }
