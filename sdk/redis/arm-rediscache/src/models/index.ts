@@ -156,6 +156,8 @@ export interface RedisCreateParameters {
   publicNetworkAccess?: PublicNetworkAccess;
   /** Optional: Specifies the update channel for the monthly Redis updates your Redis Cache will receive. Caches using 'Preview' update channel get latest Redis updates at least 4 weeks ahead of 'Stable' channel caches. Default value is 'Stable'. */
   updateChannel?: UpdateChannel;
+  /** Optional: Specifies the method in which zones are allocated to the Redis cache. 'Automatic' refers to allocation of zones automatically by the Azure based on the availability zones support in the region and number of instances. 'UserDefined' refers to usage of zones passed in by you for allocation. 'NoZones' refers to the non-zonal cache. If 'zonalAllocation' is not passed, it will be set to 'UserDefined' when zones are passed in, otherwise, will be set to 'NoZones' */
+  zonalAllocation?: ZonalAllocation;
   /** The SKU of the Redis cache to deploy. */
   sku: Sku;
   /** The full resource ID of a subnet in a virtual network to deploy the Redis cache in. Example format: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1 */
@@ -196,6 +198,8 @@ export interface RedisCommonProperties {
   publicNetworkAccess?: PublicNetworkAccess;
   /** Optional: Specifies the update channel for the monthly Redis updates your Redis Cache will receive. Caches using 'Preview' update channel get latest Redis updates at least 4 weeks ahead of 'Stable' channel caches. Default value is 'Stable'. */
   updateChannel?: UpdateChannel;
+  /** Optional: Specifies the method in which zones are allocated to the Redis cache. 'Automatic' refers to allocation of zones automatically by the Azure based on the availability zones support in the region and number of instances. 'UserDefined' refers to usage of zones passed in by you for allocation. 'NoZones' refers to the non-zonal cache. If 'zonalAllocation' is not passed, it will be set to 'UserDefined' when zones are passed in, otherwise, will be set to 'NoZones' */
+  zonalAllocation?: ZonalAllocation;
 }
 
 /** All Redis Settings. Few possible keys: rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value etc. */
@@ -402,6 +406,8 @@ export interface RedisUpdateParameters {
   publicNetworkAccess?: PublicNetworkAccess;
   /** Optional: Specifies the update channel for the monthly Redis updates your Redis Cache will receive. Caches using 'Preview' update channel get latest Redis updates at least 4 weeks ahead of 'Stable' channel caches. Default value is 'Stable'. */
   updateChannel?: UpdateChannel;
+  /** Optional: Specifies the method in which zones are allocated to the Redis cache. 'Automatic' refers to allocation of zones automatically by the Azure based on the availability zones support in the region and number of instances. 'UserDefined' refers to usage of zones passed in by you for allocation. 'NoZones' refers to the non-zonal cache. If 'zonalAllocation' is not passed, it will be set to 'UserDefined' when zones are passed in, otherwise, will be set to 'NoZones' */
+  zonalAllocation?: ZonalAllocation;
   /** The SKU of the Redis cache to deploy. */
   sku?: Sku;
 }
@@ -747,6 +753,8 @@ export interface RedisResource extends TrackedResource {
   publicNetworkAccess?: PublicNetworkAccess;
   /** Optional: Specifies the update channel for the monthly Redis updates your Redis Cache will receive. Caches using 'Preview' update channel get latest Redis updates at least 4 weeks ahead of 'Stable' channel caches. Default value is 'Stable'. */
   updateChannel?: UpdateChannel;
+  /** Optional: Specifies the method in which zones are allocated to the Redis cache. 'Automatic' refers to allocation of zones automatically by the Azure based on the availability zones support in the region and number of instances. 'UserDefined' refers to usage of zones passed in by you for allocation. 'NoZones' refers to the non-zonal cache. If 'zonalAllocation' is not passed, it will be set to 'UserDefined' when zones are passed in, otherwise, will be set to 'NoZones' */
+  zonalAllocation?: ZonalAllocation;
   /** The SKU of the Redis cache to deploy. */
   sku: Sku;
   /** The full resource ID of a subnet in a virtual network to deploy the Redis cache in. Example format: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1 */
@@ -903,7 +911,7 @@ export enum KnownSkuName {
   /** Standard */
   Standard = "Standard",
   /** Premium */
-  Premium = "Premium"
+  Premium = "Premium",
 }
 
 /**
@@ -922,7 +930,7 @@ export enum KnownSkuFamily {
   /** C */
   C = "C",
   /** P */
-  P = "P"
+  P = "P",
 }
 
 /**
@@ -942,7 +950,7 @@ export enum KnownTlsVersion {
   /** One1 */
   One1 = "1.1",
   /** One2 */
-  One2 = "1.2"
+  One2 = "1.2",
 }
 
 /**
@@ -961,7 +969,7 @@ export enum KnownPublicNetworkAccess {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -979,7 +987,7 @@ export enum KnownUpdateChannel {
   /** Stable */
   Stable = "Stable",
   /** Preview */
-  Preview = "Preview"
+  Preview = "Preview",
 }
 
 /**
@@ -992,6 +1000,27 @@ export enum KnownUpdateChannel {
  */
 export type UpdateChannel = string;
 
+/** Known values of {@link ZonalAllocation} that the service accepts. */
+export enum KnownZonalAllocation {
+  /** Automatic */
+  Automatic = "Automatic",
+  /** UserDefined */
+  UserDefined = "UserDefined",
+  /** NoZones */
+  NoZones = "NoZones",
+}
+
+/**
+ * Defines values for ZonalAllocation. \
+ * {@link KnownZonalAllocation} can be used interchangeably with ZonalAllocation,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Automatic** \
+ * **UserDefined** \
+ * **NoZones**
+ */
+export type ZonalAllocation = string;
+
 /** Known values of {@link ManagedServiceIdentityType} that the service accepts. */
 export enum KnownManagedServiceIdentityType {
   /** None */
@@ -1001,7 +1030,7 @@ export enum KnownManagedServiceIdentityType {
   /** UserAssigned */
   UserAssigned = "UserAssigned",
   /** SystemAssignedUserAssigned */
-  SystemAssignedUserAssigned = "SystemAssigned, UserAssigned"
+  SystemAssignedUserAssigned = "SystemAssigned, UserAssigned",
 }
 
 /**
@@ -1043,7 +1072,7 @@ export enum KnownProvisioningState {
   /** Updating */
   Updating = "Updating",
   /** ConfiguringAAD */
-  ConfiguringAAD = "ConfiguringAAD"
+  ConfiguringAAD = "ConfiguringAAD",
 }
 
 /**
@@ -1074,7 +1103,7 @@ export enum KnownPrivateEndpointServiceConnectionStatus {
   /** Approved */
   Approved = "Approved",
   /** Rejected */
-  Rejected = "Rejected"
+  Rejected = "Rejected",
 }
 
 /**
@@ -1097,7 +1126,7 @@ export enum KnownPrivateEndpointConnectionProvisioningState {
   /** Deleting */
   Deleting = "Deleting",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -1119,7 +1148,7 @@ export enum KnownRebootType {
   /** SecondaryNode */
   SecondaryNode = "SecondaryNode",
   /** AllNodes */
-  AllNodes = "AllNodes"
+  AllNodes = "AllNodes",
 }
 
 /**
@@ -1136,7 +1165,7 @@ export type RebootType = string;
 /** Known values of {@link DefaultName} that the service accepts. */
 export enum KnownDefaultName {
   /** Default */
-  Default = "default"
+  Default = "default",
 }
 
 /**
@@ -1161,7 +1190,7 @@ export enum KnownAccessPolicyProvisioningState {
   /** Canceled */
   Canceled = "Canceled",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -1183,7 +1212,7 @@ export enum KnownAccessPolicyType {
   /** Custom */
   Custom = "Custom",
   /** BuiltIn */
-  BuiltIn = "BuiltIn"
+  BuiltIn = "BuiltIn",
 }
 
 /**
@@ -1209,7 +1238,7 @@ export enum KnownAccessPolicyAssignmentProvisioningState {
   /** Canceled */
   Canceled = "Canceled",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -1373,7 +1402,8 @@ export interface RedisListUpgradeNotificationsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listUpgradeNotificationsNext operation. */
-export type RedisListUpgradeNotificationsNextResponse = NotificationListResponse;
+export type RedisListUpgradeNotificationsNextResponse =
+  NotificationListResponse;
 
 /** Optional parameters. */
 export interface RedisListByResourceGroupNextOptionalParams
@@ -1426,7 +1456,8 @@ export interface PatchSchedulesListByRedisResourceOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByRedisResource operation. */
-export type PatchSchedulesListByRedisResourceResponse = RedisPatchScheduleListResult;
+export type PatchSchedulesListByRedisResourceResponse =
+  RedisPatchScheduleListResult;
 
 /** Optional parameters. */
 export interface PatchSchedulesCreateOrUpdateOptionalParams
@@ -1451,7 +1482,8 @@ export interface PatchSchedulesListByRedisResourceNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByRedisResourceNext operation. */
-export type PatchSchedulesListByRedisResourceNextResponse = RedisPatchScheduleListResult;
+export type PatchSchedulesListByRedisResourceNextResponse =
+  RedisPatchScheduleListResult;
 
 /** Optional parameters. */
 export interface LinkedServerCreateOptionalParams
@@ -1500,7 +1532,8 @@ export interface PrivateEndpointConnectionsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionListResult;
+export type PrivateEndpointConnectionsListResponse =
+  PrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsGetOptionalParams
@@ -1530,7 +1563,8 @@ export interface PrivateLinkResourcesListByRedisCacheOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByRedisCache operation. */
-export type PrivateLinkResourcesListByRedisCacheResponse = PrivateLinkResourceListResult;
+export type PrivateLinkResourcesListByRedisCacheResponse =
+  PrivateLinkResourceListResult;
 
 /** Optional parameters. */
 export interface AsyncOperationStatusGetOptionalParams
@@ -1591,7 +1625,8 @@ export interface AccessPolicyAssignmentCreateUpdateOptionalParams
 }
 
 /** Contains response data for the createUpdate operation. */
-export type AccessPolicyAssignmentCreateUpdateResponse = RedisCacheAccessPolicyAssignment;
+export type AccessPolicyAssignmentCreateUpdateResponse =
+  RedisCacheAccessPolicyAssignment;
 
 /** Optional parameters. */
 export interface AccessPolicyAssignmentDeleteOptionalParams
@@ -1607,21 +1642,24 @@ export interface AccessPolicyAssignmentGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type AccessPolicyAssignmentGetResponse = RedisCacheAccessPolicyAssignment;
+export type AccessPolicyAssignmentGetResponse =
+  RedisCacheAccessPolicyAssignment;
 
 /** Optional parameters. */
 export interface AccessPolicyAssignmentListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type AccessPolicyAssignmentListResponse = RedisCacheAccessPolicyAssignmentList;
+export type AccessPolicyAssignmentListResponse =
+  RedisCacheAccessPolicyAssignmentList;
 
 /** Optional parameters. */
 export interface AccessPolicyAssignmentListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type AccessPolicyAssignmentListNextResponse = RedisCacheAccessPolicyAssignmentList;
+export type AccessPolicyAssignmentListNextResponse =
+  RedisCacheAccessPolicyAssignmentList;
 
 /** Optional parameters. */
 export interface RedisManagementClientOptionalParams

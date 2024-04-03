@@ -1,5 +1,17 @@
 # Release History
     
+## 8.1.0-beta.1 (2024-04-03)
+    
+**Features**
+
+  - Added Type Alias ZonalAllocation
+  - Interface RedisCommonProperties has a new optional parameter zonalAllocation
+  - Interface RedisCreateParameters has a new optional parameter zonalAllocation
+  - Interface RedisResource has a new optional parameter zonalAllocation
+  - Interface RedisUpdateParameters has a new optional parameter zonalAllocation
+  - Added Enum KnownZonalAllocation
+    
+    
 ## 8.0.0 (2023-09-11)
     
 **Features**

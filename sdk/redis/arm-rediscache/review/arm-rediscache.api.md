@@ -340,6 +340,13 @@ export enum KnownUpdateChannel {
 }
 
 // @public
+export enum KnownZonalAllocation {
+    Automatic = "Automatic",
+    NoZones = "NoZones",
+    UserDefined = "UserDefined"
+}
+
+// @public
 export interface LinkedServer {
     beginCreate(resourceGroupName: string, name: string, linkedServerName: string, parameters: RedisLinkedServerCreateParameters, options?: LinkedServerCreateOptionalParams): Promise<SimplePollerLike<OperationState<LinkedServerCreateResponse>, LinkedServerCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, name: string, linkedServerName: string, parameters: RedisLinkedServerCreateParameters, options?: LinkedServerCreateOptionalParams): Promise<LinkedServerCreateResponse>;
@@ -686,6 +693,7 @@ export interface RedisCommonProperties {
         [propertyName: string]: string;
     };
     updateChannel?: UpdateChannel;
+    zonalAllocation?: ZonalAllocation;
 }
 
 // @public
@@ -739,6 +747,7 @@ export interface RedisCreateParameters {
         [propertyName: string]: string;
     };
     updateChannel?: UpdateChannel;
+    zonalAllocation?: ZonalAllocation;
     zones?: string[];
 }
 
@@ -1039,6 +1048,7 @@ export interface RedisResource extends TrackedResource {
         [propertyName: string]: string;
     };
     updateChannel?: UpdateChannel;
+    zonalAllocation?: ZonalAllocation;
     zones?: string[];
 }
 
@@ -1067,6 +1077,7 @@ export interface RedisUpdateParameters {
         [propertyName: string]: string;
     };
     updateChannel?: UpdateChannel;
+    zonalAllocation?: ZonalAllocation;
 }
 
 // @public
@@ -1135,6 +1146,9 @@ export interface UserAssignedIdentity {
     readonly clientId?: string;
     readonly principalId?: string;
 }
+
+// @public
+export type ZonalAllocation = string;
 
 // (No @packageDocumentation comment for this package)
 
