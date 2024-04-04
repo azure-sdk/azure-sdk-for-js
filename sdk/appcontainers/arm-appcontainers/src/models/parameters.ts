@@ -24,9 +24,12 @@ import {
   DaprComponent as DaprComponentMapper,
   ConnectedEnvironmentStorage as ConnectedEnvironmentStorageMapper,
   ContainerApp as ContainerAppMapper,
+  PatchSkipConfig as PatchSkipConfigMapper,
   Job as JobMapper,
   JobPatchProperties as JobPatchPropertiesMapper,
   JobExecutionTemplate as JobExecutionTemplateMapper,
+  DotNetComponent as DotNetComponentMapper,
+  JavaComponent as JavaComponentMapper,
   ManagedEnvironment as ManagedEnvironmentMapper,
   ManagedCertificate as ManagedCertificateMapper,
   ManagedCertificatePatch as ManagedCertificatePatchMapper,
@@ -34,8 +37,6 @@ import {
   DaprSubscription as DaprSubscriptionMapper,
   ManagedEnvironmentStorage as ManagedEnvironmentStorageMapper,
   SourceControl as SourceControlMapper,
-  JavaComponent as JavaComponentMapper,
-  DotNetComponent as DotNetComponentMapper,
 } from "../models/mappers";
 
 export const contentType: OperationParameter = {
@@ -136,7 +137,7 @@ export const name: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-11-02-preview",
+    defaultValue: "2024-02-02-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -380,6 +381,27 @@ export const replicaName: OperationURLParameter = {
   },
 };
 
+export const patchName: OperationURLParameter = {
+  parameterPath: "patchName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-\\w\\._\\(\\)]+$"),
+      MaxLength: 64,
+      MinLength: 2,
+    },
+    serializedName: "patchName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const patchSkipConfig: OperationParameter = {
+  parameterPath: "patchSkipConfig",
+  mapper: PatchSkipConfigMapper,
+};
+
 export const detectorName: OperationURLParameter = {
   parameterPath: "detectorName",
   mapper: {
@@ -471,6 +493,30 @@ export const jobExecutionName: OperationURLParameter = {
   },
 };
 
+export const environmentName1: OperationURLParameter = {
+  parameterPath: "environmentName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-\\w\\._\\(\\)]+$"),
+    },
+    serializedName: "environmentName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const dotNetComponentEnvelope: OperationParameter = {
+  parameterPath: "dotNetComponentEnvelope",
+  mapper: DotNetComponentMapper,
+};
+
+export const javaComponentEnvelope: OperationParameter = {
+  parameterPath: "javaComponentEnvelope",
+  mapper: JavaComponentMapper,
+};
+
 export const environmentEnvelope1: OperationParameter = {
   parameterPath: "environmentEnvelope",
   mapper: ManagedEnvironmentMapper,
@@ -495,20 +541,6 @@ export const managedCertificateEnvelope: OperationParameter = {
 export const managedCertificateEnvelope1: OperationParameter = {
   parameterPath: "managedCertificateEnvelope",
   mapper: ManagedCertificatePatchMapper,
-};
-
-export const environmentName1: OperationURLParameter = {
-  parameterPath: "environmentName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[-\\w\\._\\(\\)]+$"),
-    },
-    serializedName: "environmentName",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
 };
 
 export const componentName1: OperationURLParameter = {
@@ -595,12 +627,30 @@ export const environmentName2: OperationURLParameter = {
   },
 };
 
-export const javaComponentEnvelope: OperationParameter = {
-  parameterPath: "javaComponentEnvelope",
-  mapper: JavaComponentMapper,
+export const revisionName1: OperationURLParameter = {
+  parameterPath: "revisionName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-\\w\\._\\(\\)]+$"),
+    },
+    serializedName: "revisionName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };
 
-export const dotNetComponentEnvelope: OperationParameter = {
-  parameterPath: "dotNetComponentEnvelope",
-  mapper: DotNetComponentMapper,
+export const functionAppName: OperationURLParameter = {
+  parameterPath: "functionAppName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-\\w\\._\\(\\)]+$"),
+    },
+    serializedName: "functionAppName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };
