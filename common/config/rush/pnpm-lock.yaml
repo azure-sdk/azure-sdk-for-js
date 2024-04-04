@@ -1262,6 +1262,21 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/arm-recoveryservices@5.4.0:
+    resolution: {integrity: sha512-+BsxHcFzJH28hMAsyI+bbAYVw79d12WagttmFvoidXXq76/5KpNCA2NWTGSV0AlJ+QaCF6+7I7P91PRYnJsr+w==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.7.1
+      '@azure/core-client': 1.9.1
+      '@azure/core-lro': 2.7.1
+      '@azure/core-paging': 1.6.1
+      '@azure/core-rest-pipeline': 1.15.1
+      tslib: 2.6.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/communication-common@2.3.1:
     resolution: {integrity: sha512-6ZQt20iMZbyckQn4m1TDwiDv3Fzyt1h4lnQ1szBBns2x3VQY9XHbnskPtvUdwK/HT+c/1PoUwof3toy1AIznbQ==}
     engines: {node: '>=18.0.0'}
@@ -16524,7 +16539,7 @@ packages:
     dev: false
 
   file:projects/arm-recoveryservices.tgz:
-    resolution: {integrity: sha512-ssKNtQRXkCedUWilKNcLtXs7PtPMsk7h4ERJncFAtVJttenwNnfbvdRQFpw2Z3djO7ifOUdXrUCeqC+y+w7qxw==, tarball: file:projects/arm-recoveryservices.tgz}
+    resolution: {integrity: sha512-L7d1HzZrKDPQXTCUEkJYdHpTvcsDbjMG8A+quWKNX122pvLBMn8Up9HR5ZjI/K+u2GFrPSCZSS6NiAWSLZcNGw==, tarball: file:projects/arm-recoveryservices.tgz}
     name: '@rush-temp/arm-recoveryservices'
     version: 0.0.0
     dependencies:
@@ -16539,6 +16554,7 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.4.0
       rimraf: 5.0.5
@@ -16553,13 +16569,14 @@ packages:
     dev: false
 
   file:projects/arm-recoveryservicesbackup.tgz:
-    resolution: {integrity: sha512-RF9Y+N2FtMMrfsbtUKEh8yh+eYq5zKlliTqIh9GmBuqs2yNXTMORryZy3LPJSdmBMXrIhZrgWwTagRbhZosuTA==, tarball: file:projects/arm-recoveryservicesbackup.tgz}
+    resolution: {integrity: sha512-7oicqQgJGjIvBX7QKiIy6Lo5o1ZCxxWZYC9g/Pcas0E6EI6xnFG8vKcFLa2GtH/3yO5xb2Y4sw6/JfedJz/G3A==, tarball: file:projects/arm-recoveryservicesbackup.tgz}
     name: '@rush-temp/arm-recoveryservicesbackup'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
+      '@azure/arm-recoveryservices': 5.4.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
       '@types/chai': 4.3.14

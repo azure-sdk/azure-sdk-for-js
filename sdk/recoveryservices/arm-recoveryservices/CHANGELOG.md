@@ -1,5 +1,32 @@
 # Release History
+    
+## 6.0.0 (2024-04-04)
+    
+**Features**
 
+  - Added operation Vaults.beginDelete
+  - Added operation Vaults.beginDeleteAndWait
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface VaultsDeleteHeaders
+  - Added Type Alias BcdrSecurityLevel
+  - Added Type Alias EnhancedSecurityState
+  - Added Type Alias VaultsDeleteResponse
+  - Interface AzureMonitorAlertSettings has a new optional parameter alertsForAllFailoverIssues
+  - Interface AzureMonitorAlertSettings has a new optional parameter alertsForAllReplicationIssues
+  - Interface ClassicAlertSettings has a new optional parameter emailNotificationsForSiteRecovery
+  - Interface SoftDeleteSettings has a new optional parameter enhancedSecurityState
+  - Interface VaultProperties has a new optional parameter bcdrSecurityLevel
+  - Interface VaultsDeleteOptionalParams has a new optional parameter resumeFrom
+  - Interface VaultsDeleteOptionalParams has a new optional parameter updateIntervalInMs
+  - Added Enum KnownBcdrSecurityLevel
+  - Added Enum KnownEnhancedSecurityState
+  - Enum KnownStandardTierStorageRedundancy has a new value Invalid
+
+**Breaking Changes**
+
+  - Removed operation Vaults.delete
+    
 ## 5.4.1 (Unreleased)
 
 ### Features Added
