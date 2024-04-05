@@ -1,5 +1,51 @@
 # Release History
+    
+## 2.0.0-beta.3 (2024-04-05)
+    
+**Features**
 
+  - Added operation group DiscoverySolutionNLPSubscriptionScope
+  - Added operation group DiscoverySolutionNLPTenantScope
+  - Added operation group SimplifiedSolutions
+  - Added operation group SolutionSelfHelp
+  - Added operation Solution.warmUp
+  - Added Interface ClassificationService
+  - Added Interface DiscoveryNlpRequest
+  - Added Interface DiscoveryNlpResponse
+  - Added Interface DiscoverySolutionNLPSubscriptionScopePostOptionalParams
+  - Added Interface DiscoverySolutionNLPTenantScopePostOptionalParams
+  - Added Interface ReplacementMapsSelfHelp
+  - Added Interface SectionSelfHelp
+  - Added Interface SimplifiedSolutionsCreateOptionalParams
+  - Added Interface SimplifiedSolutionsGetOptionalParams
+  - Added Interface SimplifiedSolutionsResource
+  - Added Interface SolutionNlpMetadataResource
+  - Added Interface SolutionResourceSelfHelp
+  - Added Interface SolutionSelfHelpGetOptionalParams
+  - Added Interface SolutionWarmUpOptionalParams
+  - Added Interface SolutionWarmUpRequestBody
+  - Added Type Alias DiscoverySolutionNLPSubscriptionScopePostResponse
+  - Added Type Alias DiscoverySolutionNLPTenantScopePostResponse
+  - Added Type Alias SimplifiedSolutionsCreateResponse
+  - Added Type Alias SimplifiedSolutionsGetResponse
+  - Added Type Alias SolutionSelfHelpGetResponse
+  - Added Type Alias ValidationScope
+  - Interface AutomatedCheckResult has a new optional parameter status
+  - Interface AutomatedCheckResult has a new optional parameter version
+  - Interface ResponseValidationProperties has a new optional parameter validationScope
+  - Interface SolutionsDiagnostic has a new optional parameter estimatedCompletionTime
+  - Interface StepInput has a new optional parameter questionTitle
+  - Added Enum KnownValidationScope
+  - Enum KnownQuestionType has a new value DateTimePicker
+  - Enum KnownQuestionType has a new value MultiSelect
+  - Enum KnownSolutionType has a new value SelfHelp
+  - Enum KnownSolutionType has a new value Troubleshooters
+  - Enum KnownType has a new value Input
+
+**Breaking Changes**
+
+  - Operation DiscoverySolution.list has a new signature
+    
 ## 2.0.0-beta.3 (Unreleased)
 
 ### Features Added
