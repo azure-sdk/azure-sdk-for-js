@@ -740,6 +740,24 @@ export interface RecoveryPoint {
     | "IaasVMRecoveryPoint";
 }
 
+/** Patch Request content to update recovery point for given RecoveryPointId */
+export interface UpdateRecoveryPointRequest {
+  /** Resource properties. */
+  properties?: PatchRecoveryPointInput;
+}
+
+/** Recovery Point Contract for Update Recovery Point API. */
+export interface PatchRecoveryPointInput {
+  /** Properties of Recovery Point */
+  recoveryPointProperties?: PatchRecoveryPointPropertiesInput;
+}
+
+/** Recovery Point Properties Contract for Update Recovery Point API. */
+export interface PatchRecoveryPointPropertiesInput {
+  /** Expiry time of Recovery Point in UTC. */
+  expiryTime?: string;
+}
+
 /** Base class for restore request. Workload-specific restore requests are derived from this class. */
 export interface RestoreRequest {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -2956,6 +2974,7 @@ export interface AzureIaaSVMProtectionPolicy extends ProtectionPolicy {
   /** TimeZone optional input as string. For example: TimeZone = "Pacific Standard Time". */
   timeZone?: string;
   policyType?: IaasvmPolicyType;
+  snapshotConsistencyType?: IaasVMSnapshotConsistencyType;
 }
 
 /** Azure SQL workload-specific backup policy. */
@@ -3953,7 +3972,7 @@ export enum KnownStorageType {
   /** ZoneRedundant */
   ZoneRedundant = "ZoneRedundant",
   /** ReadAccessGeoZoneRedundant */
-  ReadAccessGeoZoneRedundant = "ReadAccessGeoZoneRedundant"
+  ReadAccessGeoZoneRedundant = "ReadAccessGeoZoneRedundant",
 }
 
 /**
@@ -3976,7 +3995,7 @@ export enum KnownStorageTypeState {
   /** Locked */
   Locked = "Locked",
   /** Unlocked */
-  Unlocked = "Unlocked"
+  Unlocked = "Unlocked",
 }
 
 /**
@@ -3997,7 +4016,7 @@ export enum KnownDedupState {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -4018,7 +4037,7 @@ export enum KnownXcoolState {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -4065,7 +4084,7 @@ export enum KnownDataSourceType {
   /** SAPAseDatabase */
   SAPAseDatabase = "SAPAseDatabase",
   /** SAPHanaDBInstance */
-  SAPHanaDBInstance = "SAPHanaDBInstance"
+  SAPHanaDBInstance = "SAPHanaDBInstance",
 }
 
 /**
@@ -4099,7 +4118,7 @@ export enum KnownValidationStatus {
   /** Succeeded */
   Succeeded = "Succeeded",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -4124,7 +4143,7 @@ export enum KnownProtectionStatus {
   /** Protected */
   Protected = "Protected",
   /** ProtectionFailed */
-  ProtectionFailed = "ProtectionFailed"
+  ProtectionFailed = "ProtectionFailed",
 }
 
 /**
@@ -4145,7 +4164,7 @@ export enum KnownFabricName {
   /** Invalid */
   Invalid = "Invalid",
   /** Azure */
-  Azure = "Azure"
+  Azure = "Azure",
 }
 
 /**
@@ -4163,7 +4182,7 @@ export enum KnownAcquireStorageAccountLock {
   /** Acquire */
   Acquire = "Acquire",
   /** NotAcquire */
-  NotAcquire = "NotAcquire"
+  NotAcquire = "NotAcquire",
 }
 
 /**
@@ -4187,7 +4206,7 @@ export enum KnownSupportStatus {
   /** DefaultON */
   DefaultON = "DefaultON",
   /** NotSupported */
-  NotSupported = "NotSupported"
+  NotSupported = "NotSupported",
 }
 
 /**
@@ -4216,7 +4235,7 @@ export enum KnownProtectionIntentItemType {
   /** AzureWorkloadAutoProtectionIntent */
   AzureWorkloadAutoProtectionIntent = "AzureWorkloadAutoProtectionIntent",
   /** AzureWorkloadSQLAutoProtectionIntent */
-  AzureWorkloadSQLAutoProtectionIntent = "AzureWorkloadSQLAutoProtectionIntent"
+  AzureWorkloadSQLAutoProtectionIntent = "AzureWorkloadSQLAutoProtectionIntent",
 }
 
 /**
@@ -4252,7 +4271,7 @@ export enum KnownBackupManagementType {
   /** AzureWorkload */
   AzureWorkload = "AzureWorkload",
   /** DefaultBackup */
-  DefaultBackup = "DefaultBackup"
+  DefaultBackup = "DefaultBackup",
 }
 
 /**
@@ -4285,7 +4304,7 @@ export enum KnownUsagesUnit {
   /** CountPerSecond */
   CountPerSecond = "CountPerSecond",
   /** BytesPerSecond */
-  BytesPerSecond = "BytesPerSecond"
+  BytesPerSecond = "BytesPerSecond",
 }
 
 /**
@@ -4309,7 +4328,7 @@ export enum KnownEnhancedSecurityState {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -4332,7 +4351,7 @@ export enum KnownSoftDeleteFeatureState {
   /** Disabled */
   Disabled = "Disabled",
   /** AlwaysON */
-  AlwaysON = "AlwaysON"
+  AlwaysON = "AlwaysON",
 }
 
 /**
@@ -4354,7 +4373,7 @@ export enum KnownEncryptionAtRestType {
   /** MicrosoftManaged */
   MicrosoftManaged = "MicrosoftManaged",
   /** CustomerManaged */
-  CustomerManaged = "CustomerManaged"
+  CustomerManaged = "CustomerManaged",
 }
 
 /**
@@ -4385,7 +4404,7 @@ export enum KnownLastUpdateStatus {
   /** Initialized */
   Initialized = "Initialized",
   /** FirstInitialization */
-  FirstInitialization = "FirstInitialization"
+  FirstInitialization = "FirstInitialization",
 }
 
 /**
@@ -4411,7 +4430,7 @@ export enum KnownInfrastructureEncryptionState {
   /** Disabled */
   Disabled = "Disabled",
   /** Enabled */
-  Enabled = "Enabled"
+  Enabled = "Enabled",
 }
 
 /**
@@ -4434,7 +4453,7 @@ export enum KnownProvisioningState {
   /** Failed */
   Failed = "Failed",
   /** Pending */
-  Pending = "Pending"
+  Pending = "Pending",
 }
 
 /**
@@ -4456,7 +4475,7 @@ export enum KnownVaultSubResourceType {
   /** AzureBackupSecondary */
   AzureBackupSecondary = "AzureBackup_secondary",
   /** AzureSiteRecovery */
-  AzureSiteRecovery = "AzureSiteRecovery"
+  AzureSiteRecovery = "AzureSiteRecovery",
 }
 
 /**
@@ -4479,7 +4498,7 @@ export enum KnownPrivateEndpointConnectionStatus {
   /** Rejected */
   Rejected = "Rejected",
   /** Disconnected */
-  Disconnected = "Disconnected"
+  Disconnected = "Disconnected",
 }
 
 /**
@@ -4505,7 +4524,7 @@ export enum KnownOperationStatusValues {
   /** Failed */
   Failed = "Failed",
   /** Canceled */
-  Canceled = "Canceled"
+  Canceled = "Canceled",
 }
 
 /**
@@ -4528,7 +4547,7 @@ export enum KnownDataMoveLevel {
   /** Vault */
   Vault = "Vault",
   /** Container */
-  Container = "Container"
+  Container = "Container",
 }
 
 /**
@@ -4549,7 +4568,7 @@ export enum KnownCreateMode {
   /** Default */
   Default = "Default",
   /** Recover */
-  Recover = "Recover"
+  Recover = "Recover",
 }
 
 /**
@@ -4570,7 +4589,7 @@ export enum KnownBackupEngineType {
   /** DpmBackupEngine */
   DpmBackupEngine = "DpmBackupEngine",
   /** AzureBackupServerEngine */
-  AzureBackupServerEngine = "AzureBackupServerEngine"
+  AzureBackupServerEngine = "AzureBackupServerEngine",
 }
 
 /**
@@ -4599,7 +4618,7 @@ export enum KnownProtectionState {
   /** ProtectionPaused */
   ProtectionPaused = "ProtectionPaused",
   /** BackupsSuspended */
-  BackupsSuspended = "BackupsSuspended"
+  BackupsSuspended = "BackupsSuspended",
 }
 
 /**
@@ -4630,7 +4649,7 @@ export enum KnownResourceHealthStatus {
   /** PersistentUnhealthy */
   PersistentUnhealthy = "PersistentUnhealthy",
   /** Invalid */
-  Invalid = "Invalid"
+  Invalid = "Invalid",
 }
 
 /**
@@ -4658,7 +4677,7 @@ export enum KnownRecoveryType {
   /** RestoreDisks */
   RestoreDisks = "RestoreDisks",
   /** Offline */
-  Offline = "Offline"
+  Offline = "Offline",
 }
 
 /**
@@ -4685,7 +4704,7 @@ export enum KnownCopyOptions {
   /** Overwrite */
   Overwrite = "Overwrite",
   /** FailOnConflict */
-  FailOnConflict = "FailOnConflict"
+  FailOnConflict = "FailOnConflict",
 }
 
 /**
@@ -4708,7 +4727,7 @@ export enum KnownRestoreRequestType {
   /** FullShareRestore */
   FullShareRestore = "FullShareRestore",
   /** ItemLevelRestore */
-  ItemLevelRestore = "ItemLevelRestore"
+  ItemLevelRestore = "ItemLevelRestore",
 }
 
 /**
@@ -4755,7 +4774,7 @@ export enum KnownWorkloadType {
   /** SAPAseDatabase */
   SAPAseDatabase = "SAPAseDatabase",
   /** SAPHanaDBInstance */
-  SAPHanaDBInstance = "SAPHanaDBInstance"
+  SAPHanaDBInstance = "SAPHanaDBInstance",
 }
 
 /**
@@ -4799,7 +4818,7 @@ export enum KnownPolicyType {
   /** SnapshotFull */
   SnapshotFull = "SnapshotFull",
   /** SnapshotCopyOnlyFull */
-  SnapshotCopyOnlyFull = "SnapshotCopyOnlyFull"
+  SnapshotCopyOnlyFull = "SnapshotCopyOnlyFull",
 }
 
 /**
@@ -4827,7 +4846,7 @@ export enum KnownTieringMode {
   /** TierAfter */
   TierAfter = "TierAfter",
   /** DoNotTier */
-  DoNotTier = "DoNotTier"
+  DoNotTier = "DoNotTier",
 }
 
 /**
@@ -4853,7 +4872,7 @@ export enum KnownRetentionDurationType {
   /** Months */
   Months = "Months",
   /** Years */
-  Years = "Years"
+  Years = "Years",
 }
 
 /**
@@ -4878,7 +4897,7 @@ export enum KnownHealthStatus {
   /** ActionSuggested */
   ActionSuggested = "ActionSuggested",
   /** Invalid */
-  Invalid = "Invalid"
+  Invalid = "Invalid",
 }
 
 /**
@@ -4900,7 +4919,7 @@ export enum KnownIaasvmPolicyType {
   /** V1 */
   V1 = "V1",
   /** V2 */
-  V2 = "V2"
+  V2 = "V2",
 }
 
 /**
@@ -4913,6 +4932,21 @@ export enum KnownIaasvmPolicyType {
  * **V2**
  */
 export type IaasvmPolicyType = string;
+
+/** Known values of {@link IaasVMSnapshotConsistencyType} that the service accepts. */
+export enum KnownIaasVMSnapshotConsistencyType {
+  /** OnlyCrashConsistent */
+  OnlyCrashConsistent = "OnlyCrashConsistent",
+}
+
+/**
+ * Defines values for IaasVMSnapshotConsistencyType. \
+ * {@link KnownIaasVMSnapshotConsistencyType} can be used interchangeably with IaasVMSnapshotConsistencyType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **OnlyCrashConsistent**
+ */
+export type IaasVMSnapshotConsistencyType = string;
 
 /** Known values of {@link ProtectedItemState} that the service accepts. */
 export enum KnownProtectedItemState {
@@ -4929,7 +4963,7 @@ export enum KnownProtectedItemState {
   /** ProtectionPaused */
   ProtectionPaused = "ProtectionPaused",
   /** BackupsSuspended */
-  BackupsSuspended = "BackupsSuspended"
+  BackupsSuspended = "BackupsSuspended",
 }
 
 /**
@@ -4956,7 +4990,7 @@ export enum KnownLastBackupStatus {
   /** Unhealthy */
   Unhealthy = "Unhealthy",
   /** IRPending */
-  IRPending = "IRPending"
+  IRPending = "IRPending",
 }
 
 /**
@@ -4982,7 +5016,7 @@ export enum KnownProtectedItemHealthStatus {
   /** NotReachable */
   NotReachable = "NotReachable",
   /** IRPending */
-  IRPending = "IRPending"
+  IRPending = "IRPending",
 }
 
 /**
@@ -5013,7 +5047,7 @@ export enum KnownRestorePointType {
   /** SnapshotFull */
   SnapshotFull = "SnapshotFull",
   /** SnapshotCopyOnlyFull */
-  SnapshotCopyOnlyFull = "SnapshotCopyOnlyFull"
+  SnapshotCopyOnlyFull = "SnapshotCopyOnlyFull",
 }
 
 /**
@@ -5038,7 +5072,7 @@ export enum KnownOverwriteOptions {
   /** FailOnConflict */
   FailOnConflict = "FailOnConflict",
   /** Overwrite */
-  Overwrite = "Overwrite"
+  Overwrite = "Overwrite",
 }
 
 /**
@@ -5065,7 +5099,7 @@ export enum KnownRecoveryMode {
   /** RecoveryUsingSnapshot */
   RecoveryUsingSnapshot = "RecoveryUsingSnapshot",
   /** SnapshotAttachAndRecover */
-  SnapshotAttachAndRecover = "SnapshotAttachAndRecover"
+  SnapshotAttachAndRecover = "SnapshotAttachAndRecover",
 }
 
 /**
@@ -5089,7 +5123,7 @@ export enum KnownSQLDataDirectoryType {
   /** Data */
   Data = "Data",
   /** Log */
-  Log = "Log"
+  Log = "Log",
 }
 
 /**
@@ -5122,7 +5156,7 @@ export enum KnownRestorePointQueryType {
   /** SnapshotFull */
   SnapshotFull = "SnapshotFull",
   /** SnapshotCopyOnlyFull */
-  SnapshotCopyOnlyFull = "SnapshotCopyOnlyFull"
+  SnapshotCopyOnlyFull = "SnapshotCopyOnlyFull",
 }
 
 /**
@@ -5157,7 +5191,7 @@ export enum KnownJobStatus {
   /** Cancelled */
   Cancelled = "Cancelled",
   /** Cancelling */
-  Cancelling = "Cancelling"
+  Cancelling = "Cancelling",
 }
 
 /**
@@ -5198,7 +5232,7 @@ export enum KnownJobOperationType {
   /** Undelete */
   Undelete = "Undelete",
   /** UpdateCustomerManagedKey */
-  UpdateCustomerManagedKey = "UpdateCustomerManagedKey"
+  UpdateCustomerManagedKey = "UpdateCustomerManagedKey",
 }
 
 /**
@@ -5227,7 +5261,7 @@ export enum KnownRetentionScheduleFormat {
   /** Daily */
   Daily = "Daily",
   /** Weekly */
-  Weekly = "Weekly"
+  Weekly = "Weekly",
 }
 
 /**
@@ -5272,7 +5306,7 @@ export enum KnownMabServerType {
   /** StorageContainer */
   StorageContainer = "StorageContainer",
   /** GenericContainer */
-  GenericContainer = "GenericContainer"
+  GenericContainer = "GenericContainer",
 }
 
 /**
@@ -5307,7 +5341,7 @@ export enum KnownHealthState {
   /** ActionSuggested */
   ActionSuggested = "ActionSuggested",
   /** Invalid */
-  Invalid = "Invalid"
+  Invalid = "Invalid",
 }
 
 /**
@@ -5331,7 +5365,7 @@ export enum KnownScheduleRunType {
   /** Weekly */
   Weekly = "Weekly",
   /** Hourly */
-  Hourly = "Hourly"
+  Hourly = "Hourly",
 }
 
 /**
@@ -5353,7 +5387,7 @@ export enum KnownAzureFileShareType {
   /** Xsmb */
   Xsmb = "XSMB",
   /** XSync */
-  XSync = "XSync"
+  XSync = "XSync",
 }
 
 /**
@@ -5374,7 +5408,7 @@ export enum KnownOperationType {
   /** Register */
   Register = "Register",
   /** Reregister */
-  Reregister = "Reregister"
+  Reregister = "Reregister",
 }
 
 /**
@@ -5395,7 +5429,7 @@ export enum KnownInquiryStatus {
   /** Success */
   Success = "Success",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -5426,7 +5460,7 @@ export enum KnownBackupType {
   /** SnapshotFull */
   SnapshotFull = "SnapshotFull",
   /** SnapshotCopyOnlyFull */
-  SnapshotCopyOnlyFull = "SnapshotCopyOnlyFull"
+  SnapshotCopyOnlyFull = "SnapshotCopyOnlyFull",
 }
 
 /**
@@ -5462,7 +5496,7 @@ export enum KnownWorkloadItemType {
   /** SAPAseDatabase */
   SAPAseDatabase = "SAPAseDatabase",
   /** SAPHanaDBInstance */
-  SAPHanaDBInstance = "SAPHanaDBInstance"
+  SAPHanaDBInstance = "SAPHanaDBInstance",
 }
 
 /**
@@ -5488,7 +5522,7 @@ export enum KnownType {
   /** BackupProtectedItemCountSummary */
   BackupProtectedItemCountSummary = "BackupProtectedItemCountSummary",
   /** BackupProtectionContainerCountSummary */
-  BackupProtectionContainerCountSummary = "BackupProtectionContainerCountSummary"
+  BackupProtectionContainerCountSummary = "BackupProtectionContainerCountSummary",
 }
 
 /**
@@ -5509,7 +5543,7 @@ export enum KnownIntentItemType {
   /** SQLInstance */
   SQLInstance = "SQLInstance",
   /** SQLAvailabilityGroupContainer */
-  SQLAvailabilityGroupContainer = "SQLAvailabilityGroupContainer"
+  SQLAvailabilityGroupContainer = "SQLAvailabilityGroupContainer",
 }
 
 /**
@@ -5556,7 +5590,7 @@ export enum KnownContainerType {
   /** GenericContainer */
   GenericContainer = "GenericContainer",
   /** HanaHSRContainer */
-  HanaHSRContainer = "HanaHSRContainer"
+  HanaHSRContainer = "HanaHSRContainer",
 }
 
 /**
@@ -5616,7 +5650,7 @@ export enum KnownBackupItemType {
   /** SAPAseDatabase */
   SAPAseDatabase = "SAPAseDatabase",
   /** SAPHanaDBInstance */
-  SAPHanaDBInstance = "SAPHanaDBInstance"
+  SAPHanaDBInstance = "SAPHanaDBInstance",
 }
 
 /**
@@ -5648,7 +5682,7 @@ export enum KnownRehydrationPriority {
   /** Standard */
   Standard = "Standard",
   /** High */
-  High = "High"
+  High = "High",
 }
 
 /**
@@ -5787,14 +5821,16 @@ export interface BackupResourceStorageConfigsNonCRRGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type BackupResourceStorageConfigsNonCRRGetResponse = BackupResourceConfigResource;
+export type BackupResourceStorageConfigsNonCRRGetResponse =
+  BackupResourceConfigResource;
 
 /** Optional parameters. */
 export interface BackupResourceStorageConfigsNonCRRUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
-export type BackupResourceStorageConfigsNonCRRUpdateResponse = BackupResourceConfigResource;
+export type BackupResourceStorageConfigsNonCRRUpdateResponse =
+  BackupResourceConfigResource;
 
 /** Optional parameters. */
 export interface BackupResourceStorageConfigsNonCRRPatchOptionalParams
@@ -5837,7 +5873,8 @@ export interface FeatureSupportValidateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the validate operation. */
-export type FeatureSupportValidateResponse = AzureVMResourceFeatureSupportResponse;
+export type FeatureSupportValidateResponse =
+  AzureVMResourceFeatureSupportResponse;
 
 /** Optional parameters. */
 export interface BackupProtectionIntentListOptionalParams
@@ -5856,7 +5893,8 @@ export interface BackupProtectionIntentListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type BackupProtectionIntentListNextResponse = ProtectionIntentResourceList;
+export type BackupProtectionIntentListNextResponse =
+  ProtectionIntentResourceList;
 
 /** Optional parameters. */
 export interface BackupUsageSummariesListOptionalParams
@@ -5889,28 +5927,32 @@ export interface BackupResourceVaultConfigsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type BackupResourceVaultConfigsGetResponse = BackupResourceVaultConfigResource;
+export type BackupResourceVaultConfigsGetResponse =
+  BackupResourceVaultConfigResource;
 
 /** Optional parameters. */
 export interface BackupResourceVaultConfigsUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
-export type BackupResourceVaultConfigsUpdateResponse = BackupResourceVaultConfigResource;
+export type BackupResourceVaultConfigsUpdateResponse =
+  BackupResourceVaultConfigResource;
 
 /** Optional parameters. */
 export interface BackupResourceVaultConfigsPutOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the put operation. */
-export type BackupResourceVaultConfigsPutResponse = BackupResourceVaultConfigResource;
+export type BackupResourceVaultConfigsPutResponse =
+  BackupResourceVaultConfigResource;
 
 /** Optional parameters. */
 export interface BackupResourceEncryptionConfigsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type BackupResourceEncryptionConfigsGetResponse = BackupResourceEncryptionConfigExtendedResource;
+export type BackupResourceEncryptionConfigsGetResponse =
+  BackupResourceEncryptionConfigExtendedResource;
 
 /** Optional parameters. */
 export interface BackupResourceEncryptionConfigsUpdateOptionalParams
@@ -5921,7 +5963,8 @@ export interface PrivateEndpointConnectionGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type PrivateEndpointConnectionGetResponse = PrivateEndpointConnectionResource;
+export type PrivateEndpointConnectionGetResponse =
+  PrivateEndpointConnectionResource;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionPutOptionalParams
@@ -5933,7 +5976,8 @@ export interface PrivateEndpointConnectionPutOptionalParams
 }
 
 /** Contains response data for the put operation. */
-export type PrivateEndpointConnectionPutResponse = PrivateEndpointConnectionResource;
+export type PrivateEndpointConnectionPutResponse =
+  PrivateEndpointConnectionResource;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionDeleteOptionalParams
@@ -5990,7 +6034,8 @@ export interface BMSPrepareDataMoveOperationResultGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type BMSPrepareDataMoveOperationResultGetResponse = VaultStorageConfigOperationResultResponseUnion;
+export type BMSPrepareDataMoveOperationResultGetResponse =
+  VaultStorageConfigOperationResultResponseUnion;
 
 /** Optional parameters. */
 export interface ProtectedItemsGetOptionalParams
@@ -6036,6 +6081,13 @@ export interface RecoveryPointsGetOptionalParams
 
 /** Contains response data for the get operation. */
 export type RecoveryPointsGetResponse = RecoveryPointResource;
+
+/** Optional parameters. */
+export interface RecoveryPointsUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type RecoveryPointsUpdateResponse = RecoveryPointResource;
 
 /** Optional parameters. */
 export interface RecoveryPointsListNextOptionalParams
@@ -6098,7 +6150,8 @@ export interface ProtectionPolicyOperationResultsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type ProtectionPolicyOperationResultsGetResponse = ProtectionPolicyResource;
+export type ProtectionPolicyOperationResultsGetResponse =
+  ProtectionPolicyResource;
 
 /** Optional parameters. */
 export interface BackupJobsListOptionalParams
@@ -6139,7 +6192,8 @@ export interface ExportJobsOperationResultsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type ExportJobsOperationResultsGetResponse = OperationResultInfoBaseResource;
+export type ExportJobsOperationResultsGetResponse =
+  OperationResultInfoBaseResource;
 
 /** Optional parameters. */
 export interface JobsExportOptionalParams extends coreClient.OperationOptions {
@@ -6239,14 +6293,16 @@ export interface ProtectableContainersListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type ProtectableContainersListResponse = ProtectableContainerResourceList;
+export type ProtectableContainersListResponse =
+  ProtectableContainerResourceList;
 
 /** Optional parameters. */
 export interface ProtectableContainersListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ProtectableContainersListNextResponse = ProtectableContainerResourceList;
+export type ProtectableContainersListNextResponse =
+  ProtectableContainerResourceList;
 
 /** Optional parameters. */
 export interface ProtectionContainersGetOptionalParams
@@ -6309,7 +6365,8 @@ export interface ProtectionContainerOperationResultsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type ProtectionContainerOperationResultsGetResponse = ProtectionContainerResource;
+export type ProtectionContainerOperationResultsGetResponse =
+  ProtectionContainerResource;
 
 /** Optional parameters. */
 export interface BackupsTriggerOptionalParams
@@ -6358,14 +6415,16 @@ export interface BackupProtectableItemsListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type BackupProtectableItemsListResponse = WorkloadProtectableItemResourceList;
+export type BackupProtectableItemsListResponse =
+  WorkloadProtectableItemResourceList;
 
 /** Optional parameters. */
 export interface BackupProtectableItemsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type BackupProtectableItemsListNextResponse = WorkloadProtectableItemResourceList;
+export type BackupProtectableItemsListNextResponse =
+  WorkloadProtectableItemResourceList;
 
 /** Optional parameters. */
 export interface BackupProtectionContainersListOptionalParams
@@ -6375,14 +6434,16 @@ export interface BackupProtectionContainersListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type BackupProtectionContainersListResponse = ProtectionContainerResourceList;
+export type BackupProtectionContainersListResponse =
+  ProtectionContainerResourceList;
 
 /** Optional parameters. */
 export interface BackupProtectionContainersListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type BackupProtectionContainersListNextResponse = ProtectionContainerResourceList;
+export type BackupProtectionContainersListNextResponse =
+  ProtectionContainerResourceList;
 
 /** Optional parameters. */
 export interface DeletedProtectionContainersListOptionalParams
@@ -6392,14 +6453,16 @@ export interface DeletedProtectionContainersListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type DeletedProtectionContainersListResponse = ProtectionContainerResourceList;
+export type DeletedProtectionContainersListResponse =
+  ProtectionContainerResourceList;
 
 /** Optional parameters. */
 export interface DeletedProtectionContainersListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type DeletedProtectionContainersListNextResponse = ProtectionContainerResourceList;
+export type DeletedProtectionContainersListNextResponse =
+  ProtectionContainerResourceList;
 
 /** Optional parameters. */
 export interface SecurityPINsGetOptionalParams
@@ -6416,28 +6479,32 @@ export interface RecoveryPointsRecommendedForMoveListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type RecoveryPointsRecommendedForMoveListResponse = RecoveryPointResourceList;
+export type RecoveryPointsRecommendedForMoveListResponse =
+  RecoveryPointResourceList;
 
 /** Optional parameters. */
 export interface RecoveryPointsRecommendedForMoveListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type RecoveryPointsRecommendedForMoveListNextResponse = RecoveryPointResourceList;
+export type RecoveryPointsRecommendedForMoveListNextResponse =
+  RecoveryPointResourceList;
 
 /** Optional parameters. */
 export interface ResourceGuardProxiesGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type ResourceGuardProxiesGetResponse = ResourceGuardProxyBaseResourceList;
+export type ResourceGuardProxiesGetResponse =
+  ResourceGuardProxyBaseResourceList;
 
 /** Optional parameters. */
 export interface ResourceGuardProxiesGetNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getNext operation. */
-export type ResourceGuardProxiesGetNextResponse = ResourceGuardProxyBaseResourceList;
+export type ResourceGuardProxiesGetNextResponse =
+  ResourceGuardProxyBaseResourceList;
 
 /** Optional parameters. */
 export interface ResourceGuardProxyGetOptionalParams

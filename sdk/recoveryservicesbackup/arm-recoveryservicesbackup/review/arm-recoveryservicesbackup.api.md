@@ -239,6 +239,8 @@ export interface AzureIaaSVMProtectionPolicy extends ProtectionPolicy {
     policyType?: IaasvmPolicyType;
     retentionPolicy?: RetentionPolicyUnion;
     schedulePolicy?: SchedulePolicyUnion;
+    // (undocumented)
+    snapshotConsistencyType?: IaasVMSnapshotConsistencyType;
     tieringPolicy?: {
         [propertyName: string]: TieringPolicy;
     };
@@ -1893,6 +1895,9 @@ export interface IaasVMRestoreWithRehydrationRequest extends IaasVMRestoreReques
 }
 
 // @public
+export type IaasVMSnapshotConsistencyType = string;
+
+// @public
 export interface IdentityBasedRestoreDetails {
     objectType?: string;
     targetStorageAccountId?: string;
@@ -2242,6 +2247,11 @@ export enum KnownIaasvmPolicyType {
     Invalid = "Invalid",
     V1 = "V1",
     V2 = "V2"
+}
+
+// @public
+export enum KnownIaasVMSnapshotConsistencyType {
+    OnlyCrashConsistent = "OnlyCrashConsistent"
 }
 
 // @public
@@ -2936,6 +2946,16 @@ export interface OperationWorkerResponse {
 export type OverwriteOptions = string;
 
 // @public
+export interface PatchRecoveryPointInput {
+    recoveryPointProperties?: PatchRecoveryPointPropertiesInput;
+}
+
+// @public
+export interface PatchRecoveryPointPropertiesInput {
+    expiryTime?: string;
+}
+
+// @public
 export interface PointInTimeRange {
     endTime?: Date;
     startTime?: Date;
@@ -3498,6 +3518,7 @@ export interface RecoveryPointResourceList extends ResourceList {
 export interface RecoveryPoints {
     get(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, recoveryPointId: string, options?: RecoveryPointsGetOptionalParams): Promise<RecoveryPointsGetResponse>;
     list(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, options?: RecoveryPointsListOptionalParams): PagedAsyncIterableIterator<RecoveryPointResource>;
+    update(resourceGroupName: string, vaultName: string, fabricName: string, containerName: string, protectedItemName: string, recoveryPointId: string, parameters: UpdateRecoveryPointRequest, options?: RecoveryPointsUpdateOptionalParams): Promise<RecoveryPointsUpdateResponse>;
 }
 
 // @public
@@ -3540,6 +3561,13 @@ export interface RecoveryPointsRecommendedForMoveListOptionalParams extends core
 
 // @public
 export type RecoveryPointsRecommendedForMoveListResponse = RecoveryPointResourceList;
+
+// @public
+export interface RecoveryPointsUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RecoveryPointsUpdateResponse = RecoveryPointResource;
 
 // @public
 export interface RecoveryPointTierInformation {
@@ -4093,6 +4121,11 @@ export interface UnlockDeleteRequest {
 // @public
 export interface UnlockDeleteResponse {
     unlockDeleteExpiryTime?: string;
+}
+
+// @public
+export interface UpdateRecoveryPointRequest {
+    properties?: PatchRecoveryPointInput;
 }
 
 // @public

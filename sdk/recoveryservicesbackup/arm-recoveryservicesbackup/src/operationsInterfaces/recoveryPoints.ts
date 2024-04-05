@@ -11,7 +11,10 @@ import {
   RecoveryPointResource,
   RecoveryPointsListOptionalParams,
   RecoveryPointsGetOptionalParams,
-  RecoveryPointsGetResponse
+  RecoveryPointsGetResponse,
+  UpdateRecoveryPointRequest,
+  RecoveryPointsUpdateOptionalParams,
+  RecoveryPointsUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +36,7 @@ export interface RecoveryPoints {
     fabricName: string,
     containerName: string,
     protectedItemName: string,
-    options?: RecoveryPointsListOptionalParams
+    options?: RecoveryPointsListOptionalParams,
   ): PagedAsyncIterableIterator<RecoveryPointResource>;
   /**
    * Provides the information of the backed up data identified using RecoveryPointID. This is an
@@ -55,6 +58,28 @@ export interface RecoveryPoints {
     containerName: string,
     protectedItemName: string,
     recoveryPointId: string,
-    options?: RecoveryPointsGetOptionalParams
+    options?: RecoveryPointsGetOptionalParams,
   ): Promise<RecoveryPointsGetResponse>;
+  /**
+   * UpdateRecoveryPoint to update recovery point for given RecoveryPointID.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
+   * @param vaultName The name of the recovery services vault.
+   * @param fabricName Fabric name associated with backed up item.
+   * @param containerName Container name associated with backed up item.
+   * @param protectedItemName Backed up item name whose backup data needs to be fetched.
+   * @param recoveryPointId RecoveryPointID represents the backed up data to be fetched.
+   * @param parameters Request body for operation
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    vaultName: string,
+    fabricName: string,
+    containerName: string,
+    protectedItemName: string,
+    recoveryPointId: string,
+    parameters: UpdateRecoveryPointRequest,
+    options?: RecoveryPointsUpdateOptionalParams,
+  ): Promise<RecoveryPointsUpdateResponse>;
 }

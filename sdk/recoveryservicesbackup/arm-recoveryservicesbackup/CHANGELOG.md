@@ -1,5 +1,19 @@
 # Release History
+    
+## 13.1.0 (2024-04-05)
+    
+**Features**
 
+  - Added operation RecoveryPoints.update
+  - Added Interface PatchRecoveryPointInput
+  - Added Interface PatchRecoveryPointPropertiesInput
+  - Added Interface RecoveryPointsUpdateOptionalParams
+  - Added Interface UpdateRecoveryPointRequest
+  - Added Type Alias IaasVMSnapshotConsistencyType
+  - Added Type Alias RecoveryPointsUpdateResponse
+  - Interface AzureIaaSVMProtectionPolicy has a new optional parameter snapshotConsistencyType
+  - Added Enum KnownIaasVMSnapshotConsistencyType
+    
 ## 13.0.1 (Unreleased)
 
 ### Features Added
