@@ -10200,8 +10200,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.4.3:
-    resolution: {integrity: sha512-KrPd3PKaCLr78MalgiwJnA25Nm8HAmdwN3mYUYZgG/wizIo9EainNVQI9/yDavtVFRN2h3k8uf3GLHuhDMgEHg==}
+  /typescript@5.4.4:
+    resolution: {integrity: sha512-dGE2Vv8cpVvw28v8HCPqyb08EzbBURxDpuhJvTrusShUfGnhHBafDsLdS1EhhxyL6BJQE+2cT3dDPAv+MQ6oLw==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -15014,7 +15014,7 @@ packages:
     dev: false
 
   file:projects/arm-machinelearning.tgz:
-    resolution: {integrity: sha512-xXQBL88cawKvZ2E4LiL6mkkE16x4AkhNmwCAFBfrzWUoiyhXpeKVSPwmlkhprIkyWUXdYfoLEmrzvcJN3rk/VA==, tarball: file:projects/arm-machinelearning.tgz}
+    resolution: {integrity: sha512-9rNMB027hg0GYl4yyIsmrhQDmNog4LlklgyobXJ5Wjo6hnWTNVgK4XvMusOq5hDje0itFxIy0pOcmrKrZotc6Q==, tarball: file:projects/arm-machinelearning.tgz}
     name: '@rush-temp/arm-machinelearning'
     version: 0.0.0
     dependencies:
@@ -15028,7 +15028,9 @@ packages:
       '@types/node': 18.19.28
       chai: 4.3.10
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.4.5
+      esm: 3.2.25
+      mkdirp: 2.1.6
       mocha: 10.4.0
       rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.28)(typescript@5.3.3)
@@ -19651,7 +19653,7 @@ packages:
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
-      '@_ts/max': /typescript@5.4.3
+      '@_ts/max': /typescript@5.4.4
       '@_ts/min': /typescript@4.2.4
       '@microsoft/api-extractor': 7.43.0(@types/node@18.19.28)
       '@rollup/plugin-commonjs': 25.0.7(rollup@4.13.2)
@@ -20254,7 +20256,7 @@ packages:
     dev: false
 
   file:projects/identity-broker.tgz:
-    resolution: {integrity: sha512-vx9xKcy+ZhlA5PuFj3b7Wy96HXvMEp7BQ/NHiT+iIVUcMhrp6n40MuaPGh0dxLS/2XQnLLLmu1L7BHH0Gtqqaw==, tarball: file:projects/identity-broker.tgz}
+    resolution: {integrity: sha512-/1yRGPEHyWuO8GlEku4koWnbUYXwSdeA35zFn8p+U1YmNPSdDgz/0E/1/mw+Q3++Kpc9lbOeHFwxZ1dE/HrT0g==, tarball: file:projects/identity-broker.tgz}
     name: '@rush-temp/identity-broker'
     version: 0.0.0
     dependencies:
@@ -20282,7 +20284,7 @@ packages:
     dev: false
 
   file:projects/identity-cache-persistence.tgz:
-    resolution: {integrity: sha512-nvsuxkC8hNuUFrT4Hoxkuz10oArGS3SUs0Ssaq9hICOrUJdNcFEjRlgYRiPqpuM3oxC/HEBZ9AE5ppVHOCEcSg==, tarball: file:projects/identity-cache-persistence.tgz}
+    resolution: {integrity: sha512-Xxl1uL7DnRM0WyFOUhr11fyMK6M5H+693acw72m1AhOUbQ+rbDYWtWPJ8gpPxkSpoad2WQ74Bp5XWL3K3EyAyw==, tarball: file:projects/identity-cache-persistence.tgz}
     name: '@rush-temp/identity-cache-persistence'
     version: 0.0.0
     dependencies:
@@ -20318,7 +20320,7 @@ packages:
     dev: false
 
   file:projects/identity-vscode.tgz:
-    resolution: {integrity: sha512-LEj3TH59TnCC5VMd+EEm1lsbPq92b2MZWzMUQclrt69cNc/fR5wueyWkDVKUeIpL3juf9gIaDlTAW6TARoV6qQ==, tarball: file:projects/identity-vscode.tgz}
+    resolution: {integrity: sha512-4HZqGJZyak/tpbtgUeuajlrZ95S9q61bfAWy1kdmDMYWAhAmchZJTjBA4XI1kwqLnxCgxC1xQWyWYyz1O5i4pQ==, tarball: file:projects/identity-vscode.tgz}
     name: '@rush-temp/identity-vscode'
     version: 0.0.0
     dependencies:
