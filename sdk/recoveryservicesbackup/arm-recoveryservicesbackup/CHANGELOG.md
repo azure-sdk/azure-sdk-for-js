@@ -1,15 +1,14 @@
 # Release History
+    
+## 13.1.0 (2024-04-08)
+    
+**Features**
 
-## 13.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Type Alias IaasVMSnapshotConsistencyType
+  - Interface AzureIaaSVMProtectionPolicy has a new optional parameter snapshotConsistencyType
+  - Added Enum KnownIaasVMSnapshotConsistencyType
+    
+    
 ## 13.0.0 (2023-12-13)
     
 **Features**
