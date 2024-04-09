@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Workspace,
   WorkspacesListByResourceGroupOptionalParams,
@@ -29,12 +29,14 @@ import {
   WorkspacesListNotebookAccessTokenResponse,
   WorkspacesPrepareNotebookOptionalParams,
   WorkspacesPrepareNotebookResponse,
+  WorkspacesListConnectionModelsOptionalParams,
+  WorkspacesListConnectionModelsResponse,
   WorkspacesListStorageAccountKeysOptionalParams,
   WorkspacesListStorageAccountKeysResponse,
   WorkspacesListNotebookKeysOptionalParams,
   WorkspacesListNotebookKeysResponse,
   WorkspacesListOutboundNetworkDependenciesEndpointsOptionalParams,
-  WorkspacesListOutboundNetworkDependenciesEndpointsResponse
+  WorkspacesListOutboundNetworkDependenciesEndpointsResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -47,14 +49,14 @@ export interface Workspaces {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: WorkspacesListByResourceGroupOptionalParams
+    options?: WorkspacesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Workspace>;
   /**
    * Lists all the available machine learning workspaces under the specified subscription.
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: WorkspacesListBySubscriptionOptionalParams
+    options?: WorkspacesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<Workspace>;
   /**
    * Gets the properties of the specified machine learning workspace.
@@ -65,7 +67,7 @@ export interface Workspaces {
   get(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspacesGetOptionalParams
+    options?: WorkspacesGetOptionalParams,
   ): Promise<WorkspacesGetResponse>;
   /**
    * Creates or updates a workspace with the specified parameters.
@@ -78,10 +80,10 @@ export interface Workspaces {
     resourceGroupName: string,
     workspaceName: string,
     parameters: Workspace,
-    options?: WorkspacesCreateOrUpdateOptionalParams
+    options?: WorkspacesCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<WorkspacesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<WorkspacesCreateOrUpdateResponse>,
       WorkspacesCreateOrUpdateResponse
     >
   >;
@@ -96,7 +98,7 @@ export interface Workspaces {
     resourceGroupName: string,
     workspaceName: string,
     parameters: Workspace,
-    options?: WorkspacesCreateOrUpdateOptionalParams
+    options?: WorkspacesCreateOrUpdateOptionalParams,
   ): Promise<WorkspacesCreateOrUpdateResponse>;
   /**
    * Deletes a machine learning workspace.
@@ -107,8 +109,8 @@ export interface Workspaces {
   beginDelete(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspacesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: WorkspacesDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a machine learning workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -118,7 +120,7 @@ export interface Workspaces {
   beginDeleteAndWait(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspacesDeleteOptionalParams
+    options?: WorkspacesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Updates a machine learning workspace with the specified parameters.
@@ -131,10 +133,10 @@ export interface Workspaces {
     resourceGroupName: string,
     workspaceName: string,
     parameters: WorkspaceUpdateParameters,
-    options?: WorkspacesUpdateOptionalParams
+    options?: WorkspacesUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<WorkspacesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<WorkspacesUpdateResponse>,
       WorkspacesUpdateResponse
     >
   >;
@@ -149,7 +151,7 @@ export interface Workspaces {
     resourceGroupName: string,
     workspaceName: string,
     parameters: WorkspaceUpdateParameters,
-    options?: WorkspacesUpdateOptionalParams
+    options?: WorkspacesUpdateOptionalParams,
   ): Promise<WorkspacesUpdateResponse>;
   /**
    * Diagnose workspace setup issue.
@@ -160,10 +162,10 @@ export interface Workspaces {
   beginDiagnose(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspacesDiagnoseOptionalParams
+    options?: WorkspacesDiagnoseOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<WorkspacesDiagnoseResponse>,
+    SimplePollerLike<
+      OperationState<WorkspacesDiagnoseResponse>,
       WorkspacesDiagnoseResponse
     >
   >;
@@ -176,7 +178,7 @@ export interface Workspaces {
   beginDiagnoseAndWait(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspacesDiagnoseOptionalParams
+    options?: WorkspacesDiagnoseOptionalParams,
   ): Promise<WorkspacesDiagnoseResponse>;
   /**
    * Lists all the keys associated with this workspace. This includes keys for the storage account, app
@@ -188,7 +190,7 @@ export interface Workspaces {
   listKeys(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspacesListKeysOptionalParams
+    options?: WorkspacesListKeysOptionalParams,
   ): Promise<WorkspacesListKeysResponse>;
   /**
    * Resync all the keys associated with this workspace. This includes keys for the storage account, app
@@ -200,8 +202,8 @@ export interface Workspaces {
   beginResyncKeys(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspacesResyncKeysOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: WorkspacesResyncKeysOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Resync all the keys associated with this workspace. This includes keys for the storage account, app
    * insights and password for container registry
@@ -212,7 +214,7 @@ export interface Workspaces {
   beginResyncKeysAndWait(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspacesResyncKeysOptionalParams
+    options?: WorkspacesResyncKeysOptionalParams,
   ): Promise<void>;
   /**
    * return notebook access token and refresh token
@@ -223,7 +225,7 @@ export interface Workspaces {
   listNotebookAccessToken(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspacesListNotebookAccessTokenOptionalParams
+    options?: WorkspacesListNotebookAccessTokenOptionalParams,
   ): Promise<WorkspacesListNotebookAccessTokenResponse>;
   /**
    * Prepare a notebook.
@@ -234,10 +236,10 @@ export interface Workspaces {
   beginPrepareNotebook(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspacesPrepareNotebookOptionalParams
+    options?: WorkspacesPrepareNotebookOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<WorkspacesPrepareNotebookResponse>,
+    SimplePollerLike<
+      OperationState<WorkspacesPrepareNotebookResponse>,
       WorkspacesPrepareNotebookResponse
     >
   >;
@@ -250,8 +252,19 @@ export interface Workspaces {
   beginPrepareNotebookAndWait(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspacesPrepareNotebookOptionalParams
+    options?: WorkspacesPrepareNotebookOptionalParams,
   ): Promise<WorkspacesPrepareNotebookResponse>;
+  /**
+   * List available models from all connections.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param options The options parameters.
+   */
+  listConnectionModels(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: WorkspacesListConnectionModelsOptionalParams,
+  ): Promise<WorkspacesListConnectionModelsResponse>;
   /**
    * List storage account keys of a workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -261,7 +274,7 @@ export interface Workspaces {
   listStorageAccountKeys(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspacesListStorageAccountKeysOptionalParams
+    options?: WorkspacesListStorageAccountKeysOptionalParams,
   ): Promise<WorkspacesListStorageAccountKeysResponse>;
   /**
    * List keys of a notebook.
@@ -272,7 +285,7 @@ export interface Workspaces {
   listNotebookKeys(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspacesListNotebookKeysOptionalParams
+    options?: WorkspacesListNotebookKeysOptionalParams,
   ): Promise<WorkspacesListNotebookKeysResponse>;
   /**
    * Called by Client (Portal, CLI, etc) to get a list of all external outbound dependencies (FQDNs)
@@ -284,6 +297,6 @@ export interface Workspaces {
   listOutboundNetworkDependenciesEndpoints(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspacesListOutboundNetworkDependenciesEndpointsOptionalParams
+    options?: WorkspacesListOutboundNetworkDependenciesEndpointsOptionalParams,
   ): Promise<WorkspacesListOutboundNetworkDependenciesEndpointsResponse>;
 }
