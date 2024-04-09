@@ -20,13 +20,14 @@ import {
   HybridIdentityMetadataListByMachinesResponse,
   HybridIdentityMetadataGetOptionalParams,
   HybridIdentityMetadataGetResponse,
-  HybridIdentityMetadataListByMachinesNextResponse
+  HybridIdentityMetadataListByMachinesNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing HybridIdentityMetadataOperations operations. */
 export class HybridIdentityMetadataOperationsImpl
-  implements HybridIdentityMetadataOperations {
+  implements HybridIdentityMetadataOperations
+{
   private readonly client: HybridComputeManagementClient;
 
   /**
@@ -46,12 +47,12 @@ export class HybridIdentityMetadataOperationsImpl
   public listByMachines(
     resourceGroupName: string,
     machineName: string,
-    options?: HybridIdentityMetadataListByMachinesOptionalParams
+    options?: HybridIdentityMetadataListByMachinesOptionalParams,
   ): PagedAsyncIterableIterator<HybridIdentityMetadata> {
     const iter = this.listByMachinesPagingAll(
       resourceGroupName,
       machineName,
-      options
+      options,
     );
     return {
       next() {
@@ -68,9 +69,9 @@ export class HybridIdentityMetadataOperationsImpl
           resourceGroupName,
           machineName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -78,7 +79,7 @@ export class HybridIdentityMetadataOperationsImpl
     resourceGroupName: string,
     machineName: string,
     options?: HybridIdentityMetadataListByMachinesOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<HybridIdentityMetadata[]> {
     let result: HybridIdentityMetadataListByMachinesResponse;
     let continuationToken = settings?.continuationToken;
@@ -86,7 +87,7 @@ export class HybridIdentityMetadataOperationsImpl
       result = await this._listByMachines(
         resourceGroupName,
         machineName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -98,7 +99,7 @@ export class HybridIdentityMetadataOperationsImpl
         resourceGroupName,
         machineName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -110,12 +111,12 @@ export class HybridIdentityMetadataOperationsImpl
   private async *listByMachinesPagingAll(
     resourceGroupName: string,
     machineName: string,
-    options?: HybridIdentityMetadataListByMachinesOptionalParams
+    options?: HybridIdentityMetadataListByMachinesOptionalParams,
   ): AsyncIterableIterator<HybridIdentityMetadata> {
     for await (const page of this.listByMachinesPagingPage(
       resourceGroupName,
       machineName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -132,11 +133,11 @@ export class HybridIdentityMetadataOperationsImpl
     resourceGroupName: string,
     machineName: string,
     metadataName: string,
-    options?: HybridIdentityMetadataGetOptionalParams
+    options?: HybridIdentityMetadataGetOptionalParams,
   ): Promise<HybridIdentityMetadataGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, machineName, metadataName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -149,11 +150,11 @@ export class HybridIdentityMetadataOperationsImpl
   private _listByMachines(
     resourceGroupName: string,
     machineName: string,
-    options?: HybridIdentityMetadataListByMachinesOptionalParams
+    options?: HybridIdentityMetadataListByMachinesOptionalParams,
   ): Promise<HybridIdentityMetadataListByMachinesResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, machineName, options },
-      listByMachinesOperationSpec
+      listByMachinesOperationSpec,
     );
   }
 
@@ -168,11 +169,11 @@ export class HybridIdentityMetadataOperationsImpl
     resourceGroupName: string,
     machineName: string,
     nextLink: string,
-    options?: HybridIdentityMetadataListByMachinesNextOptionalParams
+    options?: HybridIdentityMetadataListByMachinesNextOptionalParams,
   ): Promise<HybridIdentityMetadataListByMachinesNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, machineName, nextLink, options },
-      listByMachinesNextOperationSpec
+      listByMachinesNextOperationSpec,
     );
   }
 }
@@ -180,16 +181,15 @@ export class HybridIdentityMetadataOperationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/hybridIdentityMetadata/{metadataName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/hybridIdentityMetadata/{metadataName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.HybridIdentityMetadata
+      bodyMapper: Mappers.HybridIdentityMetadata,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -197,51 +197,50 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.machineName,
-    Parameters.metadataName
+    Parameters.metadataName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByMachinesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/hybridIdentityMetadata",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/hybridIdentityMetadata",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.HybridIdentityMetadataList
+      bodyMapper: Mappers.HybridIdentityMetadataList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.machineName
+    Parameters.machineName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByMachinesNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.HybridIdentityMetadataList
+      bodyMapper: Mappers.HybridIdentityMetadataList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.machineName
+    Parameters.machineName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

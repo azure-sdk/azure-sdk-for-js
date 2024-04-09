@@ -10,7 +10,7 @@ import {
   AgentVersionListOptionalParams,
   AgentVersionListResponse,
   AgentVersionGetOptionalParams,
-  AgentVersionGetResponse
+  AgentVersionGetResponse,
 } from "../models";
 
 /** Interface representing a AgentVersionOperations. */
@@ -22,7 +22,7 @@ export interface AgentVersionOperations {
    */
   list(
     osType: string,
-    options?: AgentVersionListOptionalParams
+    options?: AgentVersionListOptionalParams,
   ): Promise<AgentVersionListResponse>;
   /**
    * Gets an Agent Version along with the download link currently present.
@@ -34,6 +34,6 @@ export interface AgentVersionOperations {
   get(
     osType: string,
     version: string,
-    options?: AgentVersionGetOptionalParams
+    options?: AgentVersionGetOptionalParams,
   ): Promise<AgentVersionGetResponse>;
 }

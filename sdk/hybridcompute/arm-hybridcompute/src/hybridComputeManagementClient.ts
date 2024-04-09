@@ -11,13 +11,13 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "./lroImpl";
 import {
@@ -30,9 +30,12 @@ import {
   NetworkProfileOperationsImpl,
   HybridIdentityMetadataOperationsImpl,
   AgentVersionOperationsImpl,
+  MachineRunCommandsImpl,
   PrivateLinkScopesImpl,
   PrivateLinkResourcesImpl,
-  PrivateEndpointConnectionsImpl
+  PrivateEndpointConnectionsImpl,
+  NetworkConfigurationsImpl,
+  NetworkSecurityPerimeterConfigurationsImpl,
 } from "./operations";
 import {
   Licenses,
@@ -44,16 +47,19 @@ import {
   NetworkProfileOperations,
   HybridIdentityMetadataOperations,
   AgentVersionOperations,
+  MachineRunCommands,
   PrivateLinkScopes,
   PrivateLinkResources,
-  PrivateEndpointConnections
+  PrivateEndpointConnections,
+  NetworkConfigurations,
+  NetworkSecurityPerimeterConfigurations,
 } from "./operationsInterfaces";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
 import {
   HybridComputeManagementClientOptionalParams,
   MachineExtensionUpgrade,
-  UpgradeExtensionsOptionalParams
+  UpgradeExtensionsOptionalParams,
 } from "./models";
 
 export class HybridComputeManagementClient extends coreClient.ServiceClient {
@@ -70,18 +76,18 @@ export class HybridComputeManagementClient extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: HybridComputeManagementClientOptionalParams
+    options?: HybridComputeManagementClientOptionalParams,
   );
   constructor(
     credentials: coreAuth.TokenCredential,
-    options?: HybridComputeManagementClientOptionalParams
+    options?: HybridComputeManagementClientOptionalParams,
   );
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionIdOrOptions?:
       | HybridComputeManagementClientOptionalParams
       | string,
-    options?: HybridComputeManagementClientOptionalParams
+    options?: HybridComputeManagementClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -101,10 +107,10 @@ export class HybridComputeManagementClient extends coreClient.ServiceClient {
     }
     const defaults: HybridComputeManagementClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-hybridcompute/3.1.0-beta.4`;
+    const packageDetails = `azsdk-js-arm-hybridcompute/4.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -114,20 +120,21 @@ export class HybridComputeManagementClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -137,7 +144,7 @@ export class HybridComputeManagementClient extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -147,9 +154,9 @@ export class HybridComputeManagementClient extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -157,7 +164,7 @@ export class HybridComputeManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-06-20-preview";
+    this.apiVersion = options.apiVersion || "2024-04-08-preview";
     this.licenses = new LicensesImpl(this);
     this.machines = new MachinesImpl(this);
     this.licenseProfiles = new LicenseProfilesImpl(this);
@@ -165,13 +172,16 @@ export class HybridComputeManagementClient extends coreClient.ServiceClient {
     this.extensionMetadata = new ExtensionMetadataImpl(this);
     this.operations = new OperationsImpl(this);
     this.networkProfileOperations = new NetworkProfileOperationsImpl(this);
-    this.hybridIdentityMetadataOperations = new HybridIdentityMetadataOperationsImpl(
-      this
-    );
+    this.hybridIdentityMetadataOperations =
+      new HybridIdentityMetadataOperationsImpl(this);
     this.agentVersionOperations = new AgentVersionOperationsImpl(this);
+    this.machineRunCommands = new MachineRunCommandsImpl(this);
     this.privateLinkScopes = new PrivateLinkScopesImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
+    this.networkConfigurations = new NetworkConfigurationsImpl(this);
+    this.networkSecurityPerimeterConfigurations =
+      new NetworkSecurityPerimeterConfigurationsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -184,7 +194,7 @@ export class HybridComputeManagementClient extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -198,7 +208,7 @@ export class HybridComputeManagementClient extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
@@ -214,25 +224,24 @@ export class HybridComputeManagementClient extends coreClient.ServiceClient {
     resourceGroupName: string,
     machineName: string,
     extensionUpgradeParameters: MachineExtensionUpgrade,
-    options?: UpgradeExtensionsOptionalParams
+    options?: UpgradeExtensionsOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -241,8 +250,8 @@ export class HybridComputeManagementClient extends coreClient.ServiceClient {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -250,8 +259,8 @@ export class HybridComputeManagementClient extends coreClient.ServiceClient {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -261,13 +270,13 @@ export class HybridComputeManagementClient extends coreClient.ServiceClient {
         resourceGroupName,
         machineName,
         extensionUpgradeParameters,
-        options
+        options,
       },
-      spec: upgradeExtensionsOperationSpec
+      spec: upgradeExtensionsOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -284,13 +293,13 @@ export class HybridComputeManagementClient extends coreClient.ServiceClient {
     resourceGroupName: string,
     machineName: string,
     extensionUpgradeParameters: MachineExtensionUpgrade,
-    options?: UpgradeExtensionsOptionalParams
+    options?: UpgradeExtensionsOptionalParams,
   ): Promise<void> {
     const poller = await this.beginUpgradeExtensions(
       resourceGroupName,
       machineName,
       extensionUpgradeParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -304,16 +313,18 @@ export class HybridComputeManagementClient extends coreClient.ServiceClient {
   networkProfileOperations: NetworkProfileOperations;
   hybridIdentityMetadataOperations: HybridIdentityMetadataOperations;
   agentVersionOperations: AgentVersionOperations;
+  machineRunCommands: MachineRunCommands;
   privateLinkScopes: PrivateLinkScopes;
   privateLinkResources: PrivateLinkResources;
   privateEndpointConnections: PrivateEndpointConnections;
+  networkConfigurations: NetworkConfigurations;
+  networkSecurityPerimeterConfigurations: NetworkSecurityPerimeterConfigurations;
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const upgradeExtensionsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/upgradeExtensions",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/upgradeExtensions",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -321,8 +332,8 @@ const upgradeExtensionsOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.extensionUpgradeParameters,
   queryParameters: [Parameters.apiVersion],
@@ -330,9 +341,9 @@ const upgradeExtensionsOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.machineName
+    Parameters.machineName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };

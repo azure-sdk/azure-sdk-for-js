@@ -19,7 +19,7 @@ import {
   LicenseProfilesGetOptionalParams,
   LicenseProfilesGetResponse,
   LicenseProfilesDeleteOptionalParams,
-  LicenseProfilesDeleteResponse
+  LicenseProfilesDeleteResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,20 +34,20 @@ export interface LicenseProfiles {
   list(
     resourceGroupName: string,
     machineName: string,
-    options?: LicenseProfilesListOptionalParams
+    options?: LicenseProfilesListOptionalParams,
   ): PagedAsyncIterableIterator<LicenseProfile>;
   /**
    * The operation to create or update a license profile.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param machineName The name of the hybrid machine.
-   * @param parameters Parameters supplied to the Create license profile operation.
+   * @param parameters Parameters supplied to the Create or Update license profile operation.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
     machineName: string,
     parameters: LicenseProfile,
-    options?: LicenseProfilesCreateOrUpdateOptionalParams
+    options?: LicenseProfilesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<LicenseProfilesCreateOrUpdateResponse>,
@@ -58,14 +58,14 @@ export interface LicenseProfiles {
    * The operation to create or update a license profile.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param machineName The name of the hybrid machine.
-   * @param parameters Parameters supplied to the Create license profile operation.
+   * @param parameters Parameters supplied to the Create or Update license profile operation.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     machineName: string,
     parameters: LicenseProfile,
-    options?: LicenseProfilesCreateOrUpdateOptionalParams
+    options?: LicenseProfilesCreateOrUpdateOptionalParams,
   ): Promise<LicenseProfilesCreateOrUpdateResponse>;
   /**
    * The operation to update a license profile.
@@ -78,7 +78,7 @@ export interface LicenseProfiles {
     resourceGroupName: string,
     machineName: string,
     parameters: LicenseProfileUpdate,
-    options?: LicenseProfilesUpdateOptionalParams
+    options?: LicenseProfilesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<LicenseProfilesUpdateResponse>,
@@ -96,7 +96,7 @@ export interface LicenseProfiles {
     resourceGroupName: string,
     machineName: string,
     parameters: LicenseProfileUpdate,
-    options?: LicenseProfilesUpdateOptionalParams
+    options?: LicenseProfilesUpdateOptionalParams,
   ): Promise<LicenseProfilesUpdateResponse>;
   /**
    * Retrieves information about the view of a license profile.
@@ -107,7 +107,7 @@ export interface LicenseProfiles {
   get(
     resourceGroupName: string,
     machineName: string,
-    options?: LicenseProfilesGetOptionalParams
+    options?: LicenseProfilesGetOptionalParams,
   ): Promise<LicenseProfilesGetResponse>;
   /**
    * The operation to delete a license profile.
@@ -118,7 +118,7 @@ export interface LicenseProfiles {
   beginDelete(
     resourceGroupName: string,
     machineName: string,
-    options?: LicenseProfilesDeleteOptionalParams
+    options?: LicenseProfilesDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<LicenseProfilesDeleteResponse>,
@@ -134,6 +134,6 @@ export interface LicenseProfiles {
   beginDeleteAndWait(
     resourceGroupName: string,
     machineName: string,
-    options?: LicenseProfilesDeleteOptionalParams
+    options?: LicenseProfilesDeleteOptionalParams,
   ): Promise<LicenseProfilesDeleteResponse>;
 }

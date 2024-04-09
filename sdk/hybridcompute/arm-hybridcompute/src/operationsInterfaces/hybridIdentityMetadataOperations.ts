@@ -11,7 +11,7 @@ import {
   HybridIdentityMetadata,
   HybridIdentityMetadataListByMachinesOptionalParams,
   HybridIdentityMetadataGetOptionalParams,
-  HybridIdentityMetadataGetResponse
+  HybridIdentityMetadataGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -26,7 +26,7 @@ export interface HybridIdentityMetadataOperations {
   listByMachines(
     resourceGroupName: string,
     machineName: string,
-    options?: HybridIdentityMetadataListByMachinesOptionalParams
+    options?: HybridIdentityMetadataListByMachinesOptionalParams,
   ): PagedAsyncIterableIterator<HybridIdentityMetadata>;
   /**
    * Implements HybridIdentityMetadata GET method.
@@ -39,6 +39,6 @@ export interface HybridIdentityMetadataOperations {
     resourceGroupName: string,
     machineName: string,
     metadataName: string,
-    options?: HybridIdentityMetadataGetOptionalParams
+    options?: HybridIdentityMetadataGetOptionalParams,
   ): Promise<HybridIdentityMetadataGetResponse>;
 }
