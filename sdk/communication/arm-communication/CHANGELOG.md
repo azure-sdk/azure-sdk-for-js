@@ -1,15 +1,35 @@
 # Release History
+    
+## 4.2.0-beta.1 (2024-04-10)
+    
+**Features**
 
-## 4.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group SuppressionListAddresses
+  - Added operation group SuppressionLists
+  - Added Interface SuppressionListAddressesCreateOrUpdateOptionalParams
+  - Added Interface SuppressionListAddressesDeleteOptionalParams
+  - Added Interface SuppressionListAddressesGetOptionalParams
+  - Added Interface SuppressionListAddressesListNextOptionalParams
+  - Added Interface SuppressionListAddressesListOptionalParams
+  - Added Interface SuppressionListAddressResource
+  - Added Interface SuppressionListAddressResourceCollection
+  - Added Interface SuppressionListResource
+  - Added Interface SuppressionListResourceCollection
+  - Added Interface SuppressionListsCreateOrUpdateOptionalParams
+  - Added Interface SuppressionListsDeleteOptionalParams
+  - Added Interface SuppressionListsGetOptionalParams
+  - Added Interface SuppressionListsListByDomainNextOptionalParams
+  - Added Interface SuppressionListsListByDomainOptionalParams
+  - Added Type Alias SuppressionListAddressesCreateOrUpdateResponse
+  - Added Type Alias SuppressionListAddressesGetResponse
+  - Added Type Alias SuppressionListAddressesListNextResponse
+  - Added Type Alias SuppressionListAddressesListResponse
+  - Added Type Alias SuppressionListsCreateOrUpdateResponse
+  - Added Type Alias SuppressionListsGetResponse
+  - Added Type Alias SuppressionListsListByDomainNextResponse
+  - Added Type Alias SuppressionListsListByDomainResponse
+    
+    
 ## 4.1.0 (2024-03-08)
     
 **Features**
