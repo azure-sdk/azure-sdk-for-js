@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { PrivateEndpointConnections } from "../operationsInterfaces";
+import { MachineRunCommands } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,27 +20,25 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  PrivateEndpointConnection,
-  PrivateEndpointConnectionsListByPrivateLinkScopeNextOptionalParams,
-  PrivateEndpointConnectionsListByPrivateLinkScopeOptionalParams,
-  PrivateEndpointConnectionsListByPrivateLinkScopeResponse,
-  PrivateEndpointConnectionsGetOptionalParams,
-  PrivateEndpointConnectionsGetResponse,
-  PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
-  PrivateEndpointConnectionsCreateOrUpdateResponse,
-  PrivateEndpointConnectionsDeleteOptionalParams,
-  PrivateEndpointConnectionsListByPrivateLinkScopeNextResponse,
+  MachineRunCommand,
+  MachineRunCommandsListNextOptionalParams,
+  MachineRunCommandsListOptionalParams,
+  MachineRunCommandsListResponse,
+  MachineRunCommandsCreateOrUpdateOptionalParams,
+  MachineRunCommandsCreateOrUpdateResponse,
+  MachineRunCommandsDeleteOptionalParams,
+  MachineRunCommandsGetOptionalParams,
+  MachineRunCommandsGetResponse,
+  MachineRunCommandsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing PrivateEndpointConnections operations. */
-export class PrivateEndpointConnectionsImpl
-  implements PrivateEndpointConnections
-{
+/** Class containing MachineRunCommands operations. */
+export class MachineRunCommandsImpl implements MachineRunCommands {
   private readonly client: HybridComputeManagementClient;
 
   /**
-   * Initialize a new instance of the class PrivateEndpointConnections class.
+   * Initialize a new instance of the class MachineRunCommands class.
    * @param client Reference to the service client
    */
   constructor(client: HybridComputeManagementClient) {
@@ -48,21 +46,17 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
-   * Gets all private endpoint connections on a private link scope.
+   * The operation to get all the run commands of a non-Azure machine.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param scopeName The name of the Azure Arc PrivateLinkScope resource.
+   * @param machineName The name of the hybrid machine.
    * @param options The options parameters.
    */
-  public listByPrivateLinkScope(
+  public list(
     resourceGroupName: string,
-    scopeName: string,
-    options?: PrivateEndpointConnectionsListByPrivateLinkScopeOptionalParams,
-  ): PagedAsyncIterableIterator<PrivateEndpointConnection> {
-    const iter = this.listByPrivateLinkScopePagingAll(
-      resourceGroupName,
-      scopeName,
-      options,
-    );
+    machineName: string,
+    options?: MachineRunCommandsListOptionalParams,
+  ): PagedAsyncIterableIterator<MachineRunCommand> {
+    const iter = this.listPagingAll(resourceGroupName, machineName, options);
     return {
       next() {
         return iter.next();
@@ -74,9 +68,9 @@ export class PrivateEndpointConnectionsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByPrivateLinkScopePagingPage(
+        return this.listPagingPage(
           resourceGroupName,
-          scopeName,
+          machineName,
           options,
           settings,
         );
@@ -84,29 +78,25 @@ export class PrivateEndpointConnectionsImpl
     };
   }
 
-  private async *listByPrivateLinkScopePagingPage(
+  private async *listPagingPage(
     resourceGroupName: string,
-    scopeName: string,
-    options?: PrivateEndpointConnectionsListByPrivateLinkScopeOptionalParams,
+    machineName: string,
+    options?: MachineRunCommandsListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<PrivateEndpointConnection[]> {
-    let result: PrivateEndpointConnectionsListByPrivateLinkScopeResponse;
+  ): AsyncIterableIterator<MachineRunCommand[]> {
+    let result: MachineRunCommandsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByPrivateLinkScope(
-        resourceGroupName,
-        scopeName,
-        options,
-      );
+      result = await this._list(resourceGroupName, machineName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByPrivateLinkScopeNext(
+      result = await this._listNext(
         resourceGroupName,
-        scopeName,
+        machineName,
         continuationToken,
         options,
       );
@@ -117,14 +107,14 @@ export class PrivateEndpointConnectionsImpl
     }
   }
 
-  private async *listByPrivateLinkScopePagingAll(
+  private async *listPagingAll(
     resourceGroupName: string,
-    scopeName: string,
-    options?: PrivateEndpointConnectionsListByPrivateLinkScopeOptionalParams,
-  ): AsyncIterableIterator<PrivateEndpointConnection> {
-    for await (const page of this.listByPrivateLinkScopePagingPage(
+    machineName: string,
+    options?: MachineRunCommandsListOptionalParams,
+  ): AsyncIterableIterator<MachineRunCommand> {
+    for await (const page of this.listPagingPage(
       resourceGroupName,
-      scopeName,
+      machineName,
       options,
     )) {
       yield* page;
@@ -132,48 +122,29 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
-   * Gets a private endpoint connection.
+   * The operation to create or update a run command.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param scopeName The name of the Azure Arc PrivateLinkScope resource.
-   * @param privateEndpointConnectionName The name of the private endpoint connection.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    scopeName: string,
-    privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsGetOptionalParams,
-  ): Promise<PrivateEndpointConnectionsGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, scopeName, privateEndpointConnectionName, options },
-      getOperationSpec,
-    );
-  }
-
-  /**
-   * Approve or reject a private endpoint connection with a given name.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param scopeName The name of the Azure Arc PrivateLinkScope resource.
-   * @param privateEndpointConnectionName The name of the private endpoint connection.
-   * @param parameters A private endpoint connection
+   * @param machineName The name of the hybrid machine.
+   * @param runCommandName The name of the run command.
+   * @param runCommandProperties Parameters supplied to the Create Run Command.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
-    scopeName: string,
-    privateEndpointConnectionName: string,
-    parameters: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
+    machineName: string,
+    runCommandName: string,
+    runCommandProperties: MachineRunCommand,
+    options?: MachineRunCommandsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<PrivateEndpointConnectionsCreateOrUpdateResponse>,
-      PrivateEndpointConnectionsCreateOrUpdateResponse
+      OperationState<MachineRunCommandsCreateOrUpdateResponse>,
+      MachineRunCommandsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<PrivateEndpointConnectionsCreateOrUpdateResponse> => {
+    ): Promise<MachineRunCommandsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -212,61 +183,62 @@ export class PrivateEndpointConnectionsImpl
       sendOperationFn,
       args: {
         resourceGroupName,
-        scopeName,
-        privateEndpointConnectionName,
-        parameters,
+        machineName,
+        runCommandName,
+        runCommandProperties,
         options,
       },
       spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
-      PrivateEndpointConnectionsCreateOrUpdateResponse,
-      OperationState<PrivateEndpointConnectionsCreateOrUpdateResponse>
+      MachineRunCommandsCreateOrUpdateResponse,
+      OperationState<MachineRunCommandsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Approve or reject a private endpoint connection with a given name.
+   * The operation to create or update a run command.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param scopeName The name of the Azure Arc PrivateLinkScope resource.
-   * @param privateEndpointConnectionName The name of the private endpoint connection.
-   * @param parameters A private endpoint connection
+   * @param machineName The name of the hybrid machine.
+   * @param runCommandName The name of the run command.
+   * @param runCommandProperties Parameters supplied to the Create Run Command.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
-    scopeName: string,
-    privateEndpointConnectionName: string,
-    parameters: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
-  ): Promise<PrivateEndpointConnectionsCreateOrUpdateResponse> {
+    machineName: string,
+    runCommandName: string,
+    runCommandProperties: MachineRunCommand,
+    options?: MachineRunCommandsCreateOrUpdateOptionalParams,
+  ): Promise<MachineRunCommandsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
-      scopeName,
-      privateEndpointConnectionName,
-      parameters,
+      machineName,
+      runCommandName,
+      runCommandProperties,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Deletes a private endpoint connection with a given name.
+   * The operation to delete a run command.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param scopeName The name of the Azure Arc PrivateLinkScope resource.
-   * @param privateEndpointConnectionName The name of the private endpoint connection.
+   * @param machineName The name of the hybrid machine.
+   * @param runCommandName The name of the run command.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
-    scopeName: string,
-    privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsDeleteOptionalParams,
+    machineName: string,
+    runCommandName: string,
+    options?: MachineRunCommandsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -308,140 +280,133 @@ export class PrivateEndpointConnectionsImpl
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: {
-        resourceGroupName,
-        scopeName,
-        privateEndpointConnectionName,
-        options,
-      },
+      args: { resourceGroupName, machineName, runCommandName, options },
       spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Deletes a private endpoint connection with a given name.
+   * The operation to delete a run command.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param scopeName The name of the Azure Arc PrivateLinkScope resource.
-   * @param privateEndpointConnectionName The name of the private endpoint connection.
+   * @param machineName The name of the hybrid machine.
+   * @param runCommandName The name of the run command.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
-    scopeName: string,
-    privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsDeleteOptionalParams,
+    machineName: string,
+    runCommandName: string,
+    options?: MachineRunCommandsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
-      scopeName,
-      privateEndpointConnectionName,
+      machineName,
+      runCommandName,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Gets all private endpoint connections on a private link scope.
+   * The operation to get a run command.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param scopeName The name of the Azure Arc PrivateLinkScope resource.
+   * @param machineName The name of the hybrid machine.
+   * @param runCommandName The name of the run command.
    * @param options The options parameters.
    */
-  private _listByPrivateLinkScope(
+  get(
     resourceGroupName: string,
-    scopeName: string,
-    options?: PrivateEndpointConnectionsListByPrivateLinkScopeOptionalParams,
-  ): Promise<PrivateEndpointConnectionsListByPrivateLinkScopeResponse> {
+    machineName: string,
+    runCommandName: string,
+    options?: MachineRunCommandsGetOptionalParams,
+  ): Promise<MachineRunCommandsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, scopeName, options },
-      listByPrivateLinkScopeOperationSpec,
+      { resourceGroupName, machineName, runCommandName, options },
+      getOperationSpec,
     );
   }
 
   /**
-   * ListByPrivateLinkScopeNext
+   * The operation to get all the run commands of a non-Azure machine.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param scopeName The name of the Azure Arc PrivateLinkScope resource.
-   * @param nextLink The nextLink from the previous successful call to the ListByPrivateLinkScope method.
+   * @param machineName The name of the hybrid machine.
    * @param options The options parameters.
    */
-  private _listByPrivateLinkScopeNext(
+  private _list(
     resourceGroupName: string,
-    scopeName: string,
-    nextLink: string,
-    options?: PrivateEndpointConnectionsListByPrivateLinkScopeNextOptionalParams,
-  ): Promise<PrivateEndpointConnectionsListByPrivateLinkScopeNextResponse> {
+    machineName: string,
+    options?: MachineRunCommandsListOptionalParams,
+  ): Promise<MachineRunCommandsListResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, scopeName, nextLink, options },
-      listByPrivateLinkScopeNextOperationSpec,
+      { resourceGroupName, machineName, options },
+      listOperationSpec,
+    );
+  }
+
+  /**
+   * ListNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param machineName The name of the hybrid machine.
+   * @param nextLink The nextLink from the previous successful call to the List method.
+   * @param options The options parameters.
+   */
+  private _listNext(
+    resourceGroupName: string,
+    machineName: string,
+    nextLink: string,
+    options?: MachineRunCommandsListNextOptionalParams,
+  ): Promise<MachineRunCommandsListNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, machineName, nextLink, options },
+      listNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/privateLinkScopes/{scopeName}/privateEndpointConnections/{privateEndpointConnectionName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PrivateEndpointConnection,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.scopeName,
-    Parameters.privateEndpointConnectionName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/privateLinkScopes/{scopeName}/privateEndpointConnections/{privateEndpointConnectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/runCommands/{runCommandName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnection,
+      bodyMapper: Mappers.MachineRunCommand,
     },
     201: {
-      bodyMapper: Mappers.PrivateEndpointConnection,
+      bodyMapper: Mappers.MachineRunCommand,
     },
     202: {
-      bodyMapper: Mappers.PrivateEndpointConnection,
+      bodyMapper: Mappers.MachineRunCommand,
     },
     204: {
-      bodyMapper: Mappers.PrivateEndpointConnection,
+      bodyMapper: Mappers.MachineRunCommand,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters1,
+  requestBody: Parameters.runCommandProperties,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.scopeName,
-    Parameters.privateEndpointConnectionName,
+    Parameters.machineName1,
+    Parameters.runCommandName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/privateLinkScopes/{scopeName}/privateEndpointConnections/{privateEndpointConnectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/runCommands/{runCommandName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -457,18 +422,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.scopeName,
-    Parameters.privateEndpointConnectionName,
+    Parameters.machineName1,
+    Parameters.runCommandName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listByPrivateLinkScopeOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/privateLinkScopes/{scopeName}/privateEndpointConnections",
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/runCommands/{runCommandName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnectionListResult,
+      bodyMapper: Mappers.MachineRunCommand,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -479,17 +444,39 @@ const listByPrivateLinkScopeOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.scopeName,
+    Parameters.machineName1,
+    Parameters.runCommandName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listByPrivateLinkScopeNextOperationSpec: coreClient.OperationSpec = {
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/runCommands",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.MachineRunCommandsListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.expand],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.machineName1,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnectionListResult,
+      bodyMapper: Mappers.MachineRunCommandsListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -500,7 +487,7 @@ const listByPrivateLinkScopeNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.scopeName,
+    Parameters.machineName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,
