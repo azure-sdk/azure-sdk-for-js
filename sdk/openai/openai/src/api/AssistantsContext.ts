@@ -3,18 +3,19 @@
 
 import { TokenCredential, KeyCredential } from "@azure/core-auth";
 import { ClientOptions } from "@azure-rest/core-client";
-import { OpenAIContext } from "../rest/index.js";
+import { AssistantsContext } from "../rest/index.js";
 import getClient from "../rest/index.js";
 
-export interface OpenAIClientOptions extends ClientOptions {}
+export interface AssistantsClientOptions extends ClientOptions {}
 
-export { OpenAIContext } from "../rest/index.js";
+export { AssistantsContext } from "../rest/index.js";
 
-export function createOpenAI(
+/** Azure OpenAI APIs for Assistants. */
+export function createAssistants(
   endpoint: string,
   credential: KeyCredential | TokenCredential,
-  options: OpenAIClientOptions = {},
-): OpenAIContext {
+  options: AssistantsClientOptions = {},
+): AssistantsContext {
   const clientContext = getClient(endpoint, credential, options);
   return clientContext;
 }
