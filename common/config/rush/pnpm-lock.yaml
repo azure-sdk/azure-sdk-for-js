@@ -11462,7 +11462,7 @@ packages:
     dev: false
 
   file:projects/api-management-custom-widgets-tools.tgz:
-    resolution: {integrity: sha512-ZKNSl/mbap8OVZ8phTvKjU50GInYjlUiQ5dzY7tb2Z/AhzPpdgLzdWP8YpEA/73JK4EQLEjYl26HDWinHhhEDA==, tarball: file:projects/api-management-custom-widgets-tools.tgz}
+    resolution: {integrity: sha512-CC3L9mA8xaofdQ8vF1rY9+FJ2YcpbSPSkmMIItWCNWulWrvwp2M6WfR/4bnDeoZvZGqnHseQJ4AgR3XgwElnCg==, tarball: file:projects/api-management-custom-widgets-tools.tgz}
     name: '@rush-temp/api-management-custom-widgets-tools'
     version: 0.0.0
     dependencies:
@@ -14038,7 +14038,7 @@ packages:
     dev: false
 
   file:projects/arm-frontdoor.tgz:
-    resolution: {integrity: sha512-L7I7407B8of1nk2yidaCFPYfvyXH6dUgo8A8fUGoUTkF1Xe+z8EEKyJN+rzYhVZmHpsoolMMWCv/kOk0GNCEEg==, tarball: file:projects/arm-frontdoor.tgz}
+    resolution: {integrity: sha512-mZY1j2hHaE2YnY2hanqFgLMGaujGuBBOv88IY1PBE2MY6DE/Eau/7kPuZDMkL7UWPHegv/iEkqB0DRCNDdjFng==, tarball: file:projects/arm-frontdoor.tgz}
     name: '@rush-temp/arm-frontdoor'
     version: 0.0.0
     dependencies:
@@ -14052,6 +14052,7 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.4.0
       rimraf: 5.0.5
