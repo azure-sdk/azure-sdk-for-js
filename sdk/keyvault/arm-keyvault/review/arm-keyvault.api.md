@@ -1581,19 +1581,14 @@ export type VaultProvisioningState = string;
 
 // @public
 export interface Vaults {
-    beginCreateOrUpdate(resourceGroupName: string, vaultName: string, parameters: VaultCreateOrUpdateParameters, options?: VaultsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VaultsCreateOrUpdateResponse>, VaultsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, vaultName: string, parameters: VaultCreateOrUpdateParameters, options?: VaultsCreateOrUpdateOptionalParams): Promise<VaultsCreateOrUpdateResponse>;
     beginPurgeDeleted(vaultName: string, location: string, options?: VaultsPurgeDeletedOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginPurgeDeletedAndWait(vaultName: string, location: string, options?: VaultsPurgeDeletedOptionalParams): Promise<void>;
     checkNameAvailability(vaultName: VaultCheckNameAvailabilityParameters, options?: VaultsCheckNameAvailabilityOptionalParams): Promise<VaultsCheckNameAvailabilityResponse>;
-    delete(resourceGroupName: string, vaultName: string, options?: VaultsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, vaultName: string, options?: VaultsGetOptionalParams): Promise<VaultsGetResponse>;
     getDeleted(vaultName: string, location: string, options?: VaultsGetDeletedOptionalParams): Promise<VaultsGetDeletedResponse>;
     list(options?: VaultsListOptionalParams): PagedAsyncIterableIterator<Resource>;
     listByResourceGroup(resourceGroupName: string, options?: VaultsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Vault>;
     listBySubscription(options?: VaultsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Vault>;
     listDeleted(options?: VaultsListDeletedOptionalParams): PagedAsyncIterableIterator<DeletedVault>;
-    update(resourceGroupName: string, vaultName: string, parameters: VaultPatchParameters, options?: VaultsUpdateOptionalParams): Promise<VaultsUpdateResponse>;
     updateAccessPolicy(resourceGroupName: string, vaultName: string, operationKind: AccessPolicyUpdateKind, parameters: VaultAccessPolicyParameters, options?: VaultsUpdateAccessPolicyOptionalParams): Promise<VaultsUpdateAccessPolicyResponse>;
 }
 
@@ -1605,31 +1600,11 @@ export interface VaultsCheckNameAvailabilityOptionalParams extends coreClient.Op
 export type VaultsCheckNameAvailabilityResponse = CheckNameAvailabilityResult;
 
 // @public
-export interface VaultsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type VaultsCreateOrUpdateResponse = Vault;
-
-// @public
-export interface VaultsDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
 export interface VaultsGetDeletedOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
 export type VaultsGetDeletedResponse = DeletedVault;
-
-// @public
-export interface VaultsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type VaultsGetResponse = Vault;
 
 // @public
 export interface VaultsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
@@ -1702,13 +1677,6 @@ export interface VaultsUpdateAccessPolicyOptionalParams extends coreClient.Opera
 
 // @public
 export type VaultsUpdateAccessPolicyResponse = VaultAccessPolicyParameters;
-
-// @public
-export interface VaultsUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type VaultsUpdateResponse = Vault;
 
 // @public
 export interface VirtualNetworkRule {

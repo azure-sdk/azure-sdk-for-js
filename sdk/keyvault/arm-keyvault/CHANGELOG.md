@@ -1,15 +1,16 @@
 # Release History
+    
+## 4.0.0 (2024-04-11)
+    
+**Breaking Changes**
 
-## 3.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation Vaults.beginCreateOrUpdate
+  - Removed operation Vaults.beginCreateOrUpdateAndWait
+  - Removed operation Vaults.delete
+  - Removed operation Vaults.get
+  - Removed operation Vaults.update
+    
+    
 ## 3.1.0 (2023-10-18)
     
 **Features**
