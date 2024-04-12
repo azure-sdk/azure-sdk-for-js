@@ -39,7 +39,7 @@ import {
   DataFlowDebugCommandRequest as DataFlowDebugCommandRequestMapper,
   ManagedVirtualNetworkResource as ManagedVirtualNetworkResourceMapper,
   ManagedPrivateEndpointResource as ManagedPrivateEndpointResourceMapper,
-  ManagedIdentityCredentialResource as ManagedIdentityCredentialResourceMapper,
+  CredentialResource as CredentialResourceMapper,
   PrivateLinkConnectionApprovalRequestResource as PrivateLinkConnectionApprovalRequestResourceMapper,
   GlobalParameterResource as GlobalParameterResourceMapper,
   ChangeDataCaptureResource as ChangeDataCaptureResourceMapper,
@@ -69,35 +69,23 @@ export const $host: OperationURLParameter = {
   skipEncoding: true,
 };
 
+export const subscriptionId: OperationURLParameter = {
+  parameterPath: "subscriptionId",
+  mapper: {
+    serializedName: "subscriptionId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2018-06-01",
     isConstant: true,
     serializedName: "api-version",
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
-  mapper: {
-    serializedName: "nextLink",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-  skipEncoding: true,
-};
-
-export const subscriptionId: OperationURLParameter = {
-  parameterPath: "subscriptionId",
-  mapper: {
-    serializedName: "subscriptionId",
-    required: true,
     type: {
       name: "String",
     },
@@ -202,6 +190,18 @@ export const gitHubAccessTokenRequest: OperationParameter = {
 export const policy: OperationParameter = {
   parameterPath: "policy",
   mapper: UserAccessPolicyMapper,
+};
+
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+  skipEncoding: true,
 };
 
 export const exposureControlRequest: OperationParameter = {
@@ -536,7 +536,7 @@ export const managedPrivateEndpointName: OperationURLParameter = {
 
 export const credential: OperationParameter = {
   parameterPath: "credential",
-  mapper: ManagedIdentityCredentialResourceMapper,
+  mapper: CredentialResourceMapper,
 };
 
 export const credentialName: OperationURLParameter = {

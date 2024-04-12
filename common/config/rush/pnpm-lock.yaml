@@ -13250,7 +13250,7 @@ packages:
     dev: false
 
   file:projects/arm-datafactory.tgz:
-    resolution: {integrity: sha512-V5r+OXgTKGshFbcpAIZjvLSPH10dEPPZjnPQscaedrykTNZIPSfVNEvc20l72Cb3tk/9rYWffYiL0Mc4nG16sA==, tarball: file:projects/arm-datafactory.tgz}
+    resolution: {integrity: sha512-jAZc14aaUmyjmq1tKKqkn4zQcAHlrH86WeseF9RWkuUvn92OcxNn0s2OEJmE2ML+jrj25gF4SFFWGjeA8daFrw==, tarball: file:projects/arm-datafactory.tgz}
     name: '@rush-temp/arm-datafactory'
     version: 0.0.0
     dependencies:
@@ -13268,9 +13268,9 @@ packages:
       mkdirp: 2.1.6
       mocha: 10.4.0
       rimraf: 5.0.5
-      ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.4.5)
+      ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.3.3)
       tslib: 2.6.2
-      typescript: 5.4.5
+      typescript: 5.3.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - '@swc/core'
