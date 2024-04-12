@@ -16,7 +16,7 @@ import { AzureArcVMwareManagementServiceAPI } from "../azureArcVMwareManagementS
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -35,7 +35,7 @@ import {
   HostsUpdateResponse,
   HostsDeleteOptionalParams,
   HostsListNextResponse,
-  HostsListByResourceGroupNextResponse
+  HostsListByResourceGroupNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -56,7 +56,7 @@ export class HostsImpl implements Hosts {
    * @param options The options parameters.
    */
   public list(
-    options?: HostsListOptionalParams
+    options?: HostsListOptionalParams,
   ): PagedAsyncIterableIterator<Host> {
     const iter = this.listPagingAll(options);
     return {
@@ -71,13 +71,13 @@ export class HostsImpl implements Hosts {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: HostsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Host[]> {
     let result: HostsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -98,7 +98,7 @@ export class HostsImpl implements Hosts {
   }
 
   private async *listPagingAll(
-    options?: HostsListOptionalParams
+    options?: HostsListOptionalParams,
   ): AsyncIterableIterator<Host> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -112,7 +112,7 @@ export class HostsImpl implements Hosts {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: HostsListByResourceGroupOptionalParams
+    options?: HostsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Host> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -129,16 +129,16 @@ export class HostsImpl implements Hosts {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: HostsListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Host[]> {
     let result: HostsListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -153,7 +153,7 @@ export class HostsImpl implements Hosts {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -164,11 +164,11 @@ export class HostsImpl implements Hosts {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: HostsListByResourceGroupOptionalParams
+    options?: HostsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<Host> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -183,27 +183,26 @@ export class HostsImpl implements Hosts {
   async beginCreate(
     resourceGroupName: string,
     hostName: string,
-    options?: HostsCreateOptionalParams
+    options?: HostsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<OperationState<HostsCreateResponse>, HostsCreateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<HostsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -212,8 +211,8 @@ export class HostsImpl implements Hosts {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -221,15 +220,15 @@ export class HostsImpl implements Hosts {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, hostName, options },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       HostsCreateResponse,
@@ -237,7 +236,7 @@ export class HostsImpl implements Hosts {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -252,7 +251,7 @@ export class HostsImpl implements Hosts {
   async beginCreateAndWait(
     resourceGroupName: string,
     hostName: string,
-    options?: HostsCreateOptionalParams
+    options?: HostsCreateOptionalParams,
   ): Promise<HostsCreateResponse> {
     const poller = await this.beginCreate(resourceGroupName, hostName, options);
     return poller.pollUntilDone();
@@ -267,11 +266,11 @@ export class HostsImpl implements Hosts {
   get(
     resourceGroupName: string,
     hostName: string,
-    options?: HostsGetOptionalParams
+    options?: HostsGetOptionalParams,
   ): Promise<HostsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, hostName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -284,11 +283,11 @@ export class HostsImpl implements Hosts {
   update(
     resourceGroupName: string,
     hostName: string,
-    options?: HostsUpdateOptionalParams
+    options?: HostsUpdateOptionalParams,
   ): Promise<HostsUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, hostName, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -301,25 +300,24 @@ export class HostsImpl implements Hosts {
   async beginDelete(
     resourceGroupName: string,
     hostName: string,
-    options?: HostsDeleteOptionalParams
+    options?: HostsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -328,8 +326,8 @@ export class HostsImpl implements Hosts {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -337,19 +335,19 @@ export class HostsImpl implements Hosts {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, hostName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -364,7 +362,7 @@ export class HostsImpl implements Hosts {
   async beginDeleteAndWait(
     resourceGroupName: string,
     hostName: string,
-    options?: HostsDeleteOptionalParams
+    options?: HostsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(resourceGroupName, hostName, options);
     return poller.pollUntilDone();
@@ -385,11 +383,11 @@ export class HostsImpl implements Hosts {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: HostsListByResourceGroupOptionalParams
+    options?: HostsListByResourceGroupOptionalParams,
   ): Promise<HostsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -400,11 +398,11 @@ export class HostsImpl implements Hosts {
    */
   private _listNext(
     nextLink: string,
-    options?: HostsListNextOptionalParams
+    options?: HostsListNextOptionalParams,
   ): Promise<HostsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 
@@ -417,11 +415,11 @@ export class HostsImpl implements Hosts {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: HostsListByResourceGroupNextOptionalParams
+    options?: HostsListByResourceGroupNextOptionalParams,
   ): Promise<HostsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 }
@@ -429,25 +427,24 @@ export class HostsImpl implements Hosts {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/hosts/{hostName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/hosts/{hostName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Host
+      bodyMapper: Mappers.Host,
     },
     201: {
-      bodyMapper: Mappers.Host
+      bodyMapper: Mappers.Host,
     },
     202: {
-      bodyMapper: Mappers.Host
+      bodyMapper: Mappers.Host,
     },
     204: {
-      bodyMapper: Mappers.Host
+      bodyMapper: Mappers.Host,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body3,
   queryParameters: [Parameters.apiVersion],
@@ -455,45 +452,43 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.hostName
+    Parameters.hostName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/hosts/{hostName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/hosts/{hostName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Host
+      bodyMapper: Mappers.Host,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.hostName
+    Parameters.hostName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/hosts/{hostName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/hosts/{hostName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Host
+      bodyMapper: Mappers.Host,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body1,
   queryParameters: [Parameters.apiVersion],
@@ -501,15 +496,14 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.hostName
+    Parameters.hostName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/hosts/{hostName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/hosts/{hostName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -517,93 +511,91 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.force],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.hostName
+    Parameters.hostName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ConnectedVMwarevSphere/hosts",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.ConnectedVMwarevSphere/hosts",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.HostsList
+      bodyMapper: Mappers.HostsList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/hosts",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/hosts",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.HostsList
+      bodyMapper: Mappers.HostsList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.HostsList
+      bodyMapper: Mappers.HostsList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.HostsList
+      bodyMapper: Mappers.HostsList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

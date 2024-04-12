@@ -20,13 +20,14 @@ import {
   VmInstanceHybridIdentityMetadataListResponse,
   VmInstanceHybridIdentityMetadataGetOptionalParams,
   VmInstanceHybridIdentityMetadataGetResponse,
-  VmInstanceHybridIdentityMetadataListNextResponse
+  VmInstanceHybridIdentityMetadataListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing VmInstanceHybridIdentityMetadataOperations operations. */
 export class VmInstanceHybridIdentityMetadataOperationsImpl
-  implements VmInstanceHybridIdentityMetadataOperations {
+  implements VmInstanceHybridIdentityMetadataOperations
+{
   private readonly client: AzureArcVMwareManagementServiceAPI;
 
   /**
@@ -45,7 +46,7 @@ export class VmInstanceHybridIdentityMetadataOperationsImpl
    */
   public list(
     resourceUri: string,
-    options?: VmInstanceHybridIdentityMetadataListOptionalParams
+    options?: VmInstanceHybridIdentityMetadataListOptionalParams,
   ): PagedAsyncIterableIterator<VmInstanceHybridIdentityMetadata> {
     const iter = this.listPagingAll(resourceUri, options);
     return {
@@ -60,14 +61,14 @@ export class VmInstanceHybridIdentityMetadataOperationsImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(resourceUri, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     resourceUri: string,
     options?: VmInstanceHybridIdentityMetadataListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<VmInstanceHybridIdentityMetadata[]> {
     let result: VmInstanceHybridIdentityMetadataListResponse;
     let continuationToken = settings?.continuationToken;
@@ -89,7 +90,7 @@ export class VmInstanceHybridIdentityMetadataOperationsImpl
 
   private async *listPagingAll(
     resourceUri: string,
-    options?: VmInstanceHybridIdentityMetadataListOptionalParams
+    options?: VmInstanceHybridIdentityMetadataListOptionalParams,
   ): AsyncIterableIterator<VmInstanceHybridIdentityMetadata> {
     for await (const page of this.listPagingPage(resourceUri, options)) {
       yield* page;
@@ -104,11 +105,11 @@ export class VmInstanceHybridIdentityMetadataOperationsImpl
    */
   get(
     resourceUri: string,
-    options?: VmInstanceHybridIdentityMetadataGetOptionalParams
+    options?: VmInstanceHybridIdentityMetadataGetOptionalParams,
   ): Promise<VmInstanceHybridIdentityMetadataGetResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -120,11 +121,11 @@ export class VmInstanceHybridIdentityMetadataOperationsImpl
    */
   private _list(
     resourceUri: string,
-    options?: VmInstanceHybridIdentityMetadataListOptionalParams
+    options?: VmInstanceHybridIdentityMetadataListOptionalParams,
   ): Promise<VmInstanceHybridIdentityMetadataListResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -138,11 +139,11 @@ export class VmInstanceHybridIdentityMetadataOperationsImpl
   private _listNext(
     resourceUri: string,
     nextLink: string,
-    options?: VmInstanceHybridIdentityMetadataListNextOptionalParams
+    options?: VmInstanceHybridIdentityMetadataListNextOptionalParams,
   ): Promise<VmInstanceHybridIdentityMetadataListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -150,55 +151,53 @@ export class VmInstanceHybridIdentityMetadataOperationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceUri}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachineInstances/default/hybridIdentityMetadata/default",
+  path: "/{resourceUri}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachineInstances/default/hybridIdentityMetadata/default",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VmInstanceHybridIdentityMetadata
+      bodyMapper: Mappers.VmInstanceHybridIdentityMetadata,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.resourceUri],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceUri}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachineInstances/default/hybridIdentityMetadata",
+  path: "/{resourceUri}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachineInstances/default/hybridIdentityMetadata",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VmInstanceHybridIdentityMetadataList
+      bodyMapper: Mappers.VmInstanceHybridIdentityMetadataList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.resourceUri],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VmInstanceHybridIdentityMetadataList
+      bodyMapper: Mappers.VmInstanceHybridIdentityMetadataList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
-    Parameters.resourceUri
+    Parameters.resourceUri,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

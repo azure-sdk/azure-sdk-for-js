@@ -24,7 +24,7 @@ import {
   VirtualMachineInstancesStartOptionalParams,
   VirtualMachineInstancesStartResponse,
   VirtualMachineInstancesRestartOptionalParams,
-  VirtualMachineInstancesRestartResponse
+  VirtualMachineInstancesRestartResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -38,7 +38,7 @@ export interface VirtualMachineInstances {
    */
   list(
     resourceUri: string,
-    options?: VirtualMachineInstancesListOptionalParams
+    options?: VirtualMachineInstancesListOptionalParams,
   ): PagedAsyncIterableIterator<VirtualMachineInstance>;
   /**
    * The operation to create or update a virtual machine instance. Please note some properties can be set
@@ -49,7 +49,7 @@ export interface VirtualMachineInstances {
    */
   beginCreateOrUpdate(
     resourceUri: string,
-    options?: VirtualMachineInstancesCreateOrUpdateOptionalParams
+    options?: VirtualMachineInstancesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VirtualMachineInstancesCreateOrUpdateResponse>,
@@ -65,7 +65,7 @@ export interface VirtualMachineInstances {
    */
   beginCreateOrUpdateAndWait(
     resourceUri: string,
-    options?: VirtualMachineInstancesCreateOrUpdateOptionalParams
+    options?: VirtualMachineInstancesCreateOrUpdateOptionalParams,
   ): Promise<VirtualMachineInstancesCreateOrUpdateResponse>;
   /**
    * Retrieves information about a virtual machine instance.
@@ -75,7 +75,7 @@ export interface VirtualMachineInstances {
    */
   get(
     resourceUri: string,
-    options?: VirtualMachineInstancesGetOptionalParams
+    options?: VirtualMachineInstancesGetOptionalParams,
   ): Promise<VirtualMachineInstancesGetResponse>;
   /**
    * The operation to update a virtual machine instance.
@@ -85,7 +85,7 @@ export interface VirtualMachineInstances {
    */
   beginUpdate(
     resourceUri: string,
-    options?: VirtualMachineInstancesUpdateOptionalParams
+    options?: VirtualMachineInstancesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VirtualMachineInstancesUpdateResponse>,
@@ -100,7 +100,7 @@ export interface VirtualMachineInstances {
    */
   beginUpdateAndWait(
     resourceUri: string,
-    options?: VirtualMachineInstancesUpdateOptionalParams
+    options?: VirtualMachineInstancesUpdateOptionalParams,
   ): Promise<VirtualMachineInstancesUpdateResponse>;
   /**
    * The operation to delete a virtual machine instance.
@@ -110,7 +110,7 @@ export interface VirtualMachineInstances {
    */
   beginDelete(
     resourceUri: string,
-    options?: VirtualMachineInstancesDeleteOptionalParams
+    options?: VirtualMachineInstancesDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VirtualMachineInstancesDeleteResponse>,
@@ -125,7 +125,7 @@ export interface VirtualMachineInstances {
    */
   beginDeleteAndWait(
     resourceUri: string,
-    options?: VirtualMachineInstancesDeleteOptionalParams
+    options?: VirtualMachineInstancesDeleteOptionalParams,
   ): Promise<VirtualMachineInstancesDeleteResponse>;
   /**
    * The operation to power off (stop) a virtual machine instance.
@@ -135,7 +135,7 @@ export interface VirtualMachineInstances {
    */
   beginStop(
     resourceUri: string,
-    options?: VirtualMachineInstancesStopOptionalParams
+    options?: VirtualMachineInstancesStopOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VirtualMachineInstancesStopResponse>,
@@ -150,7 +150,7 @@ export interface VirtualMachineInstances {
    */
   beginStopAndWait(
     resourceUri: string,
-    options?: VirtualMachineInstancesStopOptionalParams
+    options?: VirtualMachineInstancesStopOptionalParams,
   ): Promise<VirtualMachineInstancesStopResponse>;
   /**
    * The operation to start a virtual machine instance.
@@ -160,7 +160,7 @@ export interface VirtualMachineInstances {
    */
   beginStart(
     resourceUri: string,
-    options?: VirtualMachineInstancesStartOptionalParams
+    options?: VirtualMachineInstancesStartOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VirtualMachineInstancesStartResponse>,
@@ -175,7 +175,7 @@ export interface VirtualMachineInstances {
    */
   beginStartAndWait(
     resourceUri: string,
-    options?: VirtualMachineInstancesStartOptionalParams
+    options?: VirtualMachineInstancesStartOptionalParams,
   ): Promise<VirtualMachineInstancesStartResponse>;
   /**
    * The operation to restart a virtual machine instance.
@@ -185,7 +185,7 @@ export interface VirtualMachineInstances {
    */
   beginRestart(
     resourceUri: string,
-    options?: VirtualMachineInstancesRestartOptionalParams
+    options?: VirtualMachineInstancesRestartOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VirtualMachineInstancesRestartResponse>,
@@ -200,6 +200,6 @@ export interface VirtualMachineInstances {
    */
   beginRestartAndWait(
     resourceUri: string,
-    options?: VirtualMachineInstancesRestartOptionalParams
+    options?: VirtualMachineInstancesRestartOptionalParams,
   ): Promise<VirtualMachineInstancesRestartResponse>;
 }

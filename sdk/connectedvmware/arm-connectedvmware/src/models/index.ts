@@ -1642,7 +1642,7 @@ export enum KnownProvisioningState {
   /** Accepted */
   Accepted = "Accepted",
   /** Created */
-  Created = "Created"
+  Created = "Created",
 }
 
 /**
@@ -1670,7 +1670,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -1692,7 +1692,7 @@ export enum KnownOsType {
   /** Linux */
   Linux = "Linux",
   /** Other */
-  Other = "Other"
+  Other = "Other",
 }
 
 /**
@@ -1719,7 +1719,7 @@ export enum KnownNICType {
   /** E1000E */
   E1000E = "e1000e",
   /** Pcnet32 */
-  Pcnet32 = "pcnet32"
+  Pcnet32 = "pcnet32",
 }
 
 /**
@@ -1741,7 +1741,7 @@ export enum KnownPowerOnBootOption {
   /** Enabled */
   Enabled = "enabled",
   /** Disabled */
-  Disabled = "disabled"
+  Disabled = "disabled",
 }
 
 /**
@@ -1767,7 +1767,7 @@ export enum KnownIPAddressAllocationMethod {
   /** Random */
   Random = "random",
   /** Other */
-  Other = "other"
+  Other = "other",
 }
 
 /**
@@ -1791,7 +1791,7 @@ export enum KnownDiskMode {
   /** IndependentPersistent */
   IndependentPersistent = "independent_persistent",
   /** IndependentNonpersistent */
-  IndependentNonpersistent = "independent_nonpersistent"
+  IndependentNonpersistent = "independent_nonpersistent",
 }
 
 /**
@@ -1820,7 +1820,7 @@ export enum KnownDiskType {
   /** Sesparse */
   Sesparse = "sesparse",
   /** Unknown */
-  Unknown = "unknown"
+  Unknown = "unknown",
 }
 
 /**
@@ -1843,7 +1843,7 @@ export enum KnownFirmwareType {
   /** Bios */
   Bios = "bios",
   /** Efi */
-  Efi = "efi"
+  Efi = "efi",
 }
 
 /**
@@ -1871,7 +1871,7 @@ export enum KnownInventoryType {
   /** Datastore */
   Datastore = "Datastore",
   /** Host */
-  Host = "Host"
+  Host = "Host",
 }
 
 /**
@@ -1898,7 +1898,7 @@ export enum KnownScsiControllerType {
   /** Pvscsi */
   Pvscsi = "pvscsi",
   /** Lsilogicsas */
-  Lsilogicsas = "lsilogicsas"
+  Lsilogicsas = "lsilogicsas",
 }
 
 /**
@@ -1920,7 +1920,7 @@ export enum KnownVirtualScsiSharing {
   /** PhysicalSharing */
   PhysicalSharing = "physicalSharing",
   /** VirtualSharing */
-  VirtualSharing = "virtualSharing"
+  VirtualSharing = "virtualSharing",
 }
 
 /**
@@ -1941,7 +1941,7 @@ export enum KnownProvisioningAction {
   /** Uninstall */
   Uninstall = "uninstall",
   /** Repair */
-  Repair = "repair"
+  Repair = "repair",
 }
 
 /**
@@ -2368,21 +2368,24 @@ export interface VirtualMachineTemplatesListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type VirtualMachineTemplatesListByResourceGroupResponse = VirtualMachineTemplatesList;
+export type VirtualMachineTemplatesListByResourceGroupResponse =
+  VirtualMachineTemplatesList;
 
 /** Optional parameters. */
 export interface VirtualMachineTemplatesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type VirtualMachineTemplatesListNextResponse = VirtualMachineTemplatesList;
+export type VirtualMachineTemplatesListNextResponse =
+  VirtualMachineTemplatesList;
 
 /** Optional parameters. */
 export interface VirtualMachineTemplatesListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type VirtualMachineTemplatesListByResourceGroupNextResponse = VirtualMachineTemplatesList;
+export type VirtualMachineTemplatesListByResourceGroupNextResponse =
+  VirtualMachineTemplatesList;
 
 /** Optional parameters. */
 export interface VirtualNetworksCreateOptionalParams
@@ -2452,7 +2455,8 @@ export interface VirtualNetworksListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type VirtualNetworksListByResourceGroupNextResponse = VirtualNetworksList;
+export type VirtualNetworksListByResourceGroupNextResponse =
+  VirtualNetworksList;
 
 /** Optional parameters. */
 export interface InventoryItemsCreateOptionalParams
@@ -2501,7 +2505,8 @@ export interface VirtualMachineInstancesCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type VirtualMachineInstancesCreateOrUpdateResponse = VirtualMachineInstance;
+export type VirtualMachineInstancesCreateOrUpdateResponse =
+  VirtualMachineInstance;
 
 /** Optional parameters. */
 export interface VirtualMachineInstancesGetOptionalParams
@@ -2538,7 +2543,8 @@ export interface VirtualMachineInstancesDeleteOptionalParams
 }
 
 /** Contains response data for the delete operation. */
-export type VirtualMachineInstancesDeleteResponse = VirtualMachineInstancesDeleteHeaders;
+export type VirtualMachineInstancesDeleteResponse =
+  VirtualMachineInstancesDeleteHeaders;
 
 /** Optional parameters. */
 export interface VirtualMachineInstancesListOptionalParams
@@ -2559,7 +2565,8 @@ export interface VirtualMachineInstancesStopOptionalParams
 }
 
 /** Contains response data for the stop operation. */
-export type VirtualMachineInstancesStopResponse = VirtualMachineInstancesStopHeaders;
+export type VirtualMachineInstancesStopResponse =
+  VirtualMachineInstancesStopHeaders;
 
 /** Optional parameters. */
 export interface VirtualMachineInstancesStartOptionalParams
@@ -2571,7 +2578,8 @@ export interface VirtualMachineInstancesStartOptionalParams
 }
 
 /** Contains response data for the start operation. */
-export type VirtualMachineInstancesStartResponse = VirtualMachineInstancesStartHeaders;
+export type VirtualMachineInstancesStartResponse =
+  VirtualMachineInstancesStartHeaders;
 
 /** Optional parameters. */
 export interface VirtualMachineInstancesRestartOptionalParams
@@ -2583,35 +2591,40 @@ export interface VirtualMachineInstancesRestartOptionalParams
 }
 
 /** Contains response data for the restart operation. */
-export type VirtualMachineInstancesRestartResponse = VirtualMachineInstancesRestartHeaders;
+export type VirtualMachineInstancesRestartResponse =
+  VirtualMachineInstancesRestartHeaders;
 
 /** Optional parameters. */
 export interface VirtualMachineInstancesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type VirtualMachineInstancesListNextResponse = VirtualMachineInstancesList;
+export type VirtualMachineInstancesListNextResponse =
+  VirtualMachineInstancesList;
 
 /** Optional parameters. */
 export interface VmInstanceHybridIdentityMetadataGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type VmInstanceHybridIdentityMetadataGetResponse = VmInstanceHybridIdentityMetadata;
+export type VmInstanceHybridIdentityMetadataGetResponse =
+  VmInstanceHybridIdentityMetadata;
 
 /** Optional parameters. */
 export interface VmInstanceHybridIdentityMetadataListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type VmInstanceHybridIdentityMetadataListResponse = VmInstanceHybridIdentityMetadataList;
+export type VmInstanceHybridIdentityMetadataListResponse =
+  VmInstanceHybridIdentityMetadataList;
 
 /** Optional parameters. */
 export interface VmInstanceHybridIdentityMetadataListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type VmInstanceHybridIdentityMetadataListNextResponse = VmInstanceHybridIdentityMetadataList;
+export type VmInstanceHybridIdentityMetadataListNextResponse =
+  VmInstanceHybridIdentityMetadataList;
 
 /** Optional parameters. */
 export interface VMInstanceGuestAgentsCreateOptionalParams
@@ -2644,7 +2657,8 @@ export interface VMInstanceGuestAgentsDeleteOptionalParams
 }
 
 /** Contains response data for the delete operation. */
-export type VMInstanceGuestAgentsDeleteResponse = VMInstanceGuestAgentsDeleteHeaders;
+export type VMInstanceGuestAgentsDeleteResponse =
+  VMInstanceGuestAgentsDeleteHeaders;
 
 /** Optional parameters. */
 export interface VMInstanceGuestAgentsListOptionalParams
