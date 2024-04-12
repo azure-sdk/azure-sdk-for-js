@@ -654,26 +654,10 @@ export interface ManagedHsmKeyRotationPolicyAttributes {
 
 // @public
 export interface ManagedHsmKeys {
-    createIfNotExist(resourceGroupName: string, name: string, keyName: string, parameters: ManagedHsmKeyCreateParameters, options?: ManagedHsmKeysCreateIfNotExistOptionalParams): Promise<ManagedHsmKeysCreateIfNotExistResponse>;
-    get(resourceGroupName: string, name: string, keyName: string, options?: ManagedHsmKeysGetOptionalParams): Promise<ManagedHsmKeysGetResponse>;
     getVersion(resourceGroupName: string, name: string, keyName: string, keyVersion: string, options?: ManagedHsmKeysGetVersionOptionalParams): Promise<ManagedHsmKeysGetVersionResponse>;
     list(resourceGroupName: string, name: string, options?: ManagedHsmKeysListOptionalParams): PagedAsyncIterableIterator<ManagedHsmKey>;
     listVersions(resourceGroupName: string, name: string, keyName: string, options?: ManagedHsmKeysListVersionsOptionalParams): PagedAsyncIterableIterator<ManagedHsmKey>;
 }
-
-// @public
-export interface ManagedHsmKeysCreateIfNotExistOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ManagedHsmKeysCreateIfNotExistResponse = ManagedHsmKey;
-
-// @public
-export interface ManagedHsmKeysGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ManagedHsmKeysGetResponse = ManagedHsmKey;
 
 // @public
 export interface ManagedHsmKeysGetVersionOptionalParams extends coreClient.OperationOptions {

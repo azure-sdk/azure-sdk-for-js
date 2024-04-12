@@ -8892,6 +8892,7 @@ packages:
 
   /queue-tick@1.0.1:
     resolution: {integrity: sha512-kJt5qhMxoszgU/62PLP1CJytzd2NKetjSRnyuj31fDd3Rlcz3fzlFdFLD1SItunPwyqEOkca6GbV612BWfaBag==}
+    requiresBuild: true
     dev: false
 
   /randombytes@2.1.0:
@@ -14561,7 +14562,7 @@ packages:
     dev: false
 
   file:projects/arm-keyvault.tgz:
-    resolution: {integrity: sha512-MluxbCi6RNwtZ+Mfw+a6VGvOK9YbZADnQ4waxhtZ6mjbDiccdB/s0Km532mGKuQ5bYgJefmkJBZnxNKT7DhP/Q==, tarball: file:projects/arm-keyvault.tgz}
+    resolution: {integrity: sha512-QqUc4OdtNMnpqLdRD7sC8G/GJbS+aBOvKby0wzgwmfUExtpRU6qPt7u/XmCNhP1viRTABhDFVHpl9b+11+5Isw==, tarball: file:projects/arm-keyvault.tgz}
     name: '@rush-temp/arm-keyvault'
     version: 0.0.0
     dependencies:
@@ -14579,9 +14580,9 @@ packages:
       mkdirp: 2.1.6
       mocha: 10.4.0
       rimraf: 5.0.5
-      ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.4.5)
+      ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.3.3)
       tslib: 2.6.2
-      typescript: 5.4.5
+      typescript: 5.3.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - '@swc/core'
