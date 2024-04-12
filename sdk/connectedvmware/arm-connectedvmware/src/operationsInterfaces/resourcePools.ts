@@ -18,7 +18,7 @@ import {
   ResourcePoolsGetResponse,
   ResourcePoolsUpdateOptionalParams,
   ResourcePoolsUpdateResponse,
-  ResourcePoolsDeleteOptionalParams
+  ResourcePoolsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface ResourcePools {
    * @param options The options parameters.
    */
   list(
-    options?: ResourcePoolsListOptionalParams
+    options?: ResourcePoolsListOptionalParams,
   ): PagedAsyncIterableIterator<ResourcePool>;
   /**
    * List of resourcePools in a resource group.
@@ -38,7 +38,7 @@ export interface ResourcePools {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: ResourcePoolsListByResourceGroupOptionalParams
+    options?: ResourcePoolsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<ResourcePool>;
   /**
    * Create Or Update resourcePool.
@@ -49,7 +49,7 @@ export interface ResourcePools {
   beginCreate(
     resourceGroupName: string,
     resourcePoolName: string,
-    options?: ResourcePoolsCreateOptionalParams
+    options?: ResourcePoolsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ResourcePoolsCreateResponse>,
@@ -65,7 +65,7 @@ export interface ResourcePools {
   beginCreateAndWait(
     resourceGroupName: string,
     resourcePoolName: string,
-    options?: ResourcePoolsCreateOptionalParams
+    options?: ResourcePoolsCreateOptionalParams,
   ): Promise<ResourcePoolsCreateResponse>;
   /**
    * Implements resourcePool GET method.
@@ -76,7 +76,7 @@ export interface ResourcePools {
   get(
     resourceGroupName: string,
     resourcePoolName: string,
-    options?: ResourcePoolsGetOptionalParams
+    options?: ResourcePoolsGetOptionalParams,
   ): Promise<ResourcePoolsGetResponse>;
   /**
    * API to update certain properties of the resourcePool resource.
@@ -87,7 +87,7 @@ export interface ResourcePools {
   update(
     resourceGroupName: string,
     resourcePoolName: string,
-    options?: ResourcePoolsUpdateOptionalParams
+    options?: ResourcePoolsUpdateOptionalParams,
   ): Promise<ResourcePoolsUpdateResponse>;
   /**
    * Implements resourcePool DELETE method.
@@ -98,7 +98,7 @@ export interface ResourcePools {
   beginDelete(
     resourceGroupName: string,
     resourcePoolName: string,
-    options?: ResourcePoolsDeleteOptionalParams
+    options?: ResourcePoolsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Implements resourcePool DELETE method.
@@ -109,6 +109,6 @@ export interface ResourcePools {
   beginDeleteAndWait(
     resourceGroupName: string,
     resourcePoolName: string,
-    options?: ResourcePoolsDeleteOptionalParams
+    options?: ResourcePoolsDeleteOptionalParams,
   ): Promise<void>;
 }

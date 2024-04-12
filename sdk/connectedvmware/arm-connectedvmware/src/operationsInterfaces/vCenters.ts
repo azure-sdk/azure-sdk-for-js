@@ -18,7 +18,7 @@ import {
   VCentersGetResponse,
   VCentersUpdateOptionalParams,
   VCentersUpdateResponse,
-  VCentersDeleteOptionalParams
+  VCentersDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface VCenters {
    * @param options The options parameters.
    */
   list(
-    options?: VCentersListOptionalParams
+    options?: VCentersListOptionalParams,
   ): PagedAsyncIterableIterator<VCenter>;
   /**
    * List of vCenters in a resource group.
@@ -38,7 +38,7 @@ export interface VCenters {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: VCentersListByResourceGroupOptionalParams
+    options?: VCentersListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<VCenter>;
   /**
    * Create Or Update vCenter.
@@ -49,7 +49,7 @@ export interface VCenters {
   beginCreate(
     resourceGroupName: string,
     vcenterName: string,
-    options?: VCentersCreateOptionalParams
+    options?: VCentersCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VCentersCreateResponse>,
@@ -65,7 +65,7 @@ export interface VCenters {
   beginCreateAndWait(
     resourceGroupName: string,
     vcenterName: string,
-    options?: VCentersCreateOptionalParams
+    options?: VCentersCreateOptionalParams,
   ): Promise<VCentersCreateResponse>;
   /**
    * Implements vCenter GET method.
@@ -76,7 +76,7 @@ export interface VCenters {
   get(
     resourceGroupName: string,
     vcenterName: string,
-    options?: VCentersGetOptionalParams
+    options?: VCentersGetOptionalParams,
   ): Promise<VCentersGetResponse>;
   /**
    * API to update certain properties of the vCenter resource.
@@ -87,7 +87,7 @@ export interface VCenters {
   update(
     resourceGroupName: string,
     vcenterName: string,
-    options?: VCentersUpdateOptionalParams
+    options?: VCentersUpdateOptionalParams,
   ): Promise<VCentersUpdateResponse>;
   /**
    * Implements vCenter DELETE method.
@@ -98,7 +98,7 @@ export interface VCenters {
   beginDelete(
     resourceGroupName: string,
     vcenterName: string,
-    options?: VCentersDeleteOptionalParams
+    options?: VCentersDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Implements vCenter DELETE method.
@@ -109,6 +109,6 @@ export interface VCenters {
   beginDeleteAndWait(
     resourceGroupName: string,
     vcenterName: string,
-    options?: VCentersDeleteOptionalParams
+    options?: VCentersDeleteOptionalParams,
   ): Promise<void>;
 }

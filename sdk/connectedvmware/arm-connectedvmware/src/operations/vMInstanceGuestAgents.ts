@@ -16,7 +16,7 @@ import { AzureArcVMwareManagementServiceAPI } from "../azureArcVMwareManagementS
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -30,7 +30,7 @@ import {
   VMInstanceGuestAgentsGetResponse,
   VMInstanceGuestAgentsDeleteOptionalParams,
   VMInstanceGuestAgentsDeleteResponse,
-  VMInstanceGuestAgentsListNextResponse
+  VMInstanceGuestAgentsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -54,7 +54,7 @@ export class VMInstanceGuestAgentsImpl implements VMInstanceGuestAgents {
    */
   public list(
     resourceUri: string,
-    options?: VMInstanceGuestAgentsListOptionalParams
+    options?: VMInstanceGuestAgentsListOptionalParams,
   ): PagedAsyncIterableIterator<GuestAgent> {
     const iter = this.listPagingAll(resourceUri, options);
     return {
@@ -69,14 +69,14 @@ export class VMInstanceGuestAgentsImpl implements VMInstanceGuestAgents {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(resourceUri, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     resourceUri: string,
     options?: VMInstanceGuestAgentsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<GuestAgent[]> {
     let result: VMInstanceGuestAgentsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -98,7 +98,7 @@ export class VMInstanceGuestAgentsImpl implements VMInstanceGuestAgents {
 
   private async *listPagingAll(
     resourceUri: string,
-    options?: VMInstanceGuestAgentsListOptionalParams
+    options?: VMInstanceGuestAgentsListOptionalParams,
   ): AsyncIterableIterator<GuestAgent> {
     for await (const page of this.listPagingPage(resourceUri, options)) {
       yield* page;
@@ -113,7 +113,7 @@ export class VMInstanceGuestAgentsImpl implements VMInstanceGuestAgents {
    */
   async beginCreate(
     resourceUri: string,
-    options?: VMInstanceGuestAgentsCreateOptionalParams
+    options?: VMInstanceGuestAgentsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VMInstanceGuestAgentsCreateResponse>,
@@ -122,21 +122,20 @@ export class VMInstanceGuestAgentsImpl implements VMInstanceGuestAgents {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<VMInstanceGuestAgentsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -145,8 +144,8 @@ export class VMInstanceGuestAgentsImpl implements VMInstanceGuestAgents {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -154,15 +153,15 @@ export class VMInstanceGuestAgentsImpl implements VMInstanceGuestAgents {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceUri, options },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       VMInstanceGuestAgentsCreateResponse,
@@ -170,7 +169,7 @@ export class VMInstanceGuestAgentsImpl implements VMInstanceGuestAgents {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -184,7 +183,7 @@ export class VMInstanceGuestAgentsImpl implements VMInstanceGuestAgents {
    */
   async beginCreateAndWait(
     resourceUri: string,
-    options?: VMInstanceGuestAgentsCreateOptionalParams
+    options?: VMInstanceGuestAgentsCreateOptionalParams,
   ): Promise<VMInstanceGuestAgentsCreateResponse> {
     const poller = await this.beginCreate(resourceUri, options);
     return poller.pollUntilDone();
@@ -198,11 +197,11 @@ export class VMInstanceGuestAgentsImpl implements VMInstanceGuestAgents {
    */
   get(
     resourceUri: string,
-    options?: VMInstanceGuestAgentsGetOptionalParams
+    options?: VMInstanceGuestAgentsGetOptionalParams,
   ): Promise<VMInstanceGuestAgentsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -214,7 +213,7 @@ export class VMInstanceGuestAgentsImpl implements VMInstanceGuestAgents {
    */
   async beginDelete(
     resourceUri: string,
-    options?: VMInstanceGuestAgentsDeleteOptionalParams
+    options?: VMInstanceGuestAgentsDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VMInstanceGuestAgentsDeleteResponse>,
@@ -223,21 +222,20 @@ export class VMInstanceGuestAgentsImpl implements VMInstanceGuestAgents {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<VMInstanceGuestAgentsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -246,8 +244,8 @@ export class VMInstanceGuestAgentsImpl implements VMInstanceGuestAgents {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -255,22 +253,22 @@ export class VMInstanceGuestAgentsImpl implements VMInstanceGuestAgents {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceUri, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
       VMInstanceGuestAgentsDeleteResponse,
       OperationState<VMInstanceGuestAgentsDeleteResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -284,7 +282,7 @@ export class VMInstanceGuestAgentsImpl implements VMInstanceGuestAgents {
    */
   async beginDeleteAndWait(
     resourceUri: string,
-    options?: VMInstanceGuestAgentsDeleteOptionalParams
+    options?: VMInstanceGuestAgentsDeleteOptionalParams,
   ): Promise<VMInstanceGuestAgentsDeleteResponse> {
     const poller = await this.beginDelete(resourceUri, options);
     return poller.pollUntilDone();
@@ -298,11 +296,11 @@ export class VMInstanceGuestAgentsImpl implements VMInstanceGuestAgents {
    */
   private _list(
     resourceUri: string,
-    options?: VMInstanceGuestAgentsListOptionalParams
+    options?: VMInstanceGuestAgentsListOptionalParams,
   ): Promise<VMInstanceGuestAgentsListResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -316,11 +314,11 @@ export class VMInstanceGuestAgentsImpl implements VMInstanceGuestAgents {
   private _listNext(
     resourceUri: string,
     nextLink: string,
-    options?: VMInstanceGuestAgentsListNextOptionalParams
+    options?: VMInstanceGuestAgentsListNextOptionalParams,
   ): Promise<VMInstanceGuestAgentsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -328,109 +326,105 @@ export class VMInstanceGuestAgentsImpl implements VMInstanceGuestAgents {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceUri}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachineInstances/default/guestAgents/default",
+  path: "/{resourceUri}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachineInstances/default/guestAgents/default",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.GuestAgent
+      bodyMapper: Mappers.GuestAgent,
     },
     201: {
-      bodyMapper: Mappers.GuestAgent
+      bodyMapper: Mappers.GuestAgent,
     },
     202: {
-      bodyMapper: Mappers.GuestAgent
+      bodyMapper: Mappers.GuestAgent,
     },
     204: {
-      bodyMapper: Mappers.GuestAgent
+      bodyMapper: Mappers.GuestAgent,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body12,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.resourceUri],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceUri}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachineInstances/default/guestAgents/default",
+  path: "/{resourceUri}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachineInstances/default/guestAgents/default",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GuestAgent
+      bodyMapper: Mappers.GuestAgent,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.resourceUri],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceUri}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachineInstances/default/guestAgents/default",
+  path: "/{resourceUri}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachineInstances/default/guestAgents/default",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.VMInstanceGuestAgentsDeleteHeaders
+      headersMapper: Mappers.VMInstanceGuestAgentsDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.VMInstanceGuestAgentsDeleteHeaders
+      headersMapper: Mappers.VMInstanceGuestAgentsDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.VMInstanceGuestAgentsDeleteHeaders
+      headersMapper: Mappers.VMInstanceGuestAgentsDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.VMInstanceGuestAgentsDeleteHeaders
+      headersMapper: Mappers.VMInstanceGuestAgentsDeleteHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.resourceUri],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceUri}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachineInstances/default/guestAgents",
+  path: "/{resourceUri}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachineInstances/default/guestAgents",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GuestAgentList
+      bodyMapper: Mappers.GuestAgentList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.resourceUri],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GuestAgentList
+      bodyMapper: Mappers.GuestAgentList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
-    Parameters.resourceUri
+    Parameters.resourceUri,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -16,7 +16,7 @@ import {
   VMInstanceGuestAgentsGetOptionalParams,
   VMInstanceGuestAgentsGetResponse,
   VMInstanceGuestAgentsDeleteOptionalParams,
-  VMInstanceGuestAgentsDeleteResponse
+  VMInstanceGuestAgentsDeleteResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface VMInstanceGuestAgents {
    */
   list(
     resourceUri: string,
-    options?: VMInstanceGuestAgentsListOptionalParams
+    options?: VMInstanceGuestAgentsListOptionalParams,
   ): PagedAsyncIterableIterator<GuestAgent>;
   /**
    * Create Or Update GuestAgent.
@@ -40,7 +40,7 @@ export interface VMInstanceGuestAgents {
    */
   beginCreate(
     resourceUri: string,
-    options?: VMInstanceGuestAgentsCreateOptionalParams
+    options?: VMInstanceGuestAgentsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VMInstanceGuestAgentsCreateResponse>,
@@ -55,7 +55,7 @@ export interface VMInstanceGuestAgents {
    */
   beginCreateAndWait(
     resourceUri: string,
-    options?: VMInstanceGuestAgentsCreateOptionalParams
+    options?: VMInstanceGuestAgentsCreateOptionalParams,
   ): Promise<VMInstanceGuestAgentsCreateResponse>;
   /**
    * Implements GuestAgent GET method.
@@ -65,7 +65,7 @@ export interface VMInstanceGuestAgents {
    */
   get(
     resourceUri: string,
-    options?: VMInstanceGuestAgentsGetOptionalParams
+    options?: VMInstanceGuestAgentsGetOptionalParams,
   ): Promise<VMInstanceGuestAgentsGetResponse>;
   /**
    * Implements GuestAgent DELETE method.
@@ -75,7 +75,7 @@ export interface VMInstanceGuestAgents {
    */
   beginDelete(
     resourceUri: string,
-    options?: VMInstanceGuestAgentsDeleteOptionalParams
+    options?: VMInstanceGuestAgentsDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VMInstanceGuestAgentsDeleteResponse>,
@@ -90,6 +90,6 @@ export interface VMInstanceGuestAgents {
    */
   beginDeleteAndWait(
     resourceUri: string,
-    options?: VMInstanceGuestAgentsDeleteOptionalParams
+    options?: VMInstanceGuestAgentsDeleteOptionalParams,
   ): Promise<VMInstanceGuestAgentsDeleteResponse>;
 }
