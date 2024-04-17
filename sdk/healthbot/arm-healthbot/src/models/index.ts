@@ -8,6 +8,83 @@
 
 import * as coreClient from "@azure/core-client";
 
+/** Health Bot Keys Response. */
+export interface HealthBotKeysResponse {
+  /** Array of Azure Health Bot Secrets. */
+  secrets?: HealthBotKey[];
+}
+
+/** An entry of HealthBotKeysResponse */
+export interface HealthBotKey {
+  /** The name of the key. */
+  keyName?: string;
+  /** The value of the key. */
+  value?: string;
+}
+
+/** The resource management error response. */
+export interface ErrorModel {
+  /** The error object. */
+  error?: ErrorError;
+}
+
+/** The error object. */
+export interface ErrorError {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorModel[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
+}
+
+/** The list of Azure Health Bot operation response. */
+export interface BotResponseList {
+  /**
+   * The link used to get the next page of bot service resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+  /**
+   * Gets the list of Azure Health Bot results and their properties.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: HealthBot[];
+}
+
 /** The resource model definition representing SKU */
 export interface Sku {
   /** The name of the Azure Health Bot SKU */
@@ -62,6 +139,20 @@ export interface HealthBotProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly botManagementPortalLink?: string;
+  /** KeyVault properties for the resource encryption. */
+  keyVaultProperties?: KeyVaultProperties;
+}
+
+/** Properties of the key vault. */
+export interface KeyVaultProperties {
+  /** The name of the key vault key. */
+  keyName: string;
+  /** The version of the key vault key. */
+  keyVersion?: string;
+  /** The Uri of the key vault. */
+  keyVaultUri: string;
+  /** The user assigned identity (ARM resource id) that has access to the key. */
+  userIdentity?: string;
 }
 
 /** The resource model definition for a ARM tracked top level resource */
@@ -104,80 +195,6 @@ export interface SystemData {
   lastModifiedAt?: Date;
 }
 
-/** The resource management error response. */
-export interface ErrorModel {
-  /** The error object. */
-  error?: ErrorError;
-}
-
-/** The error object. */
-export interface ErrorError {
-  /**
-   * The error code.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly code?: string;
-  /**
-   * The error message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-  /**
-   * The error target.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly target?: string;
-  /**
-   * The error details.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly details?: ErrorModel[];
-  /**
-   * The error additional info.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly additionalInfo?: ErrorAdditionalInfo[];
-}
-
-/** The resource management error additional info. */
-export interface ErrorAdditionalInfo {
-  /**
-   * The additional info type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * The additional info.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly info?: Record<string, unknown>;
-}
-
-/** Parameters for updating a Azure Health Bot. */
-export interface HealthBotUpdateParameters {
-  /** Tags for a Azure Health Bot. */
-  tags?: { [propertyName: string]: string };
-  /** SKU of the Azure Health Bot. */
-  sku?: Sku;
-  /** The identity of the Azure Health Bot. */
-  identity?: Identity;
-  location?: string;
-}
-
-/** The list of Azure Health Bot operation response. */
-export interface BotResponseList {
-  /**
-   * The link used to get the next page of bot service resources.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-  /**
-   * Gets the list of Azure Health Bot results and their properties.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: HealthBot[];
-}
-
 /** Available operations of the service */
 export interface AvailableOperations {
   /** Collection of available operation details */
@@ -215,6 +232,19 @@ export interface OperationDisplay {
   description?: string;
 }
 
+/** Parameters for updating a Azure Health Bot. */
+export interface HealthBotUpdateParameters {
+  /** Properties of Azure Health Bot. */
+  properties?: HealthBotProperties;
+  /** Tags for a Azure Health Bot. */
+  tags?: { [propertyName: string]: string };
+  /** SKU of the Azure Health Bot. */
+  sku?: Sku;
+  /** The identity of the Azure Health Bot. */
+  identity?: Identity;
+  location?: string;
+}
+
 /** The response returned from validation process */
 export interface ValidationResult {
   /** The status code of the response validation. */
@@ -248,7 +278,7 @@ export enum KnownIdentityType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -263,7 +293,7 @@ export enum KnownIdentityType {
  */
 export type IdentityType = string;
 /** Defines values for SkuName. */
-export type SkuName = "F0" | "S1" | "C0";
+export type SkuName = "F0" | "S1" | "C0" | "PES";
 /** Defines values for ResourceIdentityType. */
 export type ResourceIdentityType =
   | "SystemAssigned"
@@ -272,35 +302,18 @@ export type ResourceIdentityType =
   | "None";
 
 /** Optional parameters. */
-export interface BotsCreateOptionalParams extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
+export interface BotsListSecretsOptionalParams
+  extends coreClient.OperationOptions {}
 
-/** Contains response data for the create operation. */
-export type BotsCreateResponse = HealthBot;
+/** Contains response data for the listSecrets operation. */
+export type BotsListSecretsResponse = HealthBotKeysResponse;
 
 /** Optional parameters. */
-export interface BotsGetOptionalParams extends coreClient.OperationOptions {}
+export interface BotsRegenerateApiJwtSecretOptionalParams
+  extends coreClient.OperationOptions {}
 
-/** Contains response data for the get operation. */
-export type BotsGetResponse = HealthBot;
-
-/** Optional parameters. */
-export interface BotsUpdateOptionalParams extends coreClient.OperationOptions {}
-
-/** Contains response data for the update operation. */
-export type BotsUpdateResponse = HealthBot;
-
-/** Optional parameters. */
-export interface BotsDeleteOptionalParams extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
+/** Contains response data for the regenerateApiJwtSecret operation. */
+export type BotsRegenerateApiJwtSecretResponse = HealthBotKey;
 
 /** Optional parameters. */
 export interface BotsListByResourceGroupOptionalParams

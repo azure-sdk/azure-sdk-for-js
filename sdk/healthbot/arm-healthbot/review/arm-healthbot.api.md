@@ -7,8 +7,6 @@
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
 
 // @public
 export interface AvailableOperations {
@@ -24,37 +22,11 @@ export interface BotResponseList {
 
 // @public
 export interface Bots {
-    beginCreate(resourceGroupName: string, botName: string, parameters: HealthBot, options?: BotsCreateOptionalParams): Promise<PollerLike<PollOperationState<BotsCreateResponse>, BotsCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, botName: string, parameters: HealthBot, options?: BotsCreateOptionalParams): Promise<BotsCreateResponse>;
-    beginDelete(resourceGroupName: string, botName: string, options?: BotsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, botName: string, options?: BotsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, botName: string, options?: BotsGetOptionalParams): Promise<BotsGetResponse>;
     list(options?: BotsListOptionalParams): PagedAsyncIterableIterator<HealthBot>;
     listByResourceGroup(resourceGroupName: string, options?: BotsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<HealthBot>;
-    update(resourceGroupName: string, botName: string, parameters: HealthBotUpdateParameters, options?: BotsUpdateOptionalParams): Promise<BotsUpdateResponse>;
+    listSecrets(resourceGroupName: string, botName: string, options?: BotsListSecretsOptionalParams): Promise<BotsListSecretsResponse>;
+    regenerateApiJwtSecret(resourceGroupName: string, botName: string, options?: BotsRegenerateApiJwtSecretOptionalParams): Promise<BotsRegenerateApiJwtSecretResponse>;
 }
-
-// @public
-export interface BotsCreateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type BotsCreateResponse = HealthBot;
-
-// @public
-export interface BotsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface BotsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type BotsGetResponse = HealthBot;
 
 // @public
 export interface BotsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
@@ -85,11 +57,18 @@ export interface BotsListOptionalParams extends coreClient.OperationOptions {
 export type BotsListResponse = BotResponseList;
 
 // @public
-export interface BotsUpdateOptionalParams extends coreClient.OperationOptions {
+export interface BotsListSecretsOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type BotsUpdateResponse = HealthBot;
+export type BotsListSecretsResponse = HealthBotKeysResponse;
+
+// @public
+export interface BotsRegenerateApiJwtSecretOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BotsRegenerateApiJwtSecretResponse = HealthBotKey;
 
 // @public
 export interface ErrorAdditionalInfo {
@@ -144,8 +123,20 @@ export interface HealthbotClientOptionalParams extends coreClient.ServiceClientO
 }
 
 // @public
+export interface HealthBotKey {
+    keyName?: string;
+    value?: string;
+}
+
+// @public
+export interface HealthBotKeysResponse {
+    secrets?: HealthBotKey[];
+}
+
+// @public
 export interface HealthBotProperties {
     readonly botManagementPortalLink?: string;
+    keyVaultProperties?: KeyVaultProperties;
     readonly provisioningState?: string;
 }
 
@@ -154,6 +145,7 @@ export interface HealthBotUpdateParameters {
     identity?: Identity;
     // (undocumented)
     location?: string;
+    properties?: HealthBotProperties;
     sku?: Sku;
     tags?: {
         [propertyName: string]: string;
@@ -172,6 +164,14 @@ export interface Identity {
 
 // @public
 export type IdentityType = string;
+
+// @public
+export interface KeyVaultProperties {
+    keyName: string;
+    keyVaultUri: string;
+    keyVersion?: string;
+    userIdentity?: string;
+}
 
 // @public
 export enum KnownIdentityType {
@@ -234,7 +234,7 @@ export interface Sku {
 }
 
 // @public
-export type SkuName = "F0" | "S1" | "C0";
+export type SkuName = "F0" | "S1" | "C0" | "PES";
 
 // @public
 export interface SystemData {

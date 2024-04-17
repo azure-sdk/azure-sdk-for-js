@@ -1,15 +1,31 @@
 # Release History
+    
+## 3.0.0 (2024-04-17)
+    
+**Features**
 
-## 2.1.1 (Unreleased)
+  - Added operation Bots.listSecrets
+  - Added operation Bots.regenerateApiJwtSecret
+  - Added Interface BotsListSecretsOptionalParams
+  - Added Interface BotsRegenerateApiJwtSecretOptionalParams
+  - Added Interface HealthBotKey
+  - Added Interface HealthBotKeysResponse
+  - Added Interface KeyVaultProperties
+  - Added Type Alias BotsListSecretsResponse
+  - Added Type Alias BotsRegenerateApiJwtSecretResponse
+  - Interface HealthBotProperties has a new optional parameter keyVaultProperties
+  - Interface HealthBotUpdateParameters has a new optional parameter properties
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation Bots.beginCreate
+  - Removed operation Bots.beginCreateAndWait
+  - Removed operation Bots.beginDelete
+  - Removed operation Bots.beginDeleteAndWait
+  - Removed operation Bots.get
+  - Removed operation Bots.update
+    
+    
 ## 2.1.0 (2022-11-25)
     
 **Features**
@@ -26,4 +42,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
