@@ -39,7 +39,7 @@ import {
   DataFlowDebugCommandRequest as DataFlowDebugCommandRequestMapper,
   ManagedVirtualNetworkResource as ManagedVirtualNetworkResourceMapper,
   ManagedPrivateEndpointResource as ManagedPrivateEndpointResourceMapper,
-  ManagedIdentityCredentialResource as ManagedIdentityCredentialResourceMapper,
+  CredentialResource as CredentialResourceMapper,
   PrivateLinkConnectionApprovalRequestResource as PrivateLinkConnectionApprovalRequestResourceMapper,
   GlobalParameterResource as GlobalParameterResourceMapper,
   ChangeDataCaptureResource as ChangeDataCaptureResourceMapper,
@@ -93,17 +93,6 @@ export const nextLink: OperationURLParameter = {
   skipEncoding: true,
 };
 
-export const subscriptionId: OperationURLParameter = {
-  parameterPath: "subscriptionId",
-  mapper: {
-    serializedName: "subscriptionId",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],
   mapper: {
@@ -119,6 +108,17 @@ export const contentType: OperationParameter = {
 export const factoryRepoUpdate: OperationParameter = {
   parameterPath: "factoryRepoUpdate",
   mapper: FactoryRepoUpdateMapper,
+};
+
+export const subscriptionId: OperationURLParameter = {
+  parameterPath: "subscriptionId",
+  mapper: {
+    serializedName: "subscriptionId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const locationId: OperationURLParameter = {
@@ -536,7 +536,7 @@ export const managedPrivateEndpointName: OperationURLParameter = {
 
 export const credential: OperationParameter = {
   parameterPath: "credential",
-  mapper: ManagedIdentityCredentialResourceMapper,
+  mapper: CredentialResourceMapper,
 };
 
 export const credentialName: OperationURLParameter = {

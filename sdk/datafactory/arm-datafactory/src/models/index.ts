@@ -684,12 +684,30 @@ export interface CloudError {
   details?: CloudError[];
 }
 
-/** A list of factory resources. */
-export interface FactoryListResponse {
-  /** List of factories. */
-  value: Factory[];
-  /** The link to the next page of results, if any remaining results exist. */
-  nextLink?: string;
+/** Factory's git repo information. */
+export interface FactoryRepoUpdate {
+  /** The factory resource id. */
+  factoryResourceId?: string;
+  /** Git repo information of the factory. */
+  repoConfiguration?: FactoryRepoConfigurationUnion;
+}
+
+/** Factory's git repo information. */
+export interface FactoryRepoConfiguration {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "FactoryVSTSConfiguration" | "FactoryGitHubConfiguration";
+  /** Account name. */
+  accountName: string;
+  /** Repository name. */
+  repositoryName: string;
+  /** Collaboration branch. */
+  collaborationBranch: string;
+  /** Root folder. */
+  rootFolder: string;
+  /** Last commit id. */
+  lastCommitId?: string;
+  /** Disable manual publish operation in ADF studio to favor automated publish. */
+  disablePublish?: boolean;
 }
 
 /** Identity properties of the factory resource. */
@@ -714,24 +732,6 @@ export interface FactoryIdentity {
 export interface PurviewConfiguration {
   /** Purview resource id. */
   purviewResourceId?: string;
-}
-
-/** Factory's git repo information. */
-export interface FactoryRepoConfiguration {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "FactoryVSTSConfiguration" | "FactoryGitHubConfiguration";
-  /** Account name. */
-  accountName: string;
-  /** Repository name. */
-  repositoryName: string;
-  /** Collaboration branch. */
-  collaborationBranch: string;
-  /** Root folder. */
-  rootFolder: string;
-  /** Last commit id. */
-  lastCommitId?: string;
-  /** Disable manual publish operation in ADF studio to favor automated publish. */
-  disablePublish?: boolean;
 }
 
 /** Definition of a single parameter for an entity. */
@@ -788,14 +788,6 @@ export interface Resource {
   readonly eTag?: string;
 }
 
-/** Factory's git repo information. */
-export interface FactoryRepoUpdate {
-  /** The factory resource id. */
-  factoryResourceId?: string;
-  /** Git repo information of the factory. */
-  repoConfiguration?: FactoryRepoConfigurationUnion;
-}
-
 /** The exposure control request. */
 export interface ExposureControlRequest {
   /** The feature name. */
@@ -828,6 +820,14 @@ export interface ExposureControlBatchRequest {
 export interface ExposureControlBatchResponse {
   /** List of exposure control feature values. */
   exposureControlResponses: ExposureControlResponse[];
+}
+
+/** A list of factory resources. */
+export interface FactoryListResponse {
+  /** List of factories. */
+  value: Factory[];
+  /** The link to the next page of results, if any remaining results exist. */
+  nextLink?: string;
 }
 
 /** Parameters for updating a factory resource. */
@@ -2298,7 +2298,7 @@ export interface ConnectionStateProperties {
 /** A list of credential resources. */
 export interface CredentialListResponse {
   /** List of credentials. */
-  value: ManagedIdentityCredentialResource[];
+  value: CredentialResource[];
   /** The link to the next page of results, if any remaining results exist. */
   nextLink?: string;
 }
@@ -3843,8 +3843,8 @@ export interface PowerQuerySinkMapping {
 export interface ScriptActivityScriptBlock {
   /** The query text. Type: string (or Expression with resultType string). */
   text: any;
-  /** The type of the query. Type: string. */
-  type: ScriptType;
+  /** The type of the query. Please refer to the ScriptType for valid options. Type: string (or Expression with resultType string). */
+  type: any;
   /** Array of script parameters. Type: array. */
   parameters?: ScriptActivityParameter[];
 }
@@ -4143,9 +4143,9 @@ export interface ManagedPrivateEndpointResource extends SubResource {
 }
 
 /** Credential resource type. */
-export interface ManagedIdentityCredentialResource extends SubResource {
-  /** Managed Identity Credential properties. */
-  properties: ManagedIdentityCredential;
+export interface CredentialResource extends SubResource {
+  /** Properties of credentials. */
+  properties: CredentialUnion;
 }
 
 /** Private Endpoint Connection ARM resource. */
@@ -4191,12 +4191,6 @@ export interface ChangeDataCaptureResource extends SubResource {
   allowVNetOverride?: boolean;
   /** Status of the CDC as to if it is running or stopped. */
   status?: string;
-}
-
-/** Credential resource type. */
-export interface CredentialResource extends SubResource {
-  /** Properties of credentials. */
-  properties: CredentialUnion;
 }
 
 /** Managed integration runtime status. */
@@ -8188,8 +8182,6 @@ export interface LinkedServiceDebugResource extends SubResourceDebugResource {
 export interface ManagedIdentityCredential extends Credential {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ManagedIdentity";
-  /** The resource id of user assigned managed identity */
-  resourceId?: string;
 }
 
 /** Service principal credential. */
@@ -10173,6 +10165,18 @@ export interface SelfDependencyTumblingWindowTriggerReference
   size?: string;
 }
 
+/** Credential resource type. */
+export interface ManagedIdentityCredentialResource extends CredentialResource {
+  /** Managed Identity Credential properties. */
+  properties: ManagedIdentityCredential;
+}
+
+/** Credential resource type. */
+export interface ServicePrincipalCredentialResource extends CredentialResource {
+  /** Service Principal Credential properties. */
+  properties: ServicePrincipalCredential;
+}
+
 /** Execute pipeline activity. */
 export interface ExecutePipelineActivity extends ControlActivity {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -10318,7 +10322,7 @@ export interface WebHookActivity extends ControlActivity {
   /** The timeout within which the webhook should be called back. If there is no value specified, it defaults to 10 minutes. Type: string. Pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). */
   timeout?: string;
   /** Represents the headers that will be sent to the request. For example, to set the language and type on a request: "headers" : { "Accept-Language": "en-us", "Content-Type": "application/json" }. Type: string (or Expression with resultType string). */
-  headers?: { [propertyName: string]: string };
+  headers?: { [propertyName: string]: any };
   /** Represents the payload that will be sent to the endpoint. Required for POST/PUT method, not allowed for GET method Type: string (or Expression with resultType string). */
   body?: any;
   /** Authentication method used for calling the endpoint. */
@@ -10594,7 +10598,7 @@ export interface WebActivity extends ExecutionActivity {
   /** Web activity target endpoint and path. Type: string (or Expression with resultType string). */
   url: any;
   /** Represents the headers that will be sent to the request. For example, to set the language and type on a request: "headers" : { "Accept-Language": "en-us", "Content-Type": "application/json" }. Type: string (or Expression with resultType string). */
-  headers?: { [propertyName: string]: string };
+  headers?: { [propertyName: string]: any };
   /** Represents the payload that will be sent to the endpoint. Required for POST/PUT method, not allowed for GET method Type: string (or Expression with resultType string). */
   body?: any;
   /** Authentication method used for calling the endpoint. */
@@ -10738,7 +10742,7 @@ export interface AzureFunctionActivity extends ExecutionActivity {
   /** Name of the Function that the Azure Function Activity will call. Type: string (or Expression with resultType string) */
   functionName: any;
   /** Represents the headers that will be sent to the request. For example, to set the language and type on a request: "headers" : { "Accept-Language": "en-us", "Content-Type": "application/json" }. Type: string (or Expression with resultType string). */
-  headers?: { [propertyName: string]: string };
+  headers?: { [propertyName: string]: any };
   /** Represents the payload that will be sent to the endpoint. Required for POST/PUT method, not allowed for GET method Type: string (or Expression with resultType string). */
   body?: any;
 }
@@ -13377,24 +13381,6 @@ export enum KnownWebHookActivityMethod {
  */
 export type WebHookActivityMethod = string;
 
-/** Known values of {@link ScriptType} that the service accepts. */
-export enum KnownScriptType {
-  /** Query */
-  Query = "Query",
-  /** NonQuery */
-  NonQuery = "NonQuery",
-}
-
-/**
- * Defines values for ScriptType. \
- * {@link KnownScriptType} can be used interchangeably with ScriptType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Query** \
- * **NonQuery**
- */
-export type ScriptType = string;
-
 /** Known values of {@link ScriptActivityParameterType} that the service accepts. */
 export enum KnownScriptActivityParameterType {
   /** Boolean */
@@ -14040,6 +14026,24 @@ export enum KnownSqlDWWriteBehaviorEnum {
  */
 export type SqlDWWriteBehaviorEnum = string;
 
+/** Known values of {@link ScriptType} that the service accepts. */
+export enum KnownScriptType {
+  /** Query */
+  Query = "Query",
+  /** NonQuery */
+  NonQuery = "NonQuery",
+}
+
+/**
+ * Defines values for ScriptType. \
+ * {@link KnownScriptType} can be used interchangeably with ScriptType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Query** \
+ * **NonQuery**
+ */
+export type ScriptType = string;
+
 /** Known values of {@link SqlPartitionOption} that the service accepts. */
 export enum KnownSqlPartitionOption {
   /** None */
@@ -14208,13 +14212,6 @@ export interface OperationsListNextOptionalParams
 export type OperationsListNextResponse = OperationListResponse;
 
 /** Optional parameters. */
-export interface FactoriesListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type FactoriesListResponse = FactoryListResponse;
-
-/** Optional parameters. */
 export interface FactoriesConfigureFactoryRepoOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -14272,13 +14269,6 @@ export interface FactoriesGetDataPlaneAccessOptionalParams
 
 /** Contains response data for the getDataPlaneAccess operation. */
 export type FactoriesGetDataPlaneAccessResponse = AccessPolicyResponse;
-
-/** Optional parameters. */
-export interface FactoriesListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type FactoriesListNextResponse = FactoryListResponse;
 
 /** Optional parameters. */
 export interface FactoriesListByResourceGroupNextOptionalParams
@@ -14954,8 +14944,7 @@ export interface CredentialOperationsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type CredentialOperationsCreateOrUpdateResponse =
-  ManagedIdentityCredentialResource;
+export type CredentialOperationsCreateOrUpdateResponse = CredentialResource;
 
 /** Optional parameters. */
 export interface CredentialOperationsGetOptionalParams
@@ -14965,7 +14954,7 @@ export interface CredentialOperationsGetOptionalParams
 }
 
 /** Contains response data for the get operation. */
-export type CredentialOperationsGetResponse = ManagedIdentityCredentialResource;
+export type CredentialOperationsGetResponse = CredentialResource;
 
 /** Optional parameters. */
 export interface CredentialOperationsDeleteOptionalParams
