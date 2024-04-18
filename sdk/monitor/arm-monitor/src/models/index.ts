@@ -2498,6 +2498,11 @@ export interface Metadata {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisionedByResourceId?: string;
+  /**
+   * Immutable Id of azure offering managing this resource on-behalf-of customer.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisionedByImmutableId?: string;
 }
 
 /** Managed service identity (system assigned and/or user assigned identities) */
@@ -2678,6 +2683,15 @@ export interface DataCollectionRuleResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly metadata?: DataCollectionRuleMetadata;
+  /**
+   * Defines the ingestion endpoints to send data to via this rule.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endpoints?: DataCollectionRuleEndpoints;
+  /** Defines all the references that may be used in other sections of the DCR */
+  references?: DataCollectionRuleReferences;
+  /** Agent settings used to modify agent behavior on a given host */
+  agentSettings?: DataCollectionRuleAgentSettings;
   /** Declaration of custom streams used in this rule. */
   streamDeclarations?: { [propertyName: string]: StreamDeclaration };
   /**
@@ -2712,6 +2726,15 @@ export interface DataCollectionRule {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly metadata?: DataCollectionRuleMetadata;
+  /**
+   * Defines the ingestion endpoints to send data to via this rule.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endpoints?: DataCollectionRuleEndpoints;
+  /** Defines all the references that may be used in other sections of the DCR */
+  references?: DataCollectionRuleReferences;
+  /** Agent settings used to modify agent behavior on a given host */
+  agentSettings?: DataCollectionRuleAgentSettings;
   /** Declaration of custom streams used in this rule. */
   streamDeclarations?: { [propertyName: string]: StreamDeclaration };
   /**
@@ -2728,6 +2751,60 @@ export interface DataCollectionRule {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: KnownDataCollectionRuleProvisioningState;
+}
+
+/** This defines all the ingestion endpoints that can be used by this rule */
+export interface EndpointsSpec {
+  /**
+   * The ingestion endpoint for logs
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly logsIngestion?: string;
+  /**
+   * The ingestion endpoint for metrics
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly metricsIngestion?: string;
+}
+
+/** This section defines all the references that may be used in other sections of the DCR */
+export interface ReferencesSpec {
+  /** All the enrichment data sources referenced in data flows */
+  enrichmentData?: ReferencesSpecEnrichmentData;
+}
+
+/** All the enrichment data sources referenced in data flows */
+export interface EnrichmentData {
+  /** All the storage blobs used as enrichment data sources */
+  storageBlobs?: StorageBlob[];
+}
+
+export interface StorageBlob {
+  /** Resource Id of the storage account that hosts the blob */
+  resourceId?: string;
+  /** Url of the storage blob */
+  blobUrl?: string;
+  /** The type of lookup to perform on the blob */
+  lookupType?: KnownStorageBlobLookupType;
+  /** The name of the enrichment data source used as an alias when referencing this data source in data flows */
+  name?: string;
+}
+
+/** An agent setting */
+export interface AgentSettingsSpec {
+  /** All the settings that are applicable to the logs agent (AMA) */
+  logs?: AgentSetting[];
+}
+
+/** A setting used to control an agent behavior on a host machine */
+export interface AgentSetting {
+  /**
+   * The name of the setting.
+   * Must be part of the list of supported settings
+   */
+  name?: KnownAgentSettingName;
+  /** The value of the setting */
+  value?: string;
 }
 
 /** Declaration of a custom stream. */
@@ -2786,6 +2863,8 @@ export interface PerfCounterDataSource {
    * To get a list of performance counters on Windows, run the command 'typeperf'.
    */
   counterSpecifiers?: string[];
+  /** The KQL query to transform the data source. */
+  transformKql?: string;
   /**
    * A friendly name for the data source.
    * This name should be unique across all data sources (regardless of type) within the data collection rule.
@@ -2805,6 +2884,8 @@ export interface WindowsEventLogDataSource {
   streams?: KnownWindowsEventLogDataSourceStreams[];
   /** A list of Windows Event Log queries in XPATH format. */
   xPathQueries?: string[];
+  /** The KQL query to transform the data source. */
+  transformKql?: string;
   /**
    * A friendly name for the data source.
    * This name should be unique across all data sources (regardless of type) within the data collection rule.
@@ -2826,6 +2907,8 @@ export interface SyslogDataSource {
   facilityNames?: KnownSyslogDataSourceFacilityNames[];
   /** The log levels to collect. */
   logLevels?: KnownSyslogDataSourceLogLevels[];
+  /** The KQL query to transform the data source. */
+  transformKql?: string;
   /**
    * A friendly name for the data source.
    * This name should be unique across all data sources (regardless of type) within the data collection rule.
@@ -2869,6 +2952,8 @@ export interface LogFilesDataSource {
   format: KnownLogFilesDataSourceFormat;
   /** The log files specific settings. */
   settings?: LogFilesDataSourceSettings;
+  /** The KQL query to transform the data source. */
+  transformKql?: string;
   /**
    * A friendly name for the data source.
    * This name should be unique across all data sources (regardless of type) within the data collection rule.
@@ -2894,6 +2979,8 @@ export interface IisLogsDataSource {
   streams: string[];
   /** Absolute paths file location */
   logDirectories?: string[];
+  /** The KQL query to transform the data source. */
+  transformKql?: string;
   /**
    * A friendly name for the data source.
    * This name should be unique across all data sources (regardless of type) within the data collection rule.
@@ -2905,6 +2992,8 @@ export interface IisLogsDataSource {
 export interface WindowsFirewallLogsDataSource {
   /** Firewall logs streams */
   streams: string[];
+  /** Firewall logs profile filter */
+  profileFilter?: KnownWindowsFirewallLogsDataSourceProfileFilter[];
   /**
    * A friendly name for the data source.
    * This name should be unique across all data sources (regardless of type) within the data collection rule.
@@ -2975,6 +3064,10 @@ export interface DestinationsSpec {
   storageTablesDirect?: StorageTableDestination[];
   /** List of storage accounts destinations. */
   storageAccounts?: StorageBlobDestination[];
+  /** List of Microsoft Fabric destinations. */
+  microsoftFabric?: MicrosoftFabricDestination[];
+  /** List of Azure Data Explorer destinations. */
+  azureDataExplorer?: AdxDestination[];
 }
 
 /** Log Analytics destination. */
@@ -3062,6 +3155,41 @@ export interface StorageTableDestination {
   name?: string;
 }
 
+/** Microsoft Fabric destination (non-Azure). */
+export interface MicrosoftFabricDestination {
+  /** The tenant id of the Microsoft Fabric resource. */
+  tenantId?: string;
+  /** The artifact id of the Microsoft Fabric resource. */
+  artifactId?: string;
+  /** The name of the database to which data will be ingested. */
+  databaseName?: string;
+  /** The ingestion uri of the Microsoft Fabric resource. */
+  ingestionUri?: string;
+  /**
+   * A friendly name for the destination.
+   * This name should be unique across all destinations (regardless of type) within the data collection rule.
+   */
+  name?: string;
+}
+
+/** Azure Data Explorer (Adx) destination. */
+export interface AdxDestination {
+  /** The ARM resource id of the Adx resource. */
+  resourceId?: string;
+  /** The name of the database to which data will be ingested. */
+  databaseName?: string;
+  /**
+   * The ingestion uri of the Adx resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ingestionUri?: string;
+  /**
+   * A friendly name for the destination.
+   * This name should be unique across all destinations (regardless of type) within the data collection rule.
+   */
+  name?: string;
+}
+
 /** Definition of which streams are sent to which destinations. */
 export interface DataFlow {
   /** List of streams for this data flow. */
@@ -3074,6 +3202,8 @@ export interface DataFlow {
   outputStream?: string;
   /** The builtIn transform to transform stream data */
   builtInTransform?: string;
+  /** Flag to enable overflow column in LA destinations */
+  captureOverflow?: boolean;
 }
 
 /** The claims for a rule management event data source. */
@@ -3598,6 +3728,18 @@ export interface DataCollectionRuleAssociationProxyOnlyResourceProperties
 /** Resource properties. */
 export interface DataCollectionRuleResourceProperties
   extends DataCollectionRule {}
+
+/** Defines the ingestion endpoints to send data to via this rule. */
+export interface DataCollectionRuleEndpoints extends EndpointsSpec {}
+
+/** Defines all the references that may be used in other sections of the DCR */
+export interface DataCollectionRuleReferences extends ReferencesSpec {}
+
+/** All the enrichment data sources referenced in data flows */
+export interface ReferencesSpecEnrichmentData extends EnrichmentData {}
+
+/** Agent settings used to modify agent behavior on a given host */
+export interface DataCollectionRuleAgentSettings extends AgentSettingsSpec {}
 
 /**
  * The specification of data sources.
@@ -4418,6 +4560,42 @@ export enum KnownKnownDataCollectionRuleAssociationProvisioningState {
  */
 export type KnownDataCollectionRuleAssociationProvisioningState = string;
 
+/** Known values of {@link KnownStorageBlobLookupType} that the service accepts. */
+export enum KnownKnownStorageBlobLookupType {
+  /** String */
+  String = "String",
+  /** Cidr */
+  Cidr = "Cidr",
+}
+
+/**
+ * Defines values for KnownStorageBlobLookupType. \
+ * {@link KnownKnownStorageBlobLookupType} can be used interchangeably with KnownStorageBlobLookupType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **String** \
+ * **Cidr**
+ */
+export type KnownStorageBlobLookupType = string;
+
+/** Known values of {@link KnownAgentSettingName} that the service accepts. */
+export enum KnownKnownAgentSettingName {
+  /** MaxDiskQuotaInMB */
+  MaxDiskQuotaInMB = "MaxDiskQuotaInMB",
+  /** UseTimeReceivedForForwardedEvents */
+  UseTimeReceivedForForwardedEvents = "UseTimeReceivedForForwardedEvents",
+}
+
+/**
+ * Defines values for KnownAgentSettingName. \
+ * {@link KnownKnownAgentSettingName} can be used interchangeably with KnownAgentSettingName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **MaxDiskQuotaInMB** \
+ * **UseTimeReceivedForForwardedEvents**
+ */
+export type KnownAgentSettingName = string;
+
 /** Known values of {@link KnownColumnDefinitionType} that the service accepts. */
 export enum KnownKnownColumnDefinitionType {
   /** String */
@@ -4504,6 +4682,8 @@ export type KnownSyslogDataSourceStreams = string;
 
 /** Known values of {@link KnownSyslogDataSourceFacilityNames} that the service accepts. */
 export enum KnownKnownSyslogDataSourceFacilityNames {
+  /** Asterisk */
+  Asterisk = "*",
   /** Alert */
   Alert = "alert",
   /** Audit */
@@ -4522,6 +4702,22 @@ export enum KnownKnownSyslogDataSourceFacilityNames {
   Ftp = "ftp",
   /** Kern */
   Kern = "kern",
+  /** Local0 */
+  Local0 = "local0",
+  /** Local1 */
+  Local1 = "local1",
+  /** Local2 */
+  Local2 = "local2",
+  /** Local3 */
+  Local3 = "local3",
+  /** Local4 */
+  Local4 = "local4",
+  /** Local5 */
+  Local5 = "local5",
+  /** Local6 */
+  Local6 = "local6",
+  /** Local7 */
+  Local7 = "local7",
   /** Lpr */
   Lpr = "lpr",
   /** Mail */
@@ -4540,24 +4736,6 @@ export enum KnownKnownSyslogDataSourceFacilityNames {
   User = "user",
   /** Uucp */
   Uucp = "uucp",
-  /** Local0 */
-  Local0 = "local0",
-  /** Local1 */
-  Local1 = "local1",
-  /** Local2 */
-  Local2 = "local2",
-  /** Local3 */
-  Local3 = "local3",
-  /** Local4 */
-  Local4 = "local4",
-  /** Local5 */
-  Local5 = "local5",
-  /** Local6 */
-  Local6 = "local6",
-  /** Local7 */
-  Local7 = "local7",
-  /** Asterisk */
-  Asterisk = "*",
 }
 
 /**
@@ -4565,6 +4743,7 @@ export enum KnownKnownSyslogDataSourceFacilityNames {
  * {@link KnownKnownSyslogDataSourceFacilityNames} can be used interchangeably with KnownSyslogDataSourceFacilityNames,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
+ * ***** \
  * **alert** \
  * **audit** \
  * **auth** \
@@ -4574,15 +4753,6 @@ export enum KnownKnownSyslogDataSourceFacilityNames {
  * **daemon** \
  * **ftp** \
  * **kern** \
- * **lpr** \
- * **mail** \
- * **mark** \
- * **news** \
- * **nopri** \
- * **ntp** \
- * **syslog** \
- * **user** \
- * **uucp** \
  * **local0** \
  * **local1** \
  * **local2** \
@@ -4591,7 +4761,15 @@ export enum KnownKnownSyslogDataSourceFacilityNames {
  * **local5** \
  * **local6** \
  * **local7** \
- * *****
+ * **lpr** \
+ * **mail** \
+ * **mark** \
+ * **news** \
+ * **nopri** \
+ * **ntp** \
+ * **syslog** \
+ * **user** \
+ * **uucp**
  */
 export type KnownSyslogDataSourceFacilityNames = string;
 
@@ -4663,6 +4841,8 @@ export type KnownExtensionDataSourceStreams = string;
 
 /** Known values of {@link KnownLogFilesDataSourceFormat} that the service accepts. */
 export enum KnownKnownLogFilesDataSourceFormat {
+  /** Json */
+  Json = "json",
   /** Text */
   Text = "text",
 }
@@ -4672,6 +4852,7 @@ export enum KnownKnownLogFilesDataSourceFormat {
  * {@link KnownKnownLogFilesDataSourceFormat} can be used interchangeably with KnownLogFilesDataSourceFormat,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
+ * **json** \
  * **text**
  */
 export type KnownLogFilesDataSourceFormat = string;
@@ -4714,6 +4895,27 @@ export enum KnownKnownLogFileTextSettingsRecordStartTimestampFormat {
  * **yyyy-MM-ddTHH:mm:ssK**
  */
 export type KnownLogFileTextSettingsRecordStartTimestampFormat = string;
+
+/** Known values of {@link KnownWindowsFirewallLogsDataSourceProfileFilter} that the service accepts. */
+export enum KnownKnownWindowsFirewallLogsDataSourceProfileFilter {
+  /** Domain */
+  Domain = "Domain",
+  /** Private */
+  Private = "Private",
+  /** Public */
+  Public = "Public",
+}
+
+/**
+ * Defines values for KnownWindowsFirewallLogsDataSourceProfileFilter. \
+ * {@link KnownKnownWindowsFirewallLogsDataSourceProfileFilter} can be used interchangeably with KnownWindowsFirewallLogsDataSourceProfileFilter,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Domain** \
+ * **Private** \
+ * **Public**
+ */
+export type KnownWindowsFirewallLogsDataSourceProfileFilter = string;
 
 /** Known values of {@link KnownPrometheusForwarderDataSourceStreams} that the service accepts. */
 export enum KnownKnownPrometheusForwarderDataSourceStreams {
@@ -6156,7 +6358,10 @@ export type DataCollectionRulesUpdateResponse = DataCollectionRuleResource;
 
 /** Optional parameters. */
 export interface DataCollectionRulesDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** If set to 'true' then all associations of this data collection rule will also be deleted */
+  deleteAssociations?: boolean;
+}
 
 /** Optional parameters. */
 export interface DataCollectionRulesListByResourceGroupNextOptionalParams

@@ -415,7 +415,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponseCommonV2,
     },
   },
-  queryParameters: [Parameters.apiVersion14],
+  queryParameters: [Parameters.apiVersion14, Parameters.deleteAssociations],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
