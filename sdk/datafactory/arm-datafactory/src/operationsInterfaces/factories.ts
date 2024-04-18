@@ -11,9 +11,6 @@ import {
   Factory,
   FactoriesListOptionalParams,
   FactoriesListByResourceGroupOptionalParams,
-  FactoryRepoUpdate,
-  FactoriesConfigureFactoryRepoOptionalParams,
-  FactoriesConfigureFactoryRepoResponse,
   FactoriesCreateOrUpdateOptionalParams,
   FactoriesCreateOrUpdateResponse,
   FactoryUpdateParameters,
@@ -49,17 +46,6 @@ export interface Factories {
     resourceGroupName: string,
     options?: FactoriesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Factory>;
-  /**
-   * Updates a factory's repo information.
-   * @param locationId The location identifier.
-   * @param factoryRepoUpdate Update factory repo request definition.
-   * @param options The options parameters.
-   */
-  configureFactoryRepo(
-    locationId: string,
-    factoryRepoUpdate: FactoryRepoUpdate,
-    options?: FactoriesConfigureFactoryRepoOptionalParams,
-  ): Promise<FactoriesConfigureFactoryRepoResponse>;
   /**
    * Creates or updates a factory.
    * @param resourceGroupName The resource group name.

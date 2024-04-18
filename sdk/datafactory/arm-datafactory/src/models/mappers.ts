@@ -598,28 +598,6 @@ export const Resource: coreClient.CompositeMapper = {
   },
 };
 
-export const FactoryRepoUpdate: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "FactoryRepoUpdate",
-    modelProperties: {
-      factoryResourceId: {
-        serializedName: "factoryResourceId",
-        type: {
-          name: "String",
-        },
-      },
-      repoConfiguration: {
-        serializedName: "repoConfiguration",
-        type: {
-          name: "Composite",
-          className: "FactoryRepoConfiguration",
-        },
-      },
-    },
-  },
-};
-
 export const ExposureControlRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3558,7 +3536,7 @@ export const CredentialListResponse: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ManagedIdentityCredentialResource",
+              className: "CredentialResource",
             },
           },
         },
@@ -4373,6 +4351,28 @@ export const IntegrationRuntimeStatusListResponse: coreClient.CompositeMapper =
       },
     },
   };
+
+export const FactoryRepoUpdate: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FactoryRepoUpdate",
+    modelProperties: {
+      factoryResourceId: {
+        serializedName: "factoryResourceId",
+        type: {
+          name: "String",
+        },
+      },
+      repoConfiguration: {
+        serializedName: "repoConfiguration",
+        type: {
+          name: "Composite",
+          className: "FactoryRepoConfiguration",
+        },
+      },
+    },
+  },
+};
 
 export const PipelineReference: coreClient.CompositeMapper = {
   type: {
@@ -7345,7 +7345,7 @@ export const ScriptActivityScriptBlock: coreClient.CompositeMapper = {
         serializedName: "type",
         required: true,
         type: {
-          name: "String",
+          name: "any",
         },
       },
       parameters: {
@@ -8225,17 +8225,17 @@ export const ManagedPrivateEndpointResource: coreClient.CompositeMapper = {
   },
 };
 
-export const ManagedIdentityCredentialResource: coreClient.CompositeMapper = {
+export const CredentialResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ManagedIdentityCredentialResource",
+    className: "CredentialResource",
     modelProperties: {
       ...SubResource.type.modelProperties,
       properties: {
         serializedName: "properties",
         type: {
           name: "Composite",
-          className: "ManagedIdentityCredential",
+          className: "Credential",
         },
       },
     },
@@ -8380,23 +8380,6 @@ export const ChangeDataCaptureResource: coreClient.CompositeMapper = {
         serializedName: "properties.status",
         type: {
           name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const CredentialResource: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CredentialResource",
-    modelProperties: {
-      ...SubResource.type.modelProperties,
-      properties: {
-        serializedName: "properties",
-        type: {
-          name: "Composite",
-          className: "Credential",
         },
       },
     },
@@ -19655,12 +19638,6 @@ export const ManagedIdentityCredential: coreClient.CompositeMapper = {
     polymorphicDiscriminator: Credential.type.polymorphicDiscriminator,
     modelProperties: {
       ...Credential.type.modelProperties,
-      resourceId: {
-        serializedName: "typeProperties.resourceId",
-        type: {
-          name: "String",
-        },
-      },
     },
   },
 };
@@ -24889,6 +24866,40 @@ export const SelfDependencyTumblingWindowTriggerReference: coreClient.CompositeM
     },
   };
 
+export const ManagedIdentityCredentialResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedIdentityCredentialResource",
+    modelProperties: {
+      ...CredentialResource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "ManagedIdentityCredential",
+        },
+      },
+    },
+  },
+};
+
+export const ServicePrincipalCredentialResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ServicePrincipalCredentialResource",
+    modelProperties: {
+      ...CredentialResource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "ServicePrincipalCredential",
+        },
+      },
+    },
+  },
+};
+
 export const ExecutePipelineActivity: coreClient.CompositeMapper = {
   serializedName: "ExecutePipeline",
   type: {
@@ -25337,7 +25348,7 @@ export const WebHookActivity: coreClient.CompositeMapper = {
         serializedName: "typeProperties.headers",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } },
+          value: { type: { name: "any" } },
         },
       },
       body: {
@@ -26262,7 +26273,7 @@ export const WebActivity: coreClient.CompositeMapper = {
         serializedName: "typeProperties.headers",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } },
+          value: { type: { name: "any" } },
         },
       },
       body: {
@@ -26728,7 +26739,7 @@ export const AzureFunctionActivity: coreClient.CompositeMapper = {
         serializedName: "typeProperties.headers",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } },
+          value: { type: { name: "any" } },
         },
       },
       body: {

@@ -12,7 +12,6 @@ import {
   OperationQueryParameter,
 } from "@azure/core-client";
 import {
-  FactoryRepoUpdate as FactoryRepoUpdateMapper,
   Factory as FactoryMapper,
   FactoryUpdateParameters as FactoryUpdateParametersMapper,
   GitHubAccessTokenRequest as GitHubAccessTokenRequestMapper,
@@ -39,7 +38,7 @@ import {
   DataFlowDebugCommandRequest as DataFlowDebugCommandRequestMapper,
   ManagedVirtualNetworkResource as ManagedVirtualNetworkResourceMapper,
   ManagedPrivateEndpointResource as ManagedPrivateEndpointResourceMapper,
-  ManagedIdentityCredentialResource as ManagedIdentityCredentialResourceMapper,
+  CredentialResource as CredentialResourceMapper,
   PrivateLinkConnectionApprovalRequestResource as PrivateLinkConnectionApprovalRequestResourceMapper,
   GlobalParameterResource as GlobalParameterResourceMapper,
   ChangeDataCaptureResource as ChangeDataCaptureResourceMapper,
@@ -104,34 +103,6 @@ export const subscriptionId: OperationURLParameter = {
   },
 };
 
-export const contentType: OperationParameter = {
-  parameterPath: ["options", "contentType"],
-  mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Content-Type",
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const factoryRepoUpdate: OperationParameter = {
-  parameterPath: "factoryRepoUpdate",
-  mapper: FactoryRepoUpdateMapper,
-};
-
-export const locationId: OperationURLParameter = {
-  parameterPath: "locationId",
-  mapper: {
-    serializedName: "locationId",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
 export const resourceGroupName: OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
@@ -142,6 +113,18 @@ export const resourceGroupName: OperationURLParameter = {
     },
     serializedName: "resourceGroupName",
     required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const contentType: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
     type: {
       name: "String",
     },
@@ -207,6 +190,17 @@ export const policy: OperationParameter = {
 export const exposureControlRequest: OperationParameter = {
   parameterPath: "exposureControlRequest",
   mapper: ExposureControlRequestMapper,
+};
+
+export const locationId: OperationURLParameter = {
+  parameterPath: "locationId",
+  mapper: {
+    serializedName: "locationId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const exposureControlBatchRequest: OperationParameter = {
@@ -536,7 +530,7 @@ export const managedPrivateEndpointName: OperationURLParameter = {
 
 export const credential: OperationParameter = {
   parameterPath: "credential",
-  mapper: ManagedIdentityCredentialResourceMapper,
+  mapper: CredentialResourceMapper,
 };
 
 export const credentialName: OperationURLParameter = {

@@ -21,9 +21,6 @@ import {
   FactoriesListByResourceGroupNextOptionalParams,
   FactoriesListByResourceGroupOptionalParams,
   FactoriesListByResourceGroupResponse,
-  FactoryRepoUpdate,
-  FactoriesConfigureFactoryRepoOptionalParams,
-  FactoriesConfigureFactoryRepoResponse,
   FactoriesCreateOrUpdateOptionalParams,
   FactoriesCreateOrUpdateResponse,
   FactoryUpdateParameters,
@@ -186,23 +183,6 @@ export class FactoriesImpl implements Factories {
     options?: FactoriesListOptionalParams,
   ): Promise<FactoriesListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
-  }
-
-  /**
-   * Updates a factory's repo information.
-   * @param locationId The location identifier.
-   * @param factoryRepoUpdate Update factory repo request definition.
-   * @param options The options parameters.
-   */
-  configureFactoryRepo(
-    locationId: string,
-    factoryRepoUpdate: FactoryRepoUpdate,
-    options?: FactoriesConfigureFactoryRepoOptionalParams,
-  ): Promise<FactoriesConfigureFactoryRepoResponse> {
-    return this.client.sendOperationRequest(
-      { locationId, factoryRepoUpdate, options },
-      configureFactoryRepoOperationSpec,
-    );
   }
 
   /**
@@ -379,28 +359,6 @@ const listOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer,
-};
-const configureFactoryRepoOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DataFactory/locations/{locationId}/configureFactoryRepo",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Factory,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  requestBody: Parameters.factoryRepoUpdate,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.locationId,
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
   serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
