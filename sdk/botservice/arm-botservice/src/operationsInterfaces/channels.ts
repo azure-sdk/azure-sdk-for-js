@@ -19,7 +19,7 @@ import {
   ChannelsGetOptionalParams,
   ChannelsGetResponse,
   ChannelsListWithKeysOptionalParams,
-  ChannelsListWithKeysResponse
+  ChannelsListWithKeysResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,7 +34,7 @@ export interface Channels {
   listByResourceGroup(
     resourceGroupName: string,
     resourceName: string,
-    options?: ChannelsListByResourceGroupOptionalParams
+    options?: ChannelsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<BotChannel>;
   /**
    * Creates a Channel registration for a Bot Service
@@ -49,7 +49,7 @@ export interface Channels {
     resourceName: string,
     channelName: ChannelName,
     parameters: BotChannel,
-    options?: ChannelsCreateOptionalParams
+    options?: ChannelsCreateOptionalParams,
   ): Promise<ChannelsCreateResponse>;
   /**
    * Updates a Channel registration for a Bot Service
@@ -62,7 +62,7 @@ export interface Channels {
     resourceGroupName: string,
     resourceName: string,
     channelName: ChannelName,
-    options?: ChannelsUpdateOptionalParams
+    options?: ChannelsUpdateOptionalParams,
   ): Promise<ChannelsUpdateResponse>;
   /**
    * Deletes a Channel registration from a Bot Service
@@ -75,7 +75,7 @@ export interface Channels {
     resourceGroupName: string,
     resourceName: string,
     channelName: string,
-    options?: ChannelsDeleteOptionalParams
+    options?: ChannelsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Returns a BotService Channel registration specified by the parameters.
@@ -88,7 +88,7 @@ export interface Channels {
     resourceGroupName: string,
     resourceName: string,
     channelName: string,
-    options?: ChannelsGetOptionalParams
+    options?: ChannelsGetOptionalParams,
   ): Promise<ChannelsGetResponse>;
   /**
    * Lists a Channel registration for a Bot Service including secrets
@@ -101,6 +101,6 @@ export interface Channels {
     resourceGroupName: string,
     resourceName: string,
     channelName: ChannelName,
-    options?: ChannelsListWithKeysOptionalParams
+    options?: ChannelsListWithKeysOptionalParams,
   ): Promise<ChannelsListWithKeysResponse>;
 }

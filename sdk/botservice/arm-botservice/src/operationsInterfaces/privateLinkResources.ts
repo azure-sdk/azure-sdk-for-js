@@ -8,7 +8,7 @@
 
 import {
   PrivateLinkResourcesListByBotResourceOptionalParams,
-  PrivateLinkResourcesListByBotResourceResponse
+  PrivateLinkResourcesListByBotResourceResponse,
 } from "../models";
 
 /** Interface representing a PrivateLinkResources. */
@@ -22,6 +22,6 @@ export interface PrivateLinkResources {
   listByBotResource(
     resourceGroupName: string,
     resourceName: string,
-    options?: PrivateLinkResourcesListByBotResourceOptionalParams
+    options?: PrivateLinkResourcesListByBotResourceOptionalParams,
   ): Promise<PrivateLinkResourcesListByBotResourceResponse>;
 }

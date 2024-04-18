@@ -28,7 +28,7 @@ import {
   ChannelsGetResponse,
   ChannelsListWithKeysOptionalParams,
   ChannelsListWithKeysResponse,
-  ChannelsListByResourceGroupNextResponse
+  ChannelsListByResourceGroupNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -53,12 +53,12 @@ export class ChannelsImpl implements Channels {
   public listByResourceGroup(
     resourceGroupName: string,
     resourceName: string,
-    options?: ChannelsListByResourceGroupOptionalParams
+    options?: ChannelsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<BotChannel> {
     const iter = this.listByResourceGroupPagingAll(
       resourceGroupName,
       resourceName,
-      options
+      options,
     );
     return {
       next() {
@@ -75,9 +75,9 @@ export class ChannelsImpl implements Channels {
           resourceGroupName,
           resourceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -85,7 +85,7 @@ export class ChannelsImpl implements Channels {
     resourceGroupName: string,
     resourceName: string,
     options?: ChannelsListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<BotChannel[]> {
     let result: ChannelsListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -93,7 +93,7 @@ export class ChannelsImpl implements Channels {
       result = await this._listByResourceGroup(
         resourceGroupName,
         resourceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -105,7 +105,7 @@ export class ChannelsImpl implements Channels {
         resourceGroupName,
         resourceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -117,12 +117,12 @@ export class ChannelsImpl implements Channels {
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
     resourceName: string,
-    options?: ChannelsListByResourceGroupOptionalParams
+    options?: ChannelsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<BotChannel> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
       resourceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -141,11 +141,11 @@ export class ChannelsImpl implements Channels {
     resourceName: string,
     channelName: ChannelName,
     parameters: BotChannel,
-    options?: ChannelsCreateOptionalParams
+    options?: ChannelsCreateOptionalParams,
   ): Promise<ChannelsCreateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, channelName, parameters, options },
-      createOperationSpec
+      createOperationSpec,
     );
   }
 
@@ -160,11 +160,11 @@ export class ChannelsImpl implements Channels {
     resourceGroupName: string,
     resourceName: string,
     channelName: ChannelName,
-    options?: ChannelsUpdateOptionalParams
+    options?: ChannelsUpdateOptionalParams,
   ): Promise<ChannelsUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, channelName, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -179,11 +179,11 @@ export class ChannelsImpl implements Channels {
     resourceGroupName: string,
     resourceName: string,
     channelName: string,
-    options?: ChannelsDeleteOptionalParams
+    options?: ChannelsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, channelName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -198,11 +198,11 @@ export class ChannelsImpl implements Channels {
     resourceGroupName: string,
     resourceName: string,
     channelName: string,
-    options?: ChannelsGetOptionalParams
+    options?: ChannelsGetOptionalParams,
   ): Promise<ChannelsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, channelName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -217,11 +217,11 @@ export class ChannelsImpl implements Channels {
     resourceGroupName: string,
     resourceName: string,
     channelName: ChannelName,
-    options?: ChannelsListWithKeysOptionalParams
+    options?: ChannelsListWithKeysOptionalParams,
   ): Promise<ChannelsListWithKeysResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, channelName, options },
-      listWithKeysOperationSpec
+      listWithKeysOperationSpec,
     );
   }
 
@@ -234,11 +234,11 @@ export class ChannelsImpl implements Channels {
   private _listByResourceGroup(
     resourceGroupName: string,
     resourceName: string,
-    options?: ChannelsListByResourceGroupOptionalParams
+    options?: ChannelsListByResourceGroupOptionalParams,
   ): Promise<ChannelsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -253,11 +253,11 @@ export class ChannelsImpl implements Channels {
     resourceGroupName: string,
     resourceName: string,
     nextLink: string,
-    options?: ChannelsListByResourceGroupNextOptionalParams
+    options?: ChannelsListByResourceGroupNextOptionalParams,
   ): Promise<ChannelsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 }
@@ -265,19 +265,18 @@ export class ChannelsImpl implements Channels {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BotService/botServices/{resourceName}/channels/{channelName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BotService/botServices/{resourceName}/channels/{channelName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.BotChannel
+      bodyMapper: Mappers.BotChannel,
     },
     201: {
-      bodyMapper: Mappers.BotChannel
+      bodyMapper: Mappers.BotChannel,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   requestBody: Parameters.parameters3,
   queryParameters: [Parameters.apiVersion],
@@ -286,26 +285,25 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.resourceName,
     Parameters.subscriptionId,
-    Parameters.channelName
+    Parameters.channelName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BotService/botServices/{resourceName}/channels/{channelName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BotService/botServices/{resourceName}/channels/{channelName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.BotChannel
+      bodyMapper: Mappers.BotChannel,
     },
     201: {
-      bodyMapper: Mappers.BotChannel
+      bodyMapper: Mappers.BotChannel,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   requestBody: {
     parameterPath: {
@@ -314,9 +312,9 @@ const updateOperationSpec: coreClient.OperationSpec = {
       sku: ["options", "sku"],
       kind: ["options", "kind"],
       etag: ["options", "etag"],
-      properties: ["options", "properties"]
+      properties: ["options", "properties"],
     },
-    mapper: { ...Mappers.BotChannel, required: true }
+    mapper: { ...Mappers.BotChannel, required: true },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -324,22 +322,21 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.resourceName,
     Parameters.subscriptionId,
-    Parameters.channelName
+    Parameters.channelName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BotService/botServices/{resourceName}/channels/{channelName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BotService/botServices/{resourceName}/channels/{channelName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -347,22 +344,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.resourceName,
     Parameters.subscriptionId,
-    Parameters.channelName1
+    Parameters.channelName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BotService/botServices/{resourceName}/channels/{channelName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BotService/botServices/{resourceName}/channels/{channelName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BotChannel
+      bodyMapper: Mappers.BotChannel,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -370,22 +366,21 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.resourceName,
     Parameters.subscriptionId,
-    Parameters.channelName1
+    Parameters.channelName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listWithKeysOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BotService/botServices/{resourceName}/channels/{channelName}/listChannelWithKeys",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BotService/botServices/{resourceName}/channels/{channelName}/listChannelWithKeys",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ListChannelWithKeysResponse
+      bodyMapper: Mappers.ListChannelWithKeysResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -393,51 +388,50 @@ const listWithKeysOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.resourceName,
     Parameters.subscriptionId,
-    Parameters.channelName
+    Parameters.channelName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BotService/botServices/{resourceName}/channels",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BotService/botServices/{resourceName}/channels",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ChannelResponseList
+      bodyMapper: Mappers.ChannelResponseList,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ChannelResponseList
+      bodyMapper: Mappers.ChannelResponseList,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.resourceName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
