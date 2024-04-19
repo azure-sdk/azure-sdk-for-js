@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Schedule,
   SchedulesListOptionalParams,
@@ -15,7 +15,10 @@ import {
   SchedulesGetOptionalParams,
   SchedulesGetResponse,
   SchedulesCreateOrUpdateOptionalParams,
-  SchedulesCreateOrUpdateResponse
+  SchedulesCreateOrUpdateResponse,
+  TriggerOnceRequest,
+  SchedulesTriggerOptionalParams,
+  SchedulesTriggerResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +33,7 @@ export interface Schedules {
   list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: SchedulesListOptionalParams
+    options?: SchedulesListOptionalParams,
   ): PagedAsyncIterableIterator<Schedule>;
   /**
    * Delete schedule.
@@ -43,8 +46,8 @@ export interface Schedules {
     resourceGroupName: string,
     workspaceName: string,
     name: string,
-    options?: SchedulesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: SchedulesDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete schedule.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -56,7 +59,7 @@ export interface Schedules {
     resourceGroupName: string,
     workspaceName: string,
     name: string,
-    options?: SchedulesDeleteOptionalParams
+    options?: SchedulesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Get schedule.
@@ -69,7 +72,7 @@ export interface Schedules {
     resourceGroupName: string,
     workspaceName: string,
     name: string,
-    options?: SchedulesGetOptionalParams
+    options?: SchedulesGetOptionalParams,
   ): Promise<SchedulesGetResponse>;
   /**
    * Create or update schedule.
@@ -84,10 +87,10 @@ export interface Schedules {
     workspaceName: string,
     name: string,
     body: Schedule,
-    options?: SchedulesCreateOrUpdateOptionalParams
+    options?: SchedulesCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<SchedulesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SchedulesCreateOrUpdateResponse>,
       SchedulesCreateOrUpdateResponse
     >
   >;
@@ -104,6 +107,21 @@ export interface Schedules {
     workspaceName: string,
     name: string,
     body: Schedule,
-    options?: SchedulesCreateOrUpdateOptionalParams
+    options?: SchedulesCreateOrUpdateOptionalParams,
   ): Promise<SchedulesCreateOrUpdateResponse>;
+  /**
+   * Trigger run.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param name Schedule name.
+   * @param body Request body for trigger once
+   * @param options The options parameters.
+   */
+  trigger(
+    resourceGroupName: string,
+    workspaceName: string,
+    name: string,
+    body: TriggerOnceRequest,
+    options?: SchedulesTriggerOptionalParams,
+  ): Promise<SchedulesTriggerResponse>;
 }
