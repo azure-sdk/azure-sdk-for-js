@@ -10,10 +10,12 @@ import {
   ChatCompletionsOutput,
   ImageGenerationsOutput,
   EmbeddingsOutput,
+  BatchImageGenerationOperationResponseOutput,
 } from "./outputModels.js";
 
 /** The request has succeeded. */
-export interface GetAudioTranscriptionAsPlainText200Response extends HttpResponse {
+export interface GetAudioTranscriptionAsPlainText200Response
+  extends HttpResponse {
   status: "200";
   body: string;
 }
@@ -23,14 +25,16 @@ export interface GetAudioTranscriptionAsPlainTextDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface GetAudioTranscriptionAsPlainTextDefaultResponse extends HttpResponse {
+export interface GetAudioTranscriptionAsPlainTextDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & GetAudioTranscriptionAsPlainTextDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface GetAudioTranscriptionAsResponseObject200Response extends HttpResponse {
+export interface GetAudioTranscriptionAsResponseObject200Response
+  extends HttpResponse {
   status: "200";
   body: AudioTranscriptionOutput;
 }
@@ -40,14 +44,16 @@ export interface GetAudioTranscriptionAsResponseObjectDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface GetAudioTranscriptionAsResponseObjectDefaultResponse extends HttpResponse {
+export interface GetAudioTranscriptionAsResponseObjectDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & GetAudioTranscriptionAsResponseObjectDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface GetAudioTranslationAsPlainText200Response extends HttpResponse {
+export interface GetAudioTranslationAsPlainText200Response
+  extends HttpResponse {
   status: "200";
   body: string;
 }
@@ -57,14 +63,16 @@ export interface GetAudioTranslationAsPlainTextDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface GetAudioTranslationAsPlainTextDefaultResponse extends HttpResponse {
+export interface GetAudioTranslationAsPlainTextDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & GetAudioTranslationAsPlainTextDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface GetAudioTranslationAsResponseObject200Response extends HttpResponse {
+export interface GetAudioTranslationAsResponseObject200Response
+  extends HttpResponse {
   status: "200";
   body: AudioTranslationOutput;
 }
@@ -74,7 +82,8 @@ export interface GetAudioTranslationAsResponseObjectDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface GetAudioTranslationAsResponseObjectDefaultResponse extends HttpResponse {
+export interface GetAudioTranslationAsResponseObjectDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & GetAudioTranslationAsResponseObjectDefaultHeaders;
@@ -132,6 +141,24 @@ export interface GetImageGenerationsDefaultResponse extends HttpResponse {
 }
 
 /** The request has succeeded. */
+export interface GenerateSpeechFromText200Response extends HttpResponse {
+  status: "200";
+  /** Value may contain any sequence of octets */
+  body: Uint8Array;
+}
+
+export interface GenerateSpeechFromTextDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface GenerateSpeechFromTextDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & GenerateSpeechFromTextDefaultHeaders;
+}
+
+/** The request has succeeded. */
 export interface GetEmbeddings200Response extends HttpResponse {
   status: "200";
   body: EmbeddingsOutput;
@@ -146,4 +173,56 @@ export interface GetEmbeddingsDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & GetEmbeddingsDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface GetAzureBatchImageGenerationOperationStatus200Response
+  extends HttpResponse {
+  status: "200";
+  body: BatchImageGenerationOperationResponseOutput;
+}
+
+export interface GetAzureBatchImageGenerationOperationStatusDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface GetAzureBatchImageGenerationOperationStatusDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders &
+    GetAzureBatchImageGenerationOperationStatusDefaultHeaders;
+}
+
+export interface BeginAzureBatchImageGeneration202Headers {
+  /** The location for monitoring the operation state. */
+  "operation-location": string;
+}
+
+/** The request has been accepted for processing, but processing has not yet completed. */
+export interface BeginAzureBatchImageGeneration202Response
+  extends HttpResponse {
+  status: "202";
+  body: BatchImageGenerationOperationResponseOutput;
+  headers: RawHttpHeaders & BeginAzureBatchImageGeneration202Headers;
+}
+
+export interface BeginAzureBatchImageGenerationDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface BeginAzureBatchImageGenerationDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & BeginAzureBatchImageGenerationDefaultHeaders;
+}
+
+/** The final response for long-running beginAzureBatchImageGeneration operation */
+export interface BeginAzureBatchImageGenerationLogicalResponse
+  extends HttpResponse {
+  status: "200";
+  body: BatchImageGenerationOperationResponseOutput;
 }
