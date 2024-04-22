@@ -24,7 +24,7 @@ import {
   ArtifactManifestsListCredentialResponse,
   ArtifactManifestUpdateState,
   ArtifactManifestsUpdateStateOptionalParams,
-  ArtifactManifestsUpdateStateResponse
+  ArtifactManifestsUpdateStateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -41,7 +41,7 @@ export interface ArtifactManifests {
     resourceGroupName: string,
     publisherName: string,
     artifactStoreName: string,
-    options?: ArtifactManifestsListByArtifactStoreOptionalParams
+    options?: ArtifactManifestsListByArtifactStoreOptionalParams,
   ): PagedAsyncIterableIterator<ArtifactManifest>;
   /**
    * Deletes the specified artifact manifest.
@@ -56,7 +56,7 @@ export interface ArtifactManifests {
     publisherName: string,
     artifactStoreName: string,
     artifactManifestName: string,
-    options?: ArtifactManifestsDeleteOptionalParams
+    options?: ArtifactManifestsDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ArtifactManifestsDeleteResponse>,
@@ -76,7 +76,7 @@ export interface ArtifactManifests {
     publisherName: string,
     artifactStoreName: string,
     artifactManifestName: string,
-    options?: ArtifactManifestsDeleteOptionalParams
+    options?: ArtifactManifestsDeleteOptionalParams,
   ): Promise<ArtifactManifestsDeleteResponse>;
   /**
    * Creates or updates a artifact manifest.
@@ -93,7 +93,7 @@ export interface ArtifactManifests {
     artifactStoreName: string,
     artifactManifestName: string,
     parameters: ArtifactManifest,
-    options?: ArtifactManifestsCreateOrUpdateOptionalParams
+    options?: ArtifactManifestsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ArtifactManifestsCreateOrUpdateResponse>,
@@ -115,7 +115,7 @@ export interface ArtifactManifests {
     artifactStoreName: string,
     artifactManifestName: string,
     parameters: ArtifactManifest,
-    options?: ArtifactManifestsCreateOrUpdateOptionalParams
+    options?: ArtifactManifestsCreateOrUpdateOptionalParams,
   ): Promise<ArtifactManifestsCreateOrUpdateResponse>;
   /**
    * Gets information about a artifact manifest resource.
@@ -130,7 +130,7 @@ export interface ArtifactManifests {
     publisherName: string,
     artifactStoreName: string,
     artifactManifestName: string,
-    options?: ArtifactManifestsGetOptionalParams
+    options?: ArtifactManifestsGetOptionalParams,
   ): Promise<ArtifactManifestsGetResponse>;
   /**
    * Updates a artifact manifest resource.
@@ -147,7 +147,7 @@ export interface ArtifactManifests {
     artifactStoreName: string,
     artifactManifestName: string,
     parameters: TagsObject,
-    options?: ArtifactManifestsUpdateOptionalParams
+    options?: ArtifactManifestsUpdateOptionalParams,
   ): Promise<ArtifactManifestsUpdateResponse>;
   /**
    * List credential for publishing artifacts defined in artifact manifest.
@@ -162,7 +162,7 @@ export interface ArtifactManifests {
     publisherName: string,
     artifactStoreName: string,
     artifactManifestName: string,
-    options?: ArtifactManifestsListCredentialOptionalParams
+    options?: ArtifactManifestsListCredentialOptionalParams,
   ): Promise<ArtifactManifestsListCredentialResponse>;
   /**
    * Update state for artifact manifest.
@@ -179,7 +179,7 @@ export interface ArtifactManifests {
     artifactStoreName: string,
     artifactManifestName: string,
     parameters: ArtifactManifestUpdateState,
-    options?: ArtifactManifestsUpdateStateOptionalParams
+    options?: ArtifactManifestsUpdateStateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ArtifactManifestsUpdateStateResponse>,
@@ -201,6 +201,6 @@ export interface ArtifactManifests {
     artifactStoreName: string,
     artifactManifestName: string,
     parameters: ArtifactManifestUpdateState,
-    options?: ArtifactManifestsUpdateStateOptionalParams
+    options?: ArtifactManifestsUpdateStateOptionalParams,
   ): Promise<ArtifactManifestsUpdateStateResponse>;
 }

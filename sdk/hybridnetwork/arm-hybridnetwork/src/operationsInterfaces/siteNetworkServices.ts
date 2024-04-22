@@ -20,7 +20,7 @@ import {
   SiteNetworkServicesCreateOrUpdateResponse,
   TagsObject,
   SiteNetworkServicesUpdateTagsOptionalParams,
-  SiteNetworkServicesUpdateTagsResponse
+  SiteNetworkServicesUpdateTagsResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface SiteNetworkServices {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: SiteNetworkServicesListBySubscriptionOptionalParams
+    options?: SiteNetworkServicesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<SiteNetworkService>;
   /**
    * Lists all site network services.
@@ -40,7 +40,7 @@ export interface SiteNetworkServices {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: SiteNetworkServicesListByResourceGroupOptionalParams
+    options?: SiteNetworkServicesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<SiteNetworkService>;
   /**
    * Deletes the specified site network service.
@@ -51,7 +51,7 @@ export interface SiteNetworkServices {
   beginDelete(
     resourceGroupName: string,
     siteNetworkServiceName: string,
-    options?: SiteNetworkServicesDeleteOptionalParams
+    options?: SiteNetworkServicesDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SiteNetworkServicesDeleteResponse>,
@@ -67,7 +67,7 @@ export interface SiteNetworkServices {
   beginDeleteAndWait(
     resourceGroupName: string,
     siteNetworkServiceName: string,
-    options?: SiteNetworkServicesDeleteOptionalParams
+    options?: SiteNetworkServicesDeleteOptionalParams,
   ): Promise<SiteNetworkServicesDeleteResponse>;
   /**
    * Gets information about the specified site network service.
@@ -78,7 +78,7 @@ export interface SiteNetworkServices {
   get(
     resourceGroupName: string,
     siteNetworkServiceName: string,
-    options?: SiteNetworkServicesGetOptionalParams
+    options?: SiteNetworkServicesGetOptionalParams,
   ): Promise<SiteNetworkServicesGetResponse>;
   /**
    * Creates or updates a network site.
@@ -91,7 +91,7 @@ export interface SiteNetworkServices {
     resourceGroupName: string,
     siteNetworkServiceName: string,
     parameters: SiteNetworkService,
-    options?: SiteNetworkServicesCreateOrUpdateOptionalParams
+    options?: SiteNetworkServicesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SiteNetworkServicesCreateOrUpdateResponse>,
@@ -109,7 +109,7 @@ export interface SiteNetworkServices {
     resourceGroupName: string,
     siteNetworkServiceName: string,
     parameters: SiteNetworkService,
-    options?: SiteNetworkServicesCreateOrUpdateOptionalParams
+    options?: SiteNetworkServicesCreateOrUpdateOptionalParams,
   ): Promise<SiteNetworkServicesCreateOrUpdateResponse>;
   /**
    * Updates a site update tags.
@@ -122,6 +122,6 @@ export interface SiteNetworkServices {
     resourceGroupName: string,
     siteNetworkServiceName: string,
     parameters: TagsObject,
-    options?: SiteNetworkServicesUpdateTagsOptionalParams
+    options?: SiteNetworkServicesUpdateTagsOptionalParams,
   ): Promise<SiteNetworkServicesUpdateTagsResponse>;
 }

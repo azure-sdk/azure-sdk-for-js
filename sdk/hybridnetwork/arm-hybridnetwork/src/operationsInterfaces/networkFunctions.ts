@@ -21,7 +21,7 @@ import {
   NetworkFunctionsUpdateTagsOptionalParams,
   NetworkFunctionsUpdateTagsResponse,
   ExecuteRequestParameters,
-  NetworkFunctionsExecuteRequestOptionalParams
+  NetworkFunctionsExecuteRequestOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface NetworkFunctions {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: NetworkFunctionsListBySubscriptionOptionalParams
+    options?: NetworkFunctionsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<NetworkFunction>;
   /**
    * Lists all the network function resources in a resource group.
@@ -41,7 +41,7 @@ export interface NetworkFunctions {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: NetworkFunctionsListByResourceGroupOptionalParams
+    options?: NetworkFunctionsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<NetworkFunction>;
   /**
    * Deletes the specified network function resource.
@@ -52,7 +52,7 @@ export interface NetworkFunctions {
   beginDelete(
     resourceGroupName: string,
     networkFunctionName: string,
-    options?: NetworkFunctionsDeleteOptionalParams
+    options?: NetworkFunctionsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified network function resource.
@@ -63,7 +63,7 @@ export interface NetworkFunctions {
   beginDeleteAndWait(
     resourceGroupName: string,
     networkFunctionName: string,
-    options?: NetworkFunctionsDeleteOptionalParams
+    options?: NetworkFunctionsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets information about the specified network function resource.
@@ -74,7 +74,7 @@ export interface NetworkFunctions {
   get(
     resourceGroupName: string,
     networkFunctionName: string,
-    options?: NetworkFunctionsGetOptionalParams
+    options?: NetworkFunctionsGetOptionalParams,
   ): Promise<NetworkFunctionsGetResponse>;
   /**
    * Creates or updates a network function resource.
@@ -88,7 +88,7 @@ export interface NetworkFunctions {
     resourceGroupName: string,
     networkFunctionName: string,
     parameters: NetworkFunction,
-    options?: NetworkFunctionsCreateOrUpdateOptionalParams
+    options?: NetworkFunctionsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkFunctionsCreateOrUpdateResponse>,
@@ -107,7 +107,7 @@ export interface NetworkFunctions {
     resourceGroupName: string,
     networkFunctionName: string,
     parameters: NetworkFunction,
-    options?: NetworkFunctionsCreateOrUpdateOptionalParams
+    options?: NetworkFunctionsCreateOrUpdateOptionalParams,
   ): Promise<NetworkFunctionsCreateOrUpdateResponse>;
   /**
    * Updates the tags for the network function resource.
@@ -120,7 +120,7 @@ export interface NetworkFunctions {
     resourceGroupName: string,
     networkFunctionName: string,
     parameters: TagsObject,
-    options?: NetworkFunctionsUpdateTagsOptionalParams
+    options?: NetworkFunctionsUpdateTagsOptionalParams,
   ): Promise<NetworkFunctionsUpdateTagsResponse>;
   /**
    * Execute a request to services on a containerized network function.
@@ -133,7 +133,7 @@ export interface NetworkFunctions {
     resourceGroupName: string,
     networkFunctionName: string,
     parameters: ExecuteRequestParameters,
-    options?: NetworkFunctionsExecuteRequestOptionalParams
+    options?: NetworkFunctionsExecuteRequestOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Execute a request to services on a containerized network function.
@@ -146,6 +146,6 @@ export interface NetworkFunctions {
     resourceGroupName: string,
     networkFunctionName: string,
     parameters: ExecuteRequestParameters,
-    options?: NetworkFunctionsExecuteRequestOptionalParams
+    options?: NetworkFunctionsExecuteRequestOptionalParams,
   ): Promise<void>;
 }

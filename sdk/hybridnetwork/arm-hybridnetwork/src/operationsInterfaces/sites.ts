@@ -20,7 +20,7 @@ import {
   SitesCreateOrUpdateResponse,
   TagsObject,
   SitesUpdateTagsOptionalParams,
-  SitesUpdateTagsResponse
+  SitesUpdateTagsResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface Sites {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: SitesListBySubscriptionOptionalParams
+    options?: SitesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<Site>;
   /**
    * Lists all sites in the network service.
@@ -40,7 +40,7 @@ export interface Sites {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: SitesListByResourceGroupOptionalParams
+    options?: SitesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Site>;
   /**
    * Deletes the specified network site.
@@ -51,7 +51,7 @@ export interface Sites {
   beginDelete(
     resourceGroupName: string,
     siteName: string,
-    options?: SitesDeleteOptionalParams
+    options?: SitesDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<OperationState<SitesDeleteResponse>, SitesDeleteResponse>
   >;
@@ -64,7 +64,7 @@ export interface Sites {
   beginDeleteAndWait(
     resourceGroupName: string,
     siteName: string,
-    options?: SitesDeleteOptionalParams
+    options?: SitesDeleteOptionalParams,
   ): Promise<SitesDeleteResponse>;
   /**
    * Gets information about the specified network site.
@@ -75,7 +75,7 @@ export interface Sites {
   get(
     resourceGroupName: string,
     siteName: string,
-    options?: SitesGetOptionalParams
+    options?: SitesGetOptionalParams,
   ): Promise<SitesGetResponse>;
   /**
    * Creates or updates a network site.
@@ -88,7 +88,7 @@ export interface Sites {
     resourceGroupName: string,
     siteName: string,
     parameters: Site,
-    options?: SitesCreateOrUpdateOptionalParams
+    options?: SitesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SitesCreateOrUpdateResponse>,
@@ -106,7 +106,7 @@ export interface Sites {
     resourceGroupName: string,
     siteName: string,
     parameters: Site,
-    options?: SitesCreateOrUpdateOptionalParams
+    options?: SitesCreateOrUpdateOptionalParams,
   ): Promise<SitesCreateOrUpdateResponse>;
   /**
    * Updates a site update tags.
@@ -119,6 +119,6 @@ export interface Sites {
     resourceGroupName: string,
     siteName: string,
     parameters: TagsObject,
-    options?: SitesUpdateTagsOptionalParams
+    options?: SitesUpdateTagsOptionalParams,
   ): Promise<SitesUpdateTagsResponse>;
 }

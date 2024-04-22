@@ -19,7 +19,7 @@ import {
   PublishersCreateOrUpdateOptionalParams,
   PublishersCreateOrUpdateResponse,
   PublishersUpdateOptionalParams,
-  PublishersUpdateResponse
+  PublishersUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface Publishers {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: PublishersListBySubscriptionOptionalParams
+    options?: PublishersListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<Publisher>;
   /**
    * Lists all the publishers in a resource group.
@@ -39,7 +39,7 @@ export interface Publishers {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: PublishersListByResourceGroupOptionalParams
+    options?: PublishersListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Publisher>;
   /**
    * Deletes the specified publisher.
@@ -50,7 +50,7 @@ export interface Publishers {
   beginDelete(
     resourceGroupName: string,
     publisherName: string,
-    options?: PublishersDeleteOptionalParams
+    options?: PublishersDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PublishersDeleteResponse>,
@@ -66,7 +66,7 @@ export interface Publishers {
   beginDeleteAndWait(
     resourceGroupName: string,
     publisherName: string,
-    options?: PublishersDeleteOptionalParams
+    options?: PublishersDeleteOptionalParams,
   ): Promise<PublishersDeleteResponse>;
   /**
    * Gets information about the specified publisher.
@@ -77,7 +77,7 @@ export interface Publishers {
   get(
     resourceGroupName: string,
     publisherName: string,
-    options?: PublishersGetOptionalParams
+    options?: PublishersGetOptionalParams,
   ): Promise<PublishersGetResponse>;
   /**
    * Creates or updates a publisher.
@@ -88,7 +88,7 @@ export interface Publishers {
   beginCreateOrUpdate(
     resourceGroupName: string,
     publisherName: string,
-    options?: PublishersCreateOrUpdateOptionalParams
+    options?: PublishersCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PublishersCreateOrUpdateResponse>,
@@ -104,7 +104,7 @@ export interface Publishers {
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     publisherName: string,
-    options?: PublishersCreateOrUpdateOptionalParams
+    options?: PublishersCreateOrUpdateOptionalParams,
   ): Promise<PublishersCreateOrUpdateResponse>;
   /**
    * Update a publisher resource.
@@ -115,6 +115,6 @@ export interface Publishers {
   update(
     resourceGroupName: string,
     publisherName: string,
-    options?: PublishersUpdateOptionalParams
+    options?: PublishersUpdateOptionalParams,
   ): Promise<PublishersUpdateResponse>;
 }

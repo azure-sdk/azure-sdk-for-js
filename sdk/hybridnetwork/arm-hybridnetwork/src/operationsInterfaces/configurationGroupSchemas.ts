@@ -22,7 +22,7 @@ import {
   ConfigurationGroupSchemasUpdateResponse,
   ConfigurationGroupSchemaVersionUpdateState,
   ConfigurationGroupSchemasUpdateStateOptionalParams,
-  ConfigurationGroupSchemasUpdateStateResponse
+  ConfigurationGroupSchemasUpdateStateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -37,7 +37,7 @@ export interface ConfigurationGroupSchemas {
   listByPublisher(
     resourceGroupName: string,
     publisherName: string,
-    options?: ConfigurationGroupSchemasListByPublisherOptionalParams
+    options?: ConfigurationGroupSchemasListByPublisherOptionalParams,
   ): PagedAsyncIterableIterator<ConfigurationGroupSchema>;
   /**
    * Deletes a specified configuration group schema.
@@ -50,7 +50,7 @@ export interface ConfigurationGroupSchemas {
     resourceGroupName: string,
     publisherName: string,
     configurationGroupSchemaName: string,
-    options?: ConfigurationGroupSchemasDeleteOptionalParams
+    options?: ConfigurationGroupSchemasDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ConfigurationGroupSchemasDeleteResponse>,
@@ -68,7 +68,7 @@ export interface ConfigurationGroupSchemas {
     resourceGroupName: string,
     publisherName: string,
     configurationGroupSchemaName: string,
-    options?: ConfigurationGroupSchemasDeleteOptionalParams
+    options?: ConfigurationGroupSchemasDeleteOptionalParams,
   ): Promise<ConfigurationGroupSchemasDeleteResponse>;
   /**
    * Creates or updates a configuration group schema.
@@ -83,7 +83,7 @@ export interface ConfigurationGroupSchemas {
     publisherName: string,
     configurationGroupSchemaName: string,
     parameters: ConfigurationGroupSchema,
-    options?: ConfigurationGroupSchemasCreateOrUpdateOptionalParams
+    options?: ConfigurationGroupSchemasCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ConfigurationGroupSchemasCreateOrUpdateResponse>,
@@ -103,7 +103,7 @@ export interface ConfigurationGroupSchemas {
     publisherName: string,
     configurationGroupSchemaName: string,
     parameters: ConfigurationGroupSchema,
-    options?: ConfigurationGroupSchemasCreateOrUpdateOptionalParams
+    options?: ConfigurationGroupSchemasCreateOrUpdateOptionalParams,
   ): Promise<ConfigurationGroupSchemasCreateOrUpdateResponse>;
   /**
    * Gets information about the specified configuration group schema.
@@ -116,7 +116,7 @@ export interface ConfigurationGroupSchemas {
     resourceGroupName: string,
     publisherName: string,
     configurationGroupSchemaName: string,
-    options?: ConfigurationGroupSchemasGetOptionalParams
+    options?: ConfigurationGroupSchemasGetOptionalParams,
   ): Promise<ConfigurationGroupSchemasGetResponse>;
   /**
    * Updates a configuration group schema resource.
@@ -132,7 +132,7 @@ export interface ConfigurationGroupSchemas {
     publisherName: string,
     configurationGroupSchemaName: string,
     parameters: TagsObject,
-    options?: ConfigurationGroupSchemasUpdateOptionalParams
+    options?: ConfigurationGroupSchemasUpdateOptionalParams,
   ): Promise<ConfigurationGroupSchemasUpdateResponse>;
   /**
    * Update configuration group schema state.
@@ -147,7 +147,7 @@ export interface ConfigurationGroupSchemas {
     publisherName: string,
     configurationGroupSchemaName: string,
     parameters: ConfigurationGroupSchemaVersionUpdateState,
-    options?: ConfigurationGroupSchemasUpdateStateOptionalParams
+    options?: ConfigurationGroupSchemasUpdateStateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ConfigurationGroupSchemasUpdateStateResponse>,
@@ -167,6 +167,6 @@ export interface ConfigurationGroupSchemas {
     publisherName: string,
     configurationGroupSchemaName: string,
     parameters: ConfigurationGroupSchemaVersionUpdateState,
-    options?: ConfigurationGroupSchemasUpdateStateOptionalParams
+    options?: ConfigurationGroupSchemasUpdateStateOptionalParams,
   ): Promise<ConfigurationGroupSchemasUpdateStateResponse>;
 }

@@ -16,7 +16,7 @@ import { HybridNetworkManagementClient } from "../hybridNetworkManagementClient"
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -33,7 +33,7 @@ import {
   TagsObject,
   ArtifactStoresUpdateOptionalParams,
   ArtifactStoresUpdateResponse,
-  ArtifactStoresListByPublisherNextResponse
+  ArtifactStoresListByPublisherNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -58,12 +58,12 @@ export class ArtifactStoresImpl implements ArtifactStores {
   public listByPublisher(
     resourceGroupName: string,
     publisherName: string,
-    options?: ArtifactStoresListByPublisherOptionalParams
+    options?: ArtifactStoresListByPublisherOptionalParams,
   ): PagedAsyncIterableIterator<ArtifactStore> {
     const iter = this.listByPublisherPagingAll(
       resourceGroupName,
       publisherName,
-      options
+      options,
     );
     return {
       next() {
@@ -80,9 +80,9 @@ export class ArtifactStoresImpl implements ArtifactStores {
           resourceGroupName,
           publisherName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -90,7 +90,7 @@ export class ArtifactStoresImpl implements ArtifactStores {
     resourceGroupName: string,
     publisherName: string,
     options?: ArtifactStoresListByPublisherOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ArtifactStore[]> {
     let result: ArtifactStoresListByPublisherResponse;
     let continuationToken = settings?.continuationToken;
@@ -98,7 +98,7 @@ export class ArtifactStoresImpl implements ArtifactStores {
       result = await this._listByPublisher(
         resourceGroupName,
         publisherName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -110,7 +110,7 @@ export class ArtifactStoresImpl implements ArtifactStores {
         resourceGroupName,
         publisherName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -122,12 +122,12 @@ export class ArtifactStoresImpl implements ArtifactStores {
   private async *listByPublisherPagingAll(
     resourceGroupName: string,
     publisherName: string,
-    options?: ArtifactStoresListByPublisherOptionalParams
+    options?: ArtifactStoresListByPublisherOptionalParams,
   ): AsyncIterableIterator<ArtifactStore> {
     for await (const page of this.listByPublisherPagingPage(
       resourceGroupName,
       publisherName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -142,11 +142,11 @@ export class ArtifactStoresImpl implements ArtifactStores {
   private _listByPublisher(
     resourceGroupName: string,
     publisherName: string,
-    options?: ArtifactStoresListByPublisherOptionalParams
+    options?: ArtifactStoresListByPublisherOptionalParams,
   ): Promise<ArtifactStoresListByPublisherResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, publisherName, options },
-      listByPublisherOperationSpec
+      listByPublisherOperationSpec,
     );
   }
 
@@ -161,7 +161,7 @@ export class ArtifactStoresImpl implements ArtifactStores {
     resourceGroupName: string,
     publisherName: string,
     artifactStoreName: string,
-    options?: ArtifactStoresDeleteOptionalParams
+    options?: ArtifactStoresDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ArtifactStoresDeleteResponse>,
@@ -170,21 +170,20 @@ export class ArtifactStoresImpl implements ArtifactStores {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ArtifactStoresDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -193,8 +192,8 @@ export class ArtifactStoresImpl implements ArtifactStores {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -202,15 +201,15 @@ export class ArtifactStoresImpl implements ArtifactStores {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, publisherName, artifactStoreName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
       ArtifactStoresDeleteResponse,
@@ -218,7 +217,7 @@ export class ArtifactStoresImpl implements ArtifactStores {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -235,13 +234,13 @@ export class ArtifactStoresImpl implements ArtifactStores {
     resourceGroupName: string,
     publisherName: string,
     artifactStoreName: string,
-    options?: ArtifactStoresDeleteOptionalParams
+    options?: ArtifactStoresDeleteOptionalParams,
   ): Promise<ArtifactStoresDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       publisherName,
       artifactStoreName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -259,7 +258,7 @@ export class ArtifactStoresImpl implements ArtifactStores {
     publisherName: string,
     artifactStoreName: string,
     parameters: ArtifactStore,
-    options?: ArtifactStoresCreateOrUpdateOptionalParams
+    options?: ArtifactStoresCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ArtifactStoresCreateOrUpdateResponse>,
@@ -268,21 +267,20 @@ export class ArtifactStoresImpl implements ArtifactStores {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ArtifactStoresCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -291,8 +289,8 @@ export class ArtifactStoresImpl implements ArtifactStores {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -300,8 +298,8 @@ export class ArtifactStoresImpl implements ArtifactStores {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -312,9 +310,9 @@ export class ArtifactStoresImpl implements ArtifactStores {
         publisherName,
         artifactStoreName,
         parameters,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       ArtifactStoresCreateOrUpdateResponse,
@@ -322,7 +320,7 @@ export class ArtifactStoresImpl implements ArtifactStores {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -341,14 +339,14 @@ export class ArtifactStoresImpl implements ArtifactStores {
     publisherName: string,
     artifactStoreName: string,
     parameters: ArtifactStore,
-    options?: ArtifactStoresCreateOrUpdateOptionalParams
+    options?: ArtifactStoresCreateOrUpdateOptionalParams,
   ): Promise<ArtifactStoresCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       publisherName,
       artifactStoreName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -364,11 +362,11 @@ export class ArtifactStoresImpl implements ArtifactStores {
     resourceGroupName: string,
     publisherName: string,
     artifactStoreName: string,
-    options?: ArtifactStoresGetOptionalParams
+    options?: ArtifactStoresGetOptionalParams,
   ): Promise<ArtifactStoresGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, publisherName, artifactStoreName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -385,7 +383,7 @@ export class ArtifactStoresImpl implements ArtifactStores {
     publisherName: string,
     artifactStoreName: string,
     parameters: TagsObject,
-    options?: ArtifactStoresUpdateOptionalParams
+    options?: ArtifactStoresUpdateOptionalParams,
   ): Promise<ArtifactStoresUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -393,9 +391,9 @@ export class ArtifactStoresImpl implements ArtifactStores {
         publisherName,
         artifactStoreName,
         parameters,
-        options
+        options,
       },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -410,11 +408,11 @@ export class ArtifactStoresImpl implements ArtifactStores {
     resourceGroupName: string,
     publisherName: string,
     nextLink: string,
-    options?: ArtifactStoresListByPublisherNextOptionalParams
+    options?: ArtifactStoresListByPublisherNextOptionalParams,
   ): Promise<ArtifactStoresListByPublisherNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, publisherName, nextLink, options },
-      listByPublisherNextOperationSpec
+      listByPublisherNextOperationSpec,
     );
   }
 }
@@ -422,47 +420,15 @@ export class ArtifactStoresImpl implements ArtifactStores {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByPublisherOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ArtifactStoreListResult
+      bodyMapper: Mappers.ArtifactStoreListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.publisherName,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {
-      headersMapper: Mappers.ArtifactStoresDeleteHeaders
+      bodyMapper: Mappers.ErrorResponse,
     },
-    201: {
-      headersMapper: Mappers.ArtifactStoresDeleteHeaders
-    },
-    202: {
-      headersMapper: Mappers.ArtifactStoresDeleteHeaders
-    },
-    204: {
-      headersMapper: Mappers.ArtifactStoresDeleteHeaders
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -470,31 +436,60 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.publisherName,
     Parameters.subscriptionId,
-    Parameters.artifactStoreName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {
+      headersMapper: Mappers.ArtifactStoresDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.ArtifactStoresDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.ArtifactStoresDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.ArtifactStoresDeleteHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.publisherName,
+    Parameters.subscriptionId,
+    Parameters.artifactStoreName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ArtifactStore
+      bodyMapper: Mappers.ArtifactStore,
     },
     201: {
-      bodyMapper: Mappers.ArtifactStore
+      bodyMapper: Mappers.ArtifactStore,
     },
     202: {
-      bodyMapper: Mappers.ArtifactStore
+      bodyMapper: Mappers.ArtifactStore,
     },
     204: {
-      bodyMapper: Mappers.ArtifactStore
+      bodyMapper: Mappers.ArtifactStore,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters14,
   queryParameters: [Parameters.apiVersion],
@@ -503,23 +498,22 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.publisherName,
     Parameters.subscriptionId,
-    Parameters.artifactStoreName
+    Parameters.artifactStoreName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ArtifactStore
+      bodyMapper: Mappers.ArtifactStore,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -527,22 +521,21 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.publisherName,
     Parameters.subscriptionId,
-    Parameters.artifactStoreName
+    Parameters.artifactStoreName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.ArtifactStore
+      bodyMapper: Mappers.ArtifactStore,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
@@ -551,30 +544,30 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.publisherName,
     Parameters.subscriptionId,
-    Parameters.artifactStoreName
+    Parameters.artifactStoreName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByPublisherNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ArtifactStoreListResult
+      bodyMapper: Mappers.ArtifactStoreListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.publisherName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

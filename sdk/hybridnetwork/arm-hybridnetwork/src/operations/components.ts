@@ -20,7 +20,7 @@ import {
   ComponentsListByNetworkFunctionResponse,
   ComponentsGetOptionalParams,
   ComponentsGetResponse,
-  ComponentsListByNetworkFunctionNextResponse
+  ComponentsListByNetworkFunctionNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -45,12 +45,12 @@ export class ComponentsImpl implements Components {
   public listByNetworkFunction(
     resourceGroupName: string,
     networkFunctionName: string,
-    options?: ComponentsListByNetworkFunctionOptionalParams
+    options?: ComponentsListByNetworkFunctionOptionalParams,
   ): PagedAsyncIterableIterator<Component> {
     const iter = this.listByNetworkFunctionPagingAll(
       resourceGroupName,
       networkFunctionName,
-      options
+      options,
     );
     return {
       next() {
@@ -67,9 +67,9 @@ export class ComponentsImpl implements Components {
           resourceGroupName,
           networkFunctionName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -77,7 +77,7 @@ export class ComponentsImpl implements Components {
     resourceGroupName: string,
     networkFunctionName: string,
     options?: ComponentsListByNetworkFunctionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Component[]> {
     let result: ComponentsListByNetworkFunctionResponse;
     let continuationToken = settings?.continuationToken;
@@ -85,7 +85,7 @@ export class ComponentsImpl implements Components {
       result = await this._listByNetworkFunction(
         resourceGroupName,
         networkFunctionName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -97,7 +97,7 @@ export class ComponentsImpl implements Components {
         resourceGroupName,
         networkFunctionName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -109,12 +109,12 @@ export class ComponentsImpl implements Components {
   private async *listByNetworkFunctionPagingAll(
     resourceGroupName: string,
     networkFunctionName: string,
-    options?: ComponentsListByNetworkFunctionOptionalParams
+    options?: ComponentsListByNetworkFunctionOptionalParams,
   ): AsyncIterableIterator<Component> {
     for await (const page of this.listByNetworkFunctionPagingPage(
       resourceGroupName,
       networkFunctionName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -131,11 +131,11 @@ export class ComponentsImpl implements Components {
     resourceGroupName: string,
     networkFunctionName: string,
     componentName: string,
-    options?: ComponentsGetOptionalParams
+    options?: ComponentsGetOptionalParams,
   ): Promise<ComponentsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, networkFunctionName, componentName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -148,11 +148,11 @@ export class ComponentsImpl implements Components {
   private _listByNetworkFunction(
     resourceGroupName: string,
     networkFunctionName: string,
-    options?: ComponentsListByNetworkFunctionOptionalParams
+    options?: ComponentsListByNetworkFunctionOptionalParams,
   ): Promise<ComponentsListByNetworkFunctionResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, networkFunctionName, options },
-      listByNetworkFunctionOperationSpec
+      listByNetworkFunctionOperationSpec,
     );
   }
 
@@ -167,11 +167,11 @@ export class ComponentsImpl implements Components {
     resourceGroupName: string,
     networkFunctionName: string,
     nextLink: string,
-    options?: ComponentsListByNetworkFunctionNextOptionalParams
+    options?: ComponentsListByNetworkFunctionNextOptionalParams,
   ): Promise<ComponentsListByNetworkFunctionNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, networkFunctionName, nextLink, options },
-      listByNetworkFunctionNextOperationSpec
+      listByNetworkFunctionNextOperationSpec,
     );
   }
 }
@@ -179,16 +179,15 @@ export class ComponentsImpl implements Components {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/networkFunctions/{networkFunctionName}/components/{componentName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/networkFunctions/{networkFunctionName}/components/{componentName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Component
+      bodyMapper: Mappers.Component,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -196,51 +195,50 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.networkFunctionName,
-    Parameters.componentName
+    Parameters.componentName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByNetworkFunctionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/networkFunctions/{networkFunctionName}/components",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/networkFunctions/{networkFunctionName}/components",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ComponentListResult
+      bodyMapper: Mappers.ComponentListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.networkFunctionName
+    Parameters.networkFunctionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByNetworkFunctionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ComponentListResult
+      bodyMapper: Mappers.ComponentListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.networkFunctionName
+    Parameters.networkFunctionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

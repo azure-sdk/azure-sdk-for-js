@@ -16,7 +16,7 @@ import { HybridNetworkManagementClient } from "../hybridNetworkManagementClient"
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -38,7 +38,7 @@ import {
   ArtifactManifestUpdateState,
   ArtifactManifestsUpdateStateOptionalParams,
   ArtifactManifestsUpdateStateResponse,
-  ArtifactManifestsListByArtifactStoreNextResponse
+  ArtifactManifestsListByArtifactStoreNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -65,13 +65,13 @@ export class ArtifactManifestsImpl implements ArtifactManifests {
     resourceGroupName: string,
     publisherName: string,
     artifactStoreName: string,
-    options?: ArtifactManifestsListByArtifactStoreOptionalParams
+    options?: ArtifactManifestsListByArtifactStoreOptionalParams,
   ): PagedAsyncIterableIterator<ArtifactManifest> {
     const iter = this.listByArtifactStorePagingAll(
       resourceGroupName,
       publisherName,
       artifactStoreName,
-      options
+      options,
     );
     return {
       next() {
@@ -89,9 +89,9 @@ export class ArtifactManifestsImpl implements ArtifactManifests {
           publisherName,
           artifactStoreName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -100,7 +100,7 @@ export class ArtifactManifestsImpl implements ArtifactManifests {
     publisherName: string,
     artifactStoreName: string,
     options?: ArtifactManifestsListByArtifactStoreOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ArtifactManifest[]> {
     let result: ArtifactManifestsListByArtifactStoreResponse;
     let continuationToken = settings?.continuationToken;
@@ -109,7 +109,7 @@ export class ArtifactManifestsImpl implements ArtifactManifests {
         resourceGroupName,
         publisherName,
         artifactStoreName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -122,7 +122,7 @@ export class ArtifactManifestsImpl implements ArtifactManifests {
         publisherName,
         artifactStoreName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -135,13 +135,13 @@ export class ArtifactManifestsImpl implements ArtifactManifests {
     resourceGroupName: string,
     publisherName: string,
     artifactStoreName: string,
-    options?: ArtifactManifestsListByArtifactStoreOptionalParams
+    options?: ArtifactManifestsListByArtifactStoreOptionalParams,
   ): AsyncIterableIterator<ArtifactManifest> {
     for await (const page of this.listByArtifactStorePagingPage(
       resourceGroupName,
       publisherName,
       artifactStoreName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -158,11 +158,11 @@ export class ArtifactManifestsImpl implements ArtifactManifests {
     resourceGroupName: string,
     publisherName: string,
     artifactStoreName: string,
-    options?: ArtifactManifestsListByArtifactStoreOptionalParams
+    options?: ArtifactManifestsListByArtifactStoreOptionalParams,
   ): Promise<ArtifactManifestsListByArtifactStoreResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, publisherName, artifactStoreName, options },
-      listByArtifactStoreOperationSpec
+      listByArtifactStoreOperationSpec,
     );
   }
 
@@ -179,7 +179,7 @@ export class ArtifactManifestsImpl implements ArtifactManifests {
     publisherName: string,
     artifactStoreName: string,
     artifactManifestName: string,
-    options?: ArtifactManifestsDeleteOptionalParams
+    options?: ArtifactManifestsDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ArtifactManifestsDeleteResponse>,
@@ -188,21 +188,20 @@ export class ArtifactManifestsImpl implements ArtifactManifests {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ArtifactManifestsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -211,8 +210,8 @@ export class ArtifactManifestsImpl implements ArtifactManifests {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -220,8 +219,8 @@ export class ArtifactManifestsImpl implements ArtifactManifests {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -232,9 +231,9 @@ export class ArtifactManifestsImpl implements ArtifactManifests {
         publisherName,
         artifactStoreName,
         artifactManifestName,
-        options
+        options,
       },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
       ArtifactManifestsDeleteResponse,
@@ -242,7 +241,7 @@ export class ArtifactManifestsImpl implements ArtifactManifests {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -261,14 +260,14 @@ export class ArtifactManifestsImpl implements ArtifactManifests {
     publisherName: string,
     artifactStoreName: string,
     artifactManifestName: string,
-    options?: ArtifactManifestsDeleteOptionalParams
+    options?: ArtifactManifestsDeleteOptionalParams,
   ): Promise<ArtifactManifestsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       publisherName,
       artifactStoreName,
       artifactManifestName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -288,7 +287,7 @@ export class ArtifactManifestsImpl implements ArtifactManifests {
     artifactStoreName: string,
     artifactManifestName: string,
     parameters: ArtifactManifest,
-    options?: ArtifactManifestsCreateOrUpdateOptionalParams
+    options?: ArtifactManifestsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ArtifactManifestsCreateOrUpdateResponse>,
@@ -297,21 +296,20 @@ export class ArtifactManifestsImpl implements ArtifactManifests {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ArtifactManifestsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -320,8 +318,8 @@ export class ArtifactManifestsImpl implements ArtifactManifests {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -329,8 +327,8 @@ export class ArtifactManifestsImpl implements ArtifactManifests {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -342,9 +340,9 @@ export class ArtifactManifestsImpl implements ArtifactManifests {
         artifactStoreName,
         artifactManifestName,
         parameters,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       ArtifactManifestsCreateOrUpdateResponse,
@@ -352,7 +350,7 @@ export class ArtifactManifestsImpl implements ArtifactManifests {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -373,7 +371,7 @@ export class ArtifactManifestsImpl implements ArtifactManifests {
     artifactStoreName: string,
     artifactManifestName: string,
     parameters: ArtifactManifest,
-    options?: ArtifactManifestsCreateOrUpdateOptionalParams
+    options?: ArtifactManifestsCreateOrUpdateOptionalParams,
   ): Promise<ArtifactManifestsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
@@ -381,7 +379,7 @@ export class ArtifactManifestsImpl implements ArtifactManifests {
       artifactStoreName,
       artifactManifestName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -399,7 +397,7 @@ export class ArtifactManifestsImpl implements ArtifactManifests {
     publisherName: string,
     artifactStoreName: string,
     artifactManifestName: string,
-    options?: ArtifactManifestsGetOptionalParams
+    options?: ArtifactManifestsGetOptionalParams,
   ): Promise<ArtifactManifestsGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -407,9 +405,9 @@ export class ArtifactManifestsImpl implements ArtifactManifests {
         publisherName,
         artifactStoreName,
         artifactManifestName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -428,7 +426,7 @@ export class ArtifactManifestsImpl implements ArtifactManifests {
     artifactStoreName: string,
     artifactManifestName: string,
     parameters: TagsObject,
-    options?: ArtifactManifestsUpdateOptionalParams
+    options?: ArtifactManifestsUpdateOptionalParams,
   ): Promise<ArtifactManifestsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -437,9 +435,9 @@ export class ArtifactManifestsImpl implements ArtifactManifests {
         artifactStoreName,
         artifactManifestName,
         parameters,
-        options
+        options,
       },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -456,7 +454,7 @@ export class ArtifactManifestsImpl implements ArtifactManifests {
     publisherName: string,
     artifactStoreName: string,
     artifactManifestName: string,
-    options?: ArtifactManifestsListCredentialOptionalParams
+    options?: ArtifactManifestsListCredentialOptionalParams,
   ): Promise<ArtifactManifestsListCredentialResponse> {
     return this.client.sendOperationRequest(
       {
@@ -464,9 +462,9 @@ export class ArtifactManifestsImpl implements ArtifactManifests {
         publisherName,
         artifactStoreName,
         artifactManifestName,
-        options
+        options,
       },
-      listCredentialOperationSpec
+      listCredentialOperationSpec,
     );
   }
 
@@ -485,7 +483,7 @@ export class ArtifactManifestsImpl implements ArtifactManifests {
     artifactStoreName: string,
     artifactManifestName: string,
     parameters: ArtifactManifestUpdateState,
-    options?: ArtifactManifestsUpdateStateOptionalParams
+    options?: ArtifactManifestsUpdateStateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ArtifactManifestsUpdateStateResponse>,
@@ -494,21 +492,20 @@ export class ArtifactManifestsImpl implements ArtifactManifests {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ArtifactManifestsUpdateStateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -517,8 +514,8 @@ export class ArtifactManifestsImpl implements ArtifactManifests {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -526,8 +523,8 @@ export class ArtifactManifestsImpl implements ArtifactManifests {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -539,9 +536,9 @@ export class ArtifactManifestsImpl implements ArtifactManifests {
         artifactStoreName,
         artifactManifestName,
         parameters,
-        options
+        options,
       },
-      spec: updateStateOperationSpec
+      spec: updateStateOperationSpec,
     });
     const poller = await createHttpPoller<
       ArtifactManifestsUpdateStateResponse,
@@ -549,7 +546,7 @@ export class ArtifactManifestsImpl implements ArtifactManifests {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -570,7 +567,7 @@ export class ArtifactManifestsImpl implements ArtifactManifests {
     artifactStoreName: string,
     artifactManifestName: string,
     parameters: ArtifactManifestUpdateState,
-    options?: ArtifactManifestsUpdateStateOptionalParams
+    options?: ArtifactManifestsUpdateStateOptionalParams,
   ): Promise<ArtifactManifestsUpdateStateResponse> {
     const poller = await this.beginUpdateState(
       resourceGroupName,
@@ -578,7 +575,7 @@ export class ArtifactManifestsImpl implements ArtifactManifests {
       artifactStoreName,
       artifactManifestName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -596,7 +593,7 @@ export class ArtifactManifestsImpl implements ArtifactManifests {
     publisherName: string,
     artifactStoreName: string,
     nextLink: string,
-    options?: ArtifactManifestsListByArtifactStoreNextOptionalParams
+    options?: ArtifactManifestsListByArtifactStoreNextOptionalParams,
   ): Promise<ArtifactManifestsListByArtifactStoreNextResponse> {
     return this.client.sendOperationRequest(
       {
@@ -604,9 +601,9 @@ export class ArtifactManifestsImpl implements ArtifactManifests {
         publisherName,
         artifactStoreName,
         nextLink,
-        options
+        options,
       },
-      listByArtifactStoreNextOperationSpec
+      listByArtifactStoreNextOperationSpec,
     );
   }
 }
@@ -614,48 +611,15 @@ export class ArtifactManifestsImpl implements ArtifactManifests {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByArtifactStoreOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}/artifactManifests",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}/artifactManifests",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ArtifactManifestListResult
+      bodyMapper: Mappers.ArtifactManifestListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.publisherName,
-    Parameters.subscriptionId,
-    Parameters.artifactStoreName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}/artifactManifests/{artifactManifestName}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {
-      headersMapper: Mappers.ArtifactManifestsDeleteHeaders
+      bodyMapper: Mappers.ErrorResponse,
     },
-    201: {
-      headersMapper: Mappers.ArtifactManifestsDeleteHeaders
-    },
-    202: {
-      headersMapper: Mappers.ArtifactManifestsDeleteHeaders
-    },
-    204: {
-      headersMapper: Mappers.ArtifactManifestsDeleteHeaders
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -664,31 +628,61 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.publisherName,
     Parameters.subscriptionId,
     Parameters.artifactStoreName,
-    Parameters.artifactManifestName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}/artifactManifests/{artifactManifestName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {
+      headersMapper: Mappers.ArtifactManifestsDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.ArtifactManifestsDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.ArtifactManifestsDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.ArtifactManifestsDeleteHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.publisherName,
+    Parameters.subscriptionId,
+    Parameters.artifactStoreName,
+    Parameters.artifactManifestName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}/artifactManifests/{artifactManifestName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}/artifactManifests/{artifactManifestName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ArtifactManifest
+      bodyMapper: Mappers.ArtifactManifest,
     },
     201: {
-      bodyMapper: Mappers.ArtifactManifest
+      bodyMapper: Mappers.ArtifactManifest,
     },
     202: {
-      bodyMapper: Mappers.ArtifactManifest
+      bodyMapper: Mappers.ArtifactManifest,
     },
     204: {
-      bodyMapper: Mappers.ArtifactManifest
+      bodyMapper: Mappers.ArtifactManifest,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters15,
   queryParameters: [Parameters.apiVersion],
@@ -698,23 +692,22 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.publisherName,
     Parameters.subscriptionId,
     Parameters.artifactStoreName,
-    Parameters.artifactManifestName
+    Parameters.artifactManifestName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}/artifactManifests/{artifactManifestName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}/artifactManifests/{artifactManifestName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ArtifactManifest
+      bodyMapper: Mappers.ArtifactManifest,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -723,22 +716,21 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.publisherName,
     Parameters.subscriptionId,
     Parameters.artifactStoreName,
-    Parameters.artifactManifestName
+    Parameters.artifactManifestName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}/artifactManifests/{artifactManifestName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}/artifactManifests/{artifactManifestName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.ArtifactManifest
+      bodyMapper: Mappers.ArtifactManifest,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
@@ -748,23 +740,22 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.publisherName,
     Parameters.subscriptionId,
     Parameters.artifactStoreName,
-    Parameters.artifactManifestName
+    Parameters.artifactManifestName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listCredentialOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}/artifactManifests/{artifactManifestName}/listCredential",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}/artifactManifests/{artifactManifestName}/listCredential",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ArtifactAccessCredential
+      bodyMapper: Mappers.ArtifactAccessCredential,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -773,31 +764,30 @@ const listCredentialOperationSpec: coreClient.OperationSpec = {
     Parameters.publisherName,
     Parameters.subscriptionId,
     Parameters.artifactStoreName,
-    Parameters.artifactManifestName
+    Parameters.artifactManifestName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateStateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}/artifactManifests/{artifactManifestName}/updateState",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}/artifactManifests/{artifactManifestName}/updateState",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ArtifactManifestUpdateState
+      bodyMapper: Mappers.ArtifactManifestUpdateState,
     },
     201: {
-      bodyMapper: Mappers.ArtifactManifestUpdateState
+      bodyMapper: Mappers.ArtifactManifestUpdateState,
     },
     202: {
-      bodyMapper: Mappers.ArtifactManifestUpdateState
+      bodyMapper: Mappers.ArtifactManifestUpdateState,
     },
     204: {
-      bodyMapper: Mappers.ArtifactManifestUpdateState
+      bodyMapper: Mappers.ArtifactManifestUpdateState,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters16,
   queryParameters: [Parameters.apiVersion],
@@ -807,22 +797,22 @@ const updateStateOperationSpec: coreClient.OperationSpec = {
     Parameters.publisherName,
     Parameters.subscriptionId,
     Parameters.artifactStoreName,
-    Parameters.artifactManifestName
+    Parameters.artifactManifestName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByArtifactStoreNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ArtifactManifestListResult
+      bodyMapper: Mappers.ArtifactManifestListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -830,8 +820,8 @@ const listByArtifactStoreNextOperationSpec: coreClient.OperationSpec = {
     Parameters.publisherName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.artifactStoreName
+    Parameters.artifactStoreName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

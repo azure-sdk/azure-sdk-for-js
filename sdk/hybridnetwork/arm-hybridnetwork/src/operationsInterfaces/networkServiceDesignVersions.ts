@@ -22,7 +22,7 @@ import {
   NetworkServiceDesignVersionsUpdateResponse,
   NetworkServiceDesignVersionUpdateState,
   NetworkServiceDesignVersionsUpdateStateOptionalParams,
-  NetworkServiceDesignVersionsUpdateStateResponse
+  NetworkServiceDesignVersionsUpdateStateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -40,7 +40,7 @@ export interface NetworkServiceDesignVersions {
     resourceGroupName: string,
     publisherName: string,
     networkServiceDesignGroupName: string,
-    options?: NetworkServiceDesignVersionsListByNetworkServiceDesignGroupOptionalParams
+    options?: NetworkServiceDesignVersionsListByNetworkServiceDesignGroupOptionalParams,
   ): PagedAsyncIterableIterator<NetworkServiceDesignVersion>;
   /**
    * Deletes the specified network service design version.
@@ -56,7 +56,7 @@ export interface NetworkServiceDesignVersions {
     publisherName: string,
     networkServiceDesignGroupName: string,
     networkServiceDesignVersionName: string,
-    options?: NetworkServiceDesignVersionsDeleteOptionalParams
+    options?: NetworkServiceDesignVersionsDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkServiceDesignVersionsDeleteResponse>,
@@ -77,7 +77,7 @@ export interface NetworkServiceDesignVersions {
     publisherName: string,
     networkServiceDesignGroupName: string,
     networkServiceDesignVersionName: string,
-    options?: NetworkServiceDesignVersionsDeleteOptionalParams
+    options?: NetworkServiceDesignVersionsDeleteOptionalParams,
   ): Promise<NetworkServiceDesignVersionsDeleteResponse>;
   /**
    * Creates or updates a network service design version.
@@ -96,7 +96,7 @@ export interface NetworkServiceDesignVersions {
     networkServiceDesignGroupName: string,
     networkServiceDesignVersionName: string,
     parameters: NetworkServiceDesignVersion,
-    options?: NetworkServiceDesignVersionsCreateOrUpdateOptionalParams
+    options?: NetworkServiceDesignVersionsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkServiceDesignVersionsCreateOrUpdateResponse>,
@@ -120,7 +120,7 @@ export interface NetworkServiceDesignVersions {
     networkServiceDesignGroupName: string,
     networkServiceDesignVersionName: string,
     parameters: NetworkServiceDesignVersion,
-    options?: NetworkServiceDesignVersionsCreateOrUpdateOptionalParams
+    options?: NetworkServiceDesignVersionsCreateOrUpdateOptionalParams,
   ): Promise<NetworkServiceDesignVersionsCreateOrUpdateResponse>;
   /**
    * Gets information about a network service design version.
@@ -136,7 +136,7 @@ export interface NetworkServiceDesignVersions {
     publisherName: string,
     networkServiceDesignGroupName: string,
     networkServiceDesignVersionName: string,
-    options?: NetworkServiceDesignVersionsGetOptionalParams
+    options?: NetworkServiceDesignVersionsGetOptionalParams,
   ): Promise<NetworkServiceDesignVersionsGetResponse>;
   /**
    * Updates a network service design version resource.
@@ -155,7 +155,7 @@ export interface NetworkServiceDesignVersions {
     networkServiceDesignGroupName: string,
     networkServiceDesignVersionName: string,
     parameters: TagsObject,
-    options?: NetworkServiceDesignVersionsUpdateOptionalParams
+    options?: NetworkServiceDesignVersionsUpdateOptionalParams,
   ): Promise<NetworkServiceDesignVersionsUpdateResponse>;
   /**
    * Update network service design version state.
@@ -173,7 +173,7 @@ export interface NetworkServiceDesignVersions {
     networkServiceDesignGroupName: string,
     networkServiceDesignVersionName: string,
     parameters: NetworkServiceDesignVersionUpdateState,
-    options?: NetworkServiceDesignVersionsUpdateStateOptionalParams
+    options?: NetworkServiceDesignVersionsUpdateStateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkServiceDesignVersionsUpdateStateResponse>,
@@ -196,6 +196,6 @@ export interface NetworkServiceDesignVersions {
     networkServiceDesignGroupName: string,
     networkServiceDesignVersionName: string,
     parameters: NetworkServiceDesignVersionUpdateState,
-    options?: NetworkServiceDesignVersionsUpdateStateOptionalParams
+    options?: NetworkServiceDesignVersionsUpdateStateOptionalParams,
   ): Promise<NetworkServiceDesignVersionsUpdateStateResponse>;
 }

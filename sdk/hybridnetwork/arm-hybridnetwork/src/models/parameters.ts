@@ -9,7 +9,7 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   ConfigurationGroupSchema as ConfigurationGroupSchemaMapper,
@@ -30,7 +30,7 @@ import {
   ArtifactManifestUpdateState as ArtifactManifestUpdateStateMapper,
   ArtifactChangeState as ArtifactChangeStateMapper,
   Site as SiteMapper,
-  SiteNetworkService as SiteNetworkServiceMapper
+  SiteNetworkService as SiteNetworkServiceMapper,
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -40,9 +40,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -51,10 +51,10 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -62,14 +62,14 @@ export const resourceGroupName: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 90,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const publisherName: OperationURLParameter = {
@@ -77,14 +77,14 @@ export const publisherName: OperationURLParameter = {
   mapper: {
     constraints: {
       Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9_-]*$"),
-      MaxLength: 64
+      MaxLength: 64,
     },
     serializedName: "publisherName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const apiVersion: OperationQueryParameter = {
@@ -94,23 +94,23 @@ export const apiVersion: OperationQueryParameter = {
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
     constraints: {
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const configurationGroupSchemaName: OperationURLParameter = {
@@ -118,14 +118,14 @@ export const configurationGroupSchemaName: OperationURLParameter = {
   mapper: {
     constraints: {
       Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9_-]*$"),
-      MaxLength: 64
+      MaxLength: 64,
     },
     serializedName: "configurationGroupSchemaName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -135,24 +135,24 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ConfigurationGroupSchemaMapper
+  mapper: ConfigurationGroupSchemaMapper,
 };
 
 export const parameters1: OperationParameter = {
   parameterPath: "parameters",
-  mapper: TagsObjectMapper
+  mapper: TagsObjectMapper,
 };
 
 export const parameters2: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ConfigurationGroupSchemaVersionUpdateStateMapper
+  mapper: ConfigurationGroupSchemaVersionUpdateStateMapper,
 };
 
 export const nextLink: OperationURLParameter = {
@@ -161,10 +161,10 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const configurationGroupValueName: OperationURLParameter = {
@@ -172,19 +172,19 @@ export const configurationGroupValueName: OperationURLParameter = {
   mapper: {
     constraints: {
       Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9_-]*$"),
-      MaxLength: 64
+      MaxLength: 64,
     },
     serializedName: "configurationGroupValueName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters3: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ConfigurationGroupValueMapper
+  mapper: ConfigurationGroupValueMapper,
 };
 
 export const networkFunctionName: OperationURLParameter = {
@@ -192,14 +192,14 @@ export const networkFunctionName: OperationURLParameter = {
   mapper: {
     constraints: {
       Pattern: new RegExp("^[^\\s]*[^\\s]+[^\\s]*$"),
-      MaxLength: 64
+      MaxLength: 64,
     },
     serializedName: "networkFunctionName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const networkFunctionName1: OperationURLParameter = {
@@ -208,19 +208,19 @@ export const networkFunctionName1: OperationURLParameter = {
     serializedName: "networkFunctionName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters4: OperationParameter = {
   parameterPath: "parameters",
-  mapper: NetworkFunctionMapper
+  mapper: NetworkFunctionMapper,
 };
 
 export const parameters5: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ExecuteRequestParametersMapper
+  mapper: ExecuteRequestParametersMapper,
 };
 
 export const componentName: OperationURLParameter = {
@@ -228,14 +228,14 @@ export const componentName: OperationURLParameter = {
   mapper: {
     constraints: {
       Pattern: new RegExp("^[^\\s]*[^\\s]+[^\\s]*$"),
-      MaxLength: 64
+      MaxLength: 64,
     },
     serializedName: "componentName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const networkFunctionDefinitionGroupName: OperationURLParameter = {
@@ -243,19 +243,19 @@ export const networkFunctionDefinitionGroupName: OperationURLParameter = {
   mapper: {
     constraints: {
       Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9_-]*$"),
-      MaxLength: 64
+      MaxLength: 64,
     },
     serializedName: "networkFunctionDefinitionGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters6: OperationParameter = {
   parameterPath: "parameters",
-  mapper: NetworkFunctionDefinitionGroupMapper
+  mapper: NetworkFunctionDefinitionGroupMapper,
 };
 
 export const networkFunctionDefinitionVersionName: OperationURLParameter = {
@@ -263,26 +263,26 @@ export const networkFunctionDefinitionVersionName: OperationURLParameter = {
   mapper: {
     constraints: {
       Pattern: new RegExp(
-        "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$"
+        "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$",
       ),
-      MaxLength: 64
+      MaxLength: 64,
     },
     serializedName: "networkFunctionDefinitionVersionName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters7: OperationParameter = {
   parameterPath: "parameters",
-  mapper: NetworkFunctionDefinitionVersionMapper
+  mapper: NetworkFunctionDefinitionVersionMapper,
 };
 
 export const parameters8: OperationParameter = {
   parameterPath: "parameters",
-  mapper: NetworkFunctionDefinitionVersionUpdateStateMapper
+  mapper: NetworkFunctionDefinitionVersionUpdateStateMapper,
 };
 
 export const networkServiceDesignGroupName: OperationURLParameter = {
@@ -290,19 +290,19 @@ export const networkServiceDesignGroupName: OperationURLParameter = {
   mapper: {
     constraints: {
       Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9_-]*$"),
-      MaxLength: 64
+      MaxLength: 64,
     },
     serializedName: "networkServiceDesignGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters9: OperationParameter = {
   parameterPath: "parameters",
-  mapper: NetworkServiceDesignGroupMapper
+  mapper: NetworkServiceDesignGroupMapper,
 };
 
 export const networkServiceDesignVersionName: OperationURLParameter = {
@@ -310,36 +310,36 @@ export const networkServiceDesignVersionName: OperationURLParameter = {
   mapper: {
     constraints: {
       Pattern: new RegExp(
-        "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$"
+        "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$",
       ),
-      MaxLength: 64
+      MaxLength: 64,
     },
     serializedName: "networkServiceDesignVersionName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters10: OperationParameter = {
   parameterPath: "parameters",
-  mapper: NetworkServiceDesignVersionMapper
+  mapper: NetworkServiceDesignVersionMapper,
 };
 
 export const parameters11: OperationParameter = {
   parameterPath: "parameters",
-  mapper: NetworkServiceDesignVersionUpdateStateMapper
+  mapper: NetworkServiceDesignVersionUpdateStateMapper,
 };
 
 export const parameters12: OperationParameter = {
   parameterPath: ["options", "parameters"],
-  mapper: PublisherMapper
+  mapper: PublisherMapper,
 };
 
 export const parameters13: OperationParameter = {
   parameterPath: ["options", "parameters"],
-  mapper: TagsObjectMapper
+  mapper: TagsObjectMapper,
 };
 
 export const artifactStoreName: OperationURLParameter = {
@@ -347,19 +347,19 @@ export const artifactStoreName: OperationURLParameter = {
   mapper: {
     constraints: {
       Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9_-]*$"),
-      MaxLength: 64
+      MaxLength: 64,
     },
     serializedName: "artifactStoreName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters14: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ArtifactStoreMapper
+  mapper: ArtifactStoreMapper,
 };
 
 export const artifactManifestName: OperationURLParameter = {
@@ -367,24 +367,24 @@ export const artifactManifestName: OperationURLParameter = {
   mapper: {
     constraints: {
       Pattern: new RegExp("^[^\\s]*[^\\s]+[^\\s]*$"),
-      MaxLength: 64
+      MaxLength: 64,
     },
     serializedName: "artifactManifestName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters15: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ArtifactManifestMapper
+  mapper: ArtifactManifestMapper,
 };
 
 export const parameters16: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ArtifactManifestUpdateStateMapper
+  mapper: ArtifactManifestUpdateStateMapper,
 };
 
 export const artifactName: OperationQueryParameter = {
@@ -392,19 +392,19 @@ export const artifactName: OperationQueryParameter = {
   mapper: {
     constraints: {
       Pattern: new RegExp("^[^\\s]*[^\\s]+[^\\s]*$"),
-      MaxLength: 64
+      MaxLength: 64,
     },
     serializedName: "artifactName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters17: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ArtifactChangeStateMapper
+  mapper: ArtifactChangeStateMapper,
 };
 
 export const artifactVersionName: OperationURLParameter = {
@@ -412,14 +412,14 @@ export const artifactVersionName: OperationURLParameter = {
   mapper: {
     constraints: {
       Pattern: new RegExp("^[^\\s]*[^\\s]+[^\\s]*$"),
-      MaxLength: 64
+      MaxLength: 64,
     },
     serializedName: "artifactVersionName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const siteName: OperationURLParameter = {
@@ -427,19 +427,19 @@ export const siteName: OperationURLParameter = {
   mapper: {
     constraints: {
       Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9_-]*$"),
-      MaxLength: 64
+      MaxLength: 64,
     },
     serializedName: "siteName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters18: OperationParameter = {
   parameterPath: "parameters",
-  mapper: SiteMapper
+  mapper: SiteMapper,
 };
 
 export const siteNetworkServiceName: OperationURLParameter = {
@@ -447,17 +447,17 @@ export const siteNetworkServiceName: OperationURLParameter = {
   mapper: {
     constraints: {
       Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9_-]*$"),
-      MaxLength: 64
+      MaxLength: 64,
     },
     serializedName: "siteNetworkServiceName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters19: OperationParameter = {
   parameterPath: "parameters",
-  mapper: SiteNetworkServiceMapper
+  mapper: SiteNetworkServiceMapper,
 };

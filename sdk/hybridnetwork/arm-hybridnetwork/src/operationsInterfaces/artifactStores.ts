@@ -19,7 +19,7 @@ import {
   ArtifactStoresGetResponse,
   TagsObject,
   ArtifactStoresUpdateOptionalParams,
-  ArtifactStoresUpdateResponse
+  ArtifactStoresUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,7 +34,7 @@ export interface ArtifactStores {
   listByPublisher(
     resourceGroupName: string,
     publisherName: string,
-    options?: ArtifactStoresListByPublisherOptionalParams
+    options?: ArtifactStoresListByPublisherOptionalParams,
   ): PagedAsyncIterableIterator<ArtifactStore>;
   /**
    * Deletes the specified artifact store.
@@ -47,7 +47,7 @@ export interface ArtifactStores {
     resourceGroupName: string,
     publisherName: string,
     artifactStoreName: string,
-    options?: ArtifactStoresDeleteOptionalParams
+    options?: ArtifactStoresDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ArtifactStoresDeleteResponse>,
@@ -65,7 +65,7 @@ export interface ArtifactStores {
     resourceGroupName: string,
     publisherName: string,
     artifactStoreName: string,
-    options?: ArtifactStoresDeleteOptionalParams
+    options?: ArtifactStoresDeleteOptionalParams,
   ): Promise<ArtifactStoresDeleteResponse>;
   /**
    * Creates or updates a artifact store.
@@ -80,7 +80,7 @@ export interface ArtifactStores {
     publisherName: string,
     artifactStoreName: string,
     parameters: ArtifactStore,
-    options?: ArtifactStoresCreateOrUpdateOptionalParams
+    options?: ArtifactStoresCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ArtifactStoresCreateOrUpdateResponse>,
@@ -100,7 +100,7 @@ export interface ArtifactStores {
     publisherName: string,
     artifactStoreName: string,
     parameters: ArtifactStore,
-    options?: ArtifactStoresCreateOrUpdateOptionalParams
+    options?: ArtifactStoresCreateOrUpdateOptionalParams,
   ): Promise<ArtifactStoresCreateOrUpdateResponse>;
   /**
    * Gets information about the specified artifact store.
@@ -113,7 +113,7 @@ export interface ArtifactStores {
     resourceGroupName: string,
     publisherName: string,
     artifactStoreName: string,
-    options?: ArtifactStoresGetOptionalParams
+    options?: ArtifactStoresGetOptionalParams,
   ): Promise<ArtifactStoresGetResponse>;
   /**
    * Update artifact store resource.
@@ -128,6 +128,6 @@ export interface ArtifactStores {
     publisherName: string,
     artifactStoreName: string,
     parameters: TagsObject,
-    options?: ArtifactStoresUpdateOptionalParams
+    options?: ArtifactStoresUpdateOptionalParams,
   ): Promise<ArtifactStoresUpdateResponse>;
 }
