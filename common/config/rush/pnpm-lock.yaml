@@ -5834,6 +5834,11 @@ packages:
       - supports-color
     dev: false
 
+  /esm@3.2.25:
+    resolution: {integrity: sha512-U1suiZ2oDVWv4zPO56S0NcR5QriEahGtdN2OR6FiOG4WJvcjBVFB0qI4+eKoWFH483PKGuLuu6V8Z4T5g63UVA==}
+    engines: {node: '>=6'}
+    dev: false
+
   /espree@10.0.1:
     resolution: {integrity: sha512-MWkrWZbJsL2UwnjxTX3gG8FneachS/Mwg7tdGXce011sJd5b0JG54vat5KHnfSBODZ3Wvzd2WnjxyzsRoVv+ww==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
@@ -13762,7 +13767,7 @@ packages:
     dev: false
 
   file:projects/arm-eventgrid.tgz:
-    resolution: {integrity: sha512-lLG7pDYHx1e3TgmHk0WcLIGTwcg+dHpRuePb9zuwmM4IcRrGq8fjLumz5XJQ8ezkIHsY2b/9BX9kfm0vgchHww==, tarball: file:projects/arm-eventgrid.tgz}
+    resolution: {integrity: sha512-lLIGazqlrtyadnwR96rq3wKYCeVg82XovtiuJlDp5PdFQjs7xB3fYYpkpjbj/tglZQmfPWDTUqL8Ff6hR5zGHg==, tarball: file:projects/arm-eventgrid.tgz}
     name: '@rush-temp/arm-eventgrid'
     version: 0.0.0
     dependencies:
@@ -13776,6 +13781,7 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
+      esm: 3.2.25
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.5
