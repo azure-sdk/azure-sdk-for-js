@@ -57,6 +57,9 @@ import {
   FirewallPolicyIdpsSignaturesImpl,
   FirewallPolicyIdpsSignaturesOverridesImpl,
   FirewallPolicyIdpsSignaturesFilterValuesImpl,
+  FirewallPolicyDraftsImpl,
+  FirewallPolicyDeploymentsImpl,
+  FirewallPolicyRuleCollectionGroupDraftsImpl,
   IpAllocationsImpl,
   IpGroupsImpl,
   LoadBalancersImpl,
@@ -191,6 +194,9 @@ import {
   FirewallPolicyIdpsSignatures,
   FirewallPolicyIdpsSignaturesOverrides,
   FirewallPolicyIdpsSignaturesFilterValues,
+  FirewallPolicyDrafts,
+  FirewallPolicyDeployments,
+  FirewallPolicyRuleCollectionGroupDrafts,
   IpAllocations,
   IpGroups,
   LoadBalancers,
@@ -310,6 +316,10 @@ import {
   BastionShareableLinkTokenListRequest,
   DeleteBastionShareableLinkByTokenOptionalParams,
   DeleteBastionShareableLinkByTokenResponse,
+  SetSessionRecordingSasUrlOptionalParams,
+  SetSessionRecordingSasUrlOperationResponse,
+  GetSessionRecordingSasUrlOptionalParams,
+  GetSessionRecordingSasUrlResponse,
   CheckDnsNameAvailabilityOptionalParams,
   CheckDnsNameAvailabilityResponse,
   ExpressRouteProviderPortOptionalParams,
@@ -382,7 +392,7 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-network/33.1.1`;
+    const packageDetails = `azsdk-js-arm-network/33.2.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -499,6 +509,10 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
       new FirewallPolicyIdpsSignaturesOverridesImpl(this);
     this.firewallPolicyIdpsSignaturesFilterValues =
       new FirewallPolicyIdpsSignaturesFilterValuesImpl(this);
+    this.firewallPolicyDrafts = new FirewallPolicyDraftsImpl(this);
+    this.firewallPolicyDeployments = new FirewallPolicyDeploymentsImpl(this);
+    this.firewallPolicyRuleCollectionGroupDrafts =
+      new FirewallPolicyRuleCollectionGroupDraftsImpl(this);
     this.ipAllocations = new IpAllocationsImpl(this);
     this.ipGroups = new IpGroupsImpl(this);
     this.loadBalancers = new LoadBalancersImpl(this);
@@ -1352,6 +1366,191 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
   }
 
   /**
+   * Set SAS URL for session recording for the Bastion Host.
+   * @param resourceGroupName The name of the resource group.
+   * @param bastionHostName The name of the Bastion Host.
+   * @param sasurl The SAS URL for session recording.
+   * @param options The options parameters.
+   */
+  async beginSetSessionRecordingSasUrl(
+    resourceGroupName: string,
+    bastionHostName: string,
+    sasurl: string,
+    options?: SetSessionRecordingSasUrlOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<SetSessionRecordingSasUrlOperationResponse>,
+      SetSessionRecordingSasUrlOperationResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<SetSessionRecordingSasUrlOperationResponse> => {
+      return this.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, bastionHostName, sasurl, options },
+      spec: setSessionRecordingSasUrlOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      SetSessionRecordingSasUrlOperationResponse,
+      OperationState<SetSessionRecordingSasUrlOperationResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Set SAS URL for session recording for the Bastion Host.
+   * @param resourceGroupName The name of the resource group.
+   * @param bastionHostName The name of the Bastion Host.
+   * @param sasurl The SAS URL for session recording.
+   * @param options The options parameters.
+   */
+  async beginSetSessionRecordingSasUrlAndWait(
+    resourceGroupName: string,
+    bastionHostName: string,
+    sasurl: string,
+    options?: SetSessionRecordingSasUrlOptionalParams,
+  ): Promise<SetSessionRecordingSasUrlOperationResponse> {
+    const poller = await this.beginSetSessionRecordingSasUrl(
+      resourceGroupName,
+      bastionHostName,
+      sasurl,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Get SAS URL for session recording for the Bastion Host.
+   * @param resourceGroupName The name of the resource group.
+   * @param bastionHostName The name of the Bastion Host.
+   * @param options The options parameters.
+   */
+  async beginGetSessionRecordingSasUrl(
+    resourceGroupName: string,
+    bastionHostName: string,
+    options?: GetSessionRecordingSasUrlOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<GetSessionRecordingSasUrlResponse>,
+      GetSessionRecordingSasUrlResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<GetSessionRecordingSasUrlResponse> => {
+      return this.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, bastionHostName, options },
+      spec: getSessionRecordingSasUrlOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      GetSessionRecordingSasUrlResponse,
+      OperationState<GetSessionRecordingSasUrlResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Get SAS URL for session recording for the Bastion Host.
+   * @param resourceGroupName The name of the resource group.
+   * @param bastionHostName The name of the Bastion Host.
+   * @param options The options parameters.
+   */
+  async beginGetSessionRecordingSasUrlAndWait(
+    resourceGroupName: string,
+    bastionHostName: string,
+    options?: GetSessionRecordingSasUrlOptionalParams,
+  ): Promise<GetSessionRecordingSasUrlResponse> {
+    const poller = await this.beginGetSessionRecordingSasUrl(
+      resourceGroupName,
+      bastionHostName,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * Checks whether a domain name in the cloudapp.azure.com zone is available for use.
    * @param location The location of the domain name.
    * @param domainNameLabel The domain name to be verified. It must conform to the following regular
@@ -1701,6 +1900,9 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
   firewallPolicyIdpsSignatures: FirewallPolicyIdpsSignatures;
   firewallPolicyIdpsSignaturesOverrides: FirewallPolicyIdpsSignaturesOverrides;
   firewallPolicyIdpsSignaturesFilterValues: FirewallPolicyIdpsSignaturesFilterValues;
+  firewallPolicyDrafts: FirewallPolicyDrafts;
+  firewallPolicyDeployments: FirewallPolicyDeployments;
+  firewallPolicyRuleCollectionGroupDrafts: FirewallPolicyRuleCollectionGroupDrafts;
   ipAllocations: IpAllocations;
   ipGroups: IpGroups;
   loadBalancers: LoadBalancers;
@@ -1965,6 +2167,68 @@ const disconnectActiveSessionsOperationSpec: coreClient.OperationSpec = {
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
+  serializer,
+};
+const setSessionRecordingSasUrlOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}/setSessionRecordingSasUrl",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SetSessionRecordingSasUrlResponse,
+    },
+    201: {
+      bodyMapper: Mappers.SetSessionRecordingSasUrlResponse,
+    },
+    202: {
+      bodyMapper: Mappers.SetSessionRecordingSasUrlResponse,
+    },
+    204: {
+      bodyMapper: Mappers.SetSessionRecordingSasUrlResponse,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  requestBody: Parameters.sasurl,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.bastionHostName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const getSessionRecordingSasUrlOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}/getSessionRecordingSasUrl",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: { type: { name: "String" } },
+    },
+    201: {
+      bodyMapper: { type: { name: "String" } },
+    },
+    202: {
+      bodyMapper: { type: { name: "String" } },
+    },
+    204: {
+      bodyMapper: { type: { name: "String" } },
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.bastionHostName,
+  ],
+  headerParameters: [Parameters.accept],
   serializer,
 };
 const checkDnsNameAvailabilityOperationSpec: coreClient.OperationSpec = {
