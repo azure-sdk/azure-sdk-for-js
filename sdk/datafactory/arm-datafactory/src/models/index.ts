@@ -2298,7 +2298,7 @@ export interface ConnectionStateProperties {
 /** A list of credential resources. */
 export interface CredentialListResponse {
   /** List of credentials. */
-  value: ManagedIdentityCredentialResource[];
+  value: CredentialResource[];
   /** The link to the next page of results, if any remaining results exist. */
   nextLink?: string;
 }
@@ -3843,8 +3843,8 @@ export interface PowerQuerySinkMapping {
 export interface ScriptActivityScriptBlock {
   /** The query text. Type: string (or Expression with resultType string). */
   text: any;
-  /** The type of the query. Type: string. */
-  type: ScriptType;
+  /** The type of the query. Please refer to the ScriptType for valid options. Type: string (or Expression with resultType string). */
+  type: any;
   /** Array of script parameters. Type: array. */
   parameters?: ScriptActivityParameter[];
 }
@@ -4143,9 +4143,9 @@ export interface ManagedPrivateEndpointResource extends SubResource {
 }
 
 /** Credential resource type. */
-export interface ManagedIdentityCredentialResource extends SubResource {
-  /** Managed Identity Credential properties. */
-  properties: ManagedIdentityCredential;
+export interface CredentialResource extends SubResource {
+  /** Properties of credentials. */
+  properties: CredentialUnion;
 }
 
 /** Private Endpoint Connection ARM resource. */
@@ -4191,12 +4191,6 @@ export interface ChangeDataCaptureResource extends SubResource {
   allowVNetOverride?: boolean;
   /** Status of the CDC as to if it is running or stopped. */
   status?: string;
-}
-
-/** Credential resource type. */
-export interface CredentialResource extends SubResource {
-  /** Properties of credentials. */
-  properties: CredentialUnion;
 }
 
 /** Managed integration runtime status. */
@@ -6535,6 +6529,12 @@ export interface AzureDatabricksLinkedService extends LinkedService {
   encryptedCredential?: string;
   /** The policy id for limiting the ability to configure clusters based on a user defined set of rules. Type: string (or Expression with resultType string). */
   policyId?: any;
+  /** A set of optional, user-specified cluster attributes key-value pairs. */
+  newClusterAttributes?: { [propertyName: string]: any };
+  /** Cluster option (Fixed / Autoscaling / Single Node) to enables the cluster nodes to be fixed or automatically scale between the minimum and maximum number of nodes, based on load. Single node clusters consists of a driver but no workers. Type: string (or Expression with resultType string). */
+  clusterOption?: any;
+  /** Access mode for data secured in unity catalog. Type: string (or Expression with resultType string). */
+  dataSecurityMode?: any;
   /** The credential reference containing authentication information. */
   credential?: CredentialReference;
 }
@@ -10173,6 +10173,18 @@ export interface SelfDependencyTumblingWindowTriggerReference
   size?: string;
 }
 
+/** Credential resource type. */
+export interface ManagedIdentityCredentialResource extends CredentialResource {
+  /** Managed Identity Credential properties. */
+  properties: ManagedIdentityCredential;
+}
+
+/** Credential resource type. */
+export interface ServicePrincipalCredentialResource extends CredentialResource {
+  /** Service Principal Credential properties. */
+  properties: ServicePrincipalCredential;
+}
+
 /** Execute pipeline activity. */
 export interface ExecutePipelineActivity extends ControlActivity {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -10318,7 +10330,7 @@ export interface WebHookActivity extends ControlActivity {
   /** The timeout within which the webhook should be called back. If there is no value specified, it defaults to 10 minutes. Type: string. Pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). */
   timeout?: string;
   /** Represents the headers that will be sent to the request. For example, to set the language and type on a request: "headers" : { "Accept-Language": "en-us", "Content-Type": "application/json" }. Type: string (or Expression with resultType string). */
-  headers?: { [propertyName: string]: string };
+  headers?: { [propertyName: string]: any };
   /** Represents the payload that will be sent to the endpoint. Required for POST/PUT method, not allowed for GET method Type: string (or Expression with resultType string). */
   body?: any;
   /** Authentication method used for calling the endpoint. */
@@ -10594,7 +10606,7 @@ export interface WebActivity extends ExecutionActivity {
   /** Web activity target endpoint and path. Type: string (or Expression with resultType string). */
   url: any;
   /** Represents the headers that will be sent to the request. For example, to set the language and type on a request: "headers" : { "Accept-Language": "en-us", "Content-Type": "application/json" }. Type: string (or Expression with resultType string). */
-  headers?: { [propertyName: string]: string };
+  headers?: { [propertyName: string]: any };
   /** Represents the payload that will be sent to the endpoint. Required for POST/PUT method, not allowed for GET method Type: string (or Expression with resultType string). */
   body?: any;
   /** Authentication method used for calling the endpoint. */
@@ -10738,7 +10750,7 @@ export interface AzureFunctionActivity extends ExecutionActivity {
   /** Name of the Function that the Azure Function Activity will call. Type: string (or Expression with resultType string) */
   functionName: any;
   /** Represents the headers that will be sent to the request. For example, to set the language and type on a request: "headers" : { "Accept-Language": "en-us", "Content-Type": "application/json" }. Type: string (or Expression with resultType string). */
-  headers?: { [propertyName: string]: string };
+  headers?: { [propertyName: string]: any };
   /** Represents the payload that will be sent to the endpoint. Required for POST/PUT method, not allowed for GET method Type: string (or Expression with resultType string). */
   body?: any;
 }
@@ -13377,24 +13389,6 @@ export enum KnownWebHookActivityMethod {
  */
 export type WebHookActivityMethod = string;
 
-/** Known values of {@link ScriptType} that the service accepts. */
-export enum KnownScriptType {
-  /** Query */
-  Query = "Query",
-  /** NonQuery */
-  NonQuery = "NonQuery",
-}
-
-/**
- * Defines values for ScriptType. \
- * {@link KnownScriptType} can be used interchangeably with ScriptType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Query** \
- * **NonQuery**
- */
-export type ScriptType = string;
-
 /** Known values of {@link ScriptActivityParameterType} that the service accepts. */
 export enum KnownScriptActivityParameterType {
   /** Boolean */
@@ -14039,6 +14033,24 @@ export enum KnownSqlDWWriteBehaviorEnum {
  * **Upsert**
  */
 export type SqlDWWriteBehaviorEnum = string;
+
+/** Known values of {@link ScriptType} that the service accepts. */
+export enum KnownScriptType {
+  /** Query */
+  Query = "Query",
+  /** NonQuery */
+  NonQuery = "NonQuery",
+}
+
+/**
+ * Defines values for ScriptType. \
+ * {@link KnownScriptType} can be used interchangeably with ScriptType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Query** \
+ * **NonQuery**
+ */
+export type ScriptType = string;
 
 /** Known values of {@link SqlPartitionOption} that the service accepts. */
 export enum KnownSqlPartitionOption {
@@ -14954,8 +14966,7 @@ export interface CredentialOperationsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type CredentialOperationsCreateOrUpdateResponse =
-  ManagedIdentityCredentialResource;
+export type CredentialOperationsCreateOrUpdateResponse = CredentialResource;
 
 /** Optional parameters. */
 export interface CredentialOperationsGetOptionalParams
@@ -14965,7 +14976,7 @@ export interface CredentialOperationsGetOptionalParams
 }
 
 /** Contains response data for the get operation. */
-export type CredentialOperationsGetResponse = ManagedIdentityCredentialResource;
+export type CredentialOperationsGetResponse = CredentialResource;
 
 /** Optional parameters. */
 export interface CredentialOperationsDeleteOptionalParams
