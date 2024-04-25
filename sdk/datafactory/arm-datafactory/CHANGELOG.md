@@ -1,15 +1,36 @@
 # Release History
+    
+## 15.0.0 (2024-04-25)
+    
+**Features**
 
-## 14.1.1 (Unreleased)
+  - Added Interface ServicePrincipalCredentialResource
+  - Interface AzureDatabricksLinkedService has a new optional parameter clusterOption
+  - Interface AzureDatabricksLinkedService has a new optional parameter dataSecurityMode
+  - Interface AzureDatabricksLinkedService has a new optional parameter newClusterAttributes
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Operation CredentialOperations.createOrUpdate has a new signature
+  - Type of parameter headers of interface AzureFunctionActivity is changed from {
+        [propertyName: string]: string;
+    } to {
+        [propertyName: string]: any;
+    }
+  - Type of parameter value of interface CredentialListResponse is changed from ManagedIdentityCredentialResource[] to CredentialResource[]
+  - Type of parameter type of interface ScriptActivityScriptBlock is changed from ScriptType to any
+  - Type of parameter headers of interface WebActivity is changed from {
+        [propertyName: string]: string;
+    } to {
+        [propertyName: string]: any;
+    }
+  - Type of parameter headers of interface WebHookActivity is changed from {
+        [propertyName: string]: string;
+    } to {
+        [propertyName: string]: any;
+    }
+    
+    
 ## 14.1.0 (2024-03-11)
     
 **Features**
