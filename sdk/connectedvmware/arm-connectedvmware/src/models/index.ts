@@ -1091,6 +1091,34 @@ export interface OsProfileForVMInstance {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly toolsVersion?: string;
+  /** Windows Configuration. */
+  windowsConfiguration?: WindowsConfiguration;
+}
+
+/** Specifies the Windows Configuration settings for the virtual machine. */
+export interface WindowsConfiguration {
+  /** Sets full name of the owner of the vm. */
+  fullName?: string;
+  /** Sets org name to which the owner of the vm belongs. */
+  orgName?: string;
+  /** Sets domain name that vm should join. */
+  domainName?: string;
+  /** Sets domain username. */
+  domainUsername?: string;
+  /** Sets domain user password. */
+  domainUserPassword?: string;
+  /** Sets work group name that vm should join. */
+  workGroupName?: string;
+  /** Sets product id of the vm. */
+  productId?: string;
+  /** Sets a value indicating whether auto logon is enabled. */
+  autoLogon?: boolean;
+  /** Sets auto logon count. */
+  autoLogonCount?: number;
+  /** Specifies the time zone of the virtual machine. e.g. "Pacific Standard Time". Time zone name correspond to time zones listed at Microsoft Time Zone name values(https://learn.microsoft.com/en-us/previous-versions/windows/embedded/ms912391(v=winembedded.11)). */
+  timeZone?: string;
+  /** Sets first logon commands */
+  firstLogonCommands?: string[];
 }
 
 /** Specifies the hardware settings for the virtual machine. */
@@ -1284,6 +1312,8 @@ export interface GuestCredential {
   username?: string;
   /** Gets or sets the password to connect with the guest. */
   password?: string;
+  /** Private key used to authenticate to a virtual machine through ssh. */
+  privateKey?: string;
 }
 
 /** HTTP Proxy configuration for the VM. */
@@ -1298,6 +1328,77 @@ export interface GuestAgentList {
   nextLink?: string;
   /** Array of GuestAgent */
   value: GuestAgent[];
+}
+
+/** Virtual disk model */
+export interface VirtualDiskInventory {
+  /** Gets or sets the name of the virtual disk. */
+  diskName?: string;
+  /**
+   * Gets or sets the label of the virtual disk in vCenter.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly label?: string;
+  /**
+   * Gets or sets the disk total size.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly diskSizeGB?: number;
+  /**
+   * Gets or sets the device key value.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly deviceKey?: number;
+  /**
+   * Gets or sets the disk mode.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly diskMode?: DiskMode;
+  /**
+   * Gets or sets the controller id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly controllerKey?: number;
+  /**
+   * Gets or sets the unit number of the disk on the controller.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly unitNumber?: number;
+  /**
+   * Gets or sets the device name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly deviceName?: string;
+  /**
+   * Gets or sets the disk file name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly fileName?: string;
+  /**
+   * Gets or sets the disk backing type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly diskType?: DiskType;
+  /**
+   * Gets or sets the eagerly scrub property of disk.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly eagerlyScrub?: boolean;
+  /**
+   * Gets or sets the thin provisioning property of disk.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly thinProvisioned?: boolean;
+  /**
+   * Gets or sets the controller type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly controllerType?: string;
+  /**
+   * Gets or sets a unique identifier for this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly uuid?: string;
 }
 
 /** Condition defines an extension to status. */
@@ -1322,6 +1423,58 @@ export interface Condition {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly severity?: string;
+}
+
+/** Specifies the network interfaces of the virtual machine. */
+export interface NetworkProfileInventory {
+  /** Gets or sets the list of network interfaces associated with the virtual machine. */
+  networkInterfaces?: NetworkInterfaceInventory[];
+}
+
+/** Inventory Network Interface model */
+export interface NetworkInterfaceInventory {
+  /**
+   * Gets or sets the label of the virtual network in vCenter that the nic is connected to.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly label?: string;
+  /**
+   * Gets or sets the nic ip addresses.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ipAddresses?: string[];
+  /**
+   * Gets or sets the NIC MAC address.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly macAddress?: string;
+  /**
+   * NIC type
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nicType?: NICType;
+  /**
+   * Gets or sets the vCenter MoRef (Managed Object Reference) ID of the virtual network
+   * that the nic is connected to.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly networkMoRefId?: string;
+  /**
+   * Gets or sets the name of the virtual network in vCenter that the nic is connected to.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly networkMoName?: string;
+  /**
+   * Gets or sets the device key value.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly deviceKey?: number;
+}
+
+/** Specifies the storage settings for the virtual machine disks. */
+export interface StorageProfileInventory {
+  /** Gets or sets the list of virtual disks associated with the virtual machine. */
+  disks?: VirtualDiskInventory[];
 }
 
 /** Describes the properties of an Inventory Item reference. */
@@ -1384,6 +1537,55 @@ export interface VirtualMachineInventoryItem extends InventoryItemProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly toolsVersion?: string;
+  /**
+   * Firmware type
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly firmwareType?: FirmwareType;
+  /**
+   * Gets a value indicating whether change tracking is supported.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly changeTrackingSupported?: boolean;
+  /**
+   * Gets a value indicating whether change tracking is enabled.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly changeTrackingEnabled?: boolean;
+  /**
+   * Gets a value indicating the maximum possible number of snapshots.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly maxSnapshots?: number;
+  /**
+   * Gets a value indicating the number of snapshots on the vm.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly numberOfSnapshots?: number;
+  /**
+   * Gets or sets the disk Enabled UUID of the vm.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly diskEnabledUuid?: string;
+  /**
+   * Gets the computer name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly computerName?: string;
+  /**
+   * Gets or sets memory size in MBs for the vm.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly memorySizeMB?: number;
+  /**
+   * Gets or sets the number of vCPU for the vm.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly numCPUs?: number;
+  /** Storage properties. */
+  storageProfile?: StorageProfileInventory;
+  /** Network properties. */
+  networkProfile?: NetworkProfileInventory;
 }
 
 /** The VM Template inventory item. */
@@ -1446,6 +1648,36 @@ export interface HostInventoryItem extends InventoryItemProperties {
   inventoryType: "Host";
   /** Parent host inventory resource details. */
   parent?: InventoryItemDetails;
+  /**
+   * Gets or sets the number of cores per socket on the host.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly numCoresPerSocket?: number;
+  /**
+   * Gets or sets the number of sockets on the host.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly numSockets?: number;
+  /**
+   * Gets or sets the version of the host.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly version?: string;
+  /**
+   * Gets or sets the cpu model of the host.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly cpuModel?: string;
+  /**
+   * Gets the total amount of physical memory on the host in GB.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly memorySizeGB?: number;
+  /**
+   * Gets or sets the power state of the host.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly powerState?: string;
 }
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
@@ -1642,7 +1874,7 @@ export enum KnownProvisioningState {
   /** Accepted */
   Accepted = "Accepted",
   /** Created */
-  Created = "Created"
+  Created = "Created",
 }
 
 /**
@@ -1670,7 +1902,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -1692,7 +1924,7 @@ export enum KnownOsType {
   /** Linux */
   Linux = "Linux",
   /** Other */
-  Other = "Other"
+  Other = "Other",
 }
 
 /**
@@ -1719,7 +1951,7 @@ export enum KnownNICType {
   /** E1000E */
   E1000E = "e1000e",
   /** Pcnet32 */
-  Pcnet32 = "pcnet32"
+  Pcnet32 = "pcnet32",
 }
 
 /**
@@ -1741,7 +1973,7 @@ export enum KnownPowerOnBootOption {
   /** Enabled */
   Enabled = "enabled",
   /** Disabled */
-  Disabled = "disabled"
+  Disabled = "disabled",
 }
 
 /**
@@ -1767,7 +1999,7 @@ export enum KnownIPAddressAllocationMethod {
   /** Random */
   Random = "random",
   /** Other */
-  Other = "other"
+  Other = "other",
 }
 
 /**
@@ -1791,7 +2023,7 @@ export enum KnownDiskMode {
   /** IndependentPersistent */
   IndependentPersistent = "independent_persistent",
   /** IndependentNonpersistent */
-  IndependentNonpersistent = "independent_nonpersistent"
+  IndependentNonpersistent = "independent_nonpersistent",
 }
 
 /**
@@ -1820,7 +2052,7 @@ export enum KnownDiskType {
   /** Sesparse */
   Sesparse = "sesparse",
   /** Unknown */
-  Unknown = "unknown"
+  Unknown = "unknown",
 }
 
 /**
@@ -1843,7 +2075,7 @@ export enum KnownFirmwareType {
   /** Bios */
   Bios = "bios",
   /** Efi */
-  Efi = "efi"
+  Efi = "efi",
 }
 
 /**
@@ -1871,7 +2103,7 @@ export enum KnownInventoryType {
   /** Datastore */
   Datastore = "Datastore",
   /** Host */
-  Host = "Host"
+  Host = "Host",
 }
 
 /**
@@ -1898,7 +2130,7 @@ export enum KnownScsiControllerType {
   /** Pvscsi */
   Pvscsi = "pvscsi",
   /** Lsilogicsas */
-  Lsilogicsas = "lsilogicsas"
+  Lsilogicsas = "lsilogicsas",
 }
 
 /**
@@ -1920,7 +2152,7 @@ export enum KnownVirtualScsiSharing {
   /** PhysicalSharing */
   PhysicalSharing = "physicalSharing",
   /** VirtualSharing */
-  VirtualSharing = "virtualSharing"
+  VirtualSharing = "virtualSharing",
 }
 
 /**
@@ -1941,7 +2173,7 @@ export enum KnownProvisioningAction {
   /** Uninstall */
   Uninstall = "uninstall",
   /** Repair */
-  Repair = "repair"
+  Repair = "repair",
 }
 
 /**
@@ -2368,21 +2600,24 @@ export interface VirtualMachineTemplatesListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type VirtualMachineTemplatesListByResourceGroupResponse = VirtualMachineTemplatesList;
+export type VirtualMachineTemplatesListByResourceGroupResponse =
+  VirtualMachineTemplatesList;
 
 /** Optional parameters. */
 export interface VirtualMachineTemplatesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type VirtualMachineTemplatesListNextResponse = VirtualMachineTemplatesList;
+export type VirtualMachineTemplatesListNextResponse =
+  VirtualMachineTemplatesList;
 
 /** Optional parameters. */
 export interface VirtualMachineTemplatesListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type VirtualMachineTemplatesListByResourceGroupNextResponse = VirtualMachineTemplatesList;
+export type VirtualMachineTemplatesListByResourceGroupNextResponse =
+  VirtualMachineTemplatesList;
 
 /** Optional parameters. */
 export interface VirtualNetworksCreateOptionalParams
@@ -2452,7 +2687,8 @@ export interface VirtualNetworksListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type VirtualNetworksListByResourceGroupNextResponse = VirtualNetworksList;
+export type VirtualNetworksListByResourceGroupNextResponse =
+  VirtualNetworksList;
 
 /** Optional parameters. */
 export interface InventoryItemsCreateOptionalParams
@@ -2501,7 +2737,8 @@ export interface VirtualMachineInstancesCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type VirtualMachineInstancesCreateOrUpdateResponse = VirtualMachineInstance;
+export type VirtualMachineInstancesCreateOrUpdateResponse =
+  VirtualMachineInstance;
 
 /** Optional parameters. */
 export interface VirtualMachineInstancesGetOptionalParams
@@ -2538,7 +2775,8 @@ export interface VirtualMachineInstancesDeleteOptionalParams
 }
 
 /** Contains response data for the delete operation. */
-export type VirtualMachineInstancesDeleteResponse = VirtualMachineInstancesDeleteHeaders;
+export type VirtualMachineInstancesDeleteResponse =
+  VirtualMachineInstancesDeleteHeaders;
 
 /** Optional parameters. */
 export interface VirtualMachineInstancesListOptionalParams
@@ -2559,7 +2797,8 @@ export interface VirtualMachineInstancesStopOptionalParams
 }
 
 /** Contains response data for the stop operation. */
-export type VirtualMachineInstancesStopResponse = VirtualMachineInstancesStopHeaders;
+export type VirtualMachineInstancesStopResponse =
+  VirtualMachineInstancesStopHeaders;
 
 /** Optional parameters. */
 export interface VirtualMachineInstancesStartOptionalParams
@@ -2571,7 +2810,8 @@ export interface VirtualMachineInstancesStartOptionalParams
 }
 
 /** Contains response data for the start operation. */
-export type VirtualMachineInstancesStartResponse = VirtualMachineInstancesStartHeaders;
+export type VirtualMachineInstancesStartResponse =
+  VirtualMachineInstancesStartHeaders;
 
 /** Optional parameters. */
 export interface VirtualMachineInstancesRestartOptionalParams
@@ -2583,35 +2823,40 @@ export interface VirtualMachineInstancesRestartOptionalParams
 }
 
 /** Contains response data for the restart operation. */
-export type VirtualMachineInstancesRestartResponse = VirtualMachineInstancesRestartHeaders;
+export type VirtualMachineInstancesRestartResponse =
+  VirtualMachineInstancesRestartHeaders;
 
 /** Optional parameters. */
 export interface VirtualMachineInstancesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type VirtualMachineInstancesListNextResponse = VirtualMachineInstancesList;
+export type VirtualMachineInstancesListNextResponse =
+  VirtualMachineInstancesList;
 
 /** Optional parameters. */
 export interface VmInstanceHybridIdentityMetadataGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type VmInstanceHybridIdentityMetadataGetResponse = VmInstanceHybridIdentityMetadata;
+export type VmInstanceHybridIdentityMetadataGetResponse =
+  VmInstanceHybridIdentityMetadata;
 
 /** Optional parameters. */
 export interface VmInstanceHybridIdentityMetadataListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type VmInstanceHybridIdentityMetadataListResponse = VmInstanceHybridIdentityMetadataList;
+export type VmInstanceHybridIdentityMetadataListResponse =
+  VmInstanceHybridIdentityMetadataList;
 
 /** Optional parameters. */
 export interface VmInstanceHybridIdentityMetadataListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type VmInstanceHybridIdentityMetadataListNextResponse = VmInstanceHybridIdentityMetadataList;
+export type VmInstanceHybridIdentityMetadataListNextResponse =
+  VmInstanceHybridIdentityMetadataList;
 
 /** Optional parameters. */
 export interface VMInstanceGuestAgentsCreateOptionalParams
@@ -2644,7 +2889,8 @@ export interface VMInstanceGuestAgentsDeleteOptionalParams
 }
 
 /** Contains response data for the delete operation. */
-export type VMInstanceGuestAgentsDeleteResponse = VMInstanceGuestAgentsDeleteHeaders;
+export type VMInstanceGuestAgentsDeleteResponse =
+  VMInstanceGuestAgentsDeleteHeaders;
 
 /** Optional parameters. */
 export interface VMInstanceGuestAgentsListOptionalParams

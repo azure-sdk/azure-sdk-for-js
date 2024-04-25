@@ -11,7 +11,7 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
@@ -26,7 +26,7 @@ import {
   InventoryItemsImpl,
   VirtualMachineInstancesImpl,
   VmInstanceHybridIdentityMetadataOperationsImpl,
-  VMInstanceGuestAgentsImpl
+  VMInstanceGuestAgentsImpl,
 } from "./operations";
 import {
   Operations,
@@ -40,7 +40,7 @@ import {
   InventoryItems,
   VirtualMachineInstances,
   VmInstanceHybridIdentityMetadataOperations,
-  VMInstanceGuestAgents
+  VMInstanceGuestAgents,
 } from "./operationsInterfaces";
 import { AzureArcVMwareManagementServiceAPIOptionalParams } from "./models";
 
@@ -58,18 +58,18 @@ export class AzureArcVMwareManagementServiceAPI extends coreClient.ServiceClient
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: AzureArcVMwareManagementServiceAPIOptionalParams
+    options?: AzureArcVMwareManagementServiceAPIOptionalParams,
   );
   constructor(
     credentials: coreAuth.TokenCredential,
-    options?: AzureArcVMwareManagementServiceAPIOptionalParams
+    options?: AzureArcVMwareManagementServiceAPIOptionalParams,
   );
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionIdOrOptions?:
       | AzureArcVMwareManagementServiceAPIOptionalParams
       | string,
-    options?: AzureArcVMwareManagementServiceAPIOptionalParams
+    options?: AzureArcVMwareManagementServiceAPIOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -89,10 +89,10 @@ export class AzureArcVMwareManagementServiceAPI extends coreClient.ServiceClient
     }
     const defaults: AzureArcVMwareManagementServiceAPIOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-connectedvmware/1.0.0`;
+    const packageDetails = `azsdk-js-arm-connectedvmware/1.1.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -102,20 +102,21 @@ export class AzureArcVMwareManagementServiceAPI extends coreClient.ServiceClient
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -125,7 +126,7 @@ export class AzureArcVMwareManagementServiceAPI extends coreClient.ServiceClient
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -135,9 +136,9 @@ export class AzureArcVMwareManagementServiceAPI extends coreClient.ServiceClient
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -145,7 +146,7 @@ export class AzureArcVMwareManagementServiceAPI extends coreClient.ServiceClient
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-10-01";
+    this.apiVersion = options.apiVersion || "2023-12-01";
     this.operations = new OperationsImpl(this);
     this.resourcePools = new ResourcePoolsImpl(this);
     this.clusters = new ClustersImpl(this);
@@ -156,9 +157,8 @@ export class AzureArcVMwareManagementServiceAPI extends coreClient.ServiceClient
     this.virtualNetworks = new VirtualNetworksImpl(this);
     this.inventoryItems = new InventoryItemsImpl(this);
     this.virtualMachineInstances = new VirtualMachineInstancesImpl(this);
-    this.vmInstanceHybridIdentityMetadataOperations = new VmInstanceHybridIdentityMetadataOperationsImpl(
-      this
-    );
+    this.vmInstanceHybridIdentityMetadataOperations =
+      new VmInstanceHybridIdentityMetadataOperationsImpl(this);
     this.vMInstanceGuestAgents = new VMInstanceGuestAgentsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
@@ -172,7 +172,7 @@ export class AzureArcVMwareManagementServiceAPI extends coreClient.ServiceClient
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -186,7 +186,7 @@ export class AzureArcVMwareManagementServiceAPI extends coreClient.ServiceClient
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }

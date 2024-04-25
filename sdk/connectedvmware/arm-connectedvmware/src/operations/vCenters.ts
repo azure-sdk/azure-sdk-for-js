@@ -16,7 +16,7 @@ import { AzureArcVMwareManagementServiceAPI } from "../azureArcVMwareManagementS
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -35,7 +35,7 @@ import {
   VCentersUpdateResponse,
   VCentersDeleteOptionalParams,
   VCentersListNextResponse,
-  VCentersListByResourceGroupNextResponse
+  VCentersListByResourceGroupNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -56,7 +56,7 @@ export class VCentersImpl implements VCenters {
    * @param options The options parameters.
    */
   public list(
-    options?: VCentersListOptionalParams
+    options?: VCentersListOptionalParams,
   ): PagedAsyncIterableIterator<VCenter> {
     const iter = this.listPagingAll(options);
     return {
@@ -71,13 +71,13 @@ export class VCentersImpl implements VCenters {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: VCentersListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<VCenter[]> {
     let result: VCentersListResponse;
     let continuationToken = settings?.continuationToken;
@@ -98,7 +98,7 @@ export class VCentersImpl implements VCenters {
   }
 
   private async *listPagingAll(
-    options?: VCentersListOptionalParams
+    options?: VCentersListOptionalParams,
   ): AsyncIterableIterator<VCenter> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -112,7 +112,7 @@ export class VCentersImpl implements VCenters {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: VCentersListByResourceGroupOptionalParams
+    options?: VCentersListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<VCenter> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -129,16 +129,16 @@ export class VCentersImpl implements VCenters {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: VCentersListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<VCenter[]> {
     let result: VCentersListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -153,7 +153,7 @@ export class VCentersImpl implements VCenters {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -164,11 +164,11 @@ export class VCentersImpl implements VCenters {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: VCentersListByResourceGroupOptionalParams
+    options?: VCentersListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<VCenter> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -183,7 +183,7 @@ export class VCentersImpl implements VCenters {
   async beginCreate(
     resourceGroupName: string,
     vcenterName: string,
-    options?: VCentersCreateOptionalParams
+    options?: VCentersCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VCentersCreateResponse>,
@@ -192,21 +192,20 @@ export class VCentersImpl implements VCenters {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<VCentersCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -215,8 +214,8 @@ export class VCentersImpl implements VCenters {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -224,15 +223,15 @@ export class VCentersImpl implements VCenters {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, vcenterName, options },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       VCentersCreateResponse,
@@ -240,7 +239,7 @@ export class VCentersImpl implements VCenters {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -255,12 +254,12 @@ export class VCentersImpl implements VCenters {
   async beginCreateAndWait(
     resourceGroupName: string,
     vcenterName: string,
-    options?: VCentersCreateOptionalParams
+    options?: VCentersCreateOptionalParams,
   ): Promise<VCentersCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       vcenterName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -274,11 +273,11 @@ export class VCentersImpl implements VCenters {
   get(
     resourceGroupName: string,
     vcenterName: string,
-    options?: VCentersGetOptionalParams
+    options?: VCentersGetOptionalParams,
   ): Promise<VCentersGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vcenterName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -291,11 +290,11 @@ export class VCentersImpl implements VCenters {
   update(
     resourceGroupName: string,
     vcenterName: string,
-    options?: VCentersUpdateOptionalParams
+    options?: VCentersUpdateOptionalParams,
   ): Promise<VCentersUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vcenterName, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -308,25 +307,24 @@ export class VCentersImpl implements VCenters {
   async beginDelete(
     resourceGroupName: string,
     vcenterName: string,
-    options?: VCentersDeleteOptionalParams
+    options?: VCentersDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -335,8 +333,8 @@ export class VCentersImpl implements VCenters {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -344,19 +342,19 @@ export class VCentersImpl implements VCenters {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, vcenterName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -371,12 +369,12 @@ export class VCentersImpl implements VCenters {
   async beginDeleteAndWait(
     resourceGroupName: string,
     vcenterName: string,
-    options?: VCentersDeleteOptionalParams
+    options?: VCentersDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       vcenterName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -386,7 +384,7 @@ export class VCentersImpl implements VCenters {
    * @param options The options parameters.
    */
   private _list(
-    options?: VCentersListOptionalParams
+    options?: VCentersListOptionalParams,
   ): Promise<VCentersListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -398,11 +396,11 @@ export class VCentersImpl implements VCenters {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: VCentersListByResourceGroupOptionalParams
+    options?: VCentersListByResourceGroupOptionalParams,
   ): Promise<VCentersListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -413,11 +411,11 @@ export class VCentersImpl implements VCenters {
    */
   private _listNext(
     nextLink: string,
-    options?: VCentersListNextOptionalParams
+    options?: VCentersListNextOptionalParams,
   ): Promise<VCentersListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 
@@ -430,11 +428,11 @@ export class VCentersImpl implements VCenters {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: VCentersListByResourceGroupNextOptionalParams
+    options?: VCentersListByResourceGroupNextOptionalParams,
   ): Promise<VCentersListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 }
@@ -442,25 +440,24 @@ export class VCentersImpl implements VCenters {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/vcenters/{vcenterName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/vcenters/{vcenterName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.VCenter
+      bodyMapper: Mappers.VCenter,
     },
     201: {
-      bodyMapper: Mappers.VCenter
+      bodyMapper: Mappers.VCenter,
     },
     202: {
-      bodyMapper: Mappers.VCenter
+      bodyMapper: Mappers.VCenter,
     },
     204: {
-      bodyMapper: Mappers.VCenter
+      bodyMapper: Mappers.VCenter,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body5,
   queryParameters: [Parameters.apiVersion],
@@ -468,45 +465,43 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.vcenterName
+    Parameters.vcenterName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/vcenters/{vcenterName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/vcenters/{vcenterName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VCenter
+      bodyMapper: Mappers.VCenter,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.vcenterName
+    Parameters.vcenterName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/vcenters/{vcenterName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/vcenters/{vcenterName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.VCenter
+      bodyMapper: Mappers.VCenter,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body1,
   queryParameters: [Parameters.apiVersion],
@@ -514,15 +509,14 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.vcenterName
+    Parameters.vcenterName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/vcenters/{vcenterName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/vcenters/{vcenterName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -530,93 +524,91 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.force],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.vcenterName
+    Parameters.vcenterName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ConnectedVMwarevSphere/vcenters",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.ConnectedVMwarevSphere/vcenters",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VCentersList
+      bodyMapper: Mappers.VCentersList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/vcenters",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/vcenters",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VCentersList
+      bodyMapper: Mappers.VCentersList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VCentersList
+      bodyMapper: Mappers.VCentersList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VCentersList
+      bodyMapper: Mappers.VCentersList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

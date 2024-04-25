@@ -18,7 +18,7 @@ import {
   VirtualMachineTemplatesGetResponse,
   VirtualMachineTemplatesUpdateOptionalParams,
   VirtualMachineTemplatesUpdateResponse,
-  VirtualMachineTemplatesDeleteOptionalParams
+  VirtualMachineTemplatesDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface VirtualMachineTemplates {
    * @param options The options parameters.
    */
   list(
-    options?: VirtualMachineTemplatesListOptionalParams
+    options?: VirtualMachineTemplatesListOptionalParams,
   ): PagedAsyncIterableIterator<VirtualMachineTemplate>;
   /**
    * List of virtualMachineTemplates in a resource group.
@@ -38,7 +38,7 @@ export interface VirtualMachineTemplates {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: VirtualMachineTemplatesListByResourceGroupOptionalParams
+    options?: VirtualMachineTemplatesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<VirtualMachineTemplate>;
   /**
    * Create Or Update virtual machine template.
@@ -49,7 +49,7 @@ export interface VirtualMachineTemplates {
   beginCreate(
     resourceGroupName: string,
     virtualMachineTemplateName: string,
-    options?: VirtualMachineTemplatesCreateOptionalParams
+    options?: VirtualMachineTemplatesCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VirtualMachineTemplatesCreateResponse>,
@@ -65,7 +65,7 @@ export interface VirtualMachineTemplates {
   beginCreateAndWait(
     resourceGroupName: string,
     virtualMachineTemplateName: string,
-    options?: VirtualMachineTemplatesCreateOptionalParams
+    options?: VirtualMachineTemplatesCreateOptionalParams,
   ): Promise<VirtualMachineTemplatesCreateResponse>;
   /**
    * Implements virtual machine template GET method.
@@ -76,7 +76,7 @@ export interface VirtualMachineTemplates {
   get(
     resourceGroupName: string,
     virtualMachineTemplateName: string,
-    options?: VirtualMachineTemplatesGetOptionalParams
+    options?: VirtualMachineTemplatesGetOptionalParams,
   ): Promise<VirtualMachineTemplatesGetResponse>;
   /**
    * API to update certain properties of the virtual machine template resource.
@@ -87,7 +87,7 @@ export interface VirtualMachineTemplates {
   update(
     resourceGroupName: string,
     virtualMachineTemplateName: string,
-    options?: VirtualMachineTemplatesUpdateOptionalParams
+    options?: VirtualMachineTemplatesUpdateOptionalParams,
   ): Promise<VirtualMachineTemplatesUpdateResponse>;
   /**
    * Implements virtual machine template DELETE method.
@@ -98,7 +98,7 @@ export interface VirtualMachineTemplates {
   beginDelete(
     resourceGroupName: string,
     virtualMachineTemplateName: string,
-    options?: VirtualMachineTemplatesDeleteOptionalParams
+    options?: VirtualMachineTemplatesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Implements virtual machine template DELETE method.
@@ -109,6 +109,6 @@ export interface VirtualMachineTemplates {
   beginDeleteAndWait(
     resourceGroupName: string,
     virtualMachineTemplateName: string,
-    options?: VirtualMachineTemplatesDeleteOptionalParams
+    options?: VirtualMachineTemplatesDeleteOptionalParams,
   ): Promise<void>;
 }

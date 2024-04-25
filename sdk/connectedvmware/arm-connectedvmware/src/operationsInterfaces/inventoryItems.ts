@@ -14,7 +14,7 @@ import {
   InventoryItemsCreateResponse,
   InventoryItemsGetOptionalParams,
   InventoryItemsGetResponse,
-  InventoryItemsDeleteOptionalParams
+  InventoryItemsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface InventoryItems {
   listByVCenter(
     resourceGroupName: string,
     vcenterName: string,
-    options?: InventoryItemsListByVCenterOptionalParams
+    options?: InventoryItemsListByVCenterOptionalParams,
   ): PagedAsyncIterableIterator<InventoryItem>;
   /**
    * Create Or Update InventoryItem.
@@ -42,7 +42,7 @@ export interface InventoryItems {
     resourceGroupName: string,
     vcenterName: string,
     inventoryItemName: string,
-    options?: InventoryItemsCreateOptionalParams
+    options?: InventoryItemsCreateOptionalParams,
   ): Promise<InventoryItemsCreateResponse>;
   /**
    * Implements InventoryItem GET method.
@@ -55,7 +55,7 @@ export interface InventoryItems {
     resourceGroupName: string,
     vcenterName: string,
     inventoryItemName: string,
-    options?: InventoryItemsGetOptionalParams
+    options?: InventoryItemsGetOptionalParams,
   ): Promise<InventoryItemsGetResponse>;
   /**
    * Implements inventoryItem DELETE method.
@@ -68,6 +68,6 @@ export interface InventoryItems {
     resourceGroupName: string,
     vcenterName: string,
     inventoryItemName: string,
-    options?: InventoryItemsDeleteOptionalParams
+    options?: InventoryItemsDeleteOptionalParams,
   ): Promise<void>;
 }

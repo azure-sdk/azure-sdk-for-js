@@ -18,7 +18,7 @@ import {
   DatastoresGetResponse,
   DatastoresUpdateOptionalParams,
   DatastoresUpdateResponse,
-  DatastoresDeleteOptionalParams
+  DatastoresDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface Datastores {
    * @param options The options parameters.
    */
   list(
-    options?: DatastoresListOptionalParams
+    options?: DatastoresListOptionalParams,
   ): PagedAsyncIterableIterator<Datastore>;
   /**
    * List of datastores in a resource group.
@@ -38,7 +38,7 @@ export interface Datastores {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: DatastoresListByResourceGroupOptionalParams
+    options?: DatastoresListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Datastore>;
   /**
    * Create Or Update datastore.
@@ -49,7 +49,7 @@ export interface Datastores {
   beginCreate(
     resourceGroupName: string,
     datastoreName: string,
-    options?: DatastoresCreateOptionalParams
+    options?: DatastoresCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DatastoresCreateResponse>,
@@ -65,7 +65,7 @@ export interface Datastores {
   beginCreateAndWait(
     resourceGroupName: string,
     datastoreName: string,
-    options?: DatastoresCreateOptionalParams
+    options?: DatastoresCreateOptionalParams,
   ): Promise<DatastoresCreateResponse>;
   /**
    * Implements datastore GET method.
@@ -76,7 +76,7 @@ export interface Datastores {
   get(
     resourceGroupName: string,
     datastoreName: string,
-    options?: DatastoresGetOptionalParams
+    options?: DatastoresGetOptionalParams,
   ): Promise<DatastoresGetResponse>;
   /**
    * API to update certain properties of the datastore resource.
@@ -87,7 +87,7 @@ export interface Datastores {
   update(
     resourceGroupName: string,
     datastoreName: string,
-    options?: DatastoresUpdateOptionalParams
+    options?: DatastoresUpdateOptionalParams,
   ): Promise<DatastoresUpdateResponse>;
   /**
    * Implements datastore DELETE method.
@@ -98,7 +98,7 @@ export interface Datastores {
   beginDelete(
     resourceGroupName: string,
     datastoreName: string,
-    options?: DatastoresDeleteOptionalParams
+    options?: DatastoresDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Implements datastore DELETE method.
@@ -109,6 +109,6 @@ export interface Datastores {
   beginDeleteAndWait(
     resourceGroupName: string,
     datastoreName: string,
-    options?: DatastoresDeleteOptionalParams
+    options?: DatastoresDeleteOptionalParams,
   ): Promise<void>;
 }

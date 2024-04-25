@@ -23,7 +23,7 @@ import {
   InventoryItemsGetOptionalParams,
   InventoryItemsGetResponse,
   InventoryItemsDeleteOptionalParams,
-  InventoryItemsListByVCenterNextResponse
+  InventoryItemsListByVCenterNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -48,12 +48,12 @@ export class InventoryItemsImpl implements InventoryItems {
   public listByVCenter(
     resourceGroupName: string,
     vcenterName: string,
-    options?: InventoryItemsListByVCenterOptionalParams
+    options?: InventoryItemsListByVCenterOptionalParams,
   ): PagedAsyncIterableIterator<InventoryItem> {
     const iter = this.listByVCenterPagingAll(
       resourceGroupName,
       vcenterName,
-      options
+      options,
     );
     return {
       next() {
@@ -70,9 +70,9 @@ export class InventoryItemsImpl implements InventoryItems {
           resourceGroupName,
           vcenterName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -80,7 +80,7 @@ export class InventoryItemsImpl implements InventoryItems {
     resourceGroupName: string,
     vcenterName: string,
     options?: InventoryItemsListByVCenterOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<InventoryItem[]> {
     let result: InventoryItemsListByVCenterResponse;
     let continuationToken = settings?.continuationToken;
@@ -88,7 +88,7 @@ export class InventoryItemsImpl implements InventoryItems {
       result = await this._listByVCenter(
         resourceGroupName,
         vcenterName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -100,7 +100,7 @@ export class InventoryItemsImpl implements InventoryItems {
         resourceGroupName,
         vcenterName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -112,12 +112,12 @@ export class InventoryItemsImpl implements InventoryItems {
   private async *listByVCenterPagingAll(
     resourceGroupName: string,
     vcenterName: string,
-    options?: InventoryItemsListByVCenterOptionalParams
+    options?: InventoryItemsListByVCenterOptionalParams,
   ): AsyncIterableIterator<InventoryItem> {
     for await (const page of this.listByVCenterPagingPage(
       resourceGroupName,
       vcenterName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -134,11 +134,11 @@ export class InventoryItemsImpl implements InventoryItems {
     resourceGroupName: string,
     vcenterName: string,
     inventoryItemName: string,
-    options?: InventoryItemsCreateOptionalParams
+    options?: InventoryItemsCreateOptionalParams,
   ): Promise<InventoryItemsCreateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vcenterName, inventoryItemName, options },
-      createOperationSpec
+      createOperationSpec,
     );
   }
 
@@ -153,11 +153,11 @@ export class InventoryItemsImpl implements InventoryItems {
     resourceGroupName: string,
     vcenterName: string,
     inventoryItemName: string,
-    options?: InventoryItemsGetOptionalParams
+    options?: InventoryItemsGetOptionalParams,
   ): Promise<InventoryItemsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vcenterName, inventoryItemName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -172,11 +172,11 @@ export class InventoryItemsImpl implements InventoryItems {
     resourceGroupName: string,
     vcenterName: string,
     inventoryItemName: string,
-    options?: InventoryItemsDeleteOptionalParams
+    options?: InventoryItemsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vcenterName, inventoryItemName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -189,11 +189,11 @@ export class InventoryItemsImpl implements InventoryItems {
   private _listByVCenter(
     resourceGroupName: string,
     vcenterName: string,
-    options?: InventoryItemsListByVCenterOptionalParams
+    options?: InventoryItemsListByVCenterOptionalParams,
   ): Promise<InventoryItemsListByVCenterResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vcenterName, options },
-      listByVCenterOperationSpec
+      listByVCenterOperationSpec,
     );
   }
 
@@ -208,11 +208,11 @@ export class InventoryItemsImpl implements InventoryItems {
     resourceGroupName: string,
     vcenterName: string,
     nextLink: string,
-    options?: InventoryItemsListByVCenterNextOptionalParams
+    options?: InventoryItemsListByVCenterNextOptionalParams,
   ): Promise<InventoryItemsListByVCenterNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vcenterName, nextLink, options },
-      listByVCenterNextOperationSpec
+      listByVCenterNextOperationSpec,
     );
   }
 }
@@ -220,16 +220,15 @@ export class InventoryItemsImpl implements InventoryItems {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/vcenters/{vcenterName}/inventoryItems/{inventoryItemName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/vcenters/{vcenterName}/inventoryItems/{inventoryItemName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.InventoryItem
+      bodyMapper: Mappers.InventoryItem,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body8,
   queryParameters: [Parameters.apiVersion],
@@ -238,23 +237,22 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vcenterName,
-    Parameters.inventoryItemName
+    Parameters.inventoryItemName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/vcenters/{vcenterName}/inventoryItems/{inventoryItemName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/vcenters/{vcenterName}/inventoryItems/{inventoryItemName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.InventoryItem
+      bodyMapper: Mappers.InventoryItem,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -262,21 +260,20 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vcenterName,
-    Parameters.inventoryItemName
+    Parameters.inventoryItemName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/vcenters/{vcenterName}/inventoryItems/{inventoryItemName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/vcenters/{vcenterName}/inventoryItems/{inventoryItemName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -284,51 +281,50 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vcenterName,
-    Parameters.inventoryItemName
+    Parameters.inventoryItemName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByVCenterOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/vcenters/{vcenterName}/inventoryItems",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/vcenters/{vcenterName}/inventoryItems",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.InventoryItemsList
+      bodyMapper: Mappers.InventoryItemsList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.vcenterName
+    Parameters.vcenterName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByVCenterNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.InventoryItemsList
+      bodyMapper: Mappers.InventoryItemsList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.vcenterName
+    Parameters.vcenterName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

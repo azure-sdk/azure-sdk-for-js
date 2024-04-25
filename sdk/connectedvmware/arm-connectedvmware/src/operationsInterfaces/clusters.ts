@@ -18,7 +18,7 @@ import {
   ClustersGetResponse,
   ClustersUpdateOptionalParams,
   ClustersUpdateResponse,
-  ClustersDeleteOptionalParams
+  ClustersDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface Clusters {
    * @param options The options parameters.
    */
   list(
-    options?: ClustersListOptionalParams
+    options?: ClustersListOptionalParams,
   ): PagedAsyncIterableIterator<Cluster>;
   /**
    * List of clusters in a resource group.
@@ -38,7 +38,7 @@ export interface Clusters {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: ClustersListByResourceGroupOptionalParams
+    options?: ClustersListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Cluster>;
   /**
    * Create Or Update cluster.
@@ -49,7 +49,7 @@ export interface Clusters {
   beginCreate(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersCreateOptionalParams
+    options?: ClustersCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ClustersCreateResponse>,
@@ -65,7 +65,7 @@ export interface Clusters {
   beginCreateAndWait(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersCreateOptionalParams
+    options?: ClustersCreateOptionalParams,
   ): Promise<ClustersCreateResponse>;
   /**
    * Implements cluster GET method.
@@ -76,7 +76,7 @@ export interface Clusters {
   get(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersGetOptionalParams
+    options?: ClustersGetOptionalParams,
   ): Promise<ClustersGetResponse>;
   /**
    * API to update certain properties of the cluster resource.
@@ -87,7 +87,7 @@ export interface Clusters {
   update(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersUpdateOptionalParams
+    options?: ClustersUpdateOptionalParams,
   ): Promise<ClustersUpdateResponse>;
   /**
    * Implements cluster DELETE method.
@@ -98,7 +98,7 @@ export interface Clusters {
   beginDelete(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersDeleteOptionalParams
+    options?: ClustersDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Implements cluster DELETE method.
@@ -109,6 +109,6 @@ export interface Clusters {
   beginDeleteAndWait(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersDeleteOptionalParams
+    options?: ClustersDeleteOptionalParams,
   ): Promise<void>;
 }

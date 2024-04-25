@@ -18,7 +18,7 @@ import {
   HostsGetResponse,
   HostsUpdateOptionalParams,
   HostsUpdateResponse,
-  HostsDeleteOptionalParams
+  HostsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -36,7 +36,7 @@ export interface Hosts {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: HostsListByResourceGroupOptionalParams
+    options?: HostsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Host>;
   /**
    * Create Or Update host.
@@ -47,7 +47,7 @@ export interface Hosts {
   beginCreate(
     resourceGroupName: string,
     hostName: string,
-    options?: HostsCreateOptionalParams
+    options?: HostsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<OperationState<HostsCreateResponse>, HostsCreateResponse>
   >;
@@ -60,7 +60,7 @@ export interface Hosts {
   beginCreateAndWait(
     resourceGroupName: string,
     hostName: string,
-    options?: HostsCreateOptionalParams
+    options?: HostsCreateOptionalParams,
   ): Promise<HostsCreateResponse>;
   /**
    * Implements host GET method.
@@ -71,7 +71,7 @@ export interface Hosts {
   get(
     resourceGroupName: string,
     hostName: string,
-    options?: HostsGetOptionalParams
+    options?: HostsGetOptionalParams,
   ): Promise<HostsGetResponse>;
   /**
    * API to update certain properties of the host resource.
@@ -82,7 +82,7 @@ export interface Hosts {
   update(
     resourceGroupName: string,
     hostName: string,
-    options?: HostsUpdateOptionalParams
+    options?: HostsUpdateOptionalParams,
   ): Promise<HostsUpdateResponse>;
   /**
    * Implements host DELETE method.
@@ -93,7 +93,7 @@ export interface Hosts {
   beginDelete(
     resourceGroupName: string,
     hostName: string,
-    options?: HostsDeleteOptionalParams
+    options?: HostsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Implements host DELETE method.
@@ -104,6 +104,6 @@ export interface Hosts {
   beginDeleteAndWait(
     resourceGroupName: string,
     hostName: string,
-    options?: HostsDeleteOptionalParams
+    options?: HostsDeleteOptionalParams,
   ): Promise<void>;
 }

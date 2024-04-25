@@ -356,6 +356,7 @@ export interface GuestAgentList {
 // @public
 export interface GuestCredential {
     password?: string;
+    privateKey?: string;
     username?: string;
 }
 
@@ -399,8 +400,14 @@ export interface Host {
 
 // @public
 export interface HostInventoryItem extends InventoryItemProperties {
+    readonly cpuModel?: string;
     inventoryType: "Host";
+    readonly memorySizeGB?: number;
+    readonly numCoresPerSocket?: number;
+    readonly numSockets?: number;
     parent?: InventoryItemDetails;
+    readonly powerState?: string;
+    readonly version?: string;
 }
 
 // @public
@@ -714,6 +721,17 @@ export interface NetworkInterface {
 }
 
 // @public
+export interface NetworkInterfaceInventory {
+    readonly deviceKey?: number;
+    readonly ipAddresses?: string[];
+    readonly label?: string;
+    readonly macAddress?: string;
+    readonly networkMoName?: string;
+    readonly networkMoRefId?: string;
+    readonly nicType?: NICType;
+}
+
+// @public
 export interface NetworkInterfaceUpdate {
     deviceKey?: number;
     name?: string;
@@ -725,6 +743,11 @@ export interface NetworkInterfaceUpdate {
 // @public
 export interface NetworkProfile {
     networkInterfaces?: NetworkInterface[];
+}
+
+// @public
+export interface NetworkProfileInventory {
+    networkInterfaces?: NetworkInterfaceInventory[];
 }
 
 // @public
@@ -805,6 +828,7 @@ export interface OsProfileForVMInstance {
     readonly toolsRunningStatus?: string;
     readonly toolsVersion?: string;
     readonly toolsVersionStatus?: string;
+    windowsConfiguration?: WindowsConfiguration;
 }
 
 // @public
@@ -1000,6 +1024,11 @@ export interface StorageProfile {
 }
 
 // @public
+export interface StorageProfileInventory {
+    disks?: VirtualDiskInventory[];
+}
+
+// @public
 export interface StorageProfileUpdate {
     disks?: VirtualDiskUpdate[];
 }
@@ -1145,6 +1174,24 @@ export interface VirtualDisk {
     readonly label?: string;
     name?: string;
     unitNumber?: number;
+}
+
+// @public
+export interface VirtualDiskInventory {
+    readonly controllerKey?: number;
+    readonly controllerType?: string;
+    readonly deviceKey?: number;
+    readonly deviceName?: string;
+    readonly diskMode?: DiskMode;
+    diskName?: string;
+    readonly diskSizeGB?: number;
+    readonly diskType?: DiskType;
+    readonly eagerlyScrub?: boolean;
+    readonly fileName?: string;
+    readonly label?: string;
+    readonly thinProvisioned?: boolean;
+    readonly unitNumber?: number;
+    readonly uuid?: string;
 }
 
 // @public
@@ -1318,17 +1365,28 @@ export interface VirtualMachineInstanceUpdate {
 
 // @public
 export interface VirtualMachineInventoryItem extends InventoryItemProperties {
+    readonly changeTrackingEnabled?: boolean;
+    readonly changeTrackingSupported?: boolean;
     cluster?: InventoryItemDetails;
+    readonly computerName?: string;
+    readonly diskEnabledUuid?: string;
+    readonly firmwareType?: FirmwareType;
     folderPath?: string;
     host?: InventoryItemDetails;
     instanceUuid?: string;
     inventoryType: "VirtualMachine";
     ipAddresses?: string[];
+    readonly maxSnapshots?: number;
+    readonly memorySizeMB?: number;
+    networkProfile?: NetworkProfileInventory;
+    readonly numberOfSnapshots?: number;
+    readonly numCPUs?: number;
     osName?: string;
     osType?: OsType;
     readonly powerState?: string;
     resourcePool?: InventoryItemDetails;
     smbiosUuid?: string;
+    storageProfile?: StorageProfileInventory;
     readonly toolsRunningStatus?: string;
     readonly toolsVersion?: string;
     readonly toolsVersionStatus?: string;
@@ -1681,6 +1739,21 @@ export type VmInstanceHybridIdentityMetadataListResponse = VmInstanceHybridIdent
 export interface VmInstanceHybridIdentityMetadataOperations {
     get(resourceUri: string, options?: VmInstanceHybridIdentityMetadataGetOptionalParams): Promise<VmInstanceHybridIdentityMetadataGetResponse>;
     list(resourceUri: string, options?: VmInstanceHybridIdentityMetadataListOptionalParams): PagedAsyncIterableIterator<VmInstanceHybridIdentityMetadata>;
+}
+
+// @public
+export interface WindowsConfiguration {
+    autoLogon?: boolean;
+    autoLogonCount?: number;
+    domainName?: string;
+    domainUsername?: string;
+    domainUserPassword?: string;
+    firstLogonCommands?: string[];
+    fullName?: string;
+    orgName?: string;
+    productId?: string;
+    timeZone?: string;
+    workGroupName?: string;
 }
 
 // (No @packageDocumentation comment for this package)
