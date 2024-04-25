@@ -2217,6 +2217,11 @@
       "packageName": "@azure/arm-standbypool",
       "projectFolder": "sdk/standbypool/arm-standbypool",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure-rest/batch",
+      "projectFolder": "sdk/batch/batch-rest",
+      "versionPolicyName": "client"
     }
   ]
 }
