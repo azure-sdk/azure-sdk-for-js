@@ -1,5 +1,49 @@
 # Release History
     
+## 20.0.0-beta.2 (2024-04-26)
+    
+**Features**
+
+  - Added operation group LoadBalancers
+  - Added operation ManagedClusters.beginRebalanceLoadBalancers
+  - Added operation ManagedClusters.beginRebalanceLoadBalancersAndWait
+  - Added Interface AdvancedNetworking
+  - Added Interface AdvancedNetworkingObservability
+  - Added Interface LabelSelector
+  - Added Interface LabelSelectorRequirement
+  - Added Interface LoadBalancer
+  - Added Interface LoadBalancerListResult
+  - Added Interface LoadBalancersCreateOrUpdateOptionalParams
+  - Added Interface LoadBalancersDeleteHeaders
+  - Added Interface LoadBalancersDeleteOptionalParams
+  - Added Interface LoadBalancersGetOptionalParams
+  - Added Interface LoadBalancersListByManagedClusterNextOptionalParams
+  - Added Interface LoadBalancersListByManagedClusterOptionalParams
+  - Added Interface ManagedClustersRebalanceLoadBalancersHeaders
+  - Added Interface ManagedClustersRebalanceLoadBalancersOptionalParams
+  - Added Interface RebalanceLoadBalancersRequestBody
+  - Added Type Alias LoadBalancersCreateOrUpdateResponse
+  - Added Type Alias LoadBalancersDeleteResponse
+  - Added Type Alias LoadBalancersGetResponse
+  - Added Type Alias LoadBalancersListByManagedClusterNextResponse
+  - Added Type Alias LoadBalancersListByManagedClusterResponse
+  - Added Type Alias ManagedClustersRebalanceLoadBalancersResponse
+  - Added Type Alias Operator
+  - Interface AgentPool has a new optional parameter eTag
+  - Interface AgentPoolsCreateOrUpdateOptionalParams has a new optional parameter ifMatch
+  - Interface AgentPoolsCreateOrUpdateOptionalParams has a new optional parameter ifNoneMatch
+  - Interface AgentPoolsDeleteOptionalParams has a new optional parameter ifMatch
+  - Interface ContainerServiceNetworkProfile has a new optional parameter advancedNetworking
+  - Interface ManagedCluster has a new optional parameter eTag
+  - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter eTag
+  - Interface ManagedClustersCreateOrUpdateOptionalParams has a new optional parameter ifMatch
+  - Interface ManagedClustersCreateOrUpdateOptionalParams has a new optional parameter ifNoneMatch
+  - Interface ManagedClustersDeleteOptionalParams has a new optional parameter ifMatch
+  - Interface ManagedClustersUpdateTagsOptionalParams has a new optional parameter ifMatch
+  - Added Enum KnownOperator
+  - Enum KnownManagedClusterSKUName has a new value Automatic
+    
+    
 ## 20.0.0-beta.1 (2024-04-12)
     
 **Features**

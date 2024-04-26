@@ -217,6 +217,11 @@ export interface CreationData {
 
 /** Properties for the container service agent pool profile. */
 export interface ManagedClusterAgentPoolProfileProperties {
+  /**
+   * Unique read-only string used to implement optimistic concurrency. The eTag value will change when the resource is updated. Specify an if-match or if-none-match header with the eTag value for a subsequent request to enable optimistic concurrency per the normal etag convention.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly eTag?: string;
   /** Number of agents (VMs) to host docker containers. Allowed values must be in the range of 0 to 1000 (inclusive) for user pools and in the range of 1 to 1000 (inclusive) for system pools. The default value is 1. */
   count?: number;
   /** VM size availability varies by region. If a node contains insufficient compute resources (memory, cpu, etc) pods might fail to run correctly. For more details on restricted VM sizes, see: https://docs.microsoft.com/azure/aks/quotas-skus-regions */
@@ -726,6 +731,8 @@ export interface ContainerServiceNetworkProfile {
   kubeProxyConfig?: ContainerServiceNetworkProfileKubeProxyConfig;
   /** This addon can be used to configure network monitoring and generate network monitoring data in Prometheus format */
   monitoring?: NetworkMonitoring;
+  /** Advanced Networking profile for enabling observability on a cluster. For more information see aka.ms/aksadvancednetworking. */
+  advancedNetworking?: AdvancedNetworking;
 }
 
 /** Profile of the managed cluster load balancer. */
@@ -823,6 +830,18 @@ export interface ContainerServiceNetworkProfileKubeProxyConfigIpvsConfig {
 /** This addon can be used to configure network monitoring and generate network monitoring data in Prometheus format */
 export interface NetworkMonitoring {
   /** Enable or disable the network monitoring plugin on the cluster */
+  enabled?: boolean;
+}
+
+/** Advanced Networking profile for enabling observability on a cluster. For more information see aka.ms/aksadvancednetworking. */
+export interface AdvancedNetworking {
+  /** Observability profile to enable advanced network metrics and flow logs with historical contexts. */
+  observability?: AdvancedNetworkingObservability;
+}
+
+/** Observability profile to enable advanced network metrics and flow logs with historical contexts. */
+export interface AdvancedNetworkingObservability {
+  /** Indicates the enablement of Advanced Networking observability functionalities on clusters. */
   enabled?: boolean;
 }
 
@@ -2086,6 +2105,41 @@ export interface MeshUpgradeProfileList {
   readonly nextLink?: string;
 }
 
+/** The response from the List Load Balancers operation. */
+export interface LoadBalancerListResult {
+  /** The list of Load Balancers. */
+  value?: LoadBalancer[];
+  /**
+   * The URL to get the next set of load balancer results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** A label selector is a label query over a set of resources. The result of matchLabels and matchExpressions are ANDed. An empty label selector matches all objects. A null label selector matches no objects. */
+export interface LabelSelector {
+  /** matchLabels is an array of {key=value} pairs. A single {key=value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is `key`, the operator is `In`, and the values array contains only `value`. The requirements are ANDed. */
+  matchLabels?: string[];
+  /** matchExpressions is a list of label selector requirements. The requirements are ANDed. */
+  matchExpressions?: LabelSelectorRequirement[];
+}
+
+/** A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values. */
+export interface LabelSelectorRequirement {
+  /** key is the label key that the selector applies to. */
+  key?: string;
+  /** operator represents a key's relationship to a set of values. Valid operators are In and NotIn */
+  operator?: Operator;
+  /** values is an array of string values, the values array must be non-empty. */
+  values?: string[];
+}
+
+/** The names of the load balancers to rebalance. If set to empty, all load balancers will be rebalanced. */
+export interface RebalanceLoadBalancersRequestBody {
+  /** The load balancer names list. */
+  loadBalancerNames?: string[];
+}
+
 /** Profile for the container service agent pool. */
 export interface ManagedClusterAgentPoolProfile
   extends ManagedClusterAgentPoolProfileProperties {
@@ -2150,6 +2204,11 @@ export interface MaintenanceConfiguration extends SubResource {
 
 /** Agent Pool. */
 export interface AgentPool extends SubResource {
+  /**
+   * Unique read-only string used to implement optimistic concurrency. The eTag value will change when the resource is updated. Specify an if-match or if-none-match header with the eTag value for a subsequent request to enable optimistic concurrency per the normal etag convention.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly eTag?: string;
   /** Number of agents (VMs) to host docker containers. Allowed values must be in the range of 0 to 1000 (inclusive) for user pools and in the range of 1 to 1000 (inclusive) for system pools. The default value is 1. */
   count?: number;
   /** VM size availability varies by region. If a node contains insufficient compute resources (memory, cpu, etc) pods might fail to run correctly. For more details on restricted VM sizes, see: https://docs.microsoft.com/azure/aks/quotas-skus-regions */
@@ -2283,6 +2342,11 @@ export interface MeshUpgradeProfileProperties extends MeshRevision {}
 
 /** Managed cluster. */
 export interface ManagedCluster extends TrackedResource {
+  /**
+   * Unique read-only string used to implement optimistic concurrency. The eTag value will change when the resource is updated. Specify an if-match or if-none-match header with the eTag value for a subsequent request to enable optimistic concurrency per the normal etag convention.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly eTag?: string;
   /** The managed cluster SKU. */
   sku?: ManagedClusterSKU;
   /** The extended location of the Virtual Machine. */
@@ -2482,6 +2546,27 @@ export interface MeshUpgradeProfile extends ProxyResource {
   properties?: MeshUpgradeProfileProperties;
 }
 
+/** The configurations regarding multiple standard load balancers. If not supplied, single load balancer mode will be used. Multiple standard load balancers mode will be used if at lease one configuration is supplied. There has to be a configuration named `kubernetes`. */
+export interface LoadBalancer extends ProxyResource {
+  /** Name of the public load balancer. There will be an internal load balancer created if needed, and the name will be `<name>-internal`. The internal lb shares the same configurations as the external one. The internal lbs are not needed to be included in LoadBalancer list. There must be a name of kubernetes in the list. */
+  namePropertiesName?: string;
+  /** Required field. A string value that must specify the ID of an existing agent pool. All nodes in the given pool will always be added to this load balancer. This agent pool must have at least one node and minCount>=1 for autoscaling operations. An agent pool can only be the primary pool for a single load balancer. */
+  primaryAgentPoolName?: string;
+  /** Whether to automatically place services on the load balancer. If not supplied, the default value is true. If set to false manually, both of the external and the internal load balancer will not be selected for services unless they explicitly target it. */
+  allowServicePlacement?: boolean;
+  /** Only services that must match this selector can be placed on this load balancer. */
+  serviceLabelSelector?: LabelSelector;
+  /** Services created in namespaces that match the selector can be placed on this load balancer. */
+  serviceNamespaceSelector?: LabelSelector;
+  /** Nodes that match this selector will be possible members of this load balancer. */
+  nodeSelector?: LabelSelector;
+  /**
+   * The current provisioning state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+}
+
 /** Defines headers for ManagedClusters_delete operation. */
 export interface ManagedClustersDeleteHeaders {
   /** URL to query for status of the operation. */
@@ -2544,6 +2629,12 @@ export interface ManagedClustersGetCommandResultHeaders {
   location?: string;
 }
 
+/** Defines headers for ManagedClusters_rebalanceLoadBalancers operation. */
+export interface ManagedClustersRebalanceLoadBalancersHeaders {
+  /** URL to query for status of the operation. */
+  location?: string;
+}
+
 /** Defines headers for AgentPools_abortLatestOperation operation. */
 export interface AgentPoolsAbortLatestOperationHeaders {
   /** URL to query for status of the operation. */
@@ -2576,6 +2667,12 @@ export interface TrustedAccessRoleBindingsDeleteHeaders {
   location?: string;
 }
 
+/** Defines headers for LoadBalancers_delete operation. */
+export interface LoadBalancersDeleteHeaders {
+  /** URL to query for status of the operation. */
+  location?: string;
+}
+
 /** Known values of {@link KubernetesSupportPlan} that the service accepts. */
 export enum KnownKubernetesSupportPlan {
   /** Support for the version is the same as for the open source Kubernetes offering. Official Kubernetes open source community support versions for 1 year after release. */
@@ -2598,6 +2695,8 @@ export type KubernetesSupportPlan = string;
 export enum KnownManagedClusterSKUName {
   /** Base option for the AKS control plane. */
   Base = "Base",
+  /** Automatic clusters are optimized to run most production workloads with configuration that follows AKS best practices and recommendations for cluster and workload setup, scalability, and security. For more details about Automatic clusters see aka.ms\/aks\/automatic. */
+  Automatic = "Automatic",
 }
 
 /**
@@ -2605,7 +2704,8 @@ export enum KnownManagedClusterSKUName {
  * {@link KnownManagedClusterSKUName} can be used interchangeably with ManagedClusterSKUName,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Base**: Base option for the AKS control plane.
+ * **Base**: Base option for the AKS control plane. \
+ * **Automatic**: Automatic clusters are optimized to run most production workloads with configuration that follows AKS best practices and recommendations for cluster and workload setup, scalability, and security. For more details about Automatic clusters see aka.ms\/aks\/automatic.
  */
 export type ManagedClusterSKUName = string;
 
@@ -3700,6 +3800,30 @@ export enum KnownSafeguardsSupport {
  * **Stable**: The version is stable and can be used on critical production clusters.
  */
 export type SafeguardsSupport = string;
+
+/** Known values of {@link Operator} that the service accepts. */
+export enum KnownOperator {
+  /** The value of the key should be in the given list. */
+  In = "In",
+  /** The value of the key should not be in the given list. */
+  NotIn = "NotIn",
+  /** The value of the key should exist. */
+  Exists = "Exists",
+  /** The value of the key should not exist. */
+  DoesNotExist = "DoesNotExist",
+}
+
+/**
+ * Defines values for Operator. \
+ * {@link KnownOperator} can be used interchangeably with Operator,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **In**: The value of the key should be in the given list. \
+ * **NotIn**: The value of the key should not be in the given list. \
+ * **Exists**: The value of the key should exist. \
+ * **DoesNotExist**: The value of the key should not exist.
+ */
+export type Operator = string;
 /** Defines values for ResourceIdentityType. */
 export type ResourceIdentityType = "SystemAssigned" | "UserAssigned" | "None";
 
@@ -3804,6 +3928,10 @@ export type ManagedClustersGetResponse = ManagedCluster;
 /** Optional parameters. */
 export interface ManagedClustersCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {
+  /** The request should only proceed if an entity matches this string. */
+  ifMatch?: string;
+  /** The request should only proceed if no entity matches this string. */
+  ifNoneMatch?: string;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3816,6 +3944,8 @@ export type ManagedClustersCreateOrUpdateResponse = ManagedCluster;
 /** Optional parameters. */
 export interface ManagedClustersUpdateTagsOptionalParams
   extends coreClient.OperationOptions {
+  /** The request should only proceed if an entity matches this string. */
+  ifMatch?: string;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3828,6 +3958,8 @@ export type ManagedClustersUpdateTagsResponse = ManagedCluster;
 /** Optional parameters. */
 export interface ManagedClustersDeleteOptionalParams
   extends coreClient.OperationOptions {
+  /** The request should only proceed if an entity matches this string. */
+  ifMatch?: string;
   /** ignore-pod-disruption-budget=true to delete those pods on a node without considering Pod Disruption Budget */
   ignorePodDisruptionBudget?: boolean;
   /** Delay to wait until next poll, in milliseconds. */
@@ -4010,6 +4142,19 @@ export interface ManagedClustersGetMeshUpgradeProfileOptionalParams
 export type ManagedClustersGetMeshUpgradeProfileResponse = MeshUpgradeProfile;
 
 /** Optional parameters. */
+export interface ManagedClustersRebalanceLoadBalancersOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the rebalanceLoadBalancers operation. */
+export type ManagedClustersRebalanceLoadBalancersResponse =
+  ManagedClustersRebalanceLoadBalancersHeaders;
+
+/** Optional parameters. */
 export interface ManagedClustersListNextOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -4129,6 +4274,10 @@ export type AgentPoolsGetResponse = AgentPool;
 /** Optional parameters. */
 export interface AgentPoolsCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {
+  /** The request should only proceed if an entity matches this string. */
+  ifMatch?: string;
+  /** The request should only proceed if no entity matches this string. */
+  ifNoneMatch?: string;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4141,6 +4290,8 @@ export type AgentPoolsCreateOrUpdateResponse = AgentPool;
 /** Optional parameters. */
 export interface AgentPoolsDeleteOptionalParams
   extends coreClient.OperationOptions {
+  /** The request should only proceed if an entity matches this string. */
+  ifMatch?: string;
   /** ignore-pod-disruption-budget=true to delete those pods on a node without considering Pod Disruption Budget */
   ignorePodDisruptionBudget?: boolean;
   /** Delay to wait until next poll, in milliseconds. */
@@ -4463,6 +4614,60 @@ export interface TrustedAccessRoleBindingsListNextOptionalParams
 /** Contains response data for the listNext operation. */
 export type TrustedAccessRoleBindingsListNextResponse =
   TrustedAccessRoleBindingListResult;
+
+/** Optional parameters. */
+export interface LoadBalancersListByManagedClusterOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByManagedCluster operation. */
+export type LoadBalancersListByManagedClusterResponse = LoadBalancerListResult;
+
+/** Optional parameters. */
+export interface LoadBalancersGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type LoadBalancersGetResponse = LoadBalancer;
+
+/** Optional parameters. */
+export interface LoadBalancersCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Name of the public load balancer. There will be an internal load balancer created if needed, and the name will be `<name>-internal`. The internal lb shares the same configurations as the external one. The internal lbs are not needed to be included in LoadBalancer list. There must be a name of kubernetes in the list. */
+  name?: string;
+  /** Required field. A string value that must specify the ID of an existing agent pool. All nodes in the given pool will always be added to this load balancer. This agent pool must have at least one node and minCount>=1 for autoscaling operations. An agent pool can only be the primary pool for a single load balancer. */
+  primaryAgentPoolName?: string;
+  /** Whether to automatically place services on the load balancer. If not supplied, the default value is true. If set to false manually, both of the external and the internal load balancer will not be selected for services unless they explicitly target it. */
+  allowServicePlacement?: boolean;
+  /** Only services that must match this selector can be placed on this load balancer. */
+  serviceLabelSelector?: LabelSelector;
+  /** Services created in namespaces that match the selector can be placed on this load balancer. */
+  serviceNamespaceSelector?: LabelSelector;
+  /** Nodes that match this selector will be possible members of this load balancer. */
+  nodeSelector?: LabelSelector;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type LoadBalancersCreateOrUpdateResponse = LoadBalancer;
+
+/** Optional parameters. */
+export interface LoadBalancersDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type LoadBalancersDeleteResponse = LoadBalancersDeleteHeaders;
+
+/** Optional parameters. */
+export interface LoadBalancersListByManagedClusterNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByManagedClusterNext operation. */
+export type LoadBalancersListByManagedClusterNextResponse =
+  LoadBalancerListResult;
 
 /** Optional parameters. */
 export interface ContainerServiceClientOptionalParams

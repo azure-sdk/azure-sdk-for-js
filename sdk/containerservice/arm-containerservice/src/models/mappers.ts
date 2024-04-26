@@ -520,6 +520,13 @@ export const ManagedClusterAgentPoolProfileProperties: coreClient.CompositeMappe
       name: "Composite",
       className: "ManagedClusterAgentPoolProfileProperties",
       modelProperties: {
+        eTag: {
+          serializedName: "eTag",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
         count: {
           serializedName: "count",
           type: {
@@ -2118,6 +2125,13 @@ export const ContainerServiceNetworkProfile: coreClient.CompositeMapper = {
           className: "NetworkMonitoring",
         },
       },
+      advancedNetworking: {
+        serializedName: "advancedNetworking",
+        type: {
+          name: "Composite",
+          className: "AdvancedNetworking",
+        },
+      },
     },
   },
 };
@@ -2441,6 +2455,37 @@ export const NetworkMonitoring: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "NetworkMonitoring",
+    modelProperties: {
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean",
+        },
+      },
+    },
+  },
+};
+
+export const AdvancedNetworking: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AdvancedNetworking",
+    modelProperties: {
+      observability: {
+        serializedName: "observability",
+        type: {
+          name: "Composite",
+          className: "AdvancedNetworkingObservability",
+        },
+      },
+    },
+  },
+};
+
+export const AdvancedNetworkingObservability: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AdvancedNetworkingObservability",
     modelProperties: {
       enabled: {
         serializedName: "enabled",
@@ -5796,6 +5841,118 @@ export const MeshUpgradeProfileList: coreClient.CompositeMapper = {
   },
 };
 
+export const LoadBalancerListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LoadBalancerListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "LoadBalancer",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const LabelSelector: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LabelSelector",
+    modelProperties: {
+      matchLabels: {
+        serializedName: "matchLabels",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+      matchExpressions: {
+        serializedName: "matchExpressions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "LabelSelectorRequirement",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const LabelSelectorRequirement: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LabelSelectorRequirement",
+    modelProperties: {
+      key: {
+        serializedName: "key",
+        type: {
+          name: "String",
+        },
+      },
+      operator: {
+        serializedName: "operator",
+        type: {
+          name: "String",
+        },
+      },
+      values: {
+        serializedName: "values",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const RebalanceLoadBalancersRequestBody: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RebalanceLoadBalancersRequestBody",
+    modelProperties: {
+      loadBalancerNames: {
+        serializedName: "loadBalancerNames",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
 export const ManagedClusterAgentPoolProfile: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -5984,6 +6141,13 @@ export const AgentPool: coreClient.CompositeMapper = {
     className: "AgentPool",
     modelProperties: {
       ...SubResource.type.modelProperties,
+      eTag: {
+        serializedName: "properties.eTag",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
       count: {
         serializedName: "properties.count",
         type: {
@@ -6391,6 +6555,13 @@ export const ManagedCluster: coreClient.CompositeMapper = {
     className: "ManagedCluster",
     modelProperties: {
       ...TrackedResource.type.modelProperties,
+      eTag: {
+        serializedName: "eTag",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
       sku: {
         serializedName: "sku",
         type: {
@@ -6912,6 +7083,62 @@ export const MeshUpgradeProfile: coreClient.CompositeMapper = {
   },
 };
 
+export const LoadBalancer: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LoadBalancer",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      namePropertiesName: {
+        serializedName: "properties.name",
+        type: {
+          name: "String",
+        },
+      },
+      primaryAgentPoolName: {
+        serializedName: "properties.primaryAgentPoolName",
+        type: {
+          name: "String",
+        },
+      },
+      allowServicePlacement: {
+        serializedName: "properties.allowServicePlacement",
+        type: {
+          name: "Boolean",
+        },
+      },
+      serviceLabelSelector: {
+        serializedName: "properties.serviceLabelSelector",
+        type: {
+          name: "Composite",
+          className: "LabelSelector",
+        },
+      },
+      serviceNamespaceSelector: {
+        serializedName: "properties.serviceNamespaceSelector",
+        type: {
+          name: "Composite",
+          className: "LabelSelector",
+        },
+      },
+      nodeSelector: {
+        serializedName: "properties.nodeSelector",
+        type: {
+          name: "Composite",
+          className: "LabelSelector",
+        },
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const ManagedClustersDeleteHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -7074,6 +7301,22 @@ export const ManagedClustersGetCommandResultHeaders: coreClient.CompositeMapper 
     },
   };
 
+export const ManagedClustersRebalanceLoadBalancersHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ManagedClustersRebalanceLoadBalancersHeaders",
+      modelProperties: {
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
 export const AgentPoolsAbortLatestOperationHeaders: coreClient.CompositeMapper =
   {
     type: {
@@ -7157,3 +7400,18 @@ export const TrustedAccessRoleBindingsDeleteHeaders: coreClient.CompositeMapper 
       },
     },
   };
+
+export const LoadBalancersDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LoadBalancersDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};

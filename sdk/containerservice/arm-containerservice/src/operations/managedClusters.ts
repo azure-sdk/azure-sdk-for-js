@@ -97,6 +97,9 @@ import {
   ManagedClustersGetMeshRevisionProfileResponse,
   ManagedClustersGetMeshUpgradeProfileOptionalParams,
   ManagedClustersGetMeshUpgradeProfileResponse,
+  RebalanceLoadBalancersRequestBody,
+  ManagedClustersRebalanceLoadBalancersOptionalParams,
+  ManagedClustersRebalanceLoadBalancersResponse,
   ManagedClustersListNextResponse,
   ManagedClustersListByResourceGroupNextResponse,
   ManagedClustersListOutboundNetworkDependenciesEndpointsNextResponse,
@@ -1973,6 +1976,102 @@ export class ManagedClustersImpl implements ManagedClusters {
   }
 
   /**
+   * Rebalance nodes across specific load balancers.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param parameters The names of the load balancers to be rebalanced. If set to empty, all load
+   *                   balancers will be rebalanced.
+   * @param options The options parameters.
+   */
+  async beginRebalanceLoadBalancers(
+    resourceGroupName: string,
+    resourceName: string,
+    parameters: RebalanceLoadBalancersRequestBody,
+    options?: ManagedClustersRebalanceLoadBalancersOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ManagedClustersRebalanceLoadBalancersResponse>,
+      ManagedClustersRebalanceLoadBalancersResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<ManagedClustersRebalanceLoadBalancersResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, resourceName, parameters, options },
+      spec: rebalanceLoadBalancersOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ManagedClustersRebalanceLoadBalancersResponse,
+      OperationState<ManagedClustersRebalanceLoadBalancersResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Rebalance nodes across specific load balancers.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param parameters The names of the load balancers to be rebalanced. If set to empty, all load
+   *                   balancers will be rebalanced.
+   * @param options The options parameters.
+   */
+  async beginRebalanceLoadBalancersAndWait(
+    resourceGroupName: string,
+    resourceName: string,
+    parameters: RebalanceLoadBalancersRequestBody,
+    options?: ManagedClustersRebalanceLoadBalancersOptionalParams,
+  ): Promise<ManagedClustersRebalanceLoadBalancersResponse> {
+    const poller = await this.beginRebalanceLoadBalancers(
+      resourceGroupName,
+      resourceName,
+      parameters,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * ListNext
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -2335,7 +2434,12 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.resourceName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.contentType,
+    Parameters.ifMatch,
+    Parameters.ifNoneMatch,
+  ],
   mediaType: "json",
   serializer,
 };
@@ -2367,7 +2471,11 @@ const updateTagsOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.resourceName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.contentType,
+    Parameters.ifMatch,
+  ],
   mediaType: "json",
   serializer,
 };
@@ -2401,7 +2509,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.resourceName,
   ],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.ifMatch],
   serializer,
 };
 const resetServicePrincipalProfileOperationSpec: coreClient.OperationSpec = {
@@ -2849,6 +2957,38 @@ const getMeshUpgradeProfileOperationSpec: coreClient.OperationSpec = {
     Parameters.mode,
   ],
   headerParameters: [Parameters.accept],
+  serializer,
+};
+const rebalanceLoadBalancersOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/rebalanceLoadBalancers",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper: Mappers.ManagedClustersRebalanceLoadBalancersHeaders,
+    },
+    201: {
+      headersMapper: Mappers.ManagedClustersRebalanceLoadBalancersHeaders,
+    },
+    202: {
+      headersMapper: Mappers.ManagedClustersRebalanceLoadBalancersHeaders,
+    },
+    204: {
+      headersMapper: Mappers.ManagedClustersRebalanceLoadBalancersHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters4,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {

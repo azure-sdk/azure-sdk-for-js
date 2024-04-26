@@ -72,6 +72,9 @@ import {
   ManagedClustersGetMeshRevisionProfileResponse,
   ManagedClustersGetMeshUpgradeProfileOptionalParams,
   ManagedClustersGetMeshUpgradeProfileResponse,
+  RebalanceLoadBalancersRequestBody,
+  ManagedClustersRebalanceLoadBalancersOptionalParams,
+  ManagedClustersRebalanceLoadBalancersResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -624,4 +627,37 @@ export interface ManagedClusters {
     mode: string,
     options?: ManagedClustersGetMeshUpgradeProfileOptionalParams,
   ): Promise<ManagedClustersGetMeshUpgradeProfileResponse>;
+  /**
+   * Rebalance nodes across specific load balancers.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param parameters The names of the load balancers to be rebalanced. If set to empty, all load
+   *                   balancers will be rebalanced.
+   * @param options The options parameters.
+   */
+  beginRebalanceLoadBalancers(
+    resourceGroupName: string,
+    resourceName: string,
+    parameters: RebalanceLoadBalancersRequestBody,
+    options?: ManagedClustersRebalanceLoadBalancersOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ManagedClustersRebalanceLoadBalancersResponse>,
+      ManagedClustersRebalanceLoadBalancersResponse
+    >
+  >;
+  /**
+   * Rebalance nodes across specific load balancers.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param parameters The names of the load balancers to be rebalanced. If set to empty, all load
+   *                   balancers will be rebalanced.
+   * @param options The options parameters.
+   */
+  beginRebalanceLoadBalancersAndWait(
+    resourceGroupName: string,
+    resourceName: string,
+    parameters: RebalanceLoadBalancersRequestBody,
+    options?: ManagedClustersRebalanceLoadBalancersOptionalParams,
+  ): Promise<ManagedClustersRebalanceLoadBalancersResponse>;
 }

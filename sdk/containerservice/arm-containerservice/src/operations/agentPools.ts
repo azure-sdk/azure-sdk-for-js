@@ -816,7 +816,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters5,
+  requestBody: Parameters.parameters6,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -825,7 +825,12 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceName,
     Parameters.agentPoolName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.contentType,
+    Parameters.ifMatch,
+    Parameters.ifNoneMatch,
+  ],
   mediaType: "json",
   serializer,
 };
@@ -860,7 +865,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceName,
     Parameters.agentPoolName,
   ],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.ifMatch],
   serializer,
 };
 const getUpgradeProfileOperationSpec: coreClient.OperationSpec = {

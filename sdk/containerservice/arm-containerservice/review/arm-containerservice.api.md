@@ -20,6 +20,16 @@ export interface AbsoluteMonthlySchedule {
 export type AddonAutoscaling = string;
 
 // @public
+export interface AdvancedNetworking {
+    observability?: AdvancedNetworkingObservability;
+}
+
+// @public
+export interface AdvancedNetworkingObservability {
+    enabled?: boolean;
+}
+
+// @public
 export interface AgentPool extends SubResource {
     artifactStreamingProfile?: AgentPoolArtifactStreamingProfile;
     availabilityZones?: string[];
@@ -33,6 +43,7 @@ export interface AgentPool extends SubResource {
     enableFips?: boolean;
     enableNodePublicIP?: boolean;
     enableUltraSSD?: boolean;
+    readonly eTag?: string;
     gatewayProfile?: AgentPoolGatewayProfile;
     gpuInstanceProfile?: GPUInstanceProfile;
     gpuProfile?: AgentPoolGPUProfile;
@@ -167,6 +178,8 @@ export type AgentPoolsAbortLatestOperationResponse = AgentPoolsAbortLatestOperat
 
 // @public
 export interface AgentPoolsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -195,6 +208,7 @@ export type AgentPoolsDeleteMachinesResponse = AgentPoolsDeleteMachinesHeaders;
 
 // @public
 export interface AgentPoolsDeleteOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
     ignorePodDisruptionBudget?: boolean;
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -348,6 +362,8 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
     // (undocumented)
     apiVersion: string;
     // (undocumented)
+    loadBalancers: LoadBalancers;
+    // (undocumented)
     machines: Machines;
     // (undocumented)
     maintenanceConfigurations: MaintenanceConfigurations;
@@ -390,6 +406,7 @@ export interface ContainerServiceLinuxProfile {
 
 // @public
 export interface ContainerServiceNetworkProfile {
+    advancedNetworking?: AdvancedNetworking;
     dnsServiceIP?: string;
     ipFamilies?: IpFamily[];
     kubeProxyConfig?: ContainerServiceNetworkProfileKubeProxyConfig;
@@ -771,6 +788,7 @@ export enum KnownManagedClusterPodIdentityProvisioningState {
 
 // @public
 export enum KnownManagedClusterSKUName {
+    Automatic = "Automatic",
     Base = "Base"
 }
 
@@ -831,6 +849,14 @@ export enum KnownNodeOSUpgradeChannel {
 export enum KnownNodeProvisioningMode {
     Auto = "Auto",
     Manual = "Manual"
+}
+
+// @public
+export enum KnownOperator {
+    DoesNotExist = "DoesNotExist",
+    Exists = "Exists",
+    In = "In",
+    NotIn = "NotIn"
 }
 
 // @public
@@ -1028,6 +1054,19 @@ export interface KubernetesVersionListResult {
 }
 
 // @public
+export interface LabelSelector {
+    matchExpressions?: LabelSelectorRequirement[];
+    matchLabels?: string[];
+}
+
+// @public
+export interface LabelSelectorRequirement {
+    key?: string;
+    operator?: Operator;
+    values?: string[];
+}
+
+// @public
 export type Level = string;
 
 // @public
@@ -1042,7 +1081,81 @@ export interface LinuxOSConfig {
 }
 
 // @public
+export interface LoadBalancer extends ProxyResource {
+    allowServicePlacement?: boolean;
+    namePropertiesName?: string;
+    nodeSelector?: LabelSelector;
+    primaryAgentPoolName?: string;
+    readonly provisioningState?: string;
+    serviceLabelSelector?: LabelSelector;
+    serviceNamespaceSelector?: LabelSelector;
+}
+
+// @public
+export interface LoadBalancerListResult {
+    readonly nextLink?: string;
+    value?: LoadBalancer[];
+}
+
+// @public
+export interface LoadBalancers {
+    beginDelete(resourceGroupName: string, resourceName: string, loadBalancerName: string, options?: LoadBalancersDeleteOptionalParams): Promise<SimplePollerLike<OperationState<LoadBalancersDeleteResponse>, LoadBalancersDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, resourceName: string, loadBalancerName: string, options?: LoadBalancersDeleteOptionalParams): Promise<LoadBalancersDeleteResponse>;
+    createOrUpdate(resourceGroupName: string, resourceName: string, loadBalancerName: string, options?: LoadBalancersCreateOrUpdateOptionalParams): Promise<LoadBalancersCreateOrUpdateResponse>;
+    get(resourceGroupName: string, resourceName: string, loadBalancerName: string, options?: LoadBalancersGetOptionalParams): Promise<LoadBalancersGetResponse>;
+    listByManagedCluster(resourceGroupName: string, resourceName: string, options?: LoadBalancersListByManagedClusterOptionalParams): PagedAsyncIterableIterator<LoadBalancer>;
+}
+
+// @public
+export interface LoadBalancersCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    allowServicePlacement?: boolean;
+    name?: string;
+    nodeSelector?: LabelSelector;
+    primaryAgentPoolName?: string;
+    serviceLabelSelector?: LabelSelector;
+    serviceNamespaceSelector?: LabelSelector;
+}
+
+// @public
+export type LoadBalancersCreateOrUpdateResponse = LoadBalancer;
+
+// @public
+export interface LoadBalancersDeleteHeaders {
+    location?: string;
+}
+
+// @public
+export interface LoadBalancersDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type LoadBalancersDeleteResponse = LoadBalancersDeleteHeaders;
+
+// @public
+export interface LoadBalancersGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type LoadBalancersGetResponse = LoadBalancer;
+
+// @public
 export type LoadBalancerSku = string;
+
+// @public
+export interface LoadBalancersListByManagedClusterNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type LoadBalancersListByManagedClusterNextResponse = LoadBalancerListResult;
+
+// @public
+export interface LoadBalancersListByManagedClusterOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type LoadBalancersListByManagedClusterResponse = LoadBalancerListResult;
 
 // @public
 export interface Machine extends SubResource {
@@ -1185,6 +1298,7 @@ export interface ManagedCluster extends TrackedResource {
     enableNamespaceResources?: boolean;
     enablePodSecurityPolicy?: boolean;
     enableRbac?: boolean;
+    readonly eTag?: string;
     extendedLocation?: ExtendedLocation;
     readonly fqdn?: string;
     fqdnSubdomain?: string;
@@ -1271,6 +1385,7 @@ export interface ManagedClusterAgentPoolProfileProperties {
     enableFips?: boolean;
     enableNodePublicIP?: boolean;
     enableUltraSSD?: boolean;
+    readonly eTag?: string;
     gatewayProfile?: AgentPoolGatewayProfile;
     gpuInstanceProfile?: GPUInstanceProfile;
     gpuProfile?: AgentPoolGPUProfile;
@@ -1608,6 +1723,8 @@ export interface ManagedClusters {
     beginCreateOrUpdateAndWait(resourceGroupName: string, resourceName: string, parameters: ManagedCluster, options?: ManagedClustersCreateOrUpdateOptionalParams): Promise<ManagedClustersCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, resourceName: string, options?: ManagedClustersDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ManagedClustersDeleteResponse>, ManagedClustersDeleteResponse>>;
     beginDeleteAndWait(resourceGroupName: string, resourceName: string, options?: ManagedClustersDeleteOptionalParams): Promise<ManagedClustersDeleteResponse>;
+    beginRebalanceLoadBalancers(resourceGroupName: string, resourceName: string, parameters: RebalanceLoadBalancersRequestBody, options?: ManagedClustersRebalanceLoadBalancersOptionalParams): Promise<SimplePollerLike<OperationState<ManagedClustersRebalanceLoadBalancersResponse>, ManagedClustersRebalanceLoadBalancersResponse>>;
+    beginRebalanceLoadBalancersAndWait(resourceGroupName: string, resourceName: string, parameters: RebalanceLoadBalancersRequestBody, options?: ManagedClustersRebalanceLoadBalancersOptionalParams): Promise<ManagedClustersRebalanceLoadBalancersResponse>;
     beginResetAADProfile(resourceGroupName: string, resourceName: string, parameters: ManagedClusterAADProfile, options?: ManagedClustersResetAADProfileOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginResetAADProfileAndWait(resourceGroupName: string, resourceName: string, parameters: ManagedClusterAADProfile, options?: ManagedClustersResetAADProfileOptionalParams): Promise<void>;
     beginResetServicePrincipalProfile(resourceGroupName: string, resourceName: string, parameters: ManagedClusterServicePrincipalProfile, options?: ManagedClustersResetServicePrincipalProfileOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
@@ -1663,6 +1780,8 @@ export type ManagedClustersAbortLatestOperationResponse = ManagedClustersAbortLa
 
 // @public
 export interface ManagedClustersCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -1677,6 +1796,7 @@ export interface ManagedClustersDeleteHeaders {
 
 // @public
 export interface ManagedClustersDeleteOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
     ignorePodDisruptionBudget?: boolean;
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -2022,6 +2142,20 @@ export interface ManagedClusterSnapshotsUpdateTagsOptionalParams extends coreCli
 export type ManagedClusterSnapshotsUpdateTagsResponse = ManagedClusterSnapshot;
 
 // @public
+export interface ManagedClustersRebalanceLoadBalancersHeaders {
+    location?: string;
+}
+
+// @public
+export interface ManagedClustersRebalanceLoadBalancersOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ManagedClustersRebalanceLoadBalancersResponse = ManagedClustersRebalanceLoadBalancersHeaders;
+
+// @public
 export interface ManagedClustersResetAADProfileHeaders {
     location?: string;
 }
@@ -2149,6 +2283,7 @@ export interface ManagedClusterStorageProfileSnapshotController {
 
 // @public
 export interface ManagedClustersUpdateTagsOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -2363,6 +2498,9 @@ export interface OperationValue {
 }
 
 // @public
+export type Operator = string;
+
+// @public
 export type OSDiskType = string;
 
 // @public
@@ -2516,6 +2654,11 @@ export interface ProxyResource extends Resource {
 
 // @public
 export type PublicNetworkAccess = string;
+
+// @public
+export interface RebalanceLoadBalancersRequestBody {
+    loadBalancerNames?: string[];
+}
 
 // @public
 export interface RelativeMonthlySchedule {

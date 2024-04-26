@@ -28,6 +28,7 @@ import {
   ManagedClusterSnapshotsImpl,
   TrustedAccessRolesImpl,
   TrustedAccessRoleBindingsImpl,
+  LoadBalancersImpl,
 } from "./operations";
 import {
   Operations,
@@ -43,6 +44,7 @@ import {
   ManagedClusterSnapshots,
   TrustedAccessRoles,
   TrustedAccessRoleBindings,
+  LoadBalancers,
 } from "./operationsInterfaces";
 import { ContainerServiceClientOptionalParams } from "./models";
 
@@ -78,7 +80,7 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-containerservice/20.0.0-beta.1`;
+    const packageDetails = `azsdk-js-arm-containerservice/20.0.0-beta.2`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -132,7 +134,7 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-02-02-preview";
+    this.apiVersion = options.apiVersion || "2024-03-02-preview";
     this.operations = new OperationsImpl(this);
     this.managedClusters = new ManagedClustersImpl(this);
     this.maintenanceConfigurations = new MaintenanceConfigurationsImpl(this);
@@ -149,6 +151,7 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
     this.managedClusterSnapshots = new ManagedClusterSnapshotsImpl(this);
     this.trustedAccessRoles = new TrustedAccessRolesImpl(this);
     this.trustedAccessRoleBindings = new TrustedAccessRoleBindingsImpl(this);
+    this.loadBalancers = new LoadBalancersImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -193,4 +196,5 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
   managedClusterSnapshots: ManagedClusterSnapshots;
   trustedAccessRoles: TrustedAccessRoles;
   trustedAccessRoleBindings: TrustedAccessRoleBindings;
+  loadBalancers: LoadBalancers;
 }
