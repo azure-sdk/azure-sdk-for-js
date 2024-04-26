@@ -9,678 +9,950 @@ import {
   OperationStatusOutput,
   PagedPoolOutput,
   PoolOutput,
+  PagedDevBoxOutput,
   PagedScheduleOutput,
   ScheduleOutput,
-  PagedDevBoxOutput,
   DevBoxOutput,
   RemoteConnectionOutput,
   PagedDevBoxActionOutput,
   DevBoxActionOutput,
   PagedDevBoxActionDelayResultOutput,
+  PagedDevBoxOperationOutput,
+  DevBoxOperationOutput,
   PagedEnvironmentOutput,
   EnvironmentOutput,
+  EnvironmentOutputsOutput,
+  PagedEnvironmentOperationOutput,
+  EnvironmentOperationOutput,
+  PagedEnvironmentActionOutput,
+  EnvironmentActionOutput,
   PagedCatalogOutput,
   CatalogOutput,
   PagedEnvironmentDefinitionOutput,
   EnvironmentDefinitionOutput,
   PagedEnvironmentTypeOutput,
-} from "./outputModels";
+} from "./outputModels.js";
 
 /** The request has succeeded. */
-export interface ListProjects200Response extends HttpResponse {
+export interface DevCenterListProjects200Response extends HttpResponse {
   status: "200";
   body: PagedProjectOutput;
 }
 
-export interface ListProjectsDefaultHeaders {
+export interface DevCenterListProjectsDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface ListProjectsDefaultResponse extends HttpResponse {
+export interface DevCenterListProjectsDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & ListProjectsDefaultHeaders;
+  headers: RawHttpHeaders & DevCenterListProjectsDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface GetProject200Response extends HttpResponse {
+export interface DevCenterGetProject200Response extends HttpResponse {
   status: "200";
   body: ProjectOutput;
 }
 
-export interface GetProjectDefaultHeaders {
+export interface DevCenterGetProjectDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface GetProjectDefaultResponse extends HttpResponse {
+export interface DevCenterGetProjectDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & GetProjectDefaultHeaders;
+  headers: RawHttpHeaders & DevCenterGetProjectDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface GetProjectOperationStatus200Response extends HttpResponse {
+export interface OperationStatusesGet200Response extends HttpResponse {
   status: "200";
   body: OperationStatusOutput;
 }
 
-export interface GetProjectOperationStatusDefaultHeaders {
+export interface OperationStatusesGetDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface GetProjectOperationStatusDefaultResponse extends HttpResponse {
+export interface OperationStatusesGetDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & GetProjectOperationStatusDefaultHeaders;
+  headers: RawHttpHeaders & OperationStatusesGetDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface ListPools200Response extends HttpResponse {
+export interface DevBoxesListPools200Response extends HttpResponse {
   status: "200";
   body: PagedPoolOutput;
 }
 
-export interface ListPoolsDefaultHeaders {
+export interface DevBoxesListPoolsDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface ListPoolsDefaultResponse extends HttpResponse {
+export interface DevBoxesListPoolsDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & ListPoolsDefaultHeaders;
+  headers: RawHttpHeaders & DevBoxesListPoolsDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface GetPool200Response extends HttpResponse {
+export interface DevBoxesGetPool200Response extends HttpResponse {
   status: "200";
   body: PoolOutput;
 }
 
-export interface GetPoolDefaultHeaders {
+export interface DevBoxesGetPoolDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface GetPoolDefaultResponse extends HttpResponse {
+export interface DevBoxesGetPoolDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & GetPoolDefaultHeaders;
+  headers: RawHttpHeaders & DevBoxesGetPoolDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface ListSchedules200Response extends HttpResponse {
+export interface DevBoxesListAllDevBoxes200Response extends HttpResponse {
+  status: "200";
+  body: PagedDevBoxOutput;
+}
+
+export interface DevBoxesListAllDevBoxesDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface DevBoxesListAllDevBoxesDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & DevBoxesListAllDevBoxesDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface DevBoxesListAllDevBoxesByUser200Response extends HttpResponse {
+  status: "200";
+  body: PagedDevBoxOutput;
+}
+
+export interface DevBoxesListAllDevBoxesByUserDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface DevBoxesListAllDevBoxesByUserDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & DevBoxesListAllDevBoxesByUserDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface DevBoxesListSchedulesByPool200Response extends HttpResponse {
   status: "200";
   body: PagedScheduleOutput;
 }
 
-export interface ListSchedulesDefaultHeaders {
+export interface DevBoxesListSchedulesByPoolDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface ListSchedulesDefaultResponse extends HttpResponse {
+export interface DevBoxesListSchedulesByPoolDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & ListSchedulesDefaultHeaders;
+  headers: RawHttpHeaders & DevBoxesListSchedulesByPoolDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface GetSchedule200Response extends HttpResponse {
+export interface DevBoxesGetScheduleByPool200Response extends HttpResponse {
   status: "200";
   body: ScheduleOutput;
 }
 
-export interface GetScheduleDefaultHeaders {
+export interface DevBoxesGetScheduleByPoolDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface GetScheduleDefaultResponse extends HttpResponse {
+export interface DevBoxesGetScheduleByPoolDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & GetScheduleDefaultHeaders;
+  headers: RawHttpHeaders & DevBoxesGetScheduleByPoolDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface ListDevBoxes200Response extends HttpResponse {
+export interface DevBoxesListSchedulesByProject200Response
+  extends HttpResponse {
+  status: "200";
+  body: PagedScheduleOutput;
+}
+
+export interface DevBoxesListSchedulesByProjectDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface DevBoxesListSchedulesByProjectDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & DevBoxesListSchedulesByProjectDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface DevBoxesListDevBoxesByUser200Response extends HttpResponse {
   status: "200";
   body: PagedDevBoxOutput;
 }
 
-export interface ListDevBoxesDefaultHeaders {
+export interface DevBoxesListDevBoxesByUserDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface ListDevBoxesDefaultResponse extends HttpResponse {
+export interface DevBoxesListDevBoxesByUserDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & ListDevBoxesDefaultHeaders;
+  headers: RawHttpHeaders & DevBoxesListDevBoxesByUserDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface GetDevBox200Response extends HttpResponse {
+export interface DevBoxesGetDevBoxByUser200Response extends HttpResponse {
   status: "200";
   body: DevBoxOutput;
 }
 
-export interface GetDevBoxDefaultHeaders {
+export interface DevBoxesGetDevBoxByUserDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface GetDevBoxDefaultResponse extends HttpResponse {
+export interface DevBoxesGetDevBoxByUserDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & GetDevBoxDefaultHeaders;
+  headers: RawHttpHeaders & DevBoxesGetDevBoxByUserDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface CreateDevBox200Response extends HttpResponse {
+export interface DevBoxesCreateDevBox200Response extends HttpResponse {
   status: "200";
   body: DevBoxOutput;
 }
 
-export interface CreateDevBox201Headers {
+export interface DevBoxesCreateDevBox201Headers {
   location: string;
   "operation-location": string;
 }
 
 /** The request has succeeded and a new resource has been created as a result. */
-export interface CreateDevBox201Response extends HttpResponse {
+export interface DevBoxesCreateDevBox201Response extends HttpResponse {
   status: "201";
   body: DevBoxOutput;
-  headers: RawHttpHeaders & CreateDevBox201Headers;
+  headers: RawHttpHeaders & DevBoxesCreateDevBox201Headers;
 }
 
-export interface CreateDevBoxDefaultHeaders {
+export interface DevBoxesCreateDevBoxDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface CreateDevBoxDefaultResponse extends HttpResponse {
+export interface DevBoxesCreateDevBoxDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & CreateDevBoxDefaultHeaders;
+  headers: RawHttpHeaders & DevBoxesCreateDevBoxDefaultHeaders;
 }
 
-/** The final response for long-running CreateDevBox operation */
-export interface CreateDevBoxLogicalResponse extends HttpResponse {
+/** The final response for long-running createDevBox operation */
+export interface DevBoxesCreateDevBoxLogicalResponse extends HttpResponse {
   status: "200";
   body: DevBoxOutput;
 }
 
-export interface DeleteDevBox202Headers {
+export interface DevBoxesDeleteDevBox202Headers {
   location: string;
   "operation-location": string;
 }
 
 /** The request has been accepted for processing, but processing has not yet completed. */
-export interface DeleteDevBox202Response extends HttpResponse {
+export interface DevBoxesDeleteDevBox202Response extends HttpResponse {
   status: "202";
   body: OperationStatusOutput;
-  headers: RawHttpHeaders & DeleteDevBox202Headers;
+  headers: RawHttpHeaders & DevBoxesDeleteDevBox202Headers;
 }
 
 /** There is no content to send for this request, but the headers may be useful. */
-export interface DeleteDevBox204Response extends HttpResponse {
+export interface DevBoxesDeleteDevBox204Response extends HttpResponse {
   status: "204";
 }
 
-export interface DeleteDevBoxDefaultHeaders {
+export interface DevBoxesDeleteDevBoxDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface DeleteDevBoxDefaultResponse extends HttpResponse {
+export interface DevBoxesDeleteDevBoxDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & DeleteDevBoxDefaultHeaders;
+  headers: RawHttpHeaders & DevBoxesDeleteDevBoxDefaultHeaders;
 }
 
-/** The final response for long-running DeleteDevBox operation */
-export interface DeleteDevBoxLogicalResponse extends HttpResponse {
+/** The final response for long-running deleteDevBox operation */
+export interface DevBoxesDeleteDevBoxLogicalResponse extends HttpResponse {
   status: "200";
   body: OperationStatusOutput;
 }
 
-export interface StartDevBox202Headers {
+export interface DevBoxesStartDevBox202Headers {
   /** The location for monitoring the operation state. */
   "operation-location": string;
 }
 
 /** The request has been accepted for processing, but processing has not yet completed. */
-export interface StartDevBox202Response extends HttpResponse {
+export interface DevBoxesStartDevBox202Response extends HttpResponse {
   status: "202";
   body: OperationStatusOutput;
-  headers: RawHttpHeaders & StartDevBox202Headers;
+  headers: RawHttpHeaders & DevBoxesStartDevBox202Headers;
 }
 
-export interface StartDevBoxDefaultHeaders {
+export interface DevBoxesStartDevBoxDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface StartDevBoxDefaultResponse extends HttpResponse {
+export interface DevBoxesStartDevBoxDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & StartDevBoxDefaultHeaders;
+  headers: RawHttpHeaders & DevBoxesStartDevBoxDefaultHeaders;
 }
 
-/** The final response for long-running StartDevBox operation */
-export interface StartDevBoxLogicalResponse extends HttpResponse {
+/** The final response for long-running startDevBox operation */
+export interface DevBoxesStartDevBoxLogicalResponse extends HttpResponse {
   status: "200";
   body: OperationStatusOutput;
 }
 
-export interface StopDevBox202Headers {
+export interface DevBoxesStopDevBox202Headers {
   /** The location for monitoring the operation state. */
   "operation-location": string;
 }
 
 /** The request has been accepted for processing, but processing has not yet completed. */
-export interface StopDevBox202Response extends HttpResponse {
+export interface DevBoxesStopDevBox202Response extends HttpResponse {
   status: "202";
   body: OperationStatusOutput;
-  headers: RawHttpHeaders & StopDevBox202Headers;
+  headers: RawHttpHeaders & DevBoxesStopDevBox202Headers;
 }
 
-export interface StopDevBoxDefaultHeaders {
+export interface DevBoxesStopDevBoxDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface StopDevBoxDefaultResponse extends HttpResponse {
+export interface DevBoxesStopDevBoxDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & StopDevBoxDefaultHeaders;
+  headers: RawHttpHeaders & DevBoxesStopDevBoxDefaultHeaders;
 }
 
-/** The final response for long-running StopDevBox operation */
-export interface StopDevBoxLogicalResponse extends HttpResponse {
+/** The final response for long-running stopDevBox operation */
+export interface DevBoxesStopDevBoxLogicalResponse extends HttpResponse {
   status: "200";
   body: OperationStatusOutput;
 }
 
-export interface RestartDevBox202Headers {
+export interface DevBoxesRestartDevBox202Headers {
   /** The location for monitoring the operation state. */
   "operation-location": string;
 }
 
 /** The request has been accepted for processing, but processing has not yet completed. */
-export interface RestartDevBox202Response extends HttpResponse {
+export interface DevBoxesRestartDevBox202Response extends HttpResponse {
   status: "202";
   body: OperationStatusOutput;
-  headers: RawHttpHeaders & RestartDevBox202Headers;
+  headers: RawHttpHeaders & DevBoxesRestartDevBox202Headers;
 }
 
-export interface RestartDevBoxDefaultHeaders {
+export interface DevBoxesRestartDevBoxDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface RestartDevBoxDefaultResponse extends HttpResponse {
+export interface DevBoxesRestartDevBoxDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & RestartDevBoxDefaultHeaders;
+  headers: RawHttpHeaders & DevBoxesRestartDevBoxDefaultHeaders;
 }
 
-/** The final response for long-running RestartDevBox operation */
-export interface RestartDevBoxLogicalResponse extends HttpResponse {
+/** The final response for long-running restartDevBox operation */
+export interface DevBoxesRestartDevBoxLogicalResponse extends HttpResponse {
+  status: "200";
+  body: OperationStatusOutput;
+}
+
+export interface DevBoxesRepairDevBox202Headers {
+  /** The location for monitoring the operation state. */
+  "operation-location": string;
+}
+
+/** The request has been accepted for processing, but processing has not yet completed. */
+export interface DevBoxesRepairDevBox202Response extends HttpResponse {
+  status: "202";
+  body: OperationStatusOutput;
+  headers: RawHttpHeaders & DevBoxesRepairDevBox202Headers;
+}
+
+export interface DevBoxesRepairDevBoxDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface DevBoxesRepairDevBoxDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & DevBoxesRepairDevBoxDefaultHeaders;
+}
+
+/** The final response for long-running repairDevBox operation */
+export interface DevBoxesRepairDevBoxLogicalResponse extends HttpResponse {
   status: "200";
   body: OperationStatusOutput;
 }
 
 /** The request has succeeded. */
-export interface GetRemoteConnection200Response extends HttpResponse {
+export interface DevBoxesGetRemoteConnection200Response extends HttpResponse {
   status: "200";
   body: RemoteConnectionOutput;
 }
 
-export interface GetRemoteConnectionDefaultHeaders {
+export interface DevBoxesGetRemoteConnectionDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface GetRemoteConnectionDefaultResponse extends HttpResponse {
+export interface DevBoxesGetRemoteConnectionDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & GetRemoteConnectionDefaultHeaders;
+  headers: RawHttpHeaders & DevBoxesGetRemoteConnectionDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface ListDevBoxActions200Response extends HttpResponse {
+export interface DevBoxesListActions200Response extends HttpResponse {
   status: "200";
   body: PagedDevBoxActionOutput;
 }
 
-export interface ListDevBoxActionsDefaultHeaders {
+export interface DevBoxesListActionsDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface ListDevBoxActionsDefaultResponse extends HttpResponse {
+export interface DevBoxesListActionsDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & ListDevBoxActionsDefaultHeaders;
+  headers: RawHttpHeaders & DevBoxesListActionsDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface GetDevBoxAction200Response extends HttpResponse {
+export interface DevBoxesGetAction200Response extends HttpResponse {
   status: "200";
   body: DevBoxActionOutput;
 }
 
-export interface GetDevBoxActionDefaultHeaders {
+export interface DevBoxesGetActionDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface GetDevBoxActionDefaultResponse extends HttpResponse {
+export interface DevBoxesGetActionDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & GetDevBoxActionDefaultHeaders;
+  headers: RawHttpHeaders & DevBoxesGetActionDefaultHeaders;
 }
 
 /** There is no content to send for this request, but the headers may be useful. */
-export interface SkipAction204Response extends HttpResponse {
+export interface DevBoxesSkipAction204Response extends HttpResponse {
   status: "204";
 }
 
-export interface SkipActionDefaultHeaders {
+export interface DevBoxesSkipActionDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface SkipActionDefaultResponse extends HttpResponse {
+export interface DevBoxesSkipActionDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & SkipActionDefaultHeaders;
+  headers: RawHttpHeaders & DevBoxesSkipActionDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface DelayAction200Response extends HttpResponse {
+export interface DevBoxesDelayAction200Response extends HttpResponse {
   status: "200";
   body: DevBoxActionOutput;
 }
 
-export interface DelayActionDefaultHeaders {
+export interface DevBoxesDelayActionDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface DelayActionDefaultResponse extends HttpResponse {
+export interface DevBoxesDelayActionDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & DelayActionDefaultHeaders;
+  headers: RawHttpHeaders & DevBoxesDelayActionDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface DelayAllActions200Response extends HttpResponse {
+export interface DevBoxesDelayActions200Response extends HttpResponse {
   status: "200";
   body: PagedDevBoxActionDelayResultOutput;
 }
 
-export interface DelayAllActionsDefaultHeaders {
+export interface DevBoxesDelayActionsDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface DelayAllActionsDefaultResponse extends HttpResponse {
+export interface DevBoxesDelayActionsDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & DelayAllActionsDefaultHeaders;
+  headers: RawHttpHeaders & DevBoxesDelayActionsDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface ListAllDevBoxes200Response extends HttpResponse {
+export interface DevBoxesListOperations200Response extends HttpResponse {
   status: "200";
-  body: PagedDevBoxOutput;
+  body: PagedDevBoxOperationOutput;
 }
 
-export interface ListAllDevBoxesDefaultHeaders {
+export interface DevBoxesListOperationsDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface ListAllDevBoxesDefaultResponse extends HttpResponse {
+export interface DevBoxesListOperationsDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & ListAllDevBoxesDefaultHeaders;
+  headers: RawHttpHeaders & DevBoxesListOperationsDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface ListAllDevBoxesByUser200Response extends HttpResponse {
+export interface DevBoxesGetOperation200Response extends HttpResponse {
   status: "200";
-  body: PagedDevBoxOutput;
+  body: DevBoxOperationOutput;
 }
 
-export interface ListAllDevBoxesByUserDefaultHeaders {
+export interface DevBoxesGetOperationDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface ListAllDevBoxesByUserDefaultResponse extends HttpResponse {
+export interface DevBoxesGetOperationDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & ListAllDevBoxesByUserDefaultHeaders;
+  headers: RawHttpHeaders & DevBoxesGetOperationDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface ListAllEnvironments200Response extends HttpResponse {
-  status: "200";
-  body: PagedEnvironmentOutput;
-}
-
-export interface ListAllEnvironmentsDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface ListAllEnvironmentsDefaultResponse extends HttpResponse {
-  status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & ListAllEnvironmentsDefaultHeaders;
-}
-
-/** The request has succeeded. */
-export interface ListEnvironments200Response extends HttpResponse {
+export interface EnvironmentsListEnvironments200Response extends HttpResponse {
   status: "200";
   body: PagedEnvironmentOutput;
 }
 
-export interface ListEnvironmentsDefaultHeaders {
+export interface EnvironmentsListEnvironmentsDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface ListEnvironmentsDefaultResponse extends HttpResponse {
+export interface EnvironmentsListEnvironmentsDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & ListEnvironmentsDefaultHeaders;
+  headers: RawHttpHeaders & EnvironmentsListEnvironmentsDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface GetEnvironment200Response extends HttpResponse {
+export interface EnvironmentsListEnvironmentsByUser200Response
+  extends HttpResponse {
+  status: "200";
+  body: PagedEnvironmentOutput;
+}
+
+export interface EnvironmentsListEnvironmentsByUserDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface EnvironmentsListEnvironmentsByUserDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & EnvironmentsListEnvironmentsByUserDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface EnvironmentsGetEnvironmentByUser200Response
+  extends HttpResponse {
   status: "200";
   body: EnvironmentOutput;
 }
 
-export interface GetEnvironmentDefaultHeaders {
+export interface EnvironmentsGetEnvironmentByUserDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface GetEnvironmentDefaultResponse extends HttpResponse {
+export interface EnvironmentsGetEnvironmentByUserDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & GetEnvironmentDefaultHeaders;
+  headers: RawHttpHeaders & EnvironmentsGetEnvironmentByUserDefaultHeaders;
 }
 
-export interface CreateOrUpdateEnvironment201Headers {
+export interface EnvironmentsCreateOrReplaceEnvironment201Headers {
   "operation-location": string;
 }
 
 /** The request has succeeded and a new resource has been created as a result. */
-export interface CreateOrUpdateEnvironment201Response extends HttpResponse {
+export interface EnvironmentsCreateOrReplaceEnvironment201Response
+  extends HttpResponse {
   status: "201";
   body: EnvironmentOutput;
-  headers: RawHttpHeaders & CreateOrUpdateEnvironment201Headers;
+  headers: RawHttpHeaders & EnvironmentsCreateOrReplaceEnvironment201Headers;
 }
 
-export interface CreateOrUpdateEnvironmentDefaultHeaders {
+export interface EnvironmentsCreateOrReplaceEnvironmentDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface CreateOrUpdateEnvironmentDefaultResponse extends HttpResponse {
+export interface EnvironmentsCreateOrReplaceEnvironmentDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & CreateOrUpdateEnvironmentDefaultHeaders;
+  headers: RawHttpHeaders &
+    EnvironmentsCreateOrReplaceEnvironmentDefaultHeaders;
 }
 
-/** The final response for long-running CreateOrUpdateEnvironment operation */
-export interface CreateOrUpdateEnvironmentLogicalResponse extends HttpResponse {
+/** The final response for long-running createOrReplaceEnvironment operation */
+export interface EnvironmentsCreateOrReplaceEnvironmentLogicalResponse
+  extends HttpResponse {
   status: "200";
   body: EnvironmentOutput;
 }
 
-export interface DeleteEnvironment202Headers {
+/** The request has succeeded. */
+export interface EnvironmentsPatchEnvironment200Response extends HttpResponse {
+  status: "200";
+  body: EnvironmentOutput;
+}
+
+export interface EnvironmentsPatchEnvironmentDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface EnvironmentsPatchEnvironmentDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & EnvironmentsPatchEnvironmentDefaultHeaders;
+}
+
+export interface EnvironmentsDeleteEnvironment202Headers {
   location: string;
   "operation-location": string;
 }
 
 /** The request has been accepted for processing, but processing has not yet completed. */
-export interface DeleteEnvironment202Response extends HttpResponse {
+export interface EnvironmentsDeleteEnvironment202Response extends HttpResponse {
   status: "202";
   body: OperationStatusOutput;
-  headers: RawHttpHeaders & DeleteEnvironment202Headers;
+  headers: RawHttpHeaders & EnvironmentsDeleteEnvironment202Headers;
 }
 
 /** There is no content to send for this request, but the headers may be useful. */
-export interface DeleteEnvironment204Response extends HttpResponse {
+export interface EnvironmentsDeleteEnvironment204Response extends HttpResponse {
   status: "204";
 }
 
-export interface DeleteEnvironmentDefaultHeaders {
+export interface EnvironmentsDeleteEnvironmentDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface DeleteEnvironmentDefaultResponse extends HttpResponse {
+export interface EnvironmentsDeleteEnvironmentDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & DeleteEnvironmentDefaultHeaders;
+  headers: RawHttpHeaders & EnvironmentsDeleteEnvironmentDefaultHeaders;
 }
 
-/** The final response for long-running DeleteEnvironment operation */
-export interface DeleteEnvironmentLogicalResponse extends HttpResponse {
+/** The final response for long-running deleteEnvironment operation */
+export interface EnvironmentsDeleteEnvironmentLogicalResponse
+  extends HttpResponse {
   status: "200";
   body: OperationStatusOutput;
 }
 
 /** The request has succeeded. */
-export interface ListCatalogs200Response extends HttpResponse {
+export interface EnvironmentsGetOutputs200Response extends HttpResponse {
+  status: "200";
+  body: EnvironmentOutputsOutput;
+}
+
+export interface EnvironmentsGetOutputsDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface EnvironmentsGetOutputsDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & EnvironmentsGetOutputsDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface EnvironmentsListOperations200Response extends HttpResponse {
+  status: "200";
+  body: PagedEnvironmentOperationOutput;
+}
+
+export interface EnvironmentsListOperationsDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface EnvironmentsListOperationsDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & EnvironmentsListOperationsDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface EnvironmentsGetOperation200Response extends HttpResponse {
+  status: "200";
+  body: EnvironmentOperationOutput;
+}
+
+export interface EnvironmentsGetOperationDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface EnvironmentsGetOperationDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & EnvironmentsGetOperationDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface EnvironmentsGetLogsByOperation200Response
+  extends HttpResponse {
+  status: "200";
+  body: string;
+}
+
+export interface EnvironmentsGetLogsByOperationDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface EnvironmentsGetLogsByOperationDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & EnvironmentsGetLogsByOperationDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface EnvironmentsListActions200Response extends HttpResponse {
+  status: "200";
+  body: PagedEnvironmentActionOutput;
+}
+
+export interface EnvironmentsListActionsDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface EnvironmentsListActionsDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & EnvironmentsListActionsDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface EnvironmentsGetAction200Response extends HttpResponse {
+  status: "200";
+  body: EnvironmentActionOutput;
+}
+
+export interface EnvironmentsGetActionDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface EnvironmentsGetActionDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & EnvironmentsGetActionDefaultHeaders;
+}
+
+/** There is no content to send for this request, but the headers may be useful. */
+export interface EnvironmentsSkipAction204Response extends HttpResponse {
+  status: "204";
+}
+
+export interface EnvironmentsSkipActionDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface EnvironmentsSkipActionDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & EnvironmentsSkipActionDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface EnvironmentsDelayAction200Response extends HttpResponse {
+  status: "200";
+  body: EnvironmentActionOutput;
+}
+
+export interface EnvironmentsDelayActionDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface EnvironmentsDelayActionDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & EnvironmentsDelayActionDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface EnvironmentsListCatalogsByProject200Response
+  extends HttpResponse {
   status: "200";
   body: PagedCatalogOutput;
 }
 
-export interface ListCatalogsDefaultHeaders {
+export interface EnvironmentsListCatalogsByProjectDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface ListCatalogsDefaultResponse extends HttpResponse {
+export interface EnvironmentsListCatalogsByProjectDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & ListCatalogsDefaultHeaders;
+  headers: RawHttpHeaders & EnvironmentsListCatalogsByProjectDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface GetCatalog200Response extends HttpResponse {
+export interface EnvironmentsGetCatalog200Response extends HttpResponse {
   status: "200";
   body: CatalogOutput;
 }
 
-export interface GetCatalogDefaultHeaders {
+export interface EnvironmentsGetCatalogDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface GetCatalogDefaultResponse extends HttpResponse {
+export interface EnvironmentsGetCatalogDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & GetCatalogDefaultHeaders;
+  headers: RawHttpHeaders & EnvironmentsGetCatalogDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface ListEnvironmentDefinitions200Response extends HttpResponse {
+export interface EnvironmentsListEnvironmentDefinitionsByProject200Response
+  extends HttpResponse {
   status: "200";
   body: PagedEnvironmentDefinitionOutput;
 }
 
-export interface ListEnvironmentDefinitionsDefaultHeaders {
+export interface EnvironmentsListEnvironmentDefinitionsByProjectDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface ListEnvironmentDefinitionsDefaultResponse extends HttpResponse {
+export interface EnvironmentsListEnvironmentDefinitionsByProjectDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & ListEnvironmentDefinitionsDefaultHeaders;
+  headers: RawHttpHeaders &
+    EnvironmentsListEnvironmentDefinitionsByProjectDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface ListEnvironmentDefinitionsByCatalog200Response extends HttpResponse {
+export interface EnvironmentsListEnvironmentDefinitionsByCatalog200Response
+  extends HttpResponse {
   status: "200";
   body: PagedEnvironmentDefinitionOutput;
 }
 
-export interface ListEnvironmentDefinitionsByCatalogDefaultHeaders {
+export interface EnvironmentsListEnvironmentDefinitionsByCatalogDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface ListEnvironmentDefinitionsByCatalogDefaultResponse extends HttpResponse {
+export interface EnvironmentsListEnvironmentDefinitionsByCatalogDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & ListEnvironmentDefinitionsByCatalogDefaultHeaders;
+  headers: RawHttpHeaders &
+    EnvironmentsListEnvironmentDefinitionsByCatalogDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface GetEnvironmentDefinition200Response extends HttpResponse {
+export interface EnvironmentsGetEnvironmentDefinition200Response
+  extends HttpResponse {
   status: "200";
   body: EnvironmentDefinitionOutput;
 }
 
-export interface GetEnvironmentDefinitionDefaultHeaders {
+export interface EnvironmentsGetEnvironmentDefinitionDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface GetEnvironmentDefinitionDefaultResponse extends HttpResponse {
+export interface EnvironmentsGetEnvironmentDefinitionDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & GetEnvironmentDefinitionDefaultHeaders;
+  headers: RawHttpHeaders & EnvironmentsGetEnvironmentDefinitionDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface ListEnvironmentTypes200Response extends HttpResponse {
+export interface EnvironmentsListEnvironmentTypes200Response
+  extends HttpResponse {
   status: "200";
   body: PagedEnvironmentTypeOutput;
 }
 
-export interface ListEnvironmentTypesDefaultHeaders {
+export interface EnvironmentsListEnvironmentTypesDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface ListEnvironmentTypesDefaultResponse extends HttpResponse {
+export interface EnvironmentsListEnvironmentTypesDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & ListEnvironmentTypesDefaultHeaders;
+  headers: RawHttpHeaders & EnvironmentsListEnvironmentTypesDefaultHeaders;
 }
