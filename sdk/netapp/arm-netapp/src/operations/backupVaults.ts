@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { Backups } from "../operationsInterfaces";
+import { BackupVaults } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,32 +20,29 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  Backup,
-  BackupsListByVaultNextOptionalParams,
-  BackupsListByVaultOptionalParams,
-  BackupsListByVaultResponse,
-  BackupsGetLatestStatusOptionalParams,
-  BackupsGetLatestStatusResponse,
-  BackupsGetVolumeLatestRestoreStatusOptionalParams,
-  BackupsGetVolumeLatestRestoreStatusResponse,
-  BackupsGetOptionalParams,
-  BackupsGetResponse,
-  BackupsCreateOptionalParams,
-  BackupsCreateResponse,
-  BackupsUpdateOptionalParams,
-  BackupsUpdateResponse,
-  BackupsDeleteOptionalParams,
-  BackupsDeleteResponse,
-  BackupsListByVaultNextResponse,
+  BackupVault,
+  BackupVaultsListByNetAppAccountNextOptionalParams,
+  BackupVaultsListByNetAppAccountOptionalParams,
+  BackupVaultsListByNetAppAccountResponse,
+  BackupVaultsGetOptionalParams,
+  BackupVaultsGetResponse,
+  BackupVaultsCreateOrUpdateOptionalParams,
+  BackupVaultsCreateOrUpdateResponse,
+  BackupVaultPatch,
+  BackupVaultsUpdateOptionalParams,
+  BackupVaultsUpdateResponse,
+  BackupVaultsDeleteOptionalParams,
+  BackupVaultsDeleteResponse,
+  BackupVaultsListByNetAppAccountNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Backups operations. */
-export class BackupsImpl implements Backups {
+/** Class containing BackupVaults operations. */
+export class BackupVaultsImpl implements BackupVaults {
   private readonly client: NetAppManagementClient;
 
   /**
-   * Initialize a new instance of the class Backups class.
+   * Initialize a new instance of the class BackupVaults class.
    * @param client Reference to the service client
    */
   constructor(client: NetAppManagementClient) {
@@ -53,22 +50,19 @@ export class BackupsImpl implements Backups {
   }
 
   /**
-   * List all backups Under a Backup Vault
+   * List and describe all Backup Vaults in the NetApp account.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
-   * @param backupVaultName The name of the Backup Vault
    * @param options The options parameters.
    */
-  public listByVault(
+  public listByNetAppAccount(
     resourceGroupName: string,
     accountName: string,
-    backupVaultName: string,
-    options?: BackupsListByVaultOptionalParams,
-  ): PagedAsyncIterableIterator<Backup> {
-    const iter = this.listByVaultPagingAll(
+    options?: BackupVaultsListByNetAppAccountOptionalParams,
+  ): PagedAsyncIterableIterator<BackupVault> {
+    const iter = this.listByNetAppAccountPagingAll(
       resourceGroupName,
       accountName,
-      backupVaultName,
       options,
     );
     return {
@@ -82,10 +76,9 @@ export class BackupsImpl implements Backups {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByVaultPagingPage(
+        return this.listByNetAppAccountPagingPage(
           resourceGroupName,
           accountName,
-          backupVaultName,
           options,
           settings,
         );
@@ -93,20 +86,18 @@ export class BackupsImpl implements Backups {
     };
   }
 
-  private async *listByVaultPagingPage(
+  private async *listByNetAppAccountPagingPage(
     resourceGroupName: string,
     accountName: string,
-    backupVaultName: string,
-    options?: BackupsListByVaultOptionalParams,
+    options?: BackupVaultsListByNetAppAccountOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<Backup[]> {
-    let result: BackupsListByVaultResponse;
+  ): AsyncIterableIterator<BackupVault[]> {
+    let result: BackupVaultsListByNetAppAccountResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByVault(
+      result = await this._listByNetAppAccount(
         resourceGroupName,
         accountName,
-        backupVaultName,
         options,
       );
       let page = result.value || [];
@@ -115,10 +106,9 @@ export class BackupsImpl implements Backups {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByVaultNext(
+      result = await this._listByNetAppAccountNext(
         resourceGroupName,
         accountName,
-        backupVaultName,
         continuationToken,
         options,
       );
@@ -129,16 +119,14 @@ export class BackupsImpl implements Backups {
     }
   }
 
-  private async *listByVaultPagingAll(
+  private async *listByNetAppAccountPagingAll(
     resourceGroupName: string,
     accountName: string,
-    backupVaultName: string,
-    options?: BackupsListByVaultOptionalParams,
-  ): AsyncIterableIterator<Backup> {
-    for await (const page of this.listByVaultPagingPage(
+    options?: BackupVaultsListByNetAppAccountOptionalParams,
+  ): AsyncIterableIterator<BackupVault> {
+    for await (const page of this.listByNetAppAccountPagingPage(
       resourceGroupName,
       accountName,
-      backupVaultName,
       options,
     )) {
       yield* page;
@@ -146,113 +134,65 @@ export class BackupsImpl implements Backups {
   }
 
   /**
-   * Get the latest status of the backup for a volume
+   * List and describe all Backup Vaults in the NetApp account.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
-   * @param poolName The name of the capacity pool
-   * @param volumeName The name of the volume
    * @param options The options parameters.
    */
-  getLatestStatus(
+  private _listByNetAppAccount(
     resourceGroupName: string,
     accountName: string,
-    poolName: string,
-    volumeName: string,
-    options?: BackupsGetLatestStatusOptionalParams,
-  ): Promise<BackupsGetLatestStatusResponse> {
+    options?: BackupVaultsListByNetAppAccountOptionalParams,
+  ): Promise<BackupVaultsListByNetAppAccountResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, accountName, poolName, volumeName, options },
-      getLatestStatusOperationSpec,
+      { resourceGroupName, accountName, options },
+      listByNetAppAccountOperationSpec,
     );
   }
 
   /**
-   * Get the latest status of the restore for a volume
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName The name of the NetApp account
-   * @param poolName The name of the capacity pool
-   * @param volumeName The name of the volume
-   * @param options The options parameters.
-   */
-  getVolumeLatestRestoreStatus(
-    resourceGroupName: string,
-    accountName: string,
-    poolName: string,
-    volumeName: string,
-    options?: BackupsGetVolumeLatestRestoreStatusOptionalParams,
-  ): Promise<BackupsGetVolumeLatestRestoreStatusResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, accountName, poolName, volumeName, options },
-      getVolumeLatestRestoreStatusOperationSpec,
-    );
-  }
-
-  /**
-   * List all backups Under a Backup Vault
+   * Get the Backup Vault
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param backupVaultName The name of the Backup Vault
-   * @param options The options parameters.
-   */
-  private _listByVault(
-    resourceGroupName: string,
-    accountName: string,
-    backupVaultName: string,
-    options?: BackupsListByVaultOptionalParams,
-  ): Promise<BackupsListByVaultResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, accountName, backupVaultName, options },
-      listByVaultOperationSpec,
-    );
-  }
-
-  /**
-   * Get the specified Backup under Backup Vault.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName The name of the NetApp account
-   * @param backupVaultName The name of the Backup Vault
-   * @param backupName The name of the backup
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     accountName: string,
     backupVaultName: string,
-    backupName: string,
-    options?: BackupsGetOptionalParams,
-  ): Promise<BackupsGetResponse> {
+    options?: BackupVaultsGetOptionalParams,
+  ): Promise<BackupVaultsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, accountName, backupVaultName, backupName, options },
+      { resourceGroupName, accountName, backupVaultName, options },
       getOperationSpec,
     );
   }
 
   /**
-   * Create a backup under the Backup Vault
+   * Create or update the specified Backup Vault in the NetApp account
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param backupVaultName The name of the Backup Vault
-   * @param backupName The name of the backup
-   * @param body Backup object supplied in the body of the operation.
+   * @param body BackupVault object supplied in the body of the operation.
    * @param options The options parameters.
    */
-  async beginCreate(
+  async beginCreateOrUpdate(
     resourceGroupName: string,
     accountName: string,
     backupVaultName: string,
-    backupName: string,
-    body: Backup,
-    options?: BackupsCreateOptionalParams,
+    body: BackupVault,
+    options?: BackupVaultsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<BackupsCreateResponse>,
-      BackupsCreateResponse
+      OperationState<BackupVaultsCreateOrUpdateResponse>,
+      BackupVaultsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<BackupsCreateResponse> => {
+    ): Promise<BackupVaultsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -289,19 +229,12 @@ export class BackupsImpl implements Backups {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: {
-        resourceGroupName,
-        accountName,
-        backupVaultName,
-        backupName,
-        body,
-        options,
-      },
-      spec: createOperationSpec,
+      args: { resourceGroupName, accountName, backupVaultName, body, options },
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
-      BackupsCreateResponse,
-      OperationState<BackupsCreateResponse>
+      BackupVaultsCreateOrUpdateResponse,
+      OperationState<BackupVaultsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -312,27 +245,24 @@ export class BackupsImpl implements Backups {
   }
 
   /**
-   * Create a backup under the Backup Vault
+   * Create or update the specified Backup Vault in the NetApp account
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param backupVaultName The name of the Backup Vault
-   * @param backupName The name of the backup
-   * @param body Backup object supplied in the body of the operation.
+   * @param body BackupVault object supplied in the body of the operation.
    * @param options The options parameters.
    */
-  async beginCreateAndWait(
+  async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     accountName: string,
     backupVaultName: string,
-    backupName: string,
-    body: Backup,
-    options?: BackupsCreateOptionalParams,
-  ): Promise<BackupsCreateResponse> {
-    const poller = await this.beginCreate(
+    body: BackupVault,
+    options?: BackupVaultsCreateOrUpdateOptionalParams,
+  ): Promise<BackupVaultsCreateOrUpdateResponse> {
+    const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       accountName,
       backupVaultName,
-      backupName,
       body,
       options,
     );
@@ -340,29 +270,29 @@ export class BackupsImpl implements Backups {
   }
 
   /**
-   * Patch a Backup under the Backup Vault
+   * Patch the specified NetApp Backup Vault
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param backupVaultName The name of the Backup Vault
-   * @param backupName The name of the backup
+   * @param body Backup Vault object supplied in the body of the operation.
    * @param options The options parameters.
    */
   async beginUpdate(
     resourceGroupName: string,
     accountName: string,
     backupVaultName: string,
-    backupName: string,
-    options?: BackupsUpdateOptionalParams,
+    body: BackupVaultPatch,
+    options?: BackupVaultsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<BackupsUpdateResponse>,
-      BackupsUpdateResponse
+      OperationState<BackupVaultsUpdateResponse>,
+      BackupVaultsUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<BackupsUpdateResponse> => {
+    ): Promise<BackupVaultsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -399,18 +329,12 @@ export class BackupsImpl implements Backups {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: {
-        resourceGroupName,
-        accountName,
-        backupVaultName,
-        backupName,
-        options,
-      },
+      args: { resourceGroupName, accountName, backupVaultName, body, options },
       spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
-      BackupsUpdateResponse,
-      OperationState<BackupsUpdateResponse>
+      BackupVaultsUpdateResponse,
+      OperationState<BackupVaultsUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -421,54 +345,52 @@ export class BackupsImpl implements Backups {
   }
 
   /**
-   * Patch a Backup under the Backup Vault
+   * Patch the specified NetApp Backup Vault
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param backupVaultName The name of the Backup Vault
-   * @param backupName The name of the backup
+   * @param body Backup Vault object supplied in the body of the operation.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
     accountName: string,
     backupVaultName: string,
-    backupName: string,
-    options?: BackupsUpdateOptionalParams,
-  ): Promise<BackupsUpdateResponse> {
+    body: BackupVaultPatch,
+    options?: BackupVaultsUpdateOptionalParams,
+  ): Promise<BackupVaultsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       accountName,
       backupVaultName,
-      backupName,
+      body,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Delete a Backup under the Backup Vault
+   * Delete the specified Backup Vault
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param backupVaultName The name of the Backup Vault
-   * @param backupName The name of the backup
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     accountName: string,
     backupVaultName: string,
-    backupName: string,
-    options?: BackupsDeleteOptionalParams,
+    options?: BackupVaultsDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<BackupsDeleteResponse>,
-      BackupsDeleteResponse
+      OperationState<BackupVaultsDeleteResponse>,
+      BackupVaultsDeleteResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<BackupsDeleteResponse> => {
+    ): Promise<BackupVaultsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -505,18 +427,12 @@ export class BackupsImpl implements Backups {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: {
-        resourceGroupName,
-        accountName,
-        backupVaultName,
-        backupName,
-        options,
-      },
+      args: { resourceGroupName, accountName, backupVaultName, options },
       spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
-      BackupsDeleteResponse,
-      OperationState<BackupsDeleteResponse>
+      BackupVaultsDeleteResponse,
+      OperationState<BackupVaultsDeleteResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -527,60 +443,55 @@ export class BackupsImpl implements Backups {
   }
 
   /**
-   * Delete a Backup under the Backup Vault
+   * Delete the specified Backup Vault
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
    * @param backupVaultName The name of the Backup Vault
-   * @param backupName The name of the backup
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     accountName: string,
     backupVaultName: string,
-    backupName: string,
-    options?: BackupsDeleteOptionalParams,
-  ): Promise<BackupsDeleteResponse> {
+    options?: BackupVaultsDeleteOptionalParams,
+  ): Promise<BackupVaultsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       accountName,
       backupVaultName,
-      backupName,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * ListByVaultNext
+   * ListByNetAppAccountNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
-   * @param backupVaultName The name of the Backup Vault
-   * @param nextLink The nextLink from the previous successful call to the ListByVault method.
+   * @param nextLink The nextLink from the previous successful call to the ListByNetAppAccount method.
    * @param options The options parameters.
    */
-  private _listByVaultNext(
+  private _listByNetAppAccountNext(
     resourceGroupName: string,
     accountName: string,
-    backupVaultName: string,
     nextLink: string,
-    options?: BackupsListByVaultNextOptionalParams,
-  ): Promise<BackupsListByVaultNextResponse> {
+    options?: BackupVaultsListByNetAppAccountNextOptionalParams,
+  ): Promise<BackupVaultsListByNetAppAccountNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, accountName, backupVaultName, nextLink, options },
-      listByVaultNextOperationSpec,
+      { resourceGroupName, accountName, nextLink, options },
+      listByNetAppAccountNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getLatestStatusOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/latestBackupStatus/current",
+const listByNetAppAccountOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/backupVaults",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BackupStatus,
+      bodyMapper: Mappers.BackupVaultsList,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -592,63 +503,16 @@ const getLatestStatusOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.poolName,
-    Parameters.volumeName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const getVolumeLatestRestoreStatusOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/latestRestoreStatus/current",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.RestoreStatus,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.poolName,
-    Parameters.volumeName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listByVaultOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/backupVaults/{backupVaultName}/backups",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.BackupsList,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.backupVaultName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/backupVaults/{backupVaultName}/backups/{backupName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/backupVaults/{backupVaultName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Backup,
+      bodyMapper: Mappers.BackupVault,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -661,32 +525,31 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.backupVaultName,
-    Parameters.backupName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const createOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/backupVaults/{backupVaultName}/backups/{backupName}",
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/backupVaults/{backupVaultName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Backup,
+      bodyMapper: Mappers.BackupVault,
     },
     201: {
-      bodyMapper: Mappers.Backup,
+      bodyMapper: Mappers.BackupVault,
     },
     202: {
-      bodyMapper: Mappers.Backup,
+      bodyMapper: Mappers.BackupVault,
     },
     204: {
-      bodyMapper: Mappers.Backup,
+      bodyMapper: Mappers.BackupVault,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body31,
+  requestBody: Parameters.body33,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -694,33 +557,32 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.backupVaultName,
-    Parameters.backupName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/backupVaults/{backupVaultName}/backups/{backupName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/backupVaults/{backupVaultName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Backup,
+      bodyMapper: Mappers.BackupVault,
     },
     201: {
-      bodyMapper: Mappers.Backup,
+      bodyMapper: Mappers.BackupVault,
     },
     202: {
-      bodyMapper: Mappers.Backup,
+      bodyMapper: Mappers.BackupVault,
     },
     204: {
-      bodyMapper: Mappers.Backup,
+      bodyMapper: Mappers.BackupVault,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body32,
+  requestBody: Parameters.body34,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -728,27 +590,26 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.backupVaultName,
-    Parameters.backupName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/backupVaults/{backupVaultName}/backups/{backupName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/backupVaults/{backupVaultName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.BackupsDeleteHeaders,
+      headersMapper: Mappers.BackupVaultsDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.BackupsDeleteHeaders,
+      headersMapper: Mappers.BackupVaultsDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.BackupsDeleteHeaders,
+      headersMapper: Mappers.BackupVaultsDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.BackupsDeleteHeaders,
+      headersMapper: Mappers.BackupVaultsDeleteHeaders,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -761,17 +622,16 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.backupVaultName,
-    Parameters.backupName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listByVaultNextOperationSpec: coreClient.OperationSpec = {
+const listByNetAppAccountNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BackupsList,
+      bodyMapper: Mappers.BackupVaultsList,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -783,7 +643,6 @@ const listByVaultNextOperationSpec: coreClient.OperationSpec = {
     Parameters.nextLink,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.backupVaultName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
