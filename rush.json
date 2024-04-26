@@ -2217,6 +2217,11 @@
       "packageName": "@azure/arm-standbypool",
       "projectFolder": "sdk/standbypool/arm-standbypool",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure-rest/ai-vision-face",
+      "projectFolder": "sdk/face/ai-vision-face-rest",
+      "versionPolicyName": "client"
     }
   ]
 }
