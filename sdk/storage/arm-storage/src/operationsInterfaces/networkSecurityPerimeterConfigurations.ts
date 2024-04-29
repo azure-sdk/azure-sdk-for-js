@@ -7,22 +7,21 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
-  BlobInventoryPolicy,
-  BlobInventoryPoliciesListOptionalParams,
-  BlobInventoryPolicyName,
-  BlobInventoryPoliciesGetOptionalParams,
-  BlobInventoryPoliciesGetResponse,
-  BlobInventoryPoliciesCreateOrUpdateOptionalParams,
-  BlobInventoryPoliciesCreateOrUpdateResponse,
-  BlobInventoryPoliciesDeleteOptionalParams,
+  NetworkSecurityPerimeterConfiguration,
+  NetworkSecurityPerimeterConfigurationsListOptionalParams,
+  NetworkSecurityPerimeterConfigurationsGetOptionalParams,
+  NetworkSecurityPerimeterConfigurationsGetResponse,
+  NetworkSecurityPerimeterConfigurationsReconcileOptionalParams,
+  NetworkSecurityPerimeterConfigurationsReconcileResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a BlobInventoryPolicies. */
-export interface BlobInventoryPolicies {
+/** Interface representing a NetworkSecurityPerimeterConfigurations. */
+export interface NetworkSecurityPerimeterConfigurations {
   /**
-   * Gets the blob inventory policy associated with the specified storage account.
+   * Gets list of effective NetworkSecurityPerimeterConfiguration for storage account
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
@@ -33,59 +32,62 @@ export interface BlobInventoryPolicies {
   list(
     resourceGroupName: string,
     accountName: string,
-    options?: BlobInventoryPoliciesListOptionalParams,
-  ): PagedAsyncIterableIterator<BlobInventoryPolicy>;
+    options?: NetworkSecurityPerimeterConfigurationsListOptionalParams,
+  ): PagedAsyncIterableIterator<NetworkSecurityPerimeterConfiguration>;
   /**
-   * Gets the blob inventory policy associated with the specified storage account.
+   * Gets effective NetworkSecurityPerimeterConfiguration for association
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
-   * @param blobInventoryPolicyName The name of the storage account blob inventory policy. It should
-   *                                always be 'default'
+   * @param networkSecurityPerimeterConfigurationName The name for Network Security Perimeter
+   *                                                  configuration
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     accountName: string,
-    blobInventoryPolicyName: BlobInventoryPolicyName,
-    options?: BlobInventoryPoliciesGetOptionalParams,
-  ): Promise<BlobInventoryPoliciesGetResponse>;
+    networkSecurityPerimeterConfigurationName: string,
+    options?: NetworkSecurityPerimeterConfigurationsGetOptionalParams,
+  ): Promise<NetworkSecurityPerimeterConfigurationsGetResponse>;
   /**
-   * Sets the blob inventory policy to the specified storage account.
+   * Refreshes any information about the association.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
-   * @param blobInventoryPolicyName The name of the storage account blob inventory policy. It should
-   *                                always be 'default'
-   * @param properties The blob inventory policy set to a storage account.
+   * @param networkSecurityPerimeterConfigurationName The name for Network Security Perimeter
+   *                                                  configuration
    * @param options The options parameters.
    */
-  createOrUpdate(
+  beginReconcile(
     resourceGroupName: string,
     accountName: string,
-    blobInventoryPolicyName: BlobInventoryPolicyName,
-    properties: BlobInventoryPolicy,
-    options?: BlobInventoryPoliciesCreateOrUpdateOptionalParams,
-  ): Promise<BlobInventoryPoliciesCreateOrUpdateResponse>;
+    networkSecurityPerimeterConfigurationName: string,
+    options?: NetworkSecurityPerimeterConfigurationsReconcileOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<NetworkSecurityPerimeterConfigurationsReconcileResponse>,
+      NetworkSecurityPerimeterConfigurationsReconcileResponse
+    >
+  >;
   /**
-   * Deletes the blob inventory policy associated with the specified storage account.
+   * Refreshes any information about the association.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
-   * @param blobInventoryPolicyName The name of the storage account blob inventory policy. It should
-   *                                always be 'default'
+   * @param networkSecurityPerimeterConfigurationName The name for Network Security Perimeter
+   *                                                  configuration
    * @param options The options parameters.
    */
-  delete(
+  beginReconcileAndWait(
     resourceGroupName: string,
     accountName: string,
-    blobInventoryPolicyName: BlobInventoryPolicyName,
-    options?: BlobInventoryPoliciesDeleteOptionalParams,
-  ): Promise<void>;
+    networkSecurityPerimeterConfigurationName: string,
+    options?: NetworkSecurityPerimeterConfigurationsReconcileOptionalParams,
+  ): Promise<NetworkSecurityPerimeterConfigurationsReconcileResponse>;
 }
