@@ -9,7 +9,7 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   Account as AccountMapper,
@@ -18,9 +18,13 @@ import {
   CheckDomainAvailabilityParameter as CheckDomainAvailabilityParameterMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
   Deployment as DeploymentMapper,
-  CommitmentPlan as CommitmentPlanMapper,
   PatchResourceTagsAndSku as PatchResourceTagsAndSkuMapper,
-  CommitmentPlanAccountAssociation as CommitmentPlanAccountAssociationMapper
+  CommitmentPlan as CommitmentPlanMapper,
+  CommitmentPlanAccountAssociation as CommitmentPlanAccountAssociationMapper,
+  EncryptionScope as EncryptionScopeMapper,
+  RaiPolicy as RaiPolicyMapper,
+  RaiBlocklist as RaiBlocklistMapper,
+  RaiBlocklistItem as RaiBlocklistItemMapper,
 } from "../models/mappers";
 
 export const contentType: OperationParameter = {
@@ -30,14 +34,14 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const account: OperationParameter = {
   parameterPath: "account",
-  mapper: AccountMapper
+  mapper: AccountMapper,
 };
 
 export const accept: OperationParameter = {
@@ -47,9 +51,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -58,10 +62,10 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -69,14 +73,14 @@ export const resourceGroupName: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 90,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const accountName: OperationURLParameter = {
@@ -85,45 +89,45 @@ export const accountName: OperationURLParameter = {
     constraints: {
       Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9_.-]*$"),
       MaxLength: 64,
-      MinLength: 2
+      MinLength: 2,
     },
     serializedName: "accountName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-05-01",
+    defaultValue: "2023-10-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
     constraints: {
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const keyName: OperationParameter = {
   parameterPath: "keyName",
-  mapper: RegenerateKeyParametersMapper
+  mapper: RegenerateKeyParametersMapper,
 };
 
 export const filter: OperationQueryParameter = {
@@ -131,9 +135,9 @@ export const filter: OperationQueryParameter = {
   mapper: {
     serializedName: "$filter",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const nextLink: OperationURLParameter = {
@@ -142,10 +146,10 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const location: OperationURLParameter = {
@@ -154,39 +158,39 @@ export const location: OperationURLParameter = {
     serializedName: "location",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const skus: OperationParameter = {
   parameterPath: "skus",
-  mapper: CheckSkuAvailabilityParameterMapper
+  mapper: CheckSkuAvailabilityParameterMapper,
 };
 
 export const kind: OperationParameter = {
   parameterPath: "kind",
-  mapper: CheckSkuAvailabilityParameterMapper
+  mapper: CheckSkuAvailabilityParameterMapper,
 };
 
 export const typeParam: OperationParameter = {
   parameterPath: "typeParam",
-  mapper: CheckSkuAvailabilityParameterMapper
+  mapper: CheckSkuAvailabilityParameterMapper,
 };
 
 export const subdomainName: OperationParameter = {
   parameterPath: "subdomainName",
-  mapper: CheckDomainAvailabilityParameterMapper
+  mapper: CheckDomainAvailabilityParameterMapper,
 };
 
 export const typeParam1: OperationParameter = {
   parameterPath: "typeParam",
-  mapper: CheckDomainAvailabilityParameterMapper
+  mapper: CheckDomainAvailabilityParameterMapper,
 };
 
 export const kind1: OperationParameter = {
   parameterPath: ["options", "kind"],
-  mapper: CheckDomainAvailabilityParameterMapper
+  mapper: CheckDomainAvailabilityParameterMapper,
 };
 
 export const privateEndpointConnectionName: OperationURLParameter = {
@@ -195,14 +199,14 @@ export const privateEndpointConnectionName: OperationURLParameter = {
     serializedName: "privateEndpointConnectionName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const properties: OperationParameter = {
   parameterPath: "properties",
-  mapper: PrivateEndpointConnectionMapper
+  mapper: PrivateEndpointConnectionMapper,
 };
 
 export const deploymentName: OperationURLParameter = {
@@ -211,14 +215,19 @@ export const deploymentName: OperationURLParameter = {
     serializedName: "deploymentName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const deployment: OperationParameter = {
   parameterPath: "deployment",
-  mapper: DeploymentMapper
+  mapper: DeploymentMapper,
+};
+
+export const deployment1: OperationParameter = {
+  parameterPath: "deployment",
+  mapper: PatchResourceTagsAndSkuMapper,
 };
 
 export const commitmentPlanName: OperationURLParameter = {
@@ -227,50 +236,126 @@ export const commitmentPlanName: OperationURLParameter = {
     serializedName: "commitmentPlanName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const commitmentPlan: OperationParameter = {
   parameterPath: "commitmentPlan",
-  mapper: CommitmentPlanMapper
+  mapper: CommitmentPlanMapper,
 };
 
 export const commitmentPlanName1: OperationURLParameter = {
   parameterPath: "commitmentPlanName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9_.-]*$")
+      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9_.-]*$"),
     },
     serializedName: "commitmentPlanName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const commitmentPlan1: OperationParameter = {
   parameterPath: "commitmentPlan",
-  mapper: PatchResourceTagsAndSkuMapper
+  mapper: PatchResourceTagsAndSkuMapper,
 };
 
 export const commitmentPlanAssociationName: OperationURLParameter = {
   parameterPath: "commitmentPlanAssociationName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9_.-]*$")
+      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9_.-]*$"),
     },
     serializedName: "commitmentPlanAssociationName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const association: OperationParameter = {
   parameterPath: "association",
-  mapper: CommitmentPlanAccountAssociationMapper
+  mapper: CommitmentPlanAccountAssociationMapper,
+};
+
+export const encryptionScopeName: OperationURLParameter = {
+  parameterPath: "encryptionScopeName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9_.-]*$"),
+    },
+    serializedName: "encryptionScopeName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const encryptionScope: OperationParameter = {
+  parameterPath: "encryptionScope",
+  mapper: EncryptionScopeMapper,
+};
+
+export const raiPolicyName: OperationURLParameter = {
+  parameterPath: "raiPolicyName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9_.-]*$"),
+    },
+    serializedName: "raiPolicyName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const raiPolicy: OperationParameter = {
+  parameterPath: "raiPolicy",
+  mapper: RaiPolicyMapper,
+};
+
+export const raiBlocklistName: OperationURLParameter = {
+  parameterPath: "raiBlocklistName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9_.-]*$"),
+    },
+    serializedName: "raiBlocklistName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const raiBlocklist: OperationParameter = {
+  parameterPath: "raiBlocklist",
+  mapper: RaiBlocklistMapper,
+};
+
+export const raiBlocklistItemName: OperationURLParameter = {
+  parameterPath: "raiBlocklistItemName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9_.-]*$"),
+    },
+    serializedName: "raiBlocklistItemName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const raiBlocklistItem: OperationParameter = {
+  parameterPath: "raiBlocklistItem",
+  mapper: RaiBlocklistItemMapper,
 };
