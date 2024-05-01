@@ -17959,7 +17959,7 @@ packages:
     dev: false
 
   file:projects/arm-storagemover.tgz:
-    resolution: {integrity: sha512-rdanPDfg1WUJnqw6NTXyJGqTS47URKy+Xb4zFldadGPqcXCvH5Bv+jsdH/lWl8N8X+NaF9EhLQpMKWERkMsZdw==, tarball: file:projects/arm-storagemover.tgz}
+    resolution: {integrity: sha512-Qo80eyPfMSU236Jfr7KHeU5sjIwhOOkbFtnpAIL+Pr+rlyYZ3N/lzliuAML9tsuJiLGvaj1oGjVVYM3WD/wnnQ==, tarball: file:projects/arm-storagemover.tgz}
     name: '@rush-temp/arm-storagemover'
     version: 0.0.0
     dependencies:
@@ -17980,6 +17980,7 @@ packages:
       rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.4.5)
       tslib: 2.6.2
+      tsx: 4.7.3
       typescript: 5.4.5
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -22752,7 +22753,7 @@ packages:
     dev: false
 
   file:projects/service-bus.tgz:
-    resolution: {integrity: sha512-qj81rBjFXyAnN+Vr18kwNa7MAJMRi2OYvGG+Rzbl26h8XXJtKeVwueEGGg8+wdUS8zNn2C6SsHjmD5sjHfjEUA==, tarball: file:projects/service-bus.tgz}
+    resolution: {integrity: sha512-nCR2N3Z/mkUFq8fVj2XEK92FRhdvwePKLfkPGs1SySLVM66ExSfFsWPo4wAJTj0hSH/dqmmldjQAZG+kElnhZQ==, tarball: file:projects/service-bus.tgz}
     name: '@rush-temp/service-bus'
     version: 0.0.0
     dependencies:
