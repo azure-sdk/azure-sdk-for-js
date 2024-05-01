@@ -165,7 +165,7 @@ export interface StorageTaskProperties {
   /** Storage Task is enabled when set to true and disabled when set to false */
   enabled: boolean;
   /** Text that describes the purpose of the storage task */
-  description: string;
+  description?: string;
   /** The storage task action that is executed */
   action: StorageTaskAction;
   /**
@@ -190,7 +190,7 @@ export interface StorageTaskAction {
 
 /** The if block of storage task operation */
 export interface IfCondition {
-  /** The condition predicate which is composed of object properties, eg: blob and container properties. */
+  /** Condition predicate to evaluate each object. See https://aka.ms/storagetaskconditions for valid properties and operators. */
   condition: string;
   /** List of operations to execute when the condition predicate satisfies. */
   operations: StorageTaskOperation[];
@@ -281,7 +281,7 @@ export interface StorageTasksListResult {
 /** The response from the List Storage Tasks operation. */
 export interface StorageTaskAssignmentsListResult {
   /**
-   * Gets the list of storage task assignment Ids.
+   * List of Storage Task Assignment resource ids associated with this Storage Task.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly value?: StorageTaskAssignment[];
@@ -292,10 +292,10 @@ export interface StorageTaskAssignmentsListResult {
   readonly nextLink?: string;
 }
 
-/** Fetch the Storage task assignment ARM ids. */
+/** Storage Task Assignment associated with this Storage Task. */
 export interface StorageTaskAssignment {
   /**
-   * ARM Id of the storage task assignments, associated with the storage tasks.
+   * Fully qualified ARM resource id of the Storage Task Assignment.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
@@ -397,17 +397,17 @@ export interface StorageTaskPreviewAction {
 
 /** Storage task preview action properties. */
 export interface StorageTaskPreviewActionProperties {
-  /** Preview action container properties to be tested for a match with the provided condition. */
+  /** Properties of a sample container to test for a match with the preview action. */
   container: StorageTaskPreviewContainerProperties;
-  /** Preview action container properties to be tested for a match with the provided condition. */
+  /** Properties of some sample blobs in the container to test for matches with the preview action. */
   blobs: StorageTaskPreviewBlobProperties[];
-  /** Preview action container properties to be tested for a match with the provided condition. */
+  /** Preview action to test */
   action: StorageTaskPreviewActionCondition;
 }
 
 /** Storage task preview container properties */
 export interface StorageTaskPreviewContainerProperties {
-  /** property for the container name. */
+  /** Name of test container */
   name?: string;
   /** metadata key value pairs to be tested for a match against the provided condition. */
   metadata?: StorageTaskPreviewKeyValueProperties[];
@@ -423,7 +423,7 @@ export interface StorageTaskPreviewKeyValueProperties {
 
 /** Storage task preview container properties */
 export interface StorageTaskPreviewBlobProperties {
-  /** property for the container name. */
+  /** Name of test blob */
   name?: string;
   /** properties key value pairs to be tested for a match against the provided condition. */
   properties?: StorageTaskPreviewKeyValueProperties[];
@@ -466,9 +466,9 @@ export interface ProxyResource extends Resource {}
 /** Represents Storage Task. */
 export interface StorageTask extends TrackedResource {
   /** The managed service identity of the resource. */
-  identity?: ManagedServiceIdentity;
+  identity: ManagedServiceIdentity;
   /** Properties of the storage task. */
-  properties?: StorageTaskProperties;
+  properties: StorageTaskProperties;
 }
 
 /** Storage Tasks run report instance */

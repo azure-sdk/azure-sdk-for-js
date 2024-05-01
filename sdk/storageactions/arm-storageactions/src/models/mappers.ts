@@ -301,7 +301,6 @@ export const StorageTaskProperties: coreClient.CompositeMapper = {
       },
       description: {
         serializedName: "description",
-        required: true,
         type: {
           name: "String",
         },

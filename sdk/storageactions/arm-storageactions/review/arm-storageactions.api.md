@@ -218,8 +218,8 @@ export interface StorageActionsManagementClientOptionalParams extends coreClient
 
 // @public
 export interface StorageTask extends TrackedResource {
-    identity?: ManagedServiceIdentity;
-    properties?: StorageTaskProperties;
+    identity: ManagedServiceIdentity;
+    properties: StorageTaskProperties;
 }
 
 // @public
@@ -320,7 +320,7 @@ export interface StorageTaskPreviewKeyValueProperties {
 export interface StorageTaskProperties {
     action: StorageTaskAction;
     readonly creationTimeInUtc?: Date;
-    description: string;
+    description?: string;
     enabled: boolean;
     readonly provisioningState?: ProvisioningState;
     readonly taskVersion?: number;
