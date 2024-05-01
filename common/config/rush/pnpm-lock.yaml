@@ -13051,7 +13051,7 @@ packages:
     dev: false
 
   file:projects/arm-containerservice-1.tgz:
-    resolution: {integrity: sha512-bVKsJu2e9fy1EjBEN/vO7eFlpm02g8DwmZ/rKGqmwz/LOtUJtSMCSLhmlhl95Y17ywnvCwm/fi0nLhsH1kVHEw==, tarball: file:projects/arm-containerservice-1.tgz}
+    resolution: {integrity: sha512-DNlh5L8da+WAvivP0t9j/fQDP32fON3u4F9VeCIbznUq7boP5KLtX8D6jUMFMj+ve4bnPzTz+45nSlKVPZgsiw==, tarball: file:projects/arm-containerservice-1.tgz}
     name: '@rush-temp/arm-containerservice-1'
     version: 0.0.0
     dependencies:
@@ -13073,6 +13073,7 @@ packages:
       rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.4.5)
       tslib: 2.6.2
+      tsx: 4.7.3
       typescript: 5.4.5
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -22752,7 +22753,7 @@ packages:
     dev: false
 
   file:projects/service-bus.tgz:
-    resolution: {integrity: sha512-qj81rBjFXyAnN+Vr18kwNa7MAJMRi2OYvGG+Rzbl26h8XXJtKeVwueEGGg8+wdUS8zNn2C6SsHjmD5sjHfjEUA==, tarball: file:projects/service-bus.tgz}
+    resolution: {integrity: sha512-nCR2N3Z/mkUFq8fVj2XEK92FRhdvwePKLfkPGs1SySLVM66ExSfFsWPo4wAJTj0hSH/dqmmldjQAZG+kElnhZQ==, tarball: file:projects/service-bus.tgz}
     name: '@rush-temp/service-bus'
     version: 0.0.0
     dependencies:
