@@ -6393,6 +6393,8 @@ export type VirtualMachineImagesListOffersResponse = VirtualMachineImageResource
 export interface VirtualMachineImagesListOptionalParams extends coreClient.OperationOptions {
     expand?: string;
     // (undocumented)
+    includeScheduledForDeprecation?: boolean;
+    // (undocumented)
     orderby?: string;
     // (undocumented)
     top?: number;

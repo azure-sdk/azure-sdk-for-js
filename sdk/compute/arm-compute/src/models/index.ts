@@ -10784,6 +10784,7 @@ export interface VirtualMachineImagesListOptionalParams
   expand?: string;
   top?: number;
   orderby?: string;
+  includeScheduledForDeprecation?: boolean;
 }
 
 /** Contains response data for the list operation. */

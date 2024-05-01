@@ -617,6 +617,16 @@ export const orderby: OperationQueryParameter = {
   },
 };
 
+export const includeScheduledForDeprecation: OperationQueryParameter = {
+  parameterPath: ["options", "includeScheduledForDeprecation"],
+  mapper: {
+    serializedName: "includeScheduledForDeprecation",
+    type: {
+      name: "Boolean",
+    },
+  },
+};
+
 export const edgeZone: OperationURLParameter = {
   parameterPath: "edgeZone",
   mapper: {

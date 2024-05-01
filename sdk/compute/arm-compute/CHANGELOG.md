@@ -1,15 +1,12 @@
 # Release History
+    
+## 21.7.0 (2024-05-01)
+    
+**Features**
 
-## 21.6.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface VirtualMachineImagesListOptionalParams has a new optional parameter includeScheduledForDeprecation
+    
+    
 ## 21.6.0 (2024-04-26)
     
 **Features**

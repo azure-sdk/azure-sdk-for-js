@@ -204,6 +204,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.expand1,
     Parameters.top,
     Parameters.orderby,
+    Parameters.includeScheduledForDeprecation,
   ],
   urlParameters: [
     Parameters.$host,
