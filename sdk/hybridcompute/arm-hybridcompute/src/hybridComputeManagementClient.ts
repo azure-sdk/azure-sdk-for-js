@@ -136,7 +136,7 @@ export class HybridComputeManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-10-03-preview";
+    this.apiVersion = options.apiVersion || "2024-05-01-preview";
     this.machines = new MachinesImpl(this);
     this.machineExtensions = new MachineExtensionsImpl(this);
     this.extensionMetadata = new ExtensionMetadataImpl(this);

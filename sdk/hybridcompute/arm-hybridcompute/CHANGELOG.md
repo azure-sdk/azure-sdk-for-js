@@ -1,15 +1,25 @@
 # Release History
+    
+## 4.0.0-beta.2 (2024-05-02)
+    
+**Features**
 
-## 4.0.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface PatchSettingsStatus
+  - Added Type Alias HotpatchEnablementStatus
+  - Interface LicenseProfile has a new optional parameter billingEndDate
+  - Interface LicenseProfile has a new optional parameter error
+  - Interface LicenseProfileMachineInstanceView has a new optional parameter billingEndDate
+  - Interface LicenseProfileMachineInstanceView has a new optional parameter error
+  - Interface OSProfileLinuxConfiguration has a new optional parameter enableHotpatching
+  - Interface OSProfileLinuxConfiguration has a new optional parameter status
+  - Interface OSProfileWindowsConfiguration has a new optional parameter enableHotpatching
+  - Interface OSProfileWindowsConfiguration has a new optional parameter status
+  - Interface ProductFeature has a new optional parameter billingEndDate
+  - Interface ProductFeature has a new optional parameter error
+  - Added Enum KnownHotpatchEnablementStatus
+  - Enum KnownLicenseProfileSubscriptionStatus has a new value Disabling
+  - Enum KnownLicenseProfileSubscriptionStatus has a new value Failed
+    
 ## 4.0.0-beta.1 (2024-04-17)
     
 **Features**

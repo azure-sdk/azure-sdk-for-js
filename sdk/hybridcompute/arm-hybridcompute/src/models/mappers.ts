@@ -413,6 +413,41 @@ export const OSProfileWindowsConfiguration: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      enableHotpatching: {
+        serializedName: "patchSettings.enableHotpatching",
+        type: {
+          name: "Boolean",
+        },
+      },
+      status: {
+        serializedName: "patchSettings.status",
+        type: {
+          name: "Composite",
+          className: "PatchSettingsStatus",
+        },
+      },
+    },
+  },
+};
+
+export const PatchSettingsStatus: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PatchSettingsStatus",
+    modelProperties: {
+      hotpatchEnablementStatus: {
+        serializedName: "hotpatchEnablementStatus",
+        type: {
+          name: "String",
+        },
+      },
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorDetail",
+        },
+      },
     },
   },
 };
@@ -432,6 +467,19 @@ export const OSProfileLinuxConfiguration: coreClient.CompositeMapper = {
         serializedName: "patchSettings.patchMode",
         type: {
           name: "String",
+        },
+      },
+      enableHotpatching: {
+        serializedName: "patchSettings.enableHotpatching",
+        type: {
+          name: "Boolean",
+        },
+      },
+      status: {
+        serializedName: "patchSettings.status",
+        type: {
+          name: "Composite",
+          className: "PatchSettingsStatus",
         },
       },
     },
@@ -476,15 +524,15 @@ export const LicenseProfileMachineInstanceView: coreClient.CompositeMapper = {
           name: "String",
         },
       },
-      billingStartDate: {
-        serializedName: "productProfile.billingStartDate",
+      enrollmentDate: {
+        serializedName: "productProfile.enrollmentDate",
         readOnly: true,
         type: {
           name: "DateTime",
         },
       },
-      enrollmentDate: {
-        serializedName: "productProfile.enrollmentDate",
+      billingStartDate: {
+        serializedName: "productProfile.billingStartDate",
         readOnly: true,
         type: {
           name: "DateTime",
@@ -495,6 +543,20 @@ export const LicenseProfileMachineInstanceView: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "DateTime",
+        },
+      },
+      billingEndDate: {
+        serializedName: "productProfile.billingEndDate",
+        readOnly: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+      error: {
+        serializedName: "productProfile.error",
+        type: {
+          name: "Composite",
+          className: "ErrorDetail",
         },
       },
       productFeatures: {
@@ -722,15 +784,15 @@ export const ProductFeature: coreClient.CompositeMapper = {
           name: "String",
         },
       },
-      billingStartDate: {
-        serializedName: "billingStartDate",
+      enrollmentDate: {
+        serializedName: "enrollmentDate",
         readOnly: true,
         type: {
           name: "DateTime",
         },
       },
-      enrollmentDate: {
-        serializedName: "enrollmentDate",
+      billingStartDate: {
+        serializedName: "billingStartDate",
         readOnly: true,
         type: {
           name: "DateTime",
@@ -741,6 +803,20 @@ export const ProductFeature: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "DateTime",
+        },
+      },
+      billingEndDate: {
+        serializedName: "billingEndDate",
+        readOnly: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorDetail",
         },
       },
     },
@@ -3550,15 +3626,15 @@ export const LicenseProfile: coreClient.CompositeMapper = {
           name: "String",
         },
       },
-      billingStartDate: {
-        serializedName: "properties.productProfile.billingStartDate",
+      enrollmentDate: {
+        serializedName: "properties.productProfile.enrollmentDate",
         readOnly: true,
         type: {
           name: "DateTime",
         },
       },
-      enrollmentDate: {
-        serializedName: "properties.productProfile.enrollmentDate",
+      billingStartDate: {
+        serializedName: "properties.productProfile.billingStartDate",
         readOnly: true,
         type: {
           name: "DateTime",
@@ -3569,6 +3645,20 @@ export const LicenseProfile: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "DateTime",
+        },
+      },
+      billingEndDate: {
+        serializedName: "properties.productProfile.billingEndDate",
+        readOnly: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+      error: {
+        serializedName: "properties.productProfile.error",
+        type: {
+          name: "Composite",
+          className: "ErrorDetail",
         },
       },
       productFeatures: {

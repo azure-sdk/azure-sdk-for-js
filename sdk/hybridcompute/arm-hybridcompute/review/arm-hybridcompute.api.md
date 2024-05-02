@@ -194,6 +194,9 @@ export interface ExtensionValueListResult {
 // @public
 export function getContinuationToken(page: unknown): string | undefined;
 
+// @public
+export type HotpatchEnablementStatus = string;
+
 // @public (undocumented)
 export class HybridComputeManagementClient extends coreClient.ServiceClient {
     // (undocumented)
@@ -374,6 +377,15 @@ export enum KnownExecutionState {
 }
 
 // @public
+export enum KnownHotpatchEnablementStatus {
+    ActionRequired = "ActionRequired",
+    Disabled = "Disabled",
+    Enabled = "Enabled",
+    PendingEvaluation = "PendingEvaluation",
+    Unknown = "Unknown"
+}
+
+// @public
 export enum KnownLastAttemptStatusEnum {
     Failed = "Failed",
     Success = "Success"
@@ -406,8 +418,10 @@ export enum KnownLicenseProfileProductType {
 // @public
 export enum KnownLicenseProfileSubscriptionStatus {
     Disabled = "Disabled",
+    Disabling = "Disabling",
     Enabled = "Enabled",
     Enabling = "Enabling",
+    Failed = "Failed",
     Unknown = "Unknown"
 }
 
@@ -601,9 +615,11 @@ export type LicenseEdition = string;
 export interface LicenseProfile extends TrackedResource {
     assignedLicense?: string;
     readonly assignedLicenseImmutableId?: string;
+    readonly billingEndDate?: Date;
     readonly billingStartDate?: Date;
     readonly disenrollmentDate?: Date;
     readonly enrollmentDate?: Date;
+    readonly error?: ErrorDetail;
     readonly esuEligibility?: EsuEligibility;
     readonly esuKeys?: EsuKey[];
     readonly esuKeyState?: EsuKeyState;
@@ -629,9 +645,11 @@ export interface LicenseProfileArmEsuPropertiesWithoutAssignedLicense extends Li
 
 // @public
 export interface LicenseProfileMachineInstanceView {
+    readonly billingEndDate?: Date;
     readonly billingStartDate?: Date;
     readonly disenrollmentDate?: Date;
     readonly enrollmentDate?: Date;
+    readonly error?: ErrorDetail;
     esuProfile?: LicenseProfileMachineInstanceViewEsuProperties;
     readonly licenseChannel?: string;
     readonly licenseStatus?: LicenseStatus;
@@ -1257,13 +1275,17 @@ export interface OSProfile {
 // @public
 export interface OSProfileLinuxConfiguration {
     assessmentMode?: AssessmentModeTypes;
+    enableHotpatching?: boolean;
     patchMode?: PatchModeTypes;
+    readonly status?: PatchSettingsStatus;
 }
 
 // @public
 export interface OSProfileWindowsConfiguration {
     assessmentMode?: AssessmentModeTypes;
+    enableHotpatching?: boolean;
     patchMode?: PatchModeTypes;
+    readonly status?: PatchSettingsStatus;
 }
 
 // @public
@@ -1280,6 +1302,12 @@ export type PatchOperationStatus = string;
 
 // @public
 export type PatchServiceUsed = string;
+
+// @public
+export interface PatchSettingsStatus {
+    readonly error?: ErrorDetail;
+    hotpatchEnablementStatus?: HotpatchEnablementStatus;
+}
 
 // @public
 export interface PrivateEndpointConnection extends ProxyResource {
@@ -1527,9 +1555,11 @@ export interface PrivateLinkServiceConnectionStateProperty {
 
 // @public
 export interface ProductFeature {
+    readonly billingEndDate?: Date;
     readonly billingStartDate?: Date;
     readonly disenrollmentDate?: Date;
     readonly enrollmentDate?: Date;
+    readonly error?: ErrorDetail;
     name?: string;
     subscriptionStatus?: LicenseProfileSubscriptionStatus;
 }
