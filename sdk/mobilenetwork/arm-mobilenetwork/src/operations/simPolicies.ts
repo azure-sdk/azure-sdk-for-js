@@ -24,7 +24,6 @@ import {
   SimPoliciesListByMobileNetworkNextOptionalParams,
   SimPoliciesListByMobileNetworkOptionalParams,
   SimPoliciesListByMobileNetworkResponse,
-  SimPoliciesDeleteOptionalParams,
   SimPoliciesGetOptionalParams,
   SimPoliciesGetResponse,
   SimPoliciesCreateOrUpdateOptionalParams,
@@ -32,6 +31,8 @@ import {
   TagsObject,
   SimPoliciesUpdateTagsOptionalParams,
   SimPoliciesUpdateTagsResponse,
+  SimPoliciesDeleteOptionalParams,
+  SimPoliciesDeleteResponse,
   SimPoliciesListByMobileNetworkNextResponse,
 } from "../models";
 
@@ -133,90 +134,20 @@ export class SimPoliciesImpl implements SimPolicies {
   }
 
   /**
-   * Deletes the specified SIM policy.
+   * Gets all the SIM policies in a mobile network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
-   * @param simPolicyName The name of the SIM policy.
    * @param options The options parameters.
    */
-  async beginDelete(
+  private _listByMobileNetwork(
     resourceGroupName: string,
     mobileNetworkName: string,
-    simPolicyName: string,
-    options?: SimPoliciesDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, mobileNetworkName, simPolicyName, options },
-      spec: deleteOperationSpec,
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Deletes the specified SIM policy.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param mobileNetworkName The name of the mobile network.
-   * @param simPolicyName The name of the SIM policy.
-   * @param options The options parameters.
-   */
-  async beginDeleteAndWait(
-    resourceGroupName: string,
-    mobileNetworkName: string,
-    simPolicyName: string,
-    options?: SimPoliciesDeleteOptionalParams,
-  ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      mobileNetworkName,
-      simPolicyName,
-      options,
+    options?: SimPoliciesListByMobileNetworkOptionalParams,
+  ): Promise<SimPoliciesListByMobileNetworkResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, mobileNetworkName, options },
+      listByMobileNetworkOperationSpec,
     );
-    return poller.pollUntilDone();
   }
 
   /**
@@ -243,14 +174,14 @@ export class SimPoliciesImpl implements SimPolicies {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param simPolicyName The name of the SIM policy.
-   * @param parameters Parameters supplied to the create or update SIM policy operation.
+   * @param resource Parameters supplied to the create or update SIM policy operation.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     mobileNetworkName: string,
     simPolicyName: string,
-    parameters: SimPolicy,
+    resource: SimPolicy,
     options?: SimPoliciesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -302,7 +233,7 @@ export class SimPoliciesImpl implements SimPolicies {
         resourceGroupName,
         mobileNetworkName,
         simPolicyName,
-        parameters,
+        resource,
         options,
       },
       spec: createOrUpdateOperationSpec,
@@ -324,21 +255,21 @@ export class SimPoliciesImpl implements SimPolicies {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param simPolicyName The name of the SIM policy.
-   * @param parameters Parameters supplied to the create or update SIM policy operation.
+   * @param resource Parameters supplied to the create or update SIM policy operation.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     mobileNetworkName: string,
     simPolicyName: string,
-    parameters: SimPolicy,
+    resource: SimPolicy,
     options?: SimPoliciesCreateOrUpdateOptionalParams,
   ): Promise<SimPoliciesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       mobileNetworkName,
       simPolicyName,
-      parameters,
+      resource,
       options,
     );
     return poller.pollUntilDone();
@@ -349,14 +280,14 @@ export class SimPoliciesImpl implements SimPolicies {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param simPolicyName The name of the SIM policy.
-   * @param parameters Parameters supplied to update SIM policy tags.
+   * @param properties Parameters supplied to update SIM policy tags.
    * @param options The options parameters.
    */
   updateTags(
     resourceGroupName: string,
     mobileNetworkName: string,
     simPolicyName: string,
-    parameters: TagsObject,
+    properties: TagsObject,
     options?: SimPoliciesUpdateTagsOptionalParams,
   ): Promise<SimPoliciesUpdateTagsResponse> {
     return this.client.sendOperationRequest(
@@ -364,7 +295,7 @@ export class SimPoliciesImpl implements SimPolicies {
         resourceGroupName,
         mobileNetworkName,
         simPolicyName,
-        parameters,
+        properties,
         options,
       },
       updateTagsOperationSpec,
@@ -372,20 +303,98 @@ export class SimPoliciesImpl implements SimPolicies {
   }
 
   /**
-   * Gets all the SIM policies in a mobile network.
+   * Deletes the specified SIM policy.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
+   * @param simPolicyName The name of the SIM policy.
    * @param options The options parameters.
    */
-  private _listByMobileNetwork(
+  async beginDelete(
     resourceGroupName: string,
     mobileNetworkName: string,
-    options?: SimPoliciesListByMobileNetworkOptionalParams,
-  ): Promise<SimPoliciesListByMobileNetworkResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, mobileNetworkName, options },
-      listByMobileNetworkOperationSpec,
+    simPolicyName: string,
+    options?: SimPoliciesDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<SimPoliciesDeleteResponse>,
+      SimPoliciesDeleteResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<SimPoliciesDeleteResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, mobileNetworkName, simPolicyName, options },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      SimPoliciesDeleteResponse,
+      OperationState<SimPoliciesDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Deletes the specified SIM policy.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param mobileNetworkName The name of the mobile network.
+   * @param simPolicyName The name of the SIM policy.
+   * @param options The options parameters.
+   */
+  async beginDeleteAndWait(
+    resourceGroupName: string,
+    mobileNetworkName: string,
+    simPolicyName: string,
+    options?: SimPoliciesDeleteOptionalParams,
+  ): Promise<SimPoliciesDeleteResponse> {
+    const poller = await this.beginDelete(
+      resourceGroupName,
+      mobileNetworkName,
+      simPolicyName,
+      options,
     );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -410,14 +419,13 @@ export class SimPoliciesImpl implements SimPolicies {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/mobileNetworks/{mobileNetworkName}/simPolicies/{simPolicyName}",
-  httpMethod: "DELETE",
+const listByMobileNetworkOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/mobileNetworks/{mobileNetworkName}/simPolicies",
+  httpMethod: "GET",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      bodyMapper: Mappers.SimPolicyListResult,
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
@@ -428,7 +436,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.mobileNetworkName,
-    Parameters.simPolicyName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -475,7 +482,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters15,
+  requestBody: Parameters.resource12,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -499,7 +506,7 @@ const updateTagsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters1,
+  requestBody: Parameters.properties8,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -512,12 +519,21 @@ const updateTagsOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer,
 };
-const listByMobileNetworkOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/mobileNetworks/{mobileNetworkName}/simPolicies",
-  httpMethod: "GET",
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/mobileNetworks/{mobileNetworkName}/simPolicies/{simPolicyName}",
+  httpMethod: "DELETE",
   responses: {
     200: {
-      bodyMapper: Mappers.SimPolicyListResult,
+      headersMapper: Mappers.SimPoliciesDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.SimPoliciesDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.SimPoliciesDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.SimPoliciesDeleteHeaders,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -529,6 +545,7 @@ const listByMobileNetworkOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.mobileNetworkName,
+    Parameters.simPolicyName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -546,9 +563,9 @@ const listByMobileNetworkNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink,
     Parameters.mobileNetworkName,
   ],
   headerParameters: [Parameters.accept],

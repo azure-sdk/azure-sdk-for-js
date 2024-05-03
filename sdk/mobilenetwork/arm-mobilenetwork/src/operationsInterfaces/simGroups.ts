@@ -12,7 +12,6 @@ import {
   SimGroup,
   SimGroupsListBySubscriptionOptionalParams,
   SimGroupsListByResourceGroupOptionalParams,
-  SimGroupsDeleteOptionalParams,
   SimGroupsGetOptionalParams,
   SimGroupsGetResponse,
   SimGroupsCreateOrUpdateOptionalParams,
@@ -20,6 +19,8 @@ import {
   IdentityAndTagsObject,
   SimGroupsUpdateTagsOptionalParams,
   SimGroupsUpdateTagsResponse,
+  SimGroupsDeleteOptionalParams,
+  SimGroupsDeleteResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -42,28 +43,6 @@ export interface SimGroups {
     options?: SimGroupsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<SimGroup>;
   /**
-   * Deletes the specified SIM group.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param simGroupName The name of the SIM Group.
-   * @param options The options parameters.
-   */
-  beginDelete(
-    resourceGroupName: string,
-    simGroupName: string,
-    options?: SimGroupsDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
-  /**
-   * Deletes the specified SIM group.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param simGroupName The name of the SIM Group.
-   * @param options The options parameters.
-   */
-  beginDeleteAndWait(
-    resourceGroupName: string,
-    simGroupName: string,
-    options?: SimGroupsDeleteOptionalParams,
-  ): Promise<void>;
-  /**
    * Gets information about the specified SIM group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param simGroupName The name of the SIM Group.
@@ -78,13 +57,13 @@ export interface SimGroups {
    * Creates or updates a SIM group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param simGroupName The name of the SIM Group.
-   * @param parameters Parameters supplied to the create or update SIM group operation.
+   * @param resource Parameters supplied to the create or update SIM group operation.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
     simGroupName: string,
-    parameters: SimGroup,
+    resource: SimGroup,
     options?: SimGroupsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -96,26 +75,53 @@ export interface SimGroups {
    * Creates or updates a SIM group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param simGroupName The name of the SIM Group.
-   * @param parameters Parameters supplied to the create or update SIM group operation.
+   * @param resource Parameters supplied to the create or update SIM group operation.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     simGroupName: string,
-    parameters: SimGroup,
+    resource: SimGroup,
     options?: SimGroupsCreateOrUpdateOptionalParams,
   ): Promise<SimGroupsCreateOrUpdateResponse>;
   /**
    * Patch SIM group resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param simGroupName The name of the SIM Group.
-   * @param parameters Parameters supplied to patch SIM group resource.
+   * @param properties Parameters supplied to patch SIM group resource.
    * @param options The options parameters.
    */
   updateTags(
     resourceGroupName: string,
     simGroupName: string,
-    parameters: IdentityAndTagsObject,
+    properties: IdentityAndTagsObject,
     options?: SimGroupsUpdateTagsOptionalParams,
   ): Promise<SimGroupsUpdateTagsResponse>;
+  /**
+   * Deletes the specified SIM group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param simGroupName The name of the SIM Group.
+   * @param options The options parameters.
+   */
+  beginDelete(
+    resourceGroupName: string,
+    simGroupName: string,
+    options?: SimGroupsDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<SimGroupsDeleteResponse>,
+      SimGroupsDeleteResponse
+    >
+  >;
+  /**
+   * Deletes the specified SIM group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param simGroupName The name of the SIM Group.
+   * @param options The options parameters.
+   */
+  beginDeleteAndWait(
+    resourceGroupName: string,
+    simGroupName: string,
+    options?: SimGroupsDeleteOptionalParams,
+  ): Promise<SimGroupsDeleteResponse>;
 }

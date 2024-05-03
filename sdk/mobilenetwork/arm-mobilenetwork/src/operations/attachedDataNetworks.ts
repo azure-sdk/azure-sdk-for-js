@@ -24,7 +24,6 @@ import {
   AttachedDataNetworksListByPacketCoreDataPlaneNextOptionalParams,
   AttachedDataNetworksListByPacketCoreDataPlaneOptionalParams,
   AttachedDataNetworksListByPacketCoreDataPlaneResponse,
-  AttachedDataNetworksDeleteOptionalParams,
   AttachedDataNetworksGetOptionalParams,
   AttachedDataNetworksGetResponse,
   AttachedDataNetworksCreateOrUpdateOptionalParams,
@@ -32,6 +31,8 @@ import {
   TagsObject,
   AttachedDataNetworksUpdateTagsOptionalParams,
   AttachedDataNetworksUpdateTagsResponse,
+  AttachedDataNetworksDeleteOptionalParams,
+  AttachedDataNetworksDeleteResponse,
   AttachedDataNetworksListByPacketCoreDataPlaneNextResponse,
 } from "../models";
 
@@ -142,101 +143,27 @@ export class AttachedDataNetworksImpl implements AttachedDataNetworks {
   }
 
   /**
-   * Deletes the specified attached data network.
+   * Gets all the attached data networks associated with a packet core data plane.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param packetCoreControlPlaneName The name of the packet core control plane.
    * @param packetCoreDataPlaneName The name of the packet core data plane.
-   * @param attachedDataNetworkName The name of the attached data network.
    * @param options The options parameters.
    */
-  async beginDelete(
+  private _listByPacketCoreDataPlane(
     resourceGroupName: string,
     packetCoreControlPlaneName: string,
     packetCoreDataPlaneName: string,
-    attachedDataNetworkName: string,
-    options?: AttachedDataNetworksDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
+    options?: AttachedDataNetworksListByPacketCoreDataPlaneOptionalParams,
+  ): Promise<AttachedDataNetworksListByPacketCoreDataPlaneResponse> {
+    return this.client.sendOperationRequest(
+      {
         resourceGroupName,
         packetCoreControlPlaneName,
         packetCoreDataPlaneName,
-        attachedDataNetworkName,
         options,
       },
-      spec: deleteOperationSpec,
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Deletes the specified attached data network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param packetCoreControlPlaneName The name of the packet core control plane.
-   * @param packetCoreDataPlaneName The name of the packet core data plane.
-   * @param attachedDataNetworkName The name of the attached data network.
-   * @param options The options parameters.
-   */
-  async beginDeleteAndWait(
-    resourceGroupName: string,
-    packetCoreControlPlaneName: string,
-    packetCoreDataPlaneName: string,
-    attachedDataNetworkName: string,
-    options?: AttachedDataNetworksDeleteOptionalParams,
-  ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      packetCoreControlPlaneName,
-      packetCoreDataPlaneName,
-      attachedDataNetworkName,
-      options,
+      listByPacketCoreDataPlaneOperationSpec,
     );
-    return poller.pollUntilDone();
   }
 
   /**
@@ -273,7 +200,7 @@ export class AttachedDataNetworksImpl implements AttachedDataNetworks {
    * @param packetCoreControlPlaneName The name of the packet core control plane.
    * @param packetCoreDataPlaneName The name of the packet core data plane.
    * @param attachedDataNetworkName The name of the attached data network.
-   * @param parameters Parameters supplied to the create or update attached data network operation.
+   * @param resource Parameters supplied to the create or update attached data network operation.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
@@ -281,7 +208,7 @@ export class AttachedDataNetworksImpl implements AttachedDataNetworks {
     packetCoreControlPlaneName: string,
     packetCoreDataPlaneName: string,
     attachedDataNetworkName: string,
-    parameters: AttachedDataNetwork,
+    resource: AttachedDataNetwork,
     options?: AttachedDataNetworksCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -334,7 +261,7 @@ export class AttachedDataNetworksImpl implements AttachedDataNetworks {
         packetCoreControlPlaneName,
         packetCoreDataPlaneName,
         attachedDataNetworkName,
-        parameters,
+        resource,
         options,
       },
       spec: createOrUpdateOperationSpec,
@@ -358,7 +285,7 @@ export class AttachedDataNetworksImpl implements AttachedDataNetworks {
    * @param packetCoreControlPlaneName The name of the packet core control plane.
    * @param packetCoreDataPlaneName The name of the packet core data plane.
    * @param attachedDataNetworkName The name of the attached data network.
-   * @param parameters Parameters supplied to the create or update attached data network operation.
+   * @param resource Parameters supplied to the create or update attached data network operation.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
@@ -366,7 +293,7 @@ export class AttachedDataNetworksImpl implements AttachedDataNetworks {
     packetCoreControlPlaneName: string,
     packetCoreDataPlaneName: string,
     attachedDataNetworkName: string,
-    parameters: AttachedDataNetwork,
+    resource: AttachedDataNetwork,
     options?: AttachedDataNetworksCreateOrUpdateOptionalParams,
   ): Promise<AttachedDataNetworksCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
@@ -374,7 +301,7 @@ export class AttachedDataNetworksImpl implements AttachedDataNetworks {
       packetCoreControlPlaneName,
       packetCoreDataPlaneName,
       attachedDataNetworkName,
-      parameters,
+      resource,
       options,
     );
     return poller.pollUntilDone();
@@ -386,7 +313,7 @@ export class AttachedDataNetworksImpl implements AttachedDataNetworks {
    * @param packetCoreControlPlaneName The name of the packet core control plane.
    * @param packetCoreDataPlaneName The name of the packet core data plane.
    * @param attachedDataNetworkName The name of the attached data network.
-   * @param parameters Parameters supplied to update attached data network tags.
+   * @param properties Parameters supplied to update attached data network tags.
    * @param options The options parameters.
    */
   updateTags(
@@ -394,7 +321,7 @@ export class AttachedDataNetworksImpl implements AttachedDataNetworks {
     packetCoreControlPlaneName: string,
     packetCoreDataPlaneName: string,
     attachedDataNetworkName: string,
-    parameters: TagsObject,
+    properties: TagsObject,
     options?: AttachedDataNetworksUpdateTagsOptionalParams,
   ): Promise<AttachedDataNetworksUpdateTagsResponse> {
     return this.client.sendOperationRequest(
@@ -403,7 +330,7 @@ export class AttachedDataNetworksImpl implements AttachedDataNetworks {
         packetCoreControlPlaneName,
         packetCoreDataPlaneName,
         attachedDataNetworkName,
-        parameters,
+        properties,
         options,
       },
       updateTagsOperationSpec,
@@ -411,27 +338,109 @@ export class AttachedDataNetworksImpl implements AttachedDataNetworks {
   }
 
   /**
-   * Gets all the attached data networks associated with a packet core data plane.
+   * Deletes the specified attached data network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param packetCoreControlPlaneName The name of the packet core control plane.
    * @param packetCoreDataPlaneName The name of the packet core data plane.
+   * @param attachedDataNetworkName The name of the attached data network.
    * @param options The options parameters.
    */
-  private _listByPacketCoreDataPlane(
+  async beginDelete(
     resourceGroupName: string,
     packetCoreControlPlaneName: string,
     packetCoreDataPlaneName: string,
-    options?: AttachedDataNetworksListByPacketCoreDataPlaneOptionalParams,
-  ): Promise<AttachedDataNetworksListByPacketCoreDataPlaneResponse> {
-    return this.client.sendOperationRequest(
-      {
+    attachedDataNetworkName: string,
+    options?: AttachedDataNetworksDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<AttachedDataNetworksDeleteResponse>,
+      AttachedDataNetworksDeleteResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<AttachedDataNetworksDeleteResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         packetCoreControlPlaneName,
         packetCoreDataPlaneName,
+        attachedDataNetworkName,
         options,
       },
-      listByPacketCoreDataPlaneOperationSpec,
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      AttachedDataNetworksDeleteResponse,
+      OperationState<AttachedDataNetworksDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Deletes the specified attached data network.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param packetCoreControlPlaneName The name of the packet core control plane.
+   * @param packetCoreDataPlaneName The name of the packet core data plane.
+   * @param attachedDataNetworkName The name of the attached data network.
+   * @param options The options parameters.
+   */
+  async beginDeleteAndWait(
+    resourceGroupName: string,
+    packetCoreControlPlaneName: string,
+    packetCoreDataPlaneName: string,
+    attachedDataNetworkName: string,
+    options?: AttachedDataNetworksDeleteOptionalParams,
+  ): Promise<AttachedDataNetworksDeleteResponse> {
+    const poller = await this.beginDelete(
+      resourceGroupName,
+      packetCoreControlPlaneName,
+      packetCoreDataPlaneName,
+      attachedDataNetworkName,
+      options,
     );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -465,14 +474,13 @@ export class AttachedDataNetworksImpl implements AttachedDataNetworks {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/{packetCoreControlPlaneName}/packetCoreDataPlanes/{packetCoreDataPlaneName}/attachedDataNetworks/{attachedDataNetworkName}",
-  httpMethod: "DELETE",
+const listByPacketCoreDataPlaneOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/{packetCoreControlPlaneName}/packetCoreDataPlanes/{packetCoreDataPlaneName}/attachedDataNetworks",
+  httpMethod: "GET",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      bodyMapper: Mappers.AttachedDataNetworkListResult,
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
@@ -484,7 +492,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.packetCoreControlPlaneName,
     Parameters.packetCoreDataPlaneName,
-    Parameters.attachedDataNetworkName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -532,7 +539,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters,
+  requestBody: Parameters.resource17,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -557,7 +564,7 @@ const updateTagsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters1,
+  requestBody: Parameters.properties8,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -571,12 +578,21 @@ const updateTagsOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer,
 };
-const listByPacketCoreDataPlaneOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/{packetCoreControlPlaneName}/packetCoreDataPlanes/{packetCoreDataPlaneName}/attachedDataNetworks",
-  httpMethod: "GET",
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/{packetCoreControlPlaneName}/packetCoreDataPlanes/{packetCoreDataPlaneName}/attachedDataNetworks/{attachedDataNetworkName}",
+  httpMethod: "DELETE",
   responses: {
     200: {
-      bodyMapper: Mappers.AttachedDataNetworkListResult,
+      headersMapper: Mappers.AttachedDataNetworksDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.AttachedDataNetworksDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.AttachedDataNetworksDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.AttachedDataNetworksDeleteHeaders,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -589,6 +605,7 @@ const listByPacketCoreDataPlaneOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.packetCoreControlPlaneName,
     Parameters.packetCoreDataPlaneName,
+    Parameters.attachedDataNetworkName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -606,11 +623,11 @@ const listByPacketCoreDataPlaneNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.packetCoreControlPlaneName,
     Parameters.packetCoreDataPlaneName,
-    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
   serializer,

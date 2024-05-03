@@ -11,7 +11,6 @@ import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   SimPolicy,
   SimPoliciesListByMobileNetworkOptionalParams,
-  SimPoliciesDeleteOptionalParams,
   SimPoliciesGetOptionalParams,
   SimPoliciesGetResponse,
   SimPoliciesCreateOrUpdateOptionalParams,
@@ -19,6 +18,8 @@ import {
   TagsObject,
   SimPoliciesUpdateTagsOptionalParams,
   SimPoliciesUpdateTagsResponse,
+  SimPoliciesDeleteOptionalParams,
+  SimPoliciesDeleteResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -35,32 +36,6 @@ export interface SimPolicies {
     mobileNetworkName: string,
     options?: SimPoliciesListByMobileNetworkOptionalParams,
   ): PagedAsyncIterableIterator<SimPolicy>;
-  /**
-   * Deletes the specified SIM policy.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param mobileNetworkName The name of the mobile network.
-   * @param simPolicyName The name of the SIM policy.
-   * @param options The options parameters.
-   */
-  beginDelete(
-    resourceGroupName: string,
-    mobileNetworkName: string,
-    simPolicyName: string,
-    options?: SimPoliciesDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
-  /**
-   * Deletes the specified SIM policy.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param mobileNetworkName The name of the mobile network.
-   * @param simPolicyName The name of the SIM policy.
-   * @param options The options parameters.
-   */
-  beginDeleteAndWait(
-    resourceGroupName: string,
-    mobileNetworkName: string,
-    simPolicyName: string,
-    options?: SimPoliciesDeleteOptionalParams,
-  ): Promise<void>;
   /**
    * Gets information about the specified SIM policy.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -79,14 +54,14 @@ export interface SimPolicies {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param simPolicyName The name of the SIM policy.
-   * @param parameters Parameters supplied to the create or update SIM policy operation.
+   * @param resource Parameters supplied to the create or update SIM policy operation.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
     mobileNetworkName: string,
     simPolicyName: string,
-    parameters: SimPolicy,
+    resource: SimPolicy,
     options?: SimPoliciesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -99,14 +74,14 @@ export interface SimPolicies {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param simPolicyName The name of the SIM policy.
-   * @param parameters Parameters supplied to the create or update SIM policy operation.
+   * @param resource Parameters supplied to the create or update SIM policy operation.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     mobileNetworkName: string,
     simPolicyName: string,
-    parameters: SimPolicy,
+    resource: SimPolicy,
     options?: SimPoliciesCreateOrUpdateOptionalParams,
   ): Promise<SimPoliciesCreateOrUpdateResponse>;
   /**
@@ -114,14 +89,45 @@ export interface SimPolicies {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param simPolicyName The name of the SIM policy.
-   * @param parameters Parameters supplied to update SIM policy tags.
+   * @param properties Parameters supplied to update SIM policy tags.
    * @param options The options parameters.
    */
   updateTags(
     resourceGroupName: string,
     mobileNetworkName: string,
     simPolicyName: string,
-    parameters: TagsObject,
+    properties: TagsObject,
     options?: SimPoliciesUpdateTagsOptionalParams,
   ): Promise<SimPoliciesUpdateTagsResponse>;
+  /**
+   * Deletes the specified SIM policy.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param mobileNetworkName The name of the mobile network.
+   * @param simPolicyName The name of the SIM policy.
+   * @param options The options parameters.
+   */
+  beginDelete(
+    resourceGroupName: string,
+    mobileNetworkName: string,
+    simPolicyName: string,
+    options?: SimPoliciesDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<SimPoliciesDeleteResponse>,
+      SimPoliciesDeleteResponse
+    >
+  >;
+  /**
+   * Deletes the specified SIM policy.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param mobileNetworkName The name of the mobile network.
+   * @param simPolicyName The name of the SIM policy.
+   * @param options The options parameters.
+   */
+  beginDeleteAndWait(
+    resourceGroupName: string,
+    mobileNetworkName: string,
+    simPolicyName: string,
+    options?: SimPoliciesDeleteOptionalParams,
+  ): Promise<SimPoliciesDeleteResponse>;
 }

@@ -2,7 +2,7 @@
 
 This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure MobileNetworkManagement client.
 
-The resources in this API specification will be used to manage attached data network resources in mobile network attached to a particular packet core instance
+Mobile Network Management API
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/mobilenetwork/arm-mobilenetwork) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-mobilenetwork) |

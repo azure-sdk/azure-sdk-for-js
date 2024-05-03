@@ -24,11 +24,12 @@ import {
   DiagnosticsPackagesListByPacketCoreControlPlaneNextOptionalParams,
   DiagnosticsPackagesListByPacketCoreControlPlaneOptionalParams,
   DiagnosticsPackagesListByPacketCoreControlPlaneResponse,
-  DiagnosticsPackagesCreateOrUpdateOptionalParams,
-  DiagnosticsPackagesCreateOrUpdateResponse,
   DiagnosticsPackagesGetOptionalParams,
   DiagnosticsPackagesGetResponse,
+  DiagnosticsPackagesCreateOrUpdateOptionalParams,
+  DiagnosticsPackagesCreateOrUpdateResponse,
   DiagnosticsPackagesDeleteOptionalParams,
+  DiagnosticsPackagesDeleteResponse,
   DiagnosticsPackagesListByPacketCoreControlPlaneNextResponse,
 } from "../models";
 
@@ -127,6 +128,47 @@ export class DiagnosticsPackagesImpl implements DiagnosticsPackages {
     )) {
       yield* page;
     }
+  }
+
+  /**
+   * Lists all the diagnostics packages under a packet core control plane.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param packetCoreControlPlaneName The name of the packet core control plane.
+   * @param options The options parameters.
+   */
+  private _listByPacketCoreControlPlane(
+    resourceGroupName: string,
+    packetCoreControlPlaneName: string,
+    options?: DiagnosticsPackagesListByPacketCoreControlPlaneOptionalParams,
+  ): Promise<DiagnosticsPackagesListByPacketCoreControlPlaneResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, packetCoreControlPlaneName, options },
+      listByPacketCoreControlPlaneOperationSpec,
+    );
+  }
+
+  /**
+   * Gets information about the specified diagnostics package.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param packetCoreControlPlaneName The name of the packet core control plane.
+   * @param diagnosticsPackageName The name of the diagnostics package.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    packetCoreControlPlaneName: string,
+    diagnosticsPackageName: string,
+    options?: DiagnosticsPackagesGetOptionalParams,
+  ): Promise<DiagnosticsPackagesGetResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        packetCoreControlPlaneName,
+        diagnosticsPackageName,
+        options,
+      },
+      getOperationSpec,
+    );
   }
 
   /**
@@ -230,30 +272,6 @@ export class DiagnosticsPackagesImpl implements DiagnosticsPackages {
   }
 
   /**
-   * Gets information about the specified diagnostics package.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param packetCoreControlPlaneName The name of the packet core control plane.
-   * @param diagnosticsPackageName The name of the diagnostics package.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    packetCoreControlPlaneName: string,
-    diagnosticsPackageName: string,
-    options?: DiagnosticsPackagesGetOptionalParams,
-  ): Promise<DiagnosticsPackagesGetResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        packetCoreControlPlaneName,
-        diagnosticsPackageName,
-        options,
-      },
-      getOperationSpec,
-    );
-  }
-
-  /**
    * Deletes the specified diagnostics package.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param packetCoreControlPlaneName The name of the packet core control plane.
@@ -265,11 +283,16 @@ export class DiagnosticsPackagesImpl implements DiagnosticsPackages {
     packetCoreControlPlaneName: string,
     diagnosticsPackageName: string,
     options?: DiagnosticsPackagesDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<DiagnosticsPackagesDeleteResponse>,
+      DiagnosticsPackagesDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<void> => {
+    ): Promise<DiagnosticsPackagesDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -314,7 +337,10 @@ export class DiagnosticsPackagesImpl implements DiagnosticsPackages {
       },
       spec: deleteOperationSpec,
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      DiagnosticsPackagesDeleteResponse,
+      OperationState<DiagnosticsPackagesDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       resourceLocationConfig: "location",
@@ -335,7 +361,7 @@ export class DiagnosticsPackagesImpl implements DiagnosticsPackages {
     packetCoreControlPlaneName: string,
     diagnosticsPackageName: string,
     options?: DiagnosticsPackagesDeleteOptionalParams,
-  ): Promise<void> {
+  ): Promise<DiagnosticsPackagesDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       packetCoreControlPlaneName,
@@ -343,23 +369,6 @@ export class DiagnosticsPackagesImpl implements DiagnosticsPackages {
       options,
     );
     return poller.pollUntilDone();
-  }
-
-  /**
-   * Lists all the diagnostics packages under a packet core control plane.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param packetCoreControlPlaneName The name of the packet core control plane.
-   * @param options The options parameters.
-   */
-  private _listByPacketCoreControlPlane(
-    resourceGroupName: string,
-    packetCoreControlPlaneName: string,
-    options?: DiagnosticsPackagesListByPacketCoreControlPlaneOptionalParams,
-  ): Promise<DiagnosticsPackagesListByPacketCoreControlPlaneResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, packetCoreControlPlaneName, options },
-      listByPacketCoreControlPlaneOperationSpec,
-    );
   }
 
   /**
@@ -385,6 +394,49 @@ export class DiagnosticsPackagesImpl implements DiagnosticsPackages {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listByPacketCoreControlPlaneOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/{packetCoreControlPlaneName}/diagnosticsPackages",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DiagnosticsPackageListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.packetCoreControlPlaneName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/{packetCoreControlPlaneName}/diagnosticsPackages/{diagnosticsPackageName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DiagnosticsPackage,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.packetCoreControlPlaneName,
+    Parameters.diagnosticsPackageName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/{packetCoreControlPlaneName}/diagnosticsPackages/{diagnosticsPackageName}",
   httpMethod: "PUT",
@@ -416,36 +468,22 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/{packetCoreControlPlaneName}/diagnosticsPackages/{diagnosticsPackageName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DiagnosticsPackage,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.packetCoreControlPlaneName,
-    Parameters.diagnosticsPackageName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
 const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/{packetCoreControlPlaneName}/diagnosticsPackages/{diagnosticsPackageName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.DiagnosticsPackagesDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.DiagnosticsPackagesDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.DiagnosticsPackagesDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.DiagnosticsPackagesDeleteHeaders,
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
@@ -457,27 +495,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.packetCoreControlPlaneName,
     Parameters.diagnosticsPackageName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listByPacketCoreControlPlaneOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/{packetCoreControlPlaneName}/diagnosticsPackages",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DiagnosticsPackageListResult,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.packetCoreControlPlaneName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -496,10 +513,10 @@ const listByPacketCoreControlPlaneNextOperationSpec: coreClient.OperationSpec =
     },
     urlParameters: [
       Parameters.$host,
+      Parameters.nextLink,
       Parameters.subscriptionId,
       Parameters.resourceGroupName,
       Parameters.packetCoreControlPlaneName,
-      Parameters.nextLink,
     ],
     headerParameters: [Parameters.accept],
     serializer,

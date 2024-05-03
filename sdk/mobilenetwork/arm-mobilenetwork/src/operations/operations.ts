@@ -35,7 +35,7 @@ export class OperationsImpl implements Operations {
   }
 
   /**
-   * Gets a list of the operations.
+   * List the operations for the provider
    * @param options The options parameters.
    */
   public list(
@@ -89,7 +89,7 @@ export class OperationsImpl implements Operations {
   }
 
   /**
-   * Gets a list of the operations.
+   * List the operations for the provider
    * @param options The options parameters.
    */
   private _list(
@@ -121,7 +121,7 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationList,
+      bodyMapper: Mappers.OperationListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -137,7 +137,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationList,
+      bodyMapper: Mappers.OperationListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,

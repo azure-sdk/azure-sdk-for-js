@@ -1,15 +1,408 @@
 # Release History
+    
+## 6.0.0 (2024-05-03)
+    
+**Features**
 
-## 5.0.1 (Unreleased)
+  - Added operation group AmfDeployments
+  - Added operation group ClusterServices
+  - Added operation group ExtendedUeInfos
+  - Added operation group NrfDeployments
+  - Added operation group NssfDeployments
+  - Added operation group ObservabilityServices
+  - Added operation group PacketCoreControlPlaneVersionsTenantResource
+  - Added operation group RoutingInfoModels
+  - Added operation group SmfDeployments
+  - Added operation group Ues
+  - Added operation group UpfDeployments
+  - Added operation MobileNetworks.listSimGroups
+  - Added operation Sims.beginClone
+  - Added operation Sims.beginCloneAndWait
+  - Added operation Sims.beginMove
+  - Added operation Sims.beginMoveAndWait
+  - Added Interface AmfDeploymentResource
+  - Added Interface AmfDeploymentResourceListResult
+  - Added Interface AmfDeploymentResourceTagsUpdate
+  - Added Interface AmfDeploymentsCreateOrUpdateHeaders
+  - Added Interface AmfDeploymentsCreateOrUpdateOptionalParams
+  - Added Interface AmfDeploymentsDeleteHeaders
+  - Added Interface AmfDeploymentsDeleteOptionalParams
+  - Added Interface AmfDeploymentsGetOptionalParams
+  - Added Interface AmfDeploymentsListByResourceGroupNextOptionalParams
+  - Added Interface AmfDeploymentsListByResourceGroupOptionalParams
+  - Added Interface AmfDeploymentsListBySubscriptionNextOptionalParams
+  - Added Interface AmfDeploymentsListBySubscriptionOptionalParams
+  - Added Interface AmfDeploymentsUpdateTagsOptionalParams
+  - Added Interface AmfId
+  - Added Interface AttachedDataNetworksCreateOrUpdateHeaders
+  - Added Interface AttachedDataNetworksDeleteHeaders
+  - Added Interface ClusterServiceAksClusterData
+  - Added Interface ClusterServiceClusterTypeSpecificData
+  - Added Interface ClusterServiceNexusAksClusterData
+  - Added Interface ClusterServiceResource
+  - Added Interface ClusterServiceResourceListResult
+  - Added Interface ClusterServiceResourceTagsUpdate
+  - Added Interface ClusterServicesCreateOrUpdateHeaders
+  - Added Interface ClusterServicesCreateOrUpdateOptionalParams
+  - Added Interface ClusterServicesDeleteHeaders
+  - Added Interface ClusterServicesDeleteOptionalParams
+  - Added Interface ClusterServicesGetOptionalParams
+  - Added Interface ClusterServicesListByResourceGroupNextOptionalParams
+  - Added Interface ClusterServicesListByResourceGroupOptionalParams
+  - Added Interface ClusterServicesListBySubscriptionNextOptionalParams
+  - Added Interface ClusterServicesListBySubscriptionOptionalParams
+  - Added Interface ClusterServicesUpdateTagsOptionalParams
+  - Added Interface DataNetworksCreateOrUpdateHeaders
+  - Added Interface DataNetworksDeleteHeaders
+  - Added Interface DiagnosticsPackagesCreateOrUpdateHeaders
+  - Added Interface DiagnosticsPackagesDeleteHeaders
+  - Added Interface ExtendedUeInfosGetOptionalParams
+  - Added Interface GlobalRanNodeId
+  - Added Interface GNbId
+  - Added Interface Guti4G
+  - Added Interface Guti5G
+  - Added Interface Ipv4Route
+  - Added Interface Ipv4RouteNextHop
+  - Added Interface MmeId
+  - Added Interface MobileNetworksCreateOrUpdateHeaders
+  - Added Interface MobileNetworksDeleteHeaders
+  - Added Interface MobileNetworksListSimGroupsNextOptionalParams
+  - Added Interface MobileNetworksListSimGroupsOptionalParams
+  - Added Interface NrfDeploymentResource
+  - Added Interface NrfDeploymentResourceListResult
+  - Added Interface NrfDeploymentResourceTagsUpdate
+  - Added Interface NrfDeploymentsCreateOrUpdateHeaders
+  - Added Interface NrfDeploymentsCreateOrUpdateOptionalParams
+  - Added Interface NrfDeploymentsDeleteHeaders
+  - Added Interface NrfDeploymentsDeleteOptionalParams
+  - Added Interface NrfDeploymentsGetOptionalParams
+  - Added Interface NrfDeploymentsListByResourceGroupNextOptionalParams
+  - Added Interface NrfDeploymentsListByResourceGroupOptionalParams
+  - Added Interface NrfDeploymentsListBySubscriptionNextOptionalParams
+  - Added Interface NrfDeploymentsListBySubscriptionOptionalParams
+  - Added Interface NrfDeploymentsUpdateTagsOptionalParams
+  - Added Interface NssfDeploymentResource
+  - Added Interface NssfDeploymentResourceListResult
+  - Added Interface NssfDeploymentResourceTagsUpdate
+  - Added Interface NssfDeploymentsCreateOrUpdateHeaders
+  - Added Interface NssfDeploymentsCreateOrUpdateOptionalParams
+  - Added Interface NssfDeploymentsDeleteHeaders
+  - Added Interface NssfDeploymentsDeleteOptionalParams
+  - Added Interface NssfDeploymentsGetOptionalParams
+  - Added Interface NssfDeploymentsListByResourceGroupNextOptionalParams
+  - Added Interface NssfDeploymentsListByResourceGroupOptionalParams
+  - Added Interface NssfDeploymentsListBySubscriptionNextOptionalParams
+  - Added Interface NssfDeploymentsListBySubscriptionOptionalParams
+  - Added Interface NssfDeploymentsUpdateTagsOptionalParams
+  - Added Interface ObservabilityServiceResource
+  - Added Interface ObservabilityServiceResourceListResult
+  - Added Interface ObservabilityServiceResourceTagsUpdate
+  - Added Interface ObservabilityServicesCreateOrUpdateHeaders
+  - Added Interface ObservabilityServicesCreateOrUpdateOptionalParams
+  - Added Interface ObservabilityServicesDeleteHeaders
+  - Added Interface ObservabilityServicesDeleteOptionalParams
+  - Added Interface ObservabilityServicesGetOptionalParams
+  - Added Interface ObservabilityServicesListByResourceGroupNextOptionalParams
+  - Added Interface ObservabilityServicesListByResourceGroupOptionalParams
+  - Added Interface ObservabilityServicesListBySubscriptionNextOptionalParams
+  - Added Interface ObservabilityServicesListBySubscriptionOptionalParams
+  - Added Interface ObservabilityServicesUpdateTagsOptionalParams
+  - Added Interface OperationalStatus
+  - Added Interface OperationListResult
+  - Added Interface PacketCapturesCreateOrUpdateHeaders
+  - Added Interface PacketCapturesDeleteHeaders
+  - Added Interface PacketCapturesStopHeaders
+  - Added Interface PacketCoreControlPlanesCollectDiagnosticsPackageHeaders
+  - Added Interface PacketCoreControlPlanesCreateOrUpdateHeaders
+  - Added Interface PacketCoreControlPlanesDeleteHeaders
+  - Added Interface PacketCoreControlPlanesReinstallHeaders
+  - Added Interface PacketCoreControlPlanesRollbackHeaders
+  - Added Interface PacketCoreControlPlaneVersionsTenantResourceGetOptionalParams
+  - Added Interface PacketCoreControlPlaneVersionsTenantResourceListByTenantNextOptionalParams
+  - Added Interface PacketCoreControlPlaneVersionsTenantResourceListByTenantOptionalParams
+  - Added Interface PacketCoreDataPlanesCreateOrUpdateHeaders
+  - Added Interface PacketCoreDataPlanesDeleteHeaders
+  - Added Interface QualifiedComponentDeploymentParameters
+  - Added Interface RoutingInfoModel
+  - Added Interface RoutingInfoModelListResult
+  - Added Interface RoutingInfoModelsGetOptionalParams
+  - Added Interface RoutingInfoModelsListByPacketCoreControlPlaneNextOptionalParams
+  - Added Interface RoutingInfoModelsListByPacketCoreControlPlaneOptionalParams
+  - Added Interface ServicesCreateOrUpdateHeaders
+  - Added Interface ServicesDeleteHeaders
+  - Added Interface SimClone
+  - Added Interface SimGroupsCreateOrUpdateHeaders
+  - Added Interface SimGroupsDeleteHeaders
+  - Added Interface SimMove
+  - Added Interface SimPoliciesCreateOrUpdateHeaders
+  - Added Interface SimPoliciesDeleteHeaders
+  - Added Interface SimsBulkDeleteHeaders
+  - Added Interface SimsBulkUploadEncryptedHeaders
+  - Added Interface SimsBulkUploadHeaders
+  - Added Interface SimsCloneHeaders
+  - Added Interface SimsCloneOptionalParams
+  - Added Interface SimsCreateOrUpdateHeaders
+  - Added Interface SimsDeleteHeaders
+  - Added Interface SimsMoveHeaders
+  - Added Interface SimsMoveOptionalParams
+  - Added Interface SitesCreateOrUpdateHeaders
+  - Added Interface SitesDeleteHeaders
+  - Added Interface SitesDeletePacketCoreHeaders
+  - Added Interface SlicesCreateOrUpdateHeaders
+  - Added Interface SlicesDeleteHeaders
+  - Added Interface SmfDeploymentResource
+  - Added Interface SmfDeploymentResourceListResult
+  - Added Interface SmfDeploymentResourceTagsUpdate
+  - Added Interface SmfDeploymentsCreateOrUpdateHeaders
+  - Added Interface SmfDeploymentsCreateOrUpdateOptionalParams
+  - Added Interface SmfDeploymentsDeleteHeaders
+  - Added Interface SmfDeploymentsDeleteOptionalParams
+  - Added Interface SmfDeploymentsGetOptionalParams
+  - Added Interface SmfDeploymentsListByResourceGroupNextOptionalParams
+  - Added Interface SmfDeploymentsListByResourceGroupOptionalParams
+  - Added Interface SmfDeploymentsListBySubscriptionNextOptionalParams
+  - Added Interface SmfDeploymentsListBySubscriptionOptionalParams
+  - Added Interface SmfDeploymentsUpdateTagsOptionalParams
+  - Added Interface UeConnectionInfo4G
+  - Added Interface UeConnectionInfo5G
+  - Added Interface UeInfo4GProperties
+  - Added Interface UeInfo5GProperties
+  - Added Interface UeInfoListResult
+  - Added Interface UeIpAddress
+  - Added Interface UeLocationInfo
+  - Added Interface UesListByPacketCoreControlPlaneNextOptionalParams
+  - Added Interface UesListByPacketCoreControlPlaneOptionalParams
+  - Added Interface UpfDeploymentResource
+  - Added Interface UpfDeploymentResourceListResult
+  - Added Interface UpfDeploymentResourceTagsUpdate
+  - Added Interface UpfDeploymentsCreateOrUpdateHeaders
+  - Added Interface UpfDeploymentsCreateOrUpdateOptionalParams
+  - Added Interface UpfDeploymentsDeleteHeaders
+  - Added Interface UpfDeploymentsDeleteOptionalParams
+  - Added Interface UpfDeploymentsGetOptionalParams
+  - Added Interface UpfDeploymentsListByResourceGroupNextOptionalParams
+  - Added Interface UpfDeploymentsListByResourceGroupOptionalParams
+  - Added Interface UpfDeploymentsListBySubscriptionNextOptionalParams
+  - Added Interface UpfDeploymentsListBySubscriptionOptionalParams
+  - Added Interface UpfDeploymentsUpdateTagsOptionalParams
+  - Added Interface UserConsentConfiguration
+  - Added Interface UserPlaneDataRoutesItem
+  - Added Type Alias ActionType
+  - Added Type Alias AmfDeploymentsCreateOrUpdateResponse
+  - Added Type Alias AmfDeploymentsDeleteResponse
+  - Added Type Alias AmfDeploymentsGetResponse
+  - Added Type Alias AmfDeploymentsListByResourceGroupNextResponse
+  - Added Type Alias AmfDeploymentsListByResourceGroupResponse
+  - Added Type Alias AmfDeploymentsListBySubscriptionNextResponse
+  - Added Type Alias AmfDeploymentsListBySubscriptionResponse
+  - Added Type Alias AmfDeploymentsUpdateTagsResponse
+  - Added Type Alias AttachedDataNetworksDeleteResponse
+  - Added Type Alias ClusterServiceClusterTypeSpecificDataUnion
+  - Added Type Alias ClusterServicesCreateOrUpdateResponse
+  - Added Type Alias ClusterServicesDeleteResponse
+  - Added Type Alias ClusterServicesGetResponse
+  - Added Type Alias ClusterServicesListByResourceGroupNextResponse
+  - Added Type Alias ClusterServicesListByResourceGroupResponse
+  - Added Type Alias ClusterServicesListBySubscriptionNextResponse
+  - Added Type Alias ClusterServicesListBySubscriptionResponse
+  - Added Type Alias ClusterServicesUpdateTagsResponse
+  - Added Type Alias ClusterType
+  - Added Type Alias DataNetworksDeleteResponse
+  - Added Type Alias DiagnosticsPackagesDeleteResponse
+  - Added Type Alias ExtendedUeInfosGetResponse
+  - Added Type Alias MobileNetworksDeleteResponse
+  - Added Type Alias MobileNetworksListSimGroupsNextResponse
+  - Added Type Alias MobileNetworksListSimGroupsResponse
+  - Added Type Alias NASEncryptionType
+  - Added Type Alias NrfDeploymentsCreateOrUpdateResponse
+  - Added Type Alias NrfDeploymentsDeleteResponse
+  - Added Type Alias NrfDeploymentsGetResponse
+  - Added Type Alias NrfDeploymentsListByResourceGroupNextResponse
+  - Added Type Alias NrfDeploymentsListByResourceGroupResponse
+  - Added Type Alias NrfDeploymentsListBySubscriptionNextResponse
+  - Added Type Alias NrfDeploymentsListBySubscriptionResponse
+  - Added Type Alias NrfDeploymentsUpdateTagsResponse
+  - Added Type Alias NssfDeploymentsCreateOrUpdateResponse
+  - Added Type Alias NssfDeploymentsDeleteResponse
+  - Added Type Alias NssfDeploymentsGetResponse
+  - Added Type Alias NssfDeploymentsListByResourceGroupNextResponse
+  - Added Type Alias NssfDeploymentsListByResourceGroupResponse
+  - Added Type Alias NssfDeploymentsListBySubscriptionNextResponse
+  - Added Type Alias NssfDeploymentsListBySubscriptionResponse
+  - Added Type Alias NssfDeploymentsUpdateTagsResponse
+  - Added Type Alias ObservabilityServicesCreateOrUpdateResponse
+  - Added Type Alias ObservabilityServicesDeleteResponse
+  - Added Type Alias ObservabilityServicesGetResponse
+  - Added Type Alias ObservabilityServicesListByResourceGroupNextResponse
+  - Added Type Alias ObservabilityServicesListByResourceGroupResponse
+  - Added Type Alias ObservabilityServicesListBySubscriptionNextResponse
+  - Added Type Alias ObservabilityServicesListBySubscriptionResponse
+  - Added Type Alias ObservabilityServicesUpdateTagsResponse
+  - Added Type Alias Origin
+  - Added Type Alias PacketCapturesDeleteResponse
+  - Added Type Alias PacketCoreControlPlanesDeleteResponse
+  - Added Type Alias PacketCoreControlPlaneVersionsTenantResourceGetResponse
+  - Added Type Alias PacketCoreControlPlaneVersionsTenantResourceListByTenantNextResponse
+  - Added Type Alias PacketCoreControlPlaneVersionsTenantResourceListByTenantResponse
+  - Added Type Alias PacketCoreDataPlanesDeleteResponse
+  - Added Type Alias RoutingInfoModelsGetResponse
+  - Added Type Alias RoutingInfoModelsListByPacketCoreControlPlaneNextResponse
+  - Added Type Alias RoutingInfoModelsListByPacketCoreControlPlaneResponse
+  - Added Type Alias ServicesDeleteResponse
+  - Added Type Alias SimGroupsDeleteResponse
+  - Added Type Alias SimPoliciesDeleteResponse
+  - Added Type Alias SimsCloneResponse
+  - Added Type Alias SimsDeleteResponse
+  - Added Type Alias SimsMoveResponse
+  - Added Type Alias SitesDeletePacketCoreResponse
+  - Added Type Alias SitesDeleteResponse
+  - Added Type Alias SkuDeploymentType
+  - Added Type Alias SlicesDeleteResponse
+  - Added Type Alias SmfDeploymentsCreateOrUpdateResponse
+  - Added Type Alias SmfDeploymentsDeleteResponse
+  - Added Type Alias SmfDeploymentsGetResponse
+  - Added Type Alias SmfDeploymentsListByResourceGroupNextResponse
+  - Added Type Alias SmfDeploymentsListByResourceGroupResponse
+  - Added Type Alias SmfDeploymentsListBySubscriptionNextResponse
+  - Added Type Alias SmfDeploymentsListBySubscriptionResponse
+  - Added Type Alias SmfDeploymentsUpdateTagsResponse
+  - Added Type Alias UesListByPacketCoreControlPlaneNextResponse
+  - Added Type Alias UesListByPacketCoreControlPlaneResponse
+  - Added Type Alias UpfDeploymentsCreateOrUpdateResponse
+  - Added Type Alias UpfDeploymentsDeleteResponse
+  - Added Type Alias UpfDeploymentsGetResponse
+  - Added Type Alias UpfDeploymentsListByResourceGroupNextResponse
+  - Added Type Alias UpfDeploymentsListByResourceGroupResponse
+  - Added Type Alias UpfDeploymentsListBySubscriptionNextResponse
+  - Added Type Alias UpfDeploymentsListBySubscriptionResponse
+  - Added Type Alias UpfDeploymentsUpdateTagsResponse
+  - Interface DnnIpPair has a new optional parameter ueIpAddress
+  - Interface ExtendedUeInfo has a new optional parameter lastReadAt
+  - Interface ExtendedUeInfo has a new optional parameter ratType
+  - Interface InterfaceProperties has a new optional parameter bfdIpv4Endpoints
+  - Interface InterfaceProperties has a new optional parameter ipv4AddressList
+  - Interface InterfaceProperties has a new optional parameter vlanId
+  - Interface Operation has a new optional parameter actionType
+  - Interface Operation has a new optional parameter origin
+  - Interface PacketCoreControlPlane has a new optional parameter userConsent
+  - Interface Platform has a new optional parameter haUpgradesAvailable
+  - Interface SignalingConfiguration has a new optional parameter nasEncryption
+  - Interface UeQOSFlow has a new optional parameter gbr
+  - Interface UeQOSFlow has a new optional parameter mbr
+  - Type of parameter ratType of interface ExtendedUeInfoProperties is changed from "5G" | "4G" to "4G" | "5G"
+  - Added Enum KnownActionType
+  - Added Enum KnownClusterType
+  - Added Enum KnownNASEncryptionType
+  - Added Enum KnownOrigin
+  - Added Enum KnownSkuDeploymentType
+  - Enum KnownProvisioningState has a new value Provisioning
+  - Enum KnownProvisioningState has a new value Updating
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation group ExtendedUeInformation
+  - Removed operation group UeInformation
+  - Removed operation PacketCoreControlPlaneVersions.get
+  - Removed operation PacketCoreControlPlaneVersions.list
+  - Interface DnnIpPair no longer has parameter ipV4Addr
+  - Interface ExtendedUeInfo no longer has parameter properties
+  - Interface UeInfo4G no longer has parameter bitLength
+  - Interface UeInfo4G no longer has parameter code
+  - Interface UeInfo4G no longer has parameter eNbId
+  - Interface UeInfo4G no longer has parameter enbS1ApId
+  - Interface UeInfo4G no longer has parameter gNBValue
+  - Interface UeInfo4G no longer has parameter groupId
+  - Interface UeInfo4G no longer has parameter imei
+  - Interface UeInfo4G no longer has parameter imeisv
+  - Interface UeInfo4G no longer has parameter imsi
+  - Interface UeInfo4G no longer has parameter lastActivityTime
+  - Interface UeInfo4G no longer has parameter lastVisitedTai
+  - Interface UeInfo4G no longer has parameter locationType
+  - Interface UeInfo4G no longer has parameter mccInfoConnectionInfoGlobalRanNodeIdPlmnIdMcc
+  - Interface UeInfo4G no longer has parameter mccInfoConnectionInfoLocationInfoPlmnMcc
+  - Interface UeInfo4G no longer has parameter mccInfoGutiPlmnMcc
+  - Interface UeInfo4G no longer has parameter mmeS1ApId
+  - Interface UeInfo4G no longer has parameter mncInfoConnectionInfoGlobalRanNodeIdPlmnIdMnc
+  - Interface UeInfo4G no longer has parameter mncInfoConnectionInfoLocationInfoPlmnMnc
+  - Interface UeInfo4G no longer has parameter mncInfoGutiPlmnMnc
+  - Interface UeInfo4G no longer has parameter mTmsi
+  - Interface UeInfo4G no longer has parameter n3IwfId
+  - Interface UeInfo4G no longer has parameter ngeNbId
+  - Interface UeInfo4G no longer has parameter nid
+  - Interface UeInfo4G no longer has parameter perUeTnla
+  - Interface UeInfo4G no longer has parameter rrcEstablishmentCause
+  - Interface UeInfo4G no longer has parameter sessionInfo
+  - Interface UeInfo4G no longer has parameter tac
+  - Interface UeInfo4G no longer has parameter tngfId
+  - Interface UeInfo4G no longer has parameter ueState
+  - Interface UeInfo4G no longer has parameter ueUsageSetting
+  - Interface UeInfo4G no longer has parameter wagfId
+  - Interface UeInfo5G no longer has parameter allowedNssai
+  - Interface UeInfo5G no longer has parameter amfUeNgapId
+  - Interface UeInfo5G no longer has parameter bitLength
+  - Interface UeInfo5G no longer has parameter eNbId
+  - Interface UeInfo5G no longer has parameter fivegTmsi
+  - Interface UeInfo5G no longer has parameter gNBValue
+  - Interface UeInfo5G no longer has parameter lastActivityTime
+  - Interface UeInfo5G no longer has parameter lastVisitedTai
+  - Interface UeInfo5G no longer has parameter locationType
+  - Interface UeInfo5G no longer has parameter mccInfoConnectionInfoGlobalRanNodeIdPlmnIdMcc
+  - Interface UeInfo5G no longer has parameter mccInfoConnectionInfoLocationInfoPlmnMcc
+  - Interface UeInfo5G no longer has parameter mccInfoFivegGutiPlmnMcc
+  - Interface UeInfo5G no longer has parameter mncInfoConnectionInfoGlobalRanNodeIdPlmnIdMnc
+  - Interface UeInfo5G no longer has parameter mncInfoConnectionInfoLocationInfoPlmnMnc
+  - Interface UeInfo5G no longer has parameter mncInfoFivegGutiPlmnMnc
+  - Interface UeInfo5G no longer has parameter n3IwfId
+  - Interface UeInfo5G no longer has parameter ngeNbId
+  - Interface UeInfo5G no longer has parameter nid
+  - Interface UeInfo5G no longer has parameter pei
+  - Interface UeInfo5G no longer has parameter perUeTnla
+  - Interface UeInfo5G no longer has parameter pointer
+  - Interface UeInfo5G no longer has parameter ranUeNgapId
+  - Interface UeInfo5G no longer has parameter regionId
+  - Interface UeInfo5G no longer has parameter rrcEstablishmentCause
+  - Interface UeInfo5G no longer has parameter sessionInfo
+  - Interface UeInfo5G no longer has parameter setId
+  - Interface UeInfo5G no longer has parameter supi
+  - Interface UeInfo5G no longer has parameter tac
+  - Interface UeInfo5G no longer has parameter tngfId
+  - Interface UeInfo5G no longer has parameter ueState
+  - Interface UeInfo5G no longer has parameter ueUsageSetting
+  - Interface UeInfo5G no longer has parameter wagfId
+  - Interface UeQOSFlow no longer has parameter downlinkGbrDownlink
+  - Interface UeQOSFlow no longer has parameter downlinkMbrDownlink
+  - Interface UeQOSFlow no longer has parameter uplinkGbrUplink
+  - Interface UeQOSFlow no longer has parameter uplinkMbrUplink
+  - Interface UeSessionInfo4G no longer has parameter ipV4Addr
+  - Interface UeSessionInfo5G no longer has parameter downlink
+  - Interface UeSessionInfo5G no longer has parameter ipV4Addr
+  - Interface UeSessionInfo5G no longer has parameter sd
+  - Interface UeSessionInfo5G no longer has parameter sst
+  - Interface UeSessionInfo5G no longer has parameter uplink
+  - Interface UeInfo4G has a new required parameter info
+  - Interface UeInfo5G has a new required parameter info
+  - Interface UeSessionInfo4G has a new required parameter ueIpAddress
+  - Interface UeSessionInfo5G has a new required parameter ambr
+  - Interface UeSessionInfo5G has a new required parameter snssai
+  - Interface UeSessionInfo5G has a new required parameter ueIpAddress
+  - Parameter value of interface AttachedDataNetworkListResult is now required
+  - Parameter value of interface DataNetworkListResult is now required
+  - Parameter value of interface DiagnosticsPackageListResult is now required
+  - Parameter value of interface MobileNetworkListResult is now required
+  - Parameter value of interface PacketCaptureListResult is now required
+  - Parameter value of interface PacketCoreControlPlaneListResult is now required
+  - Parameter value of interface PacketCoreControlPlaneVersionListResult is now required
+  - Parameter value of interface PacketCoreDataPlaneListResult is now required
+  - Parameter value of interface ServiceListResult is now required
+  - Parameter value of interface SimGroupListResult is now required
+  - Parameter value of interface SimListResult is now required
+  - Parameter value of interface SimPolicyListResult is now required
+  - Parameter value of interface SiteListResult is now required
+  - Parameter value of interface SliceListResult is now required
+  - Class MobileNetworkManagementClient no longer has parameter extendedUeInformation
+  - Class MobileNetworkManagementClient no longer has parameter ueInformation
+    
+    
 ## 5.0.0 (2024-03-21)
     
 **Features**

@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { SimGroups } from "../operationsInterfaces";
+import { UpfDeployments } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,33 +20,33 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  SimGroup,
-  SimGroupsListBySubscriptionNextOptionalParams,
-  SimGroupsListBySubscriptionOptionalParams,
-  SimGroupsListBySubscriptionResponse,
-  SimGroupsListByResourceGroupNextOptionalParams,
-  SimGroupsListByResourceGroupOptionalParams,
-  SimGroupsListByResourceGroupResponse,
-  SimGroupsGetOptionalParams,
-  SimGroupsGetResponse,
-  SimGroupsCreateOrUpdateOptionalParams,
-  SimGroupsCreateOrUpdateResponse,
-  IdentityAndTagsObject,
-  SimGroupsUpdateTagsOptionalParams,
-  SimGroupsUpdateTagsResponse,
-  SimGroupsDeleteOptionalParams,
-  SimGroupsDeleteResponse,
-  SimGroupsListBySubscriptionNextResponse,
-  SimGroupsListByResourceGroupNextResponse,
+  UpfDeploymentResource,
+  UpfDeploymentsListBySubscriptionNextOptionalParams,
+  UpfDeploymentsListBySubscriptionOptionalParams,
+  UpfDeploymentsListBySubscriptionResponse,
+  UpfDeploymentsListByResourceGroupNextOptionalParams,
+  UpfDeploymentsListByResourceGroupOptionalParams,
+  UpfDeploymentsListByResourceGroupResponse,
+  UpfDeploymentsGetOptionalParams,
+  UpfDeploymentsGetResponse,
+  UpfDeploymentsCreateOrUpdateOptionalParams,
+  UpfDeploymentsCreateOrUpdateResponse,
+  UpfDeploymentResourceTagsUpdate,
+  UpfDeploymentsUpdateTagsOptionalParams,
+  UpfDeploymentsUpdateTagsResponse,
+  UpfDeploymentsDeleteOptionalParams,
+  UpfDeploymentsDeleteResponse,
+  UpfDeploymentsListBySubscriptionNextResponse,
+  UpfDeploymentsListByResourceGroupNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing SimGroups operations. */
-export class SimGroupsImpl implements SimGroups {
+/** Class containing UpfDeployments operations. */
+export class UpfDeploymentsImpl implements UpfDeployments {
   private readonly client: MobileNetworkManagementClient;
 
   /**
-   * Initialize a new instance of the class SimGroups class.
+   * Initialize a new instance of the class UpfDeployments class.
    * @param client Reference to the service client
    */
   constructor(client: MobileNetworkManagementClient) {
@@ -54,12 +54,12 @@ export class SimGroupsImpl implements SimGroups {
   }
 
   /**
-   * Gets all the SIM groups in a subscription.
+   * List all User Plane Function Deployments by Subscription ID.
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: SimGroupsListBySubscriptionOptionalParams,
-  ): PagedAsyncIterableIterator<SimGroup> {
+    options?: UpfDeploymentsListBySubscriptionOptionalParams,
+  ): PagedAsyncIterableIterator<UpfDeploymentResource> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
       next() {
@@ -78,10 +78,10 @@ export class SimGroupsImpl implements SimGroups {
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: SimGroupsListBySubscriptionOptionalParams,
+    options?: UpfDeploymentsListBySubscriptionOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<SimGroup[]> {
-    let result: SimGroupsListBySubscriptionResponse;
+  ): AsyncIterableIterator<UpfDeploymentResource[]> {
+    let result: UpfDeploymentsListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listBySubscription(options);
@@ -100,22 +100,22 @@ export class SimGroupsImpl implements SimGroups {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: SimGroupsListBySubscriptionOptionalParams,
-  ): AsyncIterableIterator<SimGroup> {
+    options?: UpfDeploymentsListBySubscriptionOptionalParams,
+  ): AsyncIterableIterator<UpfDeploymentResource> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * Gets all the SIM groups in a resource group.
+   * List all User Plane Function Deployments by Resource ID.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: SimGroupsListByResourceGroupOptionalParams,
-  ): PagedAsyncIterableIterator<SimGroup> {
+    options?: UpfDeploymentsListByResourceGroupOptionalParams,
+  ): PagedAsyncIterableIterator<UpfDeploymentResource> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
       next() {
@@ -139,10 +139,10 @@ export class SimGroupsImpl implements SimGroups {
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: SimGroupsListByResourceGroupOptionalParams,
+    options?: UpfDeploymentsListByResourceGroupOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<SimGroup[]> {
-    let result: SimGroupsListByResourceGroupResponse;
+  ): AsyncIterableIterator<UpfDeploymentResource[]> {
+    let result: UpfDeploymentsListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByResourceGroup(resourceGroupName, options);
@@ -166,8 +166,8 @@ export class SimGroupsImpl implements SimGroups {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: SimGroupsListByResourceGroupOptionalParams,
-  ): AsyncIterableIterator<SimGroup> {
+    options?: UpfDeploymentsListByResourceGroupOptionalParams,
+  ): AsyncIterableIterator<UpfDeploymentResource> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
       options,
@@ -177,12 +177,12 @@ export class SimGroupsImpl implements SimGroups {
   }
 
   /**
-   * Gets all the SIM groups in a subscription.
+   * List all User Plane Function Deployments by Subscription ID.
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: SimGroupsListBySubscriptionOptionalParams,
-  ): Promise<SimGroupsListBySubscriptionResponse> {
+    options?: UpfDeploymentsListBySubscriptionOptionalParams,
+  ): Promise<UpfDeploymentsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
       listBySubscriptionOperationSpec,
@@ -190,14 +190,14 @@ export class SimGroupsImpl implements SimGroups {
   }
 
   /**
-   * Gets all the SIM groups in a resource group.
+   * List all User Plane Function Deployments by Resource ID.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: SimGroupsListByResourceGroupOptionalParams,
-  ): Promise<SimGroupsListByResourceGroupResponse> {
+    options?: UpfDeploymentsListByResourceGroupOptionalParams,
+  ): Promise<UpfDeploymentsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
       listByResourceGroupOperationSpec,
@@ -205,44 +205,44 @@ export class SimGroupsImpl implements SimGroups {
   }
 
   /**
-   * Gets information about the specified SIM group.
+   * Get a UpfDeploymentResource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param simGroupName The name of the SIM Group.
+   * @param upfDeploymentName The name of the UPF Deployment
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    simGroupName: string,
-    options?: SimGroupsGetOptionalParams,
-  ): Promise<SimGroupsGetResponse> {
+    upfDeploymentName: string,
+    options?: UpfDeploymentsGetOptionalParams,
+  ): Promise<UpfDeploymentsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, simGroupName, options },
+      { resourceGroupName, upfDeploymentName, options },
       getOperationSpec,
     );
   }
 
   /**
-   * Creates or updates a SIM group.
+   * Create a UpfDeploymentResource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param simGroupName The name of the SIM Group.
-   * @param resource Parameters supplied to the create or update SIM group operation.
+   * @param upfDeploymentName The name of the UPF Deployment
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
-    simGroupName: string,
-    resource: SimGroup,
-    options?: SimGroupsCreateOrUpdateOptionalParams,
+    upfDeploymentName: string,
+    resource: UpfDeploymentResource,
+    options?: UpfDeploymentsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<SimGroupsCreateOrUpdateResponse>,
-      SimGroupsCreateOrUpdateResponse
+      OperationState<UpfDeploymentsCreateOrUpdateResponse>,
+      UpfDeploymentsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<SimGroupsCreateOrUpdateResponse> => {
+    ): Promise<UpfDeploymentsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -279,12 +279,12 @@ export class SimGroupsImpl implements SimGroups {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, simGroupName, resource, options },
+      args: { resourceGroupName, upfDeploymentName, resource, options },
       spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
-      SimGroupsCreateOrUpdateResponse,
-      OperationState<SimGroupsCreateOrUpdateResponse>
+      UpfDeploymentsCreateOrUpdateResponse,
+      OperationState<UpfDeploymentsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -295,21 +295,21 @@ export class SimGroupsImpl implements SimGroups {
   }
 
   /**
-   * Creates or updates a SIM group.
+   * Create a UpfDeploymentResource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param simGroupName The name of the SIM Group.
-   * @param resource Parameters supplied to the create or update SIM group operation.
+   * @param upfDeploymentName The name of the UPF Deployment
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
-    simGroupName: string,
-    resource: SimGroup,
-    options?: SimGroupsCreateOrUpdateOptionalParams,
-  ): Promise<SimGroupsCreateOrUpdateResponse> {
+    upfDeploymentName: string,
+    resource: UpfDeploymentResource,
+    options?: UpfDeploymentsCreateOrUpdateOptionalParams,
+  ): Promise<UpfDeploymentsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
-      simGroupName,
+      upfDeploymentName,
       resource,
       options,
     );
@@ -317,44 +317,44 @@ export class SimGroupsImpl implements SimGroups {
   }
 
   /**
-   * Patch SIM group resource.
+   * Update a UpfDeploymentResource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param simGroupName The name of the SIM Group.
-   * @param properties Parameters supplied to patch SIM group resource.
+   * @param upfDeploymentName The name of the UPF Deployment
+   * @param properties The resource properties to be updated.
    * @param options The options parameters.
    */
   updateTags(
     resourceGroupName: string,
-    simGroupName: string,
-    properties: IdentityAndTagsObject,
-    options?: SimGroupsUpdateTagsOptionalParams,
-  ): Promise<SimGroupsUpdateTagsResponse> {
+    upfDeploymentName: string,
+    properties: UpfDeploymentResourceTagsUpdate,
+    options?: UpfDeploymentsUpdateTagsOptionalParams,
+  ): Promise<UpfDeploymentsUpdateTagsResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, simGroupName, properties, options },
+      { resourceGroupName, upfDeploymentName, properties, options },
       updateTagsOperationSpec,
     );
   }
 
   /**
-   * Deletes the specified SIM group.
+   * Delete a UpfDeploymentResource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param simGroupName The name of the SIM Group.
+   * @param upfDeploymentName The name of the UPF Deployment
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
-    simGroupName: string,
-    options?: SimGroupsDeleteOptionalParams,
+    upfDeploymentName: string,
+    options?: UpfDeploymentsDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<SimGroupsDeleteResponse>,
-      SimGroupsDeleteResponse
+      OperationState<UpfDeploymentsDeleteResponse>,
+      UpfDeploymentsDeleteResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<SimGroupsDeleteResponse> => {
+    ): Promise<UpfDeploymentsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -391,12 +391,12 @@ export class SimGroupsImpl implements SimGroups {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, simGroupName, options },
+      args: { resourceGroupName, upfDeploymentName, options },
       spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
-      SimGroupsDeleteResponse,
-      OperationState<SimGroupsDeleteResponse>
+      UpfDeploymentsDeleteResponse,
+      OperationState<UpfDeploymentsDeleteResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -407,19 +407,19 @@ export class SimGroupsImpl implements SimGroups {
   }
 
   /**
-   * Deletes the specified SIM group.
+   * Delete a UpfDeploymentResource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param simGroupName The name of the SIM Group.
+   * @param upfDeploymentName The name of the UPF Deployment
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
-    simGroupName: string,
-    options?: SimGroupsDeleteOptionalParams,
-  ): Promise<SimGroupsDeleteResponse> {
+    upfDeploymentName: string,
+    options?: UpfDeploymentsDeleteOptionalParams,
+  ): Promise<UpfDeploymentsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
-      simGroupName,
+      upfDeploymentName,
       options,
     );
     return poller.pollUntilDone();
@@ -432,8 +432,8 @@ export class SimGroupsImpl implements SimGroups {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: SimGroupsListBySubscriptionNextOptionalParams,
-  ): Promise<SimGroupsListBySubscriptionNextResponse> {
+    options?: UpfDeploymentsListBySubscriptionNextOptionalParams,
+  ): Promise<UpfDeploymentsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
       listBySubscriptionNextOperationSpec,
@@ -449,8 +449,8 @@ export class SimGroupsImpl implements SimGroups {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: SimGroupsListByResourceGroupNextOptionalParams,
-  ): Promise<SimGroupsListByResourceGroupNextResponse> {
+    options?: UpfDeploymentsListByResourceGroupNextOptionalParams,
+  ): Promise<UpfDeploymentsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
       listByResourceGroupNextOperationSpec,
@@ -461,11 +461,11 @@ export class SimGroupsImpl implements SimGroups {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.MobileNetwork/simGroups",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.MobileNetwork/upfDeployments",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SimGroupListResult,
+      bodyMapper: Mappers.UpfDeploymentResourceListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -477,11 +477,11 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/simGroups",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/upfDeployments",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SimGroupListResult,
+      bodyMapper: Mappers.UpfDeploymentResourceListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -497,11 +497,11 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/simGroups/{simGroupName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/upfDeployments/{upfDeploymentName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SimGroup,
+      bodyMapper: Mappers.UpfDeploymentResource,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -512,81 +512,81 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.simGroupName,
+    Parameters.upfDeploymentName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/simGroups/{simGroupName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/upfDeployments/{upfDeploymentName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SimGroup,
+      bodyMapper: Mappers.UpfDeploymentResource,
     },
     201: {
-      bodyMapper: Mappers.SimGroup,
+      bodyMapper: Mappers.UpfDeploymentResource,
     },
     202: {
-      bodyMapper: Mappers.SimGroup,
+      bodyMapper: Mappers.UpfDeploymentResource,
     },
     204: {
-      bodyMapper: Mappers.SimGroup,
+      bodyMapper: Mappers.UpfDeploymentResource,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.resource7,
+  requestBody: Parameters.resource9,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.simGroupName,
+    Parameters.upfDeploymentName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const updateTagsOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/simGroups/{simGroupName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/upfDeployments/{upfDeploymentName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.SimGroup,
+      bodyMapper: Mappers.UpfDeploymentResource,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.properties2,
+  requestBody: Parameters.properties7,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.simGroupName,
+    Parameters.upfDeploymentName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/simGroups/{simGroupName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/upfDeployments/{upfDeploymentName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.SimGroupsDeleteHeaders,
+      headersMapper: Mappers.UpfDeploymentsDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.SimGroupsDeleteHeaders,
+      headersMapper: Mappers.UpfDeploymentsDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.SimGroupsDeleteHeaders,
+      headersMapper: Mappers.UpfDeploymentsDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.SimGroupsDeleteHeaders,
+      headersMapper: Mappers.UpfDeploymentsDeleteHeaders,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -597,7 +597,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.simGroupName,
+    Parameters.upfDeploymentName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -607,7 +607,7 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SimGroupListResult,
+      bodyMapper: Mappers.UpfDeploymentResourceListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -626,7 +626,7 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SimGroupListResult,
+      bodyMapper: Mappers.UpfDeploymentResourceListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,

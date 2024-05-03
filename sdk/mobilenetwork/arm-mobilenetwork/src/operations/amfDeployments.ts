@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { SimGroups } from "../operationsInterfaces";
+import { AmfDeployments } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,33 +20,33 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  SimGroup,
-  SimGroupsListBySubscriptionNextOptionalParams,
-  SimGroupsListBySubscriptionOptionalParams,
-  SimGroupsListBySubscriptionResponse,
-  SimGroupsListByResourceGroupNextOptionalParams,
-  SimGroupsListByResourceGroupOptionalParams,
-  SimGroupsListByResourceGroupResponse,
-  SimGroupsGetOptionalParams,
-  SimGroupsGetResponse,
-  SimGroupsCreateOrUpdateOptionalParams,
-  SimGroupsCreateOrUpdateResponse,
-  IdentityAndTagsObject,
-  SimGroupsUpdateTagsOptionalParams,
-  SimGroupsUpdateTagsResponse,
-  SimGroupsDeleteOptionalParams,
-  SimGroupsDeleteResponse,
-  SimGroupsListBySubscriptionNextResponse,
-  SimGroupsListByResourceGroupNextResponse,
+  AmfDeploymentResource,
+  AmfDeploymentsListBySubscriptionNextOptionalParams,
+  AmfDeploymentsListBySubscriptionOptionalParams,
+  AmfDeploymentsListBySubscriptionResponse,
+  AmfDeploymentsListByResourceGroupNextOptionalParams,
+  AmfDeploymentsListByResourceGroupOptionalParams,
+  AmfDeploymentsListByResourceGroupResponse,
+  AmfDeploymentsGetOptionalParams,
+  AmfDeploymentsGetResponse,
+  AmfDeploymentsCreateOrUpdateOptionalParams,
+  AmfDeploymentsCreateOrUpdateResponse,
+  AmfDeploymentResourceTagsUpdate,
+  AmfDeploymentsUpdateTagsOptionalParams,
+  AmfDeploymentsUpdateTagsResponse,
+  AmfDeploymentsDeleteOptionalParams,
+  AmfDeploymentsDeleteResponse,
+  AmfDeploymentsListBySubscriptionNextResponse,
+  AmfDeploymentsListByResourceGroupNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing SimGroups operations. */
-export class SimGroupsImpl implements SimGroups {
+/** Class containing AmfDeployments operations. */
+export class AmfDeploymentsImpl implements AmfDeployments {
   private readonly client: MobileNetworkManagementClient;
 
   /**
-   * Initialize a new instance of the class SimGroups class.
+   * Initialize a new instance of the class AmfDeployments class.
    * @param client Reference to the service client
    */
   constructor(client: MobileNetworkManagementClient) {
@@ -54,12 +54,12 @@ export class SimGroupsImpl implements SimGroups {
   }
 
   /**
-   * Gets all the SIM groups in a subscription.
+   * List all Access and Mobility Function Deployments by Subscription ID.
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: SimGroupsListBySubscriptionOptionalParams,
-  ): PagedAsyncIterableIterator<SimGroup> {
+    options?: AmfDeploymentsListBySubscriptionOptionalParams,
+  ): PagedAsyncIterableIterator<AmfDeploymentResource> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
       next() {
@@ -78,10 +78,10 @@ export class SimGroupsImpl implements SimGroups {
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: SimGroupsListBySubscriptionOptionalParams,
+    options?: AmfDeploymentsListBySubscriptionOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<SimGroup[]> {
-    let result: SimGroupsListBySubscriptionResponse;
+  ): AsyncIterableIterator<AmfDeploymentResource[]> {
+    let result: AmfDeploymentsListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listBySubscription(options);
@@ -100,22 +100,22 @@ export class SimGroupsImpl implements SimGroups {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: SimGroupsListBySubscriptionOptionalParams,
-  ): AsyncIterableIterator<SimGroup> {
+    options?: AmfDeploymentsListBySubscriptionOptionalParams,
+  ): AsyncIterableIterator<AmfDeploymentResource> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * Gets all the SIM groups in a resource group.
+   * List all Access and Mobility Function Deployments by Resource Group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: SimGroupsListByResourceGroupOptionalParams,
-  ): PagedAsyncIterableIterator<SimGroup> {
+    options?: AmfDeploymentsListByResourceGroupOptionalParams,
+  ): PagedAsyncIterableIterator<AmfDeploymentResource> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
       next() {
@@ -139,10 +139,10 @@ export class SimGroupsImpl implements SimGroups {
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: SimGroupsListByResourceGroupOptionalParams,
+    options?: AmfDeploymentsListByResourceGroupOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<SimGroup[]> {
-    let result: SimGroupsListByResourceGroupResponse;
+  ): AsyncIterableIterator<AmfDeploymentResource[]> {
+    let result: AmfDeploymentsListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByResourceGroup(resourceGroupName, options);
@@ -166,8 +166,8 @@ export class SimGroupsImpl implements SimGroups {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: SimGroupsListByResourceGroupOptionalParams,
-  ): AsyncIterableIterator<SimGroup> {
+    options?: AmfDeploymentsListByResourceGroupOptionalParams,
+  ): AsyncIterableIterator<AmfDeploymentResource> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
       options,
@@ -177,12 +177,12 @@ export class SimGroupsImpl implements SimGroups {
   }
 
   /**
-   * Gets all the SIM groups in a subscription.
+   * List all Access and Mobility Function Deployments by Subscription ID.
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: SimGroupsListBySubscriptionOptionalParams,
-  ): Promise<SimGroupsListBySubscriptionResponse> {
+    options?: AmfDeploymentsListBySubscriptionOptionalParams,
+  ): Promise<AmfDeploymentsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
       listBySubscriptionOperationSpec,
@@ -190,14 +190,14 @@ export class SimGroupsImpl implements SimGroups {
   }
 
   /**
-   * Gets all the SIM groups in a resource group.
+   * List all Access and Mobility Function Deployments by Resource Group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: SimGroupsListByResourceGroupOptionalParams,
-  ): Promise<SimGroupsListByResourceGroupResponse> {
+    options?: AmfDeploymentsListByResourceGroupOptionalParams,
+  ): Promise<AmfDeploymentsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
       listByResourceGroupOperationSpec,
@@ -205,44 +205,44 @@ export class SimGroupsImpl implements SimGroups {
   }
 
   /**
-   * Gets information about the specified SIM group.
+   * Get a AmfDeploymentResource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param simGroupName The name of the SIM Group.
+   * @param amfDeploymentName The name of the AMF Deployment
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    simGroupName: string,
-    options?: SimGroupsGetOptionalParams,
-  ): Promise<SimGroupsGetResponse> {
+    amfDeploymentName: string,
+    options?: AmfDeploymentsGetOptionalParams,
+  ): Promise<AmfDeploymentsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, simGroupName, options },
+      { resourceGroupName, amfDeploymentName, options },
       getOperationSpec,
     );
   }
 
   /**
-   * Creates or updates a SIM group.
+   * Create a AmfDeploymentResource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param simGroupName The name of the SIM Group.
-   * @param resource Parameters supplied to the create or update SIM group operation.
+   * @param amfDeploymentName The name of the AMF Deployment
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
-    simGroupName: string,
-    resource: SimGroup,
-    options?: SimGroupsCreateOrUpdateOptionalParams,
+    amfDeploymentName: string,
+    resource: AmfDeploymentResource,
+    options?: AmfDeploymentsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<SimGroupsCreateOrUpdateResponse>,
-      SimGroupsCreateOrUpdateResponse
+      OperationState<AmfDeploymentsCreateOrUpdateResponse>,
+      AmfDeploymentsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<SimGroupsCreateOrUpdateResponse> => {
+    ): Promise<AmfDeploymentsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -279,12 +279,12 @@ export class SimGroupsImpl implements SimGroups {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, simGroupName, resource, options },
+      args: { resourceGroupName, amfDeploymentName, resource, options },
       spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
-      SimGroupsCreateOrUpdateResponse,
-      OperationState<SimGroupsCreateOrUpdateResponse>
+      AmfDeploymentsCreateOrUpdateResponse,
+      OperationState<AmfDeploymentsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -295,21 +295,21 @@ export class SimGroupsImpl implements SimGroups {
   }
 
   /**
-   * Creates or updates a SIM group.
+   * Create a AmfDeploymentResource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param simGroupName The name of the SIM Group.
-   * @param resource Parameters supplied to the create or update SIM group operation.
+   * @param amfDeploymentName The name of the AMF Deployment
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
-    simGroupName: string,
-    resource: SimGroup,
-    options?: SimGroupsCreateOrUpdateOptionalParams,
-  ): Promise<SimGroupsCreateOrUpdateResponse> {
+    amfDeploymentName: string,
+    resource: AmfDeploymentResource,
+    options?: AmfDeploymentsCreateOrUpdateOptionalParams,
+  ): Promise<AmfDeploymentsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
-      simGroupName,
+      amfDeploymentName,
       resource,
       options,
     );
@@ -317,44 +317,44 @@ export class SimGroupsImpl implements SimGroups {
   }
 
   /**
-   * Patch SIM group resource.
+   * Update a AmfDeploymentResource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param simGroupName The name of the SIM Group.
-   * @param properties Parameters supplied to patch SIM group resource.
+   * @param amfDeploymentName The name of the AMF Deployment
+   * @param properties The resource properties to be updated.
    * @param options The options parameters.
    */
   updateTags(
     resourceGroupName: string,
-    simGroupName: string,
-    properties: IdentityAndTagsObject,
-    options?: SimGroupsUpdateTagsOptionalParams,
-  ): Promise<SimGroupsUpdateTagsResponse> {
+    amfDeploymentName: string,
+    properties: AmfDeploymentResourceTagsUpdate,
+    options?: AmfDeploymentsUpdateTagsOptionalParams,
+  ): Promise<AmfDeploymentsUpdateTagsResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, simGroupName, properties, options },
+      { resourceGroupName, amfDeploymentName, properties, options },
       updateTagsOperationSpec,
     );
   }
 
   /**
-   * Deletes the specified SIM group.
+   * Delete a AmfDeploymentResource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param simGroupName The name of the SIM Group.
+   * @param amfDeploymentName The name of the AMF Deployment
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
-    simGroupName: string,
-    options?: SimGroupsDeleteOptionalParams,
+    amfDeploymentName: string,
+    options?: AmfDeploymentsDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<SimGroupsDeleteResponse>,
-      SimGroupsDeleteResponse
+      OperationState<AmfDeploymentsDeleteResponse>,
+      AmfDeploymentsDeleteResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<SimGroupsDeleteResponse> => {
+    ): Promise<AmfDeploymentsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -391,12 +391,12 @@ export class SimGroupsImpl implements SimGroups {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, simGroupName, options },
+      args: { resourceGroupName, amfDeploymentName, options },
       spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
-      SimGroupsDeleteResponse,
-      OperationState<SimGroupsDeleteResponse>
+      AmfDeploymentsDeleteResponse,
+      OperationState<AmfDeploymentsDeleteResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -407,19 +407,19 @@ export class SimGroupsImpl implements SimGroups {
   }
 
   /**
-   * Deletes the specified SIM group.
+   * Delete a AmfDeploymentResource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param simGroupName The name of the SIM Group.
+   * @param amfDeploymentName The name of the AMF Deployment
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
-    simGroupName: string,
-    options?: SimGroupsDeleteOptionalParams,
-  ): Promise<SimGroupsDeleteResponse> {
+    amfDeploymentName: string,
+    options?: AmfDeploymentsDeleteOptionalParams,
+  ): Promise<AmfDeploymentsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
-      simGroupName,
+      amfDeploymentName,
       options,
     );
     return poller.pollUntilDone();
@@ -432,8 +432,8 @@ export class SimGroupsImpl implements SimGroups {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: SimGroupsListBySubscriptionNextOptionalParams,
-  ): Promise<SimGroupsListBySubscriptionNextResponse> {
+    options?: AmfDeploymentsListBySubscriptionNextOptionalParams,
+  ): Promise<AmfDeploymentsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
       listBySubscriptionNextOperationSpec,
@@ -449,8 +449,8 @@ export class SimGroupsImpl implements SimGroups {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: SimGroupsListByResourceGroupNextOptionalParams,
-  ): Promise<SimGroupsListByResourceGroupNextResponse> {
+    options?: AmfDeploymentsListByResourceGroupNextOptionalParams,
+  ): Promise<AmfDeploymentsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
       listByResourceGroupNextOperationSpec,
@@ -461,11 +461,11 @@ export class SimGroupsImpl implements SimGroups {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.MobileNetwork/simGroups",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.MobileNetwork/amfDeployments",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SimGroupListResult,
+      bodyMapper: Mappers.AmfDeploymentResourceListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -477,11 +477,11 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/simGroups",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/amfDeployments",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SimGroupListResult,
+      bodyMapper: Mappers.AmfDeploymentResourceListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -497,11 +497,11 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/simGroups/{simGroupName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/amfDeployments/{amfDeploymentName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SimGroup,
+      bodyMapper: Mappers.AmfDeploymentResource,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -512,81 +512,81 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.simGroupName,
+    Parameters.amfDeploymentName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/simGroups/{simGroupName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/amfDeployments/{amfDeploymentName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SimGroup,
+      bodyMapper: Mappers.AmfDeploymentResource,
     },
     201: {
-      bodyMapper: Mappers.SimGroup,
+      bodyMapper: Mappers.AmfDeploymentResource,
     },
     202: {
-      bodyMapper: Mappers.SimGroup,
+      bodyMapper: Mappers.AmfDeploymentResource,
     },
     204: {
-      bodyMapper: Mappers.SimGroup,
+      bodyMapper: Mappers.AmfDeploymentResource,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.resource7,
+  requestBody: Parameters.resource,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.simGroupName,
+    Parameters.amfDeploymentName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const updateTagsOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/simGroups/{simGroupName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/amfDeployments/{amfDeploymentName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.SimGroup,
+      bodyMapper: Mappers.AmfDeploymentResource,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.properties2,
+  requestBody: Parameters.properties,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.simGroupName,
+    Parameters.amfDeploymentName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/simGroups/{simGroupName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/amfDeployments/{amfDeploymentName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.SimGroupsDeleteHeaders,
+      headersMapper: Mappers.AmfDeploymentsDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.SimGroupsDeleteHeaders,
+      headersMapper: Mappers.AmfDeploymentsDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.SimGroupsDeleteHeaders,
+      headersMapper: Mappers.AmfDeploymentsDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.SimGroupsDeleteHeaders,
+      headersMapper: Mappers.AmfDeploymentsDeleteHeaders,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -597,7 +597,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.simGroupName,
+    Parameters.amfDeploymentName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -607,7 +607,7 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SimGroupListResult,
+      bodyMapper: Mappers.AmfDeploymentResourceListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -626,7 +626,7 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SimGroupListResult,
+      bodyMapper: Mappers.AmfDeploymentResourceListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,

@@ -12,7 +12,8 @@ import {
   MobileNetwork,
   MobileNetworksListBySubscriptionOptionalParams,
   MobileNetworksListByResourceGroupOptionalParams,
-  MobileNetworksDeleteOptionalParams,
+  SimGroup,
+  MobileNetworksListSimGroupsOptionalParams,
   MobileNetworksGetOptionalParams,
   MobileNetworksGetResponse,
   MobileNetworksCreateOrUpdateOptionalParams,
@@ -20,6 +21,8 @@ import {
   IdentityAndTagsObject,
   MobileNetworksUpdateTagsOptionalParams,
   MobileNetworksUpdateTagsResponse,
+  MobileNetworksDeleteOptionalParams,
+  MobileNetworksDeleteResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -42,27 +45,16 @@ export interface MobileNetworks {
     options?: MobileNetworksListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<MobileNetwork>;
   /**
-   * Deletes the specified mobile network.
+   * Gets all the SIM groups assigned to a mobile network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param options The options parameters.
    */
-  beginDelete(
+  listSimGroups(
     resourceGroupName: string,
     mobileNetworkName: string,
-    options?: MobileNetworksDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
-  /**
-   * Deletes the specified mobile network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param mobileNetworkName The name of the mobile network.
-   * @param options The options parameters.
-   */
-  beginDeleteAndWait(
-    resourceGroupName: string,
-    mobileNetworkName: string,
-    options?: MobileNetworksDeleteOptionalParams,
-  ): Promise<void>;
+    options?: MobileNetworksListSimGroupsOptionalParams,
+  ): PagedAsyncIterableIterator<SimGroup>;
   /**
    * Gets information about the specified mobile network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -78,13 +70,13 @@ export interface MobileNetworks {
    * Creates or updates a mobile network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
-   * @param parameters Parameters supplied to the create or update mobile network operation.
+   * @param resource Parameters supplied to the create or update mobile network operation.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
     mobileNetworkName: string,
-    parameters: MobileNetwork,
+    resource: MobileNetwork,
     options?: MobileNetworksCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -96,26 +88,53 @@ export interface MobileNetworks {
    * Creates or updates a mobile network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
-   * @param parameters Parameters supplied to the create or update mobile network operation.
+   * @param resource Parameters supplied to the create or update mobile network operation.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     mobileNetworkName: string,
-    parameters: MobileNetwork,
+    resource: MobileNetwork,
     options?: MobileNetworksCreateOrUpdateOptionalParams,
   ): Promise<MobileNetworksCreateOrUpdateResponse>;
   /**
    * Updates mobile network tags and managed identity.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
-   * @param parameters Parameters supplied to update mobile network tags and/or identity.
+   * @param properties Parameters supplied to update mobile network tags and/or identity.
    * @param options The options parameters.
    */
   updateTags(
     resourceGroupName: string,
     mobileNetworkName: string,
-    parameters: IdentityAndTagsObject,
+    properties: IdentityAndTagsObject,
     options?: MobileNetworksUpdateTagsOptionalParams,
   ): Promise<MobileNetworksUpdateTagsResponse>;
+  /**
+   * Deletes the specified mobile network.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param mobileNetworkName The name of the mobile network.
+   * @param options The options parameters.
+   */
+  beginDelete(
+    resourceGroupName: string,
+    mobileNetworkName: string,
+    options?: MobileNetworksDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<MobileNetworksDeleteResponse>,
+      MobileNetworksDeleteResponse
+    >
+  >;
+  /**
+   * Deletes the specified mobile network.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param mobileNetworkName The name of the mobile network.
+   * @param options The options parameters.
+   */
+  beginDeleteAndWait(
+    resourceGroupName: string,
+    mobileNetworkName: string,
+    options?: MobileNetworksDeleteOptionalParams,
+  ): Promise<MobileNetworksDeleteResponse>;
 }

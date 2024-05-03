@@ -9,28 +9,28 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   PacketCoreControlPlaneVersion,
-  PacketCoreControlPlaneVersionsListBySubscriptionOptionalParams,
-  PacketCoreControlPlaneVersionsGetBySubscriptionOptionalParams,
-  PacketCoreControlPlaneVersionsGetBySubscriptionResponse,
+  PacketCoreControlPlaneVersionsTenantResourceListByTenantOptionalParams,
+  PacketCoreControlPlaneVersionsTenantResourceGetOptionalParams,
+  PacketCoreControlPlaneVersionsTenantResourceGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a PacketCoreControlPlaneVersions. */
-export interface PacketCoreControlPlaneVersions {
+/** Interface representing a PacketCoreControlPlaneVersionsTenantResource. */
+export interface PacketCoreControlPlaneVersionsTenantResource {
   /**
    * Lists all supported packet core control planes versions.
    * @param options The options parameters.
    */
-  listBySubscription(
-    options?: PacketCoreControlPlaneVersionsListBySubscriptionOptionalParams,
+  listByTenant(
+    options?: PacketCoreControlPlaneVersionsTenantResourceListByTenantOptionalParams,
   ): PagedAsyncIterableIterator<PacketCoreControlPlaneVersion>;
   /**
    * Gets information about the specified packet core control plane version.
    * @param versionName The name of the packet core control plane version.
    * @param options The options parameters.
    */
-  getBySubscription(
+  get(
     versionName: string,
-    options?: PacketCoreControlPlaneVersionsGetBySubscriptionOptionalParams,
-  ): Promise<PacketCoreControlPlaneVersionsGetBySubscriptionResponse>;
+    options?: PacketCoreControlPlaneVersionsTenantResourceGetOptionalParams,
+  ): Promise<PacketCoreControlPlaneVersionsTenantResourceGetResponse>;
 }

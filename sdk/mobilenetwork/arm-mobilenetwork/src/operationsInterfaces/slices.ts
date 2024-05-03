@@ -11,7 +11,6 @@ import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Slice,
   SlicesListByMobileNetworkOptionalParams,
-  SlicesDeleteOptionalParams,
   SlicesGetOptionalParams,
   SlicesGetResponse,
   SlicesCreateOrUpdateOptionalParams,
@@ -19,6 +18,8 @@ import {
   TagsObject,
   SlicesUpdateTagsOptionalParams,
   SlicesUpdateTagsResponse,
+  SlicesDeleteOptionalParams,
+  SlicesDeleteResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -35,32 +36,6 @@ export interface Slices {
     mobileNetworkName: string,
     options?: SlicesListByMobileNetworkOptionalParams,
   ): PagedAsyncIterableIterator<Slice>;
-  /**
-   * Deletes the specified network slice.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param mobileNetworkName The name of the mobile network.
-   * @param sliceName The name of the network slice.
-   * @param options The options parameters.
-   */
-  beginDelete(
-    resourceGroupName: string,
-    mobileNetworkName: string,
-    sliceName: string,
-    options?: SlicesDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
-  /**
-   * Deletes the specified network slice.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param mobileNetworkName The name of the mobile network.
-   * @param sliceName The name of the network slice.
-   * @param options The options parameters.
-   */
-  beginDeleteAndWait(
-    resourceGroupName: string,
-    mobileNetworkName: string,
-    sliceName: string,
-    options?: SlicesDeleteOptionalParams,
-  ): Promise<void>;
   /**
    * Gets information about the specified network slice.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -80,14 +55,14 @@ export interface Slices {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param sliceName The name of the network slice.
-   * @param parameters Parameters supplied to the create or update network slice operation.
+   * @param resource Parameters supplied to the create or update network slice operation.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
     mobileNetworkName: string,
     sliceName: string,
-    parameters: Slice,
+    resource: Slice,
     options?: SlicesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -101,14 +76,14 @@ export interface Slices {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param sliceName The name of the network slice.
-   * @param parameters Parameters supplied to the create or update network slice operation.
+   * @param resource Parameters supplied to the create or update network slice operation.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     mobileNetworkName: string,
     sliceName: string,
-    parameters: Slice,
+    resource: Slice,
     options?: SlicesCreateOrUpdateOptionalParams,
   ): Promise<SlicesCreateOrUpdateResponse>;
   /**
@@ -116,14 +91,42 @@ export interface Slices {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param sliceName The name of the network slice.
-   * @param parameters Parameters supplied to update network slice tags.
+   * @param properties Parameters supplied to update network slice tags.
    * @param options The options parameters.
    */
   updateTags(
     resourceGroupName: string,
     mobileNetworkName: string,
     sliceName: string,
-    parameters: TagsObject,
+    properties: TagsObject,
     options?: SlicesUpdateTagsOptionalParams,
   ): Promise<SlicesUpdateTagsResponse>;
+  /**
+   * Deletes the specified network slice.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param mobileNetworkName The name of the mobile network.
+   * @param sliceName The name of the network slice.
+   * @param options The options parameters.
+   */
+  beginDelete(
+    resourceGroupName: string,
+    mobileNetworkName: string,
+    sliceName: string,
+    options?: SlicesDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<OperationState<SlicesDeleteResponse>, SlicesDeleteResponse>
+  >;
+  /**
+   * Deletes the specified network slice.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param mobileNetworkName The name of the mobile network.
+   * @param sliceName The name of the network slice.
+   * @param options The options parameters.
+   */
+  beginDeleteAndWait(
+    resourceGroupName: string,
+    mobileNetworkName: string,
+    sliceName: string,
+    options?: SlicesDeleteOptionalParams,
+  ): Promise<SlicesDeleteResponse>;
 }

@@ -15,49 +15,67 @@ import {
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
-  AttachedDataNetworksImpl,
-  DataNetworksImpl,
-  DiagnosticsPackagesImpl,
-  MobileNetworksImpl,
   OperationsImpl,
-  PacketCapturesImpl,
-  PacketCoreControlPlanesImpl,
+  PacketCoreControlPlaneVersionsTenantResourceImpl,
+  AmfDeploymentsImpl,
+  ClusterServicesImpl,
+  MobileNetworksImpl,
+  NrfDeploymentsImpl,
+  NssfDeploymentsImpl,
+  ObservabilityServicesImpl,
   PacketCoreControlPlaneVersionsImpl,
-  PacketCoreDataPlanesImpl,
-  ServicesImpl,
-  SimsImpl,
+  PacketCoreControlPlanesImpl,
   SimGroupsImpl,
+  SmfDeploymentsImpl,
+  UpfDeploymentsImpl,
+  DataNetworksImpl,
+  ServicesImpl,
   SimPoliciesImpl,
   SitesImpl,
   SlicesImpl,
-  ExtendedUeInformationImpl,
-  UeInformationImpl,
+  DiagnosticsPackagesImpl,
+  PacketCapturesImpl,
+  PacketCoreDataPlanesImpl,
+  AttachedDataNetworksImpl,
+  RoutingInfoModelsImpl,
+  UesImpl,
+  ExtendedUeInfosImpl,
+  SimsImpl,
 } from "./operations";
 import {
-  AttachedDataNetworks,
-  DataNetworks,
-  DiagnosticsPackages,
-  MobileNetworks,
   Operations,
-  PacketCaptures,
-  PacketCoreControlPlanes,
+  PacketCoreControlPlaneVersionsTenantResource,
+  AmfDeployments,
+  ClusterServices,
+  MobileNetworks,
+  NrfDeployments,
+  NssfDeployments,
+  ObservabilityServices,
   PacketCoreControlPlaneVersions,
-  PacketCoreDataPlanes,
-  Services,
-  Sims,
+  PacketCoreControlPlanes,
   SimGroups,
+  SmfDeployments,
+  UpfDeployments,
+  DataNetworks,
+  Services,
   SimPolicies,
   Sites,
   Slices,
-  ExtendedUeInformation,
-  UeInformation,
+  DiagnosticsPackages,
+  PacketCaptures,
+  PacketCoreDataPlanes,
+  AttachedDataNetworks,
+  RoutingInfoModels,
+  Ues,
+  ExtendedUeInfos,
+  Sims,
 } from "./operationsInterfaces";
 import { MobileNetworkManagementClientOptionalParams } from "./models";
 
 export class MobileNetworkManagementClient extends coreClient.ServiceClient {
   $host: string;
-  subscriptionId?: string;
   apiVersion: string;
+  subscriptionId?: string;
 
   /**
    * Initializes a new instance of the MobileNetworkManagementClient class.
@@ -102,7 +120,7 @@ export class MobileNetworkManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-mobilenetwork/5.0.1`;
+    const packageDetails = `azsdk-js-arm-mobilenetwork/6.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -156,25 +174,35 @@ export class MobileNetworkManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-02-01";
-    this.attachedDataNetworks = new AttachedDataNetworksImpl(this);
-    this.dataNetworks = new DataNetworksImpl(this);
-    this.diagnosticsPackages = new DiagnosticsPackagesImpl(this);
-    this.mobileNetworks = new MobileNetworksImpl(this);
+    this.apiVersion = options.apiVersion || "2024-06-01";
     this.operations = new OperationsImpl(this);
-    this.packetCaptures = new PacketCapturesImpl(this);
-    this.packetCoreControlPlanes = new PacketCoreControlPlanesImpl(this);
+    this.packetCoreControlPlaneVersionsTenantResource =
+      new PacketCoreControlPlaneVersionsTenantResourceImpl(this);
+    this.amfDeployments = new AmfDeploymentsImpl(this);
+    this.clusterServices = new ClusterServicesImpl(this);
+    this.mobileNetworks = new MobileNetworksImpl(this);
+    this.nrfDeployments = new NrfDeploymentsImpl(this);
+    this.nssfDeployments = new NssfDeploymentsImpl(this);
+    this.observabilityServices = new ObservabilityServicesImpl(this);
     this.packetCoreControlPlaneVersions =
       new PacketCoreControlPlaneVersionsImpl(this);
-    this.packetCoreDataPlanes = new PacketCoreDataPlanesImpl(this);
-    this.services = new ServicesImpl(this);
-    this.sims = new SimsImpl(this);
+    this.packetCoreControlPlanes = new PacketCoreControlPlanesImpl(this);
     this.simGroups = new SimGroupsImpl(this);
+    this.smfDeployments = new SmfDeploymentsImpl(this);
+    this.upfDeployments = new UpfDeploymentsImpl(this);
+    this.dataNetworks = new DataNetworksImpl(this);
+    this.services = new ServicesImpl(this);
     this.simPolicies = new SimPoliciesImpl(this);
     this.sites = new SitesImpl(this);
     this.slices = new SlicesImpl(this);
-    this.extendedUeInformation = new ExtendedUeInformationImpl(this);
-    this.ueInformation = new UeInformationImpl(this);
+    this.diagnosticsPackages = new DiagnosticsPackagesImpl(this);
+    this.packetCaptures = new PacketCapturesImpl(this);
+    this.packetCoreDataPlanes = new PacketCoreDataPlanesImpl(this);
+    this.attachedDataNetworks = new AttachedDataNetworksImpl(this);
+    this.routingInfoModels = new RoutingInfoModelsImpl(this);
+    this.ues = new UesImpl(this);
+    this.extendedUeInfos = new ExtendedUeInfosImpl(this);
+    this.sims = new SimsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -206,21 +234,30 @@ export class MobileNetworkManagementClient extends coreClient.ServiceClient {
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
-  attachedDataNetworks: AttachedDataNetworks;
-  dataNetworks: DataNetworks;
-  diagnosticsPackages: DiagnosticsPackages;
-  mobileNetworks: MobileNetworks;
   operations: Operations;
-  packetCaptures: PacketCaptures;
-  packetCoreControlPlanes: PacketCoreControlPlanes;
+  packetCoreControlPlaneVersionsTenantResource: PacketCoreControlPlaneVersionsTenantResource;
+  amfDeployments: AmfDeployments;
+  clusterServices: ClusterServices;
+  mobileNetworks: MobileNetworks;
+  nrfDeployments: NrfDeployments;
+  nssfDeployments: NssfDeployments;
+  observabilityServices: ObservabilityServices;
   packetCoreControlPlaneVersions: PacketCoreControlPlaneVersions;
-  packetCoreDataPlanes: PacketCoreDataPlanes;
-  services: Services;
-  sims: Sims;
+  packetCoreControlPlanes: PacketCoreControlPlanes;
   simGroups: SimGroups;
+  smfDeployments: SmfDeployments;
+  upfDeployments: UpfDeployments;
+  dataNetworks: DataNetworks;
+  services: Services;
   simPolicies: SimPolicies;
   sites: Sites;
   slices: Slices;
-  extendedUeInformation: ExtendedUeInformation;
-  ueInformation: UeInformation;
+  diagnosticsPackages: DiagnosticsPackages;
+  packetCaptures: PacketCaptures;
+  packetCoreDataPlanes: PacketCoreDataPlanes;
+  attachedDataNetworks: AttachedDataNetworks;
+  routingInfoModels: RoutingInfoModels;
+  ues: Ues;
+  extendedUeInfos: ExtendedUeInfos;
+  sims: Sims;
 }

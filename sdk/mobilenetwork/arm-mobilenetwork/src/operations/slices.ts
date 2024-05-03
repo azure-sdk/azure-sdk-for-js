@@ -24,7 +24,6 @@ import {
   SlicesListByMobileNetworkNextOptionalParams,
   SlicesListByMobileNetworkOptionalParams,
   SlicesListByMobileNetworkResponse,
-  SlicesDeleteOptionalParams,
   SlicesGetOptionalParams,
   SlicesGetResponse,
   SlicesCreateOrUpdateOptionalParams,
@@ -32,6 +31,8 @@ import {
   TagsObject,
   SlicesUpdateTagsOptionalParams,
   SlicesUpdateTagsResponse,
+  SlicesDeleteOptionalParams,
+  SlicesDeleteResponse,
   SlicesListByMobileNetworkNextResponse,
 } from "../models";
 
@@ -133,90 +134,20 @@ export class SlicesImpl implements Slices {
   }
 
   /**
-   * Deletes the specified network slice.
+   * Lists all slices in the mobile network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
-   * @param sliceName The name of the network slice.
    * @param options The options parameters.
    */
-  async beginDelete(
+  private _listByMobileNetwork(
     resourceGroupName: string,
     mobileNetworkName: string,
-    sliceName: string,
-    options?: SlicesDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, mobileNetworkName, sliceName, options },
-      spec: deleteOperationSpec,
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Deletes the specified network slice.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param mobileNetworkName The name of the mobile network.
-   * @param sliceName The name of the network slice.
-   * @param options The options parameters.
-   */
-  async beginDeleteAndWait(
-    resourceGroupName: string,
-    mobileNetworkName: string,
-    sliceName: string,
-    options?: SlicesDeleteOptionalParams,
-  ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      mobileNetworkName,
-      sliceName,
-      options,
+    options?: SlicesListByMobileNetworkOptionalParams,
+  ): Promise<SlicesListByMobileNetworkResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, mobileNetworkName, options },
+      listByMobileNetworkOperationSpec,
     );
-    return poller.pollUntilDone();
   }
 
   /**
@@ -244,14 +175,14 @@ export class SlicesImpl implements Slices {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param sliceName The name of the network slice.
-   * @param parameters Parameters supplied to the create or update network slice operation.
+   * @param resource Parameters supplied to the create or update network slice operation.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     mobileNetworkName: string,
     sliceName: string,
-    parameters: Slice,
+    resource: Slice,
     options?: SlicesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -303,7 +234,7 @@ export class SlicesImpl implements Slices {
         resourceGroupName,
         mobileNetworkName,
         sliceName,
-        parameters,
+        resource,
         options,
       },
       spec: createOrUpdateOperationSpec,
@@ -326,21 +257,21 @@ export class SlicesImpl implements Slices {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param sliceName The name of the network slice.
-   * @param parameters Parameters supplied to the create or update network slice operation.
+   * @param resource Parameters supplied to the create or update network slice operation.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     mobileNetworkName: string,
     sliceName: string,
-    parameters: Slice,
+    resource: Slice,
     options?: SlicesCreateOrUpdateOptionalParams,
   ): Promise<SlicesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       mobileNetworkName,
       sliceName,
-      parameters,
+      resource,
       options,
     );
     return poller.pollUntilDone();
@@ -351,37 +282,112 @@ export class SlicesImpl implements Slices {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param sliceName The name of the network slice.
-   * @param parameters Parameters supplied to update network slice tags.
+   * @param properties Parameters supplied to update network slice tags.
    * @param options The options parameters.
    */
   updateTags(
     resourceGroupName: string,
     mobileNetworkName: string,
     sliceName: string,
-    parameters: TagsObject,
+    properties: TagsObject,
     options?: SlicesUpdateTagsOptionalParams,
   ): Promise<SlicesUpdateTagsResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, mobileNetworkName, sliceName, parameters, options },
+      { resourceGroupName, mobileNetworkName, sliceName, properties, options },
       updateTagsOperationSpec,
     );
   }
 
   /**
-   * Lists all slices in the mobile network.
+   * Deletes the specified network slice.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
+   * @param sliceName The name of the network slice.
    * @param options The options parameters.
    */
-  private _listByMobileNetwork(
+  async beginDelete(
     resourceGroupName: string,
     mobileNetworkName: string,
-    options?: SlicesListByMobileNetworkOptionalParams,
-  ): Promise<SlicesListByMobileNetworkResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, mobileNetworkName, options },
-      listByMobileNetworkOperationSpec,
+    sliceName: string,
+    options?: SlicesDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<OperationState<SlicesDeleteResponse>, SlicesDeleteResponse>
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<SlicesDeleteResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, mobileNetworkName, sliceName, options },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      SlicesDeleteResponse,
+      OperationState<SlicesDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Deletes the specified network slice.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param mobileNetworkName The name of the mobile network.
+   * @param sliceName The name of the network slice.
+   * @param options The options parameters.
+   */
+  async beginDeleteAndWait(
+    resourceGroupName: string,
+    mobileNetworkName: string,
+    sliceName: string,
+    options?: SlicesDeleteOptionalParams,
+  ): Promise<SlicesDeleteResponse> {
+    const poller = await this.beginDelete(
+      resourceGroupName,
+      mobileNetworkName,
+      sliceName,
+      options,
     );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -406,14 +412,13 @@ export class SlicesImpl implements Slices {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/mobileNetworks/{mobileNetworkName}/slices/{sliceName}",
-  httpMethod: "DELETE",
+const listByMobileNetworkOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/mobileNetworks/{mobileNetworkName}/slices",
+  httpMethod: "GET",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      bodyMapper: Mappers.SliceListResult,
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
@@ -424,7 +429,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.mobileNetworkName,
-    Parameters.sliceName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -471,7 +475,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters18,
+  requestBody: Parameters.resource14,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -495,7 +499,7 @@ const updateTagsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters1,
+  requestBody: Parameters.properties8,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -508,12 +512,21 @@ const updateTagsOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer,
 };
-const listByMobileNetworkOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/mobileNetworks/{mobileNetworkName}/slices",
-  httpMethod: "GET",
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/mobileNetworks/{mobileNetworkName}/slices/{sliceName}",
+  httpMethod: "DELETE",
   responses: {
     200: {
-      bodyMapper: Mappers.SliceListResult,
+      headersMapper: Mappers.SlicesDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.SlicesDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.SlicesDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.SlicesDeleteHeaders,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -525,6 +538,7 @@ const listByMobileNetworkOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.mobileNetworkName,
+    Parameters.sliceName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -542,9 +556,9 @@ const listByMobileNetworkNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink,
     Parameters.mobileNetworkName,
   ],
   headerParameters: [Parameters.accept],
