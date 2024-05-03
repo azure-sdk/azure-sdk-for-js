@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { SimGroups } from "../operationsInterfaces";
+import { ClusterServices } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,33 +20,33 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  SimGroup,
-  SimGroupsListBySubscriptionNextOptionalParams,
-  SimGroupsListBySubscriptionOptionalParams,
-  SimGroupsListBySubscriptionResponse,
-  SimGroupsListByResourceGroupNextOptionalParams,
-  SimGroupsListByResourceGroupOptionalParams,
-  SimGroupsListByResourceGroupResponse,
-  SimGroupsGetOptionalParams,
-  SimGroupsGetResponse,
-  SimGroupsCreateOrUpdateOptionalParams,
-  SimGroupsCreateOrUpdateResponse,
-  IdentityAndTagsObject,
-  SimGroupsUpdateTagsOptionalParams,
-  SimGroupsUpdateTagsResponse,
-  SimGroupsDeleteOptionalParams,
-  SimGroupsDeleteResponse,
-  SimGroupsListBySubscriptionNextResponse,
-  SimGroupsListByResourceGroupNextResponse,
+  ClusterServiceResource,
+  ClusterServicesListBySubscriptionNextOptionalParams,
+  ClusterServicesListBySubscriptionOptionalParams,
+  ClusterServicesListBySubscriptionResponse,
+  ClusterServicesListByResourceGroupNextOptionalParams,
+  ClusterServicesListByResourceGroupOptionalParams,
+  ClusterServicesListByResourceGroupResponse,
+  ClusterServicesGetOptionalParams,
+  ClusterServicesGetResponse,
+  ClusterServicesCreateOrUpdateOptionalParams,
+  ClusterServicesCreateOrUpdateResponse,
+  ClusterServiceResourceTagsUpdate,
+  ClusterServicesUpdateTagsOptionalParams,
+  ClusterServicesUpdateTagsResponse,
+  ClusterServicesDeleteOptionalParams,
+  ClusterServicesDeleteResponse,
+  ClusterServicesListBySubscriptionNextResponse,
+  ClusterServicesListByResourceGroupNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing SimGroups operations. */
-export class SimGroupsImpl implements SimGroups {
+/** Class containing ClusterServices operations. */
+export class ClusterServicesImpl implements ClusterServices {
   private readonly client: MobileNetworkManagementClient;
 
   /**
-   * Initialize a new instance of the class SimGroups class.
+   * Initialize a new instance of the class ClusterServices class.
    * @param client Reference to the service client
    */
   constructor(client: MobileNetworkManagementClient) {
@@ -54,12 +54,12 @@ export class SimGroupsImpl implements SimGroups {
   }
 
   /**
-   * Gets all the SIM groups in a subscription.
+   * List all Cluster Services by Subscription ID.
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: SimGroupsListBySubscriptionOptionalParams,
-  ): PagedAsyncIterableIterator<SimGroup> {
+    options?: ClusterServicesListBySubscriptionOptionalParams,
+  ): PagedAsyncIterableIterator<ClusterServiceResource> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
       next() {
@@ -78,10 +78,10 @@ export class SimGroupsImpl implements SimGroups {
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: SimGroupsListBySubscriptionOptionalParams,
+    options?: ClusterServicesListBySubscriptionOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<SimGroup[]> {
-    let result: SimGroupsListBySubscriptionResponse;
+  ): AsyncIterableIterator<ClusterServiceResource[]> {
+    let result: ClusterServicesListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listBySubscription(options);
@@ -100,22 +100,22 @@ export class SimGroupsImpl implements SimGroups {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: SimGroupsListBySubscriptionOptionalParams,
-  ): AsyncIterableIterator<SimGroup> {
+    options?: ClusterServicesListBySubscriptionOptionalParams,
+  ): AsyncIterableIterator<ClusterServiceResource> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * Gets all the SIM groups in a resource group.
+   * List all Cluster Services by Resource Group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: SimGroupsListByResourceGroupOptionalParams,
-  ): PagedAsyncIterableIterator<SimGroup> {
+    options?: ClusterServicesListByResourceGroupOptionalParams,
+  ): PagedAsyncIterableIterator<ClusterServiceResource> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
       next() {
@@ -139,10 +139,10 @@ export class SimGroupsImpl implements SimGroups {
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: SimGroupsListByResourceGroupOptionalParams,
+    options?: ClusterServicesListByResourceGroupOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<SimGroup[]> {
-    let result: SimGroupsListByResourceGroupResponse;
+  ): AsyncIterableIterator<ClusterServiceResource[]> {
+    let result: ClusterServicesListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByResourceGroup(resourceGroupName, options);
@@ -166,8 +166,8 @@ export class SimGroupsImpl implements SimGroups {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: SimGroupsListByResourceGroupOptionalParams,
-  ): AsyncIterableIterator<SimGroup> {
+    options?: ClusterServicesListByResourceGroupOptionalParams,
+  ): AsyncIterableIterator<ClusterServiceResource> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
       options,
@@ -177,12 +177,12 @@ export class SimGroupsImpl implements SimGroups {
   }
 
   /**
-   * Gets all the SIM groups in a subscription.
+   * List all Cluster Services by Subscription ID.
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: SimGroupsListBySubscriptionOptionalParams,
-  ): Promise<SimGroupsListBySubscriptionResponse> {
+    options?: ClusterServicesListBySubscriptionOptionalParams,
+  ): Promise<ClusterServicesListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
       listBySubscriptionOperationSpec,
@@ -190,14 +190,14 @@ export class SimGroupsImpl implements SimGroups {
   }
 
   /**
-   * Gets all the SIM groups in a resource group.
+   * List all Cluster Services by Resource Group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: SimGroupsListByResourceGroupOptionalParams,
-  ): Promise<SimGroupsListByResourceGroupResponse> {
+    options?: ClusterServicesListByResourceGroupOptionalParams,
+  ): Promise<ClusterServicesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
       listByResourceGroupOperationSpec,
@@ -205,44 +205,44 @@ export class SimGroupsImpl implements SimGroups {
   }
 
   /**
-   * Gets information about the specified SIM group.
+   * Get a ClusterServiceResource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param simGroupName The name of the SIM Group.
+   * @param clusterServiceName The name of the Cluster Service
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    simGroupName: string,
-    options?: SimGroupsGetOptionalParams,
-  ): Promise<SimGroupsGetResponse> {
+    clusterServiceName: string,
+    options?: ClusterServicesGetOptionalParams,
+  ): Promise<ClusterServicesGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, simGroupName, options },
+      { resourceGroupName, clusterServiceName, options },
       getOperationSpec,
     );
   }
 
   /**
-   * Creates or updates a SIM group.
+   * Create a ClusterServiceResource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param simGroupName The name of the SIM Group.
-   * @param resource Parameters supplied to the create or update SIM group operation.
+   * @param clusterServiceName The name of the Cluster Service
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
-    simGroupName: string,
-    resource: SimGroup,
-    options?: SimGroupsCreateOrUpdateOptionalParams,
+    clusterServiceName: string,
+    resource: ClusterServiceResource,
+    options?: ClusterServicesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<SimGroupsCreateOrUpdateResponse>,
-      SimGroupsCreateOrUpdateResponse
+      OperationState<ClusterServicesCreateOrUpdateResponse>,
+      ClusterServicesCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<SimGroupsCreateOrUpdateResponse> => {
+    ): Promise<ClusterServicesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -279,12 +279,12 @@ export class SimGroupsImpl implements SimGroups {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, simGroupName, resource, options },
+      args: { resourceGroupName, clusterServiceName, resource, options },
       spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
-      SimGroupsCreateOrUpdateResponse,
-      OperationState<SimGroupsCreateOrUpdateResponse>
+      ClusterServicesCreateOrUpdateResponse,
+      OperationState<ClusterServicesCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -295,21 +295,21 @@ export class SimGroupsImpl implements SimGroups {
   }
 
   /**
-   * Creates or updates a SIM group.
+   * Create a ClusterServiceResource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param simGroupName The name of the SIM Group.
-   * @param resource Parameters supplied to the create or update SIM group operation.
+   * @param clusterServiceName The name of the Cluster Service
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
-    simGroupName: string,
-    resource: SimGroup,
-    options?: SimGroupsCreateOrUpdateOptionalParams,
-  ): Promise<SimGroupsCreateOrUpdateResponse> {
+    clusterServiceName: string,
+    resource: ClusterServiceResource,
+    options?: ClusterServicesCreateOrUpdateOptionalParams,
+  ): Promise<ClusterServicesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
-      simGroupName,
+      clusterServiceName,
       resource,
       options,
     );
@@ -317,44 +317,44 @@ export class SimGroupsImpl implements SimGroups {
   }
 
   /**
-   * Patch SIM group resource.
+   * Update a ClusterServiceResource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param simGroupName The name of the SIM Group.
-   * @param properties Parameters supplied to patch SIM group resource.
+   * @param clusterServiceName The name of the Cluster Service
+   * @param properties The resource properties to be updated.
    * @param options The options parameters.
    */
   updateTags(
     resourceGroupName: string,
-    simGroupName: string,
-    properties: IdentityAndTagsObject,
-    options?: SimGroupsUpdateTagsOptionalParams,
-  ): Promise<SimGroupsUpdateTagsResponse> {
+    clusterServiceName: string,
+    properties: ClusterServiceResourceTagsUpdate,
+    options?: ClusterServicesUpdateTagsOptionalParams,
+  ): Promise<ClusterServicesUpdateTagsResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, simGroupName, properties, options },
+      { resourceGroupName, clusterServiceName, properties, options },
       updateTagsOperationSpec,
     );
   }
 
   /**
-   * Deletes the specified SIM group.
+   * Delete a ClusterServiceResource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param simGroupName The name of the SIM Group.
+   * @param clusterServiceName The name of the Cluster Service
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
-    simGroupName: string,
-    options?: SimGroupsDeleteOptionalParams,
+    clusterServiceName: string,
+    options?: ClusterServicesDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<SimGroupsDeleteResponse>,
-      SimGroupsDeleteResponse
+      OperationState<ClusterServicesDeleteResponse>,
+      ClusterServicesDeleteResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<SimGroupsDeleteResponse> => {
+    ): Promise<ClusterServicesDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -391,12 +391,12 @@ export class SimGroupsImpl implements SimGroups {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, simGroupName, options },
+      args: { resourceGroupName, clusterServiceName, options },
       spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
-      SimGroupsDeleteResponse,
-      OperationState<SimGroupsDeleteResponse>
+      ClusterServicesDeleteResponse,
+      OperationState<ClusterServicesDeleteResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -407,19 +407,19 @@ export class SimGroupsImpl implements SimGroups {
   }
 
   /**
-   * Deletes the specified SIM group.
+   * Delete a ClusterServiceResource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param simGroupName The name of the SIM Group.
+   * @param clusterServiceName The name of the Cluster Service
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
-    simGroupName: string,
-    options?: SimGroupsDeleteOptionalParams,
-  ): Promise<SimGroupsDeleteResponse> {
+    clusterServiceName: string,
+    options?: ClusterServicesDeleteOptionalParams,
+  ): Promise<ClusterServicesDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
-      simGroupName,
+      clusterServiceName,
       options,
     );
     return poller.pollUntilDone();
@@ -432,8 +432,8 @@ export class SimGroupsImpl implements SimGroups {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: SimGroupsListBySubscriptionNextOptionalParams,
-  ): Promise<SimGroupsListBySubscriptionNextResponse> {
+    options?: ClusterServicesListBySubscriptionNextOptionalParams,
+  ): Promise<ClusterServicesListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
       listBySubscriptionNextOperationSpec,
@@ -449,8 +449,8 @@ export class SimGroupsImpl implements SimGroups {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: SimGroupsListByResourceGroupNextOptionalParams,
-  ): Promise<SimGroupsListByResourceGroupNextResponse> {
+    options?: ClusterServicesListByResourceGroupNextOptionalParams,
+  ): Promise<ClusterServicesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
       listByResourceGroupNextOperationSpec,
@@ -461,11 +461,11 @@ export class SimGroupsImpl implements SimGroups {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.MobileNetwork/simGroups",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.MobileNetwork/clusterServices",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SimGroupListResult,
+      bodyMapper: Mappers.ClusterServiceResourceListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -477,11 +477,11 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/simGroups",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/clusterServices",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SimGroupListResult,
+      bodyMapper: Mappers.ClusterServiceResourceListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -497,11 +497,11 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/simGroups/{simGroupName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/clusterServices/{clusterServiceName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SimGroup,
+      bodyMapper: Mappers.ClusterServiceResource,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -512,81 +512,81 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.simGroupName,
+    Parameters.clusterServiceName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/simGroups/{simGroupName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/clusterServices/{clusterServiceName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SimGroup,
+      bodyMapper: Mappers.ClusterServiceResource,
     },
     201: {
-      bodyMapper: Mappers.SimGroup,
+      bodyMapper: Mappers.ClusterServiceResource,
     },
     202: {
-      bodyMapper: Mappers.SimGroup,
+      bodyMapper: Mappers.ClusterServiceResource,
     },
     204: {
-      bodyMapper: Mappers.SimGroup,
+      bodyMapper: Mappers.ClusterServiceResource,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.resource7,
+  requestBody: Parameters.resource1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.simGroupName,
+    Parameters.clusterServiceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const updateTagsOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/simGroups/{simGroupName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/clusterServices/{clusterServiceName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.SimGroup,
+      bodyMapper: Mappers.ClusterServiceResource,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.properties2,
+  requestBody: Parameters.properties1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.simGroupName,
+    Parameters.clusterServiceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/simGroups/{simGroupName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/clusterServices/{clusterServiceName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.SimGroupsDeleteHeaders,
+      headersMapper: Mappers.ClusterServicesDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.SimGroupsDeleteHeaders,
+      headersMapper: Mappers.ClusterServicesDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.SimGroupsDeleteHeaders,
+      headersMapper: Mappers.ClusterServicesDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.SimGroupsDeleteHeaders,
+      headersMapper: Mappers.ClusterServicesDeleteHeaders,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -597,7 +597,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.simGroupName,
+    Parameters.clusterServiceName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -607,7 +607,7 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SimGroupListResult,
+      bodyMapper: Mappers.ClusterServiceResourceListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -626,7 +626,7 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SimGroupListResult,
+      bodyMapper: Mappers.ClusterServiceResourceListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,

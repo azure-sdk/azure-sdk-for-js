@@ -11,11 +11,12 @@ import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   PacketCapture,
   PacketCapturesListByPacketCoreControlPlaneOptionalParams,
-  PacketCapturesCreateOrUpdateOptionalParams,
-  PacketCapturesCreateOrUpdateResponse,
   PacketCapturesGetOptionalParams,
   PacketCapturesGetResponse,
+  PacketCapturesCreateOrUpdateOptionalParams,
+  PacketCapturesCreateOrUpdateResponse,
   PacketCapturesDeleteOptionalParams,
+  PacketCapturesDeleteResponse,
   PacketCapturesStopOptionalParams,
   PacketCapturesStopResponse,
 } from "../models";
@@ -35,41 +36,6 @@ export interface PacketCaptures {
     options?: PacketCapturesListByPacketCoreControlPlaneOptionalParams,
   ): PagedAsyncIterableIterator<PacketCapture>;
   /**
-   * Creates or updates a packet capture.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param packetCoreControlPlaneName The name of the packet core control plane.
-   * @param packetCaptureName The name of the packet capture session.
-   * @param parameters Parameters supplied to the create or update packet capture operation.
-   * @param options The options parameters.
-   */
-  beginCreateOrUpdate(
-    resourceGroupName: string,
-    packetCoreControlPlaneName: string,
-    packetCaptureName: string,
-    parameters: PacketCapture,
-    options?: PacketCapturesCreateOrUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<PacketCapturesCreateOrUpdateResponse>,
-      PacketCapturesCreateOrUpdateResponse
-    >
-  >;
-  /**
-   * Creates or updates a packet capture.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param packetCoreControlPlaneName The name of the packet core control plane.
-   * @param packetCaptureName The name of the packet capture session.
-   * @param parameters Parameters supplied to the create or update packet capture operation.
-   * @param options The options parameters.
-   */
-  beginCreateOrUpdateAndWait(
-    resourceGroupName: string,
-    packetCoreControlPlaneName: string,
-    packetCaptureName: string,
-    parameters: PacketCapture,
-    options?: PacketCapturesCreateOrUpdateOptionalParams,
-  ): Promise<PacketCapturesCreateOrUpdateResponse>;
-  /**
    * Gets information about the specified packet capture session.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param packetCoreControlPlaneName The name of the packet core control plane.
@@ -83,6 +49,41 @@ export interface PacketCaptures {
     options?: PacketCapturesGetOptionalParams,
   ): Promise<PacketCapturesGetResponse>;
   /**
+   * Creates or updates a packet capture.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param packetCoreControlPlaneName The name of the packet core control plane.
+   * @param packetCaptureName The name of the packet capture session.
+   * @param resource Parameters supplied to the create or update packet capture operation.
+   * @param options The options parameters.
+   */
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    packetCoreControlPlaneName: string,
+    packetCaptureName: string,
+    resource: PacketCapture,
+    options?: PacketCapturesCreateOrUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<PacketCapturesCreateOrUpdateResponse>,
+      PacketCapturesCreateOrUpdateResponse
+    >
+  >;
+  /**
+   * Creates or updates a packet capture.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param packetCoreControlPlaneName The name of the packet core control plane.
+   * @param packetCaptureName The name of the packet capture session.
+   * @param resource Parameters supplied to the create or update packet capture operation.
+   * @param options The options parameters.
+   */
+  beginCreateOrUpdateAndWait(
+    resourceGroupName: string,
+    packetCoreControlPlaneName: string,
+    packetCaptureName: string,
+    resource: PacketCapture,
+    options?: PacketCapturesCreateOrUpdateOptionalParams,
+  ): Promise<PacketCapturesCreateOrUpdateResponse>;
+  /**
    * Deletes the specified packet capture.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param packetCoreControlPlaneName The name of the packet core control plane.
@@ -94,7 +95,12 @@ export interface PacketCaptures {
     packetCoreControlPlaneName: string,
     packetCaptureName: string,
     options?: PacketCapturesDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<PacketCapturesDeleteResponse>,
+      PacketCapturesDeleteResponse
+    >
+  >;
   /**
    * Deletes the specified packet capture.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -107,7 +113,7 @@ export interface PacketCaptures {
     packetCoreControlPlaneName: string,
     packetCaptureName: string,
     options?: PacketCapturesDeleteOptionalParams,
-  ): Promise<void>;
+  ): Promise<PacketCapturesDeleteResponse>;
   /**
    * Stop a packet capture session.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

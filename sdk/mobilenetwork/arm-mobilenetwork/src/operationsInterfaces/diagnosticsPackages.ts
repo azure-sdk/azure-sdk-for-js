@@ -11,11 +11,12 @@ import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   DiagnosticsPackage,
   DiagnosticsPackagesListByPacketCoreControlPlaneOptionalParams,
-  DiagnosticsPackagesCreateOrUpdateOptionalParams,
-  DiagnosticsPackagesCreateOrUpdateResponse,
   DiagnosticsPackagesGetOptionalParams,
   DiagnosticsPackagesGetResponse,
+  DiagnosticsPackagesCreateOrUpdateOptionalParams,
+  DiagnosticsPackagesCreateOrUpdateResponse,
   DiagnosticsPackagesDeleteOptionalParams,
+  DiagnosticsPackagesDeleteResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,6 +33,19 @@ export interface DiagnosticsPackages {
     packetCoreControlPlaneName: string,
     options?: DiagnosticsPackagesListByPacketCoreControlPlaneOptionalParams,
   ): PagedAsyncIterableIterator<DiagnosticsPackage>;
+  /**
+   * Gets information about the specified diagnostics package.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param packetCoreControlPlaneName The name of the packet core control plane.
+   * @param diagnosticsPackageName The name of the diagnostics package.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    packetCoreControlPlaneName: string,
+    diagnosticsPackageName: string,
+    options?: DiagnosticsPackagesGetOptionalParams,
+  ): Promise<DiagnosticsPackagesGetResponse>;
   /**
    * Creates or updates a diagnostics package.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -64,19 +78,6 @@ export interface DiagnosticsPackages {
     options?: DiagnosticsPackagesCreateOrUpdateOptionalParams,
   ): Promise<DiagnosticsPackagesCreateOrUpdateResponse>;
   /**
-   * Gets information about the specified diagnostics package.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param packetCoreControlPlaneName The name of the packet core control plane.
-   * @param diagnosticsPackageName The name of the diagnostics package.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    packetCoreControlPlaneName: string,
-    diagnosticsPackageName: string,
-    options?: DiagnosticsPackagesGetOptionalParams,
-  ): Promise<DiagnosticsPackagesGetResponse>;
-  /**
    * Deletes the specified diagnostics package.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param packetCoreControlPlaneName The name of the packet core control plane.
@@ -88,7 +89,12 @@ export interface DiagnosticsPackages {
     packetCoreControlPlaneName: string,
     diagnosticsPackageName: string,
     options?: DiagnosticsPackagesDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<DiagnosticsPackagesDeleteResponse>,
+      DiagnosticsPackagesDeleteResponse
+    >
+  >;
   /**
    * Deletes the specified diagnostics package.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -101,5 +107,5 @@ export interface DiagnosticsPackages {
     packetCoreControlPlaneName: string,
     diagnosticsPackageName: string,
     options?: DiagnosticsPackagesDeleteOptionalParams,
-  ): Promise<void>;
+  ): Promise<DiagnosticsPackagesDeleteResponse>;
 }

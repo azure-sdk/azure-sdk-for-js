@@ -11,16 +11,125 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
+export type ActionType = string;
+
+// @public
 export interface Ambr {
     downlink: string;
     uplink: string;
 }
 
 // @public
-export interface Arp {
-    preemptCap: PreemptionCapability;
-    preemptVuln: PreemptionVulnerability;
-    priorityLevel: number;
+export interface AmfDeploymentResource extends TrackedResource {
+    clusterService?: string;
+    componentParameters?: string;
+    readonly operationalStatus?: OperationalStatus;
+    readonly provisioningState?: ProvisioningState;
+    readonly releaseVersion?: string;
+    secretsParameters?: string;
+}
+
+// @public
+export interface AmfDeploymentResourceListResult {
+    nextLink?: string;
+    value: AmfDeploymentResource[];
+}
+
+// @public
+export interface AmfDeploymentResourceTagsUpdate {
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface AmfDeployments {
+    beginCreateOrUpdate(resourceGroupName: string, amfDeploymentName: string, resource: AmfDeploymentResource, options?: AmfDeploymentsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AmfDeploymentsCreateOrUpdateResponse>, AmfDeploymentsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, amfDeploymentName: string, resource: AmfDeploymentResource, options?: AmfDeploymentsCreateOrUpdateOptionalParams): Promise<AmfDeploymentsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, amfDeploymentName: string, options?: AmfDeploymentsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<AmfDeploymentsDeleteResponse>, AmfDeploymentsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, amfDeploymentName: string, options?: AmfDeploymentsDeleteOptionalParams): Promise<AmfDeploymentsDeleteResponse>;
+    get(resourceGroupName: string, amfDeploymentName: string, options?: AmfDeploymentsGetOptionalParams): Promise<AmfDeploymentsGetResponse>;
+    listByResourceGroup(resourceGroupName: string, options?: AmfDeploymentsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<AmfDeploymentResource>;
+    listBySubscription(options?: AmfDeploymentsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<AmfDeploymentResource>;
+    updateTags(resourceGroupName: string, amfDeploymentName: string, properties: AmfDeploymentResourceTagsUpdate, options?: AmfDeploymentsUpdateTagsOptionalParams): Promise<AmfDeploymentsUpdateTagsResponse>;
+}
+
+// @public
+export interface AmfDeploymentsCreateOrUpdateHeaders {
+    retryAfter?: number;
+}
+
+// @public
+export interface AmfDeploymentsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type AmfDeploymentsCreateOrUpdateResponse = AmfDeploymentResource;
+
+// @public
+export interface AmfDeploymentsDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface AmfDeploymentsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type AmfDeploymentsDeleteResponse = AmfDeploymentsDeleteHeaders;
+
+// @public
+export interface AmfDeploymentsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AmfDeploymentsGetResponse = AmfDeploymentResource;
+
+// @public
+export interface AmfDeploymentsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AmfDeploymentsListByResourceGroupNextResponse = AmfDeploymentResourceListResult;
+
+// @public
+export interface AmfDeploymentsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AmfDeploymentsListByResourceGroupResponse = AmfDeploymentResourceListResult;
+
+// @public
+export interface AmfDeploymentsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AmfDeploymentsListBySubscriptionNextResponse = AmfDeploymentResourceListResult;
+
+// @public
+export interface AmfDeploymentsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AmfDeploymentsListBySubscriptionResponse = AmfDeploymentResourceListResult;
+
+// @public
+export interface AmfDeploymentsUpdateTagsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AmfDeploymentsUpdateTagsResponse = AmfDeploymentResource;
+
+// @public
+export interface AmfId {
+    pointer: number;
+    regionId: number;
+    setId: number;
 }
 
 // @public
@@ -43,18 +152,18 @@ export interface AsyncOperationStatus {
 
 // @public
 export interface AttachedDataNetwork extends TrackedResource {
-    dnsAddresses: string[];
+    dnsAddresses?: string[];
     naptConfiguration?: NaptConfiguration;
     readonly provisioningState?: ProvisioningState;
     userEquipmentAddressPoolPrefix?: string[];
     userEquipmentStaticAddressPoolPrefix?: string[];
-    userPlaneDataInterface: InterfaceProperties;
+    userPlaneDataInterface?: InterfaceProperties;
 }
 
 // @public
 export interface AttachedDataNetworkListResult {
-    readonly nextLink?: string;
-    value?: AttachedDataNetwork[];
+    nextLink?: string;
+    value: AttachedDataNetwork[];
 }
 
 // @public
@@ -64,13 +173,18 @@ export interface AttachedDataNetworkResourceId {
 
 // @public
 export interface AttachedDataNetworks {
-    beginCreateOrUpdate(resourceGroupName: string, packetCoreControlPlaneName: string, packetCoreDataPlaneName: string, attachedDataNetworkName: string, parameters: AttachedDataNetwork, options?: AttachedDataNetworksCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AttachedDataNetworksCreateOrUpdateResponse>, AttachedDataNetworksCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, packetCoreControlPlaneName: string, packetCoreDataPlaneName: string, attachedDataNetworkName: string, parameters: AttachedDataNetwork, options?: AttachedDataNetworksCreateOrUpdateOptionalParams): Promise<AttachedDataNetworksCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, packetCoreControlPlaneName: string, packetCoreDataPlaneName: string, attachedDataNetworkName: string, options?: AttachedDataNetworksDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, packetCoreControlPlaneName: string, packetCoreDataPlaneName: string, attachedDataNetworkName: string, options?: AttachedDataNetworksDeleteOptionalParams): Promise<void>;
+    beginCreateOrUpdate(resourceGroupName: string, packetCoreControlPlaneName: string, packetCoreDataPlaneName: string, attachedDataNetworkName: string, resource: AttachedDataNetwork, options?: AttachedDataNetworksCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AttachedDataNetworksCreateOrUpdateResponse>, AttachedDataNetworksCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, packetCoreControlPlaneName: string, packetCoreDataPlaneName: string, attachedDataNetworkName: string, resource: AttachedDataNetwork, options?: AttachedDataNetworksCreateOrUpdateOptionalParams): Promise<AttachedDataNetworksCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, packetCoreControlPlaneName: string, packetCoreDataPlaneName: string, attachedDataNetworkName: string, options?: AttachedDataNetworksDeleteOptionalParams): Promise<SimplePollerLike<OperationState<AttachedDataNetworksDeleteResponse>, AttachedDataNetworksDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, packetCoreControlPlaneName: string, packetCoreDataPlaneName: string, attachedDataNetworkName: string, options?: AttachedDataNetworksDeleteOptionalParams): Promise<AttachedDataNetworksDeleteResponse>;
     get(resourceGroupName: string, packetCoreControlPlaneName: string, packetCoreDataPlaneName: string, attachedDataNetworkName: string, options?: AttachedDataNetworksGetOptionalParams): Promise<AttachedDataNetworksGetResponse>;
     listByPacketCoreDataPlane(resourceGroupName: string, packetCoreControlPlaneName: string, packetCoreDataPlaneName: string, options?: AttachedDataNetworksListByPacketCoreDataPlaneOptionalParams): PagedAsyncIterableIterator<AttachedDataNetwork>;
-    updateTags(resourceGroupName: string, packetCoreControlPlaneName: string, packetCoreDataPlaneName: string, attachedDataNetworkName: string, parameters: TagsObject, options?: AttachedDataNetworksUpdateTagsOptionalParams): Promise<AttachedDataNetworksUpdateTagsResponse>;
+    updateTags(resourceGroupName: string, packetCoreControlPlaneName: string, packetCoreDataPlaneName: string, attachedDataNetworkName: string, properties: TagsObject, options?: AttachedDataNetworksUpdateTagsOptionalParams): Promise<AttachedDataNetworksUpdateTagsResponse>;
+}
+
+// @public
+export interface AttachedDataNetworksCreateOrUpdateHeaders {
+    retryAfter?: number;
 }
 
 // @public
@@ -83,10 +197,19 @@ export interface AttachedDataNetworksCreateOrUpdateOptionalParams extends coreCl
 export type AttachedDataNetworksCreateOrUpdateResponse = AttachedDataNetwork;
 
 // @public
+export interface AttachedDataNetworksDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface AttachedDataNetworksDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type AttachedDataNetworksDeleteResponse = AttachedDataNetworksDeleteHeaders;
 
 // @public
 export interface AttachedDataNetworksGetOptionalParams extends coreClient.OperationOptions {
@@ -142,6 +265,134 @@ export interface CertificateProvisioning {
 export type CertificateProvisioningState = string;
 
 // @public
+export interface ClusterServiceAksClusterData extends ClusterServiceClusterTypeSpecificData {
+    type: "Aks";
+}
+
+// @public
+export interface ClusterServiceClusterTypeSpecificData {
+    customLocationId: string;
+    type: "Aks" | "NexusAks";
+}
+
+// @public (undocumented)
+export type ClusterServiceClusterTypeSpecificDataUnion = ClusterServiceClusterTypeSpecificData | ClusterServiceAksClusterData | ClusterServiceNexusAksClusterData;
+
+// @public
+export interface ClusterServiceNexusAksClusterData extends ClusterServiceClusterTypeSpecificData {
+    type: "NexusAks";
+}
+
+// @public
+export interface ClusterServiceResource extends TrackedResource {
+    clusterTypeSpecificData?: ClusterServiceClusterTypeSpecificDataUnion;
+    componentParameters?: QualifiedComponentDeploymentParameters[];
+    deploymentType?: SkuDeploymentType;
+    readonly operationalStatus?: OperationalStatus;
+    readonly provisioningState?: ProvisioningState;
+    releaseVersion?: string;
+}
+
+// @public
+export interface ClusterServiceResourceListResult {
+    nextLink?: string;
+    value: ClusterServiceResource[];
+}
+
+// @public
+export interface ClusterServiceResourceTagsUpdate {
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface ClusterServices {
+    beginCreateOrUpdate(resourceGroupName: string, clusterServiceName: string, resource: ClusterServiceResource, options?: ClusterServicesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ClusterServicesCreateOrUpdateResponse>, ClusterServicesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, clusterServiceName: string, resource: ClusterServiceResource, options?: ClusterServicesCreateOrUpdateOptionalParams): Promise<ClusterServicesCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, clusterServiceName: string, options?: ClusterServicesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ClusterServicesDeleteResponse>, ClusterServicesDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, clusterServiceName: string, options?: ClusterServicesDeleteOptionalParams): Promise<ClusterServicesDeleteResponse>;
+    get(resourceGroupName: string, clusterServiceName: string, options?: ClusterServicesGetOptionalParams): Promise<ClusterServicesGetResponse>;
+    listByResourceGroup(resourceGroupName: string, options?: ClusterServicesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ClusterServiceResource>;
+    listBySubscription(options?: ClusterServicesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<ClusterServiceResource>;
+    updateTags(resourceGroupName: string, clusterServiceName: string, properties: ClusterServiceResourceTagsUpdate, options?: ClusterServicesUpdateTagsOptionalParams): Promise<ClusterServicesUpdateTagsResponse>;
+}
+
+// @public
+export interface ClusterServicesCreateOrUpdateHeaders {
+    retryAfter?: number;
+}
+
+// @public
+export interface ClusterServicesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ClusterServicesCreateOrUpdateResponse = ClusterServiceResource;
+
+// @public
+export interface ClusterServicesDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface ClusterServicesDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ClusterServicesDeleteResponse = ClusterServicesDeleteHeaders;
+
+// @public
+export interface ClusterServicesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ClusterServicesGetResponse = ClusterServiceResource;
+
+// @public
+export interface ClusterServicesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ClusterServicesListByResourceGroupNextResponse = ClusterServiceResourceListResult;
+
+// @public
+export interface ClusterServicesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ClusterServicesListByResourceGroupResponse = ClusterServiceResourceListResult;
+
+// @public
+export interface ClusterServicesListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ClusterServicesListBySubscriptionNextResponse = ClusterServiceResourceListResult;
+
+// @public
+export interface ClusterServicesListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ClusterServicesListBySubscriptionResponse = ClusterServiceResourceListResult;
+
+// @public
+export interface ClusterServicesUpdateTagsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ClusterServicesUpdateTagsResponse = ClusterServiceResource;
+
+// @public
+export type ClusterType = string;
+
+// @public
 export interface CommonSimPropertiesFormat {
     deviceType?: string;
     integratedCircuitCardIdentifier?: string;
@@ -195,8 +446,8 @@ export interface DataNetworkConfiguration {
 
 // @public
 export interface DataNetworkListResult {
-    readonly nextLink?: string;
-    value?: DataNetwork[];
+    nextLink?: string;
+    value: DataNetwork[];
 }
 
 // @public
@@ -206,13 +457,18 @@ export interface DataNetworkResourceId {
 
 // @public
 export interface DataNetworks {
-    beginCreateOrUpdate(resourceGroupName: string, mobileNetworkName: string, dataNetworkName: string, parameters: DataNetwork, options?: DataNetworksCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DataNetworksCreateOrUpdateResponse>, DataNetworksCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, mobileNetworkName: string, dataNetworkName: string, parameters: DataNetwork, options?: DataNetworksCreateOrUpdateOptionalParams): Promise<DataNetworksCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, mobileNetworkName: string, dataNetworkName: string, options?: DataNetworksDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, mobileNetworkName: string, dataNetworkName: string, options?: DataNetworksDeleteOptionalParams): Promise<void>;
+    beginCreateOrUpdate(resourceGroupName: string, mobileNetworkName: string, dataNetworkName: string, resource: DataNetwork, options?: DataNetworksCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DataNetworksCreateOrUpdateResponse>, DataNetworksCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, mobileNetworkName: string, dataNetworkName: string, resource: DataNetwork, options?: DataNetworksCreateOrUpdateOptionalParams): Promise<DataNetworksCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, mobileNetworkName: string, dataNetworkName: string, options?: DataNetworksDeleteOptionalParams): Promise<SimplePollerLike<OperationState<DataNetworksDeleteResponse>, DataNetworksDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, mobileNetworkName: string, dataNetworkName: string, options?: DataNetworksDeleteOptionalParams): Promise<DataNetworksDeleteResponse>;
     get(resourceGroupName: string, mobileNetworkName: string, dataNetworkName: string, options?: DataNetworksGetOptionalParams): Promise<DataNetworksGetResponse>;
     listByMobileNetwork(resourceGroupName: string, mobileNetworkName: string, options?: DataNetworksListByMobileNetworkOptionalParams): PagedAsyncIterableIterator<DataNetwork>;
-    updateTags(resourceGroupName: string, mobileNetworkName: string, dataNetworkName: string, parameters: TagsObject, options?: DataNetworksUpdateTagsOptionalParams): Promise<DataNetworksUpdateTagsResponse>;
+    updateTags(resourceGroupName: string, mobileNetworkName: string, dataNetworkName: string, properties: TagsObject, options?: DataNetworksUpdateTagsOptionalParams): Promise<DataNetworksUpdateTagsResponse>;
+}
+
+// @public
+export interface DataNetworksCreateOrUpdateHeaders {
+    retryAfter?: number;
 }
 
 // @public
@@ -225,10 +481,19 @@ export interface DataNetworksCreateOrUpdateOptionalParams extends coreClient.Ope
 export type DataNetworksCreateOrUpdateResponse = DataNetwork;
 
 // @public
+export interface DataNetworksDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface DataNetworksDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type DataNetworksDeleteResponse = DataNetworksDeleteHeaders;
 
 // @public
 export interface DataNetworksGetOptionalParams extends coreClient.OperationOptions {
@@ -270,18 +535,23 @@ export interface DiagnosticsPackage extends ProxyResource {
 
 // @public
 export interface DiagnosticsPackageListResult {
-    readonly nextLink?: string;
-    value?: DiagnosticsPackage[];
+    nextLink?: string;
+    value: DiagnosticsPackage[];
 }
 
 // @public
 export interface DiagnosticsPackages {
     beginCreateOrUpdate(resourceGroupName: string, packetCoreControlPlaneName: string, diagnosticsPackageName: string, options?: DiagnosticsPackagesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DiagnosticsPackagesCreateOrUpdateResponse>, DiagnosticsPackagesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, packetCoreControlPlaneName: string, diagnosticsPackageName: string, options?: DiagnosticsPackagesCreateOrUpdateOptionalParams): Promise<DiagnosticsPackagesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, packetCoreControlPlaneName: string, diagnosticsPackageName: string, options?: DiagnosticsPackagesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, packetCoreControlPlaneName: string, diagnosticsPackageName: string, options?: DiagnosticsPackagesDeleteOptionalParams): Promise<void>;
+    beginDelete(resourceGroupName: string, packetCoreControlPlaneName: string, diagnosticsPackageName: string, options?: DiagnosticsPackagesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<DiagnosticsPackagesDeleteResponse>, DiagnosticsPackagesDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, packetCoreControlPlaneName: string, diagnosticsPackageName: string, options?: DiagnosticsPackagesDeleteOptionalParams): Promise<DiagnosticsPackagesDeleteResponse>;
     get(resourceGroupName: string, packetCoreControlPlaneName: string, diagnosticsPackageName: string, options?: DiagnosticsPackagesGetOptionalParams): Promise<DiagnosticsPackagesGetResponse>;
     listByPacketCoreControlPlane(resourceGroupName: string, packetCoreControlPlaneName: string, options?: DiagnosticsPackagesListByPacketCoreControlPlaneOptionalParams): PagedAsyncIterableIterator<DiagnosticsPackage>;
+}
+
+// @public
+export interface DiagnosticsPackagesCreateOrUpdateHeaders {
+    retryAfter?: number;
 }
 
 // @public
@@ -294,10 +564,19 @@ export interface DiagnosticsPackagesCreateOrUpdateOptionalParams extends coreCli
 export type DiagnosticsPackagesCreateOrUpdateResponse = DiagnosticsPackage;
 
 // @public
+export interface DiagnosticsPackagesDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface DiagnosticsPackagesDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type DiagnosticsPackagesDeleteResponse = DiagnosticsPackagesDeleteHeaders;
 
 // @public
 export interface DiagnosticsPackagesGetOptionalParams extends coreClient.OperationOptions {
@@ -331,7 +610,7 @@ export interface DiagnosticsUploadConfiguration {
 // @public
 export interface DnnIpPair {
     dnn?: string;
-    ipV4Addr?: string;
+    ueIpAddress?: UeIpAddress;
 }
 
 // @public
@@ -377,34 +656,67 @@ export interface EventHubConfiguration {
 
 // @public
 export interface ExtendedUeInfo extends ProxyResource {
-    properties: ExtendedUeInfoPropertiesUnion;
+    lastReadAt?: Date;
+    ratType?: RatType;
 }
 
 // @public
 export interface ExtendedUeInfoProperties {
     lastReadAt?: Date;
-    ratType: "5G" | "4G";
+    ratType: "4G" | "5G";
 }
 
 // @public (undocumented)
-export type ExtendedUeInfoPropertiesUnion = ExtendedUeInfoProperties | UeInfo5G | UeInfo4G;
+export type ExtendedUeInfoPropertiesUnion = ExtendedUeInfoProperties | UeInfo4G | UeInfo5G;
 
 // @public
-export interface ExtendedUeInformation {
-    get(resourceGroupName: string, packetCoreControlPlaneName: string, ueId: string, options?: ExtendedUeInformationGetOptionalParams): Promise<ExtendedUeInformationGetResponse>;
+export interface ExtendedUeInfos {
+    get(resourceGroupName: string, packetCoreControlPlaneName: string, ueId: string, options?: ExtendedUeInfosGetOptionalParams): Promise<ExtendedUeInfosGetResponse>;
 }
 
 // @public
-export interface ExtendedUeInformationGetOptionalParams extends coreClient.OperationOptions {
+export interface ExtendedUeInfosGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type ExtendedUeInformationGetResponse = ExtendedUeInfo;
+export type ExtendedUeInfosGetResponse = ExtendedUeInfo;
 
 // @public
 export function getContinuationToken(page: unknown): string | undefined;
 
-// @public (undocumented)
+// @public
+export interface GlobalRanNodeId {
+    eNbId?: string;
+    gNbId?: GNbId;
+    n3IwfId?: string;
+    ngeNbId?: string;
+    nid?: string;
+    plmnId: PlmnId;
+    tngfId?: string;
+    wagfId?: string;
+}
+
+// @public
+export interface GNbId {
+    bitLength?: number;
+    gNBValue?: string;
+}
+
+// @public
+export interface Guti4G {
+    mmeId: MmeId;
+    mTmsi: number;
+    plmn: PlmnId;
+}
+
+// @public
+export interface Guti5G {
+    amfId: AmfId;
+    fivegTmsi: number;
+    plmn: PlmnId;
+}
+
+// @public
 export interface HomeNetworkPrivateKeysProvisioning {
     readonly state: HomeNetworkPrivateKeysProvisioningState;
 }
@@ -449,15 +761,35 @@ export type InstallationState = string;
 
 // @public
 export interface InterfaceProperties {
+    bfdIpv4Endpoints?: string[];
     ipv4Address?: string;
+    ipv4AddressList?: string[];
     ipv4Gateway?: string;
     ipv4Subnet?: string;
     name?: string;
+    vlanId?: number;
+}
+
+// @public
+export interface Ipv4Route {
+    destination?: string;
+    nextHops?: Ipv4RouteNextHop[];
+}
+
+// @public
+export interface Ipv4RouteNextHop {
+    address?: string;
+    priority?: number;
 }
 
 // @public
 export interface KeyVaultKey {
     keyUrl?: string;
+}
+
+// @public
+export enum KnownActionType {
+    Internal = "Internal"
 }
 
 // @public
@@ -480,6 +812,12 @@ export enum KnownCertificateProvisioningState {
     Failed = "Failed",
     NotProvisioned = "NotProvisioned",
     Provisioned = "Provisioned"
+}
+
+// @public
+export enum KnownClusterType {
+    Aks = "Aks",
+    NexusAks = "NexusAks"
 }
 
 // @public
@@ -550,9 +888,23 @@ export enum KnownNaptEnabled {
 }
 
 // @public
+export enum KnownNASEncryptionType {
+    NEA0EEA0 = "NEA0/EEA0",
+    NEA1EEA1 = "NEA1/EEA1",
+    NEA2EEA2 = "NEA2/EEA2"
+}
+
+// @public
 export enum KnownObsoleteVersion {
     NotObsolete = "NotObsolete",
     Obsolete = "Obsolete"
+}
+
+// @public
+export enum KnownOrigin {
+    System = "system",
+    User = "user",
+    UserSystem = "user,system"
 }
 
 // @public
@@ -599,8 +951,10 @@ export enum KnownProvisioningState {
     Deleted = "Deleted",
     Deleting = "Deleting",
     Failed = "Failed",
+    Provisioning = "Provisioning",
     Succeeded = "Succeeded",
-    Unknown = "Unknown"
+    Unknown = "Unknown",
+    Updating = "Updating"
 }
 
 // @public
@@ -656,6 +1010,12 @@ export enum KnownSiteProvisioningState {
 }
 
 // @public
+export enum KnownSkuDeploymentType {
+    Lab = "Lab",
+    Production = "Production"
+}
+
+// @public
 export enum KnownTrafficControlPermission {
     Blocked = "Blocked",
     Enabled = "Enabled"
@@ -704,18 +1064,24 @@ export interface ManagedServiceIdentity {
 export type ManagedServiceIdentityType = string;
 
 // @public
+export interface MmeId {
+    code: number;
+    groupId: number;
+}
+
+// @public
 export interface MobileNetwork extends TrackedResource {
     identity?: ManagedServiceIdentity;
     readonly provisioningState?: ProvisioningState;
-    publicLandMobileNetworkIdentifier: PlmnId;
+    publicLandMobileNetworkIdentifier?: PlmnId;
     publicLandMobileNetworks?: PublicLandMobileNetwork[];
     readonly serviceKey?: string;
 }
 
 // @public
 export interface MobileNetworkListResult {
-    readonly nextLink?: string;
-    value?: MobileNetwork[];
+    nextLink?: string;
+    value: MobileNetwork[];
 }
 
 // @public (undocumented)
@@ -725,17 +1091,27 @@ export class MobileNetworkManagementClient extends coreClient.ServiceClient {
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: MobileNetworkManagementClientOptionalParams);
     constructor(credentials: coreAuth.TokenCredential, options?: MobileNetworkManagementClientOptionalParams);
     // (undocumented)
+    amfDeployments: AmfDeployments;
+    // (undocumented)
     apiVersion: string;
     // (undocumented)
     attachedDataNetworks: AttachedDataNetworks;
+    // (undocumented)
+    clusterServices: ClusterServices;
     // (undocumented)
     dataNetworks: DataNetworks;
     // (undocumented)
     diagnosticsPackages: DiagnosticsPackages;
     // (undocumented)
-    extendedUeInformation: ExtendedUeInformation;
+    extendedUeInfos: ExtendedUeInfos;
     // (undocumented)
     mobileNetworks: MobileNetworks;
+    // (undocumented)
+    nrfDeployments: NrfDeployments;
+    // (undocumented)
+    nssfDeployments: NssfDeployments;
+    // (undocumented)
+    observabilityServices: ObservabilityServices;
     // (undocumented)
     operations: Operations;
     // (undocumented)
@@ -745,7 +1121,11 @@ export class MobileNetworkManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     packetCoreControlPlaneVersions: PacketCoreControlPlaneVersions;
     // (undocumented)
+    packetCoreControlPlaneVersionsTenantResource: PacketCoreControlPlaneVersionsTenantResource;
+    // (undocumented)
     packetCoreDataPlanes: PacketCoreDataPlanes;
+    // (undocumented)
+    routingInfoModels: RoutingInfoModels;
     // (undocumented)
     services: Services;
     // (undocumented)
@@ -759,9 +1139,13 @@ export class MobileNetworkManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     slices: Slices;
     // (undocumented)
+    smfDeployments: SmfDeployments;
+    // (undocumented)
     subscriptionId?: string;
     // (undocumented)
-    ueInformation: UeInformation;
+    ues: Ues;
+    // (undocumented)
+    upfDeployments: UpfDeployments;
 }
 
 // @public
@@ -778,14 +1162,20 @@ export interface MobileNetworkResourceId {
 
 // @public
 export interface MobileNetworks {
-    beginCreateOrUpdate(resourceGroupName: string, mobileNetworkName: string, parameters: MobileNetwork, options?: MobileNetworksCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<MobileNetworksCreateOrUpdateResponse>, MobileNetworksCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, mobileNetworkName: string, parameters: MobileNetwork, options?: MobileNetworksCreateOrUpdateOptionalParams): Promise<MobileNetworksCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, mobileNetworkName: string, options?: MobileNetworksDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, mobileNetworkName: string, options?: MobileNetworksDeleteOptionalParams): Promise<void>;
+    beginCreateOrUpdate(resourceGroupName: string, mobileNetworkName: string, resource: MobileNetwork, options?: MobileNetworksCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<MobileNetworksCreateOrUpdateResponse>, MobileNetworksCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, mobileNetworkName: string, resource: MobileNetwork, options?: MobileNetworksCreateOrUpdateOptionalParams): Promise<MobileNetworksCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, mobileNetworkName: string, options?: MobileNetworksDeleteOptionalParams): Promise<SimplePollerLike<OperationState<MobileNetworksDeleteResponse>, MobileNetworksDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, mobileNetworkName: string, options?: MobileNetworksDeleteOptionalParams): Promise<MobileNetworksDeleteResponse>;
     get(resourceGroupName: string, mobileNetworkName: string, options?: MobileNetworksGetOptionalParams): Promise<MobileNetworksGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: MobileNetworksListByResourceGroupOptionalParams): PagedAsyncIterableIterator<MobileNetwork>;
     listBySubscription(options?: MobileNetworksListBySubscriptionOptionalParams): PagedAsyncIterableIterator<MobileNetwork>;
-    updateTags(resourceGroupName: string, mobileNetworkName: string, parameters: IdentityAndTagsObject, options?: MobileNetworksUpdateTagsOptionalParams): Promise<MobileNetworksUpdateTagsResponse>;
+    listSimGroups(resourceGroupName: string, mobileNetworkName: string, options?: MobileNetworksListSimGroupsOptionalParams): PagedAsyncIterableIterator<SimGroup>;
+    updateTags(resourceGroupName: string, mobileNetworkName: string, properties: IdentityAndTagsObject, options?: MobileNetworksUpdateTagsOptionalParams): Promise<MobileNetworksUpdateTagsResponse>;
+}
+
+// @public
+export interface MobileNetworksCreateOrUpdateHeaders {
+    retryAfter?: number;
 }
 
 // @public
@@ -798,10 +1188,19 @@ export interface MobileNetworksCreateOrUpdateOptionalParams extends coreClient.O
 export type MobileNetworksCreateOrUpdateResponse = MobileNetwork;
 
 // @public
+export interface MobileNetworksDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface MobileNetworksDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type MobileNetworksDeleteResponse = MobileNetworksDeleteHeaders;
 
 // @public
 export interface MobileNetworksGetOptionalParams extends coreClient.OperationOptions {
@@ -839,6 +1238,20 @@ export interface MobileNetworksListBySubscriptionOptionalParams extends coreClie
 export type MobileNetworksListBySubscriptionResponse = MobileNetworkListResult;
 
 // @public
+export interface MobileNetworksListSimGroupsNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MobileNetworksListSimGroupsNextResponse = SimGroupListResult;
+
+// @public
+export interface MobileNetworksListSimGroupsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MobileNetworksListSimGroupsResponse = SimGroupListResult;
+
+// @public
 export interface MobileNetworksUpdateTagsOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -858,30 +1271,358 @@ export interface NaptConfiguration {
 export type NaptEnabled = string;
 
 // @public
+export type NASEncryptionType = string;
+
+// @public
 export interface NASRerouteConfiguration {
     macroMmeGroupId: number;
 }
+
+// @public
+export interface NrfDeploymentResource extends TrackedResource {
+    clusterService?: string;
+    componentParameters?: string;
+    readonly operationalStatus?: OperationalStatus;
+    readonly provisioningState?: ProvisioningState;
+    readonly releaseVersion?: string;
+    secretsParameters?: string;
+}
+
+// @public
+export interface NrfDeploymentResourceListResult {
+    nextLink?: string;
+    value: NrfDeploymentResource[];
+}
+
+// @public
+export interface NrfDeploymentResourceTagsUpdate {
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface NrfDeployments {
+    beginCreateOrUpdate(resourceGroupName: string, nrfDeploymentName: string, resource: NrfDeploymentResource, options?: NrfDeploymentsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<NrfDeploymentsCreateOrUpdateResponse>, NrfDeploymentsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, nrfDeploymentName: string, resource: NrfDeploymentResource, options?: NrfDeploymentsCreateOrUpdateOptionalParams): Promise<NrfDeploymentsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, nrfDeploymentName: string, options?: NrfDeploymentsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<NrfDeploymentsDeleteResponse>, NrfDeploymentsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, nrfDeploymentName: string, options?: NrfDeploymentsDeleteOptionalParams): Promise<NrfDeploymentsDeleteResponse>;
+    get(resourceGroupName: string, nrfDeploymentName: string, options?: NrfDeploymentsGetOptionalParams): Promise<NrfDeploymentsGetResponse>;
+    listByResourceGroup(resourceGroupName: string, options?: NrfDeploymentsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<NrfDeploymentResource>;
+    listBySubscription(options?: NrfDeploymentsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<NrfDeploymentResource>;
+    updateTags(resourceGroupName: string, nrfDeploymentName: string, properties: NrfDeploymentResourceTagsUpdate, options?: NrfDeploymentsUpdateTagsOptionalParams): Promise<NrfDeploymentsUpdateTagsResponse>;
+}
+
+// @public
+export interface NrfDeploymentsCreateOrUpdateHeaders {
+    retryAfter?: number;
+}
+
+// @public
+export interface NrfDeploymentsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type NrfDeploymentsCreateOrUpdateResponse = NrfDeploymentResource;
+
+// @public
+export interface NrfDeploymentsDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface NrfDeploymentsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type NrfDeploymentsDeleteResponse = NrfDeploymentsDeleteHeaders;
+
+// @public
+export interface NrfDeploymentsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NrfDeploymentsGetResponse = NrfDeploymentResource;
+
+// @public
+export interface NrfDeploymentsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NrfDeploymentsListByResourceGroupNextResponse = NrfDeploymentResourceListResult;
+
+// @public
+export interface NrfDeploymentsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NrfDeploymentsListByResourceGroupResponse = NrfDeploymentResourceListResult;
+
+// @public
+export interface NrfDeploymentsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NrfDeploymentsListBySubscriptionNextResponse = NrfDeploymentResourceListResult;
+
+// @public
+export interface NrfDeploymentsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NrfDeploymentsListBySubscriptionResponse = NrfDeploymentResourceListResult;
+
+// @public
+export interface NrfDeploymentsUpdateTagsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NrfDeploymentsUpdateTagsResponse = NrfDeploymentResource;
+
+// @public
+export interface NssfDeploymentResource extends TrackedResource {
+    clusterService?: string;
+    componentParameters?: string;
+    readonly operationalStatus?: OperationalStatus;
+    readonly provisioningState?: ProvisioningState;
+    readonly releaseVersion?: string;
+    secretsParameters?: string;
+}
+
+// @public
+export interface NssfDeploymentResourceListResult {
+    nextLink?: string;
+    value: NssfDeploymentResource[];
+}
+
+// @public
+export interface NssfDeploymentResourceTagsUpdate {
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface NssfDeployments {
+    beginCreateOrUpdate(resourceGroupName: string, nssfDeploymentName: string, resource: NssfDeploymentResource, options?: NssfDeploymentsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<NssfDeploymentsCreateOrUpdateResponse>, NssfDeploymentsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, nssfDeploymentName: string, resource: NssfDeploymentResource, options?: NssfDeploymentsCreateOrUpdateOptionalParams): Promise<NssfDeploymentsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, nssfDeploymentName: string, options?: NssfDeploymentsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<NssfDeploymentsDeleteResponse>, NssfDeploymentsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, nssfDeploymentName: string, options?: NssfDeploymentsDeleteOptionalParams): Promise<NssfDeploymentsDeleteResponse>;
+    get(resourceGroupName: string, nssfDeploymentName: string, options?: NssfDeploymentsGetOptionalParams): Promise<NssfDeploymentsGetResponse>;
+    listByResourceGroup(resourceGroupName: string, options?: NssfDeploymentsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<NssfDeploymentResource>;
+    listBySubscription(options?: NssfDeploymentsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<NssfDeploymentResource>;
+    updateTags(resourceGroupName: string, nssfDeploymentName: string, properties: NssfDeploymentResourceTagsUpdate, options?: NssfDeploymentsUpdateTagsOptionalParams): Promise<NssfDeploymentsUpdateTagsResponse>;
+}
+
+// @public
+export interface NssfDeploymentsCreateOrUpdateHeaders {
+    retryAfter?: number;
+}
+
+// @public
+export interface NssfDeploymentsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type NssfDeploymentsCreateOrUpdateResponse = NssfDeploymentResource;
+
+// @public
+export interface NssfDeploymentsDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface NssfDeploymentsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type NssfDeploymentsDeleteResponse = NssfDeploymentsDeleteHeaders;
+
+// @public
+export interface NssfDeploymentsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NssfDeploymentsGetResponse = NssfDeploymentResource;
+
+// @public
+export interface NssfDeploymentsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NssfDeploymentsListByResourceGroupNextResponse = NssfDeploymentResourceListResult;
+
+// @public
+export interface NssfDeploymentsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NssfDeploymentsListByResourceGroupResponse = NssfDeploymentResourceListResult;
+
+// @public
+export interface NssfDeploymentsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NssfDeploymentsListBySubscriptionNextResponse = NssfDeploymentResourceListResult;
+
+// @public
+export interface NssfDeploymentsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NssfDeploymentsListBySubscriptionResponse = NssfDeploymentResourceListResult;
+
+// @public
+export interface NssfDeploymentsUpdateTagsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NssfDeploymentsUpdateTagsResponse = NssfDeploymentResource;
+
+// @public
+export interface ObservabilityServiceResource extends TrackedResource {
+    clusterService?: string;
+    componentParameters?: QualifiedComponentDeploymentParameters[];
+    readonly operationalStatus?: OperationalStatus;
+    readonly provisioningState?: ProvisioningState;
+    readonly releaseVersion?: string;
+}
+
+// @public
+export interface ObservabilityServiceResourceListResult {
+    nextLink?: string;
+    value: ObservabilityServiceResource[];
+}
+
+// @public
+export interface ObservabilityServiceResourceTagsUpdate {
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface ObservabilityServices {
+    beginCreateOrUpdate(resourceGroupName: string, observabilityServiceName: string, resource: ObservabilityServiceResource, options?: ObservabilityServicesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ObservabilityServicesCreateOrUpdateResponse>, ObservabilityServicesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, observabilityServiceName: string, resource: ObservabilityServiceResource, options?: ObservabilityServicesCreateOrUpdateOptionalParams): Promise<ObservabilityServicesCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, observabilityServiceName: string, options?: ObservabilityServicesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ObservabilityServicesDeleteResponse>, ObservabilityServicesDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, observabilityServiceName: string, options?: ObservabilityServicesDeleteOptionalParams): Promise<ObservabilityServicesDeleteResponse>;
+    get(resourceGroupName: string, observabilityServiceName: string, options?: ObservabilityServicesGetOptionalParams): Promise<ObservabilityServicesGetResponse>;
+    listByResourceGroup(resourceGroupName: string, options?: ObservabilityServicesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ObservabilityServiceResource>;
+    listBySubscription(options?: ObservabilityServicesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<ObservabilityServiceResource>;
+    updateTags(resourceGroupName: string, observabilityServiceName: string, properties: ObservabilityServiceResourceTagsUpdate, options?: ObservabilityServicesUpdateTagsOptionalParams): Promise<ObservabilityServicesUpdateTagsResponse>;
+}
+
+// @public
+export interface ObservabilityServicesCreateOrUpdateHeaders {
+    retryAfter?: number;
+}
+
+// @public
+export interface ObservabilityServicesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ObservabilityServicesCreateOrUpdateResponse = ObservabilityServiceResource;
+
+// @public
+export interface ObservabilityServicesDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface ObservabilityServicesDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ObservabilityServicesDeleteResponse = ObservabilityServicesDeleteHeaders;
+
+// @public
+export interface ObservabilityServicesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ObservabilityServicesGetResponse = ObservabilityServiceResource;
+
+// @public
+export interface ObservabilityServicesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ObservabilityServicesListByResourceGroupNextResponse = ObservabilityServiceResourceListResult;
+
+// @public
+export interface ObservabilityServicesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ObservabilityServicesListByResourceGroupResponse = ObservabilityServiceResourceListResult;
+
+// @public
+export interface ObservabilityServicesListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ObservabilityServicesListBySubscriptionNextResponse = ObservabilityServiceResourceListResult;
+
+// @public
+export interface ObservabilityServicesListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ObservabilityServicesListBySubscriptionResponse = ObservabilityServiceResourceListResult;
+
+// @public
+export interface ObservabilityServicesUpdateTagsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ObservabilityServicesUpdateTagsResponse = ObservabilityServiceResource;
 
 // @public
 export type ObsoleteVersion = string;
 
 // @public
 export interface Operation {
-    readonly display?: OperationDisplay;
-    isDataAction?: boolean;
+    readonly actionType?: ActionType;
+    display?: OperationDisplay;
+    readonly isDataAction?: boolean;
     readonly name?: string;
+    readonly origin?: Origin;
+}
+
+// @public
+export interface OperationalStatus {
+    readonly healthCheck?: string;
+    readonly workload?: string;
 }
 
 // @public
 export interface OperationDisplay {
-    description?: string;
-    operation?: string;
-    provider?: string;
-    resource?: string;
+    readonly description?: string;
+    readonly operation?: string;
+    readonly provider?: string;
+    readonly resource?: string;
 }
 
 // @public
-export interface OperationList {
+export interface OperationListResult {
     readonly nextLink?: string;
     readonly value?: Operation[];
 }
@@ -896,14 +1637,17 @@ export interface OperationsListNextOptionalParams extends coreClient.OperationOp
 }
 
 // @public
-export type OperationsListNextResponse = OperationList;
+export type OperationsListNextResponse = OperationListResult;
 
 // @public
 export interface OperationsListOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type OperationsListResponse = OperationList;
+export type OperationsListResponse = OperationListResult;
+
+// @public
+export type Origin = string;
 
 // @public
 export interface PacketCapture extends ProxyResource {
@@ -920,20 +1664,25 @@ export interface PacketCapture extends ProxyResource {
 
 // @public
 export interface PacketCaptureListResult {
-    readonly nextLink?: string;
-    value?: PacketCapture[];
+    nextLink?: string;
+    value: PacketCapture[];
 }
 
 // @public
 export interface PacketCaptures {
-    beginCreateOrUpdate(resourceGroupName: string, packetCoreControlPlaneName: string, packetCaptureName: string, parameters: PacketCapture, options?: PacketCapturesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PacketCapturesCreateOrUpdateResponse>, PacketCapturesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, packetCoreControlPlaneName: string, packetCaptureName: string, parameters: PacketCapture, options?: PacketCapturesCreateOrUpdateOptionalParams): Promise<PacketCapturesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, packetCoreControlPlaneName: string, packetCaptureName: string, options?: PacketCapturesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, packetCoreControlPlaneName: string, packetCaptureName: string, options?: PacketCapturesDeleteOptionalParams): Promise<void>;
+    beginCreateOrUpdate(resourceGroupName: string, packetCoreControlPlaneName: string, packetCaptureName: string, resource: PacketCapture, options?: PacketCapturesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PacketCapturesCreateOrUpdateResponse>, PacketCapturesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, packetCoreControlPlaneName: string, packetCaptureName: string, resource: PacketCapture, options?: PacketCapturesCreateOrUpdateOptionalParams): Promise<PacketCapturesCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, packetCoreControlPlaneName: string, packetCaptureName: string, options?: PacketCapturesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<PacketCapturesDeleteResponse>, PacketCapturesDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, packetCoreControlPlaneName: string, packetCaptureName: string, options?: PacketCapturesDeleteOptionalParams): Promise<PacketCapturesDeleteResponse>;
     beginStop(resourceGroupName: string, packetCoreControlPlaneName: string, packetCaptureName: string, options?: PacketCapturesStopOptionalParams): Promise<SimplePollerLike<OperationState<PacketCapturesStopResponse>, PacketCapturesStopResponse>>;
     beginStopAndWait(resourceGroupName: string, packetCoreControlPlaneName: string, packetCaptureName: string, options?: PacketCapturesStopOptionalParams): Promise<PacketCapturesStopResponse>;
     get(resourceGroupName: string, packetCoreControlPlaneName: string, packetCaptureName: string, options?: PacketCapturesGetOptionalParams): Promise<PacketCapturesGetResponse>;
     listByPacketCoreControlPlane(resourceGroupName: string, packetCoreControlPlaneName: string, options?: PacketCapturesListByPacketCoreControlPlaneOptionalParams): PagedAsyncIterableIterator<PacketCapture>;
+}
+
+// @public
+export interface PacketCapturesCreateOrUpdateHeaders {
+    retryAfter?: number;
 }
 
 // @public
@@ -946,10 +1695,19 @@ export interface PacketCapturesCreateOrUpdateOptionalParams extends coreClient.O
 export type PacketCapturesCreateOrUpdateResponse = PacketCapture;
 
 // @public
+export interface PacketCapturesDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface PacketCapturesDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type PacketCapturesDeleteResponse = PacketCapturesDeleteHeaders;
 
 // @public
 export interface PacketCapturesGetOptionalParams extends coreClient.OperationOptions {
@@ -973,6 +1731,12 @@ export interface PacketCapturesListByPacketCoreControlPlaneOptionalParams extend
 export type PacketCapturesListByPacketCoreControlPlaneResponse = PacketCaptureListResult;
 
 // @public
+export interface PacketCapturesStopHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface PacketCapturesStopOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -986,7 +1750,7 @@ export type PacketCaptureStatus = string;
 
 // @public
 export interface PacketCoreControlPlane extends TrackedResource {
-    controlPlaneAccessInterface: InterfaceProperties;
+    controlPlaneAccessInterface?: InterfaceProperties;
     controlPlaneAccessVirtualIpv4Addresses?: string[];
     coreNetworkTechnology?: CoreNetworkType;
     diagnosticsUpload?: DiagnosticsUploadConfiguration;
@@ -996,14 +1760,15 @@ export interface PacketCoreControlPlane extends TrackedResource {
     installation?: Installation;
     readonly installedVersion?: string;
     interopSettings?: Record<string, unknown>;
-    localDiagnosticsAccess: LocalDiagnosticsAccessConfiguration;
-    platform: PlatformConfiguration;
+    localDiagnosticsAccess?: LocalDiagnosticsAccessConfiguration;
+    platform?: PlatformConfiguration;
     readonly provisioningState?: ProvisioningState;
     readonly rollbackVersion?: string;
     signaling?: SignalingConfiguration;
-    sites: SiteResourceId[];
-    sku: BillingSku;
+    sites?: SiteResourceId[];
+    sku?: BillingSku;
     ueMtu?: number;
+    userConsent?: UserConsentConfiguration;
     version?: string;
 }
 
@@ -1014,8 +1779,8 @@ export interface PacketCoreControlPlaneCollectDiagnosticsPackage {
 
 // @public
 export interface PacketCoreControlPlaneListResult {
-    readonly nextLink?: string;
-    value?: PacketCoreControlPlane[];
+    nextLink?: string;
+    value: PacketCoreControlPlane[];
 }
 
 // @public
@@ -1025,12 +1790,12 @@ export interface PacketCoreControlPlaneResourceId {
 
 // @public
 export interface PacketCoreControlPlanes {
-    beginCollectDiagnosticsPackage(resourceGroupName: string, packetCoreControlPlaneName: string, parameters: PacketCoreControlPlaneCollectDiagnosticsPackage, options?: PacketCoreControlPlanesCollectDiagnosticsPackageOptionalParams): Promise<SimplePollerLike<OperationState<PacketCoreControlPlanesCollectDiagnosticsPackageResponse>, PacketCoreControlPlanesCollectDiagnosticsPackageResponse>>;
-    beginCollectDiagnosticsPackageAndWait(resourceGroupName: string, packetCoreControlPlaneName: string, parameters: PacketCoreControlPlaneCollectDiagnosticsPackage, options?: PacketCoreControlPlanesCollectDiagnosticsPackageOptionalParams): Promise<PacketCoreControlPlanesCollectDiagnosticsPackageResponse>;
-    beginCreateOrUpdate(resourceGroupName: string, packetCoreControlPlaneName: string, parameters: PacketCoreControlPlane, options?: PacketCoreControlPlanesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PacketCoreControlPlanesCreateOrUpdateResponse>, PacketCoreControlPlanesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, packetCoreControlPlaneName: string, parameters: PacketCoreControlPlane, options?: PacketCoreControlPlanesCreateOrUpdateOptionalParams): Promise<PacketCoreControlPlanesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, packetCoreControlPlaneName: string, options?: PacketCoreControlPlanesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, packetCoreControlPlaneName: string, options?: PacketCoreControlPlanesDeleteOptionalParams): Promise<void>;
+    beginCollectDiagnosticsPackage(resourceGroupName: string, packetCoreControlPlaneName: string, body: PacketCoreControlPlaneCollectDiagnosticsPackage, options?: PacketCoreControlPlanesCollectDiagnosticsPackageOptionalParams): Promise<SimplePollerLike<OperationState<PacketCoreControlPlanesCollectDiagnosticsPackageResponse>, PacketCoreControlPlanesCollectDiagnosticsPackageResponse>>;
+    beginCollectDiagnosticsPackageAndWait(resourceGroupName: string, packetCoreControlPlaneName: string, body: PacketCoreControlPlaneCollectDiagnosticsPackage, options?: PacketCoreControlPlanesCollectDiagnosticsPackageOptionalParams): Promise<PacketCoreControlPlanesCollectDiagnosticsPackageResponse>;
+    beginCreateOrUpdate(resourceGroupName: string, packetCoreControlPlaneName: string, resource: PacketCoreControlPlane, options?: PacketCoreControlPlanesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PacketCoreControlPlanesCreateOrUpdateResponse>, PacketCoreControlPlanesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, packetCoreControlPlaneName: string, resource: PacketCoreControlPlane, options?: PacketCoreControlPlanesCreateOrUpdateOptionalParams): Promise<PacketCoreControlPlanesCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, packetCoreControlPlaneName: string, options?: PacketCoreControlPlanesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<PacketCoreControlPlanesDeleteResponse>, PacketCoreControlPlanesDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, packetCoreControlPlaneName: string, options?: PacketCoreControlPlanesDeleteOptionalParams): Promise<PacketCoreControlPlanesDeleteResponse>;
     beginReinstall(resourceGroupName: string, packetCoreControlPlaneName: string, options?: PacketCoreControlPlanesReinstallOptionalParams): Promise<SimplePollerLike<OperationState<PacketCoreControlPlanesReinstallResponse>, PacketCoreControlPlanesReinstallResponse>>;
     beginReinstallAndWait(resourceGroupName: string, packetCoreControlPlaneName: string, options?: PacketCoreControlPlanesReinstallOptionalParams): Promise<PacketCoreControlPlanesReinstallResponse>;
     beginRollback(resourceGroupName: string, packetCoreControlPlaneName: string, options?: PacketCoreControlPlanesRollbackOptionalParams): Promise<SimplePollerLike<OperationState<PacketCoreControlPlanesRollbackResponse>, PacketCoreControlPlanesRollbackResponse>>;
@@ -1038,7 +1803,13 @@ export interface PacketCoreControlPlanes {
     get(resourceGroupName: string, packetCoreControlPlaneName: string, options?: PacketCoreControlPlanesGetOptionalParams): Promise<PacketCoreControlPlanesGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: PacketCoreControlPlanesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<PacketCoreControlPlane>;
     listBySubscription(options?: PacketCoreControlPlanesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<PacketCoreControlPlane>;
-    updateTags(resourceGroupName: string, packetCoreControlPlaneName: string, parameters: IdentityAndTagsObject, options?: PacketCoreControlPlanesUpdateTagsOptionalParams): Promise<PacketCoreControlPlanesUpdateTagsResponse>;
+    updateTags(resourceGroupName: string, packetCoreControlPlaneName: string, properties: IdentityAndTagsObject, options?: PacketCoreControlPlanesUpdateTagsOptionalParams): Promise<PacketCoreControlPlanesUpdateTagsResponse>;
+}
+
+// @public
+export interface PacketCoreControlPlanesCollectDiagnosticsPackageHeaders {
+    location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -1051,6 +1822,11 @@ export interface PacketCoreControlPlanesCollectDiagnosticsPackageOptionalParams 
 export type PacketCoreControlPlanesCollectDiagnosticsPackageResponse = AsyncOperationStatus;
 
 // @public
+export interface PacketCoreControlPlanesCreateOrUpdateHeaders {
+    retryAfter?: number;
+}
+
+// @public
 export interface PacketCoreControlPlanesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -1060,10 +1836,19 @@ export interface PacketCoreControlPlanesCreateOrUpdateOptionalParams extends cor
 export type PacketCoreControlPlanesCreateOrUpdateResponse = PacketCoreControlPlane;
 
 // @public
+export interface PacketCoreControlPlanesDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface PacketCoreControlPlanesDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type PacketCoreControlPlanesDeleteResponse = PacketCoreControlPlanesDeleteHeaders;
 
 // @public
 export interface PacketCoreControlPlanesGetOptionalParams extends coreClient.OperationOptions {
@@ -1101,6 +1886,12 @@ export interface PacketCoreControlPlanesListBySubscriptionOptionalParams extends
 export type PacketCoreControlPlanesListBySubscriptionResponse = PacketCoreControlPlaneListResult;
 
 // @public
+export interface PacketCoreControlPlanesReinstallHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface PacketCoreControlPlanesReinstallOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -1108,6 +1899,12 @@ export interface PacketCoreControlPlanesReinstallOptionalParams extends coreClie
 
 // @public
 export type PacketCoreControlPlanesReinstallResponse = AsyncOperationStatus;
+
+// @public
+export interface PacketCoreControlPlanesRollbackHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface PacketCoreControlPlanesRollbackOptionalParams extends coreClient.OperationOptions {
@@ -1133,15 +1930,13 @@ export interface PacketCoreControlPlaneVersion extends ProxyResource {
 
 // @public
 export interface PacketCoreControlPlaneVersionListResult {
-    readonly nextLink?: string;
-    value?: PacketCoreControlPlaneVersion[];
+    nextLink?: string;
+    value: PacketCoreControlPlaneVersion[];
 }
 
 // @public
 export interface PacketCoreControlPlaneVersions {
-    get(versionName: string, options?: PacketCoreControlPlaneVersionsGetOptionalParams): Promise<PacketCoreControlPlaneVersionsGetResponse>;
     getBySubscription(versionName: string, options?: PacketCoreControlPlaneVersionsGetBySubscriptionOptionalParams): Promise<PacketCoreControlPlaneVersionsGetBySubscriptionResponse>;
-    list(options?: PacketCoreControlPlaneVersionsListOptionalParams): PagedAsyncIterableIterator<PacketCoreControlPlaneVersion>;
     listBySubscription(options?: PacketCoreControlPlaneVersionsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<PacketCoreControlPlaneVersion>;
 }
 
@@ -1151,13 +1946,6 @@ export interface PacketCoreControlPlaneVersionsGetBySubscriptionOptionalParams e
 
 // @public
 export type PacketCoreControlPlaneVersionsGetBySubscriptionResponse = PacketCoreControlPlaneVersion;
-
-// @public
-export interface PacketCoreControlPlaneVersionsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PacketCoreControlPlaneVersionsGetResponse = PacketCoreControlPlaneVersion;
 
 // @public
 export interface PacketCoreControlPlaneVersionsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
@@ -1174,41 +1962,59 @@ export interface PacketCoreControlPlaneVersionsListBySubscriptionOptionalParams 
 export type PacketCoreControlPlaneVersionsListBySubscriptionResponse = PacketCoreControlPlaneVersionListResult;
 
 // @public
-export interface PacketCoreControlPlaneVersionsListNextOptionalParams extends coreClient.OperationOptions {
+export interface PacketCoreControlPlaneVersionsTenantResource {
+    get(versionName: string, options?: PacketCoreControlPlaneVersionsTenantResourceGetOptionalParams): Promise<PacketCoreControlPlaneVersionsTenantResourceGetResponse>;
+    listByTenant(options?: PacketCoreControlPlaneVersionsTenantResourceListByTenantOptionalParams): PagedAsyncIterableIterator<PacketCoreControlPlaneVersion>;
 }
 
 // @public
-export type PacketCoreControlPlaneVersionsListNextResponse = PacketCoreControlPlaneVersionListResult;
-
-// @public
-export interface PacketCoreControlPlaneVersionsListOptionalParams extends coreClient.OperationOptions {
+export interface PacketCoreControlPlaneVersionsTenantResourceGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type PacketCoreControlPlaneVersionsListResponse = PacketCoreControlPlaneVersionListResult;
+export type PacketCoreControlPlaneVersionsTenantResourceGetResponse = PacketCoreControlPlaneVersion;
+
+// @public
+export interface PacketCoreControlPlaneVersionsTenantResourceListByTenantNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PacketCoreControlPlaneVersionsTenantResourceListByTenantNextResponse = PacketCoreControlPlaneVersionListResult;
+
+// @public
+export interface PacketCoreControlPlaneVersionsTenantResourceListByTenantOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PacketCoreControlPlaneVersionsTenantResourceListByTenantResponse = PacketCoreControlPlaneVersionListResult;
 
 // @public
 export interface PacketCoreDataPlane extends TrackedResource {
     readonly provisioningState?: ProvisioningState;
-    userPlaneAccessInterface: InterfaceProperties;
+    userPlaneAccessInterface?: InterfaceProperties;
     userPlaneAccessVirtualIpv4Addresses?: string[];
 }
 
 // @public
 export interface PacketCoreDataPlaneListResult {
-    readonly nextLink?: string;
-    value?: PacketCoreDataPlane[];
+    nextLink?: string;
+    value: PacketCoreDataPlane[];
 }
 
 // @public
 export interface PacketCoreDataPlanes {
-    beginCreateOrUpdate(resourceGroupName: string, packetCoreControlPlaneName: string, packetCoreDataPlaneName: string, parameters: PacketCoreDataPlane, options?: PacketCoreDataPlanesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PacketCoreDataPlanesCreateOrUpdateResponse>, PacketCoreDataPlanesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, packetCoreControlPlaneName: string, packetCoreDataPlaneName: string, parameters: PacketCoreDataPlane, options?: PacketCoreDataPlanesCreateOrUpdateOptionalParams): Promise<PacketCoreDataPlanesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, packetCoreControlPlaneName: string, packetCoreDataPlaneName: string, options?: PacketCoreDataPlanesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, packetCoreControlPlaneName: string, packetCoreDataPlaneName: string, options?: PacketCoreDataPlanesDeleteOptionalParams): Promise<void>;
+    beginCreateOrUpdate(resourceGroupName: string, packetCoreControlPlaneName: string, packetCoreDataPlaneName: string, resource: PacketCoreDataPlane, options?: PacketCoreDataPlanesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PacketCoreDataPlanesCreateOrUpdateResponse>, PacketCoreDataPlanesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, packetCoreControlPlaneName: string, packetCoreDataPlaneName: string, resource: PacketCoreDataPlane, options?: PacketCoreDataPlanesCreateOrUpdateOptionalParams): Promise<PacketCoreDataPlanesCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, packetCoreControlPlaneName: string, packetCoreDataPlaneName: string, options?: PacketCoreDataPlanesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<PacketCoreDataPlanesDeleteResponse>, PacketCoreDataPlanesDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, packetCoreControlPlaneName: string, packetCoreDataPlaneName: string, options?: PacketCoreDataPlanesDeleteOptionalParams): Promise<PacketCoreDataPlanesDeleteResponse>;
     get(resourceGroupName: string, packetCoreControlPlaneName: string, packetCoreDataPlaneName: string, options?: PacketCoreDataPlanesGetOptionalParams): Promise<PacketCoreDataPlanesGetResponse>;
     listByPacketCoreControlPlane(resourceGroupName: string, packetCoreControlPlaneName: string, options?: PacketCoreDataPlanesListByPacketCoreControlPlaneOptionalParams): PagedAsyncIterableIterator<PacketCoreDataPlane>;
-    updateTags(resourceGroupName: string, packetCoreControlPlaneName: string, packetCoreDataPlaneName: string, parameters: TagsObject, options?: PacketCoreDataPlanesUpdateTagsOptionalParams): Promise<PacketCoreDataPlanesUpdateTagsResponse>;
+    updateTags(resourceGroupName: string, packetCoreControlPlaneName: string, packetCoreDataPlaneName: string, properties: TagsObject, options?: PacketCoreDataPlanesUpdateTagsOptionalParams): Promise<PacketCoreDataPlanesUpdateTagsResponse>;
+}
+
+// @public
+export interface PacketCoreDataPlanesCreateOrUpdateHeaders {
+    retryAfter?: number;
 }
 
 // @public
@@ -1221,10 +2027,19 @@ export interface PacketCoreDataPlanesCreateOrUpdateOptionalParams extends coreCl
 export type PacketCoreDataPlanesCreateOrUpdateResponse = PacketCoreDataPlane;
 
 // @public
+export interface PacketCoreDataPlanesDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface PacketCoreDataPlanesDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type PacketCoreDataPlanesDeleteResponse = PacketCoreDataPlanesDeleteHeaders;
 
 // @public
 export interface PacketCoreDataPlanesGetOptionalParams extends coreClient.OperationOptions {
@@ -1283,6 +2098,7 @@ export interface PinholeTimeouts {
 
 // @public
 export interface Platform {
+    haUpgradesAvailable?: string[];
     maximumPlatformSoftwareVersion?: string;
     minimumPlatformSoftwareVersion?: string;
     obsoleteVersion?: ObsoleteVersion;
@@ -1356,6 +2172,13 @@ export interface QosPolicy {
 }
 
 // @public
+export interface QualifiedComponentDeploymentParameters {
+    parameters?: string;
+    secrets?: string;
+    type: string;
+}
+
+// @public
 export type RatType = string;
 
 // @public
@@ -1373,6 +2196,46 @@ export interface Resource {
 }
 
 // @public
+export interface RoutingInfoModel extends ProxyResource {
+    controlPlaneAccessRoutes?: Ipv4Route[];
+    userPlaneAccessRoutes?: Ipv4Route[];
+    userPlaneDataRoutes?: UserPlaneDataRoutesItem[];
+}
+
+// @public
+export interface RoutingInfoModelListResult {
+    nextLink?: string;
+    value: RoutingInfoModel[];
+}
+
+// @public
+export interface RoutingInfoModels {
+    get(resourceGroupName: string, packetCoreControlPlaneName: string, options?: RoutingInfoModelsGetOptionalParams): Promise<RoutingInfoModelsGetResponse>;
+    listByPacketCoreControlPlane(resourceGroupName: string, packetCoreControlPlaneName: string, options?: RoutingInfoModelsListByPacketCoreControlPlaneOptionalParams): PagedAsyncIterableIterator<RoutingInfoModel>;
+}
+
+// @public
+export interface RoutingInfoModelsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RoutingInfoModelsGetResponse = RoutingInfoModel;
+
+// @public
+export interface RoutingInfoModelsListByPacketCoreControlPlaneNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RoutingInfoModelsListByPacketCoreControlPlaneNextResponse = RoutingInfoModelListResult;
+
+// @public
+export interface RoutingInfoModelsListByPacketCoreControlPlaneOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RoutingInfoModelsListByPacketCoreControlPlaneResponse = RoutingInfoModelListResult;
+
+// @public
 export type RrcEstablishmentCause = string;
 
 // @public
@@ -1380,9 +2243,9 @@ export type SdfDirection = string;
 
 // @public
 export interface Service extends TrackedResource {
-    pccRules: PccRuleConfiguration[];
+    pccRules?: PccRuleConfiguration[];
     readonly provisioningState?: ProvisioningState;
-    servicePrecedence: number;
+    servicePrecedence?: number;
     serviceQosPolicy?: QosPolicy;
 }
 
@@ -1397,8 +2260,8 @@ export interface ServiceDataFlowTemplate {
 
 // @public
 export interface ServiceListResult {
-    readonly nextLink?: string;
-    value?: Service[];
+    nextLink?: string;
+    value: Service[];
 }
 
 // @public
@@ -1408,13 +2271,18 @@ export interface ServiceResourceId {
 
 // @public
 export interface Services {
-    beginCreateOrUpdate(resourceGroupName: string, mobileNetworkName: string, serviceName: string, parameters: Service, options?: ServicesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ServicesCreateOrUpdateResponse>, ServicesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, mobileNetworkName: string, serviceName: string, parameters: Service, options?: ServicesCreateOrUpdateOptionalParams): Promise<ServicesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, mobileNetworkName: string, serviceName: string, options?: ServicesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, mobileNetworkName: string, serviceName: string, options?: ServicesDeleteOptionalParams): Promise<void>;
+    beginCreateOrUpdate(resourceGroupName: string, mobileNetworkName: string, serviceName: string, resource: Service, options?: ServicesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ServicesCreateOrUpdateResponse>, ServicesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, mobileNetworkName: string, serviceName: string, resource: Service, options?: ServicesCreateOrUpdateOptionalParams): Promise<ServicesCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, mobileNetworkName: string, serviceName: string, options?: ServicesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ServicesDeleteResponse>, ServicesDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, mobileNetworkName: string, serviceName: string, options?: ServicesDeleteOptionalParams): Promise<ServicesDeleteResponse>;
     get(resourceGroupName: string, mobileNetworkName: string, serviceName: string, options?: ServicesGetOptionalParams): Promise<ServicesGetResponse>;
     listByMobileNetwork(resourceGroupName: string, mobileNetworkName: string, options?: ServicesListByMobileNetworkOptionalParams): PagedAsyncIterableIterator<Service>;
-    updateTags(resourceGroupName: string, mobileNetworkName: string, serviceName: string, parameters: TagsObject, options?: ServicesUpdateTagsOptionalParams): Promise<ServicesUpdateTagsResponse>;
+    updateTags(resourceGroupName: string, mobileNetworkName: string, serviceName: string, properties: TagsObject, options?: ServicesUpdateTagsOptionalParams): Promise<ServicesUpdateTagsResponse>;
+}
+
+// @public
+export interface ServicesCreateOrUpdateHeaders {
+    retryAfter?: number;
 }
 
 // @public
@@ -1427,10 +2295,19 @@ export interface ServicesCreateOrUpdateOptionalParams extends coreClient.Operati
 export type ServicesCreateOrUpdateResponse = Service;
 
 // @public
+export interface ServicesDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface ServicesDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type ServicesDeleteResponse = ServicesDeleteHeaders;
 
 // @public
 export interface ServicesGetOptionalParams extends coreClient.OperationOptions {
@@ -1462,6 +2339,7 @@ export type ServicesUpdateTagsResponse = Service;
 
 // @public
 export interface SignalingConfiguration {
+    nasEncryption?: NASEncryptionType[];
     nasReroute?: NASRerouteConfiguration;
 }
 
@@ -1470,7 +2348,7 @@ export interface Sim extends ProxyResource {
     authenticationKey?: string;
     deviceType?: string;
     integratedCircuitCardIdentifier?: string;
-    internationalMobileSubscriberIdentity: string;
+    internationalMobileSubscriberIdentity?: string;
     operatorKeyCode?: string;
     readonly provisioningState?: ProvisioningState;
     simPolicy?: SimPolicyResourceId;
@@ -1484,8 +2362,14 @@ export interface Sim extends ProxyResource {
 }
 
 // @public
+export interface SimClone {
+    sims?: string[];
+    targetSimGroupId?: SimGroupResourceId;
+}
+
+// @public
 export interface SimDeleteList {
-    sims: string[];
+    sims?: string[];
 }
 
 // @public
@@ -1498,8 +2382,8 @@ export interface SimGroup extends TrackedResource {
 
 // @public
 export interface SimGroupListResult {
-    readonly nextLink?: string;
-    value?: SimGroup[];
+    nextLink?: string;
+    value: SimGroup[];
 }
 
 // @public
@@ -1509,14 +2393,19 @@ export interface SimGroupResourceId {
 
 // @public
 export interface SimGroups {
-    beginCreateOrUpdate(resourceGroupName: string, simGroupName: string, parameters: SimGroup, options?: SimGroupsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SimGroupsCreateOrUpdateResponse>, SimGroupsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, simGroupName: string, parameters: SimGroup, options?: SimGroupsCreateOrUpdateOptionalParams): Promise<SimGroupsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, simGroupName: string, options?: SimGroupsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, simGroupName: string, options?: SimGroupsDeleteOptionalParams): Promise<void>;
+    beginCreateOrUpdate(resourceGroupName: string, simGroupName: string, resource: SimGroup, options?: SimGroupsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SimGroupsCreateOrUpdateResponse>, SimGroupsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, simGroupName: string, resource: SimGroup, options?: SimGroupsCreateOrUpdateOptionalParams): Promise<SimGroupsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, simGroupName: string, options?: SimGroupsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<SimGroupsDeleteResponse>, SimGroupsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, simGroupName: string, options?: SimGroupsDeleteOptionalParams): Promise<SimGroupsDeleteResponse>;
     get(resourceGroupName: string, simGroupName: string, options?: SimGroupsGetOptionalParams): Promise<SimGroupsGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: SimGroupsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<SimGroup>;
     listBySubscription(options?: SimGroupsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<SimGroup>;
-    updateTags(resourceGroupName: string, simGroupName: string, parameters: IdentityAndTagsObject, options?: SimGroupsUpdateTagsOptionalParams): Promise<SimGroupsUpdateTagsResponse>;
+    updateTags(resourceGroupName: string, simGroupName: string, properties: IdentityAndTagsObject, options?: SimGroupsUpdateTagsOptionalParams): Promise<SimGroupsUpdateTagsResponse>;
+}
+
+// @public
+export interface SimGroupsCreateOrUpdateHeaders {
+    retryAfter?: number;
 }
 
 // @public
@@ -1529,10 +2418,19 @@ export interface SimGroupsCreateOrUpdateOptionalParams extends coreClient.Operat
 export type SimGroupsCreateOrUpdateResponse = SimGroup;
 
 // @public
+export interface SimGroupsDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface SimGroupsDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type SimGroupsDeleteResponse = SimGroupsDeleteHeaders;
 
 // @public
 export interface SimGroupsGetOptionalParams extends coreClient.OperationOptions {
@@ -1578,8 +2476,14 @@ export type SimGroupsUpdateTagsResponse = SimGroup;
 
 // @public
 export interface SimListResult {
-    readonly nextLink?: string;
-    value?: Sim[];
+    nextLink?: string;
+    value: Sim[];
+}
+
+// @public
+export interface SimMove {
+    sims?: string[];
+    targetSimGroupId?: SimGroupResourceId;
 }
 
 // @public
@@ -1621,13 +2525,18 @@ export interface SimNameAndProperties {
 
 // @public
 export interface SimPolicies {
-    beginCreateOrUpdate(resourceGroupName: string, mobileNetworkName: string, simPolicyName: string, parameters: SimPolicy, options?: SimPoliciesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SimPoliciesCreateOrUpdateResponse>, SimPoliciesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, mobileNetworkName: string, simPolicyName: string, parameters: SimPolicy, options?: SimPoliciesCreateOrUpdateOptionalParams): Promise<SimPoliciesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, mobileNetworkName: string, simPolicyName: string, options?: SimPoliciesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, mobileNetworkName: string, simPolicyName: string, options?: SimPoliciesDeleteOptionalParams): Promise<void>;
+    beginCreateOrUpdate(resourceGroupName: string, mobileNetworkName: string, simPolicyName: string, resource: SimPolicy, options?: SimPoliciesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SimPoliciesCreateOrUpdateResponse>, SimPoliciesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, mobileNetworkName: string, simPolicyName: string, resource: SimPolicy, options?: SimPoliciesCreateOrUpdateOptionalParams): Promise<SimPoliciesCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, mobileNetworkName: string, simPolicyName: string, options?: SimPoliciesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<SimPoliciesDeleteResponse>, SimPoliciesDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, mobileNetworkName: string, simPolicyName: string, options?: SimPoliciesDeleteOptionalParams): Promise<SimPoliciesDeleteResponse>;
     get(resourceGroupName: string, mobileNetworkName: string, simPolicyName: string, options?: SimPoliciesGetOptionalParams): Promise<SimPoliciesGetResponse>;
     listByMobileNetwork(resourceGroupName: string, mobileNetworkName: string, options?: SimPoliciesListByMobileNetworkOptionalParams): PagedAsyncIterableIterator<SimPolicy>;
-    updateTags(resourceGroupName: string, mobileNetworkName: string, simPolicyName: string, parameters: TagsObject, options?: SimPoliciesUpdateTagsOptionalParams): Promise<SimPoliciesUpdateTagsResponse>;
+    updateTags(resourceGroupName: string, mobileNetworkName: string, simPolicyName: string, properties: TagsObject, options?: SimPoliciesUpdateTagsOptionalParams): Promise<SimPoliciesUpdateTagsResponse>;
+}
+
+// @public
+export interface SimPoliciesCreateOrUpdateHeaders {
+    retryAfter?: number;
 }
 
 // @public
@@ -1640,10 +2549,19 @@ export interface SimPoliciesCreateOrUpdateOptionalParams extends coreClient.Oper
 export type SimPoliciesCreateOrUpdateResponse = SimPolicy;
 
 // @public
+export interface SimPoliciesDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface SimPoliciesDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type SimPoliciesDeleteResponse = SimPoliciesDeleteHeaders;
 
 // @public
 export interface SimPoliciesGetOptionalParams extends coreClient.OperationOptions {
@@ -1675,21 +2593,21 @@ export type SimPoliciesUpdateTagsResponse = SimPolicy;
 
 // @public
 export interface SimPolicy extends TrackedResource {
-    defaultSlice: SliceResourceId;
+    defaultSlice?: SliceResourceId;
     readonly provisioningState?: ProvisioningState;
     registrationTimer?: number;
     rfspIndex?: number;
     readonly siteProvisioningState?: {
         [propertyName: string]: SiteProvisioningState;
     };
-    sliceConfigurations: SliceConfiguration[];
-    ueAmbr: Ambr;
+    sliceConfigurations?: SliceConfiguration[];
+    ueAmbr?: Ambr;
 }
 
 // @public
 export interface SimPolicyListResult {
-    readonly nextLink?: string;
-    value?: SimPolicy[];
+    nextLink?: string;
+    value: SimPolicy[];
 }
 
 // @public
@@ -1705,18 +2623,28 @@ export interface SimPropertiesFormat extends CommonSimPropertiesFormat {
 
 // @public
 export interface Sims {
-    beginBulkDelete(resourceGroupName: string, simGroupName: string, parameters: SimDeleteList, options?: SimsBulkDeleteOptionalParams): Promise<SimplePollerLike<OperationState<SimsBulkDeleteResponse>, SimsBulkDeleteResponse>>;
-    beginBulkDeleteAndWait(resourceGroupName: string, simGroupName: string, parameters: SimDeleteList, options?: SimsBulkDeleteOptionalParams): Promise<SimsBulkDeleteResponse>;
-    beginBulkUpload(resourceGroupName: string, simGroupName: string, parameters: SimUploadList, options?: SimsBulkUploadOptionalParams): Promise<SimplePollerLike<OperationState<SimsBulkUploadResponse>, SimsBulkUploadResponse>>;
-    beginBulkUploadAndWait(resourceGroupName: string, simGroupName: string, parameters: SimUploadList, options?: SimsBulkUploadOptionalParams): Promise<SimsBulkUploadResponse>;
-    beginBulkUploadEncrypted(resourceGroupName: string, simGroupName: string, parameters: EncryptedSimUploadList, options?: SimsBulkUploadEncryptedOptionalParams): Promise<SimplePollerLike<OperationState<SimsBulkUploadEncryptedResponse>, SimsBulkUploadEncryptedResponse>>;
-    beginBulkUploadEncryptedAndWait(resourceGroupName: string, simGroupName: string, parameters: EncryptedSimUploadList, options?: SimsBulkUploadEncryptedOptionalParams): Promise<SimsBulkUploadEncryptedResponse>;
-    beginCreateOrUpdate(resourceGroupName: string, simGroupName: string, simName: string, parameters: Sim, options?: SimsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SimsCreateOrUpdateResponse>, SimsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, simGroupName: string, simName: string, parameters: Sim, options?: SimsCreateOrUpdateOptionalParams): Promise<SimsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, simGroupName: string, simName: string, options?: SimsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, simGroupName: string, simName: string, options?: SimsDeleteOptionalParams): Promise<void>;
+    beginBulkDelete(resourceGroupName: string, simGroupName: string, body: SimDeleteList, options?: SimsBulkDeleteOptionalParams): Promise<SimplePollerLike<OperationState<SimsBulkDeleteResponse>, SimsBulkDeleteResponse>>;
+    beginBulkDeleteAndWait(resourceGroupName: string, simGroupName: string, body: SimDeleteList, options?: SimsBulkDeleteOptionalParams): Promise<SimsBulkDeleteResponse>;
+    beginBulkUpload(resourceGroupName: string, simGroupName: string, body: SimUploadList, options?: SimsBulkUploadOptionalParams): Promise<SimplePollerLike<OperationState<SimsBulkUploadResponse>, SimsBulkUploadResponse>>;
+    beginBulkUploadAndWait(resourceGroupName: string, simGroupName: string, body: SimUploadList, options?: SimsBulkUploadOptionalParams): Promise<SimsBulkUploadResponse>;
+    beginBulkUploadEncrypted(resourceGroupName: string, simGroupName: string, body: EncryptedSimUploadList, options?: SimsBulkUploadEncryptedOptionalParams): Promise<SimplePollerLike<OperationState<SimsBulkUploadEncryptedResponse>, SimsBulkUploadEncryptedResponse>>;
+    beginBulkUploadEncryptedAndWait(resourceGroupName: string, simGroupName: string, body: EncryptedSimUploadList, options?: SimsBulkUploadEncryptedOptionalParams): Promise<SimsBulkUploadEncryptedResponse>;
+    beginClone(resourceGroupName: string, simGroupName: string, body: SimClone, options?: SimsCloneOptionalParams): Promise<SimplePollerLike<OperationState<SimsCloneResponse>, SimsCloneResponse>>;
+    beginCloneAndWait(resourceGroupName: string, simGroupName: string, body: SimClone, options?: SimsCloneOptionalParams): Promise<SimsCloneResponse>;
+    beginCreateOrUpdate(resourceGroupName: string, simGroupName: string, simName: string, resource: Sim, options?: SimsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SimsCreateOrUpdateResponse>, SimsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, simGroupName: string, simName: string, resource: Sim, options?: SimsCreateOrUpdateOptionalParams): Promise<SimsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, simGroupName: string, simName: string, options?: SimsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<SimsDeleteResponse>, SimsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, simGroupName: string, simName: string, options?: SimsDeleteOptionalParams): Promise<SimsDeleteResponse>;
+    beginMove(resourceGroupName: string, simGroupName: string, body: SimMove, options?: SimsMoveOptionalParams): Promise<SimplePollerLike<OperationState<SimsMoveResponse>, SimsMoveResponse>>;
+    beginMoveAndWait(resourceGroupName: string, simGroupName: string, body: SimMove, options?: SimsMoveOptionalParams): Promise<SimsMoveResponse>;
     get(resourceGroupName: string, simGroupName: string, simName: string, options?: SimsGetOptionalParams): Promise<SimsGetResponse>;
     listByGroup(resourceGroupName: string, simGroupName: string, options?: SimsListByGroupOptionalParams): PagedAsyncIterableIterator<Sim>;
+}
+
+// @public
+export interface SimsBulkDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -1729,6 +2657,12 @@ export interface SimsBulkDeleteOptionalParams extends coreClient.OperationOption
 export type SimsBulkDeleteResponse = AsyncOperationStatus;
 
 // @public
+export interface SimsBulkUploadEncryptedHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface SimsBulkUploadEncryptedOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -1736,6 +2670,12 @@ export interface SimsBulkUploadEncryptedOptionalParams extends coreClient.Operat
 
 // @public
 export type SimsBulkUploadEncryptedResponse = AsyncOperationStatus;
+
+// @public
+export interface SimsBulkUploadHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface SimsBulkUploadOptionalParams extends coreClient.OperationOptions {
@@ -1747,6 +2687,26 @@ export interface SimsBulkUploadOptionalParams extends coreClient.OperationOption
 export type SimsBulkUploadResponse = AsyncOperationStatus;
 
 // @public
+export interface SimsCloneHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface SimsCloneOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SimsCloneResponse = AsyncOperationStatus;
+
+// @public
+export interface SimsCreateOrUpdateHeaders {
+    retryAfter?: number;
+}
+
+// @public
 export interface SimsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -1756,10 +2716,19 @@ export interface SimsCreateOrUpdateOptionalParams extends coreClient.OperationOp
 export type SimsCreateOrUpdateResponse = Sim;
 
 // @public
+export interface SimsDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface SimsDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type SimsDeleteResponse = SimsDeleteHeaders;
 
 // @public
 export interface SimsGetOptionalParams extends coreClient.OperationOptions {
@@ -1781,6 +2750,21 @@ export interface SimsListByGroupOptionalParams extends coreClient.OperationOptio
 
 // @public
 export type SimsListByGroupResponse = SimListResult;
+
+// @public
+export interface SimsMoveHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface SimsMoveOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SimsMoveResponse = AsyncOperationStatus;
 
 // @public
 export type SimState = string;
@@ -1815,8 +2799,8 @@ export interface SiteDeletePacketCore {
 
 // @public
 export interface SiteListResult {
-    readonly nextLink?: string;
-    value?: Site[];
+    nextLink?: string;
+    value: Site[];
 }
 
 // @public
@@ -1829,15 +2813,20 @@ export interface SiteResourceId {
 
 // @public
 export interface Sites {
-    beginCreateOrUpdate(resourceGroupName: string, mobileNetworkName: string, siteName: string, parameters: Site, options?: SitesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SitesCreateOrUpdateResponse>, SitesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, mobileNetworkName: string, siteName: string, parameters: Site, options?: SitesCreateOrUpdateOptionalParams): Promise<SitesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, mobileNetworkName: string, siteName: string, options?: SitesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, mobileNetworkName: string, siteName: string, options?: SitesDeleteOptionalParams): Promise<void>;
-    beginDeletePacketCore(resourceGroupName: string, mobileNetworkName: string, siteName: string, parameters: SiteDeletePacketCore, options?: SitesDeletePacketCoreOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeletePacketCoreAndWait(resourceGroupName: string, mobileNetworkName: string, siteName: string, parameters: SiteDeletePacketCore, options?: SitesDeletePacketCoreOptionalParams): Promise<void>;
+    beginCreateOrUpdate(resourceGroupName: string, mobileNetworkName: string, siteName: string, resource: Site, options?: SitesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SitesCreateOrUpdateResponse>, SitesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, mobileNetworkName: string, siteName: string, resource: Site, options?: SitesCreateOrUpdateOptionalParams): Promise<SitesCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, mobileNetworkName: string, siteName: string, options?: SitesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<SitesDeleteResponse>, SitesDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, mobileNetworkName: string, siteName: string, options?: SitesDeleteOptionalParams): Promise<SitesDeleteResponse>;
+    beginDeletePacketCore(resourceGroupName: string, mobileNetworkName: string, siteName: string, body: SiteDeletePacketCore, options?: SitesDeletePacketCoreOptionalParams): Promise<SimplePollerLike<OperationState<SitesDeletePacketCoreResponse>, SitesDeletePacketCoreResponse>>;
+    beginDeletePacketCoreAndWait(resourceGroupName: string, mobileNetworkName: string, siteName: string, body: SiteDeletePacketCore, options?: SitesDeletePacketCoreOptionalParams): Promise<SitesDeletePacketCoreResponse>;
     get(resourceGroupName: string, mobileNetworkName: string, siteName: string, options?: SitesGetOptionalParams): Promise<SitesGetResponse>;
     listByMobileNetwork(resourceGroupName: string, mobileNetworkName: string, options?: SitesListByMobileNetworkOptionalParams): PagedAsyncIterableIterator<Site>;
-    updateTags(resourceGroupName: string, mobileNetworkName: string, siteName: string, parameters: TagsObject, options?: SitesUpdateTagsOptionalParams): Promise<SitesUpdateTagsResponse>;
+    updateTags(resourceGroupName: string, mobileNetworkName: string, siteName: string, properties: TagsObject, options?: SitesUpdateTagsOptionalParams): Promise<SitesUpdateTagsResponse>;
+}
+
+// @public
+export interface SitesCreateOrUpdateHeaders {
+    retryAfter?: number;
 }
 
 // @public
@@ -1850,9 +2839,21 @@ export interface SitesCreateOrUpdateOptionalParams extends coreClient.OperationO
 export type SitesCreateOrUpdateResponse = Site;
 
 // @public
+export interface SitesDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface SitesDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface SitesDeletePacketCoreHeaders {
+    location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -1860,6 +2861,12 @@ export interface SitesDeletePacketCoreOptionalParams extends coreClient.Operatio
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type SitesDeletePacketCoreResponse = AsyncOperationStatus;
+
+// @public
+export type SitesDeleteResponse = SitesDeleteHeaders;
 
 // @public
 export interface SitesGetOptionalParams extends coreClient.OperationOptions {
@@ -1890,10 +2897,13 @@ export interface SitesUpdateTagsOptionalParams extends coreClient.OperationOptio
 export type SitesUpdateTagsResponse = Site;
 
 // @public
+export type SkuDeploymentType = string;
+
+// @public
 export interface Slice extends TrackedResource {
     description?: string;
     readonly provisioningState?: ProvisioningState;
-    snssai: Snssai;
+    snssai?: Snssai;
 }
 
 // @public
@@ -1905,8 +2915,8 @@ export interface SliceConfiguration {
 
 // @public
 export interface SliceListResult {
-    readonly nextLink?: string;
-    value?: Slice[];
+    nextLink?: string;
+    value: Slice[];
 }
 
 // @public
@@ -1916,13 +2926,18 @@ export interface SliceResourceId {
 
 // @public
 export interface Slices {
-    beginCreateOrUpdate(resourceGroupName: string, mobileNetworkName: string, sliceName: string, parameters: Slice, options?: SlicesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SlicesCreateOrUpdateResponse>, SlicesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, mobileNetworkName: string, sliceName: string, parameters: Slice, options?: SlicesCreateOrUpdateOptionalParams): Promise<SlicesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, mobileNetworkName: string, sliceName: string, options?: SlicesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, mobileNetworkName: string, sliceName: string, options?: SlicesDeleteOptionalParams): Promise<void>;
+    beginCreateOrUpdate(resourceGroupName: string, mobileNetworkName: string, sliceName: string, resource: Slice, options?: SlicesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SlicesCreateOrUpdateResponse>, SlicesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, mobileNetworkName: string, sliceName: string, resource: Slice, options?: SlicesCreateOrUpdateOptionalParams): Promise<SlicesCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, mobileNetworkName: string, sliceName: string, options?: SlicesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<SlicesDeleteResponse>, SlicesDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, mobileNetworkName: string, sliceName: string, options?: SlicesDeleteOptionalParams): Promise<SlicesDeleteResponse>;
     get(resourceGroupName: string, mobileNetworkName: string, sliceName: string, options?: SlicesGetOptionalParams): Promise<SlicesGetResponse>;
     listByMobileNetwork(resourceGroupName: string, mobileNetworkName: string, options?: SlicesListByMobileNetworkOptionalParams): PagedAsyncIterableIterator<Slice>;
-    updateTags(resourceGroupName: string, mobileNetworkName: string, sliceName: string, parameters: TagsObject, options?: SlicesUpdateTagsOptionalParams): Promise<SlicesUpdateTagsResponse>;
+    updateTags(resourceGroupName: string, mobileNetworkName: string, sliceName: string, properties: TagsObject, options?: SlicesUpdateTagsOptionalParams): Promise<SlicesUpdateTagsResponse>;
+}
+
+// @public
+export interface SlicesCreateOrUpdateHeaders {
+    retryAfter?: number;
 }
 
 // @public
@@ -1935,10 +2950,19 @@ export interface SlicesCreateOrUpdateOptionalParams extends coreClient.Operation
 export type SlicesCreateOrUpdateResponse = Slice;
 
 // @public
+export interface SlicesDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface SlicesDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type SlicesDeleteResponse = SlicesDeleteHeaders;
 
 // @public
 export interface SlicesGetOptionalParams extends coreClient.OperationOptions {
@@ -1967,6 +2991,112 @@ export interface SlicesUpdateTagsOptionalParams extends coreClient.OperationOpti
 
 // @public
 export type SlicesUpdateTagsResponse = Slice;
+
+// @public
+export interface SmfDeploymentResource extends TrackedResource {
+    clusterService?: string;
+    componentParameters?: string;
+    readonly operationalStatus?: OperationalStatus;
+    readonly provisioningState?: ProvisioningState;
+    readonly releaseVersion?: string;
+    secretsParameters?: string;
+}
+
+// @public
+export interface SmfDeploymentResourceListResult {
+    nextLink?: string;
+    value: SmfDeploymentResource[];
+}
+
+// @public
+export interface SmfDeploymentResourceTagsUpdate {
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface SmfDeployments {
+    beginCreateOrUpdate(resourceGroupName: string, smfDeploymentName: string, resource: SmfDeploymentResource, options?: SmfDeploymentsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SmfDeploymentsCreateOrUpdateResponse>, SmfDeploymentsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, smfDeploymentName: string, resource: SmfDeploymentResource, options?: SmfDeploymentsCreateOrUpdateOptionalParams): Promise<SmfDeploymentsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, smfDeploymentName: string, options?: SmfDeploymentsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<SmfDeploymentsDeleteResponse>, SmfDeploymentsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, smfDeploymentName: string, options?: SmfDeploymentsDeleteOptionalParams): Promise<SmfDeploymentsDeleteResponse>;
+    get(resourceGroupName: string, smfDeploymentName: string, options?: SmfDeploymentsGetOptionalParams): Promise<SmfDeploymentsGetResponse>;
+    listByResourceGroup(resourceGroupName: string, options?: SmfDeploymentsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<SmfDeploymentResource>;
+    listBySubscription(options?: SmfDeploymentsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<SmfDeploymentResource>;
+    updateTags(resourceGroupName: string, smfDeploymentName: string, properties: SmfDeploymentResourceTagsUpdate, options?: SmfDeploymentsUpdateTagsOptionalParams): Promise<SmfDeploymentsUpdateTagsResponse>;
+}
+
+// @public
+export interface SmfDeploymentsCreateOrUpdateHeaders {
+    retryAfter?: number;
+}
+
+// @public
+export interface SmfDeploymentsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SmfDeploymentsCreateOrUpdateResponse = SmfDeploymentResource;
+
+// @public
+export interface SmfDeploymentsDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface SmfDeploymentsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SmfDeploymentsDeleteResponse = SmfDeploymentsDeleteHeaders;
+
+// @public
+export interface SmfDeploymentsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SmfDeploymentsGetResponse = SmfDeploymentResource;
+
+// @public
+export interface SmfDeploymentsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SmfDeploymentsListByResourceGroupNextResponse = SmfDeploymentResourceListResult;
+
+// @public
+export interface SmfDeploymentsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SmfDeploymentsListByResourceGroupResponse = SmfDeploymentResourceListResult;
+
+// @public
+export interface SmfDeploymentsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SmfDeploymentsListBySubscriptionNextResponse = SmfDeploymentResourceListResult;
+
+// @public
+export interface SmfDeploymentsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SmfDeploymentsListBySubscriptionResponse = SmfDeploymentResourceListResult;
+
+// @public
+export interface SmfDeploymentsUpdateTagsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SmfDeploymentsUpdateTagsResponse = SmfDeploymentResource;
 
 // @public
 export interface Snssai {
@@ -2008,149 +3138,136 @@ export interface TrackedResource extends Resource {
 export type TrafficControlPermission = string;
 
 // @public
+export interface UeConnectionInfo4G {
+    enbS1ApId: number;
+    globalRanNodeId: GlobalRanNodeId;
+    lastActivityTime?: Date;
+    lastVisitedTai?: string;
+    locationInfo?: UeLocationInfo;
+    mmeS1ApId: number;
+    perUeTnla?: string;
+    rrcEstablishmentCause: RrcEstablishmentCause;
+    ueState: UeState;
+    ueUsageSetting?: UeUsageSetting;
+}
+
+// @public
+export interface UeConnectionInfo5G {
+    allowedNssai?: Snssai[];
+    amfUeNgapId: number;
+    globalRanNodeId: GlobalRanNodeId;
+    lastActivityTime?: Date;
+    lastVisitedTai?: string;
+    locationInfo?: UeLocationInfo;
+    perUeTnla?: string;
+    ranUeNgapId: number;
+    rrcEstablishmentCause: RrcEstablishmentCause;
+    ueState: UeState;
+    ueUsageSetting?: UeUsageSetting;
+}
+
+// @public
 export interface UeInfo extends ProxyResource {
     lastReadAt?: Date;
-    ratType: RatType;
-    // (undocumented)
+    ratType?: RatType;
     ueIpAddresses?: DnnIpPair[];
-    ueState: UeState;
+    ueState?: UeState;
 }
 
 // @public
 export interface UeInfo4G extends ExtendedUeInfoProperties {
-    // (undocumented)
-    bitLength?: number;
-    code: number;
-    eNbId?: string;
-    enbS1ApId?: number;
-    // (undocumented)
-    gNBValue?: string;
-    groupId: number;
+    info: UeInfo4GProperties;
+    ratType: "4G";
+}
+
+// @public
+export interface UeInfo4GProperties {
+    connectionInfo?: UeConnectionInfo4G;
+    guti: Guti4G;
     imei?: string;
     imeisv?: string;
     imsi: string;
-    lastActivityTime?: Date;
-    lastVisitedTai?: string;
-    locationType?: string;
-    mccInfoConnectionInfoGlobalRanNodeIdPlmnIdMcc?: string;
-    mccInfoConnectionInfoLocationInfoPlmnMcc?: string;
-    mccInfoGutiPlmnMcc: string;
-    mmeS1ApId?: number;
-    mncInfoConnectionInfoGlobalRanNodeIdPlmnIdMnc?: string;
-    mncInfoConnectionInfoLocationInfoPlmnMnc?: string;
-    mncInfoGutiPlmnMnc: string;
-    mTmsi: number;
-    n3IwfId?: string;
-    ngeNbId?: string;
-    nid?: string;
-    perUeTnla?: string;
-    ratType: "4G";
-    rrcEstablishmentCause?: RrcEstablishmentCause;
-    // (undocumented)
     sessionInfo?: UeSessionInfo4G[];
-    tac?: string;
-    tngfId?: string;
-    ueState?: UeState;
-    ueUsageSetting?: UeUsageSetting;
-    wagfId?: string;
 }
 
 // @public
 export interface UeInfo5G extends ExtendedUeInfoProperties {
-    allowedNssai?: Snssai[];
-    amfUeNgapId?: number;
-    // (undocumented)
-    bitLength?: number;
-    eNbId?: string;
-    fivegTmsi: number;
-    // (undocumented)
-    gNBValue?: string;
-    lastActivityTime?: Date;
-    lastVisitedTai?: string;
-    locationType?: string;
-    mccInfoConnectionInfoGlobalRanNodeIdPlmnIdMcc?: string;
-    mccInfoConnectionInfoLocationInfoPlmnMcc?: string;
-    mccInfoFivegGutiPlmnMcc: string;
-    mncInfoConnectionInfoGlobalRanNodeIdPlmnIdMnc?: string;
-    mncInfoConnectionInfoLocationInfoPlmnMnc?: string;
-    mncInfoFivegGutiPlmnMnc: string;
-    n3IwfId?: string;
-    ngeNbId?: string;
-    nid?: string;
-    pei?: string;
-    perUeTnla?: string;
-    pointer: number;
-    ranUeNgapId?: number;
+    info: UeInfo5GProperties;
     ratType: "5G";
-    regionId: number;
-    rrcEstablishmentCause?: RrcEstablishmentCause;
-    // (undocumented)
+}
+
+// @public
+export interface UeInfo5GProperties {
+    connectionInfo?: UeConnectionInfo5G;
+    fivegGuti: Guti5G;
+    pei?: string;
     sessionInfo?: UeSessionInfo5G[];
-    setId: number;
     supi: string;
-    tac?: string;
-    tngfId?: string;
-    ueState?: UeState;
-    ueUsageSetting?: UeUsageSetting;
-    wagfId?: string;
 }
 
 // @public
-export interface UeInfoList {
-    readonly nextLink?: string;
-    value?: UeInfo[];
+export interface UeInfoListResult {
+    nextLink?: string;
+    value: UeInfo[];
 }
 
 // @public
-export interface UeInformation {
-    list(resourceGroupName: string, packetCoreControlPlaneName: string, options?: UeInformationListOptionalParams): PagedAsyncIterableIterator<UeInfo>;
+export interface UeIpAddress {
+    ipV4Addr?: string;
 }
 
 // @public
-export interface UeInformationListNextOptionalParams extends coreClient.OperationOptions {
+export interface UeLocationInfo {
+    locationType: string;
+    plmn: PlmnId;
+    tac: string;
 }
-
-// @public
-export type UeInformationListNextResponse = UeInfoList;
-
-// @public
-export interface UeInformationListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type UeInformationListResponse = UeInfoList;
 
 // @public
 export interface UeQOSFlow {
-    downlinkGbrDownlink?: string;
-    downlinkMbrDownlink?: string;
     fiveqi: number;
+    gbr?: Ambr;
+    mbr?: Ambr;
     qfi: number;
-    uplinkGbrUplink?: string;
-    uplinkMbrUplink?: string;
+}
+
+// @public
+export interface Ues {
+    listByPacketCoreControlPlane(resourceGroupName: string, packetCoreControlPlaneName: string, options?: UesListByPacketCoreControlPlaneOptionalParams): PagedAsyncIterableIterator<UeInfo>;
 }
 
 // @public
 export interface UeSessionInfo4G {
     apn: string;
     ebi: number;
-    ipV4Addr?: string;
     pdnType: PdnType;
+    ueIpAddress: UeIpAddress;
 }
 
 // @public
 export interface UeSessionInfo5G {
+    ambr: Ambr;
     dnn: string;
-    downlink: string;
-    ipV4Addr?: string;
     pdnType: PdnType;
     pduSessionId: number;
-    // (undocumented)
     qosFlow: UeQOSFlow[];
-    sd?: string;
-    sst: number;
-    uplink: string;
+    snssai: Snssai;
+    ueIpAddress: UeIpAddress;
 }
+
+// @public
+export interface UesListByPacketCoreControlPlaneNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type UesListByPacketCoreControlPlaneNextResponse = UeInfoListResult;
+
+// @public
+export interface UesListByPacketCoreControlPlaneOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type UesListByPacketCoreControlPlaneResponse = UeInfoListResult;
 
 // @public
 export type UeState = string;
@@ -2159,9 +3276,126 @@ export type UeState = string;
 export type UeUsageSetting = string;
 
 // @public
+export interface UpfDeploymentResource extends TrackedResource {
+    clusterService?: string;
+    componentParameters?: string;
+    readonly operationalStatus?: OperationalStatus;
+    readonly provisioningState?: ProvisioningState;
+    readonly releaseVersion?: string;
+    secretsParameters?: string;
+}
+
+// @public
+export interface UpfDeploymentResourceListResult {
+    nextLink?: string;
+    value: UpfDeploymentResource[];
+}
+
+// @public
+export interface UpfDeploymentResourceTagsUpdate {
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface UpfDeployments {
+    beginCreateOrUpdate(resourceGroupName: string, upfDeploymentName: string, resource: UpfDeploymentResource, options?: UpfDeploymentsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<UpfDeploymentsCreateOrUpdateResponse>, UpfDeploymentsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, upfDeploymentName: string, resource: UpfDeploymentResource, options?: UpfDeploymentsCreateOrUpdateOptionalParams): Promise<UpfDeploymentsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, upfDeploymentName: string, options?: UpfDeploymentsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<UpfDeploymentsDeleteResponse>, UpfDeploymentsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, upfDeploymentName: string, options?: UpfDeploymentsDeleteOptionalParams): Promise<UpfDeploymentsDeleteResponse>;
+    get(resourceGroupName: string, upfDeploymentName: string, options?: UpfDeploymentsGetOptionalParams): Promise<UpfDeploymentsGetResponse>;
+    listByResourceGroup(resourceGroupName: string, options?: UpfDeploymentsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<UpfDeploymentResource>;
+    listBySubscription(options?: UpfDeploymentsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<UpfDeploymentResource>;
+    updateTags(resourceGroupName: string, upfDeploymentName: string, properties: UpfDeploymentResourceTagsUpdate, options?: UpfDeploymentsUpdateTagsOptionalParams): Promise<UpfDeploymentsUpdateTagsResponse>;
+}
+
+// @public
+export interface UpfDeploymentsCreateOrUpdateHeaders {
+    retryAfter?: number;
+}
+
+// @public
+export interface UpfDeploymentsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type UpfDeploymentsCreateOrUpdateResponse = UpfDeploymentResource;
+
+// @public
+export interface UpfDeploymentsDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface UpfDeploymentsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type UpfDeploymentsDeleteResponse = UpfDeploymentsDeleteHeaders;
+
+// @public
+export interface UpfDeploymentsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type UpfDeploymentsGetResponse = UpfDeploymentResource;
+
+// @public
+export interface UpfDeploymentsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type UpfDeploymentsListByResourceGroupNextResponse = UpfDeploymentResourceListResult;
+
+// @public
+export interface UpfDeploymentsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type UpfDeploymentsListByResourceGroupResponse = UpfDeploymentResourceListResult;
+
+// @public
+export interface UpfDeploymentsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type UpfDeploymentsListBySubscriptionNextResponse = UpfDeploymentResourceListResult;
+
+// @public
+export interface UpfDeploymentsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type UpfDeploymentsListBySubscriptionResponse = UpfDeploymentResourceListResult;
+
+// @public
+export interface UpfDeploymentsUpdateTagsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type UpfDeploymentsUpdateTagsResponse = UpfDeploymentResource;
+
+// @public
 export interface UserAssignedIdentity {
     readonly clientId?: string;
     readonly principalId?: string;
+}
+
+// @public
+export interface UserConsentConfiguration {
+    allowSupportTelemetryAccess?: boolean;
+}
+
+// @public
+export interface UserPlaneDataRoutesItem {
+    attachedDataNetwork?: AttachedDataNetworkResourceId;
+    routes?: Ipv4Route[];
 }
 
 // @public

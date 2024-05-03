@@ -12,25 +12,41 @@ import {
   OperationQueryParameter,
 } from "@azure/core-client";
 import {
-  AttachedDataNetwork as AttachedDataNetworkMapper,
-  TagsObject as TagsObjectMapper,
-  DataNetwork as DataNetworkMapper,
+  AmfDeploymentResource as AmfDeploymentResourceMapper,
+  AmfDeploymentResourceTagsUpdate as AmfDeploymentResourceTagsUpdateMapper,
+  ClusterServiceResource as ClusterServiceResourceMapper,
+  ClusterServiceResourceTagsUpdate as ClusterServiceResourceTagsUpdateMapper,
   MobileNetwork as MobileNetworkMapper,
   IdentityAndTagsObject as IdentityAndTagsObjectMapper,
-  PacketCapture as PacketCaptureMapper,
+  NrfDeploymentResource as NrfDeploymentResourceMapper,
+  NrfDeploymentResourceTagsUpdate as NrfDeploymentResourceTagsUpdateMapper,
+  NssfDeploymentResource as NssfDeploymentResourceMapper,
+  NssfDeploymentResourceTagsUpdate as NssfDeploymentResourceTagsUpdateMapper,
+  ObservabilityServiceResource as ObservabilityServiceResourceMapper,
+  ObservabilityServiceResourceTagsUpdate as ObservabilityServiceResourceTagsUpdateMapper,
   PacketCoreControlPlane as PacketCoreControlPlaneMapper,
   PacketCoreControlPlaneCollectDiagnosticsPackage as PacketCoreControlPlaneCollectDiagnosticsPackageMapper,
-  PacketCoreDataPlane as PacketCoreDataPlaneMapper,
-  Service as ServiceMapper,
-  Sim as SimMapper,
-  SimUploadList as SimUploadListMapper,
-  SimDeleteList as SimDeleteListMapper,
-  EncryptedSimUploadList as EncryptedSimUploadListMapper,
   SimGroup as SimGroupMapper,
+  SmfDeploymentResource as SmfDeploymentResourceMapper,
+  SmfDeploymentResourceTagsUpdate as SmfDeploymentResourceTagsUpdateMapper,
+  UpfDeploymentResource as UpfDeploymentResourceMapper,
+  UpfDeploymentResourceTagsUpdate as UpfDeploymentResourceTagsUpdateMapper,
+  DataNetwork as DataNetworkMapper,
+  TagsObject as TagsObjectMapper,
+  Service as ServiceMapper,
   SimPolicy as SimPolicyMapper,
   Site as SiteMapper,
   SiteDeletePacketCore as SiteDeletePacketCoreMapper,
   Slice as SliceMapper,
+  PacketCapture as PacketCaptureMapper,
+  PacketCoreDataPlane as PacketCoreDataPlaneMapper,
+  AttachedDataNetwork as AttachedDataNetworkMapper,
+  SimClone as SimCloneMapper,
+  SimDeleteList as SimDeleteListMapper,
+  SimMove as SimMoveMapper,
+  Sim as SimMapper,
+  EncryptedSimUploadList as EncryptedSimUploadListMapper,
+  SimUploadList as SimUploadListMapper,
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -55,6 +71,44 @@ export const $host: OperationURLParameter = {
     },
   },
   skipEncoding: true,
+};
+
+export const apiVersion: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2024-06-01",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+  skipEncoding: true,
+};
+
+export const versionName: OperationURLParameter = {
+  parameterPath: "versionName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp(".*"),
+    },
+    serializedName: "versionName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const subscriptionId: OperationURLParameter = {
@@ -83,59 +137,16 @@ export const resourceGroupName: OperationURLParameter = {
   },
 };
 
-export const packetCoreControlPlaneName: OperationURLParameter = {
-  parameterPath: "packetCoreControlPlaneName",
+export const amfDeploymentName: OperationURLParameter = {
+  parameterPath: "amfDeploymentName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9_-]*$"),
-      MaxLength: 64,
+      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]$"),
+      MaxLength: 63,
+      MinLength: 1,
     },
-    serializedName: "packetCoreControlPlaneName",
+    serializedName: "amfDeploymentName",
     required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const packetCoreDataPlaneName: OperationURLParameter = {
-  parameterPath: "packetCoreDataPlaneName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9_-]*$"),
-      MaxLength: 64,
-    },
-    serializedName: "packetCoreDataPlaneName",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const attachedDataNetworkName: OperationURLParameter = {
-  parameterPath: "attachedDataNetworkName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp(
-        "^[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])*(\\.[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])*)*$",
-      ),
-      MaxLength: 64,
-    },
-    serializedName: "attachedDataNetworkName",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const apiVersion: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2024-02-01",
-    isConstant: true,
-    serializedName: "api-version",
     type: {
       name: "String",
     },
@@ -154,26 +165,40 @@ export const contentType: OperationParameter = {
   },
 };
 
-export const parameters: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: AttachedDataNetworkMapper,
+export const resource: OperationParameter = {
+  parameterPath: "resource",
+  mapper: AmfDeploymentResourceMapper,
 };
 
-export const parameters1: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: TagsObjectMapper,
+export const properties: OperationParameter = {
+  parameterPath: "properties",
+  mapper: AmfDeploymentResourceTagsUpdateMapper,
 };
 
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
+export const clusterServiceName: OperationURLParameter = {
+  parameterPath: "clusterServiceName",
   mapper: {
-    serializedName: "nextLink",
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]$"),
+      MaxLength: 63,
+      MinLength: 1,
+    },
+    serializedName: "clusterServiceName",
     required: true,
     type: {
       name: "String",
     },
   },
-  skipEncoding: true,
+};
+
+export const resource1: OperationParameter = {
+  parameterPath: "resource",
+  mapper: ClusterServiceResourceMapper,
+};
+
+export const properties1: OperationParameter = {
+  parameterPath: "properties",
+  mapper: ClusterServiceResourceTagsUpdateMapper,
 };
 
 export const mobileNetworkName: OperationURLParameter = {
@@ -189,6 +214,191 @@ export const mobileNetworkName: OperationURLParameter = {
       name: "String",
     },
   },
+};
+
+export const resource2: OperationParameter = {
+  parameterPath: "resource",
+  mapper: MobileNetworkMapper,
+};
+
+export const properties2: OperationParameter = {
+  parameterPath: "properties",
+  mapper: IdentityAndTagsObjectMapper,
+};
+
+export const nrfDeploymentName: OperationURLParameter = {
+  parameterPath: "nrfDeploymentName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]$"),
+      MaxLength: 63,
+      MinLength: 1,
+    },
+    serializedName: "nrfDeploymentName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const resource3: OperationParameter = {
+  parameterPath: "resource",
+  mapper: NrfDeploymentResourceMapper,
+};
+
+export const properties3: OperationParameter = {
+  parameterPath: "properties",
+  mapper: NrfDeploymentResourceTagsUpdateMapper,
+};
+
+export const nssfDeploymentName: OperationURLParameter = {
+  parameterPath: "nssfDeploymentName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]$"),
+      MaxLength: 63,
+      MinLength: 1,
+    },
+    serializedName: "nssfDeploymentName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const resource4: OperationParameter = {
+  parameterPath: "resource",
+  mapper: NssfDeploymentResourceMapper,
+};
+
+export const properties4: OperationParameter = {
+  parameterPath: "properties",
+  mapper: NssfDeploymentResourceTagsUpdateMapper,
+};
+
+export const observabilityServiceName: OperationURLParameter = {
+  parameterPath: "observabilityServiceName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]$"),
+      MaxLength: 63,
+      MinLength: 1,
+    },
+    serializedName: "observabilityServiceName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const resource5: OperationParameter = {
+  parameterPath: "resource",
+  mapper: ObservabilityServiceResourceMapper,
+};
+
+export const properties5: OperationParameter = {
+  parameterPath: "properties",
+  mapper: ObservabilityServiceResourceTagsUpdateMapper,
+};
+
+export const packetCoreControlPlaneName: OperationURLParameter = {
+  parameterPath: "packetCoreControlPlaneName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9_-]*$"),
+      MaxLength: 64,
+    },
+    serializedName: "packetCoreControlPlaneName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const resource6: OperationParameter = {
+  parameterPath: "resource",
+  mapper: PacketCoreControlPlaneMapper,
+};
+
+export const body: OperationParameter = {
+  parameterPath: "body",
+  mapper: PacketCoreControlPlaneCollectDiagnosticsPackageMapper,
+};
+
+export const simGroupName: OperationURLParameter = {
+  parameterPath: "simGroupName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9_-]*$"),
+      MaxLength: 64,
+    },
+    serializedName: "simGroupName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const resource7: OperationParameter = {
+  parameterPath: "resource",
+  mapper: SimGroupMapper,
+};
+
+export const smfDeploymentName: OperationURLParameter = {
+  parameterPath: "smfDeploymentName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]$"),
+      MaxLength: 63,
+      MinLength: 1,
+    },
+    serializedName: "smfDeploymentName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const resource8: OperationParameter = {
+  parameterPath: "resource",
+  mapper: SmfDeploymentResourceMapper,
+};
+
+export const properties6: OperationParameter = {
+  parameterPath: "properties",
+  mapper: SmfDeploymentResourceTagsUpdateMapper,
+};
+
+export const upfDeploymentName: OperationURLParameter = {
+  parameterPath: "upfDeploymentName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]$"),
+      MaxLength: 63,
+      MinLength: 1,
+    },
+    serializedName: "upfDeploymentName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const resource9: OperationParameter = {
+  parameterPath: "resource",
+  mapper: UpfDeploymentResourceMapper,
+};
+
+export const properties7: OperationParameter = {
+  parameterPath: "properties",
+  mapper: UpfDeploymentResourceTagsUpdateMapper,
 };
 
 export const dataNetworkName: OperationURLParameter = {
@@ -208,80 +418,14 @@ export const dataNetworkName: OperationURLParameter = {
   },
 };
 
-export const parameters2: OperationParameter = {
-  parameterPath: "parameters",
+export const resource10: OperationParameter = {
+  parameterPath: "resource",
   mapper: DataNetworkMapper,
 };
 
-export const diagnosticsPackageName: OperationURLParameter = {
-  parameterPath: "diagnosticsPackageName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9_-]*$"),
-      MaxLength: 64,
-    },
-    serializedName: "diagnosticsPackageName",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const parameters3: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: MobileNetworkMapper,
-};
-
-export const parameters4: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: IdentityAndTagsObjectMapper,
-};
-
-export const parameters5: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: PacketCaptureMapper,
-};
-
-export const packetCaptureName: OperationURLParameter = {
-  parameterPath: "packetCaptureName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9_-]*$"),
-      MaxLength: 64,
-    },
-    serializedName: "packetCaptureName",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const parameters6: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: PacketCoreControlPlaneMapper,
-};
-
-export const parameters7: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: PacketCoreControlPlaneCollectDiagnosticsPackageMapper,
-};
-
-export const versionName: OperationURLParameter = {
-  parameterPath: "versionName",
-  mapper: {
-    serializedName: "versionName",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const parameters8: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: PacketCoreDataPlaneMapper,
+export const properties8: OperationParameter = {
+  parameterPath: "properties",
+  mapper: TagsObjectMapper,
 };
 
 export const serviceName: OperationURLParameter = {
@@ -301,64 +445,9 @@ export const serviceName: OperationURLParameter = {
   },
 };
 
-export const parameters9: OperationParameter = {
-  parameterPath: "parameters",
+export const resource11: OperationParameter = {
+  parameterPath: "resource",
   mapper: ServiceMapper,
-};
-
-export const simGroupName: OperationURLParameter = {
-  parameterPath: "simGroupName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9_-]*$"),
-      MaxLength: 64,
-    },
-    serializedName: "simGroupName",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const simName: OperationURLParameter = {
-  parameterPath: "simName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9_-]*$"),
-      MaxLength: 64,
-    },
-    serializedName: "simName",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const parameters10: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: SimMapper,
-};
-
-export const parameters11: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: SimUploadListMapper,
-};
-
-export const parameters12: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: SimDeleteListMapper,
-};
-
-export const parameters13: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: EncryptedSimUploadListMapper,
-};
-
-export const parameters14: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: SimGroupMapper,
 };
 
 export const simPolicyName: OperationURLParameter = {
@@ -376,8 +465,8 @@ export const simPolicyName: OperationURLParameter = {
   },
 };
 
-export const parameters15: OperationParameter = {
-  parameterPath: "parameters",
+export const resource12: OperationParameter = {
+  parameterPath: "resource",
   mapper: SimPolicyMapper,
 };
 
@@ -396,13 +485,13 @@ export const siteName: OperationURLParameter = {
   },
 };
 
-export const parameters16: OperationParameter = {
-  parameterPath: "parameters",
+export const resource13: OperationParameter = {
+  parameterPath: "resource",
   mapper: SiteMapper,
 };
 
-export const parameters17: OperationParameter = {
-  parameterPath: "parameters",
+export const body1: OperationParameter = {
+  parameterPath: "body",
   mapper: SiteDeletePacketCoreMapper,
 };
 
@@ -421,18 +510,143 @@ export const sliceName: OperationURLParameter = {
   },
 };
 
-export const parameters18: OperationParameter = {
-  parameterPath: "parameters",
+export const resource14: OperationParameter = {
+  parameterPath: "resource",
   mapper: SliceMapper,
+};
+
+export const diagnosticsPackageName: OperationURLParameter = {
+  parameterPath: "diagnosticsPackageName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9_-]*$"),
+      MaxLength: 64,
+    },
+    serializedName: "diagnosticsPackageName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const packetCaptureName: OperationURLParameter = {
+  parameterPath: "packetCaptureName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9_-]*$"),
+      MaxLength: 64,
+    },
+    serializedName: "packetCaptureName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const resource15: OperationParameter = {
+  parameterPath: "resource",
+  mapper: PacketCaptureMapper,
+};
+
+export const packetCoreDataPlaneName: OperationURLParameter = {
+  parameterPath: "packetCoreDataPlaneName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9_-]*$"),
+      MaxLength: 64,
+    },
+    serializedName: "packetCoreDataPlaneName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const resource16: OperationParameter = {
+  parameterPath: "resource",
+  mapper: PacketCoreDataPlaneMapper,
+};
+
+export const attachedDataNetworkName: OperationURLParameter = {
+  parameterPath: "attachedDataNetworkName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp(
+        "^[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])*(\\.[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])*)*$",
+      ),
+      MaxLength: 64,
+    },
+    serializedName: "attachedDataNetworkName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const resource17: OperationParameter = {
+  parameterPath: "resource",
+  mapper: AttachedDataNetworkMapper,
 };
 
 export const ueId: OperationURLParameter = {
   parameterPath: "ueId",
   mapper: {
+    constraints: {
+      Pattern: new RegExp(".*"),
+    },
     serializedName: "ueId",
     required: true,
     type: {
       name: "String",
     },
   },
+};
+
+export const body2: OperationParameter = {
+  parameterPath: "body",
+  mapper: SimCloneMapper,
+};
+
+export const body3: OperationParameter = {
+  parameterPath: "body",
+  mapper: SimDeleteListMapper,
+};
+
+export const body4: OperationParameter = {
+  parameterPath: "body",
+  mapper: SimMoveMapper,
+};
+
+export const simName: OperationURLParameter = {
+  parameterPath: "simName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9_-]*$"),
+      MaxLength: 64,
+    },
+    serializedName: "simName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const resource18: OperationParameter = {
+  parameterPath: "resource",
+  mapper: SimMapper,
+};
+
+export const body5: OperationParameter = {
+  parameterPath: "body",
+  mapper: EncryptedSimUploadListMapper,
+};
+
+export const body6: OperationParameter = {
+  parameterPath: "body",
+  mapper: SimUploadListMapper,
 };

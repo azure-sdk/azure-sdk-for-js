@@ -11,7 +11,6 @@ import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   DataNetwork,
   DataNetworksListByMobileNetworkOptionalParams,
-  DataNetworksDeleteOptionalParams,
   DataNetworksGetOptionalParams,
   DataNetworksGetResponse,
   DataNetworksCreateOrUpdateOptionalParams,
@@ -19,6 +18,8 @@ import {
   TagsObject,
   DataNetworksUpdateTagsOptionalParams,
   DataNetworksUpdateTagsResponse,
+  DataNetworksDeleteOptionalParams,
+  DataNetworksDeleteResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -35,32 +36,6 @@ export interface DataNetworks {
     mobileNetworkName: string,
     options?: DataNetworksListByMobileNetworkOptionalParams,
   ): PagedAsyncIterableIterator<DataNetwork>;
-  /**
-   * Deletes the specified data network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param mobileNetworkName The name of the mobile network.
-   * @param dataNetworkName The name of the data network.
-   * @param options The options parameters.
-   */
-  beginDelete(
-    resourceGroupName: string,
-    mobileNetworkName: string,
-    dataNetworkName: string,
-    options?: DataNetworksDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
-  /**
-   * Deletes the specified data network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param mobileNetworkName The name of the mobile network.
-   * @param dataNetworkName The name of the data network.
-   * @param options The options parameters.
-   */
-  beginDeleteAndWait(
-    resourceGroupName: string,
-    mobileNetworkName: string,
-    dataNetworkName: string,
-    options?: DataNetworksDeleteOptionalParams,
-  ): Promise<void>;
   /**
    * Gets information about the specified data network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -80,14 +55,14 @@ export interface DataNetworks {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param dataNetworkName The name of the data network.
-   * @param parameters Parameters supplied to the create or update data network operation.
+   * @param resource Parameters supplied to the create or update data network operation.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
     mobileNetworkName: string,
     dataNetworkName: string,
-    parameters: DataNetwork,
+    resource: DataNetwork,
     options?: DataNetworksCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -101,14 +76,14 @@ export interface DataNetworks {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param dataNetworkName The name of the data network.
-   * @param parameters Parameters supplied to the create or update data network operation.
+   * @param resource Parameters supplied to the create or update data network operation.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     mobileNetworkName: string,
     dataNetworkName: string,
-    parameters: DataNetwork,
+    resource: DataNetwork,
     options?: DataNetworksCreateOrUpdateOptionalParams,
   ): Promise<DataNetworksCreateOrUpdateResponse>;
   /**
@@ -116,14 +91,45 @@ export interface DataNetworks {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param dataNetworkName The name of the data network.
-   * @param parameters Parameters supplied to update data network tags.
+   * @param properties Parameters supplied to update data network tags.
    * @param options The options parameters.
    */
   updateTags(
     resourceGroupName: string,
     mobileNetworkName: string,
     dataNetworkName: string,
-    parameters: TagsObject,
+    properties: TagsObject,
     options?: DataNetworksUpdateTagsOptionalParams,
   ): Promise<DataNetworksUpdateTagsResponse>;
+  /**
+   * Deletes the specified data network.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param mobileNetworkName The name of the mobile network.
+   * @param dataNetworkName The name of the data network.
+   * @param options The options parameters.
+   */
+  beginDelete(
+    resourceGroupName: string,
+    mobileNetworkName: string,
+    dataNetworkName: string,
+    options?: DataNetworksDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<DataNetworksDeleteResponse>,
+      DataNetworksDeleteResponse
+    >
+  >;
+  /**
+   * Deletes the specified data network.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param mobileNetworkName The name of the mobile network.
+   * @param dataNetworkName The name of the data network.
+   * @param options The options parameters.
+   */
+  beginDeleteAndWait(
+    resourceGroupName: string,
+    mobileNetworkName: string,
+    dataNetworkName: string,
+    options?: DataNetworksDeleteOptionalParams,
+  ): Promise<DataNetworksDeleteResponse>;
 }

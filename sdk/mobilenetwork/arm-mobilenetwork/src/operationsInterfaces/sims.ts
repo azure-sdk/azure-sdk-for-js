@@ -11,20 +11,27 @@ import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Sim,
   SimsListByGroupOptionalParams,
-  SimsDeleteOptionalParams,
+  SimClone,
+  SimsCloneOptionalParams,
+  SimsCloneResponse,
+  SimDeleteList,
+  SimsBulkDeleteOptionalParams,
+  SimsBulkDeleteResponse,
+  SimMove,
+  SimsMoveOptionalParams,
+  SimsMoveResponse,
   SimsGetOptionalParams,
   SimsGetResponse,
   SimsCreateOrUpdateOptionalParams,
   SimsCreateOrUpdateResponse,
-  SimUploadList,
-  SimsBulkUploadOptionalParams,
-  SimsBulkUploadResponse,
-  SimDeleteList,
-  SimsBulkDeleteOptionalParams,
-  SimsBulkDeleteResponse,
+  SimsDeleteOptionalParams,
+  SimsDeleteResponse,
   EncryptedSimUploadList,
   SimsBulkUploadEncryptedOptionalParams,
   SimsBulkUploadEncryptedResponse,
+  SimUploadList,
+  SimsBulkUploadOptionalParams,
+  SimsBulkUploadResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -42,31 +49,92 @@ export interface Sims {
     options?: SimsListByGroupOptionalParams,
   ): PagedAsyncIterableIterator<Sim>;
   /**
-   * Deletes the specified SIM.
+   * Clone SIMs to another SIM Group
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param simGroupName The name of the SIM Group.
-   * @param simName The name of the SIM.
+   * @param body Parameters supplied to clone the SIMs.
    * @param options The options parameters.
    */
-  beginDelete(
+  beginClone(
     resourceGroupName: string,
     simGroupName: string,
-    simName: string,
-    options?: SimsDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+    body: SimClone,
+    options?: SimsCloneOptionalParams,
+  ): Promise<
+    SimplePollerLike<OperationState<SimsCloneResponse>, SimsCloneResponse>
+  >;
   /**
-   * Deletes the specified SIM.
+   * Clone SIMs to another SIM Group
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param simGroupName The name of the SIM Group.
-   * @param simName The name of the SIM.
+   * @param body Parameters supplied to clone the SIMs.
    * @param options The options parameters.
    */
-  beginDeleteAndWait(
+  beginCloneAndWait(
     resourceGroupName: string,
     simGroupName: string,
-    simName: string,
-    options?: SimsDeleteOptionalParams,
-  ): Promise<void>;
+    body: SimClone,
+    options?: SimsCloneOptionalParams,
+  ): Promise<SimsCloneResponse>;
+  /**
+   * Bulk delete SIMs from a SIM group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param simGroupName The name of the SIM Group.
+   * @param body Parameters supplied to the bulk SIM delete operation.
+   * @param options The options parameters.
+   */
+  beginBulkDelete(
+    resourceGroupName: string,
+    simGroupName: string,
+    body: SimDeleteList,
+    options?: SimsBulkDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<SimsBulkDeleteResponse>,
+      SimsBulkDeleteResponse
+    >
+  >;
+  /**
+   * Bulk delete SIMs from a SIM group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param simGroupName The name of the SIM Group.
+   * @param body Parameters supplied to the bulk SIM delete operation.
+   * @param options The options parameters.
+   */
+  beginBulkDeleteAndWait(
+    resourceGroupName: string,
+    simGroupName: string,
+    body: SimDeleteList,
+    options?: SimsBulkDeleteOptionalParams,
+  ): Promise<SimsBulkDeleteResponse>;
+  /**
+   * Move SIMs to another SIM Group
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param simGroupName The name of the SIM Group.
+   * @param body Parameters supplied to move the SIMs.
+   * @param options The options parameters.
+   */
+  beginMove(
+    resourceGroupName: string,
+    simGroupName: string,
+    body: SimMove,
+    options?: SimsMoveOptionalParams,
+  ): Promise<
+    SimplePollerLike<OperationState<SimsMoveResponse>, SimsMoveResponse>
+  >;
+  /**
+   * Move SIMs to another SIM Group
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param simGroupName The name of the SIM Group.
+   * @param body Parameters supplied to move the SIMs.
+   * @param options The options parameters.
+   */
+  beginMoveAndWait(
+    resourceGroupName: string,
+    simGroupName: string,
+    body: SimMove,
+    options?: SimsMoveOptionalParams,
+  ): Promise<SimsMoveResponse>;
   /**
    * Gets information about the specified SIM.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -85,14 +153,14 @@ export interface Sims {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param simGroupName The name of the SIM Group.
    * @param simName The name of the SIM.
-   * @param parameters Parameters supplied to the create or update SIM operation.
+   * @param resource Parameters supplied to the create or update SIM operation.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
     simGroupName: string,
     simName: string,
-    parameters: Sim,
+    resource: Sim,
     options?: SimsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -105,89 +173,55 @@ export interface Sims {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param simGroupName The name of the SIM Group.
    * @param simName The name of the SIM.
-   * @param parameters Parameters supplied to the create or update SIM operation.
+   * @param resource Parameters supplied to the create or update SIM operation.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     simGroupName: string,
     simName: string,
-    parameters: Sim,
+    resource: Sim,
     options?: SimsCreateOrUpdateOptionalParams,
   ): Promise<SimsCreateOrUpdateResponse>;
   /**
-   * Bulk upload SIMs to a SIM group.
+   * Deletes the specified SIM.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param simGroupName The name of the SIM Group.
-   * @param parameters Parameters supplied to the bulk SIM upload operation.
+   * @param simName The name of the SIM.
    * @param options The options parameters.
    */
-  beginBulkUpload(
+  beginDelete(
     resourceGroupName: string,
     simGroupName: string,
-    parameters: SimUploadList,
-    options?: SimsBulkUploadOptionalParams,
+    simName: string,
+    options?: SimsDeleteOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<SimsBulkUploadResponse>,
-      SimsBulkUploadResponse
-    >
+    SimplePollerLike<OperationState<SimsDeleteResponse>, SimsDeleteResponse>
   >;
   /**
-   * Bulk upload SIMs to a SIM group.
+   * Deletes the specified SIM.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param simGroupName The name of the SIM Group.
-   * @param parameters Parameters supplied to the bulk SIM upload operation.
+   * @param simName The name of the SIM.
    * @param options The options parameters.
    */
-  beginBulkUploadAndWait(
+  beginDeleteAndWait(
     resourceGroupName: string,
     simGroupName: string,
-    parameters: SimUploadList,
-    options?: SimsBulkUploadOptionalParams,
-  ): Promise<SimsBulkUploadResponse>;
-  /**
-   * Bulk delete SIMs from a SIM group.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param simGroupName The name of the SIM Group.
-   * @param parameters Parameters supplied to the bulk SIM delete operation.
-   * @param options The options parameters.
-   */
-  beginBulkDelete(
-    resourceGroupName: string,
-    simGroupName: string,
-    parameters: SimDeleteList,
-    options?: SimsBulkDeleteOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<SimsBulkDeleteResponse>,
-      SimsBulkDeleteResponse
-    >
-  >;
-  /**
-   * Bulk delete SIMs from a SIM group.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param simGroupName The name of the SIM Group.
-   * @param parameters Parameters supplied to the bulk SIM delete operation.
-   * @param options The options parameters.
-   */
-  beginBulkDeleteAndWait(
-    resourceGroupName: string,
-    simGroupName: string,
-    parameters: SimDeleteList,
-    options?: SimsBulkDeleteOptionalParams,
-  ): Promise<SimsBulkDeleteResponse>;
+    simName: string,
+    options?: SimsDeleteOptionalParams,
+  ): Promise<SimsDeleteResponse>;
   /**
    * Bulk upload SIMs in encrypted form to a SIM group. The SIM credentials must be encrypted.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param simGroupName The name of the SIM Group.
-   * @param parameters Parameters supplied to the encrypted SIMs upload operation.
+   * @param body Parameters supplied to the encrypted SIMs upload operation.
    * @param options The options parameters.
    */
   beginBulkUploadEncrypted(
     resourceGroupName: string,
     simGroupName: string,
-    parameters: EncryptedSimUploadList,
+    body: EncryptedSimUploadList,
     options?: SimsBulkUploadEncryptedOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -199,13 +233,44 @@ export interface Sims {
    * Bulk upload SIMs in encrypted form to a SIM group. The SIM credentials must be encrypted.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param simGroupName The name of the SIM Group.
-   * @param parameters Parameters supplied to the encrypted SIMs upload operation.
+   * @param body Parameters supplied to the encrypted SIMs upload operation.
    * @param options The options parameters.
    */
   beginBulkUploadEncryptedAndWait(
     resourceGroupName: string,
     simGroupName: string,
-    parameters: EncryptedSimUploadList,
+    body: EncryptedSimUploadList,
     options?: SimsBulkUploadEncryptedOptionalParams,
   ): Promise<SimsBulkUploadEncryptedResponse>;
+  /**
+   * Bulk upload SIMs to a SIM group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param simGroupName The name of the SIM Group.
+   * @param body Parameters supplied to the bulk SIM upload operation.
+   * @param options The options parameters.
+   */
+  beginBulkUpload(
+    resourceGroupName: string,
+    simGroupName: string,
+    body: SimUploadList,
+    options?: SimsBulkUploadOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<SimsBulkUploadResponse>,
+      SimsBulkUploadResponse
+    >
+  >;
+  /**
+   * Bulk upload SIMs to a SIM group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param simGroupName The name of the SIM Group.
+   * @param body Parameters supplied to the bulk SIM upload operation.
+   * @param options The options parameters.
+   */
+  beginBulkUploadAndWait(
+    resourceGroupName: string,
+    simGroupName: string,
+    body: SimUploadList,
+    options?: SimsBulkUploadOptionalParams,
+  ): Promise<SimsBulkUploadResponse>;
 }

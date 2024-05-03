@@ -11,7 +11,6 @@ import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Site,
   SitesListByMobileNetworkOptionalParams,
-  SitesDeleteOptionalParams,
   SitesGetOptionalParams,
   SitesGetResponse,
   SitesCreateOrUpdateOptionalParams,
@@ -19,8 +18,11 @@ import {
   TagsObject,
   SitesUpdateTagsOptionalParams,
   SitesUpdateTagsResponse,
+  SitesDeleteOptionalParams,
+  SitesDeleteResponse,
   SiteDeletePacketCore,
   SitesDeletePacketCoreOptionalParams,
+  SitesDeletePacketCoreResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -37,34 +39,6 @@ export interface Sites {
     mobileNetworkName: string,
     options?: SitesListByMobileNetworkOptionalParams,
   ): PagedAsyncIterableIterator<Site>;
-  /**
-   * Deletes the specified mobile network site. This will also delete any network functions that are a
-   * part of this site.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param mobileNetworkName The name of the mobile network.
-   * @param siteName The name of the mobile network site.
-   * @param options The options parameters.
-   */
-  beginDelete(
-    resourceGroupName: string,
-    mobileNetworkName: string,
-    siteName: string,
-    options?: SitesDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
-  /**
-   * Deletes the specified mobile network site. This will also delete any network functions that are a
-   * part of this site.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param mobileNetworkName The name of the mobile network.
-   * @param siteName The name of the mobile network site.
-   * @param options The options parameters.
-   */
-  beginDeleteAndWait(
-    resourceGroupName: string,
-    mobileNetworkName: string,
-    siteName: string,
-    options?: SitesDeleteOptionalParams,
-  ): Promise<void>;
   /**
    * Gets information about the specified mobile network site.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -84,14 +58,14 @@ export interface Sites {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param siteName The name of the mobile network site.
-   * @param parameters Parameters supplied to the create or update mobile network site operation.
+   * @param resource Parameters supplied to the create or update mobile network site operation.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
     mobileNetworkName: string,
     siteName: string,
-    parameters: Site,
+    resource: Site,
     options?: SitesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -105,14 +79,14 @@ export interface Sites {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param siteName The name of the mobile network site.
-   * @param parameters Parameters supplied to the create or update mobile network site operation.
+   * @param resource Parameters supplied to the create or update mobile network site operation.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     mobileNetworkName: string,
     siteName: string,
-    parameters: Site,
+    resource: Site,
     options?: SitesCreateOrUpdateOptionalParams,
   ): Promise<SitesCreateOrUpdateResponse>;
   /**
@@ -120,44 +94,79 @@ export interface Sites {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param siteName The name of the mobile network site.
-   * @param parameters Parameters supplied to update network site tags.
+   * @param properties Parameters supplied to update network site tags.
    * @param options The options parameters.
    */
   updateTags(
     resourceGroupName: string,
     mobileNetworkName: string,
     siteName: string,
-    parameters: TagsObject,
+    properties: TagsObject,
     options?: SitesUpdateTagsOptionalParams,
   ): Promise<SitesUpdateTagsResponse>;
+  /**
+   * Deletes the specified mobile network site. This will also delete any network functions that are a
+   * part of this site.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param mobileNetworkName The name of the mobile network.
+   * @param siteName The name of the mobile network site.
+   * @param options The options parameters.
+   */
+  beginDelete(
+    resourceGroupName: string,
+    mobileNetworkName: string,
+    siteName: string,
+    options?: SitesDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<OperationState<SitesDeleteResponse>, SitesDeleteResponse>
+  >;
+  /**
+   * Deletes the specified mobile network site. This will also delete any network functions that are a
+   * part of this site.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param mobileNetworkName The name of the mobile network.
+   * @param siteName The name of the mobile network site.
+   * @param options The options parameters.
+   */
+  beginDeleteAndWait(
+    resourceGroupName: string,
+    mobileNetworkName: string,
+    siteName: string,
+    options?: SitesDeleteOptionalParams,
+  ): Promise<SitesDeleteResponse>;
   /**
    * Deletes a packet core under the specified mobile network site.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param siteName The name of the mobile network site.
-   * @param parameters Parameters supplied to delete a packet core under a site.
+   * @param body Parameters supplied to delete a packet core under a site.
    * @param options The options parameters.
    */
   beginDeletePacketCore(
     resourceGroupName: string,
     mobileNetworkName: string,
     siteName: string,
-    parameters: SiteDeletePacketCore,
+    body: SiteDeletePacketCore,
     options?: SitesDeletePacketCoreOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<SitesDeletePacketCoreResponse>,
+      SitesDeletePacketCoreResponse
+    >
+  >;
   /**
    * Deletes a packet core under the specified mobile network site.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param siteName The name of the mobile network site.
-   * @param parameters Parameters supplied to delete a packet core under a site.
+   * @param body Parameters supplied to delete a packet core under a site.
    * @param options The options parameters.
    */
   beginDeletePacketCoreAndWait(
     resourceGroupName: string,
     mobileNetworkName: string,
     siteName: string,
-    parameters: SiteDeletePacketCore,
+    body: SiteDeletePacketCore,
     options?: SitesDeletePacketCoreOptionalParams,
-  ): Promise<void>;
+  ): Promise<SitesDeletePacketCoreResponse>;
 }
