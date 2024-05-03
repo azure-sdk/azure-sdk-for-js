@@ -113,7 +113,7 @@ export class FirewallPolicyIdpsSignaturesOverridesImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const patchOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/signatureOverrides/default",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/intrusionDetectionSignaturesOverrides/default",
   httpMethod: "PATCH",
   responses: {
     200: {
@@ -136,7 +136,7 @@ const patchOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const putOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/signatureOverrides/default",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/intrusionDetectionSignaturesOverrides/default",
   httpMethod: "PUT",
   responses: {
     200: {
@@ -159,7 +159,7 @@ const putOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/signatureOverrides/default",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/intrusionDetectionSignaturesOverrides/default",
   httpMethod: "GET",
   responses: {
     200: {
