@@ -634,6 +634,12 @@ export const ManagedCCFProperties: coreClient.CompositeMapper = {
           name: "Number",
         },
       },
+      enclavePlatform: {
+        serializedName: "enclavePlatform",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };

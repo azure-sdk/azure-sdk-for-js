@@ -282,6 +282,8 @@ export interface ManagedCCFProperties {
   readonly provisioningState?: ProvisioningState;
   /** Number of CCF nodes in the Managed CCF. */
   nodeCount?: number;
+  /** Enclave platform of Managed CCF. */
+  enclavePlatform?: EnclavePlatform;
 }
 
 /** Object representing MemberIdentityCertificate for Managed CCF. */
@@ -554,6 +556,24 @@ export enum KnownLanguageRuntime {
  * **JS**
  */
 export type LanguageRuntime = string;
+
+/** Known values of {@link EnclavePlatform} that the service accepts. */
+export enum KnownEnclavePlatform {
+  /** IntelSgx */
+  IntelSgx = "IntelSgx",
+  /** AmdSevSnp */
+  AmdSevSnp = "AmdSevSnp",
+}
+
+/**
+ * Defines values for EnclavePlatform. \
+ * {@link KnownEnclavePlatform} can be used interchangeably with EnclavePlatform,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **IntelSgx** \
+ * **AmdSevSnp**
+ */
+export type EnclavePlatform = string;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams

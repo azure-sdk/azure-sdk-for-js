@@ -1,15 +1,13 @@
 # Release History
+    
+## 1.3.0-beta.3 (2024-05-06)
+    
+**Features**
 
-## 1.3.0-beta.3 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Type Alias EnclavePlatform
+  - Interface ManagedCCFProperties has a new optional parameter enclavePlatform
+  - Added Enum KnownEnclavePlatform
+    
 ## 1.3.0-beta.2 (2024-04-16)
     
 **Features**
