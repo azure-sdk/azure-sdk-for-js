@@ -8606,6 +8606,7 @@ packages:
 
   /queue-tick@1.0.1:
     resolution: {integrity: sha512-kJt5qhMxoszgU/62PLP1CJytzd2NKetjSRnyuj31fDd3Rlcz3fzlFdFLD1SItunPwyqEOkca6GbV612BWfaBag==}
+    requiresBuild: true
     dev: false
 
   /randombytes@2.1.0:
@@ -12575,12 +12576,14 @@ packages:
     dev: false
 
   file:projects/arm-consumption.tgz:
-    resolution: {integrity: sha512-v6xA9WG28R+kxnnTRE3IG7q11bNX9BKXbyDUw4DNejhOUqUc3UjUh43v+QGbxR92ExYVQ0EReN7q7j/kqDNjVg==, tarball: file:projects/arm-consumption.tgz}
+    resolution: {integrity: sha512-vHfcX9lUfBjp4hRcTote85K1im5mT3GUAqN85elZ6/FKirC7n8jVBY9S9PYM4hnU9GYLZBQQH42RHvdnVMJ7Bw==, tarball: file:projects/arm-consumption.tgz}
     name: '@rush-temp/arm-consumption'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.2.0
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.2(@types/node@18.19.32)
       '@types/chai': 4.3.16
@@ -12594,6 +12597,7 @@ packages:
       rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.32)(typescript@5.4.5)
       tslib: 2.6.2
+      tsx: 4.9.3
       typescript: 5.4.5
       uglify-js: 3.17.4
     transitivePeerDependencies:
