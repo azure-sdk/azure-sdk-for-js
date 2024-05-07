@@ -15263,7 +15263,7 @@ packages:
     dev: false
 
   file:projects/arm-mobilenetwork.tgz:
-    resolution: {integrity: sha512-slUAJZvSsk1+EpqJ8YugCfBk8uqFbtwiB8oiq1+AZujWJgV6fjRqSVQFsF8NRrpMO+kqsGDWE87UM6RyJKvHbg==, tarball: file:projects/arm-mobilenetwork.tgz}
+    resolution: {integrity: sha512-EhYxVCV6l5q1ciORVHv0eEuh/xSDaP9p/j3GfwPgbr5Wgkub0J4CuOVyuhV0YSLuL/rB4rXxgPnYi2OZvdJKXA==, tarball: file:projects/arm-mobilenetwork.tgz}
     name: '@rush-temp/arm-mobilenetwork'
     version: 0.0.0
     dependencies:
@@ -15284,6 +15284,7 @@ packages:
       rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.32)(typescript@5.4.5)
       tslib: 2.6.2
+      tsx: 4.9.3
       typescript: 5.4.5
       uglify-js: 3.17.4
     transitivePeerDependencies:
