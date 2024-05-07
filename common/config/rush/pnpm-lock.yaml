@@ -1283,6 +1283,21 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/arm-storage@18.2.0:
+    resolution: {integrity: sha512-jLUsAVFq5YBOYQfhE6L+KaUs+lntctKVafPz50FFScfzPMHYT/SptQGZ7BKzAJBBE/evdt8afmt2NSdl8Szomg==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.7.2
+      '@azure/core-client': 1.9.2
+      '@azure/core-lro': 2.7.2
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': 1.16.0
+      tslib: 2.6.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/communication-common@2.3.1:
     resolution: {integrity: sha512-6ZQt20iMZbyckQn4m1TDwiDv3Fzyt1h4lnQ1szBBns2x3VQY9XHbnskPtvUdwK/HT+c/1PoUwof3toy1AIznbQ==}
     engines: {node: '>=18.0.0'}
@@ -12001,13 +12016,14 @@ packages:
     dev: false
 
   file:projects/arm-batch.tgz:
-    resolution: {integrity: sha512-sJ7cHVAQxUZ+/gkh1e4dSMSXKQmT0whaTnswSrfXCr0MYW6LbfDKwEyRIkW6Yet6hzIIdAB9erddf8zdxjbNfg==, tarball: file:projects/arm-batch.tgz}
+    resolution: {integrity: sha512-1I7AWCklof+x0iUFpTByNo6msSW4RPhxb5xyna2vtnVA0RL2DlyK3gTW2cXlHKfobPLUA6gWMCBHVwoqL9EJQg==, tarball: file:projects/arm-batch.tgz}
     name: '@rush-temp/arm-batch'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
+      '@azure/arm-storage': 18.2.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.2(@types/node@18.19.32)
@@ -13836,7 +13852,7 @@ packages:
     dev: false
 
   file:projects/arm-eventhub.tgz:
-    resolution: {integrity: sha512-eFi8c4l061RY7uVhCUlUqLaQLpc+7+pTotzkTuTsJTZMCuDJ1H7eKE3UVAx7vz0eifrk8kTIBs7akMD9VQulmA==, tarball: file:projects/arm-eventhub.tgz}
+    resolution: {integrity: sha512-LM1WGdcTdme01VZYdGlACuRFqSA3O0Yfjz/v/9eyTFGpvWC1E7aCnmj91jvrRAlCj5PJSRGnNV64lCQzCxIDfQ==, tarball: file:projects/arm-eventhub.tgz}
     name: '@rush-temp/arm-eventhub'
     version: 0.0.0
     dependencies:
@@ -13844,6 +13860,7 @@ packages:
       '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
       '@azure/arm-network': 32.2.0
+      '@azure/arm-storage': 18.2.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.2(@types/node@18.19.32)
@@ -15148,13 +15165,14 @@ packages:
     dev: false
 
   file:projects/arm-mediaservices.tgz:
-    resolution: {integrity: sha512-m3mR/zUPGsuzSluz3JEG3S7SFx0N5l8S1f9LYtzEuGsy9lwA9Xg/STm2foIiNLyDc+eqv2nE3wsjt+CYrA4dJA==, tarball: file:projects/arm-mediaservices.tgz}
+    resolution: {integrity: sha512-2qwL/OoDcIykt+UAZrszVj4w9hN6uoj2ubczPLjPF9n5loVRZO+LxlRStfkNG30K86g4qEKkYmZG54ndnHMHug==, tarball: file:projects/arm-mediaservices.tgz}
     name: '@rush-temp/arm-mediaservices'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
+      '@azure/arm-storage': 18.2.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.2(@types/node@18.19.32)
@@ -15321,13 +15339,14 @@ packages:
     dev: false
 
   file:projects/arm-monitor.tgz:
-    resolution: {integrity: sha512-GxMkxv0+YNW6zXgoQP9xcN/gYWEWfPa6iWz6L0OkBDt8kyxprgmpsK3Dns5w5DssBUP8cwZ3l/RjRbfuhbdTiw==, tarball: file:projects/arm-monitor.tgz}
+    resolution: {integrity: sha512-GkuTYeM9wCzriGo5uNv3YHESdwxY5cDFf3GmC6knGHKIZODE/GhrmuKLhNLNXf9OhNbRPsbO14RkIkhK06413g==, tarball: file:projects/arm-monitor.tgz}
     name: '@rush-temp/arm-monitor'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
+      '@azure/arm-storage': 18.2.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.2(@types/node@18.19.32)
@@ -17453,7 +17472,7 @@ packages:
     dev: false
 
   file:projects/arm-storage.tgz:
-    resolution: {integrity: sha512-Dbww+oJFHkDel+MjnGLKiWG/X1XsUQrdPzGwdZiVb40EIIs+5dI2Ge/uuiNW7Wm5B1btiOUhG8bbJ3vlTX/xMA==, tarball: file:projects/arm-storage.tgz}
+    resolution: {integrity: sha512-U4G3R7Om09ri2ZfV3QolGpbyX3sk7L4wuG4TcyxI9TZnWiugZc10bzwjOyXawtaTmC9I/pJve0V7CbpNLlb/4A==, tarball: file:projects/arm-storage.tgz}
     name: '@rush-temp/arm-storage'
     version: 0.0.0
     dependencies:
@@ -17474,6 +17493,7 @@ packages:
       rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.32)(typescript@5.4.5)
       tslib: 2.6.2
+      tsx: 4.9.3
       typescript: 5.4.5
       uglify-js: 3.17.4
     transitivePeerDependencies:
