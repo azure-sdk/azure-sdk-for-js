@@ -16873,7 +16873,7 @@ packages:
     dev: false
 
   file:projects/arm-security.tgz:
-    resolution: {integrity: sha512-7RWm3vqiPIarnvjqOeZGXvKDZOavqlE1byWbLCvrQVYhJiqtUX7TzEexE32zExe3eg+rNOjy99pTji4tPfkU/A==, tarball: file:projects/arm-security.tgz}
+    resolution: {integrity: sha512-3uVlR4vUStJBw+m6sN8Pt4yhSbEWJaDvadHzc2NGAtv527HN3DVR5/JYHrwt+9SoyatZqtw/uNGJnhmqEGe3iQ==, tarball: file:projects/arm-security.tgz}
     name: '@rush-temp/arm-security'
     version: 0.0.0
     dependencies:
@@ -16894,6 +16894,7 @@ packages:
       rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.32)(typescript@5.4.5)
       tslib: 2.6.2
+      tsx: 4.9.3
       typescript: 5.4.5
       uglify-js: 3.17.4
     transitivePeerDependencies:
