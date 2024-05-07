@@ -12663,7 +12663,7 @@ packages:
     dev: false
 
   file:projects/arm-containerservice-1.tgz:
-    resolution: {integrity: sha512-bVKsJu2e9fy1EjBEN/vO7eFlpm02g8DwmZ/rKGqmwz/LOtUJtSMCSLhmlhl95Y17ywnvCwm/fi0nLhsH1kVHEw==, tarball: file:projects/arm-containerservice-1.tgz}
+    resolution: {integrity: sha512-DNlh5L8da+WAvivP0t9j/fQDP32fON3u4F9VeCIbznUq7boP5KLtX8D6jUMFMj+ve4bnPzTz+45nSlKVPZgsiw==, tarball: file:projects/arm-containerservice-1.tgz}
     name: '@rush-temp/arm-containerservice-1'
     version: 0.0.0
     dependencies:
@@ -12685,6 +12685,7 @@ packages:
       rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.32)(typescript@5.4.5)
       tslib: 2.6.2
+      tsx: 4.9.3
       typescript: 5.4.5
       uglify-js: 3.17.4
     transitivePeerDependencies:
