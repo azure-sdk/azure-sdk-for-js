@@ -4,63 +4,59 @@
 
 ```ts
 
+/// <reference types="node" />
+
 import { Client } from '@azure-rest/core-client';
 import { ClientOptions } from '@azure-rest/core-client';
 import { ErrorModel } from '@azure-rest/core-client';
+import { ErrorResponse } from '@azure-rest/core-client';
 import { HttpResponse } from '@azure-rest/core-client';
 import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure-rest/core-client';
 import { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import { RequestParameters } from '@azure-rest/core-client';
-import { RestError } from '@azure/core-rest-pipeline';
-import { RestErrorOptions } from '@azure/core-rest-pipeline';
 import { StreamableMethod } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public (undocumented)
-export function createOpenAI(endpoint: string, credential: KeyCredential | TokenCredential, options?: OpenAIClientOptions): OpenAIContext;
+export function createOpenAI(endpointParam: string, credential: KeyCredential | TokenCredential, options?: OpenAIClientOptions): OpenAIContext;
 
 // @public
-export function getAudioTranscription(context: OpenAIContext, deploymentName: string, fileContent: Uint8Array, options?: GetAudioTranscriptionOptions): Promise<AudioResultSimpleJson>;
+export function generateSpeechFromText(context: OpenAIContext, deploymentId: string, body: SpeechGenerationOptions_2, options?: GenerateSpeechFromTextOptionalParams): Promise<Uint8Array>;
 
 // @public
-export function getAudioTranscription<Format extends AudioResultFormat>(context: OpenAIContext, deploymentName: string, fileContent: Uint8Array, format: Format, options?: GetAudioTranscriptionOptions): Promise<AudioResult<Format>>;
+export function getAudioTranscriptionAsPlainText(context: OpenAIContext, deploymentId: string, body: AudioTranscriptionOptions_2, options?: GetAudioTranscriptionAsPlainTextOptionalParams): Promise<string>;
 
 // @public
-export function getAudioTranslation(context: OpenAIContext, deploymentName: string, fileContent: Uint8Array, options?: GetAudioTranslationOptions): Promise<AudioResultSimpleJson>;
+export function getAudioTranscriptionAsResponseObject(context: OpenAIContext, deploymentId: string, body: AudioTranscriptionOptions_2, options?: GetAudioTranscriptionAsResponseObjectOptionalParams): Promise<AudioTranscription>;
 
 // @public
-export function getAudioTranslation<Format extends AudioResultFormat>(context: OpenAIContext, deploymentName: string, fileContent: Uint8Array, format: Format, options?: GetAudioTranslationOptions): Promise<AudioResult<Format>>;
+export function getAudioTranslationAsPlainText(context: OpenAIContext, deploymentId: string, body: AudioTranslationOptions_2, options?: GetAudioTranslationAsPlainTextOptionalParams): Promise<string>;
 
 // @public
-export function getChatCompletions(context: OpenAIContext, deploymentName: string, messages: ChatRequestMessageUnion[], options?: GetChatCompletionsOptions): Promise<ChatCompletions>;
+export function getAudioTranslationAsResponseObject(context: OpenAIContext, deploymentId: string, body: AudioTranslationOptions_2, options?: GetAudioTranslationAsResponseObjectOptionalParams): Promise<AudioTranslation>;
 
 // @public
-export function getCompletions(context: OpenAIContext, deploymentId: string, prompt: string[], options?: GetCompletionsOptions): Promise<Completions>;
+export function getChatCompletions(context: OpenAIContext, deploymentId: string, body: ChatCompletionsOptions_2, options?: GetChatCompletionsOptionalParams): Promise<ChatCompletions>;
 
 // @public
-export function getEmbeddings(context: OpenAIContext, deploymentId: string, input: string[], options?: GetEmbeddingsOptions): Promise<Embeddings>;
+export function getCompletions(context: OpenAIContext, deploymentId: string, body: CompletionsOptions_2, options?: GetCompletionsOptionalParams): Promise<Completions>;
 
 // @public
-export function getImageGenerations(context: OpenAIContext, deploymentId: string, prompt: string, options?: GetImagesOptions): Promise<ImageGenerations>;
+export function getEmbeddings(context: OpenAIContext, deploymentId: string, body: EmbeddingsOptions_2, options?: GetEmbeddingsOptionalParams): Promise<Embeddings>;
 
 // @public
-export function isOpenAIError(e: unknown): e is OpenAIError;
+export function getImageGenerations(context: OpenAIContext, deploymentId: string, body: ImageGenerationOptions_2, options?: GetImageGenerationsOptionalParams): Promise<ImageGenerations>;
 
-// @public
+// @public (undocumented)
 export interface OpenAIClientOptions extends ClientOptions {
+    apiVersion?: string;
 }
 
 // @public (undocumented)
 export type OpenAIContext = Client & {
     path: Routes;
 };
-
-// @public (undocumented)
-export function streamChatCompletions(context: OpenAIContext, deploymentName: string, messages: ChatRequestMessageUnion[], options?: GetChatCompletionsOptions): Promise<EventStream<ChatCompletions>>;
-
-// @public (undocumented)
-export function streamCompletions(context: OpenAIContext, deploymentName: string, prompt: string[], options?: GetCompletionsOptions): Promise<EventStream<Omit<Completions, "usage">>>;
 
 // (No @packageDocumentation comment for this package)
 

@@ -6,8 +6,6 @@
 
 import { ErrorModel } from '@azure-rest/core-client';
 import { OperationOptions } from '@azure-rest/core-client';
-import { RestError } from '@azure/core-rest-pipeline';
-import { RestErrorOptions } from '@azure/core-rest-pipeline';
 
 // @public
 export type AudioTaskLabel = string;
@@ -19,6 +17,7 @@ export interface AudioTranscription {
     segments?: AudioTranscriptionSegment[];
     task?: AudioTaskLabel;
     text: string;
+    words?: AudioTranscriptionWord[];
 }
 
 // @public
@@ -33,6 +32,7 @@ export interface AudioTranscriptionOptions {
     prompt?: string;
     responseFormat?: AudioTranscriptionFormat;
     temperature?: number;
+    timestampGranularities?: AudioTranscriptionTimestampGranularity[];
 }
 
 // @public
@@ -47,6 +47,16 @@ export interface AudioTranscriptionSegment {
     temperature: number;
     text: string;
     tokens: number[];
+}
+
+// @public
+export type AudioTranscriptionTimestampGranularity = string;
+
+// @public
+export interface AudioTranscriptionWord {
+    end: number;
+    start: number;
+    word: string;
 }
 
 // @public
@@ -133,7 +143,13 @@ export interface AzureChatOCREnhancementConfiguration {
 }
 
 // @public
-export interface AzureCosmosDBChatExtensionConfiguration {
+export interface AzureCosmosDBChatExtensionConfiguration extends AzureChatExtensionConfiguration {
+    parameters: AzureCosmosDBChatExtensionParameters;
+    type: "azure_cosmos_db";
+}
+
+// @public
+export interface AzureCosmosDBChatExtensionParameters {
     authentication?: OnYourDataAuthenticationOptionsUnion;
     containerName: string;
     databaseName: string;
@@ -144,7 +160,6 @@ export interface AzureCosmosDBChatExtensionConfiguration {
     roleInformation?: string;
     strictness?: number;
     topNDocuments?: number;
-    type: "azure_cosmos_db";
 }
 
 // @public
@@ -155,12 +170,6 @@ export interface AzureCosmosDBFieldMappingOptions {
     titleField?: string;
     urlField?: string;
     vectorFields: string[];
-}
-
-// @public
-export interface AzureExtensionsOptions {
-    enhancements?: AzureChatEnhancementConfiguration;
-    extensions?: AzureChatExtensionConfigurationUnion[];
 }
 
 // @public
@@ -189,7 +198,13 @@ export interface AzureGroundingEnhancementLineSpan {
 }
 
 // @public
-export interface AzureMachineLearningIndexChatExtensionConfiguration {
+export interface AzureMachineLearningIndexChatExtensionConfiguration extends AzureChatExtensionConfiguration {
+    parameters: AzureMachineLearningIndexChatExtensionParameters;
+    type: "azure_ml_index";
+}
+
+// @public
+export interface AzureMachineLearningIndexChatExtensionParameters {
     authentication?: OnYourDataAuthenticationOptionsUnion;
     filter?: string;
     inScope?: boolean;
@@ -198,12 +213,17 @@ export interface AzureMachineLearningIndexChatExtensionConfiguration {
     roleInformation?: string;
     strictness?: number;
     topNDocuments?: number;
-    type: "azure_ml_index";
     version: string;
 }
 
 // @public
 export interface AzureSearchChatExtensionConfiguration extends AzureChatExtensionConfiguration {
+    parameters: AzureSearchChatExtensionParameters;
+    type: "azure_search";
+}
+
+// @public
+export interface AzureSearchChatExtensionParameters {
     authentication?: OnYourDataAuthenticationOptionsUnion;
     embeddingDependency?: OnYourDataVectorizationSourceUnion;
     endpoint: string;
@@ -216,7 +236,6 @@ export interface AzureSearchChatExtensionConfiguration extends AzureChatExtensio
     semanticConfiguration?: string;
     strictness?: number;
     topNDocuments?: number;
-    type: "azure_search";
 }
 
 // @public
@@ -251,14 +270,19 @@ export interface ChatChoiceLogProbabilityInfo {
 }
 
 // @public
+export interface ChatChoiceLogProbabilityInfo {
+    content: ChatTokenLogProbabilityResult[] | null;
+}
+
+// @public
 export interface ChatCompletions {
     choices: ChatChoice[];
     created: Date;
     id: string;
-    model: string;
+    model?: string;
     promptFilterResults?: ContentFilterResultsForPrompt[];
     systemFingerprint?: string;
-    usage?: CompletionsUsage;
+    usage: CompletionsUsage;
 }
 
 // @public
@@ -295,7 +319,33 @@ export interface ChatCompletionsNamedToolSelection {
 }
 
 // @public
-export type ChatCompletionsNamedToolSelectionUnion = ChatCompletionsNamedFunctionToolSelection | ChatCompletionsToolSelectionPreset | ChatCompletionsNamedToolSelection;
+export type ChatCompletionsNamedToolSelectionUnion = ChatCompletionsNamedFunctionToolSelection | ChatCompletionsNamedToolSelection;
+
+// @public
+export interface ChatCompletionsOptions {
+    dataSources?: AzureChatExtensionConfigurationUnion[];
+    enhancements?: AzureChatEnhancementConfiguration;
+    frequencyPenalty?: number;
+    functionCall?: FunctionCallPreset | FunctionName;
+    functions?: FunctionDefinition[];
+    logitBias?: Record<string, number>;
+    logprobs?: boolean | null;
+    maxTokens?: number;
+    messages: ChatRequestMessageUnion[];
+    model?: string;
+    n?: number;
+    presencePenalty?: number;
+    responseFormat?: ChatCompletionsResponseFormatUnion;
+    seed?: number;
+    stop?: string[];
+    stream?: boolean;
+    temperature?: number;
+    toolChoice?: ChatCompletionsToolSelectionPreset | ChatCompletionsNamedToolSelectionUnion;
+    tools?: ChatCompletionsToolDefinitionUnion[];
+    topLogprobs?: number | null;
+    topP?: number;
+    user?: string;
+}
 
 // @public
 export interface ChatCompletionsResponseFormat {
@@ -313,7 +363,6 @@ export interface ChatCompletionsTextResponseFormat extends ChatCompletionsRespon
 // @public
 export interface ChatCompletionsToolCall {
     id: string;
-    index?: number;
     type: string;
 }
 
@@ -519,14 +568,15 @@ export interface ContentFilterCitedDetectionResult {
 }
 
 // @public
-export interface ContentFilterDetectionResult {
-    detected: boolean;
+export interface ContentFilterDetailedResults {
+    details: ContentFilterBlocklistIdResult[];
     filtered: boolean;
 }
 
 // @public
-export interface ContentFilterErrorResults {
-    error: ErrorModel;
+export interface ContentFilterDetectionResult {
+    detected: boolean;
+    filtered: boolean;
 }
 
 // @public
@@ -536,10 +586,30 @@ export interface ContentFilterResult {
 }
 
 // @public
-export type ContentFilterResultDetailsForPrompt = ContentFilterSuccessResultDetailsForPrompt | ContentFilterErrorResults;
+export interface ContentFilterResultDetailsForPrompt {
+    customBlocklists?: ContentFilterDetailedResults;
+    error?: ErrorModel;
+    hate?: ContentFilterResult;
+    indirectAttack?: ContentFilterDetectionResult;
+    jailbreak?: ContentFilterDetectionResult;
+    profanity?: ContentFilterDetectionResult;
+    selfHarm?: ContentFilterResult;
+    sexual?: ContentFilterResult;
+    violence?: ContentFilterResult;
+}
 
 // @public
-export type ContentFilterResultsForChoice = ContentFilterSuccessResultsForChoice | ContentFilterErrorResults;
+export interface ContentFilterResultsForChoice {
+    customBlocklists?: ContentFilterDetailedResults;
+    error?: ErrorModel;
+    hate?: ContentFilterResult;
+    profanity?: ContentFilterDetectionResult;
+    protectedMaterialCode?: ContentFilterCitedDetectionResult;
+    protectedMaterialText?: ContentFilterDetectionResult;
+    selfHarm?: ContentFilterResult;
+    sexual?: ContentFilterResult;
+    violence?: ContentFilterResult;
+}
 
 // @public
 export interface ContentFilterResultsForPrompt {
@@ -551,32 +621,13 @@ export interface ContentFilterResultsForPrompt {
 export type ContentFilterSeverity = string;
 
 // @public
-export interface ContentFilterSuccessResultDetailsForPrompt {
-    customBlocklists?: ContentFilterBlocklistIdResult[];
-    error?: undefined;
-    hate?: ContentFilterResult;
-    jailbreak?: ContentFilterDetectionResult;
-    profanity?: ContentFilterDetectionResult;
-    selfHarm?: ContentFilterResult;
-    sexual?: ContentFilterResult;
-    violence?: ContentFilterResult;
+export interface ElasticsearchChatExtensionConfiguration extends AzureChatExtensionConfiguration {
+    parameters: ElasticsearchChatExtensionParameters;
+    type: "elasticsearch";
 }
 
 // @public
-export interface ContentFilterSuccessResultsForChoice {
-    customBlocklists?: ContentFilterBlocklistIdResult[];
-    error?: undefined;
-    hate?: ContentFilterResult;
-    profanity?: ContentFilterDetectionResult;
-    protectedMaterialCode?: ContentFilterCitedDetectionResult;
-    protectedMaterialText?: ContentFilterDetectionResult;
-    selfHarm?: ContentFilterResult;
-    sexual?: ContentFilterResult;
-    violence?: ContentFilterResult;
-}
-
-// @public
-export interface ElasticsearchChatExtensionConfiguration {
+export interface ElasticsearchChatExtensionParameters {
     authentication?: OnYourDataAuthenticationOptionsUnion;
     embeddingDependency?: OnYourDataVectorizationSourceUnion;
     endpoint: string;
@@ -587,7 +638,6 @@ export interface ElasticsearchChatExtensionConfiguration {
     roleInformation?: string;
     strictness?: number;
     topNDocuments?: number;
-    type: "elasticsearch";
 }
 
 // @public
@@ -604,6 +654,9 @@ export interface ElasticsearchIndexFieldMappingOptions {
 export type ElasticsearchQueryType = string;
 
 // @public
+export type EmbeddingEncodingFormat = string;
+
+// @public
 export interface EmbeddingItem {
     embedding: number[];
     index: number;
@@ -618,7 +671,9 @@ export interface Embeddings {
 // @public
 export interface EmbeddingsOptions {
     dimensions?: number;
+    encodingFormat?: EmbeddingEncodingFormat;
     input: string[];
+    inputType?: string;
     model?: string;
     user?: string;
 }
@@ -627,10 +682,6 @@ export interface EmbeddingsOptions {
 export interface EmbeddingsUsage {
     promptTokens: number;
     totalTokens: number;
-}
-
-// @public
-export interface EventStream<T> extends ReadableStream<T>, AsyncIterable<T> {
 }
 
 // @public
@@ -646,7 +697,7 @@ export type FunctionCallPreset = string;
 export interface FunctionDefinition {
     description?: string;
     name: string;
-    parameters?: Record<string, any>;
+    parameters?: unknown;
 }
 
 // @public
@@ -654,57 +705,44 @@ export interface FunctionName {
     name: string;
 }
 
-// @public
-export interface GetChatCompletionsOptions extends OperationOptions {
-    azureExtensionOptions?: AzureExtensionsOptions;
-    frequencyPenalty?: number;
-    functionCall?: FunctionCallPreset | FunctionName;
-    functions?: FunctionDefinition[];
-    logitBias?: Record<string, number>;
-    maxTokens?: number;
-    n?: number;
-    presencePenalty?: number;
-    responseFormat?: ChatCompletionsResponseFormat;
-    seed?: number;
-    stop?: string[];
-    temperature?: number;
-    toolChoice?: ChatCompletionsNamedToolSelectionUnion;
-    tools?: ChatCompletionsToolDefinitionUnion[];
-    topP?: number;
-    user?: string;
+// @public (undocumented)
+export interface GenerateSpeechFromTextOptionalParams extends OperationOptions {
 }
 
-// @public
-export interface GetCompletionsOptions extends OperationOptions {
-    bestOf?: number;
-    echo?: boolean;
-    frequencyPenalty?: number;
-    logitBias?: Record<string, number>;
-    logprobs?: number;
-    maxTokens?: number;
-    n?: number;
-    presencePenalty?: number;
-    stop?: string[];
-    temperature?: number;
-    topP?: number;
-    user?: string;
+// @public (undocumented)
+export interface GetAudioTranscriptionAsPlainTextOptionalParams extends OperationOptions {
+    contentType?: string;
 }
 
-// @public
-export interface GetEmbeddingsOptions extends OperationOptions {
-    dimensions?: number;
-    model?: string;
-    user?: string;
+// @public (undocumented)
+export interface GetAudioTranscriptionAsResponseObjectOptionalParams extends OperationOptions {
+    contentType?: string;
 }
 
-// @public
-export interface GetImagesOptions extends OperationOptions {
-    n?: number;
-    quality?: ImageGenerationQuality;
-    responseFormat?: ImageGenerationResponseFormat;
-    size?: ImageSize;
-    style?: ImageGenerationStyle;
-    user?: string;
+// @public (undocumented)
+export interface GetAudioTranslationAsPlainTextOptionalParams extends OperationOptions {
+    contentType?: string;
+}
+
+// @public (undocumented)
+export interface GetAudioTranslationAsResponseObjectOptionalParams extends OperationOptions {
+    contentType?: string;
+}
+
+// @public (undocumented)
+export interface GetChatCompletionsOptionalParams extends OperationOptions {
+}
+
+// @public (undocumented)
+export interface GetCompletionsOptionalParams extends OperationOptions {
+}
+
+// @public (undocumented)
+export interface GetEmbeddingsOptionalParams extends OperationOptions {
+}
+
+// @public (undocumented)
+export interface GetImageGenerationsOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -853,15 +891,14 @@ export type OnYourDataVectorizationSourceType = string;
 export type OnYourDataVectorizationSourceUnion = OnYourDataEndpointVectorizationSource | OnYourDataDeploymentNameVectorizationSource | OnYourDataModelIdVectorizationSource | OnYourDataVectorizationSource;
 
 // @public
-export class OpenAIError extends RestError {
-    constructor(message: string, param?: string | null, type?: string | null, options?: RestErrorOptions);
-    param: string | null;
-    type: string | null;
+export interface PineconeChatExtensionConfiguration extends AzureChatExtensionConfiguration {
+    parameters: PineconeChatExtensionParameters;
+    type: "pinecone";
 }
 
 // @public
-export interface PineconeChatExtensionConfiguration {
-    authentication?: OnYourDataAuthenticationOptions;
+export interface PineconeChatExtensionParameters {
+    authentication?: OnYourDataAuthenticationOptionsUnion;
     embeddingDependency: OnYourDataVectorizationSourceUnion;
     environment: string;
     fieldsMapping: PineconeFieldMappingOptions;
@@ -870,7 +907,6 @@ export interface PineconeChatExtensionConfiguration {
     roleInformation?: string;
     strictness?: number;
     topNDocuments?: number;
-    type: "pinecone";
 }
 
 // @public
@@ -881,6 +917,24 @@ export interface PineconeFieldMappingOptions {
     titleField?: string;
     urlField?: string;
 }
+
+// @public (undocumented)
+export type ServiceApiVersions = "2022-12-01" | "2023-05-15" | "2023-06-01-preview" | "2023-07-01-preview" | "2024-02-15-preview" | "2024-03-01-preview" | "2024-04-01-preview";
+
+// @public
+export interface SpeechGenerationOptions {
+    input: string;
+    model?: string;
+    responseFormat?: SpeechGenerationResponseFormat;
+    speed?: number;
+    voice: SpeechVoice;
+}
+
+// @public
+export type SpeechGenerationResponseFormat = string;
+
+// @public
+export type SpeechVoice = string;
 
 // @public
 export interface StopFinishDetails extends ChatFinishDetails {
