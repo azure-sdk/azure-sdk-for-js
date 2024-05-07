@@ -16963,7 +16963,7 @@ packages:
     dev: false
 
   file:projects/arm-selfhelp.tgz:
-    resolution: {integrity: sha512-hM45/ZgPc1eNuyYttBGawKFbCJYQ58ILyzluuI+I3mYZFW0pN60g75eFb0eKW15BB3GO+7uuPRK1XKzI7bkJ0w==, tarball: file:projects/arm-selfhelp.tgz}
+    resolution: {integrity: sha512-Vk2mQPeI/oX5UQbqyv/ZnFTGjWnqvGsf25Syfj4/O15WY6WYHnVahTjGGRYv0PwZ9fBBuRfMnSwu9jXK3XNq7A==, tarball: file:projects/arm-selfhelp.tgz}
     name: '@rush-temp/arm-selfhelp'
     version: 0.0.0
     dependencies:
@@ -16984,6 +16984,7 @@ packages:
       rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.32)(typescript@5.4.5)
       tslib: 2.6.2
+      tsx: 4.9.3
       typescript: 5.4.5
       uglify-js: 3.17.4
     transitivePeerDependencies:
