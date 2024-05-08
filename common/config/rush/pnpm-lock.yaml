@@ -11370,7 +11370,7 @@ packages:
     dev: false
 
   file:projects/arm-apicenter.tgz:
-    resolution: {integrity: sha512-03HM2Bx6+knOBc8hvWGtEOupSEUOWeNfVxcu5OcyKKQc96xXOtLbIFXkUQM8QImTyT90ryRzaeyB9pRrK0ssIw==, tarball: file:projects/arm-apicenter.tgz}
+    resolution: {integrity: sha512-lYRDKym2MG/XvUIXVDWqehB6P5Xc20a2rE4aYkksKvrdR3/kwzQ0qNgS5RORqtEFnhXejHNeHJ+Kp5AUdbqKEA==, tarball: file:projects/arm-apicenter.tgz}
     name: '@rush-temp/arm-apicenter'
     version: 0.0.0
     dependencies:
@@ -11391,6 +11391,7 @@ packages:
       rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.32)(typescript@5.4.5)
       tslib: 2.6.2
+      tsx: 4.9.3
       typescript: 5.4.5
       uglify-js: 3.17.4
     transitivePeerDependencies:

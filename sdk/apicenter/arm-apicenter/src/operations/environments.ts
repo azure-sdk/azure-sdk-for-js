@@ -390,7 +390,8 @@ const headOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiCenter/services/{serviceName}/workspaces/{workspaceName}/environments/{environmentName}",
   httpMethod: "HEAD",
   responses: {
-    200: {},
+    204: {},
+    404: {},
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
