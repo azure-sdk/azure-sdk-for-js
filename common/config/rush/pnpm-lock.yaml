@@ -14663,7 +14663,7 @@ packages:
     dev: false
 
   file:projects/arm-largeinstance.tgz:
-    resolution: {integrity: sha512-1abtiKgkUMW2qO1wjuIr8t5p1ez5b5LxFjh7EIvLjgCjMtVWjAMsELkRKArhenZxc/T+RO3rb7vN6V6YOpn95A==, tarball: file:projects/arm-largeinstance.tgz}
+    resolution: {integrity: sha512-acX099fll8mX4LTfrROLT55486DhgHmX32/uHOWx7HkXblwML7rmZXILGAwUOxBDnTVVA2YbfRVB1o9iN3LETQ==, tarball: file:projects/arm-largeinstance.tgz}
     name: '@rush-temp/arm-largeinstance'
     version: 0.0.0
     dependencies:
@@ -14684,6 +14684,7 @@ packages:
       rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.32)(typescript@5.4.5)
       tslib: 2.6.2
+      tsx: 4.9.3
       typescript: 5.4.5
       uglify-js: 3.17.4
     transitivePeerDependencies:
