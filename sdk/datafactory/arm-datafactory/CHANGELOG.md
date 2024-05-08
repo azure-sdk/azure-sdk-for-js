@@ -1,5 +1,154 @@
 # Release History
+    
+## 16.0.0 (2024-05-08)
+    
+**Features**
 
+  - Added Interface AmazonRdsForSqlServerLinkedServiceTypeProperties
+  - Added Interface AzureSqlDatabaseLinkedServiceTypeProperties
+  - Added Interface AzureSqlDWLinkedServiceTypeProperties
+  - Added Interface AzureSqlMILinkedServiceTypeProperties
+  - Added Interface LakehouseLinkedService
+  - Added Interface LakehouseLocation
+  - Added Interface LakehouseReadSettings
+  - Added Interface LakehouseTableDataset
+  - Added Interface LakehouseTableSink
+  - Added Interface LakehouseTableSource
+  - Added Interface LakehouseWriteSettings
+  - Added Interface SqlServerBaseLinkedServiceTypeProperties
+  - Added Interface SqlServerLinkedServiceTypeProperties
+  - Added Type Alias AmazonRdsForSqlAuthenticationType
+  - Added Type Alias AzureSqlDatabaseAuthenticationType
+  - Added Type Alias AzureSqlDWAuthenticationType
+  - Added Type Alias AzureSqlMIAuthenticationType
+  - Added Type Alias SqlServerAuthenticationType
+  - Interface AmazonRdsForSqlServerLinkedService has a new optional parameter applicationIntent
+  - Interface AmazonRdsForSqlServerLinkedService has a new optional parameter authenticationType
+  - Interface AmazonRdsForSqlServerLinkedService has a new optional parameter commandTimeout
+  - Interface AmazonRdsForSqlServerLinkedService has a new optional parameter connectRetryCount
+  - Interface AmazonRdsForSqlServerLinkedService has a new optional parameter connectRetryInterval
+  - Interface AmazonRdsForSqlServerLinkedService has a new optional parameter connectTimeout
+  - Interface AmazonRdsForSqlServerLinkedService has a new optional parameter database
+  - Interface AmazonRdsForSqlServerLinkedService has a new optional parameter encrypt
+  - Interface AmazonRdsForSqlServerLinkedService has a new optional parameter failoverPartner
+  - Interface AmazonRdsForSqlServerLinkedService has a new optional parameter hostNameInCertificate
+  - Interface AmazonRdsForSqlServerLinkedService has a new optional parameter integratedSecurity
+  - Interface AmazonRdsForSqlServerLinkedService has a new optional parameter loadBalanceTimeout
+  - Interface AmazonRdsForSqlServerLinkedService has a new optional parameter maxPoolSize
+  - Interface AmazonRdsForSqlServerLinkedService has a new optional parameter minPoolSize
+  - Interface AmazonRdsForSqlServerLinkedService has a new optional parameter multipleActiveResultSets
+  - Interface AmazonRdsForSqlServerLinkedService has a new optional parameter multiSubnetFailover
+  - Interface AmazonRdsForSqlServerLinkedService has a new optional parameter packetSize
+  - Interface AmazonRdsForSqlServerLinkedService has a new optional parameter pooling
+  - Interface AmazonRdsForSqlServerLinkedService has a new optional parameter server
+  - Interface AmazonRdsForSqlServerLinkedService has a new optional parameter trustServerCertificate
+  - Interface AzureSqlDatabaseLinkedService has a new optional parameter applicationIntent
+  - Interface AzureSqlDatabaseLinkedService has a new optional parameter authenticationType
+  - Interface AzureSqlDatabaseLinkedService has a new optional parameter commandTimeout
+  - Interface AzureSqlDatabaseLinkedService has a new optional parameter connectRetryCount
+  - Interface AzureSqlDatabaseLinkedService has a new optional parameter connectRetryInterval
+  - Interface AzureSqlDatabaseLinkedService has a new optional parameter connectTimeout
+  - Interface AzureSqlDatabaseLinkedService has a new optional parameter database
+  - Interface AzureSqlDatabaseLinkedService has a new optional parameter encrypt
+  - Interface AzureSqlDatabaseLinkedService has a new optional parameter failoverPartner
+  - Interface AzureSqlDatabaseLinkedService has a new optional parameter hostNameInCertificate
+  - Interface AzureSqlDatabaseLinkedService has a new optional parameter integratedSecurity
+  - Interface AzureSqlDatabaseLinkedService has a new optional parameter loadBalanceTimeout
+  - Interface AzureSqlDatabaseLinkedService has a new optional parameter maxPoolSize
+  - Interface AzureSqlDatabaseLinkedService has a new optional parameter minPoolSize
+  - Interface AzureSqlDatabaseLinkedService has a new optional parameter multipleActiveResultSets
+  - Interface AzureSqlDatabaseLinkedService has a new optional parameter multiSubnetFailover
+  - Interface AzureSqlDatabaseLinkedService has a new optional parameter packetSize
+  - Interface AzureSqlDatabaseLinkedService has a new optional parameter pooling
+  - Interface AzureSqlDatabaseLinkedService has a new optional parameter server
+  - Interface AzureSqlDatabaseLinkedService has a new optional parameter servicePrincipalCredential
+  - Interface AzureSqlDatabaseLinkedService has a new optional parameter servicePrincipalCredentialType
+  - Interface AzureSqlDatabaseLinkedService has a new optional parameter trustServerCertificate
+  - Interface AzureSqlDatabaseLinkedService has a new optional parameter userName
+  - Interface AzureSqlDWLinkedService has a new optional parameter applicationIntent
+  - Interface AzureSqlDWLinkedService has a new optional parameter authenticationType
+  - Interface AzureSqlDWLinkedService has a new optional parameter commandTimeout
+  - Interface AzureSqlDWLinkedService has a new optional parameter connectRetryCount
+  - Interface AzureSqlDWLinkedService has a new optional parameter connectRetryInterval
+  - Interface AzureSqlDWLinkedService has a new optional parameter connectTimeout
+  - Interface AzureSqlDWLinkedService has a new optional parameter database
+  - Interface AzureSqlDWLinkedService has a new optional parameter encrypt
+  - Interface AzureSqlDWLinkedService has a new optional parameter failoverPartner
+  - Interface AzureSqlDWLinkedService has a new optional parameter hostNameInCertificate
+  - Interface AzureSqlDWLinkedService has a new optional parameter integratedSecurity
+  - Interface AzureSqlDWLinkedService has a new optional parameter loadBalanceTimeout
+  - Interface AzureSqlDWLinkedService has a new optional parameter maxPoolSize
+  - Interface AzureSqlDWLinkedService has a new optional parameter minPoolSize
+  - Interface AzureSqlDWLinkedService has a new optional parameter multipleActiveResultSets
+  - Interface AzureSqlDWLinkedService has a new optional parameter multiSubnetFailover
+  - Interface AzureSqlDWLinkedService has a new optional parameter packetSize
+  - Interface AzureSqlDWLinkedService has a new optional parameter pooling
+  - Interface AzureSqlDWLinkedService has a new optional parameter server
+  - Interface AzureSqlDWLinkedService has a new optional parameter servicePrincipalCredential
+  - Interface AzureSqlDWLinkedService has a new optional parameter servicePrincipalCredentialType
+  - Interface AzureSqlDWLinkedService has a new optional parameter trustServerCertificate
+  - Interface AzureSqlDWLinkedService has a new optional parameter userName
+  - Interface AzureSqlMILinkedService has a new optional parameter applicationIntent
+  - Interface AzureSqlMILinkedService has a new optional parameter authenticationType
+  - Interface AzureSqlMILinkedService has a new optional parameter commandTimeout
+  - Interface AzureSqlMILinkedService has a new optional parameter connectRetryCount
+  - Interface AzureSqlMILinkedService has a new optional parameter connectRetryInterval
+  - Interface AzureSqlMILinkedService has a new optional parameter connectTimeout
+  - Interface AzureSqlMILinkedService has a new optional parameter database
+  - Interface AzureSqlMILinkedService has a new optional parameter encrypt
+  - Interface AzureSqlMILinkedService has a new optional parameter failoverPartner
+  - Interface AzureSqlMILinkedService has a new optional parameter hostNameInCertificate
+  - Interface AzureSqlMILinkedService has a new optional parameter integratedSecurity
+  - Interface AzureSqlMILinkedService has a new optional parameter loadBalanceTimeout
+  - Interface AzureSqlMILinkedService has a new optional parameter maxPoolSize
+  - Interface AzureSqlMILinkedService has a new optional parameter minPoolSize
+  - Interface AzureSqlMILinkedService has a new optional parameter multipleActiveResultSets
+  - Interface AzureSqlMILinkedService has a new optional parameter multiSubnetFailover
+  - Interface AzureSqlMILinkedService has a new optional parameter packetSize
+  - Interface AzureSqlMILinkedService has a new optional parameter pooling
+  - Interface AzureSqlMILinkedService has a new optional parameter server
+  - Interface AzureSqlMILinkedService has a new optional parameter servicePrincipalCredential
+  - Interface AzureSqlMILinkedService has a new optional parameter servicePrincipalCredentialType
+  - Interface AzureSqlMILinkedService has a new optional parameter trustServerCertificate
+  - Interface AzureSqlMILinkedService has a new optional parameter userName
+  - Interface ManagedIdentityCredential has a new optional parameter resourceId
+  - Interface SqlServerLinkedService has a new optional parameter applicationIntent
+  - Interface SqlServerLinkedService has a new optional parameter authenticationType
+  - Interface SqlServerLinkedService has a new optional parameter commandTimeout
+  - Interface SqlServerLinkedService has a new optional parameter connectRetryCount
+  - Interface SqlServerLinkedService has a new optional parameter connectRetryInterval
+  - Interface SqlServerLinkedService has a new optional parameter connectTimeout
+  - Interface SqlServerLinkedService has a new optional parameter database
+  - Interface SqlServerLinkedService has a new optional parameter encrypt
+  - Interface SqlServerLinkedService has a new optional parameter failoverPartner
+  - Interface SqlServerLinkedService has a new optional parameter hostNameInCertificate
+  - Interface SqlServerLinkedService has a new optional parameter integratedSecurity
+  - Interface SqlServerLinkedService has a new optional parameter loadBalanceTimeout
+  - Interface SqlServerLinkedService has a new optional parameter maxPoolSize
+  - Interface SqlServerLinkedService has a new optional parameter minPoolSize
+  - Interface SqlServerLinkedService has a new optional parameter multipleActiveResultSets
+  - Interface SqlServerLinkedService has a new optional parameter multiSubnetFailover
+  - Interface SqlServerLinkedService has a new optional parameter packetSize
+  - Interface SqlServerLinkedService has a new optional parameter pooling
+  - Interface SqlServerLinkedService has a new optional parameter server
+  - Interface SqlServerLinkedService has a new optional parameter trustServerCertificate
+  - Added Enum KnownAmazonRdsForSqlAuthenticationType
+  - Added Enum KnownAzureSqlDatabaseAuthenticationType
+  - Added Enum KnownAzureSqlDWAuthenticationType
+  - Added Enum KnownAzureSqlMIAuthenticationType
+  - Added Enum KnownSqlServerAuthenticationType
+
+**Breaking Changes**
+
+  - Type of parameter type of interface CopySink is changed from "DelimitedTextSink" | "JsonSink" | "OrcSink" | "RestSink" | "AzurePostgreSqlSink" | "AzureMySqlSink" | "AzureDatabricksDeltaLakeSink" | "WarehouseSink" | "SapCloudForCustomerSink" | "AzureQueueSink" | "AzureTableSink" | "AvroSink" | "ParquetSink" | "BinarySink" | "BlobSink" | "FileSystemSink" | "DocumentDbCollectionSink" | "CosmosDbSqlApiSink" | "SqlSink" | "SqlServerSink" | "AzureSqlSink" | "SqlMISink" | "SqlDWSink" | "SnowflakeSink" | "SnowflakeV2Sink" | "OracleSink" | "AzureDataLakeStoreSink" | "AzureBlobFSSink" | "AzureSearchIndexSink" | "OdbcSink" | "InformixSink" | "MicrosoftAccessSink" | "DynamicsSink" | "DynamicsCrmSink" | "CommonDataServiceForAppsSink" | "AzureDataExplorerSink" | "SalesforceSink" | "SalesforceServiceCloudSink" | "MongoDbAtlasSink" | "MongoDbV2Sink" | "CosmosDbMongoDbApiSink" | "LakeHouseTableSink" | "SalesforceV2Sink" | "SalesforceServiceCloudV2Sink" to "DelimitedTextSink" | "JsonSink" | "OrcSink" | "RestSink" | "AzurePostgreSqlSink" | "AzureMySqlSink" | "AzureDatabricksDeltaLakeSink" | "WarehouseSink" | "SapCloudForCustomerSink" | "AzureQueueSink" | "AzureTableSink" | "AvroSink" | "ParquetSink" | "BinarySink" | "BlobSink" | "FileSystemSink" | "DocumentDbCollectionSink" | "CosmosDbSqlApiSink" | "SqlSink" | "SqlServerSink" | "AzureSqlSink" | "SqlMISink" | "SqlDWSink" | "SnowflakeSink" | "SnowflakeV2Sink" | "OracleSink" | "AzureDataLakeStoreSink" | "AzureBlobFSSink" | "AzureSearchIndexSink" | "OdbcSink" | "InformixSink" | "MicrosoftAccessSink" | "DynamicsSink" | "DynamicsCrmSink" | "CommonDataServiceForAppsSink" | "AzureDataExplorerSink" | "SalesforceSink" | "SalesforceServiceCloudSink" | "MongoDbAtlasSink" | "MongoDbV2Sink" | "CosmosDbMongoDbApiSink" | "LakehouseTableSink" | "SalesforceV2Sink" | "SalesforceServiceCloudV2Sink"
+  - Type of parameter type of interface CopySource is changed from "AvroSource" | "ExcelSource" | "ParquetSource" | "DelimitedTextSource" | "JsonSource" | "XmlSource" | "OrcSource" | "BinarySource" | "TabularSource" | "AzureTableSource" | "BlobSource" | "DocumentDbCollectionSource" | "CosmosDbSqlApiSource" | "DynamicsSource" | "DynamicsCrmSource" | "CommonDataServiceForAppsSource" | "RelationalSource" | "InformixSource" | "MicrosoftAccessSource" | "Db2Source" | "OdbcSource" | "MySqlSource" | "PostgreSqlSource" | "PostgreSqlV2Source" | "SybaseSource" | "SapBwSource" | "ODataSource" | "SalesforceSource" | "SalesforceServiceCloudSource" | "SapCloudForCustomerSource" | "SapEccSource" | "SapHanaSource" | "SapOpenHubSource" | "SapOdpSource" | "SapTableSource" | "RestSource" | "SqlSource" | "SqlServerSource" | "AmazonRdsForSqlServerSource" | "AzureSqlSource" | "SqlMISource" | "SqlDWSource" | "FileSystemSource" | "HdfsSource" | "AzureMySqlSource" | "AzureDataExplorerSource" | "OracleSource" | "AmazonRdsForOracleSource" | "TeradataSource" | "WebSource" | "CassandraSource" | "MongoDbSource" | "MongoDbAtlasSource" | "MongoDbV2Source" | "CosmosDbMongoDbApiSource" | "Office365Source" | "AzureDataLakeStoreSource" | "AzureBlobFSSource" | "HttpSource" | "AmazonMWSSource" | "AzurePostgreSqlSource" | "ConcurSource" | "CouchbaseSource" | "DrillSource" | "EloquaSource" | "GoogleBigQuerySource" | "GoogleBigQueryV2Source" | "GreenplumSource" | "HBaseSource" | "HiveSource" | "HubspotSource" | "ImpalaSource" | "JiraSource" | "MagentoSource" | "MariaDBSource" | "AzureMariaDBSource" | "MarketoSource" | "PaypalSource" | "PhoenixSource" | "PrestoSource" | "QuickBooksSource" | "ServiceNowSource" | "ShopifySource" | "SparkSource" | "SquareSource" | "XeroSource" | "ZohoSource" | "NetezzaSource" | "VerticaSource" | "SalesforceMarketingCloudSource" | "ResponsysSource" | "DynamicsAXSource" | "OracleServiceCloudSource" | "GoogleAdWordsSource" | "AmazonRedshiftSource" | "LakeHouseTableSource" | "SnowflakeSource" | "SnowflakeV2Source" | "AzureDatabricksDeltaLakeSource" | "WarehouseSource" | "SharePointOnlineListSource" | "SalesforceV2Source" | "SalesforceServiceCloudV2Source" | "ServiceNowV2Source" to "AvroSource" | "ExcelSource" | "ParquetSource" | "DelimitedTextSource" | "JsonSource" | "XmlSource" | "OrcSource" | "BinarySource" | "TabularSource" | "AzureTableSource" | "BlobSource" | "DocumentDbCollectionSource" | "CosmosDbSqlApiSource" | "DynamicsSource" | "DynamicsCrmSource" | "CommonDataServiceForAppsSource" | "RelationalSource" | "InformixSource" | "MicrosoftAccessSource" | "Db2Source" | "OdbcSource" | "MySqlSource" | "PostgreSqlSource" | "PostgreSqlV2Source" | "SybaseSource" | "SapBwSource" | "ODataSource" | "SalesforceSource" | "SalesforceServiceCloudSource" | "SapCloudForCustomerSource" | "SapEccSource" | "SapHanaSource" | "SapOpenHubSource" | "SapOdpSource" | "SapTableSource" | "RestSource" | "SqlSource" | "SqlServerSource" | "AmazonRdsForSqlServerSource" | "AzureSqlSource" | "SqlMISource" | "SqlDWSource" | "FileSystemSource" | "HdfsSource" | "AzureMySqlSource" | "AzureDataExplorerSource" | "OracleSource" | "AmazonRdsForOracleSource" | "TeradataSource" | "WebSource" | "CassandraSource" | "MongoDbSource" | "MongoDbAtlasSource" | "MongoDbV2Source" | "CosmosDbMongoDbApiSource" | "Office365Source" | "AzureDataLakeStoreSource" | "AzureBlobFSSource" | "HttpSource" | "AmazonMWSSource" | "AzurePostgreSqlSource" | "ConcurSource" | "CouchbaseSource" | "DrillSource" | "EloquaSource" | "GoogleBigQuerySource" | "GoogleBigQueryV2Source" | "GreenplumSource" | "HBaseSource" | "HiveSource" | "HubspotSource" | "ImpalaSource" | "JiraSource" | "MagentoSource" | "MariaDBSource" | "AzureMariaDBSource" | "MarketoSource" | "PaypalSource" | "PhoenixSource" | "PrestoSource" | "QuickBooksSource" | "ServiceNowSource" | "ShopifySource" | "SparkSource" | "SquareSource" | "XeroSource" | "ZohoSource" | "NetezzaSource" | "VerticaSource" | "SalesforceMarketingCloudSource" | "ResponsysSource" | "DynamicsAXSource" | "OracleServiceCloudSource" | "GoogleAdWordsSource" | "AmazonRedshiftSource" | "LakehouseTableSource" | "SnowflakeSource" | "SnowflakeV2Source" | "AzureDatabricksDeltaLakeSource" | "WarehouseSource" | "SharePointOnlineListSource" | "SalesforceV2Source" | "SalesforceServiceCloudV2Source" | "ServiceNowV2Source"
+  - Type of parameter type of interface Dataset is changed from "AmazonS3Object" | "Avro" | "Excel" | "Parquet" | "DelimitedText" | "Json" | "Xml" | "Orc" | "Binary" | "AzureBlob" | "AzureTable" | "AzureSqlTable" | "AzureSqlMITable" | "AzureSqlDWTable" | "CassandraTable" | "CustomDataset" | "CosmosDbSqlApiCollection" | "DocumentDbCollection" | "DynamicsEntity" | "DynamicsCrmEntity" | "CommonDataServiceForAppsEntity" | "AzureDataLakeStoreFile" | "AzureBlobFSFile" | "Office365Table" | "FileShare" | "MongoDbCollection" | "MongoDbAtlasCollection" | "MongoDbV2Collection" | "CosmosDbMongoDbApiCollection" | "ODataResource" | "OracleTable" | "AmazonRdsForOracleTable" | "TeradataTable" | "AzureMySqlTable" | "AmazonRedshiftTable" | "Db2Table" | "RelationalTable" | "InformixTable" | "OdbcTable" | "MySqlTable" | "PostgreSqlTable" | "PostgreSqlV2Table" | "MicrosoftAccessTable" | "SalesforceObject" | "SalesforceServiceCloudObject" | "SybaseTable" | "SapBwCube" | "SapCloudForCustomerResource" | "SapEccResource" | "SapHanaTable" | "SapOpenHubTable" | "SqlServerTable" | "AmazonRdsForSqlServerTable" | "RestResource" | "SapTableResource" | "SapOdpResource" | "WebTable" | "AzureSearchIndex" | "HttpFile" | "AmazonMWSObject" | "AzurePostgreSqlTable" | "ConcurObject" | "CouchbaseTable" | "DrillTable" | "EloquaObject" | "GoogleBigQueryObject" | "GoogleBigQueryV2Object" | "GreenplumTable" | "HBaseObject" | "HiveObject" | "HubspotObject" | "ImpalaObject" | "JiraObject" | "MagentoObject" | "MariaDBTable" | "AzureMariaDBTable" | "MarketoObject" | "PaypalObject" | "PhoenixObject" | "PrestoObject" | "QuickBooksObject" | "ServiceNowObject" | "ShopifyObject" | "SparkObject" | "SquareObject" | "XeroObject" | "ZohoObject" | "NetezzaTable" | "VerticaTable" | "SalesforceMarketingCloudObject" | "ResponsysObject" | "DynamicsAXResource" | "OracleServiceCloudObject" | "AzureDataExplorerTable" | "GoogleAdWordsObject" | "SnowflakeTable" | "SnowflakeV2Table" | "SharePointOnlineListResource" | "AzureDatabricksDeltaLakeDataset" | "LakeHouseTable" | "SalesforceV2Object" | "SalesforceServiceCloudV2Object" | "WarehouseTable" | "ServiceNowV2Object" to "AmazonS3Object" | "Avro" | "Excel" | "Parquet" | "DelimitedText" | "Json" | "Xml" | "Orc" | "Binary" | "AzureBlob" | "AzureTable" | "AzureSqlTable" | "AzureSqlMITable" | "AzureSqlDWTable" | "CassandraTable" | "CustomDataset" | "CosmosDbSqlApiCollection" | "DocumentDbCollection" | "DynamicsEntity" | "DynamicsCrmEntity" | "CommonDataServiceForAppsEntity" | "AzureDataLakeStoreFile" | "AzureBlobFSFile" | "Office365Table" | "FileShare" | "MongoDbCollection" | "MongoDbAtlasCollection" | "MongoDbV2Collection" | "CosmosDbMongoDbApiCollection" | "ODataResource" | "OracleTable" | "AmazonRdsForOracleTable" | "TeradataTable" | "AzureMySqlTable" | "AmazonRedshiftTable" | "Db2Table" | "RelationalTable" | "InformixTable" | "OdbcTable" | "MySqlTable" | "PostgreSqlTable" | "PostgreSqlV2Table" | "MicrosoftAccessTable" | "SalesforceObject" | "SalesforceServiceCloudObject" | "SybaseTable" | "SapBwCube" | "SapCloudForCustomerResource" | "SapEccResource" | "SapHanaTable" | "SapOpenHubTable" | "SqlServerTable" | "AmazonRdsForSqlServerTable" | "RestResource" | "SapTableResource" | "SapOdpResource" | "WebTable" | "AzureSearchIndex" | "HttpFile" | "AmazonMWSObject" | "AzurePostgreSqlTable" | "ConcurObject" | "CouchbaseTable" | "DrillTable" | "EloquaObject" | "GoogleBigQueryObject" | "GoogleBigQueryV2Object" | "GreenplumTable" | "HBaseObject" | "HiveObject" | "HubspotObject" | "ImpalaObject" | "JiraObject" | "MagentoObject" | "MariaDBTable" | "AzureMariaDBTable" | "MarketoObject" | "PaypalObject" | "PhoenixObject" | "PrestoObject" | "QuickBooksObject" | "ServiceNowObject" | "ShopifyObject" | "SparkObject" | "SquareObject" | "XeroObject" | "ZohoObject" | "NetezzaTable" | "VerticaTable" | "SalesforceMarketingCloudObject" | "ResponsysObject" | "DynamicsAXResource" | "OracleServiceCloudObject" | "AzureDataExplorerTable" | "GoogleAdWordsObject" | "SnowflakeTable" | "SnowflakeV2Table" | "SharePointOnlineListResource" | "AzureDatabricksDeltaLakeDataset" | "LakehouseTable" | "SalesforceV2Object" | "SalesforceServiceCloudV2Object" | "WarehouseTable" | "ServiceNowV2Object"
+  - Type of parameter type of interface DatasetLocation is changed from "AzureBlobStorageLocation" | "AzureBlobFSLocation" | "AzureDataLakeStoreLocation" | "AmazonS3Location" | "FileServerLocation" | "AzureFileStorageLocation" | "AmazonS3CompatibleLocation" | "OracleCloudStorageLocation" | "GoogleCloudStorageLocation" | "FtpServerLocation" | "SftpLocation" | "HttpServerLocation" | "HdfsLocation" | "LakeHouseLocation" to "AzureBlobStorageLocation" | "AzureBlobFSLocation" | "AzureDataLakeStoreLocation" | "AmazonS3Location" | "FileServerLocation" | "AzureFileStorageLocation" | "AmazonS3CompatibleLocation" | "OracleCloudStorageLocation" | "GoogleCloudStorageLocation" | "FtpServerLocation" | "SftpLocation" | "HttpServerLocation" | "HdfsLocation" | "LakehouseLocation"
+  - Type of parameter type of interface LinkedService is changed from "AzureStorage" | "AzureBlobStorage" | "AzureTableStorage" | "AzureSqlDW" | "SqlServer" | "AmazonRdsForSqlServer" | "AzureSqlDatabase" | "AzureSqlMI" | "AzureBatch" | "AzureKeyVault" | "CosmosDb" | "Dynamics" | "DynamicsCrm" | "CommonDataServiceForApps" | "HDInsight" | "FileServer" | "AzureFileStorage" | "AmazonS3Compatible" | "OracleCloudStorage" | "GoogleCloudStorage" | "Oracle" | "AmazonRdsForOracle" | "AzureMySql" | "MySql" | "PostgreSql" | "PostgreSqlV2" | "Sybase" | "Db2" | "Teradata" | "AzureML" | "AzureMLService" | "Odbc" | "Informix" | "MicrosoftAccess" | "Hdfs" | "OData" | "Web" | "Cassandra" | "MongoDb" | "MongoDbAtlas" | "MongoDbV2" | "CosmosDbMongoDbApi" | "AzureDataLakeStore" | "AzureBlobFS" | "Office365" | "Salesforce" | "SalesforceServiceCloud" | "SapCloudForCustomer" | "SapEcc" | "SapOpenHub" | "SapOdp" | "RestService" | "TeamDesk" | "Quickbase" | "Smartsheet" | "Zendesk" | "Dataworld" | "AppFigures" | "Asana" | "Twilio" | "GoogleSheets" | "AmazonS3" | "AmazonRedshift" | "CustomDataSource" | "AzureSearch" | "HttpServer" | "FtpServer" | "Sftp" | "SapBW" | "SapHana" | "AmazonMWS" | "AzurePostgreSql" | "Concur" | "Couchbase" | "Drill" | "Eloqua" | "GoogleBigQuery" | "GoogleBigQueryV2" | "Greenplum" | "HBase" | "Hive" | "Hubspot" | "Impala" | "Jira" | "Magento" | "MariaDB" | "AzureMariaDB" | "Marketo" | "Paypal" | "Phoenix" | "Presto" | "QuickBooks" | "ServiceNow" | "Shopify" | "Spark" | "Square" | "Xero" | "Zoho" | "Vertica" | "Netezza" | "SalesforceMarketingCloud" | "HDInsightOnDemand" | "AzureDataLakeAnalytics" | "AzureDatabricks" | "AzureDatabricksDeltaLake" | "Responsys" | "DynamicsAX" | "OracleServiceCloud" | "GoogleAdWords" | "SapTable" | "AzureDataExplorer" | "AzureFunction" | "Snowflake" | "SnowflakeV2" | "SharePointOnlineList" | "AzureSynapseArtifacts" | "LakeHouse" | "SalesforceV2" | "SalesforceServiceCloudV2" | "Warehouse" | "ServiceNowV2" to "AzureStorage" | "AzureBlobStorage" | "AzureTableStorage" | "AzureSqlDW" | "SqlServer" | "AmazonRdsForSqlServer" | "AzureSqlDatabase" | "AzureSqlMI" | "AzureBatch" | "AzureKeyVault" | "CosmosDb" | "Dynamics" | "DynamicsCrm" | "CommonDataServiceForApps" | "HDInsight" | "FileServer" | "AzureFileStorage" | "AmazonS3Compatible" | "OracleCloudStorage" | "GoogleCloudStorage" | "Oracle" | "AmazonRdsForOracle" | "AzureMySql" | "MySql" | "PostgreSql" | "PostgreSqlV2" | "Sybase" | "Db2" | "Teradata" | "AzureML" | "AzureMLService" | "Odbc" | "Informix" | "MicrosoftAccess" | "Hdfs" | "OData" | "Web" | "Cassandra" | "MongoDb" | "MongoDbAtlas" | "MongoDbV2" | "CosmosDbMongoDbApi" | "AzureDataLakeStore" | "AzureBlobFS" | "Office365" | "Salesforce" | "SalesforceServiceCloud" | "SapCloudForCustomer" | "SapEcc" | "SapOpenHub" | "SapOdp" | "RestService" | "TeamDesk" | "Quickbase" | "Smartsheet" | "Zendesk" | "Dataworld" | "AppFigures" | "Asana" | "Twilio" | "GoogleSheets" | "AmazonS3" | "AmazonRedshift" | "CustomDataSource" | "AzureSearch" | "HttpServer" | "FtpServer" | "Sftp" | "SapBW" | "SapHana" | "AmazonMWS" | "AzurePostgreSql" | "Concur" | "Couchbase" | "Drill" | "Eloqua" | "GoogleBigQuery" | "GoogleBigQueryV2" | "Greenplum" | "HBase" | "Hive" | "Hubspot" | "Impala" | "Jira" | "Magento" | "MariaDB" | "AzureMariaDB" | "Marketo" | "Paypal" | "Phoenix" | "Presto" | "QuickBooks" | "ServiceNow" | "Shopify" | "Spark" | "Square" | "Xero" | "Zoho" | "Vertica" | "Netezza" | "SalesforceMarketingCloud" | "HDInsightOnDemand" | "AzureDataLakeAnalytics" | "AzureDatabricks" | "AzureDatabricksDeltaLake" | "Responsys" | "DynamicsAX" | "OracleServiceCloud" | "GoogleAdWords" | "SapTable" | "AzureDataExplorer" | "AzureFunction" | "Snowflake" | "SnowflakeV2" | "SharePointOnlineList" | "AzureSynapseArtifacts" | "Lakehouse" | "SalesforceV2" | "SalesforceServiceCloudV2" | "Warehouse" | "ServiceNowV2"
+  - Type of parameter type of interface ScriptActivityScriptBlock is changed from ScriptType to any
+  - Type of parameter type of interface StoreReadSettings is changed from "AzureBlobStorageReadSettings" | "AzureBlobFSReadSettings" | "AzureDataLakeStoreReadSettings" | "AmazonS3ReadSettings" | "FileServerReadSettings" | "AzureFileStorageReadSettings" | "AmazonS3CompatibleReadSettings" | "OracleCloudStorageReadSettings" | "GoogleCloudStorageReadSettings" | "FtpReadSettings" | "SftpReadSettings" | "HttpReadSettings" | "HdfsReadSettings" | "LakeHouseReadSettings" to "AzureBlobStorageReadSettings" | "AzureBlobFSReadSettings" | "AzureDataLakeStoreReadSettings" | "AmazonS3ReadSettings" | "FileServerReadSettings" | "AzureFileStorageReadSettings" | "AmazonS3CompatibleReadSettings" | "OracleCloudStorageReadSettings" | "GoogleCloudStorageReadSettings" | "FtpReadSettings" | "SftpReadSettings" | "HttpReadSettings" | "HdfsReadSettings" | "LakehouseReadSettings"
+  - Type of parameter type of interface StoreWriteSettings is changed from "SftpWriteSettings" | "AzureBlobStorageWriteSettings" | "AzureBlobFSWriteSettings" | "AzureDataLakeStoreWriteSettings" | "FileServerWriteSettings" | "AzureFileStorageWriteSettings" | "LakeHouseWriteSettings" to "SftpWriteSettings" | "AzureBlobStorageWriteSettings" | "AzureBlobFSWriteSettings" | "AzureDataLakeStoreWriteSettings" | "FileServerWriteSettings" | "AzureFileStorageWriteSettings" | "LakehouseWriteSettings"
+    
 ## 15.0.1 (Unreleased)
 
 ### Features Added
