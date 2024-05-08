@@ -12,6 +12,8 @@ export * from "./extensionMetadata";
 export * from "./operations";
 export * from "./networkProfileOperations";
 export * from "./machineRunCommands";
+export * from "./gateways";
+export * from "./settingsOperations";
 export * from "./privateLinkScopes";
 export * from "./privateLinkResources";
 export * from "./privateEndpointConnections";

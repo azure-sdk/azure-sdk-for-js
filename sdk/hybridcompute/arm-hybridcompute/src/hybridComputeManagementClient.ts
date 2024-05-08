@@ -27,6 +27,8 @@ import {
   OperationsImpl,
   NetworkProfileOperationsImpl,
   MachineRunCommandsImpl,
+  GatewaysImpl,
+  SettingsOperationsImpl,
   PrivateLinkScopesImpl,
   PrivateLinkResourcesImpl,
   PrivateEndpointConnectionsImpl,
@@ -38,6 +40,8 @@ import {
   Operations,
   NetworkProfileOperations,
   MachineRunCommands,
+  Gateways,
+  SettingsOperations,
   PrivateLinkScopes,
   PrivateLinkResources,
   PrivateEndpointConnections,
@@ -136,13 +140,15 @@ export class HybridComputeManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-10-03-preview";
+    this.apiVersion = options.apiVersion || "2024-03-31-preview";
     this.machines = new MachinesImpl(this);
     this.machineExtensions = new MachineExtensionsImpl(this);
     this.extensionMetadata = new ExtensionMetadataImpl(this);
     this.operations = new OperationsImpl(this);
     this.networkProfileOperations = new NetworkProfileOperationsImpl(this);
     this.machineRunCommands = new MachineRunCommandsImpl(this);
+    this.gateways = new GatewaysImpl(this);
+    this.settingsOperations = new SettingsOperationsImpl(this);
     this.privateLinkScopes = new PrivateLinkScopesImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
@@ -274,6 +280,8 @@ export class HybridComputeManagementClient extends coreClient.ServiceClient {
   operations: Operations;
   networkProfileOperations: NetworkProfileOperations;
   machineRunCommands: MachineRunCommands;
+  gateways: Gateways;
+  settingsOperations: SettingsOperations;
   privateLinkScopes: PrivateLinkScopes;
   privateLinkResources: PrivateLinkResources;
   privateEndpointConnections: PrivateEndpointConnections;
