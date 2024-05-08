@@ -528,7 +528,7 @@ export enum KnownOrigin {
   /** System */
   System = "system",
   /** UserSystem */
-  UserSystem = "user,system"
+  UserSystem = "user,system",
 }
 
 /**
@@ -545,7 +545,7 @@ export type Origin = string;
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
   /** Internal */
-  Internal = "Internal"
+  Internal = "Internal",
 }
 
 /**
@@ -562,7 +562,7 @@ export enum KnownRegionType {
   /** Physical */
   Physical = "Physical",
   /** Logical */
-  Logical = "Logical"
+  Logical = "Logical",
 }
 
 /**
@@ -582,7 +582,7 @@ export enum KnownRegionCategory {
   /** Extended */
   Extended = "Extended",
   /** Other */
-  Other = "Other"
+  Other = "Other",
 }
 
 /**
@@ -601,7 +601,7 @@ export enum KnownResourceNameStatus {
   /** Allowed */
   Allowed = "Allowed",
   /** Reserved */
-  Reserved = "Reserved"
+  Reserved = "Reserved",
 }
 
 /**
