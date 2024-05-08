@@ -8606,6 +8606,7 @@ packages:
 
   /queue-tick@1.0.1:
     resolution: {integrity: sha512-kJt5qhMxoszgU/62PLP1CJytzd2NKetjSRnyuj31fDd3Rlcz3fzlFdFLD1SItunPwyqEOkca6GbV612BWfaBag==}
+    requiresBuild: true
     dev: false
 
   /randombytes@2.1.0:
@@ -13097,7 +13098,7 @@ packages:
     dev: false
 
   file:projects/arm-datafactory.tgz:
-    resolution: {integrity: sha512-FjLDdtqvucdf/sqBmRdcmjjBylhFV45VRdzHbMBlSWE75MMDyUOPINbmv0X0FYEZo0RhqcUQwqfSpVQA1AAM4g==, tarball: file:projects/arm-datafactory.tgz}
+    resolution: {integrity: sha512-Il2q3nQShm5yWfyDKFUJ2WYKTCRE2Midq4k3IiQi/hT07iHcptfFLCBFzXuFVQ5foLffvngb0HDGEK+cCb167A==, tarball: file:projects/arm-datafactory.tgz}
     name: '@rush-temp/arm-datafactory'
     version: 0.0.0
     dependencies:
@@ -13118,6 +13119,7 @@ packages:
       rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.32)(typescript@5.4.5)
       tslib: 2.6.2
+      tsx: 4.9.3
       typescript: 5.4.5
       uglify-js: 3.17.4
     transitivePeerDependencies:
