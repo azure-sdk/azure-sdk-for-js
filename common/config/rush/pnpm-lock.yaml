@@ -1253,6 +1253,21 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/arm-cognitiveservices@7.5.0:
+    resolution: {integrity: sha512-UA13hCXP1Ou3chmwLf4FoXibVn5mmstcVqOhR+f5Iwv1ScwdlocIMC4jn9vkrJnkSwHE+03SSax5upAkmr6fnw==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.7.2
+      '@azure/core-client': 1.9.2
+      '@azure/core-lro': 2.7.2
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': 1.16.0
+      tslib: 2.6.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/arm-cosmosdb@16.0.0-beta.6:
     resolution: {integrity: sha512-Ue4ocP8qCsFDeBZ/MjMNyVt4e9QhU3UgrRfZSw6kWiMzdrCgDePnZvjzZs9PQpjAsXbHGd9HlEIXg9Dl6Y/uww==}
     engines: {node: '>=14.0.0'}
@@ -12234,7 +12249,7 @@ packages:
     dev: false
 
   file:projects/arm-cognitiveservices.tgz:
-    resolution: {integrity: sha512-d4L6DkRzWiD0z713gSD3attJGYO5hJ5ym37WbWbf4vjAeN/xQo5V54cvj+LwNb2448qVaHgnzNFDklpZMRSvCQ==, tarball: file:projects/arm-cognitiveservices.tgz}
+    resolution: {integrity: sha512-jqWYSRufV7ureBAleEIFbOP7yr1Z5U0OcGWCYBm3uzKmzi1+3MZ4JbxOEwN45kLjbCA/LNqmJjhE01d54/b+3g==, tarball: file:projects/arm-cognitiveservices.tgz}
     name: '@rush-temp/arm-cognitiveservices'
     version: 0.0.0
     dependencies:
@@ -12255,6 +12270,7 @@ packages:
       rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.32)(typescript@5.4.5)
       tslib: 2.6.2
+      tsx: 4.9.3
       typescript: 5.4.5
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -21248,7 +21264,7 @@ packages:
     dev: false
 
   file:projects/openai-1.tgz:
-    resolution: {integrity: sha512-AayWRVnztE/rpinfcliCu91ignmPDq64CMaNu4b+FAWuAtt0qJbD3e07rwrC5vW7sBYNjn5853MewhaBDBxRVA==, tarball: file:projects/openai-1.tgz}
+    resolution: {integrity: sha512-L1HQjfjLxCNiPGQoF1z8MNOO6F6KbMuEc/plfb8uxeudt7LchIpLbaSN/rds5vvSAmWUHn+Lisz3qBDJdB80Wg==, tarball: file:projects/openai-1.tgz}
     name: '@rush-temp/openai-1'
     version: 0.0.0
     dependencies:
@@ -21256,6 +21272,7 @@ packages:
       '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.2.0
       '@azure/abort-controller': 1.1.0
+      '@azure/arm-cognitiveservices': 7.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.2(@types/node@18.19.32)
       '@types/mocha': 10.0.6
@@ -21293,13 +21310,14 @@ packages:
     dev: false
 
   file:projects/openai-assistants.tgz:
-    resolution: {integrity: sha512-fYZBGrwWBXsFXx+mki5R/I6vAI13k3gbjFwJBKhsJeHxLR+l8KHObIprTfP6ps3WiKWkTtu78FllGaDMuFCjcQ==, tarball: file:projects/openai-assistants.tgz}
+    resolution: {integrity: sha512-FMmp0PP1z6e7VWsyXhp1UqM5jV8f8tVAkMDvc8M0qNiE4J0760DKXV40orI+je77rICo8IE985zoTp/cKI8idA==, tarball: file:projects/openai-assistants.tgz}
     name: '@rush-temp/openai-assistants'
     version: 0.0.0
     dependencies:
       '@azure-rest/core-client': 1.4.0
       '@azure-tools/test-credential': 1.0.4
       '@azure-tools/test-recorder': 3.2.0
+      '@azure/arm-cognitiveservices': 7.5.0
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.43.2(@types/node@18.19.32)
       '@types/mocha': 10.0.6
