@@ -18068,7 +18068,7 @@ packages:
     dev: false
 
   file:projects/arm-workloads.tgz:
-    resolution: {integrity: sha512-aztLYedZiCg3pSlXx+CcWr5Y/qRy2Ht9siOHF7K/ij1WTqIuKMtz++On9A4rwiHxM/wJHeFUZvoLrMu/69HvVQ==, tarball: file:projects/arm-workloads.tgz}
+    resolution: {integrity: sha512-inQnvLy6LyAC1EbRAtulh1ES18lW0fmeMmyXuxFfIE73WNqUdACpA0F2WWkolIaiNVNBPH9L18ai+RCmcQkiIQ==, tarball: file:projects/arm-workloads.tgz}
     name: '@rush-temp/arm-workloads'
     version: 0.0.0
     dependencies:
@@ -18089,6 +18089,7 @@ packages:
       rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.32)(typescript@5.4.5)
       tslib: 2.6.2
+      tsx: 4.9.3
       typescript: 5.4.5
       uglify-js: 3.17.4
     transitivePeerDependencies:

@@ -22,7 +22,7 @@ import {
   SAPCentralInstancesStartInstanceOptionalParams,
   SAPCentralInstancesStartInstanceResponse,
   SAPCentralInstancesStopInstanceOptionalParams,
-  SAPCentralInstancesStopInstanceResponse
+  SAPCentralInstancesStopInstanceResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -38,7 +38,7 @@ export interface SAPCentralInstances {
   list(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
-    options?: SAPCentralInstancesListOptionalParams
+    options?: SAPCentralInstancesListOptionalParams,
   ): PagedAsyncIterableIterator<SAPCentralServerInstance>;
   /**
    * Gets the SAP Central Services Instance resource.
@@ -52,7 +52,7 @@ export interface SAPCentralInstances {
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     centralInstanceName: string,
-    options?: SAPCentralInstancesGetOptionalParams
+    options?: SAPCentralInstancesGetOptionalParams,
   ): Promise<SAPCentralInstancesGetResponse>;
   /**
    * Creates the SAP Central Services Instance resource. <br><br>This will be used by service only. PUT
@@ -67,7 +67,7 @@ export interface SAPCentralInstances {
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     centralInstanceName: string,
-    options?: SAPCentralInstancesCreateOptionalParams
+    options?: SAPCentralInstancesCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SAPCentralInstancesCreateResponse>,
@@ -87,7 +87,7 @@ export interface SAPCentralInstances {
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     centralInstanceName: string,
-    options?: SAPCentralInstancesCreateOptionalParams
+    options?: SAPCentralInstancesCreateOptionalParams,
   ): Promise<SAPCentralInstancesCreateResponse>;
   /**
    * Updates the SAP Central Services Instance resource. <br><br>This can be used to update tags on the
@@ -102,7 +102,7 @@ export interface SAPCentralInstances {
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     centralInstanceName: string,
-    options?: SAPCentralInstancesUpdateOptionalParams
+    options?: SAPCentralInstancesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SAPCentralInstancesUpdateResponse>,
@@ -122,7 +122,7 @@ export interface SAPCentralInstances {
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     centralInstanceName: string,
-    options?: SAPCentralInstancesUpdateOptionalParams
+    options?: SAPCentralInstancesUpdateOptionalParams,
   ): Promise<SAPCentralInstancesUpdateResponse>;
   /**
    * Deletes the SAP Central Services Instance resource. <br><br>This will be used by service only.
@@ -139,7 +139,7 @@ export interface SAPCentralInstances {
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     centralInstanceName: string,
-    options?: SAPCentralInstancesDeleteOptionalParams
+    options?: SAPCentralInstancesDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SAPCentralInstancesDeleteResponse>,
@@ -161,7 +161,7 @@ export interface SAPCentralInstances {
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     centralInstanceName: string,
-    options?: SAPCentralInstancesDeleteOptionalParams
+    options?: SAPCentralInstancesDeleteOptionalParams,
   ): Promise<SAPCentralInstancesDeleteResponse>;
   /**
    * Starts the SAP Central Services Instance.
@@ -175,7 +175,7 @@ export interface SAPCentralInstances {
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     centralInstanceName: string,
-    options?: SAPCentralInstancesStartInstanceOptionalParams
+    options?: SAPCentralInstancesStartInstanceOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SAPCentralInstancesStartInstanceResponse>,
@@ -194,7 +194,7 @@ export interface SAPCentralInstances {
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     centralInstanceName: string,
-    options?: SAPCentralInstancesStartInstanceOptionalParams
+    options?: SAPCentralInstancesStartInstanceOptionalParams,
   ): Promise<SAPCentralInstancesStartInstanceResponse>;
   /**
    * Stops the SAP Central Services Instance.
@@ -208,7 +208,7 @@ export interface SAPCentralInstances {
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     centralInstanceName: string,
-    options?: SAPCentralInstancesStopInstanceOptionalParams
+    options?: SAPCentralInstancesStopInstanceOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SAPCentralInstancesStopInstanceResponse>,
@@ -227,6 +227,6 @@ export interface SAPCentralInstances {
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     centralInstanceName: string,
-    options?: SAPCentralInstancesStopInstanceOptionalParams
+    options?: SAPCentralInstancesStopInstanceOptionalParams,
   ): Promise<SAPCentralInstancesStopInstanceResponse>;
 }
