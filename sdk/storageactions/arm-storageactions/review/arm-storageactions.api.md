@@ -218,8 +218,8 @@ export interface StorageActionsManagementClientOptionalParams extends coreClient
 
 // @public
 export interface StorageTask extends TrackedResource {
-    identity?: ManagedServiceIdentity;
-    properties?: StorageTaskProperties;
+    identity: ManagedServiceIdentity;
+    properties: StorageTaskProperties;
 }
 
 // @public
