@@ -144,7 +144,7 @@ export type LinkedServiceUnion =
   | SnowflakeV2LinkedService
   | SharePointOnlineListLinkedService
   | AzureSynapseArtifactsLinkedService
-  | LakeHouseLinkedService
+  | LakehouseLinkedService
   | SalesforceV2LinkedService
   | SalesforceServiceCloudV2LinkedService
   | WarehouseLinkedService
@@ -250,7 +250,7 @@ export type DatasetUnion =
   | SnowflakeV2Dataset
   | SharePointOnlineListResourceDataset
   | AzureDatabricksDeltaLakeDataset
-  | LakeHouseTableDataset
+  | LakehouseTableDataset
   | SalesforceV2ObjectDataset
   | SalesforceServiceCloudV2ObjectDataset
   | WarehouseTableDataset
@@ -294,7 +294,7 @@ export type DatasetLocationUnion =
   | SftpLocation
   | HttpServerLocation
   | HdfsLocation
-  | LakeHouseLocation;
+  | LakehouseLocation;
 export type DatasetStorageFormatUnion =
   | DatasetStorageFormat
   | TextFormat
@@ -332,7 +332,7 @@ export type StoreReadSettingsUnion =
   | SftpReadSettings
   | HttpReadSettings
   | HdfsReadSettings
-  | LakeHouseReadSettings;
+  | LakehouseReadSettings;
 export type StoreWriteSettingsUnion =
   | StoreWriteSettings
   | SftpWriteSettings
@@ -341,7 +341,7 @@ export type StoreWriteSettingsUnion =
   | AzureDataLakeStoreWriteSettings
   | FileServerWriteSettings
   | AzureFileStorageWriteSettings
-  | LakeHouseWriteSettings;
+  | LakehouseWriteSettings;
 export type FormatReadSettingsUnion =
   | FormatReadSettings
   | ParquetReadSettings
@@ -397,7 +397,7 @@ export type CopySourceUnion =
   | AzureDataLakeStoreSource
   | AzureBlobFSSource
   | HttpSource
-  | LakeHouseTableSource
+  | LakehouseTableSource
   | SnowflakeSource
   | SnowflakeV2Source
   | AzureDatabricksDeltaLakeSource
@@ -446,7 +446,7 @@ export type CopySinkUnion =
   | MongoDbAtlasSink
   | MongoDbV2Sink
   | CosmosDbMongoDbApiSink
-  | LakeHouseTableSink
+  | LakehouseTableSink
   | SalesforceV2Sink
   | SalesforceServiceCloudV2Sink;
 export type ExportSettingsUnion =
@@ -1396,7 +1396,7 @@ export interface LinkedService {
     | "SnowflakeV2"
     | "SharePointOnlineList"
     | "AzureSynapseArtifacts"
-    | "LakeHouse"
+    | "Lakehouse"
     | "SalesforceV2"
     | "SalesforceServiceCloudV2"
     | "Warehouse"
@@ -1542,7 +1542,7 @@ export interface Dataset {
     | "SnowflakeV2Table"
     | "SharePointOnlineListResource"
     | "AzureDatabricksDeltaLakeDataset"
-    | "LakeHouseTable"
+    | "LakehouseTable"
     | "SalesforceV2Object"
     | "SalesforceServiceCloudV2Object"
     | "WarehouseTable"
@@ -2660,7 +2660,7 @@ export interface DatasetLocation {
     | "SftpLocation"
     | "HttpServerLocation"
     | "HdfsLocation"
-    | "LakeHouseLocation";
+    | "LakehouseLocation";
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /** Specify the folder path of dataset. Type: string (or Expression with resultType string) */
@@ -3056,6 +3056,48 @@ export interface SsisVariable {
   sensitiveValue?: string;
 }
 
+/** Sql Server family connector common linked service properties. */
+export interface SqlServerBaseLinkedServiceTypeProperties {
+  /** The name or network address of the instance of SQL Server to which to connect, used by recommended version. Type: string (or Expression with resultType string). */
+  server?: any;
+  /** The name of the database, used by recommended version. Type: string (or Expression with resultType string). */
+  database?: any;
+  /** Indicate whether TLS encryption is required for all data sent between the client and server, used by recommended version. Possible values are true/yes/mandatory, false/no/optional and strict. Type: string (or Expression with resultType string). */
+  encrypt?: any;
+  /** Indicate whether the channel will be encrypted while bypassing walking the certificate chain to validate trust, used by recommended version. Type: Boolean (or Expression with resultType boolean). */
+  trustServerCertificate?: any;
+  /** The host name to use when validating the server certificate for the connection. When not specified, the server name from the Data Source is used for certificate validation, used by recommended version. Type: string (or Expression with resultType string). */
+  hostNameInCertificate?: any;
+  /** The application workload type when connecting to a server, used by recommended version. Possible values are ReadOnly and ReadWrite. Type: string (or Expression with resultType string). */
+  applicationIntent?: any;
+  /** The length of time (in seconds) to wait for a connection to the server before terminating the attempt and generating an error, used by recommended version. Type: integer (or Expression with resultType integer). */
+  connectTimeout?: any;
+  /** The number of re-connections attempted after identifying that there was an idle connection failure, used by recommended version. This must be an integer between 0 and 255. Type: integer (or Expression with resultType integer). */
+  connectRetryCount?: any;
+  /** The amount of time (in seconds) between each re-connection attempt after identifying that there was an idle connection failure, used by recommended version. This must be an integer between 1 and 60. Type: integer (or Expression with resultType integer). */
+  connectRetryInterval?: any;
+  /** The minimum time, in seconds, for the connection to live in the connection pool before being destroyed, used by recommended version. Type: integer (or Expression with resultType integer). */
+  loadBalanceTimeout?: any;
+  /** The default wait time (in seconds) before terminating the attempt to execute a command and generating an error, used by recommended version. Type: integer (or Expression with resultType integer). */
+  commandTimeout?: any;
+  /** Indicate whether User ID and Password are specified in the connection (when false) or whether the current Windows account credentials are used for authentication (when true), used by recommended version. Type: Boolean (or Expression with resultType boolean). */
+  integratedSecurity?: any;
+  /** The name or address of the partner server to connect to if the primary server is down, used by recommended version. Type: string (or Expression with resultType string). */
+  failoverPartner?: any;
+  /** The maximum number of connections allowed in the connection pool for this specific connection string, used by recommended version. Type: integer (or Expression with resultType integer). */
+  maxPoolSize?: any;
+  /** The minimum number of connections allowed in the connection pool for this specific connection string, used by recommended version. Type: integer (or Expression with resultType integer). */
+  minPoolSize?: any;
+  /** When true, an application can maintain multiple active result sets (MARS). When false, an application must process or cancel all result sets from one batch before it can execute any other batch on that connection, used by recommended version. Type: Boolean (or Expression with resultType boolean). */
+  multipleActiveResultSets?: any;
+  /** If your application is connecting to an AlwaysOn availability group (AG) on different subnets, setting MultiSubnetFailover=true provides faster detection of and connection to the (currently) active server, used by recommended version. Type: Boolean (or Expression with resultType boolean). */
+  multiSubnetFailover?: any;
+  /** The size in bytes of the network packets used to communicate with an instance of server, used by recommended version. Type: integer (or Expression with resultType integer). */
+  packetSize?: any;
+  /** Indicate whether the connection will be pooled or explicitly opened every time that the connection is requested, used by recommended version. Type: Boolean (or Expression with resultType boolean). */
+  pooling?: any;
+}
+
 /** Sql always encrypted properties. */
 export interface SqlAlwaysEncryptedProperties {
   /** Sql always encrypted AKV authentication type. Type: string. */
@@ -3121,7 +3163,7 @@ export interface StoreReadSettings {
     | "SftpReadSettings"
     | "HttpReadSettings"
     | "HdfsReadSettings"
-    | "LakeHouseReadSettings";
+    | "LakehouseReadSettings";
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /** The maximum concurrent connection count for the source data store. Type: integer (or Expression with resultType integer). */
@@ -3140,7 +3182,7 @@ export interface StoreWriteSettings {
     | "AzureDataLakeStoreWriteSettings"
     | "FileServerWriteSettings"
     | "AzureFileStorageWriteSettings"
-    | "LakeHouseWriteSettings";
+    | "LakehouseWriteSettings";
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /** The maximum concurrent connection count for the source data store. Type: integer (or Expression with resultType integer). */
@@ -3304,7 +3346,7 @@ export interface CopySource {
     | "OracleServiceCloudSource"
     | "GoogleAdWordsSource"
     | "AmazonRedshiftSource"
-    | "LakeHouseTableSource"
+    | "LakehouseTableSource"
     | "SnowflakeSource"
     | "SnowflakeV2Source"
     | "AzureDatabricksDeltaLakeSource"
@@ -3370,7 +3412,7 @@ export interface CopySink {
     | "MongoDbAtlasSink"
     | "MongoDbV2Sink"
     | "CosmosDbMongoDbApiSink"
-    | "LakeHouseTableSink"
+    | "LakehouseTableSink"
     | "SalesforceV2Sink"
     | "SalesforceServiceCloudV2Sink";
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
@@ -3843,8 +3885,8 @@ export interface PowerQuerySinkMapping {
 export interface ScriptActivityScriptBlock {
   /** The query text. Type: string (or Expression with resultType string). */
   text: any;
-  /** The type of the query. Type: string. */
-  type: ScriptType;
+  /** The type of the query. Please refer to the ScriptType for valid options. Type: string (or Expression with resultType string). */
+  type: any;
   /** Array of script parameters. Type: array. */
   parameters?: ScriptActivityParameter[];
 }
@@ -4420,14 +4462,60 @@ export interface AzureTableStorageLinkedService extends LinkedService {
 export interface AzureSqlDWLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureSqlDW";
+  /** The name or network address of the instance of SQL Server to which to connect, used by recommended version. Type: string (or Expression with resultType string). */
+  server?: any;
+  /** The name of the database, used by recommended version. Type: string (or Expression with resultType string). */
+  database?: any;
+  /** Indicate whether TLS encryption is required for all data sent between the client and server, used by recommended version. Possible values are true/yes/mandatory, false/no/optional and strict. Type: string (or Expression with resultType string). */
+  encrypt?: any;
+  /** Indicate whether the channel will be encrypted while bypassing walking the certificate chain to validate trust, used by recommended version. Type: Boolean (or Expression with resultType boolean). */
+  trustServerCertificate?: any;
+  /** The host name to use when validating the server certificate for the connection. When not specified, the server name from the Data Source is used for certificate validation, used by recommended version. Type: string (or Expression with resultType string). */
+  hostNameInCertificate?: any;
+  /** The application workload type when connecting to a server, used by recommended version. Possible values are ReadOnly and ReadWrite. Type: string (or Expression with resultType string). */
+  applicationIntent?: any;
+  /** The length of time (in seconds) to wait for a connection to the server before terminating the attempt and generating an error, used by recommended version. Type: integer (or Expression with resultType integer). */
+  connectTimeout?: any;
+  /** The number of re-connections attempted after identifying that there was an idle connection failure, used by recommended version. This must be an integer between 0 and 255. Type: integer (or Expression with resultType integer). */
+  connectRetryCount?: any;
+  /** The amount of time (in seconds) between each re-connection attempt after identifying that there was an idle connection failure, used by recommended version. This must be an integer between 1 and 60. Type: integer (or Expression with resultType integer). */
+  connectRetryInterval?: any;
+  /** The minimum time, in seconds, for the connection to live in the connection pool before being destroyed, used by recommended version. Type: integer (or Expression with resultType integer). */
+  loadBalanceTimeout?: any;
+  /** The default wait time (in seconds) before terminating the attempt to execute a command and generating an error, used by recommended version. Type: integer (or Expression with resultType integer). */
+  commandTimeout?: any;
+  /** Indicate whether User ID and Password are specified in the connection (when false) or whether the current Windows account credentials are used for authentication (when true), used by recommended version. Type: Boolean (or Expression with resultType boolean). */
+  integratedSecurity?: any;
+  /** The name or address of the partner server to connect to if the primary server is down, used by recommended version. Type: string (or Expression with resultType string). */
+  failoverPartner?: any;
+  /** The maximum number of connections allowed in the connection pool for this specific connection string, used by recommended version. Type: integer (or Expression with resultType integer). */
+  maxPoolSize?: any;
+  /** The minimum number of connections allowed in the connection pool for this specific connection string, used by recommended version. Type: integer (or Expression with resultType integer). */
+  minPoolSize?: any;
+  /** When true, an application can maintain multiple active result sets (MARS). When false, an application must process or cancel all result sets from one batch before it can execute any other batch on that connection, used by recommended version. Type: Boolean (or Expression with resultType boolean). */
+  multipleActiveResultSets?: any;
+  /** If your application is connecting to an AlwaysOn availability group (AG) on different subnets, setting MultiSubnetFailover=true provides faster detection of and connection to the (currently) active server, used by recommended version. Type: Boolean (or Expression with resultType boolean). */
+  multiSubnetFailover?: any;
+  /** The size in bytes of the network packets used to communicate with an instance of server, used by recommended version. Type: integer (or Expression with resultType integer). */
+  packetSize?: any;
+  /** Indicate whether the connection will be pooled or explicitly opened every time that the connection is requested, used by recommended version. Type: Boolean (or Expression with resultType boolean). */
+  pooling?: any;
   /** The connection string. Type: string, SecureString or AzureKeyVaultSecretReference. Type: string, SecureString or AzureKeyVaultSecretReference. */
-  connectionString: any;
+  connectionString?: any;
+  /** The type used for authentication. Type: string. */
+  authenticationType?: AzureSqlDWAuthenticationType;
+  /** The user name to be used when connecting to server. Type: string (or Expression with resultType string). */
+  userName?: any;
   /** The Azure key vault secret reference of password in connection string. */
   password?: AzureKeyVaultSecretReference;
   /** The ID of the service principal used to authenticate against Azure SQL Data Warehouse. Type: string (or Expression with resultType string). */
   servicePrincipalId?: any;
   /** The key of the service principal used to authenticate against Azure SQL Data Warehouse. */
   servicePrincipalKey?: SecretBaseUnion;
+  /** The service principal credential type to use in Server-To-Server authentication. 'ServicePrincipalKey' for key/secret, 'ServicePrincipalCert' for certificate. Type: string (or Expression with resultType string). */
+  servicePrincipalCredentialType?: any;
+  /** The credential of the service principal object in Azure Active Directory. If servicePrincipalCredentialType is 'ServicePrincipalKey', servicePrincipalCredential can be SecureString or AzureKeyVaultSecretReference. If servicePrincipalCredentialType is 'ServicePrincipalCert', servicePrincipalCredential can only be AzureKeyVaultSecretReference. */
+  servicePrincipalCredential?: SecretBaseUnion;
   /** The name or ID of the tenant to which the service principal belongs. Type: string (or Expression with resultType string). */
   tenant?: any;
   /** Indicates the azure cloud type of the service principle auth. Allowed values are AzurePublic, AzureChina, AzureUsGovernment, AzureGermany. Default value is the data factory regions’ cloud type. Type: string (or Expression with resultType string). */
@@ -4442,8 +4530,48 @@ export interface AzureSqlDWLinkedService extends LinkedService {
 export interface SqlServerLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SqlServer";
+  /** The name or network address of the instance of SQL Server to which to connect, used by recommended version. Type: string (or Expression with resultType string). */
+  server?: any;
+  /** The name of the database, used by recommended version. Type: string (or Expression with resultType string). */
+  database?: any;
+  /** Indicate whether TLS encryption is required for all data sent between the client and server, used by recommended version. Possible values are true/yes/mandatory, false/no/optional and strict. Type: string (or Expression with resultType string). */
+  encrypt?: any;
+  /** Indicate whether the channel will be encrypted while bypassing walking the certificate chain to validate trust, used by recommended version. Type: Boolean (or Expression with resultType boolean). */
+  trustServerCertificate?: any;
+  /** The host name to use when validating the server certificate for the connection. When not specified, the server name from the Data Source is used for certificate validation, used by recommended version. Type: string (or Expression with resultType string). */
+  hostNameInCertificate?: any;
+  /** The application workload type when connecting to a server, used by recommended version. Possible values are ReadOnly and ReadWrite. Type: string (or Expression with resultType string). */
+  applicationIntent?: any;
+  /** The length of time (in seconds) to wait for a connection to the server before terminating the attempt and generating an error, used by recommended version. Type: integer (or Expression with resultType integer). */
+  connectTimeout?: any;
+  /** The number of re-connections attempted after identifying that there was an idle connection failure, used by recommended version. This must be an integer between 0 and 255. Type: integer (or Expression with resultType integer). */
+  connectRetryCount?: any;
+  /** The amount of time (in seconds) between each re-connection attempt after identifying that there was an idle connection failure, used by recommended version. This must be an integer between 1 and 60. Type: integer (or Expression with resultType integer). */
+  connectRetryInterval?: any;
+  /** The minimum time, in seconds, for the connection to live in the connection pool before being destroyed, used by recommended version. Type: integer (or Expression with resultType integer). */
+  loadBalanceTimeout?: any;
+  /** The default wait time (in seconds) before terminating the attempt to execute a command and generating an error, used by recommended version. Type: integer (or Expression with resultType integer). */
+  commandTimeout?: any;
+  /** Indicate whether User ID and Password are specified in the connection (when false) or whether the current Windows account credentials are used for authentication (when true), used by recommended version. Type: Boolean (or Expression with resultType boolean). */
+  integratedSecurity?: any;
+  /** The name or address of the partner server to connect to if the primary server is down, used by recommended version. Type: string (or Expression with resultType string). */
+  failoverPartner?: any;
+  /** The maximum number of connections allowed in the connection pool for this specific connection string, used by recommended version. Type: integer (or Expression with resultType integer). */
+  maxPoolSize?: any;
+  /** The minimum number of connections allowed in the connection pool for this specific connection string, used by recommended version. Type: integer (or Expression with resultType integer). */
+  minPoolSize?: any;
+  /** When true, an application can maintain multiple active result sets (MARS). When false, an application must process or cancel all result sets from one batch before it can execute any other batch on that connection, used by recommended version. Type: Boolean (or Expression with resultType boolean). */
+  multipleActiveResultSets?: any;
+  /** If your application is connecting to an AlwaysOn availability group (AG) on different subnets, setting MultiSubnetFailover=true provides faster detection of and connection to the (currently) active server, used by recommended version. Type: Boolean (or Expression with resultType boolean). */
+  multiSubnetFailover?: any;
+  /** The size in bytes of the network packets used to communicate with an instance of server, used by recommended version. Type: integer (or Expression with resultType integer). */
+  packetSize?: any;
+  /** Indicate whether the connection will be pooled or explicitly opened every time that the connection is requested, used by recommended version. Type: Boolean (or Expression with resultType boolean). */
+  pooling?: any;
   /** The connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
-  connectionString: any;
+  connectionString?: any;
+  /** The type used for authentication. Type: string. */
+  authenticationType?: SqlServerAuthenticationType;
   /** The on-premises Windows authentication user name. Type: string (or Expression with resultType string). */
   userName?: any;
   /** The on-premises Windows authentication password. */
@@ -4458,8 +4586,48 @@ export interface SqlServerLinkedService extends LinkedService {
 export interface AmazonRdsForSqlServerLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AmazonRdsForSqlServer";
+  /** The name or network address of the instance of SQL Server to which to connect, used by recommended version. Type: string (or Expression with resultType string). */
+  server?: any;
+  /** The name of the database, used by recommended version. Type: string (or Expression with resultType string). */
+  database?: any;
+  /** Indicate whether TLS encryption is required for all data sent between the client and server, used by recommended version. Possible values are true/yes/mandatory, false/no/optional and strict. Type: string (or Expression with resultType string). */
+  encrypt?: any;
+  /** Indicate whether the channel will be encrypted while bypassing walking the certificate chain to validate trust, used by recommended version. Type: Boolean (or Expression with resultType boolean). */
+  trustServerCertificate?: any;
+  /** The host name to use when validating the server certificate for the connection. When not specified, the server name from the Data Source is used for certificate validation, used by recommended version. Type: string (or Expression with resultType string). */
+  hostNameInCertificate?: any;
+  /** The application workload type when connecting to a server, used by recommended version. Possible values are ReadOnly and ReadWrite. Type: string (or Expression with resultType string). */
+  applicationIntent?: any;
+  /** The length of time (in seconds) to wait for a connection to the server before terminating the attempt and generating an error, used by recommended version. Type: integer (or Expression with resultType integer). */
+  connectTimeout?: any;
+  /** The number of re-connections attempted after identifying that there was an idle connection failure, used by recommended version. This must be an integer between 0 and 255. Type: integer (or Expression with resultType integer). */
+  connectRetryCount?: any;
+  /** The amount of time (in seconds) between each re-connection attempt after identifying that there was an idle connection failure, used by recommended version. This must be an integer between 1 and 60. Type: integer (or Expression with resultType integer). */
+  connectRetryInterval?: any;
+  /** The minimum time, in seconds, for the connection to live in the connection pool before being destroyed, used by recommended version. Type: integer (or Expression with resultType integer). */
+  loadBalanceTimeout?: any;
+  /** The default wait time (in seconds) before terminating the attempt to execute a command and generating an error, used by recommended version. Type: integer (or Expression with resultType integer). */
+  commandTimeout?: any;
+  /** Indicate whether User ID and Password are specified in the connection (when false) or whether the current Windows account credentials are used for authentication (when true), used by recommended version. Type: Boolean (or Expression with resultType boolean). */
+  integratedSecurity?: any;
+  /** The name or address of the partner server to connect to if the primary server is down, used by recommended version. Type: string (or Expression with resultType string). */
+  failoverPartner?: any;
+  /** The maximum number of connections allowed in the connection pool for this specific connection string, used by recommended version. Type: integer (or Expression with resultType integer). */
+  maxPoolSize?: any;
+  /** The minimum number of connections allowed in the connection pool for this specific connection string, used by recommended version. Type: integer (or Expression with resultType integer). */
+  minPoolSize?: any;
+  /** When true, an application can maintain multiple active result sets (MARS). When false, an application must process or cancel all result sets from one batch before it can execute any other batch on that connection, used by recommended version. Type: Boolean (or Expression with resultType boolean). */
+  multipleActiveResultSets?: any;
+  /** If your application is connecting to an AlwaysOn availability group (AG) on different subnets, setting MultiSubnetFailover=true provides faster detection of and connection to the (currently) active server, used by recommended version. Type: Boolean (or Expression with resultType boolean). */
+  multiSubnetFailover?: any;
+  /** The size in bytes of the network packets used to communicate with an instance of server, used by recommended version. Type: integer (or Expression with resultType integer). */
+  packetSize?: any;
+  /** Indicate whether the connection will be pooled or explicitly opened every time that the connection is requested, used by recommended version. Type: Boolean (or Expression with resultType boolean). */
+  pooling?: any;
   /** The connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
-  connectionString: any;
+  connectionString?: any;
+  /** The type used for authentication. Type: string. */
+  authenticationType?: AmazonRdsForSqlAuthenticationType;
   /** The on-premises Windows authentication user name. Type: string (or Expression with resultType string). */
   userName?: any;
   /** The on-premises Windows authentication password. */
@@ -4474,14 +4642,60 @@ export interface AmazonRdsForSqlServerLinkedService extends LinkedService {
 export interface AzureSqlDatabaseLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureSqlDatabase";
+  /** The name or network address of the instance of SQL Server to which to connect, used by recommended version. Type: string (or Expression with resultType string). */
+  server?: any;
+  /** The name of the database, used by recommended version. Type: string (or Expression with resultType string). */
+  database?: any;
+  /** Indicate whether TLS encryption is required for all data sent between the client and server, used by recommended version. Possible values are true/yes/mandatory, false/no/optional and strict. Type: string (or Expression with resultType string). */
+  encrypt?: any;
+  /** Indicate whether the channel will be encrypted while bypassing walking the certificate chain to validate trust, used by recommended version. Type: Boolean (or Expression with resultType boolean). */
+  trustServerCertificate?: any;
+  /** The host name to use when validating the server certificate for the connection. When not specified, the server name from the Data Source is used for certificate validation, used by recommended version. Type: string (or Expression with resultType string). */
+  hostNameInCertificate?: any;
+  /** The application workload type when connecting to a server, used by recommended version. Possible values are ReadOnly and ReadWrite. Type: string (or Expression with resultType string). */
+  applicationIntent?: any;
+  /** The length of time (in seconds) to wait for a connection to the server before terminating the attempt and generating an error, used by recommended version. Type: integer (or Expression with resultType integer). */
+  connectTimeout?: any;
+  /** The number of re-connections attempted after identifying that there was an idle connection failure, used by recommended version. This must be an integer between 0 and 255. Type: integer (or Expression with resultType integer). */
+  connectRetryCount?: any;
+  /** The amount of time (in seconds) between each re-connection attempt after identifying that there was an idle connection failure, used by recommended version. This must be an integer between 1 and 60. Type: integer (or Expression with resultType integer). */
+  connectRetryInterval?: any;
+  /** The minimum time, in seconds, for the connection to live in the connection pool before being destroyed, used by recommended version. Type: integer (or Expression with resultType integer). */
+  loadBalanceTimeout?: any;
+  /** The default wait time (in seconds) before terminating the attempt to execute a command and generating an error, used by recommended version. Type: integer (or Expression with resultType integer). */
+  commandTimeout?: any;
+  /** Indicate whether User ID and Password are specified in the connection (when false) or whether the current Windows account credentials are used for authentication (when true), used by recommended version. Type: Boolean (or Expression with resultType boolean). */
+  integratedSecurity?: any;
+  /** The name or address of the partner server to connect to if the primary server is down, used by recommended version. Type: string (or Expression with resultType string). */
+  failoverPartner?: any;
+  /** The maximum number of connections allowed in the connection pool for this specific connection string, used by recommended version. Type: integer (or Expression with resultType integer). */
+  maxPoolSize?: any;
+  /** The minimum number of connections allowed in the connection pool for this specific connection string, used by recommended version. Type: integer (or Expression with resultType integer). */
+  minPoolSize?: any;
+  /** When true, an application can maintain multiple active result sets (MARS). When false, an application must process or cancel all result sets from one batch before it can execute any other batch on that connection, used by recommended version. Type: Boolean (or Expression with resultType boolean). */
+  multipleActiveResultSets?: any;
+  /** If your application is connecting to an AlwaysOn availability group (AG) on different subnets, setting MultiSubnetFailover=true provides faster detection of and connection to the (currently) active server, used by recommended version. Type: Boolean (or Expression with resultType boolean). */
+  multiSubnetFailover?: any;
+  /** The size in bytes of the network packets used to communicate with an instance of server, used by recommended version. Type: integer (or Expression with resultType integer). */
+  packetSize?: any;
+  /** Indicate whether the connection will be pooled or explicitly opened every time that the connection is requested, used by recommended version. Type: Boolean (or Expression with resultType boolean). */
+  pooling?: any;
   /** The connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
-  connectionString: any;
+  connectionString?: any;
+  /** The type used for authentication. Type: string. */
+  authenticationType?: AzureSqlDatabaseAuthenticationType;
+  /** The user name to be used when connecting to server. Type: string (or Expression with resultType string). */
+  userName?: any;
   /** The Azure key vault secret reference of password in connection string. */
   password?: AzureKeyVaultSecretReference;
   /** The ID of the service principal used to authenticate against Azure SQL Database. Type: string (or Expression with resultType string). */
   servicePrincipalId?: any;
   /** The key of the service principal used to authenticate against Azure SQL Database. */
   servicePrincipalKey?: SecretBaseUnion;
+  /** The service principal credential type to use in Server-To-Server authentication. 'ServicePrincipalKey' for key/secret, 'ServicePrincipalCert' for certificate. Type: string (or Expression with resultType string). */
+  servicePrincipalCredentialType?: any;
+  /** The credential of the service principal object in Azure Active Directory. If servicePrincipalCredentialType is 'ServicePrincipalKey', servicePrincipalCredential can be SecureString or AzureKeyVaultSecretReference. If servicePrincipalCredentialType is 'ServicePrincipalCert', servicePrincipalCredential can only be AzureKeyVaultSecretReference. */
+  servicePrincipalCredential?: SecretBaseUnion;
   /** The name or ID of the tenant to which the service principal belongs. Type: string (or Expression with resultType string). */
   tenant?: any;
   /** Indicates the azure cloud type of the service principle auth. Allowed values are AzurePublic, AzureChina, AzureUsGovernment, AzureGermany. Default value is the data factory regions’ cloud type. Type: string (or Expression with resultType string). */
@@ -4498,14 +4712,60 @@ export interface AzureSqlDatabaseLinkedService extends LinkedService {
 export interface AzureSqlMILinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureSqlMI";
+  /** The name or network address of the instance of SQL Server to which to connect, used by recommended version. Type: string (or Expression with resultType string). */
+  server?: any;
+  /** The name of the database, used by recommended version. Type: string (or Expression with resultType string). */
+  database?: any;
+  /** Indicate whether TLS encryption is required for all data sent between the client and server, used by recommended version. Possible values are true/yes/mandatory, false/no/optional and strict. Type: string (or Expression with resultType string). */
+  encrypt?: any;
+  /** Indicate whether the channel will be encrypted while bypassing walking the certificate chain to validate trust, used by recommended version. Type: Boolean (or Expression with resultType boolean). */
+  trustServerCertificate?: any;
+  /** The host name to use when validating the server certificate for the connection. When not specified, the server name from the Data Source is used for certificate validation, used by recommended version. Type: string (or Expression with resultType string). */
+  hostNameInCertificate?: any;
+  /** The application workload type when connecting to a server, used by recommended version. Possible values are ReadOnly and ReadWrite. Type: string (or Expression with resultType string). */
+  applicationIntent?: any;
+  /** The length of time (in seconds) to wait for a connection to the server before terminating the attempt and generating an error, used by recommended version. Type: integer (or Expression with resultType integer). */
+  connectTimeout?: any;
+  /** The number of re-connections attempted after identifying that there was an idle connection failure, used by recommended version. This must be an integer between 0 and 255. Type: integer (or Expression with resultType integer). */
+  connectRetryCount?: any;
+  /** The amount of time (in seconds) between each re-connection attempt after identifying that there was an idle connection failure, used by recommended version. This must be an integer between 1 and 60. Type: integer (or Expression with resultType integer). */
+  connectRetryInterval?: any;
+  /** The minimum time, in seconds, for the connection to live in the connection pool before being destroyed, used by recommended version. Type: integer (or Expression with resultType integer). */
+  loadBalanceTimeout?: any;
+  /** The default wait time (in seconds) before terminating the attempt to execute a command and generating an error, used by recommended version. Type: integer (or Expression with resultType integer). */
+  commandTimeout?: any;
+  /** Indicate whether User ID and Password are specified in the connection (when false) or whether the current Windows account credentials are used for authentication (when true), used by recommended version. Type: Boolean (or Expression with resultType boolean). */
+  integratedSecurity?: any;
+  /** The name or address of the partner server to connect to if the primary server is down, used by recommended version. Type: string (or Expression with resultType string). */
+  failoverPartner?: any;
+  /** The maximum number of connections allowed in the connection pool for this specific connection string, used by recommended version. Type: integer (or Expression with resultType integer). */
+  maxPoolSize?: any;
+  /** The minimum number of connections allowed in the connection pool for this specific connection string, used by recommended version. Type: integer (or Expression with resultType integer). */
+  minPoolSize?: any;
+  /** When true, an application can maintain multiple active result sets (MARS). When false, an application must process or cancel all result sets from one batch before it can execute any other batch on that connection, used by recommended version. Type: Boolean (or Expression with resultType boolean). */
+  multipleActiveResultSets?: any;
+  /** If your application is connecting to an AlwaysOn availability group (AG) on different subnets, setting MultiSubnetFailover=true provides faster detection of and connection to the (currently) active server, used by recommended version. Type: Boolean (or Expression with resultType boolean). */
+  multiSubnetFailover?: any;
+  /** The size in bytes of the network packets used to communicate with an instance of server, used by recommended version. Type: integer (or Expression with resultType integer). */
+  packetSize?: any;
+  /** Indicate whether the connection will be pooled or explicitly opened every time that the connection is requested, used by recommended version. Type: Boolean (or Expression with resultType boolean). */
+  pooling?: any;
   /** The connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
-  connectionString: any;
+  connectionString?: any;
+  /** The type used for authentication. Type: string. */
+  authenticationType?: AzureSqlMIAuthenticationType;
+  /** The user name to be used when connecting to server. Type: string (or Expression with resultType string). */
+  userName?: any;
   /** The Azure key vault secret reference of password in connection string. */
   password?: AzureKeyVaultSecretReference;
   /** The ID of the service principal used to authenticate against Azure SQL Managed Instance. Type: string (or Expression with resultType string). */
   servicePrincipalId?: any;
   /** The key of the service principal used to authenticate against Azure SQL Managed Instance. */
   servicePrincipalKey?: SecretBaseUnion;
+  /** The service principal credential type to use in Server-To-Server authentication. 'ServicePrincipalKey' for key/secret, 'ServicePrincipalCert' for certificate. Type: string (or Expression with resultType string). */
+  servicePrincipalCredentialType?: any;
+  /** The credential of the service principal object in Azure Active Directory. If servicePrincipalCredentialType is 'ServicePrincipalKey', servicePrincipalCredential can be SecureString or AzureKeyVaultSecretReference. If servicePrincipalCredentialType is 'ServicePrincipalCert', servicePrincipalCredential can only be AzureKeyVaultSecretReference. */
+  servicePrincipalCredential?: SecretBaseUnion;
   /** The name or ID of the tenant to which the service principal belongs. Type: string (or Expression with resultType string). */
   tenant?: any;
   /** Indicates the azure cloud type of the service principle auth. Allowed values are AzurePublic, AzureChina, AzureUsGovernment, AzureGermany. Default value is the data factory regions’ cloud type. Type: string (or Expression with resultType string). */
@@ -6793,17 +7053,17 @@ export interface AzureSynapseArtifactsLinkedService extends LinkedService {
   workspaceResourceId?: any;
 }
 
-/** Microsoft Fabric LakeHouse linked service. */
-export interface LakeHouseLinkedService extends LinkedService {
+/** Microsoft Fabric Lakehouse linked service. */
+export interface LakehouseLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "LakeHouse";
+  type: "Lakehouse";
   /** The ID of Microsoft Fabric workspace. Type: string (or Expression with resultType string). */
   workspaceId?: any;
-  /** The ID of Microsoft Fabric LakeHouse artifact. Type: string (or Expression with resultType string). */
+  /** The ID of Microsoft Fabric Lakehouse artifact. Type: string (or Expression with resultType string). */
   artifactId?: any;
-  /** The ID of the application used to authenticate against Microsoft Fabric LakeHouse. Type: string (or Expression with resultType string). */
+  /** The ID of the application used to authenticate against Microsoft Fabric Lakehouse. Type: string (or Expression with resultType string). */
   servicePrincipalId?: any;
-  /** The Key of the application used to authenticate against Microsoft Fabric LakeHouse. */
+  /** The Key of the application used to authenticate against Microsoft Fabric Lakehouse. */
   servicePrincipalKey?: SecretBaseUnion;
   /** The name or ID of the tenant to which the service principal belongs. Type: string (or Expression with resultType string). */
   tenant?: any;
@@ -7916,11 +8176,11 @@ export interface AzureDatabricksDeltaLakeDataset extends Dataset {
   database?: any;
 }
 
-/** Microsoft Fabric LakeHouse Table. */
-export interface LakeHouseTableDataset extends Dataset {
+/** Microsoft Fabric Lakehouse Table. */
+export interface LakehouseTableDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "LakeHouseTable";
-  /** The name of Microsoft Fabric LakeHouse Table. Type: string (or Expression with resultType string). */
+  type: "LakehouseTable";
+  /** The name of Microsoft Fabric Lakehouse Table. Type: string (or Expression with resultType string). */
   table?: any;
 }
 
@@ -8182,6 +8442,8 @@ export interface LinkedServiceDebugResource extends SubResourceDebugResource {
 export interface ManagedIdentityCredential extends Credential {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ManagedIdentity";
+  /** The resource id of user assigned managed identity */
+  resourceId?: string;
 }
 
 /** Service principal credential. */
@@ -8330,10 +8592,10 @@ export interface HdfsLocation extends DatasetLocation {
   type: "HdfsLocation";
 }
 
-/** The location of Microsoft Fabric LakeHouse Files dataset. */
-export interface LakeHouseLocation extends DatasetLocation {
+/** The location of Microsoft Fabric Lakehouse Files dataset. */
+export interface LakehouseLocation extends DatasetLocation {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "LakeHouseLocation";
+  type: "LakehouseLocation";
 }
 
 /** The data stored in text format. */
@@ -8450,6 +8712,131 @@ export interface LinkedIntegrationRuntimeRbacAuthorization
   authorizationType: "RBAC";
   /** The resource identifier of the integration runtime to be shared. */
   resourceId: string;
+  /** The credential reference containing authentication information. */
+  credential?: CredentialReference;
+}
+
+/** Azure SQL Data Warehouse linked service properties. */
+export interface AzureSqlDWLinkedServiceTypeProperties
+  extends SqlServerBaseLinkedServiceTypeProperties {
+  /** The connection string. Type: string, SecureString or AzureKeyVaultSecretReference. Type: string, SecureString or AzureKeyVaultSecretReference. */
+  connectionString?: any;
+  /** The type used for authentication. Type: string. */
+  authenticationType?: AzureSqlDWAuthenticationType;
+  /** The user name to be used when connecting to server. Type: string (or Expression with resultType string). */
+  userName?: any;
+  /** The Azure key vault secret reference of password in connection string. */
+  password?: AzureKeyVaultSecretReference;
+  /** The ID of the service principal used to authenticate against Azure SQL Data Warehouse. Type: string (or Expression with resultType string). */
+  servicePrincipalId?: any;
+  /** The key of the service principal used to authenticate against Azure SQL Data Warehouse. */
+  servicePrincipalKey?: SecretBaseUnion;
+  /** The service principal credential type to use in Server-To-Server authentication. 'ServicePrincipalKey' for key/secret, 'ServicePrincipalCert' for certificate. Type: string (or Expression with resultType string). */
+  servicePrincipalCredentialType?: any;
+  /** The credential of the service principal object in Azure Active Directory. If servicePrincipalCredentialType is 'ServicePrincipalKey', servicePrincipalCredential can be SecureString or AzureKeyVaultSecretReference. If servicePrincipalCredentialType is 'ServicePrincipalCert', servicePrincipalCredential can only be AzureKeyVaultSecretReference. */
+  servicePrincipalCredential?: SecretBaseUnion;
+  /** The name or ID of the tenant to which the service principal belongs. Type: string (or Expression with resultType string). */
+  tenant?: any;
+  /** Indicates the azure cloud type of the service principle auth. Allowed values are AzurePublic, AzureChina, AzureUsGovernment, AzureGermany. Default value is the data factory regions’ cloud type. Type: string (or Expression with resultType string). */
+  azureCloudType?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
+  /** The credential reference containing authentication information. */
+  credential?: CredentialReference;
+}
+
+/** SQL Server linked service properties. */
+export interface SqlServerLinkedServiceTypeProperties
+  extends SqlServerBaseLinkedServiceTypeProperties {
+  /** The connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
+  connectionString?: any;
+  /** The type used for authentication. Type: string. */
+  authenticationType?: SqlServerAuthenticationType;
+  /** The on-premises Windows authentication user name. Type: string (or Expression with resultType string). */
+  userName?: any;
+  /** The on-premises Windows authentication password. */
+  password?: SecretBaseUnion;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
+  /** Sql always encrypted properties. */
+  alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties;
+}
+
+/** Amazon Rds for SQL Server linked service properties. */
+export interface AmazonRdsForSqlServerLinkedServiceTypeProperties
+  extends SqlServerBaseLinkedServiceTypeProperties {
+  /** The connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
+  connectionString?: any;
+  /** The type used for authentication. Type: string. */
+  authenticationType?: AmazonRdsForSqlAuthenticationType;
+  /** The on-premises Windows authentication user name. Type: string (or Expression with resultType string). */
+  userName?: any;
+  /** The on-premises Windows authentication password. */
+  password?: SecretBaseUnion;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
+  /** Sql always encrypted properties. */
+  alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties;
+}
+
+/** Azure SQL Database linked service properties. */
+export interface AzureSqlDatabaseLinkedServiceTypeProperties
+  extends SqlServerBaseLinkedServiceTypeProperties {
+  /** The connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
+  connectionString?: any;
+  /** The type used for authentication. Type: string. */
+  authenticationType?: AzureSqlDatabaseAuthenticationType;
+  /** The user name to be used when connecting to server. Type: string (or Expression with resultType string). */
+  userName?: any;
+  /** The Azure key vault secret reference of password in connection string. */
+  password?: AzureKeyVaultSecretReference;
+  /** The ID of the service principal used to authenticate against Azure SQL Database. Type: string (or Expression with resultType string). */
+  servicePrincipalId?: any;
+  /** The key of the service principal used to authenticate against Azure SQL Database. */
+  servicePrincipalKey?: SecretBaseUnion;
+  /** The service principal credential type to use in Server-To-Server authentication. 'ServicePrincipalKey' for key/secret, 'ServicePrincipalCert' for certificate. Type: string (or Expression with resultType string). */
+  servicePrincipalCredentialType?: any;
+  /** The credential of the service principal object in Azure Active Directory. If servicePrincipalCredentialType is 'ServicePrincipalKey', servicePrincipalCredential can be SecureString or AzureKeyVaultSecretReference. If servicePrincipalCredentialType is 'ServicePrincipalCert', servicePrincipalCredential can only be AzureKeyVaultSecretReference. */
+  servicePrincipalCredential?: SecretBaseUnion;
+  /** The name or ID of the tenant to which the service principal belongs. Type: string (or Expression with resultType string). */
+  tenant?: any;
+  /** Indicates the azure cloud type of the service principle auth. Allowed values are AzurePublic, AzureChina, AzureUsGovernment, AzureGermany. Default value is the data factory regions’ cloud type. Type: string (or Expression with resultType string). */
+  azureCloudType?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
+  /** Sql always encrypted properties. */
+  alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties;
+  /** The credential reference containing authentication information. */
+  credential?: CredentialReference;
+}
+
+/** Azure SQL Managed Instance linked service properties. */
+export interface AzureSqlMILinkedServiceTypeProperties
+  extends SqlServerBaseLinkedServiceTypeProperties {
+  /** The connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
+  connectionString?: any;
+  /** The type used for authentication. Type: string. */
+  authenticationType?: AzureSqlMIAuthenticationType;
+  /** The user name to be used when connecting to server. Type: string (or Expression with resultType string). */
+  userName?: any;
+  /** The Azure key vault secret reference of password in connection string. */
+  password?: AzureKeyVaultSecretReference;
+  /** The ID of the service principal used to authenticate against Azure SQL Managed Instance. Type: string (or Expression with resultType string). */
+  servicePrincipalId?: any;
+  /** The key of the service principal used to authenticate against Azure SQL Managed Instance. */
+  servicePrincipalKey?: SecretBaseUnion;
+  /** The service principal credential type to use in Server-To-Server authentication. 'ServicePrincipalKey' for key/secret, 'ServicePrincipalCert' for certificate. Type: string (or Expression with resultType string). */
+  servicePrincipalCredentialType?: any;
+  /** The credential of the service principal object in Azure Active Directory. If servicePrincipalCredentialType is 'ServicePrincipalKey', servicePrincipalCredential can be SecureString or AzureKeyVaultSecretReference. If servicePrincipalCredentialType is 'ServicePrincipalCert', servicePrincipalCredential can only be AzureKeyVaultSecretReference. */
+  servicePrincipalCredential?: SecretBaseUnion;
+  /** The name or ID of the tenant to which the service principal belongs. Type: string (or Expression with resultType string). */
+  tenant?: any;
+  /** Indicates the azure cloud type of the service principle auth. Allowed values are AzurePublic, AzureChina, AzureUsGovernment, AzureGermany. Default value is the data factory regions’ cloud type. Type: string (or Expression with resultType string). */
+  azureCloudType?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
+  /** Sql always encrypted properties. */
+  alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties;
   /** The credential reference containing authentication information. */
   credential?: CredentialReference;
 }
@@ -8808,15 +9195,15 @@ export interface HdfsReadSettings extends StoreReadSettings {
   deleteFilesAfterCompletion?: any;
 }
 
-/** Microsoft Fabric LakeHouse Files read settings. */
-export interface LakeHouseReadSettings extends StoreReadSettings {
+/** Microsoft Fabric Lakehouse Files read settings. */
+export interface LakehouseReadSettings extends StoreReadSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "LakeHouseReadSettings";
+  type: "LakehouseReadSettings";
   /** If true, files under the folder path will be read recursively. Default is true. Type: boolean (or Expression with resultType boolean). */
   recursive?: any;
-  /** Microsoft Fabric LakeHouse Files wildcardFolderPath. Type: string (or Expression with resultType string). */
+  /** Microsoft Fabric Lakehouse Files wildcardFolderPath. Type: string (or Expression with resultType string). */
   wildcardFolderPath?: any;
-  /** Microsoft Fabric LakeHouse Files wildcardFileName. Type: string (or Expression with resultType string). */
+  /** Microsoft Fabric Lakehouse Files wildcardFileName. Type: string (or Expression with resultType string). */
   wildcardFileName?: any;
   /** Point to a text file that lists each file (relative path to the path configured in the dataset) that you want to copy. Type: string (or Expression with resultType string). */
   fileListPath?: any;
@@ -8878,10 +9265,10 @@ export interface AzureFileStorageWriteSettings extends StoreWriteSettings {
   type: "AzureFileStorageWriteSettings";
 }
 
-/** Microsoft Fabric LakeHouse Files write settings. */
-export interface LakeHouseWriteSettings extends StoreWriteSettings {
+/** Microsoft Fabric Lakehouse Files write settings. */
+export interface LakehouseWriteSettings extends StoreWriteSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "LakeHouseWriteSettings";
+  type: "LakehouseWriteSettings";
 }
 
 /** Parquet read settings. */
@@ -9491,10 +9878,10 @@ export interface HttpSource extends CopySource {
   httpRequestTimeout?: any;
 }
 
-/** A copy activity source for Microsoft Fabric LakeHouse Table. */
-export interface LakeHouseTableSource extends CopySource {
+/** A copy activity source for Microsoft Fabric Lakehouse Table. */
+export interface LakehouseTableSource extends CopySource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "LakeHouseTableSource";
+  type: "LakehouseTableSource";
   /** Query an older snapshot by timestamp. Type: string (or Expression with resultType string). */
   timestampAsOf?: any;
   /** Query an older snapshot by version. Type: integer (or Expression with resultType integer). */
@@ -10039,11 +10426,11 @@ export interface CosmosDbMongoDbApiSink extends CopySink {
   writeBehavior?: any;
 }
 
-/** A copy activity for Microsoft Fabric LakeHouse Table sink. */
-export interface LakeHouseTableSink extends CopySink {
+/** A copy activity for Microsoft Fabric Lakehouse Table sink. */
+export interface LakehouseTableSink extends CopySink {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "LakeHouseTableSink";
-  /** The type of table action for LakeHouse Table sink. Possible values include: "None", "Append", "Overwrite". */
+  type: "LakehouseTableSink";
+  /** The type of table action for Lakehouse Table sink. Possible values include: "None", "Append", "Overwrite". */
   tableActionOption?: any;
   /** Create partitions in folder structure based on one or multiple columns. Each distinct column value (pair) will be a new partition. Possible values include: "None", "PartitionByKey". */
   partitionOption?: any;
@@ -12445,6 +12832,48 @@ export enum KnownAzureStorageAuthenticationType {
  */
 export type AzureStorageAuthenticationType = string;
 
+/** Known values of {@link AzureSqlDWAuthenticationType} that the service accepts. */
+export enum KnownAzureSqlDWAuthenticationType {
+  /** SQL */
+  SQL = "SQL",
+  /** ServicePrincipal */
+  ServicePrincipal = "ServicePrincipal",
+  /** SystemAssignedManagedIdentity */
+  SystemAssignedManagedIdentity = "SystemAssignedManagedIdentity",
+  /** UserAssignedManagedIdentity */
+  UserAssignedManagedIdentity = "UserAssignedManagedIdentity",
+}
+
+/**
+ * Defines values for AzureSqlDWAuthenticationType. \
+ * {@link KnownAzureSqlDWAuthenticationType} can be used interchangeably with AzureSqlDWAuthenticationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SQL** \
+ * **ServicePrincipal** \
+ * **SystemAssignedManagedIdentity** \
+ * **UserAssignedManagedIdentity**
+ */
+export type AzureSqlDWAuthenticationType = string;
+
+/** Known values of {@link SqlServerAuthenticationType} that the service accepts. */
+export enum KnownSqlServerAuthenticationType {
+  /** SQL */
+  SQL = "SQL",
+  /** Windows */
+  Windows = "Windows",
+}
+
+/**
+ * Defines values for SqlServerAuthenticationType. \
+ * {@link KnownSqlServerAuthenticationType} can be used interchangeably with SqlServerAuthenticationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SQL** \
+ * **Windows**
+ */
+export type SqlServerAuthenticationType = string;
+
 /** Known values of {@link SqlAlwaysEncryptedAkvAuthType} that the service accepts. */
 export enum KnownSqlAlwaysEncryptedAkvAuthType {
   /** ServicePrincipal */
@@ -12465,6 +12894,72 @@ export enum KnownSqlAlwaysEncryptedAkvAuthType {
  * **UserAssignedManagedIdentity**
  */
 export type SqlAlwaysEncryptedAkvAuthType = string;
+
+/** Known values of {@link AmazonRdsForSqlAuthenticationType} that the service accepts. */
+export enum KnownAmazonRdsForSqlAuthenticationType {
+  /** SQL */
+  SQL = "SQL",
+  /** Windows */
+  Windows = "Windows",
+}
+
+/**
+ * Defines values for AmazonRdsForSqlAuthenticationType. \
+ * {@link KnownAmazonRdsForSqlAuthenticationType} can be used interchangeably with AmazonRdsForSqlAuthenticationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SQL** \
+ * **Windows**
+ */
+export type AmazonRdsForSqlAuthenticationType = string;
+
+/** Known values of {@link AzureSqlDatabaseAuthenticationType} that the service accepts. */
+export enum KnownAzureSqlDatabaseAuthenticationType {
+  /** SQL */
+  SQL = "SQL",
+  /** ServicePrincipal */
+  ServicePrincipal = "ServicePrincipal",
+  /** SystemAssignedManagedIdentity */
+  SystemAssignedManagedIdentity = "SystemAssignedManagedIdentity",
+  /** UserAssignedManagedIdentity */
+  UserAssignedManagedIdentity = "UserAssignedManagedIdentity",
+}
+
+/**
+ * Defines values for AzureSqlDatabaseAuthenticationType. \
+ * {@link KnownAzureSqlDatabaseAuthenticationType} can be used interchangeably with AzureSqlDatabaseAuthenticationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SQL** \
+ * **ServicePrincipal** \
+ * **SystemAssignedManagedIdentity** \
+ * **UserAssignedManagedIdentity**
+ */
+export type AzureSqlDatabaseAuthenticationType = string;
+
+/** Known values of {@link AzureSqlMIAuthenticationType} that the service accepts. */
+export enum KnownAzureSqlMIAuthenticationType {
+  /** SQL */
+  SQL = "SQL",
+  /** ServicePrincipal */
+  ServicePrincipal = "ServicePrincipal",
+  /** SystemAssignedManagedIdentity */
+  SystemAssignedManagedIdentity = "SystemAssignedManagedIdentity",
+  /** UserAssignedManagedIdentity */
+  UserAssignedManagedIdentity = "UserAssignedManagedIdentity",
+}
+
+/**
+ * Defines values for AzureSqlMIAuthenticationType. \
+ * {@link KnownAzureSqlMIAuthenticationType} can be used interchangeably with AzureSqlMIAuthenticationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SQL** \
+ * **ServicePrincipal** \
+ * **SystemAssignedManagedIdentity** \
+ * **UserAssignedManagedIdentity**
+ */
+export type AzureSqlMIAuthenticationType = string;
 
 /** Known values of {@link CosmosDbConnectionMode} that the service accepts. */
 export enum KnownCosmosDbConnectionMode {
@@ -13381,24 +13876,6 @@ export enum KnownWebHookActivityMethod {
  */
 export type WebHookActivityMethod = string;
 
-/** Known values of {@link ScriptType} that the service accepts. */
-export enum KnownScriptType {
-  /** Query */
-  Query = "Query",
-  /** NonQuery */
-  NonQuery = "NonQuery",
-}
-
-/**
- * Defines values for ScriptType. \
- * {@link KnownScriptType} can be used interchangeably with ScriptType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Query** \
- * **NonQuery**
- */
-export type ScriptType = string;
-
 /** Known values of {@link ScriptActivityParameterType} that the service accepts. */
 export enum KnownScriptActivityParameterType {
   /** Boolean */
@@ -14043,6 +14520,24 @@ export enum KnownSqlDWWriteBehaviorEnum {
  * **Upsert**
  */
 export type SqlDWWriteBehaviorEnum = string;
+
+/** Known values of {@link ScriptType} that the service accepts. */
+export enum KnownScriptType {
+  /** Query */
+  Query = "Query",
+  /** NonQuery */
+  NonQuery = "NonQuery",
+}
+
+/**
+ * Defines values for ScriptType. \
+ * {@link KnownScriptType} can be used interchangeably with ScriptType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Query** \
+ * **NonQuery**
+ */
+export type ScriptType = string;
 
 /** Known values of {@link SqlPartitionOption} that the service accepts. */
 export enum KnownSqlPartitionOption {
