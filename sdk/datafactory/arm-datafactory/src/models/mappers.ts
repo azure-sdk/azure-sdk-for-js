@@ -1752,31 +1752,21 @@ export const LinkedService: coreClient.CompositeMapper = {
   },
 };
 
-export const IntegrationRuntimeReference: coreClient.CompositeMapper = {
+export const Reference: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "IntegrationRuntimeReference",
+    className: "Reference",
+    uberParent: "Reference",
+    polymorphicDiscriminator: {
+      serializedName: "type",
+      clientName: "type",
+    },
     modelProperties: {
       type: {
-        defaultValue: "IntegrationRuntimeReference",
-        isConstant: true,
         serializedName: "type",
-        type: {
-          name: "String",
-        },
-      },
-      referenceName: {
-        serializedName: "referenceName",
         required: true,
         type: {
           name: "String",
-        },
-      },
-      parameters: {
-        serializedName: "parameters",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } },
         },
       },
     },
@@ -1902,36 +1892,6 @@ export const Dataset: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "DatasetFolder",
-        },
-      },
-    },
-  },
-};
-
-export const LinkedServiceReference: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "LinkedServiceReference",
-    modelProperties: {
-      type: {
-        serializedName: "type",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-      referenceName: {
-        serializedName: "referenceName",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-      parameters: {
-        serializedName: "parameters",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } },
         },
       },
     },
@@ -4374,36 +4334,6 @@ export const IntegrationRuntimeStatusListResponse: coreClient.CompositeMapper =
     },
   };
 
-export const PipelineReference: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "PipelineReference",
-    modelProperties: {
-      type: {
-        defaultValue: "PipelineReference",
-        isConstant: true,
-        serializedName: "type",
-        type: {
-          name: "String",
-        },
-      },
-      referenceName: {
-        serializedName: "referenceName",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
 export const TriggerPipelineReference: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -4414,37 +4344,6 @@ export const TriggerPipelineReference: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "PipelineReference",
-        },
-      },
-      parameters: {
-        serializedName: "parameters",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } },
-        },
-      },
-    },
-  },
-};
-
-export const DatasetReference: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "DatasetReference",
-    modelProperties: {
-      type: {
-        defaultValue: "DatasetReference",
-        isConstant: true,
-        serializedName: "type",
-        type: {
-          name: "String",
-        },
-      },
-      referenceName: {
-        serializedName: "referenceName",
-        required: true,
-        type: {
-          name: "String",
         },
       },
       parameters: {
@@ -5605,6 +5504,130 @@ export const SsisVariable: coreClient.CompositeMapper = {
     },
   },
 };
+
+export const SqlServerBaseLinkedServiceTypeProperties: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "SqlServerBaseLinkedServiceTypeProperties",
+      modelProperties: {
+        server: {
+          serializedName: "server",
+          type: {
+            name: "any",
+          },
+        },
+        database: {
+          serializedName: "database",
+          type: {
+            name: "any",
+          },
+        },
+        encrypt: {
+          serializedName: "encrypt",
+          type: {
+            name: "any",
+          },
+        },
+        trustServerCertificate: {
+          serializedName: "trustServerCertificate",
+          type: {
+            name: "any",
+          },
+        },
+        hostNameInCertificate: {
+          serializedName: "hostNameInCertificate",
+          type: {
+            name: "any",
+          },
+        },
+        applicationIntent: {
+          serializedName: "applicationIntent",
+          type: {
+            name: "any",
+          },
+        },
+        connectTimeout: {
+          serializedName: "connectTimeout",
+          type: {
+            name: "any",
+          },
+        },
+        connectRetryCount: {
+          serializedName: "connectRetryCount",
+          type: {
+            name: "any",
+          },
+        },
+        connectRetryInterval: {
+          serializedName: "connectRetryInterval",
+          type: {
+            name: "any",
+          },
+        },
+        loadBalanceTimeout: {
+          serializedName: "loadBalanceTimeout",
+          type: {
+            name: "any",
+          },
+        },
+        commandTimeout: {
+          serializedName: "commandTimeout",
+          type: {
+            name: "any",
+          },
+        },
+        integratedSecurity: {
+          serializedName: "integratedSecurity",
+          type: {
+            name: "any",
+          },
+        },
+        failoverPartner: {
+          serializedName: "failoverPartner",
+          type: {
+            name: "any",
+          },
+        },
+        maxPoolSize: {
+          serializedName: "maxPoolSize",
+          type: {
+            name: "any",
+          },
+        },
+        minPoolSize: {
+          serializedName: "minPoolSize",
+          type: {
+            name: "any",
+          },
+        },
+        multipleActiveResultSets: {
+          serializedName: "multipleActiveResultSets",
+          type: {
+            name: "any",
+          },
+        },
+        multiSubnetFailover: {
+          serializedName: "multiSubnetFailover",
+          type: {
+            name: "any",
+          },
+        },
+        packetSize: {
+          serializedName: "packetSize",
+          type: {
+            name: "any",
+          },
+        },
+        pooling: {
+          serializedName: "pooling",
+          type: {
+            name: "any",
+          },
+        },
+      },
+    },
+  };
 
 export const SqlAlwaysEncryptedProperties: coreClient.CompositeMapper = {
   type: {
@@ -7345,7 +7368,7 @@ export const ScriptActivityScriptBlock: coreClient.CompositeMapper = {
         serializedName: "type",
         required: true,
         type: {
-          name: "String",
+          name: "any",
         },
       },
       parameters: {
@@ -8932,9 +8955,134 @@ export const AzureSqlDWLinkedService: coreClient.CompositeMapper = {
     polymorphicDiscriminator: LinkedService.type.polymorphicDiscriminator,
     modelProperties: {
       ...LinkedService.type.modelProperties,
+      server: {
+        serializedName: "typeProperties.server",
+        type: {
+          name: "any",
+        },
+      },
+      database: {
+        serializedName: "typeProperties.database",
+        type: {
+          name: "any",
+        },
+      },
+      encrypt: {
+        serializedName: "typeProperties.encrypt",
+        type: {
+          name: "any",
+        },
+      },
+      trustServerCertificate: {
+        serializedName: "typeProperties.trustServerCertificate",
+        type: {
+          name: "any",
+        },
+      },
+      hostNameInCertificate: {
+        serializedName: "typeProperties.hostNameInCertificate",
+        type: {
+          name: "any",
+        },
+      },
+      applicationIntent: {
+        serializedName: "typeProperties.applicationIntent",
+        type: {
+          name: "any",
+        },
+      },
+      connectTimeout: {
+        serializedName: "typeProperties.connectTimeout",
+        type: {
+          name: "any",
+        },
+      },
+      connectRetryCount: {
+        serializedName: "typeProperties.connectRetryCount",
+        type: {
+          name: "any",
+        },
+      },
+      connectRetryInterval: {
+        serializedName: "typeProperties.connectRetryInterval",
+        type: {
+          name: "any",
+        },
+      },
+      loadBalanceTimeout: {
+        serializedName: "typeProperties.loadBalanceTimeout",
+        type: {
+          name: "any",
+        },
+      },
+      commandTimeout: {
+        serializedName: "typeProperties.commandTimeout",
+        type: {
+          name: "any",
+        },
+      },
+      integratedSecurity: {
+        serializedName: "typeProperties.integratedSecurity",
+        type: {
+          name: "any",
+        },
+      },
+      failoverPartner: {
+        serializedName: "typeProperties.failoverPartner",
+        type: {
+          name: "any",
+        },
+      },
+      maxPoolSize: {
+        serializedName: "typeProperties.maxPoolSize",
+        type: {
+          name: "any",
+        },
+      },
+      minPoolSize: {
+        serializedName: "typeProperties.minPoolSize",
+        type: {
+          name: "any",
+        },
+      },
+      multipleActiveResultSets: {
+        serializedName: "typeProperties.multipleActiveResultSets",
+        type: {
+          name: "any",
+        },
+      },
+      multiSubnetFailover: {
+        serializedName: "typeProperties.multiSubnetFailover",
+        type: {
+          name: "any",
+        },
+      },
+      packetSize: {
+        serializedName: "typeProperties.packetSize",
+        type: {
+          name: "any",
+        },
+      },
+      pooling: {
+        serializedName: "typeProperties.pooling",
+        type: {
+          name: "any",
+        },
+      },
       connectionString: {
         serializedName: "typeProperties.connectionString",
-        required: true,
+        type: {
+          name: "any",
+        },
+      },
+      authenticationType: {
+        serializedName: "typeProperties.authenticationType",
+        type: {
+          name: "String",
+        },
+      },
+      userName: {
+        serializedName: "typeProperties.userName",
         type: {
           name: "any",
         },
@@ -8954,6 +9102,19 @@ export const AzureSqlDWLinkedService: coreClient.CompositeMapper = {
       },
       servicePrincipalKey: {
         serializedName: "typeProperties.servicePrincipalKey",
+        type: {
+          name: "Composite",
+          className: "SecretBase",
+        },
+      },
+      servicePrincipalCredentialType: {
+        serializedName: "typeProperties.servicePrincipalCredentialType",
+        type: {
+          name: "any",
+        },
+      },
+      servicePrincipalCredential: {
+        serializedName: "typeProperties.servicePrincipalCredential",
         type: {
           name: "Composite",
           className: "SecretBase",
@@ -8998,11 +9159,130 @@ export const SqlServerLinkedService: coreClient.CompositeMapper = {
     polymorphicDiscriminator: LinkedService.type.polymorphicDiscriminator,
     modelProperties: {
       ...LinkedService.type.modelProperties,
-      connectionString: {
-        serializedName: "typeProperties.connectionString",
-        required: true,
+      server: {
+        serializedName: "typeProperties.server",
         type: {
           name: "any",
+        },
+      },
+      database: {
+        serializedName: "typeProperties.database",
+        type: {
+          name: "any",
+        },
+      },
+      encrypt: {
+        serializedName: "typeProperties.encrypt",
+        type: {
+          name: "any",
+        },
+      },
+      trustServerCertificate: {
+        serializedName: "typeProperties.trustServerCertificate",
+        type: {
+          name: "any",
+        },
+      },
+      hostNameInCertificate: {
+        serializedName: "typeProperties.hostNameInCertificate",
+        type: {
+          name: "any",
+        },
+      },
+      applicationIntent: {
+        serializedName: "typeProperties.applicationIntent",
+        type: {
+          name: "any",
+        },
+      },
+      connectTimeout: {
+        serializedName: "typeProperties.connectTimeout",
+        type: {
+          name: "any",
+        },
+      },
+      connectRetryCount: {
+        serializedName: "typeProperties.connectRetryCount",
+        type: {
+          name: "any",
+        },
+      },
+      connectRetryInterval: {
+        serializedName: "typeProperties.connectRetryInterval",
+        type: {
+          name: "any",
+        },
+      },
+      loadBalanceTimeout: {
+        serializedName: "typeProperties.loadBalanceTimeout",
+        type: {
+          name: "any",
+        },
+      },
+      commandTimeout: {
+        serializedName: "typeProperties.commandTimeout",
+        type: {
+          name: "any",
+        },
+      },
+      integratedSecurity: {
+        serializedName: "typeProperties.integratedSecurity",
+        type: {
+          name: "any",
+        },
+      },
+      failoverPartner: {
+        serializedName: "typeProperties.failoverPartner",
+        type: {
+          name: "any",
+        },
+      },
+      maxPoolSize: {
+        serializedName: "typeProperties.maxPoolSize",
+        type: {
+          name: "any",
+        },
+      },
+      minPoolSize: {
+        serializedName: "typeProperties.minPoolSize",
+        type: {
+          name: "any",
+        },
+      },
+      multipleActiveResultSets: {
+        serializedName: "typeProperties.multipleActiveResultSets",
+        type: {
+          name: "any",
+        },
+      },
+      multiSubnetFailover: {
+        serializedName: "typeProperties.multiSubnetFailover",
+        type: {
+          name: "any",
+        },
+      },
+      packetSize: {
+        serializedName: "typeProperties.packetSize",
+        type: {
+          name: "any",
+        },
+      },
+      pooling: {
+        serializedName: "typeProperties.pooling",
+        type: {
+          name: "any",
+        },
+      },
+      connectionString: {
+        serializedName: "typeProperties.connectionString",
+        type: {
+          name: "any",
+        },
+      },
+      authenticationType: {
+        serializedName: "typeProperties.authenticationType",
+        type: {
+          name: "String",
         },
       },
       userName: {
@@ -9045,11 +9325,130 @@ export const AmazonRdsForSqlServerLinkedService: coreClient.CompositeMapper = {
     polymorphicDiscriminator: LinkedService.type.polymorphicDiscriminator,
     modelProperties: {
       ...LinkedService.type.modelProperties,
-      connectionString: {
-        serializedName: "typeProperties.connectionString",
-        required: true,
+      server: {
+        serializedName: "typeProperties.server",
         type: {
           name: "any",
+        },
+      },
+      database: {
+        serializedName: "typeProperties.database",
+        type: {
+          name: "any",
+        },
+      },
+      encrypt: {
+        serializedName: "typeProperties.encrypt",
+        type: {
+          name: "any",
+        },
+      },
+      trustServerCertificate: {
+        serializedName: "typeProperties.trustServerCertificate",
+        type: {
+          name: "any",
+        },
+      },
+      hostNameInCertificate: {
+        serializedName: "typeProperties.hostNameInCertificate",
+        type: {
+          name: "any",
+        },
+      },
+      applicationIntent: {
+        serializedName: "typeProperties.applicationIntent",
+        type: {
+          name: "any",
+        },
+      },
+      connectTimeout: {
+        serializedName: "typeProperties.connectTimeout",
+        type: {
+          name: "any",
+        },
+      },
+      connectRetryCount: {
+        serializedName: "typeProperties.connectRetryCount",
+        type: {
+          name: "any",
+        },
+      },
+      connectRetryInterval: {
+        serializedName: "typeProperties.connectRetryInterval",
+        type: {
+          name: "any",
+        },
+      },
+      loadBalanceTimeout: {
+        serializedName: "typeProperties.loadBalanceTimeout",
+        type: {
+          name: "any",
+        },
+      },
+      commandTimeout: {
+        serializedName: "typeProperties.commandTimeout",
+        type: {
+          name: "any",
+        },
+      },
+      integratedSecurity: {
+        serializedName: "typeProperties.integratedSecurity",
+        type: {
+          name: "any",
+        },
+      },
+      failoverPartner: {
+        serializedName: "typeProperties.failoverPartner",
+        type: {
+          name: "any",
+        },
+      },
+      maxPoolSize: {
+        serializedName: "typeProperties.maxPoolSize",
+        type: {
+          name: "any",
+        },
+      },
+      minPoolSize: {
+        serializedName: "typeProperties.minPoolSize",
+        type: {
+          name: "any",
+        },
+      },
+      multipleActiveResultSets: {
+        serializedName: "typeProperties.multipleActiveResultSets",
+        type: {
+          name: "any",
+        },
+      },
+      multiSubnetFailover: {
+        serializedName: "typeProperties.multiSubnetFailover",
+        type: {
+          name: "any",
+        },
+      },
+      packetSize: {
+        serializedName: "typeProperties.packetSize",
+        type: {
+          name: "any",
+        },
+      },
+      pooling: {
+        serializedName: "typeProperties.pooling",
+        type: {
+          name: "any",
+        },
+      },
+      connectionString: {
+        serializedName: "typeProperties.connectionString",
+        type: {
+          name: "any",
+        },
+      },
+      authenticationType: {
+        serializedName: "typeProperties.authenticationType",
+        type: {
+          name: "String",
         },
       },
       userName: {
@@ -9092,9 +9491,134 @@ export const AzureSqlDatabaseLinkedService: coreClient.CompositeMapper = {
     polymorphicDiscriminator: LinkedService.type.polymorphicDiscriminator,
     modelProperties: {
       ...LinkedService.type.modelProperties,
+      server: {
+        serializedName: "typeProperties.server",
+        type: {
+          name: "any",
+        },
+      },
+      database: {
+        serializedName: "typeProperties.database",
+        type: {
+          name: "any",
+        },
+      },
+      encrypt: {
+        serializedName: "typeProperties.encrypt",
+        type: {
+          name: "any",
+        },
+      },
+      trustServerCertificate: {
+        serializedName: "typeProperties.trustServerCertificate",
+        type: {
+          name: "any",
+        },
+      },
+      hostNameInCertificate: {
+        serializedName: "typeProperties.hostNameInCertificate",
+        type: {
+          name: "any",
+        },
+      },
+      applicationIntent: {
+        serializedName: "typeProperties.applicationIntent",
+        type: {
+          name: "any",
+        },
+      },
+      connectTimeout: {
+        serializedName: "typeProperties.connectTimeout",
+        type: {
+          name: "any",
+        },
+      },
+      connectRetryCount: {
+        serializedName: "typeProperties.connectRetryCount",
+        type: {
+          name: "any",
+        },
+      },
+      connectRetryInterval: {
+        serializedName: "typeProperties.connectRetryInterval",
+        type: {
+          name: "any",
+        },
+      },
+      loadBalanceTimeout: {
+        serializedName: "typeProperties.loadBalanceTimeout",
+        type: {
+          name: "any",
+        },
+      },
+      commandTimeout: {
+        serializedName: "typeProperties.commandTimeout",
+        type: {
+          name: "any",
+        },
+      },
+      integratedSecurity: {
+        serializedName: "typeProperties.integratedSecurity",
+        type: {
+          name: "any",
+        },
+      },
+      failoverPartner: {
+        serializedName: "typeProperties.failoverPartner",
+        type: {
+          name: "any",
+        },
+      },
+      maxPoolSize: {
+        serializedName: "typeProperties.maxPoolSize",
+        type: {
+          name: "any",
+        },
+      },
+      minPoolSize: {
+        serializedName: "typeProperties.minPoolSize",
+        type: {
+          name: "any",
+        },
+      },
+      multipleActiveResultSets: {
+        serializedName: "typeProperties.multipleActiveResultSets",
+        type: {
+          name: "any",
+        },
+      },
+      multiSubnetFailover: {
+        serializedName: "typeProperties.multiSubnetFailover",
+        type: {
+          name: "any",
+        },
+      },
+      packetSize: {
+        serializedName: "typeProperties.packetSize",
+        type: {
+          name: "any",
+        },
+      },
+      pooling: {
+        serializedName: "typeProperties.pooling",
+        type: {
+          name: "any",
+        },
+      },
       connectionString: {
         serializedName: "typeProperties.connectionString",
-        required: true,
+        type: {
+          name: "any",
+        },
+      },
+      authenticationType: {
+        serializedName: "typeProperties.authenticationType",
+        type: {
+          name: "String",
+        },
+      },
+      userName: {
+        serializedName: "typeProperties.userName",
         type: {
           name: "any",
         },
@@ -9114,6 +9638,19 @@ export const AzureSqlDatabaseLinkedService: coreClient.CompositeMapper = {
       },
       servicePrincipalKey: {
         serializedName: "typeProperties.servicePrincipalKey",
+        type: {
+          name: "Composite",
+          className: "SecretBase",
+        },
+      },
+      servicePrincipalCredentialType: {
+        serializedName: "typeProperties.servicePrincipalCredentialType",
+        type: {
+          name: "any",
+        },
+      },
+      servicePrincipalCredential: {
+        serializedName: "typeProperties.servicePrincipalCredential",
         type: {
           name: "Composite",
           className: "SecretBase",
@@ -9165,9 +9702,134 @@ export const AzureSqlMILinkedService: coreClient.CompositeMapper = {
     polymorphicDiscriminator: LinkedService.type.polymorphicDiscriminator,
     modelProperties: {
       ...LinkedService.type.modelProperties,
+      server: {
+        serializedName: "typeProperties.server",
+        type: {
+          name: "any",
+        },
+      },
+      database: {
+        serializedName: "typeProperties.database",
+        type: {
+          name: "any",
+        },
+      },
+      encrypt: {
+        serializedName: "typeProperties.encrypt",
+        type: {
+          name: "any",
+        },
+      },
+      trustServerCertificate: {
+        serializedName: "typeProperties.trustServerCertificate",
+        type: {
+          name: "any",
+        },
+      },
+      hostNameInCertificate: {
+        serializedName: "typeProperties.hostNameInCertificate",
+        type: {
+          name: "any",
+        },
+      },
+      applicationIntent: {
+        serializedName: "typeProperties.applicationIntent",
+        type: {
+          name: "any",
+        },
+      },
+      connectTimeout: {
+        serializedName: "typeProperties.connectTimeout",
+        type: {
+          name: "any",
+        },
+      },
+      connectRetryCount: {
+        serializedName: "typeProperties.connectRetryCount",
+        type: {
+          name: "any",
+        },
+      },
+      connectRetryInterval: {
+        serializedName: "typeProperties.connectRetryInterval",
+        type: {
+          name: "any",
+        },
+      },
+      loadBalanceTimeout: {
+        serializedName: "typeProperties.loadBalanceTimeout",
+        type: {
+          name: "any",
+        },
+      },
+      commandTimeout: {
+        serializedName: "typeProperties.commandTimeout",
+        type: {
+          name: "any",
+        },
+      },
+      integratedSecurity: {
+        serializedName: "typeProperties.integratedSecurity",
+        type: {
+          name: "any",
+        },
+      },
+      failoverPartner: {
+        serializedName: "typeProperties.failoverPartner",
+        type: {
+          name: "any",
+        },
+      },
+      maxPoolSize: {
+        serializedName: "typeProperties.maxPoolSize",
+        type: {
+          name: "any",
+        },
+      },
+      minPoolSize: {
+        serializedName: "typeProperties.minPoolSize",
+        type: {
+          name: "any",
+        },
+      },
+      multipleActiveResultSets: {
+        serializedName: "typeProperties.multipleActiveResultSets",
+        type: {
+          name: "any",
+        },
+      },
+      multiSubnetFailover: {
+        serializedName: "typeProperties.multiSubnetFailover",
+        type: {
+          name: "any",
+        },
+      },
+      packetSize: {
+        serializedName: "typeProperties.packetSize",
+        type: {
+          name: "any",
+        },
+      },
+      pooling: {
+        serializedName: "typeProperties.pooling",
+        type: {
+          name: "any",
+        },
+      },
       connectionString: {
         serializedName: "typeProperties.connectionString",
-        required: true,
+        type: {
+          name: "any",
+        },
+      },
+      authenticationType: {
+        serializedName: "typeProperties.authenticationType",
+        type: {
+          name: "String",
+        },
+      },
+      userName: {
+        serializedName: "typeProperties.userName",
         type: {
           name: "any",
         },
@@ -9187,6 +9849,19 @@ export const AzureSqlMILinkedService: coreClient.CompositeMapper = {
       },
       servicePrincipalKey: {
         serializedName: "typeProperties.servicePrincipalKey",
+        type: {
+          name: "Composite",
+          className: "SecretBase",
+        },
+      },
+      servicePrincipalCredentialType: {
+        serializedName: "typeProperties.servicePrincipalCredentialType",
+        type: {
+          name: "any",
+        },
+      },
+      servicePrincipalCredential: {
+        serializedName: "typeProperties.servicePrincipalCredential",
         type: {
           name: "Composite",
           className: "SecretBase",
@@ -16230,6 +16905,113 @@ export const ServiceNowV2LinkedService: coreClient.CompositeMapper = {
   },
 };
 
+export const IntegrationRuntimeReference: coreClient.CompositeMapper = {
+  serializedName: "IntegrationRuntimeReference",
+  type: {
+    name: "Composite",
+    className: "IntegrationRuntimeReference",
+    uberParent: "Reference",
+    polymorphicDiscriminator: Reference.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...Reference.type.modelProperties,
+      referenceName: {
+        serializedName: "referenceName",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      parameters: {
+        serializedName: "parameters",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } },
+        },
+      },
+    },
+  },
+};
+
+export const LinkedServiceReference: coreClient.CompositeMapper = {
+  serializedName: "LinkedServiceReference",
+  type: {
+    name: "Composite",
+    className: "LinkedServiceReference",
+    uberParent: "Reference",
+    polymorphicDiscriminator: Reference.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...Reference.type.modelProperties,
+      referenceName: {
+        serializedName: "referenceName",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      parameters: {
+        serializedName: "parameters",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } },
+        },
+      },
+    },
+  },
+};
+
+export const PipelineReference: coreClient.CompositeMapper = {
+  serializedName: "PipelineReference",
+  type: {
+    name: "Composite",
+    className: "PipelineReference",
+    uberParent: "Reference",
+    polymorphicDiscriminator: Reference.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...Reference.type.modelProperties,
+      referenceName: {
+        serializedName: "referenceName",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const DatasetReference: coreClient.CompositeMapper = {
+  serializedName: "DatasetReference",
+  type: {
+    name: "Composite",
+    className: "DatasetReference",
+    uberParent: "Reference",
+    polymorphicDiscriminator: Reference.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...Reference.type.modelProperties,
+      referenceName: {
+        serializedName: "referenceName",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      parameters: {
+        serializedName: "parameters",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } },
+        },
+      },
+    },
+  },
+};
+
 export const AmazonS3Dataset: coreClient.CompositeMapper = {
   serializedName: "AmazonS3Object",
   type: {
@@ -19638,6 +20420,12 @@ export const ManagedIdentityCredential: coreClient.CompositeMapper = {
     polymorphicDiscriminator: Credential.type.polymorphicDiscriminator,
     modelProperties: {
       ...Credential.type.modelProperties,
+      resourceId: {
+        serializedName: "typeProperties.resourceId",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -20336,6 +21124,379 @@ export const LinkedIntegrationRuntimeRbacAuthorization: coreClient.CompositeMapp
           required: true,
           type: {
             name: "String",
+          },
+        },
+        credential: {
+          serializedName: "credential",
+          type: {
+            name: "Composite",
+            className: "CredentialReference",
+          },
+        },
+      },
+    },
+  };
+
+export const AzureSqlDWLinkedServiceTypeProperties: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "AzureSqlDWLinkedServiceTypeProperties",
+      modelProperties: {
+        ...SqlServerBaseLinkedServiceTypeProperties.type.modelProperties,
+        connectionString: {
+          serializedName: "connectionString",
+          type: {
+            name: "any",
+          },
+        },
+        authenticationType: {
+          serializedName: "authenticationType",
+          type: {
+            name: "String",
+          },
+        },
+        userName: {
+          serializedName: "userName",
+          type: {
+            name: "any",
+          },
+        },
+        password: {
+          serializedName: "password",
+          type: {
+            name: "Composite",
+            className: "AzureKeyVaultSecretReference",
+          },
+        },
+        servicePrincipalId: {
+          serializedName: "servicePrincipalId",
+          type: {
+            name: "any",
+          },
+        },
+        servicePrincipalKey: {
+          serializedName: "servicePrincipalKey",
+          type: {
+            name: "Composite",
+            className: "SecretBase",
+          },
+        },
+        servicePrincipalCredentialType: {
+          serializedName: "servicePrincipalCredentialType",
+          type: {
+            name: "any",
+          },
+        },
+        servicePrincipalCredential: {
+          serializedName: "servicePrincipalCredential",
+          type: {
+            name: "Composite",
+            className: "SecretBase",
+          },
+        },
+        tenant: {
+          serializedName: "tenant",
+          type: {
+            name: "any",
+          },
+        },
+        azureCloudType: {
+          serializedName: "azureCloudType",
+          type: {
+            name: "any",
+          },
+        },
+        encryptedCredential: {
+          serializedName: "encryptedCredential",
+          type: {
+            name: "String",
+          },
+        },
+        credential: {
+          serializedName: "credential",
+          type: {
+            name: "Composite",
+            className: "CredentialReference",
+          },
+        },
+      },
+    },
+  };
+
+export const SqlServerLinkedServiceTypeProperties: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "SqlServerLinkedServiceTypeProperties",
+      modelProperties: {
+        ...SqlServerBaseLinkedServiceTypeProperties.type.modelProperties,
+        connectionString: {
+          serializedName: "connectionString",
+          type: {
+            name: "any",
+          },
+        },
+        authenticationType: {
+          serializedName: "authenticationType",
+          type: {
+            name: "String",
+          },
+        },
+        userName: {
+          serializedName: "userName",
+          type: {
+            name: "any",
+          },
+        },
+        password: {
+          serializedName: "password",
+          type: {
+            name: "Composite",
+            className: "SecretBase",
+          },
+        },
+        encryptedCredential: {
+          serializedName: "encryptedCredential",
+          type: {
+            name: "String",
+          },
+        },
+        alwaysEncryptedSettings: {
+          serializedName: "alwaysEncryptedSettings",
+          type: {
+            name: "Composite",
+            className: "SqlAlwaysEncryptedProperties",
+          },
+        },
+      },
+    },
+  };
+
+export const AmazonRdsForSqlServerLinkedServiceTypeProperties: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "AmazonRdsForSqlServerLinkedServiceTypeProperties",
+      modelProperties: {
+        ...SqlServerBaseLinkedServiceTypeProperties.type.modelProperties,
+        connectionString: {
+          serializedName: "connectionString",
+          type: {
+            name: "any",
+          },
+        },
+        authenticationType: {
+          serializedName: "authenticationType",
+          type: {
+            name: "String",
+          },
+        },
+        userName: {
+          serializedName: "userName",
+          type: {
+            name: "any",
+          },
+        },
+        password: {
+          serializedName: "password",
+          type: {
+            name: "Composite",
+            className: "SecretBase",
+          },
+        },
+        encryptedCredential: {
+          serializedName: "encryptedCredential",
+          type: {
+            name: "String",
+          },
+        },
+        alwaysEncryptedSettings: {
+          serializedName: "alwaysEncryptedSettings",
+          type: {
+            name: "Composite",
+            className: "SqlAlwaysEncryptedProperties",
+          },
+        },
+      },
+    },
+  };
+
+export const AzureSqlDatabaseLinkedServiceTypeProperties: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "AzureSqlDatabaseLinkedServiceTypeProperties",
+      modelProperties: {
+        ...SqlServerBaseLinkedServiceTypeProperties.type.modelProperties,
+        connectionString: {
+          serializedName: "connectionString",
+          type: {
+            name: "any",
+          },
+        },
+        authenticationType: {
+          serializedName: "authenticationType",
+          type: {
+            name: "String",
+          },
+        },
+        userName: {
+          serializedName: "userName",
+          type: {
+            name: "any",
+          },
+        },
+        password: {
+          serializedName: "password",
+          type: {
+            name: "Composite",
+            className: "AzureKeyVaultSecretReference",
+          },
+        },
+        servicePrincipalId: {
+          serializedName: "servicePrincipalId",
+          type: {
+            name: "any",
+          },
+        },
+        servicePrincipalKey: {
+          serializedName: "servicePrincipalKey",
+          type: {
+            name: "Composite",
+            className: "SecretBase",
+          },
+        },
+        servicePrincipalCredentialType: {
+          serializedName: "servicePrincipalCredentialType",
+          type: {
+            name: "any",
+          },
+        },
+        servicePrincipalCredential: {
+          serializedName: "servicePrincipalCredential",
+          type: {
+            name: "Composite",
+            className: "SecretBase",
+          },
+        },
+        tenant: {
+          serializedName: "tenant",
+          type: {
+            name: "any",
+          },
+        },
+        azureCloudType: {
+          serializedName: "azureCloudType",
+          type: {
+            name: "any",
+          },
+        },
+        encryptedCredential: {
+          serializedName: "encryptedCredential",
+          type: {
+            name: "String",
+          },
+        },
+        alwaysEncryptedSettings: {
+          serializedName: "alwaysEncryptedSettings",
+          type: {
+            name: "Composite",
+            className: "SqlAlwaysEncryptedProperties",
+          },
+        },
+        credential: {
+          serializedName: "credential",
+          type: {
+            name: "Composite",
+            className: "CredentialReference",
+          },
+        },
+      },
+    },
+  };
+
+export const AzureSqlMILinkedServiceTypeProperties: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "AzureSqlMILinkedServiceTypeProperties",
+      modelProperties: {
+        ...SqlServerBaseLinkedServiceTypeProperties.type.modelProperties,
+        connectionString: {
+          serializedName: "connectionString",
+          type: {
+            name: "any",
+          },
+        },
+        authenticationType: {
+          serializedName: "authenticationType",
+          type: {
+            name: "String",
+          },
+        },
+        userName: {
+          serializedName: "userName",
+          type: {
+            name: "any",
+          },
+        },
+        password: {
+          serializedName: "password",
+          type: {
+            name: "Composite",
+            className: "AzureKeyVaultSecretReference",
+          },
+        },
+        servicePrincipalId: {
+          serializedName: "servicePrincipalId",
+          type: {
+            name: "any",
+          },
+        },
+        servicePrincipalKey: {
+          serializedName: "servicePrincipalKey",
+          type: {
+            name: "Composite",
+            className: "SecretBase",
+          },
+        },
+        servicePrincipalCredentialType: {
+          serializedName: "servicePrincipalCredentialType",
+          type: {
+            name: "any",
+          },
+        },
+        servicePrincipalCredential: {
+          serializedName: "servicePrincipalCredential",
+          type: {
+            name: "Composite",
+            className: "SecretBase",
+          },
+        },
+        tenant: {
+          serializedName: "tenant",
+          type: {
+            name: "any",
+          },
+        },
+        azureCloudType: {
+          serializedName: "azureCloudType",
+          type: {
+            name: "any",
+          },
+        },
+        encryptedCredential: {
+          serializedName: "encryptedCredential",
+          type: {
+            name: "String",
+          },
+        },
+        alwaysEncryptedSettings: {
+          serializedName: "alwaysEncryptedSettings",
+          type: {
+            name: "Composite",
+            className: "SqlAlwaysEncryptedProperties",
           },
         },
         credential: {
@@ -29039,6 +30200,7 @@ export let discriminators = {
   IntegrationRuntimeStatus: IntegrationRuntimeStatus,
   SsisObjectMetadata: SsisObjectMetadata,
   LinkedService: LinkedService,
+  Reference: Reference,
   Dataset: Dataset,
   Activity: Activity,
   Trigger: Trigger,
@@ -29197,6 +30359,10 @@ export let discriminators = {
     SalesforceServiceCloudV2LinkedService,
   "LinkedService.Warehouse": WarehouseLinkedService,
   "LinkedService.ServiceNowV2": ServiceNowV2LinkedService,
+  "Reference.IntegrationRuntimeReference": IntegrationRuntimeReference,
+  "Reference.LinkedServiceReference": LinkedServiceReference,
+  "Reference.PipelineReference": PipelineReference,
+  "Reference.DatasetReference": DatasetReference,
   "Dataset.AmazonS3Object": AmazonS3Dataset,
   "Dataset.Avro": AvroDataset,
   "Dataset.Excel": ExcelDataset,

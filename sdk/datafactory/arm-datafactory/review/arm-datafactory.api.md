@@ -166,12 +166,45 @@ export interface AmazonRdsForOracleTableDataset extends Dataset {
 }
 
 // @public
+export type AmazonRdsForSqlAuthenticationType = string;
+
+// @public
 export interface AmazonRdsForSqlServerLinkedService extends LinkedService {
     alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties;
-    connectionString: any;
+    applicationIntent?: any;
+    authenticationType?: AmazonRdsForSqlAuthenticationType;
+    commandTimeout?: any;
+    connectionString?: any;
+    connectRetryCount?: any;
+    connectRetryInterval?: any;
+    connectTimeout?: any;
+    database?: any;
+    encrypt?: any;
+    encryptedCredential?: string;
+    failoverPartner?: any;
+    hostNameInCertificate?: any;
+    integratedSecurity?: any;
+    loadBalanceTimeout?: any;
+    maxPoolSize?: any;
+    minPoolSize?: any;
+    multipleActiveResultSets?: any;
+    multiSubnetFailover?: any;
+    packetSize?: any;
+    password?: SecretBaseUnion;
+    pooling?: any;
+    server?: any;
+    trustServerCertificate?: any;
+    type: "AmazonRdsForSqlServer";
+    userName?: any;
+}
+
+// @public
+export interface AmazonRdsForSqlServerLinkedServiceTypeProperties extends SqlServerBaseLinkedServiceTypeProperties {
+    alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties;
+    authenticationType?: AmazonRdsForSqlAuthenticationType;
+    connectionString?: any;
     encryptedCredential?: string;
     password?: SecretBaseUnion;
-    type: "AmazonRdsForSqlServer";
     userName?: any;
 }
 
@@ -953,30 +986,115 @@ export interface AzureSearchLinkedService extends LinkedService {
 }
 
 // @public
+export type AzureSqlDatabaseAuthenticationType = string;
+
+// @public
 export interface AzureSqlDatabaseLinkedService extends LinkedService {
     alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties;
+    applicationIntent?: any;
+    authenticationType?: AzureSqlDatabaseAuthenticationType;
     azureCloudType?: any;
-    connectionString: any;
+    commandTimeout?: any;
+    connectionString?: any;
+    connectRetryCount?: any;
+    connectRetryInterval?: any;
+    connectTimeout?: any;
     credential?: CredentialReference;
+    database?: any;
+    encrypt?: any;
     encryptedCredential?: string;
+    failoverPartner?: any;
+    hostNameInCertificate?: any;
+    integratedSecurity?: any;
+    loadBalanceTimeout?: any;
+    maxPoolSize?: any;
+    minPoolSize?: any;
+    multipleActiveResultSets?: any;
+    multiSubnetFailover?: any;
+    packetSize?: any;
     password?: AzureKeyVaultSecretReference;
+    pooling?: any;
+    server?: any;
+    servicePrincipalCredential?: SecretBaseUnion;
+    servicePrincipalCredentialType?: any;
     servicePrincipalId?: any;
     servicePrincipalKey?: SecretBaseUnion;
     tenant?: any;
+    trustServerCertificate?: any;
     type: "AzureSqlDatabase";
+    userName?: any;
 }
 
 // @public
-export interface AzureSqlDWLinkedService extends LinkedService {
+export interface AzureSqlDatabaseLinkedServiceTypeProperties extends SqlServerBaseLinkedServiceTypeProperties {
+    alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties;
+    authenticationType?: AzureSqlDatabaseAuthenticationType;
     azureCloudType?: any;
-    connectionString: any;
+    connectionString?: any;
     credential?: CredentialReference;
     encryptedCredential?: string;
     password?: AzureKeyVaultSecretReference;
+    servicePrincipalCredential?: SecretBaseUnion;
+    servicePrincipalCredentialType?: any;
     servicePrincipalId?: any;
     servicePrincipalKey?: SecretBaseUnion;
     tenant?: any;
+    userName?: any;
+}
+
+// @public
+export type AzureSqlDWAuthenticationType = string;
+
+// @public
+export interface AzureSqlDWLinkedService extends LinkedService {
+    applicationIntent?: any;
+    authenticationType?: AzureSqlDWAuthenticationType;
+    azureCloudType?: any;
+    commandTimeout?: any;
+    connectionString?: any;
+    connectRetryCount?: any;
+    connectRetryInterval?: any;
+    connectTimeout?: any;
+    credential?: CredentialReference;
+    database?: any;
+    encrypt?: any;
+    encryptedCredential?: string;
+    failoverPartner?: any;
+    hostNameInCertificate?: any;
+    integratedSecurity?: any;
+    loadBalanceTimeout?: any;
+    maxPoolSize?: any;
+    minPoolSize?: any;
+    multipleActiveResultSets?: any;
+    multiSubnetFailover?: any;
+    packetSize?: any;
+    password?: AzureKeyVaultSecretReference;
+    pooling?: any;
+    server?: any;
+    servicePrincipalCredential?: SecretBaseUnion;
+    servicePrincipalCredentialType?: any;
+    servicePrincipalId?: any;
+    servicePrincipalKey?: SecretBaseUnion;
+    tenant?: any;
+    trustServerCertificate?: any;
     type: "AzureSqlDW";
+    userName?: any;
+}
+
+// @public
+export interface AzureSqlDWLinkedServiceTypeProperties extends SqlServerBaseLinkedServiceTypeProperties {
+    authenticationType?: AzureSqlDWAuthenticationType;
+    azureCloudType?: any;
+    connectionString?: any;
+    credential?: CredentialReference;
+    encryptedCredential?: string;
+    password?: AzureKeyVaultSecretReference;
+    servicePrincipalCredential?: SecretBaseUnion;
+    servicePrincipalCredentialType?: any;
+    servicePrincipalId?: any;
+    servicePrincipalKey?: SecretBaseUnion;
+    tenant?: any;
+    userName?: any;
 }
 
 // @public
@@ -988,17 +1106,60 @@ export interface AzureSqlDWTableDataset extends Dataset {
 }
 
 // @public
+export type AzureSqlMIAuthenticationType = string;
+
+// @public
 export interface AzureSqlMILinkedService extends LinkedService {
     alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties;
+    applicationIntent?: any;
+    authenticationType?: AzureSqlMIAuthenticationType;
     azureCloudType?: any;
-    connectionString: any;
+    commandTimeout?: any;
+    connectionString?: any;
+    connectRetryCount?: any;
+    connectRetryInterval?: any;
+    connectTimeout?: any;
     credential?: CredentialReference;
+    database?: any;
+    encrypt?: any;
     encryptedCredential?: string;
+    failoverPartner?: any;
+    hostNameInCertificate?: any;
+    integratedSecurity?: any;
+    loadBalanceTimeout?: any;
+    maxPoolSize?: any;
+    minPoolSize?: any;
+    multipleActiveResultSets?: any;
+    multiSubnetFailover?: any;
+    packetSize?: any;
     password?: AzureKeyVaultSecretReference;
+    pooling?: any;
+    server?: any;
+    servicePrincipalCredential?: SecretBaseUnion;
+    servicePrincipalCredentialType?: any;
     servicePrincipalId?: any;
     servicePrincipalKey?: SecretBaseUnion;
     tenant?: any;
+    trustServerCertificate?: any;
     type: "AzureSqlMI";
+    userName?: any;
+}
+
+// @public
+export interface AzureSqlMILinkedServiceTypeProperties extends SqlServerBaseLinkedServiceTypeProperties {
+    alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties;
+    authenticationType?: AzureSqlMIAuthenticationType;
+    azureCloudType?: any;
+    connectionString?: any;
+    credential?: CredentialReference;
+    encryptedCredential?: string;
+    password?: AzureKeyVaultSecretReference;
+    servicePrincipalCredential?: SecretBaseUnion;
+    servicePrincipalCredentialType?: any;
+    servicePrincipalId?: any;
+    servicePrincipalKey?: SecretBaseUnion;
+    tenant?: any;
+    userName?: any;
 }
 
 // @public
@@ -2149,7 +2310,7 @@ export interface DatasetLocation {
 export type DatasetLocationUnion = DatasetLocation | AzureBlobStorageLocation | AzureBlobFSLocation | AzureDataLakeStoreLocation | AmazonS3Location | FileServerLocation | AzureFileStorageLocation | AmazonS3CompatibleLocation | OracleCloudStorageLocation | GoogleCloudStorageLocation | FtpServerLocation | SftpLocation | HttpServerLocation | HdfsLocation | LakeHouseLocation;
 
 // @public
-export interface DatasetReference {
+export interface DatasetReference extends Reference {
     parameters?: {
         [propertyName: string]: any;
     };
@@ -3961,7 +4122,7 @@ export interface IntegrationRuntimeOutboundNetworkDependenciesEndpointsResponse 
 }
 
 // @public
-export interface IntegrationRuntimeReference {
+export interface IntegrationRuntimeReference extends Reference {
     parameters?: {
         [propertyName: string]: any;
     };
@@ -4286,6 +4447,12 @@ export enum KnownAmazonRdsForOraclePartitionOption {
 }
 
 // @public
+export enum KnownAmazonRdsForSqlAuthenticationType {
+    SQL = "SQL",
+    Windows = "Windows"
+}
+
+// @public
 export enum KnownAvroCompressionCodec {
     Bzip2 = "bzip2",
     Deflate = "deflate",
@@ -4309,6 +4476,30 @@ export enum KnownAzureFunctionActivityMethod {
 export enum KnownAzureSearchIndexWriteBehaviorType {
     Merge = "Merge",
     Upload = "Upload"
+}
+
+// @public
+export enum KnownAzureSqlDatabaseAuthenticationType {
+    ServicePrincipal = "ServicePrincipal",
+    SQL = "SQL",
+    SystemAssignedManagedIdentity = "SystemAssignedManagedIdentity",
+    UserAssignedManagedIdentity = "UserAssignedManagedIdentity"
+}
+
+// @public
+export enum KnownAzureSqlDWAuthenticationType {
+    ServicePrincipal = "ServicePrincipal",
+    SQL = "SQL",
+    SystemAssignedManagedIdentity = "SystemAssignedManagedIdentity",
+    UserAssignedManagedIdentity = "UserAssignedManagedIdentity"
+}
+
+// @public
+export enum KnownAzureSqlMIAuthenticationType {
+    ServicePrincipal = "ServicePrincipal",
+    SQL = "SQL",
+    SystemAssignedManagedIdentity = "SystemAssignedManagedIdentity",
+    UserAssignedManagedIdentity = "UserAssignedManagedIdentity"
 }
 
 // @public
@@ -5005,6 +5196,12 @@ export enum KnownSqlPartitionOption {
 }
 
 // @public
+export enum KnownSqlServerAuthenticationType {
+    SQL = "SQL",
+    Windows = "Windows"
+}
+
+// @public
 export enum KnownSqlWriteBehaviorEnum {
     Insert = "Insert",
     StoredProcedure = "StoredProcedure",
@@ -5092,11 +5289,6 @@ export enum KnownTumblingWindowFrequency {
     Hour = "Hour",
     Minute = "Minute",
     Month = "Month"
-}
-
-// @public
-export enum KnownType {
-    LinkedServiceReference = "LinkedServiceReference"
 }
 
 // @public
@@ -5250,12 +5442,12 @@ export interface LinkedServiceListResponse {
 }
 
 // @public
-export interface LinkedServiceReference {
+export interface LinkedServiceReference extends Reference {
     parameters?: {
         [propertyName: string]: any;
     };
     referenceName: string;
-    type: Type;
+    type: "LinkedServiceReference";
 }
 
 // @public
@@ -5363,6 +5555,7 @@ export interface MagentoSource extends TabularSource {
 
 // @public
 export interface ManagedIdentityCredential extends Credential_2 {
+    resourceId?: string;
     type: "ManagedIdentity";
 }
 
@@ -6369,7 +6562,7 @@ export interface PipelinePolicy {
 }
 
 // @public
-export interface PipelineReference {
+export interface PipelineReference extends Reference {
     name?: string;
     referenceName: string;
     type: "PipelineReference";
@@ -6828,6 +7021,14 @@ export interface RedshiftUnloadSettings {
     bucketName: any;
     s3LinkedServiceName: LinkedServiceReference;
 }
+
+// @public
+export interface Reference {
+    type: "IntegrationRuntimeReference" | "LinkedServiceReference" | "PipelineReference" | "DatasetReference";
+}
+
+// @public (undocumented)
+export type ReferenceUnion = Reference | IntegrationRuntimeReference | LinkedServiceReference | PipelineReference | DatasetReference;
 
 // @public
 export interface RelationalSource extends CopySource {
@@ -7455,7 +7656,7 @@ export type ScriptActivityParameterType = string;
 export interface ScriptActivityScriptBlock {
     parameters?: ScriptActivityParameter[];
     text: any;
-    type: ScriptType;
+    type: any;
 }
 
 // @public
@@ -7970,12 +8171,68 @@ export interface SqlPartitionSettings {
 }
 
 // @public
+export type SqlServerAuthenticationType = string;
+
+// @public
+export interface SqlServerBaseLinkedServiceTypeProperties {
+    applicationIntent?: any;
+    commandTimeout?: any;
+    connectRetryCount?: any;
+    connectRetryInterval?: any;
+    connectTimeout?: any;
+    database?: any;
+    encrypt?: any;
+    failoverPartner?: any;
+    hostNameInCertificate?: any;
+    integratedSecurity?: any;
+    loadBalanceTimeout?: any;
+    maxPoolSize?: any;
+    minPoolSize?: any;
+    multipleActiveResultSets?: any;
+    multiSubnetFailover?: any;
+    packetSize?: any;
+    pooling?: any;
+    server?: any;
+    trustServerCertificate?: any;
+}
+
+// @public
 export interface SqlServerLinkedService extends LinkedService {
     alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties;
-    connectionString: any;
+    applicationIntent?: any;
+    authenticationType?: SqlServerAuthenticationType;
+    commandTimeout?: any;
+    connectionString?: any;
+    connectRetryCount?: any;
+    connectRetryInterval?: any;
+    connectTimeout?: any;
+    database?: any;
+    encrypt?: any;
+    encryptedCredential?: string;
+    failoverPartner?: any;
+    hostNameInCertificate?: any;
+    integratedSecurity?: any;
+    loadBalanceTimeout?: any;
+    maxPoolSize?: any;
+    minPoolSize?: any;
+    multipleActiveResultSets?: any;
+    multiSubnetFailover?: any;
+    packetSize?: any;
+    password?: SecretBaseUnion;
+    pooling?: any;
+    server?: any;
+    trustServerCertificate?: any;
+    type: "SqlServer";
+    userName?: any;
+}
+
+// @public
+export interface SqlServerLinkedServiceTypeProperties extends SqlServerBaseLinkedServiceTypeProperties {
+    alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties;
+    authenticationType?: SqlServerAuthenticationType;
+    connectionString?: any;
     encryptedCredential?: string;
     password?: SecretBaseUnion;
-    type: "SqlServer";
     userName?: any;
 }
 
@@ -8744,9 +9001,6 @@ export interface TwilioLinkedService extends LinkedService {
     type: "Twilio";
     userName: any;
 }
-
-// @public
-export type Type = string;
 
 // @public
 export interface TypeConversionSettings {
