@@ -23,7 +23,7 @@ import {
   ExternalNetworksUpdateAdministrativeStateOptionalParams,
   ExternalNetworksUpdateAdministrativeStateResponse,
   ExternalNetworksUpdateStaticRouteBfdAdministrativeStateOptionalParams,
-  ExternalNetworksUpdateStaticRouteBfdAdministrativeStateResponse
+  ExternalNetworksUpdateStaticRouteBfdAdministrativeStateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -38,7 +38,7 @@ export interface ExternalNetworks {
   listByL3IsolationDomain(
     resourceGroupName: string,
     l3IsolationDomainName: string,
-    options?: ExternalNetworksListByL3IsolationDomainOptionalParams
+    options?: ExternalNetworksListByL3IsolationDomainOptionalParams,
   ): PagedAsyncIterableIterator<ExternalNetwork>;
   /**
    * Creates ExternalNetwork PUT method.
@@ -53,7 +53,7 @@ export interface ExternalNetworks {
     l3IsolationDomainName: string,
     externalNetworkName: string,
     body: ExternalNetwork,
-    options?: ExternalNetworksCreateOptionalParams
+    options?: ExternalNetworksCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ExternalNetworksCreateResponse>,
@@ -73,7 +73,7 @@ export interface ExternalNetworks {
     l3IsolationDomainName: string,
     externalNetworkName: string,
     body: ExternalNetwork,
-    options?: ExternalNetworksCreateOptionalParams
+    options?: ExternalNetworksCreateOptionalParams,
   ): Promise<ExternalNetworksCreateResponse>;
   /**
    * Implements ExternalNetworks GET method.
@@ -86,7 +86,7 @@ export interface ExternalNetworks {
     resourceGroupName: string,
     l3IsolationDomainName: string,
     externalNetworkName: string,
-    options?: ExternalNetworksGetOptionalParams
+    options?: ExternalNetworksGetOptionalParams,
   ): Promise<ExternalNetworksGetResponse>;
   /**
    * API to update certain properties of the ExternalNetworks resource.
@@ -101,7 +101,7 @@ export interface ExternalNetworks {
     l3IsolationDomainName: string,
     externalNetworkName: string,
     body: ExternalNetworkPatch,
-    options?: ExternalNetworksUpdateOptionalParams
+    options?: ExternalNetworksUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ExternalNetworksUpdateResponse>,
@@ -121,7 +121,7 @@ export interface ExternalNetworks {
     l3IsolationDomainName: string,
     externalNetworkName: string,
     body: ExternalNetworkPatch,
-    options?: ExternalNetworksUpdateOptionalParams
+    options?: ExternalNetworksUpdateOptionalParams,
   ): Promise<ExternalNetworksUpdateResponse>;
   /**
    * Implements ExternalNetworks DELETE method.
@@ -134,7 +134,7 @@ export interface ExternalNetworks {
     resourceGroupName: string,
     l3IsolationDomainName: string,
     externalNetworkName: string,
-    options?: ExternalNetworksDeleteOptionalParams
+    options?: ExternalNetworksDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Implements ExternalNetworks DELETE method.
@@ -147,7 +147,7 @@ export interface ExternalNetworks {
     resourceGroupName: string,
     l3IsolationDomainName: string,
     externalNetworkName: string,
-    options?: ExternalNetworksDeleteOptionalParams
+    options?: ExternalNetworksDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Executes update operation to enable or disable administrative State for externalNetwork.
@@ -162,7 +162,7 @@ export interface ExternalNetworks {
     l3IsolationDomainName: string,
     externalNetworkName: string,
     body: UpdateAdministrativeState,
-    options?: ExternalNetworksUpdateAdministrativeStateOptionalParams
+    options?: ExternalNetworksUpdateAdministrativeStateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ExternalNetworksUpdateAdministrativeStateResponse>,
@@ -182,7 +182,7 @@ export interface ExternalNetworks {
     l3IsolationDomainName: string,
     externalNetworkName: string,
     body: UpdateAdministrativeState,
-    options?: ExternalNetworksUpdateAdministrativeStateOptionalParams
+    options?: ExternalNetworksUpdateAdministrativeStateOptionalParams,
   ): Promise<ExternalNetworksUpdateAdministrativeStateResponse>;
   /**
    * Update Static Route BFD for external Network.
@@ -197,12 +197,10 @@ export interface ExternalNetworks {
     l3IsolationDomainName: string,
     externalNetworkName: string,
     body: UpdateAdministrativeState,
-    options?: ExternalNetworksUpdateStaticRouteBfdAdministrativeStateOptionalParams
+    options?: ExternalNetworksUpdateStaticRouteBfdAdministrativeStateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<
-        ExternalNetworksUpdateStaticRouteBfdAdministrativeStateResponse
-      >,
+      OperationState<ExternalNetworksUpdateStaticRouteBfdAdministrativeStateResponse>,
       ExternalNetworksUpdateStaticRouteBfdAdministrativeStateResponse
     >
   >;
@@ -219,6 +217,6 @@ export interface ExternalNetworks {
     l3IsolationDomainName: string,
     externalNetworkName: string,
     body: UpdateAdministrativeState,
-    options?: ExternalNetworksUpdateStaticRouteBfdAdministrativeStateOptionalParams
+    options?: ExternalNetworksUpdateStaticRouteBfdAdministrativeStateOptionalParams,
   ): Promise<ExternalNetworksUpdateStaticRouteBfdAdministrativeStateResponse>;
 }

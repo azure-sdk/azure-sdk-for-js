@@ -27,7 +27,7 @@ import {
   AccessControlListsResyncOptionalParams,
   AccessControlListsResyncResponse,
   AccessControlListsValidateConfigurationOptionalParams,
-  AccessControlListsValidateConfigurationResponse
+  AccessControlListsValidateConfigurationResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -40,14 +40,14 @@ export interface AccessControlLists {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: AccessControlListsListByResourceGroupOptionalParams
+    options?: AccessControlListsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<AccessControlList>;
   /**
    * Implements AccessControlLists list by subscription GET method.
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: AccessControlListsListBySubscriptionOptionalParams
+    options?: AccessControlListsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<AccessControlList>;
   /**
    * Implements Access Control List PUT method.
@@ -60,7 +60,7 @@ export interface AccessControlLists {
     resourceGroupName: string,
     accessControlListName: string,
     body: AccessControlList,
-    options?: AccessControlListsCreateOptionalParams
+    options?: AccessControlListsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AccessControlListsCreateResponse>,
@@ -78,7 +78,7 @@ export interface AccessControlLists {
     resourceGroupName: string,
     accessControlListName: string,
     body: AccessControlList,
-    options?: AccessControlListsCreateOptionalParams
+    options?: AccessControlListsCreateOptionalParams,
   ): Promise<AccessControlListsCreateResponse>;
   /**
    * Implements Access Control List GET method.
@@ -89,7 +89,7 @@ export interface AccessControlLists {
   get(
     resourceGroupName: string,
     accessControlListName: string,
-    options?: AccessControlListsGetOptionalParams
+    options?: AccessControlListsGetOptionalParams,
   ): Promise<AccessControlListsGetResponse>;
   /**
    * API to update certain properties of the Access Control List resource.
@@ -102,7 +102,7 @@ export interface AccessControlLists {
     resourceGroupName: string,
     accessControlListName: string,
     body: AccessControlListPatch,
-    options?: AccessControlListsUpdateOptionalParams
+    options?: AccessControlListsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AccessControlListsUpdateResponse>,
@@ -120,7 +120,7 @@ export interface AccessControlLists {
     resourceGroupName: string,
     accessControlListName: string,
     body: AccessControlListPatch,
-    options?: AccessControlListsUpdateOptionalParams
+    options?: AccessControlListsUpdateOptionalParams,
   ): Promise<AccessControlListsUpdateResponse>;
   /**
    * Implements Access Control List DELETE method.
@@ -131,7 +131,7 @@ export interface AccessControlLists {
   beginDelete(
     resourceGroupName: string,
     accessControlListName: string,
-    options?: AccessControlListsDeleteOptionalParams
+    options?: AccessControlListsDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AccessControlListsDeleteResponse>,
@@ -147,7 +147,7 @@ export interface AccessControlLists {
   beginDeleteAndWait(
     resourceGroupName: string,
     accessControlListName: string,
-    options?: AccessControlListsDeleteOptionalParams
+    options?: AccessControlListsDeleteOptionalParams,
   ): Promise<AccessControlListsDeleteResponse>;
   /**
    * Implements the operation to the underlying resources.
@@ -160,7 +160,7 @@ export interface AccessControlLists {
     resourceGroupName: string,
     accessControlListName: string,
     body: UpdateAdministrativeState,
-    options?: AccessControlListsUpdateAdministrativeStateOptionalParams
+    options?: AccessControlListsUpdateAdministrativeStateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AccessControlListsUpdateAdministrativeStateResponse>,
@@ -178,7 +178,7 @@ export interface AccessControlLists {
     resourceGroupName: string,
     accessControlListName: string,
     body: UpdateAdministrativeState,
-    options?: AccessControlListsUpdateAdministrativeStateOptionalParams
+    options?: AccessControlListsUpdateAdministrativeStateOptionalParams,
   ): Promise<AccessControlListsUpdateAdministrativeStateResponse>;
   /**
    * Implements the operation to the underlying resources.
@@ -189,7 +189,7 @@ export interface AccessControlLists {
   beginResync(
     resourceGroupName: string,
     accessControlListName: string,
-    options?: AccessControlListsResyncOptionalParams
+    options?: AccessControlListsResyncOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AccessControlListsResyncResponse>,
@@ -205,7 +205,7 @@ export interface AccessControlLists {
   beginResyncAndWait(
     resourceGroupName: string,
     accessControlListName: string,
-    options?: AccessControlListsResyncOptionalParams
+    options?: AccessControlListsResyncOptionalParams,
   ): Promise<AccessControlListsResyncResponse>;
   /**
    * Implements the operation to the underlying resources.
@@ -216,7 +216,7 @@ export interface AccessControlLists {
   beginValidateConfiguration(
     resourceGroupName: string,
     accessControlListName: string,
-    options?: AccessControlListsValidateConfigurationOptionalParams
+    options?: AccessControlListsValidateConfigurationOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AccessControlListsValidateConfigurationResponse>,
@@ -232,6 +232,6 @@ export interface AccessControlLists {
   beginValidateConfigurationAndWait(
     resourceGroupName: string,
     accessControlListName: string,
-    options?: AccessControlListsValidateConfigurationOptionalParams
+    options?: AccessControlListsValidateConfigurationOptionalParams,
   ): Promise<AccessControlListsValidateConfigurationResponse>;
 }

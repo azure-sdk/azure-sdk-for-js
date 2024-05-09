@@ -16,7 +16,7 @@ import { AzureNetworkFabricManagementServiceAPI } from "../azureNetworkFabricMan
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -36,7 +36,7 @@ import {
   NetworkPacketBrokersUpdateResponse,
   NetworkPacketBrokersDeleteOptionalParams,
   NetworkPacketBrokersListByResourceGroupNextResponse,
-  NetworkPacketBrokersListBySubscriptionNextResponse
+  NetworkPacketBrokersListBySubscriptionNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -59,7 +59,7 @@ export class NetworkPacketBrokersImpl implements NetworkPacketBrokers {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: NetworkPacketBrokersListByResourceGroupOptionalParams
+    options?: NetworkPacketBrokersListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<NetworkPacketBroker> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -76,16 +76,16 @@ export class NetworkPacketBrokersImpl implements NetworkPacketBrokers {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: NetworkPacketBrokersListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<NetworkPacketBroker[]> {
     let result: NetworkPacketBrokersListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -100,7 +100,7 @@ export class NetworkPacketBrokersImpl implements NetworkPacketBrokers {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -111,11 +111,11 @@ export class NetworkPacketBrokersImpl implements NetworkPacketBrokers {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: NetworkPacketBrokersListByResourceGroupOptionalParams
+    options?: NetworkPacketBrokersListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<NetworkPacketBroker> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -126,7 +126,7 @@ export class NetworkPacketBrokersImpl implements NetworkPacketBrokers {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: NetworkPacketBrokersListBySubscriptionOptionalParams
+    options?: NetworkPacketBrokersListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<NetworkPacketBroker> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -141,13 +141,13 @@ export class NetworkPacketBrokersImpl implements NetworkPacketBrokers {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: NetworkPacketBrokersListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<NetworkPacketBroker[]> {
     let result: NetworkPacketBrokersListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -168,7 +168,7 @@ export class NetworkPacketBrokersImpl implements NetworkPacketBrokers {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: NetworkPacketBrokersListBySubscriptionOptionalParams
+    options?: NetworkPacketBrokersListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<NetworkPacketBroker> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -186,7 +186,7 @@ export class NetworkPacketBrokersImpl implements NetworkPacketBrokers {
     resourceGroupName: string,
     networkPacketBrokerName: string,
     body: NetworkPacketBroker,
-    options?: NetworkPacketBrokersCreateOptionalParams
+    options?: NetworkPacketBrokersCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkPacketBrokersCreateResponse>,
@@ -195,21 +195,20 @@ export class NetworkPacketBrokersImpl implements NetworkPacketBrokers {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<NetworkPacketBrokersCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -218,8 +217,8 @@ export class NetworkPacketBrokersImpl implements NetworkPacketBrokers {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -227,15 +226,15 @@ export class NetworkPacketBrokersImpl implements NetworkPacketBrokers {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, networkPacketBrokerName, body, options },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       NetworkPacketBrokersCreateResponse,
@@ -243,7 +242,7 @@ export class NetworkPacketBrokersImpl implements NetworkPacketBrokers {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -260,13 +259,13 @@ export class NetworkPacketBrokersImpl implements NetworkPacketBrokers {
     resourceGroupName: string,
     networkPacketBrokerName: string,
     body: NetworkPacketBroker,
-    options?: NetworkPacketBrokersCreateOptionalParams
+    options?: NetworkPacketBrokersCreateOptionalParams,
   ): Promise<NetworkPacketBrokersCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       networkPacketBrokerName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -280,11 +279,11 @@ export class NetworkPacketBrokersImpl implements NetworkPacketBrokers {
   get(
     resourceGroupName: string,
     networkPacketBrokerName: string,
-    options?: NetworkPacketBrokersGetOptionalParams
+    options?: NetworkPacketBrokersGetOptionalParams,
   ): Promise<NetworkPacketBrokersGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, networkPacketBrokerName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -299,7 +298,7 @@ export class NetworkPacketBrokersImpl implements NetworkPacketBrokers {
     resourceGroupName: string,
     networkPacketBrokerName: string,
     body: NetworkPacketBrokerPatch,
-    options?: NetworkPacketBrokersUpdateOptionalParams
+    options?: NetworkPacketBrokersUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkPacketBrokersUpdateResponse>,
@@ -308,21 +307,20 @@ export class NetworkPacketBrokersImpl implements NetworkPacketBrokers {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<NetworkPacketBrokersUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -331,8 +329,8 @@ export class NetworkPacketBrokersImpl implements NetworkPacketBrokers {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -340,15 +338,15 @@ export class NetworkPacketBrokersImpl implements NetworkPacketBrokers {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, networkPacketBrokerName, body, options },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       NetworkPacketBrokersUpdateResponse,
@@ -356,7 +354,7 @@ export class NetworkPacketBrokersImpl implements NetworkPacketBrokers {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -373,13 +371,13 @@ export class NetworkPacketBrokersImpl implements NetworkPacketBrokers {
     resourceGroupName: string,
     networkPacketBrokerName: string,
     body: NetworkPacketBrokerPatch,
-    options?: NetworkPacketBrokersUpdateOptionalParams
+    options?: NetworkPacketBrokersUpdateOptionalParams,
   ): Promise<NetworkPacketBrokersUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       networkPacketBrokerName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -393,25 +391,24 @@ export class NetworkPacketBrokersImpl implements NetworkPacketBrokers {
   async beginDelete(
     resourceGroupName: string,
     networkPacketBrokerName: string,
-    options?: NetworkPacketBrokersDeleteOptionalParams
+    options?: NetworkPacketBrokersDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -420,8 +417,8 @@ export class NetworkPacketBrokersImpl implements NetworkPacketBrokers {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -429,20 +426,20 @@ export class NetworkPacketBrokersImpl implements NetworkPacketBrokers {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, networkPacketBrokerName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -457,12 +454,12 @@ export class NetworkPacketBrokersImpl implements NetworkPacketBrokers {
   async beginDeleteAndWait(
     resourceGroupName: string,
     networkPacketBrokerName: string,
-    options?: NetworkPacketBrokersDeleteOptionalParams
+    options?: NetworkPacketBrokersDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       networkPacketBrokerName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -474,11 +471,11 @@ export class NetworkPacketBrokersImpl implements NetworkPacketBrokers {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: NetworkPacketBrokersListByResourceGroupOptionalParams
+    options?: NetworkPacketBrokersListByResourceGroupOptionalParams,
   ): Promise<NetworkPacketBrokersListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -487,11 +484,11 @@ export class NetworkPacketBrokersImpl implements NetworkPacketBrokers {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: NetworkPacketBrokersListBySubscriptionOptionalParams
+    options?: NetworkPacketBrokersListBySubscriptionOptionalParams,
   ): Promise<NetworkPacketBrokersListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -504,11 +501,11 @@ export class NetworkPacketBrokersImpl implements NetworkPacketBrokers {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: NetworkPacketBrokersListByResourceGroupNextOptionalParams
+    options?: NetworkPacketBrokersListByResourceGroupNextOptionalParams,
   ): Promise<NetworkPacketBrokersListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 
@@ -519,11 +516,11 @@ export class NetworkPacketBrokersImpl implements NetworkPacketBrokers {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: NetworkPacketBrokersListBySubscriptionNextOptionalParams
+    options?: NetworkPacketBrokersListBySubscriptionNextOptionalParams,
   ): Promise<NetworkPacketBrokersListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 }
@@ -531,80 +528,24 @@ export class NetworkPacketBrokersImpl implements NetworkPacketBrokers {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkPacketBrokers/{networkPacketBrokerName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkPacketBrokers/{networkPacketBrokerName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkPacketBroker
+      bodyMapper: Mappers.NetworkPacketBroker,
     },
     201: {
-      bodyMapper: Mappers.NetworkPacketBroker
+      bodyMapper: Mappers.NetworkPacketBroker,
     },
     202: {
-      bodyMapper: Mappers.NetworkPacketBroker
+      bodyMapper: Mappers.NetworkPacketBroker,
     },
     204: {
-      bodyMapper: Mappers.NetworkPacketBroker
+      bodyMapper: Mappers.NetworkPacketBroker,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.body37,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.networkPacketBrokerName
-  ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkPacketBrokers/{networkPacketBrokerName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.NetworkPacketBroker
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.networkPacketBrokerName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkPacketBrokers/{networkPacketBrokerName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.NetworkPacketBroker
-    },
-    201: {
-      bodyMapper: Mappers.NetworkPacketBroker
-    },
-    202: {
-      bodyMapper: Mappers.NetworkPacketBroker
-    },
-    204: {
-      bodyMapper: Mappers.NetworkPacketBroker
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   requestBody: Parameters.body38,
   queryParameters: [Parameters.apiVersion],
@@ -612,15 +553,67 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.networkPacketBrokerName
+    Parameters.networkPacketBrokerName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkPacketBrokers/{networkPacketBrokerName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.NetworkPacketBroker,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.networkPacketBrokerName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const updateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkPacketBrokers/{networkPacketBrokerName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.NetworkPacketBroker,
+    },
+    201: {
+      bodyMapper: Mappers.NetworkPacketBroker,
+    },
+    202: {
+      bodyMapper: Mappers.NetworkPacketBroker,
+    },
+    204: {
+      bodyMapper: Mappers.NetworkPacketBroker,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.body39,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.networkPacketBrokerName,
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkPacketBrokers/{networkPacketBrokerName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkPacketBrokers/{networkPacketBrokerName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -628,93 +621,91 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.networkPacketBrokerName
+    Parameters.networkPacketBrokerName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkPacketBrokers",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkPacketBrokers",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkPacketBrokersListResult
+      bodyMapper: Mappers.NetworkPacketBrokersListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ManagedNetworkFabric/networkPacketBrokers",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.ManagedNetworkFabric/networkPacketBrokers",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkPacketBrokersListResult
+      bodyMapper: Mappers.NetworkPacketBrokersListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkPacketBrokersListResult
+      bodyMapper: Mappers.NetworkPacketBrokersListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkPacketBrokersListResult
+      bodyMapper: Mappers.NetworkPacketBrokersListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

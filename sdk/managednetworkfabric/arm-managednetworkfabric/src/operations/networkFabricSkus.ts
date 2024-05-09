@@ -20,7 +20,7 @@ import {
   NetworkFabricSkusListBySubscriptionResponse,
   NetworkFabricSkusGetOptionalParams,
   NetworkFabricSkusGetResponse,
-  NetworkFabricSkusListBySubscriptionNextResponse
+  NetworkFabricSkusListBySubscriptionNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -41,7 +41,7 @@ export class NetworkFabricSkusImpl implements NetworkFabricSkus {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: NetworkFabricSkusListBySubscriptionOptionalParams
+    options?: NetworkFabricSkusListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<NetworkFabricSku> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -56,13 +56,13 @@ export class NetworkFabricSkusImpl implements NetworkFabricSkus {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: NetworkFabricSkusListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<NetworkFabricSku[]> {
     let result: NetworkFabricSkusListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -83,7 +83,7 @@ export class NetworkFabricSkusImpl implements NetworkFabricSkus {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: NetworkFabricSkusListBySubscriptionOptionalParams
+    options?: NetworkFabricSkusListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<NetworkFabricSku> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -97,11 +97,11 @@ export class NetworkFabricSkusImpl implements NetworkFabricSkus {
    */
   get(
     networkFabricSkuName: string,
-    options?: NetworkFabricSkusGetOptionalParams
+    options?: NetworkFabricSkusGetOptionalParams,
   ): Promise<NetworkFabricSkusGetResponse> {
     return this.client.sendOperationRequest(
       { networkFabricSkuName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -110,11 +110,11 @@ export class NetworkFabricSkusImpl implements NetworkFabricSkus {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: NetworkFabricSkusListBySubscriptionOptionalParams
+    options?: NetworkFabricSkusListBySubscriptionOptionalParams,
   ): Promise<NetworkFabricSkusListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -125,11 +125,11 @@ export class NetworkFabricSkusImpl implements NetworkFabricSkus {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: NetworkFabricSkusListBySubscriptionNextOptionalParams
+    options?: NetworkFabricSkusListBySubscriptionNextOptionalParams,
   ): Promise<NetworkFabricSkusListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 }
@@ -137,59 +137,57 @@ export class NetworkFabricSkusImpl implements NetworkFabricSkus {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ManagedNetworkFabric/networkFabricSkus/{networkFabricSkuName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.ManagedNetworkFabric/networkFabricSkus/{networkFabricSkuName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkFabricSku
+      bodyMapper: Mappers.NetworkFabricSku,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.networkFabricSkuName
+    Parameters.networkFabricSkuName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ManagedNetworkFabric/networkFabricSkus",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.ManagedNetworkFabric/networkFabricSkus",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkFabricSkusListResult
+      bodyMapper: Mappers.NetworkFabricSkusListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkFabricSkusListResult
+      bodyMapper: Mappers.NetworkFabricSkusListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

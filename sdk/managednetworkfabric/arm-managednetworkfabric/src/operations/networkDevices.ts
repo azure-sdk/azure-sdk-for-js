@@ -16,7 +16,7 @@ import { AzureNetworkFabricManagementServiceAPI } from "../azureNetworkFabricMan
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -47,7 +47,7 @@ import {
   NetworkDevicesUpgradeOptionalParams,
   NetworkDevicesUpgradeResponse,
   NetworkDevicesListByResourceGroupNextResponse,
-  NetworkDevicesListBySubscriptionNextResponse
+  NetworkDevicesListBySubscriptionNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -70,7 +70,7 @@ export class NetworkDevicesImpl implements NetworkDevices {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: NetworkDevicesListByResourceGroupOptionalParams
+    options?: NetworkDevicesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<NetworkDevice> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -87,16 +87,16 @@ export class NetworkDevicesImpl implements NetworkDevices {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: NetworkDevicesListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<NetworkDevice[]> {
     let result: NetworkDevicesListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -111,7 +111,7 @@ export class NetworkDevicesImpl implements NetworkDevices {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -122,11 +122,11 @@ export class NetworkDevicesImpl implements NetworkDevices {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: NetworkDevicesListByResourceGroupOptionalParams
+    options?: NetworkDevicesListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<NetworkDevice> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -137,7 +137,7 @@ export class NetworkDevicesImpl implements NetworkDevices {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: NetworkDevicesListBySubscriptionOptionalParams
+    options?: NetworkDevicesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<NetworkDevice> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -152,13 +152,13 @@ export class NetworkDevicesImpl implements NetworkDevices {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: NetworkDevicesListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<NetworkDevice[]> {
     let result: NetworkDevicesListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -179,7 +179,7 @@ export class NetworkDevicesImpl implements NetworkDevices {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: NetworkDevicesListBySubscriptionOptionalParams
+    options?: NetworkDevicesListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<NetworkDevice> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -197,7 +197,7 @@ export class NetworkDevicesImpl implements NetworkDevices {
     resourceGroupName: string,
     networkDeviceName: string,
     body: NetworkDevice,
-    options?: NetworkDevicesCreateOptionalParams
+    options?: NetworkDevicesCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkDevicesCreateResponse>,
@@ -206,21 +206,20 @@ export class NetworkDevicesImpl implements NetworkDevices {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<NetworkDevicesCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -229,8 +228,8 @@ export class NetworkDevicesImpl implements NetworkDevices {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -238,15 +237,15 @@ export class NetworkDevicesImpl implements NetworkDevices {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, networkDeviceName, body, options },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       NetworkDevicesCreateResponse,
@@ -254,7 +253,7 @@ export class NetworkDevicesImpl implements NetworkDevices {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -271,13 +270,13 @@ export class NetworkDevicesImpl implements NetworkDevices {
     resourceGroupName: string,
     networkDeviceName: string,
     body: NetworkDevice,
-    options?: NetworkDevicesCreateOptionalParams
+    options?: NetworkDevicesCreateOptionalParams,
   ): Promise<NetworkDevicesCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       networkDeviceName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -291,11 +290,11 @@ export class NetworkDevicesImpl implements NetworkDevices {
   get(
     resourceGroupName: string,
     networkDeviceName: string,
-    options?: NetworkDevicesGetOptionalParams
+    options?: NetworkDevicesGetOptionalParams,
   ): Promise<NetworkDevicesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, networkDeviceName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -310,7 +309,7 @@ export class NetworkDevicesImpl implements NetworkDevices {
     resourceGroupName: string,
     networkDeviceName: string,
     body: NetworkDevicePatchParameters,
-    options?: NetworkDevicesUpdateOptionalParams
+    options?: NetworkDevicesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkDevicesUpdateResponse>,
@@ -319,21 +318,20 @@ export class NetworkDevicesImpl implements NetworkDevices {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<NetworkDevicesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -342,8 +340,8 @@ export class NetworkDevicesImpl implements NetworkDevices {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -351,15 +349,15 @@ export class NetworkDevicesImpl implements NetworkDevices {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, networkDeviceName, body, options },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       NetworkDevicesUpdateResponse,
@@ -367,7 +365,7 @@ export class NetworkDevicesImpl implements NetworkDevices {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -384,13 +382,13 @@ export class NetworkDevicesImpl implements NetworkDevices {
     resourceGroupName: string,
     networkDeviceName: string,
     body: NetworkDevicePatchParameters,
-    options?: NetworkDevicesUpdateOptionalParams
+    options?: NetworkDevicesUpdateOptionalParams,
   ): Promise<NetworkDevicesUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       networkDeviceName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -404,25 +402,24 @@ export class NetworkDevicesImpl implements NetworkDevices {
   async beginDelete(
     resourceGroupName: string,
     networkDeviceName: string,
-    options?: NetworkDevicesDeleteOptionalParams
+    options?: NetworkDevicesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -431,8 +428,8 @@ export class NetworkDevicesImpl implements NetworkDevices {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -440,20 +437,20 @@ export class NetworkDevicesImpl implements NetworkDevices {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, networkDeviceName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -468,12 +465,12 @@ export class NetworkDevicesImpl implements NetworkDevices {
   async beginDeleteAndWait(
     resourceGroupName: string,
     networkDeviceName: string,
-    options?: NetworkDevicesDeleteOptionalParams
+    options?: NetworkDevicesDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       networkDeviceName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -485,11 +482,11 @@ export class NetworkDevicesImpl implements NetworkDevices {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: NetworkDevicesListByResourceGroupOptionalParams
+    options?: NetworkDevicesListByResourceGroupOptionalParams,
   ): Promise<NetworkDevicesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -498,11 +495,11 @@ export class NetworkDevicesImpl implements NetworkDevices {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: NetworkDevicesListBySubscriptionOptionalParams
+    options?: NetworkDevicesListBySubscriptionOptionalParams,
   ): Promise<NetworkDevicesListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -517,7 +514,7 @@ export class NetworkDevicesImpl implements NetworkDevices {
     resourceGroupName: string,
     networkDeviceName: string,
     body: RebootProperties,
-    options?: NetworkDevicesRebootOptionalParams
+    options?: NetworkDevicesRebootOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkDevicesRebootResponse>,
@@ -526,21 +523,20 @@ export class NetworkDevicesImpl implements NetworkDevices {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<NetworkDevicesRebootResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -549,8 +545,8 @@ export class NetworkDevicesImpl implements NetworkDevices {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -558,15 +554,15 @@ export class NetworkDevicesImpl implements NetworkDevices {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, networkDeviceName, body, options },
-      spec: rebootOperationSpec
+      spec: rebootOperationSpec,
     });
     const poller = await createHttpPoller<
       NetworkDevicesRebootResponse,
@@ -574,7 +570,7 @@ export class NetworkDevicesImpl implements NetworkDevices {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -591,13 +587,13 @@ export class NetworkDevicesImpl implements NetworkDevices {
     resourceGroupName: string,
     networkDeviceName: string,
     body: RebootProperties,
-    options?: NetworkDevicesRebootOptionalParams
+    options?: NetworkDevicesRebootOptionalParams,
   ): Promise<NetworkDevicesRebootResponse> {
     const poller = await this.beginReboot(
       resourceGroupName,
       networkDeviceName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -611,7 +607,7 @@ export class NetworkDevicesImpl implements NetworkDevices {
   async beginRefreshConfiguration(
     resourceGroupName: string,
     networkDeviceName: string,
-    options?: NetworkDevicesRefreshConfigurationOptionalParams
+    options?: NetworkDevicesRefreshConfigurationOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkDevicesRefreshConfigurationResponse>,
@@ -620,21 +616,20 @@ export class NetworkDevicesImpl implements NetworkDevices {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<NetworkDevicesRefreshConfigurationResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -643,8 +638,8 @@ export class NetworkDevicesImpl implements NetworkDevices {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -652,15 +647,15 @@ export class NetworkDevicesImpl implements NetworkDevices {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, networkDeviceName, options },
-      spec: refreshConfigurationOperationSpec
+      spec: refreshConfigurationOperationSpec,
     });
     const poller = await createHttpPoller<
       NetworkDevicesRefreshConfigurationResponse,
@@ -668,7 +663,7 @@ export class NetworkDevicesImpl implements NetworkDevices {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -683,12 +678,12 @@ export class NetworkDevicesImpl implements NetworkDevices {
   async beginRefreshConfigurationAndWait(
     resourceGroupName: string,
     networkDeviceName: string,
-    options?: NetworkDevicesRefreshConfigurationOptionalParams
+    options?: NetworkDevicesRefreshConfigurationOptionalParams,
   ): Promise<NetworkDevicesRefreshConfigurationResponse> {
     const poller = await this.beginRefreshConfiguration(
       resourceGroupName,
       networkDeviceName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -704,7 +699,7 @@ export class NetworkDevicesImpl implements NetworkDevices {
     resourceGroupName: string,
     networkDeviceName: string,
     body: UpdateDeviceAdministrativeState,
-    options?: NetworkDevicesUpdateAdministrativeStateOptionalParams
+    options?: NetworkDevicesUpdateAdministrativeStateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkDevicesUpdateAdministrativeStateResponse>,
@@ -713,21 +708,20 @@ export class NetworkDevicesImpl implements NetworkDevices {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<NetworkDevicesUpdateAdministrativeStateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -736,8 +730,8 @@ export class NetworkDevicesImpl implements NetworkDevices {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -745,15 +739,15 @@ export class NetworkDevicesImpl implements NetworkDevices {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, networkDeviceName, body, options },
-      spec: updateAdministrativeStateOperationSpec
+      spec: updateAdministrativeStateOperationSpec,
     });
     const poller = await createHttpPoller<
       NetworkDevicesUpdateAdministrativeStateResponse,
@@ -761,7 +755,7 @@ export class NetworkDevicesImpl implements NetworkDevices {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -778,13 +772,13 @@ export class NetworkDevicesImpl implements NetworkDevices {
     resourceGroupName: string,
     networkDeviceName: string,
     body: UpdateDeviceAdministrativeState,
-    options?: NetworkDevicesUpdateAdministrativeStateOptionalParams
+    options?: NetworkDevicesUpdateAdministrativeStateOptionalParams,
   ): Promise<NetworkDevicesUpdateAdministrativeStateResponse> {
     const poller = await this.beginUpdateAdministrativeState(
       resourceGroupName,
       networkDeviceName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -800,7 +794,7 @@ export class NetworkDevicesImpl implements NetworkDevices {
     resourceGroupName: string,
     networkDeviceName: string,
     body: UpdateVersion,
-    options?: NetworkDevicesUpgradeOptionalParams
+    options?: NetworkDevicesUpgradeOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkDevicesUpgradeResponse>,
@@ -809,21 +803,20 @@ export class NetworkDevicesImpl implements NetworkDevices {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<NetworkDevicesUpgradeResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -832,8 +825,8 @@ export class NetworkDevicesImpl implements NetworkDevices {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -841,15 +834,15 @@ export class NetworkDevicesImpl implements NetworkDevices {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, networkDeviceName, body, options },
-      spec: upgradeOperationSpec
+      spec: upgradeOperationSpec,
     });
     const poller = await createHttpPoller<
       NetworkDevicesUpgradeResponse,
@@ -857,7 +850,7 @@ export class NetworkDevicesImpl implements NetworkDevices {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -874,13 +867,13 @@ export class NetworkDevicesImpl implements NetworkDevices {
     resourceGroupName: string,
     networkDeviceName: string,
     body: UpdateVersion,
-    options?: NetworkDevicesUpgradeOptionalParams
+    options?: NetworkDevicesUpgradeOptionalParams,
   ): Promise<NetworkDevicesUpgradeResponse> {
     const poller = await this.beginUpgrade(
       resourceGroupName,
       networkDeviceName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -894,11 +887,11 @@ export class NetworkDevicesImpl implements NetworkDevices {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: NetworkDevicesListByResourceGroupNextOptionalParams
+    options?: NetworkDevicesListByResourceGroupNextOptionalParams,
   ): Promise<NetworkDevicesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 
@@ -909,11 +902,11 @@ export class NetworkDevicesImpl implements NetworkDevices {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: NetworkDevicesListBySubscriptionNextOptionalParams
+    options?: NetworkDevicesListBySubscriptionNextOptionalParams,
   ): Promise<NetworkDevicesListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 }
@@ -921,25 +914,24 @@ export class NetworkDevicesImpl implements NetworkDevices {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkDevices/{networkDeviceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkDevices/{networkDeviceName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkDevice
+      bodyMapper: Mappers.NetworkDevice,
     },
     201: {
-      bodyMapper: Mappers.NetworkDevice
+      bodyMapper: Mappers.NetworkDevice,
     },
     202: {
-      bodyMapper: Mappers.NetworkDevice
+      bodyMapper: Mappers.NetworkDevice,
     },
     204: {
-      bodyMapper: Mappers.NetworkDevice
+      bodyMapper: Mappers.NetworkDevice,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body23,
   queryParameters: [Parameters.apiVersion],
@@ -947,54 +939,52 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.networkDeviceName
+    Parameters.networkDeviceName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkDevices/{networkDeviceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkDevices/{networkDeviceName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkDevice
+      bodyMapper: Mappers.NetworkDevice,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.networkDeviceName
+    Parameters.networkDeviceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkDevices/{networkDeviceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkDevices/{networkDeviceName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkDevice
+      bodyMapper: Mappers.NetworkDevice,
     },
     201: {
-      bodyMapper: Mappers.NetworkDevice
+      bodyMapper: Mappers.NetworkDevice,
     },
     202: {
-      bodyMapper: Mappers.NetworkDevice
+      bodyMapper: Mappers.NetworkDevice,
     },
     204: {
-      bodyMapper: Mappers.NetworkDevice
+      bodyMapper: Mappers.NetworkDevice,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body24,
   queryParameters: [Parameters.apiVersion],
@@ -1002,15 +992,14 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.networkDeviceName
+    Parameters.networkDeviceName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkDevices/{networkDeviceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkDevices/{networkDeviceName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -1018,77 +1007,74 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.networkDeviceName
+    Parameters.networkDeviceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkDevices",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkDevices",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkDevicesListResult
+      bodyMapper: Mappers.NetworkDevicesListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ManagedNetworkFabric/networkDevices",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.ManagedNetworkFabric/networkDevices",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkDevicesListResult
+      bodyMapper: Mappers.NetworkDevicesListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const rebootOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkDevices/{networkDeviceName}/reboot",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkDevices/{networkDeviceName}/reboot",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     201: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     202: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     204: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body25,
   queryParameters: [Parameters.apiVersion],
@@ -1096,63 +1082,61 @@ const rebootOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.networkDeviceName
+    Parameters.networkDeviceName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const refreshConfigurationOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkDevices/{networkDeviceName}/refreshConfiguration",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkDevices/{networkDeviceName}/refreshConfiguration",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     201: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     202: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     204: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.networkDeviceName
+    Parameters.networkDeviceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateAdministrativeStateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkDevices/{networkDeviceName}/updateAdministrativeState",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkDevices/{networkDeviceName}/updateAdministrativeState",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     201: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     202: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     204: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body26,
   queryParameters: [Parameters.apiVersion],
@@ -1160,32 +1144,31 @@ const updateAdministrativeStateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.networkDeviceName
+    Parameters.networkDeviceName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const upgradeOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkDevices/{networkDeviceName}/upgrade",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkDevices/{networkDeviceName}/upgrade",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     201: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     202: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     204: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body27,
   queryParameters: [Parameters.apiVersion],
@@ -1193,48 +1176,48 @@ const upgradeOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.networkDeviceName
+    Parameters.networkDeviceName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkDevicesListResult
+      bodyMapper: Mappers.NetworkDevicesListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkDevicesListResult
+      bodyMapper: Mappers.NetworkDevicesListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

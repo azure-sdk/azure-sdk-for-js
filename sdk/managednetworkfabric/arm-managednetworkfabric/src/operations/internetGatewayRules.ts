@@ -16,7 +16,7 @@ import { AzureNetworkFabricManagementServiceAPI } from "../azureNetworkFabricMan
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -37,7 +37,7 @@ import {
   InternetGatewayRulesDeleteOptionalParams,
   InternetGatewayRulesDeleteResponse,
   InternetGatewayRulesListByResourceGroupNextResponse,
-  InternetGatewayRulesListBySubscriptionNextResponse
+  InternetGatewayRulesListBySubscriptionNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -60,7 +60,7 @@ export class InternetGatewayRulesImpl implements InternetGatewayRules {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: InternetGatewayRulesListByResourceGroupOptionalParams
+    options?: InternetGatewayRulesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<InternetGatewayRule> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -77,16 +77,16 @@ export class InternetGatewayRulesImpl implements InternetGatewayRules {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: InternetGatewayRulesListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<InternetGatewayRule[]> {
     let result: InternetGatewayRulesListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -101,7 +101,7 @@ export class InternetGatewayRulesImpl implements InternetGatewayRules {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -112,11 +112,11 @@ export class InternetGatewayRulesImpl implements InternetGatewayRules {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: InternetGatewayRulesListByResourceGroupOptionalParams
+    options?: InternetGatewayRulesListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<InternetGatewayRule> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -127,7 +127,7 @@ export class InternetGatewayRulesImpl implements InternetGatewayRules {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: InternetGatewayRulesListBySubscriptionOptionalParams
+    options?: InternetGatewayRulesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<InternetGatewayRule> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -142,13 +142,13 @@ export class InternetGatewayRulesImpl implements InternetGatewayRules {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: InternetGatewayRulesListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<InternetGatewayRule[]> {
     let result: InternetGatewayRulesListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -169,7 +169,7 @@ export class InternetGatewayRulesImpl implements InternetGatewayRules {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: InternetGatewayRulesListBySubscriptionOptionalParams
+    options?: InternetGatewayRulesListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<InternetGatewayRule> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -187,7 +187,7 @@ export class InternetGatewayRulesImpl implements InternetGatewayRules {
     resourceGroupName: string,
     internetGatewayRuleName: string,
     body: InternetGatewayRule,
-    options?: InternetGatewayRulesCreateOptionalParams
+    options?: InternetGatewayRulesCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<InternetGatewayRulesCreateResponse>,
@@ -196,21 +196,20 @@ export class InternetGatewayRulesImpl implements InternetGatewayRules {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<InternetGatewayRulesCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -219,8 +218,8 @@ export class InternetGatewayRulesImpl implements InternetGatewayRules {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -228,15 +227,15 @@ export class InternetGatewayRulesImpl implements InternetGatewayRules {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, internetGatewayRuleName, body, options },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       InternetGatewayRulesCreateResponse,
@@ -244,7 +243,7 @@ export class InternetGatewayRulesImpl implements InternetGatewayRules {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -261,13 +260,13 @@ export class InternetGatewayRulesImpl implements InternetGatewayRules {
     resourceGroupName: string,
     internetGatewayRuleName: string,
     body: InternetGatewayRule,
-    options?: InternetGatewayRulesCreateOptionalParams
+    options?: InternetGatewayRulesCreateOptionalParams,
   ): Promise<InternetGatewayRulesCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       internetGatewayRuleName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -281,11 +280,11 @@ export class InternetGatewayRulesImpl implements InternetGatewayRules {
   get(
     resourceGroupName: string,
     internetGatewayRuleName: string,
-    options?: InternetGatewayRulesGetOptionalParams
+    options?: InternetGatewayRulesGetOptionalParams,
   ): Promise<InternetGatewayRulesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, internetGatewayRuleName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -300,7 +299,7 @@ export class InternetGatewayRulesImpl implements InternetGatewayRules {
     resourceGroupName: string,
     internetGatewayRuleName: string,
     body: InternetGatewayRulePatch,
-    options?: InternetGatewayRulesUpdateOptionalParams
+    options?: InternetGatewayRulesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<InternetGatewayRulesUpdateResponse>,
@@ -309,21 +308,20 @@ export class InternetGatewayRulesImpl implements InternetGatewayRules {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<InternetGatewayRulesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -332,8 +330,8 @@ export class InternetGatewayRulesImpl implements InternetGatewayRules {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -341,15 +339,15 @@ export class InternetGatewayRulesImpl implements InternetGatewayRules {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, internetGatewayRuleName, body, options },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       InternetGatewayRulesUpdateResponse,
@@ -357,7 +355,7 @@ export class InternetGatewayRulesImpl implements InternetGatewayRules {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -374,13 +372,13 @@ export class InternetGatewayRulesImpl implements InternetGatewayRules {
     resourceGroupName: string,
     internetGatewayRuleName: string,
     body: InternetGatewayRulePatch,
-    options?: InternetGatewayRulesUpdateOptionalParams
+    options?: InternetGatewayRulesUpdateOptionalParams,
   ): Promise<InternetGatewayRulesUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       internetGatewayRuleName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -394,7 +392,7 @@ export class InternetGatewayRulesImpl implements InternetGatewayRules {
   async beginDelete(
     resourceGroupName: string,
     internetGatewayRuleName: string,
-    options?: InternetGatewayRulesDeleteOptionalParams
+    options?: InternetGatewayRulesDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<InternetGatewayRulesDeleteResponse>,
@@ -403,21 +401,20 @@ export class InternetGatewayRulesImpl implements InternetGatewayRules {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<InternetGatewayRulesDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -426,8 +423,8 @@ export class InternetGatewayRulesImpl implements InternetGatewayRules {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -435,15 +432,15 @@ export class InternetGatewayRulesImpl implements InternetGatewayRules {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, internetGatewayRuleName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
       InternetGatewayRulesDeleteResponse,
@@ -451,7 +448,7 @@ export class InternetGatewayRulesImpl implements InternetGatewayRules {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -466,12 +463,12 @@ export class InternetGatewayRulesImpl implements InternetGatewayRules {
   async beginDeleteAndWait(
     resourceGroupName: string,
     internetGatewayRuleName: string,
-    options?: InternetGatewayRulesDeleteOptionalParams
+    options?: InternetGatewayRulesDeleteOptionalParams,
   ): Promise<InternetGatewayRulesDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       internetGatewayRuleName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -483,11 +480,11 @@ export class InternetGatewayRulesImpl implements InternetGatewayRules {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: InternetGatewayRulesListByResourceGroupOptionalParams
+    options?: InternetGatewayRulesListByResourceGroupOptionalParams,
   ): Promise<InternetGatewayRulesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -496,11 +493,11 @@ export class InternetGatewayRulesImpl implements InternetGatewayRules {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: InternetGatewayRulesListBySubscriptionOptionalParams
+    options?: InternetGatewayRulesListBySubscriptionOptionalParams,
   ): Promise<InternetGatewayRulesListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -513,11 +510,11 @@ export class InternetGatewayRulesImpl implements InternetGatewayRules {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: InternetGatewayRulesListByResourceGroupNextOptionalParams
+    options?: InternetGatewayRulesListByResourceGroupNextOptionalParams,
   ): Promise<InternetGatewayRulesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 
@@ -528,11 +525,11 @@ export class InternetGatewayRulesImpl implements InternetGatewayRules {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: InternetGatewayRulesListBySubscriptionNextOptionalParams
+    options?: InternetGatewayRulesListBySubscriptionNextOptionalParams,
   ): Promise<InternetGatewayRulesListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 }
@@ -540,25 +537,24 @@ export class InternetGatewayRulesImpl implements InternetGatewayRules {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/internetGatewayRules/{internetGatewayRuleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/internetGatewayRules/{internetGatewayRuleName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.InternetGatewayRule
+      bodyMapper: Mappers.InternetGatewayRule,
     },
     201: {
-      bodyMapper: Mappers.InternetGatewayRule
+      bodyMapper: Mappers.InternetGatewayRule,
     },
     202: {
-      bodyMapper: Mappers.InternetGatewayRule
+      bodyMapper: Mappers.InternetGatewayRule,
     },
     204: {
-      bodyMapper: Mappers.InternetGatewayRule
+      bodyMapper: Mappers.InternetGatewayRule,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body5,
   queryParameters: [Parameters.apiVersion],
@@ -566,54 +562,52 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.internetGatewayRuleName
+    Parameters.internetGatewayRuleName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/internetGatewayRules/{internetGatewayRuleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/internetGatewayRules/{internetGatewayRuleName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.InternetGatewayRule
+      bodyMapper: Mappers.InternetGatewayRule,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.internetGatewayRuleName
+    Parameters.internetGatewayRuleName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/internetGatewayRules/{internetGatewayRuleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/internetGatewayRules/{internetGatewayRuleName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.InternetGatewayRule
+      bodyMapper: Mappers.InternetGatewayRule,
     },
     201: {
-      bodyMapper: Mappers.InternetGatewayRule
+      bodyMapper: Mappers.InternetGatewayRule,
     },
     202: {
-      bodyMapper: Mappers.InternetGatewayRule
+      bodyMapper: Mappers.InternetGatewayRule,
     },
     204: {
-      bodyMapper: Mappers.InternetGatewayRule
+      bodyMapper: Mappers.InternetGatewayRule,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body6,
   queryParameters: [Parameters.apiVersion],
@@ -621,117 +615,114 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.internetGatewayRuleName
+    Parameters.internetGatewayRuleName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/internetGatewayRules/{internetGatewayRuleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/internetGatewayRules/{internetGatewayRuleName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.InternetGatewayRulesDeleteHeaders
+      headersMapper: Mappers.InternetGatewayRulesDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.InternetGatewayRulesDeleteHeaders
+      headersMapper: Mappers.InternetGatewayRulesDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.InternetGatewayRulesDeleteHeaders
+      headersMapper: Mappers.InternetGatewayRulesDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.InternetGatewayRulesDeleteHeaders
+      headersMapper: Mappers.InternetGatewayRulesDeleteHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.internetGatewayRuleName
+    Parameters.internetGatewayRuleName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/internetGatewayRules",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/internetGatewayRules",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.InternetGatewayRulesListResult
+      bodyMapper: Mappers.InternetGatewayRulesListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ManagedNetworkFabric/internetGatewayRules",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.ManagedNetworkFabric/internetGatewayRules",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.InternetGatewayRulesListResult
+      bodyMapper: Mappers.InternetGatewayRulesListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.InternetGatewayRulesListResult
+      bodyMapper: Mappers.InternetGatewayRulesListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.InternetGatewayRulesListResult
+      bodyMapper: Mappers.InternetGatewayRulesListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

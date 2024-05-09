@@ -16,7 +16,7 @@ import { AzureNetworkFabricManagementServiceAPI } from "../azureNetworkFabricMan
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -43,7 +43,7 @@ import {
   RoutePoliciesCommitConfigurationOptionalParams,
   RoutePoliciesCommitConfigurationResponse,
   RoutePoliciesListByResourceGroupNextResponse,
-  RoutePoliciesListBySubscriptionNextResponse
+  RoutePoliciesListBySubscriptionNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -66,7 +66,7 @@ export class RoutePoliciesImpl implements RoutePolicies {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: RoutePoliciesListByResourceGroupOptionalParams
+    options?: RoutePoliciesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<RoutePolicy> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -83,16 +83,16 @@ export class RoutePoliciesImpl implements RoutePolicies {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: RoutePoliciesListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<RoutePolicy[]> {
     let result: RoutePoliciesListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -107,7 +107,7 @@ export class RoutePoliciesImpl implements RoutePolicies {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -118,11 +118,11 @@ export class RoutePoliciesImpl implements RoutePolicies {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: RoutePoliciesListByResourceGroupOptionalParams
+    options?: RoutePoliciesListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<RoutePolicy> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -133,7 +133,7 @@ export class RoutePoliciesImpl implements RoutePolicies {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: RoutePoliciesListBySubscriptionOptionalParams
+    options?: RoutePoliciesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<RoutePolicy> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -148,13 +148,13 @@ export class RoutePoliciesImpl implements RoutePolicies {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: RoutePoliciesListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<RoutePolicy[]> {
     let result: RoutePoliciesListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -175,7 +175,7 @@ export class RoutePoliciesImpl implements RoutePolicies {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: RoutePoliciesListBySubscriptionOptionalParams
+    options?: RoutePoliciesListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<RoutePolicy> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -193,7 +193,7 @@ export class RoutePoliciesImpl implements RoutePolicies {
     resourceGroupName: string,
     routePolicyName: string,
     body: RoutePolicy,
-    options?: RoutePoliciesCreateOptionalParams
+    options?: RoutePoliciesCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<RoutePoliciesCreateResponse>,
@@ -202,21 +202,20 @@ export class RoutePoliciesImpl implements RoutePolicies {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<RoutePoliciesCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -225,8 +224,8 @@ export class RoutePoliciesImpl implements RoutePolicies {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -234,15 +233,15 @@ export class RoutePoliciesImpl implements RoutePolicies {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, routePolicyName, body, options },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       RoutePoliciesCreateResponse,
@@ -250,7 +249,7 @@ export class RoutePoliciesImpl implements RoutePolicies {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -267,13 +266,13 @@ export class RoutePoliciesImpl implements RoutePolicies {
     resourceGroupName: string,
     routePolicyName: string,
     body: RoutePolicy,
-    options?: RoutePoliciesCreateOptionalParams
+    options?: RoutePoliciesCreateOptionalParams,
   ): Promise<RoutePoliciesCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       routePolicyName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -287,11 +286,11 @@ export class RoutePoliciesImpl implements RoutePolicies {
   get(
     resourceGroupName: string,
     routePolicyName: string,
-    options?: RoutePoliciesGetOptionalParams
+    options?: RoutePoliciesGetOptionalParams,
   ): Promise<RoutePoliciesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, routePolicyName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -306,7 +305,7 @@ export class RoutePoliciesImpl implements RoutePolicies {
     resourceGroupName: string,
     routePolicyName: string,
     body: RoutePolicyPatch,
-    options?: RoutePoliciesUpdateOptionalParams
+    options?: RoutePoliciesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<RoutePoliciesUpdateResponse>,
@@ -315,21 +314,20 @@ export class RoutePoliciesImpl implements RoutePolicies {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<RoutePoliciesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -338,8 +336,8 @@ export class RoutePoliciesImpl implements RoutePolicies {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -347,15 +345,15 @@ export class RoutePoliciesImpl implements RoutePolicies {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, routePolicyName, body, options },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       RoutePoliciesUpdateResponse,
@@ -363,7 +361,7 @@ export class RoutePoliciesImpl implements RoutePolicies {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -380,13 +378,13 @@ export class RoutePoliciesImpl implements RoutePolicies {
     resourceGroupName: string,
     routePolicyName: string,
     body: RoutePolicyPatch,
-    options?: RoutePoliciesUpdateOptionalParams
+    options?: RoutePoliciesUpdateOptionalParams,
   ): Promise<RoutePoliciesUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       routePolicyName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -400,25 +398,24 @@ export class RoutePoliciesImpl implements RoutePolicies {
   async beginDelete(
     resourceGroupName: string,
     routePolicyName: string,
-    options?: RoutePoliciesDeleteOptionalParams
+    options?: RoutePoliciesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -427,8 +424,8 @@ export class RoutePoliciesImpl implements RoutePolicies {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -436,20 +433,20 @@ export class RoutePoliciesImpl implements RoutePolicies {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, routePolicyName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -464,12 +461,12 @@ export class RoutePoliciesImpl implements RoutePolicies {
   async beginDeleteAndWait(
     resourceGroupName: string,
     routePolicyName: string,
-    options?: RoutePoliciesDeleteOptionalParams
+    options?: RoutePoliciesDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       routePolicyName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -481,11 +478,11 @@ export class RoutePoliciesImpl implements RoutePolicies {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: RoutePoliciesListByResourceGroupOptionalParams
+    options?: RoutePoliciesListByResourceGroupOptionalParams,
   ): Promise<RoutePoliciesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -494,11 +491,11 @@ export class RoutePoliciesImpl implements RoutePolicies {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: RoutePoliciesListBySubscriptionOptionalParams
+    options?: RoutePoliciesListBySubscriptionOptionalParams,
   ): Promise<RoutePoliciesListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -513,7 +510,7 @@ export class RoutePoliciesImpl implements RoutePolicies {
     resourceGroupName: string,
     routePolicyName: string,
     body: UpdateAdministrativeState,
-    options?: RoutePoliciesUpdateAdministrativeStateOptionalParams
+    options?: RoutePoliciesUpdateAdministrativeStateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<RoutePoliciesUpdateAdministrativeStateResponse>,
@@ -522,21 +519,20 @@ export class RoutePoliciesImpl implements RoutePolicies {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<RoutePoliciesUpdateAdministrativeStateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -545,8 +541,8 @@ export class RoutePoliciesImpl implements RoutePolicies {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -554,15 +550,15 @@ export class RoutePoliciesImpl implements RoutePolicies {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, routePolicyName, body, options },
-      spec: updateAdministrativeStateOperationSpec
+      spec: updateAdministrativeStateOperationSpec,
     });
     const poller = await createHttpPoller<
       RoutePoliciesUpdateAdministrativeStateResponse,
@@ -570,7 +566,7 @@ export class RoutePoliciesImpl implements RoutePolicies {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -587,13 +583,13 @@ export class RoutePoliciesImpl implements RoutePolicies {
     resourceGroupName: string,
     routePolicyName: string,
     body: UpdateAdministrativeState,
-    options?: RoutePoliciesUpdateAdministrativeStateOptionalParams
+    options?: RoutePoliciesUpdateAdministrativeStateOptionalParams,
   ): Promise<RoutePoliciesUpdateAdministrativeStateResponse> {
     const poller = await this.beginUpdateAdministrativeState(
       resourceGroupName,
       routePolicyName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -607,7 +603,7 @@ export class RoutePoliciesImpl implements RoutePolicies {
   async beginValidateConfiguration(
     resourceGroupName: string,
     routePolicyName: string,
-    options?: RoutePoliciesValidateConfigurationOptionalParams
+    options?: RoutePoliciesValidateConfigurationOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<RoutePoliciesValidateConfigurationResponse>,
@@ -616,21 +612,20 @@ export class RoutePoliciesImpl implements RoutePolicies {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<RoutePoliciesValidateConfigurationResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -639,8 +634,8 @@ export class RoutePoliciesImpl implements RoutePolicies {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -648,15 +643,15 @@ export class RoutePoliciesImpl implements RoutePolicies {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, routePolicyName, options },
-      spec: validateConfigurationOperationSpec
+      spec: validateConfigurationOperationSpec,
     });
     const poller = await createHttpPoller<
       RoutePoliciesValidateConfigurationResponse,
@@ -664,7 +659,7 @@ export class RoutePoliciesImpl implements RoutePolicies {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -679,12 +674,12 @@ export class RoutePoliciesImpl implements RoutePolicies {
   async beginValidateConfigurationAndWait(
     resourceGroupName: string,
     routePolicyName: string,
-    options?: RoutePoliciesValidateConfigurationOptionalParams
+    options?: RoutePoliciesValidateConfigurationOptionalParams,
   ): Promise<RoutePoliciesValidateConfigurationResponse> {
     const poller = await this.beginValidateConfiguration(
       resourceGroupName,
       routePolicyName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -698,7 +693,7 @@ export class RoutePoliciesImpl implements RoutePolicies {
   async beginCommitConfiguration(
     resourceGroupName: string,
     routePolicyName: string,
-    options?: RoutePoliciesCommitConfigurationOptionalParams
+    options?: RoutePoliciesCommitConfigurationOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<RoutePoliciesCommitConfigurationResponse>,
@@ -707,21 +702,20 @@ export class RoutePoliciesImpl implements RoutePolicies {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<RoutePoliciesCommitConfigurationResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -730,8 +724,8 @@ export class RoutePoliciesImpl implements RoutePolicies {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -739,15 +733,15 @@ export class RoutePoliciesImpl implements RoutePolicies {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, routePolicyName, options },
-      spec: commitConfigurationOperationSpec
+      spec: commitConfigurationOperationSpec,
     });
     const poller = await createHttpPoller<
       RoutePoliciesCommitConfigurationResponse,
@@ -755,7 +749,7 @@ export class RoutePoliciesImpl implements RoutePolicies {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -770,12 +764,12 @@ export class RoutePoliciesImpl implements RoutePolicies {
   async beginCommitConfigurationAndWait(
     resourceGroupName: string,
     routePolicyName: string,
-    options?: RoutePoliciesCommitConfigurationOptionalParams
+    options?: RoutePoliciesCommitConfigurationOptionalParams,
   ): Promise<RoutePoliciesCommitConfigurationResponse> {
     const poller = await this.beginCommitConfiguration(
       resourceGroupName,
       routePolicyName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -789,11 +783,11 @@ export class RoutePoliciesImpl implements RoutePolicies {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: RoutePoliciesListByResourceGroupNextOptionalParams
+    options?: RoutePoliciesListByResourceGroupNextOptionalParams,
   ): Promise<RoutePoliciesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 
@@ -804,11 +798,11 @@ export class RoutePoliciesImpl implements RoutePolicies {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: RoutePoliciesListBySubscriptionNextOptionalParams
+    options?: RoutePoliciesListBySubscriptionNextOptionalParams,
   ): Promise<RoutePoliciesListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 }
@@ -816,80 +810,24 @@ export class RoutePoliciesImpl implements RoutePolicies {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/routePolicies/{routePolicyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/routePolicies/{routePolicyName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.RoutePolicy
+      bodyMapper: Mappers.RoutePolicy,
     },
     201: {
-      bodyMapper: Mappers.RoutePolicy
+      bodyMapper: Mappers.RoutePolicy,
     },
     202: {
-      bodyMapper: Mappers.RoutePolicy
+      bodyMapper: Mappers.RoutePolicy,
     },
     204: {
-      bodyMapper: Mappers.RoutePolicy
+      bodyMapper: Mappers.RoutePolicy,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.body45,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.routePolicyName
-  ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/routePolicies/{routePolicyName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.RoutePolicy
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.routePolicyName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/routePolicies/{routePolicyName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.RoutePolicy
-    },
-    201: {
-      bodyMapper: Mappers.RoutePolicy
-    },
-    202: {
-      bodyMapper: Mappers.RoutePolicy
-    },
-    204: {
-      bodyMapper: Mappers.RoutePolicy
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   requestBody: Parameters.body46,
   queryParameters: [Parameters.apiVersion],
@@ -897,15 +835,67 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.routePolicyName
+    Parameters.routePolicyName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/routePolicies/{routePolicyName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RoutePolicy,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.routePolicyName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const updateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/routePolicies/{routePolicyName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RoutePolicy,
+    },
+    201: {
+      bodyMapper: Mappers.RoutePolicy,
+    },
+    202: {
+      bodyMapper: Mappers.RoutePolicy,
+    },
+    204: {
+      bodyMapper: Mappers.RoutePolicy,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.body47,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.routePolicyName,
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/routePolicies/{routePolicyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/routePolicies/{routePolicyName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -913,77 +903,74 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.routePolicyName
+    Parameters.routePolicyName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/routePolicies",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/routePolicies",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RoutePoliciesListResult
+      bodyMapper: Mappers.RoutePoliciesListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ManagedNetworkFabric/routePolicies",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.ManagedNetworkFabric/routePolicies",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RoutePoliciesListResult
+      bodyMapper: Mappers.RoutePoliciesListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateAdministrativeStateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/routePolicies/{routePolicyName}/updateAdministrativeState",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/routePolicies/{routePolicyName}/updateAdministrativeState",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate,
     },
     201: {
-      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate,
     },
     202: {
-      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate,
     },
     204: {
-      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body2,
   queryParameters: [Parameters.apiVersion],
@@ -991,110 +978,108 @@ const updateAdministrativeStateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.routePolicyName
+    Parameters.routePolicyName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const validateConfigurationOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/routePolicies/{routePolicyName}/validateConfiguration",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/routePolicies/{routePolicyName}/validateConfiguration",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ValidateConfigurationResponse
+      bodyMapper: Mappers.ValidateConfigurationResponse,
     },
     201: {
-      bodyMapper: Mappers.ValidateConfigurationResponse
+      bodyMapper: Mappers.ValidateConfigurationResponse,
     },
     202: {
-      bodyMapper: Mappers.ValidateConfigurationResponse
+      bodyMapper: Mappers.ValidateConfigurationResponse,
     },
     204: {
-      bodyMapper: Mappers.ValidateConfigurationResponse
+      bodyMapper: Mappers.ValidateConfigurationResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.routePolicyName
+    Parameters.routePolicyName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const commitConfigurationOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/routePolicies/{routePolicyName}/commitConfiguration",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/routePolicies/{routePolicyName}/commitConfiguration",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     201: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     202: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     204: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.routePolicyName
+    Parameters.routePolicyName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RoutePoliciesListResult
+      bodyMapper: Mappers.RoutePoliciesListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RoutePoliciesListResult
+      bodyMapper: Mappers.RoutePoliciesListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

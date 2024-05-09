@@ -19,7 +19,7 @@ import {
   NetworkPacketBrokerPatch,
   NetworkPacketBrokersUpdateOptionalParams,
   NetworkPacketBrokersUpdateResponse,
-  NetworkPacketBrokersDeleteOptionalParams
+  NetworkPacketBrokersDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,14 +32,14 @@ export interface NetworkPacketBrokers {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: NetworkPacketBrokersListByResourceGroupOptionalParams
+    options?: NetworkPacketBrokersListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<NetworkPacketBroker>;
   /**
    * Displays Network Packet Brokers list by subscription GET method.
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: NetworkPacketBrokersListBySubscriptionOptionalParams
+    options?: NetworkPacketBrokersListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<NetworkPacketBroker>;
   /**
    * Creates a Network Packet Broker.
@@ -52,7 +52,7 @@ export interface NetworkPacketBrokers {
     resourceGroupName: string,
     networkPacketBrokerName: string,
     body: NetworkPacketBroker,
-    options?: NetworkPacketBrokersCreateOptionalParams
+    options?: NetworkPacketBrokersCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkPacketBrokersCreateResponse>,
@@ -70,7 +70,7 @@ export interface NetworkPacketBrokers {
     resourceGroupName: string,
     networkPacketBrokerName: string,
     body: NetworkPacketBroker,
-    options?: NetworkPacketBrokersCreateOptionalParams
+    options?: NetworkPacketBrokersCreateOptionalParams,
   ): Promise<NetworkPacketBrokersCreateResponse>;
   /**
    * Retrieves details of this Network Packet Broker.
@@ -81,7 +81,7 @@ export interface NetworkPacketBrokers {
   get(
     resourceGroupName: string,
     networkPacketBrokerName: string,
-    options?: NetworkPacketBrokersGetOptionalParams
+    options?: NetworkPacketBrokersGetOptionalParams,
   ): Promise<NetworkPacketBrokersGetResponse>;
   /**
    * API to update certain properties of the Network Packet Broker resource.
@@ -94,7 +94,7 @@ export interface NetworkPacketBrokers {
     resourceGroupName: string,
     networkPacketBrokerName: string,
     body: NetworkPacketBrokerPatch,
-    options?: NetworkPacketBrokersUpdateOptionalParams
+    options?: NetworkPacketBrokersUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkPacketBrokersUpdateResponse>,
@@ -112,7 +112,7 @@ export interface NetworkPacketBrokers {
     resourceGroupName: string,
     networkPacketBrokerName: string,
     body: NetworkPacketBrokerPatch,
-    options?: NetworkPacketBrokersUpdateOptionalParams
+    options?: NetworkPacketBrokersUpdateOptionalParams,
   ): Promise<NetworkPacketBrokersUpdateResponse>;
   /**
    * Deletes Network Packet Broker.
@@ -123,7 +123,7 @@ export interface NetworkPacketBrokers {
   beginDelete(
     resourceGroupName: string,
     networkPacketBrokerName: string,
-    options?: NetworkPacketBrokersDeleteOptionalParams
+    options?: NetworkPacketBrokersDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes Network Packet Broker.
@@ -134,6 +134,6 @@ export interface NetworkPacketBrokers {
   beginDeleteAndWait(
     resourceGroupName: string,
     networkPacketBrokerName: string,
-    options?: NetworkPacketBrokersDeleteOptionalParams
+    options?: NetworkPacketBrokersDeleteOptionalParams,
   ): Promise<void>;
 }

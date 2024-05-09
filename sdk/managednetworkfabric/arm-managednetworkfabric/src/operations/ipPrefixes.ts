@@ -16,7 +16,7 @@ import { AzureNetworkFabricManagementServiceAPI } from "../azureNetworkFabricMan
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -37,7 +37,7 @@ import {
   IpPrefixesDeleteOptionalParams,
   IpPrefixesDeleteResponse,
   IpPrefixesListByResourceGroupNextResponse,
-  IpPrefixesListBySubscriptionNextResponse
+  IpPrefixesListBySubscriptionNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -60,7 +60,7 @@ export class IpPrefixesImpl implements IpPrefixes {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: IpPrefixesListByResourceGroupOptionalParams
+    options?: IpPrefixesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<IpPrefix> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -77,16 +77,16 @@ export class IpPrefixesImpl implements IpPrefixes {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: IpPrefixesListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<IpPrefix[]> {
     let result: IpPrefixesListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -101,7 +101,7 @@ export class IpPrefixesImpl implements IpPrefixes {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -112,11 +112,11 @@ export class IpPrefixesImpl implements IpPrefixes {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: IpPrefixesListByResourceGroupOptionalParams
+    options?: IpPrefixesListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<IpPrefix> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -127,7 +127,7 @@ export class IpPrefixesImpl implements IpPrefixes {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: IpPrefixesListBySubscriptionOptionalParams
+    options?: IpPrefixesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<IpPrefix> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -142,13 +142,13 @@ export class IpPrefixesImpl implements IpPrefixes {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: IpPrefixesListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<IpPrefix[]> {
     let result: IpPrefixesListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -169,7 +169,7 @@ export class IpPrefixesImpl implements IpPrefixes {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: IpPrefixesListBySubscriptionOptionalParams
+    options?: IpPrefixesListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<IpPrefix> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -187,7 +187,7 @@ export class IpPrefixesImpl implements IpPrefixes {
     resourceGroupName: string,
     ipPrefixName: string,
     body: IpPrefix,
-    options?: IpPrefixesCreateOptionalParams
+    options?: IpPrefixesCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<IpPrefixesCreateResponse>,
@@ -196,21 +196,20 @@ export class IpPrefixesImpl implements IpPrefixes {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<IpPrefixesCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -219,8 +218,8 @@ export class IpPrefixesImpl implements IpPrefixes {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -228,15 +227,15 @@ export class IpPrefixesImpl implements IpPrefixes {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, ipPrefixName, body, options },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       IpPrefixesCreateResponse,
@@ -244,7 +243,7 @@ export class IpPrefixesImpl implements IpPrefixes {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -261,13 +260,13 @@ export class IpPrefixesImpl implements IpPrefixes {
     resourceGroupName: string,
     ipPrefixName: string,
     body: IpPrefix,
-    options?: IpPrefixesCreateOptionalParams
+    options?: IpPrefixesCreateOptionalParams,
   ): Promise<IpPrefixesCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       ipPrefixName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -281,11 +280,11 @@ export class IpPrefixesImpl implements IpPrefixes {
   get(
     resourceGroupName: string,
     ipPrefixName: string,
-    options?: IpPrefixesGetOptionalParams
+    options?: IpPrefixesGetOptionalParams,
   ): Promise<IpPrefixesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, ipPrefixName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -300,7 +299,7 @@ export class IpPrefixesImpl implements IpPrefixes {
     resourceGroupName: string,
     ipPrefixName: string,
     body: IpPrefixPatch,
-    options?: IpPrefixesUpdateOptionalParams
+    options?: IpPrefixesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<IpPrefixesUpdateResponse>,
@@ -309,21 +308,20 @@ export class IpPrefixesImpl implements IpPrefixes {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<IpPrefixesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -332,8 +330,8 @@ export class IpPrefixesImpl implements IpPrefixes {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -341,15 +339,15 @@ export class IpPrefixesImpl implements IpPrefixes {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, ipPrefixName, body, options },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       IpPrefixesUpdateResponse,
@@ -357,7 +355,7 @@ export class IpPrefixesImpl implements IpPrefixes {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -374,13 +372,13 @@ export class IpPrefixesImpl implements IpPrefixes {
     resourceGroupName: string,
     ipPrefixName: string,
     body: IpPrefixPatch,
-    options?: IpPrefixesUpdateOptionalParams
+    options?: IpPrefixesUpdateOptionalParams,
   ): Promise<IpPrefixesUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       ipPrefixName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -394,7 +392,7 @@ export class IpPrefixesImpl implements IpPrefixes {
   async beginDelete(
     resourceGroupName: string,
     ipPrefixName: string,
-    options?: IpPrefixesDeleteOptionalParams
+    options?: IpPrefixesDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<IpPrefixesDeleteResponse>,
@@ -403,21 +401,20 @@ export class IpPrefixesImpl implements IpPrefixes {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<IpPrefixesDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -426,8 +423,8 @@ export class IpPrefixesImpl implements IpPrefixes {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -435,15 +432,15 @@ export class IpPrefixesImpl implements IpPrefixes {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, ipPrefixName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
       IpPrefixesDeleteResponse,
@@ -451,7 +448,7 @@ export class IpPrefixesImpl implements IpPrefixes {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -466,12 +463,12 @@ export class IpPrefixesImpl implements IpPrefixes {
   async beginDeleteAndWait(
     resourceGroupName: string,
     ipPrefixName: string,
-    options?: IpPrefixesDeleteOptionalParams
+    options?: IpPrefixesDeleteOptionalParams,
   ): Promise<IpPrefixesDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       ipPrefixName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -483,11 +480,11 @@ export class IpPrefixesImpl implements IpPrefixes {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: IpPrefixesListByResourceGroupOptionalParams
+    options?: IpPrefixesListByResourceGroupOptionalParams,
   ): Promise<IpPrefixesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -496,11 +493,11 @@ export class IpPrefixesImpl implements IpPrefixes {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: IpPrefixesListBySubscriptionOptionalParams
+    options?: IpPrefixesListBySubscriptionOptionalParams,
   ): Promise<IpPrefixesListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -513,11 +510,11 @@ export class IpPrefixesImpl implements IpPrefixes {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: IpPrefixesListByResourceGroupNextOptionalParams
+    options?: IpPrefixesListByResourceGroupNextOptionalParams,
   ): Promise<IpPrefixesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 
@@ -528,11 +525,11 @@ export class IpPrefixesImpl implements IpPrefixes {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: IpPrefixesListBySubscriptionNextOptionalParams
+    options?: IpPrefixesListBySubscriptionNextOptionalParams,
   ): Promise<IpPrefixesListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 }
@@ -540,25 +537,24 @@ export class IpPrefixesImpl implements IpPrefixes {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/ipPrefixes/{ipPrefixName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/ipPrefixes/{ipPrefixName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.IpPrefix
+      bodyMapper: Mappers.IpPrefix,
     },
     201: {
-      bodyMapper: Mappers.IpPrefix
+      bodyMapper: Mappers.IpPrefix,
     },
     202: {
-      bodyMapper: Mappers.IpPrefix
+      bodyMapper: Mappers.IpPrefix,
     },
     204: {
-      bodyMapper: Mappers.IpPrefix
+      bodyMapper: Mappers.IpPrefix,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body11,
   queryParameters: [Parameters.apiVersion],
@@ -566,54 +562,52 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.ipPrefixName
+    Parameters.ipPrefixName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/ipPrefixes/{ipPrefixName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/ipPrefixes/{ipPrefixName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IpPrefix
+      bodyMapper: Mappers.IpPrefix,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.ipPrefixName
+    Parameters.ipPrefixName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/ipPrefixes/{ipPrefixName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/ipPrefixes/{ipPrefixName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.IpPrefix
+      bodyMapper: Mappers.IpPrefix,
     },
     201: {
-      bodyMapper: Mappers.IpPrefix
+      bodyMapper: Mappers.IpPrefix,
     },
     202: {
-      bodyMapper: Mappers.IpPrefix
+      bodyMapper: Mappers.IpPrefix,
     },
     204: {
-      bodyMapper: Mappers.IpPrefix
+      bodyMapper: Mappers.IpPrefix,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body12,
   queryParameters: [Parameters.apiVersion],
@@ -621,117 +615,114 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.ipPrefixName
+    Parameters.ipPrefixName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/ipPrefixes/{ipPrefixName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/ipPrefixes/{ipPrefixName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.IpPrefixesDeleteHeaders
+      headersMapper: Mappers.IpPrefixesDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.IpPrefixesDeleteHeaders
+      headersMapper: Mappers.IpPrefixesDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.IpPrefixesDeleteHeaders
+      headersMapper: Mappers.IpPrefixesDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.IpPrefixesDeleteHeaders
+      headersMapper: Mappers.IpPrefixesDeleteHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.ipPrefixName
+    Parameters.ipPrefixName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/ipPrefixes",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/ipPrefixes",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IpPrefixesListResult
+      bodyMapper: Mappers.IpPrefixesListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ManagedNetworkFabric/ipPrefixes",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.ManagedNetworkFabric/ipPrefixes",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IpPrefixesListResult
+      bodyMapper: Mappers.IpPrefixesListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IpPrefixesListResult
+      bodyMapper: Mappers.IpPrefixesListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IpPrefixesListResult
+      bodyMapper: Mappers.IpPrefixesListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

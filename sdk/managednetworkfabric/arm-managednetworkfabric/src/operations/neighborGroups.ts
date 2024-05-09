@@ -16,7 +16,7 @@ import { AzureNetworkFabricManagementServiceAPI } from "../azureNetworkFabricMan
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -36,7 +36,7 @@ import {
   NeighborGroupsUpdateResponse,
   NeighborGroupsDeleteOptionalParams,
   NeighborGroupsListByResourceGroupNextResponse,
-  NeighborGroupsListBySubscriptionNextResponse
+  NeighborGroupsListBySubscriptionNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -59,7 +59,7 @@ export class NeighborGroupsImpl implements NeighborGroups {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: NeighborGroupsListByResourceGroupOptionalParams
+    options?: NeighborGroupsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<NeighborGroup> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -76,16 +76,16 @@ export class NeighborGroupsImpl implements NeighborGroups {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: NeighborGroupsListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<NeighborGroup[]> {
     let result: NeighborGroupsListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -100,7 +100,7 @@ export class NeighborGroupsImpl implements NeighborGroups {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -111,11 +111,11 @@ export class NeighborGroupsImpl implements NeighborGroups {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: NeighborGroupsListByResourceGroupOptionalParams
+    options?: NeighborGroupsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<NeighborGroup> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -126,7 +126,7 @@ export class NeighborGroupsImpl implements NeighborGroups {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: NeighborGroupsListBySubscriptionOptionalParams
+    options?: NeighborGroupsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<NeighborGroup> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -141,13 +141,13 @@ export class NeighborGroupsImpl implements NeighborGroups {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: NeighborGroupsListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<NeighborGroup[]> {
     let result: NeighborGroupsListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -168,7 +168,7 @@ export class NeighborGroupsImpl implements NeighborGroups {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: NeighborGroupsListBySubscriptionOptionalParams
+    options?: NeighborGroupsListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<NeighborGroup> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -186,7 +186,7 @@ export class NeighborGroupsImpl implements NeighborGroups {
     resourceGroupName: string,
     neighborGroupName: string,
     body: NeighborGroup,
-    options?: NeighborGroupsCreateOptionalParams
+    options?: NeighborGroupsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NeighborGroupsCreateResponse>,
@@ -195,21 +195,20 @@ export class NeighborGroupsImpl implements NeighborGroups {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<NeighborGroupsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -218,8 +217,8 @@ export class NeighborGroupsImpl implements NeighborGroups {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -227,15 +226,15 @@ export class NeighborGroupsImpl implements NeighborGroups {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, neighborGroupName, body, options },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       NeighborGroupsCreateResponse,
@@ -243,7 +242,7 @@ export class NeighborGroupsImpl implements NeighborGroups {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -260,13 +259,13 @@ export class NeighborGroupsImpl implements NeighborGroups {
     resourceGroupName: string,
     neighborGroupName: string,
     body: NeighborGroup,
-    options?: NeighborGroupsCreateOptionalParams
+    options?: NeighborGroupsCreateOptionalParams,
   ): Promise<NeighborGroupsCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       neighborGroupName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -280,11 +279,11 @@ export class NeighborGroupsImpl implements NeighborGroups {
   get(
     resourceGroupName: string,
     neighborGroupName: string,
-    options?: NeighborGroupsGetOptionalParams
+    options?: NeighborGroupsGetOptionalParams,
   ): Promise<NeighborGroupsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, neighborGroupName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -299,7 +298,7 @@ export class NeighborGroupsImpl implements NeighborGroups {
     resourceGroupName: string,
     neighborGroupName: string,
     body: NeighborGroupPatch,
-    options?: NeighborGroupsUpdateOptionalParams
+    options?: NeighborGroupsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NeighborGroupsUpdateResponse>,
@@ -308,21 +307,20 @@ export class NeighborGroupsImpl implements NeighborGroups {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<NeighborGroupsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -331,8 +329,8 @@ export class NeighborGroupsImpl implements NeighborGroups {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -340,15 +338,15 @@ export class NeighborGroupsImpl implements NeighborGroups {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, neighborGroupName, body, options },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       NeighborGroupsUpdateResponse,
@@ -356,7 +354,7 @@ export class NeighborGroupsImpl implements NeighborGroups {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -373,13 +371,13 @@ export class NeighborGroupsImpl implements NeighborGroups {
     resourceGroupName: string,
     neighborGroupName: string,
     body: NeighborGroupPatch,
-    options?: NeighborGroupsUpdateOptionalParams
+    options?: NeighborGroupsUpdateOptionalParams,
   ): Promise<NeighborGroupsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       neighborGroupName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -393,25 +391,24 @@ export class NeighborGroupsImpl implements NeighborGroups {
   async beginDelete(
     resourceGroupName: string,
     neighborGroupName: string,
-    options?: NeighborGroupsDeleteOptionalParams
+    options?: NeighborGroupsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -420,8 +417,8 @@ export class NeighborGroupsImpl implements NeighborGroups {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -429,20 +426,20 @@ export class NeighborGroupsImpl implements NeighborGroups {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, neighborGroupName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -457,12 +454,12 @@ export class NeighborGroupsImpl implements NeighborGroups {
   async beginDeleteAndWait(
     resourceGroupName: string,
     neighborGroupName: string,
-    options?: NeighborGroupsDeleteOptionalParams
+    options?: NeighborGroupsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       neighborGroupName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -474,11 +471,11 @@ export class NeighborGroupsImpl implements NeighborGroups {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: NeighborGroupsListByResourceGroupOptionalParams
+    options?: NeighborGroupsListByResourceGroupOptionalParams,
   ): Promise<NeighborGroupsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -487,11 +484,11 @@ export class NeighborGroupsImpl implements NeighborGroups {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: NeighborGroupsListBySubscriptionOptionalParams
+    options?: NeighborGroupsListBySubscriptionOptionalParams,
   ): Promise<NeighborGroupsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -504,11 +501,11 @@ export class NeighborGroupsImpl implements NeighborGroups {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: NeighborGroupsListByResourceGroupNextOptionalParams
+    options?: NeighborGroupsListByResourceGroupNextOptionalParams,
   ): Promise<NeighborGroupsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 
@@ -519,11 +516,11 @@ export class NeighborGroupsImpl implements NeighborGroups {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: NeighborGroupsListBySubscriptionNextOptionalParams
+    options?: NeighborGroupsListBySubscriptionNextOptionalParams,
   ): Promise<NeighborGroupsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 }
@@ -531,25 +528,24 @@ export class NeighborGroupsImpl implements NeighborGroups {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/neighborGroups/{neighborGroupName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/neighborGroups/{neighborGroupName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.NeighborGroup
+      bodyMapper: Mappers.NeighborGroup,
     },
     201: {
-      bodyMapper: Mappers.NeighborGroup
+      bodyMapper: Mappers.NeighborGroup,
     },
     202: {
-      bodyMapper: Mappers.NeighborGroup
+      bodyMapper: Mappers.NeighborGroup,
     },
     204: {
-      bodyMapper: Mappers.NeighborGroup
+      bodyMapper: Mappers.NeighborGroup,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body21,
   queryParameters: [Parameters.apiVersion],
@@ -557,54 +553,52 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.neighborGroupName
+    Parameters.neighborGroupName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/neighborGroups/{neighborGroupName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/neighborGroups/{neighborGroupName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NeighborGroup
+      bodyMapper: Mappers.NeighborGroup,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.neighborGroupName
+    Parameters.neighborGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/neighborGroups/{neighborGroupName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/neighborGroups/{neighborGroupName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.NeighborGroup
+      bodyMapper: Mappers.NeighborGroup,
     },
     201: {
-      bodyMapper: Mappers.NeighborGroup
+      bodyMapper: Mappers.NeighborGroup,
     },
     202: {
-      bodyMapper: Mappers.NeighborGroup
+      bodyMapper: Mappers.NeighborGroup,
     },
     204: {
-      bodyMapper: Mappers.NeighborGroup
+      bodyMapper: Mappers.NeighborGroup,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body22,
   queryParameters: [Parameters.apiVersion],
@@ -612,15 +606,14 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.neighborGroupName
+    Parameters.neighborGroupName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/neighborGroups/{neighborGroupName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/neighborGroups/{neighborGroupName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -628,93 +621,91 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.neighborGroupName
+    Parameters.neighborGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/neighborGroups",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/neighborGroups",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NeighborGroupsListResult
+      bodyMapper: Mappers.NeighborGroupsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ManagedNetworkFabric/neighborGroups",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.ManagedNetworkFabric/neighborGroups",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NeighborGroupsListResult
+      bodyMapper: Mappers.NeighborGroupsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NeighborGroupsListResult
+      bodyMapper: Mappers.NeighborGroupsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NeighborGroupsListResult
+      bodyMapper: Mappers.NeighborGroupsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

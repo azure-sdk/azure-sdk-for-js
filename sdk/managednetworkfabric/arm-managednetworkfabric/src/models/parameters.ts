@@ -9,7 +9,7 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   AccessControlList as AccessControlListMapper,
@@ -46,6 +46,7 @@ import {
   NetworkFabricControllerPatch as NetworkFabricControllerPatchMapper,
   NetworkFabric as NetworkFabricMapper,
   NetworkFabricPatch as NetworkFabricPatchMapper,
+  UpgradeNetworkFabricProperties as UpgradeNetworkFabricPropertiesMapper,
   ValidateConfigurationProperties as ValidateConfigurationPropertiesMapper,
   NetworkToNetworkInterconnect as NetworkToNetworkInterconnectMapper,
   NetworkToNetworkInterconnectPatch as NetworkToNetworkInterconnectPatchMapper,
@@ -58,7 +59,7 @@ import {
   NetworkTap as NetworkTapMapper,
   NetworkTapPatch as NetworkTapPatchMapper,
   RoutePolicy as RoutePolicyMapper,
-  RoutePolicyPatch as RoutePolicyPatchMapper
+  RoutePolicyPatch as RoutePolicyPatchMapper,
 } from "../models/mappers";
 
 export const contentType: OperationParameter = {
@@ -68,14 +69,14 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const body: OperationParameter = {
   parameterPath: "body",
-  mapper: AccessControlListMapper
+  mapper: AccessControlListMapper,
 };
 
 export const accept: OperationParameter = {
@@ -85,9 +86,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -96,10 +97,10 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const subscriptionId: OperationURLParameter = {
@@ -108,9 +109,9 @@ export const subscriptionId: OperationURLParameter = {
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "Uuid"
-    }
-  }
+      name: "Uuid",
+    },
+  },
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -118,14 +119,14 @@ export const resourceGroupName: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 90,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const apiVersion: OperationQueryParameter = {
@@ -135,9 +136,9 @@ export const apiVersion: OperationQueryParameter = {
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const accessControlListName: OperationURLParameter = {
@@ -146,19 +147,19 @@ export const accessControlListName: OperationURLParameter = {
     serializedName: "accessControlListName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const body1: OperationParameter = {
   parameterPath: "body",
-  mapper: AccessControlListPatchMapper
+  mapper: AccessControlListPatchMapper,
 };
 
 export const body2: OperationParameter = {
   parameterPath: "body",
-  mapper: UpdateAdministrativeStateMapper
+  mapper: UpdateAdministrativeStateMapper,
 };
 
 export const nextLink: OperationURLParameter = {
@@ -167,15 +168,15 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const body3: OperationParameter = {
   parameterPath: "body",
-  mapper: InternetGatewayMapper
+  mapper: InternetGatewayMapper,
 };
 
 export const internetGatewayName: OperationURLParameter = {
@@ -184,19 +185,19 @@ export const internetGatewayName: OperationURLParameter = {
     serializedName: "internetGatewayName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const body4: OperationParameter = {
   parameterPath: "body",
-  mapper: InternetGatewayPatchMapper
+  mapper: InternetGatewayPatchMapper,
 };
 
 export const body5: OperationParameter = {
   parameterPath: "body",
-  mapper: InternetGatewayRuleMapper
+  mapper: InternetGatewayRuleMapper,
 };
 
 export const internetGatewayRuleName: OperationURLParameter = {
@@ -205,19 +206,19 @@ export const internetGatewayRuleName: OperationURLParameter = {
     serializedName: "internetGatewayRuleName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const body6: OperationParameter = {
   parameterPath: "body",
-  mapper: InternetGatewayRulePatchMapper
+  mapper: InternetGatewayRulePatchMapper,
 };
 
 export const body7: OperationParameter = {
   parameterPath: "body",
-  mapper: IpCommunityMapper
+  mapper: IpCommunityMapper,
 };
 
 export const ipCommunityName: OperationURLParameter = {
@@ -226,19 +227,19 @@ export const ipCommunityName: OperationURLParameter = {
     serializedName: "ipCommunityName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const body8: OperationParameter = {
   parameterPath: "body",
-  mapper: IpCommunityPatchMapper
+  mapper: IpCommunityPatchMapper,
 };
 
 export const body9: OperationParameter = {
   parameterPath: "body",
-  mapper: IpExtendedCommunityMapper
+  mapper: IpExtendedCommunityMapper,
 };
 
 export const ipExtendedCommunityName: OperationURLParameter = {
@@ -247,19 +248,19 @@ export const ipExtendedCommunityName: OperationURLParameter = {
     serializedName: "ipExtendedCommunityName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const body10: OperationParameter = {
   parameterPath: "body",
-  mapper: IpExtendedCommunityPatchMapper
+  mapper: IpExtendedCommunityPatchMapper,
 };
 
 export const body11: OperationParameter = {
   parameterPath: "body",
-  mapper: IpPrefixMapper
+  mapper: IpPrefixMapper,
 };
 
 export const ipPrefixName: OperationURLParameter = {
@@ -268,19 +269,19 @@ export const ipPrefixName: OperationURLParameter = {
     serializedName: "ipPrefixName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const body12: OperationParameter = {
   parameterPath: "body",
-  mapper: IpPrefixPatchMapper
+  mapper: IpPrefixPatchMapper,
 };
 
 export const body13: OperationParameter = {
   parameterPath: "body",
-  mapper: L2IsolationDomainMapper
+  mapper: L2IsolationDomainMapper,
 };
 
 export const l2IsolationDomainName: OperationURLParameter = {
@@ -289,19 +290,19 @@ export const l2IsolationDomainName: OperationURLParameter = {
     serializedName: "l2IsolationDomainName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const body14: OperationParameter = {
   parameterPath: "body",
-  mapper: L2IsolationDomainPatchMapper
+  mapper: L2IsolationDomainPatchMapper,
 };
 
 export const body15: OperationParameter = {
   parameterPath: "body",
-  mapper: L3IsolationDomainMapper
+  mapper: L3IsolationDomainMapper,
 };
 
 export const l3IsolationDomainName: OperationURLParameter = {
@@ -310,19 +311,19 @@ export const l3IsolationDomainName: OperationURLParameter = {
     serializedName: "l3IsolationDomainName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const body16: OperationParameter = {
   parameterPath: "body",
-  mapper: L3IsolationDomainPatchMapper
+  mapper: L3IsolationDomainPatchMapper,
 };
 
 export const body17: OperationParameter = {
   parameterPath: "body",
-  mapper: InternalNetworkMapper
+  mapper: InternalNetworkMapper,
 };
 
 export const internalNetworkName: OperationURLParameter = {
@@ -331,19 +332,19 @@ export const internalNetworkName: OperationURLParameter = {
     serializedName: "internalNetworkName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const body18: OperationParameter = {
   parameterPath: "body",
-  mapper: InternalNetworkPatchMapper
+  mapper: InternalNetworkPatchMapper,
 };
 
 export const body19: OperationParameter = {
   parameterPath: "body",
-  mapper: ExternalNetworkMapper
+  mapper: ExternalNetworkMapper,
 };
 
 export const externalNetworkName: OperationURLParameter = {
@@ -352,19 +353,19 @@ export const externalNetworkName: OperationURLParameter = {
     serializedName: "externalNetworkName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const body20: OperationParameter = {
   parameterPath: "body",
-  mapper: ExternalNetworkPatchMapper
+  mapper: ExternalNetworkPatchMapper,
 };
 
 export const body21: OperationParameter = {
   parameterPath: "body",
-  mapper: NeighborGroupMapper
+  mapper: NeighborGroupMapper,
 };
 
 export const neighborGroupName: OperationURLParameter = {
@@ -373,14 +374,14 @@ export const neighborGroupName: OperationURLParameter = {
     serializedName: "neighborGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const body22: OperationParameter = {
   parameterPath: "body",
-  mapper: NeighborGroupPatchMapper
+  mapper: NeighborGroupPatchMapper,
 };
 
 export const networkDeviceSkuName: OperationURLParameter = {
@@ -389,14 +390,14 @@ export const networkDeviceSkuName: OperationURLParameter = {
     serializedName: "networkDeviceSkuName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const body23: OperationParameter = {
   parameterPath: "body",
-  mapper: NetworkDeviceMapper
+  mapper: NetworkDeviceMapper,
 };
 
 export const networkDeviceName: OperationURLParameter = {
@@ -405,34 +406,34 @@ export const networkDeviceName: OperationURLParameter = {
     serializedName: "networkDeviceName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const body24: OperationParameter = {
   parameterPath: "body",
-  mapper: NetworkDevicePatchParametersMapper
+  mapper: NetworkDevicePatchParametersMapper,
 };
 
 export const body25: OperationParameter = {
   parameterPath: "body",
-  mapper: RebootPropertiesMapper
+  mapper: RebootPropertiesMapper,
 };
 
 export const body26: OperationParameter = {
   parameterPath: "body",
-  mapper: UpdateDeviceAdministrativeStateMapper
+  mapper: UpdateDeviceAdministrativeStateMapper,
 };
 
 export const body27: OperationParameter = {
   parameterPath: "body",
-  mapper: UpdateVersionMapper
+  mapper: UpdateVersionMapper,
 };
 
 export const body28: OperationParameter = {
   parameterPath: "body",
-  mapper: NetworkInterfaceMapper
+  mapper: NetworkInterfaceMapper,
 };
 
 export const networkInterfaceName: OperationURLParameter = {
@@ -441,19 +442,19 @@ export const networkInterfaceName: OperationURLParameter = {
     serializedName: "networkInterfaceName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const body29: OperationParameter = {
   parameterPath: "body",
-  mapper: NetworkInterfacePatchMapper
+  mapper: NetworkInterfacePatchMapper,
 };
 
 export const body30: OperationParameter = {
   parameterPath: "body",
-  mapper: NetworkFabricControllerMapper
+  mapper: NetworkFabricControllerMapper,
 };
 
 export const networkFabricControllerName: OperationURLParameter = {
@@ -462,14 +463,14 @@ export const networkFabricControllerName: OperationURLParameter = {
     serializedName: "networkFabricControllerName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const body31: OperationParameter = {
   parameterPath: "body",
-  mapper: NetworkFabricControllerPatchMapper
+  mapper: NetworkFabricControllerPatchMapper,
 };
 
 export const networkFabricSkuName: OperationURLParameter = {
@@ -478,14 +479,14 @@ export const networkFabricSkuName: OperationURLParameter = {
     serializedName: "networkFabricSkuName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const body32: OperationParameter = {
   parameterPath: "body",
-  mapper: NetworkFabricMapper
+  mapper: NetworkFabricMapper,
 };
 
 export const networkFabricName: OperationURLParameter = {
@@ -494,24 +495,29 @@ export const networkFabricName: OperationURLParameter = {
     serializedName: "networkFabricName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const body33: OperationParameter = {
   parameterPath: "body",
-  mapper: NetworkFabricPatchMapper
+  mapper: NetworkFabricPatchMapper,
 };
 
 export const body34: OperationParameter = {
   parameterPath: "body",
-  mapper: ValidateConfigurationPropertiesMapper
+  mapper: UpgradeNetworkFabricPropertiesMapper,
 };
 
 export const body35: OperationParameter = {
   parameterPath: "body",
-  mapper: NetworkToNetworkInterconnectMapper
+  mapper: ValidateConfigurationPropertiesMapper,
+};
+
+export const body36: OperationParameter = {
+  parameterPath: "body",
+  mapper: NetworkToNetworkInterconnectMapper,
 };
 
 export const networkToNetworkInterconnectName: OperationURLParameter = {
@@ -520,19 +526,19 @@ export const networkToNetworkInterconnectName: OperationURLParameter = {
     serializedName: "networkToNetworkInterconnectName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
-};
-
-export const body36: OperationParameter = {
-  parameterPath: "body",
-  mapper: NetworkToNetworkInterconnectPatchMapper
+      name: "String",
+    },
+  },
 };
 
 export const body37: OperationParameter = {
   parameterPath: "body",
-  mapper: NetworkPacketBrokerMapper
+  mapper: NetworkToNetworkInterconnectPatchMapper,
+};
+
+export const body38: OperationParameter = {
+  parameterPath: "body",
+  mapper: NetworkPacketBrokerMapper,
 };
 
 export const networkPacketBrokerName: OperationURLParameter = {
@@ -541,19 +547,19 @@ export const networkPacketBrokerName: OperationURLParameter = {
     serializedName: "networkPacketBrokerName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
-};
-
-export const body38: OperationParameter = {
-  parameterPath: "body",
-  mapper: NetworkPacketBrokerPatchMapper
+      name: "String",
+    },
+  },
 };
 
 export const body39: OperationParameter = {
   parameterPath: "body",
-  mapper: NetworkRackMapper
+  mapper: NetworkPacketBrokerPatchMapper,
+};
+
+export const body40: OperationParameter = {
+  parameterPath: "body",
+  mapper: NetworkRackMapper,
 };
 
 export const networkRackName: OperationURLParameter = {
@@ -562,19 +568,19 @@ export const networkRackName: OperationURLParameter = {
     serializedName: "networkRackName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
-};
-
-export const body40: OperationParameter = {
-  parameterPath: "body",
-  mapper: TagsUpdateMapper
+      name: "String",
+    },
+  },
 };
 
 export const body41: OperationParameter = {
   parameterPath: "body",
-  mapper: NetworkTapRuleMapper
+  mapper: TagsUpdateMapper,
+};
+
+export const body42: OperationParameter = {
+  parameterPath: "body",
+  mapper: NetworkTapRuleMapper,
 };
 
 export const networkTapRuleName: OperationURLParameter = {
@@ -583,19 +589,19 @@ export const networkTapRuleName: OperationURLParameter = {
     serializedName: "networkTapRuleName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
-};
-
-export const body42: OperationParameter = {
-  parameterPath: "body",
-  mapper: NetworkTapRulePatchMapper
+      name: "String",
+    },
+  },
 };
 
 export const body43: OperationParameter = {
   parameterPath: "body",
-  mapper: NetworkTapMapper
+  mapper: NetworkTapRulePatchMapper,
+};
+
+export const body44: OperationParameter = {
+  parameterPath: "body",
+  mapper: NetworkTapMapper,
 };
 
 export const networkTapName: OperationURLParameter = {
@@ -604,19 +610,19 @@ export const networkTapName: OperationURLParameter = {
     serializedName: "networkTapName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
-};
-
-export const body44: OperationParameter = {
-  parameterPath: "body",
-  mapper: NetworkTapPatchMapper
+      name: "String",
+    },
+  },
 };
 
 export const body45: OperationParameter = {
   parameterPath: "body",
-  mapper: RoutePolicyMapper
+  mapper: NetworkTapPatchMapper,
+};
+
+export const body46: OperationParameter = {
+  parameterPath: "body",
+  mapper: RoutePolicyMapper,
 };
 
 export const routePolicyName: OperationURLParameter = {
@@ -625,12 +631,12 @@ export const routePolicyName: OperationURLParameter = {
     serializedName: "routePolicyName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const body46: OperationParameter = {
+export const body47: OperationParameter = {
   parameterPath: "body",
-  mapper: RoutePolicyPatchMapper
+  mapper: RoutePolicyPatchMapper,
 };
