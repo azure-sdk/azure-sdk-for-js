@@ -1,150 +1,218 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { RawHttpHeaders } from "@azure/core-rest-pipeline";
 import { HttpResponse } from "@azure-rest/core-client";
 import {
-  AudioTranscriptionOutput,
-  AudioTranslationOutput,
-  CompletionsOutput,
-  ChatCompletionsOutput,
-  ImageGenerationsOutput,
-  EmbeddingsOutput,
+  AssistantOutput,
+  OpenAIPageableListOfOutput,
+  AssistantDeletionStatusOutput,
+  AssistantFileOutput,
+  AssistantFileDeletionStatusOutput,
+  AssistantThreadOutput,
+  ThreadDeletionStatusOutput,
+  ThreadMessageOutput,
+  MessageFileOutput,
+  ThreadRunOutput,
+  RunStepOutput,
+  FileListResponseOutput,
+  OpenAIFileOutput,
+  FileDeletionStatusOutput,
 } from "./outputModels.js";
-import { ErrorResponse } from "./models.js";
+
+/** The new assistant instance. */
+export interface CreateAssistant200Response extends HttpResponse {
+  status: "200";
+  body: AssistantOutput;
+}
+
+/** The requested list of assistants. */
+export interface ListAssistants200Response extends HttpResponse {
+  status: "200";
+  body: OpenAIPageableListOfOutput;
+}
+
+/** The requested assistant instance. */
+export interface GetAssistant200Response extends HttpResponse {
+  status: "200";
+  body: AssistantOutput;
+}
+
+/** The updated assistant instance. */
+export interface UpdateAssistant200Response extends HttpResponse {
+  status: "200";
+  body: AssistantOutput;
+}
+
+/** Status information about the requested deletion operation. */
+export interface DeleteAssistant200Response extends HttpResponse {
+  status: "200";
+  body: AssistantDeletionStatusOutput;
+}
+
+/** Information about the attached file. */
+export interface CreateAssistantFile200Response extends HttpResponse {
+  status: "200";
+  body: AssistantFileOutput;
+}
+
+/** The requested list of files attached to the specified assistant. */
+export interface ListAssistantFiles200Response extends HttpResponse {
+  status: "200";
+  body: OpenAIPageableListOfOutput;
+}
+
+/** A representation of the attached file. */
+export interface GetAssistantFile200Response extends HttpResponse {
+  status: "200";
+  body: AssistantFileOutput;
+}
+
+/** Status information about the requested file association deletion. */
+export interface DeleteAssistantFile200Response extends HttpResponse {
+  status: "200";
+  body: AssistantFileDeletionStatusOutput;
+}
+
+/** Information about the newly created thread. */
+export interface CreateThread200Response extends HttpResponse {
+  status: "200";
+  body: AssistantThreadOutput;
+}
+
+/** Information about the requested thread. */
+export interface GetThread200Response extends HttpResponse {
+  status: "200";
+  body: AssistantThreadOutput;
+}
+
+/** Information about the modified thread. */
+export interface UpdateThread200Response extends HttpResponse {
+  status: "200";
+  body: AssistantThreadOutput;
+}
+
+/** Status information about the requested thread deletion operation. */
+export interface DeleteThread200Response extends HttpResponse {
+  status: "200";
+  body: ThreadDeletionStatusOutput;
+}
+
+/** A representation of the new message. */
+export interface CreateMessage200Response extends HttpResponse {
+  status: "200";
+  body: ThreadMessageOutput;
+}
+
+/** The requested list of messages. */
+export interface ListMessages200Response extends HttpResponse {
+  status: "200";
+  body: OpenAIPageableListOfOutput;
+}
+
+/** A representation of the requested message. */
+export interface GetMessage200Response extends HttpResponse {
+  status: "200";
+  body: ThreadMessageOutput;
+}
+
+/** A representation of the modified message. */
+export interface UpdateMessage200Response extends HttpResponse {
+  status: "200";
+  body: ThreadMessageOutput;
+}
+
+/** The requested list of files associated with the specified message. */
+export interface ListMessageFiles200Response extends HttpResponse {
+  status: "200";
+  body: OpenAIPageableListOfOutput;
+}
+
+/** The requested file information. */
+export interface GetMessageFile200Response extends HttpResponse {
+  status: "200";
+  body: MessageFileOutput;
+}
+
+/** Information about the new thread run. */
+export interface CreateRun200Response extends HttpResponse {
+  status: "200";
+  body: ThreadRunOutput;
+}
+
+/** The requested list of thread runs. */
+export interface ListRuns200Response extends HttpResponse {
+  status: "200";
+  body: OpenAIPageableListOfOutput;
+}
+
+/** The requested information about the specified thread run. */
+export interface GetRun200Response extends HttpResponse {
+  status: "200";
+  body: ThreadRunOutput;
+}
+
+/** Information about the modified run. */
+export interface UpdateRun200Response extends HttpResponse {
+  status: "200";
+  body: ThreadRunOutput;
+}
+
+/** Updated information about the run. */
+export interface SubmitToolOutputsToRun200Response extends HttpResponse {
+  status: "200";
+  body: ThreadRunOutput;
+}
+
+/** Updated information about the cancelled run. */
+export interface CancelRun200Response extends HttpResponse {
+  status: "200";
+  body: ThreadRunOutput;
+}
+
+/** Information about the newly created thread. */
+export interface CreateThreadAndRun200Response extends HttpResponse {
+  status: "200";
+  body: ThreadRunOutput;
+}
+
+/** Information about the requested run step. */
+export interface GetRunStep200Response extends HttpResponse {
+  status: "200";
+  body: RunStepOutput;
+}
+
+/** The requested list of run steps. */
+export interface ListRunSteps200Response extends HttpResponse {
+  status: "200";
+  body: OpenAIPageableListOfOutput;
+}
+
+/** The requested list of files. */
+export interface ListFiles200Response extends HttpResponse {
+  status: "200";
+  body: FileListResponseOutput;
+}
+
+/** A representation of the uploaded file. */
+export interface UploadFile200Response extends HttpResponse {
+  status: "200";
+  body: OpenAIFileOutput;
+}
 
 /** The request has succeeded. */
-export interface GetAudioTranscriptionAsPlainText200Response extends HttpResponse {
+export interface DeleteFile200Response extends HttpResponse {
+  status: "200";
+  body: FileDeletionStatusOutput;
+}
+
+/** The request has succeeded. */
+export interface GetFile200Response extends HttpResponse {
+  status: "200";
+  body: OpenAIFileOutput;
+}
+
+/** The request has succeeded. */
+export interface GetFileContent200Response extends HttpResponse {
   status: "200";
   body: string;
-}
-
-export interface GetAudioTranscriptionAsPlainTextDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface GetAudioTranscriptionAsPlainTextDefaultResponse extends HttpResponse {
-  status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & GetAudioTranscriptionAsPlainTextDefaultHeaders;
-}
-
-/** The request has succeeded. */
-export interface GetAudioTranscriptionAsResponseObject200Response extends HttpResponse {
-  status: "200";
-  body: AudioTranscriptionOutput;
-}
-
-export interface GetAudioTranscriptionAsResponseObjectDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface GetAudioTranscriptionAsResponseObjectDefaultResponse extends HttpResponse {
-  status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & GetAudioTranscriptionAsResponseObjectDefaultHeaders;
-}
-
-/** The request has succeeded. */
-export interface GetAudioTranslationAsPlainText200Response extends HttpResponse {
-  status: "200";
-  body: string;
-}
-
-export interface GetAudioTranslationAsPlainTextDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface GetAudioTranslationAsPlainTextDefaultResponse extends HttpResponse {
-  status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & GetAudioTranslationAsPlainTextDefaultHeaders;
-}
-
-/** The request has succeeded. */
-export interface GetAudioTranslationAsResponseObject200Response extends HttpResponse {
-  status: "200";
-  body: AudioTranslationOutput;
-}
-
-export interface GetAudioTranslationAsResponseObjectDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface GetAudioTranslationAsResponseObjectDefaultResponse extends HttpResponse {
-  status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & GetAudioTranslationAsResponseObjectDefaultHeaders;
-}
-
-/** The request has succeeded. */
-export interface GetCompletions200Response extends HttpResponse {
-  status: "200";
-  body: CompletionsOutput;
-}
-
-export interface GetCompletionsDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface GetCompletionsDefaultResponse extends HttpResponse {
-  status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & GetCompletionsDefaultHeaders;
-}
-
-/** The request has succeeded. */
-export interface GetChatCompletions200Response extends HttpResponse {
-  status: "200";
-  body: ChatCompletionsOutput;
-}
-
-export interface GetChatCompletionsDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface GetChatCompletionsDefaultResponse extends HttpResponse {
-  status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & GetChatCompletionsDefaultHeaders;
-}
-
-/** The request has succeeded. */
-export interface GetImageGenerations200Response extends HttpResponse {
-  status: "200";
-  body: ImageGenerationsOutput;
-}
-
-export interface GetImageGenerationsDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface GetImageGenerationsDefaultResponse extends HttpResponse {
-  status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & GetImageGenerationsDefaultHeaders;
-}
-
-/** The request has succeeded. */
-export interface GetEmbeddings200Response extends HttpResponse {
-  status: "200";
-  body: EmbeddingsOutput;
-}
-
-export interface GetEmbeddingsDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface GetEmbeddingsDefaultResponse extends HttpResponse {
-  status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & GetEmbeddingsDefaultHeaders;
 }
