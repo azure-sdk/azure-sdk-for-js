@@ -16,7 +16,7 @@ import { AzureNetworkFabricManagementServiceAPI } from "../azureNetworkFabricMan
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -37,7 +37,7 @@ import {
   NetworkFabricControllersDeleteOptionalParams,
   NetworkFabricControllersDeleteResponse,
   NetworkFabricControllersListByResourceGroupNextResponse,
-  NetworkFabricControllersListBySubscriptionNextResponse
+  NetworkFabricControllersListBySubscriptionNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -60,7 +60,7 @@ export class NetworkFabricControllersImpl implements NetworkFabricControllers {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: NetworkFabricControllersListByResourceGroupOptionalParams
+    options?: NetworkFabricControllersListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<NetworkFabricController> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -77,16 +77,16 @@ export class NetworkFabricControllersImpl implements NetworkFabricControllers {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: NetworkFabricControllersListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<NetworkFabricController[]> {
     let result: NetworkFabricControllersListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -101,7 +101,7 @@ export class NetworkFabricControllersImpl implements NetworkFabricControllers {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -112,11 +112,11 @@ export class NetworkFabricControllersImpl implements NetworkFabricControllers {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: NetworkFabricControllersListByResourceGroupOptionalParams
+    options?: NetworkFabricControllersListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<NetworkFabricController> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -127,7 +127,7 @@ export class NetworkFabricControllersImpl implements NetworkFabricControllers {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: NetworkFabricControllersListBySubscriptionOptionalParams
+    options?: NetworkFabricControllersListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<NetworkFabricController> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -142,13 +142,13 @@ export class NetworkFabricControllersImpl implements NetworkFabricControllers {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: NetworkFabricControllersListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<NetworkFabricController[]> {
     let result: NetworkFabricControllersListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -169,7 +169,7 @@ export class NetworkFabricControllersImpl implements NetworkFabricControllers {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: NetworkFabricControllersListBySubscriptionOptionalParams
+    options?: NetworkFabricControllersListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<NetworkFabricController> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -187,7 +187,7 @@ export class NetworkFabricControllersImpl implements NetworkFabricControllers {
     resourceGroupName: string,
     networkFabricControllerName: string,
     body: NetworkFabricController,
-    options?: NetworkFabricControllersCreateOptionalParams
+    options?: NetworkFabricControllersCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkFabricControllersCreateResponse>,
@@ -196,21 +196,20 @@ export class NetworkFabricControllersImpl implements NetworkFabricControllers {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<NetworkFabricControllersCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -219,8 +218,8 @@ export class NetworkFabricControllersImpl implements NetworkFabricControllers {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -228,15 +227,15 @@ export class NetworkFabricControllersImpl implements NetworkFabricControllers {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, networkFabricControllerName, body, options },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       NetworkFabricControllersCreateResponse,
@@ -244,7 +243,7 @@ export class NetworkFabricControllersImpl implements NetworkFabricControllers {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -261,13 +260,13 @@ export class NetworkFabricControllersImpl implements NetworkFabricControllers {
     resourceGroupName: string,
     networkFabricControllerName: string,
     body: NetworkFabricController,
-    options?: NetworkFabricControllersCreateOptionalParams
+    options?: NetworkFabricControllersCreateOptionalParams,
   ): Promise<NetworkFabricControllersCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       networkFabricControllerName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -281,11 +280,11 @@ export class NetworkFabricControllersImpl implements NetworkFabricControllers {
   get(
     resourceGroupName: string,
     networkFabricControllerName: string,
-    options?: NetworkFabricControllersGetOptionalParams
+    options?: NetworkFabricControllersGetOptionalParams,
   ): Promise<NetworkFabricControllersGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, networkFabricControllerName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -300,7 +299,7 @@ export class NetworkFabricControllersImpl implements NetworkFabricControllers {
     resourceGroupName: string,
     networkFabricControllerName: string,
     body: NetworkFabricControllerPatch,
-    options?: NetworkFabricControllersUpdateOptionalParams
+    options?: NetworkFabricControllersUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkFabricControllersUpdateResponse>,
@@ -309,21 +308,20 @@ export class NetworkFabricControllersImpl implements NetworkFabricControllers {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<NetworkFabricControllersUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -332,8 +330,8 @@ export class NetworkFabricControllersImpl implements NetworkFabricControllers {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -341,15 +339,15 @@ export class NetworkFabricControllersImpl implements NetworkFabricControllers {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, networkFabricControllerName, body, options },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       NetworkFabricControllersUpdateResponse,
@@ -357,7 +355,7 @@ export class NetworkFabricControllersImpl implements NetworkFabricControllers {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -374,13 +372,13 @@ export class NetworkFabricControllersImpl implements NetworkFabricControllers {
     resourceGroupName: string,
     networkFabricControllerName: string,
     body: NetworkFabricControllerPatch,
-    options?: NetworkFabricControllersUpdateOptionalParams
+    options?: NetworkFabricControllersUpdateOptionalParams,
   ): Promise<NetworkFabricControllersUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       networkFabricControllerName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -394,7 +392,7 @@ export class NetworkFabricControllersImpl implements NetworkFabricControllers {
   async beginDelete(
     resourceGroupName: string,
     networkFabricControllerName: string,
-    options?: NetworkFabricControllersDeleteOptionalParams
+    options?: NetworkFabricControllersDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkFabricControllersDeleteResponse>,
@@ -403,21 +401,20 @@ export class NetworkFabricControllersImpl implements NetworkFabricControllers {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<NetworkFabricControllersDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -426,8 +423,8 @@ export class NetworkFabricControllersImpl implements NetworkFabricControllers {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -435,15 +432,15 @@ export class NetworkFabricControllersImpl implements NetworkFabricControllers {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, networkFabricControllerName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
       NetworkFabricControllersDeleteResponse,
@@ -451,7 +448,7 @@ export class NetworkFabricControllersImpl implements NetworkFabricControllers {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -466,12 +463,12 @@ export class NetworkFabricControllersImpl implements NetworkFabricControllers {
   async beginDeleteAndWait(
     resourceGroupName: string,
     networkFabricControllerName: string,
-    options?: NetworkFabricControllersDeleteOptionalParams
+    options?: NetworkFabricControllersDeleteOptionalParams,
   ): Promise<NetworkFabricControllersDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       networkFabricControllerName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -483,11 +480,11 @@ export class NetworkFabricControllersImpl implements NetworkFabricControllers {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: NetworkFabricControllersListByResourceGroupOptionalParams
+    options?: NetworkFabricControllersListByResourceGroupOptionalParams,
   ): Promise<NetworkFabricControllersListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -496,11 +493,11 @@ export class NetworkFabricControllersImpl implements NetworkFabricControllers {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: NetworkFabricControllersListBySubscriptionOptionalParams
+    options?: NetworkFabricControllersListBySubscriptionOptionalParams,
   ): Promise<NetworkFabricControllersListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -513,11 +510,11 @@ export class NetworkFabricControllersImpl implements NetworkFabricControllers {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: NetworkFabricControllersListByResourceGroupNextOptionalParams
+    options?: NetworkFabricControllersListByResourceGroupNextOptionalParams,
   ): Promise<NetworkFabricControllersListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 
@@ -528,11 +525,11 @@ export class NetworkFabricControllersImpl implements NetworkFabricControllers {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: NetworkFabricControllersListBySubscriptionNextOptionalParams
+    options?: NetworkFabricControllersListBySubscriptionNextOptionalParams,
   ): Promise<NetworkFabricControllersListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 }
@@ -540,25 +537,24 @@ export class NetworkFabricControllersImpl implements NetworkFabricControllers {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabricControllers/{networkFabricControllerName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabricControllers/{networkFabricControllerName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkFabricController
+      bodyMapper: Mappers.NetworkFabricController,
     },
     201: {
-      bodyMapper: Mappers.NetworkFabricController
+      bodyMapper: Mappers.NetworkFabricController,
     },
     202: {
-      bodyMapper: Mappers.NetworkFabricController
+      bodyMapper: Mappers.NetworkFabricController,
     },
     204: {
-      bodyMapper: Mappers.NetworkFabricController
+      bodyMapper: Mappers.NetworkFabricController,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body30,
   queryParameters: [Parameters.apiVersion],
@@ -566,54 +562,52 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.networkFabricControllerName
+    Parameters.networkFabricControllerName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabricControllers/{networkFabricControllerName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabricControllers/{networkFabricControllerName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkFabricController
+      bodyMapper: Mappers.NetworkFabricController,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.networkFabricControllerName
+    Parameters.networkFabricControllerName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabricControllers/{networkFabricControllerName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabricControllers/{networkFabricControllerName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkFabricController
+      bodyMapper: Mappers.NetworkFabricController,
     },
     201: {
-      bodyMapper: Mappers.NetworkFabricController
+      bodyMapper: Mappers.NetworkFabricController,
     },
     202: {
-      bodyMapper: Mappers.NetworkFabricController
+      bodyMapper: Mappers.NetworkFabricController,
     },
     204: {
-      bodyMapper: Mappers.NetworkFabricController
+      bodyMapper: Mappers.NetworkFabricController,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body31,
   queryParameters: [Parameters.apiVersion],
@@ -621,117 +615,114 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.networkFabricControllerName
+    Parameters.networkFabricControllerName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabricControllers/{networkFabricControllerName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabricControllers/{networkFabricControllerName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.NetworkFabricControllersDeleteHeaders
+      headersMapper: Mappers.NetworkFabricControllersDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.NetworkFabricControllersDeleteHeaders
+      headersMapper: Mappers.NetworkFabricControllersDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.NetworkFabricControllersDeleteHeaders
+      headersMapper: Mappers.NetworkFabricControllersDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.NetworkFabricControllersDeleteHeaders
+      headersMapper: Mappers.NetworkFabricControllersDeleteHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.networkFabricControllerName
+    Parameters.networkFabricControllerName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabricControllers",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabricControllers",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkFabricControllersListResult
+      bodyMapper: Mappers.NetworkFabricControllersListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ManagedNetworkFabric/networkFabricControllers",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.ManagedNetworkFabric/networkFabricControllers",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkFabricControllersListResult
+      bodyMapper: Mappers.NetworkFabricControllersListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkFabricControllersListResult
+      bodyMapper: Mappers.NetworkFabricControllersListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkFabricControllersListResult
+      bodyMapper: Mappers.NetworkFabricControllersListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

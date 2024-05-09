@@ -23,7 +23,7 @@ import {
   NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateOptionalParams,
   NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateResponse,
   NetworkToNetworkInterconnectsUpdateAdministrativeStateOptionalParams,
-  NetworkToNetworkInterconnectsUpdateAdministrativeStateResponse
+  NetworkToNetworkInterconnectsUpdateAdministrativeStateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -38,7 +38,7 @@ export interface NetworkToNetworkInterconnects {
   listByNetworkFabric(
     resourceGroupName: string,
     networkFabricName: string,
-    options?: NetworkToNetworkInterconnectsListByNetworkFabricOptionalParams
+    options?: NetworkToNetworkInterconnectsListByNetworkFabricOptionalParams,
   ): PagedAsyncIterableIterator<NetworkToNetworkInterconnect>;
   /**
    * Configuration used to setup CE-PE connectivity PUT Method.
@@ -53,7 +53,7 @@ export interface NetworkToNetworkInterconnects {
     networkFabricName: string,
     networkToNetworkInterconnectName: string,
     body: NetworkToNetworkInterconnect,
-    options?: NetworkToNetworkInterconnectsCreateOptionalParams
+    options?: NetworkToNetworkInterconnectsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkToNetworkInterconnectsCreateResponse>,
@@ -73,7 +73,7 @@ export interface NetworkToNetworkInterconnects {
     networkFabricName: string,
     networkToNetworkInterconnectName: string,
     body: NetworkToNetworkInterconnect,
-    options?: NetworkToNetworkInterconnectsCreateOptionalParams
+    options?: NetworkToNetworkInterconnectsCreateOptionalParams,
   ): Promise<NetworkToNetworkInterconnectsCreateResponse>;
   /**
    * Implements NetworkToNetworkInterconnects GET method.
@@ -86,7 +86,7 @@ export interface NetworkToNetworkInterconnects {
     resourceGroupName: string,
     networkFabricName: string,
     networkToNetworkInterconnectName: string,
-    options?: NetworkToNetworkInterconnectsGetOptionalParams
+    options?: NetworkToNetworkInterconnectsGetOptionalParams,
   ): Promise<NetworkToNetworkInterconnectsGetResponse>;
   /**
    * Update certain properties of the Network To NetworkInterconnects resource.
@@ -101,7 +101,7 @@ export interface NetworkToNetworkInterconnects {
     networkFabricName: string,
     networkToNetworkInterconnectName: string,
     body: NetworkToNetworkInterconnectPatch,
-    options?: NetworkToNetworkInterconnectsUpdateOptionalParams
+    options?: NetworkToNetworkInterconnectsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkToNetworkInterconnectsUpdateResponse>,
@@ -121,7 +121,7 @@ export interface NetworkToNetworkInterconnects {
     networkFabricName: string,
     networkToNetworkInterconnectName: string,
     body: NetworkToNetworkInterconnectPatch,
-    options?: NetworkToNetworkInterconnectsUpdateOptionalParams
+    options?: NetworkToNetworkInterconnectsUpdateOptionalParams,
   ): Promise<NetworkToNetworkInterconnectsUpdateResponse>;
   /**
    * Implements NetworkToNetworkInterconnects DELETE method.
@@ -134,7 +134,7 @@ export interface NetworkToNetworkInterconnects {
     resourceGroupName: string,
     networkFabricName: string,
     networkToNetworkInterconnectName: string,
-    options?: NetworkToNetworkInterconnectsDeleteOptionalParams
+    options?: NetworkToNetworkInterconnectsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Implements NetworkToNetworkInterconnects DELETE method.
@@ -147,7 +147,7 @@ export interface NetworkToNetworkInterconnects {
     resourceGroupName: string,
     networkFabricName: string,
     networkToNetworkInterconnectName: string,
-    options?: NetworkToNetworkInterconnectsDeleteOptionalParams
+    options?: NetworkToNetworkInterconnectsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Updates the NPB Static Route BFD Administrative State.
@@ -162,12 +162,10 @@ export interface NetworkToNetworkInterconnects {
     networkFabricName: string,
     networkToNetworkInterconnectName: string,
     body: UpdateAdministrativeState,
-    options?: NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateOptionalParams
+    options?: NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<
-        NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateResponse
-      >,
+      OperationState<NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateResponse>,
       NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateResponse
     >
   >;
@@ -184,10 +182,8 @@ export interface NetworkToNetworkInterconnects {
     networkFabricName: string,
     networkToNetworkInterconnectName: string,
     body: UpdateAdministrativeState,
-    options?: NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateOptionalParams
-  ): Promise<
-    NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateResponse
-  >;
+    options?: NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateOptionalParams,
+  ): Promise<NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateResponse>;
   /**
    * Updates the Admin State.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -201,12 +197,10 @@ export interface NetworkToNetworkInterconnects {
     networkFabricName: string,
     networkToNetworkInterconnectName: string,
     body: UpdateAdministrativeState,
-    options?: NetworkToNetworkInterconnectsUpdateAdministrativeStateOptionalParams
+    options?: NetworkToNetworkInterconnectsUpdateAdministrativeStateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<
-        NetworkToNetworkInterconnectsUpdateAdministrativeStateResponse
-      >,
+      OperationState<NetworkToNetworkInterconnectsUpdateAdministrativeStateResponse>,
       NetworkToNetworkInterconnectsUpdateAdministrativeStateResponse
     >
   >;
@@ -223,6 +217,6 @@ export interface NetworkToNetworkInterconnects {
     networkFabricName: string,
     networkToNetworkInterconnectName: string,
     body: UpdateAdministrativeState,
-    options?: NetworkToNetworkInterconnectsUpdateAdministrativeStateOptionalParams
+    options?: NetworkToNetworkInterconnectsUpdateAdministrativeStateOptionalParams,
   ): Promise<NetworkToNetworkInterconnectsUpdateAdministrativeStateResponse>;
 }

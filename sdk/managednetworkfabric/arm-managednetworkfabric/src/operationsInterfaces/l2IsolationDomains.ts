@@ -26,7 +26,7 @@ import {
   L2IsolationDomainsValidateConfigurationOptionalParams,
   L2IsolationDomainsValidateConfigurationResponse,
   L2IsolationDomainsCommitConfigurationOptionalParams,
-  L2IsolationDomainsCommitConfigurationResponse
+  L2IsolationDomainsCommitConfigurationResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -39,14 +39,14 @@ export interface L2IsolationDomains {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: L2IsolationDomainsListByResourceGroupOptionalParams
+    options?: L2IsolationDomainsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<L2IsolationDomain>;
   /**
    * Displays L2IsolationDomains list by subscription GET method.
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: L2IsolationDomainsListBySubscriptionOptionalParams
+    options?: L2IsolationDomainsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<L2IsolationDomain>;
   /**
    * Creates layer 2 network connectivity between compute nodes within a rack and across racks.The
@@ -60,7 +60,7 @@ export interface L2IsolationDomains {
     resourceGroupName: string,
     l2IsolationDomainName: string,
     body: L2IsolationDomain,
-    options?: L2IsolationDomainsCreateOptionalParams
+    options?: L2IsolationDomainsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<L2IsolationDomainsCreateResponse>,
@@ -79,7 +79,7 @@ export interface L2IsolationDomains {
     resourceGroupName: string,
     l2IsolationDomainName: string,
     body: L2IsolationDomain,
-    options?: L2IsolationDomainsCreateOptionalParams
+    options?: L2IsolationDomainsCreateOptionalParams,
   ): Promise<L2IsolationDomainsCreateResponse>;
   /**
    * Implements L2 Isolation Domain GET method.
@@ -90,7 +90,7 @@ export interface L2IsolationDomains {
   get(
     resourceGroupName: string,
     l2IsolationDomainName: string,
-    options?: L2IsolationDomainsGetOptionalParams
+    options?: L2IsolationDomainsGetOptionalParams,
   ): Promise<L2IsolationDomainsGetResponse>;
   /**
    * API to update certain properties of the L2 Isolation Domain resource.
@@ -103,7 +103,7 @@ export interface L2IsolationDomains {
     resourceGroupName: string,
     l2IsolationDomainName: string,
     body: L2IsolationDomainPatch,
-    options?: L2IsolationDomainsUpdateOptionalParams
+    options?: L2IsolationDomainsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<L2IsolationDomainsUpdateResponse>,
@@ -121,7 +121,7 @@ export interface L2IsolationDomains {
     resourceGroupName: string,
     l2IsolationDomainName: string,
     body: L2IsolationDomainPatch,
-    options?: L2IsolationDomainsUpdateOptionalParams
+    options?: L2IsolationDomainsUpdateOptionalParams,
   ): Promise<L2IsolationDomainsUpdateResponse>;
   /**
    * Deletes layer 2 connectivity between compute nodes by managed by named L2 Isolation name.
@@ -132,7 +132,7 @@ export interface L2IsolationDomains {
   beginDelete(
     resourceGroupName: string,
     l2IsolationDomainName: string,
-    options?: L2IsolationDomainsDeleteOptionalParams
+    options?: L2IsolationDomainsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes layer 2 connectivity between compute nodes by managed by named L2 Isolation name.
@@ -143,7 +143,7 @@ export interface L2IsolationDomains {
   beginDeleteAndWait(
     resourceGroupName: string,
     l2IsolationDomainName: string,
-    options?: L2IsolationDomainsDeleteOptionalParams
+    options?: L2IsolationDomainsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Enables isolation domain across the fabric or on specified racks.
@@ -156,7 +156,7 @@ export interface L2IsolationDomains {
     resourceGroupName: string,
     l2IsolationDomainName: string,
     body: UpdateAdministrativeState,
-    options?: L2IsolationDomainsUpdateAdministrativeStateOptionalParams
+    options?: L2IsolationDomainsUpdateAdministrativeStateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<L2IsolationDomainsUpdateAdministrativeStateResponse>,
@@ -174,7 +174,7 @@ export interface L2IsolationDomains {
     resourceGroupName: string,
     l2IsolationDomainName: string,
     body: UpdateAdministrativeState,
-    options?: L2IsolationDomainsUpdateAdministrativeStateOptionalParams
+    options?: L2IsolationDomainsUpdateAdministrativeStateOptionalParams,
   ): Promise<L2IsolationDomainsUpdateAdministrativeStateResponse>;
   /**
    * Validates the configuration of the resources.
@@ -185,7 +185,7 @@ export interface L2IsolationDomains {
   beginValidateConfiguration(
     resourceGroupName: string,
     l2IsolationDomainName: string,
-    options?: L2IsolationDomainsValidateConfigurationOptionalParams
+    options?: L2IsolationDomainsValidateConfigurationOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<L2IsolationDomainsValidateConfigurationResponse>,
@@ -201,7 +201,7 @@ export interface L2IsolationDomains {
   beginValidateConfigurationAndWait(
     resourceGroupName: string,
     l2IsolationDomainName: string,
-    options?: L2IsolationDomainsValidateConfigurationOptionalParams
+    options?: L2IsolationDomainsValidateConfigurationOptionalParams,
   ): Promise<L2IsolationDomainsValidateConfigurationResponse>;
   /**
    * Commits the configuration of the given resources.
@@ -212,7 +212,7 @@ export interface L2IsolationDomains {
   beginCommitConfiguration(
     resourceGroupName: string,
     l2IsolationDomainName: string,
-    options?: L2IsolationDomainsCommitConfigurationOptionalParams
+    options?: L2IsolationDomainsCommitConfigurationOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<L2IsolationDomainsCommitConfigurationResponse>,
@@ -228,6 +228,6 @@ export interface L2IsolationDomains {
   beginCommitConfigurationAndWait(
     resourceGroupName: string,
     l2IsolationDomainName: string,
-    options?: L2IsolationDomainsCommitConfigurationOptionalParams
+    options?: L2IsolationDomainsCommitConfigurationOptionalParams,
   ): Promise<L2IsolationDomainsCommitConfigurationResponse>;
 }

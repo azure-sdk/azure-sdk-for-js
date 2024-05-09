@@ -16,7 +16,7 @@ import { AzureNetworkFabricManagementServiceAPI } from "../azureNetworkFabricMan
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -36,7 +36,7 @@ import {
   NetworkRacksUpdateResponse,
   NetworkRacksDeleteOptionalParams,
   NetworkRacksListByResourceGroupNextResponse,
-  NetworkRacksListBySubscriptionNextResponse
+  NetworkRacksListBySubscriptionNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -59,7 +59,7 @@ export class NetworkRacksImpl implements NetworkRacks {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: NetworkRacksListByResourceGroupOptionalParams
+    options?: NetworkRacksListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<NetworkRack> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -76,16 +76,16 @@ export class NetworkRacksImpl implements NetworkRacks {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: NetworkRacksListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<NetworkRack[]> {
     let result: NetworkRacksListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -100,7 +100,7 @@ export class NetworkRacksImpl implements NetworkRacks {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -111,11 +111,11 @@ export class NetworkRacksImpl implements NetworkRacks {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: NetworkRacksListByResourceGroupOptionalParams
+    options?: NetworkRacksListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<NetworkRack> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -126,7 +126,7 @@ export class NetworkRacksImpl implements NetworkRacks {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: NetworkRacksListBySubscriptionOptionalParams
+    options?: NetworkRacksListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<NetworkRack> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -141,13 +141,13 @@ export class NetworkRacksImpl implements NetworkRacks {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: NetworkRacksListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<NetworkRack[]> {
     let result: NetworkRacksListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -168,7 +168,7 @@ export class NetworkRacksImpl implements NetworkRacks {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: NetworkRacksListBySubscriptionOptionalParams
+    options?: NetworkRacksListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<NetworkRack> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -186,7 +186,7 @@ export class NetworkRacksImpl implements NetworkRacks {
     resourceGroupName: string,
     networkRackName: string,
     body: NetworkRack,
-    options?: NetworkRacksCreateOptionalParams
+    options?: NetworkRacksCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkRacksCreateResponse>,
@@ -195,21 +195,20 @@ export class NetworkRacksImpl implements NetworkRacks {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<NetworkRacksCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -218,8 +217,8 @@ export class NetworkRacksImpl implements NetworkRacks {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -227,15 +226,15 @@ export class NetworkRacksImpl implements NetworkRacks {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, networkRackName, body, options },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       NetworkRacksCreateResponse,
@@ -243,7 +242,7 @@ export class NetworkRacksImpl implements NetworkRacks {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -260,13 +259,13 @@ export class NetworkRacksImpl implements NetworkRacks {
     resourceGroupName: string,
     networkRackName: string,
     body: NetworkRack,
-    options?: NetworkRacksCreateOptionalParams
+    options?: NetworkRacksCreateOptionalParams,
   ): Promise<NetworkRacksCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       networkRackName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -280,11 +279,11 @@ export class NetworkRacksImpl implements NetworkRacks {
   get(
     resourceGroupName: string,
     networkRackName: string,
-    options?: NetworkRacksGetOptionalParams
+    options?: NetworkRacksGetOptionalParams,
   ): Promise<NetworkRacksGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, networkRackName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -299,7 +298,7 @@ export class NetworkRacksImpl implements NetworkRacks {
     resourceGroupName: string,
     networkRackName: string,
     body: TagsUpdate,
-    options?: NetworkRacksUpdateOptionalParams
+    options?: NetworkRacksUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkRacksUpdateResponse>,
@@ -308,21 +307,20 @@ export class NetworkRacksImpl implements NetworkRacks {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<NetworkRacksUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -331,8 +329,8 @@ export class NetworkRacksImpl implements NetworkRacks {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -340,15 +338,15 @@ export class NetworkRacksImpl implements NetworkRacks {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, networkRackName, body, options },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       NetworkRacksUpdateResponse,
@@ -356,7 +354,7 @@ export class NetworkRacksImpl implements NetworkRacks {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -373,13 +371,13 @@ export class NetworkRacksImpl implements NetworkRacks {
     resourceGroupName: string,
     networkRackName: string,
     body: TagsUpdate,
-    options?: NetworkRacksUpdateOptionalParams
+    options?: NetworkRacksUpdateOptionalParams,
   ): Promise<NetworkRacksUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       networkRackName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -393,25 +391,24 @@ export class NetworkRacksImpl implements NetworkRacks {
   async beginDelete(
     resourceGroupName: string,
     networkRackName: string,
-    options?: NetworkRacksDeleteOptionalParams
+    options?: NetworkRacksDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -420,8 +417,8 @@ export class NetworkRacksImpl implements NetworkRacks {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -429,20 +426,20 @@ export class NetworkRacksImpl implements NetworkRacks {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, networkRackName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -457,12 +454,12 @@ export class NetworkRacksImpl implements NetworkRacks {
   async beginDeleteAndWait(
     resourceGroupName: string,
     networkRackName: string,
-    options?: NetworkRacksDeleteOptionalParams
+    options?: NetworkRacksDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       networkRackName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -474,11 +471,11 @@ export class NetworkRacksImpl implements NetworkRacks {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: NetworkRacksListByResourceGroupOptionalParams
+    options?: NetworkRacksListByResourceGroupOptionalParams,
   ): Promise<NetworkRacksListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -487,11 +484,11 @@ export class NetworkRacksImpl implements NetworkRacks {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: NetworkRacksListBySubscriptionOptionalParams
+    options?: NetworkRacksListBySubscriptionOptionalParams,
   ): Promise<NetworkRacksListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -504,11 +501,11 @@ export class NetworkRacksImpl implements NetworkRacks {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: NetworkRacksListByResourceGroupNextOptionalParams
+    options?: NetworkRacksListByResourceGroupNextOptionalParams,
   ): Promise<NetworkRacksListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 
@@ -519,11 +516,11 @@ export class NetworkRacksImpl implements NetworkRacks {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: NetworkRacksListBySubscriptionNextOptionalParams
+    options?: NetworkRacksListBySubscriptionNextOptionalParams,
   ): Promise<NetworkRacksListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 }
@@ -531,80 +528,24 @@ export class NetworkRacksImpl implements NetworkRacks {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkRacks/{networkRackName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkRacks/{networkRackName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkRack
+      bodyMapper: Mappers.NetworkRack,
     },
     201: {
-      bodyMapper: Mappers.NetworkRack
+      bodyMapper: Mappers.NetworkRack,
     },
     202: {
-      bodyMapper: Mappers.NetworkRack
+      bodyMapper: Mappers.NetworkRack,
     },
     204: {
-      bodyMapper: Mappers.NetworkRack
+      bodyMapper: Mappers.NetworkRack,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.body39,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.networkRackName
-  ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkRacks/{networkRackName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.NetworkRack
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.networkRackName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkRacks/{networkRackName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.NetworkRack
-    },
-    201: {
-      bodyMapper: Mappers.NetworkRack
-    },
-    202: {
-      bodyMapper: Mappers.NetworkRack
-    },
-    204: {
-      bodyMapper: Mappers.NetworkRack
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   requestBody: Parameters.body40,
   queryParameters: [Parameters.apiVersion],
@@ -612,15 +553,67 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.networkRackName
+    Parameters.networkRackName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkRacks/{networkRackName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.NetworkRack,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.networkRackName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const updateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkRacks/{networkRackName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.NetworkRack,
+    },
+    201: {
+      bodyMapper: Mappers.NetworkRack,
+    },
+    202: {
+      bodyMapper: Mappers.NetworkRack,
+    },
+    204: {
+      bodyMapper: Mappers.NetworkRack,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.body41,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.networkRackName,
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkRacks/{networkRackName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkRacks/{networkRackName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -628,93 +621,91 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.networkRackName
+    Parameters.networkRackName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkRacks",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkRacks",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkRacksListResult
+      bodyMapper: Mappers.NetworkRacksListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ManagedNetworkFabric/networkRacks",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.ManagedNetworkFabric/networkRacks",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkRacksListResult
+      bodyMapper: Mappers.NetworkRacksListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkRacksListResult
+      bodyMapper: Mappers.NetworkRacksListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkRacksListResult
+      bodyMapper: Mappers.NetworkRacksListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

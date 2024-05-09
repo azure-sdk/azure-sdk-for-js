@@ -20,6 +20,8 @@ export interface AccessControlListPatchableProperties {
   configurationType?: ConfigurationType;
   /** Access Control List file URL. */
   aclsUrl?: string;
+  /** Default action that needs to be applied when no condition is matched. Example: Permit | Deny. */
+  defaultAction?: CommunityActionTypes;
   /** List of match configurations. */
   matchConfigurations?: AccessControlListMatchConfiguration[];
   /** List of dynamic match configurations. */
@@ -48,7 +50,7 @@ export interface PortCondition {
   layer4Protocol: Layer4Protocol;
   /** List of the Ports that need to be matched. */
   ports?: string[];
-  /** List of the port Group Names that to be matched. */
+  /** List of the port Group Names that need to be matched. */
   portGroupNames?: string[];
 }
 
@@ -62,23 +64,23 @@ export interface CommonMatchConditions {
   ipCondition?: IpMatchCondition;
 }
 
-/** The vlan match conditions that needs to be matched. */
+/** The vlan match conditions that need to be matched. */
 export interface VlanMatchCondition {
-  /** List of vlans that needs to be matched. */
+  /** List of vlans that need to be matched. */
   vlans?: string[];
-  /** List of inner vlans that needs to be matched. */
+  /** List of inner vlans that need to be matched. */
   innerVlans?: string[];
-  /** List of vlan group names that to be matched. */
+  /** List of vlan group names that need to be matched. */
   vlanGroupNames?: string[];
 }
 
 /** Defines the condition that can be filtered using the selected IPs. */
 export interface IpMatchCondition {
-  /** IP Address type. */
+  /** IP Address type that needs to be matched. */
   type?: SourceDestinationType;
-  /** IP Prefix Type. */
+  /** IP Prefix Type that needs to be matched. */
   prefixType?: PrefixType;
-  /** The list of IP Prefixes. */
+  /** The list of IP Prefixes that need to be matched. */
   ipPrefixValues?: string[];
   /** The List of IP Group Names that need to be matched. */
   ipGroupNames?: string[];
@@ -98,7 +100,7 @@ export interface CommonDynamicMatchConfiguration {
   ipGroups?: IpGroupProperties[];
   /** List of vlan groups. */
   vlanGroups?: VlanGroupProperties[];
-  /** List of the port group. */
+  /** List of the port groups. */
   portGroups?: PortGroupProperties[];
 }
 
@@ -124,7 +126,7 @@ export interface VlanGroupProperties {
 export interface PortGroupProperties {
   /** The name of the port group. */
   name?: string;
-  /** List of the ports that needs to be matched. */
+  /** List of the ports that need to be matched. */
   ports?: string[];
 }
 
@@ -586,6 +588,8 @@ export interface L3OptionAProperties {
 
 /** The ExternalNetwork patchable properties. */
 export interface ExternalNetworkPatchableProperties {
+  /** ARM Resource ID of the networkToNetworkInterconnectId of the ExternalNetwork resource. */
+  networkToNetworkInterconnectId?: string;
   /** ARM Resource ID of the RoutePolicy. This is used for the backward compatibility. */
   importRoutePolicyId?: string;
   /** ARM Resource ID of the RoutePolicy. This is used for the backward compatibility. */
@@ -600,6 +604,8 @@ export interface ExternalNetworkPatchableProperties {
 export interface ExternalNetworkPatch {
   /** Switch configuration description. */
   annotation?: string;
+  /** ARM Resource ID of the networkToNetworkInterconnectId of the ExternalNetwork resource. */
+  networkToNetworkInterconnectId?: string;
   /** ARM Resource ID of the RoutePolicy. This is used for the backward compatibility. */
   importRoutePolicyId?: string;
   /** ARM Resource ID of the RoutePolicy. This is used for the backward compatibility. */
@@ -1085,6 +1091,8 @@ export interface OperationDisplay {
 
 /** Route Policy patchable properties. */
 export interface RoutePolicyPatchableProperties {
+  /** Default action that needs to be applied when no condition is matched. Example: Permit | Deny. */
+  defaultAction?: CommunityActionTypes;
   /** Route Policy statements. */
   statements?: RoutePolicyStatementProperties[];
 }
@@ -1444,11 +1452,6 @@ export interface InternalNetworkPatchProperties
 export interface ExternalNetworkProperties
   extends AnnotationResource,
     ExternalNetworkPatchableProperties {
-  /**
-   * Gets the networkToNetworkInterconnectId of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly networkToNetworkInterconnectId?: string;
   /** Peering option list. */
   peeringOption: PeeringOption;
   /** option B properties object */
@@ -1655,11 +1658,8 @@ export interface NetworkFabricControllerProperties
 export interface NetworkFabricProperties extends AnnotationResource {
   /** Supported Network Fabric SKU.Example: Compute / Aggregate racks. Once the user chooses a particular SKU, only supported racks can be added to the Network Fabric. The SKU determines whether it is a single / multi rack Network Fabric. */
   networkFabricSku: string;
-  /**
-   * The version of Network Fabric.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly fabricVersion?: string;
+  /** The version of Network Fabric. */
+  fabricVersion?: string;
   /**
    * Array of router IDs.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1849,21 +1849,21 @@ export interface RoutePolicyProperties
 
 /** Defines the port condition that needs to be matched. */
 export interface AccessControlListPortCondition extends PortCondition {
-  /** List of protocol flags that needs to be matched. */
+  /** List of protocol flags that need to be matched. Example: established | initial | <List-of-TCP-flags>. List of eligible TCP Flags are ack, fin, not-ack, not-fin, not-psh, not-rst, not-syn, not-urg, psh, rst, syn, urg */
   flags?: string[];
 }
 
 /** Defines the match condition that is supported to filter the traffic. */
 export interface AccessControlListMatchCondition extends CommonMatchConditions {
-  /** List of ether type values that needs to be matched. */
+  /** List of ether type values that need to be matched. */
   etherTypes?: string[];
-  /** List of IP fragment packets that needs to be matched. */
+  /** List of IP fragment packets that need to be matched. */
   fragments?: string[];
-  /** List of IP Lengths that needs to be matched. */
+  /** List of IP Lengths that need to be matched. */
   ipLengths?: string[];
-  /** List of TTL [Time To Live] values that needs to be matched. */
+  /** List of TTL [Time To Live] values that need to be matched. */
   ttlValues?: string[];
-  /** List of DSCP Markings that needs to be matched. */
+  /** List of DSCP Markings that need to be matched. */
   dscpMarkings?: string[];
   /** Defines the port condition that needs to be matched. */
   portCondition?: AccessControlListPortCondition;
@@ -1871,7 +1871,7 @@ export interface AccessControlListMatchCondition extends CommonMatchConditions {
 
 /** Defines the match condition that is supported to filter the traffic. */
 export interface NetworkTapRuleMatchCondition extends CommonMatchConditions {
-  /** Encapsulation Type. */
+  /** Encapsulation Type that needs to be matched. */
   encapsulationType?: EncapsulationType;
   /** Defines the port condition that needs to be matched. */
   portCondition?: PortCondition;
@@ -1927,6 +1927,8 @@ export interface AccessControlListPatch extends TagsUpdate {
   configurationType?: ConfigurationType;
   /** Access Control List file URL. */
   aclsUrl?: string;
+  /** Default action that needs to be applied when no condition is matched. Example: Permit | Deny. */
+  defaultAction?: CommunityActionTypes;
   /** List of match configurations. */
   matchConfigurations?: AccessControlListMatchConfiguration[];
   /** List of dynamic match configurations. */
@@ -2063,6 +2065,8 @@ export interface NetworkTapPatch extends TagsUpdate {
 
 /** The Route Policy patch resource definition. */
 export interface RoutePolicyPatch extends TagsUpdate {
+  /** Default action that needs to be applied when no condition is matched. Example: Permit | Deny. */
+  defaultAction?: CommunityActionTypes;
   /** Route Policy statements. */
   statements?: RoutePolicyStatementProperties[];
 }
@@ -2134,6 +2138,11 @@ export interface OptionBLayer3Configuration extends Layer3IpPrefixProperties {
   readonly fabricASN?: number;
 }
 
+export interface UpgradeNetworkFabricProperties extends UpdateVersion {
+  /** Action to be performed while upgrading the fabric. */
+  action?: NetworkFabricUpgradeAction;
+}
+
 /** Destination. */
 export interface NetworkTapPropertiesDestinationsItem
   extends DestinationProperties {}
@@ -2176,6 +2185,8 @@ export interface AccessControlList extends TrackedResource {
   configurationType?: ConfigurationType;
   /** Access Control List file URL. */
   aclsUrl?: string;
+  /** Default action that needs to be applied when no condition is matched. Example: Permit | Deny. */
+  defaultAction?: CommunityActionTypes;
   /** List of match configurations. */
   matchConfigurations?: AccessControlListMatchConfiguration[];
   /** List of dynamic match configurations. */
@@ -2505,11 +2516,8 @@ export interface NetworkFabric extends TrackedResource {
   annotation?: string;
   /** Supported Network Fabric SKU.Example: Compute / Aggregate racks. Once the user chooses a particular SKU, only supported racks can be added to the Network Fabric. The SKU determines whether it is a single / multi rack Network Fabric. */
   networkFabricSku: string;
-  /**
-   * The version of Network Fabric.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly fabricVersion?: string;
+  /** The version of Network Fabric. */
+  fabricVersion?: string;
   /**
    * Array of router IDs.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2691,6 +2699,8 @@ export interface NetworkTap extends TrackedResource {
 export interface RoutePolicy extends TrackedResource {
   /** Switch configuration description. */
   annotation?: string;
+  /** Default action that needs to be applied when no condition is matched. Example: Permit | Deny. */
+  defaultAction?: CommunityActionTypes;
   /** Route Policy statements. */
   statements?: RoutePolicyStatementProperties[];
   /** Arm Resource ID of Network Fabric. */
@@ -2767,6 +2777,8 @@ export interface InternalNetwork extends ProxyResource {
 export interface ExternalNetwork extends ProxyResource {
   /** Switch configuration description. */
   annotation?: string;
+  /** ARM Resource ID of the networkToNetworkInterconnectId of the ExternalNetwork resource. */
+  networkToNetworkInterconnectId?: string;
   /** ARM Resource ID of the RoutePolicy. This is used for the backward compatibility. */
   importRoutePolicyId?: string;
   /** ARM Resource ID of the RoutePolicy. This is used for the backward compatibility. */
@@ -2775,11 +2787,6 @@ export interface ExternalNetwork extends ProxyResource {
   importRoutePolicy?: ImportRoutePolicy;
   /** Export Route Policy either IPv4 or IPv6. */
   exportRoutePolicy?: ExportRoutePolicy;
-  /**
-   * Gets the networkToNetworkInterconnectId of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly networkToNetworkInterconnectId?: string;
   /** Peering option list. */
   peeringOption: PeeringOption;
   /** option B properties object */
@@ -3423,7 +3430,11 @@ export enum KnownConfigurationState {
   /** ErrorDeprovisioning */
   ErrorDeprovisioning = "ErrorDeprovisioning",
   /** DeferredControl */
-  DeferredControl = "DeferredControl"
+  DeferredControl = "DeferredControl",
+  /** Provisioning */
+  Provisioning = "Provisioning",
+  /** PendingCommit */
+  PendingCommit = "PendingCommit",
 }
 
 /**
@@ -3440,7 +3451,9 @@ export enum KnownConfigurationState {
  * **Deprovisioning** \
  * **Deprovisioned** \
  * **ErrorDeprovisioning** \
- * **DeferredControl**
+ * **DeferredControl** \
+ * **Provisioning** \
+ * **PendingCommit**
  */
 export type ConfigurationState = string;
 
@@ -3457,7 +3470,7 @@ export enum KnownProvisioningState {
   /** Failed */
   Failed = "Failed",
   /** Canceled */
-  Canceled = "Canceled"
+  Canceled = "Canceled",
 }
 
 /**
@@ -3483,7 +3496,7 @@ export enum KnownAdministrativeState {
   /** MAT */
   MAT = "MAT",
   /** RMA */
-  RMA = "RMA"
+  RMA = "RMA",
 }
 
 /**
@@ -3503,7 +3516,7 @@ export enum KnownConfigurationType {
   /** File */
   File = "File",
   /** Inline */
-  Inline = "Inline"
+  Inline = "Inline",
 }
 
 /**
@@ -3516,12 +3529,30 @@ export enum KnownConfigurationType {
  */
 export type ConfigurationType = string;
 
+/** Known values of {@link CommunityActionTypes} that the service accepts. */
+export enum KnownCommunityActionTypes {
+  /** Permit */
+  Permit = "Permit",
+  /** Deny */
+  Deny = "Deny",
+}
+
+/**
+ * Defines values for CommunityActionTypes. \
+ * {@link KnownCommunityActionTypes} can be used interchangeably with CommunityActionTypes,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Permit** \
+ * **Deny**
+ */
+export type CommunityActionTypes = string;
+
 /** Known values of {@link IPAddressType} that the service accepts. */
 export enum KnownIPAddressType {
   /** IPv4 */
   IPv4 = "IPv4",
   /** IPv6 */
-  IPv6 = "IPv6"
+  IPv6 = "IPv6",
 }
 
 /**
@@ -3539,7 +3570,7 @@ export enum KnownPortType {
   /** SourcePort */
   SourcePort = "SourcePort",
   /** DestinationPort */
-  DestinationPort = "DestinationPort"
+  DestinationPort = "DestinationPort",
 }
 
 /**
@@ -3557,7 +3588,7 @@ export enum KnownLayer4Protocol {
   /** TCP */
   TCP = "TCP",
   /** UDP */
-  UDP = "UDP"
+  UDP = "UDP",
 }
 
 /**
@@ -3575,7 +3606,7 @@ export enum KnownSourceDestinationType {
   /** SourceIP */
   SourceIP = "SourceIP",
   /** DestinationIP */
-  DestinationIP = "DestinationIP"
+  DestinationIP = "DestinationIP",
 }
 
 /**
@@ -3593,7 +3624,7 @@ export enum KnownPrefixType {
   /** Prefix */
   Prefix = "Prefix",
   /** LongestPrefix */
-  LongestPrefix = "LongestPrefix"
+  LongestPrefix = "LongestPrefix",
 }
 
 /**
@@ -3613,7 +3644,7 @@ export enum KnownAclActionType {
   /** Count */
   Count = "Count",
   /** Log */
-  Log = "Log"
+  Log = "Log",
 }
 
 /**
@@ -3636,7 +3667,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -3656,7 +3687,7 @@ export enum KnownEnableDisableState {
   /** Enable */
   Enable = "Enable",
   /** Disable */
-  Disable = "Disable"
+  Disable = "Disable",
 }
 
 /**
@@ -3674,7 +3705,7 @@ export enum KnownGatewayType {
   /** Infrastructure */
   Infrastructure = "Infrastructure",
   /** Workload */
-  Workload = "Workload"
+  Workload = "Workload",
 }
 
 /**
@@ -3692,7 +3723,7 @@ export enum KnownAction {
   /** Allow */
   Allow = "Allow",
   /** Deny */
-  Deny = "Deny"
+  Deny = "Deny",
 }
 
 /**
@@ -3705,24 +3736,6 @@ export enum KnownAction {
  */
 export type Action = string;
 
-/** Known values of {@link CommunityActionTypes} that the service accepts. */
-export enum KnownCommunityActionTypes {
-  /** Permit */
-  Permit = "Permit",
-  /** Deny */
-  Deny = "Deny"
-}
-
-/**
- * Defines values for CommunityActionTypes. \
- * {@link KnownCommunityActionTypes} can be used interchangeably with CommunityActionTypes,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Permit** \
- * **Deny**
- */
-export type CommunityActionTypes = string;
-
 /** Known values of {@link WellKnownCommunities} that the service accepts. */
 export enum KnownWellKnownCommunities {
   /** Internet */
@@ -3734,7 +3747,7 @@ export enum KnownWellKnownCommunities {
   /** NoExport */
   NoExport = "NoExport",
   /** GShut */
-  GShut = "GShut"
+  GShut = "GShut",
 }
 
 /**
@@ -3759,7 +3772,7 @@ export enum KnownCondition {
   /** LesserThanOrEqualTo */
   LesserThanOrEqualTo = "LesserThanOrEqualTo",
   /** Range */
-  Range = "Range"
+  Range = "Range",
 }
 
 /**
@@ -3779,7 +3792,7 @@ export enum KnownRedistributeConnectedSubnets {
   /** True */
   True = "True",
   /** False */
-  False = "False"
+  False = "False",
 }
 
 /**
@@ -3797,7 +3810,7 @@ export enum KnownRedistributeStaticRoutes {
   /** True */
   True = "True",
   /** False */
-  False = "False"
+  False = "False",
 }
 
 /**
@@ -3819,7 +3832,7 @@ export enum KnownBfdAdministrativeState {
   /** MAT */
   MAT = "MAT",
   /** RMA */
-  RMA = "RMA"
+  RMA = "RMA",
 }
 
 /**
@@ -3839,7 +3852,7 @@ export enum KnownBooleanEnumProperty {
   /** True */
   True = "True",
   /** False */
-  False = "False"
+  False = "False",
 }
 
 /**
@@ -3857,7 +3870,7 @@ export enum KnownAllowASOverride {
   /** Enable */
   Enable = "Enable",
   /** Disable */
-  Disable = "Disable"
+  Disable = "Disable",
 }
 
 /**
@@ -3875,7 +3888,7 @@ export enum KnownExtension {
   /** NoExtension */
   NoExtension = "NoExtension",
   /** NPB */
-  NPB = "NPB"
+  NPB = "NPB",
 }
 
 /**
@@ -3893,7 +3906,7 @@ export enum KnownIsMonitoringEnabled {
   /** True */
   True = "True",
   /** False */
-  False = "False"
+  False = "False",
 }
 
 /**
@@ -3911,7 +3924,7 @@ export enum KnownPeeringOption {
   /** OptionA */
   OptionA = "OptionA",
   /** OptionB */
-  OptionB = "OptionB"
+  OptionB = "OptionB",
 }
 
 /**
@@ -3935,7 +3948,7 @@ export enum KnownNetworkDeviceRoleName {
   /** TS */
   TS = "TS",
   /** Management */
-  Management = "Management"
+  Management = "Management",
 }
 
 /**
@@ -3962,7 +3975,7 @@ export enum KnownNetworkDeviceRole {
   /** TS */
   TS = "TS",
   /** Management */
-  Management = "Management"
+  Management = "Management",
 }
 
 /**
@@ -3983,7 +3996,7 @@ export enum KnownInterfaceType {
   /** Management */
   Management = "Management",
   /** Data */
-  Data = "Data"
+  Data = "Data",
 }
 
 /**
@@ -4005,7 +4018,7 @@ export enum KnownRebootType {
   /** UngracefulRebootWithZTP */
   UngracefulRebootWithZTP = "UngracefulRebootWithZTP",
   /** UngracefulRebootWithoutZTP */
-  UngracefulRebootWithoutZTP = "UngracefulRebootWithoutZTP"
+  UngracefulRebootWithoutZTP = "UngracefulRebootWithoutZTP",
 }
 
 /**
@@ -4029,7 +4042,7 @@ export enum KnownDeviceAdministrativeState {
   /** GracefulQuarantine */
   GracefulQuarantine = "GracefulQuarantine",
   /** Quarantine */
-  Quarantine = "Quarantine"
+  Quarantine = "Quarantine",
 }
 
 /**
@@ -4049,7 +4062,7 @@ export enum KnownIsWorkloadManagementNetworkEnabled {
   /** True */
   True = "True",
   /** False */
-  False = "False"
+  False = "False",
 }
 
 /**
@@ -4069,7 +4082,7 @@ export enum KnownNfcSku {
   /** Standard */
   Standard = "Standard",
   /** HighPerformance */
-  HighPerformance = "HighPerformance"
+  HighPerformance = "HighPerformance",
 }
 
 /**
@@ -4088,7 +4101,7 @@ export enum KnownFabricSkuType {
   /** SingleRack */
   SingleRack = "SingleRack",
   /** MultiRack */
-  MultiRack = "MultiRack"
+  MultiRack = "MultiRack",
 }
 
 /**
@@ -4101,6 +4114,24 @@ export enum KnownFabricSkuType {
  */
 export type FabricSkuType = string;
 
+/** Known values of {@link NetworkFabricUpgradeAction} that the service accepts. */
+export enum KnownNetworkFabricUpgradeAction {
+  /** Start */
+  Start = "Start",
+  /** Complete */
+  Complete = "Complete",
+}
+
+/**
+ * Defines values for NetworkFabricUpgradeAction. \
+ * {@link KnownNetworkFabricUpgradeAction} can be used interchangeably with NetworkFabricUpgradeAction,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Start** \
+ * **Complete**
+ */
+export type NetworkFabricUpgradeAction = string;
+
 /** Known values of {@link ValidateAction} that the service accepts. */
 export enum KnownValidateAction {
   /** Cabling */
@@ -4108,7 +4139,7 @@ export enum KnownValidateAction {
   /** Configuration */
   Configuration = "Configuration",
   /** Connectivity */
-  Connectivity = "Connectivity"
+  Connectivity = "Connectivity",
 }
 
 /**
@@ -4127,7 +4158,7 @@ export enum KnownNniType {
   /** CE */
   CE = "CE",
   /** NPB */
-  NPB = "NPB"
+  NPB = "NPB",
 }
 
 /**
@@ -4145,7 +4176,7 @@ export enum KnownIsManagementType {
   /** True */
   True = "True",
   /** False */
-  False = "False"
+  False = "False",
 }
 
 /**
@@ -4165,7 +4196,7 @@ export enum KnownNetworkRackType {
   /** Compute */
   Compute = "Compute",
   /** Combined */
-  Combined = "Combined"
+  Combined = "Combined",
 }
 
 /**
@@ -4188,7 +4219,7 @@ export enum KnownPollingIntervalInSeconds {
   /** Ninety */
   Ninety = 90,
   /** OneHundredTwenty */
-  OneHundredTwenty = 120
+  OneHundredTwenty = 120,
 }
 
 /**
@@ -4208,7 +4239,7 @@ export enum KnownEncapsulationType {
   /** None */
   None = "None",
   /** GTPv1 */
-  GTPv1 = "GTPv1"
+  GTPv1 = "GTPv1",
 }
 
 /**
@@ -4236,7 +4267,7 @@ export enum KnownTapRuleActionType {
   /** Redirect */
   Redirect = "Redirect",
   /** Mirror */
-  Mirror = "Mirror"
+  Mirror = "Mirror",
 }
 
 /**
@@ -4259,7 +4290,7 @@ export enum KnownDestinationType {
   /** IsolationDomain */
   IsolationDomain = "IsolationDomain",
   /** Direct */
-  Direct = "Direct"
+  Direct = "Direct",
 }
 
 /**
@@ -4277,7 +4308,7 @@ export enum KnownEncapsulation {
   /** None */
   None = "None",
   /** GRE */
-  GRE = "GRE"
+  GRE = "GRE",
 }
 
 /**
@@ -4295,7 +4326,7 @@ export enum KnownPollingType {
   /** Pull */
   Pull = "Pull",
   /** Push */
-  Push = "Push"
+  Push = "Push",
 }
 
 /**
@@ -4315,7 +4346,7 @@ export enum KnownOrigin {
   /** System */
   System = "system",
   /** UserSystem */
-  UserSystem = "user,system"
+  UserSystem = "user,system",
 }
 
 /**
@@ -4332,7 +4363,7 @@ export type Origin = string;
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
   /** Internal */
-  Internal = "Internal"
+  Internal = "Internal",
 }
 
 /**
@@ -4349,7 +4380,7 @@ export enum KnownAddressFamilyType {
   /** IPv4 */
   IPv4 = "IPv4",
   /** IPv6 */
-  IPv6 = "IPv6"
+  IPv6 = "IPv6",
 }
 
 /**
@@ -4367,7 +4398,7 @@ export enum KnownRoutePolicyConditionType {
   /** Or */
   Or = "Or",
   /** And */
-  And = "And"
+  And = "And",
 }
 
 /**
@@ -4387,7 +4418,7 @@ export enum KnownRoutePolicyActionType {
   /** Deny */
   Deny = "Deny",
   /** Continue */
-  Continue = "Continue"
+  Continue = "Continue",
 }
 
 /**
@@ -4449,14 +4480,16 @@ export interface AccessControlListsListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type AccessControlListsListByResourceGroupResponse = AccessControlListsListResult;
+export type AccessControlListsListByResourceGroupResponse =
+  AccessControlListsListResult;
 
 /** Optional parameters. */
 export interface AccessControlListsListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type AccessControlListsListBySubscriptionResponse = AccessControlListsListResult;
+export type AccessControlListsListBySubscriptionResponse =
+  AccessControlListsListResult;
 
 /** Optional parameters. */
 export interface AccessControlListsUpdateAdministrativeStateOptionalParams
@@ -4468,7 +4501,8 @@ export interface AccessControlListsUpdateAdministrativeStateOptionalParams
 }
 
 /** Contains response data for the updateAdministrativeState operation. */
-export type AccessControlListsUpdateAdministrativeStateResponse = CommonPostActionResponseForStateUpdate;
+export type AccessControlListsUpdateAdministrativeStateResponse =
+  CommonPostActionResponseForStateUpdate;
 
 /** Optional parameters. */
 export interface AccessControlListsResyncOptionalParams
@@ -4480,7 +4514,8 @@ export interface AccessControlListsResyncOptionalParams
 }
 
 /** Contains response data for the resync operation. */
-export type AccessControlListsResyncResponse = CommonPostActionResponseForStateUpdate;
+export type AccessControlListsResyncResponse =
+  CommonPostActionResponseForStateUpdate;
 
 /** Optional parameters. */
 export interface AccessControlListsValidateConfigurationOptionalParams
@@ -4492,21 +4527,24 @@ export interface AccessControlListsValidateConfigurationOptionalParams
 }
 
 /** Contains response data for the validateConfiguration operation. */
-export type AccessControlListsValidateConfigurationResponse = ValidateConfigurationResponse;
+export type AccessControlListsValidateConfigurationResponse =
+  ValidateConfigurationResponse;
 
 /** Optional parameters. */
 export interface AccessControlListsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type AccessControlListsListByResourceGroupNextResponse = AccessControlListsListResult;
+export type AccessControlListsListByResourceGroupNextResponse =
+  AccessControlListsListResult;
 
 /** Optional parameters. */
 export interface AccessControlListsListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type AccessControlListsListBySubscriptionNextResponse = AccessControlListsListResult;
+export type AccessControlListsListBySubscriptionNextResponse =
+  AccessControlListsListResult;
 
 /** Optional parameters. */
 export interface InternetGatewaysCreateOptionalParams
@@ -4553,28 +4591,32 @@ export interface InternetGatewaysListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type InternetGatewaysListByResourceGroupResponse = InternetGatewaysListResult;
+export type InternetGatewaysListByResourceGroupResponse =
+  InternetGatewaysListResult;
 
 /** Optional parameters. */
 export interface InternetGatewaysListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type InternetGatewaysListBySubscriptionResponse = InternetGatewaysListResult;
+export type InternetGatewaysListBySubscriptionResponse =
+  InternetGatewaysListResult;
 
 /** Optional parameters. */
 export interface InternetGatewaysListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type InternetGatewaysListByResourceGroupNextResponse = InternetGatewaysListResult;
+export type InternetGatewaysListByResourceGroupNextResponse =
+  InternetGatewaysListResult;
 
 /** Optional parameters. */
 export interface InternetGatewaysListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type InternetGatewaysListBySubscriptionNextResponse = InternetGatewaysListResult;
+export type InternetGatewaysListBySubscriptionNextResponse =
+  InternetGatewaysListResult;
 
 /** Optional parameters. */
 export interface InternetGatewayRulesCreateOptionalParams
@@ -4617,35 +4659,40 @@ export interface InternetGatewayRulesDeleteOptionalParams
 }
 
 /** Contains response data for the delete operation. */
-export type InternetGatewayRulesDeleteResponse = InternetGatewayRulesDeleteHeaders;
+export type InternetGatewayRulesDeleteResponse =
+  InternetGatewayRulesDeleteHeaders;
 
 /** Optional parameters. */
 export interface InternetGatewayRulesListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type InternetGatewayRulesListByResourceGroupResponse = InternetGatewayRulesListResult;
+export type InternetGatewayRulesListByResourceGroupResponse =
+  InternetGatewayRulesListResult;
 
 /** Optional parameters. */
 export interface InternetGatewayRulesListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type InternetGatewayRulesListBySubscriptionResponse = InternetGatewayRulesListResult;
+export type InternetGatewayRulesListBySubscriptionResponse =
+  InternetGatewayRulesListResult;
 
 /** Optional parameters. */
 export interface InternetGatewayRulesListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type InternetGatewayRulesListByResourceGroupNextResponse = InternetGatewayRulesListResult;
+export type InternetGatewayRulesListByResourceGroupNextResponse =
+  InternetGatewayRulesListResult;
 
 /** Optional parameters. */
 export interface InternetGatewayRulesListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type InternetGatewayRulesListBySubscriptionNextResponse = InternetGatewayRulesListResult;
+export type InternetGatewayRulesListBySubscriptionNextResponse =
+  InternetGatewayRulesListResult;
 
 /** Optional parameters. */
 export interface IpCommunitiesCreateOptionalParams
@@ -4709,14 +4756,16 @@ export interface IpCommunitiesListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type IpCommunitiesListByResourceGroupNextResponse = IpCommunitiesListResult;
+export type IpCommunitiesListByResourceGroupNextResponse =
+  IpCommunitiesListResult;
 
 /** Optional parameters. */
 export interface IpCommunitiesListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type IpCommunitiesListBySubscriptionNextResponse = IpCommunitiesListResult;
+export type IpCommunitiesListBySubscriptionNextResponse =
+  IpCommunitiesListResult;
 
 /** Optional parameters. */
 export interface IpExtendedCommunitiesCreateOptionalParams
@@ -4759,35 +4808,40 @@ export interface IpExtendedCommunitiesDeleteOptionalParams
 }
 
 /** Contains response data for the delete operation. */
-export type IpExtendedCommunitiesDeleteResponse = IpExtendedCommunitiesDeleteHeaders;
+export type IpExtendedCommunitiesDeleteResponse =
+  IpExtendedCommunitiesDeleteHeaders;
 
 /** Optional parameters. */
 export interface IpExtendedCommunitiesListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type IpExtendedCommunitiesListByResourceGroupResponse = IpExtendedCommunityListResult;
+export type IpExtendedCommunitiesListByResourceGroupResponse =
+  IpExtendedCommunityListResult;
 
 /** Optional parameters. */
 export interface IpExtendedCommunitiesListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type IpExtendedCommunitiesListBySubscriptionResponse = IpExtendedCommunityListResult;
+export type IpExtendedCommunitiesListBySubscriptionResponse =
+  IpExtendedCommunityListResult;
 
 /** Optional parameters. */
 export interface IpExtendedCommunitiesListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type IpExtendedCommunitiesListByResourceGroupNextResponse = IpExtendedCommunityListResult;
+export type IpExtendedCommunitiesListByResourceGroupNextResponse =
+  IpExtendedCommunityListResult;
 
 /** Optional parameters. */
 export interface IpExtendedCommunitiesListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type IpExtendedCommunitiesListBySubscriptionNextResponse = IpExtendedCommunityListResult;
+export type IpExtendedCommunitiesListBySubscriptionNextResponse =
+  IpExtendedCommunityListResult;
 
 /** Optional parameters. */
 export interface IpPrefixesCreateOptionalParams
@@ -4910,7 +4964,8 @@ export interface L2IsolationDomainsUpdateAdministrativeStateOptionalParams
 }
 
 /** Contains response data for the updateAdministrativeState operation. */
-export type L2IsolationDomainsUpdateAdministrativeStateResponse = CommonPostActionResponseForDeviceUpdate;
+export type L2IsolationDomainsUpdateAdministrativeStateResponse =
+  CommonPostActionResponseForDeviceUpdate;
 
 /** Optional parameters. */
 export interface L2IsolationDomainsValidateConfigurationOptionalParams
@@ -4922,7 +4977,8 @@ export interface L2IsolationDomainsValidateConfigurationOptionalParams
 }
 
 /** Contains response data for the validateConfiguration operation. */
-export type L2IsolationDomainsValidateConfigurationResponse = ValidateConfigurationResponse;
+export type L2IsolationDomainsValidateConfigurationResponse =
+  ValidateConfigurationResponse;
 
 /** Optional parameters. */
 export interface L2IsolationDomainsCommitConfigurationOptionalParams
@@ -4934,35 +4990,40 @@ export interface L2IsolationDomainsCommitConfigurationOptionalParams
 }
 
 /** Contains response data for the commitConfiguration operation. */
-export type L2IsolationDomainsCommitConfigurationResponse = CommonPostActionResponseForStateUpdate;
+export type L2IsolationDomainsCommitConfigurationResponse =
+  CommonPostActionResponseForStateUpdate;
 
 /** Optional parameters. */
 export interface L2IsolationDomainsListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type L2IsolationDomainsListByResourceGroupResponse = L2IsolationDomainsListResult;
+export type L2IsolationDomainsListByResourceGroupResponse =
+  L2IsolationDomainsListResult;
 
 /** Optional parameters. */
 export interface L2IsolationDomainsListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type L2IsolationDomainsListBySubscriptionResponse = L2IsolationDomainsListResult;
+export type L2IsolationDomainsListBySubscriptionResponse =
+  L2IsolationDomainsListResult;
 
 /** Optional parameters. */
 export interface L2IsolationDomainsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type L2IsolationDomainsListByResourceGroupNextResponse = L2IsolationDomainsListResult;
+export type L2IsolationDomainsListByResourceGroupNextResponse =
+  L2IsolationDomainsListResult;
 
 /** Optional parameters. */
 export interface L2IsolationDomainsListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type L2IsolationDomainsListBySubscriptionNextResponse = L2IsolationDomainsListResult;
+export type L2IsolationDomainsListBySubscriptionNextResponse =
+  L2IsolationDomainsListResult;
 
 /** Optional parameters. */
 export interface L3IsolationDomainsCreateOptionalParams
@@ -5009,14 +5070,16 @@ export interface L3IsolationDomainsListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type L3IsolationDomainsListByResourceGroupResponse = L3IsolationDomainsListResult;
+export type L3IsolationDomainsListByResourceGroupResponse =
+  L3IsolationDomainsListResult;
 
 /** Optional parameters. */
 export interface L3IsolationDomainsListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type L3IsolationDomainsListBySubscriptionResponse = L3IsolationDomainsListResult;
+export type L3IsolationDomainsListBySubscriptionResponse =
+  L3IsolationDomainsListResult;
 
 /** Optional parameters. */
 export interface L3IsolationDomainsUpdateAdministrativeStateOptionalParams
@@ -5028,7 +5091,8 @@ export interface L3IsolationDomainsUpdateAdministrativeStateOptionalParams
 }
 
 /** Contains response data for the updateAdministrativeState operation. */
-export type L3IsolationDomainsUpdateAdministrativeStateResponse = CommonPostActionResponseForDeviceUpdate;
+export type L3IsolationDomainsUpdateAdministrativeStateResponse =
+  CommonPostActionResponseForDeviceUpdate;
 
 /** Optional parameters. */
 export interface L3IsolationDomainsValidateConfigurationOptionalParams
@@ -5040,7 +5104,8 @@ export interface L3IsolationDomainsValidateConfigurationOptionalParams
 }
 
 /** Contains response data for the validateConfiguration operation. */
-export type L3IsolationDomainsValidateConfigurationResponse = ValidateConfigurationResponse;
+export type L3IsolationDomainsValidateConfigurationResponse =
+  ValidateConfigurationResponse;
 
 /** Optional parameters. */
 export interface L3IsolationDomainsCommitConfigurationOptionalParams
@@ -5052,21 +5117,24 @@ export interface L3IsolationDomainsCommitConfigurationOptionalParams
 }
 
 /** Contains response data for the commitConfiguration operation. */
-export type L3IsolationDomainsCommitConfigurationResponse = CommonPostActionResponseForStateUpdate;
+export type L3IsolationDomainsCommitConfigurationResponse =
+  CommonPostActionResponseForStateUpdate;
 
 /** Optional parameters. */
 export interface L3IsolationDomainsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type L3IsolationDomainsListByResourceGroupNextResponse = L3IsolationDomainsListResult;
+export type L3IsolationDomainsListByResourceGroupNextResponse =
+  L3IsolationDomainsListResult;
 
 /** Optional parameters. */
 export interface L3IsolationDomainsListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type L3IsolationDomainsListBySubscriptionNextResponse = L3IsolationDomainsListResult;
+export type L3IsolationDomainsListBySubscriptionNextResponse =
+  L3IsolationDomainsListResult;
 
 /** Optional parameters. */
 export interface InternalNetworksCreateOptionalParams
@@ -5113,7 +5181,8 @@ export interface InternalNetworksListByL3IsolationDomainOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByL3IsolationDomain operation. */
-export type InternalNetworksListByL3IsolationDomainResponse = InternalNetworksList;
+export type InternalNetworksListByL3IsolationDomainResponse =
+  InternalNetworksList;
 
 /** Optional parameters. */
 export interface InternalNetworksUpdateAdministrativeStateOptionalParams
@@ -5125,7 +5194,8 @@ export interface InternalNetworksUpdateAdministrativeStateOptionalParams
 }
 
 /** Contains response data for the updateAdministrativeState operation. */
-export type InternalNetworksUpdateAdministrativeStateResponse = CommonPostActionResponseForStateUpdate;
+export type InternalNetworksUpdateAdministrativeStateResponse =
+  CommonPostActionResponseForStateUpdate;
 
 /** Optional parameters. */
 export interface InternalNetworksUpdateBgpAdministrativeStateOptionalParams
@@ -5137,7 +5207,8 @@ export interface InternalNetworksUpdateBgpAdministrativeStateOptionalParams
 }
 
 /** Contains response data for the updateBgpAdministrativeState operation. */
-export type InternalNetworksUpdateBgpAdministrativeStateResponse = CommonPostActionResponseForStateUpdate;
+export type InternalNetworksUpdateBgpAdministrativeStateResponse =
+  CommonPostActionResponseForStateUpdate;
 
 /** Optional parameters. */
 export interface InternalNetworksUpdateStaticRouteBfdAdministrativeStateOptionalParams
@@ -5149,14 +5220,16 @@ export interface InternalNetworksUpdateStaticRouteBfdAdministrativeStateOptional
 }
 
 /** Contains response data for the updateStaticRouteBfdAdministrativeState operation. */
-export type InternalNetworksUpdateStaticRouteBfdAdministrativeStateResponse = CommonPostActionResponseForStateUpdate;
+export type InternalNetworksUpdateStaticRouteBfdAdministrativeStateResponse =
+  CommonPostActionResponseForStateUpdate;
 
 /** Optional parameters. */
 export interface InternalNetworksListByL3IsolationDomainNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByL3IsolationDomainNext operation. */
-export type InternalNetworksListByL3IsolationDomainNextResponse = InternalNetworksList;
+export type InternalNetworksListByL3IsolationDomainNextResponse =
+  InternalNetworksList;
 
 /** Optional parameters. */
 export interface ExternalNetworksCreateOptionalParams
@@ -5203,7 +5276,8 @@ export interface ExternalNetworksListByL3IsolationDomainOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByL3IsolationDomain operation. */
-export type ExternalNetworksListByL3IsolationDomainResponse = ExternalNetworksList;
+export type ExternalNetworksListByL3IsolationDomainResponse =
+  ExternalNetworksList;
 
 /** Optional parameters. */
 export interface ExternalNetworksUpdateAdministrativeStateOptionalParams
@@ -5215,7 +5289,8 @@ export interface ExternalNetworksUpdateAdministrativeStateOptionalParams
 }
 
 /** Contains response data for the updateAdministrativeState operation. */
-export type ExternalNetworksUpdateAdministrativeStateResponse = CommonPostActionResponseForStateUpdate;
+export type ExternalNetworksUpdateAdministrativeStateResponse =
+  CommonPostActionResponseForStateUpdate;
 
 /** Optional parameters. */
 export interface ExternalNetworksUpdateStaticRouteBfdAdministrativeStateOptionalParams
@@ -5227,14 +5302,16 @@ export interface ExternalNetworksUpdateStaticRouteBfdAdministrativeStateOptional
 }
 
 /** Contains response data for the updateStaticRouteBfdAdministrativeState operation. */
-export type ExternalNetworksUpdateStaticRouteBfdAdministrativeStateResponse = CommonPostActionResponseForStateUpdate;
+export type ExternalNetworksUpdateStaticRouteBfdAdministrativeStateResponse =
+  CommonPostActionResponseForStateUpdate;
 
 /** Optional parameters. */
 export interface ExternalNetworksListByL3IsolationDomainNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByL3IsolationDomainNext operation. */
-export type ExternalNetworksListByL3IsolationDomainNextResponse = ExternalNetworksList;
+export type ExternalNetworksListByL3IsolationDomainNextResponse =
+  ExternalNetworksList;
 
 /** Optional parameters. */
 export interface NeighborGroupsCreateOptionalParams
@@ -5281,7 +5358,8 @@ export interface NeighborGroupsListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type NeighborGroupsListByResourceGroupResponse = NeighborGroupsListResult;
+export type NeighborGroupsListByResourceGroupResponse =
+  NeighborGroupsListResult;
 
 /** Optional parameters. */
 export interface NeighborGroupsListBySubscriptionOptionalParams
@@ -5295,14 +5373,16 @@ export interface NeighborGroupsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type NeighborGroupsListByResourceGroupNextResponse = NeighborGroupsListResult;
+export type NeighborGroupsListByResourceGroupNextResponse =
+  NeighborGroupsListResult;
 
 /** Optional parameters. */
 export interface NeighborGroupsListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type NeighborGroupsListBySubscriptionNextResponse = NeighborGroupsListResult;
+export type NeighborGroupsListBySubscriptionNextResponse =
+  NeighborGroupsListResult;
 
 /** Optional parameters. */
 export interface NetworkDeviceSkusGetOptionalParams
@@ -5316,14 +5396,16 @@ export interface NetworkDeviceSkusListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type NetworkDeviceSkusListBySubscriptionResponse = NetworkDeviceSkusListResult;
+export type NetworkDeviceSkusListBySubscriptionResponse =
+  NetworkDeviceSkusListResult;
 
 /** Optional parameters. */
 export interface NetworkDeviceSkusListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type NetworkDeviceSkusListBySubscriptionNextResponse = NetworkDeviceSkusListResult;
+export type NetworkDeviceSkusListBySubscriptionNextResponse =
+  NetworkDeviceSkusListResult;
 
 /** Optional parameters. */
 export interface NetworkDevicesCreateOptionalParams
@@ -5370,7 +5452,8 @@ export interface NetworkDevicesListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type NetworkDevicesListByResourceGroupResponse = NetworkDevicesListResult;
+export type NetworkDevicesListByResourceGroupResponse =
+  NetworkDevicesListResult;
 
 /** Optional parameters. */
 export interface NetworkDevicesListBySubscriptionOptionalParams
@@ -5389,7 +5472,8 @@ export interface NetworkDevicesRebootOptionalParams
 }
 
 /** Contains response data for the reboot operation. */
-export type NetworkDevicesRebootResponse = CommonPostActionResponseForStateUpdate;
+export type NetworkDevicesRebootResponse =
+  CommonPostActionResponseForStateUpdate;
 
 /** Optional parameters. */
 export interface NetworkDevicesRefreshConfigurationOptionalParams
@@ -5401,7 +5485,8 @@ export interface NetworkDevicesRefreshConfigurationOptionalParams
 }
 
 /** Contains response data for the refreshConfiguration operation. */
-export type NetworkDevicesRefreshConfigurationResponse = CommonPostActionResponseForStateUpdate;
+export type NetworkDevicesRefreshConfigurationResponse =
+  CommonPostActionResponseForStateUpdate;
 
 /** Optional parameters. */
 export interface NetworkDevicesUpdateAdministrativeStateOptionalParams
@@ -5413,7 +5498,8 @@ export interface NetworkDevicesUpdateAdministrativeStateOptionalParams
 }
 
 /** Contains response data for the updateAdministrativeState operation. */
-export type NetworkDevicesUpdateAdministrativeStateResponse = CommonPostActionResponseForStateUpdate;
+export type NetworkDevicesUpdateAdministrativeStateResponse =
+  CommonPostActionResponseForStateUpdate;
 
 /** Optional parameters. */
 export interface NetworkDevicesUpgradeOptionalParams
@@ -5425,21 +5511,24 @@ export interface NetworkDevicesUpgradeOptionalParams
 }
 
 /** Contains response data for the upgrade operation. */
-export type NetworkDevicesUpgradeResponse = CommonPostActionResponseForStateUpdate;
+export type NetworkDevicesUpgradeResponse =
+  CommonPostActionResponseForStateUpdate;
 
 /** Optional parameters. */
 export interface NetworkDevicesListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type NetworkDevicesListByResourceGroupNextResponse = NetworkDevicesListResult;
+export type NetworkDevicesListByResourceGroupNextResponse =
+  NetworkDevicesListResult;
 
 /** Optional parameters. */
 export interface NetworkDevicesListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type NetworkDevicesListBySubscriptionNextResponse = NetworkDevicesListResult;
+export type NetworkDevicesListBySubscriptionNextResponse =
+  NetworkDevicesListResult;
 
 /** Optional parameters. */
 export interface NetworkInterfacesCreateOptionalParams
@@ -5486,7 +5575,8 @@ export interface NetworkInterfacesListByNetworkDeviceOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByNetworkDevice operation. */
-export type NetworkInterfacesListByNetworkDeviceResponse = NetworkInterfacesList;
+export type NetworkInterfacesListByNetworkDeviceResponse =
+  NetworkInterfacesList;
 
 /** Optional parameters. */
 export interface NetworkInterfacesUpdateAdministrativeStateOptionalParams
@@ -5498,14 +5588,16 @@ export interface NetworkInterfacesUpdateAdministrativeStateOptionalParams
 }
 
 /** Contains response data for the updateAdministrativeState operation. */
-export type NetworkInterfacesUpdateAdministrativeStateResponse = CommonPostActionResponseForStateUpdate;
+export type NetworkInterfacesUpdateAdministrativeStateResponse =
+  CommonPostActionResponseForStateUpdate;
 
 /** Optional parameters. */
 export interface NetworkInterfacesListByNetworkDeviceNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByNetworkDeviceNext operation. */
-export type NetworkInterfacesListByNetworkDeviceNextResponse = NetworkInterfacesList;
+export type NetworkInterfacesListByNetworkDeviceNextResponse =
+  NetworkInterfacesList;
 
 /** Optional parameters. */
 export interface NetworkFabricControllersCreateOptionalParams
@@ -5548,35 +5640,40 @@ export interface NetworkFabricControllersDeleteOptionalParams
 }
 
 /** Contains response data for the delete operation. */
-export type NetworkFabricControllersDeleteResponse = NetworkFabricControllersDeleteHeaders;
+export type NetworkFabricControllersDeleteResponse =
+  NetworkFabricControllersDeleteHeaders;
 
 /** Optional parameters. */
 export interface NetworkFabricControllersListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type NetworkFabricControllersListByResourceGroupResponse = NetworkFabricControllersListResult;
+export type NetworkFabricControllersListByResourceGroupResponse =
+  NetworkFabricControllersListResult;
 
 /** Optional parameters. */
 export interface NetworkFabricControllersListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type NetworkFabricControllersListBySubscriptionResponse = NetworkFabricControllersListResult;
+export type NetworkFabricControllersListBySubscriptionResponse =
+  NetworkFabricControllersListResult;
 
 /** Optional parameters. */
 export interface NetworkFabricControllersListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type NetworkFabricControllersListByResourceGroupNextResponse = NetworkFabricControllersListResult;
+export type NetworkFabricControllersListByResourceGroupNextResponse =
+  NetworkFabricControllersListResult;
 
 /** Optional parameters. */
 export interface NetworkFabricControllersListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type NetworkFabricControllersListBySubscriptionNextResponse = NetworkFabricControllersListResult;
+export type NetworkFabricControllersListBySubscriptionNextResponse =
+  NetworkFabricControllersListResult;
 
 /** Optional parameters. */
 export interface NetworkFabricSkusGetOptionalParams
@@ -5590,14 +5687,16 @@ export interface NetworkFabricSkusListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type NetworkFabricSkusListBySubscriptionResponse = NetworkFabricSkusListResult;
+export type NetworkFabricSkusListBySubscriptionResponse =
+  NetworkFabricSkusListResult;
 
 /** Optional parameters. */
 export interface NetworkFabricSkusListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type NetworkFabricSkusListBySubscriptionNextResponse = NetworkFabricSkusListResult;
+export type NetworkFabricSkusListBySubscriptionNextResponse =
+  NetworkFabricSkusListResult;
 
 /** Optional parameters. */
 export interface NetworkFabricsCreateOptionalParams
@@ -5647,7 +5746,8 @@ export interface NetworkFabricsListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type NetworkFabricsListByResourceGroupResponse = NetworkFabricsListResult;
+export type NetworkFabricsListByResourceGroupResponse =
+  NetworkFabricsListResult;
 
 /** Optional parameters. */
 export interface NetworkFabricsListBySubscriptionOptionalParams
@@ -5666,7 +5766,8 @@ export interface NetworkFabricsProvisionOptionalParams
 }
 
 /** Contains response data for the provision operation. */
-export type NetworkFabricsProvisionResponse = CommonPostActionResponseForDeviceUpdate;
+export type NetworkFabricsProvisionResponse =
+  CommonPostActionResponseForDeviceUpdate;
 
 /** Optional parameters. */
 export interface NetworkFabricsDeprovisionOptionalParams
@@ -5678,7 +5779,8 @@ export interface NetworkFabricsDeprovisionOptionalParams
 }
 
 /** Contains response data for the deprovision operation. */
-export type NetworkFabricsDeprovisionResponse = CommonPostActionResponseForDeviceUpdate;
+export type NetworkFabricsDeprovisionResponse =
+  CommonPostActionResponseForDeviceUpdate;
 
 /** Optional parameters. */
 export interface NetworkFabricsUpgradeOptionalParams
@@ -5690,7 +5792,8 @@ export interface NetworkFabricsUpgradeOptionalParams
 }
 
 /** Contains response data for the upgrade operation. */
-export type NetworkFabricsUpgradeResponse = CommonPostActionResponseForStateUpdate;
+export type NetworkFabricsUpgradeResponse =
+  CommonPostActionResponseForStateUpdate;
 
 /** Optional parameters. */
 export interface NetworkFabricsRefreshConfigurationOptionalParams
@@ -5702,7 +5805,8 @@ export interface NetworkFabricsRefreshConfigurationOptionalParams
 }
 
 /** Contains response data for the refreshConfiguration operation. */
-export type NetworkFabricsRefreshConfigurationResponse = CommonPostActionResponseForStateUpdate;
+export type NetworkFabricsRefreshConfigurationResponse =
+  CommonPostActionResponseForStateUpdate;
 
 /** Optional parameters. */
 export interface NetworkFabricsUpdateWorkloadManagementBfdConfigurationOptionalParams
@@ -5714,7 +5818,8 @@ export interface NetworkFabricsUpdateWorkloadManagementBfdConfigurationOptionalP
 }
 
 /** Contains response data for the updateWorkloadManagementBfdConfiguration operation. */
-export type NetworkFabricsUpdateWorkloadManagementBfdConfigurationResponse = CommonPostActionResponseForStateUpdate;
+export type NetworkFabricsUpdateWorkloadManagementBfdConfigurationResponse =
+  CommonPostActionResponseForStateUpdate;
 
 /** Optional parameters. */
 export interface NetworkFabricsUpdateInfraManagementBfdConfigurationOptionalParams
@@ -5726,7 +5831,8 @@ export interface NetworkFabricsUpdateInfraManagementBfdConfigurationOptionalPara
 }
 
 /** Contains response data for the updateInfraManagementBfdConfiguration operation. */
-export type NetworkFabricsUpdateInfraManagementBfdConfigurationResponse = CommonPostActionResponseForStateUpdate;
+export type NetworkFabricsUpdateInfraManagementBfdConfigurationResponse =
+  CommonPostActionResponseForStateUpdate;
 
 /** Optional parameters. */
 export interface NetworkFabricsValidateConfigurationOptionalParams
@@ -5738,7 +5844,8 @@ export interface NetworkFabricsValidateConfigurationOptionalParams
 }
 
 /** Contains response data for the validateConfiguration operation. */
-export type NetworkFabricsValidateConfigurationResponse = ValidateConfigurationResponse;
+export type NetworkFabricsValidateConfigurationResponse =
+  ValidateConfigurationResponse;
 
 /** Optional parameters. */
 export interface NetworkFabricsGetTopologyOptionalParams
@@ -5762,21 +5869,24 @@ export interface NetworkFabricsCommitConfigurationOptionalParams
 }
 
 /** Contains response data for the commitConfiguration operation. */
-export type NetworkFabricsCommitConfigurationResponse = CommonPostActionResponseForStateUpdate;
+export type NetworkFabricsCommitConfigurationResponse =
+  CommonPostActionResponseForStateUpdate;
 
 /** Optional parameters. */
 export interface NetworkFabricsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type NetworkFabricsListByResourceGroupNextResponse = NetworkFabricsListResult;
+export type NetworkFabricsListByResourceGroupNextResponse =
+  NetworkFabricsListResult;
 
 /** Optional parameters. */
 export interface NetworkFabricsListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type NetworkFabricsListBySubscriptionNextResponse = NetworkFabricsListResult;
+export type NetworkFabricsListBySubscriptionNextResponse =
+  NetworkFabricsListResult;
 
 /** Optional parameters. */
 export interface NetworkToNetworkInterconnectsCreateOptionalParams
@@ -5788,14 +5898,16 @@ export interface NetworkToNetworkInterconnectsCreateOptionalParams
 }
 
 /** Contains response data for the create operation. */
-export type NetworkToNetworkInterconnectsCreateResponse = NetworkToNetworkInterconnect;
+export type NetworkToNetworkInterconnectsCreateResponse =
+  NetworkToNetworkInterconnect;
 
 /** Optional parameters. */
 export interface NetworkToNetworkInterconnectsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type NetworkToNetworkInterconnectsGetResponse = NetworkToNetworkInterconnect;
+export type NetworkToNetworkInterconnectsGetResponse =
+  NetworkToNetworkInterconnect;
 
 /** Optional parameters. */
 export interface NetworkToNetworkInterconnectsUpdateOptionalParams
@@ -5807,7 +5919,8 @@ export interface NetworkToNetworkInterconnectsUpdateOptionalParams
 }
 
 /** Contains response data for the update operation. */
-export type NetworkToNetworkInterconnectsUpdateResponse = NetworkToNetworkInterconnect;
+export type NetworkToNetworkInterconnectsUpdateResponse =
+  NetworkToNetworkInterconnect;
 
 /** Optional parameters. */
 export interface NetworkToNetworkInterconnectsDeleteOptionalParams
@@ -5823,7 +5936,8 @@ export interface NetworkToNetworkInterconnectsListByNetworkFabricOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByNetworkFabric operation. */
-export type NetworkToNetworkInterconnectsListByNetworkFabricResponse = NetworkToNetworkInterconnectsList;
+export type NetworkToNetworkInterconnectsListByNetworkFabricResponse =
+  NetworkToNetworkInterconnectsList;
 
 /** Optional parameters. */
 export interface NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateOptionalParams
@@ -5835,7 +5949,8 @@ export interface NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrat
 }
 
 /** Contains response data for the updateNpbStaticRouteBfdAdministrativeState operation. */
-export type NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateResponse = CommonPostActionResponseForStateUpdate;
+export type NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateResponse =
+  CommonPostActionResponseForStateUpdate;
 
 /** Optional parameters. */
 export interface NetworkToNetworkInterconnectsUpdateAdministrativeStateOptionalParams
@@ -5847,14 +5962,16 @@ export interface NetworkToNetworkInterconnectsUpdateAdministrativeStateOptionalP
 }
 
 /** Contains response data for the updateAdministrativeState operation. */
-export type NetworkToNetworkInterconnectsUpdateAdministrativeStateResponse = CommonPostActionResponseForStateUpdate;
+export type NetworkToNetworkInterconnectsUpdateAdministrativeStateResponse =
+  CommonPostActionResponseForStateUpdate;
 
 /** Optional parameters. */
 export interface NetworkToNetworkInterconnectsListByNetworkFabricNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByNetworkFabricNext operation. */
-export type NetworkToNetworkInterconnectsListByNetworkFabricNextResponse = NetworkToNetworkInterconnectsList;
+export type NetworkToNetworkInterconnectsListByNetworkFabricNextResponse =
+  NetworkToNetworkInterconnectsList;
 
 /** Optional parameters. */
 export interface NetworkPacketBrokersCreateOptionalParams
@@ -5901,28 +6018,32 @@ export interface NetworkPacketBrokersListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type NetworkPacketBrokersListByResourceGroupResponse = NetworkPacketBrokersListResult;
+export type NetworkPacketBrokersListByResourceGroupResponse =
+  NetworkPacketBrokersListResult;
 
 /** Optional parameters. */
 export interface NetworkPacketBrokersListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type NetworkPacketBrokersListBySubscriptionResponse = NetworkPacketBrokersListResult;
+export type NetworkPacketBrokersListBySubscriptionResponse =
+  NetworkPacketBrokersListResult;
 
 /** Optional parameters. */
 export interface NetworkPacketBrokersListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type NetworkPacketBrokersListByResourceGroupNextResponse = NetworkPacketBrokersListResult;
+export type NetworkPacketBrokersListByResourceGroupNextResponse =
+  NetworkPacketBrokersListResult;
 
 /** Optional parameters. */
 export interface NetworkPacketBrokersListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type NetworkPacketBrokersListBySubscriptionNextResponse = NetworkPacketBrokersListResult;
+export type NetworkPacketBrokersListBySubscriptionNextResponse =
+  NetworkPacketBrokersListResult;
 
 /** Optional parameters. */
 export interface NetworkRacksCreateOptionalParams
@@ -5983,7 +6104,8 @@ export interface NetworkRacksListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type NetworkRacksListByResourceGroupNextResponse = NetworkRacksListResult;
+export type NetworkRacksListByResourceGroupNextResponse =
+  NetworkRacksListResult;
 
 /** Optional parameters. */
 export interface NetworkRacksListBySubscriptionNextOptionalParams
@@ -6040,14 +6162,16 @@ export interface NetworkTapRulesListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type NetworkTapRulesListByResourceGroupResponse = NetworkTapRulesListResult;
+export type NetworkTapRulesListByResourceGroupResponse =
+  NetworkTapRulesListResult;
 
 /** Optional parameters. */
 export interface NetworkTapRulesListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type NetworkTapRulesListBySubscriptionResponse = NetworkTapRulesListResult;
+export type NetworkTapRulesListBySubscriptionResponse =
+  NetworkTapRulesListResult;
 
 /** Optional parameters. */
 export interface NetworkTapRulesUpdateAdministrativeStateOptionalParams
@@ -6059,7 +6183,8 @@ export interface NetworkTapRulesUpdateAdministrativeStateOptionalParams
 }
 
 /** Contains response data for the updateAdministrativeState operation. */
-export type NetworkTapRulesUpdateAdministrativeStateResponse = CommonPostActionResponseForStateUpdate;
+export type NetworkTapRulesUpdateAdministrativeStateResponse =
+  CommonPostActionResponseForStateUpdate;
 
 /** Optional parameters. */
 export interface NetworkTapRulesResyncOptionalParams
@@ -6071,7 +6196,8 @@ export interface NetworkTapRulesResyncOptionalParams
 }
 
 /** Contains response data for the resync operation. */
-export type NetworkTapRulesResyncResponse = CommonPostActionResponseForStateUpdate;
+export type NetworkTapRulesResyncResponse =
+  CommonPostActionResponseForStateUpdate;
 
 /** Optional parameters. */
 export interface NetworkTapRulesValidateConfigurationOptionalParams
@@ -6083,21 +6209,24 @@ export interface NetworkTapRulesValidateConfigurationOptionalParams
 }
 
 /** Contains response data for the validateConfiguration operation. */
-export type NetworkTapRulesValidateConfigurationResponse = ValidateConfigurationResponse;
+export type NetworkTapRulesValidateConfigurationResponse =
+  ValidateConfigurationResponse;
 
 /** Optional parameters. */
 export interface NetworkTapRulesListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type NetworkTapRulesListByResourceGroupNextResponse = NetworkTapRulesListResult;
+export type NetworkTapRulesListByResourceGroupNextResponse =
+  NetworkTapRulesListResult;
 
 /** Optional parameters. */
 export interface NetworkTapRulesListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type NetworkTapRulesListBySubscriptionNextResponse = NetworkTapRulesListResult;
+export type NetworkTapRulesListBySubscriptionNextResponse =
+  NetworkTapRulesListResult;
 
 /** Optional parameters. */
 export interface NetworkTapsCreateOptionalParams
@@ -6163,7 +6292,8 @@ export interface NetworkTapsUpdateAdministrativeStateOptionalParams
 }
 
 /** Contains response data for the updateAdministrativeState operation. */
-export type NetworkTapsUpdateAdministrativeStateResponse = CommonPostActionResponseForDeviceUpdate;
+export type NetworkTapsUpdateAdministrativeStateResponse =
+  CommonPostActionResponseForDeviceUpdate;
 
 /** Optional parameters. */
 export interface NetworkTapsResyncOptionalParams
@@ -6269,7 +6399,8 @@ export interface RoutePoliciesUpdateAdministrativeStateOptionalParams
 }
 
 /** Contains response data for the updateAdministrativeState operation. */
-export type RoutePoliciesUpdateAdministrativeStateResponse = CommonPostActionResponseForDeviceUpdate;
+export type RoutePoliciesUpdateAdministrativeStateResponse =
+  CommonPostActionResponseForDeviceUpdate;
 
 /** Optional parameters. */
 export interface RoutePoliciesValidateConfigurationOptionalParams
@@ -6281,7 +6412,8 @@ export interface RoutePoliciesValidateConfigurationOptionalParams
 }
 
 /** Contains response data for the validateConfiguration operation. */
-export type RoutePoliciesValidateConfigurationResponse = ValidateConfigurationResponse;
+export type RoutePoliciesValidateConfigurationResponse =
+  ValidateConfigurationResponse;
 
 /** Optional parameters. */
 export interface RoutePoliciesCommitConfigurationOptionalParams
@@ -6293,21 +6425,24 @@ export interface RoutePoliciesCommitConfigurationOptionalParams
 }
 
 /** Contains response data for the commitConfiguration operation. */
-export type RoutePoliciesCommitConfigurationResponse = CommonPostActionResponseForStateUpdate;
+export type RoutePoliciesCommitConfigurationResponse =
+  CommonPostActionResponseForStateUpdate;
 
 /** Optional parameters. */
 export interface RoutePoliciesListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type RoutePoliciesListByResourceGroupNextResponse = RoutePoliciesListResult;
+export type RoutePoliciesListByResourceGroupNextResponse =
+  RoutePoliciesListResult;
 
 /** Optional parameters. */
 export interface RoutePoliciesListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type RoutePoliciesListBySubscriptionNextResponse = RoutePoliciesListResult;
+export type RoutePoliciesListBySubscriptionNextResponse =
+  RoutePoliciesListResult;
 
 /** Optional parameters. */
 export interface AzureNetworkFabricManagementServiceAPIOptionalParams
