@@ -83,8 +83,8 @@ const listOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion9],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.ruleName,
   ],
   headerParameters: [Parameters.accept],
@@ -104,8 +104,8 @@ const listByNameOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion9],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.ruleName,
     Parameters.statusName,
   ],
