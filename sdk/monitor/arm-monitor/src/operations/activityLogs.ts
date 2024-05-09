@@ -161,7 +161,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [
-    Parameters.apiVersion3,
+    Parameters.apiVersion4,
     Parameters.filter1,
     Parameters.select,
   ],

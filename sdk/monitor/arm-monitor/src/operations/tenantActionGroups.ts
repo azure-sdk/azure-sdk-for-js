@@ -240,8 +240,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.tenantActionGroupName,
   ],
   headerParameters: [
-    Parameters.accept,
     Parameters.contentType,
+    Parameters.accept,
     Parameters.xMsClientTenantId,
   ],
   mediaType: "json",
@@ -305,8 +305,8 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.tenantActionGroupName,
   ],
   headerParameters: [
-    Parameters.accept,
     Parameters.contentType,
+    Parameters.accept,
     Parameters.xMsClientTenantId,
   ],
   mediaType: "json",

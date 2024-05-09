@@ -93,7 +93,7 @@ const listAtSubscriptionScopeOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [
-    Parameters.apiVersion,
+    Parameters.apiVersion1,
     Parameters.region,
     Parameters.metricnamespace,
     Parameters.timespan,
@@ -125,7 +125,7 @@ const listAtSubscriptionScopePostOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: Parameters.body,
   queryParameters: [
-    Parameters.apiVersion,
+    Parameters.apiVersion1,
     Parameters.region,
     Parameters.metricnamespace,
     Parameters.timespan,
@@ -141,7 +141,7 @@ const listAtSubscriptionScopePostOperationSpec: coreClient.OperationSpec = {
     Parameters.rollupby,
   ],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
@@ -157,7 +157,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [
-    Parameters.apiVersion,
+    Parameters.apiVersion1,
     Parameters.metricnamespace,
     Parameters.timespan,
     Parameters.interval,

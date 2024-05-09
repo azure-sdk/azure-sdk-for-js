@@ -16,6 +16,7 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "./lroImpl";
 import {
+  ActionGroupsImpl,
   MetricNamespacesImpl,
   MetricDefinitionsImpl,
   MetricsOperationsImpl,
@@ -29,7 +30,6 @@ import {
   LogProfilesImpl,
   DiagnosticSettingsImpl,
   DiagnosticSettingsCategoryImpl,
-  ActionGroupsImpl,
   TenantActionGroupsImpl,
   ActivityLogsImpl,
   EventCategoriesImpl,
@@ -50,6 +50,7 @@ import {
   DataCollectionRulesImpl,
 } from "./operations";
 import {
+  ActionGroups,
   MetricNamespaces,
   MetricDefinitions,
   MetricsOperations,
@@ -63,7 +64,6 @@ import {
   LogProfiles,
   DiagnosticSettings,
   DiagnosticSettingsCategory,
-  ActionGroups,
   TenantActionGroups,
   ActivityLogs,
   EventCategories,
@@ -193,6 +193,7 @@ export class MonitorClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
+    this.actionGroups = new ActionGroupsImpl(this);
     this.metricNamespaces = new MetricNamespacesImpl(this);
     this.metricDefinitions = new MetricDefinitionsImpl(this);
     this.metricsOperations = new MetricsOperationsImpl(this);
@@ -206,7 +207,6 @@ export class MonitorClient extends coreClient.ServiceClient {
     this.logProfiles = new LogProfilesImpl(this);
     this.diagnosticSettings = new DiagnosticSettingsImpl(this);
     this.diagnosticSettingsCategory = new DiagnosticSettingsCategoryImpl(this);
-    this.actionGroups = new ActionGroupsImpl(this);
     this.tenantActionGroups = new TenantActionGroupsImpl(this);
     this.activityLogs = new ActivityLogsImpl(this);
     this.eventCategories = new EventCategoriesImpl(this);
@@ -363,6 +363,7 @@ export class MonitorClient extends coreClient.ServiceClient {
     );
   }
 
+  actionGroups: ActionGroups;
   metricNamespaces: MetricNamespaces;
   metricDefinitions: MetricDefinitions;
   metricsOperations: MetricsOperations;
@@ -376,7 +377,6 @@ export class MonitorClient extends coreClient.ServiceClient {
   logProfiles: LogProfiles;
   diagnosticSettings: DiagnosticSettings;
   diagnosticSettingsCategory: DiagnosticSettingsCategory;
-  actionGroups: ActionGroups;
   tenantActionGroups: TenantActionGroups;
   activityLogs: ActivityLogs;
   eventCategories: EventCategories;
@@ -428,8 +428,8 @@ const createNotificationsAtTenantActionGroupResourceLevelOperationSpec: coreClie
       Parameters.tenantActionGroupName,
     ],
     headerParameters: [
-      Parameters.accept,
       Parameters.contentType,
+      Parameters.accept,
       Parameters.xMsClientTenantId,
     ],
     mediaType: "json",

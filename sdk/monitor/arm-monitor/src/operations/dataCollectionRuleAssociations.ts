@@ -476,8 +476,8 @@ const listByRuleOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion14],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.dataCollectionRuleName,
   ],
   headerParameters: [Parameters.accept],
@@ -498,8 +498,8 @@ const listByDataCollectionEndpointOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion14],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.dataCollectionEndpointName,
   ],
   headerParameters: [Parameters.accept],
@@ -546,7 +546,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceUri1,
     Parameters.associationName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
@@ -603,8 +603,8 @@ const listByRuleNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.dataCollectionRuleName,
   ],
@@ -626,8 +626,8 @@ const listByDataCollectionEndpointNextOperationSpec: coreClient.OperationSpec =
     },
     urlParameters: [
       Parameters.$host,
-      Parameters.subscriptionId,
       Parameters.resourceGroupName,
+      Parameters.subscriptionId,
       Parameters.nextLink,
       Parameters.dataCollectionEndpointName,
     ],
