@@ -16,7 +16,7 @@ import { AzureNetworkFabricManagementServiceAPI } from "../azureNetworkFabricMan
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -41,7 +41,7 @@ import {
   NetworkTapsResyncOptionalParams,
   NetworkTapsResyncResponse,
   NetworkTapsListByResourceGroupNextResponse,
-  NetworkTapsListBySubscriptionNextResponse
+  NetworkTapsListBySubscriptionNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -64,7 +64,7 @@ export class NetworkTapsImpl implements NetworkTaps {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: NetworkTapsListByResourceGroupOptionalParams
+    options?: NetworkTapsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<NetworkTap> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -81,16 +81,16 @@ export class NetworkTapsImpl implements NetworkTaps {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: NetworkTapsListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<NetworkTap[]> {
     let result: NetworkTapsListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -105,7 +105,7 @@ export class NetworkTapsImpl implements NetworkTaps {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -116,11 +116,11 @@ export class NetworkTapsImpl implements NetworkTaps {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: NetworkTapsListByResourceGroupOptionalParams
+    options?: NetworkTapsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<NetworkTap> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -131,7 +131,7 @@ export class NetworkTapsImpl implements NetworkTaps {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: NetworkTapsListBySubscriptionOptionalParams
+    options?: NetworkTapsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<NetworkTap> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -146,13 +146,13 @@ export class NetworkTapsImpl implements NetworkTaps {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: NetworkTapsListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<NetworkTap[]> {
     let result: NetworkTapsListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -173,7 +173,7 @@ export class NetworkTapsImpl implements NetworkTaps {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: NetworkTapsListBySubscriptionOptionalParams
+    options?: NetworkTapsListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<NetworkTap> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -191,7 +191,7 @@ export class NetworkTapsImpl implements NetworkTaps {
     resourceGroupName: string,
     networkTapName: string,
     body: NetworkTap,
-    options?: NetworkTapsCreateOptionalParams
+    options?: NetworkTapsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkTapsCreateResponse>,
@@ -200,21 +200,20 @@ export class NetworkTapsImpl implements NetworkTaps {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<NetworkTapsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -223,8 +222,8 @@ export class NetworkTapsImpl implements NetworkTaps {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -232,15 +231,15 @@ export class NetworkTapsImpl implements NetworkTaps {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, networkTapName, body, options },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       NetworkTapsCreateResponse,
@@ -248,7 +247,7 @@ export class NetworkTapsImpl implements NetworkTaps {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -265,13 +264,13 @@ export class NetworkTapsImpl implements NetworkTaps {
     resourceGroupName: string,
     networkTapName: string,
     body: NetworkTap,
-    options?: NetworkTapsCreateOptionalParams
+    options?: NetworkTapsCreateOptionalParams,
   ): Promise<NetworkTapsCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       networkTapName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -285,11 +284,11 @@ export class NetworkTapsImpl implements NetworkTaps {
   get(
     resourceGroupName: string,
     networkTapName: string,
-    options?: NetworkTapsGetOptionalParams
+    options?: NetworkTapsGetOptionalParams,
   ): Promise<NetworkTapsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, networkTapName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -304,7 +303,7 @@ export class NetworkTapsImpl implements NetworkTaps {
     resourceGroupName: string,
     networkTapName: string,
     body: NetworkTapPatch,
-    options?: NetworkTapsUpdateOptionalParams
+    options?: NetworkTapsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkTapsUpdateResponse>,
@@ -313,21 +312,20 @@ export class NetworkTapsImpl implements NetworkTaps {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<NetworkTapsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -336,8 +334,8 @@ export class NetworkTapsImpl implements NetworkTaps {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -345,15 +343,15 @@ export class NetworkTapsImpl implements NetworkTaps {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, networkTapName, body, options },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       NetworkTapsUpdateResponse,
@@ -361,7 +359,7 @@ export class NetworkTapsImpl implements NetworkTaps {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -378,13 +376,13 @@ export class NetworkTapsImpl implements NetworkTaps {
     resourceGroupName: string,
     networkTapName: string,
     body: NetworkTapPatch,
-    options?: NetworkTapsUpdateOptionalParams
+    options?: NetworkTapsUpdateOptionalParams,
   ): Promise<NetworkTapsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       networkTapName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -398,25 +396,24 @@ export class NetworkTapsImpl implements NetworkTaps {
   async beginDelete(
     resourceGroupName: string,
     networkTapName: string,
-    options?: NetworkTapsDeleteOptionalParams
+    options?: NetworkTapsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -425,8 +422,8 @@ export class NetworkTapsImpl implements NetworkTaps {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -434,20 +431,20 @@ export class NetworkTapsImpl implements NetworkTaps {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, networkTapName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -462,12 +459,12 @@ export class NetworkTapsImpl implements NetworkTaps {
   async beginDeleteAndWait(
     resourceGroupName: string,
     networkTapName: string,
-    options?: NetworkTapsDeleteOptionalParams
+    options?: NetworkTapsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       networkTapName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -479,11 +476,11 @@ export class NetworkTapsImpl implements NetworkTaps {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: NetworkTapsListByResourceGroupOptionalParams
+    options?: NetworkTapsListByResourceGroupOptionalParams,
   ): Promise<NetworkTapsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -492,11 +489,11 @@ export class NetworkTapsImpl implements NetworkTaps {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: NetworkTapsListBySubscriptionOptionalParams
+    options?: NetworkTapsListBySubscriptionOptionalParams,
   ): Promise<NetworkTapsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -511,7 +508,7 @@ export class NetworkTapsImpl implements NetworkTaps {
     resourceGroupName: string,
     networkTapName: string,
     body: UpdateAdministrativeState,
-    options?: NetworkTapsUpdateAdministrativeStateOptionalParams
+    options?: NetworkTapsUpdateAdministrativeStateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkTapsUpdateAdministrativeStateResponse>,
@@ -520,21 +517,20 @@ export class NetworkTapsImpl implements NetworkTaps {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<NetworkTapsUpdateAdministrativeStateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -543,8 +539,8 @@ export class NetworkTapsImpl implements NetworkTaps {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -552,15 +548,15 @@ export class NetworkTapsImpl implements NetworkTaps {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, networkTapName, body, options },
-      spec: updateAdministrativeStateOperationSpec
+      spec: updateAdministrativeStateOperationSpec,
     });
     const poller = await createHttpPoller<
       NetworkTapsUpdateAdministrativeStateResponse,
@@ -568,7 +564,7 @@ export class NetworkTapsImpl implements NetworkTaps {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -585,13 +581,13 @@ export class NetworkTapsImpl implements NetworkTaps {
     resourceGroupName: string,
     networkTapName: string,
     body: UpdateAdministrativeState,
-    options?: NetworkTapsUpdateAdministrativeStateOptionalParams
+    options?: NetworkTapsUpdateAdministrativeStateOptionalParams,
   ): Promise<NetworkTapsUpdateAdministrativeStateResponse> {
     const poller = await this.beginUpdateAdministrativeState(
       resourceGroupName,
       networkTapName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -605,7 +601,7 @@ export class NetworkTapsImpl implements NetworkTaps {
   async beginResync(
     resourceGroupName: string,
     networkTapName: string,
-    options?: NetworkTapsResyncOptionalParams
+    options?: NetworkTapsResyncOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkTapsResyncResponse>,
@@ -614,21 +610,20 @@ export class NetworkTapsImpl implements NetworkTaps {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<NetworkTapsResyncResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -637,8 +632,8 @@ export class NetworkTapsImpl implements NetworkTaps {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -646,15 +641,15 @@ export class NetworkTapsImpl implements NetworkTaps {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, networkTapName, options },
-      spec: resyncOperationSpec
+      spec: resyncOperationSpec,
     });
     const poller = await createHttpPoller<
       NetworkTapsResyncResponse,
@@ -662,7 +657,7 @@ export class NetworkTapsImpl implements NetworkTaps {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -677,12 +672,12 @@ export class NetworkTapsImpl implements NetworkTaps {
   async beginResyncAndWait(
     resourceGroupName: string,
     networkTapName: string,
-    options?: NetworkTapsResyncOptionalParams
+    options?: NetworkTapsResyncOptionalParams,
   ): Promise<NetworkTapsResyncResponse> {
     const poller = await this.beginResync(
       resourceGroupName,
       networkTapName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -696,11 +691,11 @@ export class NetworkTapsImpl implements NetworkTaps {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: NetworkTapsListByResourceGroupNextOptionalParams
+    options?: NetworkTapsListByResourceGroupNextOptionalParams,
   ): Promise<NetworkTapsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 
@@ -711,11 +706,11 @@ export class NetworkTapsImpl implements NetworkTaps {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: NetworkTapsListBySubscriptionNextOptionalParams
+    options?: NetworkTapsListBySubscriptionNextOptionalParams,
   ): Promise<NetworkTapsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 }
@@ -723,80 +718,24 @@ export class NetworkTapsImpl implements NetworkTaps {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkTaps/{networkTapName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkTaps/{networkTapName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkTap
+      bodyMapper: Mappers.NetworkTap,
     },
     201: {
-      bodyMapper: Mappers.NetworkTap
+      bodyMapper: Mappers.NetworkTap,
     },
     202: {
-      bodyMapper: Mappers.NetworkTap
+      bodyMapper: Mappers.NetworkTap,
     },
     204: {
-      bodyMapper: Mappers.NetworkTap
+      bodyMapper: Mappers.NetworkTap,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.body43,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.networkTapName
-  ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkTaps/{networkTapName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.NetworkTap
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.networkTapName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkTaps/{networkTapName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.NetworkTap
-    },
-    201: {
-      bodyMapper: Mappers.NetworkTap
-    },
-    202: {
-      bodyMapper: Mappers.NetworkTap
-    },
-    204: {
-      bodyMapper: Mappers.NetworkTap
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   requestBody: Parameters.body44,
   queryParameters: [Parameters.apiVersion],
@@ -804,15 +743,67 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.networkTapName
+    Parameters.networkTapName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkTaps/{networkTapName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.NetworkTap,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.networkTapName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const updateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkTaps/{networkTapName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.NetworkTap,
+    },
+    201: {
+      bodyMapper: Mappers.NetworkTap,
+    },
+    202: {
+      bodyMapper: Mappers.NetworkTap,
+    },
+    204: {
+      bodyMapper: Mappers.NetworkTap,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.body45,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.networkTapName,
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkTaps/{networkTapName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkTaps/{networkTapName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -820,77 +811,74 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.networkTapName
+    Parameters.networkTapName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkTaps",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkTaps",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkTapsListResult
+      bodyMapper: Mappers.NetworkTapsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ManagedNetworkFabric/networkTaps",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.ManagedNetworkFabric/networkTaps",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkTapsListResult
+      bodyMapper: Mappers.NetworkTapsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateAdministrativeStateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkTaps/{networkTapName}/updateAdministrativeState",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkTaps/{networkTapName}/updateAdministrativeState",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate,
     },
     201: {
-      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate,
     },
     202: {
-      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate,
     },
     204: {
-      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body2,
   queryParameters: [Parameters.apiVersion],
@@ -898,79 +886,78 @@ const updateAdministrativeStateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.networkTapName
+    Parameters.networkTapName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const resyncOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkTaps/{networkTapName}/resync",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkTaps/{networkTapName}/resync",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     201: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     202: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     204: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.networkTapName
+    Parameters.networkTapName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkTapsListResult
+      bodyMapper: Mappers.NetworkTapsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkTapsListResult
+      bodyMapper: Mappers.NetworkTapsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

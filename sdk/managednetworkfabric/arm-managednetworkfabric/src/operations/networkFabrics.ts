@@ -16,7 +16,7 @@ import { AzureNetworkFabricManagementServiceAPI } from "../azureNetworkFabricMan
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -40,7 +40,7 @@ import {
   NetworkFabricsProvisionResponse,
   NetworkFabricsDeprovisionOptionalParams,
   NetworkFabricsDeprovisionResponse,
-  UpdateVersion,
+  UpgradeNetworkFabricProperties,
   NetworkFabricsUpgradeOptionalParams,
   NetworkFabricsUpgradeResponse,
   NetworkFabricsRefreshConfigurationOptionalParams,
@@ -58,7 +58,7 @@ import {
   NetworkFabricsCommitConfigurationOptionalParams,
   NetworkFabricsCommitConfigurationResponse,
   NetworkFabricsListByResourceGroupNextResponse,
-  NetworkFabricsListBySubscriptionNextResponse
+  NetworkFabricsListBySubscriptionNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -81,7 +81,7 @@ export class NetworkFabricsImpl implements NetworkFabrics {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: NetworkFabricsListByResourceGroupOptionalParams
+    options?: NetworkFabricsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<NetworkFabric> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -98,16 +98,16 @@ export class NetworkFabricsImpl implements NetworkFabrics {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: NetworkFabricsListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<NetworkFabric[]> {
     let result: NetworkFabricsListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -122,7 +122,7 @@ export class NetworkFabricsImpl implements NetworkFabrics {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -133,11 +133,11 @@ export class NetworkFabricsImpl implements NetworkFabrics {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: NetworkFabricsListByResourceGroupOptionalParams
+    options?: NetworkFabricsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<NetworkFabric> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -148,7 +148,7 @@ export class NetworkFabricsImpl implements NetworkFabrics {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: NetworkFabricsListBySubscriptionOptionalParams
+    options?: NetworkFabricsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<NetworkFabric> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -163,13 +163,13 @@ export class NetworkFabricsImpl implements NetworkFabrics {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: NetworkFabricsListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<NetworkFabric[]> {
     let result: NetworkFabricsListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -190,7 +190,7 @@ export class NetworkFabricsImpl implements NetworkFabrics {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: NetworkFabricsListBySubscriptionOptionalParams
+    options?: NetworkFabricsListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<NetworkFabric> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -208,7 +208,7 @@ export class NetworkFabricsImpl implements NetworkFabrics {
     resourceGroupName: string,
     networkFabricName: string,
     body: NetworkFabric,
-    options?: NetworkFabricsCreateOptionalParams
+    options?: NetworkFabricsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkFabricsCreateResponse>,
@@ -217,21 +217,20 @@ export class NetworkFabricsImpl implements NetworkFabrics {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<NetworkFabricsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -240,8 +239,8 @@ export class NetworkFabricsImpl implements NetworkFabrics {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -249,15 +248,15 @@ export class NetworkFabricsImpl implements NetworkFabrics {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, networkFabricName, body, options },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       NetworkFabricsCreateResponse,
@@ -265,7 +264,7 @@ export class NetworkFabricsImpl implements NetworkFabrics {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -282,13 +281,13 @@ export class NetworkFabricsImpl implements NetworkFabrics {
     resourceGroupName: string,
     networkFabricName: string,
     body: NetworkFabric,
-    options?: NetworkFabricsCreateOptionalParams
+    options?: NetworkFabricsCreateOptionalParams,
   ): Promise<NetworkFabricsCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       networkFabricName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -302,11 +301,11 @@ export class NetworkFabricsImpl implements NetworkFabrics {
   get(
     resourceGroupName: string,
     networkFabricName: string,
-    options?: NetworkFabricsGetOptionalParams
+    options?: NetworkFabricsGetOptionalParams,
   ): Promise<NetworkFabricsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, networkFabricName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -321,7 +320,7 @@ export class NetworkFabricsImpl implements NetworkFabrics {
     resourceGroupName: string,
     networkFabricName: string,
     body: NetworkFabricPatch,
-    options?: NetworkFabricsUpdateOptionalParams
+    options?: NetworkFabricsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkFabricsUpdateResponse>,
@@ -330,21 +329,20 @@ export class NetworkFabricsImpl implements NetworkFabrics {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<NetworkFabricsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -353,8 +351,8 @@ export class NetworkFabricsImpl implements NetworkFabrics {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -362,15 +360,15 @@ export class NetworkFabricsImpl implements NetworkFabrics {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, networkFabricName, body, options },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       NetworkFabricsUpdateResponse,
@@ -378,7 +376,7 @@ export class NetworkFabricsImpl implements NetworkFabrics {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -395,13 +393,13 @@ export class NetworkFabricsImpl implements NetworkFabrics {
     resourceGroupName: string,
     networkFabricName: string,
     body: NetworkFabricPatch,
-    options?: NetworkFabricsUpdateOptionalParams
+    options?: NetworkFabricsUpdateOptionalParams,
   ): Promise<NetworkFabricsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       networkFabricName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -415,7 +413,7 @@ export class NetworkFabricsImpl implements NetworkFabrics {
   async beginDelete(
     resourceGroupName: string,
     networkFabricName: string,
-    options?: NetworkFabricsDeleteOptionalParams
+    options?: NetworkFabricsDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkFabricsDeleteResponse>,
@@ -424,21 +422,20 @@ export class NetworkFabricsImpl implements NetworkFabrics {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<NetworkFabricsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -447,8 +444,8 @@ export class NetworkFabricsImpl implements NetworkFabrics {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -456,15 +453,15 @@ export class NetworkFabricsImpl implements NetworkFabrics {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, networkFabricName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
       NetworkFabricsDeleteResponse,
@@ -472,7 +469,7 @@ export class NetworkFabricsImpl implements NetworkFabrics {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -487,12 +484,12 @@ export class NetworkFabricsImpl implements NetworkFabrics {
   async beginDeleteAndWait(
     resourceGroupName: string,
     networkFabricName: string,
-    options?: NetworkFabricsDeleteOptionalParams
+    options?: NetworkFabricsDeleteOptionalParams,
   ): Promise<NetworkFabricsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       networkFabricName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -504,11 +501,11 @@ export class NetworkFabricsImpl implements NetworkFabrics {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: NetworkFabricsListByResourceGroupOptionalParams
+    options?: NetworkFabricsListByResourceGroupOptionalParams,
   ): Promise<NetworkFabricsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -517,11 +514,11 @@ export class NetworkFabricsImpl implements NetworkFabrics {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: NetworkFabricsListBySubscriptionOptionalParams
+    options?: NetworkFabricsListBySubscriptionOptionalParams,
   ): Promise<NetworkFabricsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -534,7 +531,7 @@ export class NetworkFabricsImpl implements NetworkFabrics {
   async beginProvision(
     resourceGroupName: string,
     networkFabricName: string,
-    options?: NetworkFabricsProvisionOptionalParams
+    options?: NetworkFabricsProvisionOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkFabricsProvisionResponse>,
@@ -543,21 +540,20 @@ export class NetworkFabricsImpl implements NetworkFabrics {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<NetworkFabricsProvisionResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -566,8 +562,8 @@ export class NetworkFabricsImpl implements NetworkFabrics {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -575,15 +571,15 @@ export class NetworkFabricsImpl implements NetworkFabrics {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, networkFabricName, options },
-      spec: provisionOperationSpec
+      spec: provisionOperationSpec,
     });
     const poller = await createHttpPoller<
       NetworkFabricsProvisionResponse,
@@ -591,7 +587,7 @@ export class NetworkFabricsImpl implements NetworkFabrics {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -606,12 +602,12 @@ export class NetworkFabricsImpl implements NetworkFabrics {
   async beginProvisionAndWait(
     resourceGroupName: string,
     networkFabricName: string,
-    options?: NetworkFabricsProvisionOptionalParams
+    options?: NetworkFabricsProvisionOptionalParams,
   ): Promise<NetworkFabricsProvisionResponse> {
     const poller = await this.beginProvision(
       resourceGroupName,
       networkFabricName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -625,7 +621,7 @@ export class NetworkFabricsImpl implements NetworkFabrics {
   async beginDeprovision(
     resourceGroupName: string,
     networkFabricName: string,
-    options?: NetworkFabricsDeprovisionOptionalParams
+    options?: NetworkFabricsDeprovisionOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkFabricsDeprovisionResponse>,
@@ -634,21 +630,20 @@ export class NetworkFabricsImpl implements NetworkFabrics {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<NetworkFabricsDeprovisionResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -657,8 +652,8 @@ export class NetworkFabricsImpl implements NetworkFabrics {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -666,15 +661,15 @@ export class NetworkFabricsImpl implements NetworkFabrics {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, networkFabricName, options },
-      spec: deprovisionOperationSpec
+      spec: deprovisionOperationSpec,
     });
     const poller = await createHttpPoller<
       NetworkFabricsDeprovisionResponse,
@@ -682,7 +677,7 @@ export class NetworkFabricsImpl implements NetworkFabrics {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -697,12 +692,12 @@ export class NetworkFabricsImpl implements NetworkFabrics {
   async beginDeprovisionAndWait(
     resourceGroupName: string,
     networkFabricName: string,
-    options?: NetworkFabricsDeprovisionOptionalParams
+    options?: NetworkFabricsDeprovisionOptionalParams,
   ): Promise<NetworkFabricsDeprovisionResponse> {
     const poller = await this.beginDeprovision(
       resourceGroupName,
       networkFabricName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -717,8 +712,8 @@ export class NetworkFabricsImpl implements NetworkFabrics {
   async beginUpgrade(
     resourceGroupName: string,
     networkFabricName: string,
-    body: UpdateVersion,
-    options?: NetworkFabricsUpgradeOptionalParams
+    body: UpgradeNetworkFabricProperties,
+    options?: NetworkFabricsUpgradeOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkFabricsUpgradeResponse>,
@@ -727,21 +722,20 @@ export class NetworkFabricsImpl implements NetworkFabrics {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<NetworkFabricsUpgradeResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -750,8 +744,8 @@ export class NetworkFabricsImpl implements NetworkFabrics {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -759,15 +753,15 @@ export class NetworkFabricsImpl implements NetworkFabrics {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, networkFabricName, body, options },
-      spec: upgradeOperationSpec
+      spec: upgradeOperationSpec,
     });
     const poller = await createHttpPoller<
       NetworkFabricsUpgradeResponse,
@@ -775,7 +769,7 @@ export class NetworkFabricsImpl implements NetworkFabrics {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -791,14 +785,14 @@ export class NetworkFabricsImpl implements NetworkFabrics {
   async beginUpgradeAndWait(
     resourceGroupName: string,
     networkFabricName: string,
-    body: UpdateVersion,
-    options?: NetworkFabricsUpgradeOptionalParams
+    body: UpgradeNetworkFabricProperties,
+    options?: NetworkFabricsUpgradeOptionalParams,
   ): Promise<NetworkFabricsUpgradeResponse> {
     const poller = await this.beginUpgrade(
       resourceGroupName,
       networkFabricName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -812,7 +806,7 @@ export class NetworkFabricsImpl implements NetworkFabrics {
   async beginRefreshConfiguration(
     resourceGroupName: string,
     networkFabricName: string,
-    options?: NetworkFabricsRefreshConfigurationOptionalParams
+    options?: NetworkFabricsRefreshConfigurationOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkFabricsRefreshConfigurationResponse>,
@@ -821,21 +815,20 @@ export class NetworkFabricsImpl implements NetworkFabrics {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<NetworkFabricsRefreshConfigurationResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -844,8 +837,8 @@ export class NetworkFabricsImpl implements NetworkFabrics {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -853,15 +846,15 @@ export class NetworkFabricsImpl implements NetworkFabrics {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, networkFabricName, options },
-      spec: refreshConfigurationOperationSpec
+      spec: refreshConfigurationOperationSpec,
     });
     const poller = await createHttpPoller<
       NetworkFabricsRefreshConfigurationResponse,
@@ -869,7 +862,7 @@ export class NetworkFabricsImpl implements NetworkFabrics {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -884,12 +877,12 @@ export class NetworkFabricsImpl implements NetworkFabrics {
   async beginRefreshConfigurationAndWait(
     resourceGroupName: string,
     networkFabricName: string,
-    options?: NetworkFabricsRefreshConfigurationOptionalParams
+    options?: NetworkFabricsRefreshConfigurationOptionalParams,
   ): Promise<NetworkFabricsRefreshConfigurationResponse> {
     const poller = await this.beginRefreshConfiguration(
       resourceGroupName,
       networkFabricName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -906,32 +899,29 @@ export class NetworkFabricsImpl implements NetworkFabrics {
     resourceGroupName: string,
     networkFabricName: string,
     body: UpdateAdministrativeState,
-    options?: NetworkFabricsUpdateWorkloadManagementBfdConfigurationOptionalParams
+    options?: NetworkFabricsUpdateWorkloadManagementBfdConfigurationOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<
-        NetworkFabricsUpdateWorkloadManagementBfdConfigurationResponse
-      >,
+      OperationState<NetworkFabricsUpdateWorkloadManagementBfdConfigurationResponse>,
       NetworkFabricsUpdateWorkloadManagementBfdConfigurationResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<NetworkFabricsUpdateWorkloadManagementBfdConfigurationResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -940,8 +930,8 @@ export class NetworkFabricsImpl implements NetworkFabrics {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -949,25 +939,23 @@ export class NetworkFabricsImpl implements NetworkFabrics {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, networkFabricName, body, options },
-      spec: updateWorkloadManagementBfdConfigurationOperationSpec
+      spec: updateWorkloadManagementBfdConfigurationOperationSpec,
     });
     const poller = await createHttpPoller<
       NetworkFabricsUpdateWorkloadManagementBfdConfigurationResponse,
-      OperationState<
-        NetworkFabricsUpdateWorkloadManagementBfdConfigurationResponse
-      >
+      OperationState<NetworkFabricsUpdateWorkloadManagementBfdConfigurationResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -985,13 +973,13 @@ export class NetworkFabricsImpl implements NetworkFabrics {
     resourceGroupName: string,
     networkFabricName: string,
     body: UpdateAdministrativeState,
-    options?: NetworkFabricsUpdateWorkloadManagementBfdConfigurationOptionalParams
+    options?: NetworkFabricsUpdateWorkloadManagementBfdConfigurationOptionalParams,
   ): Promise<NetworkFabricsUpdateWorkloadManagementBfdConfigurationResponse> {
     const poller = await this.beginUpdateWorkloadManagementBfdConfiguration(
       resourceGroupName,
       networkFabricName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -1008,32 +996,29 @@ export class NetworkFabricsImpl implements NetworkFabrics {
     resourceGroupName: string,
     networkFabricName: string,
     body: UpdateAdministrativeState,
-    options?: NetworkFabricsUpdateInfraManagementBfdConfigurationOptionalParams
+    options?: NetworkFabricsUpdateInfraManagementBfdConfigurationOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<
-        NetworkFabricsUpdateInfraManagementBfdConfigurationResponse
-      >,
+      OperationState<NetworkFabricsUpdateInfraManagementBfdConfigurationResponse>,
       NetworkFabricsUpdateInfraManagementBfdConfigurationResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<NetworkFabricsUpdateInfraManagementBfdConfigurationResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -1042,8 +1027,8 @@ export class NetworkFabricsImpl implements NetworkFabrics {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -1051,25 +1036,23 @@ export class NetworkFabricsImpl implements NetworkFabrics {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, networkFabricName, body, options },
-      spec: updateInfraManagementBfdConfigurationOperationSpec
+      spec: updateInfraManagementBfdConfigurationOperationSpec,
     });
     const poller = await createHttpPoller<
       NetworkFabricsUpdateInfraManagementBfdConfigurationResponse,
-      OperationState<
-        NetworkFabricsUpdateInfraManagementBfdConfigurationResponse
-      >
+      OperationState<NetworkFabricsUpdateInfraManagementBfdConfigurationResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -1087,13 +1070,13 @@ export class NetworkFabricsImpl implements NetworkFabrics {
     resourceGroupName: string,
     networkFabricName: string,
     body: UpdateAdministrativeState,
-    options?: NetworkFabricsUpdateInfraManagementBfdConfigurationOptionalParams
+    options?: NetworkFabricsUpdateInfraManagementBfdConfigurationOptionalParams,
   ): Promise<NetworkFabricsUpdateInfraManagementBfdConfigurationResponse> {
     const poller = await this.beginUpdateInfraManagementBfdConfiguration(
       resourceGroupName,
       networkFabricName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -1109,7 +1092,7 @@ export class NetworkFabricsImpl implements NetworkFabrics {
     resourceGroupName: string,
     networkFabricName: string,
     body: ValidateConfigurationProperties,
-    options?: NetworkFabricsValidateConfigurationOptionalParams
+    options?: NetworkFabricsValidateConfigurationOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkFabricsValidateConfigurationResponse>,
@@ -1118,21 +1101,20 @@ export class NetworkFabricsImpl implements NetworkFabrics {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<NetworkFabricsValidateConfigurationResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -1141,8 +1123,8 @@ export class NetworkFabricsImpl implements NetworkFabrics {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -1150,15 +1132,15 @@ export class NetworkFabricsImpl implements NetworkFabrics {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, networkFabricName, body, options },
-      spec: validateConfigurationOperationSpec
+      spec: validateConfigurationOperationSpec,
     });
     const poller = await createHttpPoller<
       NetworkFabricsValidateConfigurationResponse,
@@ -1166,7 +1148,7 @@ export class NetworkFabricsImpl implements NetworkFabrics {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -1183,13 +1165,13 @@ export class NetworkFabricsImpl implements NetworkFabrics {
     resourceGroupName: string,
     networkFabricName: string,
     body: ValidateConfigurationProperties,
-    options?: NetworkFabricsValidateConfigurationOptionalParams
+    options?: NetworkFabricsValidateConfigurationOptionalParams,
   ): Promise<NetworkFabricsValidateConfigurationResponse> {
     const poller = await this.beginValidateConfiguration(
       resourceGroupName,
       networkFabricName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -1203,7 +1185,7 @@ export class NetworkFabricsImpl implements NetworkFabrics {
   async beginGetTopology(
     resourceGroupName: string,
     networkFabricName: string,
-    options?: NetworkFabricsGetTopologyOptionalParams
+    options?: NetworkFabricsGetTopologyOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkFabricsGetTopologyResponse>,
@@ -1212,21 +1194,20 @@ export class NetworkFabricsImpl implements NetworkFabrics {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<NetworkFabricsGetTopologyResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -1235,8 +1216,8 @@ export class NetworkFabricsImpl implements NetworkFabrics {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -1244,15 +1225,15 @@ export class NetworkFabricsImpl implements NetworkFabrics {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, networkFabricName, options },
-      spec: getTopologyOperationSpec
+      spec: getTopologyOperationSpec,
     });
     const poller = await createHttpPoller<
       NetworkFabricsGetTopologyResponse,
@@ -1260,7 +1241,7 @@ export class NetworkFabricsImpl implements NetworkFabrics {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -1275,12 +1256,12 @@ export class NetworkFabricsImpl implements NetworkFabrics {
   async beginGetTopologyAndWait(
     resourceGroupName: string,
     networkFabricName: string,
-    options?: NetworkFabricsGetTopologyOptionalParams
+    options?: NetworkFabricsGetTopologyOptionalParams,
   ): Promise<NetworkFabricsGetTopologyResponse> {
     const poller = await this.beginGetTopology(
       resourceGroupName,
       networkFabricName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -1294,7 +1275,7 @@ export class NetworkFabricsImpl implements NetworkFabrics {
   async beginCommitConfiguration(
     resourceGroupName: string,
     networkFabricName: string,
-    options?: NetworkFabricsCommitConfigurationOptionalParams
+    options?: NetworkFabricsCommitConfigurationOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkFabricsCommitConfigurationResponse>,
@@ -1303,21 +1284,20 @@ export class NetworkFabricsImpl implements NetworkFabrics {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<NetworkFabricsCommitConfigurationResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -1326,8 +1306,8 @@ export class NetworkFabricsImpl implements NetworkFabrics {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -1335,15 +1315,15 @@ export class NetworkFabricsImpl implements NetworkFabrics {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, networkFabricName, options },
-      spec: commitConfigurationOperationSpec
+      spec: commitConfigurationOperationSpec,
     });
     const poller = await createHttpPoller<
       NetworkFabricsCommitConfigurationResponse,
@@ -1351,7 +1331,7 @@ export class NetworkFabricsImpl implements NetworkFabrics {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -1366,12 +1346,12 @@ export class NetworkFabricsImpl implements NetworkFabrics {
   async beginCommitConfigurationAndWait(
     resourceGroupName: string,
     networkFabricName: string,
-    options?: NetworkFabricsCommitConfigurationOptionalParams
+    options?: NetworkFabricsCommitConfigurationOptionalParams,
   ): Promise<NetworkFabricsCommitConfigurationResponse> {
     const poller = await this.beginCommitConfiguration(
       resourceGroupName,
       networkFabricName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -1385,11 +1365,11 @@ export class NetworkFabricsImpl implements NetworkFabrics {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: NetworkFabricsListByResourceGroupNextOptionalParams
+    options?: NetworkFabricsListByResourceGroupNextOptionalParams,
   ): Promise<NetworkFabricsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 
@@ -1400,11 +1380,11 @@ export class NetworkFabricsImpl implements NetworkFabrics {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: NetworkFabricsListBySubscriptionNextOptionalParams
+    options?: NetworkFabricsListBySubscriptionNextOptionalParams,
   ): Promise<NetworkFabricsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 }
@@ -1412,25 +1392,24 @@ export class NetworkFabricsImpl implements NetworkFabrics {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkFabric
+      bodyMapper: Mappers.NetworkFabric,
     },
     201: {
-      bodyMapper: Mappers.NetworkFabric
+      bodyMapper: Mappers.NetworkFabric,
     },
     202: {
-      bodyMapper: Mappers.NetworkFabric
+      bodyMapper: Mappers.NetworkFabric,
     },
     204: {
-      bodyMapper: Mappers.NetworkFabric
+      bodyMapper: Mappers.NetworkFabric,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body32,
   queryParameters: [Parameters.apiVersion],
@@ -1438,54 +1417,52 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.networkFabricName
+    Parameters.networkFabricName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkFabric
+      bodyMapper: Mappers.NetworkFabric,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.networkFabricName
+    Parameters.networkFabricName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkFabric
+      bodyMapper: Mappers.NetworkFabric,
     },
     201: {
-      bodyMapper: Mappers.NetworkFabric
+      bodyMapper: Mappers.NetworkFabric,
     },
     202: {
-      bodyMapper: Mappers.NetworkFabric
+      bodyMapper: Mappers.NetworkFabric,
     },
     204: {
-      bodyMapper: Mappers.NetworkFabric
+      bodyMapper: Mappers.NetworkFabric,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body33,
   queryParameters: [Parameters.apiVersion],
@@ -1493,293 +1470,157 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.networkFabricName
+    Parameters.networkFabricName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.NetworkFabricsDeleteHeaders
+      headersMapper: Mappers.NetworkFabricsDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.NetworkFabricsDeleteHeaders
+      headersMapper: Mappers.NetworkFabricsDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.NetworkFabricsDeleteHeaders
+      headersMapper: Mappers.NetworkFabricsDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.NetworkFabricsDeleteHeaders
+      headersMapper: Mappers.NetworkFabricsDeleteHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.networkFabricName
+    Parameters.networkFabricName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkFabricsListResult
+      bodyMapper: Mappers.NetworkFabricsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ManagedNetworkFabric/networkFabrics",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.ManagedNetworkFabric/networkFabrics",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkFabricsListResult
+      bodyMapper: Mappers.NetworkFabricsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const provisionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}/provision",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}/provision",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate,
     },
     201: {
-      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate,
     },
     202: {
-      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate,
     },
     204: {
-      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.networkFabricName
+    Parameters.networkFabricName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deprovisionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}/deprovision",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}/deprovision",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate,
     },
     201: {
-      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate,
     },
     202: {
-      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate,
     },
     204: {
-      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.networkFabricName
+    Parameters.networkFabricName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const upgradeOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}/upgrade",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}/upgrade",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     201: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     202: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     204: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.body27,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.networkFabricName
-  ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const refreshConfigurationOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}/refreshConfiguration",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.ErrorResponse,
     },
-    201: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
-    },
-    202: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
-    },
-    204: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.networkFabricName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const updateWorkloadManagementBfdConfigurationOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}/updateWorkloadManagementBfdConfiguration",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
-    },
-    201: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
-    },
-    202: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
-    },
-    204: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.body2,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.networkFabricName
-  ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const updateInfraManagementBfdConfigurationOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}/updateInfraManagementBfdConfiguration",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
-    },
-    201: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
-    },
-    202: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
-    },
-    204: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.body2,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.networkFabricName
-  ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const validateConfigurationOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}/validateConfiguration",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ValidateConfigurationResponse
-    },
-    201: {
-      bodyMapper: Mappers.ValidateConfigurationResponse
-    },
-    202: {
-      bodyMapper: Mappers.ValidateConfigurationResponse
-    },
-    204: {
-      bodyMapper: Mappers.ValidateConfigurationResponse
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   requestBody: Parameters.body34,
   queryParameters: [Parameters.apiVersion],
@@ -1787,110 +1628,236 @@ const validateConfigurationOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.networkFabricName
+    Parameters.networkFabricName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
+};
+const refreshConfigurationOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}/refreshConfiguration",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
+    },
+    201: {
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
+    },
+    202: {
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
+    },
+    204: {
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.networkFabricName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const updateWorkloadManagementBfdConfigurationOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}/updateWorkloadManagementBfdConfiguration",
+    httpMethod: "POST",
+    responses: {
+      200: {
+        bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
+      },
+      201: {
+        bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
+      },
+      202: {
+        bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
+      },
+      204: {
+        bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
+      },
+      default: {
+        bodyMapper: Mappers.ErrorResponse,
+      },
+    },
+    requestBody: Parameters.body2,
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.networkFabricName,
+    ],
+    headerParameters: [Parameters.contentType, Parameters.accept],
+    mediaType: "json",
+    serializer,
+  };
+const updateInfraManagementBfdConfigurationOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}/updateInfraManagementBfdConfiguration",
+    httpMethod: "POST",
+    responses: {
+      200: {
+        bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
+      },
+      201: {
+        bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
+      },
+      202: {
+        bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
+      },
+      204: {
+        bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
+      },
+      default: {
+        bodyMapper: Mappers.ErrorResponse,
+      },
+    },
+    requestBody: Parameters.body2,
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.networkFabricName,
+    ],
+    headerParameters: [Parameters.contentType, Parameters.accept],
+    mediaType: "json",
+    serializer,
+  };
+const validateConfigurationOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}/validateConfiguration",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ValidateConfigurationResponse,
+    },
+    201: {
+      bodyMapper: Mappers.ValidateConfigurationResponse,
+    },
+    202: {
+      bodyMapper: Mappers.ValidateConfigurationResponse,
+    },
+    204: {
+      bodyMapper: Mappers.ValidateConfigurationResponse,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.body35,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.networkFabricName,
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer,
 };
 const getTopologyOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}/getTopology",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}/getTopology",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ValidateConfigurationResponse
+      bodyMapper: Mappers.ValidateConfigurationResponse,
     },
     201: {
-      bodyMapper: Mappers.ValidateConfigurationResponse
+      bodyMapper: Mappers.ValidateConfigurationResponse,
     },
     202: {
-      bodyMapper: Mappers.ValidateConfigurationResponse
+      bodyMapper: Mappers.ValidateConfigurationResponse,
     },
     204: {
-      bodyMapper: Mappers.ValidateConfigurationResponse
+      bodyMapper: Mappers.ValidateConfigurationResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.networkFabricName
+    Parameters.networkFabricName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const commitConfigurationOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}/commitConfiguration",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}/commitConfiguration",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     201: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     202: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     204: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.networkFabricName
+    Parameters.networkFabricName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkFabricsListResult
+      bodyMapper: Mappers.NetworkFabricsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkFabricsListResult
+      bodyMapper: Mappers.NetworkFabricsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

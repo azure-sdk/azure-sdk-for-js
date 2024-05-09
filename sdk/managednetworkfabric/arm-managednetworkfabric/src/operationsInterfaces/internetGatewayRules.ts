@@ -20,7 +20,7 @@ import {
   InternetGatewayRulesUpdateOptionalParams,
   InternetGatewayRulesUpdateResponse,
   InternetGatewayRulesDeleteOptionalParams,
-  InternetGatewayRulesDeleteResponse
+  InternetGatewayRulesDeleteResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,14 +33,14 @@ export interface InternetGatewayRules {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: InternetGatewayRulesListByResourceGroupOptionalParams
+    options?: InternetGatewayRulesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<InternetGatewayRule>;
   /**
    * List all Internet Gateway rules in the given subscription.
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: InternetGatewayRulesListBySubscriptionOptionalParams
+    options?: InternetGatewayRulesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<InternetGatewayRule>;
   /**
    * Creates an Internet Gateway rule resource.
@@ -53,7 +53,7 @@ export interface InternetGatewayRules {
     resourceGroupName: string,
     internetGatewayRuleName: string,
     body: InternetGatewayRule,
-    options?: InternetGatewayRulesCreateOptionalParams
+    options?: InternetGatewayRulesCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<InternetGatewayRulesCreateResponse>,
@@ -71,7 +71,7 @@ export interface InternetGatewayRules {
     resourceGroupName: string,
     internetGatewayRuleName: string,
     body: InternetGatewayRule,
-    options?: InternetGatewayRulesCreateOptionalParams
+    options?: InternetGatewayRulesCreateOptionalParams,
   ): Promise<InternetGatewayRulesCreateResponse>;
   /**
    * Gets an Internet Gateway Rule resource.
@@ -82,7 +82,7 @@ export interface InternetGatewayRules {
   get(
     resourceGroupName: string,
     internetGatewayRuleName: string,
-    options?: InternetGatewayRulesGetOptionalParams
+    options?: InternetGatewayRulesGetOptionalParams,
   ): Promise<InternetGatewayRulesGetResponse>;
   /**
    * API to update certain properties of the Internet Gateway Rule resource.
@@ -95,7 +95,7 @@ export interface InternetGatewayRules {
     resourceGroupName: string,
     internetGatewayRuleName: string,
     body: InternetGatewayRulePatch,
-    options?: InternetGatewayRulesUpdateOptionalParams
+    options?: InternetGatewayRulesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<InternetGatewayRulesUpdateResponse>,
@@ -113,7 +113,7 @@ export interface InternetGatewayRules {
     resourceGroupName: string,
     internetGatewayRuleName: string,
     body: InternetGatewayRulePatch,
-    options?: InternetGatewayRulesUpdateOptionalParams
+    options?: InternetGatewayRulesUpdateOptionalParams,
   ): Promise<InternetGatewayRulesUpdateResponse>;
   /**
    * Implements Internet Gateway Rules DELETE method.
@@ -124,7 +124,7 @@ export interface InternetGatewayRules {
   beginDelete(
     resourceGroupName: string,
     internetGatewayRuleName: string,
-    options?: InternetGatewayRulesDeleteOptionalParams
+    options?: InternetGatewayRulesDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<InternetGatewayRulesDeleteResponse>,
@@ -140,6 +140,6 @@ export interface InternetGatewayRules {
   beginDeleteAndWait(
     resourceGroupName: string,
     internetGatewayRuleName: string,
-    options?: InternetGatewayRulesDeleteOptionalParams
+    options?: InternetGatewayRulesDeleteOptionalParams,
   ): Promise<InternetGatewayRulesDeleteResponse>;
 }

@@ -20,7 +20,7 @@ import {
   IpCommunitiesUpdateOptionalParams,
   IpCommunitiesUpdateResponse,
   IpCommunitiesDeleteOptionalParams,
-  IpCommunitiesDeleteResponse
+  IpCommunitiesDeleteResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,14 +33,14 @@ export interface IpCommunities {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: IpCommunitiesListByResourceGroupOptionalParams
+    options?: IpCommunitiesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<IpCommunity>;
   /**
    * Implements IP Communities list by subscription GET method.
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: IpCommunitiesListBySubscriptionOptionalParams
+    options?: IpCommunitiesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<IpCommunity>;
   /**
    * Implements an IP Community PUT method.
@@ -53,7 +53,7 @@ export interface IpCommunities {
     resourceGroupName: string,
     ipCommunityName: string,
     body: IpCommunity,
-    options?: IpCommunitiesCreateOptionalParams
+    options?: IpCommunitiesCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<IpCommunitiesCreateResponse>,
@@ -71,7 +71,7 @@ export interface IpCommunities {
     resourceGroupName: string,
     ipCommunityName: string,
     body: IpCommunity,
-    options?: IpCommunitiesCreateOptionalParams
+    options?: IpCommunitiesCreateOptionalParams,
   ): Promise<IpCommunitiesCreateResponse>;
   /**
    * Implements an IP Community GET method.
@@ -82,7 +82,7 @@ export interface IpCommunities {
   get(
     resourceGroupName: string,
     ipCommunityName: string,
-    options?: IpCommunitiesGetOptionalParams
+    options?: IpCommunitiesGetOptionalParams,
   ): Promise<IpCommunitiesGetResponse>;
   /**
    * API to update certain properties of the IP Community resource.
@@ -95,7 +95,7 @@ export interface IpCommunities {
     resourceGroupName: string,
     ipCommunityName: string,
     body: IpCommunityPatch,
-    options?: IpCommunitiesUpdateOptionalParams
+    options?: IpCommunitiesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<IpCommunitiesUpdateResponse>,
@@ -113,7 +113,7 @@ export interface IpCommunities {
     resourceGroupName: string,
     ipCommunityName: string,
     body: IpCommunityPatch,
-    options?: IpCommunitiesUpdateOptionalParams
+    options?: IpCommunitiesUpdateOptionalParams,
   ): Promise<IpCommunitiesUpdateResponse>;
   /**
    * Implements IP Community DELETE method.
@@ -124,7 +124,7 @@ export interface IpCommunities {
   beginDelete(
     resourceGroupName: string,
     ipCommunityName: string,
-    options?: IpCommunitiesDeleteOptionalParams
+    options?: IpCommunitiesDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<IpCommunitiesDeleteResponse>,
@@ -140,6 +140,6 @@ export interface IpCommunities {
   beginDeleteAndWait(
     resourceGroupName: string,
     ipCommunityName: string,
-    options?: IpCommunitiesDeleteOptionalParams
+    options?: IpCommunitiesDeleteOptionalParams,
   ): Promise<IpCommunitiesDeleteResponse>;
 }

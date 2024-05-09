@@ -16,7 +16,7 @@ import { AzureNetworkFabricManagementServiceAPI } from "../azureNetworkFabricMan
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -37,13 +37,14 @@ import {
   NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateResponse,
   NetworkToNetworkInterconnectsUpdateAdministrativeStateOptionalParams,
   NetworkToNetworkInterconnectsUpdateAdministrativeStateResponse,
-  NetworkToNetworkInterconnectsListByNetworkFabricNextResponse
+  NetworkToNetworkInterconnectsListByNetworkFabricNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing NetworkToNetworkInterconnects operations. */
 export class NetworkToNetworkInterconnectsImpl
-  implements NetworkToNetworkInterconnects {
+  implements NetworkToNetworkInterconnects
+{
   private readonly client: AzureNetworkFabricManagementServiceAPI;
 
   /**
@@ -63,12 +64,12 @@ export class NetworkToNetworkInterconnectsImpl
   public listByNetworkFabric(
     resourceGroupName: string,
     networkFabricName: string,
-    options?: NetworkToNetworkInterconnectsListByNetworkFabricOptionalParams
+    options?: NetworkToNetworkInterconnectsListByNetworkFabricOptionalParams,
   ): PagedAsyncIterableIterator<NetworkToNetworkInterconnect> {
     const iter = this.listByNetworkFabricPagingAll(
       resourceGroupName,
       networkFabricName,
-      options
+      options,
     );
     return {
       next() {
@@ -85,9 +86,9 @@ export class NetworkToNetworkInterconnectsImpl
           resourceGroupName,
           networkFabricName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -95,7 +96,7 @@ export class NetworkToNetworkInterconnectsImpl
     resourceGroupName: string,
     networkFabricName: string,
     options?: NetworkToNetworkInterconnectsListByNetworkFabricOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<NetworkToNetworkInterconnect[]> {
     let result: NetworkToNetworkInterconnectsListByNetworkFabricResponse;
     let continuationToken = settings?.continuationToken;
@@ -103,7 +104,7 @@ export class NetworkToNetworkInterconnectsImpl
       result = await this._listByNetworkFabric(
         resourceGroupName,
         networkFabricName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -115,7 +116,7 @@ export class NetworkToNetworkInterconnectsImpl
         resourceGroupName,
         networkFabricName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -127,12 +128,12 @@ export class NetworkToNetworkInterconnectsImpl
   private async *listByNetworkFabricPagingAll(
     resourceGroupName: string,
     networkFabricName: string,
-    options?: NetworkToNetworkInterconnectsListByNetworkFabricOptionalParams
+    options?: NetworkToNetworkInterconnectsListByNetworkFabricOptionalParams,
   ): AsyncIterableIterator<NetworkToNetworkInterconnect> {
     for await (const page of this.listByNetworkFabricPagingPage(
       resourceGroupName,
       networkFabricName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -151,7 +152,7 @@ export class NetworkToNetworkInterconnectsImpl
     networkFabricName: string,
     networkToNetworkInterconnectName: string,
     body: NetworkToNetworkInterconnect,
-    options?: NetworkToNetworkInterconnectsCreateOptionalParams
+    options?: NetworkToNetworkInterconnectsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkToNetworkInterconnectsCreateResponse>,
@@ -160,21 +161,20 @@ export class NetworkToNetworkInterconnectsImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<NetworkToNetworkInterconnectsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -183,8 +183,8 @@ export class NetworkToNetworkInterconnectsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -192,8 +192,8 @@ export class NetworkToNetworkInterconnectsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -204,9 +204,9 @@ export class NetworkToNetworkInterconnectsImpl
         networkFabricName,
         networkToNetworkInterconnectName,
         body,
-        options
+        options,
       },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       NetworkToNetworkInterconnectsCreateResponse,
@@ -214,7 +214,7 @@ export class NetworkToNetworkInterconnectsImpl
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -233,14 +233,14 @@ export class NetworkToNetworkInterconnectsImpl
     networkFabricName: string,
     networkToNetworkInterconnectName: string,
     body: NetworkToNetworkInterconnect,
-    options?: NetworkToNetworkInterconnectsCreateOptionalParams
+    options?: NetworkToNetworkInterconnectsCreateOptionalParams,
   ): Promise<NetworkToNetworkInterconnectsCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       networkFabricName,
       networkToNetworkInterconnectName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -256,16 +256,16 @@ export class NetworkToNetworkInterconnectsImpl
     resourceGroupName: string,
     networkFabricName: string,
     networkToNetworkInterconnectName: string,
-    options?: NetworkToNetworkInterconnectsGetOptionalParams
+    options?: NetworkToNetworkInterconnectsGetOptionalParams,
   ): Promise<NetworkToNetworkInterconnectsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         networkFabricName,
         networkToNetworkInterconnectName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -282,7 +282,7 @@ export class NetworkToNetworkInterconnectsImpl
     networkFabricName: string,
     networkToNetworkInterconnectName: string,
     body: NetworkToNetworkInterconnectPatch,
-    options?: NetworkToNetworkInterconnectsUpdateOptionalParams
+    options?: NetworkToNetworkInterconnectsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkToNetworkInterconnectsUpdateResponse>,
@@ -291,21 +291,20 @@ export class NetworkToNetworkInterconnectsImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<NetworkToNetworkInterconnectsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -314,8 +313,8 @@ export class NetworkToNetworkInterconnectsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -323,8 +322,8 @@ export class NetworkToNetworkInterconnectsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -335,9 +334,9 @@ export class NetworkToNetworkInterconnectsImpl
         networkFabricName,
         networkToNetworkInterconnectName,
         body,
-        options
+        options,
       },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       NetworkToNetworkInterconnectsUpdateResponse,
@@ -345,7 +344,7 @@ export class NetworkToNetworkInterconnectsImpl
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -364,14 +363,14 @@ export class NetworkToNetworkInterconnectsImpl
     networkFabricName: string,
     networkToNetworkInterconnectName: string,
     body: NetworkToNetworkInterconnectPatch,
-    options?: NetworkToNetworkInterconnectsUpdateOptionalParams
+    options?: NetworkToNetworkInterconnectsUpdateOptionalParams,
   ): Promise<NetworkToNetworkInterconnectsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       networkFabricName,
       networkToNetworkInterconnectName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -387,25 +386,24 @@ export class NetworkToNetworkInterconnectsImpl
     resourceGroupName: string,
     networkFabricName: string,
     networkToNetworkInterconnectName: string,
-    options?: NetworkToNetworkInterconnectsDeleteOptionalParams
+    options?: NetworkToNetworkInterconnectsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -414,8 +412,8 @@ export class NetworkToNetworkInterconnectsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -423,8 +421,8 @@ export class NetworkToNetworkInterconnectsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -434,14 +432,14 @@ export class NetworkToNetworkInterconnectsImpl
         resourceGroupName,
         networkFabricName,
         networkToNetworkInterconnectName,
-        options
+        options,
       },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -458,13 +456,13 @@ export class NetworkToNetworkInterconnectsImpl
     resourceGroupName: string,
     networkFabricName: string,
     networkToNetworkInterconnectName: string,
-    options?: NetworkToNetworkInterconnectsDeleteOptionalParams
+    options?: NetworkToNetworkInterconnectsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       networkFabricName,
       networkToNetworkInterconnectName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -478,11 +476,11 @@ export class NetworkToNetworkInterconnectsImpl
   private _listByNetworkFabric(
     resourceGroupName: string,
     networkFabricName: string,
-    options?: NetworkToNetworkInterconnectsListByNetworkFabricOptionalParams
+    options?: NetworkToNetworkInterconnectsListByNetworkFabricOptionalParams,
   ): Promise<NetworkToNetworkInterconnectsListByNetworkFabricResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, networkFabricName, options },
-      listByNetworkFabricOperationSpec
+      listByNetworkFabricOperationSpec,
     );
   }
 
@@ -499,32 +497,29 @@ export class NetworkToNetworkInterconnectsImpl
     networkFabricName: string,
     networkToNetworkInterconnectName: string,
     body: UpdateAdministrativeState,
-    options?: NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateOptionalParams
+    options?: NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<
-        NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateResponse
-      >,
+      OperationState<NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateResponse>,
       NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -533,8 +528,8 @@ export class NetworkToNetworkInterconnectsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -542,8 +537,8 @@ export class NetworkToNetworkInterconnectsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -554,19 +549,17 @@ export class NetworkToNetworkInterconnectsImpl
         networkFabricName,
         networkToNetworkInterconnectName,
         body,
-        options
+        options,
       },
-      spec: updateNpbStaticRouteBfdAdministrativeStateOperationSpec
+      spec: updateNpbStaticRouteBfdAdministrativeStateOperationSpec,
     });
     const poller = await createHttpPoller<
       NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateResponse,
-      OperationState<
-        NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateResponse
-      >
+      OperationState<NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -585,16 +578,14 @@ export class NetworkToNetworkInterconnectsImpl
     networkFabricName: string,
     networkToNetworkInterconnectName: string,
     body: UpdateAdministrativeState,
-    options?: NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateOptionalParams
-  ): Promise<
-    NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateResponse
-  > {
+    options?: NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateOptionalParams,
+  ): Promise<NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateResponse> {
     const poller = await this.beginUpdateNpbStaticRouteBfdAdministrativeState(
       resourceGroupName,
       networkFabricName,
       networkToNetworkInterconnectName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -612,32 +603,29 @@ export class NetworkToNetworkInterconnectsImpl
     networkFabricName: string,
     networkToNetworkInterconnectName: string,
     body: UpdateAdministrativeState,
-    options?: NetworkToNetworkInterconnectsUpdateAdministrativeStateOptionalParams
+    options?: NetworkToNetworkInterconnectsUpdateAdministrativeStateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<
-        NetworkToNetworkInterconnectsUpdateAdministrativeStateResponse
-      >,
+      OperationState<NetworkToNetworkInterconnectsUpdateAdministrativeStateResponse>,
       NetworkToNetworkInterconnectsUpdateAdministrativeStateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<NetworkToNetworkInterconnectsUpdateAdministrativeStateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -646,8 +634,8 @@ export class NetworkToNetworkInterconnectsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -655,8 +643,8 @@ export class NetworkToNetworkInterconnectsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -667,19 +655,17 @@ export class NetworkToNetworkInterconnectsImpl
         networkFabricName,
         networkToNetworkInterconnectName,
         body,
-        options
+        options,
       },
-      spec: updateAdministrativeStateOperationSpec
+      spec: updateAdministrativeStateOperationSpec,
     });
     const poller = await createHttpPoller<
       NetworkToNetworkInterconnectsUpdateAdministrativeStateResponse,
-      OperationState<
-        NetworkToNetworkInterconnectsUpdateAdministrativeStateResponse
-      >
+      OperationState<NetworkToNetworkInterconnectsUpdateAdministrativeStateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -698,14 +684,14 @@ export class NetworkToNetworkInterconnectsImpl
     networkFabricName: string,
     networkToNetworkInterconnectName: string,
     body: UpdateAdministrativeState,
-    options?: NetworkToNetworkInterconnectsUpdateAdministrativeStateOptionalParams
+    options?: NetworkToNetworkInterconnectsUpdateAdministrativeStateOptionalParams,
   ): Promise<NetworkToNetworkInterconnectsUpdateAdministrativeStateResponse> {
     const poller = await this.beginUpdateAdministrativeState(
       resourceGroupName,
       networkFabricName,
       networkToNetworkInterconnectName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -721,11 +707,11 @@ export class NetworkToNetworkInterconnectsImpl
     resourceGroupName: string,
     networkFabricName: string,
     nextLink: string,
-    options?: NetworkToNetworkInterconnectsListByNetworkFabricNextOptionalParams
+    options?: NetworkToNetworkInterconnectsListByNetworkFabricNextOptionalParams,
   ): Promise<NetworkToNetworkInterconnectsListByNetworkFabricNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, networkFabricName, nextLink, options },
-      listByNetworkFabricNextOperationSpec
+      listByNetworkFabricNextOperationSpec,
     );
   }
 }
@@ -733,82 +719,24 @@ export class NetworkToNetworkInterconnectsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}/networkToNetworkInterconnects/{networkToNetworkInterconnectName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}/networkToNetworkInterconnects/{networkToNetworkInterconnectName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkToNetworkInterconnect
+      bodyMapper: Mappers.NetworkToNetworkInterconnect,
     },
     201: {
-      bodyMapper: Mappers.NetworkToNetworkInterconnect
+      bodyMapper: Mappers.NetworkToNetworkInterconnect,
     },
     202: {
-      bodyMapper: Mappers.NetworkToNetworkInterconnect
+      bodyMapper: Mappers.NetworkToNetworkInterconnect,
     },
     204: {
-      bodyMapper: Mappers.NetworkToNetworkInterconnect
+      bodyMapper: Mappers.NetworkToNetworkInterconnect,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.body35,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.networkFabricName,
-    Parameters.networkToNetworkInterconnectName
-  ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}/networkToNetworkInterconnects/{networkToNetworkInterconnectName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.NetworkToNetworkInterconnect
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.networkFabricName,
-    Parameters.networkToNetworkInterconnectName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}/networkToNetworkInterconnects/{networkToNetworkInterconnectName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.NetworkToNetworkInterconnect
-    },
-    201: {
-      bodyMapper: Mappers.NetworkToNetworkInterconnect
-    },
-    202: {
-      bodyMapper: Mappers.NetworkToNetworkInterconnect
-    },
-    204: {
-      bodyMapper: Mappers.NetworkToNetworkInterconnect
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   requestBody: Parameters.body36,
   queryParameters: [Parameters.apiVersion],
@@ -817,15 +745,69 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.networkFabricName,
-    Parameters.networkToNetworkInterconnectName
+    Parameters.networkToNetworkInterconnectName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}/networkToNetworkInterconnects/{networkToNetworkInterconnectName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.NetworkToNetworkInterconnect,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.networkFabricName,
+    Parameters.networkToNetworkInterconnectName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const updateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}/networkToNetworkInterconnects/{networkToNetworkInterconnectName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.NetworkToNetworkInterconnect,
+    },
+    201: {
+      bodyMapper: Mappers.NetworkToNetworkInterconnect,
+    },
+    202: {
+      bodyMapper: Mappers.NetworkToNetworkInterconnect,
+    },
+    204: {
+      bodyMapper: Mappers.NetworkToNetworkInterconnect,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.body37,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.networkFabricName,
+    Parameters.networkToNetworkInterconnectName,
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}/networkToNetworkInterconnects/{networkToNetworkInterconnectName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}/networkToNetworkInterconnects/{networkToNetworkInterconnectName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -833,8 +815,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -842,87 +824,85 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.networkFabricName,
-    Parameters.networkToNetworkInterconnectName
+    Parameters.networkToNetworkInterconnectName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByNetworkFabricOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}/networkToNetworkInterconnects",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}/networkToNetworkInterconnects",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkToNetworkInterconnectsList
+      bodyMapper: Mappers.NetworkToNetworkInterconnectsList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.networkFabricName
+    Parameters.networkFabricName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const updateNpbStaticRouteBfdAdministrativeStateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}/networkToNetworkInterconnects/{networkToNetworkInterconnectName}/updateNpbStaticRouteBfdAdministrativeState",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+const updateNpbStaticRouteBfdAdministrativeStateOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}/networkToNetworkInterconnects/{networkToNetworkInterconnectName}/updateNpbStaticRouteBfdAdministrativeState",
+    httpMethod: "POST",
+    responses: {
+      200: {
+        bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
+      },
+      201: {
+        bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
+      },
+      202: {
+        bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
+      },
+      204: {
+        bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
+      },
+      default: {
+        bodyMapper: Mappers.ErrorResponse,
+      },
     },
-    201: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
-    },
-    202: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
-    },
-    204: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.body2,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.networkFabricName,
-    Parameters.networkToNetworkInterconnectName
-  ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
+    requestBody: Parameters.body2,
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.networkFabricName,
+      Parameters.networkToNetworkInterconnectName,
+    ],
+    headerParameters: [Parameters.contentType, Parameters.accept],
+    mediaType: "json",
+    serializer,
+  };
 const updateAdministrativeStateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}/networkToNetworkInterconnects/{networkToNetworkInterconnectName}/updateAdministrativeState",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}/networkToNetworkInterconnects/{networkToNetworkInterconnectName}/updateAdministrativeState",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     201: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     202: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     204: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body2,
   queryParameters: [Parameters.apiVersion],
@@ -931,30 +911,30 @@ const updateAdministrativeStateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.networkFabricName,
-    Parameters.networkToNetworkInterconnectName
+    Parameters.networkToNetworkInterconnectName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByNetworkFabricNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkToNetworkInterconnectsList
+      bodyMapper: Mappers.NetworkToNetworkInterconnectsList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.networkFabricName
+    Parameters.networkFabricName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

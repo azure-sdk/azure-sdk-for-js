@@ -11,7 +11,7 @@ import {
   NetworkFabricSku,
   NetworkFabricSkusListBySubscriptionOptionalParams,
   NetworkFabricSkusGetOptionalParams,
-  NetworkFabricSkusGetResponse
+  NetworkFabricSkusGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -22,7 +22,7 @@ export interface NetworkFabricSkus {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: NetworkFabricSkusListBySubscriptionOptionalParams
+    options?: NetworkFabricSkusListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<NetworkFabricSku>;
   /**
    * Implements Network Fabric SKU GET method.
@@ -31,6 +31,6 @@ export interface NetworkFabricSkus {
    */
   get(
     networkFabricSkuName: string,
-    options?: NetworkFabricSkusGetOptionalParams
+    options?: NetworkFabricSkusGetOptionalParams,
   ): Promise<NetworkFabricSkusGetResponse>;
 }
