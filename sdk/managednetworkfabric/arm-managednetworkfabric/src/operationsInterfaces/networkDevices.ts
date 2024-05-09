@@ -30,7 +30,7 @@ import {
   NetworkDevicesUpdateAdministrativeStateResponse,
   UpdateVersion,
   NetworkDevicesUpgradeOptionalParams,
-  NetworkDevicesUpgradeResponse
+  NetworkDevicesUpgradeResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -43,14 +43,14 @@ export interface NetworkDevices {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: NetworkDevicesListByResourceGroupOptionalParams
+    options?: NetworkDevicesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<NetworkDevice>;
   /**
    * List all the Network Device resources in a given subscription.
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: NetworkDevicesListBySubscriptionOptionalParams
+    options?: NetworkDevicesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<NetworkDevice>;
   /**
    * Create a Network Device resource
@@ -63,7 +63,7 @@ export interface NetworkDevices {
     resourceGroupName: string,
     networkDeviceName: string,
     body: NetworkDevice,
-    options?: NetworkDevicesCreateOptionalParams
+    options?: NetworkDevicesCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkDevicesCreateResponse>,
@@ -81,7 +81,7 @@ export interface NetworkDevices {
     resourceGroupName: string,
     networkDeviceName: string,
     body: NetworkDevice,
-    options?: NetworkDevicesCreateOptionalParams
+    options?: NetworkDevicesCreateOptionalParams,
   ): Promise<NetworkDevicesCreateResponse>;
   /**
    * Gets the Network Device resource details.
@@ -92,7 +92,7 @@ export interface NetworkDevices {
   get(
     resourceGroupName: string,
     networkDeviceName: string,
-    options?: NetworkDevicesGetOptionalParams
+    options?: NetworkDevicesGetOptionalParams,
   ): Promise<NetworkDevicesGetResponse>;
   /**
    * Update certain properties of the Network Device resource.
@@ -105,7 +105,7 @@ export interface NetworkDevices {
     resourceGroupName: string,
     networkDeviceName: string,
     body: NetworkDevicePatchParameters,
-    options?: NetworkDevicesUpdateOptionalParams
+    options?: NetworkDevicesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkDevicesUpdateResponse>,
@@ -123,7 +123,7 @@ export interface NetworkDevices {
     resourceGroupName: string,
     networkDeviceName: string,
     body: NetworkDevicePatchParameters,
-    options?: NetworkDevicesUpdateOptionalParams
+    options?: NetworkDevicesUpdateOptionalParams,
   ): Promise<NetworkDevicesUpdateResponse>;
   /**
    * Delete the Network Device resource.
@@ -134,7 +134,7 @@ export interface NetworkDevices {
   beginDelete(
     resourceGroupName: string,
     networkDeviceName: string,
-    options?: NetworkDevicesDeleteOptionalParams
+    options?: NetworkDevicesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete the Network Device resource.
@@ -145,7 +145,7 @@ export interface NetworkDevices {
   beginDeleteAndWait(
     resourceGroupName: string,
     networkDeviceName: string,
-    options?: NetworkDevicesDeleteOptionalParams
+    options?: NetworkDevicesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Reboot the Network Device.
@@ -158,7 +158,7 @@ export interface NetworkDevices {
     resourceGroupName: string,
     networkDeviceName: string,
     body: RebootProperties,
-    options?: NetworkDevicesRebootOptionalParams
+    options?: NetworkDevicesRebootOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkDevicesRebootResponse>,
@@ -176,7 +176,7 @@ export interface NetworkDevices {
     resourceGroupName: string,
     networkDeviceName: string,
     body: RebootProperties,
-    options?: NetworkDevicesRebootOptionalParams
+    options?: NetworkDevicesRebootOptionalParams,
   ): Promise<NetworkDevicesRebootResponse>;
   /**
    * Refreshes the configuration the Network Device.
@@ -187,7 +187,7 @@ export interface NetworkDevices {
   beginRefreshConfiguration(
     resourceGroupName: string,
     networkDeviceName: string,
-    options?: NetworkDevicesRefreshConfigurationOptionalParams
+    options?: NetworkDevicesRefreshConfigurationOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkDevicesRefreshConfigurationResponse>,
@@ -203,7 +203,7 @@ export interface NetworkDevices {
   beginRefreshConfigurationAndWait(
     resourceGroupName: string,
     networkDeviceName: string,
-    options?: NetworkDevicesRefreshConfigurationOptionalParams
+    options?: NetworkDevicesRefreshConfigurationOptionalParams,
   ): Promise<NetworkDevicesRefreshConfigurationResponse>;
   /**
    * Updates the Administrative state of the Network Device.
@@ -216,7 +216,7 @@ export interface NetworkDevices {
     resourceGroupName: string,
     networkDeviceName: string,
     body: UpdateDeviceAdministrativeState,
-    options?: NetworkDevicesUpdateAdministrativeStateOptionalParams
+    options?: NetworkDevicesUpdateAdministrativeStateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkDevicesUpdateAdministrativeStateResponse>,
@@ -234,7 +234,7 @@ export interface NetworkDevices {
     resourceGroupName: string,
     networkDeviceName: string,
     body: UpdateDeviceAdministrativeState,
-    options?: NetworkDevicesUpdateAdministrativeStateOptionalParams
+    options?: NetworkDevicesUpdateAdministrativeStateOptionalParams,
   ): Promise<NetworkDevicesUpdateAdministrativeStateResponse>;
   /**
    * Upgrades the version of the Network Device.
@@ -247,7 +247,7 @@ export interface NetworkDevices {
     resourceGroupName: string,
     networkDeviceName: string,
     body: UpdateVersion,
-    options?: NetworkDevicesUpgradeOptionalParams
+    options?: NetworkDevicesUpgradeOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkDevicesUpgradeResponse>,
@@ -265,6 +265,6 @@ export interface NetworkDevices {
     resourceGroupName: string,
     networkDeviceName: string,
     body: UpdateVersion,
-    options?: NetworkDevicesUpgradeOptionalParams
+    options?: NetworkDevicesUpgradeOptionalParams,
   ): Promise<NetworkDevicesUpgradeResponse>;
 }

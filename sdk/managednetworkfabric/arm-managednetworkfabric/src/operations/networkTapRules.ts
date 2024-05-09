@@ -16,7 +16,7 @@ import { AzureNetworkFabricManagementServiceAPI } from "../azureNetworkFabricMan
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -44,7 +44,7 @@ import {
   NetworkTapRulesValidateConfigurationOptionalParams,
   NetworkTapRulesValidateConfigurationResponse,
   NetworkTapRulesListByResourceGroupNextResponse,
-  NetworkTapRulesListBySubscriptionNextResponse
+  NetworkTapRulesListBySubscriptionNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -67,7 +67,7 @@ export class NetworkTapRulesImpl implements NetworkTapRules {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: NetworkTapRulesListByResourceGroupOptionalParams
+    options?: NetworkTapRulesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<NetworkTapRule> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -84,16 +84,16 @@ export class NetworkTapRulesImpl implements NetworkTapRules {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: NetworkTapRulesListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<NetworkTapRule[]> {
     let result: NetworkTapRulesListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -108,7 +108,7 @@ export class NetworkTapRulesImpl implements NetworkTapRules {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -119,11 +119,11 @@ export class NetworkTapRulesImpl implements NetworkTapRules {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: NetworkTapRulesListByResourceGroupOptionalParams
+    options?: NetworkTapRulesListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<NetworkTapRule> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -134,7 +134,7 @@ export class NetworkTapRulesImpl implements NetworkTapRules {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: NetworkTapRulesListBySubscriptionOptionalParams
+    options?: NetworkTapRulesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<NetworkTapRule> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -149,13 +149,13 @@ export class NetworkTapRulesImpl implements NetworkTapRules {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: NetworkTapRulesListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<NetworkTapRule[]> {
     let result: NetworkTapRulesListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -176,7 +176,7 @@ export class NetworkTapRulesImpl implements NetworkTapRules {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: NetworkTapRulesListBySubscriptionOptionalParams
+    options?: NetworkTapRulesListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<NetworkTapRule> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -194,7 +194,7 @@ export class NetworkTapRulesImpl implements NetworkTapRules {
     resourceGroupName: string,
     networkTapRuleName: string,
     body: NetworkTapRule,
-    options?: NetworkTapRulesCreateOptionalParams
+    options?: NetworkTapRulesCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkTapRulesCreateResponse>,
@@ -203,21 +203,20 @@ export class NetworkTapRulesImpl implements NetworkTapRules {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<NetworkTapRulesCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -226,8 +225,8 @@ export class NetworkTapRulesImpl implements NetworkTapRules {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -235,15 +234,15 @@ export class NetworkTapRulesImpl implements NetworkTapRules {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, networkTapRuleName, body, options },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       NetworkTapRulesCreateResponse,
@@ -251,7 +250,7 @@ export class NetworkTapRulesImpl implements NetworkTapRules {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -268,13 +267,13 @@ export class NetworkTapRulesImpl implements NetworkTapRules {
     resourceGroupName: string,
     networkTapRuleName: string,
     body: NetworkTapRule,
-    options?: NetworkTapRulesCreateOptionalParams
+    options?: NetworkTapRulesCreateOptionalParams,
   ): Promise<NetworkTapRulesCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       networkTapRuleName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -288,11 +287,11 @@ export class NetworkTapRulesImpl implements NetworkTapRules {
   get(
     resourceGroupName: string,
     networkTapRuleName: string,
-    options?: NetworkTapRulesGetOptionalParams
+    options?: NetworkTapRulesGetOptionalParams,
   ): Promise<NetworkTapRulesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, networkTapRuleName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -307,7 +306,7 @@ export class NetworkTapRulesImpl implements NetworkTapRules {
     resourceGroupName: string,
     networkTapRuleName: string,
     body: NetworkTapRulePatch,
-    options?: NetworkTapRulesUpdateOptionalParams
+    options?: NetworkTapRulesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkTapRulesUpdateResponse>,
@@ -316,21 +315,20 @@ export class NetworkTapRulesImpl implements NetworkTapRules {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<NetworkTapRulesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -339,8 +337,8 @@ export class NetworkTapRulesImpl implements NetworkTapRules {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -348,15 +346,15 @@ export class NetworkTapRulesImpl implements NetworkTapRules {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, networkTapRuleName, body, options },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       NetworkTapRulesUpdateResponse,
@@ -364,7 +362,7 @@ export class NetworkTapRulesImpl implements NetworkTapRules {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -381,13 +379,13 @@ export class NetworkTapRulesImpl implements NetworkTapRules {
     resourceGroupName: string,
     networkTapRuleName: string,
     body: NetworkTapRulePatch,
-    options?: NetworkTapRulesUpdateOptionalParams
+    options?: NetworkTapRulesUpdateOptionalParams,
   ): Promise<NetworkTapRulesUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       networkTapRuleName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -401,7 +399,7 @@ export class NetworkTapRulesImpl implements NetworkTapRules {
   async beginDelete(
     resourceGroupName: string,
     networkTapRuleName: string,
-    options?: NetworkTapRulesDeleteOptionalParams
+    options?: NetworkTapRulesDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkTapRulesDeleteResponse>,
@@ -410,21 +408,20 @@ export class NetworkTapRulesImpl implements NetworkTapRules {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<NetworkTapRulesDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -433,8 +430,8 @@ export class NetworkTapRulesImpl implements NetworkTapRules {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -442,15 +439,15 @@ export class NetworkTapRulesImpl implements NetworkTapRules {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, networkTapRuleName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
       NetworkTapRulesDeleteResponse,
@@ -458,7 +455,7 @@ export class NetworkTapRulesImpl implements NetworkTapRules {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -473,12 +470,12 @@ export class NetworkTapRulesImpl implements NetworkTapRules {
   async beginDeleteAndWait(
     resourceGroupName: string,
     networkTapRuleName: string,
-    options?: NetworkTapRulesDeleteOptionalParams
+    options?: NetworkTapRulesDeleteOptionalParams,
   ): Promise<NetworkTapRulesDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       networkTapRuleName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -490,11 +487,11 @@ export class NetworkTapRulesImpl implements NetworkTapRules {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: NetworkTapRulesListByResourceGroupOptionalParams
+    options?: NetworkTapRulesListByResourceGroupOptionalParams,
   ): Promise<NetworkTapRulesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -503,11 +500,11 @@ export class NetworkTapRulesImpl implements NetworkTapRules {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: NetworkTapRulesListBySubscriptionOptionalParams
+    options?: NetworkTapRulesListBySubscriptionOptionalParams,
   ): Promise<NetworkTapRulesListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -522,7 +519,7 @@ export class NetworkTapRulesImpl implements NetworkTapRules {
     resourceGroupName: string,
     networkTapRuleName: string,
     body: UpdateAdministrativeState,
-    options?: NetworkTapRulesUpdateAdministrativeStateOptionalParams
+    options?: NetworkTapRulesUpdateAdministrativeStateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkTapRulesUpdateAdministrativeStateResponse>,
@@ -531,21 +528,20 @@ export class NetworkTapRulesImpl implements NetworkTapRules {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<NetworkTapRulesUpdateAdministrativeStateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -554,8 +550,8 @@ export class NetworkTapRulesImpl implements NetworkTapRules {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -563,15 +559,15 @@ export class NetworkTapRulesImpl implements NetworkTapRules {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, networkTapRuleName, body, options },
-      spec: updateAdministrativeStateOperationSpec
+      spec: updateAdministrativeStateOperationSpec,
     });
     const poller = await createHttpPoller<
       NetworkTapRulesUpdateAdministrativeStateResponse,
@@ -579,7 +575,7 @@ export class NetworkTapRulesImpl implements NetworkTapRules {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -596,13 +592,13 @@ export class NetworkTapRulesImpl implements NetworkTapRules {
     resourceGroupName: string,
     networkTapRuleName: string,
     body: UpdateAdministrativeState,
-    options?: NetworkTapRulesUpdateAdministrativeStateOptionalParams
+    options?: NetworkTapRulesUpdateAdministrativeStateOptionalParams,
   ): Promise<NetworkTapRulesUpdateAdministrativeStateResponse> {
     const poller = await this.beginUpdateAdministrativeState(
       resourceGroupName,
       networkTapRuleName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -616,7 +612,7 @@ export class NetworkTapRulesImpl implements NetworkTapRules {
   async beginResync(
     resourceGroupName: string,
     networkTapRuleName: string,
-    options?: NetworkTapRulesResyncOptionalParams
+    options?: NetworkTapRulesResyncOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkTapRulesResyncResponse>,
@@ -625,21 +621,20 @@ export class NetworkTapRulesImpl implements NetworkTapRules {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<NetworkTapRulesResyncResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -648,8 +643,8 @@ export class NetworkTapRulesImpl implements NetworkTapRules {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -657,15 +652,15 @@ export class NetworkTapRulesImpl implements NetworkTapRules {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, networkTapRuleName, options },
-      spec: resyncOperationSpec
+      spec: resyncOperationSpec,
     });
     const poller = await createHttpPoller<
       NetworkTapRulesResyncResponse,
@@ -673,7 +668,7 @@ export class NetworkTapRulesImpl implements NetworkTapRules {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -688,12 +683,12 @@ export class NetworkTapRulesImpl implements NetworkTapRules {
   async beginResyncAndWait(
     resourceGroupName: string,
     networkTapRuleName: string,
-    options?: NetworkTapRulesResyncOptionalParams
+    options?: NetworkTapRulesResyncOptionalParams,
   ): Promise<NetworkTapRulesResyncResponse> {
     const poller = await this.beginResync(
       resourceGroupName,
       networkTapRuleName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -707,7 +702,7 @@ export class NetworkTapRulesImpl implements NetworkTapRules {
   async beginValidateConfiguration(
     resourceGroupName: string,
     networkTapRuleName: string,
-    options?: NetworkTapRulesValidateConfigurationOptionalParams
+    options?: NetworkTapRulesValidateConfigurationOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkTapRulesValidateConfigurationResponse>,
@@ -716,21 +711,20 @@ export class NetworkTapRulesImpl implements NetworkTapRules {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<NetworkTapRulesValidateConfigurationResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -739,8 +733,8 @@ export class NetworkTapRulesImpl implements NetworkTapRules {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -748,15 +742,15 @@ export class NetworkTapRulesImpl implements NetworkTapRules {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, networkTapRuleName, options },
-      spec: validateConfigurationOperationSpec
+      spec: validateConfigurationOperationSpec,
     });
     const poller = await createHttpPoller<
       NetworkTapRulesValidateConfigurationResponse,
@@ -764,7 +758,7 @@ export class NetworkTapRulesImpl implements NetworkTapRules {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -779,12 +773,12 @@ export class NetworkTapRulesImpl implements NetworkTapRules {
   async beginValidateConfigurationAndWait(
     resourceGroupName: string,
     networkTapRuleName: string,
-    options?: NetworkTapRulesValidateConfigurationOptionalParams
+    options?: NetworkTapRulesValidateConfigurationOptionalParams,
   ): Promise<NetworkTapRulesValidateConfigurationResponse> {
     const poller = await this.beginValidateConfiguration(
       resourceGroupName,
       networkTapRuleName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -798,11 +792,11 @@ export class NetworkTapRulesImpl implements NetworkTapRules {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: NetworkTapRulesListByResourceGroupNextOptionalParams
+    options?: NetworkTapRulesListByResourceGroupNextOptionalParams,
   ): Promise<NetworkTapRulesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 
@@ -813,11 +807,11 @@ export class NetworkTapRulesImpl implements NetworkTapRules {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: NetworkTapRulesListBySubscriptionNextOptionalParams
+    options?: NetworkTapRulesListBySubscriptionNextOptionalParams,
   ): Promise<NetworkTapRulesListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 }
@@ -825,80 +819,24 @@ export class NetworkTapRulesImpl implements NetworkTapRules {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkTapRules/{networkTapRuleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkTapRules/{networkTapRuleName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkTapRule
+      bodyMapper: Mappers.NetworkTapRule,
     },
     201: {
-      bodyMapper: Mappers.NetworkTapRule
+      bodyMapper: Mappers.NetworkTapRule,
     },
     202: {
-      bodyMapper: Mappers.NetworkTapRule
+      bodyMapper: Mappers.NetworkTapRule,
     },
     204: {
-      bodyMapper: Mappers.NetworkTapRule
+      bodyMapper: Mappers.NetworkTapRule,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.body41,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.networkTapRuleName
-  ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkTapRules/{networkTapRuleName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.NetworkTapRule
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.networkTapRuleName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkTapRules/{networkTapRuleName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.NetworkTapRule
-    },
-    201: {
-      bodyMapper: Mappers.NetworkTapRule
-    },
-    202: {
-      bodyMapper: Mappers.NetworkTapRule
-    },
-    204: {
-      bodyMapper: Mappers.NetworkTapRule
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   requestBody: Parameters.body42,
   queryParameters: [Parameters.apiVersion],
@@ -906,101 +844,150 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.networkTapRuleName
+    Parameters.networkTapRuleName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkTapRules/{networkTapRuleName}",
-  httpMethod: "DELETE",
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkTapRules/{networkTapRuleName}",
+  httpMethod: "GET",
   responses: {
     200: {
-      headersMapper: Mappers.NetworkTapRulesDeleteHeaders
-    },
-    201: {
-      headersMapper: Mappers.NetworkTapRulesDeleteHeaders
-    },
-    202: {
-      headersMapper: Mappers.NetworkTapRulesDeleteHeaders
-    },
-    204: {
-      headersMapper: Mappers.NetworkTapRulesDeleteHeaders
+      bodyMapper: Mappers.NetworkTapRule,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.networkTapRuleName
+    Parameters.networkTapRuleName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkTapRules",
-  httpMethod: "GET",
+const updateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkTapRules/{networkTapRuleName}",
+  httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkTapRulesListResult
+      bodyMapper: Mappers.NetworkTapRule,
+    },
+    201: {
+      bodyMapper: Mappers.NetworkTapRule,
+    },
+    202: {
+      bodyMapper: Mappers.NetworkTapRule,
+    },
+    204: {
+      bodyMapper: Mappers.NetworkTapRule,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.body43,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.networkTapRuleName,
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer,
+};
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkTapRules/{networkTapRuleName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {
+      headersMapper: Mappers.NetworkTapRulesDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.NetworkTapRulesDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.NetworkTapRulesDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.NetworkTapRulesDeleteHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
+    Parameters.networkTapRuleName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ManagedNetworkFabric/networkTapRules",
+const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkTapRules",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkTapRulesListResult
+      bodyMapper: Mappers.NetworkTapRulesListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.ManagedNetworkFabric/networkTapRules",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.NetworkTapRulesListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateAdministrativeStateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkTapRules/{networkTapRuleName}/updateAdministrativeState",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkTapRules/{networkTapRuleName}/updateAdministrativeState",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     201: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     202: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     204: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body2,
   queryParameters: [Parameters.apiVersion],
@@ -1008,110 +995,108 @@ const updateAdministrativeStateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.networkTapRuleName
+    Parameters.networkTapRuleName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const resyncOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkTapRules/{networkTapRuleName}/resync",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkTapRules/{networkTapRuleName}/resync",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     201: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     202: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     204: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.networkTapRuleName
+    Parameters.networkTapRuleName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const validateConfigurationOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkTapRules/{networkTapRuleName}/validateConfiguration",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkTapRules/{networkTapRuleName}/validateConfiguration",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ValidateConfigurationResponse
+      bodyMapper: Mappers.ValidateConfigurationResponse,
     },
     201: {
-      bodyMapper: Mappers.ValidateConfigurationResponse
+      bodyMapper: Mappers.ValidateConfigurationResponse,
     },
     202: {
-      bodyMapper: Mappers.ValidateConfigurationResponse
+      bodyMapper: Mappers.ValidateConfigurationResponse,
     },
     204: {
-      bodyMapper: Mappers.ValidateConfigurationResponse
+      bodyMapper: Mappers.ValidateConfigurationResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.networkTapRuleName
+    Parameters.networkTapRuleName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkTapRulesListResult
+      bodyMapper: Mappers.NetworkTapRulesListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkTapRulesListResult
+      bodyMapper: Mappers.NetworkTapRulesListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

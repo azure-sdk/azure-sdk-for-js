@@ -25,7 +25,7 @@ import {
   InternalNetworksUpdateBgpAdministrativeStateOptionalParams,
   InternalNetworksUpdateBgpAdministrativeStateResponse,
   InternalNetworksUpdateStaticRouteBfdAdministrativeStateOptionalParams,
-  InternalNetworksUpdateStaticRouteBfdAdministrativeStateResponse
+  InternalNetworksUpdateStaticRouteBfdAdministrativeStateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -40,7 +40,7 @@ export interface InternalNetworks {
   listByL3IsolationDomain(
     resourceGroupName: string,
     l3IsolationDomainName: string,
-    options?: InternalNetworksListByL3IsolationDomainOptionalParams
+    options?: InternalNetworksListByL3IsolationDomainOptionalParams,
   ): PagedAsyncIterableIterator<InternalNetwork>;
   /**
    * Creates InternalNetwork PUT method.
@@ -55,7 +55,7 @@ export interface InternalNetworks {
     l3IsolationDomainName: string,
     internalNetworkName: string,
     body: InternalNetwork,
-    options?: InternalNetworksCreateOptionalParams
+    options?: InternalNetworksCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<InternalNetworksCreateResponse>,
@@ -75,7 +75,7 @@ export interface InternalNetworks {
     l3IsolationDomainName: string,
     internalNetworkName: string,
     body: InternalNetwork,
-    options?: InternalNetworksCreateOptionalParams
+    options?: InternalNetworksCreateOptionalParams,
   ): Promise<InternalNetworksCreateResponse>;
   /**
    * Gets a InternalNetworks.
@@ -88,7 +88,7 @@ export interface InternalNetworks {
     resourceGroupName: string,
     l3IsolationDomainName: string,
     internalNetworkName: string,
-    options?: InternalNetworksGetOptionalParams
+    options?: InternalNetworksGetOptionalParams,
   ): Promise<InternalNetworksGetResponse>;
   /**
    * Updates a InternalNetworks.
@@ -103,7 +103,7 @@ export interface InternalNetworks {
     l3IsolationDomainName: string,
     internalNetworkName: string,
     body: InternalNetworkPatch,
-    options?: InternalNetworksUpdateOptionalParams
+    options?: InternalNetworksUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<InternalNetworksUpdateResponse>,
@@ -123,7 +123,7 @@ export interface InternalNetworks {
     l3IsolationDomainName: string,
     internalNetworkName: string,
     body: InternalNetworkPatch,
-    options?: InternalNetworksUpdateOptionalParams
+    options?: InternalNetworksUpdateOptionalParams,
   ): Promise<InternalNetworksUpdateResponse>;
   /**
    * Implements InternalNetworks DELETE method.
@@ -136,7 +136,7 @@ export interface InternalNetworks {
     resourceGroupName: string,
     l3IsolationDomainName: string,
     internalNetworkName: string,
-    options?: InternalNetworksDeleteOptionalParams
+    options?: InternalNetworksDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Implements InternalNetworks DELETE method.
@@ -149,7 +149,7 @@ export interface InternalNetworks {
     resourceGroupName: string,
     l3IsolationDomainName: string,
     internalNetworkName: string,
-    options?: InternalNetworksDeleteOptionalParams
+    options?: InternalNetworksDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Update Administrative state of  InternalNetworks on resources referred by their resource ids.
@@ -164,7 +164,7 @@ export interface InternalNetworks {
     l3IsolationDomainName: string,
     internalNetworkName: string,
     body: UpdateAdministrativeState,
-    options?: InternalNetworksUpdateAdministrativeStateOptionalParams
+    options?: InternalNetworksUpdateAdministrativeStateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<InternalNetworksUpdateAdministrativeStateResponse>,
@@ -184,7 +184,7 @@ export interface InternalNetworks {
     l3IsolationDomainName: string,
     internalNetworkName: string,
     body: UpdateAdministrativeState,
-    options?: InternalNetworksUpdateAdministrativeStateOptionalParams
+    options?: InternalNetworksUpdateAdministrativeStateOptionalParams,
   ): Promise<InternalNetworksUpdateAdministrativeStateResponse>;
   /**
    * Update BGP state for internalNetwork. Allowed only on edge devices.
@@ -199,7 +199,7 @@ export interface InternalNetworks {
     l3IsolationDomainName: string,
     internalNetworkName: string,
     body: UpdateAdministrativeState,
-    options?: InternalNetworksUpdateBgpAdministrativeStateOptionalParams
+    options?: InternalNetworksUpdateBgpAdministrativeStateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<InternalNetworksUpdateBgpAdministrativeStateResponse>,
@@ -219,7 +219,7 @@ export interface InternalNetworks {
     l3IsolationDomainName: string,
     internalNetworkName: string,
     body: UpdateAdministrativeState,
-    options?: InternalNetworksUpdateBgpAdministrativeStateOptionalParams
+    options?: InternalNetworksUpdateBgpAdministrativeStateOptionalParams,
   ): Promise<InternalNetworksUpdateBgpAdministrativeStateResponse>;
   /**
    * Update Static Route BFD administrative state for internalNetwork.
@@ -234,12 +234,10 @@ export interface InternalNetworks {
     l3IsolationDomainName: string,
     internalNetworkName: string,
     body: UpdateAdministrativeState,
-    options?: InternalNetworksUpdateStaticRouteBfdAdministrativeStateOptionalParams
+    options?: InternalNetworksUpdateStaticRouteBfdAdministrativeStateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<
-        InternalNetworksUpdateStaticRouteBfdAdministrativeStateResponse
-      >,
+      OperationState<InternalNetworksUpdateStaticRouteBfdAdministrativeStateResponse>,
       InternalNetworksUpdateStaticRouteBfdAdministrativeStateResponse
     >
   >;
@@ -256,6 +254,6 @@ export interface InternalNetworks {
     l3IsolationDomainName: string,
     internalNetworkName: string,
     body: UpdateAdministrativeState,
-    options?: InternalNetworksUpdateStaticRouteBfdAdministrativeStateOptionalParams
+    options?: InternalNetworksUpdateStaticRouteBfdAdministrativeStateOptionalParams,
   ): Promise<InternalNetworksUpdateStaticRouteBfdAdministrativeStateResponse>;
 }

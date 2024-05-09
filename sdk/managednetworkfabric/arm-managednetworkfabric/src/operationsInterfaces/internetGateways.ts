@@ -19,7 +19,7 @@ import {
   InternetGatewayPatch,
   InternetGatewaysUpdateOptionalParams,
   InternetGatewaysUpdateResponse,
-  InternetGatewaysDeleteOptionalParams
+  InternetGatewaysDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,14 +32,14 @@ export interface InternetGateways {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: InternetGatewaysListByResourceGroupOptionalParams
+    options?: InternetGatewaysListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<InternetGateway>;
   /**
    * Displays Internet Gateways list by subscription GET method.
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: InternetGatewaysListBySubscriptionOptionalParams
+    options?: InternetGatewaysListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<InternetGateway>;
   /**
    * Creates a Network Fabric Service Internet Gateway resource instance.
@@ -52,7 +52,7 @@ export interface InternetGateways {
     resourceGroupName: string,
     internetGatewayName: string,
     body: InternetGateway,
-    options?: InternetGatewaysCreateOptionalParams
+    options?: InternetGatewaysCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<InternetGatewaysCreateResponse>,
@@ -70,7 +70,7 @@ export interface InternetGateways {
     resourceGroupName: string,
     internetGatewayName: string,
     body: InternetGateway,
-    options?: InternetGatewaysCreateOptionalParams
+    options?: InternetGatewaysCreateOptionalParams,
   ): Promise<InternetGatewaysCreateResponse>;
   /**
    * Implements Gateway GET method.
@@ -81,7 +81,7 @@ export interface InternetGateways {
   get(
     resourceGroupName: string,
     internetGatewayName: string,
-    options?: InternetGatewaysGetOptionalParams
+    options?: InternetGatewaysGetOptionalParams,
   ): Promise<InternetGatewaysGetResponse>;
   /**
    * Execute patch on Network Fabric Service Internet Gateway.
@@ -94,7 +94,7 @@ export interface InternetGateways {
     resourceGroupName: string,
     internetGatewayName: string,
     body: InternetGatewayPatch,
-    options?: InternetGatewaysUpdateOptionalParams
+    options?: InternetGatewaysUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<InternetGatewaysUpdateResponse>,
@@ -112,7 +112,7 @@ export interface InternetGateways {
     resourceGroupName: string,
     internetGatewayName: string,
     body: InternetGatewayPatch,
-    options?: InternetGatewaysUpdateOptionalParams
+    options?: InternetGatewaysUpdateOptionalParams,
   ): Promise<InternetGatewaysUpdateResponse>;
   /**
    * Execute a delete on Network Fabric Service Internet Gateway.
@@ -123,7 +123,7 @@ export interface InternetGateways {
   beginDelete(
     resourceGroupName: string,
     internetGatewayName: string,
-    options?: InternetGatewaysDeleteOptionalParams
+    options?: InternetGatewaysDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Execute a delete on Network Fabric Service Internet Gateway.
@@ -134,6 +134,6 @@ export interface InternetGateways {
   beginDeleteAndWait(
     resourceGroupName: string,
     internetGatewayName: string,
-    options?: InternetGatewaysDeleteOptionalParams
+    options?: InternetGatewaysDeleteOptionalParams,
   ): Promise<void>;
 }

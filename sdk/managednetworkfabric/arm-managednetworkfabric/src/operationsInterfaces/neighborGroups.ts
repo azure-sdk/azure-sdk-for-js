@@ -19,7 +19,7 @@ import {
   NeighborGroupPatch,
   NeighborGroupsUpdateOptionalParams,
   NeighborGroupsUpdateResponse,
-  NeighborGroupsDeleteOptionalParams
+  NeighborGroupsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,14 +32,14 @@ export interface NeighborGroups {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: NeighborGroupsListByResourceGroupOptionalParams
+    options?: NeighborGroupsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<NeighborGroup>;
   /**
    * Displays NeighborGroups list by subscription GET method.
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: NeighborGroupsListBySubscriptionOptionalParams
+    options?: NeighborGroupsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<NeighborGroup>;
   /**
    * Implements the Neighbor Group PUT method.
@@ -52,7 +52,7 @@ export interface NeighborGroups {
     resourceGroupName: string,
     neighborGroupName: string,
     body: NeighborGroup,
-    options?: NeighborGroupsCreateOptionalParams
+    options?: NeighborGroupsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NeighborGroupsCreateResponse>,
@@ -70,7 +70,7 @@ export interface NeighborGroups {
     resourceGroupName: string,
     neighborGroupName: string,
     body: NeighborGroup,
-    options?: NeighborGroupsCreateOptionalParams
+    options?: NeighborGroupsCreateOptionalParams,
   ): Promise<NeighborGroupsCreateResponse>;
   /**
    * Gets the Neighbor Group.
@@ -81,7 +81,7 @@ export interface NeighborGroups {
   get(
     resourceGroupName: string,
     neighborGroupName: string,
-    options?: NeighborGroupsGetOptionalParams
+    options?: NeighborGroupsGetOptionalParams,
   ): Promise<NeighborGroupsGetResponse>;
   /**
    * Updates the Neighbor Group.
@@ -94,7 +94,7 @@ export interface NeighborGroups {
     resourceGroupName: string,
     neighborGroupName: string,
     body: NeighborGroupPatch,
-    options?: NeighborGroupsUpdateOptionalParams
+    options?: NeighborGroupsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NeighborGroupsUpdateResponse>,
@@ -112,7 +112,7 @@ export interface NeighborGroups {
     resourceGroupName: string,
     neighborGroupName: string,
     body: NeighborGroupPatch,
-    options?: NeighborGroupsUpdateOptionalParams
+    options?: NeighborGroupsUpdateOptionalParams,
   ): Promise<NeighborGroupsUpdateResponse>;
   /**
    * Implements Neighbor Group DELETE method.
@@ -123,7 +123,7 @@ export interface NeighborGroups {
   beginDelete(
     resourceGroupName: string,
     neighborGroupName: string,
-    options?: NeighborGroupsDeleteOptionalParams
+    options?: NeighborGroupsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Implements Neighbor Group DELETE method.
@@ -134,6 +134,6 @@ export interface NeighborGroups {
   beginDeleteAndWait(
     resourceGroupName: string,
     neighborGroupName: string,
-    options?: NeighborGroupsDeleteOptionalParams
+    options?: NeighborGroupsDeleteOptionalParams,
   ): Promise<void>;
 }

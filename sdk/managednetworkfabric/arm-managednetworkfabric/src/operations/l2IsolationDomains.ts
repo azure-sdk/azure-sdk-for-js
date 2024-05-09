@@ -16,7 +16,7 @@ import { AzureNetworkFabricManagementServiceAPI } from "../azureNetworkFabricMan
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -43,7 +43,7 @@ import {
   L2IsolationDomainsCommitConfigurationOptionalParams,
   L2IsolationDomainsCommitConfigurationResponse,
   L2IsolationDomainsListByResourceGroupNextResponse,
-  L2IsolationDomainsListBySubscriptionNextResponse
+  L2IsolationDomainsListBySubscriptionNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -66,7 +66,7 @@ export class L2IsolationDomainsImpl implements L2IsolationDomains {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: L2IsolationDomainsListByResourceGroupOptionalParams
+    options?: L2IsolationDomainsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<L2IsolationDomain> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -83,16 +83,16 @@ export class L2IsolationDomainsImpl implements L2IsolationDomains {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: L2IsolationDomainsListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<L2IsolationDomain[]> {
     let result: L2IsolationDomainsListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -107,7 +107,7 @@ export class L2IsolationDomainsImpl implements L2IsolationDomains {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -118,11 +118,11 @@ export class L2IsolationDomainsImpl implements L2IsolationDomains {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: L2IsolationDomainsListByResourceGroupOptionalParams
+    options?: L2IsolationDomainsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<L2IsolationDomain> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -133,7 +133,7 @@ export class L2IsolationDomainsImpl implements L2IsolationDomains {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: L2IsolationDomainsListBySubscriptionOptionalParams
+    options?: L2IsolationDomainsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<L2IsolationDomain> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -148,13 +148,13 @@ export class L2IsolationDomainsImpl implements L2IsolationDomains {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: L2IsolationDomainsListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<L2IsolationDomain[]> {
     let result: L2IsolationDomainsListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -175,7 +175,7 @@ export class L2IsolationDomainsImpl implements L2IsolationDomains {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: L2IsolationDomainsListBySubscriptionOptionalParams
+    options?: L2IsolationDomainsListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<L2IsolationDomain> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -194,7 +194,7 @@ export class L2IsolationDomainsImpl implements L2IsolationDomains {
     resourceGroupName: string,
     l2IsolationDomainName: string,
     body: L2IsolationDomain,
-    options?: L2IsolationDomainsCreateOptionalParams
+    options?: L2IsolationDomainsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<L2IsolationDomainsCreateResponse>,
@@ -203,21 +203,20 @@ export class L2IsolationDomainsImpl implements L2IsolationDomains {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<L2IsolationDomainsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -226,8 +225,8 @@ export class L2IsolationDomainsImpl implements L2IsolationDomains {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -235,15 +234,15 @@ export class L2IsolationDomainsImpl implements L2IsolationDomains {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, l2IsolationDomainName, body, options },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       L2IsolationDomainsCreateResponse,
@@ -251,7 +250,7 @@ export class L2IsolationDomainsImpl implements L2IsolationDomains {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -269,13 +268,13 @@ export class L2IsolationDomainsImpl implements L2IsolationDomains {
     resourceGroupName: string,
     l2IsolationDomainName: string,
     body: L2IsolationDomain,
-    options?: L2IsolationDomainsCreateOptionalParams
+    options?: L2IsolationDomainsCreateOptionalParams,
   ): Promise<L2IsolationDomainsCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       l2IsolationDomainName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -289,11 +288,11 @@ export class L2IsolationDomainsImpl implements L2IsolationDomains {
   get(
     resourceGroupName: string,
     l2IsolationDomainName: string,
-    options?: L2IsolationDomainsGetOptionalParams
+    options?: L2IsolationDomainsGetOptionalParams,
   ): Promise<L2IsolationDomainsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, l2IsolationDomainName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -308,7 +307,7 @@ export class L2IsolationDomainsImpl implements L2IsolationDomains {
     resourceGroupName: string,
     l2IsolationDomainName: string,
     body: L2IsolationDomainPatch,
-    options?: L2IsolationDomainsUpdateOptionalParams
+    options?: L2IsolationDomainsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<L2IsolationDomainsUpdateResponse>,
@@ -317,21 +316,20 @@ export class L2IsolationDomainsImpl implements L2IsolationDomains {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<L2IsolationDomainsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -340,8 +338,8 @@ export class L2IsolationDomainsImpl implements L2IsolationDomains {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -349,15 +347,15 @@ export class L2IsolationDomainsImpl implements L2IsolationDomains {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, l2IsolationDomainName, body, options },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       L2IsolationDomainsUpdateResponse,
@@ -365,7 +363,7 @@ export class L2IsolationDomainsImpl implements L2IsolationDomains {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -382,13 +380,13 @@ export class L2IsolationDomainsImpl implements L2IsolationDomains {
     resourceGroupName: string,
     l2IsolationDomainName: string,
     body: L2IsolationDomainPatch,
-    options?: L2IsolationDomainsUpdateOptionalParams
+    options?: L2IsolationDomainsUpdateOptionalParams,
   ): Promise<L2IsolationDomainsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       l2IsolationDomainName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -402,25 +400,24 @@ export class L2IsolationDomainsImpl implements L2IsolationDomains {
   async beginDelete(
     resourceGroupName: string,
     l2IsolationDomainName: string,
-    options?: L2IsolationDomainsDeleteOptionalParams
+    options?: L2IsolationDomainsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -429,8 +426,8 @@ export class L2IsolationDomainsImpl implements L2IsolationDomains {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -438,20 +435,20 @@ export class L2IsolationDomainsImpl implements L2IsolationDomains {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, l2IsolationDomainName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -466,12 +463,12 @@ export class L2IsolationDomainsImpl implements L2IsolationDomains {
   async beginDeleteAndWait(
     resourceGroupName: string,
     l2IsolationDomainName: string,
-    options?: L2IsolationDomainsDeleteOptionalParams
+    options?: L2IsolationDomainsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       l2IsolationDomainName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -487,7 +484,7 @@ export class L2IsolationDomainsImpl implements L2IsolationDomains {
     resourceGroupName: string,
     l2IsolationDomainName: string,
     body: UpdateAdministrativeState,
-    options?: L2IsolationDomainsUpdateAdministrativeStateOptionalParams
+    options?: L2IsolationDomainsUpdateAdministrativeStateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<L2IsolationDomainsUpdateAdministrativeStateResponse>,
@@ -496,21 +493,20 @@ export class L2IsolationDomainsImpl implements L2IsolationDomains {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<L2IsolationDomainsUpdateAdministrativeStateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -519,8 +515,8 @@ export class L2IsolationDomainsImpl implements L2IsolationDomains {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -528,15 +524,15 @@ export class L2IsolationDomainsImpl implements L2IsolationDomains {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, l2IsolationDomainName, body, options },
-      spec: updateAdministrativeStateOperationSpec
+      spec: updateAdministrativeStateOperationSpec,
     });
     const poller = await createHttpPoller<
       L2IsolationDomainsUpdateAdministrativeStateResponse,
@@ -544,7 +540,7 @@ export class L2IsolationDomainsImpl implements L2IsolationDomains {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -561,13 +557,13 @@ export class L2IsolationDomainsImpl implements L2IsolationDomains {
     resourceGroupName: string,
     l2IsolationDomainName: string,
     body: UpdateAdministrativeState,
-    options?: L2IsolationDomainsUpdateAdministrativeStateOptionalParams
+    options?: L2IsolationDomainsUpdateAdministrativeStateOptionalParams,
   ): Promise<L2IsolationDomainsUpdateAdministrativeStateResponse> {
     const poller = await this.beginUpdateAdministrativeState(
       resourceGroupName,
       l2IsolationDomainName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -581,7 +577,7 @@ export class L2IsolationDomainsImpl implements L2IsolationDomains {
   async beginValidateConfiguration(
     resourceGroupName: string,
     l2IsolationDomainName: string,
-    options?: L2IsolationDomainsValidateConfigurationOptionalParams
+    options?: L2IsolationDomainsValidateConfigurationOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<L2IsolationDomainsValidateConfigurationResponse>,
@@ -590,21 +586,20 @@ export class L2IsolationDomainsImpl implements L2IsolationDomains {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<L2IsolationDomainsValidateConfigurationResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -613,8 +608,8 @@ export class L2IsolationDomainsImpl implements L2IsolationDomains {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -622,15 +617,15 @@ export class L2IsolationDomainsImpl implements L2IsolationDomains {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, l2IsolationDomainName, options },
-      spec: validateConfigurationOperationSpec
+      spec: validateConfigurationOperationSpec,
     });
     const poller = await createHttpPoller<
       L2IsolationDomainsValidateConfigurationResponse,
@@ -638,7 +633,7 @@ export class L2IsolationDomainsImpl implements L2IsolationDomains {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -653,12 +648,12 @@ export class L2IsolationDomainsImpl implements L2IsolationDomains {
   async beginValidateConfigurationAndWait(
     resourceGroupName: string,
     l2IsolationDomainName: string,
-    options?: L2IsolationDomainsValidateConfigurationOptionalParams
+    options?: L2IsolationDomainsValidateConfigurationOptionalParams,
   ): Promise<L2IsolationDomainsValidateConfigurationResponse> {
     const poller = await this.beginValidateConfiguration(
       resourceGroupName,
       l2IsolationDomainName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -672,7 +667,7 @@ export class L2IsolationDomainsImpl implements L2IsolationDomains {
   async beginCommitConfiguration(
     resourceGroupName: string,
     l2IsolationDomainName: string,
-    options?: L2IsolationDomainsCommitConfigurationOptionalParams
+    options?: L2IsolationDomainsCommitConfigurationOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<L2IsolationDomainsCommitConfigurationResponse>,
@@ -681,21 +676,20 @@ export class L2IsolationDomainsImpl implements L2IsolationDomains {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<L2IsolationDomainsCommitConfigurationResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -704,8 +698,8 @@ export class L2IsolationDomainsImpl implements L2IsolationDomains {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -713,15 +707,15 @@ export class L2IsolationDomainsImpl implements L2IsolationDomains {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, l2IsolationDomainName, options },
-      spec: commitConfigurationOperationSpec
+      spec: commitConfigurationOperationSpec,
     });
     const poller = await createHttpPoller<
       L2IsolationDomainsCommitConfigurationResponse,
@@ -729,7 +723,7 @@ export class L2IsolationDomainsImpl implements L2IsolationDomains {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -744,12 +738,12 @@ export class L2IsolationDomainsImpl implements L2IsolationDomains {
   async beginCommitConfigurationAndWait(
     resourceGroupName: string,
     l2IsolationDomainName: string,
-    options?: L2IsolationDomainsCommitConfigurationOptionalParams
+    options?: L2IsolationDomainsCommitConfigurationOptionalParams,
   ): Promise<L2IsolationDomainsCommitConfigurationResponse> {
     const poller = await this.beginCommitConfiguration(
       resourceGroupName,
       l2IsolationDomainName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -761,11 +755,11 @@ export class L2IsolationDomainsImpl implements L2IsolationDomains {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: L2IsolationDomainsListByResourceGroupOptionalParams
+    options?: L2IsolationDomainsListByResourceGroupOptionalParams,
   ): Promise<L2IsolationDomainsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -774,11 +768,11 @@ export class L2IsolationDomainsImpl implements L2IsolationDomains {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: L2IsolationDomainsListBySubscriptionOptionalParams
+    options?: L2IsolationDomainsListBySubscriptionOptionalParams,
   ): Promise<L2IsolationDomainsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -791,11 +785,11 @@ export class L2IsolationDomainsImpl implements L2IsolationDomains {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: L2IsolationDomainsListByResourceGroupNextOptionalParams
+    options?: L2IsolationDomainsListByResourceGroupNextOptionalParams,
   ): Promise<L2IsolationDomainsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 
@@ -806,11 +800,11 @@ export class L2IsolationDomainsImpl implements L2IsolationDomains {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: L2IsolationDomainsListBySubscriptionNextOptionalParams
+    options?: L2IsolationDomainsListBySubscriptionNextOptionalParams,
   ): Promise<L2IsolationDomainsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 }
@@ -818,25 +812,24 @@ export class L2IsolationDomainsImpl implements L2IsolationDomains {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l2IsolationDomains/{l2IsolationDomainName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l2IsolationDomains/{l2IsolationDomainName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.L2IsolationDomain
+      bodyMapper: Mappers.L2IsolationDomain,
     },
     201: {
-      bodyMapper: Mappers.L2IsolationDomain
+      bodyMapper: Mappers.L2IsolationDomain,
     },
     202: {
-      bodyMapper: Mappers.L2IsolationDomain
+      bodyMapper: Mappers.L2IsolationDomain,
     },
     204: {
-      bodyMapper: Mappers.L2IsolationDomain
+      bodyMapper: Mappers.L2IsolationDomain,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body13,
   queryParameters: [Parameters.apiVersion],
@@ -844,54 +837,52 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.l2IsolationDomainName
+    Parameters.l2IsolationDomainName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l2IsolationDomains/{l2IsolationDomainName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l2IsolationDomains/{l2IsolationDomainName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.L2IsolationDomain
+      bodyMapper: Mappers.L2IsolationDomain,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.l2IsolationDomainName
+    Parameters.l2IsolationDomainName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l2IsolationDomains/{l2IsolationDomainName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l2IsolationDomains/{l2IsolationDomainName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.L2IsolationDomain
+      bodyMapper: Mappers.L2IsolationDomain,
     },
     201: {
-      bodyMapper: Mappers.L2IsolationDomain
+      bodyMapper: Mappers.L2IsolationDomain,
     },
     202: {
-      bodyMapper: Mappers.L2IsolationDomain
+      bodyMapper: Mappers.L2IsolationDomain,
     },
     204: {
-      bodyMapper: Mappers.L2IsolationDomain
+      bodyMapper: Mappers.L2IsolationDomain,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body14,
   queryParameters: [Parameters.apiVersion],
@@ -899,15 +890,14 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.l2IsolationDomainName
+    Parameters.l2IsolationDomainName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l2IsolationDomains/{l2IsolationDomainName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l2IsolationDomains/{l2IsolationDomainName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -915,39 +905,38 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.l2IsolationDomainName
+    Parameters.l2IsolationDomainName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateAdministrativeStateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l2IsolationDomains/{l2IsolationDomainName}/updateAdministrativeState",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l2IsolationDomains/{l2IsolationDomainName}/updateAdministrativeState",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate,
     },
     201: {
-      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate,
     },
     202: {
-      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate,
     },
     204: {
-      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForDeviceUpdate,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body2,
   queryParameters: [Parameters.apiVersion],
@@ -955,148 +944,144 @@ const updateAdministrativeStateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.l2IsolationDomainName
+    Parameters.l2IsolationDomainName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const validateConfigurationOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l2IsolationDomains/{l2IsolationDomainName}/validateConfiguration",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l2IsolationDomains/{l2IsolationDomainName}/validateConfiguration",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ValidateConfigurationResponse
+      bodyMapper: Mappers.ValidateConfigurationResponse,
     },
     201: {
-      bodyMapper: Mappers.ValidateConfigurationResponse
+      bodyMapper: Mappers.ValidateConfigurationResponse,
     },
     202: {
-      bodyMapper: Mappers.ValidateConfigurationResponse
+      bodyMapper: Mappers.ValidateConfigurationResponse,
     },
     204: {
-      bodyMapper: Mappers.ValidateConfigurationResponse
+      bodyMapper: Mappers.ValidateConfigurationResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.l2IsolationDomainName
+    Parameters.l2IsolationDomainName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const commitConfigurationOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l2IsolationDomains/{l2IsolationDomainName}/commitConfiguration",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l2IsolationDomains/{l2IsolationDomainName}/commitConfiguration",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     201: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     202: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     204: {
-      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.l2IsolationDomainName
+    Parameters.l2IsolationDomainName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l2IsolationDomains",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l2IsolationDomains",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.L2IsolationDomainsListResult
+      bodyMapper: Mappers.L2IsolationDomainsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ManagedNetworkFabric/l2IsolationDomains",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.ManagedNetworkFabric/l2IsolationDomains",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.L2IsolationDomainsListResult
+      bodyMapper: Mappers.L2IsolationDomainsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.L2IsolationDomainsListResult
+      bodyMapper: Mappers.L2IsolationDomainsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.L2IsolationDomainsListResult
+      bodyMapper: Mappers.L2IsolationDomainsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

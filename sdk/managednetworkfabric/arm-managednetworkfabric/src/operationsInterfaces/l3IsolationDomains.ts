@@ -26,7 +26,7 @@ import {
   L3IsolationDomainsValidateConfigurationOptionalParams,
   L3IsolationDomainsValidateConfigurationResponse,
   L3IsolationDomainsCommitConfigurationOptionalParams,
-  L3IsolationDomainsCommitConfigurationResponse
+  L3IsolationDomainsCommitConfigurationResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -39,14 +39,14 @@ export interface L3IsolationDomains {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: L3IsolationDomainsListByResourceGroupOptionalParams
+    options?: L3IsolationDomainsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<L3IsolationDomain>;
   /**
    * Displays L3IsolationDomains list by subscription GET method.
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: L3IsolationDomainsListBySubscriptionOptionalParams
+    options?: L3IsolationDomainsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<L3IsolationDomain>;
   /**
    * Create isolation domain resources for layer 3 connectivity between compute nodes and for
@@ -61,7 +61,7 @@ export interface L3IsolationDomains {
     resourceGroupName: string,
     l3IsolationDomainName: string,
     body: L3IsolationDomain,
-    options?: L3IsolationDomainsCreateOptionalParams
+    options?: L3IsolationDomainsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<L3IsolationDomainsCreateResponse>,
@@ -81,7 +81,7 @@ export interface L3IsolationDomains {
     resourceGroupName: string,
     l3IsolationDomainName: string,
     body: L3IsolationDomain,
-    options?: L3IsolationDomainsCreateOptionalParams
+    options?: L3IsolationDomainsCreateOptionalParams,
   ): Promise<L3IsolationDomainsCreateResponse>;
   /**
    * Retrieves details of this L3 Isolation Domain.
@@ -92,7 +92,7 @@ export interface L3IsolationDomains {
   get(
     resourceGroupName: string,
     l3IsolationDomainName: string,
-    options?: L3IsolationDomainsGetOptionalParams
+    options?: L3IsolationDomainsGetOptionalParams,
   ): Promise<L3IsolationDomainsGetResponse>;
   /**
    * API to update certain properties of the L3 Isolation Domain resource.
@@ -105,7 +105,7 @@ export interface L3IsolationDomains {
     resourceGroupName: string,
     l3IsolationDomainName: string,
     body: L3IsolationDomainPatch,
-    options?: L3IsolationDomainsUpdateOptionalParams
+    options?: L3IsolationDomainsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<L3IsolationDomainsUpdateResponse>,
@@ -123,7 +123,7 @@ export interface L3IsolationDomains {
     resourceGroupName: string,
     l3IsolationDomainName: string,
     body: L3IsolationDomainPatch,
-    options?: L3IsolationDomainsUpdateOptionalParams
+    options?: L3IsolationDomainsUpdateOptionalParams,
   ): Promise<L3IsolationDomainsUpdateResponse>;
   /**
    * Deletes layer 3 connectivity between compute nodes by managed by named L3 Isolation name.
@@ -134,7 +134,7 @@ export interface L3IsolationDomains {
   beginDelete(
     resourceGroupName: string,
     l3IsolationDomainName: string,
-    options?: L3IsolationDomainsDeleteOptionalParams
+    options?: L3IsolationDomainsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes layer 3 connectivity between compute nodes by managed by named L3 Isolation name.
@@ -145,7 +145,7 @@ export interface L3IsolationDomains {
   beginDeleteAndWait(
     resourceGroupName: string,
     l3IsolationDomainName: string,
-    options?: L3IsolationDomainsDeleteOptionalParams
+    options?: L3IsolationDomainsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Enables racks for this Isolation Domain.
@@ -158,7 +158,7 @@ export interface L3IsolationDomains {
     resourceGroupName: string,
     l3IsolationDomainName: string,
     body: UpdateAdministrativeState,
-    options?: L3IsolationDomainsUpdateAdministrativeStateOptionalParams
+    options?: L3IsolationDomainsUpdateAdministrativeStateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<L3IsolationDomainsUpdateAdministrativeStateResponse>,
@@ -176,7 +176,7 @@ export interface L3IsolationDomains {
     resourceGroupName: string,
     l3IsolationDomainName: string,
     body: UpdateAdministrativeState,
-    options?: L3IsolationDomainsUpdateAdministrativeStateOptionalParams
+    options?: L3IsolationDomainsUpdateAdministrativeStateOptionalParams,
   ): Promise<L3IsolationDomainsUpdateAdministrativeStateResponse>;
   /**
    * Validates the configuration of the resources.
@@ -187,7 +187,7 @@ export interface L3IsolationDomains {
   beginValidateConfiguration(
     resourceGroupName: string,
     l3IsolationDomainName: string,
-    options?: L3IsolationDomainsValidateConfigurationOptionalParams
+    options?: L3IsolationDomainsValidateConfigurationOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<L3IsolationDomainsValidateConfigurationResponse>,
@@ -203,7 +203,7 @@ export interface L3IsolationDomains {
   beginValidateConfigurationAndWait(
     resourceGroupName: string,
     l3IsolationDomainName: string,
-    options?: L3IsolationDomainsValidateConfigurationOptionalParams
+    options?: L3IsolationDomainsValidateConfigurationOptionalParams,
   ): Promise<L3IsolationDomainsValidateConfigurationResponse>;
   /**
    * Commits the configuration of the given resources.
@@ -214,7 +214,7 @@ export interface L3IsolationDomains {
   beginCommitConfiguration(
     resourceGroupName: string,
     l3IsolationDomainName: string,
-    options?: L3IsolationDomainsCommitConfigurationOptionalParams
+    options?: L3IsolationDomainsCommitConfigurationOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<L3IsolationDomainsCommitConfigurationResponse>,
@@ -230,6 +230,6 @@ export interface L3IsolationDomains {
   beginCommitConfigurationAndWait(
     resourceGroupName: string,
     l3IsolationDomainName: string,
-    options?: L3IsolationDomainsCommitConfigurationOptionalParams
+    options?: L3IsolationDomainsCommitConfigurationOptionalParams,
   ): Promise<L3IsolationDomainsCommitConfigurationResponse>;
 }

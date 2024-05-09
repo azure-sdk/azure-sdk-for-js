@@ -27,7 +27,7 @@ import {
   NetworkTapRulesResyncOptionalParams,
   NetworkTapRulesResyncResponse,
   NetworkTapRulesValidateConfigurationOptionalParams,
-  NetworkTapRulesValidateConfigurationResponse
+  NetworkTapRulesValidateConfigurationResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -40,14 +40,14 @@ export interface NetworkTapRules {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: NetworkTapRulesListByResourceGroupOptionalParams
+    options?: NetworkTapRulesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<NetworkTapRule>;
   /**
    * List all the Network Tap Rule resources in the given subscription.
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: NetworkTapRulesListBySubscriptionOptionalParams
+    options?: NetworkTapRulesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<NetworkTapRule>;
   /**
    * Create Network Tap Rule resource.
@@ -60,7 +60,7 @@ export interface NetworkTapRules {
     resourceGroupName: string,
     networkTapRuleName: string,
     body: NetworkTapRule,
-    options?: NetworkTapRulesCreateOptionalParams
+    options?: NetworkTapRulesCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkTapRulesCreateResponse>,
@@ -78,7 +78,7 @@ export interface NetworkTapRules {
     resourceGroupName: string,
     networkTapRuleName: string,
     body: NetworkTapRule,
-    options?: NetworkTapRulesCreateOptionalParams
+    options?: NetworkTapRulesCreateOptionalParams,
   ): Promise<NetworkTapRulesCreateResponse>;
   /**
    * Get Network Tap Rule resource details.
@@ -89,7 +89,7 @@ export interface NetworkTapRules {
   get(
     resourceGroupName: string,
     networkTapRuleName: string,
-    options?: NetworkTapRulesGetOptionalParams
+    options?: NetworkTapRulesGetOptionalParams,
   ): Promise<NetworkTapRulesGetResponse>;
   /**
    * Update certain properties of the Network Tap Rule resource.
@@ -102,7 +102,7 @@ export interface NetworkTapRules {
     resourceGroupName: string,
     networkTapRuleName: string,
     body: NetworkTapRulePatch,
-    options?: NetworkTapRulesUpdateOptionalParams
+    options?: NetworkTapRulesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkTapRulesUpdateResponse>,
@@ -120,7 +120,7 @@ export interface NetworkTapRules {
     resourceGroupName: string,
     networkTapRuleName: string,
     body: NetworkTapRulePatch,
-    options?: NetworkTapRulesUpdateOptionalParams
+    options?: NetworkTapRulesUpdateOptionalParams,
   ): Promise<NetworkTapRulesUpdateResponse>;
   /**
    * Delete Network Tap Rule resource.
@@ -131,7 +131,7 @@ export interface NetworkTapRules {
   beginDelete(
     resourceGroupName: string,
     networkTapRuleName: string,
-    options?: NetworkTapRulesDeleteOptionalParams
+    options?: NetworkTapRulesDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkTapRulesDeleteResponse>,
@@ -147,7 +147,7 @@ export interface NetworkTapRules {
   beginDeleteAndWait(
     resourceGroupName: string,
     networkTapRuleName: string,
-    options?: NetworkTapRulesDeleteOptionalParams
+    options?: NetworkTapRulesDeleteOptionalParams,
   ): Promise<NetworkTapRulesDeleteResponse>;
   /**
    * Implements the operation to the underlying resources.
@@ -160,7 +160,7 @@ export interface NetworkTapRules {
     resourceGroupName: string,
     networkTapRuleName: string,
     body: UpdateAdministrativeState,
-    options?: NetworkTapRulesUpdateAdministrativeStateOptionalParams
+    options?: NetworkTapRulesUpdateAdministrativeStateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkTapRulesUpdateAdministrativeStateResponse>,
@@ -178,7 +178,7 @@ export interface NetworkTapRules {
     resourceGroupName: string,
     networkTapRuleName: string,
     body: UpdateAdministrativeState,
-    options?: NetworkTapRulesUpdateAdministrativeStateOptionalParams
+    options?: NetworkTapRulesUpdateAdministrativeStateOptionalParams,
   ): Promise<NetworkTapRulesUpdateAdministrativeStateResponse>;
   /**
    * Implements the operation to the underlying resources.
@@ -189,7 +189,7 @@ export interface NetworkTapRules {
   beginResync(
     resourceGroupName: string,
     networkTapRuleName: string,
-    options?: NetworkTapRulesResyncOptionalParams
+    options?: NetworkTapRulesResyncOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkTapRulesResyncResponse>,
@@ -205,7 +205,7 @@ export interface NetworkTapRules {
   beginResyncAndWait(
     resourceGroupName: string,
     networkTapRuleName: string,
-    options?: NetworkTapRulesResyncOptionalParams
+    options?: NetworkTapRulesResyncOptionalParams,
   ): Promise<NetworkTapRulesResyncResponse>;
   /**
    * Implements the operation to the underlying resources.
@@ -216,7 +216,7 @@ export interface NetworkTapRules {
   beginValidateConfiguration(
     resourceGroupName: string,
     networkTapRuleName: string,
-    options?: NetworkTapRulesValidateConfigurationOptionalParams
+    options?: NetworkTapRulesValidateConfigurationOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkTapRulesValidateConfigurationResponse>,
@@ -232,6 +232,6 @@ export interface NetworkTapRules {
   beginValidateConfigurationAndWait(
     resourceGroupName: string,
     networkTapRuleName: string,
-    options?: NetworkTapRulesValidateConfigurationOptionalParams
+    options?: NetworkTapRulesValidateConfigurationOptionalParams,
   ): Promise<NetworkTapRulesValidateConfigurationResponse>;
 }
