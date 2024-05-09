@@ -1,15 +1,110 @@
 # Release History
+    
+## 1.2.0-beta.1 (2024-05-09)
+    
+**Features**
 
-## 1.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group CustomizationTasks
+  - Added operation group EncryptionSets
+  - Added operation group PlanMembers
+  - Added operation group Plans
+  - Added operation Projects.getInheritedSettings
+  - Added Interface CustomizationTask
+  - Added Interface CustomizationTaskInput
+  - Added Interface CustomizationTaskListResult
+  - Added Interface CustomizationTasksGetErrorDetailsOptionalParams
+  - Added Interface CustomizationTasksGetOptionalParams
+  - Added Interface CustomizationTasksListByCatalogNextOptionalParams
+  - Added Interface CustomizationTasksListByCatalogOptionalParams
+  - Added Interface DevBoxProvisioningSettings
+  - Added Interface DevCenterEncryptionSet
+  - Added Interface DevCenterEncryptionSetProperties
+  - Added Interface DevCenterEncryptionSetUpdateProperties
+  - Added Interface DevCenterNetworkSettings
+  - Added Interface DevCenterPlan
+  - Added Interface DevCenterPlanMember
+  - Added Interface EncryptionSetListResult
+  - Added Interface EncryptionSetsCreateOrUpdateOptionalParams
+  - Added Interface EncryptionSetsDeleteHeaders
+  - Added Interface EncryptionSetsDeleteOptionalParams
+  - Added Interface EncryptionSetsGetOptionalParams
+  - Added Interface EncryptionSetsListNextOptionalParams
+  - Added Interface EncryptionSetsListOptionalParams
+  - Added Interface EncryptionSetsUpdateHeaders
+  - Added Interface EncryptionSetsUpdateOptionalParams
+  - Added Interface EncryptionSetUpdate
+  - Added Interface InheritedSettingsForProject
+  - Added Interface PlanListResult
+  - Added Interface PlanMembersCreateOrUpdateOptionalParams
+  - Added Interface PlanMembersDeleteHeaders
+  - Added Interface PlanMembersDeleteOptionalParams
+  - Added Interface PlanMembersGetOptionalParams
+  - Added Interface PlanMembersListNextOptionalParams
+  - Added Interface PlanMembersListOptionalParams
+  - Added Interface PlanMembersListResult
+  - Added Interface PlanMembersUpdateHeaders
+  - Added Interface PlanMembersUpdateOptionalParams
+  - Added Interface PlanMemberUpdate
+  - Added Interface PlansCreateOrUpdateOptionalParams
+  - Added Interface PlansDeleteHeaders
+  - Added Interface PlansDeleteOptionalParams
+  - Added Interface PlansGetOptionalParams
+  - Added Interface PlansListByResourceGroupNextOptionalParams
+  - Added Interface PlansListByResourceGroupOptionalParams
+  - Added Interface PlansListBySubscriptionNextOptionalParams
+  - Added Interface PlansListBySubscriptionOptionalParams
+  - Added Interface PlansUpdateHeaders
+  - Added Interface PlansUpdateOptionalParams
+  - Added Interface PlanUpdate
+  - Added Interface ProjectNetworkSettings
+  - Added Interface ProjectsGetInheritedSettingsOptionalParams
+  - Added Type Alias CustomizationTaskInputType
+  - Added Type Alias CustomizationTasksGetErrorDetailsResponse
+  - Added Type Alias CustomizationTasksGetResponse
+  - Added Type Alias CustomizationTasksListByCatalogNextResponse
+  - Added Type Alias CustomizationTasksListByCatalogResponse
+  - Added Type Alias DevboxDisksEncryptionEnableStatus
+  - Added Type Alias EncryptionSetsCreateOrUpdateResponse
+  - Added Type Alias EncryptionSetsDeleteResponse
+  - Added Type Alias EncryptionSetsGetResponse
+  - Added Type Alias EncryptionSetsListNextResponse
+  - Added Type Alias EncryptionSetsListResponse
+  - Added Type Alias EncryptionSetsUpdateResponse
+  - Added Type Alias InstallAzureMonitorAgentEnableStatus
+  - Added Type Alias MicrosoftHostedNetworkEnableStatus
+  - Added Type Alias PlanMembersCreateOrUpdateResponse
+  - Added Type Alias PlanMembersDeleteResponse
+  - Added Type Alias PlanMembersGetResponse
+  - Added Type Alias PlanMembersListNextResponse
+  - Added Type Alias PlanMembersListResponse
+  - Added Type Alias PlanMembersUpdateResponse
+  - Added Type Alias PlanMemberType
+  - Added Type Alias PlansCreateOrUpdateResponse
+  - Added Type Alias PlansDeleteResponse
+  - Added Type Alias PlansGetResponse
+  - Added Type Alias PlansListByResourceGroupNextResponse
+  - Added Type Alias PlansListByResourceGroupResponse
+  - Added Type Alias PlansListBySubscriptionNextResponse
+  - Added Type Alias PlansListBySubscriptionResponse
+  - Added Type Alias PlansUpdateResponse
+  - Added Type Alias ProjectsGetInheritedSettingsResponse
+  - Interface DevCenter has a new optional parameter devBoxProvisioningSettings
+  - Interface DevCenter has a new optional parameter networkSettings
+  - Interface DevCenter has a new optional parameter planId
+  - Interface DevCenterUpdate has a new optional parameter devBoxProvisioningSettings
+  - Interface DevCenterUpdate has a new optional parameter networkSettings
+  - Interface DevCenterUpdate has a new optional parameter planId
+  - Interface DevCenterUpdateProperties has a new optional parameter devBoxProvisioningSettings
+  - Interface DevCenterUpdateProperties has a new optional parameter networkSettings
+  - Interface DevCenterUpdateProperties has a new optional parameter planId
+  - Added Enum KnownCustomizationTaskInputType
+  - Added Enum KnownDevboxDisksEncryptionEnableStatus
+  - Added Enum KnownInstallAzureMonitorAgentEnableStatus
+  - Added Enum KnownMicrosoftHostedNetworkEnableStatus
+  - Added Enum KnownPlanMemberType
+  - Enum KnownDomainJoinType has a new value None
+    
+    
 ## 1.1.0 (2024-04-22)
     
 **Features**

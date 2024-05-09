@@ -6,7 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+export * from "./plans";
+export * from "./planMembers";
 export * from "./devCenters";
+export * from "./encryptionSets";
 export * from "./projects";
 export * from "./attachedNetworks";
 export * from "./projectCatalogs";
@@ -25,6 +28,7 @@ export * from "./operationStatuses";
 export * from "./usages";
 export * from "./checkNameAvailability";
 export * from "./checkScopedNameAvailability";
+export * from "./customizationTasks";
 export * from "./skus";
 export * from "./pools";
 export * from "./schedules";

@@ -8,10 +8,10 @@
 
 import * as coreClient from "@azure/core-client";
 
-export const DevCenterListResult: coreClient.CompositeMapper = {
+export const PlanListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "DevCenterListResult",
+    className: "PlanListResult",
     modelProperties: {
       value: {
         serializedName: "value",
@@ -21,7 +21,7 @@ export const DevCenterListResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "DevCenter",
+              className: "DevCenterPlan",
             },
           },
         },
@@ -37,172 +37,41 @@ export const DevCenterListResult: coreClient.CompositeMapper = {
   },
 };
 
-export const DevCenterUpdateProperties: coreClient.CompositeMapper = {
+export const Sku: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "DevCenterUpdateProperties",
+    className: "Sku",
     modelProperties: {
-      encryption: {
-        serializedName: "encryption",
-        type: {
-          name: "Composite",
-          className: "Encryption",
-        },
-      },
-      displayName: {
-        serializedName: "displayName",
-        type: {
-          name: "String",
-        },
-      },
-      projectCatalogSettings: {
-        serializedName: "projectCatalogSettings",
-        type: {
-          name: "Composite",
-          className: "DevCenterProjectCatalogSettings",
-        },
-      },
-    },
-  },
-};
-
-export const Encryption: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "Encryption",
-    modelProperties: {
-      customerManagedKeyEncryption: {
-        serializedName: "customerManagedKeyEncryption",
-        type: {
-          name: "Composite",
-          className: "CustomerManagedKeyEncryption",
-        },
-      },
-    },
-  },
-};
-
-export const CustomerManagedKeyEncryption: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CustomerManagedKeyEncryption",
-    modelProperties: {
-      keyEncryptionKeyIdentity: {
-        serializedName: "keyEncryptionKeyIdentity",
-        type: {
-          name: "Composite",
-          className: "CustomerManagedKeyEncryptionKeyIdentity",
-        },
-      },
-      keyEncryptionKeyUrl: {
-        serializedName: "keyEncryptionKeyUrl",
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const CustomerManagedKeyEncryptionKeyIdentity: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "CustomerManagedKeyEncryptionKeyIdentity",
-      modelProperties: {
-        identityType: {
-          serializedName: "identityType",
-          type: {
-            name: "String",
-          },
-        },
-        userAssignedIdentityResourceId: {
-          serializedName: "userAssignedIdentityResourceId",
-          type: {
-            name: "String",
-          },
-        },
-        delegatedIdentityClientId: {
-          serializedName: "delegatedIdentityClientId",
-          type: {
-            name: "Uuid",
-          },
-        },
-      },
-    },
-  };
-
-export const DevCenterProjectCatalogSettings: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "DevCenterProjectCatalogSettings",
-    modelProperties: {
-      catalogItemSyncEnableStatus: {
-        serializedName: "catalogItemSyncEnableStatus",
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const ManagedServiceIdentity: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManagedServiceIdentity",
-    modelProperties: {
-      principalId: {
-        serializedName: "principalId",
-        readOnly: true,
-        type: {
-          name: "Uuid",
-        },
-      },
-      tenantId: {
-        serializedName: "tenantId",
-        readOnly: true,
-        type: {
-          name: "Uuid",
-        },
-      },
-      type: {
-        serializedName: "type",
+      name: {
+        serializedName: "name",
         required: true,
         type: {
           name: "String",
         },
       },
-      userAssignedIdentities: {
-        serializedName: "userAssignedIdentities",
+      tier: {
+        serializedName: "tier",
         type: {
-          name: "Dictionary",
-          value: {
-            type: { name: "Composite", className: "UserAssignedIdentity" },
-          },
+          name: "Enum",
+          allowedValues: ["Free", "Basic", "Standard", "Premium"],
         },
       },
-    },
-  },
-};
-
-export const UserAssignedIdentity: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "UserAssignedIdentity",
-    modelProperties: {
-      principalId: {
-        serializedName: "principalId",
-        readOnly: true,
+      size: {
+        serializedName: "size",
         type: {
-          name: "Uuid",
+          name: "String",
         },
       },
-      clientId: {
-        serializedName: "clientId",
-        readOnly: true,
+      family: {
+        serializedName: "family",
         type: {
-          name: "Uuid",
+          name: "String",
+        },
+      },
+      capacity: {
+        serializedName: "capacity",
+        type: {
+          name: "Number",
         },
       },
     },
@@ -409,6 +278,353 @@ export const TrackedResourceUpdate: coreClient.CompositeMapper = {
   },
 };
 
+export const PlanMembersListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PlanMembersListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DevCenterPlanMember",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const PlanMemberUpdate: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PlanMemberUpdate",
+    modelProperties: {
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } },
+        },
+      },
+    },
+  },
+};
+
+export const DevCenterListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DevCenterListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DevCenter",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const DevCenterUpdateProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DevCenterUpdateProperties",
+    modelProperties: {
+      planId: {
+        serializedName: "planId",
+        type: {
+          name: "String",
+        },
+      },
+      encryption: {
+        serializedName: "encryption",
+        type: {
+          name: "Composite",
+          className: "Encryption",
+        },
+      },
+      displayName: {
+        serializedName: "displayName",
+        type: {
+          name: "String",
+        },
+      },
+      projectCatalogSettings: {
+        serializedName: "projectCatalogSettings",
+        type: {
+          name: "Composite",
+          className: "DevCenterProjectCatalogSettings",
+        },
+      },
+      networkSettings: {
+        serializedName: "networkSettings",
+        type: {
+          name: "Composite",
+          className: "DevCenterNetworkSettings",
+        },
+      },
+      devBoxProvisioningSettings: {
+        serializedName: "devBoxProvisioningSettings",
+        type: {
+          name: "Composite",
+          className: "DevBoxProvisioningSettings",
+        },
+      },
+    },
+  },
+};
+
+export const Encryption: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Encryption",
+    modelProperties: {
+      customerManagedKeyEncryption: {
+        serializedName: "customerManagedKeyEncryption",
+        type: {
+          name: "Composite",
+          className: "CustomerManagedKeyEncryption",
+        },
+      },
+    },
+  },
+};
+
+export const CustomerManagedKeyEncryption: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CustomerManagedKeyEncryption",
+    modelProperties: {
+      keyEncryptionKeyIdentity: {
+        serializedName: "keyEncryptionKeyIdentity",
+        type: {
+          name: "Composite",
+          className: "CustomerManagedKeyEncryptionKeyIdentity",
+        },
+      },
+      keyEncryptionKeyUrl: {
+        serializedName: "keyEncryptionKeyUrl",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const CustomerManagedKeyEncryptionKeyIdentity: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "CustomerManagedKeyEncryptionKeyIdentity",
+      modelProperties: {
+        identityType: {
+          serializedName: "identityType",
+          type: {
+            name: "String",
+          },
+        },
+        userAssignedIdentityResourceId: {
+          serializedName: "userAssignedIdentityResourceId",
+          type: {
+            name: "String",
+          },
+        },
+        delegatedIdentityClientId: {
+          serializedName: "delegatedIdentityClientId",
+          type: {
+            name: "Uuid",
+          },
+        },
+      },
+    },
+  };
+
+export const DevCenterProjectCatalogSettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DevCenterProjectCatalogSettings",
+    modelProperties: {
+      catalogItemSyncEnableStatus: {
+        serializedName: "catalogItemSyncEnableStatus",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const DevCenterNetworkSettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DevCenterNetworkSettings",
+    modelProperties: {
+      microsoftHostedNetworkEnableStatus: {
+        serializedName: "microsoftHostedNetworkEnableStatus",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const DevBoxProvisioningSettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DevBoxProvisioningSettings",
+    modelProperties: {
+      installAzureMonitorAgentEnableStatus: {
+        serializedName: "installAzureMonitorAgentEnableStatus",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ManagedServiceIdentity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedServiceIdentity",
+    modelProperties: {
+      principalId: {
+        serializedName: "principalId",
+        readOnly: true,
+        type: {
+          name: "Uuid",
+        },
+      },
+      tenantId: {
+        serializedName: "tenantId",
+        readOnly: true,
+        type: {
+          name: "Uuid",
+        },
+      },
+      type: {
+        serializedName: "type",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      userAssignedIdentities: {
+        serializedName: "userAssignedIdentities",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: { name: "Composite", className: "UserAssignedIdentity" },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const UserAssignedIdentity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UserAssignedIdentity",
+    modelProperties: {
+      principalId: {
+        serializedName: "principalId",
+        readOnly: true,
+        type: {
+          name: "Uuid",
+        },
+      },
+      clientId: {
+        serializedName: "clientId",
+        readOnly: true,
+        type: {
+          name: "Uuid",
+        },
+      },
+    },
+  },
+};
+
+export const EncryptionSetListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EncryptionSetListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DevCenterEncryptionSet",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const DevCenterEncryptionSetUpdateProperties: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "DevCenterEncryptionSetUpdateProperties",
+      modelProperties: {
+        devboxDisksEncryptionEnableStatus: {
+          serializedName: "devboxDisksEncryptionEnableStatus",
+          type: {
+            name: "String",
+          },
+        },
+        keyEncryptionKeyUrl: {
+          serializedName: "keyEncryptionKeyUrl",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
 export const ProjectListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -495,6 +711,45 @@ export const ProjectCatalogSettings: coreClient.CompositeMapper = {
               name: "String",
             },
           },
+        },
+      },
+    },
+  },
+};
+
+export const InheritedSettingsForProject: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "InheritedSettingsForProject",
+    modelProperties: {
+      projectCatalogSettings: {
+        serializedName: "projectCatalogSettings",
+        type: {
+          name: "Composite",
+          className: "DevCenterProjectCatalogSettings",
+        },
+      },
+      networkSettings: {
+        serializedName: "networkSettings",
+        type: {
+          name: "Composite",
+          className: "ProjectNetworkSettings",
+        },
+      },
+    },
+  },
+};
+
+export const ProjectNetworkSettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ProjectNetworkSettings",
+    modelProperties: {
+      microsoftHostedNetworkEnableStatus: {
+        serializedName: "microsoftHostedNetworkEnableStatus",
+        readOnly: true,
+        type: {
+          name: "String",
         },
       },
     },
@@ -1487,47 +1742,6 @@ export const DevBoxDefinitionUpdateProperties: coreClient.CompositeMapper = {
   },
 };
 
-export const Sku: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "Sku",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-      tier: {
-        serializedName: "tier",
-        type: {
-          name: "Enum",
-          allowedValues: ["Free", "Basic", "Standard", "Premium"],
-        },
-      },
-      size: {
-        serializedName: "size",
-        type: {
-          name: "String",
-        },
-      },
-      family: {
-        serializedName: "family",
-        type: {
-          name: "String",
-        },
-      },
-      capacity: {
-        serializedName: "capacity",
-        type: {
-          name: "Number",
-        },
-      },
-    },
-  },
-};
-
 export const OperationListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1873,6 +2087,65 @@ export const CheckScopedNameAvailabilityRequest: coreClient.CompositeMapper = {
         serializedName: "scope",
         type: {
           name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const CustomizationTaskListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CustomizationTaskListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CustomizationTask",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const CustomizationTaskInput: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CustomizationTaskInput",
+    modelProperties: {
+      description: {
+        serializedName: "description",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      required: {
+        serializedName: "required",
+        readOnly: true,
+        type: {
+          name: "Boolean",
         },
       },
     },
@@ -2419,24 +2692,42 @@ export const EndpointDetail: coreClient.CompositeMapper = {
   },
 };
 
-export const DevCenterProperties: coreClient.CompositeMapper = {
+export const DevCenterSku: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "DevCenterProperties",
+    className: "DevCenterSku",
     modelProperties: {
-      ...DevCenterUpdateProperties.type.modelProperties,
-      provisioningState: {
-        serializedName: "provisioningState",
+      ...Sku.type.modelProperties,
+      resourceType: {
+        serializedName: "resourceType",
         readOnly: true,
         type: {
           name: "String",
         },
       },
-      devCenterUri: {
-        serializedName: "devCenterUri",
+      locations: {
+        serializedName: "locations",
         readOnly: true,
         type: {
-          name: "String",
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+      capabilities: {
+        serializedName: "capabilities",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Capability",
+            },
+          },
         },
       },
     },
@@ -2459,6 +2750,49 @@ export const TrackedResource: coreClient.CompositeMapper = {
       location: {
         serializedName: "location",
         required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const DevCenterPlanMember: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DevCenterPlanMember",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } },
+        },
+      },
+      memberId: {
+        serializedName: "properties.memberId",
+        type: {
+          name: "String",
+        },
+      },
+      memberType: {
+        serializedName: "properties.memberType",
+        type: {
+          name: "String",
+        },
+      },
+      tagsPropertiesTags: {
+        serializedName: "properties.tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } },
+        },
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
         type: {
           name: "String",
         },
@@ -2856,6 +3190,23 @@ export const HealthCheckStatusDetails: coreClient.CompositeMapper = {
   },
 };
 
+export const PlanUpdate: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PlanUpdate",
+    modelProperties: {
+      ...TrackedResourceUpdate.type.modelProperties,
+      sku: {
+        serializedName: "sku",
+        type: {
+          name: "Composite",
+          className: "Sku",
+        },
+      },
+    },
+  },
+};
+
 export const DevCenterUpdate: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -2867,6 +3218,12 @@ export const DevCenterUpdate: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ManagedServiceIdentity",
+        },
+      },
+      planId: {
+        serializedName: "properties.planId",
+        type: {
+          name: "String",
         },
       },
       encryption: {
@@ -2887,6 +3244,49 @@ export const DevCenterUpdate: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "DevCenterProjectCatalogSettings",
+        },
+      },
+      networkSettings: {
+        serializedName: "properties.networkSettings",
+        type: {
+          name: "Composite",
+          className: "DevCenterNetworkSettings",
+        },
+      },
+      devBoxProvisioningSettings: {
+        serializedName: "properties.devBoxProvisioningSettings",
+        type: {
+          name: "Composite",
+          className: "DevBoxProvisioningSettings",
+        },
+      },
+    },
+  },
+};
+
+export const EncryptionSetUpdate: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EncryptionSetUpdate",
+    modelProperties: {
+      ...TrackedResourceUpdate.type.modelProperties,
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "ManagedServiceIdentity",
+        },
+      },
+      devboxDisksEncryptionEnableStatus: {
+        serializedName: "properties.devboxDisksEncryptionEnableStatus",
+        type: {
+          name: "String",
+        },
+      },
+      keyEncryptionKeyUrl: {
+        serializedName: "properties.keyEncryptionKeyUrl",
+        type: {
+          name: "String",
         },
       },
     },
@@ -3130,6 +3530,47 @@ export const NetworkConnectionUpdate: coreClient.CompositeMapper = {
   },
 };
 
+export const DevCenterProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DevCenterProperties",
+    modelProperties: {
+      ...DevCenterUpdateProperties.type.modelProperties,
+      provisioningState: {
+        serializedName: "provisioningState",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      devCenterUri: {
+        serializedName: "devCenterUri",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const DevCenterEncryptionSetProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DevCenterEncryptionSetProperties",
+    modelProperties: {
+      ...DevCenterEncryptionSetUpdateProperties.type.modelProperties,
+      provisioningState: {
+        serializedName: "provisioningState",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const ProjectProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3295,48 +3736,6 @@ export const DevBoxDefinitionProperties: coreClient.CompositeMapper = {
   },
 };
 
-export const DevCenterSku: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "DevCenterSku",
-    modelProperties: {
-      ...Sku.type.modelProperties,
-      resourceType: {
-        serializedName: "resourceType",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      locations: {
-        serializedName: "locations",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String",
-            },
-          },
-        },
-      },
-      capabilities: {
-        serializedName: "capabilities",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "Capability",
-            },
-          },
-        },
-      },
-    },
-  },
-};
-
 export const OperationStatus: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3436,6 +3835,30 @@ export const NetworkProperties: coreClient.CompositeMapper = {
   },
 };
 
+export const DevCenterPlan: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DevCenterPlan",
+    modelProperties: {
+      ...TrackedResource.type.modelProperties,
+      sku: {
+        serializedName: "sku",
+        type: {
+          name: "Composite",
+          className: "Sku",
+        },
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const DevCenter: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3447,6 +3870,12 @@ export const DevCenter: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ManagedServiceIdentity",
+        },
+      },
+      planId: {
+        serializedName: "properties.planId",
+        type: {
+          name: "String",
         },
       },
       encryption: {
@@ -3469,6 +3898,20 @@ export const DevCenter: coreClient.CompositeMapper = {
           className: "DevCenterProjectCatalogSettings",
         },
       },
+      networkSettings: {
+        serializedName: "properties.networkSettings",
+        type: {
+          name: "Composite",
+          className: "DevCenterNetworkSettings",
+        },
+      },
+      devBoxProvisioningSettings: {
+        serializedName: "properties.devBoxProvisioningSettings",
+        type: {
+          name: "Composite",
+          className: "DevBoxProvisioningSettings",
+        },
+      },
       provisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
@@ -3478,6 +3921,42 @@ export const DevCenter: coreClient.CompositeMapper = {
       },
       devCenterUri: {
         serializedName: "properties.devCenterUri",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const DevCenterEncryptionSet: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DevCenterEncryptionSet",
+    modelProperties: {
+      ...TrackedResource.type.modelProperties,
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "ManagedServiceIdentity",
+        },
+      },
+      devboxDisksEncryptionEnableStatus: {
+        serializedName: "properties.devboxDisksEncryptionEnableStatus",
+        type: {
+          name: "String",
+        },
+      },
+      keyEncryptionKeyUrl: {
+        serializedName: "properties.keyEncryptionKeyUrl",
+        type: {
+          name: "String",
+        },
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
         readOnly: true,
         type: {
           name: "String",
@@ -3941,6 +4420,40 @@ export const ImageVersion: coreClient.CompositeMapper = {
   },
 };
 
+export const CustomizationTask: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CustomizationTask",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      inputs: {
+        serializedName: "properties.inputs",
+        readOnly: true,
+        type: {
+          name: "Dictionary",
+          value: {
+            type: { name: "Composite", className: "CustomizationTaskInput" },
+          },
+        },
+      },
+      timeout: {
+        serializedName: "properties.timeout",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      validationStatus: {
+        serializedName: "properties.validationStatus",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const ScheduleProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3950,6 +4463,66 @@ export const ScheduleProperties: coreClient.CompositeMapper = {
       provisioningState: {
         serializedName: "provisioningState",
         readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const PlansUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PlansUpdateHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const PlansDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PlansDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const PlanMembersUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PlanMembersUpdateHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const PlanMembersDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PlanMembersDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
         type: {
           name: "String",
         },
@@ -3977,6 +4550,36 @@ export const DevCentersDeleteHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DevCentersDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const EncryptionSetsUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EncryptionSetsUpdateHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const EncryptionSetsDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EncryptionSetsDeleteHeaders",
     modelProperties: {
       location: {
         serializedName: "location",
