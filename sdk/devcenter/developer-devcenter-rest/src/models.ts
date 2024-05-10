@@ -4,34 +4,65 @@
 /** Hardware specifications for the Dev Box. */
 export interface HardwareProfile {}
 
-/** Storage settings for the Dev Box's disks */
+/** Storage settings for the Dev Box's disks. */
 export interface StorageProfile {
   /** Settings for the operating system disk. */
-  osDisk?: OSDisk;
+  osDisk?: OsDisk;
 }
 
 /** Settings for the operating system disk. */
-export interface OSDisk {}
+export interface OsDisk {}
 
-/** Specifies information about the image used */
+/** Specifies information about the image used. */
 export interface ImageReference {}
 
-/** A Dev Box */
+/** A Dev Box. */
 export interface DevBox {
   /** The name of the Dev Box pool this machine belongs to. */
   poolName: string;
+  /** Indicates whether the owner of the Dev Box is a local administrator. */
+  localAdministrator?: LocalAdminStatus;
+}
+
+/** Represents a list of tasks to apply to a Dev Box. */
+export interface CustomizationGroup {
   /**
-   * Indicates whether the owner of the Dev Box is a local administrator.
-   *
-   * Possible values: Enabled, Disabled
+   * Tasks to apply. Note by default tasks are excluded from the response when
+   * listing customization groups. To include them, use the `include=tasks` query
+   * parameter.
    */
-  localAdministrator?: string;
+  tasks?: Array<CustomizationTask>;
+}
+
+/** A customization task to run on a Dev Box. */
+export interface CustomizationTask {
+  /** Name of the task. */
+  name: string;
+  /** Parameters for the task. */
+  parameters?: Record<string, string>;
+  /** Display name to help differentiate multiple instances of the same task. */
+  displayName?: string;
+  /** Timeout, in seconds. Overrides any timeout provided on the task definition. */
+  timeoutInSeconds?: number;
+  /** What account to run the task as. */
+  runAs?: CustomizationTaskExecutionAccount;
+}
+
+/** Represents a list of tasks to apply to a Dev Box */
+export interface CustomizationTaskList {
+  /** Tasks to apply. */
+  tasks?: Array<CustomizationTask>;
 }
 
 /** Properties of an environment. */
 export interface Environment {
+  /**
+   * The time the expiration date will be triggered (UTC), after which the
+   * environment and associated resources will be deleted.
+   */
+  expirationDate?: Date | string;
   /** Parameters object for the environment. */
-  parameters?: unknown;
+  parameters?: Record<string, unknown>;
   /** Environment type. */
   environmentType: string;
   /** Name of the catalog. */
@@ -39,3 +70,102 @@ export interface Environment {
   /** Name of the environment definition. */
   environmentDefinitionName: string;
 }
+
+/** Alias for OsType */
+export type OsType = "Windows" | string;
+/** Alias for SkuName */
+export type SkuName =
+  | "general_i_8c32gb256ssd_v2"
+  | "general_i_8c32gb512ssd_v2"
+  | "general_i_8c32gb1024ssd_v2"
+  | "general_i_8c32gb2048ssd_v2"
+  | "general_i_16c64gb256ssd_v2"
+  | "general_i_16c64gb512ssd_v2"
+  | "general_i_16c64gb1024ssd_v2"
+  | "general_i_16c64gb2048ssd_v2"
+  | "general_i_32c128gb512ssd_v2"
+  | "general_i_32c128gb1024ssd_v2"
+  | "general_i_32c128gb2048ssd_v2"
+  | "general_a_8c32gb256ssd_v2"
+  | "general_a_8c32gb512ssd_v2"
+  | "general_a_8c32gb1024ssd_v2"
+  | "general_a_8c32gb2048ssd_v2"
+  | "general_a_16c64gb256ssd_v2"
+  | "general_a_16c64gb512ssd_v2"
+  | "general_a_16c64gb1024ssd_v2"
+  | "general_a_16c64gb2048ssd_v2"
+  | "general_a_32c128gb512ssd_v2"
+  | "general_a_32c128gb1024ssd_v2"
+  | "general_a_32c128gb2048ssd_v2"
+  | string;
+/** Alias for HibernateSupport */
+export type HibernateSupport =
+  | "Enabled"
+  | "Disabled"
+  | "OsUnsupported"
+  | string;
+/** Alias for LocalAdminStatus */
+export type LocalAdminStatus = "Enabled" | "Disabled" | string;
+/** Alias for DevBoxProvisioningState */
+export type DevBoxProvisioningState =
+  | "Succeeded"
+  | "Failed"
+  | "Canceled"
+  | "Creating"
+  | "Deleting"
+  | "Updating"
+  | "Starting"
+  | "Stopping"
+  | "Provisioning"
+  | "ProvisionedWithWarning"
+  | "InGracePeriod"
+  | "NotProvisioned"
+  | string;
+/** Alias for PowerState */
+export type PowerState =
+  | "Unknown"
+  | "Running"
+  | "Deallocated"
+  | "PoweredOff"
+  | "Hibernated"
+  | string;
+/** Alias for ListCustomizationGroupsIncludeProperty */
+export type ListCustomizationGroupsIncludeProperty = "tasks" | string;
+/** Alias for CustomizationTaskExecutionAccount */
+export type CustomizationTaskExecutionAccount = "System" | "User" | string;
+/** Alias for CustomizationTaskStatus */
+export type CustomizationTaskStatus =
+  | "NotStarted"
+  | "Running"
+  | "Succeeded"
+  | "FailedValidation"
+  | "Skipped"
+  | "TimedOut"
+  | "Failed"
+  | "WaitingForUserInputUac"
+  | "WaitingForUserSession"
+  | string;
+/** Alias for CustomizationGroupStatus */
+export type CustomizationGroupStatus =
+  | "NotStarted"
+  | "Running"
+  | "Succeeded"
+  | "Failed"
+  | "ValidationFailed"
+  | string;
+/** Alias for EnvironmentProvisioningState */
+export type EnvironmentProvisioningState =
+  | "Succeeded"
+  | "Failed"
+  | "Canceled"
+  | "Creating"
+  | "Accepted"
+  | "Deleting"
+  | "Updating"
+  | "Preparing"
+  | "Running"
+  | "Syncing"
+  | "MovingResources"
+  | "TransientFailure"
+  | "StorageProvisioningFailed"
+  | string;
