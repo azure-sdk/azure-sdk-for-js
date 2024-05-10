@@ -36,6 +36,9 @@ import {
   ReplicationProtectionContainersDiscoverProtectableItemOptionalParams,
   ReplicationProtectionContainersDiscoverProtectableItemResponse,
   ReplicationProtectionContainersDeleteOptionalParams,
+  SwitchClusterProtectionInput,
+  ReplicationProtectionContainersSwitchClusterProtectionOptionalParams,
+  ReplicationProtectionContainersSwitchClusterProtectionResponse,
   SwitchProtectionInput,
   ReplicationProtectionContainersSwitchProtectionOptionalParams,
   ReplicationProtectionContainersSwitchProtectionResponse,
@@ -603,6 +606,98 @@ export class ReplicationProtectionContainersImpl
   }
 
   /**
+   * Operation to switch protection from one container to another.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
+   * @param switchInput Switch protection input.
+   * @param options The options parameters.
+   */
+  async beginSwitchClusterProtection(
+    resourceGroupName: string,
+    switchInput: SwitchClusterProtectionInput,
+    options?: ReplicationProtectionContainersSwitchClusterProtectionOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ReplicationProtectionContainersSwitchClusterProtectionResponse>,
+      ReplicationProtectionContainersSwitchClusterProtectionResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<ReplicationProtectionContainersSwitchClusterProtectionResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, switchInput, options },
+      spec: switchClusterProtectionOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ReplicationProtectionContainersSwitchClusterProtectionResponse,
+      OperationState<ReplicationProtectionContainersSwitchClusterProtectionResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Operation to switch protection from one container to another.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
+   * @param switchInput Switch protection input.
+   * @param options The options parameters.
+   */
+  async beginSwitchClusterProtectionAndWait(
+    resourceGroupName: string,
+    switchInput: SwitchClusterProtectionInput,
+    options?: ReplicationProtectionContainersSwitchClusterProtectionOptionalParams,
+  ): Promise<ReplicationProtectionContainersSwitchClusterProtectionResponse> {
+    const poller = await this.beginSwitchClusterProtection(
+      resourceGroupName,
+      switchInput,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * Operation to switch protection from one container to another or one replication provider to another.
    * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
@@ -895,6 +990,40 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   ],
   serializer,
 };
+const switchClusterProtectionOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/switchClusterProtection",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ProtectionContainer,
+    },
+    201: {
+      bodyMapper: Mappers.ProtectionContainer,
+    },
+    202: {
+      bodyMapper: Mappers.ProtectionContainer,
+    },
+    204: {
+      bodyMapper: Mappers.ProtectionContainer,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.switchInput,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.resourceName2,
+    Parameters.fabricName2,
+    Parameters.protectionContainerName1,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
 const switchProtectionOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/switchprotection",
   httpMethod: "POST",
@@ -912,7 +1041,7 @@ const switchProtectionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ProtectionContainer,
     },
   },
-  requestBody: Parameters.switchInput,
+  requestBody: Parameters.switchInput1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
