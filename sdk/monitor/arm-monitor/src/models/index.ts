@@ -28,6 +28,297 @@ export type MultiMetricCriteriaUnion =
   | MetricCriteria
   | DynamicMetricCriteria;
 
+/** An email receiver. */
+export interface EmailReceiver {
+  /** The name of the email receiver. Names must be unique across all receivers within an action group. */
+  name: string;
+  /** The email address of this receiver. */
+  emailAddress: string;
+  /** Indicates whether to use common alert schema. */
+  useCommonAlertSchema?: boolean;
+  /**
+   * The receiver status of the e-mail.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: ReceiverStatus;
+}
+
+/** An SMS receiver. */
+export interface SmsReceiver {
+  /** The name of the SMS receiver. Names must be unique across all receivers within an action group. */
+  name: string;
+  /** The country code of the SMS receiver. */
+  countryCode: string;
+  /** The phone number of the SMS receiver. */
+  phoneNumber: string;
+  /**
+   * The status of the receiver.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: ReceiverStatus;
+}
+
+/** A webhook receiver. */
+export interface WebhookReceiver {
+  /** The name of the webhook receiver. Names must be unique across all receivers within an action group. */
+  name: string;
+  /** The URI where webhooks should be sent. */
+  serviceUri: string;
+  /** Indicates whether to use common alert schema. */
+  useCommonAlertSchema?: boolean;
+  /** Indicates whether or not use AAD authentication. */
+  useAadAuth?: boolean;
+  /** Indicates the webhook app object Id for aad auth. */
+  objectId?: string;
+  /** Indicates the identifier uri for aad auth. */
+  identifierUri?: string;
+  /** Indicates the tenant id for aad auth. */
+  tenantId?: string;
+}
+
+/** An Itsm receiver. */
+export interface ItsmReceiver {
+  /** The name of the Itsm receiver. Names must be unique across all receivers within an action group. */
+  name: string;
+  /** OMS LA instance identifier. */
+  workspaceId: string;
+  /** Unique identification of ITSM connection among multiple defined in above workspace. */
+  connectionId: string;
+  /** JSON blob for the configurations of the ITSM action. CreateMultipleWorkItems option will be part of this blob as well. */
+  ticketConfiguration: string;
+  /** Region in which workspace resides. Supported values:'centralindia','japaneast','southeastasia','australiasoutheast','uksouth','westcentralus','canadacentral','eastus','westeurope' */
+  region: string;
+}
+
+/** The Azure mobile App push notification receiver. */
+export interface AzureAppPushReceiver {
+  /** The name of the Azure mobile app push receiver. Names must be unique across all receivers within an action group. */
+  name: string;
+  /** The email address registered for the Azure mobile app. */
+  emailAddress: string;
+}
+
+/** The Azure Automation Runbook notification receiver. */
+export interface AutomationRunbookReceiver {
+  /** The Azure automation account Id which holds this runbook and authenticate to Azure resource. */
+  automationAccountId: string;
+  /** The name for this runbook. */
+  runbookName: string;
+  /** The resource id for webhook linked to this runbook. */
+  webhookResourceId: string;
+  /** Indicates whether this instance is global runbook. */
+  isGlobalRunbook: boolean;
+  /** Indicates name of the webhook. */
+  name?: string;
+  /** The URI where webhooks should be sent. */
+  serviceUri?: string;
+  /** Indicates whether to use common alert schema. */
+  useCommonAlertSchema?: boolean;
+}
+
+/** A voice receiver. */
+export interface VoiceReceiver {
+  /** The name of the voice receiver. Names must be unique across all receivers within an action group. */
+  name: string;
+  /** The country code of the voice receiver. */
+  countryCode: string;
+  /** The phone number of the voice receiver. */
+  phoneNumber: string;
+}
+
+/** A logic app receiver. */
+export interface LogicAppReceiver {
+  /** The name of the logic app receiver. Names must be unique across all receivers within an action group. */
+  name: string;
+  /** The azure resource id of the logic app receiver. */
+  resourceId: string;
+  /** The callback url where http request sent to. */
+  callbackUrl: string;
+  /** Indicates whether to use common alert schema. */
+  useCommonAlertSchema?: boolean;
+}
+
+/** An azure function receiver. */
+export interface AzureFunctionReceiver {
+  /** The name of the azure function receiver. Names must be unique across all receivers within an action group. */
+  name: string;
+  /** The azure resource id of the function app. */
+  functionAppResourceId: string;
+  /** The function name in the function app. */
+  functionName: string;
+  /** The http trigger url where http request sent to. */
+  httpTriggerUrl: string;
+  /** Indicates whether to use common alert schema. */
+  useCommonAlertSchema?: boolean;
+}
+
+/** An arm role receiver. */
+export interface ArmRoleReceiver {
+  /** The name of the arm role receiver. Names must be unique across all receivers within an action group. */
+  name: string;
+  /** The arm role id. */
+  roleId: string;
+  /** Indicates whether to use common alert schema. */
+  useCommonAlertSchema?: boolean;
+}
+
+/** An Event hub receiver. */
+export interface EventHubReceiver {
+  /** The name of the Event hub receiver. Names must be unique across all receivers within an action group. */
+  name: string;
+  /** The Event Hub namespace */
+  eventHubNameSpace: string;
+  /** The name of the specific Event Hub queue */
+  eventHubName: string;
+  /** Indicates whether to use common alert schema. */
+  useCommonAlertSchema?: boolean;
+  /** The tenant Id for the subscription containing this event hub */
+  tenantId?: string;
+  /** The Id for the subscription containing this event hub */
+  subscriptionId: string;
+}
+
+/** An Incident receiver. */
+export interface IncidentReceiver {
+  /** The name of the Incident receiver. Names must be unique across all receivers within an action group. */
+  name: string;
+  /** The incident service connection */
+  connection: IncidentServiceConnection;
+  /** The incident management service type */
+  incidentManagementService: IncidentManagementService;
+  /** Field mappings for the incident service */
+  mappings: { [propertyName: string]: string };
+}
+
+/** The connection info for Incident Receiver. */
+export interface IncidentServiceConnection {
+  /** The name of the connection. */
+  name: string;
+  /** GUID value representing the connection ID for the incident management service. */
+  id: string;
+}
+
+/** An azure resource object */
+export interface AzureResource {
+  /**
+   * Azure resource Id
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * Azure resource name
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Azure resource type
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /** Resource location */
+  location: string;
+  /** Resource tags */
+  tags?: { [propertyName: string]: string };
+}
+
+/** Describes the format of Error response. */
+export interface ErrorResponse {
+  /** Error code */
+  code?: string;
+  /** Error message indicating why the operation failed. */
+  message?: string;
+}
+
+/** An action group object for the body of patch operations. */
+export interface ActionGroupPatchBody {
+  /** Resource tags */
+  tags?: { [propertyName: string]: string };
+  /** Indicates whether this action group is enabled. If an action group is not enabled, then none of its actions will be activated. */
+  enabled?: boolean;
+}
+
+/** The request body which contain contact detail metadata */
+export interface NotificationRequestBody {
+  /** The value of the supported alert type. Supported alert type values are: servicehealth, metricstaticthreshold, metricsdynamicthreshold, logalertv2, smartalert, webtestalert, logalertv1numresult, logalertv1metricmeasurement, resourcehealth, activitylog, actualcostbudget, forecastedbudget */
+  alertType: string;
+  /** The list of email receivers that are part of this action group. */
+  emailReceivers?: EmailReceiver[];
+  /** The list of SMS receivers that are part of this action group. */
+  smsReceivers?: SmsReceiver[];
+  /** The list of webhook receivers that are part of this action group. */
+  webhookReceivers?: WebhookReceiver[];
+  /** The list of ITSM receivers that are part of this action group. */
+  itsmReceivers?: ItsmReceiver[];
+  /** The list of AzureAppPush receivers that are part of this action group. */
+  azureAppPushReceivers?: AzureAppPushReceiver[];
+  /** The list of AutomationRunbook receivers that are part of this action group. */
+  automationRunbookReceivers?: AutomationRunbookReceiver[];
+  /** The list of voice receivers that are part of this action group. */
+  voiceReceivers?: VoiceReceiver[];
+  /** The list of logic app receivers that are part of this action group. */
+  logicAppReceivers?: LogicAppReceiver[];
+  /** The list of azure function receivers that are part of this action group. */
+  azureFunctionReceivers?: AzureFunctionReceiver[];
+  /** The list of ARM role receivers that are part of this action group. Roles are Azure RBAC roles and only built-in roles are supported. */
+  armRoleReceivers?: ArmRoleReceiver[];
+  /** The list of event hub receivers that are part of this action group. */
+  eventHubReceivers?: EventHubReceiver[];
+  /** The list of incident receivers that are part of this action group. */
+  incidentReceivers?: IncidentReceiver[];
+}
+
+/** The details of the test notification results. */
+export interface TestNotificationDetailsResponse {
+  /** The context info */
+  context?: Context;
+  /** The overall state */
+  state: string;
+  /** The completed time */
+  completedTime?: string;
+  /** The created time */
+  createdTime?: string;
+  /** The list of action detail */
+  actionDetails?: ActionDetail[];
+}
+
+/** The context info */
+export interface Context {
+  /** The source of the notification request */
+  notificationSource?: string;
+  /** The context id type */
+  contextType?: string;
+}
+
+/** The action detail */
+export interface ActionDetail {
+  /** The mechanism type */
+  mechanismType?: string;
+  /** The name of the action */
+  name?: string;
+  /** The status of the action */
+  status?: string;
+  /** The substatus of the action */
+  subState?: string;
+  /** The send time */
+  sendTime?: string;
+  /** The detail of the friendly error message */
+  detail?: string;
+}
+
+/** A list of action groups. */
+export interface ActionGroupList {
+  /** The list of action groups. */
+  value?: ActionGroupResource[];
+  /** Provides the link to retrieve the next set of elements. */
+  nextLink?: string;
+}
+
+/** Describes a receiver that should be resubscribed. */
+export interface EnableRequest {
+  /** The name of the receiver to resubscribe. */
+  receiverName: string;
+}
+
 /** Represents collection of metric namespaces. */
 export interface MetricNamespaceCollection {
   /** The values for the metric namespaces. */
@@ -52,14 +343,6 @@ export interface MetricNamespace {
 export interface MetricNamespaceName {
   /** The metric namespace name. */
   metricNamespaceName?: string;
-}
-
-/** Describes the format of Error response. */
-export interface ErrorResponse {
-  /** Error code */
-  code?: string;
-  /** Error message indicating why the operation failed. */
-  message?: string;
 }
 
 /** Represents collection of metric definitions. */
@@ -344,11 +627,8 @@ export interface AzureMonitorWorkspace {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
-  /**
-   * Gets or sets allow or disallow public network access to Azure Monitor Workspace
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly publicNetworkAccess?: PublicNetworkAccess;
+  /** Gets or sets allow or disallow public network access to Azure Monitor Workspace */
+  publicNetworkAccess?: PublicNetworkAccess;
 }
 
 /** Properties related to the metrics container in the Azure Monitor Workspace */
@@ -1072,267 +1352,6 @@ export interface DiagnosticSettingsResourceCollection {
 export interface DiagnosticSettingsCategoryResourceCollection {
   /** The collection of diagnostic settings category resources. */
   value?: DiagnosticSettingsCategoryResource[];
-}
-
-/** An email receiver. */
-export interface EmailReceiver {
-  /** The name of the email receiver. Names must be unique across all receivers within an action group. */
-  name: string;
-  /** The email address of this receiver. */
-  emailAddress: string;
-  /** Indicates whether to use common alert schema. */
-  useCommonAlertSchema?: boolean;
-  /**
-   * The receiver status of the e-mail.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: ReceiverStatus;
-}
-
-/** An SMS receiver. */
-export interface SmsReceiver {
-  /** The name of the SMS receiver. Names must be unique across all receivers within an action group. */
-  name: string;
-  /** The country code of the SMS receiver. */
-  countryCode: string;
-  /** The phone number of the SMS receiver. */
-  phoneNumber: string;
-  /**
-   * The status of the receiver.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: ReceiverStatus;
-}
-
-/** A webhook receiver. */
-export interface WebhookReceiver {
-  /** The name of the webhook receiver. Names must be unique across all receivers within an action group. */
-  name: string;
-  /** The URI where webhooks should be sent. */
-  serviceUri: string;
-  /** Indicates whether to use common alert schema. */
-  useCommonAlertSchema?: boolean;
-  /** Indicates whether or not use AAD authentication. */
-  useAadAuth?: boolean;
-  /** Indicates the webhook app object Id for aad auth. */
-  objectId?: string;
-  /** Indicates the identifier uri for aad auth. */
-  identifierUri?: string;
-  /** Indicates the tenant id for aad auth. */
-  tenantId?: string;
-}
-
-/** An Itsm receiver. */
-export interface ItsmReceiver {
-  /** The name of the Itsm receiver. Names must be unique across all receivers within an action group. */
-  name: string;
-  /** OMS LA instance identifier. */
-  workspaceId: string;
-  /** Unique identification of ITSM connection among multiple defined in above workspace. */
-  connectionId: string;
-  /** JSON blob for the configurations of the ITSM action. CreateMultipleWorkItems option will be part of this blob as well. */
-  ticketConfiguration: string;
-  /** Region in which workspace resides. Supported values:'centralindia','japaneast','southeastasia','australiasoutheast','uksouth','westcentralus','canadacentral','eastus','westeurope' */
-  region: string;
-}
-
-/** The Azure mobile App push notification receiver. */
-export interface AzureAppPushReceiver {
-  /** The name of the Azure mobile app push receiver. Names must be unique across all receivers within an action group. */
-  name: string;
-  /** The email address registered for the Azure mobile app. */
-  emailAddress: string;
-}
-
-/** The Azure Automation Runbook notification receiver. */
-export interface AutomationRunbookReceiver {
-  /** The Azure automation account Id which holds this runbook and authenticate to Azure resource. */
-  automationAccountId: string;
-  /** The name for this runbook. */
-  runbookName: string;
-  /** The resource id for webhook linked to this runbook. */
-  webhookResourceId: string;
-  /** Indicates whether this instance is global runbook. */
-  isGlobalRunbook: boolean;
-  /** Indicates name of the webhook. */
-  name?: string;
-  /** The URI where webhooks should be sent. */
-  serviceUri?: string;
-  /** Indicates whether to use common alert schema. */
-  useCommonAlertSchema?: boolean;
-}
-
-/** A voice receiver. */
-export interface VoiceReceiver {
-  /** The name of the voice receiver. Names must be unique across all receivers within an action group. */
-  name: string;
-  /** The country code of the voice receiver. */
-  countryCode: string;
-  /** The phone number of the voice receiver. */
-  phoneNumber: string;
-}
-
-/** A logic app receiver. */
-export interface LogicAppReceiver {
-  /** The name of the logic app receiver. Names must be unique across all receivers within an action group. */
-  name: string;
-  /** The azure resource id of the logic app receiver. */
-  resourceId: string;
-  /** The callback url where http request sent to. */
-  callbackUrl: string;
-  /** Indicates whether to use common alert schema. */
-  useCommonAlertSchema?: boolean;
-}
-
-/** An azure function receiver. */
-export interface AzureFunctionReceiver {
-  /** The name of the azure function receiver. Names must be unique across all receivers within an action group. */
-  name: string;
-  /** The azure resource id of the function app. */
-  functionAppResourceId: string;
-  /** The function name in the function app. */
-  functionName: string;
-  /** The http trigger url where http request sent to. */
-  httpTriggerUrl: string;
-  /** Indicates whether to use common alert schema. */
-  useCommonAlertSchema?: boolean;
-}
-
-/** An arm role receiver. */
-export interface ArmRoleReceiver {
-  /** The name of the arm role receiver. Names must be unique across all receivers within an action group. */
-  name: string;
-  /** The arm role id. */
-  roleId: string;
-  /** Indicates whether to use common alert schema. */
-  useCommonAlertSchema?: boolean;
-}
-
-/** An Event hub receiver. */
-export interface EventHubReceiver {
-  /** The name of the Event hub receiver. Names must be unique across all receivers within an action group. */
-  name: string;
-  /** The Event Hub namespace */
-  eventHubNameSpace: string;
-  /** The name of the specific Event Hub queue */
-  eventHubName: string;
-  /** Indicates whether to use common alert schema. */
-  useCommonAlertSchema?: boolean;
-  /** The tenant Id for the subscription containing this event hub */
-  tenantId?: string;
-  /** The Id for the subscription containing this event hub */
-  subscriptionId: string;
-}
-
-/** An azure resource object */
-export interface AzureResource {
-  /**
-   * Azure resource Id
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Azure resource name
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Azure resource type
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** Resource location */
-  location: string;
-  /** Resource tags */
-  tags?: { [propertyName: string]: string };
-}
-
-/** An action group object for the body of patch operations. */
-export interface ActionGroupPatchBody {
-  /** Resource tags */
-  tags?: { [propertyName: string]: string };
-  /** Indicates whether this action group is enabled. If an action group is not enabled, then none of its actions will be activated. */
-  enabled?: boolean;
-}
-
-/** The request body which contain contact detail metadata */
-export interface NotificationRequestBody {
-  /** The value of the supported alert type. Supported alert type values are: servicehealth, metricstaticthreshold, metricsdynamicthreshold, logalertv2, smartalert, webtestalert, logalertv1numresult, logalertv1metricmeasurement, resourcehealth, activitylog, actualcostbudget, forecastedbudget */
-  alertType: string;
-  /** The list of email receivers that are part of this action group. */
-  emailReceivers?: EmailReceiver[];
-  /** The list of SMS receivers that are part of this action group. */
-  smsReceivers?: SmsReceiver[];
-  /** The list of webhook receivers that are part of this action group. */
-  webhookReceivers?: WebhookReceiver[];
-  /** The list of ITSM receivers that are part of this action group. */
-  itsmReceivers?: ItsmReceiver[];
-  /** The list of AzureAppPush receivers that are part of this action group. */
-  azureAppPushReceivers?: AzureAppPushReceiver[];
-  /** The list of AutomationRunbook receivers that are part of this action group. */
-  automationRunbookReceivers?: AutomationRunbookReceiver[];
-  /** The list of voice receivers that are part of this action group. */
-  voiceReceivers?: VoiceReceiver[];
-  /** The list of logic app receivers that are part of this action group. */
-  logicAppReceivers?: LogicAppReceiver[];
-  /** The list of azure function receivers that are part of this action group. */
-  azureFunctionReceivers?: AzureFunctionReceiver[];
-  /** The list of ARM role receivers that are part of this action group. Roles are Azure RBAC roles and only built-in roles are supported. */
-  armRoleReceivers?: ArmRoleReceiver[];
-  /** The list of event hub receivers that are part of this action group. */
-  eventHubReceivers?: EventHubReceiver[];
-}
-
-/** The details of the test notification results. */
-export interface TestNotificationDetailsResponse {
-  /** The context info */
-  context?: Context;
-  /** The overall state */
-  state: string;
-  /** The completed time */
-  completedTime?: string;
-  /** The created time */
-  createdTime?: string;
-  /** The list of action detail */
-  actionDetails?: ActionDetail[];
-}
-
-/** The context info */
-export interface Context {
-  /** The source of the notification request */
-  notificationSource?: string;
-  /** The context id type */
-  contextType?: string;
-}
-
-/** The action detail */
-export interface ActionDetail {
-  /** The mechanism type */
-  mechanismType?: string;
-  /** The name of the action */
-  name?: string;
-  /** The status of the action */
-  status?: string;
-  /** The substatus of the action */
-  subState?: string;
-  /** The send time */
-  sendTime?: string;
-  /** The detail of the friendly error message */
-  detail?: string;
-}
-
-/** A list of action groups. */
-export interface ActionGroupList {
-  /** The list of action groups. */
-  value?: ActionGroupResource[];
-  /** Provides the link to retrieve the next set of elements. */
-  nextLink?: string;
-}
-
-/** Describes a receiver that should be resubscribed. */
-export interface EnableRequest {
-  /** The name of the receiver to resubscribe. */
-  receiverName: string;
 }
 
 /** An email receiver. */
@@ -2498,6 +2517,11 @@ export interface Metadata {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisionedByResourceId?: string;
+  /**
+   * Immutable Id of azure offering managing this resource on-behalf-of customer.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisionedByImmutableId?: string;
 }
 
 /** Managed service identity (system assigned and/or user assigned identities) */
@@ -2678,6 +2702,15 @@ export interface DataCollectionRuleResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly metadata?: DataCollectionRuleMetadata;
+  /**
+   * Defines the ingestion endpoints to send data to via this rule.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endpoints?: DataCollectionRuleEndpoints;
+  /** Defines all the references that may be used in other sections of the DCR */
+  references?: DataCollectionRuleReferences;
+  /** Agent settings used to modify agent behavior on a given host */
+  agentSettings?: DataCollectionRuleAgentSettings;
   /** Declaration of custom streams used in this rule. */
   streamDeclarations?: { [propertyName: string]: StreamDeclaration };
   /**
@@ -2712,6 +2745,15 @@ export interface DataCollectionRule {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly metadata?: DataCollectionRuleMetadata;
+  /**
+   * Defines the ingestion endpoints to send data to via this rule.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endpoints?: DataCollectionRuleEndpoints;
+  /** Defines all the references that may be used in other sections of the DCR */
+  references?: DataCollectionRuleReferences;
+  /** Agent settings used to modify agent behavior on a given host */
+  agentSettings?: DataCollectionRuleAgentSettings;
   /** Declaration of custom streams used in this rule. */
   streamDeclarations?: { [propertyName: string]: StreamDeclaration };
   /**
@@ -2728,6 +2770,60 @@ export interface DataCollectionRule {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: KnownDataCollectionRuleProvisioningState;
+}
+
+/** This defines all the ingestion endpoints that can be used by this rule */
+export interface EndpointsSpec {
+  /**
+   * The ingestion endpoint for logs
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly logsIngestion?: string;
+  /**
+   * The ingestion endpoint for metrics
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly metricsIngestion?: string;
+}
+
+/** This section defines all the references that may be used in other sections of the DCR */
+export interface ReferencesSpec {
+  /** All the enrichment data sources referenced in data flows */
+  enrichmentData?: ReferencesSpecEnrichmentData;
+}
+
+/** All the enrichment data sources referenced in data flows */
+export interface EnrichmentData {
+  /** All the storage blobs used as enrichment data sources */
+  storageBlobs?: StorageBlob[];
+}
+
+export interface StorageBlob {
+  /** Resource Id of the storage account that hosts the blob */
+  resourceId?: string;
+  /** Url of the storage blob */
+  blobUrl?: string;
+  /** The type of lookup to perform on the blob */
+  lookupType?: KnownStorageBlobLookupType;
+  /** The name of the enrichment data source used as an alias when referencing this data source in data flows */
+  name?: string;
+}
+
+/** An agent setting */
+export interface AgentSettingsSpec {
+  /** All the settings that are applicable to the logs agent (AMA) */
+  logs?: AgentSetting[];
+}
+
+/** A setting used to control an agent behavior on a host machine */
+export interface AgentSetting {
+  /**
+   * The name of the setting.
+   * Must be part of the list of supported settings
+   */
+  name?: KnownAgentSettingName;
+  /** The value of the setting */
+  value?: string;
 }
 
 /** Declaration of a custom stream. */
@@ -2786,6 +2882,8 @@ export interface PerfCounterDataSource {
    * To get a list of performance counters on Windows, run the command 'typeperf'.
    */
   counterSpecifiers?: string[];
+  /** The KQL query to transform the data source. */
+  transformKql?: string;
   /**
    * A friendly name for the data source.
    * This name should be unique across all data sources (regardless of type) within the data collection rule.
@@ -2805,6 +2903,8 @@ export interface WindowsEventLogDataSource {
   streams?: KnownWindowsEventLogDataSourceStreams[];
   /** A list of Windows Event Log queries in XPATH format. */
   xPathQueries?: string[];
+  /** The KQL query to transform the data source. */
+  transformKql?: string;
   /**
    * A friendly name for the data source.
    * This name should be unique across all data sources (regardless of type) within the data collection rule.
@@ -2826,6 +2926,8 @@ export interface SyslogDataSource {
   facilityNames?: KnownSyslogDataSourceFacilityNames[];
   /** The log levels to collect. */
   logLevels?: KnownSyslogDataSourceLogLevels[];
+  /** The KQL query to transform the data source. */
+  transformKql?: string;
   /**
    * A friendly name for the data source.
    * This name should be unique across all data sources (regardless of type) within the data collection rule.
@@ -2869,6 +2971,8 @@ export interface LogFilesDataSource {
   format: KnownLogFilesDataSourceFormat;
   /** The log files specific settings. */
   settings?: LogFilesDataSourceSettings;
+  /** The KQL query to transform the data source. */
+  transformKql?: string;
   /**
    * A friendly name for the data source.
    * This name should be unique across all data sources (regardless of type) within the data collection rule.
@@ -2894,6 +2998,8 @@ export interface IisLogsDataSource {
   streams: string[];
   /** Absolute paths file location */
   logDirectories?: string[];
+  /** The KQL query to transform the data source. */
+  transformKql?: string;
   /**
    * A friendly name for the data source.
    * This name should be unique across all data sources (regardless of type) within the data collection rule.
@@ -2905,6 +3011,8 @@ export interface IisLogsDataSource {
 export interface WindowsFirewallLogsDataSource {
   /** Firewall logs streams */
   streams: string[];
+  /** Firewall logs profile filter */
+  profileFilter?: KnownWindowsFirewallLogsDataSourceProfileFilter[];
   /**
    * A friendly name for the data source.
    * This name should be unique across all data sources (regardless of type) within the data collection rule.
@@ -2975,6 +3083,10 @@ export interface DestinationsSpec {
   storageTablesDirect?: StorageTableDestination[];
   /** List of storage accounts destinations. */
   storageAccounts?: StorageBlobDestination[];
+  /** List of Microsoft Fabric destinations. */
+  microsoftFabric?: MicrosoftFabricDestination[];
+  /** List of Azure Data Explorer destinations. */
+  azureDataExplorer?: AdxDestination[];
 }
 
 /** Log Analytics destination. */
@@ -3062,6 +3174,41 @@ export interface StorageTableDestination {
   name?: string;
 }
 
+/** Microsoft Fabric destination (non-Azure). */
+export interface MicrosoftFabricDestination {
+  /** The tenant id of the Microsoft Fabric resource. */
+  tenantId?: string;
+  /** The artifact id of the Microsoft Fabric resource. */
+  artifactId?: string;
+  /** The name of the database to which data will be ingested. */
+  databaseName?: string;
+  /** The ingestion uri of the Microsoft Fabric resource. */
+  ingestionUri?: string;
+  /**
+   * A friendly name for the destination.
+   * This name should be unique across all destinations (regardless of type) within the data collection rule.
+   */
+  name?: string;
+}
+
+/** Azure Data Explorer (Adx) destination. */
+export interface AdxDestination {
+  /** The ARM resource id of the Adx resource. */
+  resourceId?: string;
+  /** The name of the database to which data will be ingested. */
+  databaseName?: string;
+  /**
+   * The ingestion uri of the Adx resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ingestionUri?: string;
+  /**
+   * A friendly name for the destination.
+   * This name should be unique across all destinations (regardless of type) within the data collection rule.
+   */
+  name?: string;
+}
+
 /** Definition of which streams are sent to which destinations. */
 export interface DataFlow {
   /** List of streams for this data flow. */
@@ -3074,6 +3221,8 @@ export interface DataFlow {
   outputStream?: string;
   /** The builtIn transform to transform stream data */
   builtInTransform?: string;
+  /** Flag to enable overflow column in LA destinations */
+  captureOverflow?: boolean;
 }
 
 /** The claims for a rule management event data source. */
@@ -3128,6 +3277,56 @@ export interface DynamicThresholdFailingPeriods {
   numberOfEvaluationPeriods: number;
   /** The number of violations to trigger an alert. Should be smaller or equal to numberOfEvaluationPeriods. */
   minFailingPeriodsToAlert: number;
+}
+
+/** An action group resource. */
+export interface ActionGroupResource extends AzureResource {
+  /** The short name of the action group. This will be used in SMS messages. */
+  groupShortName?: string;
+  /** Indicates whether this action group is enabled. If an action group is not enabled, then none of its receivers will receive communications. */
+  enabled?: boolean;
+  /** The list of email receivers that are part of this action group. */
+  emailReceivers?: EmailReceiver[];
+  /** The list of SMS receivers that are part of this action group. */
+  smsReceivers?: SmsReceiver[];
+  /** The list of webhook receivers that are part of this action group. */
+  webhookReceivers?: WebhookReceiver[];
+  /** The list of ITSM receivers that are part of this action group. */
+  itsmReceivers?: ItsmReceiver[];
+  /** The list of AzureAppPush receivers that are part of this action group. */
+  azureAppPushReceivers?: AzureAppPushReceiver[];
+  /** The list of AutomationRunbook receivers that are part of this action group. */
+  automationRunbookReceivers?: AutomationRunbookReceiver[];
+  /** The list of voice receivers that are part of this action group. */
+  voiceReceivers?: VoiceReceiver[];
+  /** The list of logic app receivers that are part of this action group. */
+  logicAppReceivers?: LogicAppReceiver[];
+  /** The list of azure function receivers that are part of this action group. */
+  azureFunctionReceivers?: AzureFunctionReceiver[];
+  /** The list of ARM role receivers that are part of this action group. Roles are Azure RBAC roles and only built-in roles are supported. */
+  armRoleReceivers?: ArmRoleReceiver[];
+  /** The list of event hub receivers that are part of this action group. */
+  eventHubReceivers?: EventHubReceiver[];
+  /** The list of incident receivers that are part of this action group. */
+  incidentReceivers?: IncidentReceiver[];
+}
+
+/** A tenant action group resource. */
+export interface TenantActionGroupResource extends AzureResource {
+  /** The short name of the action group. This will be used in SMS messages. */
+  groupShortName?: string;
+  /** Indicates whether this tenant action group is enabled. If a tenant action group is not enabled, then none of its receivers will receive communications. */
+  enabled?: boolean;
+  /** The list of email receivers that are part of this tenant action group. */
+  emailReceivers?: EmailReceiverAutoGenerated[];
+  /** The list of SMS receivers that are part of this tenant action group. */
+  smsReceivers?: SmsReceiverAutoGenerated[];
+  /** The list of webhook receivers that are part of this tenant action group. */
+  webhookReceivers?: WebhookReceiverAutoGenerated[];
+  /** The list of AzureAppPush receivers that are part of this tenant action group. */
+  azureAppPushReceivers?: AzureAppPushReceiverAutoGenerated[];
+  /** The list of voice receivers that are part of this tenant action group. */
+  voiceReceivers?: VoiceReceiverAutoGenerated[];
 }
 
 /** Resource properties */
@@ -3392,54 +3591,6 @@ export interface PrivateLinkResource extends ResourceAutoGenerated5 {
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResourceAutoGenerated extends ResourceAutoGenerated5 {}
 
-/** An action group resource. */
-export interface ActionGroupResource extends AzureResource {
-  /** The short name of the action group. This will be used in SMS messages. */
-  groupShortName?: string;
-  /** Indicates whether this action group is enabled. If an action group is not enabled, then none of its receivers will receive communications. */
-  enabled?: boolean;
-  /** The list of email receivers that are part of this action group. */
-  emailReceivers?: EmailReceiver[];
-  /** The list of SMS receivers that are part of this action group. */
-  smsReceivers?: SmsReceiver[];
-  /** The list of webhook receivers that are part of this action group. */
-  webhookReceivers?: WebhookReceiver[];
-  /** The list of ITSM receivers that are part of this action group. */
-  itsmReceivers?: ItsmReceiver[];
-  /** The list of AzureAppPush receivers that are part of this action group. */
-  azureAppPushReceivers?: AzureAppPushReceiver[];
-  /** The list of AutomationRunbook receivers that are part of this action group. */
-  automationRunbookReceivers?: AutomationRunbookReceiver[];
-  /** The list of voice receivers that are part of this action group. */
-  voiceReceivers?: VoiceReceiver[];
-  /** The list of logic app receivers that are part of this action group. */
-  logicAppReceivers?: LogicAppReceiver[];
-  /** The list of azure function receivers that are part of this action group. */
-  azureFunctionReceivers?: AzureFunctionReceiver[];
-  /** The list of ARM role receivers that are part of this action group. Roles are Azure RBAC roles and only built-in roles are supported. */
-  armRoleReceivers?: ArmRoleReceiver[];
-  /** The list of event hub receivers that are part of this action group. */
-  eventHubReceivers?: EventHubReceiver[];
-}
-
-/** A tenant action group resource. */
-export interface TenantActionGroupResource extends AzureResource {
-  /** The short name of the action group. This will be used in SMS messages. */
-  groupShortName?: string;
-  /** Indicates whether this tenant action group is enabled. If a tenant action group is not enabled, then none of its receivers will receive communications. */
-  enabled?: boolean;
-  /** The list of email receivers that are part of this tenant action group. */
-  emailReceivers?: EmailReceiverAutoGenerated[];
-  /** The list of SMS receivers that are part of this tenant action group. */
-  smsReceivers?: SmsReceiverAutoGenerated[];
-  /** The list of webhook receivers that are part of this tenant action group. */
-  webhookReceivers?: WebhookReceiverAutoGenerated[];
-  /** The list of AzureAppPush receivers that are part of this tenant action group. */
-  azureAppPushReceivers?: AzureAppPushReceiverAutoGenerated[];
-  /** The list of voice receivers that are part of this tenant action group. */
-  voiceReceivers?: VoiceReceiverAutoGenerated[];
-}
-
 /** Specifies the metric alert criteria for a single resource that has multiple metric criteria. */
 export interface MetricAlertSingleResourceMultipleMetricCriteria
   extends MetricAlertCriteria {
@@ -3599,6 +3750,18 @@ export interface DataCollectionRuleAssociationProxyOnlyResourceProperties
 export interface DataCollectionRuleResourceProperties
   extends DataCollectionRule {}
 
+/** Defines the ingestion endpoints to send data to via this rule. */
+export interface DataCollectionRuleEndpoints extends EndpointsSpec {}
+
+/** Defines all the references that may be used in other sections of the DCR */
+export interface DataCollectionRuleReferences extends ReferencesSpec {}
+
+/** All the enrichment data sources referenced in data flows */
+export interface ReferencesSpecEnrichmentData extends EnrichmentData {}
+
+/** Agent settings used to modify agent behavior on a given host */
+export interface DataCollectionRuleAgentSettings extends AgentSettingsSpec {}
+
 /**
  * The specification of data sources.
  * This property is optional and can be omitted if the rule is meant to be used via direct calls to the provisioned endpoint.
@@ -3680,11 +3843,8 @@ export interface AzureMonitorWorkspaceResource extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
-  /**
-   * Gets or sets allow or disallow public network access to Azure Monitor Workspace
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly publicNetworkAccess?: PublicNetworkAccess;
+  /** Gets or sets allow or disallow public network access to Azure Monitor Workspace */
+  publicNetworkAccess?: PublicNetworkAccess;
 }
 
 /** An Azure Monitor PrivateLinkScope definition. */
@@ -3725,15 +3885,15 @@ export interface ScopedResource extends ProxyResourceAutoGenerated {
   readonly provisioningState?: string;
 }
 
-/** Defines headers for AzureMonitorWorkspaces_delete operation. */
-export interface AzureMonitorWorkspacesDeleteHeaders {
-  azureAsyncOperation?: string;
-  location?: string;
-}
-
 /** Defines headers for ActionGroups_createNotificationsAtActionGroupResourceLevel operation. */
 export interface ActionGroupsCreateNotificationsAtActionGroupResourceLevelHeaders {
   /** The location header that has the polling uri. */
+  location?: string;
+}
+
+/** Defines headers for AzureMonitorWorkspaces_delete operation. */
+export interface AzureMonitorWorkspacesDeleteHeaders {
+  azureAsyncOperation?: string;
   location?: string;
 }
 
@@ -3742,6 +3902,21 @@ export interface MonitorClientCreateNotificationsAtTenantActionGroupResourceLeve
   /** The location header that has the polling uri. */
   location?: string;
 }
+
+/** Known values of {@link IncidentManagementService} that the service accepts. */
+export enum KnownIncidentManagementService {
+  /** Icm */
+  Icm = "Icm",
+}
+
+/**
+ * Defines values for IncidentManagementService. \
+ * {@link KnownIncidentManagementService} can be used interchangeably with IncidentManagementService,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Icm**
+ */
+export type IncidentManagementService = string;
 
 /** Known values of {@link NamespaceClassification} that the service accepts. */
 export enum KnownNamespaceClassification {
@@ -4418,6 +4593,42 @@ export enum KnownKnownDataCollectionRuleAssociationProvisioningState {
  */
 export type KnownDataCollectionRuleAssociationProvisioningState = string;
 
+/** Known values of {@link KnownStorageBlobLookupType} that the service accepts. */
+export enum KnownKnownStorageBlobLookupType {
+  /** String */
+  String = "String",
+  /** Cidr */
+  Cidr = "Cidr",
+}
+
+/**
+ * Defines values for KnownStorageBlobLookupType. \
+ * {@link KnownKnownStorageBlobLookupType} can be used interchangeably with KnownStorageBlobLookupType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **String** \
+ * **Cidr**
+ */
+export type KnownStorageBlobLookupType = string;
+
+/** Known values of {@link KnownAgentSettingName} that the service accepts. */
+export enum KnownKnownAgentSettingName {
+  /** MaxDiskQuotaInMB */
+  MaxDiskQuotaInMB = "MaxDiskQuotaInMB",
+  /** UseTimeReceivedForForwardedEvents */
+  UseTimeReceivedForForwardedEvents = "UseTimeReceivedForForwardedEvents",
+}
+
+/**
+ * Defines values for KnownAgentSettingName. \
+ * {@link KnownKnownAgentSettingName} can be used interchangeably with KnownAgentSettingName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **MaxDiskQuotaInMB** \
+ * **UseTimeReceivedForForwardedEvents**
+ */
+export type KnownAgentSettingName = string;
+
 /** Known values of {@link KnownColumnDefinitionType} that the service accepts. */
 export enum KnownKnownColumnDefinitionType {
   /** String */
@@ -4504,6 +4715,8 @@ export type KnownSyslogDataSourceStreams = string;
 
 /** Known values of {@link KnownSyslogDataSourceFacilityNames} that the service accepts. */
 export enum KnownKnownSyslogDataSourceFacilityNames {
+  /** Asterisk */
+  Asterisk = "*",
   /** Alert */
   Alert = "alert",
   /** Audit */
@@ -4522,6 +4735,22 @@ export enum KnownKnownSyslogDataSourceFacilityNames {
   Ftp = "ftp",
   /** Kern */
   Kern = "kern",
+  /** Local0 */
+  Local0 = "local0",
+  /** Local1 */
+  Local1 = "local1",
+  /** Local2 */
+  Local2 = "local2",
+  /** Local3 */
+  Local3 = "local3",
+  /** Local4 */
+  Local4 = "local4",
+  /** Local5 */
+  Local5 = "local5",
+  /** Local6 */
+  Local6 = "local6",
+  /** Local7 */
+  Local7 = "local7",
   /** Lpr */
   Lpr = "lpr",
   /** Mail */
@@ -4540,24 +4769,6 @@ export enum KnownKnownSyslogDataSourceFacilityNames {
   User = "user",
   /** Uucp */
   Uucp = "uucp",
-  /** Local0 */
-  Local0 = "local0",
-  /** Local1 */
-  Local1 = "local1",
-  /** Local2 */
-  Local2 = "local2",
-  /** Local3 */
-  Local3 = "local3",
-  /** Local4 */
-  Local4 = "local4",
-  /** Local5 */
-  Local5 = "local5",
-  /** Local6 */
-  Local6 = "local6",
-  /** Local7 */
-  Local7 = "local7",
-  /** Asterisk */
-  Asterisk = "*",
 }
 
 /**
@@ -4565,6 +4776,7 @@ export enum KnownKnownSyslogDataSourceFacilityNames {
  * {@link KnownKnownSyslogDataSourceFacilityNames} can be used interchangeably with KnownSyslogDataSourceFacilityNames,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
+ * ***** \
  * **alert** \
  * **audit** \
  * **auth** \
@@ -4574,15 +4786,6 @@ export enum KnownKnownSyslogDataSourceFacilityNames {
  * **daemon** \
  * **ftp** \
  * **kern** \
- * **lpr** \
- * **mail** \
- * **mark** \
- * **news** \
- * **nopri** \
- * **ntp** \
- * **syslog** \
- * **user** \
- * **uucp** \
  * **local0** \
  * **local1** \
  * **local2** \
@@ -4591,7 +4794,15 @@ export enum KnownKnownSyslogDataSourceFacilityNames {
  * **local5** \
  * **local6** \
  * **local7** \
- * *****
+ * **lpr** \
+ * **mail** \
+ * **mark** \
+ * **news** \
+ * **nopri** \
+ * **ntp** \
+ * **syslog** \
+ * **user** \
+ * **uucp**
  */
 export type KnownSyslogDataSourceFacilityNames = string;
 
@@ -4663,6 +4874,8 @@ export type KnownExtensionDataSourceStreams = string;
 
 /** Known values of {@link KnownLogFilesDataSourceFormat} that the service accepts. */
 export enum KnownKnownLogFilesDataSourceFormat {
+  /** Json */
+  Json = "json",
   /** Text */
   Text = "text",
 }
@@ -4672,6 +4885,7 @@ export enum KnownKnownLogFilesDataSourceFormat {
  * {@link KnownKnownLogFilesDataSourceFormat} can be used interchangeably with KnownLogFilesDataSourceFormat,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
+ * **json** \
  * **text**
  */
 export type KnownLogFilesDataSourceFormat = string;
@@ -4714,6 +4928,27 @@ export enum KnownKnownLogFileTextSettingsRecordStartTimestampFormat {
  * **yyyy-MM-ddTHH:mm:ssK**
  */
 export type KnownLogFileTextSettingsRecordStartTimestampFormat = string;
+
+/** Known values of {@link KnownWindowsFirewallLogsDataSourceProfileFilter} that the service accepts. */
+export enum KnownKnownWindowsFirewallLogsDataSourceProfileFilter {
+  /** Domain */
+  Domain = "Domain",
+  /** Private */
+  Private = "Private",
+  /** Public */
+  Public = "Public",
+}
+
+/**
+ * Defines values for KnownWindowsFirewallLogsDataSourceProfileFilter. \
+ * {@link KnownKnownWindowsFirewallLogsDataSourceProfileFilter} can be used interchangeably with KnownWindowsFirewallLogsDataSourceProfileFilter,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Domain** \
+ * **Private** \
+ * **Public**
+ */
+export type KnownWindowsFirewallLogsDataSourceProfileFilter = string;
 
 /** Known values of {@link KnownPrometheusForwarderDataSourceStreams} that the service accepts. */
 export enum KnownKnownPrometheusForwarderDataSourceStreams {
@@ -4918,6 +5153,8 @@ export enum KnownDynamicThresholdSensitivity {
  * **High**
  */
 export type DynamicThresholdSensitivity = string;
+/** Defines values for ReceiverStatus. */
+export type ReceiverStatus = "NotSpecified" | "Enabled" | "Disabled";
 /** Defines values for AggregationType. */
 export type AggregationType =
   | "None"
@@ -4969,8 +5206,6 @@ export type PredictiveAutoscalePolicyScaleMode =
   | "Disabled"
   | "ForecastOnly"
   | "Enabled";
-/** Defines values for ReceiverStatus. */
-export type ReceiverStatus = "NotSpecified" | "Enabled" | "Disabled";
 /** Defines values for EventLevel. */
 export type EventLevel =
   | "Critical"
@@ -4994,6 +5229,70 @@ export type TimeAggregationOperator =
   | "Maximum"
   | "Total"
   | "Last";
+
+/** Optional parameters. */
+export interface ActionGroupsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ActionGroupsCreateOrUpdateResponse = ActionGroupResource;
+
+/** Optional parameters. */
+export interface ActionGroupsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ActionGroupsGetResponse = ActionGroupResource;
+
+/** Optional parameters. */
+export interface ActionGroupsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface ActionGroupsUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type ActionGroupsUpdateResponse = ActionGroupResource;
+
+/** Optional parameters. */
+export interface ActionGroupsCreateNotificationsAtActionGroupResourceLevelOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createNotificationsAtActionGroupResourceLevel operation. */
+export type ActionGroupsCreateNotificationsAtActionGroupResourceLevelResponse =
+  TestNotificationDetailsResponse;
+
+/** Optional parameters. */
+export interface ActionGroupsGetTestNotificationsAtActionGroupResourceLevelOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getTestNotificationsAtActionGroupResourceLevel operation. */
+export type ActionGroupsGetTestNotificationsAtActionGroupResourceLevelResponse =
+  TestNotificationDetailsResponse;
+
+/** Optional parameters. */
+export interface ActionGroupsListBySubscriptionIdOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionId operation. */
+export type ActionGroupsListBySubscriptionIdResponse = ActionGroupList;
+
+/** Optional parameters. */
+export interface ActionGroupsListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type ActionGroupsListByResourceGroupResponse = ActionGroupList;
+
+/** Optional parameters. */
+export interface ActionGroupsEnableReceiverOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface MetricNamespacesListOptionalParams
@@ -5448,70 +5747,6 @@ export interface DiagnosticSettingsCategoryListOptionalParams
 /** Contains response data for the list operation. */
 export type DiagnosticSettingsCategoryListResponse =
   DiagnosticSettingsCategoryResourceCollection;
-
-/** Optional parameters. */
-export interface ActionGroupsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdate operation. */
-export type ActionGroupsCreateOrUpdateResponse = ActionGroupResource;
-
-/** Optional parameters. */
-export interface ActionGroupsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type ActionGroupsGetResponse = ActionGroupResource;
-
-/** Optional parameters. */
-export interface ActionGroupsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface ActionGroupsUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the update operation. */
-export type ActionGroupsUpdateResponse = ActionGroupResource;
-
-/** Optional parameters. */
-export interface ActionGroupsCreateNotificationsAtActionGroupResourceLevelOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createNotificationsAtActionGroupResourceLevel operation. */
-export type ActionGroupsCreateNotificationsAtActionGroupResourceLevelResponse =
-  TestNotificationDetailsResponse;
-
-/** Optional parameters. */
-export interface ActionGroupsGetTestNotificationsAtActionGroupResourceLevelOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getTestNotificationsAtActionGroupResourceLevel operation. */
-export type ActionGroupsGetTestNotificationsAtActionGroupResourceLevelResponse =
-  TestNotificationDetailsResponse;
-
-/** Optional parameters. */
-export interface ActionGroupsListBySubscriptionIdOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySubscriptionId operation. */
-export type ActionGroupsListBySubscriptionIdResponse = ActionGroupList;
-
-/** Optional parameters. */
-export interface ActionGroupsListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroup operation. */
-export type ActionGroupsListByResourceGroupResponse = ActionGroupList;
-
-/** Optional parameters. */
-export interface ActionGroupsEnableReceiverOptionalParams
-  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface TenantActionGroupsCreateOrUpdateOptionalParams
@@ -6156,7 +6391,10 @@ export type DataCollectionRulesUpdateResponse = DataCollectionRuleResource;
 
 /** Optional parameters. */
 export interface DataCollectionRulesDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** If set to 'true' then all associations of this data collection rule will also be deleted */
+  deleteAssociations?: boolean;
+}
 
 /** Optional parameters. */
 export interface DataCollectionRulesListByResourceGroupNextOptionalParams
