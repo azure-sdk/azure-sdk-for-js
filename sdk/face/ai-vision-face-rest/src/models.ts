@@ -22,7 +22,12 @@ export interface CreateLivenessWithVerifySessionContentParametersPartDescriptor 
 
 export interface CreateLivenessWithVerifySessionContentVerifyImagePartDescriptor {
   name: "VerifyImage";
-  body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream | File;
+  body:
+    | string
+    | Uint8Array
+    | ReadableStream<Uint8Array>
+    | NodeJS.ReadableStream
+    | File;
   filename?: string;
   contentType?: string;
 }
@@ -42,7 +47,11 @@ export interface CreateLivenessSessionContentForMultipart {
 }
 
 /** Alias for DetectionModel */
-export type DetectionModel = string | "detection_01" | "detection_02" | "detection_03";
+export type DetectionModel =
+  | string
+  | "detection_01"
+  | "detection_02"
+  | "detection_03";
 /** Alias for RecognitionModel */
 export type RecognitionModel =
   | string
