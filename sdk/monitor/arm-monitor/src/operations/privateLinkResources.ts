@@ -83,8 +83,8 @@ const listByPrivateLinkScopeOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion12],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.scopeName,
   ],
   headerParameters: [Parameters.accept],
@@ -104,8 +104,8 @@ const getOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion12],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.scopeName,
     Parameters.groupName,
   ],
