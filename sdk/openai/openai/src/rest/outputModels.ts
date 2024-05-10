@@ -1,789 +1,948 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ErrorModel } from "@azure-rest/core-client";
-
-/** A specific deployment */
-export interface DeploymentOutput {
-  /** Specifies either the model deployment name (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request. */
-  readonly deploymentId: string;
+/** An abstract representation of an input tool definition that an assistant can use. */
+export interface ToolDefinitionOutputParent {
+  type: string;
 }
 
-/** Result information for an operation that transcribed spoken audio into written text. */
-export interface AudioTranscriptionOutput {
-  /** The transcribed text for the provided audio data. */
-  text: string;
-  /** The label that describes which operation type generated the accompanying response data. */
-  task?: AudioTaskLabelOutput;
-  /**
-   * The spoken language that was detected in the transcribed audio data.
-   * This is expressed as a two-letter ISO-639-1 language code like 'en' or 'fr'.
-   */
-  language?: string;
-  /** The total duration of the audio processed to produce accompanying transcription information. */
-  duration?: number;
-  /** A collection of information about the timing, probabilities, and other detail of each processed audio segment. */
-  segments?: Array<AudioTranscriptionSegmentOutput>;
+/** The input definition information for a code interpreter tool as used to configure an assistant. */
+export interface CodeInterpreterToolDefinitionOutput
+  extends ToolDefinitionOutputParent {
+  /** The object type, which is always 'code_interpreter'. */
+  type: "code_interpreter";
 }
 
-/**
- * Extended information about a single segment of transcribed audio data.
- * Segments generally represent roughly 5-10 seconds of speech. Segment boundaries typically occur between words but not
- * necessarily sentences.
- */
-export interface AudioTranscriptionSegmentOutput {
-  /** The 0-based index of this segment within a transcription. */
-  id: number;
-  /** The time at which this segment started relative to the beginning of the transcribed audio. */
-  start: number;
-  /** The time at which this segment ended relative to the beginning of the transcribed audio. */
-  end: number;
-  /** The transcribed text that was part of this audio segment. */
-  text: string;
-  /** The temperature score associated with this audio segment. */
-  temperature: number;
-  /** The average log probability associated with this audio segment. */
-  avg_logprob: number;
-  /** The compression ratio of this audio segment. */
-  compression_ratio: number;
-  /** The probability of no speech detection within this audio segment. */
-  no_speech_prob: number;
-  /** The token IDs matching the transcribed text in this audio segment. */
-  tokens: number[];
-  /**
-   * The seek position associated with the processing of this audio segment.
-   * Seek positions are expressed as hundredths of seconds.
-   * The model may process several segments from a single seek position, so while the seek position will never represent
-   * a later time than the segment's start, the segment's start may represent a significantly later time than the
-   * segment's associated seek position.
-   */
-  seek: number;
+/** The input definition information for a fie search tool as used to configure an assistant. */
+export interface FileSearchToolDefinitionOutput
+  extends ToolDefinitionOutputParent {
+  /** The object type, which is always 'file_search'. */
+  type: "file_search";
 }
 
-/** Result information for an operation that translated spoken audio into written text. */
-export interface AudioTranslationOutput {
-  /** The translated text for the provided audio data. */
-  text: string;
-  /** The label that describes which operation type generated the accompanying response data. */
-  task?: AudioTaskLabelOutput;
-  /**
-   * The spoken language that was detected in the translated audio data.
-   * This is expressed as a two-letter ISO-639-1 language code like 'en' or 'fr'.
-   */
-  language?: string;
-  /** The total duration of the audio processed to produce accompanying translation information. */
-  duration?: number;
-  /** A collection of information about the timing, probabilities, and other detail of each processed audio segment. */
-  segments?: Array<AudioTranslationSegmentOutput>;
+/** The input definition information for a fie search tool as used to configure an assistant. */
+export interface BrowseToolDefinitionOutput extends ToolDefinitionOutputParent {
+  /** The object type, which is always 'browse'. */
+  type: "browse";
 }
 
-/**
- * Extended information about a single segment of translated audio data.
- * Segments generally represent roughly 5-10 seconds of speech. Segment boundaries typically occur between words but not
- * necessarily sentences.
- */
-export interface AudioTranslationSegmentOutput {
-  /** The 0-based index of this segment within a translation. */
-  id: number;
-  /** The time at which this segment started relative to the beginning of the translated audio. */
-  start: number;
-  /** The time at which this segment ended relative to the beginning of the translated audio. */
-  end: number;
-  /** The translated text that was part of this audio segment. */
-  text: string;
-  /** The temperature score associated with this audio segment. */
-  temperature: number;
-  /** The average log probability associated with this audio segment. */
-  avg_logprob: number;
-  /** The compression ratio of this audio segment. */
-  compression_ratio: number;
-  /** The probability of no speech detection within this audio segment. */
-  no_speech_prob: number;
-  /** The token IDs matching the translated text in this audio segment. */
-  tokens: number[];
-  /**
-   * The seek position associated with the processing of this audio segment.
-   * Seek positions are expressed as hundredths of seconds.
-   * The model may process several segments from a single seek position, so while the seek position will never represent
-   * a later time than the segment's start, the segment's start may represent a significantly later time than the
-   * segment's associated seek position.
-   */
-  seek: number;
+/** The input definition information for a function tool as used to configure an assistant. */
+export interface FunctionToolDefinitionOutput
+  extends ToolDefinitionOutputParent {
+  /** The object type, which is always 'function'. */
+  type: "function";
+  /** The definition of the concrete function that the function tool should call. */
+  function: FunctionDefinitionOutput;
 }
 
-/**
- * Representation of the response data from a completions request.
- * Completions support a wide variety of tasks and generate text that continues from or "completes"
- * provided prompt data.
- */
-export interface CompletionsOutput {
-  /** A unique identifier associated with this completions response. */
+/** The input definition information for a function. */
+export interface FunctionDefinitionOutput {
+  /** The name of the function to be called. */
+  name: string;
+  /** A description of what the function does, used by the model to choose when and how to call the function. */
+  description?: string;
+  /** The parameters the functions accepts, described as a JSON Schema object. */
+  parameters: any;
+}
+
+/** Represents an assistant that can call the model and use tools. */
+export interface AssistantOutput {
+  /** The identifier, which can be referenced in API endpoints. */
   id: string;
+  /** The object type, which is always assistant. */
+  object: "assistant";
+  /** The Unix timestamp, in seconds, representing when this object was created. */
+  created_at: number;
+  /** The name of the assistant. */
+  name: string | null;
+  /** The description of the assistant. */
+  description: string | null;
+  /** The ID of the model to use. */
+  model: string;
+  /** The system instructions for the assistant to use. */
+  instructions: string | null;
+  /** The collection of tools enabled for the assistant. */
+  tools: Array<ToolDefinitionOutput>;
   /**
-   * The first timestamp associated with generation activity for this completions response,
-   * represented as seconds since the beginning of the Unix epoch of 00:00 on 1 Jan 1970.
+   * A set of resources that are used by the assistant's tools. The resources are specific to the type of tool. For example, the `code_interpreter`
+   * tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.
    */
-  created: number;
+  tool_resources: ToolResourcesOutput | null;
   /**
-   * Content filtering results for zero or more prompts in the request. In a streaming request,
-   * results for different prompts may arrive at different times or in different orders.
+   * What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random,
+   * while lower values like 0.2 will make it more focused and deterministic.
    */
-  prompt_filter_results?: Array<ContentFilterResultsForPromptOutput>;
+  temperature: number | null;
   /**
-   * The collection of completions choices associated with this completions response.
-   * Generally, `n` choices are generated per provided prompt with a default value of 1.
-   * Token limits and other settings may limit the number of choices generated.
+   * An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass.
+   * So 0.1 means only the tokens comprising the top 10% probability mass are considered.
+   *
+   * We generally recommend altering this or temperature but not both.
    */
-  choices: Array<ChoiceOutput>;
-  /** Usage information for tokens processed and generated as part of this completions operation. */
-  usage: CompletionsUsageOutput;
+  top_p: number | null;
+  /** The response format of the tool calls used by this assistant. */
+  response_format?: AssistantsApiResponseFormatOptionOutput | null;
+  /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
+  metadata: Record<string, string> | null;
 }
 
-/** Content filtering results for a single prompt in the request. */
-export interface ContentFilterResultsForPromptOutput {
-  /** The index of this prompt in the set of prompt results */
-  prompt_index: number;
-  /** Content filtering results for this prompt */
-  content_filter_results: ContentFilterResultDetailsForPromptOutput;
+/**
+ * A set of resources that are used by the assistant's tools. The resources are specific to the type of
+ * tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search`
+ * tool requires a list of vector store IDs.
+ */
+export interface ToolResourcesOutput {
+  /** Resources to be used by the `code_interpreter tool` consisting of file IDs. */
+  code_interpreter?: CodeInterpreterToolResourceOutput;
+  /** Resources to be used by the `file_search` tool consisting of vector store IDs. */
+  file_search?: FileSearchToolResourceOutput;
 }
 
-/** Information about content filtering evaluated against input data to Azure OpenAI. */
-export interface ContentFilterResultDetailsForPromptOutput {
+/** A set of resources that are used by the `code_interpreter` tool. */
+export interface CodeInterpreterToolResourceOutput {
   /**
-   * Describes language related to anatomical organs and genitals, romantic relationships,
-   *  acts portrayed in erotic or affectionate terms, physical sexual acts, including
-   *  those portrayed as an assault or a forced sexual violent act against one’s will,
-   *  prostitution, pornography, and abuse.
+   * A list of file IDs made available to the `code_interpreter` tool. There can be a maximum of 20 files
+   * associated with the tool.
    */
-  sexual?: ContentFilterResultOutput;
-  /**
-   * Describes language related to physical actions intended to hurt, injure, damage, or
-   * kill someone or something; describes weapons, etc.
-   */
-  violence?: ContentFilterResultOutput;
-  /**
-   * Describes language attacks or uses that include pejorative or discriminatory language
-   * with reference to a person or identity group on the basis of certain differentiating
-   * attributes of these groups including but not limited to race, ethnicity, nationality,
-   * gender identity and expression, sexual orientation, religion, immigration status, ability
-   * status, personal appearance, and body size.
-   */
-  hate?: ContentFilterResultOutput;
-  /**
-   * Describes language related to physical actions intended to purposely hurt, injure,
-   * or damage one’s body, or kill oneself.
-   */
-  self_harm?: ContentFilterResultOutput;
-  /** Describes whether profanity was detected. */
-  profanity?: ContentFilterDetectionResultOutput;
-  /** Describes detection results against configured custom blocklists. */
-  custom_blocklists?: Array<ContentFilterBlocklistIdResultOutput>;
-  /**
-   * Describes an error returned if the content filtering system is
-   * down or otherwise unable to complete the operation in time.
-   */
-  error?: ErrorModel;
-  /** Whether a jailbreak attempt was detected in the prompt. */
-  jailbreak?: ContentFilterDetectionResultOutput;
+  file_ids: string[];
 }
 
-/** Information about filtered content severity level and if it has been filtered or not. */
-export interface ContentFilterResultOutput {
-  /** Ratings for the intensity and risk level of filtered content. */
-  severity: ContentFilterSeverityOutput;
-  /** A value indicating whether or not the content has been filtered. */
-  filtered: boolean;
+/** A set of resources that are used by the `file_search` tool. */
+export interface FileSearchToolResourceOutput {
+  /**
+   * The ID of the vector store attached to this assistant. There can be a maximum of 1 vector
+   * store attached to the assistant.
+   */
+  vector_store_ids?: string[];
 }
 
-/** Represents the outcome of a detection operation performed by content filtering. */
-export interface ContentFilterDetectionResultOutput {
-  /** A value indicating whether or not the content has been filtered. */
-  filtered: boolean;
-  /** A value indicating whether detection occurred, irrespective of severity or whether the content was filtered. */
-  detected: boolean;
+/**
+ * An object describing the expected output of the model. If `json_object` only `function` type `tools` are allowed to be passed to the Run.
+ * If `text` the model can return text or any value needed.
+ */
+export interface AssistantsApiResponseFormatOutput {
+  /** Must be one of `text` or `json_object`. */
+  type?: ApiResponseFormatOutput;
 }
 
-/** Represents the outcome of an evaluation against a custom blocklist as performed by content filtering. */
-export interface ContentFilterBlocklistIdResultOutput {
-  /** The ID of the custom blocklist evaluated. */
+/** The response data for a requested list of items. */
+export interface OpenAIPageableListOfOutput {
+  /** The object type, which is always list. */
+  object: "list";
+  /** The requested list of items. */
+  data: Array<AssistantOutput>;
+  /** The first ID represented in this list. */
+  first_id: string;
+  /** The last ID represented in this list. */
+  last_id: string;
+  /** A value indicating whether there are additional values available not captured in this list. */
+  has_more: boolean;
+}
+
+/** The status of an assistant deletion operation. */
+export interface AssistantDeletionStatusOutput {
+  /** The ID of the resource specified for deletion. */
   id: string;
-  /** A value indicating whether or not the content has been filtered. */
-  filtered: boolean;
+  /** A value indicating whether deletion was successful. */
+  deleted: boolean;
+  /** The object type, which is always 'assistant.deleted'. */
+  object: "assistant.deleted";
 }
 
-/**
- * The representation of a single prompt completion as part of an overall completions request.
- * Generally, `n` choices are generated per provided prompt with a default value of 1.
- * Token limits and other settings may limit the number of choices generated.
- */
-export interface ChoiceOutput {
-  /** The generated text for a given completions prompt. */
+/** Information about a single thread associated with an assistant. */
+export interface AssistantThreadOutput {
+  /** The identifier, which can be referenced in API endpoints. */
+  id: string;
+  /** The object type, which is always 'thread'. */
+  object: "thread";
+  /** The Unix timestamp, in seconds, representing when this object was created. */
+  created_at: number;
+  /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
+  metadata: Record<string, string> | null;
+}
+
+/** The status of a thread deletion operation. */
+export interface ThreadDeletionStatusOutput {
+  /** The ID of the resource specified for deletion. */
+  id: string;
+  /** A value indicating whether deletion was successful. */
+  deleted: boolean;
+  /** The object type, which is always 'thread.deleted'. */
+  object: "thread.deleted";
+}
+
+/** A single, existing message within an assistant thread. */
+export interface ThreadMessageOutput {
+  /** The identifier, which can be referenced in API endpoints. */
+  id: string;
+  /** The object type, which is always 'thread.message'. */
+  object: "thread.message";
+  /** The Unix timestamp, in seconds, representing when this object was created. */
+  created_at: number;
+  /** The ID of the thread that this message belongs to. */
+  thread_id: string;
+  /** The status of the message. */
+  status: MessageStatusOutput;
+  /** On an incomplete message, details about why the message is incomplete. */
+  incomplete_details: MessageIncompleteDetailsReasonOutput | null;
+  /** The Unix timestamp (in seconds) for when the message was completed. */
+  completed_at: number | null;
+  /** The Unix timestamp (in seconds) for when the message was marked as incomplete. */
+  incomplete_at: number | null;
+  /** The role associated with the assistant thread message. */
+  role: MessageRoleOutput;
+  /** The list of content items associated with the assistant thread message. */
+  content: Array<MessageContentOutput>;
+  /** If applicable, the ID of the assistant that authored this message. */
+  assistant_id?: string;
+  /** If applicable, the ID of the run associated with the authoring of this message. */
+  run_id?: string;
+  /**
+   * A list of file IDs that the assistant should use. Useful for tools like retrieval and code_interpreter that can
+   * access files.
+   */
+  file_ids: string[];
+  /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
+  metadata: Record<string, string> | null;
+}
+
+/** An abstract representation of a single item of thread message content. */
+export interface MessageContentOutputParent {
+  type: string;
+}
+
+/** A representation of a textual item of thread message content. */
+export interface MessageTextContentOutput extends MessageContentOutputParent {
+  /** The object type, which is always 'text'. */
+  type: "text";
+  /** The text and associated annotations for this thread message content item. */
+  text: MessageTextDetailsOutput;
+}
+
+/** The text and associated annotations for a single item of assistant thread message content. */
+export interface MessageTextDetailsOutput {
+  /** The text data. */
+  value: string;
+  /** A list of annotations associated with this text. */
+  annotations: Array<MessageTextAnnotationOutput>;
+}
+
+/** An abstract representation of an annotation to text thread message content. */
+export interface MessageTextAnnotationOutputParent {
+  /** The textual content associated with this text annotation item. */
   text: string;
-  /** The ordered index associated with this completions choice. */
-  index: number;
-  /**
-   * Information about the content filtering category (hate, sexual, violence, self_harm), if it
-   * has been detected, as well as the severity level (very_low, low, medium, high-scale that
-   * determines the intensity and risk level of harmful content) and if it has been filtered or not.
-   */
-  content_filter_results?: ContentFilterResultsForChoiceOutput;
-  /** The log probabilities model for tokens associated with this completions choice. */
-  logprobs: CompletionsLogProbabilityModelOutput | null;
-  /** Reason for finishing */
-  finish_reason: CompletionsFinishReasonOutput | null;
+  type: string;
 }
 
-/** Information about content filtering evaluated against generated model output. */
-export interface ContentFilterResultsForChoiceOutput {
+/** A citation within the message that points to a specific quote from a specific File associated with the assistant or the message. Generated when the assistant uses the 'retrieval' tool to search files. */
+export interface MessageTextFileCitationAnnotationOutput
+  extends MessageTextAnnotationOutputParent {
+  /** The object type, which is always 'file_citation'. */
+  type: "file_citation";
   /**
-   * Describes language related to anatomical organs and genitals, romantic relationships,
-   *  acts portrayed in erotic or affectionate terms, physical sexual acts, including
-   *  those portrayed as an assault or a forced sexual violent act against one’s will,
-   *  prostitution, pornography, and abuse.
+   * A citation within the message that points to a specific quote from a specific file.
+   * Generated when the assistant uses the "retrieval" tool to search files.
    */
-  sexual?: ContentFilterResultOutput;
-  /**
-   * Describes language related to physical actions intended to hurt, injure, damage, or
-   * kill someone or something; describes weapons, etc.
-   */
-  violence?: ContentFilterResultOutput;
-  /**
-   * Describes language attacks or uses that include pejorative or discriminatory language
-   * with reference to a person or identity group on the basis of certain differentiating
-   * attributes of these groups including but not limited to race, ethnicity, nationality,
-   * gender identity and expression, sexual orientation, religion, immigration status, ability
-   * status, personal appearance, and body size.
-   */
-  hate?: ContentFilterResultOutput;
-  /**
-   * Describes language related to physical actions intended to purposely hurt, injure,
-   * or damage one’s body, or kill oneself.
-   */
-  self_harm?: ContentFilterResultOutput;
-  /** Describes whether profanity was detected. */
-  profanity?: ContentFilterDetectionResultOutput;
-  /** Describes detection results against configured custom blocklists. */
-  custom_blocklists?: Array<ContentFilterBlocklistIdResultOutput>;
-  /**
-   * Describes an error returned if the content filtering system is
-   * down or otherwise unable to complete the operation in time.
-   */
-  error?: ErrorModel;
-  /** Information about detection of protected text material. */
-  protected_material_text?: ContentFilterDetectionResultOutput;
-  /** Information about detection of protected code material. */
-  protected_material_code?: ContentFilterCitedDetectionResultOutput;
+  file_citation: MessageTextFileCitationDetailsOutput;
+  /** The first text index associated with this text annotation. */
+  start_index?: number;
+  /** The last text index associated with this text annotation. */
+  end_index?: number;
 }
 
-/** Represents the outcome of a detection operation against protected resources as performed by content filtering. */
-export interface ContentFilterCitedDetectionResultOutput {
-  /** A value indicating whether or not the content has been filtered. */
-  filtered: boolean;
-  /** A value indicating whether detection occurred, irrespective of severity or whether the content was filtered. */
-  detected: boolean;
-  /** The internet location associated with the detection. */
-  URL?: string;
-  /** The license description associated with the detection. */
-  license: string;
+/** A representation of a file-based text citation, as used in a file-based annotation of text thread message content. */
+export interface MessageTextFileCitationDetailsOutput {
+  /** The ID of the file associated with this citation. */
+  file_id: string;
+  /** The specific quote cited in the associated file. */
+  quote: string;
 }
 
-/** Representation of a log probabilities model for a completions generation. */
-export interface CompletionsLogProbabilityModelOutput {
-  /** The textual forms of tokens evaluated in this probability model. */
-  tokens: string[];
-  /** A collection of log probability values for the tokens in this completions data. */
-  token_logprobs: (number | null)[];
-  /** A mapping of tokens to maximum log probability values in this completions data. */
-  top_logprobs: Record<string, number | null>[];
-  /** The text offsets associated with tokens in this completions data. */
-  text_offset: number[];
+/** A citation within the message that points to a file located at a specific path. */
+export interface MessageTextFilePathAnnotationOutput
+  extends MessageTextAnnotationOutputParent {
+  /** The object type, which is always 'file_path'. */
+  type: "file_path";
+  /** A URL for the file that's generated when the assistant used the code_interpreter tool to generate a file. */
+  file_path: MessageTextFilePathDetailsOutput;
+  /** The first text index associated with this text annotation. */
+  start_index?: number;
+  /** The last text index associated with this text annotation. */
+  end_index?: number;
 }
 
-/**
- * Representation of the token counts processed for a completions request.
- * Counts consider all tokens across prompts, choices, choice alternates, best_of generations, and
- * other consumers.
- */
-export interface CompletionsUsageOutput {
-  /** The number of tokens generated across all completions emissions. */
-  completion_tokens: number;
-  /** The number of tokens in the provided prompts for the completions request. */
-  prompt_tokens: number;
-  /** The total number of tokens processed for the completions request and response. */
-  total_tokens: number;
+/** An encapsulation of an image file ID, as used by message image content. */
+export interface MessageTextFilePathDetailsOutput {
+  /** The ID of the specific file that the citation is from. */
+  file_id: string;
 }
 
-/**
- * An abstract representation of a tool call that must be resolved in a subsequent request to perform the requested
- * chat completion.
- */
-export interface ChatCompletionsToolCallOutputParent {
-  /** The ID of the tool call. */
+/** A representation of image file content in a thread message. */
+export interface MessageImageFileContentOutput
+  extends MessageContentOutputParent {
+  /** The object type, which is always 'image_file'. */
+  type: "image_file";
+  /** The image file for this thread message content item. */
+  image_file: MessageImageFileDetailsOutput;
+}
+
+/** An image reference, as represented in thread message content. */
+export interface MessageImageFileDetailsOutput {
+  /** The ID for the file associated with this image. */
+  file_id: string;
+}
+
+/** The response data for a requested list of items. */
+export interface OpenAIPageableListOfOutput {
+  /** The object type, which is always list. */
+  object: "list";
+  /** The requested list of items. */
+  data: Array<ThreadMessageOutput>;
+  /** The first ID represented in this list. */
+  first_id: string;
+  /** The last ID represented in this list. */
+  last_id: string;
+  /** A value indicating whether there are additional values available not captured in this list. */
+  has_more: boolean;
+}
+
+/** The response data for a requested list of items. */
+export interface OpenAIPageableListOfOutput {
+  /** The object type, which is always list. */
+  object: "list";
+  /** The requested list of items. */
+  data: Array<MessageFileOutput>;
+  /** The first ID represented in this list. */
+  first_id: string;
+  /** The last ID represented in this list. */
+  last_id: string;
+  /** A value indicating whether there are additional values available not captured in this list. */
+  has_more: boolean;
+}
+
+/** Information about a file attached to an assistant thread message. */
+export interface MessageFileOutput {
+  /** The identifier, which can be referenced in API endpoints. */
+  id: string;
+  /** The object type, which is always 'thread.message.file'. */
+  object: "thread.message.file";
+  /** The Unix timestamp, in seconds, representing when this object was created. */
+  created_at: number;
+  /** The ID of the message that this file is attached to. */
+  message_id: string;
+}
+
+/** Data representing a single evaluation run of an assistant thread. */
+export interface ThreadRunOutput {
+  /** The identifier, which can be referenced in API endpoints. */
+  id: string;
+  /** The object type, which is always 'thread.run'. */
+  object: "thread.run";
+  /** The ID of the thread associated with this run. */
+  thread_id: string;
+  /** The ID of the assistant associated with the thread this run was performed against. */
+  assistant_id: string;
+  /** The status of the assistant thread run. */
+  status: RunStatusOutput;
+  /** The details of the action required for the assistant thread run to continue. */
+  required_action?: RequiredActionOutput | null;
+  /** The last error, if any, encountered by this assistant thread run. */
+  last_error: RunErrorOutput | null;
+  /** The ID of the model to use. */
+  model: string;
+  /** The overridden system instructions used for this assistant thread run. */
+  instructions: string;
+  /** The overridden enabled tools used for this assistant thread run. */
+  tools: Array<ToolDefinitionOutput>;
+  /** A list of attached file IDs, ordered by creation date in ascending order. */
+  file_ids: string[];
+  /** The Unix timestamp, in seconds, representing when this object was created. */
+  created_at: number;
+  /** The Unix timestamp, in seconds, representing when this item expires. */
+  expires_at: number | null;
+  /** The Unix timestamp, in seconds, representing when this item was started. */
+  started_at: number | null;
+  /** The Unix timestamp, in seconds, representing when this completed. */
+  completed_at: number | null;
+  /** The Unix timestamp, in seconds, representing when this was cancelled. */
+  cancelled_at: number | null;
+  /** The Unix timestamp, in seconds, representing when this failed. */
+  failed_at: number | null;
+  /** Details on why the run is incomplete. Will be `null` if the run is not incomplete. */
+  incomplete_details: IncompleteRunDetailsOutput | null;
+  /** Usage statistics related to the run. This value will be `null` if the run is not in a terminal state (i.e. `in_progress`, `queued`, etc.). */
+  usage: RunCompletionUsageOutput | null;
+  /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
+  metadata: Record<string, string> | null;
+}
+
+/** An abstract representation of a required action for an assistant thread run to continue. */
+export interface RequiredActionOutputParent {
+  type: string;
+}
+
+/** The details for required tool calls that must be submitted for an assistant thread run to continue. */
+export interface SubmitToolOutputsActionOutput
+  extends RequiredActionOutputParent {
+  /** The object type, which is always 'submit_tool_outputs'. */
+  type: "submit_tool_outputs";
+  /** The details describing tools that should be called to submit tool outputs. */
+  submit_tool_outputs: SubmitToolOutputsDetailsOutput;
+}
+
+/** The details describing tools that should be called to submit tool outputs. */
+export interface SubmitToolOutputsDetailsOutput {
+  /** The list of tool calls that must be resolved for the assistant thread run to continue. */
+  tool_calls: Array<RequiredToolCallOutput>;
+}
+
+/** An abstract representation a a tool invocation needed by the model to continue a run. */
+export interface RequiredToolCallOutputParent {
+  /** The ID of the tool call. This ID must be referenced when submitting tool outputs. */
   id: string;
   type: string;
 }
 
-/**
- * A tool call to a function tool, issued by the model in evaluation of a configured function tool, that represents
- * a function invocation needed for a subsequent chat completions request to resolve.
- */
-export interface ChatCompletionsFunctionToolCallOutput extends ChatCompletionsToolCallOutputParent {
-  /** The type of tool call, in this case always 'function'. */
+/** A representation of a requested call to a function tool, needed by the model to continue evaluation of a run. */
+export interface RequiredFunctionToolCallOutput
+  extends RequiredToolCallOutputParent {
+  /** The object type of the required tool call. Always 'function' for function tools. */
   type: "function";
-  /** The details of the function invocation requested by the tool call. */
-  function: FunctionCallOutput;
+  /** Detailed information about the function to be executed by the tool that includes name and arguments. */
+  function: RequiredFunctionToolCallDetailsOutput;
 }
 
-/** The name and arguments of a function that should be called, as generated by the model. */
-export interface FunctionCallOutput {
-  /** The name of the function to call. */
+/** The detailed information for a function invocation, as provided by a required action invoking a function tool, that includes the name of and arguments to the function. */
+export interface RequiredFunctionToolCallDetailsOutput {
+  /** The name of the function. */
   name: string;
-  /**
-   * The arguments to call the function with, as generated by the model in JSON format.
-   * Note that the model does not always generate valid JSON, and may hallucinate parameters
-   * not defined by your function schema. Validate the arguments in your code before calling
-   * your function.
-   */
+  /** The arguments to use when invoking the named function, as provided by the model. Arguments are presented as a JSON document that should be validated and parsed for evaluation. */
   arguments: string;
 }
 
-/**
- * Representation of the response data from a chat completions request.
- * Completions support a wide variety of tasks and generate text that continues from or "completes"
- * provided prompt data.
- */
-export interface ChatCompletionsOutput {
-  /** A unique identifier associated with this chat completions response. */
-  id: string;
-  /** The current model used for the chat completions request. */
-  model: string;
-  /**
-   * The first timestamp associated with generation activity for this completions response,
-   * represented as seconds since the beginning of the Unix epoch of 00:00 on 1 Jan 1970.
-   */
-  created: number;
-  /**
-   * The collection of completions choices associated with this completions response.
-   * Generally, `n` choices are generated per provided prompt with a default value of 1.
-   * Token limits and other settings may limit the number of choices generated.
-   */
-  choices: Array<ChatChoiceOutput>;
-  /**
-   * Content filtering results for zero or more prompts in the request. In a streaming request,
-   * results for different prompts may arrive at different times or in different orders.
-   */
-  prompt_filter_results?: Array<ContentFilterResultsForPromptOutput>;
-  /**
-   * Can be used in conjunction with the `seed` request parameter to understand when backend changes have been made that
-   * might impact determinism.
-   */
-  system_fingerprint?: string;
-  /** Usage information for tokens processed and generated as part of this completions operation. */
-  usage: CompletionsUsageOutput;
+/** The details of an error as encountered by an assistant thread run. */
+export interface RunErrorOutput {
+  /** The status for the error. */
+  code: string;
+  /** The human-readable text associated with the error. */
+  message: string;
 }
 
-/**
- * The representation of a single prompt completion as part of an overall chat completions request.
- * Generally, `n` choices are generated per provided prompt with a default value of 1.
- * Token limits and other settings may limit the number of choices generated.
- */
-export interface ChatChoiceOutput {
-  /** The chat message for a given chat completions prompt. */
-  message?: ChatResponseMessageOutput;
-  /** The log probability information for this choice, as enabled via the 'logprobs' request option. */
-  logprobs: ChatChoiceLogProbabilityInfoOutput | null;
-  /** The ordered index associated with this chat completions choice. */
-  index: number;
-  /** The reason that this chat completions choice completed its generated. */
-  finish_reason: CompletionsFinishReasonOutput | null;
-  /**
-   * The reason the model stopped generating tokens, together with any applicable details.
-   * This structured representation replaces 'finish_reason' for some models.
-   */
-  finish_details?: ChatFinishDetailsOutput;
-  /** The delta message content for a streaming response. */
-  delta?: ChatResponseMessageOutput;
-  /**
-   * Information about the content filtering category (hate, sexual, violence, self_harm), if it
-   * has been detected, as well as the severity level (very_low, low, medium, high-scale that
-   * determines the intensity and risk level of harmful content) and if it has been filtered or not.
-   */
-  content_filter_results?: ContentFilterResultsForChoiceOutput;
-  /**
-   * Represents the output results of Azure OpenAI enhancements to chat completions, as configured via the matching input
-   * provided in the request. This supplementary information is only available when using Azure OpenAI and only when the
-   * request is configured to use enhancements.
-   */
-  enhancements?: AzureChatEnhancementsOutput;
-}
-
-/** A representation of a chat message as received in a response. */
-export interface ChatResponseMessageOutput {
-  /** The chat role associated with the message. */
-  role: ChatRoleOutput;
-  /** The content of the message. */
-  content: string | null;
-  /**
-   * The tool calls that must be resolved and have their outputs appended to subsequent input messages for the chat
-   * completions request to resolve as configured.
-   */
-  tool_calls?: Array<ChatCompletionsToolCallOutput>;
-  /**
-   * The function call that must be resolved and have its output appended to subsequent input messages for the chat
-   * completions request to resolve as configured.
-   */
-  function_call?: FunctionCallOutput;
-  /**
-   * If Azure OpenAI chat extensions are configured, this array represents the incremental steps performed by those
-   * extensions while processing the chat completions request.
-   */
-  context?: AzureChatExtensionsMessageContextOutput;
-}
-
-/**
- *   A representation of the additional context information available when Azure OpenAI chat extensions are involved
- *   in the generation of a corresponding chat completions response. This context information is only populated when
- *   using an Azure OpenAI request configured to use a matching extension.
- */
-export interface AzureChatExtensionsMessageContextOutput {
-  /**
-   *   The contextual information associated with the Azure chat extensions used for a chat completions request.
-   *   These messages describe the data source retrievals, plugin invocations, and other intermediate steps taken in the
-   *   course of generating a chat completions response that was augmented by capabilities from Azure OpenAI chat
-   *   extensions.
-   */
-  citations?: Array<AzureChatExtensionDataSourceResponseCitationOutput>;
-  /** The detected intent from the chat history, used to pass to the next turn to carry over the context. */
-  intent?: string;
-}
-
-/**
- * A single instance of additional context information available when Azure OpenAI chat extensions are involved
- * in the generation of a corresponding chat completions response. This context information is only populated when
- * using an Azure OpenAI request configured to use a matching extension.
- */
-export interface AzureChatExtensionDataSourceResponseCitationOutput {
-  /** The content of the citation. */
-  content: string;
-  /** The title of the citation. */
-  title?: string;
-  /** The URL of the citation. */
-  url?: string;
-  /** The file path of the citation. */
-  filepath?: string;
-  /** The chunk ID of the citation. */
-  chunk_id?: string;
-}
-
-/** Log probability information for a choice, as requested via 'logprobs' and 'top_logprobs'. */
-export interface ChatChoiceLogProbabilityInfoOutput {
-  /** The list of log probability information entries for the choice's message content tokens, as requested via the 'logprobs' option. */
-  content: Array<ChatTokenLogProbabilityResultOutput> | null;
-}
-
-/** A representation of the log probability information for a single content token, including a list of most likely tokens if 'top_logprobs' were requested. */
-export interface ChatTokenLogProbabilityResultOutput {
-  /** The message content token. */
-  token: string;
-  /** The log probability of the message content token. */
-  logprob: number;
-  /** A list of integers representing the UTF-8 bytes representation of the token. Useful in instances where characters are represented by multiple tokens and their byte representations must be combined to generate the correct text representation. Can be null if there is no bytes representation for the token. */
-  bytes: number[] | null;
-  /** The list of most likely tokens and their log probability information, as requested via 'top_logprobs'. */
-  top_logprobs: Array<ChatTokenLogProbabilityInfoOutput> | null;
-}
-
-/** A representation of the log probability information for a single message content token. */
-export interface ChatTokenLogProbabilityInfoOutput {
-  /** The message content token. */
-  token: string;
-  /** The log probability of the message content token. */
-  logprob: number;
-  /** A list of integers representing the UTF-8 bytes representation of the token. Useful in instances where characters are represented by multiple tokens and their byte representations must be combined to generate the correct text representation. Can be null if there is no bytes representation for the token. */
-  bytes: number[] | null;
-}
-
-/** An abstract representation of structured information about why a chat completions response terminated. */
-export interface ChatFinishDetailsOutputParent {
-  type: string;
-}
-
-/** A structured representation of a stop reason that signifies natural termination by the model. */
-export interface StopFinishDetailsOutput extends ChatFinishDetailsOutputParent {
-  /** The object type, which is always 'stop' for this object. */
-  type: "stop";
-  /** The token sequence that the model terminated with. */
-  stop: string;
-}
-
-/**
- * A structured representation of a stop reason that signifies a token limit was reached before the model could naturally
- * complete.
- */
-export interface MaxTokensFinishDetailsOutput extends ChatFinishDetailsOutputParent {
-  /** The object type, which is always 'max_tokens' for this object. */
-  type: "max_tokens";
-}
-
-/**
- * Represents the output results of Azure enhancements to chat completions, as configured via the matching input provided
- * in the request.
- */
-export interface AzureChatEnhancementsOutput {
-  /** The grounding enhancement that returns the bounding box of the objects detected in the image. */
-  grounding?: AzureGroundingEnhancementOutput;
-}
-
-/** The grounding enhancement that returns the bounding box of the objects detected in the image. */
-export interface AzureGroundingEnhancementOutput {
-  /** The lines of text detected by the grounding enhancement. */
-  lines: Array<AzureGroundingEnhancementLineOutput>;
-}
-
-/** A content line object consisting of an adjacent sequence of content elements, such as words and selection marks. */
-export interface AzureGroundingEnhancementLineOutput {
-  /** The text within the line. */
-  text: string;
-  /** An array of spans that represent detected objects and its bounding box information. */
-  spans: Array<AzureGroundingEnhancementLineSpanOutput>;
-}
-
-/** A span object that represents a detected object and its bounding box information. */
-export interface AzureGroundingEnhancementLineSpanOutput {
-  /** The text content of the span that represents the detected object. */
-  text: string;
-  /**
-   * The character offset within the text where the span begins. This offset is defined as the position of the first
-   * character of the span, counting from the start of the text as Unicode codepoints.
-   */
-  offset: number;
-  /** The length of the span in characters, measured in Unicode codepoints. */
-  length: number;
-  /** An array of objects representing points in the polygon that encloses the detected object. */
-  polygon: Array<AzureGroundingEnhancementCoordinatePointOutput>;
-}
-
-/** A representation of a single polygon point as used by the Azure grounding enhancement. */
-export interface AzureGroundingEnhancementCoordinatePointOutput {
-  /** The x-coordinate (horizontal axis) of the point. */
-  x: number;
-  /** The y-coordinate (vertical axis) of the point. */
-  y: number;
-}
-
-/** Represents the request data used to generate images. */
-export interface ImageGenerationOptionsOutput {
-  /**
-   * The model name or Azure OpenAI model deployment name to use for image generation. If not specified, dall-e-2 will be
-   * inferred as a default.
-   */
-  model?: string;
-  /** A description of the desired images. */
-  prompt: string;
-  /**
-   * The number of images to generate.
-   * Dall-e-2 models support values between 1 and 10.
-   * Dall-e-3 models only support a value of 1.
-   */
-  n?: number;
-  /**
-   * The desired dimensions for generated images.
-   * Dall-e-2 models support 256x256, 512x512, or 1024x1024.
-   * Dall-e-3 models support 1024x1024, 1792x1024, or 1024x1792.
-   */
-  size?: ImageSizeOutput;
-  /** The format in which image generation response items should be presented. */
-  response_format?: ImageGenerationResponseFormatOutput;
-  /**
-   * The desired image generation quality level to use.
-   * Only configurable with dall-e-3 models.
-   */
-  quality?: ImageGenerationQualityOutput;
-  /**
-   * The desired image generation style to use.
-   * Only configurable with dall-e-3 models.
-   */
-  style?: ImageGenerationStyleOutput;
-  /** A unique identifier representing your end-user, which can help to monitor and detect abuse. */
-  user?: string;
-}
-
-/** The result of a successful image generation operation. */
-export interface ImageGenerationsOutput {
-  /**
-   * A timestamp representing when this operation was started.
-   * Expressed in seconds since the Unix epoch of 1970-01-01T00:00:00+0000.
-   */
-  created: number;
-  /** The images generated by the operation. */
-  data: Array<ImageGenerationDataOutput>;
-}
-
-/**
- * A representation of a single generated image, provided as either base64-encoded data or as a URL from which the image
- * may be retrieved.
- */
-export interface ImageGenerationDataOutput {
-  /** The URL that provides temporary access to download the generated image. */
-  url?: string;
-  /** The complete data for an image, represented as a base64-encoded string. */
-  b64_json?: string;
-  /** Information about the content filtering results. */
-  content_filter_results?: ImageGenerationContentFilterResultsOutput;
-  /**
-   * The final prompt used by the model to generate the image.
-   * Only provided with dall-3-models and only when revisions were made to the prompt.
-   */
-  revised_prompt?: string;
-  /**
-   * Information about the content filtering category (hate, sexual, violence, self_harm), if
-   * it has been detected, as well as the severity level (very_low, low, medium, high-scale
-   * that determines the intensity and risk level of harmful content) and if it has been
-   * filtered or not. Information about jailbreak content and profanity, if it has been detected,
-   * and if it has been filtered or not. And information about customer block list, if it has
-   * been filtered and its id.
-   */
-  prompt_filter_results?: ImageGenerationPromptFilterResultsOutput;
-}
-
-/** Describes the content filtering result for the image generation request. */
-export interface ImageGenerationContentFilterResultsOutput {
-  /**
-   * Describes language related to anatomical organs and genitals, romantic relationships,
-   *  acts portrayed in erotic or affectionate terms, physical sexual acts, including
-   *  those portrayed as an assault or a forced sexual violent act against one’s will,
-   *  prostitution, pornography, and abuse.
-   */
-  sexual?: ContentFilterResultOutput;
-  /**
-   * Describes language related to physical actions intended to hurt, injure, damage, or
-   * kill someone or something; describes weapons, etc.
-   */
-  violence?: ContentFilterResultOutput;
-  /**
-   * Describes language attacks or uses that include pejorative or discriminatory language
-   * with reference to a person or identity group on the basis of certain differentiating
-   * attributes of these groups including but not limited to race, ethnicity, nationality,
-   * gender identity and expression, sexual orientation, religion, immigration status, ability
-   * status, personal appearance, and body size.
-   */
-  hate?: ContentFilterResultOutput;
-  /**
-   * Describes language related to physical actions intended to purposely hurt, injure,
-   * or damage one’s body, or kill oneself.
-   */
-  self_harm?: ContentFilterResultOutput;
-}
-
-/** Describes the content filtering results for the prompt of a image generation request. */
-export interface ImageGenerationPromptFilterResultsOutput {
-  /**
-   * Describes language related to anatomical organs and genitals, romantic relationships,
-   *  acts portrayed in erotic or affectionate terms, physical sexual acts, including
-   *  those portrayed as an assault or a forced sexual violent act against one’s will,
-   *  prostitution, pornography, and abuse.
-   */
-  sexual?: ContentFilterResultOutput;
-  /**
-   * Describes language related to physical actions intended to hurt, injure, damage, or
-   * kill someone or something; describes weapons, etc.
-   */
-  violence?: ContentFilterResultOutput;
-  /**
-   * Describes language attacks or uses that include pejorative or discriminatory language
-   * with reference to a person or identity group on the basis of certain differentiating
-   * attributes of these groups including but not limited to race, ethnicity, nationality,
-   * gender identity and expression, sexual orientation, religion, immigration status, ability
-   * status, personal appearance, and body size.
-   */
-  hate?: ContentFilterResultOutput;
-  /**
-   * Describes language related to physical actions intended to purposely hurt, injure,
-   * or damage one’s body, or kill oneself.
-   */
-  self_harm?: ContentFilterResultOutput;
-  /** Describes whether profanity was detected. */
-  profanity?: ContentFilterDetectionResultOutput;
-  /** Whether a jailbreak attempt was detected in the prompt. */
-  jailbreak?: ContentFilterDetectionResultOutput;
-}
-
-/**
- * Representation of the response data from an embeddings request.
- * Embeddings measure the relatedness of text strings and are commonly used for search, clustering,
- * recommendations, and other similar scenarios.
- */
-export interface EmbeddingsOutput {
-  /** Embedding values for the prompts submitted in the request. */
-  data: Array<EmbeddingItemOutput>;
-  /** Usage counts for tokens input using the embeddings API. */
-  usage: EmbeddingsUsageOutput;
-}
-
-/** Representation of a single embeddings relatedness comparison. */
-export interface EmbeddingItemOutput {
-  /**
-   * List of embeddings value for the input prompt. These represent a measurement of the
-   * vector-based relatedness of the provided input.
-   */
-  embedding: number[];
-  /** Index of the prompt to which the EmbeddingItem corresponds. */
-  index: number;
-}
-
-/** Measurement of the amount of tokens used in this request and response. */
-export interface EmbeddingsUsageOutput {
-  /** Number of tokens sent in the original request. */
+/** Usage statistics related to the run. */
+export interface RunCompletionUsageOutput {
+  /** Number of completion tokens used over the course of the run. */
+  completion_tokens: number;
+  /** Number of prompt tokens used over the course of the run. */
   prompt_tokens: number;
-  /** Total number of tokens transacted in this request/response. */
+  /** Total number of tokens used (prompt + completion). */
   total_tokens: number;
 }
 
+/** The response data for a requested list of items. */
+export interface OpenAIPageableListOfOutput {
+  /** The object type, which is always list. */
+  object: "list";
+  /** The requested list of items. */
+  data: Array<ThreadRunOutput>;
+  /** The first ID represented in this list. */
+  first_id: string;
+  /** The last ID represented in this list. */
+  last_id: string;
+  /** A value indicating whether there are additional values available not captured in this list. */
+  has_more: boolean;
+}
+
+/** Detailed information about a single step of an assistant thread run. */
+export interface RunStepOutput {
+  /** The identifier, which can be referenced in API endpoints. */
+  id: string;
+  /** The object type, which is always 'thread.run.step'. */
+  object: "thread.run.step";
+  /** The type of run step, which can be either message_creation or tool_calls. */
+  type: RunStepTypeOutput;
+  /** The ID of the assistant associated with the run step. */
+  assistant_id: string;
+  /** The ID of the thread that was run. */
+  thread_id: string;
+  /** The ID of the run that this run step is a part of. */
+  run_id: string;
+  /** The status of this run step. */
+  status: RunStepStatusOutput;
+  /** The details for this run step. */
+  step_details: RunStepDetailsOutput;
+  /** If applicable, information about the last error encountered by this run step. */
+  last_error: RunStepErrorOutput | null;
+  /** The Unix timestamp, in seconds, representing when this object was created. */
+  created_at: number;
+  /** The Unix timestamp, in seconds, representing when this item expired. */
+  expired_at: number | null;
+  /** The Unix timestamp, in seconds, representing when this completed. */
+  completed_at: number | null;
+  /** The Unix timestamp, in seconds, representing when this was cancelled. */
+  cancelled_at: number | null;
+  /** The Unix timestamp, in seconds, representing when this failed. */
+  failed_at: number | null;
+  /** Usage statistics related to the run step. This value will be `null` while the run step's status is `in_progress`. */
+  usage?: RunStepCompletionUsageOutput | null;
+  /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
+  metadata: Record<string, string> | null;
+}
+
+/** An abstract representation of the details for a run step. */
+export interface RunStepDetailsOutputParent {
+  type: RunStepTypeOutput;
+}
+
+/** The detailed information associated with a message creation run step. */
+export interface RunStepMessageCreationDetailsOutput
+  extends RunStepDetailsOutputParent {
+  /** The object type, which is always 'message_creation'. */
+  type: "message_creation";
+  /** Information about the message creation associated with this run step. */
+  message_creation: RunStepMessageCreationReferenceOutput;
+}
+
+/** The details of a message created as a part of a run step. */
+export interface RunStepMessageCreationReferenceOutput {
+  /** The ID of the message created by this run step. */
+  message_id: string;
+}
+
+/** The detailed information associated with a run step calling tools. */
+export interface RunStepToolCallDetailsOutput
+  extends RunStepDetailsOutputParent {
+  /** The object type, which is always 'tool_calls'. */
+  type: "tool_calls";
+  /** A list of tool call details for this run step. */
+  tool_calls: Array<RunStepToolCallOutput>;
+}
+
+/** An abstract representation of a detailed tool call as recorded within a run step for an existing run. */
+export interface RunStepToolCallOutputParent {
+  /** The ID of the tool call. This ID must be referenced when you submit tool outputs. */
+  id: string;
+  type: string;
+}
+
 /**
- * An abstract representation of a tool call that must be resolved in a subsequent request to perform the requested
- * chat completion.
+ * A record of a call to a code interpreter tool, issued by the model in evaluation of a defined tool, that
+ * represents inputs and outputs consumed and emitted by the code interpreter.
  */
-export type ChatCompletionsToolCallOutput =
-  | ChatCompletionsToolCallOutputParent
-  | ChatCompletionsFunctionToolCallOutput;
-/** An abstract representation of structured information about why a chat completions response terminated. */
-export type ChatFinishDetailsOutput =
-  | ChatFinishDetailsOutputParent
-  | StopFinishDetailsOutput
-  | MaxTokensFinishDetailsOutput;
-/** Alias for AudioTaskLabelOutput */
-export type AudioTaskLabelOutput = string | "transcribe" | "translate";
-/** Alias for ContentFilterSeverityOutput */
-export type ContentFilterSeverityOutput = string | "safe" | "low" | "medium" | "high";
-/** Alias for CompletionsFinishReasonOutput */
-export type CompletionsFinishReasonOutput =
+export interface RunStepCodeInterpreterToolCallOutput
+  extends RunStepToolCallOutputParent {
+  /** The object type, which is always 'code_interpreter'. */
+  type: "code_interpreter";
+  /** The details of the tool call to the code interpreter tool. */
+  code_interpreter: RunStepCodeInterpreterToolCallDetailsOutput;
+}
+
+/** The detailed information about a code interpreter invocation by the model. */
+export interface RunStepCodeInterpreterToolCallDetailsOutput {
+  /** The input provided by the model to the code interpreter tool. */
+  input: string;
+  /** The outputs produced by the code interpreter tool back to the model in response to the tool call. */
+  outputs: Array<RunStepCodeInterpreterToolCallOutputOutput>;
+}
+
+/** An abstract representation of an emitted output from a code interpreter tool. */
+export interface RunStepCodeInterpreterToolCallOutputOutputParent {
+  type: string;
+}
+
+/** A representation of a log output emitted by a code interpreter tool in response to a tool call by the model. */
+export interface RunStepCodeInterpreterLogOutputOutput
+  extends RunStepCodeInterpreterToolCallOutputOutputParent {
+  /** The object type, which is always 'logs'. */
+  type: "logs";
+  /** The serialized log output emitted by the code interpreter. */
+  logs: string;
+}
+
+/** A representation of an image output emitted by a code interpreter tool in response to a tool call by the model. */
+export interface RunStepCodeInterpreterImageOutputOutput
+  extends RunStepCodeInterpreterToolCallOutputOutputParent {
+  /** The object type, which is always 'image'. */
+  type: "image";
+  /** Referential information for the image associated with this output. */
+  image: RunStepCodeInterpreterImageReferenceOutput;
+}
+
+/** An image reference emitted by a code interpreter tool in response to a tool call by the model. */
+export interface RunStepCodeInterpreterImageReferenceOutput {
+  /** The ID of the file associated with this image. */
+  file_id: string;
+}
+
+/**
+ * A record of a call to a retrieval tool, issued by the model in evaluation of a defined tool, that represents
+ * executed retrieval actions.
+ */
+export interface RunStepRetrievalToolCallOutput
+  extends RunStepToolCallOutputParent {
+  /** The object type, which is always 'retrieval'. */
+  type: "retrieval";
+  /** The key/value pairs produced by the retrieval tool. */
+  retrieval: Record<string, string>;
+}
+
+/**
+ * A record of a call to a function tool, issued by the model in evaluation of a defined tool, that represents the inputs
+ * and output consumed and emitted by the specified function.
+ */
+export interface RunStepFunctionToolCallOutput
+  extends RunStepToolCallOutputParent {
+  /** The object type, which is always 'function'. */
+  type: "function";
+  /** The detailed information about the function called by the model. */
+  function: RunStepFunctionToolCallDetailsOutput;
+}
+
+/** The detailed information about the function called by the model. */
+export interface RunStepFunctionToolCallDetailsOutput {
+  /** The name of the function. */
+  name: string;
+  /** The arguments that the model requires are provided to the named function. */
+  arguments: string;
+  /** The output of the function, only populated for function calls that have already have had their outputs submitted. */
+  output: string | null;
+}
+
+/** The error information associated with a failed run step. */
+export interface RunStepErrorOutput {
+  /** The error code for this error. */
+  code: RunStepErrorCodeOutput;
+  /** The human-readable text associated with this error. */
+  message: string;
+}
+
+/** Usage statistics related to the run step. */
+export interface RunStepCompletionUsageOutput {
+  /** Number of completion tokens used over the course of the run step. */
+  completion_tokens: number;
+  /** Number of prompt tokens used over the course of the run step. */
+  prompt_tokens: number;
+  /** Total number of tokens used (prompt + completion). */
+  total_tokens: number;
+}
+
+/** The response data for a requested list of items. */
+export interface OpenAIPageableListOfOutput {
+  /** The object type, which is always list. */
+  object: "list";
+  /** The requested list of items. */
+  data: Array<RunStepOutput>;
+  /** The first ID represented in this list. */
+  first_id: string;
+  /** The last ID represented in this list. */
+  last_id: string;
+  /** A value indicating whether there are additional values available not captured in this list. */
+  has_more: boolean;
+}
+
+/** The response data from a file list operation. */
+export interface FileListResponseOutput {
+  /** The object type, which is always 'list'. */
+  object: "list";
+  /** The files returned for the request. */
+  data: Array<OpenAIFileOutput>;
+}
+
+/** Represents an assistant that can call the model and use tools. */
+export interface OpenAIFileOutput {
+  /** The object type, which is always 'file'. */
+  object: "file";
+  /** The identifier, which can be referenced in API endpoints. */
+  id: string;
+  /** The size of the file, in bytes. */
+  bytes: number;
+  /** The name of the file. */
+  filename: string;
+  /** The Unix timestamp, in seconds, representing when this object was created. */
+  created_at: number;
+  /** The intended purpose of a file. */
+  purpose: FilePurposeOutput;
+}
+
+/** A status response from a file deletion operation. */
+export interface FileDeletionStatusOutput {
+  /** The ID of the resource specified for deletion. */
+  id: string;
+  /** A value indicating whether deletion was successful. */
+  deleted: boolean;
+  /** The object type, which is always 'file'. */
+  object: "file";
+}
+
+/** The response data for a requested list of items. */
+export interface OpenAIPageableListOfOutput {
+  /** The object type, which is always list. */
+  object: "list";
+  /** The requested list of items. */
+  data: Array<VectorStoreOutput>;
+  /** The first ID represented in this list. */
+  first_id: string;
+  /** The last ID represented in this list. */
+  last_id: string;
+  /** A value indicating whether there are additional values available not captured in this list. */
+  has_more: boolean;
+}
+
+/** A vector store is a collection of processed files can be used by the `file_search` tool. */
+export interface VectorStoreOutput {
+  /** The identifier, which can be referenced in API endpoints. */
+  id: string;
+  /** The object type, which is always `vector_store` */
+  object: "vector_store";
+  /** The Unix timestamp (in seconds) for when the vector store was created. */
+  created_at: number;
+  /** The name of the vector store. */
+  name: string;
+  /** The total number of bytes used by the files in the vector store. */
+  usage_bytes: number;
+  /** Files count grouped by status processed or being processed by this vector store. */
+  file_counts: VectorStoreFileCountOutput;
+  /** The status of the vector store, which can be either `expired`, `in_progress`, or `completed`. A status of `completed` indicates that the vector store is ready for use. */
+  status: VectorStoreStatusOutput;
+  /** Details on when this vector store expires */
+  expires_after?: VectorStoreExpirationPolicyOutput;
+  /** The Unix timestamp (in seconds) for when the vector store will expire. */
+  expires_at?: number | null;
+  /** The Unix timestamp (in seconds) for when the vector store was last active. */
+  last_active_at: number | null;
+  /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
+  metadata: Record<string, string> | null;
+}
+
+/** Counts of files processed or being processed by this vector store grouped by status. */
+export interface VectorStoreFileCountOutput {
+  /** The number of files that are currently being processed. */
+  in_progress: number;
+  /** The number of files that have been successfully processed. */
+  completed: number;
+  /** The number of files that have failed to process. */
+  failed: number;
+  /** The number of files that were cancelled. */
+  cancelled: number;
+  /** The total number of files. */
+  total: number;
+}
+
+/** The expiration policy for a vector store. */
+export interface VectorStoreExpirationPolicyOutput {
+  /** Anchor timestamp after which the expiration policy applies. Supported anchors: `last_active_at`. */
+  anchor: VectorStoreExpirationPolicyAnchorOutput;
+  /** The number of days after the anchor time that the vector store will expire. */
+  days: number;
+}
+
+/** Response object for deleting a vector store. */
+export interface VectorStoreDeletionStatusOutput {
+  /** The ID of the resource specified for deletion. */
+  id: string;
+  /** A value indicating whether deletion was successful. */
+  deleted: boolean;
+  /** The object type, which is always 'vector_store.deleted'. */
+  object: "vector_store.deleted";
+}
+
+/** The response data for a requested list of items. */
+export interface OpenAIPageableListOfOutput {
+  /** The object type, which is always list. */
+  object: "list";
+  /** The requested list of items. */
+  data: Array<VectorStoreFileOutput>;
+  /** The first ID represented in this list. */
+  first_id: string;
+  /** The last ID represented in this list. */
+  last_id: string;
+  /** A value indicating whether there are additional values available not captured in this list. */
+  has_more: boolean;
+}
+
+/** Description of a file attached to a vector store. */
+export interface VectorStoreFileOutput {
+  /** The identifier, which can be referenced in API endpoints. */
+  id: string;
+  /** The object type, which is always `vector_store.file`. */
+  object: "vector_store.file";
+  /**
+   * The total vector store usage in bytes. Note that this may be different from the original file
+   * size.
+   */
+  usage_bytes: number;
+  /** The Unix timestamp (in seconds) for when the vector store file was created. */
+  created_at: number;
+  /** The ID of the vector store that the file is attached to. */
+  vector_store_id: string;
+  /** The status of the vector store file, which can be either `in_progress`, `completed`, `cancelled`, or `failed`. The status `completed` indicates that the vector store file is ready for use. */
+  status: VectorStoreFileStatusOutput;
+  /** The last error associated with this vector store file. Will be `null` if there are no errors. */
+  last_error: VectorStoreFileErrorOutput | null;
+}
+
+/** Details on the error that may have ocurred while processing a file for this vector store */
+export interface VectorStoreFileErrorOutput {
+  /** One of `server_error` or `rate_limit_exceeded`. */
+  code: VectorStoreFileErrorCodeOutput;
+  /** A human-readable description of the error. */
+  message: string;
+}
+
+/** Response object for deleting a vector store file relationship. */
+export interface VectorStoreFileDeletionStatusOutput {
+  /** The ID of the resource specified for deletion. */
+  id: string;
+  /** A value indicating whether deletion was successful. */
+  deleted: boolean;
+  /** The object type, which is always 'vector_store.deleted'. */
+  object: "vector_store.file.deleted";
+}
+
+/** A batch of files attached to a vector store. */
+export interface VectorStoreFileBatchOutput {
+  /** The identifier, which can be referenced in API endpoints. */
+  id: string;
+  /** The object type, which is always `vector_store.file_batch`. */
+  object: "vector_store.files_batch";
+  /** The Unix timestamp (in seconds) for when the vector store files batch was created. */
+  created_at: number;
+  /** The ID of the vector store that the file is attached to. */
+  vector_store_id: string;
+  /** The status of the vector store files batch, which can be either `in_progress`, `completed`, `cancelled` or `failed`. */
+  status: VectorStoreFileBatchStatusOutput;
+  /** Files count grouped by status processed or being processed by this vector store. */
+  file_counts: VectorStoreFileCountOutput;
+}
+
+/** An abstract representation of an input tool definition that an assistant can use. */
+export type ToolDefinitionOutput =
+  | ToolDefinitionOutputParent
+  | CodeInterpreterToolDefinitionOutput
+  | FileSearchToolDefinitionOutput
+  | BrowseToolDefinitionOutput
+  | FunctionToolDefinitionOutput;
+/** An abstract representation of a single item of thread message content. */
+export type MessageContentOutput =
+  | MessageContentOutputParent
+  | MessageTextContentOutput
+  | MessageImageFileContentOutput;
+/** An abstract representation of an annotation to text thread message content. */
+export type MessageTextAnnotationOutput =
+  | MessageTextAnnotationOutputParent
+  | MessageTextFileCitationAnnotationOutput
+  | MessageTextFilePathAnnotationOutput;
+/** An abstract representation of a required action for an assistant thread run to continue. */
+export type RequiredActionOutput =
+  | RequiredActionOutputParent
+  | SubmitToolOutputsActionOutput;
+/** An abstract representation a a tool invocation needed by the model to continue a run. */
+export type RequiredToolCallOutput =
+  | RequiredToolCallOutputParent
+  | RequiredFunctionToolCallOutput;
+/** An abstract representation of the details for a run step. */
+export type RunStepDetailsOutput =
+  | RunStepDetailsOutputParent
+  | RunStepMessageCreationDetailsOutput
+  | RunStepToolCallDetailsOutput;
+/** An abstract representation of a detailed tool call as recorded within a run step for an existing run. */
+export type RunStepToolCallOutput =
+  | RunStepToolCallOutputParent
+  | RunStepCodeInterpreterToolCallOutput
+  | RunStepRetrievalToolCallOutput
+  | RunStepFunctionToolCallOutput;
+/** An abstract representation of an emitted output from a code interpreter tool. */
+export type RunStepCodeInterpreterToolCallOutputOutput =
+  | RunStepCodeInterpreterToolCallOutputOutputParent
+  | RunStepCodeInterpreterLogOutputOutput
+  | RunStepCodeInterpreterImageOutputOutput;
+/** Alias for ApiResponseFormatOutput */
+export type ApiResponseFormatOutput = string | "text" | "json_object";
+/** Alias for AssistantsApiResponseFormatOptionOutput */
+export type AssistantsApiResponseFormatOptionOutput =
   | string
-  | "stop"
-  | "length"
+  | "auto"
+  | "none"
+  | AssistantsApiResponseFormatOutput;
+/** Alias for MessageRoleOutput */
+export type MessageRoleOutput = string | "user" | "assistant";
+/** Alias for MessageStatusOutput */
+export type MessageStatusOutput =
+  | string
+  | "in_progress"
+  | "incomplete"
+  | "completed";
+/** Alias for MessageIncompleteDetailsReasonOutput */
+export type MessageIncompleteDetailsReasonOutput =
+  | string
   | "content_filter"
-  | "function_call"
-  | "tool_calls";
-/** Alias for ChatRoleOutput */
-export type ChatRoleOutput = string | "system" | "assistant" | "user" | "function" | "tool";
-/** Alias for ImageSizeOutput */
-export type ImageSizeOutput =
+  | "max_tokens"
+  | "run_cancelled"
+  | "run_failed"
+  | "run_expired";
+/** Alias for RunStatusOutput */
+export type RunStatusOutput =
   | string
-  | "256x256"
-  | "512x512"
-  | "1024x1024"
-  | "1792x1024"
-  | "1024x1792";
-/** Alias for ImageGenerationResponseFormatOutput */
-export type ImageGenerationResponseFormatOutput = string | "url" | "b64_json";
-/** Alias for ImageGenerationQualityOutput */
-export type ImageGenerationQualityOutput = string | "standard" | "hd";
-/** Alias for ImageGenerationStyleOutput */
-export type ImageGenerationStyleOutput = string | "natural" | "vivid";
-/** Alias for AzureOpenAIOperationStateOutput */
-export type AzureOpenAIOperationStateOutput =
+  | "queued"
+  | "in_progress"
+  | "requires_action"
+  | "cancelling"
+  | "cancelled"
+  | "failed"
+  | "completed"
+  | "expired";
+/** Alias for IncompleteRunDetailsOutput */
+export type IncompleteRunDetailsOutput =
   | string
-  | "notRunning"
-  | "running"
-  | "succeeded"
-  | "canceled"
+  | "max_completion_tokens"
+  | "max_prompt_tokens";
+/** Alias for RunStepTypeOutput */
+export type RunStepTypeOutput = string | "message_creation" | "tool_calls";
+/** Alias for RunStepStatusOutput */
+export type RunStepStatusOutput =
+  | string
+  | "in_progress"
+  | "cancelled"
+  | "failed"
+  | "completed"
+  | "expired";
+/** Alias for RunStepErrorCodeOutput */
+export type RunStepErrorCodeOutput =
+  | string
+  | "server_error"
+  | "rate_limit_exceeded";
+/** Alias for FilePurposeOutput */
+export type FilePurposeOutput =
+  | string
+  | "fine-tune"
+  | "fine-tune-results"
+  | "assistants"
+  | "assistants_output";
+/** Alias for VectorStoreStatusOutput */
+export type VectorStoreStatusOutput =
+  | string
+  | "expired"
+  | "in_progress"
+  | "completed";
+/** Alias for VectorStoreExpirationPolicyAnchorOutput */
+export type VectorStoreExpirationPolicyAnchorOutput = string | "last_active_at";
+/** Alias for VectorStoreFileStatusOutput */
+export type VectorStoreFileStatusOutput =
+  | string
+  | "in_progress"
+  | "completed"
+  | "failed"
+  | "cancelled";
+/** Alias for VectorStoreFileErrorCodeOutput */
+export type VectorStoreFileErrorCodeOutput =
+  | string
+  | "internal_error"
+  | "file_not_found"
+  | "parsing_error"
+  | "unhandled_mime_type";
+/** Alias for VectorStoreFileBatchStatusOutput */
+export type VectorStoreFileBatchStatusOutput =
+  | string
+  | "in_progress"
+  | "completed"
+  | "cancelled"
   | "failed";

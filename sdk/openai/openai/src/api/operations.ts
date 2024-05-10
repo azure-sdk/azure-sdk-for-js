@@ -2,682 +2,2727 @@
 // Licensed under the MIT license.
 
 import {
-  CompletionsOptions,
-  Completions,
-  ChatCompletionsOptions,
-  ChatCompletions,
-  ImageGenerationOptions,
-  ImageGenerations,
-  EmbeddingsOptions,
-  Embeddings,
-  ChatRequestMessageUnion,
-  EventStream,
-  ContentFilterResultsForChoice,
-  ContentFilterResultDetailsForPrompt,
-  ContentFilterResultsForPrompt,
+  AssistantCreationOptions,
+  Assistant,
+  OpenAIPageableListOfAssistant,
+  UpdateAssistantOptions,
+  AssistantDeletionStatus,
+  MessageRole,
+  AssistantThreadCreationOptions,
+  AssistantThread,
+  ThreadDeletionStatus,
+  ThreadMessage,
+  OpenAIPageableListOfThreadMessage,
+  OpenAIPageableListOfMessageFile,
+  MessageFile,
+  CreateRunOptions,
+  ThreadRun,
+  OpenAIPageableListOfThreadRun,
+  SubmitToolOutputsOptions,
+  CreateAndRunThreadOptions,
+  RunStep,
+  OpenAIPageableListOfRunStep,
+  FilePurpose,
+  FileListResponse,
+  OpenAIFile,
+  FileDeletionStatus,
+  OpenAIPageableListOfVectorStore,
+  VectorStore,
+  VectorStoreOptions,
+  VectorStoreUpdateOptions,
+  VectorStoreDeletionStatus,
+  OpenAIPageableListOfVectorStoreFile,
+  VectorStoreFile,
+  VectorStoreFileDeletionStatus,
+  VectorStoreFileBatch,
 } from "../models/models.js";
 import {
-  serializeChatRequestMessageUnion,
-  serializeAzureChatExtensionConfigurationUnion,
-} from "../utils/serializeUtil.js";
+  deserializeMessageContentUnion,
+  deserializeRequiredActionUnion,
+  deserializeRunStepDetailsUnion,
+} from "../utils/deserializeUtil.js";
 import {
-  GetChatCompletions200Response,
-  GetChatCompletionsDefaultResponse,
-  GetCompletions200Response,
-  GetCompletionsDefaultResponse,
-  GetEmbeddings200Response,
-  GetEmbeddingsDefaultResponse,
-  GetImageGenerations200Response,
-  GetImageGenerationsDefaultResponse,
-  isUnexpected,
-  OpenAIContext as Client,
-  ContentFilterResultsForChoiceOutput,
-  ContentFilterResultDetailsForPromptOutput,
-  ContentFilterResultsForPromptOutput,
-  ChatCompletionsOutput,
-  CompletionsOutput,
+  AssistantsContext as Client,
+  CancelRun200Response,
+  CancelVectorStoreFileBatch200Response,
+  CreateAssistant200Response,
+  CreateMessage200Response,
+  CreateRun200Response,
+  CreateThread200Response,
+  CreateThreadAndRun200Response,
+  CreateVectorStore200Response,
+  CreateVectorStoreFile200Response,
+  CreateVectorStoreFileBatch200Response,
+  DeleteAssistant200Response,
+  DeleteFile200Response,
+  DeleteThread200Response,
+  DeleteVectoreStoreFile200Response,
+  DeleteVectorStore200Response,
+  GetAssistant200Response,
+  GetFile200Response,
+  GetFileContent200Response,
+  GetMessage200Response,
+  GetMessageFile200Response,
+  GetRun200Response,
+  GetRunStep200Response,
+  GetThread200Response,
+  GetVectoreStoreFile200Response,
+  GetVectorStore200Response,
+  GetVectorStoreFileBatch200Response,
+  ListAssistants200Response,
+  ListFiles200Response,
+  ListMessageFiles200Response,
+  ListMessages200Response,
+  ListRuns200Response,
+  ListRunSteps200Response,
+  ListVectorStoreFileBatchFiles200Response,
+  ListVectorStoreFiles200Response,
+  ListVectorStores200Response,
+  ModifyVectorStore200Response,
+  SubmitToolOutputsToRun200Response,
+  UpdateAssistant200Response,
+  UpdateMessage200Response,
+  UpdateRun200Response,
+  UpdateThread200Response,
+  UploadFile200Response,
 } from "../rest/index.js";
 import {
   StreamableMethod,
   operationOptionsToRequestParameters,
-  ErrorModel,
+  createRestError,
 } from "@azure-rest/core-client";
+import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
 import {
-  GetCompletionsOptions,
-  GetChatCompletionsOptions,
-  GetEmbeddingsOptions,
-  GetImagesOptions,
-  GetImageGenerationsOptions,
-  GeneratedGetChatCompletionsOptions,
+  CreateAssistantOptionalParams,
+  ListAssistantsOptionalParams,
+  GetAssistantOptionalParams,
+  UpdateAssistantOptionalParams,
+  DeleteAssistantOptionalParams,
+  CreateThreadOptionalParams,
+  GetThreadOptionalParams,
+  UpdateThreadOptionalParams,
+  DeleteThreadOptionalParams,
+  CreateMessageOptionalParams,
+  ListMessagesOptionalParams,
+  GetMessageOptionalParams,
+  UpdateMessageOptionalParams,
+  ListMessageFilesOptionalParams,
+  GetMessageFileOptionalParams,
+  CreateRunOptionalParams,
+  ListRunsOptionalParams,
+  GetRunOptionalParams,
+  UpdateRunOptionalParams,
+  SubmitToolOutputsToRunOptionalParams,
+  CancelRunOptionalParams,
+  CreateThreadAndRunOptionalParams,
+  GetRunStepOptionalParams,
+  ListRunStepsOptionalParams,
+  ListFilesOptionalParams,
+  UploadFileOptionalParams,
+  DeleteFileOptionalParams,
+  GetFileOptionalParams,
+  GetFileContentOptionalParams,
+  ListVectorStoresOptionalParams,
+  CreateVectorStoreOptionalParams,
+  GetVectorStoreOptionalParams,
+  ModifyVectorStoreOptionalParams,
+  DeleteVectorStoreOptionalParams,
+  ListVectorStoreFilesOptionalParams,
+  CreateVectorStoreFileOptionalParams,
+  GetVectoreStoreFileOptionalParams,
+  DeleteVectoreStoreFileOptionalParams,
+  CreateVectorStoreFileBatchOptionalParams,
+  GetVectorStoreFileBatchOptionalParams,
+  CancelVectorStoreFileBatchOptionalParams,
+  ListVectorStoreFileBatchFilesOptionalParams,
 } from "../models/options.js";
-import { getOaiSSEs } from "./oaiSse.js";
-import { createFile } from "@azure/core-rest-pipeline";
-import {
-  GetAudioTranscriptionOptions,
-  AudioResultSimpleJson,
-  AudioResultFormat,
-  AudioResult,
-  GetAudioTranslationOptions,
-} from "../models/audio.js";
-import { snakeCaseKeys, camelCaseKeys, createOpenAIError } from "./util.js";
 
-/**
- * Returns the transcription of an audio file in a simple JSON format.
- * @param context - The context containing the client to use for this request.
- * @param deploymentName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
- * @param fileContent - The content of the audio file to transcribe.
- * @param options - The options for this audio transcription request.
- * @returns The audio transcription result in a simple JSON format.
- */
-export async function getAudioTranscription(
+export function _createAssistantSend(
   context: Client,
-  deploymentName: string,
-  fileContent: Uint8Array,
-  options?: GetAudioTranscriptionOptions,
-): Promise<AudioResultSimpleJson>;
-/**
- * Returns the transcription of an audio file.
- * @param context - The context containing the client to use for this request.
- * @param deploymentName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
- * @param fileContent - The content of the audio file to transcribe.
- * @param format - The format of the result object. See {@link AudioResultFormat} for possible values.
- * @param options - The options for this audio transcription request.
- * @returns The audio transcription result in a format of your choice.
- */
-export async function getAudioTranscription<Format extends AudioResultFormat>(
-  context: Client,
-  deploymentName: string,
-  fileContent: Uint8Array,
-  format: Format,
-  options?: GetAudioTranscriptionOptions,
-): Promise<AudioResult<Format>>;
-// implementation
-export async function getAudioTranscription<Format extends AudioResultFormat>(
-  context: Client,
-  deploymentName: string,
-  fileContent: Uint8Array,
-  formatOrOptions?: Format | GetAudioTranscriptionOptions,
-  inputOptions?: GetAudioTranscriptionOptions,
-): Promise<AudioResult<Format>> {
-  const options =
-    inputOptions ?? (typeof formatOrOptions === "string" ? {} : formatOrOptions ?? {});
-  const response_format = typeof formatOrOptions === "string" ? formatOrOptions : undefined;
-  const { abortSignal, onResponse, requestOptions, tracingOptions, ...rest } = options;
-  const { body, status } = await context
-    .pathUnchecked("deployments/{deploymentName}/audio/transcriptions", deploymentName)
+  body: AssistantCreationOptions,
+  options: CreateAssistantOptionalParams = { requestOptions: {} },
+): StreamableMethod<CreateAssistant200Response> {
+  return context
+    .path("/assistants")
     .post({
-      ...operationOptionsToRequestParameters({
-        abortSignal,
-        onResponse,
-        tracingOptions,
-        requestOptions,
-      }),
-      contentType: "multipart/form-data",
+      ...operationOptionsToRequestParameters(options),
       body: {
-        ...snakeCaseKeys(rest),
-        file: createFile(fileContent, "placeholder.wav"),
-        ...(response_format ? { response_format } : {}),
+        model: body["model"],
+        name: body["name"],
+        description: body["description"],
+        instructions: body["instructions"],
+        tools: body["tools"],
+        file_ids: body["fileIds"],
+        metadata: body["metadata"],
       },
     });
-  if (status !== "200") {
-    throw body.error;
-  }
-  return response_format !== "verbose_json"
-    ? body
-    : (camelCaseKeys(body) as unknown as AudioResult<Format>);
 }
 
-/**
- * Returns the translation of an audio file.
- * @param context - The context containing the client to use for this request.
- * @param deploymentName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
- * @param fileContent - The content of the audio file to translate.
- * @param options - The options for this audio translation request.
- * @returns The audio translation result.
- */
-export async function getAudioTranslation(
-  context: Client,
-  deploymentName: string,
-  fileContent: Uint8Array,
-  options?: GetAudioTranslationOptions,
-): Promise<AudioResultSimpleJson>;
-/**
- * Returns the translation of an audio file.
- * @param context - The context containing the client to use for this request.
- * @param deploymentName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
- * @param fileContent - The content of the audio file to translate.
- * @param format - The format of the result object. See {@link AudioResultFormat} for possible values.
- * @param options - The options for this audio translation request.
- * @returns The audio translation result.
- */
-export async function getAudioTranslation<Format extends AudioResultFormat>(
-  context: Client,
-  deploymentName: string,
-  fileContent: Uint8Array,
-  format: Format,
-  options?: GetAudioTranslationOptions,
-): Promise<AudioResult<Format>>;
-// implementation
-export async function getAudioTranslation<Format extends AudioResultFormat>(
-  context: Client,
-  deploymentName: string,
-  fileContent: Uint8Array,
-  formatOrOptions?: Format | GetAudioTranslationOptions,
-  inputOptions?: GetAudioTranslationOptions,
-): Promise<AudioResult<Format>> {
-  const options =
-    inputOptions ?? (typeof formatOrOptions === "string" ? {} : formatOrOptions ?? {});
-  const response_format = typeof formatOrOptions === "string" ? formatOrOptions : undefined;
-  const { abortSignal, onResponse, requestOptions, tracingOptions, ...rest } = options;
-  const { body, status } = await context
-    .pathUnchecked("deployments/{deploymentName}/audio/translations", deploymentName)
-    .post({
-      ...operationOptionsToRequestParameters({
-        abortSignal,
-        onResponse,
-        tracingOptions,
-        requestOptions,
-      }),
-      contentType: "multipart/form-data",
-      body: {
-        ...snakeCaseKeys(rest),
-        file: createFile(fileContent, "placeholder.wav"),
-        ...(response_format ? { response_format } : {}),
-      },
-    });
-  if (status !== "200") {
-    throw body.error;
-  }
-  return response_format !== "verbose_json"
-    ? body
-    : (camelCaseKeys(body) as unknown as AudioResult<Format>);
-}
-
-export function _getCompletionsSend(
-  context: Client,
-  deploymentId: string,
-  body: CompletionsOptions,
-  options: GetCompletionsOptions = { requestOptions: {} },
-): StreamableMethod<GetCompletions200Response | GetCompletionsDefaultResponse> {
-  return context.path("/deployments/{deploymentId}/completions", deploymentId).post({
-    ...operationOptionsToRequestParameters(options),
-    body: {
-      prompt: body["prompt"],
-      max_tokens: body["maxTokens"],
-      temperature: body["temperature"],
-      top_p: body["topP"],
-      logit_bias: body["logitBias"],
-      user: body["user"],
-      n: body["n"],
-      logprobs: body["logprobs"],
-      suffix: body["suffix"],
-      echo: body["echo"],
-      stop: body["stop"],
-      presence_penalty: body["presencePenalty"],
-      frequency_penalty: body["frequencyPenalty"],
-      best_of: body["bestOf"],
-      stream: body["stream"],
-      model: body["model"],
-    },
-  });
-}
-
-export async function _getCompletionsDeserialize(
-  result: GetCompletions200Response | GetCompletionsDefaultResponse,
-): Promise<Completions> {
-  if (isUnexpected(result)) {
-    throw createOpenAIError(result);
+export async function _createAssistantDeserialize(
+  result: CreateAssistant200Response,
+): Promise<Assistant> {
+  if (result.status !== "200") {
+    throw createRestError(result);
   }
 
-  return getCompletionsResult(result.body);
-}
-
-export function getCompletionsResult(
-  body: CompletionsOutput & ContentFilterResultsForPromptX,
-): Completions {
-  const { created, choices, prompt_filter_results, prompt_annotations, ...rest } = body;
   return {
-    ...camelCaseKeys(rest),
-    created: new Date(created),
-    ...{
-      promptFilterResults: getContentFilterResultsForPrompt({
-        prompt_filter_results,
-        prompt_annotations,
-      }),
-    },
-    choices: choices.map(({ content_filter_results, ...choice }) => ({
-      ...camelCaseKeys(choice),
-      ...(!content_filter_results
-        ? {}
+    id: result.body["id"],
+    object: result.body["object"],
+    createdAt: new Date(result.body["created_at"]),
+    name: result.body["name"],
+    description: result.body["description"],
+    model: result.body["model"],
+    instructions: result.body["instructions"],
+    tools: result.body["tools"],
+    toolResources:
+      result.body.tool_resources === null
+        ? null
         : {
-            contentFilterResults: parseContentFilterResultsForChoiceOutput(content_filter_results),
-          }),
-    })),
+            codeInterpreter: !result.body.tool_resources.code_interpreter
+              ? undefined
+              : {
+                  fileIds:
+                    result.body.tool_resources.code_interpreter?.["file_ids"],
+                },
+            fileSearch: !result.body.tool_resources.file_search
+              ? undefined
+              : {
+                  vectorStoreIds:
+                    result.body.tool_resources.file_search?.[
+                      "vector_store_ids"
+                    ],
+                },
+          },
+    temperature: result.body["temperature"],
+    topP: result.body["top_p"],
+    responseFormat: result.body["response_format"],
+    metadata: result.body["metadata"],
   };
 }
 
-/**
- * Gets completions for the provided input prompts.
- * Completions support a wide variety of tasks and generate text that continues from or "completes"
- * provided prompt data.
- */
-export async function getCompletions(
+/** Creates a new assistant. */
+export async function createAssistant(
   context: Client,
-  deploymentId: string,
-  prompt: string[],
-  options: GetCompletionsOptions = { requestOptions: {} },
-): Promise<Completions> {
-  const { abortSignal, onResponse, requestOptions, tracingOptions, ...rest } = options;
-  const result = await _getCompletionsSend(
-    context,
-    deploymentId,
-    { prompt, ...rest },
-    { abortSignal, onResponse, requestOptions, tracingOptions },
-  );
-  return _getCompletionsDeserialize(result);
+  body: AssistantCreationOptions,
+  options: CreateAssistantOptionalParams = { requestOptions: {} },
+): Promise<Assistant> {
+  const result = await _createAssistantSend(context, body, options);
+  return _createAssistantDeserialize(result);
 }
 
-export function streamCompletions(
+export function _listAssistantsSend(
   context: Client,
-  deploymentName: string,
-  prompt: string[],
-  options: GetCompletionsOptions = { requestOptions: {} },
-): Promise<EventStream<Omit<Completions, "usage">>> {
-  const { abortSignal, onResponse, requestOptions, tracingOptions, ...rest } = options;
-  const response = _getCompletionsSend(
-    context,
-    deploymentName,
-    {
-      prompt,
-      ...rest,
-      stream: true,
-    },
-    { abortSignal, onResponse, requestOptions, tracingOptions },
-  );
-  return getOaiSSEs(response, getCompletionsResult);
+  options: ListAssistantsOptionalParams = { requestOptions: {} },
+): StreamableMethod<ListAssistants200Response> {
+  return context
+    .path("/assistants")
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      queryParameters: {
+        limit: options?.limit,
+        order: options?.order,
+        after: options?.after,
+        before: options?.before,
+      },
+    });
 }
 
-export function _getChatCompletionsSend(
-  context: Client,
-  deploymentId: string,
-  body: ChatCompletionsOptions,
-  options: GeneratedGetChatCompletionsOptions = { requestOptions: {} },
-): StreamableMethod<GetChatCompletions200Response | GetChatCompletionsDefaultResponse> {
-  return context.path("/deployments/{deploymentId}/chat/completions", deploymentId).post({
-    ...operationOptionsToRequestParameters(options),
-    body: {
-      model: body["model"],
-      stream: body["stream"],
-      max_tokens: body["maxTokens"],
-      temperature: body["temperature"],
-      top_p: body["topP"],
-      logit_bias: body["logitBias"],
-      user: body["user"],
-      n: body["n"],
-      stop: body["stop"],
-      presence_penalty: body["presencePenalty"],
-      frequency_penalty: body["frequencyPenalty"],
-      data_sources:
-        body["dataSources"] === undefined
-          ? body["dataSources"]
-          : body["dataSources"].map((p) => serializeAzureChatExtensionConfigurationUnion(p)),
-      enhancements: !body.enhancements
-        ? undefined
-        : {
-            grounding: !body.enhancements?.grounding
-              ? undefined
-              : { enabled: body.enhancements?.grounding?.["enabled"] },
-            ocr: !body.enhancements?.ocr
-              ? undefined
-              : { enabled: body.enhancements?.ocr?.["enabled"] },
-          },
-      seed: body["seed"],
-      logprobs: body["logprobs"],
-      top_logprobs: body["topLogprobs"],
-      response_format: !body.responseFormat ? undefined : { type: body.responseFormat?.["type"] },
-      tool_choice: body["toolChoice"],
-      tools: body["tools"],
-      functions:
-        body["functions"] === undefined
-          ? body["functions"]
-          : body["functions"].map((p) => ({
-              name: p["name"],
-              description: p["description"],
-              parameters: p["parameters"],
-            })),
-      function_call: body["functionCall"],
-      messages: body["messages"].map((p) => serializeChatRequestMessageUnion(p)),
-    },
-  });
-}
-
-export async function _getChatCompletionsDeserialize(
-  result: GetChatCompletions200Response | GetChatCompletionsDefaultResponse,
-): Promise<ChatCompletions> {
-  if (isUnexpected(result)) {
-    throw createOpenAIError(result);
+export async function _listAssistantsDeserialize(
+  result: ListAssistants200Response,
+): Promise<OpenAIPageableListOfAssistant> {
+  if (result.status !== "200") {
+    throw createRestError(result);
   }
-  return getChatCompletionsResult(result.body);
+
+  return {
+    object: result.body["object"],
+    data: result.body["data"].map((p) => ({
+      id: p["id"],
+      object: p["object"],
+      createdAt: new Date(p["created_at"]),
+      name: p["name"],
+      description: p["description"],
+      model: p["model"],
+      instructions: p["instructions"],
+      tools: p["tools"],
+      toolResources:
+        p.tool_resources === null
+          ? null
+          : {
+              codeInterpreter: !p.tool_resources.code_interpreter
+                ? undefined
+                : { fileIds: p.tool_resources.code_interpreter?.["file_ids"] },
+              fileSearch: !p.tool_resources.file_search
+                ? undefined
+                : {
+                    vectorStoreIds:
+                      p.tool_resources.file_search?.["vector_store_ids"],
+                  },
+            },
+      temperature: p["temperature"],
+      topP: p["top_p"],
+      responseFormat: p["response_format"],
+      metadata: p["metadata"],
+    })),
+    firstId: result.body["first_id"],
+    lastId: result.body["last_id"],
+    hasMore: result.body["has_more"],
+  };
 }
 
-export function getChatCompletionsResult(
-  body: ChatCompletionsOutput & ContentFilterResultsForPromptX,
-): ChatCompletions {
-  const { created, choices, prompt_filter_results, prompt_annotations, usage, ...rest } = body;
+/** Gets a list of assistants that were previously created. */
+export async function listAssistants(
+  context: Client,
+  options: ListAssistantsOptionalParams = { requestOptions: {} },
+): Promise<OpenAIPageableListOfAssistant> {
+  const result = await _listAssistantsSend(context, options);
+  return _listAssistantsDeserialize(result);
+}
+
+export function _getAssistantSend(
+  context: Client,
+  assistantId: string,
+  options: GetAssistantOptionalParams = { requestOptions: {} },
+): StreamableMethod<GetAssistant200Response> {
+  return context
+    .path("/assistants/{assistantId}", assistantId)
+    .get({ ...operationOptionsToRequestParameters(options) });
+}
+
+export async function _getAssistantDeserialize(
+  result: GetAssistant200Response,
+): Promise<Assistant> {
+  if (result.status !== "200") {
+    throw createRestError(result);
+  }
+
   return {
-    ...camelCaseKeys(rest),
-    created: new Date(created),
-    ...{
-      promptFilterResults: getContentFilterResultsForPrompt({
-        prompt_filter_results,
-        prompt_annotations,
-      }),
-    },
-    ...(!usage
-      ? {}
-      : {
-          usage: {
-            completionTokens: usage["completion_tokens"],
-            promptTokens: usage["prompt_tokens"],
-            totalTokens: usage["total_tokens"],
+    id: result.body["id"],
+    object: result.body["object"],
+    createdAt: new Date(result.body["created_at"]),
+    name: result.body["name"],
+    description: result.body["description"],
+    model: result.body["model"],
+    instructions: result.body["instructions"],
+    tools: result.body["tools"],
+    toolResources:
+      result.body.tool_resources === null
+        ? null
+        : {
+            codeInterpreter: !result.body.tool_resources.code_interpreter
+              ? undefined
+              : {
+                  fileIds:
+                    result.body.tool_resources.code_interpreter?.["file_ids"],
+                },
+            fileSearch: !result.body.tool_resources.file_search
+              ? undefined
+              : {
+                  vectorStoreIds:
+                    result.body.tool_resources.file_search?.[
+                      "vector_store_ids"
+                    ],
+                },
           },
-        }),
-    choices: !choices
-      ? []
-      : choices.map(({ content_filter_results, ...choice }) => ({
-          ...camelCaseKeys(choice),
-          ...(!content_filter_results
-            ? {}
-            : {
-                contentFilterResults:
-                  parseContentFilterResultsForChoiceOutput(content_filter_results),
-              }),
+    temperature: result.body["temperature"],
+    topP: result.body["top_p"],
+    responseFormat: result.body["response_format"],
+    metadata: result.body["metadata"],
+  };
+}
+
+/** Retrieves an existing assistant. */
+export async function getAssistant(
+  context: Client,
+  assistantId: string,
+  options: GetAssistantOptionalParams = { requestOptions: {} },
+): Promise<Assistant> {
+  const result = await _getAssistantSend(context, assistantId, options);
+  return _getAssistantDeserialize(result);
+}
+
+export function _updateAssistantSend(
+  context: Client,
+  assistantId: string,
+  body: UpdateAssistantOptions,
+  options: UpdateAssistantOptionalParams = { requestOptions: {} },
+): StreamableMethod<UpdateAssistant200Response> {
+  return context
+    .path("/assistants/{assistantId}", assistantId)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      body: {
+        model: body["model"],
+        name: body["name"],
+        description: body["description"],
+        instructions: body["instructions"],
+        tools: body["tools"],
+        file_ids: body["fileIds"],
+        metadata: body["metadata"],
+      },
+    });
+}
+
+export async function _updateAssistantDeserialize(
+  result: UpdateAssistant200Response,
+): Promise<Assistant> {
+  if (result.status !== "200") {
+    throw createRestError(result);
+  }
+
+  return {
+    id: result.body["id"],
+    object: result.body["object"],
+    createdAt: new Date(result.body["created_at"]),
+    name: result.body["name"],
+    description: result.body["description"],
+    model: result.body["model"],
+    instructions: result.body["instructions"],
+    tools: result.body["tools"],
+    toolResources:
+      result.body.tool_resources === null
+        ? null
+        : {
+            codeInterpreter: !result.body.tool_resources.code_interpreter
+              ? undefined
+              : {
+                  fileIds:
+                    result.body.tool_resources.code_interpreter?.["file_ids"],
+                },
+            fileSearch: !result.body.tool_resources.file_search
+              ? undefined
+              : {
+                  vectorStoreIds:
+                    result.body.tool_resources.file_search?.[
+                      "vector_store_ids"
+                    ],
+                },
+          },
+    temperature: result.body["temperature"],
+    topP: result.body["top_p"],
+    responseFormat: result.body["response_format"],
+    metadata: result.body["metadata"],
+  };
+}
+
+/** Modifies an existing assistant. */
+export async function updateAssistant(
+  context: Client,
+  assistantId: string,
+  body: UpdateAssistantOptions,
+  options: UpdateAssistantOptionalParams = { requestOptions: {} },
+): Promise<Assistant> {
+  const result = await _updateAssistantSend(
+    context,
+    assistantId,
+    body,
+    options,
+  );
+  return _updateAssistantDeserialize(result);
+}
+
+export function _deleteAssistantSend(
+  context: Client,
+  assistantId: string,
+  options: DeleteAssistantOptionalParams = { requestOptions: {} },
+): StreamableMethod<DeleteAssistant200Response> {
+  return context
+    .path("/assistants/{assistantId}", assistantId)
+    .delete({ ...operationOptionsToRequestParameters(options) });
+}
+
+export async function _deleteAssistantDeserialize(
+  result: DeleteAssistant200Response,
+): Promise<AssistantDeletionStatus> {
+  if (result.status !== "200") {
+    throw createRestError(result);
+  }
+
+  return {
+    id: result.body["id"],
+    deleted: result.body["deleted"],
+    object: result.body["object"],
+  };
+}
+
+/** Deletes an assistant. */
+export async function deleteAssistant(
+  context: Client,
+  assistantId: string,
+  options: DeleteAssistantOptionalParams = { requestOptions: {} },
+): Promise<AssistantDeletionStatus> {
+  const result = await _deleteAssistantSend(context, assistantId, options);
+  return _deleteAssistantDeserialize(result);
+}
+
+export function _createThreadSend(
+  context: Client,
+  body: AssistantThreadCreationOptions,
+  options: CreateThreadOptionalParams = { requestOptions: {} },
+): StreamableMethod<CreateThread200Response> {
+  return context
+    .path("/threads")
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      body: {
+        messages:
+          body["messages"] === undefined
+            ? body["messages"]
+            : body["messages"].map((p) => ({
+                role: p["role"],
+                content: p["content"],
+                file_ids: p["fileIds"],
+                metadata: p["metadata"],
+              })),
+        metadata: body["metadata"],
+      },
+    });
+}
+
+export async function _createThreadDeserialize(
+  result: CreateThread200Response,
+): Promise<AssistantThread> {
+  if (result.status !== "200") {
+    throw createRestError(result);
+  }
+
+  return {
+    id: result.body["id"],
+    object: result.body["object"],
+    createdAt: new Date(result.body["created_at"]),
+    metadata: result.body["metadata"],
+  };
+}
+
+/** Creates a new thread. Threads contain messages and can be run by assistants. */
+export async function createThread(
+  context: Client,
+  body: AssistantThreadCreationOptions,
+  options: CreateThreadOptionalParams = { requestOptions: {} },
+): Promise<AssistantThread> {
+  const result = await _createThreadSend(context, body, options);
+  return _createThreadDeserialize(result);
+}
+
+export function _getThreadSend(
+  context: Client,
+  threadId: string,
+  options: GetThreadOptionalParams = { requestOptions: {} },
+): StreamableMethod<GetThread200Response> {
+  return context
+    .path("/threads/{threadId}", threadId)
+    .get({ ...operationOptionsToRequestParameters(options) });
+}
+
+export async function _getThreadDeserialize(
+  result: GetThread200Response,
+): Promise<AssistantThread> {
+  if (result.status !== "200") {
+    throw createRestError(result);
+  }
+
+  return {
+    id: result.body["id"],
+    object: result.body["object"],
+    createdAt: new Date(result.body["created_at"]),
+    metadata: result.body["metadata"],
+  };
+}
+
+/** Gets information about an existing thread. */
+export async function getThread(
+  context: Client,
+  threadId: string,
+  options: GetThreadOptionalParams = { requestOptions: {} },
+): Promise<AssistantThread> {
+  const result = await _getThreadSend(context, threadId, options);
+  return _getThreadDeserialize(result);
+}
+
+export function _updateThreadSend(
+  context: Client,
+  threadId: string,
+  options: UpdateThreadOptionalParams = { requestOptions: {} },
+): StreamableMethod<UpdateThread200Response> {
+  return context
+    .path("/threads/{threadId}", threadId)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      body: { metadata: options?.metadata },
+    });
+}
+
+export async function _updateThreadDeserialize(
+  result: UpdateThread200Response,
+): Promise<AssistantThread> {
+  if (result.status !== "200") {
+    throw createRestError(result);
+  }
+
+  return {
+    id: result.body["id"],
+    object: result.body["object"],
+    createdAt: new Date(result.body["created_at"]),
+    metadata: result.body["metadata"],
+  };
+}
+
+/** Modifies an existing thread. */
+export async function updateThread(
+  context: Client,
+  threadId: string,
+  options: UpdateThreadOptionalParams = { requestOptions: {} },
+): Promise<AssistantThread> {
+  const result = await _updateThreadSend(context, threadId, options);
+  return _updateThreadDeserialize(result);
+}
+
+export function _deleteThreadSend(
+  context: Client,
+  threadId: string,
+  options: DeleteThreadOptionalParams = { requestOptions: {} },
+): StreamableMethod<DeleteThread200Response> {
+  return context
+    .path("/threads/{threadId}", threadId)
+    .delete({ ...operationOptionsToRequestParameters(options) });
+}
+
+export async function _deleteThreadDeserialize(
+  result: DeleteThread200Response,
+): Promise<ThreadDeletionStatus> {
+  if (result.status !== "200") {
+    throw createRestError(result);
+  }
+
+  return {
+    id: result.body["id"],
+    deleted: result.body["deleted"],
+    object: result.body["object"],
+  };
+}
+
+/** Deletes an existing thread. */
+export async function deleteThread(
+  context: Client,
+  threadId: string,
+  options: DeleteThreadOptionalParams = { requestOptions: {} },
+): Promise<ThreadDeletionStatus> {
+  const result = await _deleteThreadSend(context, threadId, options);
+  return _deleteThreadDeserialize(result);
+}
+
+export function _createMessageSend(
+  context: Client,
+  threadId: string,
+  role: MessageRole,
+  content: string,
+  options: CreateMessageOptionalParams = { requestOptions: {} },
+): StreamableMethod<CreateMessage200Response> {
+  return context
+    .path("/threads/{threadId}/messages", threadId)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      body: {
+        role: role,
+        content: content,
+        file_ids: options?.fileIds,
+        metadata: options?.metadata,
+      },
+    });
+}
+
+export async function _createMessageDeserialize(
+  result: CreateMessage200Response,
+): Promise<ThreadMessage> {
+  if (result.status !== "200") {
+    throw createRestError(result);
+  }
+
+  return {
+    id: result.body["id"],
+    object: result.body["object"],
+    createdAt: new Date(result.body["created_at"]),
+    threadId: result.body["thread_id"],
+    status: result.body["status"],
+    incompleteDetails: result.body["incomplete_details"],
+    completedAt:
+      result.body["completed_at"] === null
+        ? null
+        : new Date(result.body["completed_at"]),
+    incompleteAt:
+      result.body["incomplete_at"] === null
+        ? null
+        : new Date(result.body["incomplete_at"]),
+    role: result.body["role"],
+    content: result.body["content"].map((p) =>
+      deserializeMessageContentUnion(p),
+    ),
+    assistantId: result.body["assistant_id"],
+    runId: result.body["run_id"],
+    fileIds: result.body["file_ids"],
+    metadata: result.body["metadata"],
+  };
+}
+
+/** Creates a new message on a specified thread. */
+export async function createMessage(
+  context: Client,
+  threadId: string,
+  role: MessageRole,
+  content: string,
+  options: CreateMessageOptionalParams = { requestOptions: {} },
+): Promise<ThreadMessage> {
+  const result = await _createMessageSend(
+    context,
+    threadId,
+    role,
+    content,
+    options,
+  );
+  return _createMessageDeserialize(result);
+}
+
+export function _listMessagesSend(
+  context: Client,
+  threadId: string,
+  options: ListMessagesOptionalParams = { requestOptions: {} },
+): StreamableMethod<ListMessages200Response> {
+  return context
+    .path("/threads/{threadId}/messages", threadId)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      queryParameters: {
+        runId: options?.runId,
+        limit: options?.limit,
+        order: options?.order,
+        after: options?.after,
+        before: options?.before,
+      },
+    });
+}
+
+export async function _listMessagesDeserialize(
+  result: ListMessages200Response,
+): Promise<OpenAIPageableListOfThreadMessage> {
+  if (result.status !== "200") {
+    throw createRestError(result);
+  }
+
+  return {
+    object: result.body["object"],
+    data: result.body["data"].map((p) => ({
+      id: p["id"],
+      object: p["object"],
+      createdAt: new Date(p["created_at"]),
+      threadId: p["thread_id"],
+      status: p["status"],
+      incompleteDetails: p["incomplete_details"],
+      completedAt:
+        p["completed_at"] === null ? null : new Date(p["completed_at"]),
+      incompleteAt:
+        p["incomplete_at"] === null ? null : new Date(p["incomplete_at"]),
+      role: p["role"],
+      content: p["content"].map((p) => deserializeMessageContentUnion(p)),
+      assistantId: p["assistant_id"],
+      runId: p["run_id"],
+      fileIds: p["file_ids"],
+      metadata: p["metadata"],
+    })),
+    firstId: result.body["first_id"],
+    lastId: result.body["last_id"],
+    hasMore: result.body["has_more"],
+  };
+}
+
+/** Gets a list of messages that exist on a thread. */
+export async function listMessages(
+  context: Client,
+  threadId: string,
+  options: ListMessagesOptionalParams = { requestOptions: {} },
+): Promise<OpenAIPageableListOfThreadMessage> {
+  const result = await _listMessagesSend(context, threadId, options);
+  return _listMessagesDeserialize(result);
+}
+
+export function _getMessageSend(
+  context: Client,
+  threadId: string,
+  messageId: string,
+  options: GetMessageOptionalParams = { requestOptions: {} },
+): StreamableMethod<GetMessage200Response> {
+  return context
+    .path("/threads/{threadId}/messages/{messageId}", threadId, messageId)
+    .get({ ...operationOptionsToRequestParameters(options) });
+}
+
+export async function _getMessageDeserialize(
+  result: GetMessage200Response,
+): Promise<ThreadMessage> {
+  if (result.status !== "200") {
+    throw createRestError(result);
+  }
+
+  return {
+    id: result.body["id"],
+    object: result.body["object"],
+    createdAt: new Date(result.body["created_at"]),
+    threadId: result.body["thread_id"],
+    status: result.body["status"],
+    incompleteDetails: result.body["incomplete_details"],
+    completedAt:
+      result.body["completed_at"] === null
+        ? null
+        : new Date(result.body["completed_at"]),
+    incompleteAt:
+      result.body["incomplete_at"] === null
+        ? null
+        : new Date(result.body["incomplete_at"]),
+    role: result.body["role"],
+    content: result.body["content"].map((p) =>
+      deserializeMessageContentUnion(p),
+    ),
+    assistantId: result.body["assistant_id"],
+    runId: result.body["run_id"],
+    fileIds: result.body["file_ids"],
+    metadata: result.body["metadata"],
+  };
+}
+
+/** Gets an existing message from an existing thread. */
+export async function getMessage(
+  context: Client,
+  threadId: string,
+  messageId: string,
+  options: GetMessageOptionalParams = { requestOptions: {} },
+): Promise<ThreadMessage> {
+  const result = await _getMessageSend(context, threadId, messageId, options);
+  return _getMessageDeserialize(result);
+}
+
+export function _updateMessageSend(
+  context: Client,
+  threadId: string,
+  messageId: string,
+  options: UpdateMessageOptionalParams = { requestOptions: {} },
+): StreamableMethod<UpdateMessage200Response> {
+  return context
+    .path("/threads/{threadId}/messages/{messageId}", threadId, messageId)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      body: { metadata: options?.metadata },
+    });
+}
+
+export async function _updateMessageDeserialize(
+  result: UpdateMessage200Response,
+): Promise<ThreadMessage> {
+  if (result.status !== "200") {
+    throw createRestError(result);
+  }
+
+  return {
+    id: result.body["id"],
+    object: result.body["object"],
+    createdAt: new Date(result.body["created_at"]),
+    threadId: result.body["thread_id"],
+    status: result.body["status"],
+    incompleteDetails: result.body["incomplete_details"],
+    completedAt:
+      result.body["completed_at"] === null
+        ? null
+        : new Date(result.body["completed_at"]),
+    incompleteAt:
+      result.body["incomplete_at"] === null
+        ? null
+        : new Date(result.body["incomplete_at"]),
+    role: result.body["role"],
+    content: result.body["content"].map((p) =>
+      deserializeMessageContentUnion(p),
+    ),
+    assistantId: result.body["assistant_id"],
+    runId: result.body["run_id"],
+    fileIds: result.body["file_ids"],
+    metadata: result.body["metadata"],
+  };
+}
+
+/** Modifies an existing message on an existing thread. */
+export async function updateMessage(
+  context: Client,
+  threadId: string,
+  messageId: string,
+  options: UpdateMessageOptionalParams = { requestOptions: {} },
+): Promise<ThreadMessage> {
+  const result = await _updateMessageSend(
+    context,
+    threadId,
+    messageId,
+    options,
+  );
+  return _updateMessageDeserialize(result);
+}
+
+export function _listMessageFilesSend(
+  context: Client,
+  threadId: string,
+  messageId: string,
+  options: ListMessageFilesOptionalParams = { requestOptions: {} },
+): StreamableMethod<ListMessageFiles200Response> {
+  return context
+    .path("/threads/{threadId}/messages/{messageId}/files", threadId, messageId)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      queryParameters: {
+        limit: options?.limit,
+        order: options?.order,
+        after: options?.after,
+        before: options?.before,
+      },
+    });
+}
+
+export async function _listMessageFilesDeserialize(
+  result: ListMessageFiles200Response,
+): Promise<OpenAIPageableListOfMessageFile> {
+  if (result.status !== "200") {
+    throw createRestError(result);
+  }
+
+  return {
+    object: result.body["object"],
+    data: result.body["data"].map((p) => ({
+      id: p["id"],
+      object: p["object"],
+      createdAt: new Date(p["created_at"]),
+      messageId: p["message_id"],
+    })),
+    firstId: result.body["first_id"],
+    lastId: result.body["last_id"],
+    hasMore: result.body["has_more"],
+  };
+}
+
+/** Gets a list of previously uploaded files associated with a message from a thread. */
+export async function listMessageFiles(
+  context: Client,
+  threadId: string,
+  messageId: string,
+  options: ListMessageFilesOptionalParams = { requestOptions: {} },
+): Promise<OpenAIPageableListOfMessageFile> {
+  const result = await _listMessageFilesSend(
+    context,
+    threadId,
+    messageId,
+    options,
+  );
+  return _listMessageFilesDeserialize(result);
+}
+
+export function _getMessageFileSend(
+  context: Client,
+  threadId: string,
+  messageId: string,
+  fileId: string,
+  options: GetMessageFileOptionalParams = { requestOptions: {} },
+): StreamableMethod<GetMessageFile200Response> {
+  return context
+    .path(
+      "/threads/{threadId}/messages/{messageId}/files/{fileId}",
+      threadId,
+      messageId,
+      fileId,
+    )
+    .get({ ...operationOptionsToRequestParameters(options) });
+}
+
+export async function _getMessageFileDeserialize(
+  result: GetMessageFile200Response,
+): Promise<MessageFile> {
+  if (result.status !== "200") {
+    throw createRestError(result);
+  }
+
+  return {
+    id: result.body["id"],
+    object: result.body["object"],
+    createdAt: new Date(result.body["created_at"]),
+    messageId: result.body["message_id"],
+  };
+}
+
+/** Gets information about a file attachment to a message within a thread. */
+export async function getMessageFile(
+  context: Client,
+  threadId: string,
+  messageId: string,
+  fileId: string,
+  options: GetMessageFileOptionalParams = { requestOptions: {} },
+): Promise<MessageFile> {
+  const result = await _getMessageFileSend(
+    context,
+    threadId,
+    messageId,
+    fileId,
+    options,
+  );
+  return _getMessageFileDeserialize(result);
+}
+
+export function _createRunSend(
+  context: Client,
+  threadId: string,
+  createRunOptions: CreateRunOptions,
+  options: CreateRunOptionalParams = { requestOptions: {} },
+): StreamableMethod<CreateRun200Response> {
+  return context
+    .path("/threads/{threadId}/runs", threadId)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      body: {
+        assistant_id: createRunOptions["assistantId"],
+        model: createRunOptions["model"],
+        instructions: createRunOptions["instructions"],
+        additional_instructions: createRunOptions["additionalInstructions"],
+        tools: createRunOptions["tools"],
+        stream: createRunOptions["stream"],
+        metadata: createRunOptions["metadata"],
+      },
+    });
+}
+
+export async function _createRunDeserialize(
+  result: CreateRun200Response,
+): Promise<ThreadRun> {
+  if (result.status !== "200") {
+    throw createRestError(result);
+  }
+
+  return {
+    id: result.body["id"],
+    object: result.body["object"],
+    threadId: result.body["thread_id"],
+    assistantId: result.body["assistant_id"],
+    status: result.body["status"],
+    requiredAction: !result.body.required_action
+      ? result.body.required_action
+      : deserializeRequiredActionUnion(result.body.required_action),
+    lastError:
+      result.body.last_error === null
+        ? null
+        : {
+            code: result.body.last_error["code"],
+            message: result.body.last_error["message"],
+          },
+    model: result.body["model"],
+    instructions: result.body["instructions"],
+    tools: result.body["tools"],
+    fileIds: result.body["file_ids"],
+    createdAt: new Date(result.body["created_at"]),
+    expiresAt:
+      result.body["expires_at"] === null
+        ? null
+        : new Date(result.body["expires_at"]),
+    startedAt:
+      result.body["started_at"] === null
+        ? null
+        : new Date(result.body["started_at"]),
+    completedAt:
+      result.body["completed_at"] === null
+        ? null
+        : new Date(result.body["completed_at"]),
+    cancelledAt:
+      result.body["cancelled_at"] === null
+        ? null
+        : new Date(result.body["cancelled_at"]),
+    failedAt:
+      result.body["failed_at"] === null
+        ? null
+        : new Date(result.body["failed_at"]),
+    incompleteDetails: result.body["incomplete_details"],
+    usage:
+      result.body.usage === null
+        ? null
+        : {
+            completionTokens: result.body.usage["completion_tokens"],
+            promptTokens: result.body.usage["prompt_tokens"],
+            totalTokens: result.body.usage["total_tokens"],
+          },
+    metadata: result.body["metadata"],
+  };
+}
+
+/** Creates a new run for an assistant thread. */
+export async function createRun(
+  context: Client,
+  threadId: string,
+  createRunOptions: CreateRunOptions,
+  options: CreateRunOptionalParams = { requestOptions: {} },
+): Promise<ThreadRun> {
+  const result = await _createRunSend(
+    context,
+    threadId,
+    createRunOptions,
+    options,
+  );
+  return _createRunDeserialize(result);
+}
+
+export function _listRunsSend(
+  context: Client,
+  threadId: string,
+  options: ListRunsOptionalParams = { requestOptions: {} },
+): StreamableMethod<ListRuns200Response> {
+  return context
+    .path("/threads/{threadId}/runs", threadId)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      queryParameters: {
+        limit: options?.limit,
+        order: options?.order,
+        after: options?.after,
+        before: options?.before,
+      },
+    });
+}
+
+export async function _listRunsDeserialize(
+  result: ListRuns200Response,
+): Promise<OpenAIPageableListOfThreadRun> {
+  if (result.status !== "200") {
+    throw createRestError(result);
+  }
+
+  return {
+    object: result.body["object"],
+    data: result.body["data"].map((p) => ({
+      id: p["id"],
+      object: p["object"],
+      threadId: p["thread_id"],
+      assistantId: p["assistant_id"],
+      status: p["status"],
+      requiredAction: !p.required_action
+        ? p.required_action
+        : deserializeRequiredActionUnion(p.required_action),
+      lastError:
+        p.last_error === null
+          ? null
+          : { code: p.last_error["code"], message: p.last_error["message"] },
+      model: p["model"],
+      instructions: p["instructions"],
+      tools: p["tools"],
+      fileIds: p["file_ids"],
+      createdAt: new Date(p["created_at"]),
+      expiresAt: p["expires_at"] === null ? null : new Date(p["expires_at"]),
+      startedAt: p["started_at"] === null ? null : new Date(p["started_at"]),
+      completedAt:
+        p["completed_at"] === null ? null : new Date(p["completed_at"]),
+      cancelledAt:
+        p["cancelled_at"] === null ? null : new Date(p["cancelled_at"]),
+      failedAt: p["failed_at"] === null ? null : new Date(p["failed_at"]),
+      incompleteDetails: p["incomplete_details"],
+      usage:
+        p.usage === null
+          ? null
+          : {
+              completionTokens: p.usage["completion_tokens"],
+              promptTokens: p.usage["prompt_tokens"],
+              totalTokens: p.usage["total_tokens"],
+            },
+      metadata: p["metadata"],
+    })),
+    firstId: result.body["first_id"],
+    lastId: result.body["last_id"],
+    hasMore: result.body["has_more"],
+  };
+}
+
+/** Gets a list of runs for a specified thread. */
+export async function listRuns(
+  context: Client,
+  threadId: string,
+  options: ListRunsOptionalParams = { requestOptions: {} },
+): Promise<OpenAIPageableListOfThreadRun> {
+  const result = await _listRunsSend(context, threadId, options);
+  return _listRunsDeserialize(result);
+}
+
+export function _getRunSend(
+  context: Client,
+  threadId: string,
+  runId: string,
+  options: GetRunOptionalParams = { requestOptions: {} },
+): StreamableMethod<GetRun200Response> {
+  return context
+    .path("/threads/{threadId}/runs/{runId}", threadId, runId)
+    .get({ ...operationOptionsToRequestParameters(options) });
+}
+
+export async function _getRunDeserialize(
+  result: GetRun200Response,
+): Promise<ThreadRun> {
+  if (result.status !== "200") {
+    throw createRestError(result);
+  }
+
+  return {
+    id: result.body["id"],
+    object: result.body["object"],
+    threadId: result.body["thread_id"],
+    assistantId: result.body["assistant_id"],
+    status: result.body["status"],
+    requiredAction: !result.body.required_action
+      ? result.body.required_action
+      : deserializeRequiredActionUnion(result.body.required_action),
+    lastError:
+      result.body.last_error === null
+        ? null
+        : {
+            code: result.body.last_error["code"],
+            message: result.body.last_error["message"],
+          },
+    model: result.body["model"],
+    instructions: result.body["instructions"],
+    tools: result.body["tools"],
+    fileIds: result.body["file_ids"],
+    createdAt: new Date(result.body["created_at"]),
+    expiresAt:
+      result.body["expires_at"] === null
+        ? null
+        : new Date(result.body["expires_at"]),
+    startedAt:
+      result.body["started_at"] === null
+        ? null
+        : new Date(result.body["started_at"]),
+    completedAt:
+      result.body["completed_at"] === null
+        ? null
+        : new Date(result.body["completed_at"]),
+    cancelledAt:
+      result.body["cancelled_at"] === null
+        ? null
+        : new Date(result.body["cancelled_at"]),
+    failedAt:
+      result.body["failed_at"] === null
+        ? null
+        : new Date(result.body["failed_at"]),
+    incompleteDetails: result.body["incomplete_details"],
+    usage:
+      result.body.usage === null
+        ? null
+        : {
+            completionTokens: result.body.usage["completion_tokens"],
+            promptTokens: result.body.usage["prompt_tokens"],
+            totalTokens: result.body.usage["total_tokens"],
+          },
+    metadata: result.body["metadata"],
+  };
+}
+
+/** Gets an existing run from an existing thread. */
+export async function getRun(
+  context: Client,
+  threadId: string,
+  runId: string,
+  options: GetRunOptionalParams = { requestOptions: {} },
+): Promise<ThreadRun> {
+  const result = await _getRunSend(context, threadId, runId, options);
+  return _getRunDeserialize(result);
+}
+
+export function _updateRunSend(
+  context: Client,
+  threadId: string,
+  runId: string,
+  options: UpdateRunOptionalParams = { requestOptions: {} },
+): StreamableMethod<UpdateRun200Response> {
+  return context
+    .path("/threads/{threadId}/runs/{runId}", threadId, runId)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      body: { metadata: options?.metadata },
+    });
+}
+
+export async function _updateRunDeserialize(
+  result: UpdateRun200Response,
+): Promise<ThreadRun> {
+  if (result.status !== "200") {
+    throw createRestError(result);
+  }
+
+  return {
+    id: result.body["id"],
+    object: result.body["object"],
+    threadId: result.body["thread_id"],
+    assistantId: result.body["assistant_id"],
+    status: result.body["status"],
+    requiredAction: !result.body.required_action
+      ? result.body.required_action
+      : deserializeRequiredActionUnion(result.body.required_action),
+    lastError:
+      result.body.last_error === null
+        ? null
+        : {
+            code: result.body.last_error["code"],
+            message: result.body.last_error["message"],
+          },
+    model: result.body["model"],
+    instructions: result.body["instructions"],
+    tools: result.body["tools"],
+    fileIds: result.body["file_ids"],
+    createdAt: new Date(result.body["created_at"]),
+    expiresAt:
+      result.body["expires_at"] === null
+        ? null
+        : new Date(result.body["expires_at"]),
+    startedAt:
+      result.body["started_at"] === null
+        ? null
+        : new Date(result.body["started_at"]),
+    completedAt:
+      result.body["completed_at"] === null
+        ? null
+        : new Date(result.body["completed_at"]),
+    cancelledAt:
+      result.body["cancelled_at"] === null
+        ? null
+        : new Date(result.body["cancelled_at"]),
+    failedAt:
+      result.body["failed_at"] === null
+        ? null
+        : new Date(result.body["failed_at"]),
+    incompleteDetails: result.body["incomplete_details"],
+    usage:
+      result.body.usage === null
+        ? null
+        : {
+            completionTokens: result.body.usage["completion_tokens"],
+            promptTokens: result.body.usage["prompt_tokens"],
+            totalTokens: result.body.usage["total_tokens"],
+          },
+    metadata: result.body["metadata"],
+  };
+}
+
+/** Modifies an existing thread run. */
+export async function updateRun(
+  context: Client,
+  threadId: string,
+  runId: string,
+  options: UpdateRunOptionalParams = { requestOptions: {} },
+): Promise<ThreadRun> {
+  const result = await _updateRunSend(context, threadId, runId, options);
+  return _updateRunDeserialize(result);
+}
+
+export function _submitToolOutputsToRunSend(
+  context: Client,
+  threadId: string,
+  runId: string,
+  body: SubmitToolOutputsOptions,
+  options: SubmitToolOutputsToRunOptionalParams = { requestOptions: {} },
+): StreamableMethod<SubmitToolOutputsToRun200Response> {
+  return context
+    .path(
+      "/threads/{threadId}/runs/{runId}/submit_tool_outputs",
+      threadId,
+      runId,
+    )
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      body: {
+        tool_outputs: body["toolOutputs"].map((p) => ({
+          tool_call_id: p["toolCallId"],
+          output: p["output"],
         })),
+        stream: body["stream"],
+      },
+    });
+}
+
+export async function _submitToolOutputsToRunDeserialize(
+  result: SubmitToolOutputsToRun200Response,
+): Promise<ThreadRun> {
+  if (result.status !== "200") {
+    throw createRestError(result);
+  }
+
+  return {
+    id: result.body["id"],
+    object: result.body["object"],
+    threadId: result.body["thread_id"],
+    assistantId: result.body["assistant_id"],
+    status: result.body["status"],
+    requiredAction: !result.body.required_action
+      ? result.body.required_action
+      : deserializeRequiredActionUnion(result.body.required_action),
+    lastError:
+      result.body.last_error === null
+        ? null
+        : {
+            code: result.body.last_error["code"],
+            message: result.body.last_error["message"],
+          },
+    model: result.body["model"],
+    instructions: result.body["instructions"],
+    tools: result.body["tools"],
+    fileIds: result.body["file_ids"],
+    createdAt: new Date(result.body["created_at"]),
+    expiresAt:
+      result.body["expires_at"] === null
+        ? null
+        : new Date(result.body["expires_at"]),
+    startedAt:
+      result.body["started_at"] === null
+        ? null
+        : new Date(result.body["started_at"]),
+    completedAt:
+      result.body["completed_at"] === null
+        ? null
+        : new Date(result.body["completed_at"]),
+    cancelledAt:
+      result.body["cancelled_at"] === null
+        ? null
+        : new Date(result.body["cancelled_at"]),
+    failedAt:
+      result.body["failed_at"] === null
+        ? null
+        : new Date(result.body["failed_at"]),
+    incompleteDetails: result.body["incomplete_details"],
+    usage:
+      result.body.usage === null
+        ? null
+        : {
+            completionTokens: result.body.usage["completion_tokens"],
+            promptTokens: result.body.usage["prompt_tokens"],
+            totalTokens: result.body.usage["total_tokens"],
+          },
+    metadata: result.body["metadata"],
+  };
+}
+
+/** Submits outputs from tools as requested by tool calls in a run. Runs that need submitted tool outputs will have a status of 'requires_action' with a required_action.type of 'submit_tool_outputs'. */
+export async function submitToolOutputsToRun(
+  context: Client,
+  threadId: string,
+  runId: string,
+  body: SubmitToolOutputsOptions,
+  options: SubmitToolOutputsToRunOptionalParams = { requestOptions: {} },
+): Promise<ThreadRun> {
+  const result = await _submitToolOutputsToRunSend(
+    context,
+    threadId,
+    runId,
+    body,
+    options,
+  );
+  return _submitToolOutputsToRunDeserialize(result);
+}
+
+export function _cancelRunSend(
+  context: Client,
+  threadId: string,
+  runId: string,
+  options: CancelRunOptionalParams = { requestOptions: {} },
+): StreamableMethod<CancelRun200Response> {
+  return context
+    .path("/threads/{threadId}/runs/{runId}/cancel", threadId, runId)
+    .post({ ...operationOptionsToRequestParameters(options) });
+}
+
+export async function _cancelRunDeserialize(
+  result: CancelRun200Response,
+): Promise<ThreadRun> {
+  if (result.status !== "200") {
+    throw createRestError(result);
+  }
+
+  return {
+    id: result.body["id"],
+    object: result.body["object"],
+    threadId: result.body["thread_id"],
+    assistantId: result.body["assistant_id"],
+    status: result.body["status"],
+    requiredAction: !result.body.required_action
+      ? result.body.required_action
+      : deserializeRequiredActionUnion(result.body.required_action),
+    lastError:
+      result.body.last_error === null
+        ? null
+        : {
+            code: result.body.last_error["code"],
+            message: result.body.last_error["message"],
+          },
+    model: result.body["model"],
+    instructions: result.body["instructions"],
+    tools: result.body["tools"],
+    fileIds: result.body["file_ids"],
+    createdAt: new Date(result.body["created_at"]),
+    expiresAt:
+      result.body["expires_at"] === null
+        ? null
+        : new Date(result.body["expires_at"]),
+    startedAt:
+      result.body["started_at"] === null
+        ? null
+        : new Date(result.body["started_at"]),
+    completedAt:
+      result.body["completed_at"] === null
+        ? null
+        : new Date(result.body["completed_at"]),
+    cancelledAt:
+      result.body["cancelled_at"] === null
+        ? null
+        : new Date(result.body["cancelled_at"]),
+    failedAt:
+      result.body["failed_at"] === null
+        ? null
+        : new Date(result.body["failed_at"]),
+    incompleteDetails: result.body["incomplete_details"],
+    usage:
+      result.body.usage === null
+        ? null
+        : {
+            completionTokens: result.body.usage["completion_tokens"],
+            promptTokens: result.body.usage["prompt_tokens"],
+            totalTokens: result.body.usage["total_tokens"],
+          },
+    metadata: result.body["metadata"],
+  };
+}
+
+/** Cancels a run of an in progress thread. */
+export async function cancelRun(
+  context: Client,
+  threadId: string,
+  runId: string,
+  options: CancelRunOptionalParams = { requestOptions: {} },
+): Promise<ThreadRun> {
+  const result = await _cancelRunSend(context, threadId, runId, options);
+  return _cancelRunDeserialize(result);
+}
+
+export function _createThreadAndRunSend(
+  context: Client,
+  body: CreateAndRunThreadOptions,
+  options: CreateThreadAndRunOptionalParams = { requestOptions: {} },
+): StreamableMethod<CreateThreadAndRun200Response> {
+  return context
+    .path("/threads/runs")
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      body: {
+        assistant_id: body["assistantId"],
+        thread: !body.thread
+          ? undefined
+          : {
+              messages:
+                body.thread?.["messages"] === undefined
+                  ? body.thread?.["messages"]
+                  : body.thread?.["messages"].map((p) => ({
+                      role: p["role"],
+                      content: p["content"],
+                      file_ids: p["fileIds"],
+                      metadata: p["metadata"],
+                    })),
+              metadata: body.thread?.["metadata"],
+            },
+        model: body["model"],
+        instructions: body["instructions"],
+        tools: body["tools"],
+        stream: body["stream"],
+        metadata: body["metadata"],
+      },
+    });
+}
+
+export async function _createThreadAndRunDeserialize(
+  result: CreateThreadAndRun200Response,
+): Promise<ThreadRun> {
+  if (result.status !== "200") {
+    throw createRestError(result);
+  }
+
+  return {
+    id: result.body["id"],
+    object: result.body["object"],
+    threadId: result.body["thread_id"],
+    assistantId: result.body["assistant_id"],
+    status: result.body["status"],
+    requiredAction: !result.body.required_action
+      ? result.body.required_action
+      : deserializeRequiredActionUnion(result.body.required_action),
+    lastError:
+      result.body.last_error === null
+        ? null
+        : {
+            code: result.body.last_error["code"],
+            message: result.body.last_error["message"],
+          },
+    model: result.body["model"],
+    instructions: result.body["instructions"],
+    tools: result.body["tools"],
+    fileIds: result.body["file_ids"],
+    createdAt: new Date(result.body["created_at"]),
+    expiresAt:
+      result.body["expires_at"] === null
+        ? null
+        : new Date(result.body["expires_at"]),
+    startedAt:
+      result.body["started_at"] === null
+        ? null
+        : new Date(result.body["started_at"]),
+    completedAt:
+      result.body["completed_at"] === null
+        ? null
+        : new Date(result.body["completed_at"]),
+    cancelledAt:
+      result.body["cancelled_at"] === null
+        ? null
+        : new Date(result.body["cancelled_at"]),
+    failedAt:
+      result.body["failed_at"] === null
+        ? null
+        : new Date(result.body["failed_at"]),
+    incompleteDetails: result.body["incomplete_details"],
+    usage:
+      result.body.usage === null
+        ? null
+        : {
+            completionTokens: result.body.usage["completion_tokens"],
+            promptTokens: result.body.usage["prompt_tokens"],
+            totalTokens: result.body.usage["total_tokens"],
+          },
+    metadata: result.body["metadata"],
+  };
+}
+
+/** Creates a new assistant thread and immediately starts a run using that new thread. */
+export async function createThreadAndRun(
+  context: Client,
+  body: CreateAndRunThreadOptions,
+  options: CreateThreadAndRunOptionalParams = { requestOptions: {} },
+): Promise<ThreadRun> {
+  const result = await _createThreadAndRunSend(context, body, options);
+  return _createThreadAndRunDeserialize(result);
+}
+
+export function _getRunStepSend(
+  context: Client,
+  threadId: string,
+  runId: string,
+  stepId: string,
+  options: GetRunStepOptionalParams = { requestOptions: {} },
+): StreamableMethod<GetRunStep200Response> {
+  return context
+    .path(
+      "/threads/{threadId}/runs/{runId}/steps/{stepId}",
+      threadId,
+      runId,
+      stepId,
+    )
+    .get({ ...operationOptionsToRequestParameters(options) });
+}
+
+export async function _getRunStepDeserialize(
+  result: GetRunStep200Response,
+): Promise<RunStep> {
+  if (result.status !== "200") {
+    throw createRestError(result);
+  }
+
+  return {
+    id: result.body["id"],
+    object: result.body["object"],
+    type: result.body["type"],
+    assistantId: result.body["assistant_id"],
+    threadId: result.body["thread_id"],
+    runId: result.body["run_id"],
+    status: result.body["status"],
+    stepDetails: deserializeRunStepDetailsUnion(result.body.step_details),
+    lastError:
+      result.body.last_error === null
+        ? null
+        : {
+            code: result.body.last_error["code"],
+            message: result.body.last_error["message"],
+          },
+    createdAt: new Date(result.body["created_at"]),
+    expiredAt:
+      result.body["expired_at"] === null
+        ? null
+        : new Date(result.body["expired_at"]),
+    completedAt:
+      result.body["completed_at"] === null
+        ? null
+        : new Date(result.body["completed_at"]),
+    cancelledAt:
+      result.body["cancelled_at"] === null
+        ? null
+        : new Date(result.body["cancelled_at"]),
+    failedAt:
+      result.body["failed_at"] === null
+        ? null
+        : new Date(result.body["failed_at"]),
+    usage:
+      result.body.usage === null
+        ? null
+        : !result.body.usage
+          ? undefined
+          : {
+              completionTokens: result.body.usage?.["completion_tokens"],
+              promptTokens: result.body.usage?.["prompt_tokens"],
+              totalTokens: result.body.usage?.["total_tokens"],
+            },
+    metadata: result.body["metadata"],
+  };
+}
+
+/** Gets a single run step from a thread run. */
+export async function getRunStep(
+  context: Client,
+  threadId: string,
+  runId: string,
+  stepId: string,
+  options: GetRunStepOptionalParams = { requestOptions: {} },
+): Promise<RunStep> {
+  const result = await _getRunStepSend(
+    context,
+    threadId,
+    runId,
+    stepId,
+    options,
+  );
+  return _getRunStepDeserialize(result);
+}
+
+export function _listRunStepsSend(
+  context: Client,
+  threadId: string,
+  runId: string,
+  options: ListRunStepsOptionalParams = { requestOptions: {} },
+): StreamableMethod<ListRunSteps200Response> {
+  return context
+    .path("/threads/{threadId}/runs/{runId}/steps", threadId, runId)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      queryParameters: {
+        limit: options?.limit,
+        order: options?.order,
+        after: options?.after,
+        before: options?.before,
+      },
+    });
+}
+
+export async function _listRunStepsDeserialize(
+  result: ListRunSteps200Response,
+): Promise<OpenAIPageableListOfRunStep> {
+  if (result.status !== "200") {
+    throw createRestError(result);
+  }
+
+  return {
+    object: result.body["object"],
+    data: result.body["data"].map((p) => ({
+      id: p["id"],
+      object: p["object"],
+      type: p["type"],
+      assistantId: p["assistant_id"],
+      threadId: p["thread_id"],
+      runId: p["run_id"],
+      status: p["status"],
+      stepDetails: deserializeRunStepDetailsUnion(p.step_details),
+      lastError:
+        p.last_error === null
+          ? null
+          : { code: p.last_error["code"], message: p.last_error["message"] },
+      createdAt: new Date(p["created_at"]),
+      expiredAt: p["expired_at"] === null ? null : new Date(p["expired_at"]),
+      completedAt:
+        p["completed_at"] === null ? null : new Date(p["completed_at"]),
+      cancelledAt:
+        p["cancelled_at"] === null ? null : new Date(p["cancelled_at"]),
+      failedAt: p["failed_at"] === null ? null : new Date(p["failed_at"]),
+      usage:
+        p.usage === null
+          ? null
+          : !p.usage
+            ? undefined
+            : {
+                completionTokens: p.usage?.["completion_tokens"],
+                promptTokens: p.usage?.["prompt_tokens"],
+                totalTokens: p.usage?.["total_tokens"],
+              },
+      metadata: p["metadata"],
+    })),
+    firstId: result.body["first_id"],
+    lastId: result.body["last_id"],
+    hasMore: result.body["has_more"],
+  };
+}
+
+/** Gets a list of run steps from a thread run. */
+export async function listRunSteps(
+  context: Client,
+  threadId: string,
+  runId: string,
+  options: ListRunStepsOptionalParams = { requestOptions: {} },
+): Promise<OpenAIPageableListOfRunStep> {
+  const result = await _listRunStepsSend(context, threadId, runId, options);
+  return _listRunStepsDeserialize(result);
+}
+
+export function _listFilesSend(
+  context: Client,
+  options: ListFilesOptionalParams = { requestOptions: {} },
+): StreamableMethod<ListFiles200Response> {
+  return context
+    .path("/files")
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      queryParameters: { purpose: options?.purpose },
+    });
+}
+
+export async function _listFilesDeserialize(
+  result: ListFiles200Response,
+): Promise<FileListResponse> {
+  if (result.status !== "200") {
+    throw createRestError(result);
+  }
+
+  return {
+    object: result.body["object"],
+    data: result.body["data"].map((p) => ({
+      object: p["object"],
+      id: p["id"],
+      bytes: p["bytes"],
+      filename: p["filename"],
+      createdAt: new Date(p["created_at"]),
+      purpose: p["purpose"],
+    })),
+  };
+}
+
+/** Gets a list of previously uploaded files. */
+export async function listFiles(
+  context: Client,
+  options: ListFilesOptionalParams = { requestOptions: {} },
+): Promise<FileListResponse> {
+  const result = await _listFilesSend(context, options);
+  return _listFilesDeserialize(result);
+}
+
+export function _uploadFileSend(
+  context: Client,
+  file: Uint8Array,
+  purpose: FilePurpose,
+  filename: string,
+  options: UploadFileOptionalParams = { requestOptions: {} },
+): StreamableMethod<UploadFile200Response> {
+  return context
+    .path("/files")
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: (options.contentType as any) ?? "multipart/form-data",
+      body: {
+        file: uint8ArrayToString(file, "base64"),
+        purpose: purpose,
+        filename: filename,
+      },
+    });
+}
+
+export async function _uploadFileDeserialize(
+  result: UploadFile200Response,
+): Promise<OpenAIFile> {
+  if (result.status !== "200") {
+    throw createRestError(result);
+  }
+
+  return {
+    object: result.body["object"],
+    id: result.body["id"],
+    bytes: result.body["bytes"],
+    filename: result.body["filename"],
+    createdAt: new Date(result.body["created_at"]),
+    purpose: result.body["purpose"],
+  };
+}
+
+/** Uploads a file for use by other operations. */
+export async function uploadFile(
+  context: Client,
+  file: Uint8Array,
+  purpose: FilePurpose,
+  filename: string,
+  options: UploadFileOptionalParams = { requestOptions: {} },
+): Promise<OpenAIFile> {
+  const result = await _uploadFileSend(
+    context,
+    file,
+    purpose,
+    filename,
+    options,
+  );
+  return _uploadFileDeserialize(result);
+}
+
+export function _deleteFileSend(
+  context: Client,
+  fileId: string,
+  options: DeleteFileOptionalParams = { requestOptions: {} },
+): StreamableMethod<DeleteFile200Response> {
+  return context
+    .path("/files/{fileId}", fileId)
+    .delete({ ...operationOptionsToRequestParameters(options) });
+}
+
+export async function _deleteFileDeserialize(
+  result: DeleteFile200Response,
+): Promise<FileDeletionStatus> {
+  if (result.status !== "200") {
+    throw createRestError(result);
+  }
+
+  return {
+    id: result.body["id"],
+    deleted: result.body["deleted"],
+    object: result.body["object"],
+  };
+}
+
+/** Delete a previously uploaded file. */
+export async function deleteFile(
+  context: Client,
+  fileId: string,
+  options: DeleteFileOptionalParams = { requestOptions: {} },
+): Promise<FileDeletionStatus> {
+  const result = await _deleteFileSend(context, fileId, options);
+  return _deleteFileDeserialize(result);
+}
+
+export function _getFileSend(
+  context: Client,
+  fileId: string,
+  options: GetFileOptionalParams = { requestOptions: {} },
+): StreamableMethod<GetFile200Response> {
+  return context
+    .path("/files/{fileId}", fileId)
+    .get({ ...operationOptionsToRequestParameters(options) });
+}
+
+export async function _getFileDeserialize(
+  result: GetFile200Response,
+): Promise<OpenAIFile> {
+  if (result.status !== "200") {
+    throw createRestError(result);
+  }
+
+  return {
+    object: result.body["object"],
+    id: result.body["id"],
+    bytes: result.body["bytes"],
+    filename: result.body["filename"],
+    createdAt: new Date(result.body["created_at"]),
+    purpose: result.body["purpose"],
+  };
+}
+
+/** Returns information about a specific file. Does not retrieve file content. */
+export async function getFile(
+  context: Client,
+  fileId: string,
+  options: GetFileOptionalParams = { requestOptions: {} },
+): Promise<OpenAIFile> {
+  const result = await _getFileSend(context, fileId, options);
+  return _getFileDeserialize(result);
+}
+
+export function _getFileContentSend(
+  context: Client,
+  fileId: string,
+  options: GetFileContentOptionalParams = { requestOptions: {} },
+): StreamableMethod<GetFileContent200Response> {
+  return context
+    .path("/files/{fileId}/content", fileId)
+    .get({ ...operationOptionsToRequestParameters(options) });
+}
+
+export async function _getFileContentDeserialize(
+  result: GetFileContent200Response,
+): Promise<Uint8Array> {
+  if (result.status !== "200") {
+    throw createRestError(result);
+  }
+
+  return typeof result.body === "string"
+    ? stringToUint8Array(result.body, "base64")
+    : result.body;
+}
+
+/** Returns information about a specific file. Does not retrieve file content. */
+export async function getFileContent(
+  context: Client,
+  fileId: string,
+  options: GetFileContentOptionalParams = { requestOptions: {} },
+): Promise<Uint8Array> {
+  const result = await _getFileContentSend(context, fileId, options);
+  return _getFileContentDeserialize(result);
+}
+
+export function _listVectorStoresSend(
+  context: Client,
+  options: ListVectorStoresOptionalParams = { requestOptions: {} },
+): StreamableMethod<ListVectorStores200Response> {
+  return context
+    .path("/vector_stores")
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      queryParameters: {
+        limit: options?.limit,
+        order: options?.order,
+        after: options?.after,
+        before: options?.before,
+      },
+    });
+}
+
+export async function _listVectorStoresDeserialize(
+  result: ListVectorStores200Response,
+): Promise<OpenAIPageableListOfVectorStore> {
+  if (result.status !== "200") {
+    throw createRestError(result);
+  }
+
+  return {
+    object: result.body["object"],
+    data: result.body["data"].map((p) => ({
+      id: p["id"],
+      object: p["object"],
+      createdAt: new Date(p["created_at"]),
+      name: p["name"],
+      usageBytes: p["usage_bytes"],
+      fileCounts: {
+        inProgress: p.file_counts["in_progress"],
+        completed: p.file_counts["completed"],
+        failed: p.file_counts["failed"],
+        cancelled: p.file_counts["cancelled"],
+        total: p.file_counts["total"],
+      },
+      status: p["status"],
+      expiresAfter: !p.expires_after
+        ? undefined
+        : {
+            anchor: p.expires_after?.["anchor"],
+            days: p.expires_after?.["days"],
+          },
+      expiresAt:
+        p["expires_at"] !== undefined ? new Date(p["expires_at"]) : undefined,
+      lastActiveAt:
+        p["last_active_at"] === null ? null : new Date(p["last_active_at"]),
+      metadata: p["metadata"],
+    })),
+    firstId: result.body["first_id"],
+    lastId: result.body["last_id"],
+    hasMore: result.body["has_more"],
+  };
+}
+
+/** Returns a list of vector stores. */
+export async function listVectorStores(
+  context: Client,
+  options: ListVectorStoresOptionalParams = { requestOptions: {} },
+): Promise<OpenAIPageableListOfVectorStore> {
+  const result = await _listVectorStoresSend(context, options);
+  return _listVectorStoresDeserialize(result);
+}
+
+export function _createVectorStoreSend(
+  context: Client,
+  body: VectorStoreOptions,
+  options: CreateVectorStoreOptionalParams = { requestOptions: {} },
+): StreamableMethod<CreateVectorStore200Response> {
+  return context
+    .path("/vector_stores")
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      body: {
+        file_ids: body["fileIds"],
+        name: body["name"],
+        expires_after: !body.expiresAfter
+          ? undefined
+          : {
+              anchor: body.expiresAfter?.["anchor"],
+              days: body.expiresAfter?.["days"],
+            },
+        metadata: body["metadata"],
+      },
+    });
+}
+
+export async function _createVectorStoreDeserialize(
+  result: CreateVectorStore200Response,
+): Promise<VectorStore> {
+  if (result.status !== "200") {
+    throw createRestError(result);
+  }
+
+  return {
+    id: result.body["id"],
+    object: result.body["object"],
+    createdAt: new Date(result.body["created_at"]),
+    name: result.body["name"],
+    usageBytes: result.body["usage_bytes"],
+    fileCounts: {
+      inProgress: result.body.file_counts["in_progress"],
+      completed: result.body.file_counts["completed"],
+      failed: result.body.file_counts["failed"],
+      cancelled: result.body.file_counts["cancelled"],
+      total: result.body.file_counts["total"],
+    },
+    status: result.body["status"],
+    expiresAfter: !result.body.expires_after
+      ? undefined
+      : {
+          anchor: result.body.expires_after?.["anchor"],
+          days: result.body.expires_after?.["days"],
+        },
+    expiresAt:
+      result.body["expires_at"] !== undefined
+        ? new Date(result.body["expires_at"])
+        : undefined,
+    lastActiveAt:
+      result.body["last_active_at"] === null
+        ? null
+        : new Date(result.body["last_active_at"]),
+    metadata: result.body["metadata"],
+  };
+}
+
+/** Creates a vector store. */
+export async function createVectorStore(
+  context: Client,
+  body: VectorStoreOptions,
+  options: CreateVectorStoreOptionalParams = { requestOptions: {} },
+): Promise<VectorStore> {
+  const result = await _createVectorStoreSend(context, body, options);
+  return _createVectorStoreDeserialize(result);
+}
+
+export function _getVectorStoreSend(
+  context: Client,
+  vectorStoreId: string,
+  options: GetVectorStoreOptionalParams = { requestOptions: {} },
+): StreamableMethod<GetVectorStore200Response> {
+  return context
+    .path("/vector_stores/{vectorStoreId}", vectorStoreId)
+    .get({ ...operationOptionsToRequestParameters(options) });
+}
+
+export async function _getVectorStoreDeserialize(
+  result: GetVectorStore200Response,
+): Promise<VectorStore> {
+  if (result.status !== "200") {
+    throw createRestError(result);
+  }
+
+  return {
+    id: result.body["id"],
+    object: result.body["object"],
+    createdAt: new Date(result.body["created_at"]),
+    name: result.body["name"],
+    usageBytes: result.body["usage_bytes"],
+    fileCounts: {
+      inProgress: result.body.file_counts["in_progress"],
+      completed: result.body.file_counts["completed"],
+      failed: result.body.file_counts["failed"],
+      cancelled: result.body.file_counts["cancelled"],
+      total: result.body.file_counts["total"],
+    },
+    status: result.body["status"],
+    expiresAfter: !result.body.expires_after
+      ? undefined
+      : {
+          anchor: result.body.expires_after?.["anchor"],
+          days: result.body.expires_after?.["days"],
+        },
+    expiresAt:
+      result.body["expires_at"] !== undefined
+        ? new Date(result.body["expires_at"])
+        : undefined,
+    lastActiveAt:
+      result.body["last_active_at"] === null
+        ? null
+        : new Date(result.body["last_active_at"]),
+    metadata: result.body["metadata"],
+  };
+}
+
+/** Returns the vector store object matching the specified ID. */
+export async function getVectorStore(
+  context: Client,
+  vectorStoreId: string,
+  options: GetVectorStoreOptionalParams = { requestOptions: {} },
+): Promise<VectorStore> {
+  const result = await _getVectorStoreSend(context, vectorStoreId, options);
+  return _getVectorStoreDeserialize(result);
+}
+
+export function _modifyVectorStoreSend(
+  context: Client,
+  vectorStoreId: string,
+  body: VectorStoreUpdateOptions,
+  options: ModifyVectorStoreOptionalParams = { requestOptions: {} },
+): StreamableMethod<ModifyVectorStore200Response> {
+  return context
+    .path("/vector_stores/{vectorStoreId}", vectorStoreId)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      body: {
+        name: body["name"],
+        expires_after:
+          body.expiresAfter === null
+            ? null
+            : !body.expiresAfter
+              ? undefined
+              : {
+                  anchor: body.expiresAfter?.["anchor"],
+                  days: body.expiresAfter?.["days"],
+                },
+        metadata: body["metadata"],
+      },
+    });
+}
+
+export async function _modifyVectorStoreDeserialize(
+  result: ModifyVectorStore200Response,
+): Promise<VectorStore> {
+  if (result.status !== "200") {
+    throw createRestError(result);
+  }
+
+  return {
+    id: result.body["id"],
+    object: result.body["object"],
+    createdAt: new Date(result.body["created_at"]),
+    name: result.body["name"],
+    usageBytes: result.body["usage_bytes"],
+    fileCounts: {
+      inProgress: result.body.file_counts["in_progress"],
+      completed: result.body.file_counts["completed"],
+      failed: result.body.file_counts["failed"],
+      cancelled: result.body.file_counts["cancelled"],
+      total: result.body.file_counts["total"],
+    },
+    status: result.body["status"],
+    expiresAfter: !result.body.expires_after
+      ? undefined
+      : {
+          anchor: result.body.expires_after?.["anchor"],
+          days: result.body.expires_after?.["days"],
+        },
+    expiresAt:
+      result.body["expires_at"] !== undefined
+        ? new Date(result.body["expires_at"])
+        : undefined,
+    lastActiveAt:
+      result.body["last_active_at"] === null
+        ? null
+        : new Date(result.body["last_active_at"]),
+    metadata: result.body["metadata"],
+  };
+}
+
+/** The ID of the vector store to modify. */
+export async function modifyVectorStore(
+  context: Client,
+  vectorStoreId: string,
+  body: VectorStoreUpdateOptions,
+  options: ModifyVectorStoreOptionalParams = { requestOptions: {} },
+): Promise<VectorStore> {
+  const result = await _modifyVectorStoreSend(
+    context,
+    vectorStoreId,
+    body,
+    options,
+  );
+  return _modifyVectorStoreDeserialize(result);
+}
+
+export function _deleteVectorStoreSend(
+  context: Client,
+  vectorStoreId: string,
+  options: DeleteVectorStoreOptionalParams = { requestOptions: {} },
+): StreamableMethod<DeleteVectorStore200Response> {
+  return context
+    .path("/vector_stores/{vectorStoreId}", vectorStoreId)
+    .delete({ ...operationOptionsToRequestParameters(options) });
+}
+
+export async function _deleteVectorStoreDeserialize(
+  result: DeleteVectorStore200Response,
+): Promise<VectorStoreDeletionStatus> {
+  if (result.status !== "200") {
+    throw createRestError(result);
+  }
+
+  return {
+    id: result.body["id"],
+    deleted: result.body["deleted"],
+    object: result.body["object"],
+  };
+}
+
+/** Deletes the vector store object matching the specified ID. */
+export async function deleteVectorStore(
+  context: Client,
+  vectorStoreId: string,
+  options: DeleteVectorStoreOptionalParams = { requestOptions: {} },
+): Promise<VectorStoreDeletionStatus> {
+  const result = await _deleteVectorStoreSend(context, vectorStoreId, options);
+  return _deleteVectorStoreDeserialize(result);
+}
+
+export function _listVectorStoreFilesSend(
+  context: Client,
+  vectorStoreId: string,
+  options: ListVectorStoreFilesOptionalParams = { requestOptions: {} },
+): StreamableMethod<ListVectorStoreFiles200Response> {
+  return context
+    .path("/vector_stores/{vectorStoreId}/files", vectorStoreId)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      queryParameters: {
+        filter: options?.filter,
+        limit: options?.limit,
+        order: options?.order,
+        after: options?.after,
+        before: options?.before,
+      },
+    });
+}
+
+export async function _listVectorStoreFilesDeserialize(
+  result: ListVectorStoreFiles200Response,
+): Promise<OpenAIPageableListOfVectorStoreFile> {
+  if (result.status !== "200") {
+    throw createRestError(result);
+  }
+
+  return {
+    object: result.body["object"],
+    data: result.body["data"].map((p) => ({
+      id: p["id"],
+      object: p["object"],
+      usageBytes: p["usage_bytes"],
+      createdAt: new Date(p["created_at"]),
+      vectorStoreId: p["vector_store_id"],
+      status: p["status"],
+      lastError:
+        p.last_error === null
+          ? null
+          : { code: p.last_error["code"], message: p.last_error["message"] },
+    })),
+    firstId: result.body["first_id"],
+    lastId: result.body["last_id"],
+    hasMore: result.body["has_more"],
+  };
+}
+
+/** Returns a list of vector store files. */
+export async function listVectorStoreFiles(
+  context: Client,
+  vectorStoreId: string,
+  options: ListVectorStoreFilesOptionalParams = { requestOptions: {} },
+): Promise<OpenAIPageableListOfVectorStoreFile> {
+  const result = await _listVectorStoreFilesSend(
+    context,
+    vectorStoreId,
+    options,
+  );
+  return _listVectorStoreFilesDeserialize(result);
+}
+
+export function _createVectorStoreFileSend(
+  context: Client,
+  vectorStoreId: string,
+  fileId: string,
+  options: CreateVectorStoreFileOptionalParams = { requestOptions: {} },
+): StreamableMethod<CreateVectorStoreFile200Response> {
+  return context
+    .path("/vector_stores/{vectorStoreId}/files", vectorStoreId)
+    .post({ ...operationOptionsToRequestParameters(options), body: fileId });
+}
+
+export async function _createVectorStoreFileDeserialize(
+  result: CreateVectorStoreFile200Response,
+): Promise<VectorStoreFile> {
+  if (result.status !== "200") {
+    throw createRestError(result);
+  }
+
+  return {
+    id: result.body["id"],
+    object: result.body["object"],
+    usageBytes: result.body["usage_bytes"],
+    createdAt: new Date(result.body["created_at"]),
+    vectorStoreId: result.body["vector_store_id"],
+    status: result.body["status"],
+    lastError:
+      result.body.last_error === null
+        ? null
+        : {
+            code: result.body.last_error["code"],
+            message: result.body.last_error["message"],
+          },
+  };
+}
+
+/** Create a vector store file by attaching a file to a vector store. */
+export async function createVectorStoreFile(
+  context: Client,
+  vectorStoreId: string,
+  fileId: string,
+  options: CreateVectorStoreFileOptionalParams = { requestOptions: {} },
+): Promise<VectorStoreFile> {
+  const result = await _createVectorStoreFileSend(
+    context,
+    vectorStoreId,
+    fileId,
+    options,
+  );
+  return _createVectorStoreFileDeserialize(result);
+}
+
+export function _getVectoreStoreFileSend(
+  context: Client,
+  vectorStoreId: string,
+  fileId: string,
+  options: GetVectoreStoreFileOptionalParams = { requestOptions: {} },
+): StreamableMethod<GetVectoreStoreFile200Response> {
+  return context
+    .path(
+      "/vector_stores/{vectorStoreId}/files/{fileId}",
+      vectorStoreId,
+      fileId,
+    )
+    .get({ ...operationOptionsToRequestParameters(options) });
+}
+
+export async function _getVectoreStoreFileDeserialize(
+  result: GetVectoreStoreFile200Response,
+): Promise<VectorStoreFile> {
+  if (result.status !== "200") {
+    throw createRestError(result);
+  }
+
+  return {
+    id: result.body["id"],
+    object: result.body["object"],
+    usageBytes: result.body["usage_bytes"],
+    createdAt: new Date(result.body["created_at"]),
+    vectorStoreId: result.body["vector_store_id"],
+    status: result.body["status"],
+    lastError:
+      result.body.last_error === null
+        ? null
+        : {
+            code: result.body.last_error["code"],
+            message: result.body.last_error["message"],
+          },
+  };
+}
+
+/** Retrieves a vector store file. */
+export async function getVectoreStoreFile(
+  context: Client,
+  vectorStoreId: string,
+  fileId: string,
+  options: GetVectoreStoreFileOptionalParams = { requestOptions: {} },
+): Promise<VectorStoreFile> {
+  const result = await _getVectoreStoreFileSend(
+    context,
+    vectorStoreId,
+    fileId,
+    options,
+  );
+  return _getVectoreStoreFileDeserialize(result);
+}
+
+export function _deleteVectoreStoreFileSend(
+  context: Client,
+  vectorStoreId: string,
+  fileId: string,
+  options: DeleteVectoreStoreFileOptionalParams = { requestOptions: {} },
+): StreamableMethod<DeleteVectoreStoreFile200Response> {
+  return context
+    .path(
+      "/vector_stores/{vectorStoreId}/files/{fileId}",
+      vectorStoreId,
+      fileId,
+    )
+    .delete({ ...operationOptionsToRequestParameters(options) });
+}
+
+export async function _deleteVectoreStoreFileDeserialize(
+  result: DeleteVectoreStoreFile200Response,
+): Promise<VectorStoreFileDeletionStatus> {
+  if (result.status !== "200") {
+    throw createRestError(result);
+  }
+
+  return {
+    id: result.body["id"],
+    deleted: result.body["deleted"],
+    object: result.body["object"],
   };
 }
 
 /**
- * Gets chat completions for the provided chat messages.
- * Completions support a wide variety of tasks and generate text that continues from or "completes"
- * provided prompt data.
+ * Delete a vector store file. This will remove the file from the vector store but the file itself will not be deleted.
+ * To delete the file, use the delete file endpoint.
  */
-export async function getChatCompletions(
+export async function deleteVectoreStoreFile(
   context: Client,
-  deploymentName: string,
-  messages: ChatRequestMessageUnion[],
-  options: GetChatCompletionsOptions = { requestOptions: {} },
-): Promise<ChatCompletions> {
-  const result = await _getChatCompletionsSendX(context, deploymentName, messages, options);
-  return _getChatCompletionsDeserialize(result);
-}
-
-function _getChatCompletionsSendX(
-  context: Client,
-  deploymentName: string,
-  messages: ChatRequestMessageUnion[],
-  options: GetChatCompletionsOptions & { stream?: boolean } = { requestOptions: {} },
-): StreamableMethod<GetChatCompletions200Response | GetChatCompletionsDefaultResponse> {
-  const {
-    azureExtensionOptions,
-    abortSignal,
-    onResponse,
-    requestOptions,
-    tracingOptions,
-    ...rest
-  } = options;
-  const coreOptions = {
-    abortSignal,
-    onResponse,
-    requestOptions,
-    tracingOptions,
-  };
-  const azure = {
-    ...(!azureExtensionOptions?.extensions
-      ? {}
-      : { dataSources: azureExtensionOptions.extensions }),
-    ...(!azureExtensionOptions?.enhancements
-      ? {}
-      : { enhancements: azureExtensionOptions.enhancements }),
-  };
-  return _getChatCompletionsSend(
+  vectorStoreId: string,
+  fileId: string,
+  options: DeleteVectoreStoreFileOptionalParams = { requestOptions: {} },
+): Promise<VectorStoreFileDeletionStatus> {
+  const result = await _deleteVectoreStoreFileSend(
     context,
-    deploymentName,
-    { messages, ...rest, ...azure },
-    coreOptions,
+    vectorStoreId,
+    fileId,
+    options,
   );
+  return _deleteVectoreStoreFileDeserialize(result);
 }
 
-export function streamChatCompletions(
+export function _createVectorStoreFileBatchSend(
   context: Client,
-  deploymentName: string,
-  messages: ChatRequestMessageUnion[],
-  options: GetChatCompletionsOptions = { requestOptions: {} },
-): Promise<EventStream<ChatCompletions>> {
-  const response = _getChatCompletionsSendX(context, deploymentName, messages, {
-    ...options,
-    stream: true,
-  });
-  return getOaiSSEs(response, getChatCompletionsResult);
+  vectorStoreId: string,
+  fileIds: string[],
+  options: CreateVectorStoreFileBatchOptionalParams = { requestOptions: {} },
+): StreamableMethod<CreateVectorStoreFileBatch200Response> {
+  return context
+    .path("/vector_stores/{vectorStoreId}/file_batches", vectorStoreId)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      body: { file_ids: fileIds },
+    });
 }
 
-export function _getImageGenerationsSend(
-  context: Client,
-  deploymentId: string,
-  body: ImageGenerationOptions,
-  options: GetImageGenerationsOptions = { requestOptions: {} },
-): StreamableMethod<GetImageGenerations200Response | GetImageGenerationsDefaultResponse> {
-  return context.path("/deployments/{deploymentId}/images/generations", deploymentId).post({
-    ...operationOptionsToRequestParameters(options),
-    body: {
-      model: body["model"],
-      prompt: body["prompt"],
-      n: body["n"],
-      size: body["size"],
-      response_format: body["responseFormat"],
-      quality: body["quality"],
-      style: body["style"],
-      user: body["user"],
-    },
-  });
-}
-
-export async function _getImageGenerationsDeserialize(
-  result: GetImageGenerations200Response | GetImageGenerationsDefaultResponse,
-): Promise<ImageGenerations> {
-  if (isUnexpected(result)) {
-    throw createOpenAIError(result);
+export async function _createVectorStoreFileBatchDeserialize(
+  result: CreateVectorStoreFileBatch200Response,
+): Promise<VectorStoreFileBatch> {
+  if (result.status !== "200") {
+    throw createRestError(result);
   }
 
   return {
-    created: new Date(result.body["created"]),
-    data: result.body["data"].map((p) => ({
-      url: p["url"],
-      base64Data: p["b64_json"],
-      contentFilterResults: !p.content_filter_results
-        ? undefined
-        : {
-            sexual: !p.content_filter_results?.sexual
-              ? undefined
-              : {
-                  severity: p.content_filter_results?.sexual?.["severity"],
-                  filtered: p.content_filter_results?.sexual?.["filtered"],
-                },
-            violence: !p.content_filter_results?.violence
-              ? undefined
-              : {
-                  severity: p.content_filter_results?.violence?.["severity"],
-                  filtered: p.content_filter_results?.violence?.["filtered"],
-                },
-            hate: !p.content_filter_results?.hate
-              ? undefined
-              : {
-                  severity: p.content_filter_results?.hate?.["severity"],
-                  filtered: p.content_filter_results?.hate?.["filtered"],
-                },
-            selfHarm: !p.content_filter_results?.self_harm
-              ? undefined
-              : {
-                  severity: p.content_filter_results?.self_harm?.["severity"],
-                  filtered: p.content_filter_results?.self_harm?.["filtered"],
-                },
-          },
-      revisedPrompt: p["revised_prompt"],
-      promptFilterResults: !p.prompt_filter_results
-        ? undefined
-        : {
-            sexual: !p.prompt_filter_results?.sexual
-              ? undefined
-              : {
-                  severity: p.prompt_filter_results?.sexual?.["severity"],
-                  filtered: p.prompt_filter_results?.sexual?.["filtered"],
-                },
-            violence: !p.prompt_filter_results?.violence
-              ? undefined
-              : {
-                  severity: p.prompt_filter_results?.violence?.["severity"],
-                  filtered: p.prompt_filter_results?.violence?.["filtered"],
-                },
-            hate: !p.prompt_filter_results?.hate
-              ? undefined
-              : {
-                  severity: p.prompt_filter_results?.hate?.["severity"],
-                  filtered: p.prompt_filter_results?.hate?.["filtered"],
-                },
-            selfHarm: !p.prompt_filter_results?.self_harm
-              ? undefined
-              : {
-                  severity: p.prompt_filter_results?.self_harm?.["severity"],
-                  filtered: p.prompt_filter_results?.self_harm?.["filtered"],
-                },
-            profanity: !p.prompt_filter_results?.profanity
-              ? undefined
-              : {
-                  filtered: p.prompt_filter_results?.profanity?.["filtered"],
-                  detected: p.prompt_filter_results?.profanity?.["detected"],
-                },
-            jailbreak: !p.prompt_filter_results?.jailbreak
-              ? undefined
-              : {
-                  filtered: p.prompt_filter_results?.jailbreak?.["filtered"],
-                  detected: p.prompt_filter_results?.jailbreak?.["detected"],
-                },
-          },
-    })),
+    id: result.body["id"],
+    object: result.body["object"],
+    createdAt: new Date(result.body["created_at"]),
+    vectorStoreId: result.body["vector_store_id"],
+    status: result.body["status"],
+    fileCounts: {
+      inProgress: result.body.file_counts["in_progress"],
+      completed: result.body.file_counts["completed"],
+      failed: result.body.file_counts["failed"],
+      cancelled: result.body.file_counts["cancelled"],
+      total: result.body.file_counts["total"],
+    },
   };
 }
 
-/** Creates an image given a prompt. */
-export async function getImageGenerations(
+/** Create a vector store file batch. */
+export async function createVectorStoreFileBatch(
   context: Client,
-  deploymentId: string,
-  prompt: string,
-  options: GetImagesOptions = { requestOptions: {} },
-): Promise<ImageGenerations> {
-  const { abortSignal, onResponse, requestOptions, tracingOptions, ...rest } = options;
-  const result = await _getImageGenerationsSend(
+  vectorStoreId: string,
+  fileIds: string[],
+  options: CreateVectorStoreFileBatchOptionalParams = { requestOptions: {} },
+): Promise<VectorStoreFileBatch> {
+  const result = await _createVectorStoreFileBatchSend(
     context,
-    deploymentId,
-    { prompt, ...rest },
-    { abortSignal, onResponse, requestOptions, tracingOptions },
+    vectorStoreId,
+    fileIds,
+    options,
   );
-  return _getImageGenerationsDeserialize(result);
+  return _createVectorStoreFileBatchDeserialize(result);
 }
 
-export function _getEmbeddingsSend(
+export function _getVectorStoreFileBatchSend(
   context: Client,
-  deploymentId: string,
-  body: EmbeddingsOptions,
-  options: GetEmbeddingsOptions = { requestOptions: {} },
-): StreamableMethod<GetEmbeddings200Response | GetEmbeddingsDefaultResponse> {
-  return context.path("/deployments/{deploymentId}/embeddings", deploymentId).post({
-    ...operationOptionsToRequestParameters(options),
-    body: {
-      user: body["user"],
-      model: body["model"],
-      input: body["input"],
-      dimensions: body["dimensions"],
-    },
-  });
+  vectorStoreId: string,
+  batchId: string,
+  options: GetVectorStoreFileBatchOptionalParams = { requestOptions: {} },
+): StreamableMethod<GetVectorStoreFileBatch200Response> {
+  return context
+    .path(
+      "/vector_stores/{vectorStoreId}/file_batches/{batchId}",
+      vectorStoreId,
+      batchId,
+    )
+    .get({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _getEmbeddingsDeserialize(
-  result: GetEmbeddings200Response | GetEmbeddingsDefaultResponse,
-): Promise<Embeddings> {
-  if (isUnexpected(result)) {
-    throw createOpenAIError(result);
+export async function _getVectorStoreFileBatchDeserialize(
+  result: GetVectorStoreFileBatch200Response,
+): Promise<VectorStoreFileBatch> {
+  if (result.status !== "200") {
+    throw createRestError(result);
   }
 
   return {
-    data: result.body["data"].map((p) => ({
-      embedding: p["embedding"],
-      index: p["index"],
-    })),
-    usage: {
-      promptTokens: result.body.usage["prompt_tokens"],
-      totalTokens: result.body.usage["total_tokens"],
+    id: result.body["id"],
+    object: result.body["object"],
+    createdAt: new Date(result.body["created_at"]),
+    vectorStoreId: result.body["vector_store_id"],
+    status: result.body["status"],
+    fileCounts: {
+      inProgress: result.body.file_counts["in_progress"],
+      completed: result.body.file_counts["completed"],
+      failed: result.body.file_counts["failed"],
+      cancelled: result.body.file_counts["cancelled"],
+      total: result.body.file_counts["total"],
     },
   };
 }
 
-/** Return the embeddings for a given prompt. */
-export async function getEmbeddings(
+/** Retrieve a vector store file batch. */
+export async function getVectorStoreFileBatch(
   context: Client,
-  deploymentId: string,
-  input: string[],
-  options: GetEmbeddingsOptions = { requestOptions: {} },
-): Promise<Embeddings> {
-  const { abortSignal, onResponse, requestOptions, tracingOptions, ...rest } = options;
-  const result = await _getEmbeddingsSend(
+  vectorStoreId: string,
+  batchId: string,
+  options: GetVectorStoreFileBatchOptionalParams = { requestOptions: {} },
+): Promise<VectorStoreFileBatch> {
+  const result = await _getVectorStoreFileBatchSend(
     context,
-    deploymentId,
-    { input, ...rest },
-    { abortSignal, onResponse, requestOptions, tracingOptions },
+    vectorStoreId,
+    batchId,
+    options,
   );
-  return _getEmbeddingsDeserialize(result);
+  return _getVectorStoreFileBatchDeserialize(result);
 }
 
-type ContentFilterResultsForPromptX = {
-  prompt_filter_results?: Array<ContentFilterResultsForPromptOutput>;
-  prompt_annotations?: Array<ContentFilterResultsForPromptOutput>;
-};
-
-function getContentFilterResultsForPrompt({
-  prompt_annotations,
-  prompt_filter_results,
-}: ContentFilterResultsForPromptX): ContentFilterResultsForPrompt[] | undefined {
-  const res = prompt_filter_results ?? prompt_annotations;
-  return res?.map(({ content_filter_results, ...rest }) => ({
-    ...camelCaseKeys(rest),
-    contentFilterResults: parseContentFilterResultDetailsForPromptOutput(content_filter_results),
-  }));
+export function _cancelVectorStoreFileBatchSend(
+  context: Client,
+  vectorStoreId: string,
+  batchId: string,
+  options: CancelVectorStoreFileBatchOptionalParams = { requestOptions: {} },
+): StreamableMethod<CancelVectorStoreFileBatch200Response> {
+  return context
+    .path(
+      "/vector_stores/{vectorStoreId}/file_batches/{batchId}/cancel",
+      vectorStoreId,
+      batchId,
+    )
+    .post({ ...operationOptionsToRequestParameters(options) });
 }
 
-function parseContentFilterResultDetailsForPromptOutput({
-  error,
-  ...rest
-}: ContentFilterResultDetailsForPromptOutput = {}): ContentFilterResultDetailsForPrompt {
-  return error ? parseError(error) : camelCaseKeys(rest);
-}
+export async function _cancelVectorStoreFileBatchDeserialize(
+  result: CancelVectorStoreFileBatch200Response,
+): Promise<VectorStoreFileBatch> {
+  if (result.status !== "200") {
+    throw createRestError(result);
+  }
 
-function parseError(error: ErrorModel): { error: ErrorModel } {
   return {
-    error: {
-      ...error,
-      details: error["details"] ?? [],
+    id: result.body["id"],
+    object: result.body["object"],
+    createdAt: new Date(result.body["created_at"]),
+    vectorStoreId: result.body["vector_store_id"],
+    status: result.body["status"],
+    fileCounts: {
+      inProgress: result.body.file_counts["in_progress"],
+      completed: result.body.file_counts["completed"],
+      failed: result.body.file_counts["failed"],
+      cancelled: result.body.file_counts["cancelled"],
+      total: result.body.file_counts["total"],
     },
   };
 }
 
-function parseContentFilterResultsForChoiceOutput({
-  error,
-  ...successResult
-}: ContentFilterResultsForChoiceOutput = {}): ContentFilterResultsForChoice {
-  return error
-    ? {
-        error: {
-          ...error,
-          details: error["details"] ?? [],
-        },
-      }
-    : camelCaseKeys(successResult);
+/** Cancel a vector store file batch. This attempts to cancel the processing of files in this batch as soon as possible. */
+export async function cancelVectorStoreFileBatch(
+  context: Client,
+  vectorStoreId: string,
+  batchId: string,
+  options: CancelVectorStoreFileBatchOptionalParams = { requestOptions: {} },
+): Promise<VectorStoreFileBatch> {
+  const result = await _cancelVectorStoreFileBatchSend(
+    context,
+    vectorStoreId,
+    batchId,
+    options,
+  );
+  return _cancelVectorStoreFileBatchDeserialize(result);
+}
+
+export function _listVectorStoreFileBatchFilesSend(
+  context: Client,
+  vectorStoreId: string,
+  batchId: string,
+  options: ListVectorStoreFileBatchFilesOptionalParams = { requestOptions: {} },
+): StreamableMethod<ListVectorStoreFileBatchFiles200Response> {
+  return context
+    .path(
+      "/vector_stores/{vectorStoreId}/file_batches/{batchId}/files",
+      vectorStoreId,
+      batchId,
+    )
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      queryParameters: {
+        filter: options?.filter,
+        limit: options?.limit,
+        order: options?.order,
+        after: options?.after,
+        before: options?.before,
+      },
+    });
+}
+
+export async function _listVectorStoreFileBatchFilesDeserialize(
+  result: ListVectorStoreFileBatchFiles200Response,
+): Promise<OpenAIPageableListOfVectorStoreFile> {
+  if (result.status !== "200") {
+    throw createRestError(result);
+  }
+
+  return {
+    object: result.body["object"],
+    data: result.body["data"].map((p) => ({
+      id: p["id"],
+      object: p["object"],
+      usageBytes: p["usage_bytes"],
+      createdAt: new Date(p["created_at"]),
+      vectorStoreId: p["vector_store_id"],
+      status: p["status"],
+      lastError:
+        p.last_error === null
+          ? null
+          : { code: p.last_error["code"], message: p.last_error["message"] },
+    })),
+    firstId: result.body["first_id"],
+    lastId: result.body["last_id"],
+    hasMore: result.body["has_more"],
+  };
+}
+
+/** Returns a list of vector store files in a batch. */
+export async function listVectorStoreFileBatchFiles(
+  context: Client,
+  vectorStoreId: string,
+  batchId: string,
+  options: ListVectorStoreFileBatchFilesOptionalParams = { requestOptions: {} },
+): Promise<OpenAIPageableListOfVectorStoreFile> {
+  const result = await _listVectorStoreFileBatchFilesSend(
+    context,
+    vectorStoreId,
+    batchId,
+    options,
+  );
+  return _listVectorStoreFileBatchFilesDeserialize(result);
 }
