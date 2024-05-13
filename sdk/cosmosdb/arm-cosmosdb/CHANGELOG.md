@@ -1,16 +1,6 @@
 # Release History
-
-## 16.0.0-beta.8 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 16.0.0-beta.7 (2024-03-08)
+    
+## 16.0.0-beta.8 (2024-05-13)
     
 **Features**
 
@@ -68,6 +58,7 @@
   - Added Interface BackupResource
   - Added Interface BackupSchedule
   - Added Interface BaseCosmosDataTransferDataSourceSink
+  - Added Interface CapacityModeChangeTransitionState
   - Added Interface CassandraClustersGetBackupOptionalParams
   - Added Interface CassandraClustersGetCommandAsyncOptionalParams
   - Added Interface CassandraClustersInvokeCommandAsyncHeaders
@@ -222,6 +213,8 @@
   - Added Type Alias AzureConnectionType
   - Added Type Alias BackupState
   - Added Type Alias BaseCosmosDataTransferDataSourceSinkUnion
+  - Added Type Alias CapacityMode
+  - Added Type Alias CapacityModeTransitionStatus
   - Added Type Alias CassandraClustersGetBackupResponse
   - Added Type Alias CassandraClustersGetCommandAsyncResponse
   - Added Type Alias CassandraClustersInvokeCommandAsyncResponse
@@ -310,16 +303,20 @@
   - Interface ClusterResourceProperties has a new optional parameter scheduledEventStrategy
   - Interface CommandPostBody has a new optional parameter readWrite
   - Interface ComponentsM9L909SchemasCassandraclusterpublicstatusPropertiesDatacentersItemsPropertiesNodesItems has a new optional parameter isLatestModel
+  - Interface DatabaseAccountCreateUpdateParameters has a new optional parameter capacityMode
   - Interface DatabaseAccountCreateUpdateParameters has a new optional parameter defaultPriorityLevel
   - Interface DatabaseAccountCreateUpdateParameters has a new optional parameter diagnosticLogSettings
   - Interface DatabaseAccountCreateUpdateParameters has a new optional parameter enableMaterializedViews
   - Interface DatabaseAccountCreateUpdateParameters has a new optional parameter enablePerRegionPerPartitionAutoscale
   - Interface DatabaseAccountCreateUpdateParameters has a new optional parameter enablePriorityBasedExecution
+  - Interface DatabaseAccountGetResults has a new optional parameter capacityMode
+  - Interface DatabaseAccountGetResults has a new optional parameter capacityModeChangeTransitionState
   - Interface DatabaseAccountGetResults has a new optional parameter defaultPriorityLevel
   - Interface DatabaseAccountGetResults has a new optional parameter diagnosticLogSettings
   - Interface DatabaseAccountGetResults has a new optional parameter enableMaterializedViews
   - Interface DatabaseAccountGetResults has a new optional parameter enablePerRegionPerPartitionAutoscale
   - Interface DatabaseAccountGetResults has a new optional parameter enablePriorityBasedExecution
+  - Interface DatabaseAccountUpdateParameters has a new optional parameter capacityMode
   - Interface DatabaseAccountUpdateParameters has a new optional parameter defaultPriorityLevel
   - Interface DatabaseAccountUpdateParameters has a new optional parameter diagnosticLogSettings
   - Interface DatabaseAccountUpdateParameters has a new optional parameter enableMaterializedViews
@@ -333,6 +330,8 @@
   - Added Enum KnownAutoReplicate
   - Added Enum KnownAzureConnectionType
   - Added Enum KnownBackupState
+  - Added Enum KnownCapacityMode
+  - Added Enum KnownCapacityModeTransitionStatus
   - Added Enum KnownCheckNameAvailabilityReason
   - Added Enum KnownClusterType
   - Added Enum KnownCommandStatus
@@ -349,13 +348,13 @@
   - Enum KnownStatus has a new value Failed
   - Enum KnownStatus has a new value Succeeded
   - Enum KnownStatus has a new value Updating
-  - Type of parameter arguments of interface CommandPostBody is changed from {
-        [propertyName: string]: string;
-    } to Record<string, unknown>
 
 **Breaking Changes**
 
   - Interface CommandPostBody no longer has parameter readwrite
+  - Type of parameter arguments of interface CommandPostBody is changed from {
+        [propertyName: string]: string;
+    } to Record<string, unknown>
     
     
 ## 15.6.0 (2023-12-25)

@@ -552,6 +552,54 @@ export const Capacity: coreClient.CompositeMapper = {
   },
 };
 
+export const CapacityModeChangeTransitionState: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CapacityModeChangeTransitionState",
+    modelProperties: {
+      capacityModeTransitionStatus: {
+        serializedName: "capacityModeTransitionStatus",
+        type: {
+          name: "String",
+        },
+      },
+      currentCapacityMode: {
+        serializedName: "currentCapacityMode",
+        type: {
+          name: "String",
+        },
+      },
+      previousCapacityMode: {
+        serializedName: "previousCapacityMode",
+        type: {
+          name: "String",
+        },
+      },
+      capacityModeTransitionBeginTimestamp: {
+        serializedName: "capacityModeTransitionBeginTimestamp",
+        readOnly: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+      capacityModeTransitionEndTimestamp: {
+        serializedName: "capacityModeTransitionEndTimestamp",
+        readOnly: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+      capacityModeLastSuccessfulTransitionEndTimestamp: {
+        serializedName: "capacityModeLastSuccessfulTransitionEndTimestamp",
+        readOnly: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+    },
+  },
+};
+
 export const DatabaseAccountKeysMetadata: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -943,6 +991,12 @@ export const DatabaseAccountUpdateParameters: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "Capacity",
+        },
+      },
+      capacityMode: {
+        serializedName: "properties.capacityMode",
+        type: {
+          name: "String",
         },
       },
       enableMaterializedViews: {
@@ -7906,6 +7960,19 @@ export const DatabaseAccountGetResults: coreClient.CompositeMapper = {
           className: "Capacity",
         },
       },
+      capacityMode: {
+        serializedName: "properties.capacityMode",
+        type: {
+          name: "String",
+        },
+      },
+      capacityModeChangeTransitionState: {
+        serializedName: "properties.capacityModeChangeTransitionState",
+        type: {
+          name: "Composite",
+          className: "CapacityModeChangeTransitionState",
+        },
+      },
       enableMaterializedViews: {
         serializedName: "properties.enableMaterializedViews",
         type: {
@@ -8190,6 +8257,12 @@ export const DatabaseAccountCreateUpdateParameters: coreClient.CompositeMapper =
           type: {
             name: "Composite",
             className: "Capacity",
+          },
+        },
+        capacityMode: {
+          serializedName: "properties.capacityMode",
+          type: {
+            name: "String",
           },
         },
         enableMaterializedViews: {
