@@ -168,6 +168,22 @@ export interface Capacity {
 }
 
 // @public
+export type CapacityMode = string;
+
+// @public
+export interface CapacityModeChangeTransitionState {
+    readonly capacityModeLastSuccessfulTransitionEndTimestamp?: Date;
+    readonly capacityModeTransitionBeginTimestamp?: Date;
+    readonly capacityModeTransitionEndTimestamp?: Date;
+    capacityModeTransitionStatus?: CapacityModeTransitionStatus;
+    currentCapacityMode?: CapacityMode;
+    previousCapacityMode?: CapacityMode;
+}
+
+// @public
+export type CapacityModeTransitionStatus = string;
+
+// @public
 export interface CassandraClusterPublicStatus {
     connectionErrors?: ConnectionError[];
     dataCenters?: CassandraClusterPublicStatusDataCentersItem[];
@@ -1346,6 +1362,7 @@ export interface DatabaseAccountCreateUpdateParameters extends ARMResourceProper
     backupPolicy?: BackupPolicyUnion;
     capabilities?: Capability[];
     capacity?: Capacity;
+    capacityMode?: CapacityMode;
     connectorOffer?: ConnectorOffer;
     consistencyPolicy?: ConsistencyPolicy;
     cors?: CorsPolicy[];
@@ -1388,6 +1405,8 @@ export interface DatabaseAccountGetResults extends ARMResourceProperties {
     backupPolicy?: BackupPolicyUnion;
     capabilities?: Capability[];
     capacity?: Capacity;
+    capacityMode?: CapacityMode;
+    capacityModeChangeTransitionState?: CapacityModeChangeTransitionState;
     connectorOffer?: ConnectorOffer;
     consistencyPolicy?: ConsistencyPolicy;
     cors?: CorsPolicy[];
@@ -1681,6 +1700,7 @@ export interface DatabaseAccountUpdateParameters {
     backupPolicy?: BackupPolicyUnion;
     capabilities?: Capability[];
     capacity?: Capacity;
+    capacityMode?: CapacityMode;
     connectorOffer?: ConnectorOffer;
     consistencyPolicy?: ConsistencyPolicy;
     cors?: CorsPolicy[];
@@ -2509,6 +2529,22 @@ export enum KnownBackupStorageRedundancy {
     Geo = "Geo",
     Local = "Local",
     Zone = "Zone"
+}
+
+// @public
+export enum KnownCapacityMode {
+    None = "None",
+    Provisioned = "Provisioned",
+    Serverless = "Serverless"
+}
+
+// @public
+export enum KnownCapacityModeTransitionStatus {
+    Completed = "Completed",
+    Failed = "Failed",
+    Initialized = "Initialized",
+    InProgress = "InProgress",
+    Invalid = "Invalid"
 }
 
 // @public
