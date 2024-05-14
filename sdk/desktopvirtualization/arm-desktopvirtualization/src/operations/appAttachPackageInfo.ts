@@ -8,27 +8,27 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { MsixImages } from "../operationsInterfaces";
+import { AppAttachPackageInfo } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DesktopVirtualizationAPIClient } from "../desktopVirtualizationAPIClient";
 import {
-  ExpandMsixImage,
-  MsixImageURI,
-  MsixImagesExpandNextOptionalParams,
-  MsixImagesExpandOptionalParams,
-  MsixImagesExpandResponse,
-  MsixImagesExpandNextResponse,
+  AppAttachPackage,
+  ImportPackageInfoRequest,
+  AppAttachPackageInfoImportNextOptionalParams,
+  AppAttachPackageInfoImportOptionalParams,
+  AppAttachPackageInfoImportResponse,
+  AppAttachPackageInfoImportNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing MsixImages operations. */
-export class MsixImagesImpl implements MsixImages {
+/** Class containing AppAttachPackageInfo operations. */
+export class AppAttachPackageInfoImpl implements AppAttachPackageInfo {
   private readonly client: DesktopVirtualizationAPIClient;
 
   /**
-   * Initialize a new instance of the class MsixImages class.
+   * Initialize a new instance of the class AppAttachPackageInfo class.
    * @param client Reference to the service client
    */
   constructor(client: DesktopVirtualizationAPIClient) {
@@ -36,22 +36,22 @@ export class MsixImagesImpl implements MsixImages {
   }
 
   /**
-   * Expands and Lists MSIX packages in an Image, given the Image Path.
+   * Gets information from a package given the path to the package.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostPoolName The name of the host pool within the specified resource group
-   * @param msixImageURI Object containing URI to MSIX Image
+   * @param importPackageInfoRequest Object containing URI to package image and other optional properties
    * @param options The options parameters.
    */
-  public listExpand(
+  public listImport(
     resourceGroupName: string,
     hostPoolName: string,
-    msixImageURI: MsixImageURI,
-    options?: MsixImagesExpandOptionalParams,
-  ): PagedAsyncIterableIterator<ExpandMsixImage> {
-    const iter = this.expandPagingAll(
+    importPackageInfoRequest: ImportPackageInfoRequest,
+    options?: AppAttachPackageInfoImportOptionalParams,
+  ): PagedAsyncIterableIterator<AppAttachPackage> {
+    const iter = this.importPagingAll(
       resourceGroupName,
       hostPoolName,
-      msixImageURI,
+      importPackageInfoRequest,
       options,
     );
     return {
@@ -65,10 +65,10 @@ export class MsixImagesImpl implements MsixImages {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.expandPagingPage(
+        return this.importPagingPage(
           resourceGroupName,
           hostPoolName,
-          msixImageURI,
+          importPackageInfoRequest,
           options,
           settings,
         );
@@ -76,20 +76,20 @@ export class MsixImagesImpl implements MsixImages {
     };
   }
 
-  private async *expandPagingPage(
+  private async *importPagingPage(
     resourceGroupName: string,
     hostPoolName: string,
-    msixImageURI: MsixImageURI,
-    options?: MsixImagesExpandOptionalParams,
+    importPackageInfoRequest: ImportPackageInfoRequest,
+    options?: AppAttachPackageInfoImportOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<ExpandMsixImage[]> {
-    let result: MsixImagesExpandResponse;
+  ): AsyncIterableIterator<AppAttachPackage[]> {
+    let result: AppAttachPackageInfoImportResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._expand(
+      result = await this._import(
         resourceGroupName,
         hostPoolName,
-        msixImageURI,
+        importPackageInfoRequest,
         options,
       );
       let page = result.value || [];
@@ -98,10 +98,10 @@ export class MsixImagesImpl implements MsixImages {
       yield page;
     }
     while (continuationToken) {
-      result = await this._expandNext(
+      result = await this._importNext(
         resourceGroupName,
         hostPoolName,
-        msixImageURI,
+        importPackageInfoRequest,
         continuationToken,
         options,
       );
@@ -112,16 +112,16 @@ export class MsixImagesImpl implements MsixImages {
     }
   }
 
-  private async *expandPagingAll(
+  private async *importPagingAll(
     resourceGroupName: string,
     hostPoolName: string,
-    msixImageURI: MsixImageURI,
-    options?: MsixImagesExpandOptionalParams,
-  ): AsyncIterableIterator<ExpandMsixImage> {
-    for await (const page of this.expandPagingPage(
+    importPackageInfoRequest: ImportPackageInfoRequest,
+    options?: AppAttachPackageInfoImportOptionalParams,
+  ): AsyncIterableIterator<AppAttachPackage> {
+    for await (const page of this.importPagingPage(
       resourceGroupName,
       hostPoolName,
-      msixImageURI,
+      importPackageInfoRequest,
       options,
     )) {
       yield* page;
@@ -129,60 +129,66 @@ export class MsixImagesImpl implements MsixImages {
   }
 
   /**
-   * Expands and Lists MSIX packages in an Image, given the Image Path.
+   * Gets information from a package given the path to the package.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostPoolName The name of the host pool within the specified resource group
-   * @param msixImageURI Object containing URI to MSIX Image
+   * @param importPackageInfoRequest Object containing URI to package image and other optional properties
    * @param options The options parameters.
    */
-  private _expand(
+  private _import(
     resourceGroupName: string,
     hostPoolName: string,
-    msixImageURI: MsixImageURI,
-    options?: MsixImagesExpandOptionalParams,
-  ): Promise<MsixImagesExpandResponse> {
+    importPackageInfoRequest: ImportPackageInfoRequest,
+    options?: AppAttachPackageInfoImportOptionalParams,
+  ): Promise<AppAttachPackageInfoImportResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, hostPoolName, msixImageURI, options },
-      expandOperationSpec,
+      { resourceGroupName, hostPoolName, importPackageInfoRequest, options },
+      importOperationSpec,
     );
   }
 
   /**
-   * ExpandNext
+   * ImportNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostPoolName The name of the host pool within the specified resource group
-   * @param msixImageURI Object containing URI to MSIX Image
-   * @param nextLink The nextLink from the previous successful call to the Expand method.
+   * @param importPackageInfoRequest Object containing URI to package image and other optional properties
+   * @param nextLink The nextLink from the previous successful call to the Import method.
    * @param options The options parameters.
    */
-  private _expandNext(
+  private _importNext(
     resourceGroupName: string,
     hostPoolName: string,
-    msixImageURI: MsixImageURI,
+    importPackageInfoRequest: ImportPackageInfoRequest,
     nextLink: string,
-    options?: MsixImagesExpandNextOptionalParams,
-  ): Promise<MsixImagesExpandNextResponse> {
+    options?: AppAttachPackageInfoImportNextOptionalParams,
+  ): Promise<AppAttachPackageInfoImportNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, hostPoolName, msixImageURI, nextLink, options },
-      expandNextOperationSpec,
+      {
+        resourceGroupName,
+        hostPoolName,
+        importPackageInfoRequest,
+        nextLink,
+        options,
+      },
+      importNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const expandOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/expandMsixImage",
+const importOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/importAppAttachPackageInfo",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ExpandMsixImageList,
+      bodyMapper: Mappers.AppAttachPackageList,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.msixImageURI,
+  requestBody: Parameters.importPackageInfoRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -194,15 +200,15 @@ const expandOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer,
 };
-const expandNextOperationSpec: coreClient.OperationSpec = {
+const importNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ExpandMsixImageList,
+      bodyMapper: Mappers.AppAttachPackageList,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [
