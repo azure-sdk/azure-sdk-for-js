@@ -21,6 +21,6 @@ export interface Gateways {
     resourceGroupName: string,
     workspaceName: string,
     gatewayId: string,
-    options?: GatewaysDeleteOptionalParams
+    options?: GatewaysDeleteOptionalParams,
   ): Promise<void>;
 }
