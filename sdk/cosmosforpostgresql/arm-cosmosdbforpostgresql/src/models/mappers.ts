@@ -36,6 +36,33 @@ export const ClusterListResult: coreClient.CompositeMapper = {
   },
 };
 
+export const DataEncryption: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataEncryption",
+    modelProperties: {
+      primaryKeyUri: {
+        serializedName: "primaryKeyUri",
+        type: {
+          name: "String",
+        },
+      },
+      primaryUserAssignedIdentityId: {
+        serializedName: "primaryUserAssignedIdentityId",
+        type: {
+          name: "String",
+        },
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const MaintenanceWindow: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -236,6 +263,53 @@ export const AuthConfig: coreClient.CompositeMapper = {
   },
 };
 
+export const IdentityProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "IdentityProperties",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String",
+        },
+      },
+      userAssignedIdentities: {
+        serializedName: "userAssignedIdentities",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: { name: "Composite", className: "UserAssignedIdentity" },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const UserAssignedIdentity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UserAssignedIdentity",
+    modelProperties: {
+      principalId: {
+        serializedName: "principalId",
+        readOnly: true,
+        type: {
+          name: "Uuid",
+        },
+      },
+      clientId: {
+        serializedName: "clientId",
+        readOnly: true,
+        type: {
+          name: "Uuid",
+        },
+      },
+    },
+  },
+};
+
 export const ErrorResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -337,6 +411,13 @@ export const ClusterForUpdate: coreClient.CompositeMapper = {
     name: "Composite",
     className: "ClusterForUpdate",
     modelProperties: {
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "IdentityProperties",
+        },
+      },
       tags: {
         serializedName: "tags",
         type: {
@@ -1423,6 +1504,20 @@ export const Cluster: coreClient.CompositeMapper = {
     className: "Cluster",
     modelProperties: {
       ...TrackedResource.type.modelProperties,
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "IdentityProperties",
+        },
+      },
+      aadAuthEnabled: {
+        serializedName: "properties.aadAuthEnabled",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
       administratorLogin: {
         serializedName: "properties.administratorLogin",
         readOnly: true,
@@ -1434,6 +1529,13 @@ export const Cluster: coreClient.CompositeMapper = {
         serializedName: "properties.administratorLoginPassword",
         type: {
           name: "String",
+        },
+      },
+      dataEncryption: {
+        serializedName: "properties.dataEncryption",
+        type: {
+          name: "Composite",
+          className: "DataEncryption",
         },
       },
       provisioningState: {
@@ -1565,6 +1667,13 @@ export const Cluster: coreClient.CompositeMapper = {
       },
       sourceLocation: {
         serializedName: "properties.sourceLocation",
+        type: {
+          name: "String",
+        },
+      },
+      passwordEnabled: {
+        serializedName: "properties.passwordEnabled",
+        readOnly: true,
         type: {
           name: "String",
         },

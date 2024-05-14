@@ -19,6 +19,15 @@ export interface ClusterListResult {
   readonly nextLink?: string;
 }
 
+/** The data encryption properties of a cluster. */
+export interface DataEncryption {
+  /** URI for the key in keyvault for data encryption of the primary server. */
+  primaryKeyUri?: string;
+  /** Resource Id for the User assigned identity to be used for data encryption of the primary server. */
+  primaryUserAssignedIdentityId?: string;
+  type?: DataEncryptionType;
+}
+
 /** Schedule settings for regular cluster updates. */
 export interface MaintenanceWindow {
   /** Indicates whether custom maintenance window is enabled or not. */
@@ -104,6 +113,29 @@ export interface AuthConfig {
   passwordAuth?: PasswordAuth;
 }
 
+/** Describes the identity of the cluster. */
+export interface IdentityProperties {
+  type?: IdentityType;
+  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+  userAssignedIdentities?: {
+    [propertyName: string]: UserAssignedIdentity | null;
+  };
+}
+
+/** User assigned identity properties */
+export interface UserAssignedIdentity {
+  /**
+   * The principal ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The client ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientId?: string;
+}
+
 /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
 export interface ErrorResponse {
   /** The error object. */
@@ -155,6 +187,8 @@ export interface ErrorAdditionalInfo {
 
 /** Represents a cluster for update. */
 export interface ClusterForUpdate {
+  /** Describes the identity of the cluster. */
+  identity?: IdentityProperties;
   /** Application-specific metadata in the form of key-value pairs. */
   tags?: { [propertyName: string]: string };
   /**
@@ -284,7 +318,7 @@ export interface RoleListResult {
 
 /** Request from client to promote geo-redundant replica */
 export interface PromoteRequest {
-  /** Cluster name to verify. */
+  /** Boolean property to enable geo-redundant replica promotion. */
   enableGeoBackup?: boolean;
 }
 
@@ -625,6 +659,13 @@ export interface Role extends ProxyResource {
 
 /** Represents a cluster. */
 export interface Cluster extends TrackedResource {
+  /** Describes the identity of the cluster. */
+  identity?: IdentityProperties;
+  /**
+   * Indicates whether the cluster was created using AAD authentication.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly aadAuthEnabled?: AadEnabledEnum;
   /**
    * The administrator's login name of the servers in the cluster.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -635,6 +676,8 @@ export interface Cluster extends TrackedResource {
    * This value contains a credential. Consider obscuring before showing to users
    */
   administratorLoginPassword?: string;
+  /** The data encryption properties of a cluster. */
+  dataEncryption?: DataEncryption;
   /**
    * Provisioning state of the cluster
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -684,6 +727,11 @@ export interface Cluster extends TrackedResource {
   sourceResourceId?: string;
   /** The Azure region of source cluster for read replica clusters. */
   sourceLocation?: string;
+  /**
+   * Indicates whether the cluster was created with a password or using AAD authentication.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly passwordEnabled?: PasswordEnabledEnum;
   /** Date and time in UTC (ISO8601 format) for cluster restore. */
   pointInTimeUTC?: Date;
   /**
@@ -799,6 +847,60 @@ export interface PrivateEndpointConnectionsDeleteHeaders {
   azureAsyncOperation?: string;
 }
 
+/** Known values of {@link AadEnabledEnum} that the service accepts. */
+export enum KnownAadEnabledEnum {
+  /** Enabled */
+  Enabled = "enabled",
+  /** Disabled */
+  Disabled = "disabled",
+}
+
+/**
+ * Defines values for AadEnabledEnum. \
+ * {@link KnownAadEnabledEnum} can be used interchangeably with AadEnabledEnum,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **enabled** \
+ * **disabled**
+ */
+export type AadEnabledEnum = string;
+
+/** Known values of {@link DataEncryptionType} that the service accepts. */
+export enum KnownDataEncryptionType {
+  /** AzureKeyVault */
+  AzureKeyVault = "AzureKeyVault",
+  /** SystemAssigned */
+  SystemAssigned = "SystemAssigned",
+}
+
+/**
+ * Defines values for DataEncryptionType. \
+ * {@link KnownDataEncryptionType} can be used interchangeably with DataEncryptionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AzureKeyVault** \
+ * **SystemAssigned**
+ */
+export type DataEncryptionType = string;
+
+/** Known values of {@link PasswordEnabledEnum} that the service accepts. */
+export enum KnownPasswordEnabledEnum {
+  /** Enabled */
+  Enabled = "enabled",
+  /** Disabled */
+  Disabled = "disabled",
+}
+
+/**
+ * Defines values for PasswordEnabledEnum. \
+ * {@link KnownPasswordEnabledEnum} can be used interchangeably with PasswordEnabledEnum,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **enabled** \
+ * **disabled**
+ */
+export type PasswordEnabledEnum = string;
+
 /** Known values of {@link PrivateEndpointServiceConnectionStatus} that the service accepts. */
 export enum KnownPrivateEndpointServiceConnectionStatus {
   /** Pending */
@@ -879,6 +981,24 @@ export enum KnownPasswordAuth {
  * **disabled**
  */
 export type PasswordAuth = string;
+
+/** Known values of {@link IdentityType} that the service accepts. */
+export enum KnownIdentityType {
+  /** UserAssigned */
+  UserAssigned = "UserAssigned",
+  /** SystemAssigned */
+  SystemAssigned = "SystemAssigned",
+}
+
+/**
+ * Defines values for IdentityType. \
+ * {@link KnownIdentityType} can be used interchangeably with IdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **UserAssigned** \
+ * **SystemAssigned**
+ */
+export type IdentityType = string;
 
 /** Known values of {@link ServerRole} that the service accepts. */
 export enum KnownServerRole {
