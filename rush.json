@@ -2206,6 +2206,11 @@
       "packageName": "@azure-rest/ai-vision-face",
       "projectFolder": "sdk/face/ai-vision-face-rest",
       "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-rest/azure-appconfiguration-rest",
+      "projectFolder": "sdk/appconfiguration/azure-appconfiguration-rest",
+      "versionPolicyName": "client"
     }
   ]
 }
