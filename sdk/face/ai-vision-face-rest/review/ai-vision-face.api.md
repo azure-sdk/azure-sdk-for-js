@@ -896,15 +896,6 @@ export interface CreateLivenessSessionContent {
     sendResultsToClient?: boolean;
 }
 
-// @public
-export interface CreateLivenessSessionContentForMultipart {
-    authTokenTimeToLiveInSeconds?: number;
-    deviceCorrelationId?: string;
-    deviceCorrelationIdSetInClient?: boolean;
-    livenessOperationMode: LivenessOperationMode;
-    sendResultsToClient?: boolean;
-}
-
 // @public (undocumented)
 export interface CreateLivenessSessionDefaultHeaders {
     "x-ms-error-code"?: string;
@@ -949,7 +940,7 @@ export type CreateLivenessWithVerifySessionContent = FormData | Array<CreateLive
 // @public (undocumented)
 export interface CreateLivenessWithVerifySessionContentParametersPartDescriptor {
     // (undocumented)
-    body: CreateLivenessSessionContentForMultipart;
+    body: CreateLivenessSessionContent;
     // (undocumented)
     name: "Parameters";
 }
