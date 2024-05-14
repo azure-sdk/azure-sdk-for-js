@@ -8,6 +8,919 @@
 
 import * as coreClient from "@azure/core-client";
 
+export const EmailReceiver: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EmailReceiver",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      emailAddress: {
+        serializedName: "emailAddress",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      useCommonAlertSchema: {
+        defaultValue: false,
+        serializedName: "useCommonAlertSchema",
+        type: {
+          name: "Boolean",
+        },
+      },
+      status: {
+        serializedName: "status",
+        readOnly: true,
+        type: {
+          name: "Enum",
+          allowedValues: ["NotSpecified", "Enabled", "Disabled"],
+        },
+      },
+    },
+  },
+};
+
+export const SmsReceiver: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SmsReceiver",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      countryCode: {
+        serializedName: "countryCode",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      phoneNumber: {
+        serializedName: "phoneNumber",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      status: {
+        serializedName: "status",
+        readOnly: true,
+        type: {
+          name: "Enum",
+          allowedValues: ["NotSpecified", "Enabled", "Disabled"],
+        },
+      },
+    },
+  },
+};
+
+export const WebhookReceiver: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "WebhookReceiver",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      serviceUri: {
+        serializedName: "serviceUri",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      useCommonAlertSchema: {
+        defaultValue: false,
+        serializedName: "useCommonAlertSchema",
+        type: {
+          name: "Boolean",
+        },
+      },
+      useAadAuth: {
+        defaultValue: false,
+        serializedName: "useAadAuth",
+        type: {
+          name: "Boolean",
+        },
+      },
+      objectId: {
+        serializedName: "objectId",
+        type: {
+          name: "String",
+        },
+      },
+      identifierUri: {
+        serializedName: "identifierUri",
+        type: {
+          name: "String",
+        },
+      },
+      tenantId: {
+        serializedName: "tenantId",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ItsmReceiver: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ItsmReceiver",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      workspaceId: {
+        serializedName: "workspaceId",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      connectionId: {
+        serializedName: "connectionId",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      ticketConfiguration: {
+        serializedName: "ticketConfiguration",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      region: {
+        serializedName: "region",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const AzureAppPushReceiver: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AzureAppPushReceiver",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      emailAddress: {
+        serializedName: "emailAddress",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const AutomationRunbookReceiver: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AutomationRunbookReceiver",
+    modelProperties: {
+      automationAccountId: {
+        serializedName: "automationAccountId",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      runbookName: {
+        serializedName: "runbookName",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      webhookResourceId: {
+        serializedName: "webhookResourceId",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      isGlobalRunbook: {
+        serializedName: "isGlobalRunbook",
+        required: true,
+        type: {
+          name: "Boolean",
+        },
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String",
+        },
+      },
+      serviceUri: {
+        serializedName: "serviceUri",
+        type: {
+          name: "String",
+        },
+      },
+      useCommonAlertSchema: {
+        defaultValue: false,
+        serializedName: "useCommonAlertSchema",
+        type: {
+          name: "Boolean",
+        },
+      },
+    },
+  },
+};
+
+export const VoiceReceiver: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VoiceReceiver",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      countryCode: {
+        serializedName: "countryCode",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      phoneNumber: {
+        serializedName: "phoneNumber",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const LogicAppReceiver: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LogicAppReceiver",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      resourceId: {
+        serializedName: "resourceId",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      callbackUrl: {
+        serializedName: "callbackUrl",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      useCommonAlertSchema: {
+        defaultValue: false,
+        serializedName: "useCommonAlertSchema",
+        type: {
+          name: "Boolean",
+        },
+      },
+    },
+  },
+};
+
+export const AzureFunctionReceiver: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AzureFunctionReceiver",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      functionAppResourceId: {
+        serializedName: "functionAppResourceId",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      functionName: {
+        serializedName: "functionName",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      httpTriggerUrl: {
+        serializedName: "httpTriggerUrl",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      useCommonAlertSchema: {
+        defaultValue: false,
+        serializedName: "useCommonAlertSchema",
+        type: {
+          name: "Boolean",
+        },
+      },
+    },
+  },
+};
+
+export const ArmRoleReceiver: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ArmRoleReceiver",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      roleId: {
+        serializedName: "roleId",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      useCommonAlertSchema: {
+        defaultValue: false,
+        serializedName: "useCommonAlertSchema",
+        type: {
+          name: "Boolean",
+        },
+      },
+    },
+  },
+};
+
+export const EventHubReceiver: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EventHubReceiver",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      eventHubNameSpace: {
+        serializedName: "eventHubNameSpace",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      eventHubName: {
+        serializedName: "eventHubName",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      useCommonAlertSchema: {
+        defaultValue: false,
+        serializedName: "useCommonAlertSchema",
+        type: {
+          name: "Boolean",
+        },
+      },
+      tenantId: {
+        serializedName: "tenantId",
+        type: {
+          name: "String",
+        },
+      },
+      subscriptionId: {
+        serializedName: "subscriptionId",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const IncidentReceiver: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "IncidentReceiver",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      connection: {
+        serializedName: "connection",
+        type: {
+          name: "Composite",
+          className: "IncidentServiceConnection",
+        },
+      },
+      incidentManagementService: {
+        serializedName: "incidentManagementService",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      mappings: {
+        serializedName: "mappings",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } },
+        },
+      },
+    },
+  },
+};
+
+export const IncidentServiceConnection: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "IncidentServiceConnection",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const AzureResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AzureResource",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      location: {
+        serializedName: "location",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } },
+        },
+      },
+    },
+  },
+};
+
+export const ErrorResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorResponse",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        type: {
+          name: "String",
+        },
+      },
+      message: {
+        serializedName: "message",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ActionGroupPatchBody: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ActionGroupPatchBody",
+    modelProperties: {
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } },
+        },
+      },
+      enabled: {
+        defaultValue: true,
+        serializedName: "properties.enabled",
+        type: {
+          name: "Boolean",
+        },
+      },
+    },
+  },
+};
+
+export const NotificationRequestBody: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NotificationRequestBody",
+    modelProperties: {
+      alertType: {
+        constraints: {
+          MaxLength: 30,
+        },
+        serializedName: "alertType",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      emailReceivers: {
+        serializedName: "emailReceivers",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "EmailReceiver",
+            },
+          },
+        },
+      },
+      smsReceivers: {
+        serializedName: "smsReceivers",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SmsReceiver",
+            },
+          },
+        },
+      },
+      webhookReceivers: {
+        serializedName: "webhookReceivers",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "WebhookReceiver",
+            },
+          },
+        },
+      },
+      itsmReceivers: {
+        serializedName: "itsmReceivers",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ItsmReceiver",
+            },
+          },
+        },
+      },
+      azureAppPushReceivers: {
+        serializedName: "azureAppPushReceivers",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AzureAppPushReceiver",
+            },
+          },
+        },
+      },
+      automationRunbookReceivers: {
+        serializedName: "automationRunbookReceivers",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AutomationRunbookReceiver",
+            },
+          },
+        },
+      },
+      voiceReceivers: {
+        serializedName: "voiceReceivers",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "VoiceReceiver",
+            },
+          },
+        },
+      },
+      logicAppReceivers: {
+        serializedName: "logicAppReceivers",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "LogicAppReceiver",
+            },
+          },
+        },
+      },
+      azureFunctionReceivers: {
+        serializedName: "azureFunctionReceivers",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AzureFunctionReceiver",
+            },
+          },
+        },
+      },
+      armRoleReceivers: {
+        serializedName: "armRoleReceivers",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ArmRoleReceiver",
+            },
+          },
+        },
+      },
+      eventHubReceivers: {
+        serializedName: "eventHubReceivers",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "EventHubReceiver",
+            },
+          },
+        },
+      },
+      incidentReceivers: {
+        serializedName: "incidentReceivers",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "IncidentReceiver",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const TestNotificationDetailsResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TestNotificationDetailsResponse",
+    modelProperties: {
+      context: {
+        serializedName: "context",
+        type: {
+          name: "Composite",
+          className: "Context",
+        },
+      },
+      state: {
+        serializedName: "state",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      completedTime: {
+        serializedName: "completedTime",
+        type: {
+          name: "String",
+        },
+      },
+      createdTime: {
+        serializedName: "createdTime",
+        type: {
+          name: "String",
+        },
+      },
+      actionDetails: {
+        serializedName: "actionDetails",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ActionDetail",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const Context: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Context",
+    modelProperties: {
+      notificationSource: {
+        serializedName: "notificationSource",
+        type: {
+          name: "String",
+        },
+      },
+      contextType: {
+        serializedName: "contextType",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ActionDetail: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ActionDetail",
+    modelProperties: {
+      mechanismType: {
+        serializedName: "MechanismType",
+        type: {
+          name: "String",
+        },
+      },
+      name: {
+        serializedName: "Name",
+        type: {
+          name: "String",
+        },
+      },
+      status: {
+        serializedName: "Status",
+        type: {
+          name: "String",
+        },
+      },
+      subState: {
+        serializedName: "SubState",
+        type: {
+          name: "String",
+        },
+      },
+      sendTime: {
+        serializedName: "SendTime",
+        type: {
+          name: "String",
+        },
+      },
+      detail: {
+        serializedName: "Detail",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ActionGroupList: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ActionGroupList",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ActionGroupResource",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const EnableRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EnableRequest",
+    modelProperties: {
+      receiverName: {
+        serializedName: "receiverName",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const MetricNamespaceCollection: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -77,27 +990,6 @@ export const MetricNamespaceName: coreClient.CompositeMapper = {
     modelProperties: {
       metricNamespaceName: {
         serializedName: "metricNamespaceName",
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const ErrorResponse: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ErrorResponse",
-    modelProperties: {
-      code: {
-        serializedName: "code",
-        type: {
-          name: "String",
-        },
-      },
-      message: {
-        serializedName: "message",
         type: {
           name: "String",
         },
@@ -900,7 +1792,6 @@ export const AzureMonitorWorkspace: coreClient.CompositeMapper = {
       },
       publicNetworkAccess: {
         serializedName: "publicNetworkAccess",
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -2782,825 +3673,6 @@ export const DiagnosticSettingsCategoryResourceCollection: coreClient.CompositeM
       },
     },
   };
-
-export const EmailReceiver: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "EmailReceiver",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-      emailAddress: {
-        serializedName: "emailAddress",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-      useCommonAlertSchema: {
-        defaultValue: false,
-        serializedName: "useCommonAlertSchema",
-        type: {
-          name: "Boolean",
-        },
-      },
-      status: {
-        serializedName: "status",
-        readOnly: true,
-        type: {
-          name: "Enum",
-          allowedValues: ["NotSpecified", "Enabled", "Disabled"],
-        },
-      },
-    },
-  },
-};
-
-export const SmsReceiver: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SmsReceiver",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-      countryCode: {
-        serializedName: "countryCode",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-      phoneNumber: {
-        serializedName: "phoneNumber",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-      status: {
-        serializedName: "status",
-        readOnly: true,
-        type: {
-          name: "Enum",
-          allowedValues: ["NotSpecified", "Enabled", "Disabled"],
-        },
-      },
-    },
-  },
-};
-
-export const WebhookReceiver: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "WebhookReceiver",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-      serviceUri: {
-        serializedName: "serviceUri",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-      useCommonAlertSchema: {
-        defaultValue: false,
-        serializedName: "useCommonAlertSchema",
-        type: {
-          name: "Boolean",
-        },
-      },
-      useAadAuth: {
-        defaultValue: false,
-        serializedName: "useAadAuth",
-        type: {
-          name: "Boolean",
-        },
-      },
-      objectId: {
-        serializedName: "objectId",
-        type: {
-          name: "String",
-        },
-      },
-      identifierUri: {
-        serializedName: "identifierUri",
-        type: {
-          name: "String",
-        },
-      },
-      tenantId: {
-        serializedName: "tenantId",
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const ItsmReceiver: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ItsmReceiver",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-      workspaceId: {
-        serializedName: "workspaceId",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-      connectionId: {
-        serializedName: "connectionId",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-      ticketConfiguration: {
-        serializedName: "ticketConfiguration",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-      region: {
-        serializedName: "region",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const AzureAppPushReceiver: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "AzureAppPushReceiver",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-      emailAddress: {
-        serializedName: "emailAddress",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const AutomationRunbookReceiver: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "AutomationRunbookReceiver",
-    modelProperties: {
-      automationAccountId: {
-        serializedName: "automationAccountId",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-      runbookName: {
-        serializedName: "runbookName",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-      webhookResourceId: {
-        serializedName: "webhookResourceId",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-      isGlobalRunbook: {
-        serializedName: "isGlobalRunbook",
-        required: true,
-        type: {
-          name: "Boolean",
-        },
-      },
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String",
-        },
-      },
-      serviceUri: {
-        serializedName: "serviceUri",
-        type: {
-          name: "String",
-        },
-      },
-      useCommonAlertSchema: {
-        defaultValue: false,
-        serializedName: "useCommonAlertSchema",
-        type: {
-          name: "Boolean",
-        },
-      },
-    },
-  },
-};
-
-export const VoiceReceiver: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "VoiceReceiver",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-      countryCode: {
-        serializedName: "countryCode",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-      phoneNumber: {
-        serializedName: "phoneNumber",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const LogicAppReceiver: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "LogicAppReceiver",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-      resourceId: {
-        serializedName: "resourceId",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-      callbackUrl: {
-        serializedName: "callbackUrl",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-      useCommonAlertSchema: {
-        defaultValue: false,
-        serializedName: "useCommonAlertSchema",
-        type: {
-          name: "Boolean",
-        },
-      },
-    },
-  },
-};
-
-export const AzureFunctionReceiver: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "AzureFunctionReceiver",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-      functionAppResourceId: {
-        serializedName: "functionAppResourceId",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-      functionName: {
-        serializedName: "functionName",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-      httpTriggerUrl: {
-        serializedName: "httpTriggerUrl",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-      useCommonAlertSchema: {
-        defaultValue: false,
-        serializedName: "useCommonAlertSchema",
-        type: {
-          name: "Boolean",
-        },
-      },
-    },
-  },
-};
-
-export const ArmRoleReceiver: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ArmRoleReceiver",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-      roleId: {
-        serializedName: "roleId",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-      useCommonAlertSchema: {
-        defaultValue: false,
-        serializedName: "useCommonAlertSchema",
-        type: {
-          name: "Boolean",
-        },
-      },
-    },
-  },
-};
-
-export const EventHubReceiver: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "EventHubReceiver",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-      eventHubNameSpace: {
-        serializedName: "eventHubNameSpace",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-      eventHubName: {
-        serializedName: "eventHubName",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-      useCommonAlertSchema: {
-        defaultValue: false,
-        serializedName: "useCommonAlertSchema",
-        type: {
-          name: "Boolean",
-        },
-      },
-      tenantId: {
-        serializedName: "tenantId",
-        type: {
-          name: "String",
-        },
-      },
-      subscriptionId: {
-        serializedName: "subscriptionId",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const AzureResource: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "AzureResource",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      type: {
-        serializedName: "type",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      location: {
-        serializedName: "location",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-      tags: {
-        serializedName: "tags",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } },
-        },
-      },
-    },
-  },
-};
-
-export const ActionGroupPatchBody: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ActionGroupPatchBody",
-    modelProperties: {
-      tags: {
-        serializedName: "tags",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } },
-        },
-      },
-      enabled: {
-        defaultValue: true,
-        serializedName: "properties.enabled",
-        type: {
-          name: "Boolean",
-        },
-      },
-    },
-  },
-};
-
-export const NotificationRequestBody: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "NotificationRequestBody",
-    modelProperties: {
-      alertType: {
-        constraints: {
-          MaxLength: 30,
-        },
-        serializedName: "alertType",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-      emailReceivers: {
-        serializedName: "emailReceivers",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "EmailReceiver",
-            },
-          },
-        },
-      },
-      smsReceivers: {
-        serializedName: "smsReceivers",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "SmsReceiver",
-            },
-          },
-        },
-      },
-      webhookReceivers: {
-        serializedName: "webhookReceivers",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "WebhookReceiver",
-            },
-          },
-        },
-      },
-      itsmReceivers: {
-        serializedName: "itsmReceivers",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ItsmReceiver",
-            },
-          },
-        },
-      },
-      azureAppPushReceivers: {
-        serializedName: "azureAppPushReceivers",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "AzureAppPushReceiver",
-            },
-          },
-        },
-      },
-      automationRunbookReceivers: {
-        serializedName: "automationRunbookReceivers",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "AutomationRunbookReceiver",
-            },
-          },
-        },
-      },
-      voiceReceivers: {
-        serializedName: "voiceReceivers",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "VoiceReceiver",
-            },
-          },
-        },
-      },
-      logicAppReceivers: {
-        serializedName: "logicAppReceivers",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "LogicAppReceiver",
-            },
-          },
-        },
-      },
-      azureFunctionReceivers: {
-        serializedName: "azureFunctionReceivers",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "AzureFunctionReceiver",
-            },
-          },
-        },
-      },
-      armRoleReceivers: {
-        serializedName: "armRoleReceivers",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ArmRoleReceiver",
-            },
-          },
-        },
-      },
-      eventHubReceivers: {
-        serializedName: "eventHubReceivers",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "EventHubReceiver",
-            },
-          },
-        },
-      },
-    },
-  },
-};
-
-export const TestNotificationDetailsResponse: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "TestNotificationDetailsResponse",
-    modelProperties: {
-      context: {
-        serializedName: "context",
-        type: {
-          name: "Composite",
-          className: "Context",
-        },
-      },
-      state: {
-        serializedName: "state",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-      completedTime: {
-        serializedName: "completedTime",
-        type: {
-          name: "String",
-        },
-      },
-      createdTime: {
-        serializedName: "createdTime",
-        type: {
-          name: "String",
-        },
-      },
-      actionDetails: {
-        serializedName: "actionDetails",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ActionDetail",
-            },
-          },
-        },
-      },
-    },
-  },
-};
-
-export const Context: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "Context",
-    modelProperties: {
-      notificationSource: {
-        serializedName: "notificationSource",
-        type: {
-          name: "String",
-        },
-      },
-      contextType: {
-        serializedName: "contextType",
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const ActionDetail: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ActionDetail",
-    modelProperties: {
-      mechanismType: {
-        serializedName: "MechanismType",
-        type: {
-          name: "String",
-        },
-      },
-      name: {
-        serializedName: "Name",
-        type: {
-          name: "String",
-        },
-      },
-      status: {
-        serializedName: "Status",
-        type: {
-          name: "String",
-        },
-      },
-      subState: {
-        serializedName: "SubState",
-        type: {
-          name: "String",
-        },
-      },
-      sendTime: {
-        serializedName: "SendTime",
-        type: {
-          name: "String",
-        },
-      },
-      detail: {
-        serializedName: "Detail",
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const ActionGroupList: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ActionGroupList",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ActionGroupResource",
-            },
-          },
-        },
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const EnableRequest: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "EnableRequest",
-    modelProperties: {
-      receiverName: {
-        serializedName: "receiverName",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
 
 export const EmailReceiverAutoGenerated: coreClient.CompositeMapper = {
   type: {
@@ -6586,6 +6658,13 @@ export const Metadata: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      provisionedByImmutableId: {
+        serializedName: "provisionedByImmutableId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -6961,6 +7040,27 @@ export const DataCollectionRuleResource: coreClient.CompositeMapper = {
           className: "DataCollectionRuleMetadata",
         },
       },
+      endpoints: {
+        serializedName: "properties.endpoints",
+        type: {
+          name: "Composite",
+          className: "DataCollectionRuleEndpoints",
+        },
+      },
+      references: {
+        serializedName: "properties.references",
+        type: {
+          name: "Composite",
+          className: "DataCollectionRuleReferences",
+        },
+      },
+      agentSettings: {
+        serializedName: "properties.agentSettings",
+        type: {
+          name: "Composite",
+          className: "DataCollectionRuleAgentSettings",
+        },
+      },
       streamDeclarations: {
         serializedName: "properties.streamDeclarations",
         type: {
@@ -7038,6 +7138,27 @@ export const DataCollectionRule: coreClient.CompositeMapper = {
           className: "DataCollectionRuleMetadata",
         },
       },
+      endpoints: {
+        serializedName: "endpoints",
+        type: {
+          name: "Composite",
+          className: "DataCollectionRuleEndpoints",
+        },
+      },
+      references: {
+        serializedName: "references",
+        type: {
+          name: "Composite",
+          className: "DataCollectionRuleReferences",
+        },
+      },
+      agentSettings: {
+        serializedName: "agentSettings",
+        type: {
+          name: "Composite",
+          className: "DataCollectionRuleAgentSettings",
+        },
+      },
       streamDeclarations: {
         serializedName: "streamDeclarations",
         type: {
@@ -7076,6 +7197,141 @@ export const DataCollectionRule: coreClient.CompositeMapper = {
       provisioningState: {
         serializedName: "provisioningState",
         readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const EndpointsSpec: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EndpointsSpec",
+    modelProperties: {
+      logsIngestion: {
+        serializedName: "logsIngestion",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      metricsIngestion: {
+        serializedName: "metricsIngestion",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ReferencesSpec: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ReferencesSpec",
+    modelProperties: {
+      enrichmentData: {
+        serializedName: "enrichmentData",
+        type: {
+          name: "Composite",
+          className: "ReferencesSpecEnrichmentData",
+        },
+      },
+    },
+  },
+};
+
+export const EnrichmentData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EnrichmentData",
+    modelProperties: {
+      storageBlobs: {
+        serializedName: "storageBlobs",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "StorageBlob",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const StorageBlob: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StorageBlob",
+    modelProperties: {
+      resourceId: {
+        serializedName: "resourceId",
+        type: {
+          name: "String",
+        },
+      },
+      blobUrl: {
+        serializedName: "blobUrl",
+        type: {
+          name: "String",
+        },
+      },
+      lookupType: {
+        serializedName: "lookupType",
+        type: {
+          name: "String",
+        },
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const AgentSettingsSpec: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AgentSettingsSpec",
+    modelProperties: {
+      logs: {
+        serializedName: "logs",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AgentSetting",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const AgentSetting: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AgentSetting",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String",
+        },
+      },
+      value: {
+        serializedName: "value",
         type: {
           name: "String",
         },
@@ -7283,6 +7539,12 @@ export const PerfCounterDataSource: coreClient.CompositeMapper = {
           },
         },
       },
+      transformKql: {
+        serializedName: "transformKql",
+        type: {
+          name: "String",
+        },
+      },
       name: {
         serializedName: "name",
         type: {
@@ -7318,6 +7580,12 @@ export const WindowsEventLogDataSource: coreClient.CompositeMapper = {
               name: "String",
             },
           },
+        },
+      },
+      transformKql: {
+        serializedName: "transformKql",
+        type: {
+          name: "String",
         },
       },
       name: {
@@ -7366,6 +7634,12 @@ export const SyslogDataSource: coreClient.CompositeMapper = {
               name: "String",
             },
           },
+        },
+      },
+      transformKql: {
+        serializedName: "transformKql",
+        type: {
+          name: "String",
         },
       },
       name: {
@@ -7472,6 +7746,12 @@ export const LogFilesDataSource: coreClient.CompositeMapper = {
           className: "LogFilesDataSourceSettings",
         },
       },
+      transformKql: {
+        serializedName: "transformKql",
+        type: {
+          name: "String",
+        },
+      },
       name: {
         serializedName: "name",
         type: {
@@ -7542,6 +7822,12 @@ export const IisLogsDataSource: coreClient.CompositeMapper = {
           },
         },
       },
+      transformKql: {
+        serializedName: "transformKql",
+        type: {
+          name: "String",
+        },
+      },
       name: {
         serializedName: "name",
         type: {
@@ -7560,6 +7846,17 @@ export const WindowsFirewallLogsDataSource: coreClient.CompositeMapper = {
       streams: {
         serializedName: "streams",
         required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+      profileFilter: {
+        serializedName: "profileFilter",
         type: {
           name: "Sequence",
           element: {
@@ -7778,6 +8075,30 @@ export const DestinationsSpec: coreClient.CompositeMapper = {
           },
         },
       },
+      microsoftFabric: {
+        serializedName: "microsoftFabric",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MicrosoftFabricDestination",
+            },
+          },
+        },
+      },
+      azureDataExplorer: {
+        serializedName: "azureDataExplorer",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AdxDestination",
+            },
+          },
+        },
+      },
     },
   },
 };
@@ -7949,6 +8270,79 @@ export const StorageTableDestination: coreClient.CompositeMapper = {
   },
 };
 
+export const MicrosoftFabricDestination: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MicrosoftFabricDestination",
+    modelProperties: {
+      tenantId: {
+        serializedName: "tenantId",
+        type: {
+          name: "String",
+        },
+      },
+      artifactId: {
+        serializedName: "artifactId",
+        type: {
+          name: "String",
+        },
+      },
+      databaseName: {
+        serializedName: "databaseName",
+        type: {
+          name: "String",
+        },
+      },
+      ingestionUri: {
+        serializedName: "ingestionUri",
+        type: {
+          name: "String",
+        },
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const AdxDestination: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AdxDestination",
+    modelProperties: {
+      resourceId: {
+        serializedName: "resourceId",
+        type: {
+          name: "String",
+        },
+      },
+      databaseName: {
+        serializedName: "databaseName",
+        type: {
+          name: "String",
+        },
+      },
+      ingestionUri: {
+        serializedName: "ingestionUri",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const DataFlow: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -7992,6 +8386,12 @@ export const DataFlow: coreClient.CompositeMapper = {
         serializedName: "builtInTransform",
         type: {
           name: "String",
+        },
+      },
+      captureOverflow: {
+        serializedName: "captureOverflow",
+        type: {
+          name: "Boolean",
         },
       },
     },
@@ -8167,6 +8567,262 @@ export const DynamicThresholdFailingPeriods: coreClient.CompositeMapper = {
         required: true,
         type: {
           name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const ActionGroupResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ActionGroupResource",
+    modelProperties: {
+      ...AzureResource.type.modelProperties,
+      groupShortName: {
+        constraints: {
+          MaxLength: 12,
+        },
+        serializedName: "properties.groupShortName",
+        type: {
+          name: "String",
+        },
+      },
+      enabled: {
+        defaultValue: true,
+        serializedName: "properties.enabled",
+        type: {
+          name: "Boolean",
+        },
+      },
+      emailReceivers: {
+        serializedName: "properties.emailReceivers",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "EmailReceiver",
+            },
+          },
+        },
+      },
+      smsReceivers: {
+        serializedName: "properties.smsReceivers",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SmsReceiver",
+            },
+          },
+        },
+      },
+      webhookReceivers: {
+        serializedName: "properties.webhookReceivers",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "WebhookReceiver",
+            },
+          },
+        },
+      },
+      itsmReceivers: {
+        serializedName: "properties.itsmReceivers",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ItsmReceiver",
+            },
+          },
+        },
+      },
+      azureAppPushReceivers: {
+        serializedName: "properties.azureAppPushReceivers",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AzureAppPushReceiver",
+            },
+          },
+        },
+      },
+      automationRunbookReceivers: {
+        serializedName: "properties.automationRunbookReceivers",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AutomationRunbookReceiver",
+            },
+          },
+        },
+      },
+      voiceReceivers: {
+        serializedName: "properties.voiceReceivers",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "VoiceReceiver",
+            },
+          },
+        },
+      },
+      logicAppReceivers: {
+        serializedName: "properties.logicAppReceivers",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "LogicAppReceiver",
+            },
+          },
+        },
+      },
+      azureFunctionReceivers: {
+        serializedName: "properties.azureFunctionReceivers",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AzureFunctionReceiver",
+            },
+          },
+        },
+      },
+      armRoleReceivers: {
+        serializedName: "properties.armRoleReceivers",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ArmRoleReceiver",
+            },
+          },
+        },
+      },
+      eventHubReceivers: {
+        serializedName: "properties.eventHubReceivers",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "EventHubReceiver",
+            },
+          },
+        },
+      },
+      incidentReceivers: {
+        serializedName: "properties.incidentReceivers",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "IncidentReceiver",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const TenantActionGroupResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TenantActionGroupResource",
+    modelProperties: {
+      ...AzureResource.type.modelProperties,
+      groupShortName: {
+        constraints: {
+          MaxLength: 12,
+        },
+        serializedName: "properties.groupShortName",
+        type: {
+          name: "String",
+        },
+      },
+      enabled: {
+        defaultValue: true,
+        serializedName: "properties.enabled",
+        type: {
+          name: "Boolean",
+        },
+      },
+      emailReceivers: {
+        serializedName: "properties.emailReceivers",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "EmailReceiverAutoGenerated",
+            },
+          },
+        },
+      },
+      smsReceivers: {
+        serializedName: "properties.smsReceivers",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SmsReceiverAutoGenerated",
+            },
+          },
+        },
+      },
+      webhookReceivers: {
+        serializedName: "properties.webhookReceivers",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "WebhookReceiverAutoGenerated",
+            },
+          },
+        },
+      },
+      azureAppPushReceivers: {
+        serializedName: "properties.azureAppPushReceivers",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AzureAppPushReceiverAutoGenerated",
+            },
+          },
+        },
+      },
+      voiceReceivers: {
+        serializedName: "properties.voiceReceivers",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "VoiceReceiverAutoGenerated",
+            },
+          },
         },
       },
     },
@@ -8963,250 +9619,6 @@ export const ProxyResourceAutoGenerated: coreClient.CompositeMapper = {
   },
 };
 
-export const ActionGroupResource: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ActionGroupResource",
-    modelProperties: {
-      ...AzureResource.type.modelProperties,
-      groupShortName: {
-        constraints: {
-          MaxLength: 12,
-        },
-        serializedName: "properties.groupShortName",
-        type: {
-          name: "String",
-        },
-      },
-      enabled: {
-        defaultValue: true,
-        serializedName: "properties.enabled",
-        type: {
-          name: "Boolean",
-        },
-      },
-      emailReceivers: {
-        serializedName: "properties.emailReceivers",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "EmailReceiver",
-            },
-          },
-        },
-      },
-      smsReceivers: {
-        serializedName: "properties.smsReceivers",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "SmsReceiver",
-            },
-          },
-        },
-      },
-      webhookReceivers: {
-        serializedName: "properties.webhookReceivers",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "WebhookReceiver",
-            },
-          },
-        },
-      },
-      itsmReceivers: {
-        serializedName: "properties.itsmReceivers",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ItsmReceiver",
-            },
-          },
-        },
-      },
-      azureAppPushReceivers: {
-        serializedName: "properties.azureAppPushReceivers",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "AzureAppPushReceiver",
-            },
-          },
-        },
-      },
-      automationRunbookReceivers: {
-        serializedName: "properties.automationRunbookReceivers",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "AutomationRunbookReceiver",
-            },
-          },
-        },
-      },
-      voiceReceivers: {
-        serializedName: "properties.voiceReceivers",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "VoiceReceiver",
-            },
-          },
-        },
-      },
-      logicAppReceivers: {
-        serializedName: "properties.logicAppReceivers",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "LogicAppReceiver",
-            },
-          },
-        },
-      },
-      azureFunctionReceivers: {
-        serializedName: "properties.azureFunctionReceivers",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "AzureFunctionReceiver",
-            },
-          },
-        },
-      },
-      armRoleReceivers: {
-        serializedName: "properties.armRoleReceivers",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ArmRoleReceiver",
-            },
-          },
-        },
-      },
-      eventHubReceivers: {
-        serializedName: "properties.eventHubReceivers",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "EventHubReceiver",
-            },
-          },
-        },
-      },
-    },
-  },
-};
-
-export const TenantActionGroupResource: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "TenantActionGroupResource",
-    modelProperties: {
-      ...AzureResource.type.modelProperties,
-      groupShortName: {
-        constraints: {
-          MaxLength: 12,
-        },
-        serializedName: "properties.groupShortName",
-        type: {
-          name: "String",
-        },
-      },
-      enabled: {
-        defaultValue: true,
-        serializedName: "properties.enabled",
-        type: {
-          name: "Boolean",
-        },
-      },
-      emailReceivers: {
-        serializedName: "properties.emailReceivers",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "EmailReceiverAutoGenerated",
-            },
-          },
-        },
-      },
-      smsReceivers: {
-        serializedName: "properties.smsReceivers",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "SmsReceiverAutoGenerated",
-            },
-          },
-        },
-      },
-      webhookReceivers: {
-        serializedName: "properties.webhookReceivers",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "WebhookReceiverAutoGenerated",
-            },
-          },
-        },
-      },
-      azureAppPushReceivers: {
-        serializedName: "properties.azureAppPushReceivers",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "AzureAppPushReceiverAutoGenerated",
-            },
-          },
-        },
-      },
-      voiceReceivers: {
-        serializedName: "properties.voiceReceivers",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "VoiceReceiverAutoGenerated",
-            },
-          },
-        },
-      },
-    },
-  },
-};
-
 export const MetricAlertSingleResourceMultipleMetricCriteria: coreClient.CompositeMapper =
   {
     serializedName:
@@ -9665,6 +10077,46 @@ export const DataCollectionRuleResourceProperties: coreClient.CompositeMapper =
     },
   };
 
+export const DataCollectionRuleEndpoints: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataCollectionRuleEndpoints",
+    modelProperties: {
+      ...EndpointsSpec.type.modelProperties,
+    },
+  },
+};
+
+export const DataCollectionRuleReferences: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataCollectionRuleReferences",
+    modelProperties: {
+      ...ReferencesSpec.type.modelProperties,
+    },
+  },
+};
+
+export const ReferencesSpecEnrichmentData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ReferencesSpecEnrichmentData",
+    modelProperties: {
+      ...EnrichmentData.type.modelProperties,
+    },
+  },
+};
+
+export const DataCollectionRuleAgentSettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataCollectionRuleAgentSettings",
+    modelProperties: {
+      ...AgentSettingsSpec.type.modelProperties,
+    },
+  },
+};
+
 export const DataCollectionRuleDataSources: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -9860,7 +10312,6 @@ export const AzureMonitorWorkspaceResource: coreClient.CompositeMapper = {
       },
       publicNetworkAccess: {
         serializedName: "properties.publicNetworkAccess",
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -9943,6 +10394,23 @@ export const ScopedResource: coreClient.CompositeMapper = {
   },
 };
 
+export const ActionGroupsCreateNotificationsAtActionGroupResourceLevelHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className:
+        "ActionGroupsCreateNotificationsAtActionGroupResourceLevelHeaders",
+      modelProperties: {
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
 export const AzureMonitorWorkspacesDeleteHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -9963,23 +10431,6 @@ export const AzureMonitorWorkspacesDeleteHeaders: coreClient.CompositeMapper = {
     },
   },
 };
-
-export const ActionGroupsCreateNotificationsAtActionGroupResourceLevelHeaders: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className:
-        "ActionGroupsCreateNotificationsAtActionGroupResourceLevelHeaders",
-      modelProperties: {
-        location: {
-          serializedName: "location",
-          type: {
-            name: "String",
-          },
-        },
-      },
-    },
-  };
 
 export const MonitorClientCreateNotificationsAtTenantActionGroupResourceLevelHeaders: coreClient.CompositeMapper =
   {
