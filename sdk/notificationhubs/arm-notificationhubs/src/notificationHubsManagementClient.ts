@@ -114,7 +114,7 @@ export class NotificationHubsManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-10-01-preview";
+    this.apiVersion = options.apiVersion || "2024-03-01-preview";
     this.notificationHubs = new NotificationHubsImpl(this);
     this.namespaces = new NamespacesImpl(this);
     this.operations = new OperationsImpl(this);
