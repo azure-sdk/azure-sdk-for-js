@@ -84,6 +84,8 @@ export interface GuestConfigurationNavigation {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly contentType?: string;
+  /** Specifies the managed identity that will be used to download the policy packages */
+  contentManagedIdentity?: string;
   /** The configuration parameters for the guest configuration. */
   configurationParameter?: ConfigurationParameter[];
   /** The protected configuration parameters for the guest configuration. */
