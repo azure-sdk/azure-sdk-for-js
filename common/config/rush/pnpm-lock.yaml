@@ -11112,11 +11112,12 @@ packages:
     dev: false
 
   file:projects/ai-vision-face.tgz:
-    resolution: {integrity: sha512-soAai5Dkj4Dh+EhIwfe6NNkFmTnw5os6uc5zrCu0Ld0qeI++SCZz9x7gAIvQPcb9buL7DrJ02mz0JiL3TzWvUQ==, tarball: file:projects/ai-vision-face.tgz}
+    resolution: {integrity: sha512-DtOiYPTFQOVuPu4cy00p6Oyfda5LOsPKp5qG/6a+dVeZyyu+u3HIxNSC4ALTHWJ8aUHgChLwgRAe423IzDgf6A==, tarball: file:projects/ai-vision-face.tgz}
     name: '@rush-temp/ai-vision-face'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
+      '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
