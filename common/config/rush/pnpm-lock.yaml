@@ -14163,7 +14163,7 @@ packages:
     dev: false
 
   file:projects/arm-hdinsightcontainers.tgz:
-    resolution: {integrity: sha512-ebovHn3mwM2YvBI2084wConhknoAW/+i9YmbLYcDXvgxJbEERTm6n3i3WyMl715K5s3LZ/CS3tkGcNeWTTWwOQ==, tarball: file:projects/arm-hdinsightcontainers.tgz}
+    resolution: {integrity: sha512-gqa9wg8POS92rOIHp+U9mtMlxlYI577sK2LPy40sFYHrl3dwiezj917jl5VswI6pbzymBbJ42xBUo5p9rODmcg==, tarball: file:projects/arm-hdinsightcontainers.tgz}
     name: '@rush-temp/arm-hdinsightcontainers'
     version: 0.0.0
     dependencies:
@@ -14184,6 +14184,7 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.4.5)
       tslib: 2.6.2
+      tsx: 4.10.2
       typescript: 5.4.5
       uglify-js: 3.17.4
     transitivePeerDependencies:
