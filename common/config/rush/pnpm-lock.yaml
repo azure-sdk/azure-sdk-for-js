@@ -15501,7 +15501,7 @@ packages:
     dev: false
 
   file:projects/arm-network-1.tgz:
-    resolution: {integrity: sha512-wEi3DraOYti+jaS9TaMu2Q7c+lVH+QZvohyYfbMto/rTNUTpg0evOwuRIhQcH2wDaGsiMMqA2nGegsQCn0yv0g==, tarball: file:projects/arm-network-1.tgz}
+    resolution: {integrity: sha512-W3X0KtuwGysqPpY3Vv+HWnXV+9+SqiP0lKIbOInn3Eww4/Zh7+MCVmr+WBWI/Zm3g3SmIOEPIOQG6HJSohcyyw==, tarball: file:projects/arm-network-1.tgz}
     name: '@rush-temp/arm-network-1'
     version: 0.0.0
     dependencies:
@@ -15522,6 +15522,7 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.4.5)
       tslib: 2.6.2
+      tsx: 4.10.2
       typescript: 5.4.5
       uglify-js: 3.17.4
     transitivePeerDependencies:
