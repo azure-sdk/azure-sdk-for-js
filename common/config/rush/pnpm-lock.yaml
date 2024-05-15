@@ -11345,7 +11345,7 @@ packages:
     dev: false
 
   file:projects/arm-agrifood.tgz:
-    resolution: {integrity: sha512-DtgnjSI/ClXFSU+VynFUq66VKFdk9zXSpKyCZ9zCoo97F7+ZTQY7p1idG+HPAMiluIyUugPBfDW2IQN/hFFVrg==, tarball: file:projects/arm-agrifood.tgz}
+    resolution: {integrity: sha512-wQs7kQDp9o+ipi1EkDj8IWbeYWH7XyUslGJZ6NXQfrcnpdoT0WzTQXcBNvnK7nWfHXurg2LzRe5UDxowWn9INQ==, tarball: file:projects/arm-agrifood.tgz}
     name: '@rush-temp/arm-agrifood'
     version: 0.0.0
     dependencies:
@@ -11360,11 +11360,13 @@ packages:
       '@types/node': 18.19.33
       chai: 4.3.10
       cross-env: 7.0.3
+      dotenv: 16.4.5
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.4.5)
       tslib: 2.6.2
+      tsx: 4.10.2
       typescript: 5.4.5
       uglify-js: 3.17.4
     transitivePeerDependencies:
