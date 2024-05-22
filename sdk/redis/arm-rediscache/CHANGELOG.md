@@ -1,5 +1,23 @@
 # Release History
     
+## 8.1.0-beta.1 (2024-05-22)
+Compared with version 8.0.0
+    
+**Features**
+
+  - Added Type Alias ZonalAllocationPolicy
+  - Interface RedisCommonProperties has a new optional parameter disableAccessKeyAuthentication
+  - Interface RedisCommonProperties has a new optional parameter zonalAllocationPolicy
+  - Interface RedisCommonPropertiesRedisConfiguration has a new optional parameter notifyKeyspaceEvents
+  - Interface RedisCreateParameters has a new optional parameter disableAccessKeyAuthentication
+  - Interface RedisCreateParameters has a new optional parameter zonalAllocationPolicy
+  - Interface RedisResource has a new optional parameter disableAccessKeyAuthentication
+  - Interface RedisResource has a new optional parameter zonalAllocationPolicy
+  - Interface RedisUpdateParameters has a new optional parameter disableAccessKeyAuthentication
+  - Interface RedisUpdateParameters has a new optional parameter zonalAllocationPolicy
+  - Added Enum KnownZonalAllocationPolicy
+    
+    
 ## 8.0.0 (2023-09-11)
     
 **Features**
@@ -156,4 +174,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).

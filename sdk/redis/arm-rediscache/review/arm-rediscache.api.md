@@ -340,6 +340,13 @@ export enum KnownUpdateChannel {
 }
 
 // @public
+export enum KnownZonalAllocationPolicy {
+    Automatic = "Automatic",
+    NoZones = "NoZones",
+    UserDefined = "UserDefined"
+}
+
+// @public
 export interface LinkedServer {
     beginCreate(resourceGroupName: string, name: string, linkedServerName: string, parameters: RedisLinkedServerCreateParameters, options?: LinkedServerCreateOptionalParams): Promise<SimplePollerLike<OperationState<LinkedServerCreateResponse>, LinkedServerCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, name: string, linkedServerName: string, parameters: RedisLinkedServerCreateParameters, options?: LinkedServerCreateOptionalParams): Promise<LinkedServerCreateResponse>;
@@ -674,6 +681,7 @@ export interface RedisCheckNameAvailabilityOptionalParams extends coreClient.Ope
 
 // @public
 export interface RedisCommonProperties {
+    disableAccessKeyAuthentication?: boolean;
     enableNonSslPort?: boolean;
     minimumTlsVersion?: TlsVersion;
     publicNetworkAccess?: PublicNetworkAccess;
@@ -686,6 +694,7 @@ export interface RedisCommonProperties {
         [propertyName: string]: string;
     };
     updateChannel?: UpdateChannel;
+    zonalAllocationPolicy?: ZonalAllocationPolicy;
 }
 
 // @public
@@ -701,6 +710,7 @@ export interface RedisCommonPropertiesRedisConfiguration {
     maxmemoryDelta?: string;
     maxmemoryPolicy?: string;
     maxmemoryReserved?: string;
+    notifyKeyspaceEvents?: string;
     readonly preferredDataArchiveAuthMethod?: string;
     preferredDataPersistenceAuthMethod?: string;
     rdbBackupEnabled?: string;
@@ -719,6 +729,7 @@ export interface RedisCreateOptionalParams extends coreClient.OperationOptions {
 
 // @public
 export interface RedisCreateParameters {
+    disableAccessKeyAuthentication?: boolean;
     enableNonSslPort?: boolean;
     identity?: ManagedServiceIdentity;
     location: string;
@@ -739,6 +750,7 @@ export interface RedisCreateParameters {
         [propertyName: string]: string;
     };
     updateChannel?: UpdateChannel;
+    zonalAllocationPolicy?: ZonalAllocationPolicy;
     zones?: string[];
 }
 
@@ -1016,6 +1028,7 @@ export type RedisRegenerateKeyResponse = RedisAccessKeys;
 // @public
 export interface RedisResource extends TrackedResource {
     readonly accessKeys?: RedisAccessKeys;
+    disableAccessKeyAuthentication?: boolean;
     enableNonSslPort?: boolean;
     readonly hostName?: string;
     identity?: ManagedServiceIdentity;
@@ -1039,6 +1052,7 @@ export interface RedisResource extends TrackedResource {
         [propertyName: string]: string;
     };
     updateChannel?: UpdateChannel;
+    zonalAllocationPolicy?: ZonalAllocationPolicy;
     zones?: string[];
 }
 
@@ -1050,6 +1064,7 @@ export interface RedisUpdateOptionalParams extends coreClient.OperationOptions {
 
 // @public
 export interface RedisUpdateParameters {
+    disableAccessKeyAuthentication?: boolean;
     enableNonSslPort?: boolean;
     identity?: ManagedServiceIdentity;
     minimumTlsVersion?: TlsVersion;
@@ -1067,6 +1082,7 @@ export interface RedisUpdateParameters {
         [propertyName: string]: string;
     };
     updateChannel?: UpdateChannel;
+    zonalAllocationPolicy?: ZonalAllocationPolicy;
 }
 
 // @public
@@ -1135,6 +1151,9 @@ export interface UserAssignedIdentity {
     readonly clientId?: string;
     readonly principalId?: string;
 }
+
+// @public
+export type ZonalAllocationPolicy = string;
 
 // (No @packageDocumentation comment for this package)
 
