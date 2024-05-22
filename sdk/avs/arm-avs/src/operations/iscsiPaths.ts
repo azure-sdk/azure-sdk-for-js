@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { ScriptExecutions } from "../operationsInterfaces";
+import { IscsiPaths } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,27 +20,25 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  ScriptExecution,
-  ScriptExecutionsListNextOptionalParams,
-  ScriptExecutionsListOptionalParams,
-  ScriptExecutionsListResponse,
-  ScriptExecutionsGetOptionalParams,
-  ScriptExecutionsGetResponse,
-  ScriptExecutionsCreateOrUpdateOptionalParams,
-  ScriptExecutionsCreateOrUpdateResponse,
-  ScriptExecutionsDeleteOptionalParams,
-  ScriptExecutionsGetExecutionLogsOptionalParams,
-  ScriptExecutionsGetExecutionLogsResponse,
-  ScriptExecutionsListNextResponse,
+  IscsiPath,
+  IscsiPathsListByPrivateCloudNextOptionalParams,
+  IscsiPathsListByPrivateCloudOptionalParams,
+  IscsiPathsListByPrivateCloudResponse,
+  IscsiPathsGetOptionalParams,
+  IscsiPathsGetResponse,
+  IscsiPathsCreateOrUpdateOptionalParams,
+  IscsiPathsCreateOrUpdateResponse,
+  IscsiPathsDeleteOptionalParams,
+  IscsiPathsListByPrivateCloudNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing ScriptExecutions operations. */
-export class ScriptExecutionsImpl implements ScriptExecutions {
+/** Class containing IscsiPaths operations. */
+export class IscsiPathsImpl implements IscsiPaths {
   private readonly client: AzureVMwareSolutionAPIForTesting;
 
   /**
-   * Initialize a new instance of the class ScriptExecutions class.
+   * Initialize a new instance of the class IscsiPaths class.
    * @param client Reference to the service client
    */
   constructor(client: AzureVMwareSolutionAPIForTesting) {
@@ -48,17 +46,17 @@ export class ScriptExecutionsImpl implements ScriptExecutions {
   }
 
   /**
-   * List ScriptExecution resources by PrivateCloud
+   * List IscsiPath resources by PrivateCloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param options The options parameters.
    */
-  public list(
+  public listByPrivateCloud(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: ScriptExecutionsListOptionalParams,
-  ): PagedAsyncIterableIterator<ScriptExecution> {
-    const iter = this.listPagingAll(
+    options?: IscsiPathsListByPrivateCloudOptionalParams,
+  ): PagedAsyncIterableIterator<IscsiPath> {
+    const iter = this.listByPrivateCloudPagingAll(
       resourceGroupName,
       privateCloudName,
       options,
@@ -74,7 +72,7 @@ export class ScriptExecutionsImpl implements ScriptExecutions {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
+        return this.listByPrivateCloudPagingPage(
           resourceGroupName,
           privateCloudName,
           options,
@@ -84,23 +82,27 @@ export class ScriptExecutionsImpl implements ScriptExecutions {
     };
   }
 
-  private async *listPagingPage(
+  private async *listByPrivateCloudPagingPage(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: ScriptExecutionsListOptionalParams,
+    options?: IscsiPathsListByPrivateCloudOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<ScriptExecution[]> {
-    let result: ScriptExecutionsListResponse;
+  ): AsyncIterableIterator<IscsiPath[]> {
+    let result: IscsiPathsListByPrivateCloudResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(resourceGroupName, privateCloudName, options);
+      result = await this._listByPrivateCloud(
+        resourceGroupName,
+        privateCloudName,
+        options,
+      );
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
+      result = await this._listByPrivateCloudNext(
         resourceGroupName,
         privateCloudName,
         continuationToken,
@@ -113,12 +115,12 @@ export class ScriptExecutionsImpl implements ScriptExecutions {
     }
   }
 
-  private async *listPagingAll(
+  private async *listByPrivateCloudPagingAll(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: ScriptExecutionsListOptionalParams,
-  ): AsyncIterableIterator<ScriptExecution> {
-    for await (const page of this.listPagingPage(
+    options?: IscsiPathsListByPrivateCloudOptionalParams,
+  ): AsyncIterableIterator<IscsiPath> {
+    for await (const page of this.listByPrivateCloudPagingPage(
       resourceGroupName,
       privateCloudName,
       options,
@@ -128,65 +130,61 @@ export class ScriptExecutionsImpl implements ScriptExecutions {
   }
 
   /**
-   * List ScriptExecution resources by PrivateCloud
+   * List IscsiPath resources by PrivateCloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param options The options parameters.
    */
-  private _list(
+  private _listByPrivateCloud(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: ScriptExecutionsListOptionalParams,
-  ): Promise<ScriptExecutionsListResponse> {
+    options?: IscsiPathsListByPrivateCloudOptionalParams,
+  ): Promise<IscsiPathsListByPrivateCloudResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, privateCloudName, options },
-      listOperationSpec,
+      listByPrivateCloudOperationSpec,
     );
   }
 
   /**
-   * Get a ScriptExecution
+   * Get a IscsiPath
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param scriptExecutionName Name of the script cmdlet.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     privateCloudName: string,
-    scriptExecutionName: string,
-    options?: ScriptExecutionsGetOptionalParams,
-  ): Promise<ScriptExecutionsGetResponse> {
+    options?: IscsiPathsGetOptionalParams,
+  ): Promise<IscsiPathsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, privateCloudName, scriptExecutionName, options },
+      { resourceGroupName, privateCloudName, options },
       getOperationSpec,
     );
   }
 
   /**
-   * Create a ScriptExecution
+   * Create a IscsiPath
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param scriptExecutionName Name of the script cmdlet.
-   * @param scriptExecution Resource create parameters.
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     privateCloudName: string,
-    scriptExecutionName: string,
-    scriptExecution: ScriptExecution,
-    options?: ScriptExecutionsCreateOrUpdateOptionalParams,
+    resource: IscsiPath,
+    options?: IscsiPathsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<ScriptExecutionsCreateOrUpdateResponse>,
-      ScriptExecutionsCreateOrUpdateResponse
+      OperationState<IscsiPathsCreateOrUpdateResponse>,
+      IscsiPathsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<ScriptExecutionsCreateOrUpdateResponse> => {
+    ): Promise<IscsiPathsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -223,18 +221,12 @@ export class ScriptExecutionsImpl implements ScriptExecutions {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: {
-        resourceGroupName,
-        privateCloudName,
-        scriptExecutionName,
-        scriptExecution,
-        options,
-      },
+      args: { resourceGroupName, privateCloudName, resource, options },
       spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
-      ScriptExecutionsCreateOrUpdateResponse,
-      OperationState<ScriptExecutionsCreateOrUpdateResponse>
+      IscsiPathsCreateOrUpdateResponse,
+      OperationState<IscsiPathsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -245,42 +237,37 @@ export class ScriptExecutionsImpl implements ScriptExecutions {
   }
 
   /**
-   * Create a ScriptExecution
+   * Create a IscsiPath
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param scriptExecutionName Name of the script cmdlet.
-   * @param scriptExecution Resource create parameters.
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     privateCloudName: string,
-    scriptExecutionName: string,
-    scriptExecution: ScriptExecution,
-    options?: ScriptExecutionsCreateOrUpdateOptionalParams,
-  ): Promise<ScriptExecutionsCreateOrUpdateResponse> {
+    resource: IscsiPath,
+    options?: IscsiPathsCreateOrUpdateOptionalParams,
+  ): Promise<IscsiPathsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       privateCloudName,
-      scriptExecutionName,
-      scriptExecution,
+      resource,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Delete a ScriptExecution
+   * Delete a IscsiPath
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param scriptExecutionName Name of the script cmdlet.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     privateCloudName: string,
-    scriptExecutionName: string,
-    options?: ScriptExecutionsDeleteOptionalParams,
+    options?: IscsiPathsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -322,12 +309,7 @@ export class ScriptExecutionsImpl implements ScriptExecutions {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: {
-        resourceGroupName,
-        privateCloudName,
-        scriptExecutionName,
-        options,
-      },
+      args: { resourceGroupName, privateCloudName, options },
       spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
@@ -340,74 +322,52 @@ export class ScriptExecutionsImpl implements ScriptExecutions {
   }
 
   /**
-   * Delete a ScriptExecution
+   * Delete a IscsiPath
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param scriptExecutionName Name of the script cmdlet.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     privateCloudName: string,
-    scriptExecutionName: string,
-    options?: ScriptExecutionsDeleteOptionalParams,
+    options?: IscsiPathsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       privateCloudName,
-      scriptExecutionName,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Return the logs for a script execution resource
+   * ListByPrivateCloudNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param scriptExecutionName Name of the script cmdlet.
+   * @param nextLink The nextLink from the previous successful call to the ListByPrivateCloud method.
    * @param options The options parameters.
    */
-  getExecutionLogs(
-    resourceGroupName: string,
-    privateCloudName: string,
-    scriptExecutionName: string,
-    options?: ScriptExecutionsGetExecutionLogsOptionalParams,
-  ): Promise<ScriptExecutionsGetExecutionLogsResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, privateCloudName, scriptExecutionName, options },
-      getExecutionLogsOperationSpec,
-    );
-  }
-
-  /**
-   * ListNext
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param nextLink The nextLink from the previous successful call to the List method.
-   * @param options The options parameters.
-   */
-  private _listNext(
+  private _listByPrivateCloudNext(
     resourceGroupName: string,
     privateCloudName: string,
     nextLink: string,
-    options?: ScriptExecutionsListNextOptionalParams,
-  ): Promise<ScriptExecutionsListNextResponse> {
+    options?: IscsiPathsListByPrivateCloudNextOptionalParams,
+  ): Promise<IscsiPathsListByPrivateCloudNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, privateCloudName, nextLink, options },
-      listNextOperationSpec,
+      listByPrivateCloudNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/scriptExecutions",
+const listByPrivateCloudOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/iscsiPaths",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ScriptExecutionListResult,
+      bodyMapper: Mappers.IscsiPathListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -424,11 +384,11 @@ const listOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/scriptExecutions/{scriptExecutionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/iscsiPaths/default",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ScriptExecution,
+      bodyMapper: Mappers.IscsiPath,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -440,46 +400,44 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateCloudName,
-    Parameters.scriptExecutionName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/scriptExecutions/{scriptExecutionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/iscsiPaths/default",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ScriptExecution,
+      bodyMapper: Mappers.IscsiPath,
     },
     201: {
-      bodyMapper: Mappers.ScriptExecution,
+      bodyMapper: Mappers.IscsiPath,
     },
     202: {
-      bodyMapper: Mappers.ScriptExecution,
+      bodyMapper: Mappers.IscsiPath,
     },
     204: {
-      bodyMapper: Mappers.ScriptExecution,
+      bodyMapper: Mappers.IscsiPath,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.scriptExecution,
+  requestBody: Parameters.resource,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateCloudName,
-    Parameters.scriptExecutionName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/scriptExecutions/{scriptExecutionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/iscsiPaths/default",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -496,41 +454,16 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateCloudName,
-    Parameters.scriptExecutionName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const getExecutionLogsOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/scriptExecutions/{scriptExecutionName}/getExecutionLogs",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ScriptExecution,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  requestBody: Parameters.scriptOutputStreamType,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.privateCloudName,
-    Parameters.scriptExecutionName,
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer,
-};
-const listNextOperationSpec: coreClient.OperationSpec = {
+const listByPrivateCloudNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ScriptExecutionListResult,
+      bodyMapper: Mappers.IscsiPathListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
