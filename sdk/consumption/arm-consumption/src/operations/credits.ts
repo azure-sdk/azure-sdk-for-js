@@ -34,11 +34,11 @@ export class CreditsImpl implements Credits {
   get(
     billingAccountId: string,
     billingProfileId: string,
-    options?: CreditsGetOptionalParams
+    options?: CreditsGetOptionalParams,
   ): Promise<CreditsGetResponse> {
     return this.client.sendOperationRequest(
       { billingAccountId, billingProfileId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -46,24 +46,23 @@ export class CreditsImpl implements Credits {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/providers/Microsoft.Consumption/credits/balanceSummary",
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/providers/Microsoft.Consumption/credits/balanceSummary",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CreditSummary
+      bodyMapper: Mappers.CreditSummary,
     },
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountId,
-    Parameters.billingProfileId
+    Parameters.billingProfileId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
