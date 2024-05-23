@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { MachineExtensions } from "../operationsInterfaces";
+import { Licenses } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,28 +20,32 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  MachineExtension,
-  MachineExtensionsListNextOptionalParams,
-  MachineExtensionsListOptionalParams,
-  MachineExtensionsListResponse,
-  MachineExtensionsCreateOrUpdateOptionalParams,
-  MachineExtensionsCreateOrUpdateResponse,
-  MachineExtensionUpdate,
-  MachineExtensionsUpdateOptionalParams,
-  MachineExtensionsUpdateResponse,
-  MachineExtensionsDeleteOptionalParams,
-  MachineExtensionsGetOptionalParams,
-  MachineExtensionsGetResponse,
-  MachineExtensionsListNextResponse,
+  License,
+  LicensesListByResourceGroupNextOptionalParams,
+  LicensesListByResourceGroupOptionalParams,
+  LicensesListByResourceGroupResponse,
+  LicensesListBySubscriptionNextOptionalParams,
+  LicensesListBySubscriptionOptionalParams,
+  LicensesListBySubscriptionResponse,
+  LicensesCreateOrUpdateOptionalParams,
+  LicensesCreateOrUpdateResponse,
+  LicenseUpdate,
+  LicensesUpdateOptionalParams,
+  LicensesUpdateResponse,
+  LicensesGetOptionalParams,
+  LicensesGetResponse,
+  LicensesDeleteOptionalParams,
+  LicensesListByResourceGroupNextResponse,
+  LicensesListBySubscriptionNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing MachineExtensions operations. */
-export class MachineExtensionsImpl implements MachineExtensions {
+/** Class containing Licenses operations. */
+export class LicensesImpl implements Licenses {
   private readonly client: HybridComputeManagementClient;
 
   /**
-   * Initialize a new instance of the class MachineExtensions class.
+   * Initialize a new instance of the class Licenses class.
    * @param client Reference to the service client
    */
   constructor(client: HybridComputeManagementClient) {
@@ -49,17 +53,15 @@ export class MachineExtensionsImpl implements MachineExtensions {
   }
 
   /**
-   * The operation to get all extensions of a non-Azure machine
+   * The operation to get all licenses of a non-Azure machine
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param machineName The name of the machine containing the extension.
    * @param options The options parameters.
    */
-  public list(
+  public listByResourceGroup(
     resourceGroupName: string,
-    machineName: string,
-    options?: MachineExtensionsListOptionalParams,
-  ): PagedAsyncIterableIterator<MachineExtension> {
-    const iter = this.listPagingAll(resourceGroupName, machineName, options);
+    options?: LicensesListByResourceGroupOptionalParams,
+  ): PagedAsyncIterableIterator<License> {
+    const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
       next() {
         return iter.next();
@@ -71,9 +73,8 @@ export class MachineExtensionsImpl implements MachineExtensions {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
+        return this.listByResourceGroupPagingPage(
           resourceGroupName,
-          machineName,
           options,
           settings,
         );
@@ -81,25 +82,23 @@ export class MachineExtensionsImpl implements MachineExtensions {
     };
   }
 
-  private async *listPagingPage(
+  private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    machineName: string,
-    options?: MachineExtensionsListOptionalParams,
+    options?: LicensesListByResourceGroupOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<MachineExtension[]> {
-    let result: MachineExtensionsListResponse;
+  ): AsyncIterableIterator<License[]> {
+    let result: LicensesListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(resourceGroupName, machineName, options);
+      result = await this._listByResourceGroup(resourceGroupName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
+      result = await this._listByResourceGroupNext(
         resourceGroupName,
-        machineName,
         continuationToken,
         options,
       );
@@ -110,14 +109,12 @@ export class MachineExtensionsImpl implements MachineExtensions {
     }
   }
 
-  private async *listPagingAll(
+  private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    machineName: string,
-    options?: MachineExtensionsListOptionalParams,
-  ): AsyncIterableIterator<MachineExtension> {
-    for await (const page of this.listPagingPage(
+    options?: LicensesListByResourceGroupOptionalParams,
+  ): AsyncIterableIterator<License> {
+    for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      machineName,
       options,
     )) {
       yield* page;
@@ -125,29 +122,81 @@ export class MachineExtensionsImpl implements MachineExtensions {
   }
 
   /**
-   * The operation to create or update the extension.
+   * The operation to get all licenses of a non-Azure machine
+   * @param options The options parameters.
+   */
+  public listBySubscription(
+    options?: LicensesListBySubscriptionOptionalParams,
+  ): PagedAsyncIterableIterator<License> {
+    const iter = this.listBySubscriptionPagingAll(options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBySubscriptionPagingPage(options, settings);
+      },
+    };
+  }
+
+  private async *listBySubscriptionPagingPage(
+    options?: LicensesListBySubscriptionOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<License[]> {
+    let result: LicensesListBySubscriptionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listBySubscription(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listBySubscriptionNext(continuationToken, options);
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listBySubscriptionPagingAll(
+    options?: LicensesListBySubscriptionOptionalParams,
+  ): AsyncIterableIterator<License> {
+    for await (const page of this.listBySubscriptionPagingPage(options)) {
+      yield* page;
+    }
+  }
+
+  /**
+   * The operation to create or update a license.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param machineName The name of the machine where the extension should be created or updated.
-   * @param extensionName The name of the machine extension.
-   * @param extensionParameters Parameters supplied to the Create Machine Extension operation.
+   * @param licenseName The name of the license.
+   * @param parameters Parameters supplied to the Create license operation.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
-    machineName: string,
-    extensionName: string,
-    extensionParameters: MachineExtension,
-    options?: MachineExtensionsCreateOrUpdateOptionalParams,
+    licenseName: string,
+    parameters: License,
+    options?: LicensesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<MachineExtensionsCreateOrUpdateResponse>,
-      MachineExtensionsCreateOrUpdateResponse
+      OperationState<LicensesCreateOrUpdateResponse>,
+      LicensesCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<MachineExtensionsCreateOrUpdateResponse> => {
+    ): Promise<LicensesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -184,18 +233,12 @@ export class MachineExtensionsImpl implements MachineExtensions {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: {
-        resourceGroupName,
-        machineName,
-        extensionName,
-        extensionParameters,
-        options,
-      },
+      args: { resourceGroupName, licenseName, parameters, options },
       spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
-      MachineExtensionsCreateOrUpdateResponse,
-      OperationState<MachineExtensionsCreateOrUpdateResponse>
+      LicensesCreateOrUpdateResponse,
+      OperationState<LicensesCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -205,54 +248,49 @@ export class MachineExtensionsImpl implements MachineExtensions {
   }
 
   /**
-   * The operation to create or update the extension.
+   * The operation to create or update a license.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param machineName The name of the machine where the extension should be created or updated.
-   * @param extensionName The name of the machine extension.
-   * @param extensionParameters Parameters supplied to the Create Machine Extension operation.
+   * @param licenseName The name of the license.
+   * @param parameters Parameters supplied to the Create license operation.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
-    machineName: string,
-    extensionName: string,
-    extensionParameters: MachineExtension,
-    options?: MachineExtensionsCreateOrUpdateOptionalParams,
-  ): Promise<MachineExtensionsCreateOrUpdateResponse> {
+    licenseName: string,
+    parameters: License,
+    options?: LicensesCreateOrUpdateOptionalParams,
+  ): Promise<LicensesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
-      machineName,
-      extensionName,
-      extensionParameters,
+      licenseName,
+      parameters,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * The operation to create or update the extension.
+   * The operation to update a license.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param machineName The name of the machine where the extension should be created or updated.
-   * @param extensionName The name of the machine extension.
-   * @param extensionParameters Parameters supplied to the Create Machine Extension operation.
+   * @param licenseName The name of the license.
+   * @param parameters Parameters supplied to the Update license operation.
    * @param options The options parameters.
    */
   async beginUpdate(
     resourceGroupName: string,
-    machineName: string,
-    extensionName: string,
-    extensionParameters: MachineExtensionUpdate,
-    options?: MachineExtensionsUpdateOptionalParams,
+    licenseName: string,
+    parameters: LicenseUpdate,
+    options?: LicensesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<MachineExtensionsUpdateResponse>,
-      MachineExtensionsUpdateResponse
+      OperationState<LicensesUpdateResponse>,
+      LicensesUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<MachineExtensionsUpdateResponse> => {
+    ): Promise<LicensesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -289,18 +327,12 @@ export class MachineExtensionsImpl implements MachineExtensions {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: {
-        resourceGroupName,
-        machineName,
-        extensionName,
-        extensionParameters,
-        options,
-      },
+      args: { resourceGroupName, licenseName, parameters, options },
       spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
-      MachineExtensionsUpdateResponse,
-      OperationState<MachineExtensionsUpdateResponse>
+      LicensesUpdateResponse,
+      OperationState<LicensesUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -310,42 +342,54 @@ export class MachineExtensionsImpl implements MachineExtensions {
   }
 
   /**
-   * The operation to create or update the extension.
+   * The operation to update a license.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param machineName The name of the machine where the extension should be created or updated.
-   * @param extensionName The name of the machine extension.
-   * @param extensionParameters Parameters supplied to the Create Machine Extension operation.
+   * @param licenseName The name of the license.
+   * @param parameters Parameters supplied to the Update license operation.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
-    machineName: string,
-    extensionName: string,
-    extensionParameters: MachineExtensionUpdate,
-    options?: MachineExtensionsUpdateOptionalParams,
-  ): Promise<MachineExtensionsUpdateResponse> {
+    licenseName: string,
+    parameters: LicenseUpdate,
+    options?: LicensesUpdateOptionalParams,
+  ): Promise<LicensesUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
-      machineName,
-      extensionName,
-      extensionParameters,
+      licenseName,
+      parameters,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * The operation to delete the extension.
+   * Retrieves information about the view of a license.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param machineName The name of the machine where the extension should be deleted.
-   * @param extensionName The name of the machine extension.
+   * @param licenseName The name of the license.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    licenseName: string,
+    options?: LicensesGetOptionalParams,
+  ): Promise<LicensesGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, licenseName, options },
+      getOperationSpec,
+    );
+  }
+
+  /**
+   * The operation to delete a license.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param licenseName The name of the license.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
-    machineName: string,
-    extensionName: string,
-    options?: MachineExtensionsDeleteOptionalParams,
+    licenseName: string,
+    options?: LicensesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -387,7 +431,7 @@ export class MachineExtensionsImpl implements MachineExtensions {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, machineName, extensionName, options },
+      args: { resourceGroupName, licenseName, options },
       spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
@@ -399,79 +443,81 @@ export class MachineExtensionsImpl implements MachineExtensions {
   }
 
   /**
-   * The operation to delete the extension.
+   * The operation to delete a license.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param machineName The name of the machine where the extension should be deleted.
-   * @param extensionName The name of the machine extension.
+   * @param licenseName The name of the license.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
-    machineName: string,
-    extensionName: string,
-    options?: MachineExtensionsDeleteOptionalParams,
+    licenseName: string,
+    options?: LicensesDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
-      machineName,
-      extensionName,
+      licenseName,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * The operation to get the extension.
+   * The operation to get all licenses of a non-Azure machine
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param machineName The name of the machine containing the extension.
-   * @param extensionName The name of the machine extension.
    * @param options The options parameters.
    */
-  get(
+  private _listByResourceGroup(
     resourceGroupName: string,
-    machineName: string,
-    extensionName: string,
-    options?: MachineExtensionsGetOptionalParams,
-  ): Promise<MachineExtensionsGetResponse> {
+    options?: LicensesListByResourceGroupOptionalParams,
+  ): Promise<LicensesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, machineName, extensionName, options },
-      getOperationSpec,
+      { resourceGroupName, options },
+      listByResourceGroupOperationSpec,
     );
   }
 
   /**
-   * The operation to get all extensions of a non-Azure machine
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param machineName The name of the machine containing the extension.
+   * The operation to get all licenses of a non-Azure machine
    * @param options The options parameters.
    */
-  private _list(
-    resourceGroupName: string,
-    machineName: string,
-    options?: MachineExtensionsListOptionalParams,
-  ): Promise<MachineExtensionsListResponse> {
+  private _listBySubscription(
+    options?: LicensesListBySubscriptionOptionalParams,
+  ): Promise<LicensesListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, machineName, options },
-      listOperationSpec,
+      { options },
+      listBySubscriptionOperationSpec,
     );
   }
 
   /**
-   * ListNext
+   * ListByResourceGroupNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param machineName The name of the machine containing the extension.
-   * @param nextLink The nextLink from the previous successful call to the List method.
+   * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
    * @param options The options parameters.
    */
-  private _listNext(
+  private _listByResourceGroupNext(
     resourceGroupName: string,
-    machineName: string,
     nextLink: string,
-    options?: MachineExtensionsListNextOptionalParams,
-  ): Promise<MachineExtensionsListNextResponse> {
+    options?: LicensesListByResourceGroupNextOptionalParams,
+  ): Promise<LicensesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, machineName, nextLink, options },
-      listNextOperationSpec,
+      { resourceGroupName, nextLink, options },
+      listByResourceGroupNextOperationSpec,
+    );
+  }
+
+  /**
+   * ListBySubscriptionNext
+   * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
+   * @param options The options parameters.
+   */
+  private _listBySubscriptionNext(
+    nextLink: string,
+    options?: LicensesListBySubscriptionNextOptionalParams,
+  ): Promise<LicensesListBySubscriptionNextResponse> {
+    return this.client.sendOperationRequest(
+      { nextLink, options },
+      listBySubscriptionNextOperationSpec,
     );
   }
 }
@@ -479,73 +525,92 @@ export class MachineExtensionsImpl implements MachineExtensions {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/extensions/{extensionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/licenses/{licenseName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.MachineExtension,
+      bodyMapper: Mappers.License,
     },
     201: {
-      bodyMapper: Mappers.MachineExtension,
+      bodyMapper: Mappers.License,
     },
     202: {
-      bodyMapper: Mappers.MachineExtension,
+      bodyMapper: Mappers.License,
     },
     204: {
-      bodyMapper: Mappers.MachineExtension,
+      bodyMapper: Mappers.License,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.extensionParameters,
+  requestBody: Parameters.parameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.machineName,
-    Parameters.extensionName,
+    Parameters.licenseName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/extensions/{extensionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/licenses/{licenseName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.MachineExtension,
+      bodyMapper: Mappers.License,
     },
     201: {
-      bodyMapper: Mappers.MachineExtension,
+      bodyMapper: Mappers.License,
     },
     202: {
-      bodyMapper: Mappers.MachineExtension,
+      bodyMapper: Mappers.License,
     },
     204: {
-      bodyMapper: Mappers.MachineExtension,
+      bodyMapper: Mappers.License,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.extensionParameters1,
+  requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.machineName,
-    Parameters.extensionName,
+    Parameters.licenseName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/licenses/{licenseName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.License,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.licenseName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/extensions/{extensionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/licenses/{licenseName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -561,18 +626,17 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.machineName,
-    Parameters.extensionName,
+    Parameters.licenseName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/extensions/{extensionName}",
+const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/licenses",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MachineExtension,
+      bodyMapper: Mappers.LicensesListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -583,39 +647,32 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.machineName,
-    Parameters.extensionName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/extensions",
+const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.HybridCompute/licenses",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MachineExtensionsListResult,
+      bodyMapper: Mappers.LicensesListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.machineName,
-  ],
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listNextOperationSpec: coreClient.OperationSpec = {
+const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MachineExtensionsListResult,
+      bodyMapper: Mappers.LicensesListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -626,7 +683,25 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.machineName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.LicensesListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
   serializer,

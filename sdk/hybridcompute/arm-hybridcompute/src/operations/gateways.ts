@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { Machines } from "../operationsInterfaces";
+import { Gateways } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,32 +20,33 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  Machine,
-  MachinesListByResourceGroupNextOptionalParams,
-  MachinesListByResourceGroupOptionalParams,
-  MachinesListByResourceGroupResponse,
-  MachinesListBySubscriptionNextOptionalParams,
-  MachinesListBySubscriptionOptionalParams,
-  MachinesListBySubscriptionResponse,
-  MachinesDeleteOptionalParams,
-  MachinesGetOptionalParams,
-  MachinesGetResponse,
-  MachinesAssessPatchesOptionalParams,
-  MachinesAssessPatchesResponse,
-  MachineInstallPatchesParameters,
-  MachinesInstallPatchesOptionalParams,
-  MachinesInstallPatchesResponse,
-  MachinesListByResourceGroupNextResponse,
-  MachinesListBySubscriptionNextResponse,
+  Gateway,
+  GatewaysListByResourceGroupNextOptionalParams,
+  GatewaysListByResourceGroupOptionalParams,
+  GatewaysListByResourceGroupResponse,
+  GatewaysListBySubscriptionNextOptionalParams,
+  GatewaysListBySubscriptionOptionalParams,
+  GatewaysListBySubscriptionResponse,
+  GatewaysCreateOrUpdateOptionalParams,
+  GatewaysCreateOrUpdateResponse,
+  GatewayUpdate,
+  GatewaysUpdateOptionalParams,
+  GatewaysUpdateResponse,
+  GatewaysGetOptionalParams,
+  GatewaysGetResponse,
+  GatewaysDeleteOptionalParams,
+  GatewaysDeleteResponse,
+  GatewaysListByResourceGroupNextResponse,
+  GatewaysListBySubscriptionNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Machines operations. */
-export class MachinesImpl implements Machines {
+/** Class containing Gateways operations. */
+export class GatewaysImpl implements Gateways {
   private readonly client: HybridComputeManagementClient;
 
   /**
-   * Initialize a new instance of the class Machines class.
+   * Initialize a new instance of the class Gateways class.
    * @param client Reference to the service client
    */
   constructor(client: HybridComputeManagementClient) {
@@ -53,15 +54,14 @@ export class MachinesImpl implements Machines {
   }
 
   /**
-   * Lists all the hybrid machines in the specified resource group. Use the nextLink property in the
-   * response to get the next page of hybrid machines.
+   * The operation to get all gateways of a non-Azure machine
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: MachinesListByResourceGroupOptionalParams,
-  ): PagedAsyncIterableIterator<Machine> {
+    options?: GatewaysListByResourceGroupOptionalParams,
+  ): PagedAsyncIterableIterator<Gateway> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
       next() {
@@ -85,10 +85,10 @@ export class MachinesImpl implements Machines {
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: MachinesListByResourceGroupOptionalParams,
+    options?: GatewaysListByResourceGroupOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<Machine[]> {
-    let result: MachinesListByResourceGroupResponse;
+  ): AsyncIterableIterator<Gateway[]> {
+    let result: GatewaysListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByResourceGroup(resourceGroupName, options);
@@ -112,8 +112,8 @@ export class MachinesImpl implements Machines {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: MachinesListByResourceGroupOptionalParams,
-  ): AsyncIterableIterator<Machine> {
+    options?: GatewaysListByResourceGroupOptionalParams,
+  ): AsyncIterableIterator<Gateway> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
       options,
@@ -123,13 +123,12 @@ export class MachinesImpl implements Machines {
   }
 
   /**
-   * Lists all the hybrid machines in the specified subscription. Use the nextLink property in the
-   * response to get the next page of hybrid machines.
+   * The operation to get all gateways of a non-Azure machine
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: MachinesListBySubscriptionOptionalParams,
-  ): PagedAsyncIterableIterator<Machine> {
+    options?: GatewaysListBySubscriptionOptionalParams,
+  ): PagedAsyncIterableIterator<Gateway> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
       next() {
@@ -148,10 +147,10 @@ export class MachinesImpl implements Machines {
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: MachinesListBySubscriptionOptionalParams,
+    options?: GatewaysListBySubscriptionOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<Machine[]> {
-    let result: MachinesListBySubscriptionResponse;
+  ): AsyncIterableIterator<Gateway[]> {
+    let result: GatewaysListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listBySubscription(options);
@@ -170,67 +169,163 @@ export class MachinesImpl implements Machines {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: MachinesListBySubscriptionOptionalParams,
-  ): AsyncIterableIterator<Machine> {
+    options?: GatewaysListBySubscriptionOptionalParams,
+  ): AsyncIterableIterator<Gateway> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * The operation to delete a hybrid machine.
+   * The operation to create or update a gateway.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param machineName The name of the hybrid machine.
+   * @param gatewayName The name of the Gateway.
+   * @param parameters Parameters supplied to the Create gateway operation.
    * @param options The options parameters.
    */
-  delete(
+  async beginCreateOrUpdate(
     resourceGroupName: string,
-    machineName: string,
-    options?: MachinesDeleteOptionalParams,
-  ): Promise<void> {
+    gatewayName: string,
+    parameters: Gateway,
+    options?: GatewaysCreateOrUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<GatewaysCreateOrUpdateResponse>,
+      GatewaysCreateOrUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<GatewaysCreateOrUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, gatewayName, parameters, options },
+      spec: createOrUpdateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      GatewaysCreateOrUpdateResponse,
+      OperationState<GatewaysCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * The operation to create or update a gateway.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param gatewayName The name of the Gateway.
+   * @param parameters Parameters supplied to the Create gateway operation.
+   * @param options The options parameters.
+   */
+  async beginCreateOrUpdateAndWait(
+    resourceGroupName: string,
+    gatewayName: string,
+    parameters: Gateway,
+    options?: GatewaysCreateOrUpdateOptionalParams,
+  ): Promise<GatewaysCreateOrUpdateResponse> {
+    const poller = await this.beginCreateOrUpdate(
+      resourceGroupName,
+      gatewayName,
+      parameters,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * The operation to update a gateway.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param gatewayName The name of the Gateway.
+   * @param parameters Parameters supplied to the Update gateway operation.
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    gatewayName: string,
+    parameters: GatewayUpdate,
+    options?: GatewaysUpdateOptionalParams,
+  ): Promise<GatewaysUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, machineName, options },
-      deleteOperationSpec,
+      { resourceGroupName, gatewayName, parameters, options },
+      updateOperationSpec,
     );
   }
 
   /**
-   * Retrieves information about the model view or the instance view of a hybrid machine.
+   * Retrieves information about the view of a gateway.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param machineName The name of the hybrid machine.
+   * @param gatewayName The name of the Gateway.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    machineName: string,
-    options?: MachinesGetOptionalParams,
-  ): Promise<MachinesGetResponse> {
+    gatewayName: string,
+    options?: GatewaysGetOptionalParams,
+  ): Promise<GatewaysGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, machineName, options },
+      { resourceGroupName, gatewayName, options },
       getOperationSpec,
     );
   }
 
   /**
-   * The operation to assess patches on a hybrid machine identity in Azure.
-   * @param resourceGroupName The name of the resource group.
-   * @param name The name of the hybrid machine.
+   * The operation to delete a gateway.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param gatewayName The name of the Gateway.
    * @param options The options parameters.
    */
-  async beginAssessPatches(
+  async beginDelete(
     resourceGroupName: string,
-    name: string,
-    options?: MachinesAssessPatchesOptionalParams,
+    gatewayName: string,
+    options?: GatewaysDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<MachinesAssessPatchesResponse>,
-      MachinesAssessPatchesResponse
+      OperationState<GatewaysDeleteResponse>,
+      GatewaysDeleteResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<MachinesAssessPatchesResponse> => {
+    ): Promise<GatewaysDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -267,145 +362,48 @@ export class MachinesImpl implements Machines {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, name, options },
-      spec: assessPatchesOperationSpec,
+      args: { resourceGroupName, gatewayName, options },
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
-      MachinesAssessPatchesResponse,
-      OperationState<MachinesAssessPatchesResponse>
+      GatewaysDeleteResponse,
+      OperationState<GatewaysDeleteResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * The operation to assess patches on a hybrid machine identity in Azure.
-   * @param resourceGroupName The name of the resource group.
-   * @param name The name of the hybrid machine.
+   * The operation to delete a gateway.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param gatewayName The name of the Gateway.
    * @param options The options parameters.
    */
-  async beginAssessPatchesAndWait(
+  async beginDeleteAndWait(
     resourceGroupName: string,
-    name: string,
-    options?: MachinesAssessPatchesOptionalParams,
-  ): Promise<MachinesAssessPatchesResponse> {
-    const poller = await this.beginAssessPatches(
+    gatewayName: string,
+    options?: GatewaysDeleteOptionalParams,
+  ): Promise<GatewaysDeleteResponse> {
+    const poller = await this.beginDelete(
       resourceGroupName,
-      name,
+      gatewayName,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * The operation to install patches on a hybrid machine identity in Azure.
-   * @param resourceGroupName The name of the resource group.
-   * @param name The name of the hybrid machine.
-   * @param installPatchesInput Input for InstallPatches as directly received by the API
-   * @param options The options parameters.
-   */
-  async beginInstallPatches(
-    resourceGroupName: string,
-    name: string,
-    installPatchesInput: MachineInstallPatchesParameters,
-    options?: MachinesInstallPatchesOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<MachinesInstallPatchesResponse>,
-      MachinesInstallPatchesResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<MachinesInstallPatchesResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, name, installPatchesInput, options },
-      spec: installPatchesOperationSpec,
-    });
-    const poller = await createHttpPoller<
-      MachinesInstallPatchesResponse,
-      OperationState<MachinesInstallPatchesResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * The operation to install patches on a hybrid machine identity in Azure.
-   * @param resourceGroupName The name of the resource group.
-   * @param name The name of the hybrid machine.
-   * @param installPatchesInput Input for InstallPatches as directly received by the API
-   * @param options The options parameters.
-   */
-  async beginInstallPatchesAndWait(
-    resourceGroupName: string,
-    name: string,
-    installPatchesInput: MachineInstallPatchesParameters,
-    options?: MachinesInstallPatchesOptionalParams,
-  ): Promise<MachinesInstallPatchesResponse> {
-    const poller = await this.beginInstallPatches(
-      resourceGroupName,
-      name,
-      installPatchesInput,
-      options,
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Lists all the hybrid machines in the specified resource group. Use the nextLink property in the
-   * response to get the next page of hybrid machines.
+   * The operation to get all gateways of a non-Azure machine
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: MachinesListByResourceGroupOptionalParams,
-  ): Promise<MachinesListByResourceGroupResponse> {
+    options?: GatewaysListByResourceGroupOptionalParams,
+  ): Promise<GatewaysListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
       listByResourceGroupOperationSpec,
@@ -413,13 +411,12 @@ export class MachinesImpl implements Machines {
   }
 
   /**
-   * Lists all the hybrid machines in the specified subscription. Use the nextLink property in the
-   * response to get the next page of hybrid machines.
+   * The operation to get all gateways of a non-Azure machine
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: MachinesListBySubscriptionOptionalParams,
-  ): Promise<MachinesListBySubscriptionResponse> {
+    options?: GatewaysListBySubscriptionOptionalParams,
+  ): Promise<GatewaysListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
       listBySubscriptionOperationSpec,
@@ -435,8 +432,8 @@ export class MachinesImpl implements Machines {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: MachinesListByResourceGroupNextOptionalParams,
-  ): Promise<MachinesListByResourceGroupNextResponse> {
+    options?: GatewaysListByResourceGroupNextOptionalParams,
+  ): Promise<GatewaysListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
       listByResourceGroupNextOperationSpec,
@@ -450,8 +447,8 @@ export class MachinesImpl implements Machines {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: MachinesListBySubscriptionNextOptionalParams,
-  ): Promise<MachinesListBySubscriptionNextResponse> {
+    options?: GatewaysListBySubscriptionNextOptionalParams,
+  ): Promise<GatewaysListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
       listBySubscriptionNextOperationSpec,
@@ -461,121 +458,124 @@ export class MachinesImpl implements Machines {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}",
-  httpMethod: "DELETE",
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/gateways/{gatewayName}",
+  httpMethod: "PUT",
   responses: {
-    200: {},
-    204: {},
+    200: {
+      bodyMapper: Mappers.Gateway,
+    },
+    201: {
+      bodyMapper: Mappers.Gateway,
+    },
+    202: {
+      bodyMapper: Mappers.Gateway,
+    },
+    204: {
+      bodyMapper: Mappers.Gateway,
+    },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.ErrorResponseAutoGenerated,
     },
   },
+  requestBody: Parameters.parameters2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.machineName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Machine,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.expand],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.machineName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const assessPatchesOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{name}/assessPatches",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.MachineAssessPatchesResult,
-    },
-    201: {
-      bodyMapper: Mappers.MachineAssessPatchesResult,
-    },
-    202: {
-      bodyMapper: Mappers.MachineAssessPatchesResult,
-    },
-    204: {
-      bodyMapper: Mappers.MachineAssessPatchesResult,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName1,
-    Parameters.name,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const installPatchesOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{name}/installPatches",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.MachineInstallPatchesResult,
-    },
-    201: {
-      bodyMapper: Mappers.MachineInstallPatchesResult,
-    },
-    202: {
-      bodyMapper: Mappers.MachineInstallPatchesResult,
-    },
-    204: {
-      bodyMapper: Mappers.MachineInstallPatchesResult,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  requestBody: Parameters.installPatchesInput,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName1,
-    Parameters.name,
+    Parameters.gatewayName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
-const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines",
+const updateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/gateways/{gatewayName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Gateway,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponseAutoGenerated,
+    },
+  },
+  requestBody: Parameters.parameters3,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.gatewayName,
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/gateways/{gatewayName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MachineListResult,
+      bodyMapper: Mappers.Gateway,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.ErrorResponseAutoGenerated,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand],
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.gatewayName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/gateways/{gatewayName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {
+      headersMapper: Mappers.GatewaysDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.GatewaysDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.GatewaysDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.GatewaysDeleteHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponseAutoGenerated,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.gatewayName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/gateways",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GatewaysListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponseAutoGenerated,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -585,14 +585,14 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.HybridCompute/machines",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.HybridCompute/gateways",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MachineListResult,
+      bodyMapper: Mappers.GatewaysListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.ErrorResponseAutoGenerated,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -605,10 +605,10 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MachineListResult,
+      bodyMapper: Mappers.GatewaysListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.ErrorResponseAutoGenerated,
     },
   },
   urlParameters: [
@@ -625,10 +625,10 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MachineListResult,
+      bodyMapper: Mappers.GatewaysListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.ErrorResponseAutoGenerated,
     },
   },
   urlParameters: [
