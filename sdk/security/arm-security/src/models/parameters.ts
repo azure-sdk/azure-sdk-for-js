@@ -16,10 +16,7 @@ import {
   InformationProtectionPolicy as InformationProtectionPolicyMapper,
   WorkspaceSetting as WorkspaceSettingMapper,
   AlertsSuppressionRule as AlertsSuppressionRuleMapper,
-  Automation as AutomationMapper,
-  AutomationUpdateModel as AutomationUpdateModelMapper,
   ConnectorSetting as ConnectorSettingMapper,
-  SecurityContact as SecurityContactMapper,
   CustomAssessmentAutomationRequest as CustomAssessmentAutomationRequestMapper,
   CustomEntityStoreAssignmentRequest as CustomEntityStoreAssignmentRequestMapper,
   GovernanceAssignment as GovernanceAssignmentMapper,
@@ -30,10 +27,9 @@ import {
   RuleResultsInput as RuleResultsInputMapper,
   RulesResultsInput as RulesResultsInputMapper,
   UpdateSensitivitySettingsRequest as UpdateSensitivitySettingsRequestMapper,
-  AzureDevOpsOrg as AzureDevOpsOrgMapper,
-  AzureDevOpsProject as AzureDevOpsProjectMapper,
-  AzureDevOpsRepository as AzureDevOpsRepositoryMapper,
-  DevOpsConfiguration as DevOpsConfigurationMapper,
+  Automation as AutomationMapper,
+  AutomationUpdateModel as AutomationUpdateModelMapper,
+  SecurityContact as SecurityContactMapper,
   SecurityConnector as SecurityConnectorMapper,
   AdvancedThreatProtectionSetting as AdvancedThreatProtectionSettingMapper,
   DeviceSecurityGroup as DeviceSecurityGroupMapper,
@@ -49,6 +45,11 @@ import {
   Setting as SettingMapper,
   ServerVulnerabilityAssessmentsSetting as ServerVulnerabilityAssessmentsSettingMapper,
   Pricing as PricingMapper,
+  AzureDevOpsOrg as AzureDevOpsOrgMapper,
+  AzureDevOpsProject as AzureDevOpsProjectMapper,
+  AzureDevOpsRepository as AzureDevOpsRepositoryMapper,
+  DevOpsConfiguration as DevOpsConfigurationMapper,
+  TrustedIps as TrustedIpsMapper,
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -307,39 +308,6 @@ export const alertsSuppressionRule: OperationParameter = {
   mapper: AlertsSuppressionRuleMapper,
 };
 
-export const apiVersion3: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2023-12-01-preview",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const automationName: OperationURLParameter = {
-  parameterPath: "automationName",
-  mapper: {
-    serializedName: "automationName",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const automation: OperationParameter = {
-  parameterPath: "automation",
-  mapper: AutomationMapper,
-};
-
-export const automation1: OperationParameter = {
-  parameterPath: "automation",
-  mapper: AutomationUpdateModelMapper,
-};
-
 export const regulatoryComplianceStandardName: OperationURLParameter = {
   parameterPath: "regulatoryComplianceStandardName",
   mapper: {
@@ -395,7 +363,7 @@ export const subAssessmentName: OperationURLParameter = {
   },
 };
 
-export const apiVersion4: OperationQueryParameter = {
+export const apiVersion3: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2020-01-01-preview",
@@ -421,22 +389,6 @@ export const connectorName: OperationURLParameter = {
 export const connectorSetting: OperationParameter = {
   parameterPath: "connectorSetting",
   mapper: ConnectorSettingMapper,
-};
-
-export const securityContactName: OperationURLParameter = {
-  parameterPath: "securityContactName",
-  mapper: {
-    serializedName: "securityContactName",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const securityContact: OperationParameter = {
-  parameterPath: "securityContact",
-  mapper: SecurityContactMapper,
 };
 
 export const resourceNamespace: OperationURLParameter = {
@@ -472,7 +424,7 @@ export const resourceName: OperationURLParameter = {
   },
 };
 
-export const apiVersion5: OperationQueryParameter = {
+export const apiVersion4: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2021-05-01-preview",
@@ -495,7 +447,7 @@ export const softwareName: OperationURLParameter = {
   },
 };
 
-export const apiVersion6: OperationQueryParameter = {
+export const apiVersion5: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2021-07-01-preview",
@@ -539,7 +491,7 @@ export const customEntityStoreAssignmentRequestBody: OperationParameter = {
   mapper: CustomEntityStoreAssignmentRequestMapper,
 };
 
-export const apiVersion7: OperationQueryParameter = {
+export const apiVersion6: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2021-10-01-preview",
@@ -551,7 +503,7 @@ export const apiVersion7: OperationQueryParameter = {
   },
 };
 
-export const apiVersion8: OperationQueryParameter = {
+export const apiVersion7: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2022-01-01-preview",
@@ -636,7 +588,7 @@ export const operationId: OperationURLParameter = {
   },
 };
 
-export const apiVersion9: OperationQueryParameter = {
+export const apiVersion8: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2022-07-01-preview",
@@ -675,7 +627,7 @@ export const securityConnectorName: OperationURLParameter = {
   },
 };
 
-export const apiVersion10: OperationQueryParameter = {
+export const apiVersion9: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2022-12-01-preview",
@@ -715,7 +667,7 @@ export const defenderForStorageSetting: OperationParameter = {
   mapper: DefenderForStorageSettingMapper,
 };
 
-export const apiVersion11: OperationQueryParameter = {
+export const apiVersion10: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2023-01-01-preview",
@@ -775,7 +727,7 @@ export const workspaceId: OperationQueryParameter = {
   },
 };
 
-export const apiVersion12: OperationQueryParameter = {
+export const apiVersion11: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2023-02-01-preview",
@@ -819,7 +771,7 @@ export const sensitivitySettings: OperationParameter = {
   mapper: UpdateSensitivitySettingsRequestMapper,
 };
 
-export const apiVersion13: OperationQueryParameter = {
+export const apiVersion12: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2023-02-15-preview",
@@ -831,7 +783,7 @@ export const apiVersion13: OperationQueryParameter = {
   },
 };
 
-export const apiVersion14: OperationQueryParameter = {
+export const apiVersion13: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2023-05-01-preview",
@@ -874,25 +826,10 @@ export const healthReportName: OperationURLParameter = {
   },
 };
 
-export const resourceGroupName1: OperationURLParameter = {
-  parameterPath: "resourceGroupName",
-  mapper: {
-    constraints: {
-      MaxLength: 90,
-      MinLength: 1,
-    },
-    serializedName: "resourceGroupName",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const apiVersion15: OperationQueryParameter = {
+export const apiVersion14: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-09-01-preview",
+    defaultValue: "2023-12-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -901,10 +838,10 @@ export const apiVersion15: OperationQueryParameter = {
   },
 };
 
-export const orgName: OperationURLParameter = {
-  parameterPath: "orgName",
+export const automationName: OperationURLParameter = {
+  parameterPath: "automationName",
   mapper: {
-    serializedName: "orgName",
+    serializedName: "automationName",
     required: true,
     type: {
       name: "String",
@@ -912,15 +849,20 @@ export const orgName: OperationURLParameter = {
   },
 };
 
-export const azureDevOpsOrg: OperationParameter = {
-  parameterPath: "azureDevOpsOrg",
-  mapper: AzureDevOpsOrgMapper,
+export const automation: OperationParameter = {
+  parameterPath: "automation",
+  mapper: AutomationMapper,
 };
 
-export const projectName: OperationURLParameter = {
-  parameterPath: "projectName",
+export const automation1: OperationParameter = {
+  parameterPath: "automation",
+  mapper: AutomationUpdateModelMapper,
+};
+
+export const securityContactName: OperationURLParameter = {
+  parameterPath: "securityContactName",
   mapper: {
-    serializedName: "projectName",
+    serializedName: "securityContactName",
     required: true,
     type: {
       name: "String",
@@ -928,69 +870,15 @@ export const projectName: OperationURLParameter = {
   },
 };
 
-export const azureDevOpsProject: OperationParameter = {
-  parameterPath: "azureDevOpsProject",
-  mapper: AzureDevOpsProjectMapper,
+export const securityContact: OperationParameter = {
+  parameterPath: "securityContact",
+  mapper: SecurityContactMapper,
 };
 
-export const repoName: OperationURLParameter = {
-  parameterPath: "repoName",
-  mapper: {
-    serializedName: "repoName",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const azureDevOpsRepository: OperationParameter = {
-  parameterPath: "azureDevOpsRepository",
-  mapper: AzureDevOpsRepositoryMapper,
-};
-
-export const devOpsConfiguration: OperationParameter = {
-  parameterPath: "devOpsConfiguration",
-  mapper: DevOpsConfigurationMapper,
-};
-
-export const ownerName: OperationURLParameter = {
-  parameterPath: "ownerName",
-  mapper: {
-    serializedName: "ownerName",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const groupFQName: OperationURLParameter = {
-  parameterPath: "groupFQName",
-  mapper: {
-    serializedName: "groupFQName",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const operationResultId: OperationURLParameter = {
-  parameterPath: "operationResultId",
-  mapper: {
-    serializedName: "operationResultId",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const apiVersion16: OperationQueryParameter = {
+export const apiVersion15: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-10-01-preview",
+    defaultValue: "2024-03-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -1004,7 +892,7 @@ export const securityConnector: OperationParameter = {
   mapper: SecurityConnectorMapper,
 };
 
-export const apiVersion17: OperationQueryParameter = {
+export const apiVersion16: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2017-08-01",
@@ -1027,7 +915,7 @@ export const complianceResultName: OperationURLParameter = {
   },
 };
 
-export const apiVersion18: OperationQueryParameter = {
+export const apiVersion17: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2019-01-01",
@@ -1056,7 +944,7 @@ export const advancedThreatProtectionSetting: OperationParameter = {
   mapper: AdvancedThreatProtectionSettingMapper,
 };
 
-export const apiVersion19: OperationQueryParameter = {
+export const apiVersion18: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2019-08-01",
@@ -1137,7 +1025,7 @@ export const updateIotSecuritySolutionData: OperationParameter = {
   mapper: UpdateIotSecuritySolutionDataMapper,
 };
 
-export const apiVersion20: OperationQueryParameter = {
+export const apiVersion19: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2020-01-01",
@@ -1334,7 +1222,7 @@ export const topologyResourceName: OperationURLParameter = {
   },
 };
 
-export const apiVersion21: OperationQueryParameter = {
+export const apiVersion20: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2021-06-01",
@@ -1377,7 +1265,7 @@ export const assessment: OperationParameter = {
   mapper: SecurityAssessmentMapper,
 };
 
-export const apiVersion22: OperationQueryParameter = {
+export const apiVersion21: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2022-01-01",
@@ -1405,7 +1293,7 @@ export const alertSimulatorRequestBody: OperationParameter = {
   mapper: AlertSimulatorRequestBodyMapper,
 };
 
-export const apiVersion23: OperationQueryParameter = {
+export const apiVersion22: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2022-05-01",
@@ -1433,7 +1321,7 @@ export const setting1: OperationParameter = {
   mapper: SettingMapper,
 };
 
-export const apiVersion24: OperationQueryParameter = {
+export const apiVersion23: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2023-05-01",
@@ -1461,12 +1349,27 @@ export const serverVulnerabilityAssessmentsSetting: OperationParameter = {
   mapper: ServerVulnerabilityAssessmentsSettingMapper,
 };
 
-export const apiVersion25: OperationQueryParameter = {
+export const apiVersion24: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2023-11-15",
     isConstant: true,
     serializedName: "api-version",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const resourceGroupName1: OperationURLParameter = {
+  parameterPath: "resourceGroupName",
+  mapper: {
+    constraints: {
+      MaxLength: 90,
+      MinLength: 1,
+    },
+    serializedName: "resourceGroupName",
+    required: true,
     type: {
       name: "String",
     },
@@ -1505,7 +1408,7 @@ export const apiId: OperationURLParameter = {
   },
 };
 
-export const apiVersion26: OperationQueryParameter = {
+export const apiVersion25: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2024-01-01",
@@ -1543,4 +1446,130 @@ export const pricingName1: OperationURLParameter = {
 export const pricing: OperationParameter = {
   parameterPath: "pricing",
   mapper: PricingMapper,
+};
+
+export const apiVersion26: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2024-04-01",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const orgName: OperationURLParameter = {
+  parameterPath: "orgName",
+  mapper: {
+    serializedName: "orgName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const azureDevOpsOrg: OperationParameter = {
+  parameterPath: "azureDevOpsOrg",
+  mapper: AzureDevOpsOrgMapper,
+};
+
+export const projectName: OperationURLParameter = {
+  parameterPath: "projectName",
+  mapper: {
+    serializedName: "projectName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const azureDevOpsProject: OperationParameter = {
+  parameterPath: "azureDevOpsProject",
+  mapper: AzureDevOpsProjectMapper,
+};
+
+export const repoName: OperationURLParameter = {
+  parameterPath: "repoName",
+  mapper: {
+    serializedName: "repoName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const azureDevOpsRepository: OperationParameter = {
+  parameterPath: "azureDevOpsRepository",
+  mapper: AzureDevOpsRepositoryMapper,
+};
+
+export const devOpsConfiguration: OperationParameter = {
+  parameterPath: "devOpsConfiguration",
+  mapper: DevOpsConfigurationMapper,
+};
+
+export const ownerName: OperationURLParameter = {
+  parameterPath: "ownerName",
+  mapper: {
+    serializedName: "ownerName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const groupFQName: OperationURLParameter = {
+  parameterPath: "groupFQName",
+  mapper: {
+    serializedName: "groupFQName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const operationResultId: OperationURLParameter = {
+  parameterPath: "operationResultId",
+  mapper: {
+    serializedName: "operationResultId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const apiVersion27: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2024-07-01-preview",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const trustedIpsId: OperationURLParameter = {
+  parameterPath: "trustedIpsId",
+  mapper: {
+    serializedName: "trustedIpsId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const trustedIps: OperationParameter = {
+  parameterPath: "trustedIps",
+  mapper: TrustedIpsMapper,
 };

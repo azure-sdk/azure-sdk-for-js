@@ -146,7 +146,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion20],
+  queryParameters: [Parameters.apiVersion19],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
@@ -162,7 +162,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion20],
+  queryParameters: [Parameters.apiVersion19],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
