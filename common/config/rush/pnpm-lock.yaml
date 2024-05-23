@@ -18014,7 +18014,7 @@ packages:
     dev: false
 
   file:projects/arm-signalr.tgz:
-    resolution: {integrity: sha512-bVJcJyxkCshoHgttHBqYmpw45DtmUvuXULRyFY9/xg+K68+F8J2XPwiJtU5b12Z9iGLFrNbckjol72o1+LdOhw==, tarball: file:projects/arm-signalr.tgz}
+    resolution: {integrity: sha512-pGUpwtQoU970mP9nSgZTi0AIZP7brBqXLJC0ZPPE5IsFiqgz5HbXZ8Rxmjp7A6MtQ+5Q6wqru45zIW/0cB+7eA==, tarball: file:projects/arm-signalr.tgz}
     name: '@rush-temp/arm-signalr'
     version: 0.0.0
     dependencies:
@@ -18035,6 +18035,7 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.4.5)
       tslib: 2.6.2
+      tsx: 4.10.5
       typescript: 5.4.5
       uglify-js: 3.17.4
     transitivePeerDependencies:

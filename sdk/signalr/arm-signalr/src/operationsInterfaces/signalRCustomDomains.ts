@@ -15,7 +15,7 @@ import {
   SignalRCustomDomainsGetResponse,
   SignalRCustomDomainsCreateOrUpdateOptionalParams,
   SignalRCustomDomainsCreateOrUpdateResponse,
-  SignalRCustomDomainsDeleteOptionalParams
+  SignalRCustomDomainsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface SignalRCustomDomains {
   list(
     resourceGroupName: string,
     resourceName: string,
-    options?: SignalRCustomDomainsListOptionalParams
+    options?: SignalRCustomDomainsListOptionalParams,
   ): PagedAsyncIterableIterator<CustomDomain>;
   /**
    * Get a custom domain.
@@ -43,7 +43,7 @@ export interface SignalRCustomDomains {
     resourceGroupName: string,
     resourceName: string,
     name: string,
-    options?: SignalRCustomDomainsGetOptionalParams
+    options?: SignalRCustomDomainsGetOptionalParams,
   ): Promise<SignalRCustomDomainsGetResponse>;
   /**
    * Create or update a custom domain.
@@ -58,7 +58,7 @@ export interface SignalRCustomDomains {
     resourceName: string,
     name: string,
     parameters: CustomDomain,
-    options?: SignalRCustomDomainsCreateOrUpdateOptionalParams
+    options?: SignalRCustomDomainsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SignalRCustomDomainsCreateOrUpdateResponse>,
@@ -78,7 +78,7 @@ export interface SignalRCustomDomains {
     resourceName: string,
     name: string,
     parameters: CustomDomain,
-    options?: SignalRCustomDomainsCreateOrUpdateOptionalParams
+    options?: SignalRCustomDomainsCreateOrUpdateOptionalParams,
   ): Promise<SignalRCustomDomainsCreateOrUpdateResponse>;
   /**
    * Delete a custom domain.
@@ -91,7 +91,7 @@ export interface SignalRCustomDomains {
     resourceGroupName: string,
     resourceName: string,
     name: string,
-    options?: SignalRCustomDomainsDeleteOptionalParams
+    options?: SignalRCustomDomainsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a custom domain.
@@ -104,6 +104,6 @@ export interface SignalRCustomDomains {
     resourceGroupName: string,
     resourceName: string,
     name: string,
-    options?: SignalRCustomDomainsDeleteOptionalParams
+    options?: SignalRCustomDomainsDeleteOptionalParams,
   ): Promise<void>;
 }
