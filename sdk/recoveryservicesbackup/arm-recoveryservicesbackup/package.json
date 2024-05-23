@@ -37,15 +37,14 @@
     "@azure/dev-tool": "^1.0.0",
     "@azure/identity": "^4.0.1",
     "@azure-tools/test-recorder": "^3.0.0",
-    "@azure-tools/test-credential": "^1.1.0",
+    "@azure-tools/test-credential": "^1.0.0",
     "mocha": "^10.0.0",
     "@types/mocha": "^10.0.0",
-    "esm": "^3.2.18",
+    "tsx": "^4.7.1",
     "@types/chai": "^4.2.8",
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
     "@types/node": "^18.0.0",
-    "@azure/arm-recoveryservices": "^5.2.0",
     "ts-node": "^10.0.0"
   },
   "repository": {
@@ -77,7 +76,7 @@
     "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js",
     "prepack": "npm run build",
     "pack": "npm pack 2>&1",
-    "extract-api": "api-extractor run --local",
+    "extract-api": "dev-tool run extract-api",
     "lint": "echo skipped",
     "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
     "build:node": "echo skipped",
@@ -107,13 +106,5 @@
     ]
   },
   "autoPublish": true,
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/recoveryservicesbackup/arm-recoveryservicesbackup",
-  "//sampleConfiguration": {
-    "productName": "",
-    "productSlugs": [
-      "azure"
-    ],
-    "disableDocsMs": true,
-    "apiRefLink": "https://docs.microsoft.com/javascript/api/@azure/arm-recoveryservicesbackup?view=azure-node-preview"
-  }
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/recoveryservicesbackup/arm-recoveryservicesbackup"
 }

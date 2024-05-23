@@ -1,6 +1,6 @@
 # Release History
     
-## 13.1.0 (2024-05-08)
+## 13.1.0 (2024-05-23)
     
 **Features**
 
@@ -15,7 +15,7 @@
   - Interface SecurityPINsGetOptionalParams has a new optional parameter xMsAuthorizationAuxiliary
   - Added Enum KnownIaasVMSnapshotConsistencyType
     
-
+    
 ## 13.0.0 (2023-12-13)
     
 **Features**
