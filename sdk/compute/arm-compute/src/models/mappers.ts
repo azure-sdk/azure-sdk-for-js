@@ -936,6 +936,7 @@ export const WindowsConfiguration: coreClient.CompositeMapper = {
       },
       enableVMAgentPlatformUpdates: {
         serializedName: "enableVMAgentPlatformUpdates",
+        readOnly: true,
         type: {
           name: "Boolean",
         },
@@ -1114,6 +1115,7 @@ export const LinuxConfiguration: coreClient.CompositeMapper = {
       },
       enableVMAgentPlatformUpdates: {
         serializedName: "enableVMAgentPlatformUpdates",
+        readOnly: true,
         type: {
           name: "Boolean",
         },

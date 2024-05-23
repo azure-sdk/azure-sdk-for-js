@@ -333,8 +333,11 @@ export interface WindowsConfiguration {
   patchSettings?: PatchSettings;
   /** Specifies the Windows Remote Management listeners. This enables remote Windows PowerShell. */
   winRM?: WinRMConfiguration;
-  /** Indicates whether VMAgent Platform Updates is enabled for the Windows virtual machine. Default value is false. */
-  enableVMAgentPlatformUpdates?: boolean;
+  /**
+   * Indicates whether VMAgent Platform Updates are enabled for the Windows Virtual Machine.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly enableVMAgentPlatformUpdates?: boolean;
 }
 
 /** Specifies additional XML formatted information that can be included in the Unattend.xml file, which is used by Windows Setup. Contents are defined by setting name, component name, and the pass in which the content is applied. */
@@ -393,8 +396,11 @@ export interface LinuxConfiguration {
   provisionVMAgent?: boolean;
   /** [Preview Feature] Specifies settings related to VM Guest Patching on Linux. */
   patchSettings?: LinuxPatchSettings;
-  /** Indicates whether VMAgent Platform Updates is enabled for the Linux virtual machine. Default value is false. */
-  enableVMAgentPlatformUpdates?: boolean;
+  /**
+   * Indicates whether VMAgent Platform Updates are enabled for the Linux Virtual Machine.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly enableVMAgentPlatformUpdates?: boolean;
 }
 
 /** SSH configuration for Linux based VMs running on Azure */

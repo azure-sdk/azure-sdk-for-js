@@ -4063,7 +4063,7 @@ export interface LatestGalleryImageVersion {
 // @public
 export interface LinuxConfiguration {
     disablePasswordAuthentication?: boolean;
-    enableVMAgentPlatformUpdates?: boolean;
+    readonly enableVMAgentPlatformUpdates?: boolean;
     patchSettings?: LinuxPatchSettings;
     provisionVMAgent?: boolean;
     ssh?: SshConfiguration;
@@ -8301,7 +8301,7 @@ export interface VMSizeProperties {
 export interface WindowsConfiguration {
     additionalUnattendContent?: AdditionalUnattendContent[];
     enableAutomaticUpdates?: boolean;
-    enableVMAgentPlatformUpdates?: boolean;
+    readonly enableVMAgentPlatformUpdates?: boolean;
     patchSettings?: PatchSettings;
     provisionVMAgent?: boolean;
     timeZone?: string;
