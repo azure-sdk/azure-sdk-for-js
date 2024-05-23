@@ -2206,6 +2206,11 @@
       "packageName": "@azure-rest/ai-vision-face",
       "projectFolder": "sdk/face/ai-vision-face-rest",
       "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-rest/defender-easm-rest",
+      "projectFolder": "sdk/easm/defendereasm-rest",
+      "versionPolicyName": "client"
     }
   ]
 }
