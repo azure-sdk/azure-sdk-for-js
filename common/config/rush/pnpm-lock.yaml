@@ -18781,7 +18781,7 @@ packages:
     dev: false
 
   file:projects/arm-webpubsub.tgz:
-    resolution: {integrity: sha512-Royoi1sbidwFMB2pWwZ0FSWrn+64GU/OluE27Bnu4KRHL/px7AGUynDMJxVC6JXyAy3jBlFEf2FP9+z4xYw2Sw==, tarball: file:projects/arm-webpubsub.tgz}
+    resolution: {integrity: sha512-HGr+ifbvdMY6ynQRSfe77cs4QZN862p9MDLrguStnTbaFdnQRSxxhbylQrxbvHjOwo3IThS1kiSMHlUjxkdJxw==, tarball: file:projects/arm-webpubsub.tgz}
     name: '@rush-temp/arm-webpubsub'
     version: 0.0.0
     dependencies:
@@ -18802,6 +18802,7 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.4.5)
       tslib: 2.6.2
+      tsx: 4.10.5
       typescript: 5.4.5
       uglify-js: 3.17.4
     transitivePeerDependencies:
