@@ -10570,7 +10570,7 @@ export interface VirtualMachinesConvertToManagedDisksOptionalParams
 /** Optional parameters. */
 export interface VirtualMachinesDeallocateOptionalParams
   extends coreClient.OperationOptions {
-  /** Optional parameter to hibernate a virtual machine. (Feature in Preview) */
+  /** Optional parameter to hibernate a virtual machine. */
   hibernate?: boolean;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
