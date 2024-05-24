@@ -333,7 +333,7 @@ export interface WindowsConfiguration {
   patchSettings?: PatchSettings;
   /** Specifies the Windows Remote Management listeners. This enables remote Windows PowerShell. */
   winRM?: WinRMConfiguration;
-  /** Indicates whether VMAgent Platform Updates is enabled for the Windows virtual machine. Default value is false. */
+  /** Indicates whether VMAgent Platform Updates is enabled for the Windows virtual machine. */
   enableVMAgentPlatformUpdates?: boolean;
 }
 
@@ -393,7 +393,7 @@ export interface LinuxConfiguration {
   provisionVMAgent?: boolean;
   /** [Preview Feature] Specifies settings related to VM Guest Patching on Linux. */
   patchSettings?: LinuxPatchSettings;
-  /** Indicates whether VMAgent Platform Updates is enabled for the Linux virtual machine. Default value is false. */
+  /** Indicates whether VMAgent Platform Updates is enabled for the Linux virtual machine. */
   enableVMAgentPlatformUpdates?: boolean;
 }
 
