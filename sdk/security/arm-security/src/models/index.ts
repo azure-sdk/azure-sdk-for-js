@@ -8,36 +8,37 @@
 
 import * as coreClient from "@azure/core-client";
 
+export type ResourceIdentifierUnion =
+  | ResourceIdentifier
+  | AzureResourceIdentifier
+  | LogAnalyticsIdentifier;
+export type AlertSimulatorRequestPropertiesUnion =
+  | AlertSimulatorRequestProperties
+  | AlertSimulatorBundlesRequestProperties;
+export type ResourceDetailsUnion =
+  | ResourceDetails
+  | AzureResourceDetails
+  | OnPremiseResourceDetailsUnion;
 export type AutomationActionUnion =
   | AutomationAction
   | AutomationActionLogicApp
   | AutomationActionEventHub
   | AutomationActionWorkspace;
-export type ResourceDetailsUnion =
-  | ResourceDetails
-  | AzureResourceDetails
-  | OnPremiseResourceDetailsUnion;
-export type AdditionalDataUnion =
-  | AdditionalData
-  | SqlServerVulnerabilityProperties
-  | ContainerRegistryVulnerabilityProperties
-  | ServerVulnerabilityProperties;
 export type AuthenticationDetailsPropertiesUnion =
   | AuthenticationDetailsProperties
   | AwsCredsAuthenticationDetailsProperties
   | AwAssumeRoleAuthenticationDetailsProperties
   | GcpCredentialsDetailsProperties;
-export type NotificationsSourceUnion =
-  | NotificationsSource
-  | NotificationsSourceAlert
-  | NotificationsSourceAttackPath;
+export type CustomAlertRuleUnion =
+  | CustomAlertRule
+  | ThresholdCustomAlertRuleUnion
+  | ListCustomAlertRuleUnion;
 export type CloudOfferingUnion =
   | CloudOffering
   | CspmMonitorAwsOffering
   | DefenderForContainersAwsOffering
   | DefenderForServersAwsOffering
   | DefenderFoDatabasesAwsOffering
-  | InformationProtectionAwsOffering
   | CspmMonitorGcpOffering
   | DefenderForServersGcpOffering
   | DefenderForDatabasesGcpOffering
@@ -46,10 +47,7 @@ export type CloudOfferingUnion =
   | CspmMonitorAzureDevOpsOffering
   | DefenderCspmAwsOffering
   | DefenderCspmGcpOffering
-  | DefenderForDevOpsGithubOffering
-  | DefenderForDevOpsAzureDevOpsOffering
-  | CspmMonitorGitLabOffering
-  | DefenderForDevOpsGitLabOffering;
+  | CspmMonitorGitLabOffering;
 export type EnvironmentDataUnion =
   | EnvironmentData
   | AwsEnvironmentData
@@ -57,17 +55,15 @@ export type EnvironmentDataUnion =
   | GithubScopeEnvironmentData
   | AzureDevOpsScopeEnvironmentData
   | GitlabScopeEnvironmentData;
-export type CustomAlertRuleUnion =
-  | CustomAlertRule
-  | ThresholdCustomAlertRuleUnion
-  | ListCustomAlertRuleUnion;
-export type ResourceIdentifierUnion =
-  | ResourceIdentifier
-  | AzureResourceIdentifier
-  | LogAnalyticsIdentifier;
-export type AlertSimulatorRequestPropertiesUnion =
-  | AlertSimulatorRequestProperties
-  | AlertSimulatorBundlesRequestProperties;
+export type NotificationsSourceUnion =
+  | NotificationsSource
+  | NotificationsSourceAlert
+  | NotificationsSourceAttackPath;
+export type AdditionalDataUnion =
+  | AdditionalData
+  | SqlServerVulnerabilityProperties
+  | ContainerRegistryVulnerabilityProperties
+  | ServerVulnerabilityProperties;
 export type AwsOrganizationalDataUnion =
   | AwsOrganizationalData
   | AwsOrganizationalDataMaster
@@ -115,15 +111,34 @@ export type AllowlistCustomAlertRuleUnion =
   | LocalUserNotAllowed
   | ProcessNotAllowed;
 
-/** List of locations where ASC saves your data */
-export interface AscLocationList {
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly value?: AscLocation[];
-  /**
-   * The URI to fetch the next page.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
+/** Response for ListAdaptiveNetworkHardenings API service call */
+export interface AdaptiveNetworkHardeningsList {
+  /** A list of Adaptive Network Hardenings resources */
+  value?: AdaptiveNetworkHardening[];
+  /** The URL to get the next set of results */
+  nextLink?: string;
+}
+
+/** Describes remote addresses that is recommended to communicate with the Azure resource on some (Protocol, Port, Direction). All other remote addresses are recommended to be blocked */
+export interface Rule {
+  /** The name of the rule */
+  name?: string;
+  /** The rule's direction */
+  direction?: Direction;
+  /** The rule's destination port */
+  destinationPort?: number;
+  /** The rule's transport protocols */
+  protocols?: TransportProtocol[];
+  /** The remote IP addresses that should be able to communicate with the Azure resource on the rule's destination port and protocol */
+  ipAddresses?: string[];
+}
+
+/** Describes the Network Security Groups effective on a network interface */
+export interface EffectiveNetworkSecurityGroups {
+  /** The Azure resource ID of the network interface */
+  networkInterface?: string;
+  /** The Network Security Groups effective on the network interface */
+  networkSecurityGroups?: string[];
 }
 
 /** Describes an Azure resource. */
@@ -217,10 +232,17 @@ export interface ErrorAdditionalInfo {
   readonly info?: Record<string, unknown>;
 }
 
-/** List of possible operations for Microsoft.Security resource provider */
-export interface OperationList {
-  /** List of Security operations */
-  value?: Operation[];
+export interface AdaptiveNetworkHardeningEnforceRequest {
+  /** The rules to enforce */
+  rules: Rule[];
+  /** The Azure resource IDs of the effective network security groups that will be updated with the created security rules from the Adaptive Network Hardening rules */
+  networkSecurityGroups: string[];
+}
+
+/** List of security alerts */
+export interface AlertList {
+  /** describes security alert properties. */
+  value?: Alert[];
   /**
    * The URI to fetch the next page.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -228,168 +250,46 @@ export interface OperationList {
   readonly nextLink?: string;
 }
 
-/** Possible operation in the REST API of Microsoft.Security */
-export interface Operation {
-  /**
-   * Name of the operation
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Where the operation is originated
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly origin?: string;
-  /** Security operation display */
-  display?: OperationDisplay;
+/** A resource identifier for an alert which can be used to direct the alert to the right product exposure group (tenant, workspace, subscription etc.). */
+export interface ResourceIdentifier {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "AzureResource" | "LogAnalytics";
 }
 
-/** Security operation display */
-export interface OperationDisplay {
-  /**
-   * The resource provider for the operation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provider?: string;
-  /**
-   * The display name of the resource the operation applies to.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resource?: string;
-  /**
-   * The display name of the security operation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly operation?: string;
-  /**
-   * The description of the operation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly description?: string;
-}
-
-/** List of security task recommendations */
-export interface SecurityTaskList {
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly value?: SecurityTask[];
-  /**
-   * The URI to fetch the next page.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** Changing set of properties, depending on the task type that is derived from the name field */
-export interface SecurityTaskParameters {
+/** Changing set of properties depending on the entity type. */
+export interface AlertEntity {
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /**
-   * Name of the task type
+   * Type of entity
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly name?: string;
+  readonly type?: string;
 }
 
-/** List of all the auto provisioning settings response */
-export interface AutoProvisioningSettingList {
-  /** List of all the auto provisioning settings */
-  value?: AutoProvisioningSetting[];
+/** Changing set of properties depending on the supportingEvidence type. */
+export interface AlertPropertiesSupportingEvidence {
+  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
+  [property: string]: any;
   /**
-   * The URI to fetch the next page.
+   * Type of the supportingEvidence
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly nextLink?: string;
+  readonly type?: string;
 }
 
-/** List of Compliance objects response */
-export interface ComplianceList {
-  /** List of Compliance objects */
-  value?: Compliance[];
-  /**
-   * The URI to fetch the next page.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
+/** Alert Simulator request body. */
+export interface AlertSimulatorRequestBody {
+  /** Alert Simulator request body data. */
+  properties?: AlertSimulatorRequestPropertiesUnion;
 }
 
-/** A segment of a compliance assessment. */
-export interface ComplianceSegment {
-  /**
-   * The segment type, e.g. compliant, non-compliance, insufficient coverage, N/A, etc.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly segmentType?: string;
-  /**
-   * The size (%) of the segment.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly percentage?: number;
-}
-
-/** The sensitivity label. */
-export interface SensitivityLabel {
-  /** The name of the sensitivity label. */
-  displayName?: string;
-  /** The description of the sensitivity label. */
-  description?: string;
-  /** The rank of the sensitivity label. */
-  rank?: Rank;
-  /** The order of the sensitivity label. */
-  order?: number;
-  /** Indicates whether the label is enabled or not. */
-  enabled?: boolean;
-}
-
-/** The information type. */
-export interface InformationType {
-  /** The name of the information type. */
-  displayName?: string;
-  /** The description of the information type. */
-  description?: string;
-  /** The order of the information type. */
-  order?: number;
-  /** The recommended label id to be associated with this information type. */
-  recommendedLabelId?: string;
-  /** Indicates whether the information type is enabled or not. */
-  enabled?: boolean;
-  /** Indicates whether the information type is custom or not. */
-  custom?: boolean;
-  /** The information type keywords. */
-  keywords?: InformationProtectionKeyword[];
-}
-
-/** The information type keyword. */
-export interface InformationProtectionKeyword {
-  /** The keyword pattern. */
-  pattern?: string;
-  /** Indicates whether the keyword is custom or not. */
-  custom?: boolean;
-  /** Indicates whether the keyword can be applied on numeric types or not. */
-  canBeNumeric?: boolean;
-  /** Indicates whether the keyword is excluded or not. */
-  excluded?: boolean;
-}
-
-/** Information protection policies response. */
-export interface InformationProtectionPolicyList {
-  /** List of information protection policies. */
-  value?: InformationProtectionPolicy[];
-  /**
-   * The URI to fetch the next page.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** List of workspace settings response */
-export interface WorkspaceSettingList {
-  /** List of workspace settings */
-  value: WorkspaceSetting[];
-  /**
-   * The URI to fetch the next page.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
+/** Describes properties of an alert simulation request */
+export interface AlertSimulatorRequestProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "Bundles";
+  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
+  [property: string]: any;
 }
 
 /** Suppression rules list for subscription. */
@@ -413,6 +313,328 @@ export interface ScopeElement {
   [property: string]: any;
   /** The alert entity type to suppress by. */
   field?: string;
+}
+
+/** List of all possible traffic between Azure resources */
+export interface AllowedConnectionsList {
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly value?: AllowedConnectionsResource[];
+  /**
+   * The URI to fetch the next page.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Describes the allowed inbound and outbound traffic of an Azure resource */
+export interface ConnectableResource {
+  /**
+   * The Azure resource id
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The list of Azure resources that the resource has inbound allowed connection from
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly inboundConnectedResources?: ConnectedResource[];
+  /**
+   * The list of Azure resources that the resource has outbound allowed connection to
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly outboundConnectedResources?: ConnectedResource[];
+}
+
+/** Describes properties of a connected resource */
+export interface ConnectedResource {
+  /**
+   * The Azure resource id of the connected resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly connectedResourceId?: string;
+  /**
+   * The allowed tcp ports
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tcpPorts?: string;
+  /**
+   * The allowed udp ports
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly udpPorts?: string;
+}
+
+/** Describes an Azure resource with location */
+export interface Location {
+  /**
+   * Location where the resource is stored
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly location?: string;
+}
+
+/** Page of a list of API collections as represented by Microsoft Defender for APIs. */
+export interface ApiCollectionList {
+  /**
+   * API collections in this page.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: ApiCollection[];
+  /**
+   * The URI to fetch the next page.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** Page of a security applications list */
+export interface ApplicationsList {
+  /**
+   * Collection of applications in this page
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: Application[];
+  /**
+   * The URI to fetch the next page
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Represents a list of VM/server groups and set of rules that are Recommended by Microsoft Defender for Cloud to be allowed */
+export interface AdaptiveApplicationControlGroups {
+  value?: AdaptiveApplicationControlGroup[];
+}
+
+/** The protection mode of the collection/file types. Exe/Msi/Script are used for Windows, Executable is used for Linux. */
+export interface ProtectionMode {
+  /** The application control policy enforcement/protection mode of the machine group */
+  exe?: EnforcementMode;
+  /** The application control policy enforcement/protection mode of the machine group */
+  msi?: EnforcementMode;
+  /** The application control policy enforcement/protection mode of the machine group */
+  script?: EnforcementMode;
+  /** The application control policy enforcement/protection mode of the machine group */
+  executable?: EnforcementMode;
+}
+
+/** Represents a summary of the alerts of the machine group */
+export interface AdaptiveApplicationControlIssueSummary {
+  /** An alert that machines within a group can have */
+  issue?: AdaptiveApplicationControlIssue;
+  /** The number of machines in the group that have this alert */
+  numberOfVms?: number;
+}
+
+/** Represents a machine that is part of a machine group */
+export interface VmRecommendation {
+  /** The configuration status of the machines group or machine or rule */
+  configurationStatus?: ConfigurationStatus;
+  /** The recommendation action of the machine or rule */
+  recommendationAction?: RecommendationAction;
+  /** The full resource id of the machine */
+  resourceId?: string;
+  /** The machine supportability of Enforce feature */
+  enforcementSupport?: EnforcementSupport;
+}
+
+/** Represents a path that is recommended to be allowed and its properties */
+export interface PathRecommendation {
+  /** The full path of the file, or an identifier of the application */
+  path?: string;
+  /** The recommendation action of the machine or rule */
+  action?: RecommendationAction;
+  /** The type of the rule to be allowed */
+  type?: RecommendationType;
+  /** Represents the publisher information of a process/rule */
+  publisherInfo?: PublisherInfo;
+  /** Whether the application is commonly run on the machine */
+  common?: boolean;
+  userSids?: string[];
+  usernames?: UserRecommendation[];
+  /** The type of the file (for Linux files - Executable is used) */
+  fileType?: FileType;
+  /** The configuration status of the machines group or machine or rule */
+  configurationStatus?: ConfigurationStatus;
+}
+
+/** Represents the publisher information of a process/rule */
+export interface PublisherInfo {
+  /** The Subject field of the x.509 certificate used to sign the code, using the following fields -  O = Organization, L = Locality, S = State or Province, and C = Country */
+  publisherName?: string;
+  /** The product name taken from the file's version resource */
+  productName?: string;
+  /** The "OriginalName" field taken from the file's version resource */
+  binaryName?: string;
+  /** The binary file version taken from the file's version resource */
+  version?: string;
+}
+
+/** Represents a user that is recommended to be allowed for a certain rule */
+export interface UserRecommendation {
+  /** Represents a user that is recommended to be allowed for a certain rule */
+  username?: string;
+  /** The recommendation action of the machine or rule */
+  recommendationAction?: RecommendationAction;
+}
+
+/** List of security assessment metadata */
+export interface SecurityAssessmentMetadataResponseList {
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly value?: SecurityAssessmentMetadataResponse[];
+  /**
+   * The URI to fetch the next page.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+export interface SecurityAssessmentMetadataPropertiesResponsePublishDates {
+  ga?: string;
+  public: string;
+}
+
+/** Describes properties of an assessment metadata. */
+export interface SecurityAssessmentMetadataProperties {
+  /** User friendly display name of the assessment */
+  displayName: string;
+  /**
+   * Azure resource ID of the policy definition that turns this assessment calculation on
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly policyDefinitionId?: string;
+  /** Human readable description of the assessment */
+  description?: string;
+  /** Human readable description of what you should do to mitigate this security issue */
+  remediationDescription?: string;
+  categories?: Categories[];
+  /** The severity level of the assessment */
+  severity: Severity;
+  /** The user impact of the assessment */
+  userImpact?: UserImpact;
+  /** The implementation effort required to remediate this assessment */
+  implementationEffort?: ImplementationEffort;
+  threats?: Threats[];
+  /** True if this assessment is in preview release status */
+  preview?: boolean;
+  /** BuiltIn if the assessment based on built-in Azure Policy definition, Custom if the assessment based on custom Azure Policy definition */
+  assessmentType: AssessmentType;
+  /** Describes the partner that created the assessment */
+  partnerData?: SecurityAssessmentMetadataPartnerData;
+}
+
+/** Describes the partner that created the assessment */
+export interface SecurityAssessmentMetadataPartnerData {
+  /** Name of the company of the partner */
+  partnerName: string;
+  /** Name of the product of the partner that created the assessment */
+  productName?: string;
+  /** Secret to authenticate the partner and verify it created the assessment - write only */
+  secret: string;
+}
+
+/** Page of a security assessments list */
+export interface SecurityAssessmentList {
+  /**
+   * Collection of security assessments in this page
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: SecurityAssessmentResponse[];
+  /**
+   * The URI to fetch the next page.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** The result of the assessment */
+export interface AssessmentStatus {
+  /** Programmatic code for the status of the assessment */
+  code: AssessmentStatusCode;
+  /** Programmatic code for the cause of the assessment status */
+  cause?: string;
+  /** Human readable description of the assessment status */
+  description?: string;
+}
+
+/** Describes properties of an assessment. */
+export interface SecurityAssessmentPropertiesBase {
+  /** Details of the resource that was assessed */
+  resourceDetails: ResourceDetailsUnion;
+  /**
+   * User friendly display name of the assessment
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly displayName?: string;
+  /** Additional data regarding the assessment */
+  additionalData?: { [propertyName: string]: string };
+  /**
+   * Links relevant to the assessment
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly links?: AssessmentLinks;
+  /** Describes properties of an assessment metadata. */
+  metadata?: SecurityAssessmentMetadataProperties;
+  /** Data regarding 3rd party partner integration */
+  partnersData?: SecurityAssessmentPartnerData;
+}
+
+/** Details of the resource that was assessed */
+export interface ResourceDetails {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  source: "Azure" | "OnPremise" | "OnPremiseSql";
+}
+
+/** Links relevant to the assessment */
+export interface AssessmentLinks {
+  /**
+   * Link to assessment in Azure Portal
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly azurePortalUri?: string;
+}
+
+/** Data regarding 3rd party partner integration */
+export interface SecurityAssessmentPartnerData {
+  /** Name of the company of the partner */
+  partnerName: string;
+  /** secret to authenticate the partner - write only */
+  secret: string;
 }
 
 /** List of security automations response. */
@@ -497,9 +719,10 @@ export interface AutomationValidationStatus {
   message?: string;
 }
 
-/** List of regulatory compliance standards response */
-export interface RegulatoryComplianceStandardList {
-  value: RegulatoryComplianceStandard[];
+/** List of all the auto provisioning settings response */
+export interface AutoProvisioningSettingList {
+  /** List of all the auto provisioning settings */
+  value?: AutoProvisioningSetting[];
   /**
    * The URI to fetch the next page.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -507,10 +730,10 @@ export interface RegulatoryComplianceStandardList {
   readonly nextLink?: string;
 }
 
-/** List of regulatory compliance controls response */
-export interface RegulatoryComplianceControlList {
-  /** List of regulatory compliance controls */
-  value: RegulatoryComplianceControl[];
+/** List of compliance results response */
+export interface ComplianceResultList {
+  /** List of compliance results */
+  value: ComplianceResult[];
   /**
    * The URI to fetch the next page.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -518,9 +741,10 @@ export interface RegulatoryComplianceControlList {
   readonly nextLink?: string;
 }
 
-/** List of regulatory compliance assessment response */
-export interface RegulatoryComplianceAssessmentList {
-  value: RegulatoryComplianceAssessment[];
+/** List of Compliance objects response */
+export interface ComplianceList {
+  /** List of Compliance objects */
+  value?: Compliance[];
   /**
    * The URI to fetch the next page.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -528,54 +752,18 @@ export interface RegulatoryComplianceAssessmentList {
   readonly nextLink?: string;
 }
 
-/** List of security sub-assessments */
-export interface SecuritySubAssessmentList {
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly value?: SecuritySubAssessment[];
+/** A segment of a compliance assessment. */
+export interface ComplianceSegment {
   /**
-   * The URI to fetch the next page.
+   * The segment type, e.g. compliant, non-compliance, insufficient coverage, N/A, etc.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly nextLink?: string;
-}
-
-/** Status of the sub-assessment */
-export interface SubAssessmentStatus {
+  readonly segmentType?: string;
   /**
-   * Programmatic code for the status of the assessment
+   * The size (%) of the segment.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly code?: SubAssessmentStatusCode;
-  /**
-   * Programmatic code for the cause of the assessment status
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly cause?: string;
-  /**
-   * Human readable description of the assessment status
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly description?: string;
-  /**
-   * The sub-assessment severity level
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly severity?: Severity;
-}
-
-/** Details of the resource that was assessed */
-export interface ResourceDetails {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  source: "Azure" | "OnPremise" | "OnPremiseSql";
-}
-
-/** Details of the sub-assessment */
-export interface AdditionalData {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  assessedResourceType:
-    | "SqlServerVulnerability"
-    | "ContainerRegistryVulnerability"
-    | "ServerVulnerabilityAssessment";
+  readonly percentage?: number;
 }
 
 /** For a subscription, list of all cloud account connectors and their settings */
@@ -640,41 +828,6 @@ export interface AuthenticationDetailsProperties {
   readonly grantedPermissions?: PermissionProperty[];
 }
 
-/** List of security contacts response */
-export interface SecurityContactList {
-  /** List of security contacts */
-  value: SecurityContact[];
-  /**
-   * The URI to fetch the next page.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** A valid notification source type */
-export interface NotificationsSource {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  sourceType: "Alert" | "AttackPath";
-}
-
-/** Defines whether to send email notifications from Microsoft Defender for Cloud to persons with specific RBAC roles on the subscription. */
-export interface SecurityContactPropertiesNotificationsByRole {
-  /** Defines whether to send email notifications from AMicrosoft Defender for Cloud to persons with specific RBAC roles on the subscription. */
-  state?: State;
-  /** Defines which RBAC roles will get email notifications from Microsoft Defender for Cloud. List of allowed RBAC roles: */
-  roles?: SecurityContactRole[];
-}
-
-/** Represents the software inventory of the virtual machine. */
-export interface SoftwaresList {
-  value?: Software[];
-  /**
-   * The URI to fetch the next page.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
@@ -719,10 +872,90 @@ export interface CustomEntityStoreAssignmentsListResult {
   nextLink?: string;
 }
 
-/** List of all MDE onboarding data resources */
-export interface MdeOnboardingDataList {
-  /** List of the resources of the configuration or data needed to onboard the machine to MDE */
-  value?: MdeOnboardingData[];
+/** A status describing the success/failure of the enablement/disablement operation. */
+export interface OperationStatus {
+  /** The operation status code. */
+  code?: string;
+  /** Additional information regarding the success/failure of the operation. */
+  message?: string;
+}
+
+/** List of device security groups */
+export interface DeviceSecurityGroupList {
+  /** List of device security group objects */
+  value?: DeviceSecurityGroup[];
+  /**
+   * The URI to fetch the next page.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** A custom alert rule. */
+export interface CustomAlertRule {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  ruleType:
+    | "ThresholdCustomAlertRule"
+    | "TimeWindowCustomAlertRule"
+    | "ListCustomAlertRule"
+    | "AllowlistCustomAlertRule"
+    | "DenylistCustomAlertRule"
+    | "ConnectionToIpNotAllowed"
+    | "ConnectionFromIpNotAllowed"
+    | "LocalUserNotAllowed"
+    | "ProcessNotAllowed"
+    | "ActiveConnectionsNotInAllowedRange"
+    | "AmqpC2DMessagesNotInAllowedRange"
+    | "MqttC2DMessagesNotInAllowedRange"
+    | "HttpC2DMessagesNotInAllowedRange"
+    | "AmqpC2DRejectedMessagesNotInAllowedRange"
+    | "MqttC2DRejectedMessagesNotInAllowedRange"
+    | "HttpC2DRejectedMessagesNotInAllowedRange"
+    | "AmqpD2CMessagesNotInAllowedRange"
+    | "MqttD2CMessagesNotInAllowedRange"
+    | "HttpD2CMessagesNotInAllowedRange"
+    | "DirectMethodInvokesNotInAllowedRange"
+    | "FailedLocalLoginsNotInAllowedRange"
+    | "FileUploadsNotInAllowedRange"
+    | "QueuePurgesNotInAllowedRange"
+    | "TwinUpdatesNotInAllowedRange"
+    | "UnauthorizedOperationsNotInAllowedRange";
+  /**
+   * The display name of the custom alert.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly displayName?: string;
+  /**
+   * The description of the custom alert.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
+  /** Status of the custom alert. */
+  isEnabled: boolean;
+}
+
+export interface DiscoveredSecuritySolutionList {
+  value?: DiscoveredSecuritySolution[];
+  /**
+   * The URI to fetch the next page.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+export interface ExternalSecuritySolutionList {
+  value?: ExternalSecuritySolution[];
+  /**
+   * The URI to fetch the next page.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Describes an Azure resource with kind */
+export interface ExternalSecuritySolutionKindAutoGenerated {
+  /** The kind of the external solution */
+  kind?: ExternalSecuritySolutionKind;
 }
 
 /** Page of a governance assignments list */
@@ -834,310 +1067,6 @@ export interface OperationResultAutoGenerated {
   readonly status?: OperationResult;
 }
 
-/** Page of a security applications list */
-export interface ApplicationsList {
-  /**
-   * Collection of applications in this page
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: Application[];
-  /**
-   * The URI to fetch the next page
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** A status describing the success/failure of the enablement/disablement operation. */
-export interface OperationStatus {
-  /** The operation status code. */
-  code?: string;
-  /** Additional information regarding the success/failure of the operation. */
-  message?: string;
-}
-
-/** List of SecurityOperator response. */
-export interface SecurityOperatorList {
-  /** List of SecurityOperator configurations */
-  value: SecurityOperator[];
-}
-
-/** Identity for the resource. */
-export interface Identity {
-  /**
-   * The principal ID of resource identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalId?: string;
-  /**
-   * The tenant ID of resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly tenantId?: string;
-  /** The identity type. */
-  type?: "SystemAssigned";
-}
-
-/** Rule results input. */
-export interface RuleResultsInput {
-  /** Take results from latest scan. */
-  latestScan?: boolean;
-  /**
-   * Expected results to be inserted into the baseline.
-   * Leave this field empty it LatestScan == true.
-   */
-  results?: string[][];
-}
-
-/** Rule results properties. */
-export interface RuleResultsProperties {
-  /** Expected results in the baseline. */
-  results?: string[][];
-}
-
-/** A list of rules results. */
-export interface RulesResults {
-  /** List of rule results. */
-  value?: RuleResults[];
-}
-
-/** Rules results input. */
-export interface RulesResultsInput {
-  /** Take results from latest scan. */
-  latestScan?: boolean;
-  /**
-   * Expected results to be inserted into the baseline.
-   * Leave this field empty it LatestScan == true.
-   */
-  results?: { [propertyName: string]: string[][] };
-}
-
-/** A vulnerability assessment scan record properties. */
-export interface ScanProperties {
-  /** The scan trigger type. */
-  triggerType?: ScanTriggerType;
-  /** The scan status. */
-  state?: ScanState;
-  /** The server name. */
-  server?: string;
-  /** The database name. */
-  database?: string;
-  /** The SQL version. */
-  sqlVersion?: string;
-  /** The scan start time (UTC). */
-  startTime?: Date;
-  /** Scan results are valid until end time (UTC). */
-  endTime?: Date;
-  /** The number of failed rules with high severity. */
-  highSeverityFailedRulesCount?: number;
-  /** The number of failed rules with medium severity. */
-  mediumSeverityFailedRulesCount?: number;
-  /** The number of failed rules with low severity. */
-  lowSeverityFailedRulesCount?: number;
-  /** The number of total passed rules. */
-  totalPassedRulesCount?: number;
-  /** The number of total failed rules. */
-  totalFailedRulesCount?: number;
-  /** The number of total rules assessed. */
-  totalRulesCount?: number;
-  /** Baseline created for this database, and has one or more rules. */
-  isBaselineApplied?: boolean;
-  /** Last scan time. */
-  lastScanTime?: Date;
-}
-
-/** A list of vulnerability assessment scan records. */
-export interface Scans {
-  /** List of vulnerability assessment scan records. */
-  value?: Scan[];
-}
-
-/** A vulnerability assessment scan result properties for a single rule. */
-export interface ScanResultProperties {
-  /** The rule Id. */
-  ruleId?: string;
-  /** The rule result status. */
-  status?: RuleStatus;
-  /** Indicated whether the results specified here are trimmed. */
-  isTrimmed?: boolean;
-  /** The results of the query that was run. */
-  queryResults?: string[][];
-  /** Remediation details. */
-  remediation?: Remediation;
-  /** The rule result adjusted with baseline. */
-  baselineAdjustedResult?: BaselineAdjustedResult;
-  /** vulnerability assessment rule metadata details. */
-  ruleMetadata?: VaRule;
-}
-
-/** Remediation details. */
-export interface Remediation {
-  /** Remediation description. */
-  description?: string;
-  /** Remediation script. */
-  scripts?: string[];
-  /** Is remediation automated. */
-  automated?: boolean;
-  /** Optional link to remediate in Azure Portal. */
-  portalLink?: string;
-}
-
-/** The rule result adjusted with baseline. */
-export interface BaselineAdjustedResult {
-  /** Baseline details. */
-  baseline?: Baseline;
-  /** The rule result status. */
-  status?: RuleStatus;
-  /** Results the are not in baseline. */
-  resultsNotInBaseline?: string[][];
-  /** Results the are in baseline. */
-  resultsOnlyInBaseline?: string[][];
-}
-
-/** Baseline details. */
-export interface Baseline {
-  /** Expected results. */
-  expectedResults?: string[][];
-  /** Baseline update time (UTC). */
-  updatedTime?: Date;
-}
-
-/** vulnerability assessment rule metadata details. */
-export interface VaRule {
-  /** The rule Id. */
-  ruleId?: string;
-  /** The rule severity. */
-  severity?: RuleSeverity;
-  /** The rule category. */
-  category?: string;
-  /** The rule type. */
-  ruleType?: RuleType;
-  /** The rule title. */
-  title?: string;
-  /** The rule description. */
-  description?: string;
-  /** The rule rationale. */
-  rationale?: string;
-  /** The rule query details. */
-  queryCheck?: QueryCheck;
-  /** The benchmark references. */
-  benchmarkReferences?: BenchmarkReference[];
-}
-
-/** The rule query details. */
-export interface QueryCheck {
-  /** The rule query. */
-  query?: string;
-  /** Expected result. */
-  expectedResult?: string[][];
-  /** Column names of expected result. */
-  columnNames?: string[];
-}
-
-/** The benchmark references. */
-export interface BenchmarkReference {
-  /** The benchmark name. */
-  benchmark?: string;
-  /** The benchmark reference. */
-  reference?: string;
-}
-
-/** A list of vulnerability assessment scan results. */
-export interface ScanResults {
-  /** List of vulnerability assessment scan results. */
-  value?: ScanResult[];
-}
-
-/** Request to update data sensitivity settings for sensitive data discovery */
-export interface UpdateSensitivitySettingsRequest {
-  /** List of selected sensitive info types' IDs. */
-  sensitiveInfoTypesIds: string[];
-  /** The order of the sensitivity threshold label. Any label at or above this order will be considered sensitive. If set to -1, sensitivity by labels is turned off */
-  sensitivityThresholdLabelOrder?: number;
-  /** The id of the sensitivity threshold label. Any label at or above this rank will be considered sensitive. */
-  sensitivityThresholdLabelId?: string;
-}
-
-/** Data sensitivity settings for sensitive data discovery */
-export interface GetSensitivitySettingsResponse {
-  /**
-   * The ID of the sensitivity settings
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The type of the sensitivity settings
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * The name of the sensitivity settings
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /** The sensitivity settings properties */
-  properties?: GetSensitivitySettingsResponseProperties;
-}
-
-/** The sensitivity settings properties */
-export interface GetSensitivitySettingsResponseProperties {
-  /** List of selected sensitive info types' IDs. */
-  sensitiveInfoTypesIds?: string[];
-  /** The order of the sensitivity threshold label. Any label at or above this order will be considered sensitive. If set to -1, sensitivity by labels is turned off */
-  sensitivityThresholdLabelOrder?: number;
-  /** The id of the sensitivity threshold label. Any label at or above this rank will be considered sensitive. */
-  sensitivityThresholdLabelId?: string;
-  /** Microsoft information protection built-in and custom information types, labels, and integration status. */
-  mipInformation?: GetSensitivitySettingsResponsePropertiesMipInformation;
-}
-
-/** Microsoft information protection built-in and custom information types, labels, and integration status. */
-export interface GetSensitivitySettingsResponsePropertiesMipInformation {
-  /** Microsoft information protection integration status */
-  mipIntegrationStatus?: MipIntegrationStatus;
-  /** List of Microsoft information protection sensitivity labels */
-  labels?: Label[];
-  /** List of custom user-defined information types */
-  customInfoTypes?: InfoType[];
-  /** List of pre-configured sensitive information types */
-  builtInInfoTypes?: BuiltInInfoType[];
-}
-
-/** Microsoft information protection sensitivity label */
-export interface Label {
-  /** The display name of the label */
-  name?: string;
-  /** The ID of the label */
-  id?: string;
-  /** Labels are ordered by sensitivity level. The higher the order of the label, the more sensitive it is. */
-  order?: number;
-}
-
-/** Custom user-defined information type */
-export interface InfoType {
-  /** Display name of the info type */
-  name?: string;
-  /** Id of the info type */
-  id?: string;
-  /** Description of the info type */
-  description?: string;
-}
-
-/** Pre-configured sensitive information type */
-export interface BuiltInInfoType {
-  /** Display name of the info type */
-  name?: string;
-  /** Id of the info type */
-  id?: string;
-  /** Category of the built-in info type */
-  type?: string;
-}
-
-/** A list with a single sensitivity settings resource */
-export interface GetSensitivitySettingsListResponse {
-  value?: GetSensitivitySettingsResponse[];
-}
-
 /** Page of health reports list */
 export interface HealthReportsList {
   /**
@@ -1236,39 +1165,550 @@ export interface Issue {
   issueAdditionalData?: { [propertyName: string]: string };
 }
 
-/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
-export interface ErrorResponse {
-  /** The error object. */
-  error?: ErrorDetail;
+/** The sensitivity label. */
+export interface SensitivityLabel {
+  /** The name of the sensitivity label. */
+  displayName?: string;
+  /** The description of the sensitivity label. */
+  description?: string;
+  /** The rank of the sensitivity label. */
+  rank?: Rank;
+  /** The order of the sensitivity label. */
+  order?: number;
+  /** Indicates whether the label is enabled or not. */
+  enabled?: boolean;
 }
 
-/** The error detail. */
-export interface ErrorDetail {
+/** The information type. */
+export interface InformationType {
+  /** The name of the information type. */
+  displayName?: string;
+  /** The description of the information type. */
+  description?: string;
+  /** The order of the information type. */
+  order?: number;
+  /** The recommended label id to be associated with this information type. */
+  recommendedLabelId?: string;
+  /** Indicates whether the information type is enabled or not. */
+  enabled?: boolean;
+  /** Indicates whether the information type is custom or not. */
+  custom?: boolean;
+  /** The information type keywords. */
+  keywords?: InformationProtectionKeyword[];
+}
+
+/** The information type keyword. */
+export interface InformationProtectionKeyword {
+  /** The keyword pattern. */
+  pattern?: string;
+  /** Indicates whether the keyword is custom or not. */
+  custom?: boolean;
+  /** Indicates whether the keyword can be applied on numeric types or not. */
+  canBeNumeric?: boolean;
+  /** Indicates whether the keyword is excluded or not. */
+  excluded?: boolean;
+}
+
+/** Information protection policies response. */
+export interface InformationProtectionPolicyList {
+  /** List of information protection policies. */
+  value?: InformationProtectionPolicy[];
   /**
-   * The error code.
+   * The URI to fetch the next page.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly code?: string;
+  readonly nextLink?: string;
+}
+
+/** List of Security analytics of your IoT Security solution */
+export interface IoTSecuritySolutionAnalyticsModelList {
+  /** List of Security analytics of your IoT Security solution */
+  value: IoTSecuritySolutionAnalyticsModel[];
   /**
-   * The error message.
+   * When there is too much alert data for one page, use this URI to fetch the next page.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly message?: string;
+  readonly nextLink?: string;
+}
+
+/** IoT Security solution analytics severity metrics. */
+export interface IoTSeverityMetrics {
+  /** Count of high severity alerts/recommendations. */
+  high?: number;
+  /** Count of medium severity alerts/recommendations. */
+  medium?: number;
+  /** Count of low severity alerts/recommendations. */
+  low?: number;
+}
+
+export interface IoTSecuritySolutionAnalyticsModelPropertiesDevicesMetricsItem {
+  /** Aggregation of IoT Security solution device alert metrics by date. */
+  date?: Date;
+  /** Device alert count by severity. */
+  devicesMetrics?: IoTSeverityMetrics;
+}
+
+/** Statistical information about the number of alerts per device during last set number of days. */
+export interface IoTSecurityAlertedDevice {
   /**
-   * The error target.
+   * Device identifier.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly target?: string;
+  readonly deviceId?: string;
   /**
-   * The error details.
+   * Number of alerts raised for this device.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly details?: ErrorDetail[];
+  readonly alertsCount?: number;
+}
+
+/** Statistical information about the number of alerts per alert type during last set number of days */
+export interface IoTSecurityDeviceAlert {
   /**
-   * The error additional info.
+   * Display name of the alert
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly additionalInfo?: ErrorAdditionalInfo[];
+  readonly alertDisplayName?: string;
+  /**
+   * Assessed Alert severity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly reportedSeverity?: ReportedSeverity;
+  /**
+   * Number of alerts raised for this alert type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly alertsCount?: number;
+}
+
+/** Statistical information about the number of recommendations per device, per recommendation type. */
+export interface IoTSecurityDeviceRecommendation {
+  /**
+   * Display name of the recommendation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly recommendationDisplayName?: string;
+  /**
+   * Assessed recommendation severity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly reportedSeverity?: ReportedSeverity;
+  /**
+   * Number of devices with this recommendation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly devicesCount?: number;
+}
+
+/** List of IoT Security solution aggregated alert data. */
+export interface IoTSecurityAggregatedAlertList {
+  /** List of aggregated alerts data. */
+  value: IoTSecurityAggregatedAlert[];
+  /**
+   * When there is too much alert data for one page, use this URI to fetch the next page.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+export interface IoTSecurityAggregatedAlertPropertiesTopDevicesListItem {
+  /**
+   * Name of the device.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly deviceId?: string;
+  /**
+   * Number of alerts raised for this device.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly alertsCount?: number;
+  /**
+   * Most recent time this alert was raised for this device, on this day.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastOccurrence?: string;
+}
+
+/** A container holding only the Tags for a resource, allowing the user to update the tags. */
+export interface TagsResource {
+  /** Resource tags */
+  tags?: { [propertyName: string]: string };
+}
+
+/** List of IoT Security solution aggregated recommendations. */
+export interface IoTSecurityAggregatedRecommendationList {
+  /** List of aggregated recommendations data. */
+  value: IoTSecurityAggregatedRecommendation[];
+  /**
+   * When there is too much alert data for one page, use this URI to fetch the next page.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** List of IoT Security solutions. */
+export interface IoTSecuritySolutionsList {
+  /** List of IoT Security solutions */
+  value: IoTSecuritySolutionModel[];
+  /**
+   * The URI to fetch the next page.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Properties of the IoT Security solution's user defined resources. */
+export interface UserDefinedResourcesProperties {
+  /** Azure Resource Graph query which represents the security solution's user defined resources. Required to start with "where type != "Microsoft.Devices/IotHubs"" */
+  query: string | null;
+  /** List of Azure subscription ids on which the user defined resources query should be executed. */
+  querySubscriptions: string[] | null;
+}
+
+/** The type of IoT Security recommendation. */
+export interface RecommendationConfigurationProperties {
+  /** The type of IoT Security recommendation. */
+  recommendationType: RecommendationType;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly name?: string;
+  /** Recommendation status. When the recommendation status is disabled recommendations are not generated. */
+  status: RecommendationConfigStatus;
+}
+
+/** Properties of the additional workspaces. */
+export interface AdditionalWorkspacesProperties {
+  /** Workspace resource id */
+  workspace?: string;
+  /** Workspace type. */
+  type?: AdditionalWorkspaceType;
+  /** List of data types sent to workspace */
+  dataTypes?: AdditionalWorkspaceDataType[];
+}
+
+export interface JitNetworkAccessPoliciesList {
+  value?: JitNetworkAccessPolicy[];
+  /**
+   * The URI to fetch the next page.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+export interface JitNetworkAccessPolicyVirtualMachine {
+  /** Resource ID of the virtual machine that is linked to this policy */
+  id: string;
+  /** Port configurations for the virtual machine */
+  ports: JitNetworkAccessPortRule[];
+  /** Public IP address of the Azure Firewall that is linked to this policy, if applicable */
+  publicIpAddress?: string;
+}
+
+export interface JitNetworkAccessPortRule {
+  number: number;
+  protocol: Protocol;
+  /** Mutually exclusive with the "allowedSourceAddressPrefixes" parameter. Should be an IP address or CIDR, for example "192.168.0.3" or "192.168.0.0/16". */
+  allowedSourceAddressPrefix?: string;
+  /** Mutually exclusive with the "allowedSourceAddressPrefix" parameter. */
+  allowedSourceAddressPrefixes?: string[];
+  /** Maximum duration requests can be made for. In ISO 8601 duration format. Minimum 5 minutes, maximum 1 day */
+  maxRequestAccessDuration: string;
+}
+
+export interface JitNetworkAccessRequest {
+  virtualMachines: JitNetworkAccessRequestVirtualMachine[];
+  /** The start time of the request in UTC */
+  startTimeUtc: Date;
+  /** The identity of the person who made the request */
+  requestor: string;
+  /** The justification for making the initiate request */
+  justification?: string;
+}
+
+export interface JitNetworkAccessRequestVirtualMachine {
+  /** Resource ID of the virtual machine that is linked to this policy */
+  id: string;
+  /** The ports that were opened for the virtual machine */
+  ports: JitNetworkAccessRequestPort[];
+}
+
+export interface JitNetworkAccessRequestPort {
+  number: number;
+  /** Mutually exclusive with the "allowedSourceAddressPrefixes" parameter. Should be an IP address or CIDR, for example "192.168.0.3" or "192.168.0.0/16". */
+  allowedSourceAddressPrefix?: string;
+  /** Mutually exclusive with the "allowedSourceAddressPrefix" parameter. */
+  allowedSourceAddressPrefixes?: string[];
+  /** The date & time at which the request ends in UTC */
+  endTimeUtc: Date;
+  /** The status of the port */
+  status: Status;
+  /** A description of why the `status` has its value */
+  statusReason: StatusReason;
+  /** The port which is mapped to this port's `number` in the Azure Firewall, if applicable */
+  mappedPort?: number;
+}
+
+export interface JitNetworkAccessPolicyInitiateRequest {
+  /** A list of virtual machines & ports to open access for */
+  virtualMachines: JitNetworkAccessPolicyInitiateVirtualMachine[];
+  /** The justification for making the initiate request */
+  justification?: string;
+}
+
+export interface JitNetworkAccessPolicyInitiateVirtualMachine {
+  /** Resource ID of the virtual machine that is linked to this policy */
+  id: string;
+  /** The ports to open for the resource with the `id` */
+  ports: JitNetworkAccessPolicyInitiatePort[];
+}
+
+/** A port to open access for. The model should contain either `allowedSourceAddressPrefix` or `allowedSourceAddressPrefixes`, but not both. The Model should contain either `duration` or `endTimeUtc`, but not both. */
+export interface JitNetworkAccessPolicyInitiatePort {
+  number: number;
+  /** Source of the allowed traffic. If omitted, the request will be for the source IP address of the initiate request. */
+  allowedSourceAddressPrefix?: string;
+  /** Mutually exclusive with the "allowedSourceAddressPrefix" parameter. */
+  allowedSourceAddressPrefixes?: string[];
+  /** ISO 8601 time duration for the JIT request */
+  duration?: string;
+  /** ISO 8601 timestamp to close the request in UTC */
+  endTimeUtc?: Date;
+}
+
+/** List of locations where ASC saves your data */
+export interface AscLocationList {
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly value?: AscLocation[];
+  /**
+   * The URI to fetch the next page.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** List of all MDE onboarding data resources */
+export interface MdeOnboardingDataList {
+  /** List of the resources of the configuration or data needed to onboard the machine to MDE */
+  value?: MdeOnboardingData[];
+}
+
+/** List of possible operations for Microsoft.Security resource provider */
+export interface OperationList {
+  /** List of Security operations */
+  value?: Operation[];
+  /**
+   * The URI to fetch the next page.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Possible operation in the REST API of Microsoft.Security */
+export interface Operation {
+  /**
+   * Name of the operation
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Where the operation is originated
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly origin?: string;
+  /** Security operation display */
+  display?: OperationDisplay;
+}
+
+/** Security operation display */
+export interface OperationDisplay {
+  /**
+   * The resource provider for the operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provider?: string;
+  /**
+   * The display name of the resource the operation applies to.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resource?: string;
+  /**
+   * The display name of the security operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operation?: string;
+  /**
+   * The description of the operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
+}
+
+/** A plan's extension properties */
+export interface Extension {
+  /**
+   * The extension name. Supported values are: <br><br>**AgentlessDiscoveryForKubernetes** - API-based discovery of information about Kubernetes cluster architecture, workload objects, and setup. Required for Kubernetes inventory, identity and network exposure detection, attack path analysis and risk hunting as part of the cloud security explorer.
+   * Available for CloudPosture plan.<br><br>**OnUploadMalwareScanning** - Limits the GB to be scanned per month for each storage account within the subscription. Once this limit reached on a given storage account, Blobs won't be scanned during current calendar month.
+   * Available for StorageAccounts plan.<br><br>**SensitiveDataDiscovery** - Sensitive data discovery identifies Blob storage container with sensitive data such as credentials, credit cards, and more, to help prioritize and investigate security events.
+   * Available for StorageAccounts and CloudPosture plans.<br><br>**ContainerRegistriesVulnerabilityAssessments** - Provides vulnerability management for images stored in your container registries.
+   * Available for CloudPosture and Containers plans.
+   */
+  name: string;
+  /** Indicates whether the extension is enabled. */
+  isEnabled: IsEnabled;
+  /** Property values associated with the extension. */
+  additionalExtensionProperties?: { [propertyName: string]: any };
+  /**
+   * Optional. A status describing the success/failure of the extension's enablement/disablement operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operationStatus?: OperationStatusAutoGenerated;
+}
+
+/** A status describing the success/failure of the extension's enablement/disablement operation. */
+export interface OperationStatusAutoGenerated {
+  /** The operation status code. */
+  code?: Code;
+  /** Additional information regarding the success/failure of the operation. */
+  message?: string;
+}
+
+/** List of pricing configurations response. */
+export interface PricingList {
+  /** List of pricing configurations */
+  value: Pricing[];
+}
+
+/** List of regulatory compliance standards response */
+export interface RegulatoryComplianceStandardList {
+  value: RegulatoryComplianceStandard[];
+  /**
+   * The URI to fetch the next page.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** List of regulatory compliance controls response */
+export interface RegulatoryComplianceControlList {
+  /** List of regulatory compliance controls */
+  value: RegulatoryComplianceControl[];
+  /**
+   * The URI to fetch the next page.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** List of regulatory compliance assessment response */
+export interface RegulatoryComplianceAssessmentList {
+  value: RegulatoryComplianceAssessment[];
+  /**
+   * The URI to fetch the next page.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** List of secure scores */
+export interface SecureScoresList {
+  /**
+   * Collection of secure scores in this page
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: SecureScoreItem[];
+  /**
+   * The URI to fetch the next page.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** List of security controls */
+export interface SecureScoreControlList {
+  /**
+   * Collection of security controls in this page
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: SecureScoreControlDetails[];
+  /**
+   * The URI to fetch the next page.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** The type of the security control (For example, BuiltIn) */
+export interface SecureScoreControlDefinitionSource {
+  /** The type of security control (for example, BuiltIn) */
+  sourceType?: ControlType;
+}
+
+/** Describes an Azure resource with kind */
+export interface AzureResourceLink {
+  /**
+   * Azure resource Id
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+}
+
+/** List of security controls definition */
+export interface SecureScoreControlDefinitionList {
+  /**
+   * Collection of security controls definition in this page
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: SecureScoreControlDefinitionItem[];
+  /**
+   * The URI to fetch the next page.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** List of security connectors response. */
+export interface SecurityConnectorsList {
+  /** The list of security connectors under the given scope. */
+  value: SecurityConnector[];
+  /**
+   * The URI to fetch the next page.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** The security offering details */
+export interface CloudOffering {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  offeringType:
+    | "CspmMonitorAws"
+    | "DefenderForContainersAws"
+    | "DefenderForServersAws"
+    | "DefenderForDatabasesAws"
+    | "CspmMonitorGcp"
+    | "DefenderForServersGcp"
+    | "DefenderForDatabasesGcp"
+    | "DefenderForContainersGcp"
+    | "CspmMonitorGithub"
+    | "CspmMonitorAzureDevOps"
+    | "DefenderCspmAws"
+    | "DefenderCspmGcp"
+    | "CspmMonitorGitLab";
+  /**
+   * The offering description.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
+}
+
+/** The security connector environment data. */
+export interface EnvironmentData {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  environmentType:
+    | "AwsAccount"
+    | "GcpProject"
+    | "GithubScope"
+    | "AzureDevOpsScope"
+    | "GitlabScope";
 }
 
 /** List of RP resources which supports pagination. */
@@ -1578,6 +2018,11 @@ export interface DevOpsConfigurationProperties {
    * This field is ignored when AutoDiscovery is enabled.
    */
   topLevelInventoryList?: string[];
+  /**
+   * List of capabilities assigned to the DevOps configuration during the discovery process.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly capabilities?: DevOpsCapability[];
 }
 
 /** Authorization payload. */
@@ -1588,6 +2033,20 @@ export interface Authorization {
    * Only used during PUT/PATCH operations. The secret is cleared during GET.
    */
   code?: string;
+}
+
+/** Details about DevOps capability. */
+export interface DevOpsCapability {
+  /**
+   * Gets the name of the DevOps capability.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Gets the value of the DevOps capability.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: string;
 }
 
 /** List of RP resources which supports pagination. */
@@ -1865,10 +2324,10 @@ export interface OperationStatusResult {
   error?: ErrorDetailAutoGenerated;
 }
 
-/** List of security connectors response. */
-export interface SecurityConnectorsList {
-  /** The list of security connectors under the given scope. */
-  value: SecurityConnector[];
+/** List of security contacts response */
+export interface SecurityContactList {
+  /** List of security contacts */
+  value: SecurityContact[];
   /**
    * The URI to fetch the next page.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1876,610 +2335,40 @@ export interface SecurityConnectorsList {
   readonly nextLink?: string;
 }
 
-/** The security offering details */
-export interface CloudOffering {
+/** A valid notification source type */
+export interface NotificationsSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  offeringType:
-    | "CspmMonitorAws"
-    | "DefenderForContainersAws"
-    | "DefenderForServersAws"
-    | "DefenderForDatabasesAws"
-    | "InformationProtectionAws"
-    | "CspmMonitorGcp"
-    | "DefenderForServersGcp"
-    | "DefenderForDatabasesGcp"
-    | "DefenderForContainersGcp"
-    | "CspmMonitorGithub"
-    | "CspmMonitorAzureDevOps"
-    | "DefenderCspmAws"
-    | "DefenderCspmGcp"
-    | "DefenderForDevOpsGithub"
-    | "DefenderForDevOpsAzureDevOps"
-    | "CspmMonitorGitLab"
-    | "DefenderForDevOpsGitLab";
+  sourceType: "Alert" | "AttackPath";
+}
+
+/** Defines whether to send email notifications from Microsoft Defender for Cloud to persons with specific RBAC roles on the subscription. */
+export interface SecurityContactPropertiesNotificationsByRole {
+  /** Defines whether to send email notifications from AMicrosoft Defender for Cloud to persons with specific RBAC roles on the subscription. */
+  state?: State;
+  /** Defines which RBAC roles will get email notifications from Microsoft Defender for Cloud. List of allowed RBAC roles: */
+  roles?: SecurityContactRole[];
+}
+
+/** List of SecurityOperator response. */
+export interface SecurityOperatorList {
+  /** List of SecurityOperator configurations */
+  value: SecurityOperator[];
+}
+
+/** Identity for the resource. */
+export interface Identity {
   /**
-   * The offering description.
+   * The principal ID of resource identity.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly description?: string;
-}
-
-/** The security connector environment data. */
-export interface EnvironmentData {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  environmentType:
-    | "AwsAccount"
-    | "GcpProject"
-    | "GithubScope"
-    | "AzureDevOpsScope"
-    | "GitlabScope";
-}
-
-/** List of compliance results response */
-export interface ComplianceResultList {
-  /** List of compliance results */
-  value: ComplianceResult[];
+  readonly principalId?: string;
   /**
-   * The URI to fetch the next page.
+   * The tenant ID of resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly nextLink?: string;
-}
-
-/** List of device security groups */
-export interface DeviceSecurityGroupList {
-  /** List of device security group objects */
-  value?: DeviceSecurityGroup[];
-  /**
-   * The URI to fetch the next page.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** A custom alert rule. */
-export interface CustomAlertRule {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  ruleType:
-    | "ThresholdCustomAlertRule"
-    | "TimeWindowCustomAlertRule"
-    | "ListCustomAlertRule"
-    | "AllowlistCustomAlertRule"
-    | "DenylistCustomAlertRule"
-    | "ConnectionToIpNotAllowed"
-    | "ConnectionFromIpNotAllowed"
-    | "LocalUserNotAllowed"
-    | "ProcessNotAllowed"
-    | "ActiveConnectionsNotInAllowedRange"
-    | "AmqpC2DMessagesNotInAllowedRange"
-    | "MqttC2DMessagesNotInAllowedRange"
-    | "HttpC2DMessagesNotInAllowedRange"
-    | "AmqpC2DRejectedMessagesNotInAllowedRange"
-    | "MqttC2DRejectedMessagesNotInAllowedRange"
-    | "HttpC2DRejectedMessagesNotInAllowedRange"
-    | "AmqpD2CMessagesNotInAllowedRange"
-    | "MqttD2CMessagesNotInAllowedRange"
-    | "HttpD2CMessagesNotInAllowedRange"
-    | "DirectMethodInvokesNotInAllowedRange"
-    | "FailedLocalLoginsNotInAllowedRange"
-    | "FileUploadsNotInAllowedRange"
-    | "QueuePurgesNotInAllowedRange"
-    | "TwinUpdatesNotInAllowedRange"
-    | "UnauthorizedOperationsNotInAllowedRange";
-  /**
-   * The display name of the custom alert.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly displayName?: string;
-  /**
-   * The description of the custom alert.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly description?: string;
-  /** Status of the custom alert. */
-  isEnabled: boolean;
-}
-
-/** List of Security analytics of your IoT Security solution */
-export interface IoTSecuritySolutionAnalyticsModelList {
-  /** List of Security analytics of your IoT Security solution */
-  value: IoTSecuritySolutionAnalyticsModel[];
-  /**
-   * When there is too much alert data for one page, use this URI to fetch the next page.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** IoT Security solution analytics severity metrics. */
-export interface IoTSeverityMetrics {
-  /** Count of high severity alerts/recommendations. */
-  high?: number;
-  /** Count of medium severity alerts/recommendations. */
-  medium?: number;
-  /** Count of low severity alerts/recommendations. */
-  low?: number;
-}
-
-export interface IoTSecuritySolutionAnalyticsModelPropertiesDevicesMetricsItem {
-  /** Aggregation of IoT Security solution device alert metrics by date. */
-  date?: Date;
-  /** Device alert count by severity. */
-  devicesMetrics?: IoTSeverityMetrics;
-}
-
-/** Statistical information about the number of alerts per device during last set number of days. */
-export interface IoTSecurityAlertedDevice {
-  /**
-   * Device identifier.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly deviceId?: string;
-  /**
-   * Number of alerts raised for this device.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly alertsCount?: number;
-}
-
-/** Statistical information about the number of alerts per alert type during last set number of days */
-export interface IoTSecurityDeviceAlert {
-  /**
-   * Display name of the alert
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly alertDisplayName?: string;
-  /**
-   * Assessed Alert severity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly reportedSeverity?: ReportedSeverity;
-  /**
-   * Number of alerts raised for this alert type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly alertsCount?: number;
-}
-
-/** Statistical information about the number of recommendations per device, per recommendation type. */
-export interface IoTSecurityDeviceRecommendation {
-  /**
-   * Display name of the recommendation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly recommendationDisplayName?: string;
-  /**
-   * Assessed recommendation severity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly reportedSeverity?: ReportedSeverity;
-  /**
-   * Number of devices with this recommendation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly devicesCount?: number;
-}
-
-/** List of IoT Security solution aggregated alert data. */
-export interface IoTSecurityAggregatedAlertList {
-  /** List of aggregated alerts data. */
-  value: IoTSecurityAggregatedAlert[];
-  /**
-   * When there is too much alert data for one page, use this URI to fetch the next page.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-export interface IoTSecurityAggregatedAlertPropertiesTopDevicesListItem {
-  /**
-   * Name of the device.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly deviceId?: string;
-  /**
-   * Number of alerts raised for this device.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly alertsCount?: number;
-  /**
-   * Most recent time this alert was raised for this device, on this day.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastOccurrence?: string;
-}
-
-/** A container holding only the Tags for a resource, allowing the user to update the tags. */
-export interface TagsResource {
-  /** Resource tags */
-  tags?: { [propertyName: string]: string };
-}
-
-/** List of IoT Security solution aggregated recommendations. */
-export interface IoTSecurityAggregatedRecommendationList {
-  /** List of aggregated recommendations data. */
-  value: IoTSecurityAggregatedRecommendation[];
-  /**
-   * When there is too much alert data for one page, use this URI to fetch the next page.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** List of IoT Security solutions. */
-export interface IoTSecuritySolutionsList {
-  /** List of IoT Security solutions */
-  value: IoTSecuritySolutionModel[];
-  /**
-   * The URI to fetch the next page.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** Properties of the IoT Security solution's user defined resources. */
-export interface UserDefinedResourcesProperties {
-  /** Azure Resource Graph query which represents the security solution's user defined resources. Required to start with "where type != "Microsoft.Devices/IotHubs"" */
-  query: string | null;
-  /** List of Azure subscription ids on which the user defined resources query should be executed. */
-  querySubscriptions: string[] | null;
-}
-
-/** The type of IoT Security recommendation. */
-export interface RecommendationConfigurationProperties {
-  /** The type of IoT Security recommendation. */
-  recommendationType: RecommendationType;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly name?: string;
-  /** Recommendation status. When the recommendation status is disabled recommendations are not generated. */
-  status: RecommendationConfigStatus;
-}
-
-/** Properties of the additional workspaces. */
-export interface AdditionalWorkspacesProperties {
-  /** Workspace resource id */
-  workspace?: string;
-  /** Workspace type. */
-  type?: AdditionalWorkspaceType;
-  /** List of data types sent to workspace */
-  dataTypes?: AdditionalWorkspaceDataType[];
-}
-
-/** Response for ListAdaptiveNetworkHardenings API service call */
-export interface AdaptiveNetworkHardeningsList {
-  /** A list of Adaptive Network Hardenings resources */
-  value?: AdaptiveNetworkHardening[];
-  /** The URL to get the next set of results */
-  nextLink?: string;
-}
-
-/** Describes remote addresses that is recommended to communicate with the Azure resource on some (Protocol, Port, Direction). All other remote addresses are recommended to be blocked */
-export interface Rule {
-  /** The name of the rule */
-  name?: string;
-  /** The rule's direction */
-  direction?: Direction;
-  /** The rule's destination port */
-  destinationPort?: number;
-  /** The rule's transport protocols */
-  protocols?: TransportProtocol[];
-  /** The remote IP addresses that should be able to communicate with the Azure resource on the rule's destination port and protocol */
-  ipAddresses?: string[];
-}
-
-/** Describes the Network Security Groups effective on a network interface */
-export interface EffectiveNetworkSecurityGroups {
-  /** The Azure resource ID of the network interface */
-  networkInterface?: string;
-  /** The Network Security Groups effective on the network interface */
-  networkSecurityGroups?: string[];
-}
-
-export interface AdaptiveNetworkHardeningEnforceRequest {
-  /** The rules to enforce */
-  rules: Rule[];
-  /** The Azure resource IDs of the effective network security groups that will be updated with the created security rules from the Adaptive Network Hardening rules */
-  networkSecurityGroups: string[];
-}
-
-/** List of all possible traffic between Azure resources */
-export interface AllowedConnectionsList {
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly value?: AllowedConnectionsResource[];
-  /**
-   * The URI to fetch the next page.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** Describes the allowed inbound and outbound traffic of an Azure resource */
-export interface ConnectableResource {
-  /**
-   * The Azure resource id
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The list of Azure resources that the resource has inbound allowed connection from
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly inboundConnectedResources?: ConnectedResource[];
-  /**
-   * The list of Azure resources that the resource has outbound allowed connection to
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly outboundConnectedResources?: ConnectedResource[];
-}
-
-/** Describes properties of a connected resource */
-export interface ConnectedResource {
-  /**
-   * The Azure resource id of the connected resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly connectedResourceId?: string;
-  /**
-   * The allowed tcp ports
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly tcpPorts?: string;
-  /**
-   * The allowed udp ports
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly udpPorts?: string;
-}
-
-/** Describes an Azure resource with location */
-export interface Location {
-  /**
-   * Location where the resource is stored
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly location?: string;
-}
-
-/** Represents a list of VM/server groups and set of rules that are Recommended by Microsoft Defender for Cloud to be allowed */
-export interface AdaptiveApplicationControlGroups {
-  value?: AdaptiveApplicationControlGroup[];
-}
-
-/** The protection mode of the collection/file types. Exe/Msi/Script are used for Windows, Executable is used for Linux. */
-export interface ProtectionMode {
-  /** The application control policy enforcement/protection mode of the machine group */
-  exe?: EnforcementMode;
-  /** The application control policy enforcement/protection mode of the machine group */
-  msi?: EnforcementMode;
-  /** The application control policy enforcement/protection mode of the machine group */
-  script?: EnforcementMode;
-  /** The application control policy enforcement/protection mode of the machine group */
-  executable?: EnforcementMode;
-}
-
-/** Represents a summary of the alerts of the machine group */
-export interface AdaptiveApplicationControlIssueSummary {
-  /** An alert that machines within a group can have */
-  issue?: AdaptiveApplicationControlIssue;
-  /** The number of machines in the group that have this alert */
-  numberOfVms?: number;
-}
-
-/** Represents a machine that is part of a machine group */
-export interface VmRecommendation {
-  /** The configuration status of the machines group or machine or rule */
-  configurationStatus?: ConfigurationStatus;
-  /** The recommendation action of the machine or rule */
-  recommendationAction?: RecommendationAction;
-  /** The full resource id of the machine */
-  resourceId?: string;
-  /** The machine supportability of Enforce feature */
-  enforcementSupport?: EnforcementSupport;
-}
-
-/** Represents a path that is recommended to be allowed and its properties */
-export interface PathRecommendation {
-  /** The full path of the file, or an identifier of the application */
-  path?: string;
-  /** The recommendation action of the machine or rule */
-  action?: RecommendationAction;
-  /** The type of IoT Security recommendation. */
-  type?: RecommendationType;
-  /** Represents the publisher information of a process/rule */
-  publisherInfo?: PublisherInfo;
-  /** Whether the application is commonly run on the machine */
-  common?: boolean;
-  userSids?: string[];
-  usernames?: UserRecommendation[];
-  /** The type of the file (for Linux files - Executable is used) */
-  fileType?: FileType;
-  /** The configuration status of the machines group or machine or rule */
-  configurationStatus?: ConfigurationStatus;
-}
-
-/** Represents the publisher information of a process/rule */
-export interface PublisherInfo {
-  /** The Subject field of the x.509 certificate used to sign the code, using the following fields -  O = Organization, L = Locality, S = State or Province, and C = Country */
-  publisherName?: string;
-  /** The product name taken from the file's version resource */
-  productName?: string;
-  /** The "OriginalName" field taken from the file's version resource */
-  binaryName?: string;
-  /** The binary file version taken from the file's version resource */
-  version?: string;
-}
-
-/** Represents a user that is recommended to be allowed for a certain rule */
-export interface UserRecommendation {
-  /** Represents a user that is recommended to be allowed for a certain rule */
-  username?: string;
-  /** The recommendation action of the machine or rule */
-  recommendationAction?: RecommendationAction;
-}
-
-export interface DiscoveredSecuritySolutionList {
-  value?: DiscoveredSecuritySolution[];
-  /**
-   * The URI to fetch the next page.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-export interface ExternalSecuritySolutionList {
-  value?: ExternalSecuritySolution[];
-  /**
-   * The URI to fetch the next page.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** Describes an Azure resource with kind */
-export interface ExternalSecuritySolutionKindAutoGenerated {
-  /** The kind of the external solution */
-  kind?: ExternalSecuritySolutionKind;
-}
-
-export interface JitNetworkAccessPoliciesList {
-  value?: JitNetworkAccessPolicy[];
-  /**
-   * The URI to fetch the next page.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-export interface JitNetworkAccessPolicyVirtualMachine {
-  /** Resource ID of the virtual machine that is linked to this policy */
-  id: string;
-  /** Port configurations for the virtual machine */
-  ports: JitNetworkAccessPortRule[];
-  /** Public IP address of the Azure Firewall that is linked to this policy, if applicable */
-  publicIpAddress?: string;
-}
-
-export interface JitNetworkAccessPortRule {
-  number: number;
-  protocol: Protocol;
-  /** Mutually exclusive with the "allowedSourceAddressPrefixes" parameter. Should be an IP address or CIDR, for example "192.168.0.3" or "192.168.0.0/16". */
-  allowedSourceAddressPrefix?: string;
-  /** Mutually exclusive with the "allowedSourceAddressPrefix" parameter. */
-  allowedSourceAddressPrefixes?: string[];
-  /** Maximum duration requests can be made for. In ISO 8601 duration format. Minimum 5 minutes, maximum 1 day */
-  maxRequestAccessDuration: string;
-}
-
-export interface JitNetworkAccessRequest {
-  virtualMachines: JitNetworkAccessRequestVirtualMachine[];
-  /** The start time of the request in UTC */
-  startTimeUtc: Date;
-  /** The identity of the person who made the request */
-  requestor: string;
-  /** The justification for making the initiate request */
-  justification?: string;
-}
-
-export interface JitNetworkAccessRequestVirtualMachine {
-  /** Resource ID of the virtual machine that is linked to this policy */
-  id: string;
-  /** The ports that were opened for the virtual machine */
-  ports: JitNetworkAccessRequestPort[];
-}
-
-export interface JitNetworkAccessRequestPort {
-  number: number;
-  /** Mutually exclusive with the "allowedSourceAddressPrefixes" parameter. Should be an IP address or CIDR, for example "192.168.0.3" or "192.168.0.0/16". */
-  allowedSourceAddressPrefix?: string;
-  /** Mutually exclusive with the "allowedSourceAddressPrefix" parameter. */
-  allowedSourceAddressPrefixes?: string[];
-  /** The date & time at which the request ends in UTC */
-  endTimeUtc: Date;
-  /** The status of the port */
-  status: Status;
-  /** A description of why the `status` has its value */
-  statusReason: StatusReason;
-  /** The port which is mapped to this port's `number` in the Azure Firewall, if applicable */
-  mappedPort?: number;
-}
-
-export interface JitNetworkAccessPolicyInitiateRequest {
-  /** A list of virtual machines & ports to open access for */
-  virtualMachines: JitNetworkAccessPolicyInitiateVirtualMachine[];
-  /** The justification for making the initiate request */
-  justification?: string;
-}
-
-export interface JitNetworkAccessPolicyInitiateVirtualMachine {
-  /** Resource ID of the virtual machine that is linked to this policy */
-  id: string;
-  /** The ports to open for the resource with the `id` */
-  ports: JitNetworkAccessPolicyInitiatePort[];
-}
-
-export interface JitNetworkAccessPolicyInitiatePort {
-  number: number;
-  /** Source of the allowed traffic. If omitted, the request will be for the source IP address of the initiate request. */
-  allowedSourceAddressPrefix?: string;
-  /** The time to close the request in UTC */
-  endTimeUtc: Date;
-}
-
-/** List of secure scores */
-export interface SecureScoresList {
-  /**
-   * Collection of secure scores in this page
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: SecureScoreItem[];
-  /**
-   * The URI to fetch the next page.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** List of security controls */
-export interface SecureScoreControlList {
-  /**
-   * Collection of security controls in this page
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: SecureScoreControlDetails[];
-  /**
-   * The URI to fetch the next page.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** The type of the security control (For example, BuiltIn) */
-export interface SecureScoreControlDefinitionSource {
-  /** The type of security control (for example, BuiltIn) */
-  sourceType?: ControlType;
-}
-
-/** Describes an Azure resource with kind */
-export interface AzureResourceLink {
-  /**
-   * Azure resource Id
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-}
-
-/** List of security controls definition */
-export interface SecureScoreControlDefinitionList {
-  /**
-   * Collection of security controls definition in this page
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: SecureScoreControlDefinitionItem[];
-  /**
-   * The URI to fetch the next page.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
+  readonly tenantId?: string;
+  /** The identity type. */
+  type?: "SystemAssigned";
 }
 
 export interface SecuritySolutionList {
@@ -2495,9 +2384,394 @@ export interface SecuritySolutionsReferenceDataList {
   value?: SecuritySolutionsReferenceData[];
 }
 
+/** Request to update data sensitivity settings for sensitive data discovery */
+export interface UpdateSensitivitySettingsRequest {
+  /** List of selected sensitive info types' IDs. */
+  sensitiveInfoTypesIds: string[];
+  /** The order of the sensitivity threshold label. Any label at or above this order will be considered sensitive. If set to -1, sensitivity by labels is turned off */
+  sensitivityThresholdLabelOrder?: number;
+  /** The id of the sensitivity threshold label. Any label at or above this rank will be considered sensitive. */
+  sensitivityThresholdLabelId?: string;
+}
+
+/** Data sensitivity settings for sensitive data discovery */
+export interface GetSensitivitySettingsResponse {
+  /**
+   * The ID of the sensitivity settings
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The type of the sensitivity settings
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The name of the sensitivity settings
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /** The sensitivity settings properties */
+  properties?: GetSensitivitySettingsResponseProperties;
+}
+
+/** The sensitivity settings properties */
+export interface GetSensitivitySettingsResponseProperties {
+  /** List of selected sensitive info types' IDs. */
+  sensitiveInfoTypesIds?: string[];
+  /** The order of the sensitivity threshold label. Any label at or above this order will be considered sensitive. If set to -1, sensitivity by labels is turned off */
+  sensitivityThresholdLabelOrder?: number;
+  /** The id of the sensitivity threshold label. Any label at or above this rank will be considered sensitive. */
+  sensitivityThresholdLabelId?: string;
+  /** Microsoft information protection built-in and custom information types, labels, and integration status. */
+  mipInformation?: GetSensitivitySettingsResponsePropertiesMipInformation;
+}
+
+/** Microsoft information protection built-in and custom information types, labels, and integration status. */
+export interface GetSensitivitySettingsResponsePropertiesMipInformation {
+  /** Microsoft information protection integration status */
+  mipIntegrationStatus?: MipIntegrationStatus;
+  /** List of Microsoft information protection sensitivity labels */
+  labels?: Label[];
+  /** List of custom user-defined information types */
+  customInfoTypes?: InfoType[];
+  /** List of pre-configured sensitive information types */
+  builtInInfoTypes?: BuiltInInfoType[];
+}
+
+/** Microsoft information protection sensitivity label */
+export interface Label {
+  /** The display name of the label */
+  name?: string;
+  /** The ID of the label */
+  id?: string;
+  /** Labels are ordered by sensitivity level. The higher the order of the label, the more sensitive it is. */
+  order?: number;
+}
+
+/** Custom user-defined information type */
+export interface InfoType {
+  /** Display name of the info type */
+  name?: string;
+  /** Id of the info type */
+  id?: string;
+  /** Description of the info type */
+  description?: string;
+}
+
+/** Pre-configured sensitive information type */
+export interface BuiltInInfoType {
+  /** Display name of the info type */
+  name?: string;
+  /** Id of the info type */
+  id?: string;
+  /** Category of the built-in info type */
+  type?: string;
+}
+
+/** A list with a single sensitivity settings resource */
+export interface GetSensitivitySettingsListResponse {
+  value?: GetSensitivitySettingsResponse[];
+}
+
 /** List of server vulnerability assessments */
 export interface ServerVulnerabilityAssessmentsList {
   value?: ServerVulnerabilityAssessment[];
+}
+
+/** A page of a server vulnerability assessments settings list */
+export interface ServerVulnerabilityAssessmentsSettingsList {
+  /**
+   * A collection of server vulnerability assessments settings in this page
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: ServerVulnerabilityAssessmentsSettingUnion[];
+  /**
+   * The URI to fetch the next page
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface ResourceAutoGenerated2 {
+  /**
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** Subscription settings list. */
+export interface SettingsList {
+  /** The settings list. */
+  value?: SettingUnion[];
+  /**
+   * The URI to fetch the next page.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Represents the software inventory of the virtual machine. */
+export interface SoftwaresList {
+  value?: Software[];
+  /**
+   * The URI to fetch the next page.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Rule results input. */
+export interface RuleResultsInput {
+  /** Take results from latest scan. */
+  latestScan?: boolean;
+  /**
+   * Expected results to be inserted into the baseline.
+   * Leave this field empty it LatestScan == true.
+   */
+  results?: string[][];
+}
+
+/** Rule results properties. */
+export interface RuleResultsProperties {
+  /** Expected results in the baseline. */
+  results?: string[][];
+}
+
+/** A list of rules results. */
+export interface RulesResults {
+  /** List of rule results. */
+  value?: RuleResults[];
+}
+
+/** Rules results input. */
+export interface RulesResultsInput {
+  /** Take results from latest scan. */
+  latestScan?: boolean;
+  /**
+   * Expected results to be inserted into the baseline.
+   * Leave this field empty it LatestScan == true.
+   */
+  results?: { [propertyName: string]: string[][] };
+}
+
+/** A vulnerability assessment scan record properties. */
+export interface ScanProperties {
+  /** The scan trigger type. */
+  triggerType?: ScanTriggerType;
+  /** The scan status. */
+  state?: ScanState;
+  /** The server name. */
+  server?: string;
+  /** The database name. */
+  database?: string;
+  /** The SQL version. */
+  sqlVersion?: string;
+  /** The scan start time (UTC). */
+  startTime?: Date;
+  /** Scan results are valid until end time (UTC). */
+  endTime?: Date;
+  /** The number of failed rules with high severity. */
+  highSeverityFailedRulesCount?: number;
+  /** The number of failed rules with medium severity. */
+  mediumSeverityFailedRulesCount?: number;
+  /** The number of failed rules with low severity. */
+  lowSeverityFailedRulesCount?: number;
+  /** The number of total passed rules. */
+  totalPassedRulesCount?: number;
+  /** The number of total failed rules. */
+  totalFailedRulesCount?: number;
+  /** The number of total rules assessed. */
+  totalRulesCount?: number;
+  /** Baseline created for this database, and has one or more rules. */
+  isBaselineApplied?: boolean;
+  /** Last scan time. */
+  lastScanTime?: Date;
+}
+
+/** A list of vulnerability assessment scan records. */
+export interface Scans {
+  /** List of vulnerability assessment scan records. */
+  value?: Scan[];
+}
+
+/** A vulnerability assessment scan result properties for a single rule. */
+export interface ScanResultProperties {
+  /** The rule Id. */
+  ruleId?: string;
+  /** The rule result status. */
+  status?: RuleStatus;
+  /** Indicated whether the results specified here are trimmed. */
+  isTrimmed?: boolean;
+  /** The results of the query that was run. */
+  queryResults?: string[][];
+  /** Remediation details. */
+  remediation?: Remediation;
+  /** The rule result adjusted with baseline. */
+  baselineAdjustedResult?: BaselineAdjustedResult;
+  /** vulnerability assessment rule metadata details. */
+  ruleMetadata?: VaRule;
+}
+
+/** Remediation details. */
+export interface Remediation {
+  /** Remediation description. */
+  description?: string;
+  /** Remediation script. */
+  scripts?: string[];
+  /** Is remediation automated. */
+  automated?: boolean;
+  /** Optional link to remediate in Azure Portal. */
+  portalLink?: string;
+}
+
+/** The rule result adjusted with baseline. */
+export interface BaselineAdjustedResult {
+  /** Baseline details. */
+  baseline?: Baseline;
+  /** The rule result status. */
+  status?: RuleStatus;
+  /** Results the are not in baseline. */
+  resultsNotInBaseline?: string[][];
+  /** Results the are in baseline. */
+  resultsOnlyInBaseline?: string[][];
+}
+
+/** Baseline details. */
+export interface Baseline {
+  /** Expected results. */
+  expectedResults?: string[][];
+  /** Baseline update time (UTC). */
+  updatedTime?: Date;
+}
+
+/** vulnerability assessment rule metadata details. */
+export interface VaRule {
+  /** The rule Id. */
+  ruleId?: string;
+  /** The rule severity. */
+  severity?: RuleSeverity;
+  /** The rule category. */
+  category?: string;
+  /** The rule type. */
+  ruleType?: RuleType;
+  /** The rule title. */
+  title?: string;
+  /** The rule description. */
+  description?: string;
+  /** The rule rationale. */
+  rationale?: string;
+  /** The rule query details. */
+  queryCheck?: QueryCheck;
+  /** The benchmark references. */
+  benchmarkReferences?: BenchmarkReference[];
+}
+
+/** The rule query details. */
+export interface QueryCheck {
+  /** The rule query. */
+  query?: string;
+  /** Expected result. */
+  expectedResult?: string[][];
+  /** Column names of expected result. */
+  columnNames?: string[];
+}
+
+/** The benchmark references. */
+export interface BenchmarkReference {
+  /** The benchmark name. */
+  benchmark?: string;
+  /** The benchmark reference. */
+  reference?: string;
+}
+
+/** A list of vulnerability assessment scan results. */
+export interface ScanResults {
+  /** List of vulnerability assessment scan results. */
+  value?: ScanResult[];
+}
+
+/** List of security sub-assessments */
+export interface SecuritySubAssessmentList {
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly value?: SecuritySubAssessment[];
+  /**
+   * The URI to fetch the next page.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Status of the sub-assessment */
+export interface SubAssessmentStatus {
+  /**
+   * Programmatic code for the status of the assessment
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: SubAssessmentStatusCode;
+  /**
+   * Programmatic code for the cause of the assessment status
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly cause?: string;
+  /**
+   * Human readable description of the assessment status
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
+  /**
+   * The sub-assessment severity level
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly severity?: Severity;
+}
+
+/** Details of the sub-assessment */
+export interface AdditionalData {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  assessedResourceType:
+    | "SqlServerVulnerability"
+    | "ContainerRegistryVulnerability"
+    | "ServerVulnerability";
+}
+
+/** List of security task recommendations */
+export interface SecurityTaskList {
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly value?: SecurityTask[];
+  /**
+   * The URI to fetch the next page.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Changing set of properties, depending on the task type that is derived from the name field */
+export interface SecurityTaskParameters {
+  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
+  [property: string]: any;
+  /**
+   * Name of the task type
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
 }
 
 export interface TopologyList {
@@ -2569,10 +2843,10 @@ export interface TopologySingleResourceChild {
   readonly resourceId?: string;
 }
 
-/** List of security assessment metadata */
-export interface SecurityAssessmentMetadataResponseList {
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly value?: SecurityAssessmentMetadataResponse[];
+/** List of workspace settings response */
+export interface WorkspaceSettingList {
+  /** List of workspace settings */
+  value: WorkspaceSetting[];
   /**
    * The URI to fetch the next page.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2580,299 +2854,36 @@ export interface SecurityAssessmentMetadataResponseList {
   readonly nextLink?: string;
 }
 
-export interface SecurityAssessmentMetadataPropertiesResponsePublishDates {
-  ga?: string;
-  public: string;
+/** Application's condition */
+export interface ApplicationCondition {
+  /** The application Condition's Property, e.g. ID, see examples */
+  property?: string;
+  /** The application Condition's Value like IDs that contain some string, see examples */
+  value?: string;
+  /** The application Condition's Operator, for example Contains for id or In for list of possible IDs, see examples */
+  operator?: ApplicationConditionOperator;
 }
 
-/** Describes properties of an assessment metadata. */
-export interface SecurityAssessmentMetadataProperties {
-  /** User friendly display name of the assessment */
-  displayName: string;
-  /**
-   * Azure resource ID of the policy definition that turns this assessment calculation on
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly policyDefinitionId?: string;
-  /** Human readable description of the assessment */
-  description?: string;
-  /** Human readable description of what you should do to mitigate this security issue */
-  remediationDescription?: string;
-  categories?: Categories[];
-  /** The severity level of the assessment */
-  severity: Severity;
-  /** The user impact of the assessment */
-  userImpact?: UserImpact;
-  /** The implementation effort required to remediate this assessment */
-  implementationEffort?: ImplementationEffort;
-  threats?: Threats[];
-  /** True if this assessment is in preview release status */
-  preview?: boolean;
-  /** BuiltIn if the assessment based on built-in Azure Policy definition, Custom if the assessment based on custom Azure Policy definition */
-  assessmentType: AssessmentType;
-  /** Describes the partner that created the assessment */
-  partnerData?: SecurityAssessmentMetadataPartnerData;
-}
-
-/** Describes the partner that created the assessment */
-export interface SecurityAssessmentMetadataPartnerData {
-  /** Name of the company of the partner */
-  partnerName: string;
-  /** Name of the product of the partner that created the assessment */
-  productName?: string;
-  /** Secret to authenticate the partner and verify it created the assessment - write only */
-  secret: string;
-}
-
-/** Page of a security assessments list */
-export interface SecurityAssessmentList {
-  /**
-   * Collection of security assessments in this page
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: SecurityAssessmentResponse[];
-  /**
-   * The URI to fetch the next page.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** The result of the assessment */
-export interface AssessmentStatus {
-  /** Programmatic code for the status of the assessment */
-  code: AssessmentStatusCode;
-  /** Programmatic code for the cause of the assessment status */
-  cause?: string;
-  /** Human readable description of the assessment status */
-  description?: string;
-}
-
-/** Describes properties of an assessment. */
-export interface SecurityAssessmentPropertiesBase {
-  /** Details of the resource that was assessed */
-  resourceDetails: ResourceDetailsUnion;
-  /**
-   * User friendly display name of the assessment
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly displayName?: string;
-  /** Additional data regarding the assessment */
-  additionalData?: { [propertyName: string]: string };
-  /**
-   * Links relevant to the assessment
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly links?: AssessmentLinks;
-  /** Describes properties of an assessment metadata. */
-  metadata?: SecurityAssessmentMetadataProperties;
-  /** Data regarding 3rd party partner integration */
-  partnersData?: SecurityAssessmentPartnerData;
-}
-
-/** Links relevant to the assessment */
-export interface AssessmentLinks {
-  /**
-   * Link to assessment in Azure Portal
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly azurePortalUri?: string;
-}
-
-/** Data regarding 3rd party partner integration */
-export interface SecurityAssessmentPartnerData {
-  /** Name of the company of the partner */
-  partnerName: string;
-  /** secret to authenticate the partner - write only */
-  secret: string;
-}
-
-/** List of security alerts */
-export interface AlertList {
-  /** describes security alert properties. */
-  value?: Alert[];
-  /**
-   * The URI to fetch the next page.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** A resource identifier for an alert which can be used to direct the alert to the right product exposure group (tenant, workspace, subscription etc.). */
-export interface ResourceIdentifier {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "AzureResource" | "LogAnalytics";
-}
-
-/** Changing set of properties depending on the entity type. */
-export interface AlertEntity {
+/** The solution properties (correspond to the solution kind) */
+export interface ExternalSecuritySolutionProperties {
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
-  /**
-   * Type of entity
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
+  deviceVendor?: string;
+  deviceType?: string;
+  /** Represents an OMS workspace to which the solution is connected */
+  workspace?: ConnectedWorkspace;
 }
 
-/** Changing set of properties depending on the supportingEvidence type. */
-export interface AlertPropertiesSupportingEvidence {
-  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
-  [property: string]: any;
-  /**
-   * Type of the supportingEvidence
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
+/** Represents an OMS workspace to which the solution is connected */
+export interface ConnectedWorkspace {
+  /** Azure resource ID of the connected OMS workspace */
+  id?: string;
 }
 
-/** Alert Simulator request body. */
-export interface AlertSimulatorRequestBody {
-  /** Alert Simulator request body data. */
-  properties?: AlertSimulatorRequestPropertiesUnion;
-}
-
-/** Describes properties of an alert simulation request */
-export interface AlertSimulatorRequestProperties {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "Bundles";
-  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
-  [property: string]: any;
-}
-
-/** Subscription settings list. */
-export interface SettingsList {
-  /** The settings list. */
-  value?: SettingUnion[];
-  /**
-   * The URI to fetch the next page.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** A page of a server vulnerability assessments settings list */
-export interface ServerVulnerabilityAssessmentsSettingsList {
-  /**
-   * A collection of server vulnerability assessments settings in this page
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: ServerVulnerabilityAssessmentsSettingUnion[];
-  /**
-   * The URI to fetch the next page
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** Common fields that are returned in the response for all Azure Resource Manager resources */
-export interface ResourceAutoGenerated2 {
-  /**
-   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The name of the resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-}
-
-/** Page of a list of API collections as represented by Microsoft Defender for APIs. */
-export interface ApiCollectionList {
-  /**
-   * API collections in this page.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: ApiCollection[];
-  /**
-   * The URI to fetch the next page.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** A plan's extension properties */
-export interface Extension {
-  /**
-   * The extension name. Supported values are: <br><br>**AgentlessDiscoveryForKubernetes** - API-based discovery of information about Kubernetes cluster architecture, workload objects, and setup. Required for Kubernetes inventory, identity and network exposure detection, attack path analysis and risk hunting as part of the cloud security explorer.
-   * Available for CloudPosture plan.<br><br>**OnUploadMalwareScanning** - Limits the GB to be scanned per month for each storage account within the subscription. Once this limit reached on a given storage account, Blobs won't be scanned during current calendar month.
-   * Available for StorageAccounts plan.<br><br>**SensitiveDataDiscovery** - Sensitive data discovery identifies Blob storage container with sensitive data such as credentials, credit cards, and more, to help prioritize and investigate security events.
-   * Available for StorageAccounts and CloudPosture plans.<br><br>**ContainerRegistriesVulnerabilityAssessments** - Provides vulnerability management for images stored in your container registries.
-   * Available for CloudPosture and Containers plans.
-   */
-  name: string;
-  /** Indicates whether the extension is enabled. */
-  isEnabled: IsEnabled;
-  /** Property values associated with the extension. */
-  additionalExtensionProperties?: { [propertyName: string]: any };
-  /**
-   * Optional. A status describing the success/failure of the extension's enablement/disablement operation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly operationStatus?: OperationStatusAutoGenerated;
-}
-
-/** A status describing the success/failure of the extension's enablement/disablement operation. */
-export interface OperationStatusAutoGenerated {
-  /** The operation status code. */
-  code?: Code;
-  /** Additional information regarding the success/failure of the operation. */
-  message?: string;
-}
-
-/** List of pricing configurations response. */
-export interface PricingList {
-  /** List of pricing configurations */
-  value: Pricing[];
-}
-
-/** CVSS details */
-export interface Cvss {
-  /**
-   * CVSS base
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly base?: number;
-}
-
-/** CVE details */
-export interface Cve {
-  /**
-   * CVE title
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly title?: string;
-  /**
-   * Link url
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly link?: string;
-}
-
-/** Vendor reference */
-export interface VendorReference {
-  /**
-   * Link title
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly title?: string;
-  /**
-   * Link url
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly link?: string;
+/** Describes an Azure resource with kind */
+export interface AadConnectivityStateAutoGenerated {
+  /** The connectivity state of the external AAD solution */
+  connectivityState?: AadConnectivityState;
 }
 
 /** Governance rule's condition */
@@ -2885,14 +2896,363 @@ export interface Condition {
   operator?: GovernanceRuleConditionOperator;
 }
 
-/** Application's condition */
-export interface ApplicationCondition {
-  /** The application Condition's Property, e.g. ID, see examples */
-  property?: string;
-  /** The application Condition's Value like IDs that contain some string, see examples */
-  value?: string;
-  /** The application Condition's Operator, for example Contains for id or In for list of possible IDs, see examples */
-  operator?: ApplicationConditionOperator;
+/** Calculation result data */
+export interface SecureScoreControlScore {
+  /**
+   * Maximum control score (0..10)
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly max?: number;
+  /**
+   * Actual score for the control = (achieved points / total points) * max score. if total points is zeroed, the return number is 0.00
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly current?: number;
+  /**
+   * Ratio of the current score divided by the maximum. Rounded to 4 digits after the decimal point
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly percentage?: number;
+}
+
+/** The AWS organization data */
+export interface AwsOrganizationalData {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  organizationMembershipType: "Organization" | "Member";
+}
+
+/** The gcpOrganization data */
+export interface GcpOrganizationalData {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  organizationMembershipType: "Organization" | "Member";
+}
+
+/** The details about the project represented by the security connector */
+export interface GcpProjectDetails {
+  /** The unique GCP Project number */
+  projectNumber?: string;
+  /** The GCP Project id */
+  projectId?: string;
+  /**
+   * The GCP workload identity federation pool id
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly workloadIdentityPoolId?: string;
+  /**
+   * GCP project name
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly projectName?: string;
+}
+
+/** The native cloud connection configuration */
+export interface CspmMonitorAwsOfferingNativeCloudConnection {
+  /** The cloud role ARN in AWS for this feature */
+  cloudRoleArn?: string;
+}
+
+/** The kubernetes service connection configuration */
+export interface DefenderForContainersAwsOfferingKubernetesService {
+  /** The cloud role ARN in AWS for this feature used for provisioning resources */
+  cloudRoleArn?: string;
+}
+
+/** The kubernetes data collection connection configuration */
+export interface DefenderForContainersAwsOfferingKubernetesDataCollection {
+  /** The cloud role ARN in AWS for this feature used for reading data */
+  cloudRoleArn?: string;
+}
+
+/** The cloudwatch to kinesis connection configuration */
+export interface DefenderForContainersAwsOfferingCloudWatchToKinesis {
+  /** The cloud role ARN in AWS used by CloudWatch to transfer data into Kinesis */
+  cloudRoleArn?: string;
+}
+
+/** The kinesis to s3 connection configuration */
+export interface DefenderForContainersAwsOfferingKinesisToS3 {
+  /** The cloud role ARN in AWS used by Kinesis to transfer data into S3 */
+  cloudRoleArn?: string;
+}
+
+/** The Microsoft Defender container image assessment configuration */
+export interface DefenderForContainersAwsOfferingMdcContainersImageAssessment {
+  /** Is Microsoft Defender container image assessment enabled */
+  enabled?: boolean;
+  /** The cloud role ARN in AWS for this feature */
+  cloudRoleArn?: string;
+}
+
+/** The Microsoft Defender container agentless discovery K8s configuration */
+export interface DefenderForContainersAwsOfferingMdcContainersAgentlessDiscoveryK8S {
+  /** Is Microsoft Defender container agentless discovery K8s enabled */
+  enabled?: boolean;
+  /** The cloud role ARN in AWS for this feature */
+  cloudRoleArn?: string;
+}
+
+/** A VM scanning configuration for a security offering of a given environment */
+export interface VmScannersBase {
+  /** Is VM scanning enabled */
+  enabled?: boolean;
+  /** Configuration for VM scanning */
+  configuration?: VmScannersBaseConfiguration;
+}
+
+/** Configuration for VM scanning */
+export interface VmScannersBaseConfiguration {
+  /** The scanning mode for the VM scan. */
+  scanningMode?: ScanningMode;
+  /** Tags that indicates that a resource should not be scanned */
+  exclusionTags?: { [propertyName: string]: string };
+}
+
+/** The Defender for servers connection configuration */
+export interface DefenderForServersAwsOfferingDefenderForServers {
+  /** The cloud role ARN in AWS for this feature */
+  cloudRoleArn?: string;
+}
+
+/** The ARC autoprovisioning configuration */
+export interface ArcAutoProvisioning {
+  /** Is arc auto provisioning enabled */
+  enabled?: boolean;
+  /** Configuration for servers Arc auto provisioning for a given environment */
+  configuration?: ArcAutoProvisioningConfiguration;
+}
+
+/** Configuration for servers Arc auto provisioning for a given environment */
+export interface ArcAutoProvisioningConfiguration {
+  /** Optional HTTP proxy endpoint to use for the Arc agent */
+  proxy?: string;
+  /** Optional Arc private link scope resource id to link the Arc agent */
+  privateLinkScope?: string;
+}
+
+/** The Vulnerability Assessment autoprovisioning configuration */
+export interface DefenderForServersAwsOfferingVaAutoProvisioning {
+  /** Is Vulnerability Assessment auto provisioning enabled */
+  enabled?: boolean;
+  /** configuration for Vulnerability Assessment autoprovisioning */
+  configuration?: DefenderForServersAwsOfferingVaAutoProvisioningConfiguration;
+}
+
+/** configuration for Vulnerability Assessment autoprovisioning */
+export interface DefenderForServersAwsOfferingVaAutoProvisioningConfiguration {
+  /** The Vulnerability Assessment solution to be provisioned. Can be either 'TVM' or 'Qualys' */
+  type?: Type;
+}
+
+/** The Microsoft Defender for Endpoint autoprovisioning configuration */
+export interface DefenderForServersAwsOfferingMdeAutoProvisioning {
+  /** Is Microsoft Defender for Endpoint auto provisioning enabled */
+  enabled?: boolean;
+  /** configuration for Microsoft Defender for Endpoint autoprovisioning */
+  configuration?: Record<string, unknown>;
+}
+
+/** configuration for the servers offering subPlan */
+export interface DefenderForServersAwsOfferingSubPlan {
+  /** The available sub plans */
+  type?: SubPlan;
+}
+
+/** The RDS configuration */
+export interface DefenderFoDatabasesAwsOfferingRds {
+  /** Is RDS protection enabled */
+  enabled?: boolean;
+  /** The cloud role ARN in AWS for this feature */
+  cloudRoleArn?: string;
+}
+
+/** The databases data security posture management (DSPM) configuration */
+export interface DefenderFoDatabasesAwsOfferingDatabasesDspm {
+  /** Is databases data security posture management (DSPM) protection enabled */
+  enabled?: boolean;
+  /** The cloud role ARN in AWS for this feature */
+  cloudRoleArn?: string;
+}
+
+/** The native cloud connection configuration */
+export interface CspmMonitorGcpOfferingNativeCloudConnection {
+  /** The GCP workload identity provider id for the offering */
+  workloadIdentityProviderId?: string;
+  /** The service account email address in GCP for this offering */
+  serviceAccountEmailAddress?: string;
+}
+
+/** The Defender for servers connection configuration */
+export interface DefenderForServersGcpOfferingDefenderForServers {
+  /** The workload identity provider id in GCP for this feature */
+  workloadIdentityProviderId?: string;
+  /** The service account email address in GCP for this feature */
+  serviceAccountEmailAddress?: string;
+}
+
+/** The Vulnerability Assessment autoprovisioning configuration */
+export interface DefenderForServersGcpOfferingVaAutoProvisioning {
+  /** Is Vulnerability Assessment auto provisioning enabled */
+  enabled?: boolean;
+  /** configuration for Vulnerability Assessment autoprovisioning */
+  configuration?: DefenderForServersGcpOfferingVaAutoProvisioningConfiguration;
+}
+
+/** configuration for Vulnerability Assessment autoprovisioning */
+export interface DefenderForServersGcpOfferingVaAutoProvisioningConfiguration {
+  /** The Vulnerability Assessment solution to be provisioned. Can be either 'TVM' or 'Qualys' */
+  type?: Type;
+}
+
+/** The Microsoft Defender for Endpoint autoprovisioning configuration */
+export interface DefenderForServersGcpOfferingMdeAutoProvisioning {
+  /** Is Microsoft Defender for Endpoint auto provisioning enabled */
+  enabled?: boolean;
+  /** configuration for Microsoft Defender for Endpoint autoprovisioning */
+  configuration?: Record<string, unknown>;
+}
+
+/** configuration for the servers offering subPlan */
+export interface DefenderForServersGcpOfferingSubPlan {
+  /** The available sub plans */
+  type?: SubPlan;
+}
+
+/** The native cloud connection configuration */
+export interface DefenderForDatabasesGcpOfferingDefenderForDatabasesArcAutoProvisioning {
+  /** The service account email address in GCP for this offering */
+  serviceAccountEmailAddress?: string;
+  /** The GCP workload identity provider id for this offering */
+  workloadIdentityProviderId?: string;
+}
+
+/** The native cloud connection configuration */
+export interface DefenderForContainersGcpOfferingNativeCloudConnection {
+  /** The service account email address in GCP for this offering */
+  serviceAccountEmailAddress?: string;
+  /** The GCP workload identity provider id for this offering */
+  workloadIdentityProviderId?: string;
+}
+
+/** The native cloud connection configuration */
+export interface DefenderForContainersGcpOfferingDataPipelineNativeCloudConnection {
+  /** The data collection service account email address in GCP for this offering */
+  serviceAccountEmailAddress?: string;
+  /** The data collection GCP workload identity provider id for this offering */
+  workloadIdentityProviderId?: string;
+}
+
+/** The Microsoft Defender Container image assessment configuration */
+export interface DefenderForContainersGcpOfferingMdcContainersImageAssessment {
+  /** Is Microsoft Defender container image assessment enabled */
+  enabled?: boolean;
+  /** The workload identity provider id in GCP for this feature */
+  workloadIdentityProviderId?: string;
+  /** The service account email address in GCP for this feature */
+  serviceAccountEmailAddress?: string;
+}
+
+/** The Microsoft Defender Container agentless discovery configuration */
+export interface DefenderForContainersGcpOfferingMdcContainersAgentlessDiscoveryK8S {
+  /** Is Microsoft Defender container agentless discovery enabled */
+  enabled?: boolean;
+  /** The workload identity provider id in GCP for this feature */
+  workloadIdentityProviderId?: string;
+  /** The service account email address in GCP for this feature */
+  serviceAccountEmailAddress?: string;
+}
+
+/** The Microsoft Defender Data Sensitivity discovery configuration */
+export interface DefenderCspmAwsOfferingDataSensitivityDiscovery {
+  /** Is Microsoft Defender Data Sensitivity discovery enabled */
+  enabled?: boolean;
+  /** The cloud role ARN in AWS for this feature */
+  cloudRoleArn?: string;
+}
+
+/** The databases DSPM configuration */
+export interface DefenderCspmAwsOfferingDatabasesDspm {
+  /** Is databases DSPM protection enabled */
+  enabled?: boolean;
+  /** The cloud role ARN in AWS for this feature */
+  cloudRoleArn?: string;
+}
+
+/** Defenders CSPM Permissions Management offering configurations */
+export interface DefenderCspmAwsOfferingCiem {
+  /** Defender CSPM Permissions Management discovery configuration */
+  ciemDiscovery?: DefenderCspmAwsOfferingCiemDiscovery;
+  /** AWS Defender CSPM Permissions Management OIDC (open id connect) connection configurations */
+  ciemOidc?: DefenderCspmAwsOfferingCiemOidc;
+}
+
+/** Defender CSPM Permissions Management discovery configuration */
+export interface DefenderCspmAwsOfferingCiemDiscovery {
+  /** The cloud role ARN in AWS for Permissions Management discovery */
+  cloudRoleArn?: string;
+}
+
+/** AWS Defender CSPM Permissions Management OIDC (open id connect) connection configurations */
+export interface DefenderCspmAwsOfferingCiemOidc {
+  /** The cloud role ARN in AWS for Permissions Management used for oidc connection */
+  cloudRoleArn?: string;
+  /** the azure active directory app name used of authenticating against AWS */
+  azureActiveDirectoryAppName?: string;
+}
+
+/** The Microsoft Defender container image assessment configuration */
+export interface DefenderCspmAwsOfferingMdcContainersImageAssessment {
+  /** Is Microsoft Defender container image assessment enabled */
+  enabled?: boolean;
+  /** The cloud role ARN in AWS for this feature */
+  cloudRoleArn?: string;
+}
+
+/** The Microsoft Defender container agentless discovery K8s configuration */
+export interface DefenderCspmAwsOfferingMdcContainersAgentlessDiscoveryK8S {
+  /** Is Microsoft Defender container agentless discovery K8s enabled */
+  enabled?: boolean;
+  /** The cloud role ARN in AWS for this feature */
+  cloudRoleArn?: string;
+}
+
+/** GCP Defenders CSPM Permissions Management OIDC (Open ID connect) connection configurations */
+export interface DefenderCspmGcpOfferingCiemDiscovery {
+  /** The GCP workload identity provider id for Permissions Management offering */
+  workloadIdentityProviderId?: string;
+  /** The service account email address in GCP for Permissions Management offering */
+  serviceAccountEmailAddress?: string;
+  /** the azure active directory app name used of authenticating against GCP workload identity federation */
+  azureActiveDirectoryAppName?: string;
+}
+
+/** The Microsoft Defender Data Sensitivity discovery configuration */
+export interface DefenderCspmGcpOfferingDataSensitivityDiscovery {
+  /** Is Microsoft Defender Data Sensitivity discovery enabled */
+  enabled?: boolean;
+  /** The workload identity provider id in GCP for this feature */
+  workloadIdentityProviderId?: string;
+  /** The service account email address in GCP for this feature */
+  serviceAccountEmailAddress?: string;
+}
+
+/** The Microsoft Defender Container image assessment configuration */
+export interface DefenderCspmGcpOfferingMdcContainersImageAssessment {
+  /** Is Microsoft Defender container image assessment enabled */
+  enabled?: boolean;
+  /** The workload identity provider id in GCP for this feature */
+  workloadIdentityProviderId?: string;
+  /** The service account email address in GCP for this feature */
+  serviceAccountEmailAddress?: string;
+}
+
+/** The Microsoft Defender Container agentless discovery configuration */
+export interface DefenderCspmGcpOfferingMdcContainersAgentlessDiscoveryK8S {
+  /** Is Microsoft Defender container agentless discovery enabled */
+  enabled?: boolean;
+  /** The workload identity provider id in GCP for this feature */
+  workloadIdentityProviderId?: string;
+  /** The service account email address in GCP for this feature */
+  serviceAccountEmailAddress?: string;
 }
 
 /** AzureDevOps Org Inventory Configuration. */
@@ -2949,590 +3309,204 @@ export interface GitLabGroupConfiguration {
   projectConfigs?: { [propertyName: string]: BaseResourceConfiguration };
 }
 
-/** The AWS organization data */
-export interface AwsOrganizationalData {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  organizationMembershipType: "Organization" | "Member";
-}
-
-/** The gcpOrganization data */
-export interface GcpOrganizationalData {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  organizationMembershipType: "Organization" | "Member";
-}
-
-/** The details about the project represented by the security connector */
-export interface GcpProjectDetails {
-  /** The unique GCP Project number */
-  projectNumber?: string;
-  /** The GCP Project id */
-  projectId?: string;
+/** Benchmark reference */
+export interface BenchmarkReferenceAutoGenerated {
   /**
-   * The GCP workload identity federation pool id
+   * The name of the Benchmark (i.e. CIS, NIST, etc.)
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly workloadIdentityPoolId?: string;
+  readonly benchmark?: string;
   /**
-   * GCP project name
+   * Reference within the benchmark, if applicable
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly projectName?: string;
+  readonly reference?: string;
 }
 
-/** The native cloud connection configuration */
-export interface CspmMonitorAwsOfferingNativeCloudConnection {
-  /** The cloud role ARN in AWS for this feature */
-  cloudRoleArn?: string;
-}
-
-/** The kubernetes service connection configuration */
-export interface DefenderForContainersAwsOfferingKubernetesService {
-  /** The cloud role ARN in AWS for this feature used for provisioning resources */
-  cloudRoleArn?: string;
-}
-
-/** The kubernetes to scuba connection configuration */
-export interface DefenderForContainersAwsOfferingKubernetesScubaReader {
-  /** The cloud role ARN in AWS for this feature used for reading data */
-  cloudRoleArn?: string;
-}
-
-/** The cloudwatch to kinesis connection configuration */
-export interface DefenderForContainersAwsOfferingCloudWatchToKinesis {
-  /** The cloud role ARN in AWS used by CloudWatch to transfer data into Kinesis */
-  cloudRoleArn?: string;
-}
-
-/** The kinesis to s3 connection configuration */
-export interface DefenderForContainersAwsOfferingKinesisToS3 {
-  /** The cloud role ARN in AWS used by Kinesis to transfer data into S3 */
-  cloudRoleArn?: string;
-}
-
-/** The container vulnerability assessment configuration */
-export interface DefenderForContainersAwsOfferingContainerVulnerabilityAssessment {
-  /** The cloud role ARN in AWS for this feature */
-  cloudRoleArn?: string;
-}
-
-/** The container vulnerability assessment task configuration */
-export interface DefenderForContainersAwsOfferingContainerVulnerabilityAssessmentTask {
-  /** The cloud role ARN in AWS for this feature */
-  cloudRoleArn?: string;
-}
-
-/** The Microsoft Defender container image assessment configuration */
-export interface DefenderForContainersAwsOfferingMdcContainersImageAssessment {
-  /** Is Microsoft Defender container image assessment enabled */
-  enabled?: boolean;
-  /** The cloud role ARN in AWS for this feature */
-  cloudRoleArn?: string;
-}
-
-/** The Microsoft Defender container agentless discovery K8s configuration */
-export interface DefenderForContainersAwsOfferingMdcContainersAgentlessDiscoveryK8S {
-  /** Is Microsoft Defender container agentless discovery K8s enabled */
-  enabled?: boolean;
-  /** The cloud role ARN in AWS for this feature */
-  cloudRoleArn?: string;
-}
-
-/** The Defender for servers connection configuration */
-export interface DefenderForServersAwsOfferingDefenderForServers {
-  /** The cloud role ARN in AWS for this feature */
-  cloudRoleArn?: string;
-}
-
-/** The ARC autoprovisioning configuration */
-export interface DefenderForServersAwsOfferingArcAutoProvisioning {
-  /** Is arc auto provisioning enabled */
-  enabled?: boolean;
-  /** The cloud role ARN in AWS for this feature */
-  cloudRoleArn?: string;
-  /** Configuration for servers Arc auto provisioning */
-  configuration?: DefenderForServersAwsOfferingArcAutoProvisioningConfiguration;
-}
-
-/** Configuration for servers Arc auto provisioning */
-export interface DefenderForServersAwsOfferingArcAutoProvisioningConfiguration {
-  /** Optional HTTP proxy endpoint to use for the Arc agent */
-  proxy?: string;
-  /** Optional Arc private link scope resource id to link the Arc agent */
-  privateLinkScope?: string;
-}
-
-/** The Vulnerability Assessment autoprovisioning configuration */
-export interface DefenderForServersAwsOfferingVaAutoProvisioning {
-  /** Is Vulnerability Assessment auto provisioning enabled */
-  enabled?: boolean;
-  /** configuration for Vulnerability Assessment autoprovisioning */
-  configuration?: DefenderForServersAwsOfferingVaAutoProvisioningConfiguration;
-}
-
-/** configuration for Vulnerability Assessment autoprovisioning */
-export interface DefenderForServersAwsOfferingVaAutoProvisioningConfiguration {
-  /** The Vulnerability Assessment solution to be provisioned. Can be either 'TVM' or 'Qualys' */
-  type?: Type;
-}
-
-/** The Microsoft Defender for Endpoint autoprovisioning configuration */
-export interface DefenderForServersAwsOfferingMdeAutoProvisioning {
-  /** Is Microsoft Defender for Endpoint auto provisioning enabled */
-  enabled?: boolean;
-  /** configuration for Microsoft Defender for Endpoint autoprovisioning */
-  configuration?: Record<string, unknown>;
-}
-
-/** configuration for the servers offering subPlan */
-export interface DefenderForServersAwsOfferingSubPlan {
-  /** The available sub plans */
-  type?: SubPlan;
-}
-
-/** The Microsoft Defender for Server VM scanning configuration */
-export interface DefenderForServersAwsOfferingVmScanners {
-  /** Is Microsoft Defender for Server VM scanning enabled */
-  enabled?: boolean;
-  /** configuration for Microsoft Defender for Server VM scanning */
-  configuration?: DefenderForServersAwsOfferingVmScannersConfiguration;
-}
-
-/** configuration for Microsoft Defender for Server VM scanning */
-export interface DefenderForServersAwsOfferingVmScannersConfiguration {
-  /** The cloud role ARN in AWS for this feature */
-  cloudRoleArn?: string;
-  /** The scanning mode for the VM scan. */
-  scanningMode?: ScanningMode;
-  /** VM tags that indicates that VM should not be scanned */
-  exclusionTags?: { [propertyName: string]: string };
-}
-
-/** The ARC autoprovisioning configuration */
-export interface DefenderFoDatabasesAwsOfferingArcAutoProvisioning {
-  /** Is arc auto provisioning enabled */
-  enabled?: boolean;
-  /** The cloud role ARN in AWS for this feature */
-  cloudRoleArn?: string;
-  /** Configuration for servers Arc auto provisioning */
-  configuration?: DefenderFoDatabasesAwsOfferingArcAutoProvisioningConfiguration;
-}
-
-/** Configuration for servers Arc auto provisioning */
-export interface DefenderFoDatabasesAwsOfferingArcAutoProvisioningConfiguration {
-  /** Optional http proxy endpoint to use for the Arc agent */
-  proxy?: string;
-  /** Optional Arc private link scope resource id to link the Arc agent */
-  privateLinkScope?: string;
-}
-
-/** The RDS configuration */
-export interface DefenderFoDatabasesAwsOfferingRds {
-  /** Is RDS protection enabled */
-  enabled?: boolean;
-  /** The cloud role ARN in AWS for this feature */
-  cloudRoleArn?: string;
-}
-
-/** The databases data security posture management (DSPM) configuration */
-export interface DefenderFoDatabasesAwsOfferingDatabasesDspm {
-  /** Is databases data security posture management (DSPM) protection enabled */
-  enabled?: boolean;
-  /** The cloud role ARN in AWS for this feature */
-  cloudRoleArn?: string;
-}
-
-/** The native cloud connection configuration */
-export interface InformationProtectionAwsOfferingInformationProtection {
-  /** The cloud role ARN in AWS for this feature */
-  cloudRoleArn?: string;
-}
-
-/** The native cloud connection configuration */
-export interface CspmMonitorGcpOfferingNativeCloudConnection {
-  /** The GCP workload identity provider id for the offering */
-  workloadIdentityProviderId?: string;
-  /** The service account email address in GCP for this offering */
-  serviceAccountEmailAddress?: string;
-}
-
-/** The Defender for servers connection configuration */
-export interface DefenderForServersGcpOfferingDefenderForServers {
-  /** The workload identity provider id in GCP for this feature */
-  workloadIdentityProviderId?: string;
-  /** The service account email address in GCP for this feature */
-  serviceAccountEmailAddress?: string;
-}
-
-/** The ARC autoprovisioning configuration */
-export interface DefenderForServersGcpOfferingArcAutoProvisioning {
-  /** Is arc auto provisioning enabled */
-  enabled?: boolean;
-  /** Configuration for servers Arc auto provisioning */
-  configuration?: DefenderForServersGcpOfferingArcAutoProvisioningConfiguration;
-}
-
-/** Configuration for servers Arc auto provisioning */
-export interface DefenderForServersGcpOfferingArcAutoProvisioningConfiguration {
-  /** Optional HTTP proxy endpoint to use for the Arc agent */
-  proxy?: string;
-  /** Optional Arc private link scope resource id to link the Arc agent */
-  privateLinkScope?: string;
-}
-
-/** The Vulnerability Assessment autoprovisioning configuration */
-export interface DefenderForServersGcpOfferingVaAutoProvisioning {
-  /** Is Vulnerability Assessment auto provisioning enabled */
-  enabled?: boolean;
-  /** configuration for Vulnerability Assessment autoprovisioning */
-  configuration?: DefenderForServersGcpOfferingVaAutoProvisioningConfiguration;
-}
-
-/** configuration for Vulnerability Assessment autoprovisioning */
-export interface DefenderForServersGcpOfferingVaAutoProvisioningConfiguration {
-  /** The Vulnerability Assessment solution to be provisioned. Can be either 'TVM' or 'Qualys' */
-  type?: Type;
-}
-
-/** The Microsoft Defender for Endpoint autoprovisioning configuration */
-export interface DefenderForServersGcpOfferingMdeAutoProvisioning {
-  /** Is Microsoft Defender for Endpoint auto provisioning enabled */
-  enabled?: boolean;
-  /** configuration for Microsoft Defender for Endpoint autoprovisioning */
-  configuration?: Record<string, unknown>;
-}
-
-/** configuration for the servers offering subPlan */
-export interface DefenderForServersGcpOfferingSubPlan {
-  /** The available sub plans */
-  type?: SubPlan;
-}
-
-/** The Microsoft Defender for Server VM scanning configuration */
-export interface DefenderForServersGcpOfferingVmScanners {
-  /** Is Microsoft Defender for Server VM scanning enabled */
-  enabled?: boolean;
-  /** configuration for Microsoft Defender for Server VM scanning */
-  configuration?: DefenderForServersGcpOfferingVmScannersConfiguration;
-}
-
-/** configuration for Microsoft Defender for Server VM scanning */
-export interface DefenderForServersGcpOfferingVmScannersConfiguration {
-  /** The scanning mode for the VM scan. */
-  scanningMode?: ScanningMode;
-  /** VM tags that indicate that VM should not be scanned */
-  exclusionTags?: { [propertyName: string]: string };
-}
-
-/** The ARC autoprovisioning configuration */
-export interface DefenderForDatabasesGcpOfferingArcAutoProvisioning {
-  /** Is arc auto provisioning enabled */
-  enabled?: boolean;
-  /** Configuration for servers Arc auto provisioning */
-  configuration?: DefenderForDatabasesGcpOfferingArcAutoProvisioningConfiguration;
-}
-
-/** Configuration for servers Arc auto provisioning */
-export interface DefenderForDatabasesGcpOfferingArcAutoProvisioningConfiguration {
-  /** Optional http proxy endpoint to use for the Arc agent */
-  proxy?: string;
-  /** Optional Arc private link scope resource id to link the Arc agent */
-  privateLinkScope?: string;
-}
-
-/** The native cloud connection configuration */
-export interface DefenderForDatabasesGcpOfferingDefenderForDatabasesArcAutoProvisioning {
-  /** The service account email address in GCP for this offering */
-  serviceAccountEmailAddress?: string;
-  /** The GCP workload identity provider id for this offering */
-  workloadIdentityProviderId?: string;
-}
-
-/** The native cloud connection configuration */
-export interface DefenderForContainersGcpOfferingNativeCloudConnection {
-  /** The service account email address in GCP for this offering */
-  serviceAccountEmailAddress?: string;
-  /** The GCP workload identity provider id for this offering */
-  workloadIdentityProviderId?: string;
-}
-
-/** The native cloud connection configuration */
-export interface DefenderForContainersGcpOfferingDataPipelineNativeCloudConnection {
-  /** The data collection service account email address in GCP for this offering */
-  serviceAccountEmailAddress?: string;
-  /** The data collection GCP workload identity provider id for this offering */
-  workloadIdentityProviderId?: string;
-}
-
-/** The Microsoft Defender Container image assessment configuration */
-export interface DefenderForContainersGcpOfferingMdcContainersImageAssessment {
-  /** Is Microsoft Defender container image assessment enabled */
-  enabled?: boolean;
-  /** The workload identity provider id in GCP for this feature */
-  workloadIdentityProviderId?: string;
-  /** The service account email address in GCP for this feature */
-  serviceAccountEmailAddress?: string;
-}
-
-/** The Microsoft Defender Container agentless discovery configuration */
-export interface DefenderForContainersGcpOfferingMdcContainersAgentlessDiscoveryK8S {
-  /** Is Microsoft Defender container agentless discovery enabled */
-  enabled?: boolean;
-  /** The workload identity provider id in GCP for this feature */
-  workloadIdentityProviderId?: string;
-  /** The service account email address in GCP for this feature */
-  serviceAccountEmailAddress?: string;
-}
-
-/** The Microsoft Defender for Server VM scanning configuration */
-export interface DefenderCspmAwsOfferingVmScanners {
-  /** Is Microsoft Defender for Server VM scanning enabled */
-  enabled?: boolean;
-  /** configuration for Microsoft Defender for Server VM scanning */
-  configuration?: DefenderCspmAwsOfferingVmScannersConfiguration;
-}
-
-/** configuration for Microsoft Defender for Server VM scanning */
-export interface DefenderCspmAwsOfferingVmScannersConfiguration {
-  /** The cloud role ARN in AWS for this feature */
-  cloudRoleArn?: string;
-  /** The scanning mode for the VM scan. */
-  scanningMode?: ScanningMode;
-  /** VM tags that indicates that VM should not be scanned */
-  exclusionTags?: { [propertyName: string]: string };
-}
-
-/** The Microsoft Defender Data Sensitivity discovery configuration */
-export interface DefenderCspmAwsOfferingDataSensitivityDiscovery {
-  /** Is Microsoft Defender Data Sensitivity discovery enabled */
-  enabled?: boolean;
-  /** The cloud role ARN in AWS for this feature */
-  cloudRoleArn?: string;
-}
-
-/** The databases DSPM configuration */
-export interface DefenderCspmAwsOfferingDatabasesDspm {
-  /** Is databases DSPM protection enabled */
-  enabled?: boolean;
-  /** The cloud role ARN in AWS for this feature */
-  cloudRoleArn?: string;
-}
-
-/** Defenders CSPM Cloud infrastructure entitlement management (CIEM) offering configurations */
-export interface DefenderCspmAwsOfferingCiem {
-  /** Defender CSPM CIEM discovery configuration */
-  ciemDiscovery?: DefenderCspmAwsOfferingCiemDiscovery;
-  /** Defender CSPM CIEM AWS OIDC (open id connect) configuration */
-  ciemOidc?: DefenderCspmAwsOfferingCiemOidc;
-}
-
-/** Defender CSPM CIEM discovery configuration */
-export interface DefenderCspmAwsOfferingCiemDiscovery {
-  /** The cloud role ARN in AWS for CIEM discovery */
-  cloudRoleArn?: string;
-}
-
-/** Defender CSPM CIEM AWS OIDC (open id connect) configuration */
-export interface DefenderCspmAwsOfferingCiemOidc {
-  /** The cloud role ARN in AWS for CIEM oidc connection */
-  cloudRoleArn?: string;
-  /** the azure active directory app name used of authenticating against AWS */
-  azureActiveDirectoryAppName?: string;
-}
-
-/** The Microsoft Defender container image assessment configuration */
-export interface DefenderCspmAwsOfferingMdcContainersImageAssessment {
-  /** Is Microsoft Defender container image assessment enabled */
-  enabled?: boolean;
-  /** The cloud role ARN in AWS for this feature */
-  cloudRoleArn?: string;
-}
-
-/** The Microsoft Defender container agentless discovery K8s configuration */
-export interface DefenderCspmAwsOfferingMdcContainersAgentlessDiscoveryK8S {
-  /** Is Microsoft Defender container agentless discovery K8s enabled */
-  enabled?: boolean;
-  /** The cloud role ARN in AWS for this feature */
-  cloudRoleArn?: string;
-}
-
-/** GCP Defenders CSPM Cloud infrastructure entitlement management (CIEM) discovery offering configurations */
-export interface DefenderCspmGcpOfferingCiemDiscovery {
-  /** The GCP workload identity provider id for CIEM discovery offering */
-  workloadIdentityProviderId?: string;
-  /** The service account email address in GCP for CIEM discovery offering */
-  serviceAccountEmailAddress?: string;
-  /** the azure active directory app name used of authenticating against GCP workload identity federation */
-  azureActiveDirectoryAppName?: string;
-}
-
-/** The Microsoft Defender for Server VM scanning configuration */
-export interface DefenderCspmGcpOfferingVmScanners {
-  /** Is Microsoft Defender for Server VM scanning enabled */
-  enabled?: boolean;
-  /** configuration for Microsoft Defender for Server VM scanning */
-  configuration?: DefenderCspmGcpOfferingVmScannersConfiguration;
-}
-
-/** configuration for Microsoft Defender for Server VM scanning */
-export interface DefenderCspmGcpOfferingVmScannersConfiguration {
-  /** The scanning mode for the VM scan. */
-  scanningMode?: ScanningMode;
-  /** VM tags that indicates that VM should not be scanned */
-  exclusionTags?: { [propertyName: string]: string };
-}
-
-/** The Microsoft Defender Data Sensitivity discovery configuration */
-export interface DefenderCspmGcpOfferingDataSensitivityDiscovery {
-  /** Is Microsoft Defender Data Sensitivity discovery enabled */
-  enabled?: boolean;
-  /** The workload identity provider id in GCP for this feature */
-  workloadIdentityProviderId?: string;
-  /** The service account email address in GCP for this feature */
-  serviceAccountEmailAddress?: string;
-}
-
-/** The Microsoft Defender Container image assessment configuration */
-export interface DefenderCspmGcpOfferingMdcContainersImageAssessment {
-  /** Is Microsoft Defender container image assessment enabled */
-  enabled?: boolean;
-  /** The workload identity provider id in GCP for this feature */
-  workloadIdentityProviderId?: string;
-  /** The service account email address in GCP for this feature */
-  serviceAccountEmailAddress?: string;
-}
-
-/** The Microsoft Defender Container agentless discovery configuration */
-export interface DefenderCspmGcpOfferingMdcContainersAgentlessDiscoveryK8S {
-  /** Is Microsoft Defender container agentless discovery enabled */
-  enabled?: boolean;
-  /** The workload identity provider id in GCP for this feature */
-  workloadIdentityProviderId?: string;
-  /** The service account email address in GCP for this feature */
-  serviceAccountEmailAddress?: string;
-}
-
-/** The solution properties (correspond to the solution kind) */
-export interface ExternalSecuritySolutionProperties {
-  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
-  [property: string]: any;
-  deviceVendor?: string;
-  deviceType?: string;
-  /** Represents an OMS workspace to which the solution is connected */
-  workspace?: ConnectedWorkspace;
-}
-
-/** Represents an OMS workspace to which the solution is connected */
-export interface ConnectedWorkspace {
-  /** Azure resource ID of the connected OMS workspace */
-  id?: string;
-}
-
-/** Describes an Azure resource with kind */
-export interface AadConnectivityStateAutoGenerated {
-  /** The connectivity state of the external AAD solution */
-  connectivityState?: AadConnectivityState;
-}
-
-/** Calculation result data */
-export interface SecureScoreControlScore {
+/** CVSS details */
+export interface Cvss {
   /**
-   * Maximum control score (0..10)
+   * CVSS base
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly max?: number;
-  /**
-   * Actual score for the control = (achieved points / total points) * max score. if total points is zeroed, the return number is 0.00
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly current?: number;
-  /**
-   * Ratio of the current score divided by the maximum. Rounded to 4 digits after the decimal point
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly percentage?: number;
+  readonly base?: number;
 }
 
-/** The ASC location of the subscription is in the "name" field */
-export interface AscLocation extends Resource {
-  /** An empty set of properties */
-  properties?: Record<string, unknown>;
+/** CVE details */
+export interface Cve {
+  /**
+   * CVE title
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly title?: string;
+  /**
+   * Link url
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly link?: string;
 }
 
-/** Security task that we recommend to do in order to strengthen security */
-export interface SecurityTask extends Resource {
+/** Vendor reference */
+export interface VendorReference {
   /**
-   * State of the task (Active, Resolved etc.)
+   * Link title
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly state?: string;
+  readonly title?: string;
   /**
-   * The time this task was discovered in UTC
+   * Link url
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly creationTimeUtc?: Date;
-  /** Changing set of properties, depending on the task type that is derived from the name field */
-  securityTaskParameters?: SecurityTaskParameters;
-  /**
-   * The time this task's details were last changed in UTC
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastStateChangeTimeUtc?: Date;
-  /**
-   * Additional data on the state of the task
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly subState?: string;
+  readonly link?: string;
 }
 
-/** Auto provisioning setting */
-export interface AutoProvisioningSetting extends Resource {
-  /** Describes what kind of security agent provisioning action to take */
-  autoProvision?: AutoProvision;
+/** The resource whose properties describes the Adaptive Network Hardening settings for some Azure resource */
+export interface AdaptiveNetworkHardening extends Resource {
+  /** The security rules which are recommended to be effective on the VM */
+  rules?: Rule[];
+  /** The UTC time on which the rules were calculated */
+  rulesCalculationTime?: Date;
+  /** The Network Security Groups effective on the network interfaces of the protected resource */
+  effectiveNetworkSecurityGroups?: EffectiveNetworkSecurityGroups[];
 }
 
-/** Compliance of a scope */
-export interface Compliance extends Resource {
-  /**
-   * The timestamp when the Compliance calculation was conducted.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly assessmentTimestampUtcDate?: Date;
-  /**
-   * The resource count of the given subscription for which the Compliance calculation was conducted (needed for Management Group Compliance calculation).
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resourceCount?: number;
-  /**
-   * An array of segment, which is the actually the compliance assessment.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly assessmentResult?: ComplianceSegment[];
+/** The Advanced Threat Protection resource. */
+export interface AdvancedThreatProtectionSetting extends Resource {
+  /** Indicates whether Advanced Threat Protection is enabled. */
+  isEnabled?: boolean;
 }
 
-/** Information protection policy. */
-export interface InformationProtectionPolicy extends Resource {
+/** Security alert */
+export interface Alert extends Resource {
   /**
-   * Describes the last UTC time the policy was modified.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastModifiedUtc?: Date;
-  /**
-   * Describes the version of the policy.
+   * Schema version.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly version?: string;
-  /** Dictionary of sensitivity labels. */
-  labels?: { [propertyName: string]: SensitivityLabel };
-  /** The sensitivity information types. */
-  informationTypes?: { [propertyName: string]: InformationType };
-}
-
-/** Configures where to store the OMS agent data for workspaces under a scope */
-export interface WorkspaceSetting extends Resource {
-  /** The full Azure ID of the workspace to save the data in */
-  workspaceId?: string;
-  /** All the VMs in this scope will send their security data to the mentioned workspace unless overridden by a setting with more specific scope */
-  scope?: string;
+  /**
+   * Unique identifier for the detection logic (all alert instances from the same detection logic will have the same alertType).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly alertType?: string;
+  /**
+   * Unique identifier for the alert.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemAlertId?: string;
+  /**
+   * The name of Azure Security Center pricing tier which powering this alert. Learn more: https://docs.microsoft.com/en-us/azure/security-center/security-center-pricing
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly productComponentName?: string;
+  /**
+   * The display name of the alert.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly alertDisplayName?: string;
+  /**
+   * Description of the suspicious activity that was detected.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
+  /**
+   * The risk level of the threat that was detected. Learn more: https://docs.microsoft.com/en-us/azure/security-center/security-center-alerts-overview#how-are-alerts-classified.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly severity?: AlertSeverity;
+  /**
+   * The kill chain related intent behind the alert. For list of supported values, and explanations of Azure Security Center's supported kill chain intents.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly intent?: Intent;
+  /**
+   * The UTC time of the first event or activity included in the alert in ISO8601 format.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startTimeUtc?: Date;
+  /**
+   * The UTC time of the last event or activity included in the alert in ISO8601 format.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endTimeUtc?: Date;
+  /**
+   * The resource identifiers that can be used to direct the alert to the right product exposure group (tenant, workspace, subscription etc.). There can be multiple identifiers of different type per alert.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceIdentifiers?: ResourceIdentifierUnion[];
+  /**
+   * Manual action items to take to remediate the alert.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly remediationSteps?: string[];
+  /**
+   * The name of the vendor that raises the alert.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly vendorName?: string;
+  /**
+   * The life cycle status of the alert.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: AlertStatus;
+  /**
+   * Links related to the alert
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly extendedLinks?: { [propertyName: string]: string }[];
+  /**
+   * A direct link to the alert page in Azure Portal.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly alertUri?: string;
+  /**
+   * The UTC time the alert was generated in ISO8601 format.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly timeGeneratedUtc?: Date;
+  /**
+   * The name of the product which published this alert (Microsoft Sentinel, Microsoft Defender for Identity, Microsoft Defender for Endpoint, Microsoft Defender for Office, Microsoft Defender for Cloud Apps, and so on).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly productName?: string;
+  /**
+   * The UTC processing end time of the alert in ISO8601 format.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly processingEndTimeUtc?: Date;
+  /**
+   * A list of entities related to the alert.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly entities?: AlertEntity[];
+  /**
+   * This field determines whether the alert is an incident (a compound grouping of several alerts) or a single alert.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isIncident?: boolean;
+  /**
+   * Key for corelating related alerts. Alerts with the same correlation key considered to be related.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly correlationKey?: string;
+  /** Custom properties for the alert. */
+  extendedProperties?: { [propertyName: string]: string };
+  /**
+   * The display name of the resource most related to this alert.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly compromisedEntity?: string;
+  /**
+   * kill chain related techniques behind the alert.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly techniques?: string[];
+  /**
+   * Kill chain related sub-techniques behind the alert.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subTechniques?: string[];
+  /** Changing set of properties depending on the supportingEvidence type. */
+  supportingEvidence?: AlertPropertiesSupportingEvidence;
 }
 
 /** Describes the suppression rule */
@@ -3556,6 +3530,193 @@ export interface AlertsSuppressionRule extends Resource {
   suppressionAlertsScope?: SuppressionAlertsScope;
 }
 
+/** The resource whose properties describes the allowed traffic between Azure resources */
+export interface AllowedConnectionsResource extends Resource, Location {
+  /**
+   * The UTC time on which the allowed connections resource was calculated
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly calculatedDateTime?: Date;
+  /**
+   * List of connectable resources
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly connectableResources?: ConnectableResource[];
+}
+
+/** An API collection as represented by Microsoft Defender for APIs. */
+export interface ApiCollection extends Resource {
+  /**
+   * Gets the provisioning state of the API collection.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * The display name of the API collection.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly displayName?: string;
+  /**
+   * The resource Id of the resource from where this API collection was discovered.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly discoveredVia?: string;
+  /**
+   * The base URI for this API collection. All endpoints of this API collection extend this base URI.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly baseUrl?: string;
+  /**
+   * The number of API endpoints discovered in this API collection.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly numberOfApiEndpoints?: number;
+  /**
+   * The number of API endpoints in this API collection that have not received any API traffic in the last 30 days.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly numberOfInactiveApiEndpoints?: number;
+  /**
+   * The number of API endpoints in this API collection that are unauthenticated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly numberOfUnauthenticatedApiEndpoints?: number;
+  /**
+   * The number of API endpoints in this API collection for which API traffic from the internet was observed.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly numberOfExternalApiEndpoints?: number;
+  /**
+   * The number of API endpoints in this API collection which are exposing sensitive data in their requests and/or responses.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly numberOfApiEndpointsWithSensitiveDataExposed?: number;
+  /**
+   * The highest priority sensitivity label from Microsoft Purview in this API collection.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sensitivityLabel?: string;
+}
+
+/** Security Application over a given scope */
+export interface Application extends Resource {
+  /** display name of the application */
+  displayName?: string;
+  /** description of the application */
+  description?: string;
+  /** The application source, what it affects, e.g. Assessments */
+  sourceResourceType?: ApplicationSourceResourceType;
+  /** The application conditionSets - see examples */
+  conditionSets?: Record<string, unknown>[];
+}
+
+export interface AdaptiveApplicationControlGroup extends Resource, Location {
+  /** The application control policy enforcement/protection mode of the machine group */
+  enforcementMode?: EnforcementMode;
+  /** The protection mode of the collection/file types. Exe/Msi/Script are used for Windows, Executable is used for Linux. */
+  protectionMode?: ProtectionMode;
+  /**
+   * The configuration status of the machines group or machine or rule
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly configurationStatus?: ConfigurationStatus;
+  /**
+   * The initial recommendation status of the machine group or machine
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly recommendationStatus?: RecommendationStatus;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly issues?: AdaptiveApplicationControlIssueSummary[];
+  /**
+   * The source type of the machine group
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sourceSystem?: SourceSystem;
+  vmRecommendations?: VmRecommendation[];
+  pathRecommendations?: PathRecommendation[];
+}
+
+/** Security assessment metadata response */
+export interface SecurityAssessmentMetadataResponse extends Resource {
+  /** User friendly display name of the assessment */
+  displayName?: string;
+  /**
+   * Azure resource ID of the policy definition that turns this assessment calculation on
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly policyDefinitionId?: string;
+  /** Human readable description of the assessment */
+  description?: string;
+  /** Human readable description of what you should do to mitigate this security issue */
+  remediationDescription?: string;
+  categories?: Categories[];
+  /** The severity level of the assessment */
+  severity?: Severity;
+  /** The user impact of the assessment */
+  userImpact?: UserImpact;
+  /** The implementation effort required to remediate this assessment */
+  implementationEffort?: ImplementationEffort;
+  threats?: Threats[];
+  /** True if this assessment is in preview release status */
+  preview?: boolean;
+  /** BuiltIn if the assessment based on built-in Azure Policy definition, Custom if the assessment based on custom Azure Policy definition */
+  assessmentType?: AssessmentType;
+  /** Describes the partner that created the assessment */
+  partnerData?: SecurityAssessmentMetadataPartnerData;
+  publishDates?: SecurityAssessmentMetadataPropertiesResponsePublishDates;
+  plannedDeprecationDate?: string;
+  tactics?: Tactics[];
+  techniques?: Techniques[];
+}
+
+/** Security assessment on a resource - response format */
+export interface SecurityAssessmentResponse extends Resource {
+  /** Details of the resource that was assessed */
+  resourceDetails?: ResourceDetailsUnion;
+  /**
+   * User friendly display name of the assessment
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly displayName?: string;
+  /** Additional data regarding the assessment */
+  additionalData?: { [propertyName: string]: string };
+  /**
+   * Links relevant to the assessment
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly links?: AssessmentLinks;
+  /** Describes properties of an assessment metadata. */
+  metadata?: SecurityAssessmentMetadataProperties;
+  /** Data regarding 3rd party partner integration */
+  partnersData?: SecurityAssessmentPartnerData;
+  /** The result of the assessment */
+  status?: AssessmentStatusResponse;
+}
+
+/** Security assessment on a resource */
+export interface SecurityAssessment extends Resource {
+  /** Details of the resource that was assessed */
+  resourceDetails?: ResourceDetailsUnion;
+  /**
+   * User friendly display name of the assessment
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly displayName?: string;
+  /** Additional data regarding the assessment */
+  additionalData?: { [propertyName: string]: string };
+  /**
+   * Links relevant to the assessment
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly links?: AssessmentLinks;
+  /** Describes properties of an assessment metadata. */
+  metadata?: SecurityAssessmentMetadataProperties;
+  /** Data regarding 3rd party partner integration */
+  partnersData?: SecurityAssessmentPartnerData;
+  /** The result of the assessment */
+  status?: AssessmentStatus;
+}
+
 /** Describes an Azure tracked resource. */
 export interface TrackedResource
   extends Resource,
@@ -3564,142 +3725,38 @@ export interface TrackedResource
     ETag,
     Tags {}
 
-/** Regulatory compliance standard details and state */
-export interface RegulatoryComplianceStandard extends Resource {
-  /** Aggregative state based on the standard's supported controls states */
-  state?: State;
-  /**
-   * The number of supported regulatory compliance controls of the given standard with a passed state
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly passedControls?: number;
-  /**
-   * The number of supported regulatory compliance controls of the given standard with a failed state
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly failedControls?: number;
-  /**
-   * The number of supported regulatory compliance controls of the given standard with a skipped state
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly skippedControls?: number;
-  /**
-   * The number of regulatory compliance controls of the given standard which are unsupported by automated assessments
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly unsupportedControls?: number;
+/** Auto provisioning setting */
+export interface AutoProvisioningSetting extends Resource {
+  /** Describes what kind of security agent provisioning action to take */
+  autoProvision?: AutoProvision;
 }
 
-/** Regulatory compliance control details and state */
-export interface RegulatoryComplianceControl extends Resource {
+/** a compliance result */
+export interface ComplianceResult extends Resource {
   /**
-   * The description of the regulatory compliance control
+   * The status of the resource regarding a single assessment
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly description?: string;
-  /** Aggregative state based on the control's supported assessments states */
-  state?: State;
-  /**
-   * The number of supported regulatory compliance assessments of the given control with a passed state
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly passedAssessments?: number;
-  /**
-   * The number of supported regulatory compliance assessments of the given control with a failed state
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly failedAssessments?: number;
-  /**
-   * The number of supported regulatory compliance assessments of the given control with a skipped state
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly skippedAssessments?: number;
+  readonly resourceStatus?: ResourceStatus;
 }
 
-/** Regulatory compliance assessment details and state */
-export interface RegulatoryComplianceAssessment extends Resource {
+/** Compliance of a scope */
+export interface Compliance extends Resource {
   /**
-   * The description of the regulatory compliance assessment
+   * The timestamp when the Compliance calculation was conducted.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly description?: string;
+  readonly assessmentTimestampUtcDate?: Date;
   /**
-   * The expected type of assessment contained in the AssessmentDetailsLink
+   * The resource count of the given subscription for which the Compliance calculation was conducted (needed for Management Group Compliance calculation).
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly assessmentType?: string;
+  readonly resourceCount?: number;
   /**
-   * Link to more detailed assessment results data. The response type will be according to the assessmentType field
+   * An array of segment, which is the actually the compliance assessment.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly assessmentDetailsLink?: string;
-  /** Aggregative state based on the assessment's scanned resources states */
-  state?: State;
-  /**
-   * The given assessment's related resources count with passed state.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly passedResources?: number;
-  /**
-   * The given assessment's related resources count with failed state.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly failedResources?: number;
-  /**
-   * The given assessment's related resources count with skipped state.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly skippedResources?: number;
-  /**
-   * The given assessment's related resources count with unsupported state.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly unsupportedResources?: number;
-}
-
-/** Security sub-assessment on a resource */
-export interface SecuritySubAssessment extends Resource {
-  /**
-   * Vulnerability ID
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly idPropertiesId?: string;
-  /**
-   * User friendly display name of the sub-assessment
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly displayName?: string;
-  /** Status of the sub-assessment */
-  status?: SubAssessmentStatus;
-  /**
-   * Information on how to remediate this sub-assessment
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly remediation?: string;
-  /**
-   * Description of the impact of this sub-assessment
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly impact?: string;
-  /**
-   * Category of the sub-assessment
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly category?: string;
-  /**
-   * Human readable description of the assessment status
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly description?: string;
-  /**
-   * The date and time the sub-assessment was generated
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly timeGenerated?: Date;
-  /** Details of the resource that was assessed */
-  resourceDetails?: ResourceDetailsUnion;
-  /** Details of the sub-assessment */
-  additionalData?: AdditionalDataUnion;
+  readonly assessmentResult?: ComplianceSegment[];
 }
 
 /** The connector setting */
@@ -3708,42 +3765,6 @@ export interface ConnectorSetting extends Resource {
   hybridComputeSettings?: HybridComputeSettingsProperties;
   /** Settings for authentication management, these settings are relevant only for the cloud connector. */
   authenticationDetails?: AuthenticationDetailsPropertiesUnion;
-}
-
-/** Contact details and configurations for notifications coming from Microsoft Defender for Cloud. */
-export interface SecurityContact extends Resource {
-  /** List of email addresses which will get notifications from Microsoft Defender for Cloud by the configurations defined in this security contact. */
-  emails?: string;
-  /** The security contact's phone number */
-  phone?: string;
-  /** Indicates whether the security contact is enabled. */
-  isEnabled?: boolean;
-  /** A collection of sources types which evaluate the email notification. */
-  notificationsSources?: NotificationsSourceUnion[];
-  /** Defines whether to send email notifications from Microsoft Defender for Cloud to persons with specific RBAC roles on the subscription. */
-  notificationsByRole?: SecurityContactPropertiesNotificationsByRole;
-}
-
-/** Represents a software data */
-export interface Software extends Resource {
-  /** Unique identifier for the virtual machine in the service. */
-  deviceId?: string;
-  /** Platform of the operating system running on the device. */
-  osPlatform?: string;
-  /** Name of the software vendor. */
-  vendor?: string;
-  /** Name of the software product. */
-  softwareName?: string;
-  /** Version number of the software product. */
-  version?: string;
-  /** End of support status. */
-  endOfSupportStatus?: EndOfSupportStatus;
-  /** The end of support date in case the product is upcoming end of support. */
-  endOfSupportDate?: string;
-  /** Number of weaknesses. */
-  numberOfKnownVulnerabilities?: number;
-  /** First time that the software was seen in the device. */
-  firstSeenAt?: string;
 }
 
 /** Custom Assessment Automation */
@@ -3798,13 +3819,60 @@ export interface CustomEntityStoreAssignment extends Resource {
   entityStoreDatabaseLink?: string;
 }
 
-/** The resource of the configuration or data needed to onboard the machine to MDE */
-export interface MdeOnboardingData extends Resource {
-  /** The onboarding package used to onboard Windows machines to MDE, coded in base64. This can also be used for onboarding using the dedicated VM Extension */
-  onboardingPackageWindows?: Uint8Array;
-  /** The onboarding package used to onboard Linux machines to MDE, coded in base64. This can also be used for onboarding using the dedicated VM Extension */
-  onboardingPackageLinux?: Uint8Array;
+/** The Defender for Storage resource. */
+export interface DefenderForStorageSetting extends Resource {
+  /** Indicates whether Defender for Storage is enabled on this storage account. */
+  isEnabledPropertiesIsEnabled?: boolean;
+  /** Indicates whether the settings defined for this storage account should override the settings defined for the subscription. */
+  overrideSubscriptionLevelSettings?: boolean;
+  /** Indicates whether Sensitive Data Discovery should be enabled. */
+  isEnabledPropertiesSensitiveDataDiscoveryIsEnabled?: boolean;
+  /**
+   * Upon failure or partial success. Additional data describing Sensitive Data Discovery enable/disable operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operationStatusPropertiesSensitiveDataDiscoveryOperationStatus?: OperationStatus;
+  /** Optional. Resource id of an Event Grid Topic to send scan results to. */
+  scanResultsEventGridTopicResourceId?: string;
+  /**
+   * Upon failure or partial success. Additional data describing Malware Scanning enable/disable operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operationStatusPropertiesMalwareScanningOperationStatus?: OperationStatus;
+  /** Indicates whether On Upload malware scanning should be enabled. */
+  isEnabledPropertiesMalwareScanningOnUploadIsEnabled?: boolean;
+  /** Defines the max GB to be scanned per Month. Set to -1 if no capping is needed. */
+  capGBPerMonth?: number;
 }
+
+/** The device security group resource */
+export interface DeviceSecurityGroup extends Resource {
+  /** The list of custom alert threshold rules. */
+  thresholdRules?: ThresholdCustomAlertRuleUnion[];
+  /** The list of custom alert time-window rules. */
+  timeWindowRules?: TimeWindowCustomAlertRuleUnion[];
+  /** The allow-list custom alert rules. */
+  allowlistRules?: AllowlistCustomAlertRuleUnion[];
+  /** The deny-list custom alert rules. */
+  denylistRules?: DenylistCustomAlertRule[];
+}
+
+export interface DiscoveredSecuritySolution extends Resource, Location {
+  /** The security family of the discovered solution */
+  securityFamily: SecurityFamily;
+  /** The security solutions' image offer */
+  offer: string;
+  /** The security solutions' image publisher */
+  publisher: string;
+  /** The security solutions' image sku */
+  sku: string;
+}
+
+/** Represents a security solution external to Microsoft Defender for Cloud which sends information to an OMS workspace and whose data is displayed by Microsoft Defender for Cloud. */
+export interface ExternalSecuritySolution
+  extends Resource,
+    ExternalSecuritySolutionKindAutoGenerated,
+    Location {}
 
 /** Governance assignment over a given scope */
 export interface GovernanceAssignment extends Resource {
@@ -3859,68 +3927,6 @@ export interface GovernanceRule extends Resource {
   metadata?: GovernanceRuleMetadata;
 }
 
-/** Security Application over a given scope */
-export interface Application extends Resource {
-  /** display name of the application */
-  displayName?: string;
-  /** description of the application */
-  description?: string;
-  /** The application source, what it affects, e.g. Assessments */
-  sourceResourceType?: ApplicationSourceResourceType;
-  /** The application conditionSets - see examples */
-  conditionSets?: Record<string, unknown>[];
-}
-
-/** The Defender for Storage resource. */
-export interface DefenderForStorageSetting extends Resource {
-  /** Indicates whether Defender for Storage is enabled on this storage account. */
-  isEnabledPropertiesIsEnabled?: boolean;
-  /** Indicates whether the settings defined for this storage account should override the settings defined for the subscription. */
-  overrideSubscriptionLevelSettings?: boolean;
-  /** Indicates whether Sensitive Data Discovery should be enabled. */
-  isEnabledPropertiesSensitiveDataDiscoveryIsEnabled?: boolean;
-  /**
-   * Upon failure or partial success. Additional data describing Sensitive Data Discovery enable/disable operation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly operationStatusPropertiesSensitiveDataDiscoveryOperationStatus?: OperationStatus;
-  /** Optional. Resource id of an Event Grid Topic to send scan results to. */
-  scanResultsEventGridTopicResourceId?: string;
-  /**
-   * Upon failure or partial success. Additional data describing Malware Scanning enable/disable operation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly operationStatusPropertiesMalwareScanningOperationStatus?: OperationStatus;
-  /** Indicates whether On Upload malware scanning should be enabled. */
-  isEnabledPropertiesMalwareScanningOnUploadIsEnabled?: boolean;
-  /** Defines the max GB to be scanned per Month. Set to -1 if no capping is needed. */
-  capGBPerMonth?: number;
-}
-
-/** Security operator under a given subscription and pricing */
-export interface SecurityOperator extends Resource {
-  /** Identity for the resource. */
-  identity?: Identity;
-}
-
-/** Rule results. */
-export interface RuleResults extends Resource {
-  /** Rule results properties. */
-  properties?: RuleResultsProperties;
-}
-
-/** A vulnerability assessment scan record. */
-export interface Scan extends Resource {
-  /** A vulnerability assessment scan record properties. */
-  properties?: ScanProperties;
-}
-
-/** A vulnerability assessment scan result for a single rule. */
-export interface ScanResult extends Resource {
-  /** A vulnerability assessment scan result properties for a single rule. */
-  properties?: ScanResultProperties;
-}
-
 /** The health report resource */
 export interface HealthReport extends Resource {
   /** The resource details of the health report */
@@ -3944,31 +3950,22 @@ export interface HealthReport extends Resource {
   issues?: Issue[];
 }
 
-/** a compliance result */
-export interface ComplianceResult extends Resource {
+/** Information protection policy. */
+export interface InformationProtectionPolicy extends Resource {
   /**
-   * The status of the resource regarding a single assessment
+   * Describes the last UTC time the policy was modified.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly resourceStatus?: ResourceStatus;
-}
-
-/** The Advanced Threat Protection resource. */
-export interface AdvancedThreatProtectionSetting extends Resource {
-  /** Indicates whether Advanced Threat Protection is enabled. */
-  isEnabled?: boolean;
-}
-
-/** The device security group resource */
-export interface DeviceSecurityGroup extends Resource {
-  /** The list of custom alert threshold rules. */
-  thresholdRules?: ThresholdCustomAlertRuleUnion[];
-  /** The list of custom alert time-window rules. */
-  timeWindowRules?: TimeWindowCustomAlertRuleUnion[];
-  /** The allow-list custom alert rules. */
-  allowlistRules?: AllowlistCustomAlertRuleUnion[];
-  /** The deny-list custom alert rules. */
-  denylistRules?: DenylistCustomAlertRule[];
+  readonly lastModifiedUtc?: Date;
+  /**
+   * Describes the version of the policy.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly version?: string;
+  /** Dictionary of sensitivity labels. */
+  labels?: { [propertyName: string]: SensitivityLabel };
+  /** The sensitivity information types. */
+  informationTypes?: { [propertyName: string]: InformationType };
 }
 
 /** Security analytics of your IoT Security solution */
@@ -4154,73 +4151,6 @@ export interface IoTSecuritySolutionModel extends Resource, TagsResource {
   additionalWorkspaces?: AdditionalWorkspacesProperties[];
 }
 
-/** The resource whose properties describes the Adaptive Network Hardening settings for some Azure resource */
-export interface AdaptiveNetworkHardening extends Resource {
-  /** The security rules which are recommended to be effective on the VM */
-  rules?: Rule[];
-  /** The UTC time on which the rules were calculated */
-  rulesCalculationTime?: Date;
-  /** The Network Security Groups effective on the network interfaces of the protected resource */
-  effectiveNetworkSecurityGroups?: EffectiveNetworkSecurityGroups[];
-}
-
-/** The resource whose properties describes the allowed traffic between Azure resources */
-export interface AllowedConnectionsResource extends Resource, Location {
-  /**
-   * The UTC time on which the allowed connections resource was calculated
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly calculatedDateTime?: Date;
-  /**
-   * List of connectable resources
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly connectableResources?: ConnectableResource[];
-}
-
-export interface AdaptiveApplicationControlGroup extends Resource, Location {
-  /** The application control policy enforcement/protection mode of the machine group */
-  enforcementMode?: EnforcementMode;
-  /** The protection mode of the collection/file types. Exe/Msi/Script are used for Windows, Executable is used for Linux. */
-  protectionMode?: ProtectionMode;
-  /**
-   * The configuration status of the machines group or machine or rule
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly configurationStatus?: ConfigurationStatus;
-  /**
-   * The initial recommendation status of the machine group or machine
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly recommendationStatus?: RecommendationStatus;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly issues?: AdaptiveApplicationControlIssueSummary[];
-  /**
-   * The source type of the machine group
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly sourceSystem?: SourceSystem;
-  vmRecommendations?: VmRecommendation[];
-  pathRecommendations?: PathRecommendation[];
-}
-
-export interface DiscoveredSecuritySolution extends Resource, Location {
-  /** The security family of the discovered solution */
-  securityFamily: SecurityFamily;
-  /** The security solutions' image offer */
-  offer: string;
-  /** The security solutions' image publisher */
-  publisher: string;
-  /** The security solutions' image sku */
-  sku: string;
-}
-
-/** Represents a security solution external to Microsoft Defender for Cloud which sends information to an OMS workspace and whose data is displayed by Microsoft Defender for Cloud. */
-export interface ExternalSecuritySolution
-  extends Resource,
-    ExternalSecuritySolutionKindAutoGenerated,
-    Location {}
-
 export interface JitNetworkAccessPolicy
   extends Resource,
     KindAutoGenerated,
@@ -4233,6 +4163,160 @@ export interface JitNetworkAccessPolicy
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: string;
+}
+
+/** The ASC location of the subscription is in the "name" field */
+export interface AscLocation extends Resource {
+  /** An empty set of properties */
+  properties?: Record<string, unknown>;
+}
+
+/** The resource of the configuration or data needed to onboard the machine to MDE */
+export interface MdeOnboardingData extends Resource {
+  /** The onboarding package used to onboard Windows machines to MDE, coded in base64. This can also be used for onboarding using the dedicated VM Extension */
+  onboardingPackageWindows?: string;
+  /** The onboarding package used to onboard Linux machines to MDE, coded in base64. This can also be used for onboarding using the dedicated VM Extension */
+  onboardingPackageLinux?: string;
+}
+
+/** Microsoft Defender for Cloud is provided in two pricing tiers: free and standard. The standard tier offers advanced security capabilities, while the free tier offers basic security features. */
+export interface Pricing extends Resource {
+  /** Indicates whether the Defender plan is enabled on the selected scope. Microsoft Defender for Cloud is provided in two pricing tiers: free and standard. The standard tier offers advanced security capabilities, while the free tier offers basic security features. */
+  pricingTier?: PricingTier;
+  /** The sub-plan selected for a Standard pricing configuration, when more than one sub-plan is available. Each sub-plan enables a set of security features. When not specified, full plan is applied. For VirtualMachines plan, available sub plans are 'P1' & 'P2', where for resource level only 'P1' sub plan is supported. */
+  subPlan?: string;
+  /**
+   * The duration left for the subscriptions free trial period - in ISO 8601 format (e.g. P3Y6M4DT12H30M5S).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly freeTrialRemainingTime?: string;
+  /**
+   * Optional. If `pricingTier` is `Standard` then this property holds the date of the last time the `pricingTier` was set to `Standard`, when available (e.g 2023-03-01T12:42:42.1921106Z).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly enablementTime?: Date;
+  /** If set to "False", it allows the descendants of this scope to override the pricing configuration set on this scope (allows setting inherited="False"). If set to "True", it prevents overrides and forces this pricing configuration on all the descendants of this scope. This field is only available for subscription-level pricing. */
+  enforce?: Enforce;
+  /**
+   * "inherited" = "True" indicates that the current scope inherits its pricing configuration from its parent. The ID of the parent scope that provides the inherited configuration is displayed in the "inheritedFrom" field. On the other hand, "inherited" = "False" indicates that the current scope has its own pricing configuration explicitly set, and does not inherit from its parent. This field is read only and available only for resource-level pricing.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly inherited?: Inherited;
+  /**
+   * The id of the scope inherited from. "Null" if not inherited. This field is only available for resource-level pricing.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly inheritedFrom?: string;
+  /**
+   * This field is available for subscription-level only, and reflects the coverage status of the resources under the subscription. Please note: The "pricingTier" field reflects the plan status of the subscription. However, since the plan status can also be defined at the resource level, there might be misalignment between the subscription's plan status and the resource status. This field helps indicate the coverage status of the resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourcesCoverageStatus?: ResourcesCoverageStatus;
+  /** Optional. List of extensions offered under a plan. */
+  extensions?: Extension[];
+  /**
+   * Optional. True if the plan is deprecated. If there are replacing plans they will appear in `replacedBy` property
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly deprecated?: boolean;
+  /**
+   * Optional. List of plans that replace this plan. This property exists only if this plan is deprecated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly replacedBy?: string[];
+}
+
+/** Regulatory compliance standard details and state */
+export interface RegulatoryComplianceStandard extends Resource {
+  /** Aggregative state based on the standard's supported controls states */
+  state?: State;
+  /**
+   * The number of supported regulatory compliance controls of the given standard with a passed state
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly passedControls?: number;
+  /**
+   * The number of supported regulatory compliance controls of the given standard with a failed state
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly failedControls?: number;
+  /**
+   * The number of supported regulatory compliance controls of the given standard with a skipped state
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly skippedControls?: number;
+  /**
+   * The number of regulatory compliance controls of the given standard which are unsupported by automated assessments
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly unsupportedControls?: number;
+}
+
+/** Regulatory compliance control details and state */
+export interface RegulatoryComplianceControl extends Resource {
+  /**
+   * The description of the regulatory compliance control
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
+  /** Aggregative state based on the control's supported assessments states */
+  state?: State;
+  /**
+   * The number of supported regulatory compliance assessments of the given control with a passed state
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly passedAssessments?: number;
+  /**
+   * The number of supported regulatory compliance assessments of the given control with a failed state
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly failedAssessments?: number;
+  /**
+   * The number of supported regulatory compliance assessments of the given control with a skipped state
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly skippedAssessments?: number;
+}
+
+/** Regulatory compliance assessment details and state */
+export interface RegulatoryComplianceAssessment extends Resource {
+  /**
+   * The description of the regulatory compliance assessment
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
+  /**
+   * The expected type of assessment contained in the AssessmentDetailsLink
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly assessmentType?: string;
+  /**
+   * Link to more detailed assessment results data. The response type will be according to the assessmentType field
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly assessmentDetailsLink?: string;
+  /** Aggregative state based on the assessment's scanned resources states */
+  state?: State;
+  /**
+   * The given assessment's related resources count with passed state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly passedResources?: number;
+  /**
+   * The given assessment's related resources count with failed state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly failedResources?: number;
+  /**
+   * The given assessment's related resources count with skipped state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly skippedResources?: number;
+  /**
+   * The given assessment's related resources count with unsupported state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly unsupportedResources?: number;
 }
 
 /** Secure score item data model */
@@ -4339,6 +4423,26 @@ export interface SecureScoreControlDetails extends Resource {
   readonly percentage?: number;
 }
 
+/** Contact details and configurations for notifications coming from Microsoft Defender for Cloud. */
+export interface SecurityContact extends Resource {
+  /** List of email addresses which will get notifications from Microsoft Defender for Cloud by the configurations defined in this security contact. */
+  emails?: string;
+  /** The security contact's phone number */
+  phone?: string;
+  /** Indicates whether the security contact is enabled. */
+  isEnabled?: boolean;
+  /** A collection of sources types which evaluate the email notification. */
+  notificationsSources?: NotificationsSourceUnion[];
+  /** Defines whether to send email notifications from Microsoft Defender for Cloud to persons with specific RBAC roles on the subscription. */
+  notificationsByRole?: SecurityContactPropertiesNotificationsByRole;
+}
+
+/** Security operator under a given subscription and pricing */
+export interface SecurityOperator extends Resource {
+  /** Identity for the resource. */
+  identity?: Identity;
+}
+
 export interface SecuritySolution extends Resource, Location {
   /** The security family of the security solution */
   securityFamily?: SecurityFamily;
@@ -4376,6 +4480,123 @@ export interface ServerVulnerabilityAssessment extends Resource {
   readonly provisioningState?: ServerVulnerabilityAssessmentPropertiesProvisioningState;
 }
 
+/** The kind of the security setting */
+export interface Setting extends Resource {
+  /** the kind of the settings string */
+  kind: SettingKind;
+}
+
+/** Represents a software data */
+export interface Software extends Resource {
+  /** Unique identifier for the virtual machine in the service. */
+  deviceId?: string;
+  /** Platform of the operating system running on the device. */
+  osPlatform?: string;
+  /** Name of the software vendor. */
+  vendor?: string;
+  /** Name of the software product. */
+  softwareName?: string;
+  /** Version number of the software product. */
+  version?: string;
+  /** End of support status. */
+  endOfSupportStatus?: EndOfSupportStatus;
+  /** The end of support date in case the product is upcoming end of support. */
+  endOfSupportDate?: string;
+  /** Number of weaknesses. */
+  numberOfKnownVulnerabilities?: number;
+  /** First time that the software was seen in the device. */
+  firstSeenAt?: string;
+}
+
+/** Rule results. */
+export interface RuleResults extends Resource {
+  /** Rule results properties. */
+  properties?: RuleResultsProperties;
+}
+
+/** A vulnerability assessment scan record. */
+export interface Scan extends Resource {
+  /** A vulnerability assessment scan record properties. */
+  properties?: ScanProperties;
+}
+
+/** A vulnerability assessment scan result for a single rule. */
+export interface ScanResult extends Resource {
+  /** A vulnerability assessment scan result properties for a single rule. */
+  properties?: ScanResultProperties;
+}
+
+/** Security sub-assessment on a resource */
+export interface SecuritySubAssessment extends Resource {
+  /**
+   * Vulnerability ID
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly idPropertiesId?: string;
+  /**
+   * User friendly display name of the sub-assessment
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly displayName?: string;
+  /** Status of the sub-assessment */
+  status?: SubAssessmentStatus;
+  /**
+   * Information on how to remediate this sub-assessment
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly remediation?: string;
+  /**
+   * Description of the impact of this sub-assessment
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly impact?: string;
+  /**
+   * Category of the sub-assessment
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly category?: string;
+  /**
+   * Human readable description of the assessment status
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
+  /**
+   * The date and time the sub-assessment was generated
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly timeGenerated?: Date;
+  /** Details of the resource that was assessed */
+  resourceDetails?: ResourceDetailsUnion;
+  /** Details of the sub-assessment */
+  additionalData?: AdditionalDataUnion;
+}
+
+/** Security task that we recommend to do in order to strengthen security */
+export interface SecurityTask extends Resource {
+  /**
+   * State of the task (Active, Resolved etc.)
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly state?: string;
+  /**
+   * The time this task was discovered in UTC
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly creationTimeUtc?: Date;
+  /** Changing set of properties, depending on the task type that is derived from the name field */
+  securityTaskParameters?: SecurityTaskParameters;
+  /**
+   * The time this task's details were last changed in UTC
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastStateChangeTimeUtc?: Date;
+  /**
+   * Additional data on the state of the task
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subState?: string;
+}
+
 export interface TopologyResource extends Resource, Location {
   /**
    * The UTC time on which the topology was calculated
@@ -4389,325 +4610,12 @@ export interface TopologyResource extends Resource, Location {
   readonly topologyResources?: TopologySingleResource[];
 }
 
-/** Security assessment metadata response */
-export interface SecurityAssessmentMetadataResponse extends Resource {
-  /** User friendly display name of the assessment */
-  displayName?: string;
-  /**
-   * Azure resource ID of the policy definition that turns this assessment calculation on
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly policyDefinitionId?: string;
-  /** Human readable description of the assessment */
-  description?: string;
-  /** Human readable description of what you should do to mitigate this security issue */
-  remediationDescription?: string;
-  categories?: Categories[];
-  /** The severity level of the assessment */
-  severity?: Severity;
-  /** The user impact of the assessment */
-  userImpact?: UserImpact;
-  /** The implementation effort required to remediate this assessment */
-  implementationEffort?: ImplementationEffort;
-  threats?: Threats[];
-  /** True if this assessment is in preview release status */
-  preview?: boolean;
-  /** BuiltIn if the assessment based on built-in Azure Policy definition, Custom if the assessment based on custom Azure Policy definition */
-  assessmentType?: AssessmentType;
-  /** Describes the partner that created the assessment */
-  partnerData?: SecurityAssessmentMetadataPartnerData;
-  publishDates?: SecurityAssessmentMetadataPropertiesResponsePublishDates;
-  plannedDeprecationDate?: string;
-  tactics?: Tactics[];
-  techniques?: Techniques[];
-}
-
-/** Security assessment on a resource - response format */
-export interface SecurityAssessmentResponse extends Resource {
-  /** Details of the resource that was assessed */
-  resourceDetails?: ResourceDetailsUnion;
-  /**
-   * User friendly display name of the assessment
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly displayName?: string;
-  /** Additional data regarding the assessment */
-  additionalData?: { [propertyName: string]: string };
-  /**
-   * Links relevant to the assessment
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly links?: AssessmentLinks;
-  /** Describes properties of an assessment metadata. */
-  metadata?: SecurityAssessmentMetadataProperties;
-  /** Data regarding 3rd party partner integration */
-  partnersData?: SecurityAssessmentPartnerData;
-  /** The result of the assessment */
-  status?: AssessmentStatusResponse;
-}
-
-/** Security assessment on a resource */
-export interface SecurityAssessment extends Resource {
-  /** Details of the resource that was assessed */
-  resourceDetails?: ResourceDetailsUnion;
-  /**
-   * User friendly display name of the assessment
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly displayName?: string;
-  /** Additional data regarding the assessment */
-  additionalData?: { [propertyName: string]: string };
-  /**
-   * Links relevant to the assessment
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly links?: AssessmentLinks;
-  /** Describes properties of an assessment metadata. */
-  metadata?: SecurityAssessmentMetadataProperties;
-  /** Data regarding 3rd party partner integration */
-  partnersData?: SecurityAssessmentPartnerData;
-  /** The result of the assessment */
-  status?: AssessmentStatus;
-}
-
-/** Security alert */
-export interface Alert extends Resource {
-  /**
-   * Schema version.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly version?: string;
-  /**
-   * Unique identifier for the detection logic (all alert instances from the same detection logic will have the same alertType).
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly alertType?: string;
-  /**
-   * Unique identifier for the alert.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemAlertId?: string;
-  /**
-   * The name of Azure Security Center pricing tier which powering this alert. Learn more: https://docs.microsoft.com/en-us/azure/security-center/security-center-pricing
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly productComponentName?: string;
-  /**
-   * The display name of the alert.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly alertDisplayName?: string;
-  /**
-   * Description of the suspicious activity that was detected.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly description?: string;
-  /**
-   * The risk level of the threat that was detected. Learn more: https://docs.microsoft.com/en-us/azure/security-center/security-center-alerts-overview#how-are-alerts-classified.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly severity?: AlertSeverity;
-  /**
-   * The kill chain related intent behind the alert. For list of supported values, and explanations of Azure Security Center's supported kill chain intents.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly intent?: Intent;
-  /**
-   * The UTC time of the first event or activity included in the alert in ISO8601 format.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly startTimeUtc?: Date;
-  /**
-   * The UTC time of the last event or activity included in the alert in ISO8601 format.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly endTimeUtc?: Date;
-  /**
-   * The resource identifiers that can be used to direct the alert to the right product exposure group (tenant, workspace, subscription etc.). There can be multiple identifiers of different type per alert.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resourceIdentifiers?: ResourceIdentifierUnion[];
-  /**
-   * Manual action items to take to remediate the alert.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly remediationSteps?: string[];
-  /**
-   * The name of the vendor that raises the alert.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly vendorName?: string;
-  /**
-   * The life cycle status of the alert.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: AlertStatus;
-  /**
-   * Links related to the alert
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly extendedLinks?: { [propertyName: string]: string }[];
-  /**
-   * A direct link to the alert page in Azure Portal.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly alertUri?: string;
-  /**
-   * The UTC time the alert was generated in ISO8601 format.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly timeGeneratedUtc?: Date;
-  /**
-   * The name of the product which published this alert (Microsoft Sentinel, Microsoft Defender for Identity, Microsoft Defender for Endpoint, Microsoft Defender for Office, Microsoft Defender for Cloud Apps, and so on).
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly productName?: string;
-  /**
-   * The UTC processing end time of the alert in ISO8601 format.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly processingEndTimeUtc?: Date;
-  /**
-   * A list of entities related to the alert.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly entities?: AlertEntity[];
-  /**
-   * This field determines whether the alert is an incident (a compound grouping of several alerts) or a single alert.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isIncident?: boolean;
-  /**
-   * Key for corelating related alerts. Alerts with the same correlation key considered to be related.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly correlationKey?: string;
-  /** Custom properties for the alert. */
-  extendedProperties?: { [propertyName: string]: string };
-  /**
-   * The display name of the resource most related to this alert.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly compromisedEntity?: string;
-  /**
-   * kill chain related techniques behind the alert.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly techniques?: string[];
-  /**
-   * Kill chain related sub-techniques behind the alert.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly subTechniques?: string[];
-  /** Changing set of properties depending on the supportingEvidence type. */
-  supportingEvidence?: AlertPropertiesSupportingEvidence;
-}
-
-/** The kind of the security setting */
-export interface Setting extends Resource {
-  /** the kind of the settings string */
-  kind: SettingKind;
-}
-
-/** An API collection as represented by Microsoft Defender for APIs. */
-export interface ApiCollection extends Resource {
-  /**
-   * Gets the provisioning state of the API collection.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * The display name of the API collection.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly displayName?: string;
-  /**
-   * The resource Id of the resource from where this API collection was discovered.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly discoveredVia?: string;
-  /**
-   * The base URI for this API collection. All endpoints of this API collection extend this base URI.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly baseUrl?: string;
-  /**
-   * The number of API endpoints discovered in this API collection.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly numberOfApiEndpoints?: number;
-  /**
-   * The number of API endpoints in this API collection that have not received any API traffic in the last 30 days.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly numberOfInactiveApiEndpoints?: number;
-  /**
-   * The number of API endpoints in this API collection that are unauthenticated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly numberOfUnauthenticatedApiEndpoints?: number;
-  /**
-   * The number of API endpoints in this API collection for which API traffic from the internet was observed.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly numberOfExternalApiEndpoints?: number;
-  /**
-   * The number of API endpoints in this API collection which are exposing sensitive data in their requests and/or responses.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly numberOfApiEndpointsWithSensitiveDataExposed?: number;
-  /**
-   * The highest priority sensitivity label from Microsoft Purview in this API collection.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly sensitivityLabel?: string;
-}
-
-/** Microsoft Defender for Cloud is provided in two pricing tiers: free and standard. The standard tier offers advanced security capabilities, while the free tier offers basic security features. */
-export interface Pricing extends Resource {
-  /** Indicates whether the Defender plan is enabled on the selected scope. Microsoft Defender for Cloud is provided in two pricing tiers: free and standard. The standard tier offers advanced security capabilities, while the free tier offers basic security features. */
-  pricingTier?: PricingTier;
-  /** The sub-plan selected for a Standard pricing configuration, when more than one sub-plan is available. Each sub-plan enables a set of security features. When not specified, full plan is applied. For VirtualMachines plan, available sub plans are 'P1' & 'P2', where for resource level only 'P1' sub plan is supported. */
-  subPlan?: string;
-  /**
-   * The duration left for the subscriptions free trial period - in ISO 8601 format (e.g. P3Y6M4DT12H30M5S).
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly freeTrialRemainingTime?: string;
-  /**
-   * Optional. If `pricingTier` is `Standard` then this property holds the date of the last time the `pricingTier` was set to `Standard`, when available (e.g 2023-03-01T12:42:42.1921106Z).
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly enablementTime?: Date;
-  /** If set to "False", it allows the descendants of this scope to override the pricing configuration set on this scope (allows setting inherited="False"). If set to "True", it prevents overrides and forces this pricing configuration on all the descendants of this scope. This field is only available for subscription-level pricing. */
-  enforce?: Enforce;
-  /**
-   * "inherited" = "True" indicates that the current scope inherits its pricing configuration from its parent. The ID of the parent scope that provides the inherited configuration is displayed in the "inheritedFrom" field. On the other hand, "inherited" = "False" indicates that the current scope has its own pricing configuration explicitly set, and does not inherit from its parent. This field is read only and available only for resource-level pricing.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly inherited?: Inherited;
-  /**
-   * The id of the scope inherited from. "Null" if not inherited. This field is only available for resource-level pricing.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly inheritedFrom?: string;
-  /**
-   * This field is available for subscription-level only, and reflects the coverage status of the resources under the subscription. Please note: The "pricingTier" field reflects the plan status of the subscription. However, since the plan status can also be defined at the resource level, there might be misalignment between the subscription's plan status and the resource status. This field helps indicate the coverage status of the resources.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resourcesCoverageStatus?: ResourcesCoverageStatus;
-  /** Optional. List of extensions offered under a plan. */
-  extensions?: Extension[];
-  /**
-   * Optional. True if the plan is deprecated. If there are replacing plans they will appear in `replacedBy` property
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly deprecated?: boolean;
-  /**
-   * Optional. List of plans that replace this plan. This property exists only if this plan is deprecated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly replacedBy?: string[];
+/** Configures where to store the OMS agent data for workspaces under a scope */
+export interface WorkspaceSetting extends Resource {
+  /** The full Azure ID of the workspace to save the data in */
+  workspaceId?: string;
+  /** All the VMs in this scope will send their security data to the mentioned workspace unless overridden by a setting with more specific scope */
+  scope?: string;
 }
 
 /** Security assessment metadata */
@@ -4737,6 +4645,114 @@ export interface SecurityAssessmentMetadata extends Resource {
   assessmentType?: AssessmentType;
   /** Describes the partner that created the assessment */
   partnerData?: SecurityAssessmentMetadataPartnerData;
+}
+
+/** Azure resource identifier. */
+export interface AzureResourceIdentifier extends ResourceIdentifier {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "AzureResource";
+  /**
+   * ARM resource identifier for the cloud resource being alerted on
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly azureResourceId?: string;
+}
+
+/** Represents a Log Analytics workspace scope identifier. */
+export interface LogAnalyticsIdentifier extends ResourceIdentifier {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "LogAnalytics";
+  /**
+   * The LogAnalytics workspace id that stores this alert.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly workspaceId?: string;
+  /**
+   * The azure subscription id for the LogAnalytics workspace storing this alert.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly workspaceSubscriptionId?: string;
+  /**
+   * The azure resource group for the LogAnalytics workspace storing this alert
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly workspaceResourceGroup?: string;
+  /**
+   * (optional) The LogAnalytics agent id reporting the event that this alert is based on.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly agentId?: string;
+}
+
+/** Simulate alerts according to this bundles. */
+export interface AlertSimulatorBundlesRequestProperties
+  extends AlertSimulatorRequestProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "Bundles";
+  /** Bundles list. */
+  bundles?: BundleType[];
+}
+
+/** Describes properties of an assessment metadata response. */
+export interface SecurityAssessmentMetadataPropertiesResponse
+  extends SecurityAssessmentMetadataProperties {
+  publishDates?: SecurityAssessmentMetadataPropertiesResponsePublishDates;
+  plannedDeprecationDate?: string;
+  tactics?: Tactics[];
+  techniques?: Techniques[];
+}
+
+/** The result of the assessment */
+export interface AssessmentStatusResponse extends AssessmentStatus {
+  /**
+   * The time that the assessment was created and first evaluated. Returned as UTC time in ISO 8601 format
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly firstEvaluationDate?: Date;
+  /**
+   * The time that the status of the assessment last changed. Returned as UTC time in ISO 8601 format
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly statusChangeDate?: Date;
+}
+
+/** Describes properties of an assessment. */
+export interface SecurityAssessmentPropertiesResponse
+  extends SecurityAssessmentPropertiesBase {
+  /** The result of the assessment */
+  status: AssessmentStatusResponse;
+}
+
+/** Describes properties of an assessment. */
+export interface SecurityAssessmentProperties
+  extends SecurityAssessmentPropertiesBase {
+  /** The result of the assessment */
+  status: AssessmentStatus;
+}
+
+/** Details of the Azure resource that was assessed */
+export interface AzureResourceDetails extends ResourceDetails {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  source: "Azure";
+  /**
+   * Azure resource Id of the assessed resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+}
+
+/** Details of the On Premise resource that was assessed */
+export interface OnPremiseResourceDetails extends ResourceDetails {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  source: "OnPremise" | "OnPremiseSql";
+  /** Azure resource Id of the workspace the machine is attached to */
+  workspaceId: string;
+  /** The unique Id of the machine */
+  vmuuid: string;
+  /** The oms agent Id installed on the machine */
+  sourceComputerId: string;
+  /** The name of the machine */
+  machineName: string;
 }
 
 /** The logic app action that should be triggered. To learn more about Microsoft Defender for Cloud's Workflow Automation capabilities, visit https://aka.ms/ASCWorkflowAutomationLearnMore */
@@ -4786,129 +4802,6 @@ export interface AutomationUpdateModel extends Tags {
   sources?: AutomationSource[];
   /** A collection of the actions which are triggered if all the configured rules evaluations, within at least one rule set, are true. */
   actions?: AutomationActionUnion[];
-}
-
-/** Details of the Azure resource that was assessed */
-export interface AzureResourceDetails extends ResourceDetails {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  source: "Azure";
-  /**
-   * Azure resource Id of the assessed resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-}
-
-/** Details of the On Premise resource that was assessed */
-export interface OnPremiseResourceDetails extends ResourceDetails {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  source: "OnPremise" | "OnPremiseSql";
-  /** Azure resource Id of the workspace the machine is attached to */
-  workspaceId: string;
-  /** The unique Id of the machine */
-  vmuuid: string;
-  /** The oms agent Id installed on the machine */
-  sourceComputerId: string;
-  /** The name of the machine */
-  machineName: string;
-}
-
-/** Details of the resource that was assessed */
-export interface SqlServerVulnerabilityProperties extends AdditionalData {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  assessedResourceType: "SqlServerVulnerability";
-  /**
-   * The resource type the sub assessment refers to in its resource details
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * The T-SQL query that runs on your SQL database to perform the particular check
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly query?: string;
-}
-
-/** Additional context fields for container registry Vulnerability assessment */
-export interface ContainerRegistryVulnerabilityProperties
-  extends AdditionalData {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  assessedResourceType: "ContainerRegistryVulnerability";
-  /**
-   * Vulnerability Type. e.g: Vulnerability, Potential Vulnerability, Information Gathered, Vulnerability
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * Dictionary from cvss version to cvss details object
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly cvss?: { [propertyName: string]: Cvss };
-  /**
-   * Indicates whether a patch is available or not
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly patchable?: boolean;
-  /**
-   * List of CVEs
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly cve?: Cve[];
-  /**
-   * Published time
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly publishedTime?: Date;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly vendorReferences?: VendorReference[];
-  /**
-   * Name of the repository which the vulnerable image belongs to
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly repositoryName?: string;
-  /**
-   * Digest of the vulnerable image
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly imageDigest?: string;
-}
-
-/** Additional context fields for server vulnerability assessment */
-export interface ServerVulnerabilityProperties extends AdditionalData {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  assessedResourceType: "ServerVulnerabilityAssessment";
-  /**
-   * Vulnerability Type. e.g: Vulnerability, Potential Vulnerability, Information Gathered
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * Dictionary from cvss version to cvss details object
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly cvss?: { [propertyName: string]: Cvss };
-  /**
-   * Indicates whether a patch is available or not
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly patchable?: boolean;
-  /**
-   * List of CVEs
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly cve?: Cve[];
-  /**
-   * Threat name
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly threat?: string;
-  /**
-   * Published time
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly publishedTime?: Date;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly vendorReferences?: VendorReference[];
 }
 
 /** AWS cloud account connector based credentials, the credentials is composed of access key ID and secret key, for more details, refer to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_create.html">Creating an IAM User in Your AWS Account (write only)</a> */
@@ -4972,274 +4865,6 @@ export interface GcpCredentialsDetailsProperties
   clientX509CertUrl: string;
 }
 
-/** Alert notification source */
-export interface NotificationsSourceAlert extends NotificationsSource {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  sourceType: "Alert";
-  /** Defines the minimal alert severity which will be sent as email notifications */
-  minimalSeverity?: MinimalSeverity;
-}
-
-/** Attack path notification source */
-export interface NotificationsSourceAttackPath extends NotificationsSource {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  sourceType: "AttackPath";
-  /** Defines the minimal attach path risk level which will be sent as email notifications */
-  minimalRiskLevel?: MinimalRiskLevel;
-}
-
-/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export interface ProxyResource extends ResourceAutoGenerated {}
-
-/** The CSPM monitoring for AWS offering */
-export interface CspmMonitorAwsOffering extends CloudOffering {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  offeringType: "CspmMonitorAws";
-  /** The native cloud connection configuration */
-  nativeCloudConnection?: CspmMonitorAwsOfferingNativeCloudConnection;
-}
-
-/** The Defender for Containers AWS offering */
-export interface DefenderForContainersAwsOffering extends CloudOffering {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  offeringType: "DefenderForContainersAws";
-  /** The kubernetes service connection configuration */
-  kubernetesService?: DefenderForContainersAwsOfferingKubernetesService;
-  /** The kubernetes to scuba connection configuration */
-  kubernetesScubaReader?: DefenderForContainersAwsOfferingKubernetesScubaReader;
-  /** The cloudwatch to kinesis connection configuration */
-  cloudWatchToKinesis?: DefenderForContainersAwsOfferingCloudWatchToKinesis;
-  /** The kinesis to s3 connection configuration */
-  kinesisToS3?: DefenderForContainersAwsOfferingKinesisToS3;
-  /** The container vulnerability assessment configuration */
-  containerVulnerabilityAssessment?: DefenderForContainersAwsOfferingContainerVulnerabilityAssessment;
-  /** The container vulnerability assessment task configuration */
-  containerVulnerabilityAssessmentTask?: DefenderForContainersAwsOfferingContainerVulnerabilityAssessmentTask;
-  /** Enable container vulnerability assessment feature */
-  enableContainerVulnerabilityAssessment?: boolean;
-  /** Is audit logs pipeline auto provisioning enabled */
-  autoProvisioning?: boolean;
-  /** The retention time in days of kube audit logs set on the CloudWatch log group */
-  kubeAuditRetentionTime?: number;
-  /** The externalId used by the data reader to prevent the confused deputy attack */
-  scubaExternalId?: string;
-  /** The Microsoft Defender container image assessment configuration */
-  mdcContainersImageAssessment?: DefenderForContainersAwsOfferingMdcContainersImageAssessment;
-  /** The Microsoft Defender container agentless discovery K8s configuration */
-  mdcContainersAgentlessDiscoveryK8S?: DefenderForContainersAwsOfferingMdcContainersAgentlessDiscoveryK8S;
-}
-
-/** The Defender for Servers AWS offering */
-export interface DefenderForServersAwsOffering extends CloudOffering {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  offeringType: "DefenderForServersAws";
-  /** The Defender for servers connection configuration */
-  defenderForServers?: DefenderForServersAwsOfferingDefenderForServers;
-  /** The ARC autoprovisioning configuration */
-  arcAutoProvisioning?: DefenderForServersAwsOfferingArcAutoProvisioning;
-  /** The Vulnerability Assessment autoprovisioning configuration */
-  vaAutoProvisioning?: DefenderForServersAwsOfferingVaAutoProvisioning;
-  /** The Microsoft Defender for Endpoint autoprovisioning configuration */
-  mdeAutoProvisioning?: DefenderForServersAwsOfferingMdeAutoProvisioning;
-  /** configuration for the servers offering subPlan */
-  subPlan?: DefenderForServersAwsOfferingSubPlan;
-  /** The Microsoft Defender for Server VM scanning configuration */
-  vmScanners?: DefenderForServersAwsOfferingVmScanners;
-}
-
-/** The Defender for Databases AWS offering */
-export interface DefenderFoDatabasesAwsOffering extends CloudOffering {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  offeringType: "DefenderForDatabasesAws";
-  /** The ARC autoprovisioning configuration */
-  arcAutoProvisioning?: DefenderFoDatabasesAwsOfferingArcAutoProvisioning;
-  /** The RDS configuration */
-  rds?: DefenderFoDatabasesAwsOfferingRds;
-  /** The databases data security posture management (DSPM) configuration */
-  databasesDspm?: DefenderFoDatabasesAwsOfferingDatabasesDspm;
-}
-
-/** The information protection for AWS offering */
-export interface InformationProtectionAwsOffering extends CloudOffering {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  offeringType: "InformationProtectionAws";
-  /** The native cloud connection configuration */
-  informationProtection?: InformationProtectionAwsOfferingInformationProtection;
-}
-
-/** The CSPM monitoring for GCP offering */
-export interface CspmMonitorGcpOffering extends CloudOffering {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  offeringType: "CspmMonitorGcp";
-  /** The native cloud connection configuration */
-  nativeCloudConnection?: CspmMonitorGcpOfferingNativeCloudConnection;
-}
-
-/** The Defender for Servers GCP offering configurations */
-export interface DefenderForServersGcpOffering extends CloudOffering {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  offeringType: "DefenderForServersGcp";
-  /** The Defender for servers connection configuration */
-  defenderForServers?: DefenderForServersGcpOfferingDefenderForServers;
-  /** The ARC autoprovisioning configuration */
-  arcAutoProvisioning?: DefenderForServersGcpOfferingArcAutoProvisioning;
-  /** The Vulnerability Assessment autoprovisioning configuration */
-  vaAutoProvisioning?: DefenderForServersGcpOfferingVaAutoProvisioning;
-  /** The Microsoft Defender for Endpoint autoprovisioning configuration */
-  mdeAutoProvisioning?: DefenderForServersGcpOfferingMdeAutoProvisioning;
-  /** configuration for the servers offering subPlan */
-  subPlan?: DefenderForServersGcpOfferingSubPlan;
-  /** The Microsoft Defender for Server VM scanning configuration */
-  vmScanners?: DefenderForServersGcpOfferingVmScanners;
-}
-
-/** The Defender for Databases GCP offering configurations */
-export interface DefenderForDatabasesGcpOffering extends CloudOffering {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  offeringType: "DefenderForDatabasesGcp";
-  /** The ARC autoprovisioning configuration */
-  arcAutoProvisioning?: DefenderForDatabasesGcpOfferingArcAutoProvisioning;
-  /** The native cloud connection configuration */
-  defenderForDatabasesArcAutoProvisioning?: DefenderForDatabasesGcpOfferingDefenderForDatabasesArcAutoProvisioning;
-}
-
-/** The containers GCP offering */
-export interface DefenderForContainersGcpOffering extends CloudOffering {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  offeringType: "DefenderForContainersGcp";
-  /** The native cloud connection configuration */
-  nativeCloudConnection?: DefenderForContainersGcpOfferingNativeCloudConnection;
-  /** The native cloud connection configuration */
-  dataPipelineNativeCloudConnection?: DefenderForContainersGcpOfferingDataPipelineNativeCloudConnection;
-  /** Is audit logs data collection enabled */
-  auditLogsAutoProvisioningFlag?: boolean;
-  /** Is Microsoft Defender for Cloud Kubernetes agent auto provisioning enabled */
-  defenderAgentAutoProvisioningFlag?: boolean;
-  /** Is Policy Kubernetes agent auto provisioning enabled */
-  policyAgentAutoProvisioningFlag?: boolean;
-  /** The Microsoft Defender Container image assessment configuration */
-  mdcContainersImageAssessment?: DefenderForContainersGcpOfferingMdcContainersImageAssessment;
-  /** The Microsoft Defender Container agentless discovery configuration */
-  mdcContainersAgentlessDiscoveryK8S?: DefenderForContainersGcpOfferingMdcContainersAgentlessDiscoveryK8S;
-}
-
-/** The CSPM monitoring for github offering */
-export interface CspmMonitorGithubOffering extends CloudOffering {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  offeringType: "CspmMonitorGithub";
-}
-
-/** The CSPM monitoring for AzureDevOps offering */
-export interface CspmMonitorAzureDevOpsOffering extends CloudOffering {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  offeringType: "CspmMonitorAzureDevOps";
-}
-
-/** The CSPM P1 for AWS offering */
-export interface DefenderCspmAwsOffering extends CloudOffering {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  offeringType: "DefenderCspmAws";
-  /** The Microsoft Defender for Server VM scanning configuration */
-  vmScanners?: DefenderCspmAwsOfferingVmScanners;
-  /** The Microsoft Defender Data Sensitivity discovery configuration */
-  dataSensitivityDiscovery?: DefenderCspmAwsOfferingDataSensitivityDiscovery;
-  /** The databases DSPM configuration */
-  databasesDspm?: DefenderCspmAwsOfferingDatabasesDspm;
-  /** Defenders CSPM Cloud infrastructure entitlement management (CIEM) offering configurations */
-  ciem?: DefenderCspmAwsOfferingCiem;
-  /** The Microsoft Defender container image assessment configuration */
-  mdcContainersImageAssessment?: DefenderCspmAwsOfferingMdcContainersImageAssessment;
-  /** The Microsoft Defender container agentless discovery K8s configuration */
-  mdcContainersAgentlessDiscoveryK8S?: DefenderCspmAwsOfferingMdcContainersAgentlessDiscoveryK8S;
-}
-
-/** The CSPM P1 for GCP offering */
-export interface DefenderCspmGcpOffering extends CloudOffering {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  offeringType: "DefenderCspmGcp";
-  /** GCP Defenders CSPM Cloud infrastructure entitlement management (CIEM) discovery offering configurations */
-  ciemDiscovery?: DefenderCspmGcpOfferingCiemDiscovery;
-  /** The Microsoft Defender for Server VM scanning configuration */
-  vmScanners?: DefenderCspmGcpOfferingVmScanners;
-  /** The Microsoft Defender Data Sensitivity discovery configuration */
-  dataSensitivityDiscovery?: DefenderCspmGcpOfferingDataSensitivityDiscovery;
-  /** The Microsoft Defender Container image assessment configuration */
-  mdcContainersImageAssessment?: DefenderCspmGcpOfferingMdcContainersImageAssessment;
-  /** The Microsoft Defender Container agentless discovery configuration */
-  mdcContainersAgentlessDiscoveryK8S?: DefenderCspmGcpOfferingMdcContainersAgentlessDiscoveryK8S;
-}
-
-/** The Defender for DevOps for Github offering */
-export interface DefenderForDevOpsGithubOffering extends CloudOffering {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  offeringType: "DefenderForDevOpsGithub";
-}
-
-/** The Defender for DevOps for Azure DevOps offering */
-export interface DefenderForDevOpsAzureDevOpsOffering extends CloudOffering {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  offeringType: "DefenderForDevOpsAzureDevOps";
-}
-
-/** The CSPM (Cloud security posture management) monitoring for gitlab offering */
-export interface CspmMonitorGitLabOffering extends CloudOffering {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  offeringType: "CspmMonitorGitLab";
-}
-
-/** The Defender for DevOps for Gitlab offering */
-export interface DefenderForDevOpsGitLabOffering extends CloudOffering {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  offeringType: "DefenderForDevOpsGitLab";
-}
-
-/** The AWS connector environment data */
-export interface AwsEnvironmentData extends EnvironmentData {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  environmentType: "AwsAccount";
-  /** The AWS account's organizational data */
-  organizationalData?: AwsOrganizationalDataUnion;
-  /** list of regions to scan */
-  regions?: string[];
-  /**
-   * The AWS account name
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly accountName?: string;
-  /** Scan interval in hours (value should be between 1-hour to 24-hours) */
-  scanInterval?: number;
-}
-
-/** The GCP project connector environment data */
-export interface GcpProjectEnvironmentData extends EnvironmentData {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  environmentType: "GcpProject";
-  /** The Gcp project's organizational data */
-  organizationalData?: GcpOrganizationalDataUnion;
-  /** The Gcp project's details */
-  projectDetails?: GcpProjectDetails;
-  /** Scan interval in hours (value should be between 1-hour to 24-hours) */
-  scanInterval?: number;
-}
-
-/** The github scope connector's environment data */
-export interface GithubScopeEnvironmentData extends EnvironmentData {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  environmentType: "GithubScope";
-}
-
-/** The AzureDevOps scope connector's environment data */
-export interface AzureDevOpsScopeEnvironmentData extends EnvironmentData {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  environmentType: "AzureDevOpsScope";
-}
-
-/** The GitLab scope connector's environment data */
-export interface GitlabScopeEnvironmentData extends EnvironmentData {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  environmentType: "GitlabScope";
-}
-
 /** A custom alert rule that checks if a value (depends on the custom alert type) is within the given range. */
 export interface ThresholdCustomAlertRule extends CustomAlertRule {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -5293,87 +4918,248 @@ export interface UpdateIotSecuritySolutionData extends TagsResource {
   recommendationsConfiguration?: RecommendationConfigurationProperties[];
 }
 
-/** Describes properties of an assessment metadata response. */
-export interface SecurityAssessmentMetadataPropertiesResponse
-  extends SecurityAssessmentMetadataProperties {
-  publishDates?: SecurityAssessmentMetadataPropertiesResponsePublishDates;
-  plannedDeprecationDate?: string;
-  tactics?: Tactics[];
-  techniques?: Techniques[];
-}
-
-/** The result of the assessment */
-export interface AssessmentStatusResponse extends AssessmentStatus {
-  /**
-   * The time that the assessment was created and first evaluated. Returned as UTC time in ISO 8601 format
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly firstEvaluationDate?: Date;
-  /**
-   * The time that the status of the assessment last changed. Returned as UTC time in ISO 8601 format
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly statusChangeDate?: Date;
-}
-
-/** Describes properties of an assessment. */
-export interface SecurityAssessmentPropertiesResponse
-  extends SecurityAssessmentPropertiesBase {
-  /** The result of the assessment */
-  status: AssessmentStatusResponse;
-}
-
-/** Describes properties of an assessment. */
-export interface SecurityAssessmentProperties
-  extends SecurityAssessmentPropertiesBase {
-  /** The result of the assessment */
-  status: AssessmentStatus;
-}
-
-/** Azure resource identifier. */
-export interface AzureResourceIdentifier extends ResourceIdentifier {
+/** The CSPM monitoring for AWS offering */
+export interface CspmMonitorAwsOffering extends CloudOffering {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "AzureResource";
-  /**
-   * ARM resource identifier for the cloud resource being alerted on
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly azureResourceId?: string;
+  offeringType: "CspmMonitorAws";
+  /** The native cloud connection configuration */
+  nativeCloudConnection?: CspmMonitorAwsOfferingNativeCloudConnection;
 }
 
-/** Represents a Log Analytics workspace scope identifier. */
-export interface LogAnalyticsIdentifier extends ResourceIdentifier {
+/** The Defender for Containers AWS offering */
+export interface DefenderForContainersAwsOffering extends CloudOffering {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "LogAnalytics";
-  /**
-   * The LogAnalytics workspace id that stores this alert.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly workspaceId?: string;
-  /**
-   * The azure subscription id for the LogAnalytics workspace storing this alert.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly workspaceSubscriptionId?: string;
-  /**
-   * The azure resource group for the LogAnalytics workspace storing this alert
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly workspaceResourceGroup?: string;
-  /**
-   * (optional) The LogAnalytics agent id reporting the event that this alert is based on.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly agentId?: string;
+  offeringType: "DefenderForContainersAws";
+  /** The kubernetes service connection configuration */
+  kubernetesService?: DefenderForContainersAwsOfferingKubernetesService;
+  /** The kubernetes data collection connection configuration */
+  kubernetesDataCollection?: DefenderForContainersAwsOfferingKubernetesDataCollection;
+  /** The cloudwatch to kinesis connection configuration */
+  cloudWatchToKinesis?: DefenderForContainersAwsOfferingCloudWatchToKinesis;
+  /** The kinesis to s3 connection configuration */
+  kinesisToS3?: DefenderForContainersAwsOfferingKinesisToS3;
+  /** Is audit logs data collection enabled */
+  enableAuditLogsAutoProvisioning?: boolean;
+  /** Is Microsoft Defender for Cloud Kubernetes agent auto provisioning enabled */
+  enableDefenderAgentAutoProvisioning?: boolean;
+  /** Is Policy Kubernetes agent auto provisioning enabled */
+  enablePolicyAgentAutoProvisioning?: boolean;
+  /** The retention time in days of kube audit logs set on the CloudWatch log group */
+  kubeAuditRetentionTime?: number;
+  /** The externalId used by the data reader to prevent the confused deputy attack */
+  dataCollectionExternalId?: string;
+  /** The Microsoft Defender container image assessment configuration */
+  mdcContainersImageAssessment?: DefenderForContainersAwsOfferingMdcContainersImageAssessment;
+  /** The Microsoft Defender container agentless discovery K8s configuration */
+  mdcContainersAgentlessDiscoveryK8S?: DefenderForContainersAwsOfferingMdcContainersAgentlessDiscoveryK8S;
+  /** The Microsoft Defender for Container K8s VM host scanning configuration */
+  vmScanners?: DefenderForContainersAwsOfferingVmScanners;
 }
 
-/** Simulate alerts according to this bundles. */
-export interface AlertSimulatorBundlesRequestProperties
-  extends AlertSimulatorRequestProperties {
+/** The Defender for Servers AWS offering */
+export interface DefenderForServersAwsOffering extends CloudOffering {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "Bundles";
-  /** Bundles list. */
-  bundles?: BundleType[];
+  offeringType: "DefenderForServersAws";
+  /** The Defender for servers connection configuration */
+  defenderForServers?: DefenderForServersAwsOfferingDefenderForServers;
+  /** The ARC autoprovisioning configuration */
+  arcAutoProvisioning?: DefenderForServersAwsOfferingArcAutoProvisioning;
+  /** The Vulnerability Assessment autoprovisioning configuration */
+  vaAutoProvisioning?: DefenderForServersAwsOfferingVaAutoProvisioning;
+  /** The Microsoft Defender for Endpoint autoprovisioning configuration */
+  mdeAutoProvisioning?: DefenderForServersAwsOfferingMdeAutoProvisioning;
+  /** configuration for the servers offering subPlan */
+  subPlan?: DefenderForServersAwsOfferingSubPlan;
+  /** The Microsoft Defender for Server VM scanning configuration */
+  vmScanners?: DefenderForServersAwsOfferingVmScanners;
+}
+
+/** The Defender for Databases AWS offering */
+export interface DefenderFoDatabasesAwsOffering extends CloudOffering {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  offeringType: "DefenderForDatabasesAws";
+  /** The ARC autoprovisioning configuration */
+  arcAutoProvisioning?: DefenderFoDatabasesAwsOfferingArcAutoProvisioning;
+  /** The RDS configuration */
+  rds?: DefenderFoDatabasesAwsOfferingRds;
+  /** The databases data security posture management (DSPM) configuration */
+  databasesDspm?: DefenderFoDatabasesAwsOfferingDatabasesDspm;
+}
+
+/** The CSPM monitoring for GCP offering */
+export interface CspmMonitorGcpOffering extends CloudOffering {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  offeringType: "CspmMonitorGcp";
+  /** The native cloud connection configuration */
+  nativeCloudConnection?: CspmMonitorGcpOfferingNativeCloudConnection;
+}
+
+/** The Defender for Servers GCP offering configurations */
+export interface DefenderForServersGcpOffering extends CloudOffering {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  offeringType: "DefenderForServersGcp";
+  /** The Defender for servers connection configuration */
+  defenderForServers?: DefenderForServersGcpOfferingDefenderForServers;
+  /** The ARC autoprovisioning configuration */
+  arcAutoProvisioning?: DefenderForServersGcpOfferingArcAutoProvisioning;
+  /** The Vulnerability Assessment autoprovisioning configuration */
+  vaAutoProvisioning?: DefenderForServersGcpOfferingVaAutoProvisioning;
+  /** The Microsoft Defender for Endpoint autoprovisioning configuration */
+  mdeAutoProvisioning?: DefenderForServersGcpOfferingMdeAutoProvisioning;
+  /** configuration for the servers offering subPlan */
+  subPlan?: DefenderForServersGcpOfferingSubPlan;
+  /** The Microsoft Defender for Server VM scanning configuration */
+  vmScanners?: DefenderForServersGcpOfferingVmScanners;
+}
+
+/** The Defender for Databases GCP offering configurations */
+export interface DefenderForDatabasesGcpOffering extends CloudOffering {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  offeringType: "DefenderForDatabasesGcp";
+  /** The ARC autoprovisioning configuration */
+  arcAutoProvisioning?: DefenderForDatabasesGcpOfferingArcAutoProvisioning;
+  /** The native cloud connection configuration */
+  defenderForDatabasesArcAutoProvisioning?: DefenderForDatabasesGcpOfferingDefenderForDatabasesArcAutoProvisioning;
+}
+
+/** The containers GCP offering */
+export interface DefenderForContainersGcpOffering extends CloudOffering {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  offeringType: "DefenderForContainersGcp";
+  /** The native cloud connection configuration */
+  nativeCloudConnection?: DefenderForContainersGcpOfferingNativeCloudConnection;
+  /** The native cloud connection configuration */
+  dataPipelineNativeCloudConnection?: DefenderForContainersGcpOfferingDataPipelineNativeCloudConnection;
+  /** Is audit logs data collection enabled */
+  enableAuditLogsAutoProvisioning?: boolean;
+  /** Is Microsoft Defender for Cloud Kubernetes agent auto provisioning enabled */
+  enableDefenderAgentAutoProvisioning?: boolean;
+  /** Is Policy Kubernetes agent auto provisioning enabled */
+  enablePolicyAgentAutoProvisioning?: boolean;
+  /** The Microsoft Defender Container image assessment configuration */
+  mdcContainersImageAssessment?: DefenderForContainersGcpOfferingMdcContainersImageAssessment;
+  /** The Microsoft Defender Container agentless discovery configuration */
+  mdcContainersAgentlessDiscoveryK8S?: DefenderForContainersGcpOfferingMdcContainersAgentlessDiscoveryK8S;
+  /** The Microsoft Defender for Container K8s VM host scanning configuration */
+  vmScanners?: DefenderForContainersGcpOfferingVmScanners;
+}
+
+/** The CSPM monitoring for github offering */
+export interface CspmMonitorGithubOffering extends CloudOffering {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  offeringType: "CspmMonitorGithub";
+}
+
+/** The CSPM monitoring for AzureDevOps offering */
+export interface CspmMonitorAzureDevOpsOffering extends CloudOffering {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  offeringType: "CspmMonitorAzureDevOps";
+}
+
+/** The CSPM P1 for AWS offering */
+export interface DefenderCspmAwsOffering extends CloudOffering {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  offeringType: "DefenderCspmAws";
+  /** The Microsoft Defender for CSPM offering VM scanning configuration */
+  vmScanners?: DefenderCspmAwsOfferingVmScanners;
+  /** The Microsoft Defender Data Sensitivity discovery configuration */
+  dataSensitivityDiscovery?: DefenderCspmAwsOfferingDataSensitivityDiscovery;
+  /** The databases DSPM configuration */
+  databasesDspm?: DefenderCspmAwsOfferingDatabasesDspm;
+  /** Defenders CSPM Permissions Management offering configurations */
+  ciem?: DefenderCspmAwsOfferingCiem;
+  /** The Microsoft Defender container image assessment configuration */
+  mdcContainersImageAssessment?: DefenderCspmAwsOfferingMdcContainersImageAssessment;
+  /** The Microsoft Defender container agentless discovery K8s configuration */
+  mdcContainersAgentlessDiscoveryK8S?: DefenderCspmAwsOfferingMdcContainersAgentlessDiscoveryK8S;
+}
+
+/** The CSPM P1 for GCP offering */
+export interface DefenderCspmGcpOffering extends CloudOffering {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  offeringType: "DefenderCspmGcp";
+  /** GCP Defenders CSPM Permissions Management OIDC (Open ID connect) connection configurations */
+  ciemDiscovery?: DefenderCspmGcpOfferingCiemDiscovery;
+  /** The Microsoft Defender for CSPM VM scanning configuration */
+  vmScanners?: DefenderCspmGcpOfferingVmScanners;
+  /** The Microsoft Defender Data Sensitivity discovery configuration */
+  dataSensitivityDiscovery?: DefenderCspmGcpOfferingDataSensitivityDiscovery;
+  /** The Microsoft Defender Container image assessment configuration */
+  mdcContainersImageAssessment?: DefenderCspmGcpOfferingMdcContainersImageAssessment;
+  /** The Microsoft Defender Container agentless discovery configuration */
+  mdcContainersAgentlessDiscoveryK8S?: DefenderCspmGcpOfferingMdcContainersAgentlessDiscoveryK8S;
+}
+
+/** The CSPM (Cloud security posture management) monitoring for gitlab offering */
+export interface CspmMonitorGitLabOffering extends CloudOffering {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  offeringType: "CspmMonitorGitLab";
+}
+
+/** The AWS connector environment data */
+export interface AwsEnvironmentData extends EnvironmentData {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  environmentType: "AwsAccount";
+  /** The AWS account's organizational data */
+  organizationalData?: AwsOrganizationalDataUnion;
+  /** list of regions to scan */
+  regions?: string[];
+  /**
+   * The AWS account name
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly accountName?: string;
+  /** Scan interval in hours (value should be between 1-hour to 24-hours) */
+  scanInterval?: number;
+}
+
+/** The GCP project connector environment data */
+export interface GcpProjectEnvironmentData extends EnvironmentData {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  environmentType: "GcpProject";
+  /** The Gcp project's organizational data */
+  organizationalData?: GcpOrganizationalDataUnion;
+  /** The Gcp project's details */
+  projectDetails?: GcpProjectDetails;
+  /** Scan interval in hours (value should be between 1-hour to 24-hours) */
+  scanInterval?: number;
+}
+
+/** The github scope connector's environment data */
+export interface GithubScopeEnvironmentData extends EnvironmentData {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  environmentType: "GithubScope";
+}
+
+/** The AzureDevOps scope connector's environment data */
+export interface AzureDevOpsScopeEnvironmentData extends EnvironmentData {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  environmentType: "AzureDevOpsScope";
+}
+
+/** The GitLab scope connector's environment data */
+export interface GitlabScopeEnvironmentData extends EnvironmentData {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  environmentType: "GitlabScope";
+}
+
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends ResourceAutoGenerated {}
+
+/** Alert notification source */
+export interface NotificationsSourceAlert extends NotificationsSource {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  sourceType: "Alert";
+  /** Defines the minimal alert severity which will be sent as email notifications */
+  minimalSeverity?: MinimalSeverity;
+}
+
+/** Attack path notification source */
+export interface NotificationsSourceAttackPath extends NotificationsSource {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  sourceType: "AttackPath";
+  /** Defines the minimal attach path risk level which will be sent as email notifications */
+  minimalRiskLevel?: MinimalRiskLevel;
 }
 
 /** A base vulnerability assessments setting on servers in the defined scope. */
@@ -5382,6 +5168,133 @@ export interface ServerVulnerabilityAssessmentsSetting
   /** The kind of the server vulnerability assessments setting. */
   kind: ServerVulnerabilityAssessmentsSettingKind;
 }
+
+/** Details of the resource that was assessed */
+export interface SqlServerVulnerabilityProperties extends AdditionalData {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  assessedResourceType: "SqlServerVulnerability";
+  /**
+   * The resource type the sub assessment refers to in its resource details
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The T-SQL query that runs on your SQL database to perform the particular check
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly query?: string;
+  /**
+   * Specifies the benchmark references
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly benchmarks?: BenchmarkReferenceAutoGenerated[];
+  /**
+   * Time of last reported scan (UTC)
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastReportedScanTime?: Date;
+}
+
+/** Additional context fields for container registry Vulnerability assessment */
+export interface ContainerRegistryVulnerabilityProperties
+  extends AdditionalData {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  assessedResourceType: "ContainerRegistryVulnerability";
+  /**
+   * Vulnerability Type. e.g: Vulnerability, Potential Vulnerability, Information Gathered, Vulnerability
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Dictionary from cvss version to cvss details object
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly cvss?: { [propertyName: string]: Cvss };
+  /**
+   * Indicates whether a patch is available or not
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly patchable?: boolean;
+  /**
+   * List of CVEs
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly cve?: Cve[];
+  /**
+   * Published time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly publishedTime?: Date;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly vendorReferences?: VendorReference[];
+  /**
+   * Name of the repository which the vulnerable image belongs to
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly repositoryName?: string;
+  /**
+   * Digest of the vulnerable image
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly imageDigest?: string;
+}
+
+/** Additional context fields for server vulnerability assessment */
+export interface ServerVulnerabilityProperties extends AdditionalData {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  assessedResourceType: "ServerVulnerability";
+  /**
+   * Vulnerability Type. e.g: Vulnerability, Potential Vulnerability, Information Gathered
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Dictionary from cvss version to cvss details object
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly cvss?: { [propertyName: string]: Cvss };
+  /**
+   * Indicates whether a patch is available or not
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly patchable?: boolean;
+  /**
+   * List of CVEs
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly cve?: Cve[];
+  /**
+   * Threat name
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly threat?: string;
+  /**
+   * Published time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly publishedTime?: Date;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly vendorReferences?: VendorReference[];
+}
+
+/** The external security solution properties for CEF solutions */
+export interface CefSolutionProperties
+  extends ExternalSecuritySolutionProperties {
+  hostname?: string;
+  agent?: string;
+  lastEventReceived?: string;
+}
+
+/** The external security solution properties for ATA solutions */
+export interface AtaSolutionProperties
+  extends ExternalSecuritySolutionProperties {
+  lastEventReceived?: string;
+}
+
+/** The external security solution properties for AAD solutions */
+export interface AadSolutionProperties
+  extends ExternalSecuritySolutionProperties,
+    AadConnectivityStateAutoGenerated {}
 
 /** The AWS organization data for the master account */
 export interface AwsOrganizationalDataMaster extends AwsOrganizationalData {
@@ -5429,24 +5342,23 @@ export interface GcpOrganizationalDataMember extends GcpOrganizationalData {
   managementProjectNumber?: string;
 }
 
-/** The external security solution properties for CEF solutions */
-export interface CefSolutionProperties
-  extends ExternalSecuritySolutionProperties {
-  hostname?: string;
-  agent?: string;
-  lastEventReceived?: string;
+/** A VM scanning configuration for a security offering of a Aws environment */
+export interface VmScannersAws extends VmScannersBase {
+  /** The cloud role ARN in AWS for this feature */
+  cloudRoleArn?: string;
 }
 
-/** The external security solution properties for ATA solutions */
-export interface AtaSolutionProperties
-  extends ExternalSecuritySolutionProperties {
-  lastEventReceived?: string;
+/** A VM scanning configuration for a security offering of a GCP environment */
+export interface VmScannersGcp extends VmScannersBase {}
+
+/** The ARC autoprovisioning configuration for an AWS environment */
+export interface ArcAutoProvisioningAws extends ArcAutoProvisioning {
+  /** The cloud role ARN in AWS for this feature */
+  cloudRoleArn?: string;
 }
 
-/** The external security solution properties for AAD solutions */
-export interface AadSolutionProperties
-  extends ExternalSecuritySolutionProperties,
-    AadConnectivityStateAutoGenerated {}
+/** The ARC autoprovisioning configuration for an GCP environment */
+export interface ArcAutoProvisioningGcp extends ArcAutoProvisioning {}
 
 /** The security automation resource. */
 export interface Automation extends TrackedResource {
@@ -5526,6 +5438,52 @@ export interface OnPremiseSqlResourceDetails extends OnPremiseResourceDetails {
   serverName: string;
   /** The Sql database name installed on the machine */
   databaseName: string;
+}
+
+/** A custom alert rule that checks if the number of activities (depends on the custom alert type) in a time window is within the given range. */
+export interface TimeWindowCustomAlertRule extends ThresholdCustomAlertRule {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  ruleType:
+    | "TimeWindowCustomAlertRule"
+    | "ActiveConnectionsNotInAllowedRange"
+    | "AmqpC2DMessagesNotInAllowedRange"
+    | "MqttC2DMessagesNotInAllowedRange"
+    | "HttpC2DMessagesNotInAllowedRange"
+    | "AmqpC2DRejectedMessagesNotInAllowedRange"
+    | "MqttC2DRejectedMessagesNotInAllowedRange"
+    | "HttpC2DRejectedMessagesNotInAllowedRange"
+    | "AmqpD2CMessagesNotInAllowedRange"
+    | "MqttD2CMessagesNotInAllowedRange"
+    | "HttpD2CMessagesNotInAllowedRange"
+    | "DirectMethodInvokesNotInAllowedRange"
+    | "FailedLocalLoginsNotInAllowedRange"
+    | "FileUploadsNotInAllowedRange"
+    | "QueuePurgesNotInAllowedRange"
+    | "TwinUpdatesNotInAllowedRange"
+    | "UnauthorizedOperationsNotInAllowedRange";
+  /** The time window size in iso8601 format. */
+  timeWindowSize: string;
+}
+
+/** A custom alert rule that checks if a value (depends on the custom alert type) is allowed. */
+export interface AllowlistCustomAlertRule extends ListCustomAlertRule {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  ruleType:
+    | "AllowlistCustomAlertRule"
+    | "ConnectionToIpNotAllowed"
+    | "ConnectionFromIpNotAllowed"
+    | "LocalUserNotAllowed"
+    | "ProcessNotAllowed";
+  /** The values to allow. The format of the values depends on the rule type. */
+  allowlistValues: string[];
+}
+
+/** A custom alert rule that checks if a value (depends on the custom alert type) is denied. */
+export interface DenylistCustomAlertRule extends ListCustomAlertRule {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  ruleType: "DenylistCustomAlertRule";
+  /** The values to deny. The format of the values depends on the rule type. */
+  denylistValues: string[];
 }
 
 /** Azure DevOps Organization resource. */
@@ -5616,52 +5574,6 @@ export interface GitLabProject extends ProxyResource {
   properties?: GitLabProjectProperties;
 }
 
-/** A custom alert rule that checks if the number of activities (depends on the custom alert type) in a time window is within the given range. */
-export interface TimeWindowCustomAlertRule extends ThresholdCustomAlertRule {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  ruleType:
-    | "TimeWindowCustomAlertRule"
-    | "ActiveConnectionsNotInAllowedRange"
-    | "AmqpC2DMessagesNotInAllowedRange"
-    | "MqttC2DMessagesNotInAllowedRange"
-    | "HttpC2DMessagesNotInAllowedRange"
-    | "AmqpC2DRejectedMessagesNotInAllowedRange"
-    | "MqttC2DRejectedMessagesNotInAllowedRange"
-    | "HttpC2DRejectedMessagesNotInAllowedRange"
-    | "AmqpD2CMessagesNotInAllowedRange"
-    | "MqttD2CMessagesNotInAllowedRange"
-    | "HttpD2CMessagesNotInAllowedRange"
-    | "DirectMethodInvokesNotInAllowedRange"
-    | "FailedLocalLoginsNotInAllowedRange"
-    | "FileUploadsNotInAllowedRange"
-    | "QueuePurgesNotInAllowedRange"
-    | "TwinUpdatesNotInAllowedRange"
-    | "UnauthorizedOperationsNotInAllowedRange";
-  /** The time window size in iso8601 format. */
-  timeWindowSize: string;
-}
-
-/** A custom alert rule that checks if a value (depends on the custom alert type) is allowed. */
-export interface AllowlistCustomAlertRule extends ListCustomAlertRule {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  ruleType:
-    | "AllowlistCustomAlertRule"
-    | "ConnectionToIpNotAllowed"
-    | "ConnectionFromIpNotAllowed"
-    | "LocalUserNotAllowed"
-    | "ProcessNotAllowed";
-  /** The values to allow. The format of the values depends on the rule type. */
-  allowlistValues: string[];
-}
-
-/** A custom alert rule that checks if a value (depends on the custom alert type) is denied. */
-export interface DenylistCustomAlertRule extends ListCustomAlertRule {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  ruleType: "DenylistCustomAlertRule";
-  /** The values to deny. The format of the values depends on the rule type. */
-  denylistValues: string[];
-}
-
 /** A vulnerability assessments setting on Azure servers in the defined scope. */
 export interface AzureServersSetting
   extends ServerVulnerabilityAssessmentsSetting {
@@ -5670,6 +5582,44 @@ export interface AzureServersSetting
   /** The selected vulnerability assessments provider on Azure servers in the defined scope. */
   selectedProvider?: ServerVulnerabilityAssessmentsAzureSettingSelectedProvider;
 }
+
+/** The Microsoft Defender for Container K8s VM host scanning configuration */
+export interface DefenderForContainersAwsOfferingVmScanners
+  extends VmScannersAws {}
+
+/** The Microsoft Defender for Server VM scanning configuration */
+export interface DefenderForServersAwsOfferingVmScanners
+  extends VmScannersAws {}
+
+/** The Microsoft Defender for CSPM offering VM scanning configuration */
+export interface DefenderCspmAwsOfferingVmScanners extends VmScannersAws {}
+
+/** The Microsoft Defender for Server VM scanning configuration */
+export interface DefenderForServersGcpOfferingVmScanners
+  extends VmScannersGcp {}
+
+/** The Microsoft Defender for Container K8s VM host scanning configuration */
+export interface DefenderForContainersGcpOfferingVmScanners
+  extends VmScannersGcp {}
+
+/** The Microsoft Defender for CSPM VM scanning configuration */
+export interface DefenderCspmGcpOfferingVmScanners extends VmScannersGcp {}
+
+/** The ARC autoprovisioning configuration */
+export interface DefenderForServersAwsOfferingArcAutoProvisioning
+  extends ArcAutoProvisioningAws {}
+
+/** The ARC autoprovisioning configuration */
+export interface DefenderFoDatabasesAwsOfferingArcAutoProvisioning
+  extends ArcAutoProvisioningAws {}
+
+/** The ARC autoprovisioning configuration */
+export interface DefenderForServersGcpOfferingArcAutoProvisioning
+  extends ArcAutoProvisioningGcp {}
+
+/** The ARC autoprovisioning configuration */
+export interface DefenderForDatabasesGcpOfferingArcAutoProvisioning
+  extends ArcAutoProvisioningGcp {}
 
 /** Number of active connections is not in allowed range. */
 export interface ActiveConnectionsNotInAllowedRange
@@ -5807,6 +5757,11 @@ export interface ProcessNotAllowed extends AllowlistCustomAlertRule {
   ruleType: "ProcessNotAllowed";
 }
 
+/** Defines headers for APICollections_onboardAzureApiManagementApi operation. */
+export interface APICollectionsOnboardAzureApiManagementApiHeaders {
+  location?: string;
+}
+
 /** Defines headers for GovernanceRules_delete operation. */
 export interface GovernanceRulesDeleteHeaders {
   /** Location URL for the deletion status */
@@ -5824,1343 +5779,6 @@ export interface GovernanceRulesOperationResultsHeaders {
   /** Location URL for the execution status */
   location?: string;
 }
-
-/** Defines headers for APICollections_onboardAzureApiManagementApi operation. */
-export interface APICollectionsOnboardAzureApiManagementApiHeaders {
-  location?: string;
-}
-
-/** Known values of {@link TaskUpdateActionType} that the service accepts. */
-export enum KnownTaskUpdateActionType {
-  /** Activate */
-  Activate = "Activate",
-  /** Dismiss */
-  Dismiss = "Dismiss",
-  /** Start */
-  Start = "Start",
-  /** Resolve */
-  Resolve = "Resolve",
-  /** Close */
-  Close = "Close",
-}
-
-/**
- * Defines values for TaskUpdateActionType. \
- * {@link KnownTaskUpdateActionType} can be used interchangeably with TaskUpdateActionType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Activate** \
- * **Dismiss** \
- * **Start** \
- * **Resolve** \
- * **Close**
- */
-export type TaskUpdateActionType = string;
-
-/** Known values of {@link AutoProvision} that the service accepts. */
-export enum KnownAutoProvision {
-  /** Install missing security agent on VMs automatically */
-  On = "On",
-  /** Do not install security agent on the VMs automatically */
-  Off = "Off",
-}
-
-/**
- * Defines values for AutoProvision. \
- * {@link KnownAutoProvision} can be used interchangeably with AutoProvision,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **On**: Install missing security agent on VMs automatically \
- * **Off**: Do not install security agent on the VMs automatically
- */
-export type AutoProvision = string;
-
-/** Known values of {@link InformationProtectionPolicyName} that the service accepts. */
-export enum KnownInformationProtectionPolicyName {
-  /** Effective */
-  Effective = "effective",
-  /** Custom */
-  Custom = "custom",
-}
-
-/**
- * Defines values for InformationProtectionPolicyName. \
- * {@link KnownInformationProtectionPolicyName} can be used interchangeably with InformationProtectionPolicyName,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **effective** \
- * **custom**
- */
-export type InformationProtectionPolicyName = string;
-
-/** Known values of {@link EventSource} that the service accepts. */
-export enum KnownEventSource {
-  /** Assessments */
-  Assessments = "Assessments",
-  /** AssessmentsSnapshot */
-  AssessmentsSnapshot = "AssessmentsSnapshot",
-  /** SubAssessments */
-  SubAssessments = "SubAssessments",
-  /** SubAssessmentsSnapshot */
-  SubAssessmentsSnapshot = "SubAssessmentsSnapshot",
-  /** Alerts */
-  Alerts = "Alerts",
-  /** SecureScores */
-  SecureScores = "SecureScores",
-  /** SecureScoresSnapshot */
-  SecureScoresSnapshot = "SecureScoresSnapshot",
-  /** SecureScoreControls */
-  SecureScoreControls = "SecureScoreControls",
-  /** SecureScoreControlsSnapshot */
-  SecureScoreControlsSnapshot = "SecureScoreControlsSnapshot",
-  /** RegulatoryComplianceAssessment */
-  RegulatoryComplianceAssessment = "RegulatoryComplianceAssessment",
-  /** RegulatoryComplianceAssessmentSnapshot */
-  RegulatoryComplianceAssessmentSnapshot = "RegulatoryComplianceAssessmentSnapshot",
-  /** AttackPaths */
-  AttackPaths = "AttackPaths",
-  /** AttackPathsSnapshot */
-  AttackPathsSnapshot = "AttackPathsSnapshot",
-}
-
-/**
- * Defines values for EventSource. \
- * {@link KnownEventSource} can be used interchangeably with EventSource,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Assessments** \
- * **AssessmentsSnapshot** \
- * **SubAssessments** \
- * **SubAssessmentsSnapshot** \
- * **Alerts** \
- * **SecureScores** \
- * **SecureScoresSnapshot** \
- * **SecureScoreControls** \
- * **SecureScoreControlsSnapshot** \
- * **RegulatoryComplianceAssessment** \
- * **RegulatoryComplianceAssessmentSnapshot** \
- * **AttackPaths** \
- * **AttackPathsSnapshot**
- */
-export type EventSource = string;
-
-/** Known values of {@link PropertyType} that the service accepts. */
-export enum KnownPropertyType {
-  /** String */
-  String = "String",
-  /** Integer */
-  Integer = "Integer",
-  /** Number */
-  Number = "Number",
-  /** Boolean */
-  Boolean = "Boolean",
-}
-
-/**
- * Defines values for PropertyType. \
- * {@link KnownPropertyType} can be used interchangeably with PropertyType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **String** \
- * **Integer** \
- * **Number** \
- * **Boolean**
- */
-export type PropertyType = string;
-
-/** Known values of {@link Operator} that the service accepts. */
-export enum KnownOperator {
-  /** Applies for decimal and non-decimal operands */
-  Equals = "Equals",
-  /** Applies only for decimal operands */
-  GreaterThan = "GreaterThan",
-  /** Applies only for decimal operands */
-  GreaterThanOrEqualTo = "GreaterThanOrEqualTo",
-  /** Applies only for decimal operands */
-  LesserThan = "LesserThan",
-  /** Applies only for decimal operands */
-  LesserThanOrEqualTo = "LesserThanOrEqualTo",
-  /** Applies  for decimal and non-decimal operands */
-  NotEquals = "NotEquals",
-  /** Applies only for non-decimal operands */
-  Contains = "Contains",
-  /** Applies only for non-decimal operands */
-  StartsWith = "StartsWith",
-  /** Applies only for non-decimal operands */
-  EndsWith = "EndsWith",
-}
-
-/**
- * Defines values for Operator. \
- * {@link KnownOperator} can be used interchangeably with Operator,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Equals**: Applies for decimal and non-decimal operands \
- * **GreaterThan**: Applies only for decimal operands \
- * **GreaterThanOrEqualTo**: Applies only for decimal operands \
- * **LesserThan**: Applies only for decimal operands \
- * **LesserThanOrEqualTo**: Applies only for decimal operands \
- * **NotEquals**: Applies  for decimal and non-decimal operands \
- * **Contains**: Applies only for non-decimal operands \
- * **StartsWith**: Applies only for non-decimal operands \
- * **EndsWith**: Applies only for non-decimal operands
- */
-export type Operator = string;
-
-/** Known values of {@link ActionType} that the service accepts. */
-export enum KnownActionType {
-  /** LogicApp */
-  LogicApp = "LogicApp",
-  /** EventHub */
-  EventHub = "EventHub",
-  /** Workspace */
-  Workspace = "Workspace",
-}
-
-/**
- * Defines values for ActionType. \
- * {@link KnownActionType} can be used interchangeably with ActionType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **LogicApp** \
- * **EventHub** \
- * **Workspace**
- */
-export type ActionType = string;
-
-/** Known values of {@link State} that the service accepts. */
-export enum KnownState {
-  /** All supported regulatory compliance controls in the given standard have a passed state */
-  Passed = "Passed",
-  /** At least one supported regulatory compliance control in the given standard has a state of failed */
-  Failed = "Failed",
-  /** All supported regulatory compliance controls in the given standard have a state of skipped */
-  Skipped = "Skipped",
-  /** No supported regulatory compliance data for the given standard */
-  Unsupported = "Unsupported",
-}
-
-/**
- * Defines values for State. \
- * {@link KnownState} can be used interchangeably with State,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Passed**: All supported regulatory compliance controls in the given standard have a passed state \
- * **Failed**: At least one supported regulatory compliance control in the given standard has a state of failed \
- * **Skipped**: All supported regulatory compliance controls in the given standard have a state of skipped \
- * **Unsupported**: No supported regulatory compliance data for the given standard
- */
-export type State = string;
-
-/** Known values of {@link SubAssessmentStatusCode} that the service accepts. */
-export enum KnownSubAssessmentStatusCode {
-  /** The resource is healthy */
-  Healthy = "Healthy",
-  /** The resource has a security issue that needs to be addressed */
-  Unhealthy = "Unhealthy",
-  /** Assessment for this resource did not happen */
-  NotApplicable = "NotApplicable",
-}
-
-/**
- * Defines values for SubAssessmentStatusCode. \
- * {@link KnownSubAssessmentStatusCode} can be used interchangeably with SubAssessmentStatusCode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Healthy**: The resource is healthy \
- * **Unhealthy**: The resource has a security issue that needs to be addressed \
- * **NotApplicable**: Assessment for this resource did not happen
- */
-export type SubAssessmentStatusCode = string;
-
-/** Known values of {@link Severity} that the service accepts. */
-export enum KnownSeverity {
-  /** Low */
-  Low = "Low",
-  /** Medium */
-  Medium = "Medium",
-  /** High */
-  High = "High",
-}
-
-/**
- * Defines values for Severity. \
- * {@link KnownSeverity} can be used interchangeably with Severity,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Low** \
- * **Medium** \
- * **High**
- */
-export type Severity = string;
-
-/** Known values of {@link Source} that the service accepts. */
-export enum KnownSource {
-  /** Resource is in Azure */
-  Azure = "Azure",
-  /** Resource in an on premise machine connected to Azure cloud */
-  OnPremise = "OnPremise",
-  /** SQL Resource in an on premise machine connected to Azure cloud */
-  OnPremiseSql = "OnPremiseSql",
-}
-
-/**
- * Defines values for Source. \
- * {@link KnownSource} can be used interchangeably with Source,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Azure**: Resource is in Azure \
- * **OnPremise**: Resource in an on premise machine connected to Azure cloud \
- * **OnPremiseSql**: SQL Resource in an on premise machine connected to Azure cloud
- */
-export type Source = string;
-
-/** Known values of {@link AssessedResourceType} that the service accepts. */
-export enum KnownAssessedResourceType {
-  /** SqlServerVulnerability */
-  SqlServerVulnerability = "SqlServerVulnerability",
-  /** ContainerRegistryVulnerability */
-  ContainerRegistryVulnerability = "ContainerRegistryVulnerability",
-  /** ServerVulnerability */
-  ServerVulnerability = "ServerVulnerability",
-}
-
-/**
- * Defines values for AssessedResourceType. \
- * {@link KnownAssessedResourceType} can be used interchangeably with AssessedResourceType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **SqlServerVulnerability** \
- * **ContainerRegistryVulnerability** \
- * **ServerVulnerability**
- */
-export type AssessedResourceType = string;
-
-/** Known values of {@link HybridComputeProvisioningState} that the service accepts. */
-export enum KnownHybridComputeProvisioningState {
-  /** Valid service principal details. */
-  Valid = "Valid",
-  /** Invalid service principal details. */
-  Invalid = "Invalid",
-  /** the service principal details are expired */
-  Expired = "Expired",
-}
-
-/**
- * Defines values for HybridComputeProvisioningState. \
- * {@link KnownHybridComputeProvisioningState} can be used interchangeably with HybridComputeProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Valid**: Valid service principal details. \
- * **Invalid**: Invalid service principal details. \
- * **Expired**: the service principal details are expired
- */
-export type HybridComputeProvisioningState = string;
-
-/** Known values of {@link AuthenticationProvisioningState} that the service accepts. */
-export enum KnownAuthenticationProvisioningState {
-  /** Valid connector */
-  Valid = "Valid",
-  /** Invalid connector */
-  Invalid = "Invalid",
-  /** the connection has expired */
-  Expired = "Expired",
-  /** Incorrect policy of the connector */
-  IncorrectPolicy = "IncorrectPolicy",
-}
-
-/**
- * Defines values for AuthenticationProvisioningState. \
- * {@link KnownAuthenticationProvisioningState} can be used interchangeably with AuthenticationProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Valid**: Valid connector \
- * **Invalid**: Invalid connector \
- * **Expired**: the connection has expired \
- * **IncorrectPolicy**: Incorrect policy of the connector
- */
-export type AuthenticationProvisioningState = string;
-
-/** Known values of {@link PermissionProperty} that the service accepts. */
-export enum KnownPermissionProperty {
-  /** This permission provides read only access to AWS Security Hub resources. */
-  AWSAWSSecurityHubReadOnlyAccess = "AWS::AWSSecurityHubReadOnlyAccess",
-  /** This permission grants access to read security configuration metadata. */
-  AWSSecurityAudit = "AWS::SecurityAudit",
-  /** The permission provides for EC2 Automation service to execute activities defined within Automation documents. */
-  AWSAmazonSSMAutomationRole = "AWS::AmazonSSMAutomationRole",
-  /** This permission provides read only access to GCP Security Command Center. */
-  GCPSecurityCenterAdminViewer = "GCP::Security Center Admin Viewer",
-}
-
-/**
- * Defines values for PermissionProperty. \
- * {@link KnownPermissionProperty} can be used interchangeably with PermissionProperty,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **AWS::AWSSecurityHubReadOnlyAccess**: This permission provides read only access to AWS Security Hub resources. \
- * **AWS::SecurityAudit**: This permission grants access to read security configuration metadata. \
- * **AWS::AmazonSSMAutomationRole**: The permission provides for EC2 Automation service to execute activities defined within Automation documents. \
- * **GCP::Security Center Admin Viewer**: This permission provides read only access to GCP Security Command Center.
- */
-export type PermissionProperty = string;
-
-/** Known values of {@link AuthenticationType} that the service accepts. */
-export enum KnownAuthenticationType {
-  /** AWS cloud account connector user credentials authentication */
-  AwsCreds = "awsCreds",
-  /** AWS account connector assume role authentication */
-  AwsAssumeRole = "awsAssumeRole",
-  /** GCP account connector service to service authentication */
-  GcpCredentials = "gcpCredentials",
-}
-
-/**
- * Defines values for AuthenticationType. \
- * {@link KnownAuthenticationType} can be used interchangeably with AuthenticationType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **awsCreds**: AWS cloud account connector user credentials authentication \
- * **awsAssumeRole**: AWS account connector assume role authentication \
- * **gcpCredentials**: GCP account connector service to service authentication
- */
-export type AuthenticationType = string;
-
-/** Known values of {@link SourceType} that the service accepts. */
-export enum KnownSourceType {
-  /** Alert */
-  Alert = "Alert",
-  /** AttackPath */
-  AttackPath = "AttackPath",
-}
-
-/**
- * Defines values for SourceType. \
- * {@link KnownSourceType} can be used interchangeably with SourceType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Alert** \
- * **AttackPath**
- */
-export type SourceType = string;
-
-/** Known values of {@link SecurityContactRole} that the service accepts. */
-export enum KnownSecurityContactRole {
-  /** If enabled, send notification on new alerts to the account admins */
-  AccountAdmin = "AccountAdmin",
-  /** If enabled, send notification on new alerts to the service admins */
-  ServiceAdmin = "ServiceAdmin",
-  /** If enabled, send notification on new alerts to the subscription owners */
-  Owner = "Owner",
-  /** If enabled, send notification on new alerts to the subscription contributors */
-  Contributor = "Contributor",
-}
-
-/**
- * Defines values for SecurityContactRole. \
- * {@link KnownSecurityContactRole} can be used interchangeably with SecurityContactRole,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **AccountAdmin**: If enabled, send notification on new alerts to the account admins \
- * **ServiceAdmin**: If enabled, send notification on new alerts to the service admins \
- * **Owner**: If enabled, send notification on new alerts to the subscription owners \
- * **Contributor**: If enabled, send notification on new alerts to the subscription contributors
- */
-export type SecurityContactRole = string;
-
-/** Known values of {@link SecurityContactName} that the service accepts. */
-export enum KnownSecurityContactName {
-  /** The single applicable name of the security contact object */
-  Default = "default",
-}
-
-/**
- * Defines values for SecurityContactName. \
- * {@link KnownSecurityContactName} can be used interchangeably with SecurityContactName,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **default**: The single applicable name of the security contact object
- */
-export type SecurityContactName = string;
-
-/** Known values of {@link EndOfSupportStatus} that the service accepts. */
-export enum KnownEndOfSupportStatus {
-  /** None */
-  None = "None",
-  /** NoLongerSupported */
-  NoLongerSupported = "noLongerSupported",
-  /** VersionNoLongerSupported */
-  VersionNoLongerSupported = "versionNoLongerSupported",
-  /** UpcomingNoLongerSupported */
-  UpcomingNoLongerSupported = "upcomingNoLongerSupported",
-  /** UpcomingVersionNoLongerSupported */
-  UpcomingVersionNoLongerSupported = "upcomingVersionNoLongerSupported",
-}
-
-/**
- * Defines values for EndOfSupportStatus. \
- * {@link KnownEndOfSupportStatus} can be used interchangeably with EndOfSupportStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **None** \
- * **noLongerSupported** \
- * **versionNoLongerSupported** \
- * **upcomingNoLongerSupported** \
- * **upcomingVersionNoLongerSupported**
- */
-export type EndOfSupportStatus = string;
-
-/** Known values of {@link CreatedByType} that the service accepts. */
-export enum KnownCreatedByType {
-  /** User */
-  User = "User",
-  /** Application */
-  Application = "Application",
-  /** ManagedIdentity */
-  ManagedIdentity = "ManagedIdentity",
-  /** Key */
-  Key = "Key",
-}
-
-/**
- * Defines values for CreatedByType. \
- * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **User** \
- * **Application** \
- * **ManagedIdentity** \
- * **Key**
- */
-export type CreatedByType = string;
-
-/** Known values of {@link SupportedCloudEnum} that the service accepts. */
-export enum KnownSupportedCloudEnum {
-  /** AWS */
-  AWS = "AWS",
-  /** GCP */
-  GCP = "GCP",
-}
-
-/**
- * Defines values for SupportedCloudEnum. \
- * {@link KnownSupportedCloudEnum} can be used interchangeably with SupportedCloudEnum,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **AWS** \
- * **GCP**
- */
-export type SupportedCloudEnum = string;
-
-/** Known values of {@link SeverityEnum} that the service accepts. */
-export enum KnownSeverityEnum {
-  /** High */
-  High = "High",
-  /** Medium */
-  Medium = "Medium",
-  /** Low */
-  Low = "Low",
-}
-
-/**
- * Defines values for SeverityEnum. \
- * {@link KnownSeverityEnum} can be used interchangeably with SeverityEnum,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **High** \
- * **Medium** \
- * **Low**
- */
-export type SeverityEnum = string;
-
-/** Known values of {@link GovernanceRuleType} that the service accepts. */
-export enum KnownGovernanceRuleType {
-  /** The source of the rule type definition is integrated */
-  Integrated = "Integrated",
-  /** The source of the rule type definition is ServiceNow */
-  ServiceNow = "ServiceNow",
-}
-
-/**
- * Defines values for GovernanceRuleType. \
- * {@link KnownGovernanceRuleType} can be used interchangeably with GovernanceRuleType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Integrated**: The source of the rule type definition is integrated \
- * **ServiceNow**: The source of the rule type definition is ServiceNow
- */
-export type GovernanceRuleType = string;
-
-/** Known values of {@link GovernanceRuleSourceResourceType} that the service accepts. */
-export enum KnownGovernanceRuleSourceResourceType {
-  /** The source of the governance rule is assessments */
-  Assessments = "Assessments",
-}
-
-/**
- * Defines values for GovernanceRuleSourceResourceType. \
- * {@link KnownGovernanceRuleSourceResourceType} can be used interchangeably with GovernanceRuleSourceResourceType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Assessments**: The source of the governance rule is assessments
- */
-export type GovernanceRuleSourceResourceType = string;
-
-/** Known values of {@link GovernanceRuleOwnerSourceType} that the service accepts. */
-export enum KnownGovernanceRuleOwnerSourceType {
-  /** The rule source type defined using resource tag */
-  ByTag = "ByTag",
-  /** The rule source type defined manually */
-  Manually = "Manually",
-}
-
-/**
- * Defines values for GovernanceRuleOwnerSourceType. \
- * {@link KnownGovernanceRuleOwnerSourceType} can be used interchangeably with GovernanceRuleOwnerSourceType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **ByTag**: The rule source type defined using resource tag \
- * **Manually**: The rule source type defined manually
- */
-export type GovernanceRuleOwnerSourceType = string;
-
-/** Known values of {@link OperationResult} that the service accepts. */
-export enum KnownOperationResult {
-  /** The operation succeeded */
-  Succeeded = "Succeeded",
-  /** The operation failed */
-  Failed = "Failed",
-  /** The operation canceled */
-  Canceled = "Canceled",
-}
-
-/**
- * Defines values for OperationResult. \
- * {@link KnownOperationResult} can be used interchangeably with OperationResult,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Succeeded**: The operation succeeded \
- * **Failed**: The operation failed \
- * **Canceled**: The operation canceled
- */
-export type OperationResult = string;
-
-/** Known values of {@link ApplicationSourceResourceType} that the service accepts. */
-export enum KnownApplicationSourceResourceType {
-  /** The source of the application is assessments */
-  Assessments = "Assessments",
-}
-
-/**
- * Defines values for ApplicationSourceResourceType. \
- * {@link KnownApplicationSourceResourceType} can be used interchangeably with ApplicationSourceResourceType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Assessments**: The source of the application is assessments
- */
-export type ApplicationSourceResourceType = string;
-
-/** Known values of {@link SettingName} that the service accepts. */
-export enum KnownSettingName {
-  /** Name of the Defender for Storage Settings name. */
-  Current = "current",
-}
-
-/**
- * Defines values for SettingName. \
- * {@link KnownSettingName} can be used interchangeably with SettingName,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **current**: Name of the Defender for Storage Settings name.
- */
-export type SettingName = string;
-
-/** Known values of {@link ScanTriggerType} that the service accepts. */
-export enum KnownScanTriggerType {
-  /** OnDemand */
-  OnDemand = "OnDemand",
-  /** Recurring */
-  Recurring = "Recurring",
-}
-
-/**
- * Defines values for ScanTriggerType. \
- * {@link KnownScanTriggerType} can be used interchangeably with ScanTriggerType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **OnDemand**: OnDemand \
- * **Recurring**: Recurring
- */
-export type ScanTriggerType = string;
-
-/** Known values of {@link ScanState} that the service accepts. */
-export enum KnownScanState {
-  /** Failed */
-  Failed = "Failed",
-  /** FailedToRun */
-  FailedToRun = "FailedToRun",
-  /** InProgress */
-  InProgress = "InProgress",
-  /** Passed */
-  Passed = "Passed",
-}
-
-/**
- * Defines values for ScanState. \
- * {@link KnownScanState} can be used interchangeably with ScanState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Failed**: Failed \
- * **FailedToRun**: FailedToRun \
- * **InProgress**: InProgress \
- * **Passed**: Passed
- */
-export type ScanState = string;
-
-/** Known values of {@link RuleStatus} that the service accepts. */
-export enum KnownRuleStatus {
-  /** NonFinding */
-  NonFinding = "NonFinding",
-  /** Finding */
-  Finding = "Finding",
-  /** InternalError */
-  InternalError = "InternalError",
-}
-
-/**
- * Defines values for RuleStatus. \
- * {@link KnownRuleStatus} can be used interchangeably with RuleStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **NonFinding**: NonFinding \
- * **Finding**: Finding \
- * **InternalError**: InternalError
- */
-export type RuleStatus = string;
-
-/** Known values of {@link RuleSeverity} that the service accepts. */
-export enum KnownRuleSeverity {
-  /** High */
-  High = "High",
-  /** Medium */
-  Medium = "Medium",
-  /** Low */
-  Low = "Low",
-  /** Informational */
-  Informational = "Informational",
-  /** Obsolete */
-  Obsolete = "Obsolete",
-}
-
-/**
- * Defines values for RuleSeverity. \
- * {@link KnownRuleSeverity} can be used interchangeably with RuleSeverity,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **High**: High \
- * **Medium**: Medium \
- * **Low**: Low \
- * **Informational**: Informational \
- * **Obsolete**: Obsolete
- */
-export type RuleSeverity = string;
-
-/** Known values of {@link RuleType} that the service accepts. */
-export enum KnownRuleType {
-  /** Binary */
-  Binary = "Binary",
-  /** BaselineExpected */
-  BaselineExpected = "BaselineExpected",
-  /** PositiveList */
-  PositiveList = "PositiveList",
-  /** NegativeList */
-  NegativeList = "NegativeList",
-}
-
-/**
- * Defines values for RuleType. \
- * {@link KnownRuleType} can be used interchangeably with RuleType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Binary**: Binary \
- * **BaselineExpected**: BaselineExpected \
- * **PositiveList**: PositiveList \
- * **NegativeList**: NegativeList
- */
-export type RuleType = string;
-
-/** Known values of {@link MipIntegrationStatus} that the service accepts. */
-export enum KnownMipIntegrationStatus {
-  /** Ok */
-  Ok = "Ok",
-  /** NoConsent */
-  NoConsent = "noConsent",
-  /** NoAutoLabelingRules */
-  NoAutoLabelingRules = "noAutoLabelingRules",
-  /** NoMipLabels */
-  NoMipLabels = "noMipLabels",
-}
-
-/**
- * Defines values for MipIntegrationStatus. \
- * {@link KnownMipIntegrationStatus} can be used interchangeably with MipIntegrationStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Ok** \
- * **noConsent** \
- * **noAutoLabelingRules** \
- * **noMipLabels**
- */
-export type MipIntegrationStatus = string;
-
-/** Known values of {@link StatusName} that the service accepts. */
-export enum KnownStatusName {
-  /** Healthy */
-  Healthy = "Healthy",
-  /** NotHealthy */
-  NotHealthy = "NotHealthy",
-  /** NotApplicable */
-  NotApplicable = "NotApplicable",
-}
-
-/**
- * Defines values for StatusName. \
- * {@link KnownStatusName} can be used interchangeably with StatusName,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Healthy** \
- * **NotHealthy** \
- * **NotApplicable**
- */
-export type StatusName = string;
-
-/** Known values of {@link DevOpsProvisioningState} that the service accepts. */
-export enum KnownDevOpsProvisioningState {
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Failed */
-  Failed = "Failed",
-  /** Canceled */
-  Canceled = "Canceled",
-  /** Pending */
-  Pending = "Pending",
-  /** PendingDeletion */
-  PendingDeletion = "PendingDeletion",
-  /** DeletionSuccess */
-  DeletionSuccess = "DeletionSuccess",
-  /** DeletionFailure */
-  DeletionFailure = "DeletionFailure",
-}
-
-/**
- * Defines values for DevOpsProvisioningState. \
- * {@link KnownDevOpsProvisioningState} can be used interchangeably with DevOpsProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Succeeded** \
- * **Failed** \
- * **Canceled** \
- * **Pending** \
- * **PendingDeletion** \
- * **DeletionSuccess** \
- * **DeletionFailure**
- */
-export type DevOpsProvisioningState = string;
-
-/** Known values of {@link OnboardingState} that the service accepts. */
-export enum KnownOnboardingState {
-  /** NotApplicable */
-  NotApplicable = "NotApplicable",
-  /** OnboardedByOtherConnector */
-  OnboardedByOtherConnector = "OnboardedByOtherConnector",
-  /** Onboarded */
-  Onboarded = "Onboarded",
-  /** NotOnboarded */
-  NotOnboarded = "NotOnboarded",
-}
-
-/**
- * Defines values for OnboardingState. \
- * {@link KnownOnboardingState} can be used interchangeably with OnboardingState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **NotApplicable** \
- * **OnboardedByOtherConnector** \
- * **Onboarded** \
- * **NotOnboarded**
- */
-export type OnboardingState = string;
-
-/** Known values of {@link ActionableRemediationState} that the service accepts. */
-export enum KnownActionableRemediationState {
-  /** None */
-  None = "None",
-  /** Disabled */
-  Disabled = "Disabled",
-  /** Enabled */
-  Enabled = "Enabled",
-}
-
-/**
- * Defines values for ActionableRemediationState. \
- * {@link KnownActionableRemediationState} can be used interchangeably with ActionableRemediationState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **None** \
- * **Disabled** \
- * **Enabled**
- */
-export type ActionableRemediationState = string;
-
-/** Known values of {@link RuleCategory} that the service accepts. */
-export enum KnownRuleCategory {
-  /** Code */
-  Code = "Code",
-  /** Artifacts */
-  Artifacts = "Artifacts",
-  /** Dependencies */
-  Dependencies = "Dependencies",
-  /** Secrets */
-  Secrets = "Secrets",
-  /** IaC */
-  IaC = "IaC",
-  /** Containers */
-  Containers = "Containers",
-}
-
-/**
- * Defines values for RuleCategory. \
- * {@link KnownRuleCategory} can be used interchangeably with RuleCategory,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Code** \
- * **Artifacts** \
- * **Dependencies** \
- * **Secrets** \
- * **IaC** \
- * **Containers**
- */
-export type RuleCategory = string;
-
-/** Known values of {@link AnnotateDefaultBranchState} that the service accepts. */
-export enum KnownAnnotateDefaultBranchState {
-  /** Disabled */
-  Disabled = "Disabled",
-  /** Enabled */
-  Enabled = "Enabled",
-}
-
-/**
- * Defines values for AnnotateDefaultBranchState. \
- * {@link KnownAnnotateDefaultBranchState} can be used interchangeably with AnnotateDefaultBranchState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Disabled** \
- * **Enabled**
- */
-export type AnnotateDefaultBranchState = string;
-
-/** Known values of {@link InheritFromParentState} that the service accepts. */
-export enum KnownInheritFromParentState {
-  /** Disabled */
-  Disabled = "Disabled",
-  /** Enabled */
-  Enabled = "Enabled",
-}
-
-/**
- * Defines values for InheritFromParentState. \
- * {@link KnownInheritFromParentState} can be used interchangeably with InheritFromParentState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Disabled** \
- * **Enabled**
- */
-export type InheritFromParentState = string;
-
-/** Known values of {@link AutoDiscovery} that the service accepts. */
-export enum KnownAutoDiscovery {
-  /** Disabled */
-  Disabled = "Disabled",
-  /** Enabled */
-  Enabled = "Enabled",
-  /** NotApplicable */
-  NotApplicable = "NotApplicable",
-}
-
-/**
- * Defines values for AutoDiscovery. \
- * {@link KnownAutoDiscovery} can be used interchangeably with AutoDiscovery,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Disabled** \
- * **Enabled** \
- * **NotApplicable**
- */
-export type AutoDiscovery = string;
-
-/** Known values of {@link CloudName} that the service accepts. */
-export enum KnownCloudName {
-  /** Azure */
-  Azure = "Azure",
-  /** AWS */
-  AWS = "AWS",
-  /** GCP */
-  GCP = "GCP",
-  /** Github */
-  Github = "Github",
-  /** AzureDevOps */
-  AzureDevOps = "AzureDevOps",
-  /** GitLab */
-  GitLab = "GitLab",
-}
-
-/**
- * Defines values for CloudName. \
- * {@link KnownCloudName} can be used interchangeably with CloudName,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Azure** \
- * **AWS** \
- * **GCP** \
- * **Github** \
- * **AzureDevOps** \
- * **GitLab**
- */
-export type CloudName = string;
-
-/** Known values of {@link OfferingType} that the service accepts. */
-export enum KnownOfferingType {
-  /** CspmMonitorAws */
-  CspmMonitorAws = "CspmMonitorAws",
-  /** DefenderForContainersAws */
-  DefenderForContainersAws = "DefenderForContainersAws",
-  /** DefenderForServersAws */
-  DefenderForServersAws = "DefenderForServersAws",
-  /** DefenderForDatabasesAws */
-  DefenderForDatabasesAws = "DefenderForDatabasesAws",
-  /** InformationProtectionAws */
-  InformationProtectionAws = "InformationProtectionAws",
-  /** CspmMonitorGcp */
-  CspmMonitorGcp = "CspmMonitorGcp",
-  /** CspmMonitorGithub */
-  CspmMonitorGithub = "CspmMonitorGithub",
-  /** CspmMonitorAzureDevOps */
-  CspmMonitorAzureDevOps = "CspmMonitorAzureDevOps",
-  /** DefenderForServersGcp */
-  DefenderForServersGcp = "DefenderForServersGcp",
-  /** DefenderForContainersGcp */
-  DefenderForContainersGcp = "DefenderForContainersGcp",
-  /** DefenderForDatabasesGcp */
-  DefenderForDatabasesGcp = "DefenderForDatabasesGcp",
-  /** DefenderCspmAws */
-  DefenderCspmAws = "DefenderCspmAws",
-  /** DefenderCspmGcp */
-  DefenderCspmGcp = "DefenderCspmGcp",
-  /** DefenderForDevOpsGithub */
-  DefenderForDevOpsGithub = "DefenderForDevOpsGithub",
-  /** DefenderForDevOpsAzureDevOps */
-  DefenderForDevOpsAzureDevOps = "DefenderForDevOpsAzureDevOps",
-  /** CspmMonitorGitLab */
-  CspmMonitorGitLab = "CspmMonitorGitLab",
-  /** DefenderForDevOpsGitLab */
-  DefenderForDevOpsGitLab = "DefenderForDevOpsGitLab",
-}
-
-/**
- * Defines values for OfferingType. \
- * {@link KnownOfferingType} can be used interchangeably with OfferingType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **CspmMonitorAws** \
- * **DefenderForContainersAws** \
- * **DefenderForServersAws** \
- * **DefenderForDatabasesAws** \
- * **InformationProtectionAws** \
- * **CspmMonitorGcp** \
- * **CspmMonitorGithub** \
- * **CspmMonitorAzureDevOps** \
- * **DefenderForServersGcp** \
- * **DefenderForContainersGcp** \
- * **DefenderForDatabasesGcp** \
- * **DefenderCspmAws** \
- * **DefenderCspmGcp** \
- * **DefenderForDevOpsGithub** \
- * **DefenderForDevOpsAzureDevOps** \
- * **CspmMonitorGitLab** \
- * **DefenderForDevOpsGitLab**
- */
-export type OfferingType = string;
-
-/** Known values of {@link EnvironmentType} that the service accepts. */
-export enum KnownEnvironmentType {
-  /** AwsAccount */
-  AwsAccount = "AwsAccount",
-  /** GcpProject */
-  GcpProject = "GcpProject",
-  /** GithubScope */
-  GithubScope = "GithubScope",
-  /** AzureDevOpsScope */
-  AzureDevOpsScope = "AzureDevOpsScope",
-  /** GitlabScope */
-  GitlabScope = "GitlabScope",
-}
-
-/**
- * Defines values for EnvironmentType. \
- * {@link KnownEnvironmentType} can be used interchangeably with EnvironmentType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **AwsAccount** \
- * **GcpProject** \
- * **GithubScope** \
- * **AzureDevOpsScope** \
- * **GitlabScope**
- */
-export type EnvironmentType = string;
-
-/** Known values of {@link ResourceStatus} that the service accepts. */
-export enum KnownResourceStatus {
-  /** This assessment on the resource is healthy */
-  Healthy = "Healthy",
-  /** This assessment is not applicable to this resource */
-  NotApplicable = "NotApplicable",
-  /** This assessment is turned off by policy on this subscription */
-  OffByPolicy = "OffByPolicy",
-  /** This assessment on the resource is not healthy */
-  NotHealthy = "NotHealthy",
-}
-
-/**
- * Defines values for ResourceStatus. \
- * {@link KnownResourceStatus} can be used interchangeably with ResourceStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Healthy**: This assessment on the resource is healthy \
- * **NotApplicable**: This assessment is not applicable to this resource \
- * **OffByPolicy**: This assessment is turned off by policy on this subscription \
- * **NotHealthy**: This assessment on the resource is not healthy
- */
-export type ResourceStatus = string;
-
-/** Known values of {@link ValueType} that the service accepts. */
-export enum KnownValueType {
-  /** An IP range in CIDR format (e.g. '192.168.0.1\/8'). */
-  IpCidr = "IpCidr",
-  /** Any string value. */
-  String = "String",
-}
-
-/**
- * Defines values for ValueType. \
- * {@link KnownValueType} can be used interchangeably with ValueType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **IpCidr**: An IP range in CIDR format (e.g. '192.168.0.1\/8'). \
- * **String**: Any string value.
- */
-export type ValueType = string;
-
-/** Known values of {@link ReportedSeverity} that the service accepts. */
-export enum KnownReportedSeverity {
-  /** Informational */
-  Informational = "Informational",
-  /** Low */
-  Low = "Low",
-  /** Medium */
-  Medium = "Medium",
-  /** High */
-  High = "High",
-}
-
-/**
- * Defines values for ReportedSeverity. \
- * {@link KnownReportedSeverity} can be used interchangeably with ReportedSeverity,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Informational** \
- * **Low** \
- * **Medium** \
- * **High**
- */
-export type ReportedSeverity = string;
-
-/** Known values of {@link SecuritySolutionStatus} that the service accepts. */
-export enum KnownSecuritySolutionStatus {
-  /** Enabled */
-  Enabled = "Enabled",
-  /** Disabled */
-  Disabled = "Disabled",
-}
-
-/**
- * Defines values for SecuritySolutionStatus. \
- * {@link KnownSecuritySolutionStatus} can be used interchangeably with SecuritySolutionStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Enabled** \
- * **Disabled**
- */
-export type SecuritySolutionStatus = string;
-
-/** Known values of {@link ExportData} that the service accepts. */
-export enum KnownExportData {
-  /** Agent raw events */
-  RawEvents = "RawEvents",
-}
-
-/**
- * Defines values for ExportData. \
- * {@link KnownExportData} can be used interchangeably with ExportData,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **RawEvents**: Agent raw events
- */
-export type ExportData = string;
-
-/** Known values of {@link DataSource} that the service accepts. */
-export enum KnownDataSource {
-  /** Devices twin data */
-  TwinData = "TwinData",
-}
-
-/**
- * Defines values for DataSource. \
- * {@link KnownDataSource} can be used interchangeably with DataSource,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **TwinData**: Devices twin data
- */
-export type DataSource = string;
-
-/** Known values of {@link RecommendationType} that the service accepts. */
-export enum KnownRecommendationType {
-  /** Authentication schema used for pull an edge module from an ACR repository does not use Service Principal Authentication. */
-  IoTAcrauthentication = "IoT_ACRAuthentication",
-  /** IoT agent message size capacity is currently underutilized, causing an increase in the number of sent messages. Adjust message intervals for better utilization. */
-  IoTAgentSendsUnutilizedMessages = "IoT_AgentSendsUnutilizedMessages",
-  /** Identified security related system configuration issues. */
-  IoTBaseline = "IoT_Baseline",
-  /** You can optimize Edge Hub memory usage by turning off protocol heads for any protocols not used by Edge modules in your solution. */
-  IoTEdgeHubMemOptimize = "IoT_EdgeHubMemOptimize",
-  /** Logging is disabled for this edge module. */
-  IoTEdgeLoggingOptions = "IoT_EdgeLoggingOptions",
-  /** A minority within a device security group has inconsistent Edge Module settings with the rest of their group. */
-  IoTInconsistentModuleSettings = "IoT_InconsistentModuleSettings",
-  /** Install the Azure Security of Things Agent. */
-  IoTInstallAgent = "IoT_InstallAgent",
-  /** IP Filter Configuration should have rules defined for allowed traffic and should deny all other traffic by default. */
-  IoTIpfilterDenyAll = "IoT_IPFilter_DenyAll",
-  /** An Allow IP Filter rules source IP range is too large. Overly permissive rules might expose your IoT hub to malicious intenders. */
-  IoTIpfilterPermissiveRule = "IoT_IPFilter_PermissiveRule",
-  /** A listening endpoint was found on the device. */
-  IoTOpenPorts = "IoT_OpenPorts",
-  /** An Allowed firewall policy was found (INPUT\/OUTPUT). The policy should Deny all traffic by default and define rules to allow necessary communication to\/from the device. */
-  IoTPermissiveFirewallPolicy = "IoT_PermissiveFirewallPolicy",
-  /** A rule in the firewall has been found that contains a permissive pattern for a wide range of IP addresses or Ports. */
-  IoTPermissiveInputFirewallRules = "IoT_PermissiveInputFirewallRules",
-  /** A rule in the firewall has been found that contains a permissive pattern for a wide range of IP addresses or Ports. */
-  IoTPermissiveOutputFirewallRules = "IoT_PermissiveOutputFirewallRules",
-  /** Edge module is configured to run in privileged mode, with extensive Linux capabilities or with host-level network access (send\/receive data to host machine). */
-  IoTPrivilegedDockerOptions = "IoT_PrivilegedDockerOptions",
-  /** Same authentication credentials to the IoT Hub used by multiple devices. This could indicate an illegitimate device impersonating a legitimate device. It also exposes the risk of device impersonation by an attacker. */
-  IoTSharedCredentials = "IoT_SharedCredentials",
-  /** Insecure TLS configurations detected. Immediate upgrade recommended. */
-  IoTVulnerableTLSCipherSuite = "IoT_VulnerableTLSCipherSuite",
-}
-
-/**
- * Defines values for RecommendationType. \
- * {@link KnownRecommendationType} can be used interchangeably with RecommendationType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **IoT_ACRAuthentication**: Authentication schema used for pull an edge module from an ACR repository does not use Service Principal Authentication. \
- * **IoT_AgentSendsUnutilizedMessages**: IoT agent message size capacity is currently underutilized, causing an increase in the number of sent messages. Adjust message intervals for better utilization. \
- * **IoT_Baseline**: Identified security related system configuration issues. \
- * **IoT_EdgeHubMemOptimize**: You can optimize Edge Hub memory usage by turning off protocol heads for any protocols not used by Edge modules in your solution. \
- * **IoT_EdgeLoggingOptions**: Logging is disabled for this edge module. \
- * **IoT_InconsistentModuleSettings**: A minority within a device security group has inconsistent Edge Module settings with the rest of their group. \
- * **IoT_InstallAgent**: Install the Azure Security of Things Agent. \
- * **IoT_IPFilter_DenyAll**: IP Filter Configuration should have rules defined for allowed traffic and should deny all other traffic by default. \
- * **IoT_IPFilter_PermissiveRule**: An Allow IP Filter rules source IP range is too large. Overly permissive rules might expose your IoT hub to malicious intenders. \
- * **IoT_OpenPorts**: A listening endpoint was found on the device. \
- * **IoT_PermissiveFirewallPolicy**: An Allowed firewall policy was found (INPUT\/OUTPUT). The policy should Deny all traffic by default and define rules to allow necessary communication to\/from the device. \
- * **IoT_PermissiveInputFirewallRules**: A rule in the firewall has been found that contains a permissive pattern for a wide range of IP addresses or Ports. \
- * **IoT_PermissiveOutputFirewallRules**: A rule in the firewall has been found that contains a permissive pattern for a wide range of IP addresses or Ports. \
- * **IoT_PrivilegedDockerOptions**: Edge module is configured to run in privileged mode, with extensive Linux capabilities or with host-level network access (send\/receive data to host machine). \
- * **IoT_SharedCredentials**: Same authentication credentials to the IoT Hub used by multiple devices. This could indicate an illegitimate device impersonating a legitimate device. It also exposes the risk of device impersonation by an attacker. \
- * **IoT_VulnerableTLSCipherSuite**: Insecure TLS configurations detected. Immediate upgrade recommended.
- */
-export type RecommendationType = string;
-
-/** Known values of {@link RecommendationConfigStatus} that the service accepts. */
-export enum KnownRecommendationConfigStatus {
-  /** Disabled */
-  Disabled = "Disabled",
-  /** Enabled */
-  Enabled = "Enabled",
-}
-
-/**
- * Defines values for RecommendationConfigStatus. \
- * {@link KnownRecommendationConfigStatus} can be used interchangeably with RecommendationConfigStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Disabled** \
- * **Enabled**
- */
-export type RecommendationConfigStatus = string;
-
-/** Known values of {@link UnmaskedIpLoggingStatus} that the service accepts. */
-export enum KnownUnmaskedIpLoggingStatus {
-  /** Unmasked IP logging is disabled */
-  Disabled = "Disabled",
-  /** Unmasked IP logging is enabled */
-  Enabled = "Enabled",
-}
-
-/**
- * Defines values for UnmaskedIpLoggingStatus. \
- * {@link KnownUnmaskedIpLoggingStatus} can be used interchangeably with UnmaskedIpLoggingStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Disabled**: Unmasked IP logging is disabled \
- * **Enabled**: Unmasked IP logging is enabled
- */
-export type UnmaskedIpLoggingStatus = string;
-
-/** Known values of {@link AdditionalWorkspaceType} that the service accepts. */
-export enum KnownAdditionalWorkspaceType {
-  /** Sentinel */
-  Sentinel = "Sentinel",
-}
-
-/**
- * Defines values for AdditionalWorkspaceType. \
- * {@link KnownAdditionalWorkspaceType} can be used interchangeably with AdditionalWorkspaceType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Sentinel**
- */
-export type AdditionalWorkspaceType = string;
-
-/** Known values of {@link AdditionalWorkspaceDataType} that the service accepts. */
-export enum KnownAdditionalWorkspaceDataType {
-  /** Alerts */
-  Alerts = "Alerts",
-  /** RawEvents */
-  RawEvents = "RawEvents",
-}
-
-/**
- * Defines values for AdditionalWorkspaceDataType. \
- * {@link KnownAdditionalWorkspaceDataType} can be used interchangeably with AdditionalWorkspaceDataType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Alerts** \
- * **RawEvents**
- */
-export type AdditionalWorkspaceDataType = string;
 
 /** Known values of {@link Direction} that the service accepts. */
 export enum KnownDirection {
@@ -7198,6 +5816,147 @@ export enum KnownTransportProtocol {
  */
 export type TransportProtocol = string;
 
+/** Known values of {@link AlertSeverity} that the service accepts. */
+export enum KnownAlertSeverity {
+  /** Informational */
+  Informational = "Informational",
+  /** Low */
+  Low = "Low",
+  /** Medium */
+  Medium = "Medium",
+  /** High */
+  High = "High",
+}
+
+/**
+ * Defines values for AlertSeverity. \
+ * {@link KnownAlertSeverity} can be used interchangeably with AlertSeverity,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Informational**: Informational \
+ * **Low**: Low \
+ * **Medium**: Medium \
+ * **High**: High
+ */
+export type AlertSeverity = string;
+
+/** Known values of {@link Intent} that the service accepts. */
+export enum KnownIntent {
+  /** Unknown */
+  Unknown = "Unknown",
+  /** PreAttack could be either an attempt to access a certain resource regardless of a malicious intent, or a failed attempt to gain access to a target system to gather information prior to exploitation. This step is usually detected as an attempt, originating from outside the network, to scan the target system and find a way in.  Further details on the PreAttack stage can be read in [MITRE Pre-Att&ck matrix](https:\//attack.mitre.org\/matrices\/pre\/). */
+  PreAttack = "PreAttack",
+  /** InitialAccess is the stage where an attacker manages to get foothold on the attacked resource. */
+  InitialAccess = "InitialAccess",
+  /** Persistence is any access, action, or configuration change to a system that gives a threat actor a persistent presence on that system. */
+  Persistence = "Persistence",
+  /** Privilege escalation is the result of actions that allow an adversary to obtain a higher level of permissions on a system or network. */
+  PrivilegeEscalation = "PrivilegeEscalation",
+  /** Defense evasion consists of techniques an adversary may use to evade detection or avoid other defenses. */
+  DefenseEvasion = "DefenseEvasion",
+  /** Credential access represents techniques resulting in access to or control over system, domain, or service credentials that are used within an enterprise environment. */
+  CredentialAccess = "CredentialAccess",
+  /** Discovery consists of techniques that allow the adversary to gain knowledge about the system and internal network. */
+  Discovery = "Discovery",
+  /** Lateral movement consists of techniques that enable an adversary to access and control remote systems on a network and could, but does not necessarily, include execution of tools on remote systems. */
+  LateralMovement = "LateralMovement",
+  /** The execution tactic represents techniques that result in execution of adversary-controlled code on a local or remote system. */
+  Execution = "Execution",
+  /** Collection consists of techniques used to identify and gather information, such as sensitive files, from a target network prior to exfiltration. */
+  Collection = "Collection",
+  /** Exfiltration refers to techniques and attributes that result or aid in the adversary removing files and information from a target network. */
+  Exfiltration = "Exfiltration",
+  /** The command and control tactic represents how adversaries communicate with systems under their control within a target network. */
+  CommandAndControl = "CommandAndControl",
+  /** Impact events primarily try to directly reduce the availability or integrity of a system, service, or network; including manipulation of data to impact a business or operational process. */
+  Impact = "Impact",
+  /** Probing could be either an attempt to access a certain resource regardless of a malicious intent, or a failed attempt to gain access to a target system to gather information prior to exploitation. */
+  Probing = "Probing",
+  /** Exploitation is the stage where an attacker manages to get a foothold on the attacked resource. This stage is relevant for compute hosts and resources such as user accounts, certificates etc. */
+  Exploitation = "Exploitation",
+}
+
+/**
+ * Defines values for Intent. \
+ * {@link KnownIntent} can be used interchangeably with Intent,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown**: Unknown \
+ * **PreAttack**: PreAttack could be either an attempt to access a certain resource regardless of a malicious intent, or a failed attempt to gain access to a target system to gather information prior to exploitation. This step is usually detected as an attempt, originating from outside the network, to scan the target system and find a way in.  Further details on the PreAttack stage can be read in [MITRE Pre-Att&ck matrix](https:\/\/attack.mitre.org\/matrices\/pre\/). \
+ * **InitialAccess**: InitialAccess is the stage where an attacker manages to get foothold on the attacked resource. \
+ * **Persistence**: Persistence is any access, action, or configuration change to a system that gives a threat actor a persistent presence on that system. \
+ * **PrivilegeEscalation**: Privilege escalation is the result of actions that allow an adversary to obtain a higher level of permissions on a system or network. \
+ * **DefenseEvasion**: Defense evasion consists of techniques an adversary may use to evade detection or avoid other defenses. \
+ * **CredentialAccess**: Credential access represents techniques resulting in access to or control over system, domain, or service credentials that are used within an enterprise environment. \
+ * **Discovery**: Discovery consists of techniques that allow the adversary to gain knowledge about the system and internal network. \
+ * **LateralMovement**: Lateral movement consists of techniques that enable an adversary to access and control remote systems on a network and could, but does not necessarily, include execution of tools on remote systems. \
+ * **Execution**: The execution tactic represents techniques that result in execution of adversary-controlled code on a local or remote system. \
+ * **Collection**: Collection consists of techniques used to identify and gather information, such as sensitive files, from a target network prior to exfiltration. \
+ * **Exfiltration**: Exfiltration refers to techniques and attributes that result or aid in the adversary removing files and information from a target network. \
+ * **CommandAndControl**: The command and control tactic represents how adversaries communicate with systems under their control within a target network. \
+ * **Impact**: Impact events primarily try to directly reduce the availability or integrity of a system, service, or network; including manipulation of data to impact a business or operational process. \
+ * **Probing**: Probing could be either an attempt to access a certain resource regardless of a malicious intent, or a failed attempt to gain access to a target system to gather information prior to exploitation. \
+ * **Exploitation**: Exploitation is the stage where an attacker manages to get a foothold on the attacked resource. This stage is relevant for compute hosts and resources such as user accounts, certificates etc.
+ */
+export type Intent = string;
+
+/** Known values of {@link ResourceIdentifierType} that the service accepts. */
+export enum KnownResourceIdentifierType {
+  /** AzureResource */
+  AzureResource = "AzureResource",
+  /** LogAnalytics */
+  LogAnalytics = "LogAnalytics",
+}
+
+/**
+ * Defines values for ResourceIdentifierType. \
+ * {@link KnownResourceIdentifierType} can be used interchangeably with ResourceIdentifierType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AzureResource** \
+ * **LogAnalytics**
+ */
+export type ResourceIdentifierType = string;
+
+/** Known values of {@link AlertStatus} that the service accepts. */
+export enum KnownAlertStatus {
+  /** An alert which doesn't specify a value is assigned the status 'Active' */
+  Active = "Active",
+  /** An alert which is in handling state */
+  InProgress = "InProgress",
+  /** Alert closed after handling */
+  Resolved = "Resolved",
+  /** Alert dismissed as false positive */
+  Dismissed = "Dismissed",
+}
+
+/**
+ * Defines values for AlertStatus. \
+ * {@link KnownAlertStatus} can be used interchangeably with AlertStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Active**: An alert which doesn't specify a value is assigned the status 'Active' \
+ * **InProgress**: An alert which is in handling state \
+ * **Resolved**: Alert closed after handling \
+ * **Dismissed**: Alert dismissed as false positive
+ */
+export type AlertStatus = string;
+
+/** Known values of {@link Kind} that the service accepts. */
+export enum KnownKind {
+  /** Simulate alerts according to bundles */
+  Bundles = "Bundles",
+}
+
+/**
+ * Defines values for Kind. \
+ * {@link KnownKind} can be used interchangeably with Kind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Bundles**: Simulate alerts according to bundles
+ */
+export type Kind = string;
+
 /** Known values of {@link ConnectionType} that the service accepts. */
 export enum KnownConnectionType {
   /** Internal */
@@ -7215,6 +5974,45 @@ export enum KnownConnectionType {
  * **External**
  */
 export type ConnectionType = string;
+
+/** Known values of {@link ProvisioningState} that the service accepts. */
+export enum KnownProvisioningState {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** InProgress */
+  InProgress = "InProgress",
+}
+
+/**
+ * Defines values for ProvisioningState. \
+ * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled** \
+ * **InProgress**
+ */
+export type ProvisioningState = string;
+
+/** Known values of {@link ApplicationSourceResourceType} that the service accepts. */
+export enum KnownApplicationSourceResourceType {
+  /** The source of the application is assessments */
+  Assessments = "Assessments",
+}
+
+/**
+ * Defines values for ApplicationSourceResourceType. \
+ * {@link KnownApplicationSourceResourceType} can be used interchangeably with ApplicationSourceResourceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Assessments**: The source of the application is assessments
+ */
+export type ApplicationSourceResourceType = string;
 
 /** Known values of {@link EnforcementMode} that the service accepts. */
 export enum KnownEnforcementMode {
@@ -7387,6 +6185,84 @@ export enum KnownEnforcementSupport {
  */
 export type EnforcementSupport = string;
 
+/** Known values of {@link RecommendationType} that the service accepts. */
+export enum KnownRecommendationType {
+  /** File */
+  File = "File",
+  /** FileHash */
+  FileHash = "FileHash",
+  /** PublisherSignature */
+  PublisherSignature = "PublisherSignature",
+  /** ProductSignature */
+  ProductSignature = "ProductSignature",
+  /** BinarySignature */
+  BinarySignature = "BinarySignature",
+  /** VersionAndAboveSignature */
+  VersionAndAboveSignature = "VersionAndAboveSignature",
+  /** IoTAcrauthentication */
+  IoTAcrauthentication = "IoT_ACRAuthentication",
+  /** IoTAgentSendsUnutilizedMessages */
+  IoTAgentSendsUnutilizedMessages = "IoT_AgentSendsUnutilizedMessages",
+  /** IoTBaseline */
+  IoTBaseline = "IoT_Baseline",
+  /** IoTEdgeHubMemOptimize */
+  IoTEdgeHubMemOptimize = "IoT_EdgeHubMemOptimize",
+  /** IoTEdgeLoggingOptions */
+  IoTEdgeLoggingOptions = "IoT_EdgeLoggingOptions",
+  /** IoTInconsistentModuleSettings */
+  IoTInconsistentModuleSettings = "IoT_InconsistentModuleSettings",
+  /** IoTInstallAgent */
+  IoTInstallAgent = "IoT_InstallAgent",
+  /** IoTIpfilterDenyAll */
+  IoTIpfilterDenyAll = "IoT_IPFilter_DenyAll",
+  /** IoTIpfilterPermissiveRule */
+  IoTIpfilterPermissiveRule = "IoT_IPFilter_PermissiveRule",
+  /** IoTOpenPorts */
+  IoTOpenPorts = "IoT_OpenPorts",
+  /** IoTPermissiveFirewallPolicy */
+  IoTPermissiveFirewallPolicy = "IoT_PermissiveFirewallPolicy",
+  /** IoTPermissiveInputFirewallRules */
+  IoTPermissiveInputFirewallRules = "IoT_PermissiveInputFirewallRules",
+  /** IoTPermissiveOutputFirewallRules */
+  IoTPermissiveOutputFirewallRules = "IoT_PermissiveOutputFirewallRules",
+  /** IoTPrivilegedDockerOptions */
+  IoTPrivilegedDockerOptions = "IoT_PrivilegedDockerOptions",
+  /** IoTSharedCredentials */
+  IoTSharedCredentials = "IoT_SharedCredentials",
+  /** IoTVulnerableTLSCipherSuite */
+  IoTVulnerableTLSCipherSuite = "IoT_VulnerableTLSCipherSuite",
+}
+
+/**
+ * Defines values for RecommendationType. \
+ * {@link KnownRecommendationType} can be used interchangeably with RecommendationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **File** \
+ * **FileHash** \
+ * **PublisherSignature** \
+ * **ProductSignature** \
+ * **BinarySignature** \
+ * **VersionAndAboveSignature** \
+ * **IoT_ACRAuthentication** \
+ * **IoT_AgentSendsUnutilizedMessages** \
+ * **IoT_Baseline** \
+ * **IoT_EdgeHubMemOptimize** \
+ * **IoT_EdgeLoggingOptions** \
+ * **IoT_InconsistentModuleSettings** \
+ * **IoT_InstallAgent** \
+ * **IoT_IPFilter_DenyAll** \
+ * **IoT_IPFilter_PermissiveRule** \
+ * **IoT_OpenPorts** \
+ * **IoT_PermissiveFirewallPolicy** \
+ * **IoT_PermissiveInputFirewallRules** \
+ * **IoT_PermissiveOutputFirewallRules** \
+ * **IoT_PrivilegedDockerOptions** \
+ * **IoT_SharedCredentials** \
+ * **IoT_VulnerableTLSCipherSuite**
+ */
+export type RecommendationType = string;
+
 /** Known values of {@link FileType} that the service accepts. */
 export enum KnownFileType {
   /** Exe */
@@ -7416,192 +6292,6 @@ export enum KnownFileType {
  * **Unknown**
  */
 export type FileType = string;
-
-/** Known values of {@link SecurityFamily} that the service accepts. */
-export enum KnownSecurityFamily {
-  /** Waf */
-  Waf = "Waf",
-  /** Ngfw */
-  Ngfw = "Ngfw",
-  /** SaasWaf */
-  SaasWaf = "SaasWaf",
-  /** Va */
-  Va = "Va",
-}
-
-/**
- * Defines values for SecurityFamily. \
- * {@link KnownSecurityFamily} can be used interchangeably with SecurityFamily,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Waf** \
- * **Ngfw** \
- * **SaasWaf** \
- * **Va**
- */
-export type SecurityFamily = string;
-
-/** Known values of {@link ExternalSecuritySolutionKind} that the service accepts. */
-export enum KnownExternalSecuritySolutionKind {
-  /** CEF */
-  CEF = "CEF",
-  /** ATA */
-  ATA = "ATA",
-  /** AAD */
-  AAD = "AAD",
-}
-
-/**
- * Defines values for ExternalSecuritySolutionKind. \
- * {@link KnownExternalSecuritySolutionKind} can be used interchangeably with ExternalSecuritySolutionKind,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **CEF** \
- * **ATA** \
- * **AAD**
- */
-export type ExternalSecuritySolutionKind = string;
-
-/** Known values of {@link Protocol} that the service accepts. */
-export enum KnownProtocol {
-  /** TCP */
-  TCP = "TCP",
-  /** UDP */
-  UDP = "UDP",
-  /** All */
-  All = "*",
-}
-
-/**
- * Defines values for Protocol. \
- * {@link KnownProtocol} can be used interchangeably with Protocol,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **TCP** \
- * **UDP** \
- * *****
- */
-export type Protocol = string;
-
-/** Known values of {@link Status} that the service accepts. */
-export enum KnownStatus {
-  /** Revoked */
-  Revoked = "Revoked",
-  /** Initiated */
-  Initiated = "Initiated",
-}
-
-/**
- * Defines values for Status. \
- * {@link KnownStatus} can be used interchangeably with Status,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Revoked** \
- * **Initiated**
- */
-export type Status = string;
-
-/** Known values of {@link StatusReason} that the service accepts. */
-export enum KnownStatusReason {
-  /** Expired */
-  Expired = "Expired",
-  /** UserRequested */
-  UserRequested = "UserRequested",
-  /** NewerRequestInitiated */
-  NewerRequestInitiated = "NewerRequestInitiated",
-}
-
-/**
- * Defines values for StatusReason. \
- * {@link KnownStatusReason} can be used interchangeably with StatusReason,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Expired** \
- * **UserRequested** \
- * **NewerRequestInitiated**
- */
-export type StatusReason = string;
-
-/** Known values of {@link ExpandControlsEnum} that the service accepts. */
-export enum KnownExpandControlsEnum {
-  /** Add definition object for each control */
-  Definition = "definition",
-}
-
-/**
- * Defines values for ExpandControlsEnum. \
- * {@link KnownExpandControlsEnum} can be used interchangeably with ExpandControlsEnum,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **definition**: Add definition object for each control
- */
-export type ExpandControlsEnum = string;
-
-/** Known values of {@link ControlType} that the service accepts. */
-export enum KnownControlType {
-  /** Microsoft Defender for Cloud managed assessments */
-  BuiltIn = "BuiltIn",
-  /** Non Microsoft Defender for Cloud managed assessments */
-  Custom = "Custom",
-}
-
-/**
- * Defines values for ControlType. \
- * {@link KnownControlType} can be used interchangeably with ControlType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **BuiltIn**: Microsoft Defender for Cloud managed assessments \
- * **Custom**: Non Microsoft Defender for Cloud managed assessments
- */
-export type ControlType = string;
-
-/** Known values of {@link ProvisioningState} that the service accepts. */
-export enum KnownProvisioningState {
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Failed */
-  Failed = "Failed",
-  /** Updating */
-  Updating = "Updating",
-}
-
-/**
- * Defines values for ProvisioningState. \
- * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Succeeded** \
- * **Failed** \
- * **Updating**
- */
-export type ProvisioningState = string;
-
-/** Known values of {@link ServerVulnerabilityAssessmentPropertiesProvisioningState} that the service accepts. */
-export enum KnownServerVulnerabilityAssessmentPropertiesProvisioningState {
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Failed */
-  Failed = "Failed",
-  /** Canceled */
-  Canceled = "Canceled",
-  /** Provisioning */
-  Provisioning = "Provisioning",
-  /** Deprovisioning */
-  Deprovisioning = "Deprovisioning",
-}
-
-/**
- * Defines values for ServerVulnerabilityAssessmentPropertiesProvisioningState. \
- * {@link KnownServerVulnerabilityAssessmentPropertiesProvisioningState} can be used interchangeably with ServerVulnerabilityAssessmentPropertiesProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Succeeded** \
- * **Failed** \
- * **Canceled** \
- * **Provisioning** \
- * **Deprovisioning**
- */
-export type ServerVulnerabilityAssessmentPropertiesProvisioningState = string;
 
 /** Known values of {@link Tactics} that the service accepts. */
 export enum KnownTactics {
@@ -8008,6 +6698,27 @@ export enum KnownCategories {
  */
 export type Categories = string;
 
+/** Known values of {@link Severity} that the service accepts. */
+export enum KnownSeverity {
+  /** Low */
+  Low = "Low",
+  /** Medium */
+  Medium = "Medium",
+  /** High */
+  High = "High",
+}
+
+/**
+ * Defines values for Severity. \
+ * {@link KnownSeverity} can be used interchangeably with Severity,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Low** \
+ * **Medium** \
+ * **High**
+ */
+export type Severity = string;
+
 /** Known values of {@link UserImpact} that the service accepts. */
 export enum KnownUserImpact {
   /** Low */
@@ -8131,6 +6842,27 @@ export enum KnownAssessmentStatusCode {
  */
 export type AssessmentStatusCode = string;
 
+/** Known values of {@link Source} that the service accepts. */
+export enum KnownSource {
+  /** Resource is in Azure */
+  Azure = "Azure",
+  /** Resource in an on premise machine connected to Azure cloud */
+  OnPremise = "OnPremise",
+  /** SQL Resource in an on premise machine connected to Azure cloud */
+  OnPremiseSql = "OnPremiseSql",
+}
+
+/**
+ * Defines values for Source. \
+ * {@link KnownSource} can be used interchangeably with Source,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Azure**: Resource is in Azure \
+ * **OnPremise**: Resource in an on premise machine connected to Azure cloud \
+ * **OnPremiseSql**: SQL Resource in an on premise machine connected to Azure cloud
+ */
+export type Source = string;
+
 /** Known values of {@link ExpandEnum} that the service accepts. */
 export enum KnownExpandEnum {
   /** All links associated with an assessment */
@@ -8149,8 +6881,527 @@ export enum KnownExpandEnum {
  */
 export type ExpandEnum = string;
 
-/** Known values of {@link AlertSeverity} that the service accepts. */
-export enum KnownAlertSeverity {
+/** Known values of {@link EventSource} that the service accepts. */
+export enum KnownEventSource {
+  /** Assessments */
+  Assessments = "Assessments",
+  /** AssessmentsSnapshot */
+  AssessmentsSnapshot = "AssessmentsSnapshot",
+  /** SubAssessments */
+  SubAssessments = "SubAssessments",
+  /** SubAssessmentsSnapshot */
+  SubAssessmentsSnapshot = "SubAssessmentsSnapshot",
+  /** Alerts */
+  Alerts = "Alerts",
+  /** SecureScores */
+  SecureScores = "SecureScores",
+  /** SecureScoresSnapshot */
+  SecureScoresSnapshot = "SecureScoresSnapshot",
+  /** SecureScoreControls */
+  SecureScoreControls = "SecureScoreControls",
+  /** SecureScoreControlsSnapshot */
+  SecureScoreControlsSnapshot = "SecureScoreControlsSnapshot",
+  /** RegulatoryComplianceAssessment */
+  RegulatoryComplianceAssessment = "RegulatoryComplianceAssessment",
+  /** RegulatoryComplianceAssessmentSnapshot */
+  RegulatoryComplianceAssessmentSnapshot = "RegulatoryComplianceAssessmentSnapshot",
+  /** AttackPaths */
+  AttackPaths = "AttackPaths",
+  /** AttackPathsSnapshot */
+  AttackPathsSnapshot = "AttackPathsSnapshot",
+}
+
+/**
+ * Defines values for EventSource. \
+ * {@link KnownEventSource} can be used interchangeably with EventSource,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Assessments** \
+ * **AssessmentsSnapshot** \
+ * **SubAssessments** \
+ * **SubAssessmentsSnapshot** \
+ * **Alerts** \
+ * **SecureScores** \
+ * **SecureScoresSnapshot** \
+ * **SecureScoreControls** \
+ * **SecureScoreControlsSnapshot** \
+ * **RegulatoryComplianceAssessment** \
+ * **RegulatoryComplianceAssessmentSnapshot** \
+ * **AttackPaths** \
+ * **AttackPathsSnapshot**
+ */
+export type EventSource = string;
+
+/** Known values of {@link PropertyType} that the service accepts. */
+export enum KnownPropertyType {
+  /** String */
+  String = "String",
+  /** Integer */
+  Integer = "Integer",
+  /** Number */
+  Number = "Number",
+  /** Boolean */
+  Boolean = "Boolean",
+}
+
+/**
+ * Defines values for PropertyType. \
+ * {@link KnownPropertyType} can be used interchangeably with PropertyType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **String** \
+ * **Integer** \
+ * **Number** \
+ * **Boolean**
+ */
+export type PropertyType = string;
+
+/** Known values of {@link Operator} that the service accepts. */
+export enum KnownOperator {
+  /** Applies for decimal and non-decimal operands */
+  Equals = "Equals",
+  /** Applies only for decimal operands */
+  GreaterThan = "GreaterThan",
+  /** Applies only for decimal operands */
+  GreaterThanOrEqualTo = "GreaterThanOrEqualTo",
+  /** Applies only for decimal operands */
+  LesserThan = "LesserThan",
+  /** Applies only for decimal operands */
+  LesserThanOrEqualTo = "LesserThanOrEqualTo",
+  /** Applies  for decimal and non-decimal operands */
+  NotEquals = "NotEquals",
+  /** Applies only for non-decimal operands */
+  Contains = "Contains",
+  /** Applies only for non-decimal operands */
+  StartsWith = "StartsWith",
+  /** Applies only for non-decimal operands */
+  EndsWith = "EndsWith",
+}
+
+/**
+ * Defines values for Operator. \
+ * {@link KnownOperator} can be used interchangeably with Operator,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Equals**: Applies for decimal and non-decimal operands \
+ * **GreaterThan**: Applies only for decimal operands \
+ * **GreaterThanOrEqualTo**: Applies only for decimal operands \
+ * **LesserThan**: Applies only for decimal operands \
+ * **LesserThanOrEqualTo**: Applies only for decimal operands \
+ * **NotEquals**: Applies  for decimal and non-decimal operands \
+ * **Contains**: Applies only for non-decimal operands \
+ * **StartsWith**: Applies only for non-decimal operands \
+ * **EndsWith**: Applies only for non-decimal operands
+ */
+export type Operator = string;
+
+/** Known values of {@link ActionType} that the service accepts. */
+export enum KnownActionType {
+  /** LogicApp */
+  LogicApp = "LogicApp",
+  /** EventHub */
+  EventHub = "EventHub",
+  /** Workspace */
+  Workspace = "Workspace",
+}
+
+/**
+ * Defines values for ActionType. \
+ * {@link KnownActionType} can be used interchangeably with ActionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **LogicApp** \
+ * **EventHub** \
+ * **Workspace**
+ */
+export type ActionType = string;
+
+/** Known values of {@link AutoProvision} that the service accepts. */
+export enum KnownAutoProvision {
+  /** Install missing security agent on VMs automatically */
+  On = "On",
+  /** Do not install security agent on the VMs automatically */
+  Off = "Off",
+}
+
+/**
+ * Defines values for AutoProvision. \
+ * {@link KnownAutoProvision} can be used interchangeably with AutoProvision,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **On**: Install missing security agent on VMs automatically \
+ * **Off**: Do not install security agent on the VMs automatically
+ */
+export type AutoProvision = string;
+
+/** Known values of {@link ResourceStatus} that the service accepts. */
+export enum KnownResourceStatus {
+  /** This assessment on the resource is healthy */
+  Healthy = "Healthy",
+  /** This assessment is not applicable to this resource */
+  NotApplicable = "NotApplicable",
+  /** This assessment is turned off by policy on this subscription */
+  OffByPolicy = "OffByPolicy",
+  /** This assessment on the resource is not healthy */
+  NotHealthy = "NotHealthy",
+}
+
+/**
+ * Defines values for ResourceStatus. \
+ * {@link KnownResourceStatus} can be used interchangeably with ResourceStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Healthy**: This assessment on the resource is healthy \
+ * **NotApplicable**: This assessment is not applicable to this resource \
+ * **OffByPolicy**: This assessment is turned off by policy on this subscription \
+ * **NotHealthy**: This assessment on the resource is not healthy
+ */
+export type ResourceStatus = string;
+
+/** Known values of {@link HybridComputeProvisioningState} that the service accepts. */
+export enum KnownHybridComputeProvisioningState {
+  /** Valid service principal details. */
+  Valid = "Valid",
+  /** Invalid service principal details. */
+  Invalid = "Invalid",
+  /** the service principal details are expired */
+  Expired = "Expired",
+}
+
+/**
+ * Defines values for HybridComputeProvisioningState. \
+ * {@link KnownHybridComputeProvisioningState} can be used interchangeably with HybridComputeProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Valid**: Valid service principal details. \
+ * **Invalid**: Invalid service principal details. \
+ * **Expired**: the service principal details are expired
+ */
+export type HybridComputeProvisioningState = string;
+
+/** Known values of {@link AuthenticationProvisioningState} that the service accepts. */
+export enum KnownAuthenticationProvisioningState {
+  /** Valid connector */
+  Valid = "Valid",
+  /** Invalid connector */
+  Invalid = "Invalid",
+  /** the connection has expired */
+  Expired = "Expired",
+  /** Incorrect policy of the connector */
+  IncorrectPolicy = "IncorrectPolicy",
+}
+
+/**
+ * Defines values for AuthenticationProvisioningState. \
+ * {@link KnownAuthenticationProvisioningState} can be used interchangeably with AuthenticationProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Valid**: Valid connector \
+ * **Invalid**: Invalid connector \
+ * **Expired**: the connection has expired \
+ * **IncorrectPolicy**: Incorrect policy of the connector
+ */
+export type AuthenticationProvisioningState = string;
+
+/** Known values of {@link PermissionProperty} that the service accepts. */
+export enum KnownPermissionProperty {
+  /** This permission provides read only access to AWS Security Hub resources. */
+  AWSAWSSecurityHubReadOnlyAccess = "AWS::AWSSecurityHubReadOnlyAccess",
+  /** This permission grants access to read security configuration metadata. */
+  AWSSecurityAudit = "AWS::SecurityAudit",
+  /** The permission provides for EC2 Automation service to execute activities defined within Automation documents. */
+  AWSAmazonSSMAutomationRole = "AWS::AmazonSSMAutomationRole",
+  /** This permission provides read only access to GCP Security Command Center. */
+  GCPSecurityCenterAdminViewer = "GCP::Security Center Admin Viewer",
+}
+
+/**
+ * Defines values for PermissionProperty. \
+ * {@link KnownPermissionProperty} can be used interchangeably with PermissionProperty,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AWS::AWSSecurityHubReadOnlyAccess**: This permission provides read only access to AWS Security Hub resources. \
+ * **AWS::SecurityAudit**: This permission grants access to read security configuration metadata. \
+ * **AWS::AmazonSSMAutomationRole**: The permission provides for EC2 Automation service to execute activities defined within Automation documents. \
+ * **GCP::Security Center Admin Viewer**: This permission provides read only access to GCP Security Command Center.
+ */
+export type PermissionProperty = string;
+
+/** Known values of {@link AuthenticationType} that the service accepts. */
+export enum KnownAuthenticationType {
+  /** AWS cloud account connector user credentials authentication */
+  AwsCreds = "awsCreds",
+  /** AWS account connector assume role authentication */
+  AwsAssumeRole = "awsAssumeRole",
+  /** GCP account connector service to service authentication */
+  GcpCredentials = "gcpCredentials",
+}
+
+/**
+ * Defines values for AuthenticationType. \
+ * {@link KnownAuthenticationType} can be used interchangeably with AuthenticationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **awsCreds**: AWS cloud account connector user credentials authentication \
+ * **awsAssumeRole**: AWS account connector assume role authentication \
+ * **gcpCredentials**: GCP account connector service to service authentication
+ */
+export type AuthenticationType = string;
+
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  /** User */
+  User = "User",
+  /** Application */
+  Application = "Application",
+  /** ManagedIdentity */
+  ManagedIdentity = "ManagedIdentity",
+  /** Key */
+  Key = "Key",
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
+
+/** Known values of {@link SupportedCloudEnum} that the service accepts. */
+export enum KnownSupportedCloudEnum {
+  /** AWS */
+  AWS = "AWS",
+  /** GCP */
+  GCP = "GCP",
+}
+
+/**
+ * Defines values for SupportedCloudEnum. \
+ * {@link KnownSupportedCloudEnum} can be used interchangeably with SupportedCloudEnum,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AWS** \
+ * **GCP**
+ */
+export type SupportedCloudEnum = string;
+
+/** Known values of {@link SeverityEnum} that the service accepts. */
+export enum KnownSeverityEnum {
+  /** High */
+  High = "High",
+  /** Medium */
+  Medium = "Medium",
+  /** Low */
+  Low = "Low",
+}
+
+/**
+ * Defines values for SeverityEnum. \
+ * {@link KnownSeverityEnum} can be used interchangeably with SeverityEnum,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **High** \
+ * **Medium** \
+ * **Low**
+ */
+export type SeverityEnum = string;
+
+/** Known values of {@link SettingName} that the service accepts. */
+export enum KnownSettingName {
+  /** Name of the Defender for Storage Settings name. */
+  Current = "current",
+}
+
+/**
+ * Defines values for SettingName. \
+ * {@link KnownSettingName} can be used interchangeably with SettingName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **current**: Name of the Defender for Storage Settings name.
+ */
+export type SettingName = string;
+
+/** Known values of {@link ValueType} that the service accepts. */
+export enum KnownValueType {
+  /** An IP range in CIDR format (e.g. '192.168.0.1\/8'). */
+  IpCidr = "IpCidr",
+  /** Any string value. */
+  String = "String",
+}
+
+/**
+ * Defines values for ValueType. \
+ * {@link KnownValueType} can be used interchangeably with ValueType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **IpCidr**: An IP range in CIDR format (e.g. '192.168.0.1\/8'). \
+ * **String**: Any string value.
+ */
+export type ValueType = string;
+
+/** Known values of {@link SecurityFamily} that the service accepts. */
+export enum KnownSecurityFamily {
+  /** Waf */
+  Waf = "Waf",
+  /** Ngfw */
+  Ngfw = "Ngfw",
+  /** SaasWaf */
+  SaasWaf = "SaasWaf",
+  /** Va */
+  Va = "Va",
+}
+
+/**
+ * Defines values for SecurityFamily. \
+ * {@link KnownSecurityFamily} can be used interchangeably with SecurityFamily,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Waf** \
+ * **Ngfw** \
+ * **SaasWaf** \
+ * **Va**
+ */
+export type SecurityFamily = string;
+
+/** Known values of {@link ExternalSecuritySolutionKind} that the service accepts. */
+export enum KnownExternalSecuritySolutionKind {
+  /** CEF */
+  CEF = "CEF",
+  /** ATA */
+  ATA = "ATA",
+  /** AAD */
+  AAD = "AAD",
+}
+
+/**
+ * Defines values for ExternalSecuritySolutionKind. \
+ * {@link KnownExternalSecuritySolutionKind} can be used interchangeably with ExternalSecuritySolutionKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **CEF** \
+ * **ATA** \
+ * **AAD**
+ */
+export type ExternalSecuritySolutionKind = string;
+
+/** Known values of {@link GovernanceRuleType} that the service accepts. */
+export enum KnownGovernanceRuleType {
+  /** The source of the rule type definition is integrated */
+  Integrated = "Integrated",
+  /** The source of the rule type definition is ServiceNow */
+  ServiceNow = "ServiceNow",
+}
+
+/**
+ * Defines values for GovernanceRuleType. \
+ * {@link KnownGovernanceRuleType} can be used interchangeably with GovernanceRuleType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Integrated**: The source of the rule type definition is integrated \
+ * **ServiceNow**: The source of the rule type definition is ServiceNow
+ */
+export type GovernanceRuleType = string;
+
+/** Known values of {@link GovernanceRuleSourceResourceType} that the service accepts. */
+export enum KnownGovernanceRuleSourceResourceType {
+  /** The source of the governance rule is assessments */
+  Assessments = "Assessments",
+}
+
+/**
+ * Defines values for GovernanceRuleSourceResourceType. \
+ * {@link KnownGovernanceRuleSourceResourceType} can be used interchangeably with GovernanceRuleSourceResourceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Assessments**: The source of the governance rule is assessments
+ */
+export type GovernanceRuleSourceResourceType = string;
+
+/** Known values of {@link GovernanceRuleOwnerSourceType} that the service accepts. */
+export enum KnownGovernanceRuleOwnerSourceType {
+  /** The rule source type defined using resource tag */
+  ByTag = "ByTag",
+  /** The rule source type defined manually */
+  Manually = "Manually",
+}
+
+/**
+ * Defines values for GovernanceRuleOwnerSourceType. \
+ * {@link KnownGovernanceRuleOwnerSourceType} can be used interchangeably with GovernanceRuleOwnerSourceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ByTag**: The rule source type defined using resource tag \
+ * **Manually**: The rule source type defined manually
+ */
+export type GovernanceRuleOwnerSourceType = string;
+
+/** Known values of {@link OperationResult} that the service accepts. */
+export enum KnownOperationResult {
+  /** The operation succeeded */
+  Succeeded = "Succeeded",
+  /** The operation failed */
+  Failed = "Failed",
+  /** The operation canceled */
+  Canceled = "Canceled",
+}
+
+/**
+ * Defines values for OperationResult. \
+ * {@link KnownOperationResult} can be used interchangeably with OperationResult,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded**: The operation succeeded \
+ * **Failed**: The operation failed \
+ * **Canceled**: The operation canceled
+ */
+export type OperationResult = string;
+
+/** Known values of {@link StatusName} that the service accepts. */
+export enum KnownStatusName {
+  /** Healthy */
+  Healthy = "Healthy",
+  /** NotHealthy */
+  NotHealthy = "NotHealthy",
+  /** NotApplicable */
+  NotApplicable = "NotApplicable",
+}
+
+/**
+ * Defines values for StatusName. \
+ * {@link KnownStatusName} can be used interchangeably with StatusName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Healthy** \
+ * **NotHealthy** \
+ * **NotApplicable**
+ */
+export type StatusName = string;
+
+/** Known values of {@link InformationProtectionPolicyName} that the service accepts. */
+export enum KnownInformationProtectionPolicyName {
+  /** Effective */
+  Effective = "effective",
+  /** Custom */
+  Custom = "custom",
+}
+
+/**
+ * Defines values for InformationProtectionPolicyName. \
+ * {@link KnownInformationProtectionPolicyName} can be used interchangeably with InformationProtectionPolicyName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **effective** \
+ * **custom**
+ */
+export type InformationProtectionPolicyName = string;
+
+/** Known values of {@link ReportedSeverity} that the service accepts. */
+export enum KnownReportedSeverity {
   /** Informational */
   Informational = "Informational",
   /** Low */
@@ -8162,211 +7413,193 @@ export enum KnownAlertSeverity {
 }
 
 /**
- * Defines values for AlertSeverity. \
- * {@link KnownAlertSeverity} can be used interchangeably with AlertSeverity,
+ * Defines values for ReportedSeverity. \
+ * {@link KnownReportedSeverity} can be used interchangeably with ReportedSeverity,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Informational**: Informational \
- * **Low**: Low \
- * **Medium**: Medium \
- * **High**: High
+ * **Informational** \
+ * **Low** \
+ * **Medium** \
+ * **High**
  */
-export type AlertSeverity = string;
+export type ReportedSeverity = string;
 
-/** Known values of {@link Intent} that the service accepts. */
-export enum KnownIntent {
-  /** Unknown */
-  Unknown = "Unknown",
-  /** PreAttack could be either an attempt to access a certain resource regardless of a malicious intent, or a failed attempt to gain access to a target system to gather information prior to exploitation. This step is usually detected as an attempt, originating from outside the network, to scan the target system and find a way in.  Further details on the PreAttack stage can be read in [MITRE Pre-Att&ck matrix](https:\//attack.mitre.org\/matrices\/pre\/). */
-  PreAttack = "PreAttack",
-  /** InitialAccess is the stage where an attacker manages to get foothold on the attacked resource. */
-  InitialAccess = "InitialAccess",
-  /** Persistence is any access, action, or configuration change to a system that gives a threat actor a persistent presence on that system. */
-  Persistence = "Persistence",
-  /** Privilege escalation is the result of actions that allow an adversary to obtain a higher level of permissions on a system or network. */
-  PrivilegeEscalation = "PrivilegeEscalation",
-  /** Defense evasion consists of techniques an adversary may use to evade detection or avoid other defenses. */
-  DefenseEvasion = "DefenseEvasion",
-  /** Credential access represents techniques resulting in access to or control over system, domain, or service credentials that are used within an enterprise environment. */
-  CredentialAccess = "CredentialAccess",
-  /** Discovery consists of techniques that allow the adversary to gain knowledge about the system and internal network. */
-  Discovery = "Discovery",
-  /** Lateral movement consists of techniques that enable an adversary to access and control remote systems on a network and could, but does not necessarily, include execution of tools on remote systems. */
-  LateralMovement = "LateralMovement",
-  /** The execution tactic represents techniques that result in execution of adversary-controlled code on a local or remote system. */
-  Execution = "Execution",
-  /** Collection consists of techniques used to identify and gather information, such as sensitive files, from a target network prior to exfiltration. */
-  Collection = "Collection",
-  /** Exfiltration refers to techniques and attributes that result or aid in the adversary removing files and information from a target network. */
-  Exfiltration = "Exfiltration",
-  /** The command and control tactic represents how adversaries communicate with systems under their control within a target network. */
-  CommandAndControl = "CommandAndControl",
-  /** Impact events primarily try to directly reduce the availability or integrity of a system, service, or network; including manipulation of data to impact a business or operational process. */
-  Impact = "Impact",
-  /** Probing could be either an attempt to access a certain resource regardless of a malicious intent, or a failed attempt to gain access to a target system to gather information prior to exploitation. */
-  Probing = "Probing",
-  /** Exploitation is the stage where an attacker manages to get a foothold on the attacked resource. This stage is relevant for compute hosts and resources such as user accounts, certificates etc. */
-  Exploitation = "Exploitation",
+/** Known values of {@link SecuritySolutionStatus} that the service accepts. */
+export enum KnownSecuritySolutionStatus {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled",
 }
 
 /**
- * Defines values for Intent. \
- * {@link KnownIntent} can be used interchangeably with Intent,
+ * Defines values for SecuritySolutionStatus. \
+ * {@link KnownSecuritySolutionStatus} can be used interchangeably with SecuritySolutionStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Unknown**: Unknown \
- * **PreAttack**: PreAttack could be either an attempt to access a certain resource regardless of a malicious intent, or a failed attempt to gain access to a target system to gather information prior to exploitation. This step is usually detected as an attempt, originating from outside the network, to scan the target system and find a way in.  Further details on the PreAttack stage can be read in [MITRE Pre-Att&ck matrix](https:\/\/attack.mitre.org\/matrices\/pre\/). \
- * **InitialAccess**: InitialAccess is the stage where an attacker manages to get foothold on the attacked resource. \
- * **Persistence**: Persistence is any access, action, or configuration change to a system that gives a threat actor a persistent presence on that system. \
- * **PrivilegeEscalation**: Privilege escalation is the result of actions that allow an adversary to obtain a higher level of permissions on a system or network. \
- * **DefenseEvasion**: Defense evasion consists of techniques an adversary may use to evade detection or avoid other defenses. \
- * **CredentialAccess**: Credential access represents techniques resulting in access to or control over system, domain, or service credentials that are used within an enterprise environment. \
- * **Discovery**: Discovery consists of techniques that allow the adversary to gain knowledge about the system and internal network. \
- * **LateralMovement**: Lateral movement consists of techniques that enable an adversary to access and control remote systems on a network and could, but does not necessarily, include execution of tools on remote systems. \
- * **Execution**: The execution tactic represents techniques that result in execution of adversary-controlled code on a local or remote system. \
- * **Collection**: Collection consists of techniques used to identify and gather information, such as sensitive files, from a target network prior to exfiltration. \
- * **Exfiltration**: Exfiltration refers to techniques and attributes that result or aid in the adversary removing files and information from a target network. \
- * **CommandAndControl**: The command and control tactic represents how adversaries communicate with systems under their control within a target network. \
- * **Impact**: Impact events primarily try to directly reduce the availability or integrity of a system, service, or network; including manipulation of data to impact a business or operational process. \
- * **Probing**: Probing could be either an attempt to access a certain resource regardless of a malicious intent, or a failed attempt to gain access to a target system to gather information prior to exploitation. \
- * **Exploitation**: Exploitation is the stage where an attacker manages to get a foothold on the attacked resource. This stage is relevant for compute hosts and resources such as user accounts, certificates etc.
+ * **Enabled** \
+ * **Disabled**
  */
-export type Intent = string;
+export type SecuritySolutionStatus = string;
 
-/** Known values of {@link ResourceIdentifierType} that the service accepts. */
-export enum KnownResourceIdentifierType {
-  /** AzureResource */
-  AzureResource = "AzureResource",
-  /** LogAnalytics */
-  LogAnalytics = "LogAnalytics",
+/** Known values of {@link ExportData} that the service accepts. */
+export enum KnownExportData {
+  /** Agent raw events */
+  RawEvents = "RawEvents",
 }
 
 /**
- * Defines values for ResourceIdentifierType. \
- * {@link KnownResourceIdentifierType} can be used interchangeably with ResourceIdentifierType,
+ * Defines values for ExportData. \
+ * {@link KnownExportData} can be used interchangeably with ExportData,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **AzureResource** \
- * **LogAnalytics**
+ * **RawEvents**: Agent raw events
  */
-export type ResourceIdentifierType = string;
+export type ExportData = string;
 
-/** Known values of {@link AlertStatus} that the service accepts. */
-export enum KnownAlertStatus {
-  /** An alert which doesn't specify a value is assigned the status 'Active' */
-  Active = "Active",
-  /** An alert which is in handling state */
-  InProgress = "InProgress",
-  /** Alert closed after handling */
-  Resolved = "Resolved",
-  /** Alert dismissed as false positive */
-  Dismissed = "Dismissed",
+/** Known values of {@link DataSource} that the service accepts. */
+export enum KnownDataSource {
+  /** Devices twin data */
+  TwinData = "TwinData",
 }
 
 /**
- * Defines values for AlertStatus. \
- * {@link KnownAlertStatus} can be used interchangeably with AlertStatus,
+ * Defines values for DataSource. \
+ * {@link KnownDataSource} can be used interchangeably with DataSource,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Active**: An alert which doesn't specify a value is assigned the status 'Active' \
- * **InProgress**: An alert which is in handling state \
- * **Resolved**: Alert closed after handling \
- * **Dismissed**: Alert dismissed as false positive
+ * **TwinData**: Devices twin data
  */
-export type AlertStatus = string;
+export type DataSource = string;
 
-/** Known values of {@link Kind} that the service accepts. */
-export enum KnownKind {
-  /** Simulate alerts according to bundles */
-  Bundles = "Bundles",
+/** Known values of {@link RecommendationConfigStatus} that the service accepts. */
+export enum KnownRecommendationConfigStatus {
+  /** Disabled */
+  Disabled = "Disabled",
+  /** Enabled */
+  Enabled = "Enabled",
 }
 
 /**
- * Defines values for Kind. \
- * {@link KnownKind} can be used interchangeably with Kind,
+ * Defines values for RecommendationConfigStatus. \
+ * {@link KnownRecommendationConfigStatus} can be used interchangeably with RecommendationConfigStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Bundles**: Simulate alerts according to bundles
+ * **Disabled** \
+ * **Enabled**
  */
-export type Kind = string;
+export type RecommendationConfigStatus = string;
 
-/** Known values of {@link SettingKind} that the service accepts. */
-export enum KnownSettingKind {
-  /** DataExportSettings */
-  DataExportSettings = "DataExportSettings",
-  /** AlertSuppressionSetting */
-  AlertSuppressionSetting = "AlertSuppressionSetting",
-  /** AlertSyncSettings */
-  AlertSyncSettings = "AlertSyncSettings",
+/** Known values of {@link UnmaskedIpLoggingStatus} that the service accepts. */
+export enum KnownUnmaskedIpLoggingStatus {
+  /** Unmasked IP logging is disabled */
+  Disabled = "Disabled",
+  /** Unmasked IP logging is enabled */
+  Enabled = "Enabled",
 }
 
 /**
- * Defines values for SettingKind. \
- * {@link KnownSettingKind} can be used interchangeably with SettingKind,
+ * Defines values for UnmaskedIpLoggingStatus. \
+ * {@link KnownUnmaskedIpLoggingStatus} can be used interchangeably with UnmaskedIpLoggingStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **DataExportSettings** \
- * **AlertSuppressionSetting** \
- * **AlertSyncSettings**
+ * **Disabled**: Unmasked IP logging is disabled \
+ * **Enabled**: Unmasked IP logging is enabled
  */
-export type SettingKind = string;
+export type UnmaskedIpLoggingStatus = string;
 
-/** Known values of {@link SettingNameAutoGenerated} that the service accepts. */
-export enum KnownSettingNameAutoGenerated {
-  /** Mcas */
-  Mcas = "MCAS",
-  /** Wdatp */
-  Wdatp = "WDATP",
-  /** WdatpExcludeLinuxPublicPreview */
-  WdatpExcludeLinuxPublicPreview = "WDATP_EXCLUDE_LINUX_PUBLIC_PREVIEW",
-  /** WdatpUnifiedSolution */
-  WdatpUnifiedSolution = "WDATP_UNIFIED_SOLUTION",
+/** Known values of {@link AdditionalWorkspaceType} that the service accepts. */
+export enum KnownAdditionalWorkspaceType {
   /** Sentinel */
   Sentinel = "Sentinel",
 }
 
 /**
- * Defines values for SettingNameAutoGenerated. \
- * {@link KnownSettingNameAutoGenerated} can be used interchangeably with SettingNameAutoGenerated,
+ * Defines values for AdditionalWorkspaceType. \
+ * {@link KnownAdditionalWorkspaceType} can be used interchangeably with AdditionalWorkspaceType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **MCAS** \
- * **WDATP** \
- * **WDATP_EXCLUDE_LINUX_PUBLIC_PREVIEW** \
- * **WDATP_UNIFIED_SOLUTION** \
  * **Sentinel**
  */
-export type SettingNameAutoGenerated = string;
+export type AdditionalWorkspaceType = string;
 
-/** Known values of {@link ServerVulnerabilityAssessmentsSettingKind} that the service accepts. */
-export enum KnownServerVulnerabilityAssessmentsSettingKind {
-  /** AzureServersSetting */
-  AzureServersSetting = "AzureServersSetting",
+/** Known values of {@link AdditionalWorkspaceDataType} that the service accepts. */
+export enum KnownAdditionalWorkspaceDataType {
+  /** Alerts */
+  Alerts = "Alerts",
+  /** RawEvents */
+  RawEvents = "RawEvents",
 }
 
 /**
- * Defines values for ServerVulnerabilityAssessmentsSettingKind. \
- * {@link KnownServerVulnerabilityAssessmentsSettingKind} can be used interchangeably with ServerVulnerabilityAssessmentsSettingKind,
+ * Defines values for AdditionalWorkspaceDataType. \
+ * {@link KnownAdditionalWorkspaceDataType} can be used interchangeably with AdditionalWorkspaceDataType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **AzureServersSetting**
+ * **Alerts** \
+ * **RawEvents**
  */
-export type ServerVulnerabilityAssessmentsSettingKind = string;
+export type AdditionalWorkspaceDataType = string;
 
-/** Known values of {@link ServerVulnerabilityAssessmentsSettingKindName} that the service accepts. */
-export enum KnownServerVulnerabilityAssessmentsSettingKindName {
-  /** AzureServersSetting */
-  AzureServersSetting = "azureServersSetting",
+/** Known values of {@link Protocol} that the service accepts. */
+export enum KnownProtocol {
+  /** TCP */
+  TCP = "TCP",
+  /** UDP */
+  UDP = "UDP",
+  /** All */
+  All = "*",
 }
 
 /**
- * Defines values for ServerVulnerabilityAssessmentsSettingKindName. \
- * {@link KnownServerVulnerabilityAssessmentsSettingKindName} can be used interchangeably with ServerVulnerabilityAssessmentsSettingKindName,
+ * Defines values for Protocol. \
+ * {@link KnownProtocol} can be used interchangeably with Protocol,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **azureServersSetting**
+ * **TCP** \
+ * **UDP** \
+ * *****
  */
-export type ServerVulnerabilityAssessmentsSettingKindName = string;
+export type Protocol = string;
+
+/** Known values of {@link Status} that the service accepts. */
+export enum KnownStatus {
+  /** Revoked */
+  Revoked = "Revoked",
+  /** Initiated */
+  Initiated = "Initiated",
+}
+
+/**
+ * Defines values for Status. \
+ * {@link KnownStatus} can be used interchangeably with Status,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Revoked** \
+ * **Initiated**
+ */
+export type Status = string;
+
+/** Known values of {@link StatusReason} that the service accepts. */
+export enum KnownStatusReason {
+  /** Expired */
+  Expired = "Expired",
+  /** UserRequested */
+  UserRequested = "UserRequested",
+  /** NewerRequestInitiated */
+  NewerRequestInitiated = "NewerRequestInitiated",
+}
+
+/**
+ * Defines values for StatusReason. \
+ * {@link KnownStatusReason} can be used interchangeably with StatusReason,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Expired** \
+ * **UserRequested** \
+ * **NewerRequestInitiated**
+ */
+export type StatusReason = string;
 
 /** Known values of {@link PricingTier} that the service accepts. */
 export enum KnownPricingTier {
@@ -8479,6 +7712,918 @@ export enum KnownCode {
  */
 export type Code = string;
 
+/** Known values of {@link State} that the service accepts. */
+export enum KnownState {
+  /** All supported regulatory compliance controls in the given standard have a passed state */
+  Passed = "Passed",
+  /** At least one supported regulatory compliance control in the given standard has a state of failed */
+  Failed = "Failed",
+  /** All supported regulatory compliance controls in the given standard have a state of skipped */
+  Skipped = "Skipped",
+  /** No supported regulatory compliance data for the given standard */
+  Unsupported = "Unsupported",
+}
+
+/**
+ * Defines values for State. \
+ * {@link KnownState} can be used interchangeably with State,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Passed**: All supported regulatory compliance controls in the given standard have a passed state \
+ * **Failed**: At least one supported regulatory compliance control in the given standard has a state of failed \
+ * **Skipped**: All supported regulatory compliance controls in the given standard have a state of skipped \
+ * **Unsupported**: No supported regulatory compliance data for the given standard
+ */
+export type State = string;
+
+/** Known values of {@link ExpandControlsEnum} that the service accepts. */
+export enum KnownExpandControlsEnum {
+  /** Add definition object for each control */
+  Definition = "definition",
+}
+
+/**
+ * Defines values for ExpandControlsEnum. \
+ * {@link KnownExpandControlsEnum} can be used interchangeably with ExpandControlsEnum,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **definition**: Add definition object for each control
+ */
+export type ExpandControlsEnum = string;
+
+/** Known values of {@link ControlType} that the service accepts. */
+export enum KnownControlType {
+  /** Microsoft Defender for Cloud managed assessments */
+  BuiltIn = "BuiltIn",
+  /** Non Microsoft Defender for Cloud managed assessments */
+  Custom = "Custom",
+}
+
+/**
+ * Defines values for ControlType. \
+ * {@link KnownControlType} can be used interchangeably with ControlType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **BuiltIn**: Microsoft Defender for Cloud managed assessments \
+ * **Custom**: Non Microsoft Defender for Cloud managed assessments
+ */
+export type ControlType = string;
+
+/** Known values of {@link CloudName} that the service accepts. */
+export enum KnownCloudName {
+  /** Azure */
+  Azure = "Azure",
+  /** AWS */
+  AWS = "AWS",
+  /** GCP */
+  GCP = "GCP",
+  /** Github */
+  Github = "Github",
+  /** AzureDevOps */
+  AzureDevOps = "AzureDevOps",
+  /** GitLab */
+  GitLab = "GitLab",
+}
+
+/**
+ * Defines values for CloudName. \
+ * {@link KnownCloudName} can be used interchangeably with CloudName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Azure** \
+ * **AWS** \
+ * **GCP** \
+ * **Github** \
+ * **AzureDevOps** \
+ * **GitLab**
+ */
+export type CloudName = string;
+
+/** Known values of {@link OfferingType} that the service accepts. */
+export enum KnownOfferingType {
+  /** CspmMonitorAws */
+  CspmMonitorAws = "CspmMonitorAws",
+  /** DefenderForContainersAws */
+  DefenderForContainersAws = "DefenderForContainersAws",
+  /** DefenderForServersAws */
+  DefenderForServersAws = "DefenderForServersAws",
+  /** DefenderForDatabasesAws */
+  DefenderForDatabasesAws = "DefenderForDatabasesAws",
+  /** CspmMonitorGcp */
+  CspmMonitorGcp = "CspmMonitorGcp",
+  /** CspmMonitorGithub */
+  CspmMonitorGithub = "CspmMonitorGithub",
+  /** CspmMonitorAzureDevOps */
+  CspmMonitorAzureDevOps = "CspmMonitorAzureDevOps",
+  /** DefenderForServersGcp */
+  DefenderForServersGcp = "DefenderForServersGcp",
+  /** DefenderForContainersGcp */
+  DefenderForContainersGcp = "DefenderForContainersGcp",
+  /** DefenderForDatabasesGcp */
+  DefenderForDatabasesGcp = "DefenderForDatabasesGcp",
+  /** DefenderCspmAws */
+  DefenderCspmAws = "DefenderCspmAws",
+  /** DefenderCspmGcp */
+  DefenderCspmGcp = "DefenderCspmGcp",
+  /** CspmMonitorGitLab */
+  CspmMonitorGitLab = "CspmMonitorGitLab",
+}
+
+/**
+ * Defines values for OfferingType. \
+ * {@link KnownOfferingType} can be used interchangeably with OfferingType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **CspmMonitorAws** \
+ * **DefenderForContainersAws** \
+ * **DefenderForServersAws** \
+ * **DefenderForDatabasesAws** \
+ * **CspmMonitorGcp** \
+ * **CspmMonitorGithub** \
+ * **CspmMonitorAzureDevOps** \
+ * **DefenderForServersGcp** \
+ * **DefenderForContainersGcp** \
+ * **DefenderForDatabasesGcp** \
+ * **DefenderCspmAws** \
+ * **DefenderCspmGcp** \
+ * **CspmMonitorGitLab**
+ */
+export type OfferingType = string;
+
+/** Known values of {@link EnvironmentType} that the service accepts. */
+export enum KnownEnvironmentType {
+  /** AwsAccount */
+  AwsAccount = "AwsAccount",
+  /** GcpProject */
+  GcpProject = "GcpProject",
+  /** GithubScope */
+  GithubScope = "GithubScope",
+  /** AzureDevOpsScope */
+  AzureDevOpsScope = "AzureDevOpsScope",
+  /** GitlabScope */
+  GitlabScope = "GitlabScope",
+}
+
+/**
+ * Defines values for EnvironmentType. \
+ * {@link KnownEnvironmentType} can be used interchangeably with EnvironmentType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AwsAccount** \
+ * **GcpProject** \
+ * **GithubScope** \
+ * **AzureDevOpsScope** \
+ * **GitlabScope**
+ */
+export type EnvironmentType = string;
+
+/** Known values of {@link DevOpsProvisioningState} that the service accepts. */
+export enum KnownDevOpsProvisioningState {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** Pending */
+  Pending = "Pending",
+  /** PendingDeletion */
+  PendingDeletion = "PendingDeletion",
+  /** DeletionSuccess */
+  DeletionSuccess = "DeletionSuccess",
+  /** DeletionFailure */
+  DeletionFailure = "DeletionFailure",
+}
+
+/**
+ * Defines values for DevOpsProvisioningState. \
+ * {@link KnownDevOpsProvisioningState} can be used interchangeably with DevOpsProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled** \
+ * **Pending** \
+ * **PendingDeletion** \
+ * **DeletionSuccess** \
+ * **DeletionFailure**
+ */
+export type DevOpsProvisioningState = string;
+
+/** Known values of {@link OnboardingState} that the service accepts. */
+export enum KnownOnboardingState {
+  /** NotApplicable */
+  NotApplicable = "NotApplicable",
+  /** OnboardedByOtherConnector */
+  OnboardedByOtherConnector = "OnboardedByOtherConnector",
+  /** Onboarded */
+  Onboarded = "Onboarded",
+  /** NotOnboarded */
+  NotOnboarded = "NotOnboarded",
+}
+
+/**
+ * Defines values for OnboardingState. \
+ * {@link KnownOnboardingState} can be used interchangeably with OnboardingState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotApplicable** \
+ * **OnboardedByOtherConnector** \
+ * **Onboarded** \
+ * **NotOnboarded**
+ */
+export type OnboardingState = string;
+
+/** Known values of {@link ActionableRemediationState} that the service accepts. */
+export enum KnownActionableRemediationState {
+  /** None */
+  None = "None",
+  /** Disabled */
+  Disabled = "Disabled",
+  /** Enabled */
+  Enabled = "Enabled",
+}
+
+/**
+ * Defines values for ActionableRemediationState. \
+ * {@link KnownActionableRemediationState} can be used interchangeably with ActionableRemediationState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **Disabled** \
+ * **Enabled**
+ */
+export type ActionableRemediationState = string;
+
+/** Known values of {@link RuleCategory} that the service accepts. */
+export enum KnownRuleCategory {
+  /** Code */
+  Code = "Code",
+  /** Artifacts */
+  Artifacts = "Artifacts",
+  /** Dependencies */
+  Dependencies = "Dependencies",
+  /** Secrets */
+  Secrets = "Secrets",
+  /** IaC */
+  IaC = "IaC",
+  /** Containers */
+  Containers = "Containers",
+}
+
+/**
+ * Defines values for RuleCategory. \
+ * {@link KnownRuleCategory} can be used interchangeably with RuleCategory,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Code** \
+ * **Artifacts** \
+ * **Dependencies** \
+ * **Secrets** \
+ * **IaC** \
+ * **Containers**
+ */
+export type RuleCategory = string;
+
+/** Known values of {@link AnnotateDefaultBranchState} that the service accepts. */
+export enum KnownAnnotateDefaultBranchState {
+  /** Disabled */
+  Disabled = "Disabled",
+  /** Enabled */
+  Enabled = "Enabled",
+}
+
+/**
+ * Defines values for AnnotateDefaultBranchState. \
+ * {@link KnownAnnotateDefaultBranchState} can be used interchangeably with AnnotateDefaultBranchState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Disabled** \
+ * **Enabled**
+ */
+export type AnnotateDefaultBranchState = string;
+
+/** Known values of {@link InheritFromParentState} that the service accepts. */
+export enum KnownInheritFromParentState {
+  /** Disabled */
+  Disabled = "Disabled",
+  /** Enabled */
+  Enabled = "Enabled",
+}
+
+/**
+ * Defines values for InheritFromParentState. \
+ * {@link KnownInheritFromParentState} can be used interchangeably with InheritFromParentState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Disabled** \
+ * **Enabled**
+ */
+export type InheritFromParentState = string;
+
+/** Known values of {@link AutoDiscovery} that the service accepts. */
+export enum KnownAutoDiscovery {
+  /** Disabled */
+  Disabled = "Disabled",
+  /** Enabled */
+  Enabled = "Enabled",
+  /** NotApplicable */
+  NotApplicable = "NotApplicable",
+}
+
+/**
+ * Defines values for AutoDiscovery. \
+ * {@link KnownAutoDiscovery} can be used interchangeably with AutoDiscovery,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Disabled** \
+ * **Enabled** \
+ * **NotApplicable**
+ */
+export type AutoDiscovery = string;
+
+/** Known values of {@link SourceType} that the service accepts. */
+export enum KnownSourceType {
+  /** Alert */
+  Alert = "Alert",
+  /** AttackPath */
+  AttackPath = "AttackPath",
+}
+
+/**
+ * Defines values for SourceType. \
+ * {@link KnownSourceType} can be used interchangeably with SourceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Alert** \
+ * **AttackPath**
+ */
+export type SourceType = string;
+
+/** Known values of {@link SecurityContactRole} that the service accepts. */
+export enum KnownSecurityContactRole {
+  /** If enabled, send notification on new alerts to the account admins */
+  AccountAdmin = "AccountAdmin",
+  /** If enabled, send notification on new alerts to the service admins */
+  ServiceAdmin = "ServiceAdmin",
+  /** If enabled, send notification on new alerts to the subscription owners */
+  Owner = "Owner",
+  /** If enabled, send notification on new alerts to the subscription contributors */
+  Contributor = "Contributor",
+}
+
+/**
+ * Defines values for SecurityContactRole. \
+ * {@link KnownSecurityContactRole} can be used interchangeably with SecurityContactRole,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AccountAdmin**: If enabled, send notification on new alerts to the account admins \
+ * **ServiceAdmin**: If enabled, send notification on new alerts to the service admins \
+ * **Owner**: If enabled, send notification on new alerts to the subscription owners \
+ * **Contributor**: If enabled, send notification on new alerts to the subscription contributors
+ */
+export type SecurityContactRole = string;
+
+/** Known values of {@link SecurityContactName} that the service accepts. */
+export enum KnownSecurityContactName {
+  /** The single applicable name of the security contact object */
+  Default = "default",
+}
+
+/**
+ * Defines values for SecurityContactName. \
+ * {@link KnownSecurityContactName} can be used interchangeably with SecurityContactName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **default**: The single applicable name of the security contact object
+ */
+export type SecurityContactName = string;
+
+/** Known values of {@link MipIntegrationStatus} that the service accepts. */
+export enum KnownMipIntegrationStatus {
+  /** Ok */
+  Ok = "Ok",
+  /** NoConsent */
+  NoConsent = "noConsent",
+  /** NoAutoLabelingRules */
+  NoAutoLabelingRules = "noAutoLabelingRules",
+  /** NoMipLabels */
+  NoMipLabels = "noMipLabels",
+}
+
+/**
+ * Defines values for MipIntegrationStatus. \
+ * {@link KnownMipIntegrationStatus} can be used interchangeably with MipIntegrationStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Ok** \
+ * **noConsent** \
+ * **noAutoLabelingRules** \
+ * **noMipLabels**
+ */
+export type MipIntegrationStatus = string;
+
+/** Known values of {@link ServerVulnerabilityAssessmentPropertiesProvisioningState} that the service accepts. */
+export enum KnownServerVulnerabilityAssessmentPropertiesProvisioningState {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** Provisioning */
+  Provisioning = "Provisioning",
+  /** Deprovisioning */
+  Deprovisioning = "Deprovisioning",
+}
+
+/**
+ * Defines values for ServerVulnerabilityAssessmentPropertiesProvisioningState. \
+ * {@link KnownServerVulnerabilityAssessmentPropertiesProvisioningState} can be used interchangeably with ServerVulnerabilityAssessmentPropertiesProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled** \
+ * **Provisioning** \
+ * **Deprovisioning**
+ */
+export type ServerVulnerabilityAssessmentPropertiesProvisioningState = string;
+
+/** Known values of {@link ServerVulnerabilityAssessmentsSettingKind} that the service accepts. */
+export enum KnownServerVulnerabilityAssessmentsSettingKind {
+  /** AzureServersSetting */
+  AzureServersSetting = "AzureServersSetting",
+}
+
+/**
+ * Defines values for ServerVulnerabilityAssessmentsSettingKind. \
+ * {@link KnownServerVulnerabilityAssessmentsSettingKind} can be used interchangeably with ServerVulnerabilityAssessmentsSettingKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AzureServersSetting**
+ */
+export type ServerVulnerabilityAssessmentsSettingKind = string;
+
+/** Known values of {@link ServerVulnerabilityAssessmentsSettingKindName} that the service accepts. */
+export enum KnownServerVulnerabilityAssessmentsSettingKindName {
+  /** AzureServersSetting */
+  AzureServersSetting = "azureServersSetting",
+}
+
+/**
+ * Defines values for ServerVulnerabilityAssessmentsSettingKindName. \
+ * {@link KnownServerVulnerabilityAssessmentsSettingKindName} can be used interchangeably with ServerVulnerabilityAssessmentsSettingKindName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **azureServersSetting**
+ */
+export type ServerVulnerabilityAssessmentsSettingKindName = string;
+
+/** Known values of {@link SettingKind} that the service accepts. */
+export enum KnownSettingKind {
+  /** DataExportSettings */
+  DataExportSettings = "DataExportSettings",
+  /** AlertSuppressionSetting */
+  AlertSuppressionSetting = "AlertSuppressionSetting",
+  /** AlertSyncSettings */
+  AlertSyncSettings = "AlertSyncSettings",
+}
+
+/**
+ * Defines values for SettingKind. \
+ * {@link KnownSettingKind} can be used interchangeably with SettingKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **DataExportSettings** \
+ * **AlertSuppressionSetting** \
+ * **AlertSyncSettings**
+ */
+export type SettingKind = string;
+
+/** Known values of {@link SettingNameAutoGenerated} that the service accepts. */
+export enum KnownSettingNameAutoGenerated {
+  /** Mcas */
+  Mcas = "MCAS",
+  /** Wdatp */
+  Wdatp = "WDATP",
+  /** WdatpExcludeLinuxPublicPreview */
+  WdatpExcludeLinuxPublicPreview = "WDATP_EXCLUDE_LINUX_PUBLIC_PREVIEW",
+  /** WdatpUnifiedSolution */
+  WdatpUnifiedSolution = "WDATP_UNIFIED_SOLUTION",
+  /** Sentinel */
+  Sentinel = "Sentinel",
+}
+
+/**
+ * Defines values for SettingNameAutoGenerated. \
+ * {@link KnownSettingNameAutoGenerated} can be used interchangeably with SettingNameAutoGenerated,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **MCAS** \
+ * **WDATP** \
+ * **WDATP_EXCLUDE_LINUX_PUBLIC_PREVIEW** \
+ * **WDATP_UNIFIED_SOLUTION** \
+ * **Sentinel**
+ */
+export type SettingNameAutoGenerated = string;
+
+/** Known values of {@link EndOfSupportStatus} that the service accepts. */
+export enum KnownEndOfSupportStatus {
+  /** None */
+  None = "None",
+  /** NoLongerSupported */
+  NoLongerSupported = "noLongerSupported",
+  /** VersionNoLongerSupported */
+  VersionNoLongerSupported = "versionNoLongerSupported",
+  /** UpcomingNoLongerSupported */
+  UpcomingNoLongerSupported = "upcomingNoLongerSupported",
+  /** UpcomingVersionNoLongerSupported */
+  UpcomingVersionNoLongerSupported = "upcomingVersionNoLongerSupported",
+}
+
+/**
+ * Defines values for EndOfSupportStatus. \
+ * {@link KnownEndOfSupportStatus} can be used interchangeably with EndOfSupportStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **noLongerSupported** \
+ * **versionNoLongerSupported** \
+ * **upcomingNoLongerSupported** \
+ * **upcomingVersionNoLongerSupported**
+ */
+export type EndOfSupportStatus = string;
+
+/** Known values of {@link ScanTriggerType} that the service accepts. */
+export enum KnownScanTriggerType {
+  /** OnDemand */
+  OnDemand = "OnDemand",
+  /** Recurring */
+  Recurring = "Recurring",
+}
+
+/**
+ * Defines values for ScanTriggerType. \
+ * {@link KnownScanTriggerType} can be used interchangeably with ScanTriggerType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **OnDemand**: OnDemand \
+ * **Recurring**: Recurring
+ */
+export type ScanTriggerType = string;
+
+/** Known values of {@link ScanState} that the service accepts. */
+export enum KnownScanState {
+  /** Failed */
+  Failed = "Failed",
+  /** FailedToRun */
+  FailedToRun = "FailedToRun",
+  /** InProgress */
+  InProgress = "InProgress",
+  /** Passed */
+  Passed = "Passed",
+}
+
+/**
+ * Defines values for ScanState. \
+ * {@link KnownScanState} can be used interchangeably with ScanState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Failed**: Failed \
+ * **FailedToRun**: FailedToRun \
+ * **InProgress**: InProgress \
+ * **Passed**: Passed
+ */
+export type ScanState = string;
+
+/** Known values of {@link RuleStatus} that the service accepts. */
+export enum KnownRuleStatus {
+  /** NonFinding */
+  NonFinding = "NonFinding",
+  /** Finding */
+  Finding = "Finding",
+  /** InternalError */
+  InternalError = "InternalError",
+}
+
+/**
+ * Defines values for RuleStatus. \
+ * {@link KnownRuleStatus} can be used interchangeably with RuleStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NonFinding**: NonFinding \
+ * **Finding**: Finding \
+ * **InternalError**: InternalError
+ */
+export type RuleStatus = string;
+
+/** Known values of {@link RuleSeverity} that the service accepts. */
+export enum KnownRuleSeverity {
+  /** High */
+  High = "High",
+  /** Medium */
+  Medium = "Medium",
+  /** Low */
+  Low = "Low",
+  /** Informational */
+  Informational = "Informational",
+  /** Obsolete */
+  Obsolete = "Obsolete",
+}
+
+/**
+ * Defines values for RuleSeverity. \
+ * {@link KnownRuleSeverity} can be used interchangeably with RuleSeverity,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **High**: High \
+ * **Medium**: Medium \
+ * **Low**: Low \
+ * **Informational**: Informational \
+ * **Obsolete**: Obsolete
+ */
+export type RuleSeverity = string;
+
+/** Known values of {@link RuleType} that the service accepts. */
+export enum KnownRuleType {
+  /** Binary */
+  Binary = "Binary",
+  /** BaselineExpected */
+  BaselineExpected = "BaselineExpected",
+  /** PositiveList */
+  PositiveList = "PositiveList",
+  /** NegativeList */
+  NegativeList = "NegativeList",
+}
+
+/**
+ * Defines values for RuleType. \
+ * {@link KnownRuleType} can be used interchangeably with RuleType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Binary**: Binary \
+ * **BaselineExpected**: BaselineExpected \
+ * **PositiveList**: PositiveList \
+ * **NegativeList**: NegativeList
+ */
+export type RuleType = string;
+
+/** Known values of {@link SubAssessmentStatusCode} that the service accepts. */
+export enum KnownSubAssessmentStatusCode {
+  /** The resource is healthy */
+  Healthy = "Healthy",
+  /** The resource has a security issue that needs to be addressed */
+  Unhealthy = "Unhealthy",
+  /** Assessment for this resource did not happen */
+  NotApplicable = "NotApplicable",
+}
+
+/**
+ * Defines values for SubAssessmentStatusCode. \
+ * {@link KnownSubAssessmentStatusCode} can be used interchangeably with SubAssessmentStatusCode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Healthy**: The resource is healthy \
+ * **Unhealthy**: The resource has a security issue that needs to be addressed \
+ * **NotApplicable**: Assessment for this resource did not happen
+ */
+export type SubAssessmentStatusCode = string;
+
+/** Known values of {@link AssessedResourceType} that the service accepts. */
+export enum KnownAssessedResourceType {
+  /** SqlServerVulnerability */
+  SqlServerVulnerability = "SqlServerVulnerability",
+  /** ContainerRegistryVulnerability */
+  ContainerRegistryVulnerability = "ContainerRegistryVulnerability",
+  /** ServerVulnerability */
+  ServerVulnerability = "ServerVulnerability",
+}
+
+/**
+ * Defines values for AssessedResourceType. \
+ * {@link KnownAssessedResourceType} can be used interchangeably with AssessedResourceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SqlServerVulnerability** \
+ * **ContainerRegistryVulnerability** \
+ * **ServerVulnerability**
+ */
+export type AssessedResourceType = string;
+
+/** Known values of {@link TaskUpdateActionType} that the service accepts. */
+export enum KnownTaskUpdateActionType {
+  /** Activate */
+  Activate = "Activate",
+  /** Dismiss */
+  Dismiss = "Dismiss",
+  /** Start */
+  Start = "Start",
+  /** Resolve */
+  Resolve = "Resolve",
+  /** Close */
+  Close = "Close",
+}
+
+/**
+ * Defines values for TaskUpdateActionType. \
+ * {@link KnownTaskUpdateActionType} can be used interchangeably with TaskUpdateActionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Activate** \
+ * **Dismiss** \
+ * **Start** \
+ * **Resolve** \
+ * **Close**
+ */
+export type TaskUpdateActionType = string;
+
+/** Known values of {@link BundleType} that the service accepts. */
+export enum KnownBundleType {
+  /** AppServices */
+  AppServices = "AppServices",
+  /** DNS */
+  DNS = "DNS",
+  /** KeyVaults */
+  KeyVaults = "KeyVaults",
+  /** KubernetesService */
+  KubernetesService = "KubernetesService",
+  /** ResourceManager */
+  ResourceManager = "ResourceManager",
+  /** SqlServers */
+  SqlServers = "SqlServers",
+  /** StorageAccounts */
+  StorageAccounts = "StorageAccounts",
+  /** VirtualMachines */
+  VirtualMachines = "VirtualMachines",
+  /** CosmosDbs */
+  CosmosDbs = "CosmosDbs",
+}
+
+/**
+ * Defines values for BundleType. \
+ * {@link KnownBundleType} can be used interchangeably with BundleType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AppServices** \
+ * **DNS** \
+ * **KeyVaults** \
+ * **KubernetesService** \
+ * **ResourceManager** \
+ * **SqlServers** \
+ * **StorageAccounts** \
+ * **VirtualMachines** \
+ * **CosmosDbs**
+ */
+export type BundleType = string;
+
+/** Known values of {@link ApplicationConditionOperator} that the service accepts. */
+export enum KnownApplicationConditionOperator {
+  /** Checks that the string value of the data defined in Property contains the given value */
+  Contains = "Contains",
+  /** Checks that the string value of the data defined in Property equals the given value */
+  Equals = "Equals",
+  /** Checks that the string value of the data defined in Property equals any of the given values (exact fit) */
+  In = "In",
+}
+
+/**
+ * Defines values for ApplicationConditionOperator. \
+ * {@link KnownApplicationConditionOperator} can be used interchangeably with ApplicationConditionOperator,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Contains**: Checks that the string value of the data defined in Property contains the given value \
+ * **Equals**: Checks that the string value of the data defined in Property equals the given value \
+ * **In**: Checks that the string value of the data defined in Property equals any of the given values (exact fit)
+ */
+export type ApplicationConditionOperator = string;
+
+/** Known values of {@link AadConnectivityState} that the service accepts. */
+export enum KnownAadConnectivityState {
+  /** Discovered */
+  Discovered = "Discovered",
+  /** NotLicensed */
+  NotLicensed = "NotLicensed",
+  /** Connected */
+  Connected = "Connected",
+}
+
+/**
+ * Defines values for AadConnectivityState. \
+ * {@link KnownAadConnectivityState} can be used interchangeably with AadConnectivityState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Discovered** \
+ * **NotLicensed** \
+ * **Connected**
+ */
+export type AadConnectivityState = string;
+
+/** Known values of {@link GovernanceRuleConditionOperator} that the service accepts. */
+export enum KnownGovernanceRuleConditionOperator {
+  /** Checks that the string value of the data defined in Property equals the given value - exact fit */
+  Equals = "Equals",
+  /** Checks that the string value of the data defined in Property equals any of the given values (exact fit) */
+  In = "In",
+}
+
+/**
+ * Defines values for GovernanceRuleConditionOperator. \
+ * {@link KnownGovernanceRuleConditionOperator} can be used interchangeably with GovernanceRuleConditionOperator,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Equals**: Checks that the string value of the data defined in Property equals the given value - exact fit \
+ * **In**: Checks that the string value of the data defined in Property equals any of the given values (exact fit)
+ */
+export type GovernanceRuleConditionOperator = string;
+
+/** Known values of {@link OrganizationMembershipType} that the service accepts. */
+export enum KnownOrganizationMembershipType {
+  /** Member */
+  Member = "Member",
+  /** Organization */
+  Organization = "Organization",
+}
+
+/**
+ * Defines values for OrganizationMembershipType. \
+ * {@link KnownOrganizationMembershipType} can be used interchangeably with OrganizationMembershipType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Member** \
+ * **Organization**
+ */
+export type OrganizationMembershipType = string;
+
+/** Known values of {@link ScanningMode} that the service accepts. */
+export enum KnownScanningMode {
+  /** Default */
+  Default = "Default",
+}
+
+/**
+ * Defines values for ScanningMode. \
+ * {@link KnownScanningMode} can be used interchangeably with ScanningMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Default**
+ */
+export type ScanningMode = string;
+
+/** Known values of {@link Type} that the service accepts. */
+export enum KnownType {
+  /** Qualys */
+  Qualys = "Qualys",
+  /** TVM */
+  TVM = "TVM",
+}
+
+/**
+ * Defines values for Type. \
+ * {@link KnownType} can be used interchangeably with Type,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Qualys** \
+ * **TVM**
+ */
+export type Type = string;
+
+/** Known values of {@link SubPlan} that the service accepts. */
+export enum KnownSubPlan {
+  /** P1 */
+  P1 = "P1",
+  /** P2 */
+  P2 = "P2",
+}
+
+/**
+ * Defines values for SubPlan. \
+ * {@link KnownSubPlan} can be used interchangeably with SubPlan,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **P1** \
+ * **P2**
+ */
+export type SubPlan = string;
+
+/** Known values of {@link DesiredOnboardingState} that the service accepts. */
+export enum KnownDesiredOnboardingState {
+  /** Disabled */
+  Disabled = "Disabled",
+  /** Enabled */
+  Enabled = "Enabled",
+}
+
+/**
+ * Defines values for DesiredOnboardingState. \
+ * {@link KnownDesiredOnboardingState} can be used interchangeably with DesiredOnboardingState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Disabled** \
+ * **Enabled**
+ */
+export type DesiredOnboardingState = string;
+
 /** Known values of {@link MinimalSeverity} that the service accepts. */
 export enum KnownMinimalSeverity {
   /** Get notifications on new alerts with High severity */
@@ -8524,192 +8669,6 @@ export enum KnownMinimalRiskLevel {
  */
 export type MinimalRiskLevel = string;
 
-/** Known values of {@link GovernanceRuleConditionOperator} that the service accepts. */
-export enum KnownGovernanceRuleConditionOperator {
-  /** Checks that the string value of the data defined in Property equals the given value - exact fit */
-  Equals = "Equals",
-  /** Checks that the string value of the data defined in Property equals any of the given values (exact fit) */
-  In = "In",
-}
-
-/**
- * Defines values for GovernanceRuleConditionOperator. \
- * {@link KnownGovernanceRuleConditionOperator} can be used interchangeably with GovernanceRuleConditionOperator,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Equals**: Checks that the string value of the data defined in Property equals the given value - exact fit \
- * **In**: Checks that the string value of the data defined in Property equals any of the given values (exact fit)
- */
-export type GovernanceRuleConditionOperator = string;
-
-/** Known values of {@link ApplicationConditionOperator} that the service accepts. */
-export enum KnownApplicationConditionOperator {
-  /** Checks that the string value of the data defined in Property contains the given value */
-  Contains = "Contains",
-  /** Checks that the string value of the data defined in Property equals the given value */
-  Equals = "Equals",
-  /** Checks that the string value of the data defined in Property equals any of the given values (exact fit) */
-  In = "In",
-}
-
-/**
- * Defines values for ApplicationConditionOperator. \
- * {@link KnownApplicationConditionOperator} can be used interchangeably with ApplicationConditionOperator,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Contains**: Checks that the string value of the data defined in Property contains the given value \
- * **Equals**: Checks that the string value of the data defined in Property equals the given value \
- * **In**: Checks that the string value of the data defined in Property equals any of the given values (exact fit)
- */
-export type ApplicationConditionOperator = string;
-
-/** Known values of {@link DesiredOnboardingState} that the service accepts. */
-export enum KnownDesiredOnboardingState {
-  /** Disabled */
-  Disabled = "Disabled",
-  /** Enabled */
-  Enabled = "Enabled",
-}
-
-/**
- * Defines values for DesiredOnboardingState. \
- * {@link KnownDesiredOnboardingState} can be used interchangeably with DesiredOnboardingState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Disabled** \
- * **Enabled**
- */
-export type DesiredOnboardingState = string;
-
-/** Known values of {@link OrganizationMembershipType} that the service accepts. */
-export enum KnownOrganizationMembershipType {
-  /** Member */
-  Member = "Member",
-  /** Organization */
-  Organization = "Organization",
-}
-
-/**
- * Defines values for OrganizationMembershipType. \
- * {@link KnownOrganizationMembershipType} can be used interchangeably with OrganizationMembershipType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Member** \
- * **Organization**
- */
-export type OrganizationMembershipType = string;
-
-/** Known values of {@link Type} that the service accepts. */
-export enum KnownType {
-  /** Qualys */
-  Qualys = "Qualys",
-  /** TVM */
-  TVM = "TVM",
-}
-
-/**
- * Defines values for Type. \
- * {@link KnownType} can be used interchangeably with Type,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Qualys** \
- * **TVM**
- */
-export type Type = string;
-
-/** Known values of {@link SubPlan} that the service accepts. */
-export enum KnownSubPlan {
-  /** P1 */
-  P1 = "P1",
-  /** P2 */
-  P2 = "P2",
-}
-
-/**
- * Defines values for SubPlan. \
- * {@link KnownSubPlan} can be used interchangeably with SubPlan,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **P1** \
- * **P2**
- */
-export type SubPlan = string;
-
-/** Known values of {@link ScanningMode} that the service accepts. */
-export enum KnownScanningMode {
-  /** Default */
-  Default = "Default",
-}
-
-/**
- * Defines values for ScanningMode. \
- * {@link KnownScanningMode} can be used interchangeably with ScanningMode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Default**
- */
-export type ScanningMode = string;
-
-/** Known values of {@link AadConnectivityState} that the service accepts. */
-export enum KnownAadConnectivityState {
-  /** Discovered */
-  Discovered = "Discovered",
-  /** NotLicensed */
-  NotLicensed = "NotLicensed",
-  /** Connected */
-  Connected = "Connected",
-}
-
-/**
- * Defines values for AadConnectivityState. \
- * {@link KnownAadConnectivityState} can be used interchangeably with AadConnectivityState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Discovered** \
- * **NotLicensed** \
- * **Connected**
- */
-export type AadConnectivityState = string;
-
-/** Known values of {@link BundleType} that the service accepts. */
-export enum KnownBundleType {
-  /** AppServices */
-  AppServices = "AppServices",
-  /** DNS */
-  DNS = "DNS",
-  /** KeyVaults */
-  KeyVaults = "KeyVaults",
-  /** KubernetesService */
-  KubernetesService = "KubernetesService",
-  /** ResourceManager */
-  ResourceManager = "ResourceManager",
-  /** SqlServers */
-  SqlServers = "SqlServers",
-  /** StorageAccounts */
-  StorageAccounts = "StorageAccounts",
-  /** VirtualMachines */
-  VirtualMachines = "VirtualMachines",
-  /** CosmosDbs */
-  CosmosDbs = "CosmosDbs",
-}
-
-/**
- * Defines values for BundleType. \
- * {@link KnownBundleType} can be used interchangeably with BundleType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **AppServices** \
- * **DNS** \
- * **KeyVaults** \
- * **KubernetesService** \
- * **ResourceManager** \
- * **SqlServers** \
- * **StorageAccounts** \
- * **VirtualMachines** \
- * **CosmosDbs**
- */
-export type BundleType = string;
-
 /** Known values of {@link ServerVulnerabilityAssessmentsAzureSettingSelectedProvider} that the service accepts. */
 export enum KnownServerVulnerabilityAssessmentsAzureSettingSelectedProvider {
   /** Microsoft Defender for Endpoints threat and vulnerability management. */
@@ -8724,238 +8683,163 @@ export enum KnownServerVulnerabilityAssessmentsAzureSettingSelectedProvider {
  * **MdeTvm**: Microsoft Defender for Endpoints threat and vulnerability management.
  */
 export type ServerVulnerabilityAssessmentsAzureSettingSelectedProvider = string;
-/** Defines values for Rank. */
-export type Rank = "None" | "Low" | "Medium" | "High" | "Critical";
 /** Defines values for RuleState. */
 export type RuleState = "Enabled" | "Disabled" | "Expired";
+/** Defines values for Rank. */
+export type Rank = "None" | "Low" | "Medium" | "High" | "Critical";
 
 /** Optional parameters. */
-export interface LocationsListOptionalParams
+export interface AdaptiveNetworkHardeningsListByExtendedResourceOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the list operation. */
-export type LocationsListResponse = AscLocationList;
+/** Contains response data for the listByExtendedResource operation. */
+export type AdaptiveNetworkHardeningsListByExtendedResourceResponse =
+  AdaptiveNetworkHardeningsList;
 
 /** Optional parameters. */
-export interface LocationsGetOptionalParams
+export interface AdaptiveNetworkHardeningsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type LocationsGetResponse = AscLocation;
+export type AdaptiveNetworkHardeningsGetResponse = AdaptiveNetworkHardening;
 
 /** Optional parameters. */
-export interface LocationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type LocationsListNextResponse = AscLocationList;
+export interface AdaptiveNetworkHardeningsEnforceOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Optional parameters. */
-export interface OperationsListOptionalParams
+export interface AdaptiveNetworkHardeningsListByExtendedResourceNextOptionalParams
   extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByExtendedResourceNext operation. */
+export type AdaptiveNetworkHardeningsListByExtendedResourceNextResponse =
+  AdaptiveNetworkHardeningsList;
+
+/** Optional parameters. */
+export interface AdvancedThreatProtectionGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type AdvancedThreatProtectionGetResponse =
+  AdvancedThreatProtectionSetting;
+
+/** Optional parameters. */
+export interface AdvancedThreatProtectionCreateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the create operation. */
+export type AdvancedThreatProtectionCreateResponse =
+  AdvancedThreatProtectionSetting;
+
+/** Optional parameters. */
+export interface AlertsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type OperationsListResponse = OperationList;
+export type AlertsListResponse = AlertList;
 
 /** Optional parameters. */
-export interface OperationsListNextOptionalParams
+export interface AlertsListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type OperationsListNextResponse = OperationList;
-
-/** Optional parameters. */
-export interface TasksListOptionalParams extends coreClient.OperationOptions {
-  /** OData filter. Optional. */
-  filter?: string;
-}
-
-/** Contains response data for the list operation. */
-export type TasksListResponse = SecurityTaskList;
-
-/** Optional parameters. */
-export interface TasksListByHomeRegionOptionalParams
-  extends coreClient.OperationOptions {
-  /** OData filter. Optional. */
-  filter?: string;
-}
-
-/** Contains response data for the listByHomeRegion operation. */
-export type TasksListByHomeRegionResponse = SecurityTaskList;
-
-/** Optional parameters. */
-export interface TasksGetSubscriptionLevelTaskOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getSubscriptionLevelTask operation. */
-export type TasksGetSubscriptionLevelTaskResponse = SecurityTask;
-
-/** Optional parameters. */
-export interface TasksUpdateSubscriptionLevelTaskStateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface TasksListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {
-  /** OData filter. Optional. */
-  filter?: string;
-}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type TasksListByResourceGroupResponse = SecurityTaskList;
+export type AlertsListByResourceGroupResponse = AlertList;
 
 /** Optional parameters. */
-export interface TasksGetResourceGroupLevelTaskOptionalParams
+export interface AlertsListSubscriptionLevelByRegionOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the getResourceGroupLevelTask operation. */
-export type TasksGetResourceGroupLevelTaskResponse = SecurityTask;
+/** Contains response data for the listSubscriptionLevelByRegion operation. */
+export type AlertsListSubscriptionLevelByRegionResponse = AlertList;
 
 /** Optional parameters. */
-export interface TasksUpdateResourceGroupLevelTaskStateOptionalParams
+export interface AlertsListResourceGroupLevelByRegionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listResourceGroupLevelByRegion operation. */
+export type AlertsListResourceGroupLevelByRegionResponse = AlertList;
+
+/** Optional parameters. */
+export interface AlertsGetSubscriptionLevelOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getSubscriptionLevel operation. */
+export type AlertsGetSubscriptionLevelResponse = Alert;
+
+/** Optional parameters. */
+export interface AlertsGetResourceGroupLevelOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getResourceGroupLevel operation. */
+export type AlertsGetResourceGroupLevelResponse = Alert;
+
+/** Optional parameters. */
+export interface AlertsUpdateSubscriptionLevelStateToDismissOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface TasksListNextOptionalParams
+export interface AlertsUpdateSubscriptionLevelStateToResolveOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface AlertsUpdateSubscriptionLevelStateToActivateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface AlertsUpdateSubscriptionLevelStateToInProgressOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface AlertsUpdateResourceGroupLevelStateToResolveOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface AlertsUpdateResourceGroupLevelStateToDismissOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface AlertsUpdateResourceGroupLevelStateToActivateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface AlertsUpdateResourceGroupLevelStateToInProgressOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface AlertsSimulateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface AlertsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type TasksListNextResponse = SecurityTaskList;
+export type AlertsListNextResponse = AlertList;
 
 /** Optional parameters. */
-export interface TasksListByHomeRegionNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByHomeRegionNext operation. */
-export type TasksListByHomeRegionNextResponse = SecurityTaskList;
-
-/** Optional parameters. */
-export interface TasksListByResourceGroupNextOptionalParams
+export interface AlertsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type TasksListByResourceGroupNextResponse = SecurityTaskList;
+export type AlertsListByResourceGroupNextResponse = AlertList;
 
 /** Optional parameters. */
-export interface AutoProvisioningSettingsListOptionalParams
+export interface AlertsListSubscriptionLevelByRegionNextOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the list operation. */
-export type AutoProvisioningSettingsListResponse = AutoProvisioningSettingList;
+/** Contains response data for the listSubscriptionLevelByRegionNext operation. */
+export type AlertsListSubscriptionLevelByRegionNextResponse = AlertList;
 
 /** Optional parameters. */
-export interface AutoProvisioningSettingsGetOptionalParams
+export interface AlertsListResourceGroupLevelByRegionNextOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the get operation. */
-export type AutoProvisioningSettingsGetResponse = AutoProvisioningSetting;
-
-/** Optional parameters. */
-export interface AutoProvisioningSettingsCreateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the create operation. */
-export type AutoProvisioningSettingsCreateResponse = AutoProvisioningSetting;
-
-/** Optional parameters. */
-export interface AutoProvisioningSettingsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type AutoProvisioningSettingsListNextResponse =
-  AutoProvisioningSettingList;
-
-/** Optional parameters. */
-export interface CompliancesListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type CompliancesListResponse = ComplianceList;
-
-/** Optional parameters. */
-export interface CompliancesGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type CompliancesGetResponse = Compliance;
-
-/** Optional parameters. */
-export interface CompliancesListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type CompliancesListNextResponse = ComplianceList;
-
-/** Optional parameters. */
-export interface InformationProtectionPoliciesGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type InformationProtectionPoliciesGetResponse =
-  InformationProtectionPolicy;
-
-/** Optional parameters. */
-export interface InformationProtectionPoliciesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdate operation. */
-export type InformationProtectionPoliciesCreateOrUpdateResponse =
-  InformationProtectionPolicy;
-
-/** Optional parameters. */
-export interface InformationProtectionPoliciesListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type InformationProtectionPoliciesListResponse =
-  InformationProtectionPolicyList;
-
-/** Optional parameters. */
-export interface InformationProtectionPoliciesListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type InformationProtectionPoliciesListNextResponse =
-  InformationProtectionPolicyList;
-
-/** Optional parameters. */
-export interface WorkspaceSettingsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type WorkspaceSettingsListResponse = WorkspaceSettingList;
-
-/** Optional parameters. */
-export interface WorkspaceSettingsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type WorkspaceSettingsGetResponse = WorkspaceSetting;
-
-/** Optional parameters. */
-export interface WorkspaceSettingsCreateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the create operation. */
-export type WorkspaceSettingsCreateResponse = WorkspaceSetting;
-
-/** Optional parameters. */
-export interface WorkspaceSettingsUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the update operation. */
-export type WorkspaceSettingsUpdateResponse = WorkspaceSetting;
-
-/** Optional parameters. */
-export interface WorkspaceSettingsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface WorkspaceSettingsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type WorkspaceSettingsListNextResponse = WorkspaceSettingList;
+/** Contains response data for the listResourceGroupLevelByRegionNext operation. */
+export type AlertsListResourceGroupLevelByRegionNextResponse = AlertList;
 
 /** Optional parameters. */
 export interface AlertsSuppressionRulesListOptionalParams
@@ -8991,6 +8875,301 @@ export interface AlertsSuppressionRulesListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type AlertsSuppressionRulesListNextResponse = AlertsSuppressionRulesList;
+
+/** Optional parameters. */
+export interface AllowedConnectionsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type AllowedConnectionsListResponse = AllowedConnectionsList;
+
+/** Optional parameters. */
+export interface AllowedConnectionsListByHomeRegionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByHomeRegion operation. */
+export type AllowedConnectionsListByHomeRegionResponse = AllowedConnectionsList;
+
+/** Optional parameters. */
+export interface AllowedConnectionsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type AllowedConnectionsGetResponse = AllowedConnectionsResource;
+
+/** Optional parameters. */
+export interface AllowedConnectionsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type AllowedConnectionsListNextResponse = AllowedConnectionsList;
+
+/** Optional parameters. */
+export interface AllowedConnectionsListByHomeRegionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByHomeRegionNext operation. */
+export type AllowedConnectionsListByHomeRegionNextResponse =
+  AllowedConnectionsList;
+
+/** Optional parameters. */
+export interface APICollectionsListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscription operation. */
+export type APICollectionsListBySubscriptionResponse = ApiCollectionList;
+
+/** Optional parameters. */
+export interface APICollectionsListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type APICollectionsListByResourceGroupResponse = ApiCollectionList;
+
+/** Optional parameters. */
+export interface APICollectionsListByAzureApiManagementServiceOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByAzureApiManagementService operation. */
+export type APICollectionsListByAzureApiManagementServiceResponse =
+  ApiCollectionList;
+
+/** Optional parameters. */
+export interface APICollectionsGetByAzureApiManagementServiceOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getByAzureApiManagementService operation. */
+export type APICollectionsGetByAzureApiManagementServiceResponse =
+  ApiCollection;
+
+/** Optional parameters. */
+export interface APICollectionsOnboardAzureApiManagementApiOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the onboardAzureApiManagementApi operation. */
+export type APICollectionsOnboardAzureApiManagementApiResponse = ApiCollection;
+
+/** Optional parameters. */
+export interface APICollectionsOffboardAzureApiManagementApiOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface APICollectionsListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type APICollectionsListBySubscriptionNextResponse = ApiCollectionList;
+
+/** Optional parameters. */
+export interface APICollectionsListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type APICollectionsListByResourceGroupNextResponse = ApiCollectionList;
+
+/** Optional parameters. */
+export interface APICollectionsListByAzureApiManagementServiceNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByAzureApiManagementServiceNext operation. */
+export type APICollectionsListByAzureApiManagementServiceNextResponse =
+  ApiCollectionList;
+
+/** Optional parameters. */
+export interface ApplicationsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ApplicationsListResponse = ApplicationsList;
+
+/** Optional parameters. */
+export interface ApplicationsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ApplicationsListNextResponse = ApplicationsList;
+
+/** Optional parameters. */
+export interface ApplicationGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ApplicationGetResponse = Application;
+
+/** Optional parameters. */
+export interface ApplicationCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ApplicationCreateOrUpdateResponse = Application;
+
+/** Optional parameters. */
+export interface ApplicationDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface SecurityConnectorApplicationsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type SecurityConnectorApplicationsListResponse = ApplicationsList;
+
+/** Optional parameters. */
+export interface SecurityConnectorApplicationsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type SecurityConnectorApplicationsListNextResponse = ApplicationsList;
+
+/** Optional parameters. */
+export interface SecurityConnectorApplicationGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SecurityConnectorApplicationGetResponse = Application;
+
+/** Optional parameters. */
+export interface SecurityConnectorApplicationCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type SecurityConnectorApplicationCreateOrUpdateResponse = Application;
+
+/** Optional parameters. */
+export interface SecurityConnectorApplicationDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface AdaptiveApplicationControlsListOptionalParams
+  extends coreClient.OperationOptions {
+  /** Include the policy rules */
+  includePathRecommendations?: boolean;
+  /** Return output in a summarized form */
+  summary?: boolean;
+}
+
+/** Contains response data for the list operation. */
+export type AdaptiveApplicationControlsListResponse =
+  AdaptiveApplicationControlGroups;
+
+/** Optional parameters. */
+export interface AdaptiveApplicationControlsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type AdaptiveApplicationControlsGetResponse =
+  AdaptiveApplicationControlGroup;
+
+/** Optional parameters. */
+export interface AdaptiveApplicationControlsPutOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the put operation. */
+export type AdaptiveApplicationControlsPutResponse =
+  AdaptiveApplicationControlGroup;
+
+/** Optional parameters. */
+export interface AdaptiveApplicationControlsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface AssessmentsMetadataListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type AssessmentsMetadataListResponse =
+  SecurityAssessmentMetadataResponseList;
+
+/** Optional parameters. */
+export interface AssessmentsMetadataGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type AssessmentsMetadataGetResponse = SecurityAssessmentMetadataResponse;
+
+/** Optional parameters. */
+export interface AssessmentsMetadataListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscription operation. */
+export type AssessmentsMetadataListBySubscriptionResponse =
+  SecurityAssessmentMetadataResponseList;
+
+/** Optional parameters. */
+export interface AssessmentsMetadataGetInSubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getInSubscription operation. */
+export type AssessmentsMetadataGetInSubscriptionResponse =
+  SecurityAssessmentMetadataResponse;
+
+/** Optional parameters. */
+export interface AssessmentsMetadataCreateInSubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createInSubscription operation. */
+export type AssessmentsMetadataCreateInSubscriptionResponse =
+  SecurityAssessmentMetadataResponse;
+
+/** Optional parameters. */
+export interface AssessmentsMetadataDeleteInSubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface AssessmentsMetadataListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type AssessmentsMetadataListNextResponse =
+  SecurityAssessmentMetadataResponseList;
+
+/** Optional parameters. */
+export interface AssessmentsMetadataListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type AssessmentsMetadataListBySubscriptionNextResponse =
+  SecurityAssessmentMetadataResponseList;
+
+/** Optional parameters. */
+export interface AssessmentsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type AssessmentsListResponse = SecurityAssessmentList;
+
+/** Optional parameters. */
+export interface AssessmentsGetOptionalParams
+  extends coreClient.OperationOptions {
+  /** OData expand. Optional. */
+  expand?: ExpandEnum;
+}
+
+/** Contains response data for the get operation. */
+export type AssessmentsGetResponse = SecurityAssessmentResponse;
+
+/** Optional parameters. */
+export interface AssessmentsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type AssessmentsCreateOrUpdateResponse = SecurityAssessmentResponse;
+
+/** Optional parameters. */
+export interface AssessmentsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface AssessmentsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type AssessmentsListNextResponse = SecurityAssessmentList;
 
 /** Optional parameters. */
 export interface AutomationsListOptionalParams
@@ -9053,120 +9232,75 @@ export interface AutomationsListByResourceGroupNextOptionalParams
 export type AutomationsListByResourceGroupNextResponse = AutomationList;
 
 /** Optional parameters. */
-export interface RegulatoryComplianceStandardsListOptionalParams
-  extends coreClient.OperationOptions {
-  /** OData filter. Optional. */
-  filter?: string;
-}
-
-/** Contains response data for the list operation. */
-export type RegulatoryComplianceStandardsListResponse =
-  RegulatoryComplianceStandardList;
-
-/** Optional parameters. */
-export interface RegulatoryComplianceStandardsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type RegulatoryComplianceStandardsGetResponse =
-  RegulatoryComplianceStandard;
-
-/** Optional parameters. */
-export interface RegulatoryComplianceStandardsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type RegulatoryComplianceStandardsListNextResponse =
-  RegulatoryComplianceStandardList;
-
-/** Optional parameters. */
-export interface RegulatoryComplianceControlsListOptionalParams
-  extends coreClient.OperationOptions {
-  /** OData filter. Optional. */
-  filter?: string;
-}
-
-/** Contains response data for the list operation. */
-export type RegulatoryComplianceControlsListResponse =
-  RegulatoryComplianceControlList;
-
-/** Optional parameters. */
-export interface RegulatoryComplianceControlsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type RegulatoryComplianceControlsGetResponse =
-  RegulatoryComplianceControl;
-
-/** Optional parameters. */
-export interface RegulatoryComplianceControlsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type RegulatoryComplianceControlsListNextResponse =
-  RegulatoryComplianceControlList;
-
-/** Optional parameters. */
-export interface RegulatoryComplianceAssessmentsListOptionalParams
-  extends coreClient.OperationOptions {
-  /** OData filter. Optional. */
-  filter?: string;
-}
-
-/** Contains response data for the list operation. */
-export type RegulatoryComplianceAssessmentsListResponse =
-  RegulatoryComplianceAssessmentList;
-
-/** Optional parameters. */
-export interface RegulatoryComplianceAssessmentsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type RegulatoryComplianceAssessmentsGetResponse =
-  RegulatoryComplianceAssessment;
-
-/** Optional parameters. */
-export interface RegulatoryComplianceAssessmentsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type RegulatoryComplianceAssessmentsListNextResponse =
-  RegulatoryComplianceAssessmentList;
-
-/** Optional parameters. */
-export interface SubAssessmentsListAllOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listAll operation. */
-export type SubAssessmentsListAllResponse = SecuritySubAssessmentList;
-
-/** Optional parameters. */
-export interface SubAssessmentsListOptionalParams
+export interface AutoProvisioningSettingsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type SubAssessmentsListResponse = SecuritySubAssessmentList;
+export type AutoProvisioningSettingsListResponse = AutoProvisioningSettingList;
 
 /** Optional parameters. */
-export interface SubAssessmentsGetOptionalParams
+export interface AutoProvisioningSettingsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type SubAssessmentsGetResponse = SecuritySubAssessment;
+export type AutoProvisioningSettingsGetResponse = AutoProvisioningSetting;
 
 /** Optional parameters. */
-export interface SubAssessmentsListAllNextOptionalParams
+export interface AutoProvisioningSettingsCreateOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listAllNext operation. */
-export type SubAssessmentsListAllNextResponse = SecuritySubAssessmentList;
+/** Contains response data for the create operation. */
+export type AutoProvisioningSettingsCreateResponse = AutoProvisioningSetting;
 
 /** Optional parameters. */
-export interface SubAssessmentsListNextOptionalParams
+export interface AutoProvisioningSettingsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type SubAssessmentsListNextResponse = SecuritySubAssessmentList;
+export type AutoProvisioningSettingsListNextResponse =
+  AutoProvisioningSettingList;
+
+/** Optional parameters. */
+export interface ComplianceResultsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ComplianceResultsListResponse = ComplianceResultList;
+
+/** Optional parameters. */
+export interface ComplianceResultsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ComplianceResultsGetResponse = ComplianceResult;
+
+/** Optional parameters. */
+export interface ComplianceResultsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ComplianceResultsListNextResponse = ComplianceResultList;
+
+/** Optional parameters. */
+export interface CompliancesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type CompliancesListResponse = ComplianceList;
+
+/** Optional parameters. */
+export interface CompliancesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type CompliancesGetResponse = Compliance;
+
+/** Optional parameters. */
+export interface CompliancesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type CompliancesListNextResponse = ComplianceList;
 
 /** Optional parameters. */
 export interface ConnectorsListOptionalParams
@@ -9199,74 +9333,6 @@ export interface ConnectorsListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type ConnectorsListNextResponse = ConnectorSettingList;
-
-/** Optional parameters. */
-export interface SecurityContactsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type SecurityContactsListResponse = SecurityContactList;
-
-/** Optional parameters. */
-export interface SecurityContactsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type SecurityContactsGetResponse = SecurityContact;
-
-/** Optional parameters. */
-export interface SecurityContactsCreateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the create operation. */
-export type SecurityContactsCreateResponse = SecurityContact;
-
-/** Optional parameters. */
-export interface SecurityContactsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface SecurityContactsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type SecurityContactsListNextResponse = SecurityContactList;
-
-/** Optional parameters. */
-export interface SoftwareInventoriesListByExtendedResourceOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByExtendedResource operation. */
-export type SoftwareInventoriesListByExtendedResourceResponse = SoftwaresList;
-
-/** Optional parameters. */
-export interface SoftwareInventoriesListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySubscription operation. */
-export type SoftwareInventoriesListBySubscriptionResponse = SoftwaresList;
-
-/** Optional parameters. */
-export interface SoftwareInventoriesGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type SoftwareInventoriesGetResponse = Software;
-
-/** Optional parameters. */
-export interface SoftwareInventoriesListByExtendedResourceNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByExtendedResourceNext operation. */
-export type SoftwareInventoriesListByExtendedResourceNextResponse =
-  SoftwaresList;
-
-/** Optional parameters. */
-export interface SoftwareInventoriesListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySubscriptionNext operation. */
-export type SoftwareInventoriesListBySubscriptionNextResponse = SoftwaresList;
 
 /** Optional parameters. */
 export interface CustomAssessmentAutomationsGetOptionalParams
@@ -9372,18 +9438,128 @@ export type CustomEntityStoreAssignmentsListBySubscriptionNextResponse =
   CustomEntityStoreAssignmentsListResult;
 
 /** Optional parameters. */
-export interface MdeOnboardingsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type MdeOnboardingsListResponse = MdeOnboardingDataList;
-
-/** Optional parameters. */
-export interface MdeOnboardingsGetOptionalParams
+export interface DefenderForStorageGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type MdeOnboardingsGetResponse = MdeOnboardingData;
+export type DefenderForStorageGetResponse = DefenderForStorageSetting;
+
+/** Optional parameters. */
+export interface DefenderForStorageCreateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the create operation. */
+export type DefenderForStorageCreateResponse = DefenderForStorageSetting;
+
+/** Optional parameters. */
+export interface DeviceSecurityGroupsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type DeviceSecurityGroupsListResponse = DeviceSecurityGroupList;
+
+/** Optional parameters. */
+export interface DeviceSecurityGroupsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type DeviceSecurityGroupsGetResponse = DeviceSecurityGroup;
+
+/** Optional parameters. */
+export interface DeviceSecurityGroupsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type DeviceSecurityGroupsCreateOrUpdateResponse = DeviceSecurityGroup;
+
+/** Optional parameters. */
+export interface DeviceSecurityGroupsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface DeviceSecurityGroupsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type DeviceSecurityGroupsListNextResponse = DeviceSecurityGroupList;
+
+/** Optional parameters. */
+export interface DiscoveredSecuritySolutionsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type DiscoveredSecuritySolutionsListResponse =
+  DiscoveredSecuritySolutionList;
+
+/** Optional parameters. */
+export interface DiscoveredSecuritySolutionsListByHomeRegionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByHomeRegion operation. */
+export type DiscoveredSecuritySolutionsListByHomeRegionResponse =
+  DiscoveredSecuritySolutionList;
+
+/** Optional parameters. */
+export interface DiscoveredSecuritySolutionsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type DiscoveredSecuritySolutionsGetResponse = DiscoveredSecuritySolution;
+
+/** Optional parameters. */
+export interface DiscoveredSecuritySolutionsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type DiscoveredSecuritySolutionsListNextResponse =
+  DiscoveredSecuritySolutionList;
+
+/** Optional parameters. */
+export interface DiscoveredSecuritySolutionsListByHomeRegionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByHomeRegionNext operation. */
+export type DiscoveredSecuritySolutionsListByHomeRegionNextResponse =
+  DiscoveredSecuritySolutionList;
+
+/** Optional parameters. */
+export interface ExternalSecuritySolutionsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ExternalSecuritySolutionsListResponse =
+  ExternalSecuritySolutionList;
+
+/** Optional parameters. */
+export interface ExternalSecuritySolutionsListByHomeRegionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByHomeRegion operation. */
+export type ExternalSecuritySolutionsListByHomeRegionResponse =
+  ExternalSecuritySolutionList;
+
+/** Optional parameters. */
+export interface ExternalSecuritySolutionsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ExternalSecuritySolutionsGetResponse = ExternalSecuritySolution;
+
+/** Optional parameters. */
+export interface ExternalSecuritySolutionsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ExternalSecuritySolutionsListNextResponse =
+  ExternalSecuritySolutionList;
+
+/** Optional parameters. */
+export interface ExternalSecuritySolutionsListByHomeRegionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByHomeRegionNext operation. */
+export type ExternalSecuritySolutionsListByHomeRegionNextResponse =
+  ExternalSecuritySolutionList;
 
 /** Optional parameters. */
 export interface GovernanceAssignmentsListOptionalParams
@@ -9477,199 +9653,6 @@ export interface GovernanceRulesListNextOptionalParams
 export type GovernanceRulesListNextResponse = GovernanceRuleList;
 
 /** Optional parameters. */
-export interface ApplicationsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type ApplicationsListResponse = ApplicationsList;
-
-/** Optional parameters. */
-export interface ApplicationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type ApplicationsListNextResponse = ApplicationsList;
-
-/** Optional parameters. */
-export interface ApplicationGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type ApplicationGetResponse = Application;
-
-/** Optional parameters. */
-export interface ApplicationCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdate operation. */
-export type ApplicationCreateOrUpdateResponse = Application;
-
-/** Optional parameters. */
-export interface ApplicationDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface SecurityConnectorApplicationsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type SecurityConnectorApplicationsListResponse = ApplicationsList;
-
-/** Optional parameters. */
-export interface SecurityConnectorApplicationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type SecurityConnectorApplicationsListNextResponse = ApplicationsList;
-
-/** Optional parameters. */
-export interface SecurityConnectorApplicationGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type SecurityConnectorApplicationGetResponse = Application;
-
-/** Optional parameters. */
-export interface SecurityConnectorApplicationCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdate operation. */
-export type SecurityConnectorApplicationCreateOrUpdateResponse = Application;
-
-/** Optional parameters. */
-export interface SecurityConnectorApplicationDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface DefenderForStorageGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type DefenderForStorageGetResponse = DefenderForStorageSetting;
-
-/** Optional parameters. */
-export interface DefenderForStorageCreateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the create operation. */
-export type DefenderForStorageCreateResponse = DefenderForStorageSetting;
-
-/** Optional parameters. */
-export interface SecurityOperatorsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type SecurityOperatorsListResponse = SecurityOperatorList;
-
-/** Optional parameters. */
-export interface SecurityOperatorsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type SecurityOperatorsGetResponse = SecurityOperator;
-
-/** Optional parameters. */
-export interface SecurityOperatorsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdate operation. */
-export type SecurityOperatorsCreateOrUpdateResponse = SecurityOperator;
-
-/** Optional parameters. */
-export interface SecurityOperatorsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface SqlVulnerabilityAssessmentBaselineRulesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** The baseline results for this rule. */
-  body?: RuleResultsInput;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type SqlVulnerabilityAssessmentBaselineRulesCreateOrUpdateResponse =
-  RuleResults;
-
-/** Optional parameters. */
-export interface SqlVulnerabilityAssessmentBaselineRulesGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type SqlVulnerabilityAssessmentBaselineRulesGetResponse = RuleResults;
-
-/** Optional parameters. */
-export interface SqlVulnerabilityAssessmentBaselineRulesDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface SqlVulnerabilityAssessmentBaselineRulesListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type SqlVulnerabilityAssessmentBaselineRulesListResponse = RulesResults;
-
-/** Optional parameters. */
-export interface SqlVulnerabilityAssessmentBaselineRulesAddOptionalParams
-  extends coreClient.OperationOptions {
-  /** The baseline rules. */
-  body?: RulesResultsInput;
-}
-
-/** Contains response data for the add operation. */
-export type SqlVulnerabilityAssessmentBaselineRulesAddResponse = RulesResults;
-
-/** Optional parameters. */
-export interface SqlVulnerabilityAssessmentScansGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type SqlVulnerabilityAssessmentScansGetResponse = Scan;
-
-/** Optional parameters. */
-export interface SqlVulnerabilityAssessmentScansListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type SqlVulnerabilityAssessmentScansListResponse = Scans;
-
-/** Optional parameters. */
-export interface SqlVulnerabilityAssessmentScanResultsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type SqlVulnerabilityAssessmentScanResultsGetResponse = ScanResult;
-
-/** Optional parameters. */
-export interface SqlVulnerabilityAssessmentScanResultsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type SqlVulnerabilityAssessmentScanResultsListResponse = ScanResults;
-
-/** Optional parameters. */
-export interface UpdateSensitivitySettingsOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the updateSensitivitySettings operation. */
-export type UpdateSensitivitySettingsResponse = GetSensitivitySettingsResponse;
-
-/** Optional parameters. */
-export interface GetSensitivitySettingsOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getSensitivitySettings operation. */
-export type GetSensitivitySettingsOperationResponse =
-  GetSensitivitySettingsResponse;
-
-/** Optional parameters. */
-export interface SensitivitySettingsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type SensitivitySettingsListResponse =
-  GetSensitivitySettingsListResponse;
-
-/** Optional parameters. */
 export interface HealthReportsListOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -9689,6 +9672,567 @@ export interface HealthReportsListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type HealthReportsListNextResponse = HealthReportsList;
+
+/** Optional parameters. */
+export interface InformationProtectionPoliciesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type InformationProtectionPoliciesGetResponse =
+  InformationProtectionPolicy;
+
+/** Optional parameters. */
+export interface InformationProtectionPoliciesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type InformationProtectionPoliciesCreateOrUpdateResponse =
+  InformationProtectionPolicy;
+
+/** Optional parameters. */
+export interface InformationProtectionPoliciesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type InformationProtectionPoliciesListResponse =
+  InformationProtectionPolicyList;
+
+/** Optional parameters. */
+export interface InformationProtectionPoliciesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type InformationProtectionPoliciesListNextResponse =
+  InformationProtectionPolicyList;
+
+/** Optional parameters. */
+export interface IotSecuritySolutionAnalyticsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type IotSecuritySolutionAnalyticsListResponse =
+  IoTSecuritySolutionAnalyticsModelList;
+
+/** Optional parameters. */
+export interface IotSecuritySolutionAnalyticsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type IotSecuritySolutionAnalyticsGetResponse =
+  IoTSecuritySolutionAnalyticsModel;
+
+/** Optional parameters. */
+export interface IotSecuritySolutionsAnalyticsAggregatedAlertListOptionalParams
+  extends coreClient.OperationOptions {
+  /** Number of results to retrieve. */
+  top?: number;
+}
+
+/** Contains response data for the list operation. */
+export type IotSecuritySolutionsAnalyticsAggregatedAlertListResponse =
+  IoTSecurityAggregatedAlertList;
+
+/** Optional parameters. */
+export interface IotSecuritySolutionsAnalyticsAggregatedAlertGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type IotSecuritySolutionsAnalyticsAggregatedAlertGetResponse =
+  IoTSecurityAggregatedAlert;
+
+/** Optional parameters. */
+export interface IotSecuritySolutionsAnalyticsAggregatedAlertDismissOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface IotSecuritySolutionsAnalyticsAggregatedAlertListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type IotSecuritySolutionsAnalyticsAggregatedAlertListNextResponse =
+  IoTSecurityAggregatedAlertList;
+
+/** Optional parameters. */
+export interface IotSecuritySolutionsAnalyticsRecommendationGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type IotSecuritySolutionsAnalyticsRecommendationGetResponse =
+  IoTSecurityAggregatedRecommendation;
+
+/** Optional parameters. */
+export interface IotSecuritySolutionsAnalyticsRecommendationListOptionalParams
+  extends coreClient.OperationOptions {
+  /** Number of results to retrieve. */
+  top?: number;
+}
+
+/** Contains response data for the list operation. */
+export type IotSecuritySolutionsAnalyticsRecommendationListResponse =
+  IoTSecurityAggregatedRecommendationList;
+
+/** Optional parameters. */
+export interface IotSecuritySolutionsAnalyticsRecommendationListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type IotSecuritySolutionsAnalyticsRecommendationListNextResponse =
+  IoTSecurityAggregatedRecommendationList;
+
+/** Optional parameters. */
+export interface IotSecuritySolutionListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {
+  /** Filter the IoT Security solution with OData syntax. Supports filtering by iotHubs. */
+  filter?: string;
+}
+
+/** Contains response data for the listBySubscription operation. */
+export type IotSecuritySolutionListBySubscriptionResponse =
+  IoTSecuritySolutionsList;
+
+/** Optional parameters. */
+export interface IotSecuritySolutionListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {
+  /** Filter the IoT Security solution with OData syntax. Supports filtering by iotHubs. */
+  filter?: string;
+}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type IotSecuritySolutionListByResourceGroupResponse =
+  IoTSecuritySolutionsList;
+
+/** Optional parameters. */
+export interface IotSecuritySolutionGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type IotSecuritySolutionGetResponse = IoTSecuritySolutionModel;
+
+/** Optional parameters. */
+export interface IotSecuritySolutionCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type IotSecuritySolutionCreateOrUpdateResponse =
+  IoTSecuritySolutionModel;
+
+/** Optional parameters. */
+export interface IotSecuritySolutionUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type IotSecuritySolutionUpdateResponse = IoTSecuritySolutionModel;
+
+/** Optional parameters. */
+export interface IotSecuritySolutionDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface IotSecuritySolutionListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type IotSecuritySolutionListBySubscriptionNextResponse =
+  IoTSecuritySolutionsList;
+
+/** Optional parameters. */
+export interface IotSecuritySolutionListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type IotSecuritySolutionListByResourceGroupNextResponse =
+  IoTSecuritySolutionsList;
+
+/** Optional parameters. */
+export interface JitNetworkAccessPoliciesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type JitNetworkAccessPoliciesListResponse = JitNetworkAccessPoliciesList;
+
+/** Optional parameters. */
+export interface JitNetworkAccessPoliciesListByRegionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByRegion operation. */
+export type JitNetworkAccessPoliciesListByRegionResponse =
+  JitNetworkAccessPoliciesList;
+
+/** Optional parameters. */
+export interface JitNetworkAccessPoliciesListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type JitNetworkAccessPoliciesListByResourceGroupResponse =
+  JitNetworkAccessPoliciesList;
+
+/** Optional parameters. */
+export interface JitNetworkAccessPoliciesListByResourceGroupAndRegionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupAndRegion operation. */
+export type JitNetworkAccessPoliciesListByResourceGroupAndRegionResponse =
+  JitNetworkAccessPoliciesList;
+
+/** Optional parameters. */
+export interface JitNetworkAccessPoliciesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type JitNetworkAccessPoliciesGetResponse = JitNetworkAccessPolicy;
+
+/** Optional parameters. */
+export interface JitNetworkAccessPoliciesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type JitNetworkAccessPoliciesCreateOrUpdateResponse =
+  JitNetworkAccessPolicy;
+
+/** Optional parameters. */
+export interface JitNetworkAccessPoliciesDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface JitNetworkAccessPoliciesInitiateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the initiate operation. */
+export type JitNetworkAccessPoliciesInitiateResponse = JitNetworkAccessRequest;
+
+/** Optional parameters. */
+export interface JitNetworkAccessPoliciesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type JitNetworkAccessPoliciesListNextResponse =
+  JitNetworkAccessPoliciesList;
+
+/** Optional parameters. */
+export interface JitNetworkAccessPoliciesListByRegionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByRegionNext operation. */
+export type JitNetworkAccessPoliciesListByRegionNextResponse =
+  JitNetworkAccessPoliciesList;
+
+/** Optional parameters. */
+export interface JitNetworkAccessPoliciesListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type JitNetworkAccessPoliciesListByResourceGroupNextResponse =
+  JitNetworkAccessPoliciesList;
+
+/** Optional parameters. */
+export interface JitNetworkAccessPoliciesListByResourceGroupAndRegionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupAndRegionNext operation. */
+export type JitNetworkAccessPoliciesListByResourceGroupAndRegionNextResponse =
+  JitNetworkAccessPoliciesList;
+
+/** Optional parameters. */
+export interface LocationsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type LocationsListResponse = AscLocationList;
+
+/** Optional parameters. */
+export interface LocationsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type LocationsGetResponse = AscLocation;
+
+/** Optional parameters. */
+export interface LocationsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type LocationsListNextResponse = AscLocationList;
+
+/** Optional parameters. */
+export interface MdeOnboardingsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type MdeOnboardingsListResponse = MdeOnboardingDataList;
+
+/** Optional parameters. */
+export interface MdeOnboardingsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type MdeOnboardingsGetResponse = MdeOnboardingData;
+
+/** Optional parameters. */
+export interface OperationsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type OperationsListResponse = OperationList;
+
+/** Optional parameters. */
+export interface OperationsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type OperationsListNextResponse = OperationList;
+
+/** Optional parameters. */
+export interface PricingsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type PricingsGetResponse = Pricing;
+
+/** Optional parameters. */
+export interface PricingsUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type PricingsUpdateResponse = Pricing;
+
+/** Optional parameters. */
+export interface PricingsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface PricingsListOptionalParams
+  extends coreClient.OperationOptions {
+  /** OData filter. Optional. */
+  filter?: string;
+}
+
+/** Contains response data for the list operation. */
+export type PricingsListResponse = PricingList;
+
+/** Optional parameters. */
+export interface RegulatoryComplianceStandardsListOptionalParams
+  extends coreClient.OperationOptions {
+  /** OData filter. Optional. */
+  filter?: string;
+}
+
+/** Contains response data for the list operation. */
+export type RegulatoryComplianceStandardsListResponse =
+  RegulatoryComplianceStandardList;
+
+/** Optional parameters. */
+export interface RegulatoryComplianceStandardsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type RegulatoryComplianceStandardsGetResponse =
+  RegulatoryComplianceStandard;
+
+/** Optional parameters. */
+export interface RegulatoryComplianceStandardsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type RegulatoryComplianceStandardsListNextResponse =
+  RegulatoryComplianceStandardList;
+
+/** Optional parameters. */
+export interface RegulatoryComplianceControlsListOptionalParams
+  extends coreClient.OperationOptions {
+  /** OData filter. Optional. */
+  filter?: string;
+}
+
+/** Contains response data for the list operation. */
+export type RegulatoryComplianceControlsListResponse =
+  RegulatoryComplianceControlList;
+
+/** Optional parameters. */
+export interface RegulatoryComplianceControlsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type RegulatoryComplianceControlsGetResponse =
+  RegulatoryComplianceControl;
+
+/** Optional parameters. */
+export interface RegulatoryComplianceControlsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type RegulatoryComplianceControlsListNextResponse =
+  RegulatoryComplianceControlList;
+
+/** Optional parameters. */
+export interface RegulatoryComplianceAssessmentsListOptionalParams
+  extends coreClient.OperationOptions {
+  /** OData filter. Optional. */
+  filter?: string;
+}
+
+/** Contains response data for the list operation. */
+export type RegulatoryComplianceAssessmentsListResponse =
+  RegulatoryComplianceAssessmentList;
+
+/** Optional parameters. */
+export interface RegulatoryComplianceAssessmentsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type RegulatoryComplianceAssessmentsGetResponse =
+  RegulatoryComplianceAssessment;
+
+/** Optional parameters. */
+export interface RegulatoryComplianceAssessmentsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type RegulatoryComplianceAssessmentsListNextResponse =
+  RegulatoryComplianceAssessmentList;
+
+/** Optional parameters. */
+export interface SecureScoresListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type SecureScoresListResponse = SecureScoresList;
+
+/** Optional parameters. */
+export interface SecureScoresGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SecureScoresGetResponse = SecureScoreItem;
+
+/** Optional parameters. */
+export interface SecureScoresListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type SecureScoresListNextResponse = SecureScoresList;
+
+/** Optional parameters. */
+export interface SecureScoreControlsListBySecureScoreOptionalParams
+  extends coreClient.OperationOptions {
+  /** OData expand. Optional. */
+  expand?: ExpandControlsEnum;
+}
+
+/** Contains response data for the listBySecureScore operation. */
+export type SecureScoreControlsListBySecureScoreResponse =
+  SecureScoreControlList;
+
+/** Optional parameters. */
+export interface SecureScoreControlsListOptionalParams
+  extends coreClient.OperationOptions {
+  /** OData expand. Optional. */
+  expand?: ExpandControlsEnum;
+}
+
+/** Contains response data for the list operation. */
+export type SecureScoreControlsListResponse = SecureScoreControlList;
+
+/** Optional parameters. */
+export interface SecureScoreControlsListBySecureScoreNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySecureScoreNext operation. */
+export type SecureScoreControlsListBySecureScoreNextResponse =
+  SecureScoreControlList;
+
+/** Optional parameters. */
+export interface SecureScoreControlsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type SecureScoreControlsListNextResponse = SecureScoreControlList;
+
+/** Optional parameters. */
+export interface SecureScoreControlDefinitionsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type SecureScoreControlDefinitionsListResponse =
+  SecureScoreControlDefinitionList;
+
+/** Optional parameters. */
+export interface SecureScoreControlDefinitionsListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscription operation. */
+export type SecureScoreControlDefinitionsListBySubscriptionResponse =
+  SecureScoreControlDefinitionList;
+
+/** Optional parameters. */
+export interface SecureScoreControlDefinitionsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type SecureScoreControlDefinitionsListNextResponse =
+  SecureScoreControlDefinitionList;
+
+/** Optional parameters. */
+export interface SecureScoreControlDefinitionsListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type SecureScoreControlDefinitionsListBySubscriptionNextResponse =
+  SecureScoreControlDefinitionList;
+
+/** Optional parameters. */
+export interface SecurityConnectorsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type SecurityConnectorsListResponse = SecurityConnectorsList;
+
+/** Optional parameters. */
+export interface SecurityConnectorsListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type SecurityConnectorsListByResourceGroupResponse =
+  SecurityConnectorsList;
+
+/** Optional parameters. */
+export interface SecurityConnectorsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SecurityConnectorsGetResponse = SecurityConnector;
+
+/** Optional parameters. */
+export interface SecurityConnectorsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type SecurityConnectorsCreateOrUpdateResponse = SecurityConnector;
+
+/** Optional parameters. */
+export interface SecurityConnectorsUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type SecurityConnectorsUpdateResponse = SecurityConnector;
+
+/** Optional parameters. */
+export interface SecurityConnectorsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface SecurityConnectorsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type SecurityConnectorsListNextResponse = SecurityConnectorsList;
+
+/** Optional parameters. */
+export interface SecurityConnectorsListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type SecurityConnectorsListByResourceGroupNextResponse =
+  SecurityConnectorsList;
 
 /** Optional parameters. */
 export interface AzureDevOpsOrgsListAvailableOptionalParams
@@ -10002,623 +10546,61 @@ export interface DevOpsOperationResultsGetOptionalParams
 export type DevOpsOperationResultsGetResponse = OperationStatusResult;
 
 /** Optional parameters. */
-export interface SecurityConnectorsListOptionalParams
+export interface SecurityContactsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type SecurityConnectorsListResponse = SecurityConnectorsList;
+export type SecurityContactsListResponse = SecurityContactList;
 
 /** Optional parameters. */
-export interface SecurityConnectorsListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroup operation. */
-export type SecurityConnectorsListByResourceGroupResponse =
-  SecurityConnectorsList;
-
-/** Optional parameters. */
-export interface SecurityConnectorsGetOptionalParams
+export interface SecurityContactsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type SecurityConnectorsGetResponse = SecurityConnector;
+export type SecurityContactsGetResponse = SecurityContact;
 
 /** Optional parameters. */
-export interface SecurityConnectorsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdate operation. */
-export type SecurityConnectorsCreateOrUpdateResponse = SecurityConnector;
-
-/** Optional parameters. */
-export interface SecurityConnectorsUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the update operation. */
-export type SecurityConnectorsUpdateResponse = SecurityConnector;
-
-/** Optional parameters. */
-export interface SecurityConnectorsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface SecurityConnectorsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type SecurityConnectorsListNextResponse = SecurityConnectorsList;
-
-/** Optional parameters. */
-export interface SecurityConnectorsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroupNext operation. */
-export type SecurityConnectorsListByResourceGroupNextResponse =
-  SecurityConnectorsList;
-
-/** Optional parameters. */
-export interface ComplianceResultsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type ComplianceResultsListResponse = ComplianceResultList;
-
-/** Optional parameters. */
-export interface ComplianceResultsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type ComplianceResultsGetResponse = ComplianceResult;
-
-/** Optional parameters. */
-export interface ComplianceResultsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type ComplianceResultsListNextResponse = ComplianceResultList;
-
-/** Optional parameters. */
-export interface AdvancedThreatProtectionGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type AdvancedThreatProtectionGetResponse =
-  AdvancedThreatProtectionSetting;
-
-/** Optional parameters. */
-export interface AdvancedThreatProtectionCreateOptionalParams
+export interface SecurityContactsCreateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the create operation. */
-export type AdvancedThreatProtectionCreateResponse =
-  AdvancedThreatProtectionSetting;
+export type SecurityContactsCreateResponse = SecurityContact;
 
 /** Optional parameters. */
-export interface DeviceSecurityGroupsListOptionalParams
+export interface SecurityContactsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface SecurityContactsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type SecurityContactsListNextResponse = SecurityContactList;
+
+/** Optional parameters. */
+export interface SecurityOperatorsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type DeviceSecurityGroupsListResponse = DeviceSecurityGroupList;
+export type SecurityOperatorsListResponse = SecurityOperatorList;
 
 /** Optional parameters. */
-export interface DeviceSecurityGroupsGetOptionalParams
+export interface SecurityOperatorsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type DeviceSecurityGroupsGetResponse = DeviceSecurityGroup;
+export type SecurityOperatorsGetResponse = SecurityOperator;
 
 /** Optional parameters. */
-export interface DeviceSecurityGroupsCreateOrUpdateOptionalParams
+export interface SecurityOperatorsCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
-export type DeviceSecurityGroupsCreateOrUpdateResponse = DeviceSecurityGroup;
+export type SecurityOperatorsCreateOrUpdateResponse = SecurityOperator;
 
 /** Optional parameters. */
-export interface DeviceSecurityGroupsDeleteOptionalParams
+export interface SecurityOperatorsDeleteOptionalParams
   extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface DeviceSecurityGroupsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type DeviceSecurityGroupsListNextResponse = DeviceSecurityGroupList;
-
-/** Optional parameters. */
-export interface IotSecuritySolutionAnalyticsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type IotSecuritySolutionAnalyticsListResponse =
-  IoTSecuritySolutionAnalyticsModelList;
-
-/** Optional parameters. */
-export interface IotSecuritySolutionAnalyticsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type IotSecuritySolutionAnalyticsGetResponse =
-  IoTSecuritySolutionAnalyticsModel;
-
-/** Optional parameters. */
-export interface IotSecuritySolutionsAnalyticsAggregatedAlertListOptionalParams
-  extends coreClient.OperationOptions {
-  /** Number of results to retrieve. */
-  top?: number;
-}
-
-/** Contains response data for the list operation. */
-export type IotSecuritySolutionsAnalyticsAggregatedAlertListResponse =
-  IoTSecurityAggregatedAlertList;
-
-/** Optional parameters. */
-export interface IotSecuritySolutionsAnalyticsAggregatedAlertGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type IotSecuritySolutionsAnalyticsAggregatedAlertGetResponse =
-  IoTSecurityAggregatedAlert;
-
-/** Optional parameters. */
-export interface IotSecuritySolutionsAnalyticsAggregatedAlertDismissOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface IotSecuritySolutionsAnalyticsAggregatedAlertListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type IotSecuritySolutionsAnalyticsAggregatedAlertListNextResponse =
-  IoTSecurityAggregatedAlertList;
-
-/** Optional parameters. */
-export interface IotSecuritySolutionsAnalyticsRecommendationGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type IotSecuritySolutionsAnalyticsRecommendationGetResponse =
-  IoTSecurityAggregatedRecommendation;
-
-/** Optional parameters. */
-export interface IotSecuritySolutionsAnalyticsRecommendationListOptionalParams
-  extends coreClient.OperationOptions {
-  /** Number of results to retrieve. */
-  top?: number;
-}
-
-/** Contains response data for the list operation. */
-export type IotSecuritySolutionsAnalyticsRecommendationListResponse =
-  IoTSecurityAggregatedRecommendationList;
-
-/** Optional parameters. */
-export interface IotSecuritySolutionsAnalyticsRecommendationListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type IotSecuritySolutionsAnalyticsRecommendationListNextResponse =
-  IoTSecurityAggregatedRecommendationList;
-
-/** Optional parameters. */
-export interface IotSecuritySolutionListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions {
-  /** Filter the IoT Security solution with OData syntax. Supports filtering by iotHubs. */
-  filter?: string;
-}
-
-/** Contains response data for the listBySubscription operation. */
-export type IotSecuritySolutionListBySubscriptionResponse =
-  IoTSecuritySolutionsList;
-
-/** Optional parameters. */
-export interface IotSecuritySolutionListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {
-  /** Filter the IoT Security solution with OData syntax. Supports filtering by iotHubs. */
-  filter?: string;
-}
-
-/** Contains response data for the listByResourceGroup operation. */
-export type IotSecuritySolutionListByResourceGroupResponse =
-  IoTSecuritySolutionsList;
-
-/** Optional parameters. */
-export interface IotSecuritySolutionGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type IotSecuritySolutionGetResponse = IoTSecuritySolutionModel;
-
-/** Optional parameters. */
-export interface IotSecuritySolutionCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdate operation. */
-export type IotSecuritySolutionCreateOrUpdateResponse =
-  IoTSecuritySolutionModel;
-
-/** Optional parameters. */
-export interface IotSecuritySolutionUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the update operation. */
-export type IotSecuritySolutionUpdateResponse = IoTSecuritySolutionModel;
-
-/** Optional parameters. */
-export interface IotSecuritySolutionDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface IotSecuritySolutionListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySubscriptionNext operation. */
-export type IotSecuritySolutionListBySubscriptionNextResponse =
-  IoTSecuritySolutionsList;
-
-/** Optional parameters. */
-export interface IotSecuritySolutionListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroupNext operation. */
-export type IotSecuritySolutionListByResourceGroupNextResponse =
-  IoTSecuritySolutionsList;
-
-/** Optional parameters. */
-export interface AdaptiveNetworkHardeningsListByExtendedResourceOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByExtendedResource operation. */
-export type AdaptiveNetworkHardeningsListByExtendedResourceResponse =
-  AdaptiveNetworkHardeningsList;
-
-/** Optional parameters. */
-export interface AdaptiveNetworkHardeningsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type AdaptiveNetworkHardeningsGetResponse = AdaptiveNetworkHardening;
-
-/** Optional parameters. */
-export interface AdaptiveNetworkHardeningsEnforceOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface AdaptiveNetworkHardeningsListByExtendedResourceNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByExtendedResourceNext operation. */
-export type AdaptiveNetworkHardeningsListByExtendedResourceNextResponse =
-  AdaptiveNetworkHardeningsList;
-
-/** Optional parameters. */
-export interface AllowedConnectionsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type AllowedConnectionsListResponse = AllowedConnectionsList;
-
-/** Optional parameters. */
-export interface AllowedConnectionsListByHomeRegionOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByHomeRegion operation. */
-export type AllowedConnectionsListByHomeRegionResponse = AllowedConnectionsList;
-
-/** Optional parameters. */
-export interface AllowedConnectionsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type AllowedConnectionsGetResponse = AllowedConnectionsResource;
-
-/** Optional parameters. */
-export interface AllowedConnectionsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type AllowedConnectionsListNextResponse = AllowedConnectionsList;
-
-/** Optional parameters. */
-export interface AllowedConnectionsListByHomeRegionNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByHomeRegionNext operation. */
-export type AllowedConnectionsListByHomeRegionNextResponse =
-  AllowedConnectionsList;
-
-/** Optional parameters. */
-export interface AdaptiveApplicationControlsListOptionalParams
-  extends coreClient.OperationOptions {
-  /** Include the policy rules */
-  includePathRecommendations?: boolean;
-  /** Return output in a summarized form */
-  summary?: boolean;
-}
-
-/** Contains response data for the list operation. */
-export type AdaptiveApplicationControlsListResponse =
-  AdaptiveApplicationControlGroups;
-
-/** Optional parameters. */
-export interface AdaptiveApplicationControlsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type AdaptiveApplicationControlsGetResponse =
-  AdaptiveApplicationControlGroup;
-
-/** Optional parameters. */
-export interface AdaptiveApplicationControlsPutOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the put operation. */
-export type AdaptiveApplicationControlsPutResponse =
-  AdaptiveApplicationControlGroup;
-
-/** Optional parameters. */
-export interface AdaptiveApplicationControlsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface DiscoveredSecuritySolutionsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type DiscoveredSecuritySolutionsListResponse =
-  DiscoveredSecuritySolutionList;
-
-/** Optional parameters. */
-export interface DiscoveredSecuritySolutionsListByHomeRegionOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByHomeRegion operation. */
-export type DiscoveredSecuritySolutionsListByHomeRegionResponse =
-  DiscoveredSecuritySolutionList;
-
-/** Optional parameters. */
-export interface DiscoveredSecuritySolutionsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type DiscoveredSecuritySolutionsGetResponse = DiscoveredSecuritySolution;
-
-/** Optional parameters. */
-export interface DiscoveredSecuritySolutionsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type DiscoveredSecuritySolutionsListNextResponse =
-  DiscoveredSecuritySolutionList;
-
-/** Optional parameters. */
-export interface DiscoveredSecuritySolutionsListByHomeRegionNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByHomeRegionNext operation. */
-export type DiscoveredSecuritySolutionsListByHomeRegionNextResponse =
-  DiscoveredSecuritySolutionList;
-
-/** Optional parameters. */
-export interface ExternalSecuritySolutionsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type ExternalSecuritySolutionsListResponse =
-  ExternalSecuritySolutionList;
-
-/** Optional parameters. */
-export interface ExternalSecuritySolutionsListByHomeRegionOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByHomeRegion operation. */
-export type ExternalSecuritySolutionsListByHomeRegionResponse =
-  ExternalSecuritySolutionList;
-
-/** Optional parameters. */
-export interface ExternalSecuritySolutionsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type ExternalSecuritySolutionsGetResponse = ExternalSecuritySolution;
-
-/** Optional parameters. */
-export interface ExternalSecuritySolutionsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type ExternalSecuritySolutionsListNextResponse =
-  ExternalSecuritySolutionList;
-
-/** Optional parameters. */
-export interface ExternalSecuritySolutionsListByHomeRegionNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByHomeRegionNext operation. */
-export type ExternalSecuritySolutionsListByHomeRegionNextResponse =
-  ExternalSecuritySolutionList;
-
-/** Optional parameters. */
-export interface JitNetworkAccessPoliciesListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type JitNetworkAccessPoliciesListResponse = JitNetworkAccessPoliciesList;
-
-/** Optional parameters. */
-export interface JitNetworkAccessPoliciesListByRegionOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByRegion operation. */
-export type JitNetworkAccessPoliciesListByRegionResponse =
-  JitNetworkAccessPoliciesList;
-
-/** Optional parameters. */
-export interface JitNetworkAccessPoliciesListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroup operation. */
-export type JitNetworkAccessPoliciesListByResourceGroupResponse =
-  JitNetworkAccessPoliciesList;
-
-/** Optional parameters. */
-export interface JitNetworkAccessPoliciesListByResourceGroupAndRegionOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroupAndRegion operation. */
-export type JitNetworkAccessPoliciesListByResourceGroupAndRegionResponse =
-  JitNetworkAccessPoliciesList;
-
-/** Optional parameters. */
-export interface JitNetworkAccessPoliciesGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type JitNetworkAccessPoliciesGetResponse = JitNetworkAccessPolicy;
-
-/** Optional parameters. */
-export interface JitNetworkAccessPoliciesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdate operation. */
-export type JitNetworkAccessPoliciesCreateOrUpdateResponse =
-  JitNetworkAccessPolicy;
-
-/** Optional parameters. */
-export interface JitNetworkAccessPoliciesDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface JitNetworkAccessPoliciesInitiateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the initiate operation. */
-export type JitNetworkAccessPoliciesInitiateResponse = JitNetworkAccessRequest;
-
-/** Optional parameters. */
-export interface JitNetworkAccessPoliciesListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type JitNetworkAccessPoliciesListNextResponse =
-  JitNetworkAccessPoliciesList;
-
-/** Optional parameters. */
-export interface JitNetworkAccessPoliciesListByRegionNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByRegionNext operation. */
-export type JitNetworkAccessPoliciesListByRegionNextResponse =
-  JitNetworkAccessPoliciesList;
-
-/** Optional parameters. */
-export interface JitNetworkAccessPoliciesListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroupNext operation. */
-export type JitNetworkAccessPoliciesListByResourceGroupNextResponse =
-  JitNetworkAccessPoliciesList;
-
-/** Optional parameters. */
-export interface JitNetworkAccessPoliciesListByResourceGroupAndRegionNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroupAndRegionNext operation. */
-export type JitNetworkAccessPoliciesListByResourceGroupAndRegionNextResponse =
-  JitNetworkAccessPoliciesList;
-
-/** Optional parameters. */
-export interface SecureScoresListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type SecureScoresListResponse = SecureScoresList;
-
-/** Optional parameters. */
-export interface SecureScoresGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type SecureScoresGetResponse = SecureScoreItem;
-
-/** Optional parameters. */
-export interface SecureScoresListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type SecureScoresListNextResponse = SecureScoresList;
-
-/** Optional parameters. */
-export interface SecureScoreControlsListBySecureScoreOptionalParams
-  extends coreClient.OperationOptions {
-  /** OData expand. Optional. */
-  expand?: ExpandControlsEnum;
-}
-
-/** Contains response data for the listBySecureScore operation. */
-export type SecureScoreControlsListBySecureScoreResponse =
-  SecureScoreControlList;
-
-/** Optional parameters. */
-export interface SecureScoreControlsListOptionalParams
-  extends coreClient.OperationOptions {
-  /** OData expand. Optional. */
-  expand?: ExpandControlsEnum;
-}
-
-/** Contains response data for the list operation. */
-export type SecureScoreControlsListResponse = SecureScoreControlList;
-
-/** Optional parameters. */
-export interface SecureScoreControlsListBySecureScoreNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySecureScoreNext operation. */
-export type SecureScoreControlsListBySecureScoreNextResponse =
-  SecureScoreControlList;
-
-/** Optional parameters. */
-export interface SecureScoreControlsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type SecureScoreControlsListNextResponse = SecureScoreControlList;
-
-/** Optional parameters. */
-export interface SecureScoreControlDefinitionsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type SecureScoreControlDefinitionsListResponse =
-  SecureScoreControlDefinitionList;
-
-/** Optional parameters. */
-export interface SecureScoreControlDefinitionsListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySubscription operation. */
-export type SecureScoreControlDefinitionsListBySubscriptionResponse =
-  SecureScoreControlDefinitionList;
-
-/** Optional parameters. */
-export interface SecureScoreControlDefinitionsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type SecureScoreControlDefinitionsListNextResponse =
-  SecureScoreControlDefinitionList;
-
-/** Optional parameters. */
-export interface SecureScoreControlDefinitionsListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySubscriptionNext operation. */
-export type SecureScoreControlDefinitionsListBySubscriptionNextResponse =
-  SecureScoreControlDefinitionList;
 
 /** Optional parameters. */
 export interface SecuritySolutionsListOptionalParams
@@ -10658,6 +10640,29 @@ export type SecuritySolutionsReferenceDataListByHomeRegionResponse =
   SecuritySolutionsReferenceDataList;
 
 /** Optional parameters. */
+export interface SensitivitySettingsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type SensitivitySettingsCreateOrUpdateResponse =
+  GetSensitivitySettingsResponse;
+
+/** Optional parameters. */
+export interface SensitivitySettingsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SensitivitySettingsGetResponse = GetSensitivitySettingsResponse;
+
+/** Optional parameters. */
+export interface SensitivitySettingsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type SensitivitySettingsListResponse =
+  GetSensitivitySettingsListResponse;
+
+/** Optional parameters. */
 export interface ServerVulnerabilityAssessmentListByExtendedResourceOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -10689,273 +10694,6 @@ export interface ServerVulnerabilityAssessmentDeleteOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
-
-/** Optional parameters. */
-export interface TopologyListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type TopologyListResponse = TopologyList;
-
-/** Optional parameters. */
-export interface TopologyListByHomeRegionOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByHomeRegion operation. */
-export type TopologyListByHomeRegionResponse = TopologyList;
-
-/** Optional parameters. */
-export interface TopologyGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type TopologyGetResponse = TopologyResource;
-
-/** Optional parameters. */
-export interface TopologyListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type TopologyListNextResponse = TopologyList;
-
-/** Optional parameters. */
-export interface TopologyListByHomeRegionNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByHomeRegionNext operation. */
-export type TopologyListByHomeRegionNextResponse = TopologyList;
-
-/** Optional parameters. */
-export interface AssessmentsMetadataListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type AssessmentsMetadataListResponse =
-  SecurityAssessmentMetadataResponseList;
-
-/** Optional parameters. */
-export interface AssessmentsMetadataGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type AssessmentsMetadataGetResponse = SecurityAssessmentMetadataResponse;
-
-/** Optional parameters. */
-export interface AssessmentsMetadataListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySubscription operation. */
-export type AssessmentsMetadataListBySubscriptionResponse =
-  SecurityAssessmentMetadataResponseList;
-
-/** Optional parameters. */
-export interface AssessmentsMetadataGetInSubscriptionOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getInSubscription operation. */
-export type AssessmentsMetadataGetInSubscriptionResponse =
-  SecurityAssessmentMetadataResponse;
-
-/** Optional parameters. */
-export interface AssessmentsMetadataCreateInSubscriptionOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createInSubscription operation. */
-export type AssessmentsMetadataCreateInSubscriptionResponse =
-  SecurityAssessmentMetadataResponse;
-
-/** Optional parameters. */
-export interface AssessmentsMetadataDeleteInSubscriptionOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface AssessmentsMetadataListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type AssessmentsMetadataListNextResponse =
-  SecurityAssessmentMetadataResponseList;
-
-/** Optional parameters. */
-export interface AssessmentsMetadataListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySubscriptionNext operation. */
-export type AssessmentsMetadataListBySubscriptionNextResponse =
-  SecurityAssessmentMetadataResponseList;
-
-/** Optional parameters. */
-export interface AssessmentsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type AssessmentsListResponse = SecurityAssessmentList;
-
-/** Optional parameters. */
-export interface AssessmentsGetOptionalParams
-  extends coreClient.OperationOptions {
-  /** OData expand. Optional. */
-  expand?: ExpandEnum;
-}
-
-/** Contains response data for the get operation. */
-export type AssessmentsGetResponse = SecurityAssessmentResponse;
-
-/** Optional parameters. */
-export interface AssessmentsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdate operation. */
-export type AssessmentsCreateOrUpdateResponse = SecurityAssessmentResponse;
-
-/** Optional parameters. */
-export interface AssessmentsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface AssessmentsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type AssessmentsListNextResponse = SecurityAssessmentList;
-
-/** Optional parameters. */
-export interface AlertsListOptionalParams extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type AlertsListResponse = AlertList;
-
-/** Optional parameters. */
-export interface AlertsListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroup operation. */
-export type AlertsListByResourceGroupResponse = AlertList;
-
-/** Optional parameters. */
-export interface AlertsListSubscriptionLevelByRegionOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listSubscriptionLevelByRegion operation. */
-export type AlertsListSubscriptionLevelByRegionResponse = AlertList;
-
-/** Optional parameters. */
-export interface AlertsListResourceGroupLevelByRegionOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listResourceGroupLevelByRegion operation. */
-export type AlertsListResourceGroupLevelByRegionResponse = AlertList;
-
-/** Optional parameters. */
-export interface AlertsGetSubscriptionLevelOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getSubscriptionLevel operation. */
-export type AlertsGetSubscriptionLevelResponse = Alert;
-
-/** Optional parameters. */
-export interface AlertsGetResourceGroupLevelOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getResourceGroupLevel operation. */
-export type AlertsGetResourceGroupLevelResponse = Alert;
-
-/** Optional parameters. */
-export interface AlertsUpdateSubscriptionLevelStateToDismissOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface AlertsUpdateSubscriptionLevelStateToResolveOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface AlertsUpdateSubscriptionLevelStateToActivateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface AlertsUpdateSubscriptionLevelStateToInProgressOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface AlertsUpdateResourceGroupLevelStateToResolveOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface AlertsUpdateResourceGroupLevelStateToDismissOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface AlertsUpdateResourceGroupLevelStateToActivateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface AlertsUpdateResourceGroupLevelStateToInProgressOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface AlertsSimulateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface AlertsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type AlertsListNextResponse = AlertList;
-
-/** Optional parameters. */
-export interface AlertsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroupNext operation. */
-export type AlertsListByResourceGroupNextResponse = AlertList;
-
-/** Optional parameters. */
-export interface AlertsListSubscriptionLevelByRegionNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listSubscriptionLevelByRegionNext operation. */
-export type AlertsListSubscriptionLevelByRegionNextResponse = AlertList;
-
-/** Optional parameters. */
-export interface AlertsListResourceGroupLevelByRegionNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listResourceGroupLevelByRegionNext operation. */
-export type AlertsListResourceGroupLevelByRegionNextResponse = AlertList;
-
-/** Optional parameters. */
-export interface SettingsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type SettingsListResponse = SettingsList;
-
-/** Optional parameters. */
-export interface SettingsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type SettingsGetResponse = SettingUnion;
-
-/** Optional parameters. */
-export interface SettingsUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the update operation. */
-export type SettingsUpdateResponse = SettingUnion;
-
-/** Optional parameters. */
-export interface SettingsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type SettingsListNextResponse = SettingsList;
 
 /** Optional parameters. */
 export interface ServerVulnerabilityAssessmentsSettingsListBySubscriptionOptionalParams
@@ -10994,106 +10732,324 @@ export type ServerVulnerabilityAssessmentsSettingsListBySubscriptionNextResponse
   ServerVulnerabilityAssessmentsSettingsList;
 
 /** Optional parameters. */
-export interface APICollectionsListBySubscriptionOptionalParams
+export interface SettingsListOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listBySubscription operation. */
-export type APICollectionsListBySubscriptionResponse = ApiCollectionList;
+/** Contains response data for the list operation. */
+export type SettingsListResponse = SettingsList;
 
 /** Optional parameters. */
-export interface APICollectionsListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroup operation. */
-export type APICollectionsListByResourceGroupResponse = ApiCollectionList;
-
-/** Optional parameters. */
-export interface APICollectionsListByAzureApiManagementServiceOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByAzureApiManagementService operation. */
-export type APICollectionsListByAzureApiManagementServiceResponse =
-  ApiCollectionList;
-
-/** Optional parameters. */
-export interface APICollectionsGetByAzureApiManagementServiceOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getByAzureApiManagementService operation. */
-export type APICollectionsGetByAzureApiManagementServiceResponse =
-  ApiCollection;
-
-/** Optional parameters. */
-export interface APICollectionsOnboardAzureApiManagementApiOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the onboardAzureApiManagementApi operation. */
-export type APICollectionsOnboardAzureApiManagementApiResponse = ApiCollection;
-
-/** Optional parameters. */
-export interface APICollectionsOffboardAzureApiManagementApiOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface APICollectionsListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySubscriptionNext operation. */
-export type APICollectionsListBySubscriptionNextResponse = ApiCollectionList;
-
-/** Optional parameters. */
-export interface APICollectionsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroupNext operation. */
-export type APICollectionsListByResourceGroupNextResponse = ApiCollectionList;
-
-/** Optional parameters. */
-export interface APICollectionsListByAzureApiManagementServiceNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByAzureApiManagementServiceNext operation. */
-export type APICollectionsListByAzureApiManagementServiceNextResponse =
-  ApiCollectionList;
-
-/** Optional parameters. */
-export interface PricingsGetOptionalParams
+export interface SettingsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type PricingsGetResponse = Pricing;
+export type SettingsGetResponse = SettingUnion;
 
 /** Optional parameters. */
-export interface PricingsUpdateOptionalParams
+export interface SettingsUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
-export type PricingsUpdateResponse = Pricing;
+export type SettingsUpdateResponse = SettingUnion;
 
 /** Optional parameters. */
-export interface PricingsDeleteOptionalParams
+export interface SettingsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type SettingsListNextResponse = SettingsList;
+
+/** Optional parameters. */
+export interface SoftwareInventoriesListByExtendedResourceOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByExtendedResource operation. */
+export type SoftwareInventoriesListByExtendedResourceResponse = SoftwaresList;
+
+/** Optional parameters. */
+export interface SoftwareInventoriesListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscription operation. */
+export type SoftwareInventoriesListBySubscriptionResponse = SoftwaresList;
+
+/** Optional parameters. */
+export interface SoftwareInventoriesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SoftwareInventoriesGetResponse = Software;
+
+/** Optional parameters. */
+export interface SoftwareInventoriesListByExtendedResourceNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByExtendedResourceNext operation. */
+export type SoftwareInventoriesListByExtendedResourceNextResponse =
+  SoftwaresList;
+
+/** Optional parameters. */
+export interface SoftwareInventoriesListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type SoftwareInventoriesListBySubscriptionNextResponse = SoftwaresList;
+
+/** Optional parameters. */
+export interface SqlVulnerabilityAssessmentBaselineRulesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** The baseline results for this rule. */
+  body?: RuleResultsInput;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type SqlVulnerabilityAssessmentBaselineRulesCreateOrUpdateResponse =
+  RuleResults;
+
+/** Optional parameters. */
+export interface SqlVulnerabilityAssessmentBaselineRulesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SqlVulnerabilityAssessmentBaselineRulesGetResponse = RuleResults;
+
+/** Optional parameters. */
+export interface SqlVulnerabilityAssessmentBaselineRulesDeleteOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface PricingsListOptionalParams
+export interface SqlVulnerabilityAssessmentBaselineRulesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type SqlVulnerabilityAssessmentBaselineRulesListResponse = RulesResults;
+
+/** Optional parameters. */
+export interface SqlVulnerabilityAssessmentBaselineRulesAddOptionalParams
   extends coreClient.OperationOptions {
+  /** The baseline rules. */
+  body?: RulesResultsInput;
+}
+
+/** Contains response data for the add operation. */
+export type SqlVulnerabilityAssessmentBaselineRulesAddResponse = RulesResults;
+
+/** Optional parameters. */
+export interface SqlVulnerabilityAssessmentScansGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SqlVulnerabilityAssessmentScansGetResponse = Scan;
+
+/** Optional parameters. */
+export interface SqlVulnerabilityAssessmentScansListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type SqlVulnerabilityAssessmentScansListResponse = Scans;
+
+/** Optional parameters. */
+export interface SqlVulnerabilityAssessmentScanResultsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SqlVulnerabilityAssessmentScanResultsGetResponse = ScanResult;
+
+/** Optional parameters. */
+export interface SqlVulnerabilityAssessmentScanResultsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type SqlVulnerabilityAssessmentScanResultsListResponse = ScanResults;
+
+/** Optional parameters. */
+export interface SubAssessmentsListAllOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listAll operation. */
+export type SubAssessmentsListAllResponse = SecuritySubAssessmentList;
+
+/** Optional parameters. */
+export interface SubAssessmentsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type SubAssessmentsListResponse = SecuritySubAssessmentList;
+
+/** Optional parameters. */
+export interface SubAssessmentsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SubAssessmentsGetResponse = SecuritySubAssessment;
+
+/** Optional parameters. */
+export interface SubAssessmentsListAllNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listAllNext operation. */
+export type SubAssessmentsListAllNextResponse = SecuritySubAssessmentList;
+
+/** Optional parameters. */
+export interface SubAssessmentsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type SubAssessmentsListNextResponse = SecuritySubAssessmentList;
+
+/** Optional parameters. */
+export interface TasksListOptionalParams extends coreClient.OperationOptions {
   /** OData filter. Optional. */
   filter?: string;
 }
 
 /** Contains response data for the list operation. */
-export type PricingsListResponse = PricingList;
+export type TasksListResponse = SecurityTaskList;
+
+/** Optional parameters. */
+export interface TasksListByHomeRegionOptionalParams
+  extends coreClient.OperationOptions {
+  /** OData filter. Optional. */
+  filter?: string;
+}
+
+/** Contains response data for the listByHomeRegion operation. */
+export type TasksListByHomeRegionResponse = SecurityTaskList;
+
+/** Optional parameters. */
+export interface TasksGetSubscriptionLevelTaskOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getSubscriptionLevelTask operation. */
+export type TasksGetSubscriptionLevelTaskResponse = SecurityTask;
+
+/** Optional parameters. */
+export interface TasksUpdateSubscriptionLevelTaskStateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface TasksListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {
+  /** OData filter. Optional. */
+  filter?: string;
+}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type TasksListByResourceGroupResponse = SecurityTaskList;
+
+/** Optional parameters. */
+export interface TasksGetResourceGroupLevelTaskOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getResourceGroupLevelTask operation. */
+export type TasksGetResourceGroupLevelTaskResponse = SecurityTask;
+
+/** Optional parameters. */
+export interface TasksUpdateResourceGroupLevelTaskStateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface TasksListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type TasksListNextResponse = SecurityTaskList;
+
+/** Optional parameters. */
+export interface TasksListByHomeRegionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByHomeRegionNext operation. */
+export type TasksListByHomeRegionNextResponse = SecurityTaskList;
+
+/** Optional parameters. */
+export interface TasksListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type TasksListByResourceGroupNextResponse = SecurityTaskList;
+
+/** Optional parameters. */
+export interface TopologyListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type TopologyListResponse = TopologyList;
+
+/** Optional parameters. */
+export interface TopologyListByHomeRegionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByHomeRegion operation. */
+export type TopologyListByHomeRegionResponse = TopologyList;
+
+/** Optional parameters. */
+export interface TopologyGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type TopologyGetResponse = TopologyResource;
+
+/** Optional parameters. */
+export interface TopologyListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type TopologyListNextResponse = TopologyList;
+
+/** Optional parameters. */
+export interface TopologyListByHomeRegionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByHomeRegionNext operation. */
+export type TopologyListByHomeRegionNextResponse = TopologyList;
+
+/** Optional parameters. */
+export interface WorkspaceSettingsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type WorkspaceSettingsListResponse = WorkspaceSettingList;
+
+/** Optional parameters. */
+export interface WorkspaceSettingsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type WorkspaceSettingsGetResponse = WorkspaceSetting;
+
+/** Optional parameters. */
+export interface WorkspaceSettingsCreateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the create operation. */
+export type WorkspaceSettingsCreateResponse = WorkspaceSetting;
+
+/** Optional parameters. */
+export interface WorkspaceSettingsUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type WorkspaceSettingsUpdateResponse = WorkspaceSetting;
+
+/** Optional parameters. */
+export interface WorkspaceSettingsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface WorkspaceSettingsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type WorkspaceSettingsListNextResponse = WorkspaceSettingList;
 
 /** Optional parameters. */
 export interface SecurityCenterOptionalParams
   extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
+  /** Api Version */
+  apiVersion?: string;
   /** Overrides client endpoint. */
   endpoint?: string;
 }
