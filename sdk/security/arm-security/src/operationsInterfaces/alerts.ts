@@ -7,7 +7,6 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Alert,
   AlertsListOptionalParams,
@@ -214,19 +213,7 @@ export interface Alerts {
    * @param alertSimulatorRequestBody Alert Simulator Request Properties
    * @param options The options parameters.
    */
-  beginSimulate(
-    ascLocation: string,
-    alertSimulatorRequestBody: AlertSimulatorRequestBody,
-    options?: AlertsSimulateOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
-  /**
-   * Simulate security alerts
-   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
-   *                    Get locations
-   * @param alertSimulatorRequestBody Alert Simulator Request Properties
-   * @param options The options parameters.
-   */
-  beginSimulateAndWait(
+  simulate(
     ascLocation: string,
     alertSimulatorRequestBody: AlertSimulatorRequestBody,
     options?: AlertsSimulateOptionalParams,
