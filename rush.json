@@ -2211,6 +2211,11 @@
       "packageName": "@azure/arm-oracledatabase",
       "projectFolder": "sdk/oracledatabase/arm-oracledatabase",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-mongocluster",
+      "projectFolder": "sdk/mongocluster/arm-mongocluster",
+      "versionPolicyName": "management"
     }
   ]
 }
