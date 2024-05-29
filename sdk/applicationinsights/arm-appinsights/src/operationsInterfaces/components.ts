@@ -9,7 +9,6 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   ApplicationInsightsComponent,
-  ComponentsListOptionalParams,
   ComponentsListByResourceGroupOptionalParams,
   ComponentsDeleteOptionalParams,
   ComponentsGetOptionalParams,
@@ -23,19 +22,12 @@ import {
   ComponentsPurgeOptionalParams,
   ComponentsPurgeResponse,
   ComponentsGetPurgeStatusOptionalParams,
-  ComponentsGetPurgeStatusResponse
+  ComponentsGetPurgeStatusResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Components. */
 export interface Components {
-  /**
-   * Gets a list of all Application Insights components within a subscription.
-   * @param options The options parameters.
-   */
-  list(
-    options?: ComponentsListOptionalParams
-  ): PagedAsyncIterableIterator<ApplicationInsightsComponent>;
   /**
    * Gets a list of Application Insights components within a resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -43,7 +35,7 @@ export interface Components {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: ComponentsListByResourceGroupOptionalParams
+    options?: ComponentsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<ApplicationInsightsComponent>;
   /**
    * Deletes an Application Insights component.
@@ -54,7 +46,7 @@ export interface Components {
   delete(
     resourceGroupName: string,
     resourceName: string,
-    options?: ComponentsDeleteOptionalParams
+    options?: ComponentsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Returns an Application Insights component.
@@ -65,7 +57,7 @@ export interface Components {
   get(
     resourceGroupName: string,
     resourceName: string,
-    options?: ComponentsGetOptionalParams
+    options?: ComponentsGetOptionalParams,
   ): Promise<ComponentsGetResponse>;
   /**
    * Creates (or updates) an Application Insights component. Note: You cannot specify a different value
@@ -80,7 +72,7 @@ export interface Components {
     resourceGroupName: string,
     resourceName: string,
     insightProperties: ApplicationInsightsComponent,
-    options?: ComponentsCreateOrUpdateOptionalParams
+    options?: ComponentsCreateOrUpdateOptionalParams,
   ): Promise<ComponentsCreateOrUpdateResponse>;
   /**
    * Updates an existing component's tags. To update other fields use the CreateOrUpdate method.
@@ -93,7 +85,7 @@ export interface Components {
     resourceGroupName: string,
     resourceName: string,
     componentTags: TagsResource,
-    options?: ComponentsUpdateTagsOptionalParams
+    options?: ComponentsUpdateTagsOptionalParams,
   ): Promise<ComponentsUpdateTagsResponse>;
   /**
    * Purges data in an Application Insights component by a set of user-defined filters.
@@ -102,6 +94,10 @@ export interface Components {
    * should batch the execution of purge requests by sending a single command whose predicate includes
    * all user identities that require purging. Use the in operator to specify multiple identities. You
    * should run the query prior to using for a purge request to verify that the results are expected.
+   * Note: this operation is intended for Classic resources, for  workspace-based Application Insights
+   * resource please run purge operation (directly on the
+   * workspace)(https://docs.microsoft.com/en-us/rest/api/loganalytics/workspace-purge/purge) , scoped to
+   * specific resource id.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param body Describes the body of a request to purge data in a single table of an Application
@@ -112,7 +108,7 @@ export interface Components {
     resourceGroupName: string,
     resourceName: string,
     body: ComponentPurgeBody,
-    options?: ComponentsPurgeOptionalParams
+    options?: ComponentsPurgeOptionalParams,
   ): Promise<ComponentsPurgeResponse>;
   /**
    * Get status for an ongoing purge operation.
@@ -126,6 +122,6 @@ export interface Components {
     resourceGroupName: string,
     resourceName: string,
     purgeId: string,
-    options?: ComponentsGetPurgeStatusOptionalParams
+    options?: ComponentsGetPurgeStatusOptionalParams,
   ): Promise<ComponentsGetPurgeStatusResponse>;
 }

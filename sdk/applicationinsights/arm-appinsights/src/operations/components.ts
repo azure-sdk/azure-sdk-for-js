@@ -15,9 +15,6 @@ import * as Parameters from "../models/parameters";
 import { ApplicationInsightsManagementClient } from "../applicationInsightsManagementClient";
 import {
   ApplicationInsightsComponent,
-  ComponentsListNextOptionalParams,
-  ComponentsListOptionalParams,
-  ComponentsListResponse,
   ComponentsListByResourceGroupNextOptionalParams,
   ComponentsListByResourceGroupOptionalParams,
   ComponentsListByResourceGroupResponse,
@@ -34,8 +31,7 @@ import {
   ComponentsPurgeResponse,
   ComponentsGetPurgeStatusOptionalParams,
   ComponentsGetPurgeStatusResponse,
-  ComponentsListNextResponse,
-  ComponentsListByResourceGroupNextResponse
+  ComponentsListByResourceGroupNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -52,67 +48,13 @@ export class ComponentsImpl implements Components {
   }
 
   /**
-   * Gets a list of all Application Insights components within a subscription.
-   * @param options The options parameters.
-   */
-  public list(
-    options?: ComponentsListOptionalParams
-  ): PagedAsyncIterableIterator<ApplicationInsightsComponent> {
-    const iter = this.listPagingAll(options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listPagingPage(options, settings);
-      }
-    };
-  }
-
-  private async *listPagingPage(
-    options?: ComponentsListOptionalParams,
-    settings?: PageSettings
-  ): AsyncIterableIterator<ApplicationInsightsComponent[]> {
-    let result: ComponentsListResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._list(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listNext(continuationToken, options);
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listPagingAll(
-    options?: ComponentsListOptionalParams
-  ): AsyncIterableIterator<ApplicationInsightsComponent> {
-    for await (const page of this.listPagingPage(options)) {
-      yield* page;
-    }
-  }
-
-  /**
    * Gets a list of Application Insights components within a resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: ComponentsListByResourceGroupOptionalParams
+    options?: ComponentsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<ApplicationInsightsComponent> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -129,16 +71,16 @@ export class ComponentsImpl implements Components {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: ComponentsListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ApplicationInsightsComponent[]> {
     let result: ComponentsListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -153,7 +95,7 @@ export class ComponentsImpl implements Components {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -164,24 +106,14 @@ export class ComponentsImpl implements Components {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: ComponentsListByResourceGroupOptionalParams
+    options?: ComponentsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<ApplicationInsightsComponent> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
-  }
-
-  /**
-   * Gets a list of all Application Insights components within a subscription.
-   * @param options The options parameters.
-   */
-  private _list(
-    options?: ComponentsListOptionalParams
-  ): Promise<ComponentsListResponse> {
-    return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
   /**
@@ -191,11 +123,11 @@ export class ComponentsImpl implements Components {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: ComponentsListByResourceGroupOptionalParams
+    options?: ComponentsListByResourceGroupOptionalParams,
   ): Promise<ComponentsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -208,11 +140,11 @@ export class ComponentsImpl implements Components {
   delete(
     resourceGroupName: string,
     resourceName: string,
-    options?: ComponentsDeleteOptionalParams
+    options?: ComponentsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -225,11 +157,11 @@ export class ComponentsImpl implements Components {
   get(
     resourceGroupName: string,
     resourceName: string,
-    options?: ComponentsGetOptionalParams
+    options?: ComponentsGetOptionalParams,
   ): Promise<ComponentsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -246,11 +178,11 @@ export class ComponentsImpl implements Components {
     resourceGroupName: string,
     resourceName: string,
     insightProperties: ApplicationInsightsComponent,
-    options?: ComponentsCreateOrUpdateOptionalParams
+    options?: ComponentsCreateOrUpdateOptionalParams,
   ): Promise<ComponentsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, insightProperties, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -265,11 +197,11 @@ export class ComponentsImpl implements Components {
     resourceGroupName: string,
     resourceName: string,
     componentTags: TagsResource,
-    options?: ComponentsUpdateTagsOptionalParams
+    options?: ComponentsUpdateTagsOptionalParams,
   ): Promise<ComponentsUpdateTagsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, componentTags, options },
-      updateTagsOperationSpec
+      updateTagsOperationSpec,
     );
   }
 
@@ -280,6 +212,10 @@ export class ComponentsImpl implements Components {
    * should batch the execution of purge requests by sending a single command whose predicate includes
    * all user identities that require purging. Use the in operator to specify multiple identities. You
    * should run the query prior to using for a purge request to verify that the results are expected.
+   * Note: this operation is intended for Classic resources, for  workspace-based Application Insights
+   * resource please run purge operation (directly on the
+   * workspace)(https://docs.microsoft.com/en-us/rest/api/loganalytics/workspace-purge/purge) , scoped to
+   * specific resource id.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param body Describes the body of a request to purge data in a single table of an Application
@@ -290,11 +226,11 @@ export class ComponentsImpl implements Components {
     resourceGroupName: string,
     resourceName: string,
     body: ComponentPurgeBody,
-    options?: ComponentsPurgeOptionalParams
+    options?: ComponentsPurgeOptionalParams,
   ): Promise<ComponentsPurgeResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, body, options },
-      purgeOperationSpec
+      purgeOperationSpec,
     );
   }
 
@@ -310,26 +246,11 @@ export class ComponentsImpl implements Components {
     resourceGroupName: string,
     resourceName: string,
     purgeId: string,
-    options?: ComponentsGetPurgeStatusOptionalParams
+    options?: ComponentsGetPurgeStatusOptionalParams,
   ): Promise<ComponentsGetPurgeStatusResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, purgeId, options },
-      getPurgeStatusOperationSpec
-    );
-  }
-
-  /**
-   * ListNext
-   * @param nextLink The nextLink from the previous successful call to the List method.
-   * @param options The options parameters.
-   */
-  private _listNext(
-    nextLink: string,
-    options?: ComponentsListNextOptionalParams
-  ): Promise<ComponentsListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec
+      getPurgeStatusOperationSpec,
     );
   }
 
@@ -342,231 +263,186 @@ export class ComponentsImpl implements Components {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: ComponentsListByResourceGroupNextOptionalParams
+    options?: ComponentsListByResourceGroupNextOptionalParams,
   ): Promise<ComponentsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Insights/components",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ApplicationInsightsComponentListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponseComponents
-    }
-  },
-  queryParameters: [Parameters.apiVersion4],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplicationInsightsComponentListResult
+      bodyMapper: Mappers.ApplicationInsightsComponentListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseComponents
-    }
+      bodyMapper: Mappers.ErrorResponseComponents,
+    },
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponseComponents
-    }
-  },
-  queryParameters: [Parameters.apiVersion4],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.resourceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ApplicationInsightsComponent
+      bodyMapper: Mappers.ErrorResponseComponents,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponseComponents
-    }
   },
-  queryParameters: [Parameters.apiVersion4],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.resourceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ApplicationInsightsComponent
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponseComponents
-    }
-  },
-  requestBody: Parameters.insightProperties,
-  queryParameters: [Parameters.apiVersion4],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.resourceName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const updateTagsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ApplicationInsightsComponent
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponseComponents
-    }
-  },
-  requestBody: Parameters.componentTags,
-  queryParameters: [Parameters.apiVersion4],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.resourceName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const purgeOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/purge",
-  httpMethod: "POST",
-  responses: {
-    202: {
-      bodyMapper: Mappers.ComponentPurgeResponse
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponseComponents
-    }
-  },
-  requestBody: Parameters.body,
-  queryParameters: [Parameters.apiVersion4],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.resourceName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const getPurgeStatusOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/operations/{purgeId}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ComponentPurgeStatusResponse
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponseComponents
-    }
-  },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.resourceName,
-    Parameters.purgeId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplicationInsightsComponentListResult
+      bodyMapper: Mappers.ApplicationInsightsComponent,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseComponents
-    }
+      bodyMapper: Mappers.ErrorResponseComponents,
+    },
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApplicationInsightsComponent,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponseComponents,
+    },
+  },
+  requestBody: Parameters.insightProperties,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.resourceName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const updateTagsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApplicationInsightsComponent,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponseComponents,
+    },
+  },
+  requestBody: Parameters.componentTags,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.resourceName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const purgeOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/purge",
+  httpMethod: "POST",
+  responses: {
+    202: {
+      bodyMapper: Mappers.ComponentPurgeResponse,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponseComponents,
+    },
+  },
+  requestBody: Parameters.body,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.resourceName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const getPurgeStatusOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/operations/{purgeId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ComponentPurgeStatusResponse,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponseComponents,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.resourceName,
+    Parameters.purgeId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplicationInsightsComponentListResult
+      bodyMapper: Mappers.ApplicationInsightsComponentListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseComponents
-    }
+      bodyMapper: Mappers.ErrorResponseComponents,
+    },
   },
-  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
