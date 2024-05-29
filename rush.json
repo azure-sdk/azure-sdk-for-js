@@ -2211,6 +2211,11 @@
       "packageName": "@azure/arm-oracledatabase",
       "projectFolder": "sdk/oracledatabase/arm-oracledatabase",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-integrationspaces",
+      "projectFolder": "sdk/integrationspaces/arm-integrationspaces",
+      "versionPolicyName": "management"
     }
   ]
 }
