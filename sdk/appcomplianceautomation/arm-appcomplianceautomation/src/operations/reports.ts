@@ -14,11 +14,34 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AppComplianceAutomationToolForMicrosoft365 } from "../appComplianceAutomationToolForMicrosoft365";
 import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
+import {
   ReportResource,
   ReportsListNextOptionalParams,
   ReportsListOptionalParams,
   ReportsListResponse,
-  ReportsListNextResponse
+  ReportsGetOptionalParams,
+  ReportsGetResponse,
+  ReportsCreateOrUpdateOptionalParams,
+  ReportsCreateOrUpdateResponse,
+  ReportResourcePatch,
+  ReportsUpdateOptionalParams,
+  ReportsUpdateResponse,
+  ReportsDeleteOptionalParams,
+  ReportsDeleteResponse,
+  CheckNameAvailabilityRequest,
+  ReportsNestedResourceCheckNameAvailabilityOptionalParams,
+  ReportsNestedResourceCheckNameAvailabilityResponse,
+  ReportsFixOptionalParams,
+  ReportsFixResponse,
+  SyncCertRecordRequest,
+  ReportsSyncCertRecordOptionalParams,
+  ReportsSyncCertRecordResponse,
+  ReportsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -39,7 +62,7 @@ export class ReportsImpl implements Reports {
    * @param options The options parameters.
    */
   public list(
-    options?: ReportsListOptionalParams
+    options?: ReportsListOptionalParams,
   ): PagedAsyncIterableIterator<ReportResource> {
     const iter = this.listPagingAll(options);
     return {
@@ -54,13 +77,13 @@ export class ReportsImpl implements Reports {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: ReportsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ReportResource[]> {
     let result: ReportsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -81,7 +104,7 @@ export class ReportsImpl implements Reports {
   }
 
   private async *listPagingAll(
-    options?: ReportsListOptionalParams
+    options?: ReportsListOptionalParams,
   ): AsyncIterableIterator<ReportResource> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -93,9 +116,466 @@ export class ReportsImpl implements Reports {
    * @param options The options parameters.
    */
   private _list(
-    options?: ReportsListOptionalParams
+    options?: ReportsListOptionalParams,
   ): Promise<ReportsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
+  }
+
+  /**
+   * Get the AppComplianceAutomation report and its properties.
+   * @param reportName Report Name.
+   * @param options The options parameters.
+   */
+  get(
+    reportName: string,
+    options?: ReportsGetOptionalParams,
+  ): Promise<ReportsGetResponse> {
+    return this.client.sendOperationRequest(
+      { reportName, options },
+      getOperationSpec,
+    );
+  }
+
+  /**
+   * Create a new AppComplianceAutomation report or update an exiting AppComplianceAutomation report.
+   * @param reportName Report Name.
+   * @param resource Parameters for the create or update operation
+   * @param options The options parameters.
+   */
+  async beginCreateOrUpdate(
+    reportName: string,
+    resource: ReportResource,
+    options?: ReportsCreateOrUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ReportsCreateOrUpdateResponse>,
+      ReportsCreateOrUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<ReportsCreateOrUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { reportName, resource, options },
+      spec: createOrUpdateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ReportsCreateOrUpdateResponse,
+      OperationState<ReportsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Create a new AppComplianceAutomation report or update an exiting AppComplianceAutomation report.
+   * @param reportName Report Name.
+   * @param resource Parameters for the create or update operation
+   * @param options The options parameters.
+   */
+  async beginCreateOrUpdateAndWait(
+    reportName: string,
+    resource: ReportResource,
+    options?: ReportsCreateOrUpdateOptionalParams,
+  ): Promise<ReportsCreateOrUpdateResponse> {
+    const poller = await this.beginCreateOrUpdate(
+      reportName,
+      resource,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Update an exiting AppComplianceAutomation report.
+   * @param reportName Report Name.
+   * @param properties Parameters for the create or update operation
+   * @param options The options parameters.
+   */
+  async beginUpdate(
+    reportName: string,
+    properties: ReportResourcePatch,
+    options?: ReportsUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ReportsUpdateResponse>,
+      ReportsUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<ReportsUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { reportName, properties, options },
+      spec: updateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ReportsUpdateResponse,
+      OperationState<ReportsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Update an exiting AppComplianceAutomation report.
+   * @param reportName Report Name.
+   * @param properties Parameters for the create or update operation
+   * @param options The options parameters.
+   */
+  async beginUpdateAndWait(
+    reportName: string,
+    properties: ReportResourcePatch,
+    options?: ReportsUpdateOptionalParams,
+  ): Promise<ReportsUpdateResponse> {
+    const poller = await this.beginUpdate(reportName, properties, options);
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Delete an AppComplianceAutomation report.
+   * @param reportName Report Name.
+   * @param options The options parameters.
+   */
+  async beginDelete(
+    reportName: string,
+    options?: ReportsDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ReportsDeleteResponse>,
+      ReportsDeleteResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<ReportsDeleteResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { reportName, options },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ReportsDeleteResponse,
+      OperationState<ReportsDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Delete an AppComplianceAutomation report.
+   * @param reportName Report Name.
+   * @param options The options parameters.
+   */
+  async beginDeleteAndWait(
+    reportName: string,
+    options?: ReportsDeleteOptionalParams,
+  ): Promise<ReportsDeleteResponse> {
+    const poller = await this.beginDelete(reportName, options);
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Checks the report's nested resource name availability, e.g: Webhooks, Evidences, Snapshots.
+   * @param reportName Report Name.
+   * @param body NameAvailabilityRequest object.
+   * @param options The options parameters.
+   */
+  nestedResourceCheckNameAvailability(
+    reportName: string,
+    body: CheckNameAvailabilityRequest,
+    options?: ReportsNestedResourceCheckNameAvailabilityOptionalParams,
+  ): Promise<ReportsNestedResourceCheckNameAvailabilityResponse> {
+    return this.client.sendOperationRequest(
+      { reportName, body, options },
+      nestedResourceCheckNameAvailabilityOperationSpec,
+    );
+  }
+
+  /**
+   * Fix the AppComplianceAutomation report error. e.g: App Compliance Automation Tool service
+   * unregistered, automation removed.
+   * @param reportName Report Name.
+   * @param options The options parameters.
+   */
+  async beginFix(
+    reportName: string,
+    options?: ReportsFixOptionalParams,
+  ): Promise<
+    SimplePollerLike<OperationState<ReportsFixResponse>, ReportsFixResponse>
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<ReportsFixResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { reportName, options },
+      spec: fixOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ReportsFixResponse,
+      OperationState<ReportsFixResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Fix the AppComplianceAutomation report error. e.g: App Compliance Automation Tool service
+   * unregistered, automation removed.
+   * @param reportName Report Name.
+   * @param options The options parameters.
+   */
+  async beginFixAndWait(
+    reportName: string,
+    options?: ReportsFixOptionalParams,
+  ): Promise<ReportsFixResponse> {
+    const poller = await this.beginFix(reportName, options);
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Synchronize attestation record from app compliance.
+   * @param reportName Report Name.
+   * @param body Parameters for synchronize certification record operation
+   * @param options The options parameters.
+   */
+  async beginSyncCertRecord(
+    reportName: string,
+    body: SyncCertRecordRequest,
+    options?: ReportsSyncCertRecordOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ReportsSyncCertRecordResponse>,
+      ReportsSyncCertRecordResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<ReportsSyncCertRecordResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { reportName, body, options },
+      spec: syncCertRecordOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ReportsSyncCertRecordResponse,
+      OperationState<ReportsSyncCertRecordResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Synchronize attestation record from app compliance.
+   * @param reportName Report Name.
+   * @param body Parameters for synchronize certification record operation
+   * @param options The options parameters.
+   */
+  async beginSyncCertRecordAndWait(
+    reportName: string,
+    body: SyncCertRecordRequest,
+    options?: ReportsSyncCertRecordOptionalParams,
+  ): Promise<ReportsSyncCertRecordResponse> {
+    const poller = await this.beginSyncCertRecord(reportName, body, options);
+    return poller.pollUntilDone();
   }
 
   /**
@@ -105,11 +585,11 @@ export class ReportsImpl implements Reports {
    */
   private _listNext(
     nextLink: string,
-    options?: ReportsListNextOptionalParams
+    options?: ReportsListNextOptionalParams,
   ): Promise<ReportsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -121,44 +601,204 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ReportResourceList
+      bodyMapper: Mappers.ReportResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.skipToken,
     Parameters.top,
     Parameters.select,
+    Parameters.filter,
+    Parameters.orderby,
     Parameters.offerGuid,
-    Parameters.reportCreatorTenantId
+    Parameters.reportCreatorTenantId,
   ],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ReportResource,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.reportName],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ReportResource,
+    },
+    201: {
+      bodyMapper: Mappers.ReportResource,
+    },
+    202: {
+      bodyMapper: Mappers.ReportResource,
+    },
+    204: {
+      bodyMapper: Mappers.ReportResource,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.resource,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.reportName],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer,
+};
+const updateOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ReportResource,
+    },
+    201: {
+      bodyMapper: Mappers.ReportResource,
+    },
+    202: {
+      bodyMapper: Mappers.ReportResource,
+    },
+    204: {
+      bodyMapper: Mappers.ReportResource,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.properties,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.reportName],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer,
+};
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {
+      headersMapper: Mappers.ReportsDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.ReportsDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.ReportsDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.ReportsDeleteHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.reportName],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const nestedResourceCheckNameAvailabilityOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/checkNameAvailability",
+    httpMethod: "POST",
+    responses: {
+      200: {
+        bodyMapper: Mappers.CheckNameAvailabilityResponse,
+      },
+      default: {
+        bodyMapper: Mappers.ErrorResponse,
+      },
+    },
+    requestBody: Parameters.body,
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [Parameters.$host, Parameters.reportName],
+    headerParameters: [Parameters.contentType, Parameters.accept],
+    mediaType: "json",
+    serializer,
+  };
+const fixOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/fix",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ReportFixResult,
+    },
+    201: {
+      bodyMapper: Mappers.ReportFixResult,
+    },
+    202: {
+      bodyMapper: Mappers.ReportFixResult,
+    },
+    204: {
+      bodyMapper: Mappers.ReportFixResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.reportName],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const syncCertRecordOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/syncCertRecord",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SyncCertRecordResponse,
+    },
+    201: {
+      bodyMapper: Mappers.SyncCertRecordResponse,
+    },
+    202: {
+      bodyMapper: Mappers.SyncCertRecordResponse,
+    },
+    204: {
+      bodyMapper: Mappers.SyncCertRecordResponse,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.body6,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.reportName],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ReportResourceList
+      bodyMapper: Mappers.ReportResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skipToken,
-    Parameters.top,
-    Parameters.select,
-    Parameters.offerGuid,
-    Parameters.reportCreatorTenantId
-  ],
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

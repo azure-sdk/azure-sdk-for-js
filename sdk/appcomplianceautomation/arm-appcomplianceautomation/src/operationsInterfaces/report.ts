@@ -6,97 +6,29 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
-import {
-  ReportGetOptionalParams,
-  ReportGetResponse,
-  ReportResource,
-  ReportCreateOrUpdateOptionalParams,
-  ReportCreateOrUpdateResponse,
-  ReportResourcePatch,
-  ReportUpdateOptionalParams,
-  ReportUpdateResponse,
-  ReportDeleteOptionalParams
-} from "../models";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { ReportVerifyOptionalParams, ReportVerifyResponse } from "../models";
 
 /** Interface representing a Report. */
 export interface Report {
   /**
-   * Get the AppComplianceAutomation report and its properties.
+   * Verify the AppComplianceAutomation report health status.
    * @param reportName Report Name.
    * @param options The options parameters.
    */
-  get(
+  beginVerify(
     reportName: string,
-    options?: ReportGetOptionalParams
-  ): Promise<ReportGetResponse>;
-  /**
-   * Create a new AppComplianceAutomation report or update an exiting AppComplianceAutomation report.
-   * @param reportName Report Name.
-   * @param parameters Parameters for the create or update operation
-   * @param options The options parameters.
-   */
-  beginCreateOrUpdate(
-    reportName: string,
-    parameters: ReportResource,
-    options?: ReportCreateOrUpdateOptionalParams
+    options?: ReportVerifyOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ReportCreateOrUpdateResponse>,
-      ReportCreateOrUpdateResponse
-    >
+    SimplePollerLike<OperationState<ReportVerifyResponse>, ReportVerifyResponse>
   >;
   /**
-   * Create a new AppComplianceAutomation report or update an exiting AppComplianceAutomation report.
-   * @param reportName Report Name.
-   * @param parameters Parameters for the create or update operation
-   * @param options The options parameters.
-   */
-  beginCreateOrUpdateAndWait(
-    reportName: string,
-    parameters: ReportResource,
-    options?: ReportCreateOrUpdateOptionalParams
-  ): Promise<ReportCreateOrUpdateResponse>;
-  /**
-   * Update an exiting AppComplianceAutomation report.
-   * @param reportName Report Name.
-   * @param parameters Parameters for the create or update operation
-   * @param options The options parameters.
-   */
-  beginUpdate(
-    reportName: string,
-    parameters: ReportResourcePatch,
-    options?: ReportUpdateOptionalParams
-  ): Promise<
-    PollerLike<PollOperationState<ReportUpdateResponse>, ReportUpdateResponse>
-  >;
-  /**
-   * Update an exiting AppComplianceAutomation report.
-   * @param reportName Report Name.
-   * @param parameters Parameters for the create or update operation
-   * @param options The options parameters.
-   */
-  beginUpdateAndWait(
-    reportName: string,
-    parameters: ReportResourcePatch,
-    options?: ReportUpdateOptionalParams
-  ): Promise<ReportUpdateResponse>;
-  /**
-   * Delete an AppComplianceAutomation report.
+   * Verify the AppComplianceAutomation report health status.
    * @param reportName Report Name.
    * @param options The options parameters.
    */
-  beginDelete(
+  beginVerifyAndWait(
     reportName: string,
-    options?: ReportDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
-  /**
-   * Delete an AppComplianceAutomation report.
-   * @param reportName Report Name.
-   * @param options The options parameters.
-   */
-  beginDeleteAndWait(
-    reportName: string,
-    options?: ReportDeleteOptionalParams
-  ): Promise<void>;
+    options?: ReportVerifyOptionalParams,
+  ): Promise<ReportVerifyResponse>;
 }

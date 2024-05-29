@@ -11,19 +11,13 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AppComplianceAutomationToolForMicrosoft365 } from "../appComplianceAutomationToolForMicrosoft365";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
 import {
-  ReportGetOptionalParams,
-  ReportGetResponse,
-  ReportResource,
-  ReportCreateOrUpdateOptionalParams,
-  ReportCreateOrUpdateResponse,
-  ReportResourcePatch,
-  ReportUpdateOptionalParams,
-  ReportUpdateResponse,
-  ReportDeleteOptionalParams
-} from "../models";
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
+import { ReportVerifyOptionalParams, ReportVerifyResponse } from "../models";
 
 /** Class containing Report operations. */
 export class ReportImpl implements Report {
@@ -38,53 +32,32 @@ export class ReportImpl implements Report {
   }
 
   /**
-   * Get the AppComplianceAutomation report and its properties.
+   * Verify the AppComplianceAutomation report health status.
    * @param reportName Report Name.
    * @param options The options parameters.
    */
-  get(
+  async beginVerify(
     reportName: string,
-    options?: ReportGetOptionalParams
-  ): Promise<ReportGetResponse> {
-    return this.client.sendOperationRequest(
-      { reportName, options },
-      getOperationSpec
-    );
-  }
-
-  /**
-   * Create a new AppComplianceAutomation report or update an exiting AppComplianceAutomation report.
-   * @param reportName Report Name.
-   * @param parameters Parameters for the create or update operation
-   * @param options The options parameters.
-   */
-  async beginCreateOrUpdate(
-    reportName: string,
-    parameters: ReportResource,
-    options?: ReportCreateOrUpdateOptionalParams
+    options?: ReportVerifyOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ReportCreateOrUpdateResponse>,
-      ReportCreateOrUpdateResponse
-    >
+    SimplePollerLike<OperationState<ReportVerifyResponse>, ReportVerifyResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<ReportCreateOrUpdateResponse> => {
+      spec: coreClient.OperationSpec,
+    ): Promise<ReportVerifyResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -93,8 +66,8 @@ export class ReportImpl implements Report {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -102,287 +75,66 @@ export class ReportImpl implements Report {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { reportName, parameters, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { reportName, options },
+      spec: verifyOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ReportVerifyResponse,
+      OperationState<ReportVerifyResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Create a new AppComplianceAutomation report or update an exiting AppComplianceAutomation report.
-   * @param reportName Report Name.
-   * @param parameters Parameters for the create or update operation
-   * @param options The options parameters.
-   */
-  async beginCreateOrUpdateAndWait(
-    reportName: string,
-    parameters: ReportResource,
-    options?: ReportCreateOrUpdateOptionalParams
-  ): Promise<ReportCreateOrUpdateResponse> {
-    const poller = await this.beginCreateOrUpdate(
-      reportName,
-      parameters,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Update an exiting AppComplianceAutomation report.
-   * @param reportName Report Name.
-   * @param parameters Parameters for the create or update operation
-   * @param options The options parameters.
-   */
-  async beginUpdate(
-    reportName: string,
-    parameters: ReportResourcePatch,
-    options?: ReportUpdateOptionalParams
-  ): Promise<
-    PollerLike<PollOperationState<ReportUpdateResponse>, ReportUpdateResponse>
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<ReportUpdateResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
-      { reportName, parameters, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Update an exiting AppComplianceAutomation report.
-   * @param reportName Report Name.
-   * @param parameters Parameters for the create or update operation
-   * @param options The options parameters.
-   */
-  async beginUpdateAndWait(
-    reportName: string,
-    parameters: ReportResourcePatch,
-    options?: ReportUpdateOptionalParams
-  ): Promise<ReportUpdateResponse> {
-    const poller = await this.beginUpdate(reportName, parameters, options);
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Delete an AppComplianceAutomation report.
+   * Verify the AppComplianceAutomation report health status.
    * @param reportName Report Name.
    * @param options The options parameters.
    */
-  async beginDelete(
+  async beginVerifyAndWait(
     reportName: string,
-    options?: ReportDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
-      { reportName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Delete an AppComplianceAutomation report.
-   * @param reportName Report Name.
-   * @param options The options parameters.
-   */
-  async beginDeleteAndWait(
-    reportName: string,
-    options?: ReportDeleteOptionalParams
-  ): Promise<void> {
-    const poller = await this.beginDelete(reportName, options);
+    options?: ReportVerifyOptionalParams,
+  ): Promise<ReportVerifyResponse> {
+    const poller = await this.beginVerify(reportName, options);
     return poller.pollUntilDone();
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}",
-  httpMethod: "GET",
+const verifyOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/verify",
+  httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ReportResource
+      bodyMapper: Mappers.ReportVerificationResult,
+    },
+    201: {
+      bodyMapper: Mappers.ReportVerificationResult,
+    },
+    202: {
+      bodyMapper: Mappers.ReportVerificationResult,
+    },
+    204: {
+      bodyMapper: Mappers.ReportVerificationResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.reportName],
   headerParameters: [Parameters.accept],
-  serializer
-};
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ReportResource
-    },
-    201: {
-      bodyMapper: Mappers.ReportResource
-    },
-    202: {
-      bodyMapper: Mappers.ReportResource
-    },
-    204: {
-      bodyMapper: Mappers.ReportResource
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.parameters,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.reportName],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ReportResource
-    },
-    201: {
-      bodyMapper: Mappers.ReportResource
-    },
-    202: {
-      bodyMapper: Mappers.ReportResource
-    },
-    204: {
-      bodyMapper: Mappers.ReportResource
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.parameters1,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.reportName],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.reportName],
-  headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

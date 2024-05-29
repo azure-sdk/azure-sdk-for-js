@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export type ActionType = string;
@@ -21,15 +21,24 @@ export class AppComplianceAutomationToolForMicrosoft365 extends coreClient.Servi
     // (undocumented)
     apiVersion: string;
     // (undocumented)
+    evidences: Evidences;
+    getScopingQuestions(reportName: string, options?: GetScopingQuestionsOptionalParams): Promise<GetScopingQuestionsResponse>;
+    // (undocumented)
     operations: Operations;
+    // (undocumented)
+    providerActions: ProviderActions;
     // (undocumented)
     report: Report_2;
     // (undocumented)
     reports: Reports;
     // (undocumented)
-    snapshot: Snapshot;
+    scopingConfiguration: ScopingConfiguration;
+    // (undocumented)
+    scopingConfigurations: ScopingConfigurations;
     // (undocumented)
     snapshots: Snapshots;
+    // (undocumented)
+    webhooks: Webhooks;
 }
 
 // @public
@@ -40,32 +49,9 @@ export interface AppComplianceAutomationToolForMicrosoft365OptionalParams extend
 }
 
 // @public
-export interface Assessment {
-    readonly description?: string;
-    readonly isPass?: IsPass;
-    readonly name?: string;
-    readonly policyId?: string;
-    readonly remediation?: string;
-    readonly resourceList?: AssessmentResource[];
-    readonly severity?: AssessmentSeverity;
-}
-
-// @public
-export interface AssessmentResource {
-    readonly reason?: string;
-    readonly resourceId?: string;
-    readonly resourceStatus?: ResourceStatus;
-    readonly statusChangeDate?: string;
-}
-
-// @public
-export type AssessmentSeverity = string;
-
-// @public
 export interface Category {
     readonly categoryName?: string;
     readonly categoryStatus?: CategoryStatus;
-    readonly categoryType?: CategoryType;
     readonly controlFamilies?: ControlFamily[];
 }
 
@@ -73,23 +59,43 @@ export interface Category {
 export type CategoryStatus = string;
 
 // @public
-export type CategoryType = string;
+export interface CertSyncRecord {
+    certificationStatus?: string;
+    controls?: ControlSyncRecord[];
+    ingestionStatus?: string;
+    offerGuid?: string;
+}
+
+// @public
+export type CheckNameAvailabilityReason = string;
+
+// @public
+export interface CheckNameAvailabilityRequest {
+    name?: string;
+    type?: string;
+}
+
+// @public
+export interface CheckNameAvailabilityResponse {
+    message?: string;
+    nameAvailable?: boolean;
+    reason?: CheckNameAvailabilityReason;
+}
 
 // @public
 export interface ComplianceReportItem {
     readonly categoryName?: string;
-    readonly complianceState?: ComplianceState;
+    readonly controlFamilyName?: string;
     readonly controlId?: string;
     readonly controlName?: string;
-    readonly controlType?: ControlType;
-    readonly policyDescription?: string;
-    readonly policyDisplayName?: string;
-    readonly policyId?: string;
-    readonly resourceGroup?: string;
+    readonly controlStatus?: ControlStatus;
     readonly resourceId?: string;
+    readonly resourceOrigin?: ResourceOrigin;
+    readonly resourceStatus?: ResourceStatus;
+    readonly resourceStatusChangeDate?: Date;
     readonly resourceType?: string;
-    readonly statusChangeDate?: string;
-    readonly subscriptionId?: string;
+    readonly responsibilityDescription?: string;
+    readonly responsibilityTitle?: string;
 }
 
 // @public
@@ -99,42 +105,43 @@ export interface ComplianceResult {
 }
 
 // @public
-export type ComplianceState = string;
+export type ContentType = string;
 
 // @public
 export interface Control {
-    readonly assessments?: Assessment[];
     readonly controlDescription?: string;
     readonly controlDescriptionHyperLink?: string;
     readonly controlFullName?: string;
     readonly controlId?: string;
-    readonly controlShortName?: string;
+    readonly controlName?: string;
     readonly controlStatus?: ControlStatus;
-    readonly controlType?: ControlType;
+    readonly responsibilities?: Responsibility[];
 }
 
 // @public
 export interface ControlFamily {
+    readonly controlFamilyName?: string;
+    readonly controlFamilyStatus?: ControlFamilyStatus;
     readonly controls?: Control[];
-    readonly familyName?: string;
-    readonly familyStatus?: ControlFamilyStatus;
-    readonly familyType?: ControlFamilyType;
 }
 
 // @public
 export type ControlFamilyStatus = string;
 
 // @public
-export type ControlFamilyType = string;
-
-// @public
 export type ControlStatus = string;
 
 // @public
-export type ControlType = string;
+export interface ControlSyncRecord {
+    controlId?: string;
+    controlStatus?: string;
+}
 
 // @public
 export type CreatedByType = string;
+
+// @public
+export type DeliveryStatus = string;
 
 // @public
 export interface DownloadResponse {
@@ -158,6 +165,9 @@ export interface DownloadResponseCompliancePdfReport {
 export type DownloadType = string;
 
 // @public
+export type EnableSslVerification = string;
+
+// @public
 export interface ErrorAdditionalInfo {
     readonly info?: Record<string, unknown>;
     readonly type?: string;
@@ -178,10 +188,132 @@ export interface ErrorResponse {
 }
 
 // @public
+export interface EvidenceFileDownloadRequest {
+    offerGuid?: string;
+    reportCreatorTenantId?: string;
+}
+
+// @public
+export interface EvidenceFileDownloadResponse {
+    readonly evidenceFile?: EvidenceFileDownloadResponseEvidenceFile;
+}
+
+// @public
+export interface EvidenceFileDownloadResponseEvidenceFile {
+    readonly url?: string;
+}
+
+// @public
+export interface EvidenceResource extends ProxyResource {
+    controlId?: string;
+    evidenceType?: EvidenceType;
+    extraData?: string;
+    filePath: string;
+    readonly provisioningState?: ProvisioningState;
+    responsibilityId?: string;
+}
+
+// @public
+export interface EvidenceResourceListResult {
+    nextLink?: string;
+    value: EvidenceResource[];
+}
+
+// @public
+export interface Evidences {
+    createOrUpdate(reportName: string, evidenceName: string, resource: EvidenceResource, options?: EvidencesCreateOrUpdateOptionalParams): Promise<EvidencesCreateOrUpdateResponse>;
+    delete(reportName: string, evidenceName: string, options?: EvidencesDeleteOptionalParams): Promise<void>;
+    download(reportName: string, evidenceName: string, parameters: EvidenceFileDownloadRequest, options?: EvidencesDownloadOptionalParams): Promise<EvidencesDownloadResponse>;
+    get(reportName: string, evidenceName: string, options?: EvidencesGetOptionalParams): Promise<EvidencesGetResponse>;
+    listByReport(reportName: string, options?: EvidencesListByReportOptionalParams): PagedAsyncIterableIterator<EvidenceResource>;
+}
+
+// @public
+export interface EvidencesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    offerGuid?: string;
+    reportCreatorTenantId?: string;
+}
+
+// @public
+export type EvidencesCreateOrUpdateResponse = EvidenceResource;
+
+// @public
+export interface EvidencesDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface EvidencesDownloadOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type EvidencesDownloadResponse = EvidenceFileDownloadResponse;
+
+// @public
+export interface EvidencesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type EvidencesGetResponse = EvidenceResource;
+
+// @public
+export interface EvidencesListByReportNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type EvidencesListByReportNextResponse = EvidenceResourceListResult;
+
+// @public
+export interface EvidencesListByReportOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    offerGuid?: string;
+    orderby?: string;
+    reportCreatorTenantId?: string;
+    select?: string;
+    skipToken?: string;
+    top?: number;
+}
+
+// @public
+export type EvidencesListByReportResponse = EvidenceResourceListResult;
+
+// @public
+export type EvidenceType = string;
+
+// @public
+export interface GetCollectionCountRequest {
+    type?: string;
+}
+
+// @public
+export interface GetCollectionCountResponse {
+    count?: number;
+}
+
+// @public
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
-export type IsPass = string;
+export interface GetOverviewStatusRequest {
+    type?: string;
+}
+
+// @public
+export interface GetOverviewStatusResponse {
+    statusList?: StatusItem[];
+}
+
+// @public
+export interface GetScopingQuestionsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GetScopingQuestionsResponse = ScopingQuestions;
+
+// @public
+export type InputType = string;
+
+// @public
+export type IsRecommendSolution = string;
 
 // @public
 export enum KnownActionType {
@@ -189,56 +321,38 @@ export enum KnownActionType {
 }
 
 // @public
-export enum KnownAssessmentSeverity {
-    High = "High",
-    Low = "Low",
-    Medium = "Medium"
-}
-
-// @public
 export enum KnownCategoryStatus {
-    Healthy = "Healthy",
-    Unhealthy = "Unhealthy"
+    Failed = "Failed",
+    NotApplicable = "NotApplicable",
+    Passed = "Passed",
+    PendingApproval = "PendingApproval"
 }
 
 // @public
-export enum KnownCategoryType {
-    FullyAutomated = "FullyAutomated",
-    Manual = "Manual",
-    PartiallyAutomated = "PartiallyAutomated"
+export enum KnownCheckNameAvailabilityReason {
+    AlreadyExists = "AlreadyExists",
+    Invalid = "Invalid"
 }
 
 // @public
-export enum KnownComplianceState {
-    Healthy = "Healthy",
-    Unhealthy = "Unhealthy"
+export enum KnownContentType {
+    ApplicationJson = "application/json"
 }
 
 // @public
 export enum KnownControlFamilyStatus {
-    Healthy = "Healthy",
-    Unhealthy = "Unhealthy"
-}
-
-// @public
-export enum KnownControlFamilyType {
-    FullyAutomated = "FullyAutomated",
-    Manual = "Manual",
-    PartiallyAutomated = "PartiallyAutomated"
+    Failed = "Failed",
+    NotApplicable = "NotApplicable",
+    Passed = "Passed",
+    PendingApproval = "PendingApproval"
 }
 
 // @public
 export enum KnownControlStatus {
     Failed = "Failed",
     NotApplicable = "NotApplicable",
-    Passed = "Passed"
-}
-
-// @public
-export enum KnownControlType {
-    FullyAutomated = "FullyAutomated",
-    Manual = "Manual",
-    PartiallyAutomated = "PartiallyAutomated"
+    Passed = "Passed",
+    PendingApproval = "PendingApproval"
 }
 
 // @public
@@ -250,6 +364,13 @@ export enum KnownCreatedByType {
 }
 
 // @public
+export enum KnownDeliveryStatus {
+    Failed = "Failed",
+    NotStarted = "NotStarted",
+    Succeeded = "Succeeded"
+}
+
+// @public
 export enum KnownDownloadType {
     ComplianceDetailedPdfReport = "ComplianceDetailedPdfReport",
     CompliancePdfReport = "CompliancePdfReport",
@@ -258,9 +379,53 @@ export enum KnownDownloadType {
 }
 
 // @public
-export enum KnownIsPass {
-    False = "False",
-    True = "True"
+export enum KnownEnableSslVerification {
+    False = "false",
+    True = "true"
+}
+
+// @public
+export enum KnownEvidenceType {
+    AutoCollectedEvidence = "AutoCollectedEvidence",
+    Data = "Data",
+    File = "File"
+}
+
+// @public
+export enum KnownInputType {
+    Boolean = "Boolean",
+    Date = "Date",
+    Email = "Email",
+    Group = "Group",
+    MultilineText = "MultilineText",
+    MultiSelectCheckbox = "MultiSelectCheckbox",
+    MultiSelectDropdown = "MultiSelectDropdown",
+    MultiSelectDropdownCustom = "MultiSelectDropdownCustom",
+    None = "None",
+    Number = "Number",
+    SingleSelectDropdown = "SingleSelectDropdown",
+    SingleSelection = "SingleSelection",
+    Telephone = "Telephone",
+    Text = "Text",
+    Upload = "Upload",
+    Url = "Url",
+    YearPicker = "YearPicker",
+    YesNoNa = "YesNoNa"
+}
+
+// @public
+export enum KnownIsRecommendSolution {
+    False = "false",
+    True = "true"
+}
+
+// @public
+export enum KnownNotificationEvent {
+    AssessmentFailure = "assessment_failure",
+    GenerateSnapshotFailed = "generate_snapshot_failed",
+    GenerateSnapshotSuccess = "generate_snapshot_success",
+    ReportConfigurationChanges = "report_configuration_changes",
+    ReportDeletion = "report_deletion"
 }
 
 // @public
@@ -276,22 +441,132 @@ export enum KnownProvisioningState {
     Creating = "Creating",
     Deleting = "Deleting",
     Failed = "Failed",
+    Fixing = "Fixing",
     Succeeded = "Succeeded",
-    Updating = "Updating"
+    Updating = "Updating",
+    Verifying = "Verifying"
 }
 
 // @public
 export enum KnownReportStatus {
     Active = "Active",
     Disabled = "Disabled",
-    Failed = "Failed"
+    Failed = "Failed",
+    Reviewing = "Reviewing"
+}
+
+// @public
+export enum KnownResourceOrigin {
+    AWS = "AWS",
+    Azure = "Azure",
+    GCP = "GCP"
 }
 
 // @public
 export enum KnownResourceStatus {
     Healthy = "Healthy",
-    NotApplicable = "NotApplicable",
     Unhealthy = "Unhealthy"
+}
+
+// @public
+export enum KnownResponsibilityEnvironment {
+    AWS = "AWS",
+    Azure = "Azure",
+    GCP = "GCP",
+    General = "General"
+}
+
+// @public
+export enum KnownResponsibilitySeverity {
+    High = "High",
+    Low = "Low",
+    Medium = "Medium"
+}
+
+// @public
+export enum KnownResponsibilityStatus {
+    Failed = "Failed",
+    NotApplicable = "NotApplicable",
+    Passed = "Passed",
+    PendingApproval = "PendingApproval"
+}
+
+// @public
+export enum KnownResponsibilityType {
+    Automated = "Automated",
+    Manual = "Manual",
+    ScopedManual = "ScopedManual"
+}
+
+// @public
+export enum KnownResult {
+    Failed = "Failed",
+    Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownRule {
+    AzureApplication = "AzureApplication",
+    CharLength = "CharLength",
+    CreditCardPCI = "CreditCardPCI",
+    Domains = "Domains",
+    DynamicDropdown = "DynamicDropdown",
+    PreventNonEnglishChar = "PreventNonEnglishChar",
+    PublicSOX = "PublicSOX",
+    PublisherVerification = "PublisherVerification",
+    Required = "Required",
+    Url = "Url",
+    Urls = "Urls",
+    USPrivacyShield = "USPrivacyShield",
+    ValidEmail = "ValidEmail",
+    ValidGuid = "ValidGuid"
+}
+
+// @public
+export enum KnownSendAllEvents {
+    False = "false",
+    True = "true"
+}
+
+// @public
+export enum KnownUpdateWebhookKey {
+    False = "false",
+    True = "true"
+}
+
+// @public
+export enum KnownWebhookKeyEnabled {
+    False = "false",
+    True = "true"
+}
+
+// @public
+export enum KnownWebhookStatus {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export interface ListInUseStorageAccountsRequest {
+    subscriptionIds?: string[];
+}
+
+// @public
+export interface ListInUseStorageAccountsResponse {
+    storageAccountList?: StorageInfo[];
+}
+
+// @public
+export type NotificationEvent = string;
+
+// @public
+export interface OnboardRequest {
+    subscriptionIds: string[];
+}
+
+// @public
+export interface OnboardResponse {
+    subscriptionIds?: string[];
 }
 
 // @public
@@ -341,10 +616,82 @@ export type Origin = string;
 
 // @public
 export interface OverviewStatus {
-    failedCount?: number;
-    manualCount?: number;
-    passedCount?: number;
+    readonly failedCount?: number;
+    readonly manualCount?: number;
+    readonly notApplicableCount?: number;
+    readonly passedCount?: number;
+    readonly pendingCount?: number;
 }
+
+// @public
+export interface ProviderActions {
+    beginOnboard(body: OnboardRequest, options?: ProviderActionsOnboardOptionalParams): Promise<SimplePollerLike<OperationState<ProviderActionsOnboardResponse>, ProviderActionsOnboardResponse>>;
+    beginOnboardAndWait(body: OnboardRequest, options?: ProviderActionsOnboardOptionalParams): Promise<ProviderActionsOnboardResponse>;
+    beginTriggerEvaluation(body: TriggerEvaluationRequest, options?: ProviderActionsTriggerEvaluationOptionalParams): Promise<SimplePollerLike<OperationState<ProviderActionsTriggerEvaluationResponse>, ProviderActionsTriggerEvaluationResponse>>;
+    beginTriggerEvaluationAndWait(body: TriggerEvaluationRequest, options?: ProviderActionsTriggerEvaluationOptionalParams): Promise<ProviderActionsTriggerEvaluationResponse>;
+    checkNameAvailability(body: CheckNameAvailabilityRequest, options?: ProviderActionsCheckNameAvailabilityOptionalParams): Promise<ProviderActionsCheckNameAvailabilityResponse>;
+    getCollectionCount(body: GetCollectionCountRequest, options?: ProviderActionsGetCollectionCountOptionalParams): Promise<ProviderActionsGetCollectionCountResponse>;
+    getOverviewStatus(body: GetOverviewStatusRequest, options?: ProviderActionsGetOverviewStatusOptionalParams): Promise<ProviderActionsGetOverviewStatusResponse>;
+    listInUseStorageAccounts(body: ListInUseStorageAccountsRequest, options?: ProviderActionsListInUseStorageAccountsOptionalParams): Promise<ProviderActionsListInUseStorageAccountsResponse>;
+}
+
+// @public
+export interface ProviderActionsCheckNameAvailabilityOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ProviderActionsCheckNameAvailabilityResponse = CheckNameAvailabilityResponse;
+
+// @public
+export interface ProviderActionsGetCollectionCountOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ProviderActionsGetCollectionCountResponse = GetCollectionCountResponse;
+
+// @public
+export interface ProviderActionsGetOverviewStatusOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ProviderActionsGetOverviewStatusResponse = GetOverviewStatusResponse;
+
+// @public
+export interface ProviderActionsListInUseStorageAccountsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ProviderActionsListInUseStorageAccountsResponse = ListInUseStorageAccountsResponse;
+
+// @public
+export interface ProviderActionsOnboardHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface ProviderActionsOnboardOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ProviderActionsOnboardResponse = OnboardResponse;
+
+// @public
+export interface ProviderActionsTriggerEvaluationHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface ProviderActionsTriggerEvaluationOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ProviderActionsTriggerEvaluationResponse = TriggerEvaluationResponse;
 
 // @public
 export type ProvisioningState = string;
@@ -354,55 +701,93 @@ export interface ProxyResource extends Resource {
 }
 
 // @public
+export interface QuickAssessment {
+    readonly description?: string;
+    readonly displayName?: string;
+    readonly remediationLink?: string;
+    readonly resourceId?: string;
+    readonly resourceStatus?: ResourceStatus;
+    readonly responsibilityId?: string;
+    readonly timestamp?: Date;
+}
+
+// @public
+export interface Recommendation {
+    readonly recommendationId?: string;
+    readonly recommendationShortName?: string;
+    readonly recommendationSolutions?: RecommendationSolution[];
+}
+
+// @public
+export interface RecommendationSolution {
+    readonly isRecommendSolution?: IsRecommendSolution;
+    readonly recommendationSolutionContent?: string;
+    readonly recommendationSolutionIndex?: string;
+}
+
+// @public
 interface Report_2 {
-    beginCreateOrUpdate(reportName: string, parameters: ReportResource, options?: ReportCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ReportCreateOrUpdateResponse>, ReportCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(reportName: string, parameters: ReportResource, options?: ReportCreateOrUpdateOptionalParams): Promise<ReportCreateOrUpdateResponse>;
-    beginDelete(reportName: string, options?: ReportDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginDeleteAndWait(reportName: string, options?: ReportDeleteOptionalParams): Promise<void>;
-    beginUpdate(reportName: string, parameters: ReportResourcePatch, options?: ReportUpdateOptionalParams): Promise<PollerLike<PollOperationState<ReportUpdateResponse>, ReportUpdateResponse>>;
-    beginUpdateAndWait(reportName: string, parameters: ReportResourcePatch, options?: ReportUpdateOptionalParams): Promise<ReportUpdateResponse>;
-    get(reportName: string, options?: ReportGetOptionalParams): Promise<ReportGetResponse>;
+    beginVerify(reportName: string, options?: ReportVerifyOptionalParams): Promise<SimplePollerLike<OperationState<ReportVerifyResponse>, ReportVerifyResponse>>;
+    beginVerifyAndWait(reportName: string, options?: ReportVerifyOptionalParams): Promise<ReportVerifyResponse>;
 }
 export { Report_2 as Report }
 
 // @public
-export interface ReportComplianceStatus {
-    m365?: OverviewStatus;
-}
-
-// @public
-export interface ReportCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type ReportCreateOrUpdateResponse = ReportResource;
-
-// @public
-export interface ReportDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ReportGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ReportGetResponse = ReportResource;
-
-// @public
-export interface ReportProperties {
+export interface ReportBaseProperties {
+    readonly certRecords?: CertSyncRecord[];
     readonly complianceStatus?: ReportComplianceStatus;
-    readonly id?: string;
+    readonly errors?: string[];
     readonly lastTriggerTime?: Date;
     readonly nextTriggerTime?: Date;
     offerGuid?: string;
     readonly provisioningState?: ProvisioningState;
-    readonly reportName?: string;
+    readonly status?: ReportStatus;
+    storageInfo?: StorageInfo;
+    readonly subscriptions?: string[];
+    readonly tenantId?: string;
+}
+
+// @public
+export interface ReportComplianceStatus {
+    readonly m365?: OverviewStatus;
+}
+
+// @public
+export interface ReportFixResult {
+    readonly reason?: string;
+    readonly result?: Result;
+}
+
+// @public
+export interface ReportPatchProperties {
+    readonly certRecords?: CertSyncRecord[];
+    readonly complianceStatus?: ReportComplianceStatus;
+    readonly errors?: string[];
+    readonly lastTriggerTime?: Date;
+    readonly nextTriggerTime?: Date;
+    offerGuid?: string;
+    readonly provisioningState?: ProvisioningState;
+    resources?: ResourceMetadata[];
+    readonly status?: ReportStatus;
+    storageInfo?: StorageInfo;
+    readonly subscriptions?: string[];
+    readonly tenantId?: string;
+    timeZone?: string;
+    triggerTime?: Date;
+}
+
+// @public
+export interface ReportProperties {
+    readonly certRecords?: CertSyncRecord[];
+    readonly complianceStatus?: ReportComplianceStatus;
+    readonly errors?: string[];
+    readonly lastTriggerTime?: Date;
+    readonly nextTriggerTime?: Date;
+    offerGuid?: string;
+    readonly provisioningState?: ProvisioningState;
     resources: ResourceMetadata[];
     readonly status?: ReportStatus;
+    storageInfo?: StorageInfo;
     readonly subscriptions?: string[];
     readonly tenantId?: string;
     timeZone: string;
@@ -411,60 +796,182 @@ export interface ReportProperties {
 
 // @public
 export interface ReportResource extends ProxyResource {
-    properties: ReportProperties;
+    readonly certRecords?: CertSyncRecord[];
+    readonly complianceStatus?: ReportComplianceStatus;
+    readonly errors?: string[];
+    readonly lastTriggerTime?: Date;
+    readonly nextTriggerTime?: Date;
+    offerGuid?: string;
+    readonly provisioningState?: ProvisioningState;
+    resources: ResourceMetadata[];
+    readonly status?: ReportStatus;
+    storageInfo?: StorageInfo;
+    readonly subscriptions?: string[];
+    readonly tenantId?: string;
+    timeZone: string;
+    triggerTime: Date;
 }
 
 // @public
-export interface ReportResourceList {
+export interface ReportResourceListResult {
     nextLink?: string;
-    readonly value?: ReportResource[];
+    value: ReportResource[];
 }
 
 // @public
 export interface ReportResourcePatch {
-    properties?: ReportProperties;
+    properties?: ReportPatchProperties;
 }
 
 // @public
 export interface Reports {
+    beginCreateOrUpdate(reportName: string, resource: ReportResource, options?: ReportsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ReportsCreateOrUpdateResponse>, ReportsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(reportName: string, resource: ReportResource, options?: ReportsCreateOrUpdateOptionalParams): Promise<ReportsCreateOrUpdateResponse>;
+    beginDelete(reportName: string, options?: ReportsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ReportsDeleteResponse>, ReportsDeleteResponse>>;
+    beginDeleteAndWait(reportName: string, options?: ReportsDeleteOptionalParams): Promise<ReportsDeleteResponse>;
+    beginFix(reportName: string, options?: ReportsFixOptionalParams): Promise<SimplePollerLike<OperationState<ReportsFixResponse>, ReportsFixResponse>>;
+    beginFixAndWait(reportName: string, options?: ReportsFixOptionalParams): Promise<ReportsFixResponse>;
+    beginSyncCertRecord(reportName: string, body: SyncCertRecordRequest, options?: ReportsSyncCertRecordOptionalParams): Promise<SimplePollerLike<OperationState<ReportsSyncCertRecordResponse>, ReportsSyncCertRecordResponse>>;
+    beginSyncCertRecordAndWait(reportName: string, body: SyncCertRecordRequest, options?: ReportsSyncCertRecordOptionalParams): Promise<ReportsSyncCertRecordResponse>;
+    beginUpdate(reportName: string, properties: ReportResourcePatch, options?: ReportsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ReportsUpdateResponse>, ReportsUpdateResponse>>;
+    beginUpdateAndWait(reportName: string, properties: ReportResourcePatch, options?: ReportsUpdateOptionalParams): Promise<ReportsUpdateResponse>;
+    get(reportName: string, options?: ReportsGetOptionalParams): Promise<ReportsGetResponse>;
     list(options?: ReportsListOptionalParams): PagedAsyncIterableIterator<ReportResource>;
+    nestedResourceCheckNameAvailability(reportName: string, body: CheckNameAvailabilityRequest, options?: ReportsNestedResourceCheckNameAvailabilityOptionalParams): Promise<ReportsNestedResourceCheckNameAvailabilityResponse>;
 }
 
 // @public
-export interface ReportsListNextOptionalParams extends coreClient.OperationOptions {
-    offerGuid?: string;
-    reportCreatorTenantId?: string;
-    select?: string;
-    skipToken?: string;
-    top?: number;
+export interface ReportsCreateOrUpdateHeaders {
+    retryAfter?: number;
 }
 
 // @public
-export type ReportsListNextResponse = ReportResourceList;
-
-// @public
-export interface ReportsListOptionalParams extends coreClient.OperationOptions {
-    offerGuid?: string;
-    reportCreatorTenantId?: string;
-    select?: string;
-    skipToken?: string;
-    top?: number;
-}
-
-// @public
-export type ReportsListResponse = ReportResourceList;
-
-// @public
-export type ReportStatus = string;
-
-// @public
-export interface ReportUpdateOptionalParams extends coreClient.OperationOptions {
+export interface ReportsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ReportUpdateResponse = ReportResource;
+export type ReportsCreateOrUpdateResponse = ReportResource;
+
+// @public
+export interface ReportsDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface ReportsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ReportsDeleteResponse = ReportsDeleteHeaders;
+
+// @public
+export interface ReportsFixHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface ReportsFixOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ReportsFixResponse = ReportFixResult;
+
+// @public
+export interface ReportsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ReportsGetResponse = ReportResource;
+
+// @public
+export interface ReportsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ReportsListNextResponse = ReportResourceListResult;
+
+// @public
+export interface ReportsListOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    offerGuid?: string;
+    orderby?: string;
+    reportCreatorTenantId?: string;
+    select?: string;
+    skipToken?: string;
+    top?: number;
+}
+
+// @public
+export type ReportsListResponse = ReportResourceListResult;
+
+// @public
+export interface ReportsNestedResourceCheckNameAvailabilityOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ReportsNestedResourceCheckNameAvailabilityResponse = CheckNameAvailabilityResponse;
+
+// @public
+export interface ReportsSyncCertRecordHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface ReportsSyncCertRecordOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ReportsSyncCertRecordResponse = SyncCertRecordResponse;
+
+// @public
+export type ReportStatus = string;
+
+// @public
+export interface ReportsUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface ReportsUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ReportsUpdateResponse = ReportResource;
+
+// @public
+export interface ReportVerificationResult {
+    readonly reason?: string;
+    readonly result?: Result;
+}
+
+// @public
+export interface ReportVerifyHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface ReportVerifyOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ReportVerifyResponse = ReportVerificationResult;
 
 // @public
 export interface Resource {
@@ -484,30 +991,145 @@ export interface ResourceItem {
 
 // @public
 export interface ResourceMetadata {
+    accountId?: string;
     resourceId: string;
     resourceKind?: string;
-    resourceName?: string;
+    resourceOrigin?: ResourceOrigin;
     resourceType?: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
 }
+
+// @public
+export type ResourceOrigin = string;
 
 // @public
 export type ResourceStatus = string;
 
 // @public
-export interface Snapshot {
-    beginDownload(reportName: string, snapshotName: string, parameters: SnapshotDownloadRequest, options?: SnapshotDownloadOptionalParams): Promise<PollerLike<PollOperationState<SnapshotDownloadResponse>, SnapshotDownloadResponse>>;
-    beginDownloadAndWait(reportName: string, snapshotName: string, parameters: SnapshotDownloadRequest, options?: SnapshotDownloadOptionalParams): Promise<SnapshotDownloadResponse>;
-    get(reportName: string, snapshotName: string, options?: SnapshotGetOptionalParams): Promise<SnapshotGetResponse>;
+export interface Responsibility {
+    evidenceFiles?: string[];
+    failedResourceCount?: number;
+    readonly guidance?: string;
+    readonly justification?: string;
+    readonly recommendationList?: Recommendation[];
+    readonly resourceList?: ResponsibilityResource[];
+    readonly responsibilityDescription?: string;
+    readonly responsibilityEnvironment?: ResponsibilityEnvironment;
+    readonly responsibilityId?: string;
+    readonly responsibilitySeverity?: ResponsibilitySeverity;
+    readonly responsibilityStatus?: ResponsibilityStatus;
+    readonly responsibilityTitle?: string;
+    readonly responsibilityType?: ResponsibilityType;
+    totalResourceCount?: number;
 }
 
 // @public
-export interface SnapshotDownloadOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
+export type ResponsibilityEnvironment = string;
+
+// @public
+export interface ResponsibilityResource {
+    readonly accountId?: string;
+    recommendationIds?: string[];
+    readonly resourceId?: string;
+    readonly resourceOrigin?: ResourceOrigin;
+    readonly resourceStatus?: ResourceStatus;
+    readonly resourceStatusChangeDate?: Date;
+    readonly resourceType?: string;
 }
+
+// @public
+export type ResponsibilitySeverity = string;
+
+// @public
+export type ResponsibilityStatus = string;
+
+// @public
+export type ResponsibilityType = string;
+
+// @public
+export type Result = string;
+
+// @public
+export type Rule = string;
+
+// @public
+export interface ScopingAnswer {
+    answers: string[];
+    questionId: string;
+}
+
+// @public
+export interface ScopingConfiguration {
+    createOrUpdate(reportName: string, scopingConfigurationName: string, resource: ScopingConfigurationResource, options?: ScopingConfigurationCreateOrUpdateOptionalParams): Promise<ScopingConfigurationCreateOrUpdateResponse>;
+    delete(reportName: string, scopingConfigurationName: string, options?: ScopingConfigurationDeleteOptionalParams): Promise<void>;
+    get(reportName: string, scopingConfigurationName: string, options?: ScopingConfigurationGetOptionalParams): Promise<ScopingConfigurationGetResponse>;
+}
+
+// @public
+export interface ScopingConfigurationCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ScopingConfigurationCreateOrUpdateResponse = ScopingConfigurationResource;
+
+// @public
+export interface ScopingConfigurationDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface ScopingConfigurationGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ScopingConfigurationGetResponse = ScopingConfigurationResource;
+
+// @public
+export interface ScopingConfigurationResource extends ProxyResource {
+    answers?: ScopingAnswer[];
+    readonly provisioningState?: ProvisioningState;
+}
+
+// @public
+export interface ScopingConfigurationResourceListResult {
+    nextLink?: string;
+    value: ScopingConfigurationResource[];
+}
+
+// @public
+export interface ScopingConfigurations {
+    list(reportName: string, options?: ScopingConfigurationsListOptionalParams): PagedAsyncIterableIterator<ScopingConfigurationResource>;
+}
+
+// @public
+export interface ScopingConfigurationsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ScopingConfigurationsListNextResponse = ScopingConfigurationResourceListResult;
+
+// @public
+export interface ScopingConfigurationsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ScopingConfigurationsListResponse = ScopingConfigurationResourceListResult;
+
+// @public
+export interface ScopingQuestion {
+    readonly inputType: InputType;
+    readonly optionIds: string[];
+    readonly questionId: string;
+    readonly rules: Rule[];
+    readonly showSubQuestionsValue?: string;
+    readonly superiorQuestionId?: string;
+}
+
+// @public
+export interface ScopingQuestions {
+    questions?: ScopingQuestion[];
+}
+
+// @public
+export type SendAllEvents = string;
 
 // @public
 export interface SnapshotDownloadRequest {
@@ -517,20 +1139,9 @@ export interface SnapshotDownloadRequest {
 }
 
 // @public
-export type SnapshotDownloadResponse = DownloadResponse;
-
-// @public
-export interface SnapshotGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SnapshotGetResponse = SnapshotResource;
-
-// @public
-export interface SnapshotProperties {
+export interface SnapshotResource extends ProxyResource {
     readonly complianceResults?: ComplianceResult[];
     readonly createdAt?: Date;
-    readonly id?: string;
     readonly provisioningState?: ProvisioningState;
     readonly reportProperties?: ReportProperties;
     readonly reportSystemData?: SystemData;
@@ -538,36 +1149,53 @@ export interface SnapshotProperties {
 }
 
 // @public
-export interface SnapshotResource extends ProxyResource {
-    readonly properties?: SnapshotProperties;
-}
-
-// @public
-export interface SnapshotResourceList {
+export interface SnapshotResourceListResult {
     nextLink?: string;
-    readonly value?: SnapshotResource[];
+    value: SnapshotResource[];
 }
 
 // @public
 export interface Snapshots {
+    beginDownload(reportName: string, snapshotName: string, body: SnapshotDownloadRequest, options?: SnapshotsDownloadOptionalParams): Promise<SimplePollerLike<OperationState<SnapshotsDownloadResponse>, SnapshotsDownloadResponse>>;
+    beginDownloadAndWait(reportName: string, snapshotName: string, body: SnapshotDownloadRequest, options?: SnapshotsDownloadOptionalParams): Promise<SnapshotsDownloadResponse>;
+    get(reportName: string, snapshotName: string, options?: SnapshotsGetOptionalParams): Promise<SnapshotsGetResponse>;
     list(reportName: string, options?: SnapshotsListOptionalParams): PagedAsyncIterableIterator<SnapshotResource>;
 }
 
 // @public
-export interface SnapshotsListNextOptionalParams extends coreClient.OperationOptions {
-    offerGuid?: string;
-    reportCreatorTenantId?: string;
-    select?: string;
-    skipToken?: string;
-    top?: number;
+export interface SnapshotsDownloadHeaders {
+    location?: string;
+    retryAfter?: number;
 }
 
 // @public
-export type SnapshotsListNextResponse = SnapshotResourceList;
+export interface SnapshotsDownloadOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SnapshotsDownloadResponse = DownloadResponse;
+
+// @public
+export interface SnapshotsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SnapshotsGetResponse = SnapshotResource;
+
+// @public
+export interface SnapshotsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SnapshotsListNextResponse = SnapshotResourceListResult;
 
 // @public
 export interface SnapshotsListOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
     offerGuid?: string;
+    orderby?: string;
     reportCreatorTenantId?: string;
     select?: string;
     skipToken?: string;
@@ -575,7 +1203,31 @@ export interface SnapshotsListOptionalParams extends coreClient.OperationOptions
 }
 
 // @public
-export type SnapshotsListResponse = SnapshotResourceList;
+export type SnapshotsListResponse = SnapshotResourceListResult;
+
+// @public
+export interface StatusItem {
+    statusName?: string;
+    statusValue?: string;
+}
+
+// @public
+export interface StorageInfo {
+    accountName?: string;
+    location?: string;
+    resourceGroup?: string;
+    subscriptionId?: string;
+}
+
+// @public
+export interface SyncCertRecordRequest {
+    certRecord: CertSyncRecord;
+}
+
+// @public
+export interface SyncCertRecordResponse {
+    certRecord?: CertSyncRecord;
+}
 
 // @public
 export interface SystemData {
@@ -586,6 +1238,133 @@ export interface SystemData {
     lastModifiedBy?: string;
     lastModifiedByType?: CreatedByType;
 }
+
+// @public
+export interface TriggerEvaluationProperty {
+    readonly evaluationEndTime?: Date;
+    quickAssessments?: QuickAssessment[];
+    resourceIds?: string[];
+    readonly triggerTime?: Date;
+}
+
+// @public
+export interface TriggerEvaluationRequest {
+    resourceIds: string[];
+}
+
+// @public
+export interface TriggerEvaluationResponse {
+    properties?: TriggerEvaluationProperty;
+}
+
+// @public
+export type UpdateWebhookKey = string;
+
+// @public
+export type WebhookKeyEnabled = string;
+
+// @public
+export interface WebhookProperties {
+    contentType?: ContentType;
+    readonly deliveryStatus?: DeliveryStatus;
+    enableSslVerification?: EnableSslVerification;
+    events?: NotificationEvent[];
+    payloadUrl?: string;
+    readonly provisioningState?: ProvisioningState;
+    sendAllEvents?: SendAllEvents;
+    status?: WebhookStatus;
+    readonly tenantId?: string;
+    updateWebhookKey?: UpdateWebhookKey;
+    readonly webhookId?: string;
+    webhookKey?: string;
+    readonly webhookKeyEnabled?: WebhookKeyEnabled;
+}
+
+// @public
+export interface WebhookResource extends ProxyResource {
+    contentType?: ContentType;
+    readonly deliveryStatus?: DeliveryStatus;
+    enableSslVerification?: EnableSslVerification;
+    events?: NotificationEvent[];
+    payloadUrl?: string;
+    readonly provisioningState?: ProvisioningState;
+    sendAllEvents?: SendAllEvents;
+    status?: WebhookStatus;
+    readonly tenantId?: string;
+    updateWebhookKey?: UpdateWebhookKey;
+    readonly webhookId?: string;
+    webhookKey?: string;
+    readonly webhookKeyEnabled?: WebhookKeyEnabled;
+}
+
+// @public
+export interface WebhookResourceListResult {
+    nextLink?: string;
+    value: WebhookResource[];
+}
+
+// @public
+export interface WebhookResourcePatch {
+    properties?: WebhookProperties;
+}
+
+// @public
+export interface Webhooks {
+    createOrUpdate(reportName: string, webhookName: string, resource: WebhookResource, options?: WebhooksCreateOrUpdateOptionalParams): Promise<WebhooksCreateOrUpdateResponse>;
+    delete(reportName: string, webhookName: string, options?: WebhooksDeleteOptionalParams): Promise<void>;
+    get(reportName: string, webhookName: string, options?: WebhooksGetOptionalParams): Promise<WebhooksGetResponse>;
+    list(reportName: string, options?: WebhooksListOptionalParams): PagedAsyncIterableIterator<WebhookResource>;
+    update(reportName: string, webhookName: string, properties: WebhookResourcePatch, options?: WebhooksUpdateOptionalParams): Promise<WebhooksUpdateResponse>;
+}
+
+// @public
+export interface WebhooksCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WebhooksCreateOrUpdateResponse = WebhookResource;
+
+// @public
+export interface WebhooksDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface WebhooksGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WebhooksGetResponse = WebhookResource;
+
+// @public
+export interface WebhooksListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WebhooksListNextResponse = WebhookResourceListResult;
+
+// @public
+export interface WebhooksListOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    offerGuid?: string;
+    orderby?: string;
+    reportCreatorTenantId?: string;
+    select?: string;
+    skipToken?: string;
+    top?: number;
+}
+
+// @public
+export type WebhooksListResponse = WebhookResourceListResult;
+
+// @public
+export type WebhookStatus = string;
+
+// @public
+export interface WebhooksUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WebhooksUpdateResponse = WebhookResource;
 
 // (No @packageDocumentation comment for this package)
 

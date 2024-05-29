@@ -8,26 +8,26 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { Operations } from "../operationsInterfaces";
+import { ScopingConfigurations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AppComplianceAutomationToolForMicrosoft365 } from "../appComplianceAutomationToolForMicrosoft365";
 import {
-  Operation,
-  OperationsListNextOptionalParams,
-  OperationsListOptionalParams,
-  OperationsListResponse,
-  OperationsListNextResponse,
+  ScopingConfigurationResource,
+  ScopingConfigurationsListNextOptionalParams,
+  ScopingConfigurationsListOptionalParams,
+  ScopingConfigurationsListResponse,
+  ScopingConfigurationsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Operations operations. */
-export class OperationsImpl implements Operations {
+/** Class containing ScopingConfigurations operations. */
+export class ScopingConfigurationsImpl implements ScopingConfigurations {
   private readonly client: AppComplianceAutomationToolForMicrosoft365;
 
   /**
-   * Initialize a new instance of the class Operations class.
+   * Initialize a new instance of the class ScopingConfigurations class.
    * @param client Reference to the service client
    */
   constructor(client: AppComplianceAutomationToolForMicrosoft365) {
@@ -35,13 +35,15 @@ export class OperationsImpl implements Operations {
   }
 
   /**
-   * List the operations for the provider
+   * Returns a list format of the singleton scopingConfiguration for a specified report.
+   * @param reportName Report Name.
    * @param options The options parameters.
    */
   public list(
-    options?: OperationsListOptionalParams,
-  ): PagedAsyncIterableIterator<Operation> {
-    const iter = this.listPagingAll(options);
+    reportName: string,
+    options?: ScopingConfigurationsListOptionalParams,
+  ): PagedAsyncIterableIterator<ScopingConfigurationResource> {
+    const iter = this.listPagingAll(reportName, options);
     return {
       next() {
         return iter.next();
@@ -53,26 +55,27 @@ export class OperationsImpl implements Operations {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(options, settings);
+        return this.listPagingPage(reportName, options, settings);
       },
     };
   }
 
   private async *listPagingPage(
-    options?: OperationsListOptionalParams,
+    reportName: string,
+    options?: ScopingConfigurationsListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<Operation[]> {
-    let result: OperationsListResponse;
+  ): AsyncIterableIterator<ScopingConfigurationResource[]> {
+    let result: ScopingConfigurationsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(options);
+      result = await this._list(reportName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(continuationToken, options);
+      result = await this._listNext(reportName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -81,34 +84,42 @@ export class OperationsImpl implements Operations {
   }
 
   private async *listPagingAll(
-    options?: OperationsListOptionalParams,
-  ): AsyncIterableIterator<Operation> {
-    for await (const page of this.listPagingPage(options)) {
+    reportName: string,
+    options?: ScopingConfigurationsListOptionalParams,
+  ): AsyncIterableIterator<ScopingConfigurationResource> {
+    for await (const page of this.listPagingPage(reportName, options)) {
       yield* page;
     }
   }
 
   /**
-   * List the operations for the provider
+   * Returns a list format of the singleton scopingConfiguration for a specified report.
+   * @param reportName Report Name.
    * @param options The options parameters.
    */
   private _list(
-    options?: OperationsListOptionalParams,
-  ): Promise<OperationsListResponse> {
-    return this.client.sendOperationRequest({ options }, listOperationSpec);
+    reportName: string,
+    options?: ScopingConfigurationsListOptionalParams,
+  ): Promise<ScopingConfigurationsListResponse> {
+    return this.client.sendOperationRequest(
+      { reportName, options },
+      listOperationSpec,
+    );
   }
 
   /**
    * ListNext
+   * @param reportName Report Name.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
+    reportName: string,
     nextLink: string,
-    options?: OperationsListNextOptionalParams,
-  ): Promise<OperationsListNextResponse> {
+    options?: ScopingConfigurationsListNextOptionalParams,
+  ): Promise<ScopingConfigurationsListNextResponse> {
     return this.client.sendOperationRequest(
-      { nextLink, options },
+      { reportName, nextLink, options },
       listNextOperationSpec,
     );
   }
@@ -117,18 +128,18 @@ export class OperationsImpl implements Operations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/providers/Microsoft.AppComplianceAutomation/operations",
+  path: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/scopingConfigurations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationListResult,
+      bodyMapper: Mappers.ScopingConfigurationResourceListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host],
+  urlParameters: [Parameters.$host, Parameters.reportName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -137,13 +148,13 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationListResult,
+      bodyMapper: Mappers.ScopingConfigurationResourceListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  urlParameters: [Parameters.$host, Parameters.nextLink],
+  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.reportName],
   headerParameters: [Parameters.accept],
   serializer,
 };
