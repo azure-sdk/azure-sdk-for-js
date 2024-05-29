@@ -13,7 +13,7 @@ import * as Parameters from "../models/parameters";
 import { AppPlatformManagementClient } from "../appPlatformManagementClient";
 import {
   RuntimeVersionsListRuntimeVersionsOptionalParams,
-  RuntimeVersionsListRuntimeVersionsResponse
+  RuntimeVersionsListRuntimeVersionsResponse,
 } from "../models";
 
 /** Class containing RuntimeVersions operations. */
@@ -33,11 +33,11 @@ export class RuntimeVersionsImpl implements RuntimeVersions {
    * @param options The options parameters.
    */
   listRuntimeVersions(
-    options?: RuntimeVersionsListRuntimeVersionsOptionalParams
+    options?: RuntimeVersionsListRuntimeVersionsOptionalParams,
   ): Promise<RuntimeVersionsListRuntimeVersionsResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listRuntimeVersionsOperationSpec
+      listRuntimeVersionsOperationSpec,
     );
   }
 }
@@ -49,14 +49,14 @@ const listRuntimeVersionsOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AvailableRuntimeVersions
+      bodyMapper: Mappers.AvailableRuntimeVersions,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
