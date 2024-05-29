@@ -7,7 +7,16 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SnapshotResource, SnapshotsListOptionalParams } from "../models";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
+import {
+  SnapshotResource,
+  SnapshotsListOptionalParams,
+  SnapshotsGetOptionalParams,
+  SnapshotsGetResponse,
+  SnapshotDownloadRequest,
+  SnapshotsDownloadOptionalParams,
+  SnapshotsDownloadResponse,
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Snapshots. */
@@ -19,6 +28,48 @@ export interface Snapshots {
    */
   list(
     reportName: string,
-    options?: SnapshotsListOptionalParams
+    options?: SnapshotsListOptionalParams,
   ): PagedAsyncIterableIterator<SnapshotResource>;
+  /**
+   * Get the AppComplianceAutomation snapshot and its properties.
+   * @param reportName Report Name.
+   * @param snapshotName Snapshot Name.
+   * @param options The options parameters.
+   */
+  get(
+    reportName: string,
+    snapshotName: string,
+    options?: SnapshotsGetOptionalParams,
+  ): Promise<SnapshotsGetResponse>;
+  /**
+   * Download compliance needs from snapshot, like: Compliance Report, Resource List.
+   * @param reportName Report Name.
+   * @param snapshotName Snapshot Name.
+   * @param body Parameters for the query operation
+   * @param options The options parameters.
+   */
+  beginDownload(
+    reportName: string,
+    snapshotName: string,
+    body: SnapshotDownloadRequest,
+    options?: SnapshotsDownloadOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<SnapshotsDownloadResponse>,
+      SnapshotsDownloadResponse
+    >
+  >;
+  /**
+   * Download compliance needs from snapshot, like: Compliance Report, Resource List.
+   * @param reportName Report Name.
+   * @param snapshotName Snapshot Name.
+   * @param body Parameters for the query operation
+   * @param options The options parameters.
+   */
+  beginDownloadAndWait(
+    reportName: string,
+    snapshotName: string,
+    body: SnapshotDownloadRequest,
+    options?: SnapshotsDownloadOptionalParams,
+  ): Promise<SnapshotsDownloadResponse>;
 }
