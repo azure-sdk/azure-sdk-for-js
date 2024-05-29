@@ -20,8 +20,25 @@ export type ActionType = string;
 export type CreatedByType = string;
 
 // @public
+export interface DeleteRetentionPolicy {
+    days?: number;
+    enabled?: boolean;
+}
+
+// @public
 export interface ElasticSan extends TrackedResource {
-    properties: ElasticSanProperties;
+    availabilityZones?: string[];
+    baseSizeTiB: number;
+    extendedCapacitySizeTiB: number;
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
+    readonly provisioningState?: ProvisioningStates;
+    publicNetworkAccess?: PublicNetworkAccess;
+    sku: Sku;
+    readonly totalIops?: number;
+    readonly totalMBps?: number;
+    readonly totalSizeTiB?: number;
+    readonly totalVolumeSizeGiB?: number;
+    readonly volumeGroupCount?: number;
 }
 
 // @public
@@ -37,6 +54,8 @@ export class ElasticSanManagement extends coreClient.ServiceClient {
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ElasticSanManagementOptionalParams);
     // (undocumented)
     apiVersion: string;
+    beginRestoreVolume(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, volumeName: string, options?: RestoreVolumeOptionalParams): Promise<SimplePollerLike<OperationState<RestoreVolumeResponse>, RestoreVolumeResponse>>;
+    beginRestoreVolumeAndWait(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, volumeName: string, options?: RestoreVolumeOptionalParams): Promise<RestoreVolumeResponse>;
     // (undocumented)
     elasticSans: ElasticSans;
     // (undocumented)
@@ -65,19 +84,9 @@ export interface ElasticSanManagementOptionalParams extends coreClient.ServiceCl
 }
 
 // @public
-export interface ElasticSanProperties {
-    availabilityZones?: string[];
-    baseSizeTiB: number;
-    extendedCapacitySizeTiB: number;
-    readonly privateEndpointConnections?: PrivateEndpointConnection[];
-    readonly provisioningState?: ProvisioningStates;
-    publicNetworkAccess?: PublicNetworkAccess;
-    sku: Sku;
-    readonly totalIops?: number;
-    readonly totalMBps?: number;
-    readonly totalSizeTiB?: number;
-    readonly totalVolumeSizeGiB?: number;
-    readonly volumeGroupCount?: number;
+export interface ElasticSanManagementRestoreVolumeHeaders {
+    // (undocumented)
+    location?: string;
 }
 
 // @public
@@ -166,17 +175,12 @@ export type ElasticSansUpdateResponse = ElasticSan;
 
 // @public
 export interface ElasticSanUpdate {
-    properties?: ElasticSanUpdateProperties;
-    tags?: {
-        [propertyName: string]: string;
-    };
-}
-
-// @public
-export interface ElasticSanUpdateProperties {
     baseSizeTiB?: number;
     extendedCapacitySizeTiB?: number;
     publicNetworkAccess?: PublicNetworkAccess;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
@@ -325,6 +329,12 @@ export enum KnownPublicNetworkAccess {
 }
 
 // @public
+export enum KnownPurge {
+    False = "false",
+    True = "true"
+}
+
+// @public
 export enum KnownSkuName {
     PremiumLRS = "Premium_LRS",
     PremiumZRS = "Premium_ZRS"
@@ -348,6 +358,12 @@ export enum KnownVolumeCreateOption {
     DiskSnapshot = "DiskSnapshot",
     None = "None",
     VolumeSnapshot = "VolumeSnapshot"
+}
+
+// @public
+export enum KnownXMsAccessSoftDeletedResources {
+    False = "false",
+    True = "true"
 }
 
 // @public
@@ -420,21 +436,16 @@ export interface PrivateEndpoint {
 
 // @public
 export interface PrivateEndpointConnection extends Resource {
-    properties: PrivateEndpointConnectionProperties;
+    groupIds?: string[];
+    privateEndpoint?: PrivateEndpoint;
+    privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
+    readonly provisioningState?: ProvisioningStates;
 }
 
 // @public
 export interface PrivateEndpointConnectionListResult {
     readonly nextLink?: string;
     value?: PrivateEndpointConnection[];
-}
-
-// @public
-export interface PrivateEndpointConnectionProperties {
-    groupIds?: string[];
-    privateEndpoint?: PrivateEndpoint;
-    privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
-    readonly provisioningState?: ProvisioningStates;
 }
 
 // @public
@@ -487,20 +498,15 @@ export type PrivateEndpointServiceConnectionStatus = string;
 
 // @public
 export interface PrivateLinkResource extends Resource {
-    properties?: PrivateLinkResourceProperties;
+    readonly groupId?: string;
+    readonly requiredMembers?: string[];
+    requiredZoneNames?: string[];
 }
 
 // @public
 export interface PrivateLinkResourceListResult {
     readonly nextLink?: string;
     value?: PrivateLinkResource[];
-}
-
-// @public
-export interface PrivateLinkResourceProperties {
-    readonly groupId?: string;
-    readonly requiredMembers?: string[];
-    requiredZoneNames?: string[];
 }
 
 // @public
@@ -533,12 +539,24 @@ export interface ProxyResource extends Resource {
 export type PublicNetworkAccess = string;
 
 // @public
+export type Purge = string;
+
+// @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
     readonly systemData?: SystemData;
     readonly type?: string;
 }
+
+// @public
+export interface RestoreVolumeOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type RestoreVolumeResponse = Volume;
 
 // @public
 export interface Sku {
@@ -595,7 +613,10 @@ export type SkuTier = string;
 
 // @public
 export interface Snapshot extends ProxyResource {
-    properties: SnapshotProperties;
+    creationData: SnapshotCreationData;
+    readonly provisioningState?: ProvisioningStates;
+    readonly sourceVolumeSizeGiB?: number;
+    readonly volumeName?: string;
 }
 
 // @public
@@ -607,14 +628,6 @@ export interface SnapshotCreationData {
 export interface SnapshotList {
     readonly nextLink?: string;
     value?: Snapshot[];
-}
-
-// @public
-export interface SnapshotProperties {
-    creationData: SnapshotCreationData;
-    readonly provisioningState?: ProvisioningStates;
-    readonly sourceVolumeSizeGiB?: number;
-    readonly volumeName?: string;
 }
 
 // @public
@@ -658,7 +671,13 @@ export interface VirtualNetworkRule {
 
 // @public
 export interface Volume extends ProxyResource {
-    properties: VolumeProperties;
+    creationData?: SourceCreationData;
+    managedBy?: ManagedByInfo;
+    readonly provisioningState?: ProvisioningStates;
+    sizeGiB: number;
+    softDeleteEnabled?: boolean;
+    readonly storageTarget?: IscsiTargetInfo;
+    readonly volumeId?: string;
 }
 
 // @public
@@ -666,24 +685,20 @@ export type VolumeCreateOption = string;
 
 // @public
 export interface VolumeGroup extends ProxyResource {
+    deleteRetentionPolicy?: DeleteRetentionPolicy;
+    encryption?: EncryptionType;
+    encryptionProperties?: EncryptionProperties;
     identity?: Identity;
-    properties?: VolumeGroupProperties;
+    networkAcls?: NetworkRuleSet;
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
+    protocolType?: StorageTargetType;
+    readonly provisioningState?: ProvisioningStates;
 }
 
 // @public
 export interface VolumeGroupList {
     readonly nextLink?: string;
     value?: VolumeGroup[];
-}
-
-// @public
-export interface VolumeGroupProperties {
-    encryption?: EncryptionType;
-    encryptionProperties?: EncryptionProperties;
-    networkAcls?: NetworkRuleSet;
-    readonly privateEndpointConnections?: PrivateEndpointConnection[];
-    protocolType?: StorageTargetType;
-    readonly provisioningState?: ProvisioningStates;
 }
 
 // @public
@@ -715,12 +730,14 @@ export interface VolumeGroupsDeleteHeaders {
 
 // @public
 export interface VolumeGroupsDeleteOptionalParams extends coreClient.OperationOptions {
+    purge?: Purge;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
 export interface VolumeGroupsGetOptionalParams extends coreClient.OperationOptions {
+    xMsAccessSoftDeletedResources?: XMsAccessSoftDeletedResources;
 }
 
 // @public
@@ -728,6 +745,7 @@ export type VolumeGroupsGetResponse = VolumeGroup;
 
 // @public
 export interface VolumeGroupsListByElasticSanNextOptionalParams extends coreClient.OperationOptions {
+    xMsAccessSoftDeletedResources?: XMsAccessSoftDeletedResources;
 }
 
 // @public
@@ -735,6 +753,7 @@ export type VolumeGroupsListByElasticSanNextResponse = VolumeGroupList;
 
 // @public
 export interface VolumeGroupsListByElasticSanOptionalParams extends coreClient.OperationOptions {
+    xMsAccessSoftDeletedResources?: XMsAccessSoftDeletedResources;
 }
 
 // @public
@@ -757,14 +776,10 @@ export type VolumeGroupsUpdateResponse = VolumeGroup;
 
 // @public
 export interface VolumeGroupUpdate {
-    identity?: Identity;
-    properties?: VolumeGroupUpdateProperties;
-}
-
-// @public
-export interface VolumeGroupUpdateProperties {
+    deleteRetentionPolicy?: DeleteRetentionPolicy;
     encryption?: EncryptionType;
     encryptionProperties?: EncryptionProperties;
+    identity?: Identity;
     networkAcls?: NetworkRuleSet;
     protocolType?: StorageTargetType;
 }
@@ -773,16 +788,6 @@ export interface VolumeGroupUpdateProperties {
 export interface VolumeList {
     readonly nextLink?: string;
     value?: Volume[];
-}
-
-// @public
-export interface VolumeProperties {
-    creationData?: SourceCreationData;
-    managedBy?: ManagedByInfo;
-    readonly provisioningState?: ProvisioningStates;
-    sizeGiB: number;
-    readonly storageTarget?: IscsiTargetInfo;
-    readonly volumeId?: string;
 }
 
 // @public
@@ -814,6 +819,7 @@ export interface VolumesDeleteHeaders {
 
 // @public
 export interface VolumesDeleteOptionalParams extends coreClient.OperationOptions {
+    purge?: Purge;
     resumeFrom?: string;
     updateIntervalInMs?: number;
     xMsDeleteSnapshots?: XMsDeleteSnapshots;
@@ -822,6 +828,7 @@ export interface VolumesDeleteOptionalParams extends coreClient.OperationOptions
 
 // @public
 export interface VolumesGetOptionalParams extends coreClient.OperationOptions {
+    xMsAccessSoftDeletedResources?: XMsAccessSoftDeletedResources;
 }
 
 // @public
@@ -829,6 +836,7 @@ export type VolumesGetResponse = Volume;
 
 // @public
 export interface VolumesListByVolumeGroupNextOptionalParams extends coreClient.OperationOptions {
+    xMsAccessSoftDeletedResources?: XMsAccessSoftDeletedResources;
 }
 
 // @public
@@ -836,6 +844,7 @@ export type VolumesListByVolumeGroupNextResponse = VolumeList;
 
 // @public
 export interface VolumesListByVolumeGroupOptionalParams extends coreClient.OperationOptions {
+    xMsAccessSoftDeletedResources?: XMsAccessSoftDeletedResources;
 }
 
 // @public
@@ -911,14 +920,13 @@ export type VolumesUpdateResponse = Volume;
 
 // @public
 export interface VolumeUpdate {
-    properties?: VolumeUpdateProperties;
+    managedBy?: ManagedByInfo;
+    sizeGiB?: number;
+    softDeleteEnabled?: boolean;
 }
 
 // @public
-export interface VolumeUpdateProperties {
-    managedBy?: ManagedByInfo;
-    sizeGiB?: number;
-}
+export type XMsAccessSoftDeletedResources = string;
 
 // @public
 export type XMsDeleteSnapshots = string;
