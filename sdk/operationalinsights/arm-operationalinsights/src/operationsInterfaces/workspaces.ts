@@ -7,11 +7,17 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
+  NetworkSecurityPerimeterConfiguration,
+  WorkspacesListNSPOptionalParams,
   Workspace,
   WorkspacesListOptionalParams,
   WorkspacesListByResourceGroupOptionalParams,
+  WorkspacesGetNSPOptionalParams,
+  WorkspacesGetNSPResponse,
+  WorkspacesReconcileNSPOptionalParams,
+  WorkspacesReconcileNSPResponse,
   WorkspacesCreateOrUpdateOptionalParams,
   WorkspacesCreateOrUpdateResponse,
   WorkspacesDeleteOptionalParams,
@@ -19,18 +25,29 @@ import {
   WorkspacesGetResponse,
   WorkspacePatch,
   WorkspacesUpdateOptionalParams,
-  WorkspacesUpdateResponse
+  WorkspacesUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Workspaces. */
 export interface Workspaces {
   /**
+   * Gets a list of NSP configurations for specified workspace.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
+   * @param options The options parameters.
+   */
+  listNSP(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: WorkspacesListNSPOptionalParams,
+  ): PagedAsyncIterableIterator<NetworkSecurityPerimeterConfiguration>;
+  /**
    * Gets the workspaces in a subscription.
    * @param options The options parameters.
    */
   list(
-    options?: WorkspacesListOptionalParams
+    options?: WorkspacesListOptionalParams,
   ): PagedAsyncIterableIterator<Workspace>;
   /**
    * Gets workspaces in a resource group.
@@ -39,8 +56,55 @@ export interface Workspaces {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: WorkspacesListByResourceGroupOptionalParams
+    options?: WorkspacesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Workspace>;
+  /**
+   * Gets a network security perimeter configuration.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
+   * @param networkSecurityPerimeterConfigurationName The name for a network security perimeter
+   *                                                  configuration
+   * @param options The options parameters.
+   */
+  getNSP(
+    resourceGroupName: string,
+    workspaceName: string,
+    networkSecurityPerimeterConfigurationName: string,
+    options?: WorkspacesGetNSPOptionalParams,
+  ): Promise<WorkspacesGetNSPResponse>;
+  /**
+   * Reconcile network security perimeter configuration for Workspace resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
+   * @param networkSecurityPerimeterConfigurationName The name for a network security perimeter
+   *                                                  configuration
+   * @param options The options parameters.
+   */
+  beginReconcileNSP(
+    resourceGroupName: string,
+    workspaceName: string,
+    networkSecurityPerimeterConfigurationName: string,
+    options?: WorkspacesReconcileNSPOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<WorkspacesReconcileNSPResponse>,
+      WorkspacesReconcileNSPResponse
+    >
+  >;
+  /**
+   * Reconcile network security perimeter configuration for Workspace resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
+   * @param networkSecurityPerimeterConfigurationName The name for a network security perimeter
+   *                                                  configuration
+   * @param options The options parameters.
+   */
+  beginReconcileNSPAndWait(
+    resourceGroupName: string,
+    workspaceName: string,
+    networkSecurityPerimeterConfigurationName: string,
+    options?: WorkspacesReconcileNSPOptionalParams,
+  ): Promise<WorkspacesReconcileNSPResponse>;
   /**
    * Create or update a workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -52,10 +116,10 @@ export interface Workspaces {
     resourceGroupName: string,
     workspaceName: string,
     parameters: Workspace,
-    options?: WorkspacesCreateOrUpdateOptionalParams
+    options?: WorkspacesCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<WorkspacesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<WorkspacesCreateOrUpdateResponse>,
       WorkspacesCreateOrUpdateResponse
     >
   >;
@@ -70,7 +134,7 @@ export interface Workspaces {
     resourceGroupName: string,
     workspaceName: string,
     parameters: Workspace,
-    options?: WorkspacesCreateOrUpdateOptionalParams
+    options?: WorkspacesCreateOrUpdateOptionalParams,
   ): Promise<WorkspacesCreateOrUpdateResponse>;
   /**
    * Deletes a workspace resource. To recover the workspace, create it again with the same name, in the
@@ -83,8 +147,8 @@ export interface Workspaces {
   beginDelete(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspacesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: WorkspacesDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a workspace resource. To recover the workspace, create it again with the same name, in the
    * same subscription, resource group and location. The name is kept for 14 days and cannot be used for
@@ -96,7 +160,7 @@ export interface Workspaces {
   beginDeleteAndWait(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspacesDeleteOptionalParams
+    options?: WorkspacesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets a workspace instance.
@@ -107,7 +171,7 @@ export interface Workspaces {
   get(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspacesGetOptionalParams
+    options?: WorkspacesGetOptionalParams,
   ): Promise<WorkspacesGetResponse>;
   /**
    * Updates a workspace.
@@ -120,6 +184,6 @@ export interface Workspaces {
     resourceGroupName: string,
     workspaceName: string,
     parameters: WorkspacePatch,
-    options?: WorkspacesUpdateOptionalParams
+    options?: WorkspacesUpdateOptionalParams,
   ): Promise<WorkspacesUpdateResponse>;
 }
