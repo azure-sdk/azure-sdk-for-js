@@ -14,7 +14,6 @@ import {
 import {
   AttachedDataNetwork as AttachedDataNetworkMapper,
   TagsObject as TagsObjectMapper,
-  DataNetwork as DataNetworkMapper,
   MobileNetwork as MobileNetworkMapper,
   IdentityAndTagsObject as IdentityAndTagsObjectMapper,
   PacketCapture as PacketCaptureMapper,
@@ -26,6 +25,8 @@ import {
   SimUploadList as SimUploadListMapper,
   SimDeleteList as SimDeleteListMapper,
   EncryptedSimUploadList as EncryptedSimUploadListMapper,
+  SimMove as SimMoveMapper,
+  SimClone as SimCloneMapper,
   SimGroup as SimGroupMapper,
   SimPolicy as SimPolicyMapper,
   Site as SiteMapper,
@@ -133,7 +134,7 @@ export const attachedDataNetworkName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-02-01",
+    defaultValue: "2024-04-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -191,28 +192,6 @@ export const mobileNetworkName: OperationURLParameter = {
   },
 };
 
-export const dataNetworkName: OperationURLParameter = {
-  parameterPath: "dataNetworkName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp(
-        "^[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])*(\\.[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])*)*$",
-      ),
-      MaxLength: 64,
-    },
-    serializedName: "dataNetworkName",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const parameters2: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: DataNetworkMapper,
-};
-
 export const diagnosticsPackageName: OperationURLParameter = {
   parameterPath: "diagnosticsPackageName",
   mapper: {
@@ -228,17 +207,17 @@ export const diagnosticsPackageName: OperationURLParameter = {
   },
 };
 
-export const parameters3: OperationParameter = {
+export const parameters2: OperationParameter = {
   parameterPath: "parameters",
   mapper: MobileNetworkMapper,
 };
 
-export const parameters4: OperationParameter = {
+export const parameters3: OperationParameter = {
   parameterPath: "parameters",
   mapper: IdentityAndTagsObjectMapper,
 };
 
-export const parameters5: OperationParameter = {
+export const parameters4: OperationParameter = {
   parameterPath: "parameters",
   mapper: PacketCaptureMapper,
 };
@@ -258,12 +237,12 @@ export const packetCaptureName: OperationURLParameter = {
   },
 };
 
-export const parameters6: OperationParameter = {
+export const parameters5: OperationParameter = {
   parameterPath: "parameters",
   mapper: PacketCoreControlPlaneMapper,
 };
 
-export const parameters7: OperationParameter = {
+export const parameters6: OperationParameter = {
   parameterPath: "parameters",
   mapper: PacketCoreControlPlaneCollectDiagnosticsPackageMapper,
 };
@@ -279,7 +258,7 @@ export const versionName: OperationURLParameter = {
   },
 };
 
-export const parameters8: OperationParameter = {
+export const parameters7: OperationParameter = {
   parameterPath: "parameters",
   mapper: PacketCoreDataPlaneMapper,
 };
@@ -301,7 +280,7 @@ export const serviceName: OperationURLParameter = {
   },
 };
 
-export const parameters9: OperationParameter = {
+export const parameters8: OperationParameter = {
   parameterPath: "parameters",
   mapper: ServiceMapper,
 };
@@ -336,27 +315,37 @@ export const simName: OperationURLParameter = {
   },
 };
 
-export const parameters10: OperationParameter = {
+export const parameters9: OperationParameter = {
   parameterPath: "parameters",
   mapper: SimMapper,
 };
 
-export const parameters11: OperationParameter = {
+export const parameters10: OperationParameter = {
   parameterPath: "parameters",
   mapper: SimUploadListMapper,
 };
 
-export const parameters12: OperationParameter = {
+export const parameters11: OperationParameter = {
   parameterPath: "parameters",
   mapper: SimDeleteListMapper,
 };
 
-export const parameters13: OperationParameter = {
+export const parameters12: OperationParameter = {
   parameterPath: "parameters",
   mapper: EncryptedSimUploadListMapper,
 };
 
+export const parameters13: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: SimMoveMapper,
+};
+
 export const parameters14: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: SimCloneMapper,
+};
+
+export const parameters15: OperationParameter = {
   parameterPath: "parameters",
   mapper: SimGroupMapper,
 };
@@ -376,7 +365,7 @@ export const simPolicyName: OperationURLParameter = {
   },
 };
 
-export const parameters15: OperationParameter = {
+export const parameters16: OperationParameter = {
   parameterPath: "parameters",
   mapper: SimPolicyMapper,
 };
@@ -396,12 +385,12 @@ export const siteName: OperationURLParameter = {
   },
 };
 
-export const parameters16: OperationParameter = {
+export const parameters17: OperationParameter = {
   parameterPath: "parameters",
   mapper: SiteMapper,
 };
 
-export const parameters17: OperationParameter = {
+export const parameters18: OperationParameter = {
   parameterPath: "parameters",
   mapper: SiteDeletePacketCoreMapper,
 };
@@ -421,7 +410,7 @@ export const sliceName: OperationURLParameter = {
   },
 };
 
-export const parameters18: OperationParameter = {
+export const parameters19: OperationParameter = {
   parameterPath: "parameters",
   mapper: SliceMapper,
 };
