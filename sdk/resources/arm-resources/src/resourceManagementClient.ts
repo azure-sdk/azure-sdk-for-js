@@ -11,35 +11,35 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
-  OperationsImpl,
   DeploymentsImpl,
+  DeploymentOperationsImpl,
+  OperationsImpl,
   ProvidersImpl,
   ProviderResourceTypesImpl,
   ResourcesImpl,
   ResourceGroupsImpl,
   TagsOperationsImpl,
-  DeploymentOperationsImpl
 } from "./operations";
 import {
-  Operations,
   Deployments,
+  DeploymentOperations,
+  Operations,
   Providers,
   ProviderResourceTypes,
   Resources,
   ResourceGroups,
   TagsOperations,
-  DeploymentOperations
 } from "./operationsInterfaces";
 import { ResourceManagementClientOptionalParams } from "./models";
 
 export class ResourceManagementClient extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
-  subscriptionId: string;
+  subscriptionId?: string;
 
   /**
    * Initializes a new instance of the ResourceManagementClient class.
@@ -50,13 +50,27 @@ export class ResourceManagementClient extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: ResourceManagementClientOptionalParams
+    options?: ResourceManagementClientOptionalParams,
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    options?: ResourceManagementClientOptionalParams,
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    subscriptionIdOrOptions?: ResourceManagementClientOptionalParams | string,
+    options?: ResourceManagementClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
     }
-    if (subscriptionId === undefined) {
-      throw new Error("'subscriptionId' cannot be null");
+
+    let subscriptionId: string | undefined;
+
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
     }
 
     // Initializing default values for options
@@ -65,10 +79,10 @@ export class ResourceManagementClient extends coreClient.ServiceClient {
     }
     const defaults: ResourceManagementClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-resources/5.2.1`;
+    const packageDetails = `azsdk-js-arm-resources/6.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -78,20 +92,21 @@ export class ResourceManagementClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -101,7 +116,7 @@ export class ResourceManagementClient extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -111,9 +126,9 @@ export class ResourceManagementClient extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -121,15 +136,15 @@ export class ResourceManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-04-01";
-    this.operations = new OperationsImpl(this);
+    this.apiVersion = options.apiVersion || "2024-03-01";
     this.deployments = new DeploymentsImpl(this);
+    this.deploymentOperations = new DeploymentOperationsImpl(this);
+    this.operations = new OperationsImpl(this);
     this.providers = new ProvidersImpl(this);
     this.providerResourceTypes = new ProviderResourceTypesImpl(this);
     this.resources = new ResourcesImpl(this);
     this.resourceGroups = new ResourceGroupsImpl(this);
     this.tagsOperations = new TagsOperationsImpl(this);
-    this.deploymentOperations = new DeploymentOperationsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -142,7 +157,7 @@ export class ResourceManagementClient extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -156,17 +171,17 @@ export class ResourceManagementClient extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
-  operations: Operations;
   deployments: Deployments;
+  deploymentOperations: DeploymentOperations;
+  operations: Operations;
   providers: Providers;
   providerResourceTypes: ProviderResourceTypes;
   resources: Resources;
   resourceGroups: ResourceGroups;
   tagsOperations: TagsOperations;
-  deploymentOperations: DeploymentOperations;
 }
