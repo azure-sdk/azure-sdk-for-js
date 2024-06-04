@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./operations";
 export * from "./deployments";
+export * from "./deploymentOperations";
+export * from "./operations";
 export * from "./providers";
 export * from "./providerResourceTypes";
 export * from "./resources";
 export * from "./resourceGroups";
 export * from "./tagsOperations";
-export * from "./deploymentOperations";
