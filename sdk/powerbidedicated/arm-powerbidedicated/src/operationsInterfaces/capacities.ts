@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   DedicatedCapacity,
   CapacitiesListByResourceGroupOptionalParams,
@@ -28,7 +28,7 @@ import {
   CapacitiesListSkusForCapacityResponse,
   CheckCapacityNameAvailabilityParameters,
   CapacitiesCheckNameAvailabilityOptionalParams,
-  CapacitiesCheckNameAvailabilityResponse
+  CapacitiesCheckNameAvailabilityResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -42,14 +42,14 @@ export interface Capacities {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: CapacitiesListByResourceGroupOptionalParams
+    options?: CapacitiesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<DedicatedCapacity>;
   /**
    * Lists all the Dedicated capacities for the given subscription.
    * @param options The options parameters.
    */
   list(
-    options?: CapacitiesListOptionalParams
+    options?: CapacitiesListOptionalParams,
   ): PagedAsyncIterableIterator<DedicatedCapacity>;
   /**
    * Gets details about the specified dedicated capacity.
@@ -62,7 +62,7 @@ export interface Capacities {
   getDetails(
     resourceGroupName: string,
     dedicatedCapacityName: string,
-    options?: CapacitiesGetDetailsOptionalParams
+    options?: CapacitiesGetDetailsOptionalParams,
   ): Promise<CapacitiesGetDetailsResponse>;
   /**
    * Provisions the specified Dedicated capacity based on the configuration specified in the request.
@@ -77,10 +77,10 @@ export interface Capacities {
     resourceGroupName: string,
     dedicatedCapacityName: string,
     capacityParameters: DedicatedCapacity,
-    options?: CapacitiesCreateOptionalParams
+    options?: CapacitiesCreateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<CapacitiesCreateResponse>,
+    SimplePollerLike<
+      OperationState<CapacitiesCreateResponse>,
       CapacitiesCreateResponse
     >
   >;
@@ -97,7 +97,7 @@ export interface Capacities {
     resourceGroupName: string,
     dedicatedCapacityName: string,
     capacityParameters: DedicatedCapacity,
-    options?: CapacitiesCreateOptionalParams
+    options?: CapacitiesCreateOptionalParams,
   ): Promise<CapacitiesCreateResponse>;
   /**
    * Deletes the specified Dedicated capacity.
@@ -110,8 +110,8 @@ export interface Capacities {
   beginDelete(
     resourceGroupName: string,
     dedicatedCapacityName: string,
-    options?: CapacitiesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: CapacitiesDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified Dedicated capacity.
    * @param resourceGroupName The name of the Azure Resource group of which a given PowerBIDedicated
@@ -123,7 +123,7 @@ export interface Capacities {
   beginDeleteAndWait(
     resourceGroupName: string,
     dedicatedCapacityName: string,
-    options?: CapacitiesDeleteOptionalParams
+    options?: CapacitiesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Updates the current state of the specified Dedicated capacity.
@@ -139,10 +139,10 @@ export interface Capacities {
     resourceGroupName: string,
     dedicatedCapacityName: string,
     capacityUpdateParameters: DedicatedCapacityUpdateParameters,
-    options?: CapacitiesUpdateOptionalParams
+    options?: CapacitiesUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<CapacitiesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<CapacitiesUpdateResponse>,
       CapacitiesUpdateResponse
     >
   >;
@@ -160,7 +160,7 @@ export interface Capacities {
     resourceGroupName: string,
     dedicatedCapacityName: string,
     capacityUpdateParameters: DedicatedCapacityUpdateParameters,
-    options?: CapacitiesUpdateOptionalParams
+    options?: CapacitiesUpdateOptionalParams,
   ): Promise<CapacitiesUpdateResponse>;
   /**
    * Suspends operation of the specified dedicated capacity instance.
@@ -173,8 +173,8 @@ export interface Capacities {
   beginSuspend(
     resourceGroupName: string,
     dedicatedCapacityName: string,
-    options?: CapacitiesSuspendOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: CapacitiesSuspendOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Suspends operation of the specified dedicated capacity instance.
    * @param resourceGroupName The name of the Azure Resource group of which a given PowerBIDedicated
@@ -186,7 +186,7 @@ export interface Capacities {
   beginSuspendAndWait(
     resourceGroupName: string,
     dedicatedCapacityName: string,
-    options?: CapacitiesSuspendOptionalParams
+    options?: CapacitiesSuspendOptionalParams,
   ): Promise<void>;
   /**
    * Resumes operation of the specified Dedicated capacity instance.
@@ -199,8 +199,8 @@ export interface Capacities {
   beginResume(
     resourceGroupName: string,
     dedicatedCapacityName: string,
-    options?: CapacitiesResumeOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: CapacitiesResumeOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Resumes operation of the specified Dedicated capacity instance.
    * @param resourceGroupName The name of the Azure Resource group of which a given PowerBIDedicated
@@ -212,14 +212,14 @@ export interface Capacities {
   beginResumeAndWait(
     resourceGroupName: string,
     dedicatedCapacityName: string,
-    options?: CapacitiesResumeOptionalParams
+    options?: CapacitiesResumeOptionalParams,
   ): Promise<void>;
   /**
    * Lists eligible SKUs for PowerBI Dedicated resource provider.
    * @param options The options parameters.
    */
   listSkus(
-    options?: CapacitiesListSkusOptionalParams
+    options?: CapacitiesListSkusOptionalParams,
   ): Promise<CapacitiesListSkusResponse>;
   /**
    * Lists eligible SKUs for a PowerBI Dedicated resource.
@@ -232,7 +232,7 @@ export interface Capacities {
   listSkusForCapacity(
     resourceGroupName: string,
     dedicatedCapacityName: string,
-    options?: CapacitiesListSkusForCapacityOptionalParams
+    options?: CapacitiesListSkusForCapacityOptionalParams,
   ): Promise<CapacitiesListSkusForCapacityResponse>;
   /**
    * Check the name availability in the target location.
@@ -243,6 +243,6 @@ export interface Capacities {
   checkNameAvailability(
     location: string,
     capacityParameters: CheckCapacityNameAvailabilityParameters,
-    options?: CapacitiesCheckNameAvailabilityOptionalParams
+    options?: CapacitiesCheckNameAvailabilityOptionalParams,
   ): Promise<CapacitiesCheckNameAvailabilityResponse>;
 }

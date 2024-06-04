@@ -9,14 +9,14 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   DedicatedCapacity as DedicatedCapacityMapper,
   DedicatedCapacityUpdateParameters as DedicatedCapacityUpdateParametersMapper,
   CheckCapacityNameAvailabilityParameters as CheckCapacityNameAvailabilityParametersMapper,
   AutoScaleVCore as AutoScaleVCoreMapper,
-  AutoScaleVCoreUpdateParameters as AutoScaleVCoreUpdateParametersMapper
+  AutoScaleVCoreUpdateParameters as AutoScaleVCoreUpdateParametersMapper,
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -26,9 +26,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -37,10 +37,10 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -49,14 +49,14 @@ export const resourceGroupName: OperationURLParameter = {
     constraints: {
       Pattern: new RegExp("^[-\\w\\._\\(\\)]+$"),
       MaxLength: 90,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const dedicatedCapacityName: OperationURLParameter = {
@@ -65,14 +65,14 @@ export const dedicatedCapacityName: OperationURLParameter = {
     constraints: {
       Pattern: new RegExp("^[a-z][a-z0-9]*$"),
       MaxLength: 63,
-      MinLength: 3
+      MinLength: 3,
     },
     serializedName: "dedicatedCapacityName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const apiVersion: OperationQueryParameter = {
@@ -82,9 +82,9 @@ export const apiVersion: OperationQueryParameter = {
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const subscriptionId: OperationURLParameter = {
@@ -93,9 +93,9 @@ export const subscriptionId: OperationURLParameter = {
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -105,24 +105,24 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const capacityParameters: OperationParameter = {
   parameterPath: "capacityParameters",
-  mapper: DedicatedCapacityMapper
+  mapper: DedicatedCapacityMapper,
 };
 
 export const capacityUpdateParameters: OperationParameter = {
   parameterPath: "capacityUpdateParameters",
-  mapper: DedicatedCapacityUpdateParametersMapper
+  mapper: DedicatedCapacityUpdateParametersMapper,
 };
 
 export const capacityParameters1: OperationParameter = {
   parameterPath: "capacityParameters",
-  mapper: CheckCapacityNameAvailabilityParametersMapper
+  mapper: CheckCapacityNameAvailabilityParametersMapper,
 };
 
 export const location: OperationURLParameter = {
@@ -131,9 +131,9 @@ export const location: OperationURLParameter = {
     serializedName: "location",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const nextLink: OperationURLParameter = {
@@ -142,10 +142,10 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const vcoreName: OperationURLParameter = {
@@ -154,22 +154,22 @@ export const vcoreName: OperationURLParameter = {
     constraints: {
       Pattern: new RegExp("^[-a-zA-Z0-9_]+$"),
       MaxLength: 63,
-      MinLength: 3
+      MinLength: 3,
     },
     serializedName: "vcoreName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const vCoreParameters: OperationParameter = {
   parameterPath: "vCoreParameters",
-  mapper: AutoScaleVCoreMapper
+  mapper: AutoScaleVCoreMapper,
 };
 
 export const vCoreUpdateParameters: OperationParameter = {
   parameterPath: "vCoreUpdateParameters",
-  mapper: AutoScaleVCoreUpdateParametersMapper
+  mapper: AutoScaleVCoreUpdateParametersMapper,
 };

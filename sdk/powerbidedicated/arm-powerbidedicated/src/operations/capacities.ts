@@ -12,8 +12,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { PowerBIDedicated } from "../powerBIDedicated";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   DedicatedCapacity,
   CapacitiesListByResourceGroupOptionalParams,
@@ -36,7 +40,7 @@ import {
   CapacitiesListSkusForCapacityResponse,
   CheckCapacityNameAvailabilityParameters,
   CapacitiesCheckNameAvailabilityOptionalParams,
-  CapacitiesCheckNameAvailabilityResponse
+  CapacitiesCheckNameAvailabilityResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -60,7 +64,7 @@ export class CapacitiesImpl implements Capacities {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: CapacitiesListByResourceGroupOptionalParams
+    options?: CapacitiesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<DedicatedCapacity> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -77,16 +81,16 @@ export class CapacitiesImpl implements Capacities {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: CapacitiesListByResourceGroupOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<DedicatedCapacity[]> {
     let result: CapacitiesListByResourceGroupResponse;
     result = await this._listByResourceGroup(resourceGroupName, options);
@@ -95,11 +99,11 @@ export class CapacitiesImpl implements Capacities {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: CapacitiesListByResourceGroupOptionalParams
+    options?: CapacitiesListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<DedicatedCapacity> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -110,7 +114,7 @@ export class CapacitiesImpl implements Capacities {
    * @param options The options parameters.
    */
   public list(
-    options?: CapacitiesListOptionalParams
+    options?: CapacitiesListOptionalParams,
   ): PagedAsyncIterableIterator<DedicatedCapacity> {
     const iter = this.listPagingAll(options);
     return {
@@ -125,13 +129,13 @@ export class CapacitiesImpl implements Capacities {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: CapacitiesListOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<DedicatedCapacity[]> {
     let result: CapacitiesListResponse;
     result = await this._list(options);
@@ -139,7 +143,7 @@ export class CapacitiesImpl implements Capacities {
   }
 
   private async *listPagingAll(
-    options?: CapacitiesListOptionalParams
+    options?: CapacitiesListOptionalParams,
   ): AsyncIterableIterator<DedicatedCapacity> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -157,11 +161,11 @@ export class CapacitiesImpl implements Capacities {
   getDetails(
     resourceGroupName: string,
     dedicatedCapacityName: string,
-    options?: CapacitiesGetDetailsOptionalParams
+    options?: CapacitiesGetDetailsOptionalParams,
   ): Promise<CapacitiesGetDetailsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, dedicatedCapacityName, options },
-      getDetailsOperationSpec
+      getDetailsOperationSpec,
     );
   }
 
@@ -178,30 +182,29 @@ export class CapacitiesImpl implements Capacities {
     resourceGroupName: string,
     dedicatedCapacityName: string,
     capacityParameters: DedicatedCapacity,
-    options?: CapacitiesCreateOptionalParams
+    options?: CapacitiesCreateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<CapacitiesCreateResponse>,
+    SimplePollerLike<
+      OperationState<CapacitiesCreateResponse>,
       CapacitiesCreateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<CapacitiesCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -210,8 +213,8 @@ export class CapacitiesImpl implements Capacities {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -219,19 +222,27 @@ export class CapacitiesImpl implements Capacities {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, dedicatedCapacityName, capacityParameters, options },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        dedicatedCapacityName,
+        capacityParameters,
+        options,
+      },
+      spec: createOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      CapacitiesCreateResponse,
+      OperationState<CapacitiesCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -250,13 +261,13 @@ export class CapacitiesImpl implements Capacities {
     resourceGroupName: string,
     dedicatedCapacityName: string,
     capacityParameters: DedicatedCapacity,
-    options?: CapacitiesCreateOptionalParams
+    options?: CapacitiesCreateOptionalParams,
   ): Promise<CapacitiesCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       dedicatedCapacityName,
       capacityParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -272,25 +283,24 @@ export class CapacitiesImpl implements Capacities {
   async beginDelete(
     resourceGroupName: string,
     dedicatedCapacityName: string,
-    options?: CapacitiesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: CapacitiesDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -299,8 +309,8 @@ export class CapacitiesImpl implements Capacities {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -308,19 +318,19 @@ export class CapacitiesImpl implements Capacities {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, dedicatedCapacityName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, dedicatedCapacityName, options },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -337,12 +347,12 @@ export class CapacitiesImpl implements Capacities {
   async beginDeleteAndWait(
     resourceGroupName: string,
     dedicatedCapacityName: string,
-    options?: CapacitiesDeleteOptionalParams
+    options?: CapacitiesDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       dedicatedCapacityName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -361,30 +371,29 @@ export class CapacitiesImpl implements Capacities {
     resourceGroupName: string,
     dedicatedCapacityName: string,
     capacityUpdateParameters: DedicatedCapacityUpdateParameters,
-    options?: CapacitiesUpdateOptionalParams
+    options?: CapacitiesUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<CapacitiesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<CapacitiesUpdateResponse>,
       CapacitiesUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<CapacitiesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -393,8 +402,8 @@ export class CapacitiesImpl implements Capacities {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -402,24 +411,27 @@ export class CapacitiesImpl implements Capacities {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         dedicatedCapacityName,
         capacityUpdateParameters,
-        options
+        options,
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: updateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      CapacitiesUpdateResponse,
+      OperationState<CapacitiesUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -439,13 +451,13 @@ export class CapacitiesImpl implements Capacities {
     resourceGroupName: string,
     dedicatedCapacityName: string,
     capacityUpdateParameters: DedicatedCapacityUpdateParameters,
-    options?: CapacitiesUpdateOptionalParams
+    options?: CapacitiesUpdateOptionalParams,
   ): Promise<CapacitiesUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       dedicatedCapacityName,
       capacityUpdateParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -461,25 +473,24 @@ export class CapacitiesImpl implements Capacities {
   async beginSuspend(
     resourceGroupName: string,
     dedicatedCapacityName: string,
-    options?: CapacitiesSuspendOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: CapacitiesSuspendOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -488,8 +499,8 @@ export class CapacitiesImpl implements Capacities {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -497,19 +508,19 @@ export class CapacitiesImpl implements Capacities {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, dedicatedCapacityName, options },
-      suspendOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, dedicatedCapacityName, options },
+      spec: suspendOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -526,12 +537,12 @@ export class CapacitiesImpl implements Capacities {
   async beginSuspendAndWait(
     resourceGroupName: string,
     dedicatedCapacityName: string,
-    options?: CapacitiesSuspendOptionalParams
+    options?: CapacitiesSuspendOptionalParams,
   ): Promise<void> {
     const poller = await this.beginSuspend(
       resourceGroupName,
       dedicatedCapacityName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -547,25 +558,24 @@ export class CapacitiesImpl implements Capacities {
   async beginResume(
     resourceGroupName: string,
     dedicatedCapacityName: string,
-    options?: CapacitiesResumeOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: CapacitiesResumeOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -574,8 +584,8 @@ export class CapacitiesImpl implements Capacities {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -583,19 +593,19 @@ export class CapacitiesImpl implements Capacities {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, dedicatedCapacityName, options },
-      resumeOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, dedicatedCapacityName, options },
+      spec: resumeOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -612,12 +622,12 @@ export class CapacitiesImpl implements Capacities {
   async beginResumeAndWait(
     resourceGroupName: string,
     dedicatedCapacityName: string,
-    options?: CapacitiesResumeOptionalParams
+    options?: CapacitiesResumeOptionalParams,
   ): Promise<void> {
     const poller = await this.beginResume(
       resourceGroupName,
       dedicatedCapacityName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -630,11 +640,11 @@ export class CapacitiesImpl implements Capacities {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: CapacitiesListByResourceGroupOptionalParams
+    options?: CapacitiesListByResourceGroupOptionalParams,
   ): Promise<CapacitiesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -643,7 +653,7 @@ export class CapacitiesImpl implements Capacities {
    * @param options The options parameters.
    */
   private _list(
-    options?: CapacitiesListOptionalParams
+    options?: CapacitiesListOptionalParams,
   ): Promise<CapacitiesListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -653,7 +663,7 @@ export class CapacitiesImpl implements Capacities {
    * @param options The options parameters.
    */
   listSkus(
-    options?: CapacitiesListSkusOptionalParams
+    options?: CapacitiesListSkusOptionalParams,
   ): Promise<CapacitiesListSkusResponse> {
     return this.client.sendOperationRequest({ options }, listSkusOperationSpec);
   }
@@ -669,11 +679,11 @@ export class CapacitiesImpl implements Capacities {
   listSkusForCapacity(
     resourceGroupName: string,
     dedicatedCapacityName: string,
-    options?: CapacitiesListSkusForCapacityOptionalParams
+    options?: CapacitiesListSkusForCapacityOptionalParams,
   ): Promise<CapacitiesListSkusForCapacityResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, dedicatedCapacityName, options },
-      listSkusForCapacityOperationSpec
+      listSkusForCapacityOperationSpec,
     );
   }
 
@@ -686,11 +696,11 @@ export class CapacitiesImpl implements Capacities {
   checkNameAvailability(
     location: string,
     capacityParameters: CheckCapacityNameAvailabilityParameters,
-    options?: CapacitiesCheckNameAvailabilityOptionalParams
+    options?: CapacitiesCheckNameAvailabilityOptionalParams,
   ): Promise<CapacitiesCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       { location, capacityParameters, options },
-      checkNameAvailabilityOperationSpec
+      checkNameAvailabilityOperationSpec,
     );
   }
 }
@@ -698,47 +708,45 @@ export class CapacitiesImpl implements Capacities {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getDetailsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/capacities/{dedicatedCapacityName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/capacities/{dedicatedCapacityName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DedicatedCapacity
+      bodyMapper: Mappers.DedicatedCapacity,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.dedicatedCapacityName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/capacities/{dedicatedCapacityName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/capacities/{dedicatedCapacityName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.DedicatedCapacity
+      bodyMapper: Mappers.DedicatedCapacity,
     },
     201: {
-      bodyMapper: Mappers.DedicatedCapacity
+      bodyMapper: Mappers.DedicatedCapacity,
     },
     202: {
-      bodyMapper: Mappers.DedicatedCapacity
+      bodyMapper: Mappers.DedicatedCapacity,
     },
     204: {
-      bodyMapper: Mappers.DedicatedCapacity
+      bodyMapper: Mappers.DedicatedCapacity,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.capacityParameters,
   queryParameters: [Parameters.apiVersion],
@@ -746,15 +754,14 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.dedicatedCapacityName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/capacities/{dedicatedCapacityName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/capacities/{dedicatedCapacityName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -762,39 +769,38 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.dedicatedCapacityName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/capacities/{dedicatedCapacityName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/capacities/{dedicatedCapacityName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.DedicatedCapacity
+      bodyMapper: Mappers.DedicatedCapacity,
     },
     201: {
-      bodyMapper: Mappers.DedicatedCapacity
+      bodyMapper: Mappers.DedicatedCapacity,
     },
     202: {
-      bodyMapper: Mappers.DedicatedCapacity
+      bodyMapper: Mappers.DedicatedCapacity,
     },
     204: {
-      bodyMapper: Mappers.DedicatedCapacity
+      bodyMapper: Mappers.DedicatedCapacity,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.capacityUpdateParameters,
   queryParameters: [Parameters.apiVersion],
@@ -802,15 +808,14 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.dedicatedCapacityName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const suspendOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/capacities/{dedicatedCapacityName}/suspend",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/capacities/{dedicatedCapacityName}/suspend",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -818,22 +823,21 @@ const suspendOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.dedicatedCapacityName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const resumeOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/capacities/{dedicatedCapacityName}/resume",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/capacities/{dedicatedCapacityName}/resume",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -841,116 +845,111 @@ const resumeOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.dedicatedCapacityName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/capacities",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/capacities",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DedicatedCapacities
+      bodyMapper: Mappers.DedicatedCapacities,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.PowerBIDedicated/capacities",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.PowerBIDedicated/capacities",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DedicatedCapacities
+      bodyMapper: Mappers.DedicatedCapacities,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listSkusOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.PowerBIDedicated/skus",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.PowerBIDedicated/skus",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SkuEnumerationForNewResourceResult
+      bodyMapper: Mappers.SkuEnumerationForNewResourceResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listSkusForCapacityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/capacities/{dedicatedCapacityName}/skus",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/capacities/{dedicatedCapacityName}/skus",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SkuEnumerationForExistingResourceResult
+      bodyMapper: Mappers.SkuEnumerationForExistingResourceResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.dedicatedCapacityName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.PowerBIDedicated/locations/{location}/checkNameAvailability",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.PowerBIDedicated/locations/{location}/checkNameAvailability",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CheckCapacityNameAvailabilityResult
+      bodyMapper: Mappers.CheckCapacityNameAvailabilityResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.capacityParameters1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
