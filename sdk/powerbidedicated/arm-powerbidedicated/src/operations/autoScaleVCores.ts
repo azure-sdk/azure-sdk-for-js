@@ -25,7 +25,7 @@ import {
   AutoScaleVCoresDeleteOptionalParams,
   AutoScaleVCoreUpdateParameters,
   AutoScaleVCoresUpdateOptionalParams,
-  AutoScaleVCoresUpdateResponse
+  AutoScaleVCoresUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -49,7 +49,7 @@ export class AutoScaleVCoresImpl implements AutoScaleVCores {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: AutoScaleVCoresListByResourceGroupOptionalParams
+    options?: AutoScaleVCoresListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<AutoScaleVCore> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -66,16 +66,16 @@ export class AutoScaleVCoresImpl implements AutoScaleVCores {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: AutoScaleVCoresListByResourceGroupOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<AutoScaleVCore[]> {
     let result: AutoScaleVCoresListByResourceGroupResponse;
     result = await this._listByResourceGroup(resourceGroupName, options);
@@ -84,11 +84,11 @@ export class AutoScaleVCoresImpl implements AutoScaleVCores {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: AutoScaleVCoresListByResourceGroupOptionalParams
+    options?: AutoScaleVCoresListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<AutoScaleVCore> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -99,7 +99,7 @@ export class AutoScaleVCoresImpl implements AutoScaleVCores {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: AutoScaleVCoresListBySubscriptionOptionalParams
+    options?: AutoScaleVCoresListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<AutoScaleVCore> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -114,13 +114,13 @@ export class AutoScaleVCoresImpl implements AutoScaleVCores {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: AutoScaleVCoresListBySubscriptionOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<AutoScaleVCore[]> {
     let result: AutoScaleVCoresListBySubscriptionResponse;
     result = await this._listBySubscription(options);
@@ -128,7 +128,7 @@ export class AutoScaleVCoresImpl implements AutoScaleVCores {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: AutoScaleVCoresListBySubscriptionOptionalParams
+    options?: AutoScaleVCoresListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<AutoScaleVCore> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -146,11 +146,11 @@ export class AutoScaleVCoresImpl implements AutoScaleVCores {
   get(
     resourceGroupName: string,
     vcoreName: string,
-    options?: AutoScaleVCoresGetOptionalParams
+    options?: AutoScaleVCoresGetOptionalParams,
   ): Promise<AutoScaleVCoresGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vcoreName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -167,11 +167,11 @@ export class AutoScaleVCoresImpl implements AutoScaleVCores {
     resourceGroupName: string,
     vcoreName: string,
     vCoreParameters: AutoScaleVCore,
-    options?: AutoScaleVCoresCreateOptionalParams
+    options?: AutoScaleVCoresCreateOptionalParams,
   ): Promise<AutoScaleVCoresCreateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vcoreName, vCoreParameters, options },
-      createOperationSpec
+      createOperationSpec,
     );
   }
 
@@ -186,11 +186,11 @@ export class AutoScaleVCoresImpl implements AutoScaleVCores {
   delete(
     resourceGroupName: string,
     vcoreName: string,
-    options?: AutoScaleVCoresDeleteOptionalParams
+    options?: AutoScaleVCoresDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vcoreName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -208,11 +208,11 @@ export class AutoScaleVCoresImpl implements AutoScaleVCores {
     resourceGroupName: string,
     vcoreName: string,
     vCoreUpdateParameters: AutoScaleVCoreUpdateParameters,
-    options?: AutoScaleVCoresUpdateOptionalParams
+    options?: AutoScaleVCoresUpdateOptionalParams,
   ): Promise<AutoScaleVCoresUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vcoreName, vCoreUpdateParameters, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -224,11 +224,11 @@ export class AutoScaleVCoresImpl implements AutoScaleVCores {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: AutoScaleVCoresListByResourceGroupOptionalParams
+    options?: AutoScaleVCoresListByResourceGroupOptionalParams,
   ): Promise<AutoScaleVCoresListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -237,11 +237,11 @@ export class AutoScaleVCoresImpl implements AutoScaleVCores {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: AutoScaleVCoresListBySubscriptionOptionalParams
+    options?: AutoScaleVCoresListBySubscriptionOptionalParams,
   ): Promise<AutoScaleVCoresListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 }
@@ -249,38 +249,36 @@ export class AutoScaleVCoresImpl implements AutoScaleVCores {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/autoScaleVCores/{vcoreName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/autoScaleVCores/{vcoreName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AutoScaleVCore
+      bodyMapper: Mappers.AutoScaleVCore,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.vcoreName
+    Parameters.vcoreName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/autoScaleVCores/{vcoreName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/autoScaleVCores/{vcoreName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.AutoScaleVCore
+      bodyMapper: Mappers.AutoScaleVCore,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.vCoreParameters,
   queryParameters: [Parameters.apiVersion],
@@ -288,44 +286,42 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.vcoreName
+    Parameters.vcoreName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/autoScaleVCores/{vcoreName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/autoScaleVCores/{vcoreName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.vcoreName
+    Parameters.vcoreName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/autoScaleVCores/{vcoreName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/autoScaleVCores/{vcoreName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.AutoScaleVCore
+      bodyMapper: Mappers.AutoScaleVCore,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.vCoreUpdateParameters,
   queryParameters: [Parameters.apiVersion],
@@ -333,47 +329,45 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.vcoreName
+    Parameters.vcoreName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/autoScaleVCores",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBIDedicated/autoScaleVCores",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AutoScaleVCoreListResult
+      bodyMapper: Mappers.AutoScaleVCoreListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.PowerBIDedicated/autoScaleVCores",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.PowerBIDedicated/autoScaleVCores",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AutoScaleVCoreListResult
+      bodyMapper: Mappers.AutoScaleVCoreListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

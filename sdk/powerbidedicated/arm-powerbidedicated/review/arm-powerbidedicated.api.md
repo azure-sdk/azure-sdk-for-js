@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface AutoScaleVCore extends Resource {
@@ -101,15 +101,15 @@ export interface AutoScaleVCoreUpdateParameters {
 
 // @public
 export interface Capacities {
-    beginCreate(resourceGroupName: string, dedicatedCapacityName: string, capacityParameters: DedicatedCapacity, options?: CapacitiesCreateOptionalParams): Promise<PollerLike<PollOperationState<CapacitiesCreateResponse>, CapacitiesCreateResponse>>;
+    beginCreate(resourceGroupName: string, dedicatedCapacityName: string, capacityParameters: DedicatedCapacity, options?: CapacitiesCreateOptionalParams): Promise<SimplePollerLike<OperationState<CapacitiesCreateResponse>, CapacitiesCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, dedicatedCapacityName: string, capacityParameters: DedicatedCapacity, options?: CapacitiesCreateOptionalParams): Promise<CapacitiesCreateResponse>;
-    beginDelete(resourceGroupName: string, dedicatedCapacityName: string, options?: CapacitiesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, dedicatedCapacityName: string, options?: CapacitiesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, dedicatedCapacityName: string, options?: CapacitiesDeleteOptionalParams): Promise<void>;
-    beginResume(resourceGroupName: string, dedicatedCapacityName: string, options?: CapacitiesResumeOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginResume(resourceGroupName: string, dedicatedCapacityName: string, options?: CapacitiesResumeOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginResumeAndWait(resourceGroupName: string, dedicatedCapacityName: string, options?: CapacitiesResumeOptionalParams): Promise<void>;
-    beginSuspend(resourceGroupName: string, dedicatedCapacityName: string, options?: CapacitiesSuspendOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginSuspend(resourceGroupName: string, dedicatedCapacityName: string, options?: CapacitiesSuspendOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginSuspendAndWait(resourceGroupName: string, dedicatedCapacityName: string, options?: CapacitiesSuspendOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, dedicatedCapacityName: string, capacityUpdateParameters: DedicatedCapacityUpdateParameters, options?: CapacitiesUpdateOptionalParams): Promise<PollerLike<PollOperationState<CapacitiesUpdateResponse>, CapacitiesUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, dedicatedCapacityName: string, capacityUpdateParameters: DedicatedCapacityUpdateParameters, options?: CapacitiesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<CapacitiesUpdateResponse>, CapacitiesUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, dedicatedCapacityName: string, capacityUpdateParameters: DedicatedCapacityUpdateParameters, options?: CapacitiesUpdateOptionalParams): Promise<CapacitiesUpdateResponse>;
     checkNameAvailability(location: string, capacityParameters: CheckCapacityNameAvailabilityParameters, options?: CapacitiesCheckNameAvailabilityOptionalParams): Promise<CapacitiesCheckNameAvailabilityResponse>;
     getDetails(resourceGroupName: string, dedicatedCapacityName: string, options?: CapacitiesGetDetailsOptionalParams): Promise<CapacitiesGetDetailsResponse>;
@@ -202,6 +202,7 @@ export type CapacityProvisioningState = string;
 
 // @public
 export interface CapacitySku {
+    capacity?: number;
     name: string;
     tier?: CapacitySkuTier;
 }
@@ -230,10 +231,12 @@ export interface DedicatedCapacities {
 // @public
 export interface DedicatedCapacity extends Resource {
     administration?: DedicatedCapacityAdministrators;
+    readonly friendlyName?: string;
     mode?: Mode;
     readonly provisioningState?: CapacityProvisioningState;
     sku: CapacitySku;
     readonly state?: State;
+    readonly tenantId?: string;
 }
 
 // @public
@@ -244,7 +247,9 @@ export interface DedicatedCapacityAdministrators {
 // @public
 export interface DedicatedCapacityMutableProperties {
     administration?: DedicatedCapacityAdministrators;
+    readonly friendlyName?: string;
     mode?: Mode;
+    readonly tenantId?: string;
 }
 
 // @public
@@ -256,11 +261,13 @@ export interface DedicatedCapacityProperties extends DedicatedCapacityMutablePro
 // @public
 export interface DedicatedCapacityUpdateParameters {
     administration?: DedicatedCapacityAdministrators;
+    readonly friendlyName?: string;
     mode?: Mode;
     sku?: CapacitySku;
     tags?: {
         [propertyName: string]: string;
     };
+    readonly tenantId?: string;
 }
 
 // @public
@@ -344,16 +351,43 @@ export enum KnownVCoreSkuTier {
 }
 
 // @public
+export interface LogSpecification {
+    readonly blobDuration?: string;
+    displayName?: string;
+    readonly name?: string;
+}
+
+// @public
+export interface MetricSpecification {
+    readonly aggregationType?: string;
+    dimensions?: MetricSpecificationDimensionsItem[];
+    displayDescription?: string;
+    displayName?: string;
+    readonly metricFilterPattern?: string;
+    readonly name?: string;
+    readonly unit?: string;
+}
+
+// @public (undocumented)
+export interface MetricSpecificationDimensionsItem {
+    displayName?: string;
+    readonly name?: string;
+}
+
+// @public
 export type Mode = string;
 
 // @public
 export interface Operation {
     display?: OperationDisplay;
     readonly name?: string;
+    readonly origin?: string;
+    properties?: OperationProperties;
 }
 
 // @public
 export interface OperationDisplay {
+    description?: string;
     readonly operation?: string;
     readonly provider?: string;
     readonly resource?: string;
@@ -363,6 +397,11 @@ export interface OperationDisplay {
 export interface OperationListResult {
     readonly nextLink?: string;
     readonly value?: Operation[];
+}
+
+// @public
+export interface OperationProperties {
+    serviceSpecification?: ServiceSpecification;
 }
 
 // @public
@@ -421,7 +460,14 @@ export interface Resource {
 }
 
 // @public
+export interface ServiceSpecification {
+    logSpecifications?: LogSpecification[];
+    metricSpecifications?: MetricSpecification[];
+}
+
+// @public
 export interface SkuDetailsForExistingResource {
+    resourceType?: string;
     sku?: CapacitySku;
 }
 
