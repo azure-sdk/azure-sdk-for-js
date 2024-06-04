@@ -342,7 +342,11 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.workspaceName,
     Parameters.apiName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.contentType,
+    Parameters.ifMatch,
+  ],
   mediaType: "json",
   serializer,
 };
