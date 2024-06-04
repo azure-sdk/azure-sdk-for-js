@@ -21,6 +21,7 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "./lroImpl";
 import {
+  LicensesImpl,
   MachinesImpl,
   MachineExtensionsImpl,
   ExtensionMetadataImpl,
@@ -30,8 +31,10 @@ import {
   PrivateLinkScopesImpl,
   PrivateLinkResourcesImpl,
   PrivateEndpointConnectionsImpl,
+  NetworkSecurityPerimeterConfigurationsImpl,
 } from "./operations";
 import {
+  Licenses,
   Machines,
   MachineExtensions,
   ExtensionMetadata,
@@ -41,6 +44,7 @@ import {
   PrivateLinkScopes,
   PrivateLinkResources,
   PrivateEndpointConnections,
+  NetworkSecurityPerimeterConfigurations,
 } from "./operationsInterfaces";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
@@ -136,7 +140,8 @@ export class HybridComputeManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-10-03-preview";
+    this.apiVersion = options.apiVersion || "2024-05-20-preview";
+    this.licenses = new LicensesImpl(this);
     this.machines = new MachinesImpl(this);
     this.machineExtensions = new MachineExtensionsImpl(this);
     this.extensionMetadata = new ExtensionMetadataImpl(this);
@@ -146,6 +151,8 @@ export class HybridComputeManagementClient extends coreClient.ServiceClient {
     this.privateLinkScopes = new PrivateLinkScopesImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
+    this.networkSecurityPerimeterConfigurations =
+      new NetworkSecurityPerimeterConfigurationsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -268,6 +275,7 @@ export class HybridComputeManagementClient extends coreClient.ServiceClient {
     return poller.pollUntilDone();
   }
 
+  licenses: Licenses;
   machines: Machines;
   machineExtensions: MachineExtensions;
   extensionMetadata: ExtensionMetadata;
@@ -277,6 +285,7 @@ export class HybridComputeManagementClient extends coreClient.ServiceClient {
   privateLinkScopes: PrivateLinkScopes;
   privateLinkResources: PrivateLinkResources;
   privateEndpointConnections: PrivateEndpointConnections;
+  networkSecurityPerimeterConfigurations: NetworkSecurityPerimeterConfigurations;
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -301,7 +310,7 @@ const upgradeExtensionsOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.machineName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };

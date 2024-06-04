@@ -6,6 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+export * from "./licenses";
 export * from "./machines";
 export * from "./machineExtensions";
 export * from "./extensionMetadata";
@@ -15,3 +16,4 @@ export * from "./machineRunCommands";
 export * from "./privateLinkScopes";
 export * from "./privateLinkResources";
 export * from "./privateEndpointConnections";
+export * from "./networkSecurityPerimeterConfigurations";
