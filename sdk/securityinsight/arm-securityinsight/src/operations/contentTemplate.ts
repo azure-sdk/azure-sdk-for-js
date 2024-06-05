@@ -6,26 +6,26 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { AlertRules } from "../operationsInterfaces";
+import { ContentTemplate } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SecurityInsights } from "../securityInsights";
 import {
-  AlertRulesGetOptionalParams,
-  AlertRulesGetResponse,
-  AlertRuleUnion,
-  AlertRulesCreateOrUpdateOptionalParams,
-  AlertRulesCreateOrUpdateResponse,
-  AlertRulesDeleteOptionalParams,
+  TemplateModel,
+  ContentTemplateInstallOptionalParams,
+  ContentTemplateInstallResponse,
+  ContentTemplateGetOptionalParams,
+  ContentTemplateGetResponse,
+  ContentTemplateDeleteOptionalParams,
 } from "../models";
 
-/** Class containing AlertRules operations. */
-export class AlertRulesImpl implements AlertRules {
+/** Class containing ContentTemplate operations. */
+export class ContentTemplateImpl implements ContentTemplate {
   private readonly client: SecurityInsights;
 
   /**
-   * Initialize a new instance of the class AlertRules class.
+   * Initialize a new instance of the class ContentTemplate class.
    * @param client Reference to the service client
    */
   constructor(client: SecurityInsights) {
@@ -33,60 +33,69 @@ export class AlertRulesImpl implements AlertRules {
   }
 
   /**
-   * Gets the alert rule.
+   * Install a template.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
-   * @param ruleId Alert rule ID
+   * @param templateId template Id
+   * @param templateInstallationProperties Template installation properties
+   * @param options The options parameters.
+   */
+  install(
+    resourceGroupName: string,
+    workspaceName: string,
+    templateId: string,
+    templateInstallationProperties: TemplateModel,
+    options?: ContentTemplateInstallOptionalParams,
+  ): Promise<ContentTemplateInstallResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        workspaceName,
+        templateId,
+        templateInstallationProperties,
+        options,
+      },
+      installOperationSpec,
+    );
+  }
+
+  /**
+   * Gets a template byt its identifier.
+   * Expandable properties:
+   * - properties/mainTemplate
+   * - properties/dependantTemplates
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
+   * @param templateId template Id
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     workspaceName: string,
-    ruleId: string,
-    options?: AlertRulesGetOptionalParams,
-  ): Promise<AlertRulesGetResponse> {
+    templateId: string,
+    options?: ContentTemplateGetOptionalParams,
+  ): Promise<ContentTemplateGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, ruleId, options },
+      { resourceGroupName, workspaceName, templateId, options },
       getOperationSpec,
     );
   }
 
   /**
-   * Creates or updates the alert rule.
+   * Delete an installed template.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
-   * @param ruleId Alert rule ID
-   * @param alertRule The alert rule
-   * @param options The options parameters.
-   */
-  createOrUpdate(
-    resourceGroupName: string,
-    workspaceName: string,
-    ruleId: string,
-    alertRule: AlertRuleUnion,
-    options?: AlertRulesCreateOrUpdateOptionalParams,
-  ): Promise<AlertRulesCreateOrUpdateResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, ruleId, alertRule, options },
-      createOrUpdateOperationSpec,
-    );
-  }
-
-  /**
-   * Delete the alert rule.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
-   * @param ruleId Alert rule ID
+   * @param templateId template Id
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     workspaceName: string,
-    ruleId: string,
-    options?: AlertRulesDeleteOptionalParams,
+    templateId: string,
+    options?: ContentTemplateDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, ruleId, options },
+      { resourceGroupName, workspaceName, templateId, options },
       deleteOperationSpec,
     );
   }
@@ -94,57 +103,57 @@ export class AlertRulesImpl implements AlertRules {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/alertRules/{ruleId}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AlertRule,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.ruleId,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/alertRules/{ruleId}",
+const installOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/contentTemplates/{templateId}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.AlertRule,
+      bodyMapper: Mappers.TemplateModel,
     },
     201: {
-      bodyMapper: Mappers.AlertRule,
+      bodyMapper: Mappers.TemplateModel,
     },
     default: {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.alertRule,
+  requestBody: Parameters.templateInstallationProperties,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.ruleId,
+    Parameters.templateId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/contentTemplates/{templateId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.TemplateModel,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.templateId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/alertRules/{ruleId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/contentTemplates/{templateId}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -159,7 +168,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.ruleId,
+    Parameters.templateId,
   ],
   headerParameters: [Parameters.accept],
   serializer,

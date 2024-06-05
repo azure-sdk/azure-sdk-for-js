@@ -6,31 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  AlertRuleUnion,
-  AlertRulesListOptionalParams,
   AlertRulesGetOptionalParams,
   AlertRulesGetResponse,
+  AlertRuleUnion,
   AlertRulesCreateOrUpdateOptionalParams,
   AlertRulesCreateOrUpdateResponse,
-  AlertRulesDeleteOptionalParams
+  AlertRulesDeleteOptionalParams,
 } from "../models";
 
-/// <reference lib="esnext.asynciterable" />
 /** Interface representing a AlertRules. */
 export interface AlertRules {
-  /**
-   * Gets all alert rules.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
-   * @param options The options parameters.
-   */
-  list(
-    resourceGroupName: string,
-    workspaceName: string,
-    options?: AlertRulesListOptionalParams
-  ): PagedAsyncIterableIterator<AlertRuleUnion>;
   /**
    * Gets the alert rule.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -42,7 +28,7 @@ export interface AlertRules {
     resourceGroupName: string,
     workspaceName: string,
     ruleId: string,
-    options?: AlertRulesGetOptionalParams
+    options?: AlertRulesGetOptionalParams,
   ): Promise<AlertRulesGetResponse>;
   /**
    * Creates or updates the alert rule.
@@ -57,7 +43,7 @@ export interface AlertRules {
     workspaceName: string,
     ruleId: string,
     alertRule: AlertRuleUnion,
-    options?: AlertRulesCreateOrUpdateOptionalParams
+    options?: AlertRulesCreateOrUpdateOptionalParams,
   ): Promise<AlertRulesCreateOrUpdateResponse>;
   /**
    * Delete the alert rule.
@@ -70,6 +56,6 @@ export interface AlertRules {
     resourceGroupName: string,
     workspaceName: string,
     ruleId: string,
-    options?: AlertRulesDeleteOptionalParams
+    options?: AlertRulesDeleteOptionalParams,
   ): Promise<void>;
 }

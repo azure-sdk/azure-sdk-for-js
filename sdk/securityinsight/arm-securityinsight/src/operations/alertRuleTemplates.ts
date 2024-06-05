@@ -20,7 +20,7 @@ import {
   AlertRuleTemplatesListResponse,
   AlertRuleTemplatesGetOptionalParams,
   AlertRuleTemplatesGetResponse,
-  AlertRuleTemplatesListNextResponse
+  AlertRuleTemplatesListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -45,7 +45,7 @@ export class AlertRuleTemplatesImpl implements AlertRuleTemplates {
   public list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: AlertRuleTemplatesListOptionalParams
+    options?: AlertRuleTemplatesListOptionalParams,
   ): PagedAsyncIterableIterator<AlertRuleTemplateUnion> {
     const iter = this.listPagingAll(resourceGroupName, workspaceName, options);
     return {
@@ -63,9 +63,9 @@ export class AlertRuleTemplatesImpl implements AlertRuleTemplates {
           resourceGroupName,
           workspaceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -73,7 +73,7 @@ export class AlertRuleTemplatesImpl implements AlertRuleTemplates {
     resourceGroupName: string,
     workspaceName: string,
     options?: AlertRuleTemplatesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AlertRuleTemplateUnion[]> {
     let result: AlertRuleTemplatesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -89,7 +89,7 @@ export class AlertRuleTemplatesImpl implements AlertRuleTemplates {
         resourceGroupName,
         workspaceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -101,12 +101,12 @@ export class AlertRuleTemplatesImpl implements AlertRuleTemplates {
   private async *listPagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: AlertRuleTemplatesListOptionalParams
+    options?: AlertRuleTemplatesListOptionalParams,
   ): AsyncIterableIterator<AlertRuleTemplateUnion> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -121,11 +121,11 @@ export class AlertRuleTemplatesImpl implements AlertRuleTemplates {
   private _list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: AlertRuleTemplatesListOptionalParams
+    options?: AlertRuleTemplatesListOptionalParams,
   ): Promise<AlertRuleTemplatesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -140,11 +140,11 @@ export class AlertRuleTemplatesImpl implements AlertRuleTemplates {
     resourceGroupName: string,
     workspaceName: string,
     alertRuleTemplateId: string,
-    options?: AlertRuleTemplatesGetOptionalParams
+    options?: AlertRuleTemplatesGetOptionalParams,
   ): Promise<AlertRuleTemplatesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, alertRuleTemplateId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -159,11 +159,11 @@ export class AlertRuleTemplatesImpl implements AlertRuleTemplates {
     resourceGroupName: string,
     workspaceName: string,
     nextLink: string,
-    options?: AlertRuleTemplatesListNextOptionalParams
+    options?: AlertRuleTemplatesListNextOptionalParams,
   ): Promise<AlertRuleTemplatesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -171,38 +171,15 @@ export class AlertRuleTemplatesImpl implements AlertRuleTemplates {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/alertRuleTemplates",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/alertRuleTemplates",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AlertRuleTemplatesList
+      bodyMapper: Mappers.AlertRuleTemplatesList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/alertRuleTemplates/{alertRuleTemplateId}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AlertRuleTemplate
+      bodyMapper: Mappers.CloudError,
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -210,29 +187,50 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.alertRuleTemplateId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/alertRuleTemplates/{alertRuleTemplateId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AlertRuleTemplate,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.alertRuleTemplateId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AlertRuleTemplatesList
+      bodyMapper: Mappers.AlertRuleTemplatesList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
