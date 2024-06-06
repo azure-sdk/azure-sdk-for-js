@@ -9093,6 +9093,7 @@ packages:
 
   /queue-tick@1.0.1:
     resolution: {integrity: sha512-kJt5qhMxoszgU/62PLP1CJytzd2NKetjSRnyuj31fDd3Rlcz3fzlFdFLD1SItunPwyqEOkca6GbV612BWfaBag==}
+    requiresBuild: true
     dev: false
 
   /randombytes@2.1.0:
@@ -10065,6 +10066,7 @@ packages:
 
   /text-decoder@1.1.0:
     resolution: {integrity: sha512-TmLJNj6UgX8xcUZo4UDStGQtDiTzF7BzWlzn9g7UWrjkpHr5uJTK1ld16wZ3LXb2vb6jH8qU89dW5whuMdXYdw==}
+    requiresBuild: true
     dependencies:
       b4a: 1.6.6
     dev: false
@@ -12183,7 +12185,7 @@ packages:
     dev: false
 
   file:projects/arm-appservice-1.tgz:
-    resolution: {integrity: sha512-ty0dMNeEV6BYj7X9wqgW86iHPuaXcM0lAES4/XffcGi7IzZVfuzg0li8Vena/FOmW2SlqDDmxT0/RJNMNnLKaQ==, tarball: file:projects/arm-appservice-1.tgz}
+    resolution: {integrity: sha512-8W9upLlL0c+2hXQWRdzjqwIROon/FlTt2g3OT+K9IZaUTCnDS9SkkKlbYtI2GJ1YjHl/oD5CLRJF9Cjiigx7Bw==, tarball: file:projects/arm-appservice-1.tgz}
     name: '@rush-temp/arm-appservice-1'
     version: 0.0.0
     dependencies:
@@ -12204,6 +12206,7 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.4.5)
       tslib: 2.6.2
+      tsx: 4.11.2
       typescript: 5.4.5
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -20487,7 +20490,7 @@ packages:
     dev: false
 
   file:projects/event-hubs.tgz:
-    resolution: {integrity: sha512-CZ4O+3xMBbuYtuEUrt9IbfcR6o1hfZz+YOQtftnf14O43qq0PydSH9/1GTPTtwKyDJKCa5R7a8NjJiO9Q1ZOAQ==, tarball: file:projects/event-hubs.tgz}
+    resolution: {integrity: sha512-HOn2lenS436bZjX50GxIZ2KXrBHMB9QlGkB1jVyrD+wA32j/yHPpnifF8ILq5DWOGbsJnBAPSyZsWnW3QxG4aA==, tarball: file:projects/event-hubs.tgz}
     name: '@rush-temp/event-hubs'
     version: 0.0.0
     dependencies:
