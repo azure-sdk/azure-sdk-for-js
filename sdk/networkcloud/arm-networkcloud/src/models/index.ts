@@ -245,6 +245,83 @@ export interface HardwareValidationStatus {
   readonly result?: BareMetalMachineHardwareValidationResult;
 }
 
+/** RuntimeProtectionStatus represents the runtime protection status of the bare metal machine. */
+export interface RuntimeProtectionStatus {
+  /**
+   * The timestamp when the malware definitions were last updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly definitionsLastUpdated?: Date;
+  /**
+   * The version of the malware definitions.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly definitionsVersion?: string;
+  /**
+   * The timestamp of the most recently completed scan, or empty if there has never been a scan.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly scanCompletedTime?: Date;
+  /**
+   * The timestamp of the most recently scheduled scan, or empty if no scan has been scheduled.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly scanScheduledTime?: Date;
+  /**
+   * The timestamp of the most recently started scan, or empty if there has never been a scan.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly scanStartedTime?: Date;
+}
+
+/** SecretRotationStatus represents the status of a secret rotation. */
+export interface SecretRotationStatus {
+  /**
+   * The maximum number of days the secret may be used before it must be changed.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly expirePeriodDays?: number;
+  /**
+   * The date and time when the secret was last changed.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastRotationTime?: Date;
+  /**
+   * The number of days a secret exists before rotations will be attempted.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly rotationPeriodDays?: number;
+  /**
+   * The reference to the secret in a key vault.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly secretArchiveReference?: SecretArchiveReference;
+  /**
+   * The type name used to identify the purpose of the secret.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly secretType?: string;
+}
+
+/** SecretArchiveReference represents the reference to a secret in a key vault. */
+export interface SecretArchiveReference {
+  /**
+   * The resource ID of the key vault containing the secret.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly keyVaultId?: string;
+  /**
+   * The name of the secret in the key vault.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly secretName?: string;
+  /**
+   * The version of the secret in the key vault.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly secretVersion?: string;
+}
+
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
   /**
@@ -315,6 +392,40 @@ export interface ClusterManagerList {
   nextLink?: string;
   /** The list of cluster managers. */
   value?: ClusterManager[];
+}
+
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface ManagedServiceIdentity {
+  /**
+   * The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
+  type: ManagedServiceIdentityType;
+  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+  userAssignedIdentities?: {
+    [propertyName: string]: UserAssignedIdentity | null;
+  };
+}
+
+/** User assigned identity properties */
+export interface UserAssignedIdentity {
+  /**
+   * The principal ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The client ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientId?: string;
 }
 
 /** ClusterAvailableVersion represents the cluster version that the cluster manager can be asked to create and manage. */
@@ -439,21 +550,21 @@ export interface ClusterAvailableUpgradeVersion {
 
 /** ClusterCapacity represents various details regarding compute capacity. */
 export interface ClusterCapacity {
-  /** The remaining appliance-based storage in GB available for workload use. */
+  /** The remaining appliance-based storage in GB available for workload use. Measured in gibibytes. */
   availableApplianceStorageGB?: number;
   /** The remaining number of cores that are available in this cluster for workload use. */
   availableCoreCount?: number;
-  /** The remaining machine or host-based storage in GB available for workload use. */
+  /** The remaining machine or host-based storage in GB available for workload use. Measured in gibibytes. */
   availableHostStorageGB?: number;
-  /** The remaining memory in GB that are available in this cluster for workload use. */
+  /** The remaining memory in GB that are available in this cluster for workload use. Measured in gibibytes. */
   availableMemoryGB?: number;
-  /** The total appliance-based storage in GB supported by this cluster for workload use. */
+  /** The total appliance-based storage in GB supported by this cluster for workload use. Measured in gibibytes. */
   totalApplianceStorageGB?: number;
   /** The total number of cores that are supported by this cluster for workload use. */
   totalCoreCount?: number;
-  /** The total machine or host-based storage in GB supported by this cluster for workload use. */
+  /** The total machine or host-based storage in GB supported by this cluster for workload use. Measured in gibibytes. */
   totalHostStorageGB?: number;
-  /** The total memory supported by this cluster for workload use. */
+  /** The total memory supported by this cluster for workload use. Measured in gibibytes. */
   totalMemoryGB?: number;
 }
 
@@ -469,6 +580,22 @@ export interface ServicePrincipalInformation {
   tenantId: string;
 }
 
+/** CommandOutputSettings represents the settings for commands run within the cluster such as bare metal machine run read-only commands. */
+export interface CommandOutputSettings {
+  /** The selection of the managed identity to use with this storage account container. The identity type must be either system assigned or user assigned. */
+  associatedIdentity?: IdentitySelector;
+  /** The URL of the storage account container that is to be used by the specified identities. */
+  containerUrl?: string;
+}
+
+/** IdentitySelector represents the selection of a managed identity for use. */
+export interface IdentitySelector {
+  /** The type of managed identity that is being selected. */
+  identityType?: ManagedServiceIdentitySelectorType;
+  /** The user assigned managed identity resource ID to use. Mutually exclusive with a system assigned identity type. */
+  userAssignedIdentityResourceId?: string;
+}
+
 /** ValidationThreshold indicates allowed machine and node hardware and deployment failures. */
 export interface ValidationThreshold {
   /** Selection of how the type evaluation is applied to the cluster calculation. */
@@ -477,6 +604,254 @@ export interface ValidationThreshold {
   type: ValidationThresholdType;
   /** The numeric threshold value. */
   value: number;
+}
+
+/** RuntimeProtectionConfiguration represents the runtime protection configuration for the cluster. */
+export interface RuntimeProtectionConfiguration {
+  /** The mode of operation for runtime protection. */
+  enforcementLevel?: RuntimeProtectionEnforcementLevel;
+}
+
+/** ClusterSecretArchive configures the key vault to archive the secrets of the cluster for later retrieval. */
+export interface ClusterSecretArchive {
+  /** The resource ID of the key vault to archive the secrets of the cluster. */
+  keyVaultId: string;
+  /** The indicator if the specified key vault should be used to archive the secrets of the cluster. */
+  useKeyVault?: ClusterSecretArchiveEnabled;
+}
+
+/** ClusterUpdateStrategy represents the strategy for updating the cluster. */
+export interface ClusterUpdateStrategy {
+  /**
+   * The maximum number of worker nodes that can be offline within the increment of update, e.g., rack-by-rack.
+   * Limited by the maximum number of machines in the increment. Defaults to the whole increment size.
+   */
+  maxUnavailable?: number;
+  /** The mode of operation for runtime protection. */
+  strategyType: ClusterUpdateStrategyType;
+  /** Selection of how the threshold should be evaluated. */
+  thresholdType: ValidationThresholdType;
+  /** The numeric threshold value. */
+  thresholdValue: number;
+  /** The time to wait between the increments of update defined by the strategy. */
+  waitTimeMinutes?: number;
+}
+
+/** EdgeClusterMachineSkuList represents a list of edge cluster machine SKUs. */
+export interface EdgeClusterMachineSkuList {
+  /** The link used to get the next page of operations. */
+  nextLink?: string;
+  /** The list of edge cluster machine SKUs. */
+  value?: EdgeClusterMachineSku[];
+}
+
+/** EdgeClusterMachineSkuCpu represents the CPU configuration of an edge cluster machine. */
+export interface EdgeClusterMachineSkuCpu {
+  /**
+   * The vendor supplied model name of the CPU reported by processor inspection.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly modelName?: string;
+}
+
+/** EdgeClusterMachineSkuDevice represents a device of an edge cluster machine. */
+export interface EdgeClusterMachineSkuDevice {
+  /**
+   * The PCI or bus address of the device. If there are multiple addresses this value will be omitted.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly address?: string;
+  /**
+   * The list of PCI or bus addresses associated with the device. When there is only one value, the first value will match the address field value.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly addresses?: string[];
+  /**
+   * The bus that connects this device.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly bus?: string;
+  /**
+   * The class of the device.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly class?: string;
+  /**
+   * The information about a device that does not have a defined field. The information in this field is subject to move to a more appropriate field in future versions.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly extra?: string;
+  /**
+   * The amount of memory for a device measured in gibibytes. This value is specified for devices such as GPUs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly memory?: number;
+  /**
+   * The model of the device.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly model?: string;
+  /**
+   * The number of ports on the device. This value is only specified for devices with ports.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly portCount?: number;
+  /**
+   * The advertised size of a storage device in gibibytes.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sizeGB?: number;
+  /**
+   * The vendor for the device.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly vendor?: string;
+}
+
+/** EdgeClusterMachineSkuMemory represents the memory configuration of an edge cluster machine. */
+export interface EdgeClusterMachineSkuMemory {
+  /**
+   * The size of the memory in gibibytes.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sizeGB?: number;
+}
+
+/** EdgeClusterMachineSkuSystem represents the BIOS and top-level system related information of an edge cluster machine. */
+export interface EdgeClusterMachineSkuSystem {
+  /**
+   * The system product name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly productName?: string;
+  /**
+   * The system vendor.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly vendor?: string;
+}
+
+/** EdgeClusterRuntimeVersionList represents a list of edge cluster runtime versions. */
+export interface EdgeClusterRuntimeVersionList {
+  /** The link used to get the next page of operations. */
+  nextLink?: string;
+  /** The list of edge cluster runtime versions. */
+  value?: EdgeClusterRuntimeVersion[];
+}
+
+/** StringKeyValuePair represents a single entry in a mapping of keys to values. */
+export interface StringKeyValuePair {
+  /** The key to the mapped value. */
+  key: string;
+  /** The value of the mapping key. */
+  value: string;
+}
+
+/** VersionRange represents a range of versions. */
+export interface VersionRange {
+  /**
+   * The versions that are not included in the range.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly excluded?: string[];
+  /**
+   * The first version that is included in the range.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly supportedBegin?: string;
+  /**
+   * The first version that is no longer included in the range.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly unsupportedBegin?: string;
+}
+
+/** UsageDomain represents the usage domain that is associated with a solution. */
+export interface UsageDomain {
+  /**
+   * The infrastructure category for the domain.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly platform?: UsageDomainPlatform;
+  /**
+   * The more specific use case for the domain.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly purpose?: string;
+  /**
+   * Variant is a qualifying term that differentiates between similar use cases.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly variant?: string;
+}
+
+/** EdgeClusterSkuList represents a list of edge cluster SKUs. */
+export interface EdgeClusterSkuList {
+  /** The link used to get the next page of operations. */
+  nextLink?: string;
+  /** The list of edge cluster SKUs. */
+  value?: EdgeClusterSku[];
+}
+
+/** MachineSkuSupportRange represents a range of supported machine SKUs for an edge cluster. */
+export interface MachineSkuSupportRange {
+  /**
+   * The resource ID of the edge cluster machine SKU supported.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly machineSkuId?: string;
+  /** The range of versions supported for the edge cluster machine SKU. */
+  versionRange?: VersionRange;
+}
+
+/** EdgeClusterList represents a list of edge cluster objects. */
+export interface EdgeClusterList {
+  /** The link used to get the next page of operations. */
+  nextLink?: string;
+  /** The list of edge clusters. */
+  value?: EdgeCluster[];
+}
+
+/** EdgeClusterAvailableUpgradeRuntimeVersion represents the available edge cluster upgrades. */
+export interface EdgeClusterAvailableUpgradeRuntimeVersion {
+  /**
+   * The indicator if the upgrade runtime version is generally available or in a different lifecycle phase.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly availabilityLifecycle?: AvailabilityLifecycle;
+  /**
+   * The description of the upgrade.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
+  /**
+   * The last date the version of the platform is supported.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly supportExpiryDate?: string;
+  /**
+   * The resource ID of the runtime version.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly targetRuntimeVersionId?: string;
+}
+
+/** EdgeClusterEntraConfiguration represents the Entra (Azure Active Directory) integration properties. */
+export interface EdgeClusterEntraConfiguration {
+  /** The list of Entra (Azure Active Directory) group object IDs that will have an administrative role on the edge cluster. */
+  adminGroupObjectIds: string[];
+}
+
+/** EdgeClusterPtpConfiguration represents the PTP clock configuration for the edge cluster, if applicable. */
+export interface EdgeClusterPtpConfiguration {
+  /** The IEEE 1588-2008 domain number. */
+  domainNumber: number;
+  /** The L2 VLAN number. */
+  l2VlanNumber?: number;
+  /** The network transport type for PTP. */
+  networkTransportType: EdgeClusterPtpConfigurationNetworkTransportType;
+  /** The IPv4 or IPv6 address if the networkTransportType is set to UDPv4 or UDPv6 respectively. */
+  udpAddress?: string;
 }
 
 /** KubernetesClusterList represents a list of Kubernetes clusters. */
@@ -637,15 +1012,19 @@ export interface KubernetesLabel {
 
 /** AgentPoolUpgradeSettings specifies the upgrade settings for an agent pool. */
 export interface AgentPoolUpgradeSettings {
-  /** The maximum number or percentage of nodes that are surged during upgrade. This can either be set to an integer (e.g. '5') or a percentage (e.g. '50%'). If a percentage is specified, it is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded up. If not specified, the default is 1. */
+  /** The maximum time in seconds that is allowed for a node drain to complete before proceeding with the upgrade of the agent pool. If not specified during creation, a value of 1800 seconds is used. */
+  drainTimeout?: number;
+  /** The maximum number or percentage of nodes that are surged during upgrade. This can either be set to an integer (e.g. '5') or a percentage (e.g. '50%'). If a percentage is specified, it is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded up. If not specified during creation, a value of 1 is used. One of MaxSurge and MaxUnavailable must be greater than 0. */
   maxSurge?: string;
+  /** The maximum number or percentage of nodes that can be unavailable during upgrade. This can either be set to an integer (e.g. '5') or a percentage (e.g. '50%'). If a percentage is specified, it is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded up. If not specified during creation, a value of 0 is used. One of MaxSurge and MaxUnavailable must be greater than 0. */
+  maxUnavailable?: string;
 }
 
 /** NetworkConfiguration specifies the Kubernetes cluster network related configuration. */
 export interface NetworkConfiguration {
   /** The configuration of networks being attached to the cluster for use by the workloads that run on this Kubernetes cluster. */
   attachedNetworkConfiguration?: AttachedNetworkConfiguration;
-  /** The configuration of the BGP service load balancer for this Kubernetes cluster. */
+  /** The configuration of the BGP service load balancer for this Kubernetes cluster. A maximum of one service load balancer may be specified, either Layer 2 or BGP. */
   bgpServiceLoadBalancerConfiguration?: BgpServiceLoadBalancerConfiguration;
   /** The resource ID of the associated Cloud Services network. */
   cloudServicesNetworkId: string;
@@ -653,6 +1032,8 @@ export interface NetworkConfiguration {
   cniNetworkId: string;
   /** The IP address assigned to the Kubernetes DNS service. It must be within the Kubernetes service address range specified in service CIDR. */
   dnsServiceIp?: string;
+  /** The configuration of the Layer 2 service load balancer for this Kubernetes cluster. A maximum of one service load balancer may be specified, either Layer 2 or BGP. */
+  l2ServiceLoadBalancerConfiguration?: L2ServiceLoadBalancerConfiguration;
   /** The CIDR notation IP ranges from which to assign pod IPs. One IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is expected for dual-stack networking. */
   podCidrs?: string[];
   /** The CIDR notation IP ranges from which to assign service IPs. One IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is expected for dual-stack networking. */
@@ -667,7 +1048,7 @@ export interface BgpServiceLoadBalancerConfiguration {
   bgpPeers?: ServiceLoadBalancerBgpPeer[];
   /** The indicator to specify if the load balancer peers with the network fabric. */
   fabricPeeringEnabled?: FabricPeeringEnabled;
-  /** The list of pools of IP addresses that can be allocated to Load Balancer services. */
+  /** The list of pools of IP addresses that can be allocated to load balancer services. */
   ipAddressPools?: IpAddressPool[];
 }
 
@@ -689,9 +1070,9 @@ export interface ServiceLoadBalancerBgpPeer {
   bfdEnabled?: BfdEnabled;
   /** The indicator to enable multi-hop peering support. */
   bgpMultiHop?: BgpMultiHop;
-  /** The requested BGP hold time value. This field uses ISO 8601 duration format, for example P1H. */
+  /** Field Deprecated. The field was previously optional, now it will have no defined behavior and will be ignored. The requested BGP hold time value. This field uses ISO 8601 duration format, for example P1H. */
   holdTime?: string;
-  /** The requested BGP keepalive time value. This field uses ISO 8601 duration format, for example P1H. */
+  /** Field Deprecated. The field was previously optional, now it will have no defined behavior and will be ignored. The requested BGP keepalive time value. This field uses ISO 8601 duration format, for example P1H. */
   keepAliveTime?: string;
   /** The autonomous system number used for the local end of the BGP session. */
   myAsn?: number;
@@ -709,7 +1090,7 @@ export interface ServiceLoadBalancerBgpPeer {
 
 /** IpAddressPool represents a pool of IP addresses that can be allocated to a service. */
 export interface IpAddressPool {
-  /** The list of IP address ranges. Each range can be a either a subnet in CIDR format or an explicit start-end range of IP addresses. */
+  /** The list of IP address ranges. Each range can be a either a subnet in CIDR format or an explicit start-end range of IP addresses. For a BGP service load balancer configuration, only CIDR format is supported and excludes /32 (IPv4) and /128 (IPv6) prefixes. */
   addresses: string[];
   /** The indicator to determine if automatic allocation from the pool should occur. */
   autoAssign?: BfdEnabled;
@@ -717,6 +1098,12 @@ export interface IpAddressPool {
   name: string;
   /** The indicator to prevent the use of IP addresses ending with .0 and .255 for this pool. Enabling this option will only use IP addresses between .1 and .254 inclusive. */
   onlyUseHostIps?: BfdEnabled;
+}
+
+/** L2ServiceLoadBalancerConfiguration represents the configuration of a layer 2 service load balancer. */
+export interface L2ServiceLoadBalancerConfiguration {
+  /** The list of pools of IP addresses that can be allocated to load balancer services. */
+  ipAddressPools?: IpAddressPool[];
 }
 
 /** KubernetesClusterNode represents the details of a node in a Kubernetes cluster. */
@@ -732,7 +1119,7 @@ export interface KubernetesClusterNode {
    */
   readonly availabilityZone?: string;
   /**
-   * The resource ID of the bare metal machine that hosts this node.
+   * The resource ID of the bare metal machine or edge cluster node that hosts this node.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly bareMetalMachineId?: string;
@@ -752,7 +1139,7 @@ export interface KubernetesClusterNode {
    */
   readonly detailedStatusMessage?: string;
   /**
-   * The size of the disk configured for this node.
+   * The size of the disk configured for this node. Allocations are measured in gibibytes.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly diskSizeGB?: number;
@@ -772,7 +1159,7 @@ export interface KubernetesClusterNode {
    */
   readonly labels?: KubernetesLabel[];
   /**
-   * The amount of memory configured for this node, derived from the vm SKU specified.
+   * The amount of memory configured for this node, derived from the vm SKU specified. Allocations are measured in gibibytes.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly memorySizeGB?: number;
@@ -929,7 +1316,7 @@ export interface MachineSkuSlot {
    */
   readonly hardwareVersion?: string;
   /**
-   * The maximum amount of memory in GB.
+   * The maximum amount of memory. Measured in gibibytes.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly memoryCapacityGB?: number;
@@ -958,7 +1345,7 @@ export interface MachineSkuSlot {
 /** Disk represents the properties of the disk. */
 export interface MachineDisk {
   /**
-   * The maximum amount of storage in GB.
+   * The maximum amount of storage. Measured in gibibytes.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly capacityGB?: number;
@@ -1002,7 +1389,7 @@ export interface NetworkInterface {
    */
   readonly portCount?: number;
   /**
-   * The maximum amount of data in GB that the line card transmits through a port at any given second.
+   * The maximum amount of data in gigabits that the line card transmits through a port at any given second.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly portSpeed?: number;
@@ -1021,7 +1408,7 @@ export interface StorageApplianceSkuSlot {
    */
   readonly rackSlot?: number;
   /**
-   * The maximum capacity of the storage appliance.
+   * The maximum capacity of the storage appliance. Measured in gibibytes.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly capacityGB?: number;
@@ -1038,6 +1425,14 @@ export interface RackList {
   nextLink?: string;
   /** The list of racks. */
   value?: Rack[];
+}
+
+/** RegistrationHubList represents a list of registration hubs. */
+export interface RegistrationHubList {
+  /** The link used to get the next page of operations. */
+  nextLink?: string;
+  /** The list of registration hubs. */
+  value?: RegistrationHub[];
 }
 
 /** StorageApplianceList represents a list of storage appliances. */
@@ -1090,7 +1485,7 @@ export interface OsDisk {
   createOption?: OsDiskCreateOption;
   /** The strategy for deleting the OS disk. */
   deleteOption?: OsDiskDeleteOption;
-  /** The size of the disk in gigabytes. Required if the createOption is Ephemeral. */
+  /** The size of the disk. Required if the createOption is Ephemeral. Allocations are measured in gibibytes. */
   diskSizeGB: number;
 }
 
@@ -1110,23 +1505,6 @@ export interface VolumeList {
   nextLink?: string;
   /** The list of volumes. */
   value?: Volume[];
-}
-
-/** BareMetalMachinePatchParameters represents the body of the request to patch bare metal machine properties. */
-export interface BareMetalMachinePatchParameters {
-  /** The Azure resource tags that will replace the existing ones. */
-  tags?: { [propertyName: string]: string };
-  /**
-   * The details provided by the customer during the creation of rack manifests
-   * that allows for custom data to be associated with this machine.
-   */
-  machineDetails?: string;
-}
-
-/** BareMetalMachineCordonParameters represents the body of the request to evacuate workloads from node on a bare metal machine. */
-export interface BareMetalMachineCordonParameters {
-  /** The indicator of whether to evacuate the node workload when the bare metal machine is cordoned. */
-  evacuate?: BareMetalMachineEvacuate;
 }
 
 /** The current status of an async operation. */
@@ -1152,6 +1530,23 @@ export interface OperationStatusResult {
   operations?: OperationStatusResult[];
   /** If present, details of the operation error. */
   error?: ErrorDetail;
+}
+
+/** BareMetalMachinePatchParameters represents the body of the request to patch bare metal machine properties. */
+export interface BareMetalMachinePatchParameters {
+  /** The Azure resource tags that will replace the existing ones. */
+  tags?: { [propertyName: string]: string };
+  /**
+   * The details provided by the customer during the creation of rack manifests
+   * that allows for custom data to be associated with this machine.
+   */
+  machineDetails?: string;
+}
+
+/** BareMetalMachineCordonParameters represents the body of the request to evacuate workloads from node on a bare metal machine. */
+export interface BareMetalMachineCordonParameters {
+  /** The indicator of whether to evacuate the node workload when the bare metal machine is cordoned. */
+  evacuate?: BareMetalMachineEvacuate;
 }
 
 /** BareMetalMachinePowerOffParameters represents the body of the request to power off bare metal machine. */
@@ -1229,12 +1624,16 @@ export interface CloudServicesNetworkPatchParameters {
 
 /** ClusterManagerPatchParameters represents the body of the request to patch the cluster properties. */
 export interface ClusterManagerPatchParameters {
+  /** The identity for the resource. */
+  identity?: ManagedServiceIdentity;
   /** The Azure resource tags that will replace the existing ones. */
   tags?: { [propertyName: string]: string };
 }
 
 /** ClusterPatchParameters represents the body of the request to patch the cluster properties. */
 export interface ClusterPatchParameters {
+  /** The identity for the resource. */
+  identity?: ManagedServiceIdentity;
   /** The Azure resource tags that will replace the existing ones. */
   tags?: { [propertyName: string]: string };
   /** The rack definition that is intended to reflect only a single rack in a single rack cluster, or an aggregator rack in a multi-rack cluster. */
@@ -1243,6 +1642,8 @@ export interface ClusterPatchParameters {
   clusterLocation?: string;
   /** The service principal to be used by the cluster during Arc Appliance installation. */
   clusterServicePrincipal?: ServicePrincipalInformation;
+  /** The settings for commands run in this cluster, such as bare metal machine run read only commands and data extracts. */
+  commandOutputSettings?: CommandOutputSettings;
   /** The validation threshold indicating the allowable failures of compute machines during environment validation and deployment. */
   computeDeploymentThreshold?: ValidationThreshold;
   /**
@@ -1250,6 +1651,12 @@ export interface ClusterPatchParameters {
    * cluster, or an empty list in a single-rack cluster.
    */
   computeRackDefinitions?: RackDefinition[];
+  /** The settings for cluster runtime protection. */
+  runtimeProtectionConfiguration?: RuntimeProtectionConfiguration;
+  /** The configuration for use of a key vault to store secrets for later retrieval by the operator. */
+  secretArchive?: ClusterSecretArchive;
+  /** The strategy for updating the cluster. */
+  updateStrategy?: ClusterUpdateStrategy;
 }
 
 /** BareMetalMachineKeySetList represents a list of bare metal machine key sets. */
@@ -1268,6 +1675,8 @@ export interface KeySetUser {
   description?: string;
   /** The SSH public key that will be provisioned for user access. The user is expected to have the corresponding SSH private key for logging in. */
   sshPublicKey: SshPublicKey;
+  /** The user principal name (email format) used to validate this user's group membership. */
+  userPrincipalName?: string;
 }
 
 /** KeySetUserStatus represents the status of the key set user. */
@@ -1319,6 +1728,12 @@ export interface BmcKeySetPatchParameters {
   userList?: KeySetUser[];
 }
 
+/** ClusterContinueUpdateVersionParameters represents the body of the request to continue the update of a cluster version. */
+export interface ClusterContinueUpdateVersionParameters {
+  /** The mode by which the cluster will target the next grouping of servers to continue the update. */
+  machineGroupTargetingMode?: ClusterContinueUpdateVersionMachineGroupTargetingMode;
+}
+
 /** ClusterDeployParameters represents the body of the request to deploy cluster. */
 export interface ClusterDeployParameters {
   /** The names of bare metal machines in the cluster that should be skipped during environment validation. */
@@ -1343,24 +1758,177 @@ export interface ClusterMetricsConfigurationPatchParameters {
   enabledMetrics?: string[];
 }
 
+/** ClusterScanRuntimeParameters defines the parameters for the cluster scan runtime operation. */
+export interface ClusterScanRuntimeParameters {
+  /** The choice of if the scan operation should run the scan. */
+  scanActivity?: ClusterScanRuntimeParametersScanActivity;
+}
+
 /** ClusterUpdateVersionParameters represents the body of the request to update cluster version. */
 export interface ClusterUpdateVersionParameters {
   /** The version to be applied to the cluster during update. */
   targetClusterVersion: string;
 }
 
+/** EdgeClusterPatchParameters represents the body of the request to patch the edge cluster properties. */
+export interface EdgeClusterPatchParameters {
+  /** The identity for the resource. */
+  identity?: ManagedServiceIdentity;
+  /** The Azure resource tags that will replace the existing ones. */
+  tags?: { [propertyName: string]: string };
+  /** User provided description information about the edge cluster. */
+  description?: string;
+  /** The attributes used for Entra (Azure Active Directory) integration. */
+  entraConfiguration?: EdgeClusterEntraConfiguration;
+  /** The resource ID of the registration hub that the edge cluster will use to register machines for edge cluster nodes. */
+  registrationHubId?: string;
+  /** The resource ID of the edge cluster runtime version for the edge cluster. */
+  runtimeVersionId?: string;
+  /** The list of user-managed workload resource IDs that are dependent upon the edge cluster. The presence of workload resource IDs inform lifecycle events for the edge cluster. */
+  workloadResourceIds?: string[];
+}
+
+/** ListUserCredentialParameters represents the options for listing the cluster user credentials. */
+export interface ListUserCredentialParameters {
+  /** The indicator of which credential to return based on the access mechanism specified. Utilize Local for access from the same subnet as the edge cluster, and Relay for remote access across a relay. */
+  accessMechanism?: ListEdgeClusterUserCredentialAccessMechanism;
+  /** The mode of client authentication. */
+  authenticationMethod: UserCredentialAuthenticationMethod;
+  /** Client proxy indicates if the returned credentials are for the client-side proxy. */
+  clientProxy: ListEdgeClusterUserCredentialClientProxy;
+}
+
+/** CredentialResults represents the results of the cluster user credential request. */
+export interface CredentialResults {
+  /** Contains the REP (rendezvous endpoint) and “Sender” access token. */
+  hybridConnectionConfig?: HybridConnectionConfig;
+  /**
+   * List of base64-encoded Kubernetes configuration files.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly kubeconfigs?: CredentialResult[];
+}
+
+/** HybridConnectionConfig represents the rendezvous endpoint and sender access token. */
+export interface HybridConnectionConfig {
+  /**
+   * ExpirationTime the the timestamp when the token will be expired.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly expirationTime?: number;
+  /**
+   * HybridConnectionName is the name of the hybrid connection.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hybridConnectionName?: string;
+  /**
+   * Relay is the name of the relay.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly relay?: string;
+  /**
+   * Token is the sender access token.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly token?: string;
+}
+
+/** CredentialResult represents the result of the cluster user credential request. */
+export interface CredentialResult {
+  /**
+   * The name of the credential.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The Base64-encoded Kubernetes configuration file.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: string;
+}
+
+/** EdgeClusterNodeList represents the list of edge cluster node objects. */
+export interface EdgeClusterNodeList {
+  /** The link used to get the next page of operations. */
+  nextLink?: string;
+  /** The list of edge cluster nodes. */
+  value?: EdgeClusterNode[];
+}
+
+/** EdgeClusterNodeNetworkInterface represents the properties of the network interface of an edge cluster node. */
+export interface EdgeClusterNodeNetworkInterface {
+  /**
+   * The IPv4 address of the network interface.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ipv4Address?: string;
+  /**
+   * The IPv6 address of the network interface.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ipv6Address?: string;
+  /**
+   * The MAC address of the network interface.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly macAddress?: string;
+  /**
+   * The name of the network interface as represented on the host.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+}
+
+/** EdgeClusterNodeMatchingIdentifier represents a field to match against a machine in the registration hub during association with an edge cluster node. */
+export interface EdgeClusterNodeMatchingIdentifier {
+  /** Name is the name of the identifier. */
+  name: EdgeClusterNodeMatchingIdentifierName;
+  /** Value is the value of the identifier. */
+  value: string;
+}
+
+/** EdgeClusterNodePatchParameters represents the body of the request to patch the edge cluster node. */
+export interface EdgeClusterNodePatchParameters {
+  /** The Azure resource tags that will replace the existing ones. */
+  tags?: { [propertyName: string]: string };
+  /** The resource ID of the SKU of the edge cluster node. */
+  machineSkuId?: string;
+  /** The identifiers used to match the node to a machine in the registration hub. */
+  nodeMatchingIdentifiers?: EdgeClusterNodeMatchingIdentifier[];
+  /** The resource ID of the machine in the registration hub that the node is registered against. */
+  registrationHubMachineId?: string;
+  /** The labels used to schedule resources on this node. */
+  schedulingLabels?: KubernetesLabel[];
+}
+
+/** EdgeClusterStageRuntimeParameters represents the body of the request to stage a runtime version for an edge cluster. */
+export interface EdgeClusterStageRuntimeParameters {
+  /** TargetRuntimeVersionId represents the resource ID of the runtime to stage. This runtime must be a valid upgrade for the Edge Cluster. */
+  targetRuntimeVersionId: string;
+}
+
 /** KubernetesClusterPatchParameters represents the body of the request to patch the Hybrid AKS cluster. */
 export interface KubernetesClusterPatchParameters {
   /** The Azure resource tags that will replace the existing ones. */
   tags?: { [propertyName: string]: string };
+  /** The configuration of the default administrator credentials. */
+  administratorConfiguration?: AdministratorConfigurationPatch;
   /** The defining characteristics of the control plane that can be patched for this Kubernetes cluster. */
   controlPlaneNodeConfiguration?: ControlPlaneNodePatchConfiguration;
-  /** The Kubernetes version for this cluster. Accepts n.n, n.n.n, and n.n.n-n format. The interpreted version used will be resolved into this field after creation or update. */
+  /** The Kubernetes version for this cluster. */
   kubernetesVersion?: string;
+}
+
+/** AdministratorConfigurationPatch represents the patching capabilities for the administrator configuration. */
+export interface AdministratorConfigurationPatch {
+  /** SshPublicKey represents the public key used to authenticate with a resource through SSH. */
+  sshPublicKeys?: SshPublicKey[];
 }
 
 /** ControlPlaneNodePatchConfiguration represents the properties of the control plane that can be patched for this Kubernetes cluster. */
 export interface ControlPlaneNodePatchConfiguration {
+  /** The configuration of administrator credentials for the control plane nodes. */
+  administratorConfiguration?: AdministratorConfigurationPatch;
   /** The number of virtual machines that use this configuration. */
   count?: number;
 }
@@ -1377,10 +1945,34 @@ export interface AgentPoolList {
 export interface AgentPoolPatchParameters {
   /** The Azure resource tags that will replace the existing ones. */
   tags?: { [propertyName: string]: string };
+  /** The configuration of administrator credentials for the control plane nodes. */
+  administratorConfiguration?: NodePoolAdministratorConfigurationPatch;
   /** The number of virtual machines that use this configuration. */
   count?: number;
   /** The configuration of the agent pool. */
   upgradeSettings?: AgentPoolUpgradeSettings;
+}
+
+/** NodePoolAdministratorConfigurationPatch represents the patching capabilities for the administrator configuration. */
+export interface NodePoolAdministratorConfigurationPatch {
+  /** SshPublicKey represents the public key used to authenticate with a resource through SSH. */
+  sshPublicKeys?: SshPublicKey[];
+}
+
+/** KubernetesClusterFeatureList represents the list of Kubernetes cluster feature resources. */
+export interface KubernetesClusterFeatureList {
+  /** The link used to get the next page of operations. */
+  nextLink?: string;
+  /** The list of Kubernetes cluster features. */
+  value?: KubernetesClusterFeature[];
+}
+
+/** KubernetesClusterFeaturePatchParameters represents the body of the request to patch the Kubernetes cluster feature. */
+export interface KubernetesClusterFeaturePatchParameters {
+  /** The Azure resource tags that will replace the existing ones. */
+  tags?: { [propertyName: string]: string };
+  /** The configured options for the feature. */
+  options?: StringKeyValuePair[];
 }
 
 /** KubernetesClusterRestartNodeParameters represents the body of the request to restart the node of a Kubernetes cluster. */
@@ -1409,6 +2001,122 @@ export interface RackPatchParameters {
   rackLocation?: string;
   /** The globally unique identifier for the rack. */
   rackSerialNumber?: string;
+}
+
+/** RegistrationHubPatchParameters represents the body of the request to patch the registration hub properties. */
+export interface RegistrationHubPatchParameters {
+  /** The Azure resource tags that will replace the existing ones. */
+  tags?: { [propertyName: string]: string };
+  /** The user-provided information about the registration hub. */
+  description?: string;
+}
+
+/** RegistrationHubImageList represents a list of registration hub images. */
+export interface RegistrationHubImageList {
+  /** The link used to get the next page of operations. */
+  nextLink?: string;
+  /** The list of registration hub images. */
+  value?: RegistrationHubImage[];
+}
+
+/** RegistrationHubImagePatchParameters represents the body of the request to patch the registration hub image properties. */
+export interface RegistrationHubImagePatchParameters {
+  /** The Azure resource tags that will replace the existing ones. */
+  tags?: { [propertyName: string]: string };
+  /** The indicator of whether the image can be used to register machines. */
+  allowRegistration?: AllowRegistration;
+  /** User provided information about the registration hub image. */
+  description?: string;
+}
+
+/** RegistrationHubMachineList represents a list of registration hub machines. */
+export interface RegistrationHubMachineList {
+  /** The link used to get the next page of operations. */
+  nextLink?: string;
+  /** The list of registration hub machines. */
+  value?: RegistrationHubMachine[];
+}
+
+/** RegistrationHubMachineConfiguration represents details of the hardware configuration of the machine supplied during the registration process. */
+export interface RegistrationHubMachineConfiguration {
+  /** The CPU information. */
+  cpus: RegistrationHubMachineCpu[];
+  /** The inventory of devices detected on the machine’s buses. */
+  devices: RegistrationHubMachineDevice[];
+  /** System memory information. */
+  memory: RegistrationHubMachineMemory;
+  /** The bios and system board related information. */
+  system: RegistrationHubMachineSystem;
+}
+
+/** RegistrationHubMachineCpu represents CPU properties of a registration hub machine. */
+export interface RegistrationHubMachineCpu {
+  /** The architecture of the CPU. */
+  architecture: string;
+  /** The CPU family. */
+  family: string;
+  /** The model of the CPU. */
+  model: string;
+  /** The model name of the CPU. */
+  modelName: string;
+  /** The number of physical CPU cores per socket. */
+  physicalCoresPerSocket: number;
+  /** The vendor of the CPU. */
+  vendor: string;
+}
+
+/** RegistrationHubMachineDevice represents the inventory of devices detected on the machine’s buses. */
+export interface RegistrationHubMachineDevice {
+  /** The PCI/bus address of the device. */
+  address: string;
+  /** The bus that connects this device. */
+  bus: string;
+  /** The device class. */
+  class: string;
+  /** The MAC address of a network device. */
+  macAddress: string;
+  /** The model of the device. */
+  model: string;
+  /** The serial number of the device. */
+  serialNumber: string;
+  /** The reported capacity of a storage device. Measured in gibibytes. */
+  sizeGB: number;
+  /** The vendor for the device. */
+  vendor: string;
+}
+
+/** RegistrationHubMachineMemory represents the system memory information of a registration hub machine. */
+export interface RegistrationHubMachineMemory {
+  /** The size of the memory. Measured in gibibytes. */
+  sizeGB: number;
+}
+
+/** RegistrationHubMachineSystem represents the bios and system board related information. */
+export interface RegistrationHubMachineSystem {
+  /** The vendor for the BIOS. */
+  biosVendor: string;
+  /** The version of the BIOS. */
+  biosVersion: string;
+  /** The serial number of the main board. */
+  boardSerialNumber: string;
+  /** The serial number of the chassis. */
+  chassisSerialNumber: string;
+  /** The product name. */
+  productName: string;
+  /** The product serial number. */
+  productSerialNumber: string;
+  /** The tpm endorsement key. */
+  tpmEndorsementKey: string;
+  /** The system vendor. */
+  vendor: string;
+}
+
+/** RegistrationHubMachinePatchParameters represents the body of the request to patch the registration hub machine properties. */
+export interface RegistrationHubMachinePatchParameters {
+  /** The Azure resource tags that will replace the existing ones. */
+  tags?: { [propertyName: string]: string };
+  /** The user-provided freeform description for the machine. */
+  description?: string;
 }
 
 /** StorageAppliancePatchParameters represents the body of the request to patch storage appliance properties. */
@@ -1451,7 +2159,7 @@ export interface ConsoleList {
 export interface ConsolePatchParameters {
   /** The Azure resource tags that will replace the existing ones. */
   tags?: { [propertyName: string]: string };
-  /** The credentials used to login to the image repository that has access to the specified image. */
+  /** The indicator of whether the console access is enabled. */
   enabled?: ConsoleEnabled;
   /** The date and time after which the key will be disallowed access. */
   expiration?: Date;
@@ -1508,6 +2216,9 @@ export interface TrackedResource extends Resource {
   /** The geo-location where the resource lives */
   location: string;
 }
+
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
 
 /** RackSku represents the SKU information of the rack. */
 export interface RackSku extends Resource {
@@ -1615,10 +2326,17 @@ export interface BareMetalMachine extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly kubernetesVersion?: string;
+  /** The cluster version that has been applied to this machine during deployment or a version update. */
+  machineClusterVersion?: string;
   /** The custom details provided by the customer. */
   machineDetails: string;
   /** The OS-level hostname assigned to this machine. */
   machineName: string;
+  /**
+   * The list of roles that are assigned to the cluster node running on this machine.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly machineRoles?: string[];
   /** The unique internal identifier of the bare metal machine SKU. */
   machineSkuId: string;
   /**
@@ -1655,6 +2373,16 @@ export interface BareMetalMachine extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly readyState?: BareMetalMachineReadyState;
+  /**
+   * The runtime protection status of the bare metal machine.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly runtimeProtectionStatus?: RuntimeProtectionStatus;
+  /**
+   * The list of statuses that represent secret rotation activity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly secretRotationStatus?: SecretRotationStatus[];
   /** The serial number of the bare metal machine. */
   serialNumber: string;
   /**
@@ -1731,6 +2459,8 @@ export interface CloudServicesNetwork extends TrackedResource {
 
 /** ClusterManager represents a control-plane to manage one or more on-premises clusters. */
 export interface ClusterManager extends TrackedResource {
+  /** The identity of the cluster manager. */
+  identity?: ManagedServiceIdentity;
   /** The resource ID of the Log Analytics workspace that is used for the logs collection. */
   analyticsWorkspaceId?: string;
   /** Field deprecated, this value will no longer influence the cluster manager allocation process and will be removed in a future version. The Azure availability zones within the region that will be used to support the cluster manager resource. */
@@ -1772,6 +2502,8 @@ export interface ClusterManager extends TrackedResource {
 export interface Cluster extends TrackedResource {
   /** The extended location of the cluster manager associated with the cluster. */
   extendedLocation: ExtendedLocation;
+  /** The identity for the resource. */
+  identity?: ManagedServiceIdentity;
   /** The rack definition that is intended to reflect only a single rack in a single rack cluster, or an aggregator rack in a multi-rack cluster. */
   aggregatorOrSingleRackDefinition: RackDefinition;
   /** The resource ID of the Log Analytics Workspace that will be used for storing relevant logs. */
@@ -1814,6 +2546,8 @@ export interface Cluster extends TrackedResource {
   clusterType: ClusterType;
   /** The current runtime version of the cluster. */
   clusterVersion: string;
+  /** The settings for commands run in this cluster, such as bare metal machine run read only commands and data extracts. */
+  commandOutputSettings?: CommandOutputSettings;
   /** The validation threshold indicating the allowable failures of compute machines during environment validation and deployment. */
   computeDeploymentThreshold?: ValidationThreshold;
   /**
@@ -1850,16 +2584,99 @@ export interface Cluster extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ClusterProvisioningState;
+  /** The settings for cluster runtime protection. */
+  runtimeProtectionConfiguration?: RuntimeProtectionConfiguration;
+  /** The configuration for use of a key vault to store secrets for later retrieval by the operator. */
+  secretArchive?: ClusterSecretArchive;
   /**
    * The support end date of the runtime version of the cluster.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly supportExpiryDate?: string;
+  /** The strategy for updating the cluster. */
+  updateStrategy?: ClusterUpdateStrategy;
   /**
    * The list of workload resource IDs that are hosted within this cluster.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly workloadResourceIds?: string[];
+}
+
+/** EdgeCluster represents a cluster that encompasses one or more nodes used to host network functions. */
+export interface EdgeCluster extends TrackedResource {
+  /** The identity of the edge cluster. */
+  identity?: ManagedServiceIdentity;
+  /**
+   * The list of runtimes upgrades that are available for the Edge Cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly availableUpgradeRuntimeVersions?: EdgeClusterAvailableUpgradeRuntimeVersion[];
+  /**
+   * The extended location that represents the edge cluster's control plane location and is used to route the requests for workload infrastructure resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clusterExtendedLocation?: ExtendedLocation;
+  /**
+   * The resource ID of the connected cluster set up when this edge cluster is created.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly connectedClusterId?: string;
+  /** User provided description information about the edge cluster. */
+  description?: string;
+  /** The resource ID of the SKU of the edge cluster. */
+  edgeClusterSkuId: string;
+  /** The attributes used for Entra (Azure Active Directory) integration. */
+  entraConfiguration?: EdgeClusterEntraConfiguration;
+  /**
+   * The list of system-controlled workload resource IDs that are dependent upon the edge cluster. The presence of resource IDs inform lifecycle events for the edge cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly infrastructureResourceIds?: string[];
+  /**
+   * The Kubernetes version that is currently running on the edge cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly kubernetesVersion?: string;
+  /**
+   * The status representing the lifecycle stage of the edge cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lifecycleStatus?: EdgeClusterLifecycleStatus;
+  /** The configuration of the managed resource group associated with the resource. */
+  managedResourceGroupConfiguration?: ManagedResourceGroupConfiguration;
+  /**
+   * The version of the running management services.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly managementServicesVersion?: string;
+  /** The resource ID of the network fabric that defines the network configuration for the edge cluster. */
+  networkFabricId: string;
+  /**
+   * The provisioning state of the edge cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: EdgeClusterProvisioningState;
+  /**
+   * The PTP clock information for the edge cluster, if applicable.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ptpConfiguration?: EdgeClusterPtpConfiguration;
+  /** The resource ID of the registration hub that the edge cluster will use to register machines for edge cluster nodes. */
+  registrationHubId?: string;
+  /**
+   * The list of endpoints that must be accessible to the edge cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly requiredEndpointAllowList?: EndpointDependency[];
+  /** The resource ID of the edge cluster runtime version for the edge cluster. */
+  runtimeVersionId: string;
+  /**
+   * The date after which the Edge Cluster is no longer supported using the currently configured runtime version.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly supportExpiryDate?: string;
+  /** The list of user-managed workload resource IDs that are dependent upon the edge cluster. The presence of workload resource IDs inform lifecycle events for the edge cluster. */
+  workloadResourceIds?: string[];
 }
 
 /** KubernetesCluster represents the Kubernetes cluster hosted on Network Cloud. */
@@ -1914,7 +2731,7 @@ export interface KubernetesCluster extends TrackedResource {
   readonly featureStatuses?: FeatureStatus[];
   /** The agent pools that are created with this Kubernetes cluster for running critical system services and workloads. This data in this field is only used during creation, and the field will be empty following the creation of the Kubernetes Cluster. After creation, the management of agent pools is done using the agentPools sub-resource. */
   initialAgentPoolConfigurations: InitialAgentPoolConfiguration[];
-  /** The Kubernetes version for this cluster. Accepts n.n, n.n.n, and n.n.n-n format. The interpreted version used will be resolved into this field after creation or update. */
+  /** The Kubernetes version for this cluster. */
   kubernetesVersion: string;
   /** The configuration of the managed resource group associated with the resource. */
   managedResourceGroupConfiguration?: ManagedResourceGroupConfiguration;
@@ -2076,6 +2893,27 @@ export interface Rack extends TrackedResource {
   rackSkuId: string;
 }
 
+/** RegistrationHub represents the resource responsible for onboarding and bootstrapping of machines that are used in Edge Clusters. */
+export interface RegistrationHub extends TrackedResource {
+  /**
+   * The URL to access the azure relay for the registration hub.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly azureRelayEndpoint?: string;
+  /**
+   * The resource ID of the relay that has been set up to serve the registration hub.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly azureRelayId?: string;
+  /** The user-provided information about the registration hub. */
+  description?: string;
+  /**
+   * The provisioning state of the registration hub resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: RegistrationHubProvisioningState;
+}
+
 /** StorageAppliance represents on-premises Network Cloud storage appliance. */
 export interface StorageAppliance extends TrackedResource {
   /** The extended location of the cluster associated with the resource. */
@@ -2113,6 +2951,16 @@ export interface StorageAppliance extends TrackedResource {
    */
   readonly managementIpv4Address?: string;
   /**
+   * The manufacturer of the storage appliance.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly manufacturer?: string;
+  /**
+   * The model of the storage appliance.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly model?: string;
+  /**
    * The provisioning state of the storage appliance.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -2131,10 +2979,20 @@ export interface StorageAppliance extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly remoteVendorManagementStatus?: RemoteVendorManagementStatus;
+  /**
+   * The list of statuses that represent secret rotation activity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly secretRotationStatus?: SecretRotationStatus[];
   /** The serial number for the storage appliance. */
   serialNumber: string;
   /** The SKU for the storage appliance. */
   storageApplianceSkuId: string;
+  /**
+   * The version of the storage appliance.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly version?: string;
 }
 
 /** TrunkedNetwork represents a network that utilizes multiple isolation domains and specified VLANs to create a trunked network. */
@@ -2198,7 +3056,7 @@ export interface VirtualMachine extends TrackedResource {
    */
   readonly availabilityZone?: string;
   /**
-   * The resource ID of the bare metal machine the virtual machine has landed to.
+   * The resource ID of the bare metal machine or edge cluster node that hosts the virtual machine.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly bareMetalMachineId?: string;
@@ -2225,7 +3083,7 @@ export interface VirtualMachine extends TrackedResource {
   readonly detailedStatusMessage?: string;
   /** Field Deprecated, the value will be ignored if provided. The indicator of whether one of the specified CPU cores is isolated to run the emulator thread for this virtual machine. */
   isolateEmulatorThread?: VirtualMachineIsolateEmulatorThread;
-  /** The memory size of the virtual machine in GB. */
+  /** The memory size of the virtual machine. Allocations are measured in gibibytes. */
   memorySizeGB: number;
   /** The list of network attachments to the virtual machine. */
   networkAttachments?: NetworkAttachment[];
@@ -2409,6 +3267,53 @@ export interface ClusterMetricsConfiguration extends TrackedResource {
   readonly provisioningState?: ClusterMetricsConfigurationProvisioningState;
 }
 
+/** EdgeClusterNode represents the node of an edge cluster. */
+export interface EdgeClusterNode extends TrackedResource {
+  /**
+   * The resource IDs of the resources that depend on the Edge Cluster. This includes both infrastructure resources added automatically and workload resources that are added through orchestration.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly infrastructureResourceIds?: string[];
+  /**
+   * The version of Kubernetes running on the node. This will typically match the Edge Cluster’s Kubernetes version, but may differ during upgrade activities.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly kubernetesVersion?: string;
+  /**
+   * The lifecycle status of the edge cluster node resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lifecycleStatus?: EdgeClusterNodeLifecycleStatus;
+  /** The resource ID of the SKU of the edge cluster node. */
+  machineSkuId: string;
+  /**
+   * The network interfaces of the node.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly networkInterfaces?: EdgeClusterNodeNetworkInterface[];
+  /** The identifiers used to match the node to a machine in the registration hub. */
+  nodeMatchingIdentifiers?: EdgeClusterNodeMatchingIdentifier[];
+  /**
+   * The provisioning state of the edge cluster node.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: EdgeClusterNodeProvisioningState;
+  /** The resource ID of the machine in the registration hub that the node is registered against. */
+  registrationHubMachineId?: string;
+  /**
+   * The resource ID of the runtime version of the Nexus software running on the machine of the node. This will typically match the Edge Cluster’s runtime, but may differ during upgrade activities.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly runtimeVersionId?: string;
+  /** The labels used to schedule resources on this node. */
+  schedulingLabels?: KubernetesLabel[];
+  /**
+   * The resource ID of the runtime version of the Nexus software that has been pre-staged to the machine, pending a cluster runtime update. If no runtime has been staged, this field will be omitted. During the process of staging a runtime, this field will be empty. It will only be populated when the staging has completed.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly stagedRuntimeVersionId?: string;
+}
+
 /** AgentPool represents the agent pool of Kubernetes cluster. */
 export interface AgentPool extends TrackedResource {
   /** The extended location of the cluster associated with the resource. */
@@ -2455,6 +3360,110 @@ export interface AgentPool extends TrackedResource {
   vmSkuName: string;
 }
 
+/** KubernetesClusterFeature represents the feature of a Kubernetes cluster. */
+export interface KubernetesClusterFeature extends TrackedResource {
+  /**
+   * The lifecycle indicator of the feature.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly availabilityLifecycle?: KubernetesClusterFeatureAvailabilityLifecycle;
+  /**
+   * The detailed status of the feature.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly detailedStatus?: KubernetesClusterFeatureDetailedStatus;
+  /**
+   * The descriptive message for the detailed status of the feature.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly detailedStatusMessage?: string;
+  /** The configured options for the feature. */
+  options?: StringKeyValuePair[];
+  /**
+   * The provisioning state of the Kubernetes cluster feature.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: KubernetesClusterFeatureProvisioningState;
+  /**
+   * The indicator of if the feature is required or optional. Optional features may be deleted by the user, while required features are managed with the kubernetes cluster lifecycle.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly required?: KubernetesClusterFeatureRequired;
+  /**
+   * The version of the feature.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly version?: string;
+}
+
+/** RegistrationHubImage represents the image used to bootstrap a machine in Edge Cluster. */
+export interface RegistrationHubImage extends TrackedResource {
+  /** The indicator of whether the image can be used to register machines. */
+  allowRegistration?: AllowRegistration;
+  /**
+   * The base64 encoded client configuration that contains the system provided information for the bootstrap process.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientConfiguration?: string;
+  /**
+   * The base64 encoded configuration that can be modified with custom settings for the bootstrap process.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly customConfiguration?: string;
+  /** The user provided information about the registration hub image. */
+  description?: string;
+  /**
+   * The URI where the bootstrap image can be downloaded from.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly imageDownloadUri?: string;
+  /** The unique identifier that represents this image. */
+  imageUniqueId?: string;
+  /**
+   * The provisioning state of the registration hub image resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: RegistrationHubImageProvisioningState;
+}
+
+/** RegistrationHubMachine represents the registration of a machine to a registration hub. */
+export interface RegistrationHubMachine extends TrackedResource {
+  /**
+   * The resource ID of the edge cluster node that has been associated with this machine.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly associatedResourceId?: string;
+  /** The user-provided freeform description for the machine. */
+  description?: string;
+  /**
+   * The timestamp of the last polling request from a machine that is undergoing registration.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastRegistrationPollTime?: Date;
+  /** The hardware configuration of the machine supplied during the registration process. */
+  machineConfiguration: RegistrationHubMachineConfiguration;
+  /**
+   * The resource ID of the machine SKU that is identified by the hardware information provided for the machine.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly machineSkuId?: string;
+  /**
+   * The provisioning state of the registration hub machine resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: RegistrationHubMachineProvisioningState;
+  /**
+   * The resource ID of the registration hub image that was used to bootstrap the machine.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly registrationHubImageId?: string;
+  /**
+   * The stage and disposition of the registration for the machine.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly registrationState?: RegistrationHubMachineRegistrationState;
+}
+
 /** Console represents the console of an on-premises Network Cloud virtual machine. */
 export interface Console extends TrackedResource {
   /** The extended location of the cluster manager associated with the cluster this virtual machine is created on. */
@@ -2492,6 +3501,88 @@ export interface Console extends TrackedResource {
   readonly virtualMachineAccessId?: string;
 }
 
+/** EdgeClusterMachineSku represents a machine or server configuration that is supported by one or more edge cluster SKUs. */
+export interface EdgeClusterMachineSku extends ProxyResource {
+  /**
+   * The list of cpus for the machine.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly cpus?: EdgeClusterMachineSkuCpu[];
+  /**
+   * The list of devices for the machine.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly devices?: EdgeClusterMachineSkuDevice[];
+  /** The memory configuration for the machine. */
+  memory?: EdgeClusterMachineSkuMemory;
+  /** The bios and top-level system related information. */
+  system?: EdgeClusterMachineSkuSystem;
+}
+
+/** EdgeClusterRuntimeVersion represents a version of the use case specific software that runs an Edge Cluster. */
+export interface EdgeClusterRuntimeVersion extends ProxyResource {
+  /**
+   * The key to value mapping of other descriptive information that is not represented in another field of this runtime version.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly attributes?: StringKeyValuePair[];
+  /**
+   * The description of the edge cluster runtime version.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
+  /**
+   * The name of the host image that is used for this edge cluster runtime version.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hostImageName?: string;
+  /**
+   * The Kubernetes version associated with this edge cluster runtime version.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly kubernetesVersion?: string;
+  /** The range of versions that can be upgraded to from this edge cluster runtime version. */
+  upgradableFromVersion?: VersionRange;
+  /** The domain of use of the edge cluster runtime version. */
+  usageDomain?: UsageDomain;
+  /**
+   * The version number for this runtime version.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly version?: string;
+}
+
+/** EdgeClusterSku represents the use case and overall configuration parameters of an edge cluster. */
+export interface EdgeClusterSku extends ProxyResource {
+  /**
+   * Indicates if the network fabric is managed by the user or by the system.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly fabricManagedBy?: EdgeClusterSkuFabricManagedBy;
+  /**
+   * The list of supported edge cluster machine SKUs that can be used for this edge cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly machineSkuSupport?: MachineSkuSupportRange[];
+  /**
+   * The largest number of nodes that can be created in this edge cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly maximumNodeQuantity?: number;
+  /**
+   * The smallest number of nodes that can be created for this edge cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly minimumNodeQuantity?: number;
+  /**
+   * Indicates if the edge cluster uses the Precision Time Protocol (PTP) for time synchronization.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ptpRequired?: EdgeClusterSkuPtpRequired;
+  /** The use case of the edge cluster. */
+  usageDomain?: UsageDomain;
+}
+
 /** Defines headers for BareMetalMachines_createOrUpdate operation. */
 export interface BareMetalMachinesCreateOrUpdateHeaders {
   /** The URL to retrieve the status of the asynchronous operation. */
@@ -2508,6 +3599,8 @@ export interface BareMetalMachinesDeleteHeaders {
 export interface BareMetalMachinesUpdateHeaders {
   /** The URL to retrieve the status of the asynchronous operation. */
   azureAsyncOperation?: string;
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
 }
 
 /** Defines headers for BareMetalMachines_cordon operation. */
@@ -2586,6 +3679,8 @@ export interface CloudServicesNetworksDeleteHeaders {
 export interface CloudServicesNetworksUpdateHeaders {
   /** The URL to retrieve the status of the asynchronous operation. */
   azureAsyncOperation?: string;
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
 }
 
 /** Defines headers for ClusterManagers_createOrUpdate operation. */
@@ -2616,6 +3711,14 @@ export interface ClustersDeleteHeaders {
 export interface ClustersUpdateHeaders {
   /** The URL to retrieve the status of the asynchronous operation. */
   azureAsyncOperation?: string;
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
+}
+
+/** Defines headers for Clusters_continueUpdateVersion operation. */
+export interface ClustersContinueUpdateVersionHeaders {
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
 }
 
 /** Defines headers for Clusters_deploy operation. */
@@ -2624,8 +3727,40 @@ export interface ClustersDeployHeaders {
   location?: string;
 }
 
+/** Defines headers for Clusters_scanRuntime operation. */
+export interface ClustersScanRuntimeHeaders {
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
+}
+
 /** Defines headers for Clusters_updateVersion operation. */
 export interface ClustersUpdateVersionHeaders {
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
+}
+
+/** Defines headers for EdgeClusters_createOrUpdate operation. */
+export interface EdgeClustersCreateOrUpdateHeaders {
+  /** The URL to retrieve the status of the asynchronous operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for EdgeClusters_delete operation. */
+export interface EdgeClustersDeleteHeaders {
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
+}
+
+/** Defines headers for EdgeClusters_update operation. */
+export interface EdgeClustersUpdateHeaders {
+  /** The URL to retrieve the status of the asynchronous operation. */
+  azureAsyncOperation?: string;
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
+}
+
+/** Defines headers for EdgeClusters_stageRuntime operation. */
+export interface EdgeClustersStageRuntimeHeaders {
   /** The URL to retrieve the status of the asynchronous operation. */
   location?: string;
 }
@@ -2646,6 +3781,8 @@ export interface KubernetesClustersDeleteHeaders {
 export interface KubernetesClustersUpdateHeaders {
   /** The URL to retrieve the status of the asynchronous operation. */
   azureAsyncOperation?: string;
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
 }
 
 /** Defines headers for KubernetesClusters_restartNode operation. */
@@ -2694,6 +3831,28 @@ export interface RacksDeleteHeaders {
 export interface RacksUpdateHeaders {
   /** The URL to retrieve the status of the asynchronous operation. */
   azureAsyncOperation?: string;
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
+}
+
+/** Defines headers for RegistrationHubs_createOrUpdate operation. */
+export interface RegistrationHubsCreateOrUpdateHeaders {
+  /** The URL to retrieve the status of the asynchronous operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for RegistrationHubs_delete operation. */
+export interface RegistrationHubsDeleteHeaders {
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
+}
+
+/** Defines headers for RegistrationHubs_update operation. */
+export interface RegistrationHubsUpdateHeaders {
+  /** The URL to retrieve the status of the asynchronous operation. */
+  azureAsyncOperation?: string;
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
 }
 
 /** Defines headers for StorageAppliances_createOrUpdate operation. */
@@ -2712,6 +3871,8 @@ export interface StorageAppliancesDeleteHeaders {
 export interface StorageAppliancesUpdateHeaders {
   /** The URL to retrieve the status of the asynchronous operation. */
   azureAsyncOperation?: string;
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
 }
 
 /** Defines headers for StorageAppliances_disableRemoteVendorManagement operation. */
@@ -2754,6 +3915,8 @@ export interface VirtualMachinesDeleteHeaders {
 export interface VirtualMachinesUpdateHeaders {
   /** The URL to retrieve the status of the asynchronous operation. */
   azureAsyncOperation?: string;
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
 }
 
 /** Defines headers for VirtualMachines_powerOff operation. */
@@ -2808,6 +3971,8 @@ export interface BareMetalMachineKeySetsDeleteHeaders {
 export interface BareMetalMachineKeySetsUpdateHeaders {
   /** The URL to retrieve the status of the asynchronous operation. */
   azureAsyncOperation?: string;
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
 }
 
 /** Defines headers for BmcKeySets_createOrUpdate operation. */
@@ -2826,6 +3991,8 @@ export interface BmcKeySetsDeleteHeaders {
 export interface BmcKeySetsUpdateHeaders {
   /** The URL to retrieve the status of the asynchronous operation. */
   azureAsyncOperation?: string;
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
 }
 
 /** Defines headers for MetricsConfigurations_createOrUpdate operation. */
@@ -2844,6 +4011,46 @@ export interface MetricsConfigurationsDeleteHeaders {
 export interface MetricsConfigurationsUpdateHeaders {
   /** The URL to retrieve the status of the asynchronous operation. */
   azureAsyncOperation?: string;
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
+}
+
+/** Defines headers for EdgeClusterNodes_createOrUpdate operation. */
+export interface EdgeClusterNodesCreateOrUpdateHeaders {
+  /** The URL to retrieve the status of the asynchronous operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for EdgeClusterNodes_delete operation. */
+export interface EdgeClusterNodesDeleteHeaders {
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
+}
+
+/** Defines headers for EdgeClusterNodes_update operation. */
+export interface EdgeClusterNodesUpdateHeaders {
+  /** The URL to retrieve the status of the asynchronous operation. */
+  azureAsyncOperation?: string;
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
+}
+
+/** Defines headers for EdgeClusterNodes_reimage operation. */
+export interface EdgeClusterNodesReimageHeaders {
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
+}
+
+/** Defines headers for EdgeClusterNodes_restart operation. */
+export interface EdgeClusterNodesRestartHeaders {
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
+}
+
+/** Defines headers for EdgeClusterNodes_synchronizeTime operation. */
+export interface EdgeClusterNodesSynchronizeTimeHeaders {
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
 }
 
 /** Defines headers for AgentPools_createOrUpdate operation. */
@@ -2862,6 +4069,74 @@ export interface AgentPoolsDeleteHeaders {
 export interface AgentPoolsUpdateHeaders {
   /** The URL to retrieve the status of the asynchronous operation. */
   azureAsyncOperation?: string;
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
+}
+
+/** Defines headers for KubernetesClusterFeatures_createOrUpdate operation. */
+export interface KubernetesClusterFeaturesCreateOrUpdateHeaders {
+  /** The URL to retrieve the status of the asynchronous operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for KubernetesClusterFeatures_delete operation. */
+export interface KubernetesClusterFeaturesDeleteHeaders {
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
+}
+
+/** Defines headers for KubernetesClusterFeatures_update operation. */
+export interface KubernetesClusterFeaturesUpdateHeaders {
+  /** The URL to retrieve the status of the asynchronous operation. */
+  azureAsyncOperation?: string;
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
+}
+
+/** Defines headers for RegistrationHubImages_createOrUpdate operation. */
+export interface RegistrationHubImagesCreateOrUpdateHeaders {
+  /** The URL to retrieve the status of the asynchronous operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for RegistrationHubImages_delete operation. */
+export interface RegistrationHubImagesDeleteHeaders {
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
+}
+
+/** Defines headers for RegistrationHubImages_update operation. */
+export interface RegistrationHubImagesUpdateHeaders {
+  /** The URL to retrieve the status of the asynchronous operation. */
+  azureAsyncOperation?: string;
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
+}
+
+/** Defines headers for RegistrationHubMachines_createOrUpdate operation. */
+export interface RegistrationHubMachinesCreateOrUpdateHeaders {
+  /** The URL to retrieve the status of the asynchronous operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for RegistrationHubMachines_delete operation. */
+export interface RegistrationHubMachinesDeleteHeaders {
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
+}
+
+/** Defines headers for RegistrationHubMachines_update operation. */
+export interface RegistrationHubMachinesUpdateHeaders {
+  /** The URL to retrieve the status of the asynchronous operation. */
+  azureAsyncOperation?: string;
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
+}
+
+/** Defines headers for RegistrationHubMachines_decline operation. */
+export interface RegistrationHubMachinesDeclineHeaders {
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
 }
 
 /** Defines headers for Consoles_createOrUpdate operation. */
@@ -2880,6 +4155,8 @@ export interface ConsolesDeleteHeaders {
 export interface ConsolesUpdateHeaders {
   /** The URL to retrieve the status of the asynchronous operation. */
   azureAsyncOperation?: string;
+  /** The URL to retrieve the status of the asynchronous operation. */
+  location?: string;
 }
 
 /** Known values of {@link Origin} that the service accepts. */
@@ -2889,7 +4166,7 @@ export enum KnownOrigin {
   /** System */
   System = "system",
   /** UserSystem */
-  UserSystem = "user,system"
+  UserSystem = "user,system",
 }
 
 /**
@@ -2906,7 +4183,7 @@ export type Origin = string;
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
   /** Internal */
-  Internal = "Internal"
+  Internal = "Internal",
 }
 
 /**
@@ -2923,7 +4200,7 @@ export enum KnownBareMetalMachineCordonStatus {
   /** Cordoned */
   Cordoned = "Cordoned",
   /** Uncordoned */
-  Uncordoned = "Uncordoned"
+  Uncordoned = "Uncordoned",
 }
 
 /**
@@ -2949,7 +4226,7 @@ export enum KnownBareMetalMachineDetailedStatus {
   /** Provisioned */
   Provisioned = "Provisioned",
   /** Deprovisioning */
-  Deprovisioning = "Deprovisioning"
+  Deprovisioning = "Deprovisioning",
 }
 
 /**
@@ -2971,7 +4248,7 @@ export enum KnownBareMetalMachineHardwareValidationResult {
   /** Pass */
   Pass = "Pass",
   /** Fail */
-  Fail = "Fail"
+  Fail = "Fail",
 }
 
 /**
@@ -2989,7 +4266,7 @@ export enum KnownBareMetalMachinePowerState {
   /** On */
   On = "On",
   /** Off */
-  Off = "Off"
+  Off = "Off",
 }
 
 /**
@@ -3013,7 +4290,7 @@ export enum KnownBareMetalMachineProvisioningState {
   /** Provisioning */
   Provisioning = "Provisioning",
   /** Accepted */
-  Accepted = "Accepted"
+  Accepted = "Accepted",
 }
 
 /**
@@ -3034,7 +4311,7 @@ export enum KnownBareMetalMachineReadyState {
   /** True */
   True = "True",
   /** False */
-  False = "False"
+  False = "False",
 }
 
 /**
@@ -3056,7 +4333,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -3078,7 +4355,7 @@ export enum KnownCloudServicesNetworkDetailedStatus {
   /** Available */
   Available = "Available",
   /** Provisioning */
-  Provisioning = "Provisioning"
+  Provisioning = "Provisioning",
 }
 
 /**
@@ -3097,7 +4374,7 @@ export enum KnownCloudServicesNetworkEnableDefaultEgressEndpoints {
   /** True */
   True = "True",
   /** False */
-  False = "False"
+  False = "False",
 }
 
 /**
@@ -3121,7 +4398,7 @@ export enum KnownCloudServicesNetworkProvisioningState {
   /** Provisioning */
   Provisioning = "Provisioning",
   /** Accepted */
-  Accepted = "Accepted"
+  Accepted = "Accepted",
 }
 
 /**
@@ -3137,6 +4414,30 @@ export enum KnownCloudServicesNetworkProvisioningState {
  */
 export type CloudServicesNetworkProvisioningState = string;
 
+/** Known values of {@link ManagedServiceIdentityType} that the service accepts. */
+export enum KnownManagedServiceIdentityType {
+  /** None */
+  None = "None",
+  /** SystemAssigned */
+  SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
+  UserAssigned = "UserAssigned",
+  /** SystemAssignedUserAssigned */
+  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
+}
+
+/**
+ * Defines values for ManagedServiceIdentityType. \
+ * {@link KnownManagedServiceIdentityType} can be used interchangeably with ManagedServiceIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **SystemAssigned** \
+ * **UserAssigned** \
+ * **SystemAssigned,UserAssigned**
+ */
+export type ManagedServiceIdentityType = string;
+
 /** Known values of {@link ClusterManagerDetailedStatus} that the service accepts. */
 export enum KnownClusterManagerDetailedStatus {
   /** Error */
@@ -3150,7 +4451,7 @@ export enum KnownClusterManagerDetailedStatus {
   /** Updating */
   Updating = "Updating",
   /** UpdateFailed */
-  UpdateFailed = "UpdateFailed"
+  UpdateFailed = "UpdateFailed",
 }
 
 /**
@@ -3180,7 +4481,7 @@ export enum KnownClusterManagerProvisioningState {
   /** Accepted */
   Accepted = "Accepted",
   /** Updating */
-  Updating = "Updating"
+  Updating = "Updating",
 }
 
 /**
@@ -3202,7 +4503,7 @@ export enum KnownControlImpact {
   /** True */
   True = "True",
   /** False */
-  False = "False"
+  False = "False",
 }
 
 /**
@@ -3220,7 +4521,7 @@ export enum KnownWorkloadImpact {
   /** True */
   True = "True",
   /** False */
-  False = "False"
+  False = "False",
 }
 
 /**
@@ -3237,10 +4538,12 @@ export type WorkloadImpact = string;
 export enum KnownClusterConnectionStatus {
   /** Connected */
   Connected = "Connected",
+  /** Disconnected */
+  Disconnected = "Disconnected",
   /** Timeout */
   Timeout = "Timeout",
   /** Undefined */
-  Undefined = "Undefined"
+  Undefined = "Undefined",
 }
 
 /**
@@ -3249,6 +4552,7 @@ export enum KnownClusterConnectionStatus {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Connected** \
+ * **Disconnected** \
  * **Timeout** \
  * **Undefined**
  */
@@ -3259,7 +4563,7 @@ export enum KnownClusterManagerConnectionStatus {
   /** Connected */
   Connected = "Connected",
   /** Unreachable */
-  Unreachable = "Unreachable"
+  Unreachable = "Unreachable",
 }
 
 /**
@@ -3277,7 +4581,7 @@ export enum KnownClusterType {
   /** SingleRack */
   SingleRack = "SingleRack",
   /** MultiRack */
-  MultiRack = "MultiRack"
+  MultiRack = "MultiRack",
 }
 
 /**
@@ -3290,12 +4594,30 @@ export enum KnownClusterType {
  */
 export type ClusterType = string;
 
+/** Known values of {@link ManagedServiceIdentitySelectorType} that the service accepts. */
+export enum KnownManagedServiceIdentitySelectorType {
+  /** SystemAssignedIdentity */
+  SystemAssignedIdentity = "SystemAssignedIdentity",
+  /** UserAssignedIdentity */
+  UserAssignedIdentity = "UserAssignedIdentity",
+}
+
+/**
+ * Defines values for ManagedServiceIdentitySelectorType. \
+ * {@link KnownManagedServiceIdentitySelectorType} can be used interchangeably with ManagedServiceIdentitySelectorType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SystemAssignedIdentity** \
+ * **UserAssignedIdentity**
+ */
+export type ManagedServiceIdentitySelectorType = string;
+
 /** Known values of {@link ValidationThresholdGrouping} that the service accepts. */
 export enum KnownValidationThresholdGrouping {
   /** PerCluster */
   PerCluster = "PerCluster",
   /** PerRack */
-  PerRack = "PerRack"
+  PerRack = "PerRack",
 }
 
 /**
@@ -3313,7 +4635,7 @@ export enum KnownValidationThresholdType {
   /** CountSuccess */
   CountSuccess = "CountSuccess",
   /** PercentSuccess */
-  PercentSuccess = "PercentSuccess"
+  PercentSuccess = "PercentSuccess",
 }
 
 /**
@@ -3336,6 +4658,8 @@ export enum KnownClusterDetailedStatus {
   Running = "Running",
   /** Updating */
   Updating = "Updating",
+  /** UpdatePaused */
+  UpdatePaused = "UpdatePaused",
   /** Degraded */
   Degraded = "Degraded",
   /** Deleting */
@@ -3343,7 +4667,7 @@ export enum KnownClusterDetailedStatus {
   /** Disconnected */
   Disconnected = "Disconnected",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -3355,6 +4679,7 @@ export enum KnownClusterDetailedStatus {
  * **Deploying** \
  * **Running** \
  * **Updating** \
+ * **UpdatePaused** \
  * **Degraded** \
  * **Deleting** \
  * **Disconnected** \
@@ -3375,7 +4700,7 @@ export enum KnownClusterProvisioningState {
   /** Validating */
   Validating = "Validating",
   /** Updating */
-  Updating = "Updating"
+  Updating = "Updating",
 }
 
 /**
@@ -3392,12 +4717,129 @@ export enum KnownClusterProvisioningState {
  */
 export type ClusterProvisioningState = string;
 
+/** Known values of {@link RuntimeProtectionEnforcementLevel} that the service accepts. */
+export enum KnownRuntimeProtectionEnforcementLevel {
+  /** Audit */
+  Audit = "Audit",
+  /** Disabled */
+  Disabled = "Disabled",
+  /** OnDemand */
+  OnDemand = "OnDemand",
+  /** Passive */
+  Passive = "Passive",
+  /** RealTime */
+  RealTime = "RealTime",
+}
+
+/**
+ * Defines values for RuntimeProtectionEnforcementLevel. \
+ * {@link KnownRuntimeProtectionEnforcementLevel} can be used interchangeably with RuntimeProtectionEnforcementLevel,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Audit** \
+ * **Disabled** \
+ * **OnDemand** \
+ * **Passive** \
+ * **RealTime**
+ */
+export type RuntimeProtectionEnforcementLevel = string;
+
+/** Known values of {@link ClusterSecretArchiveEnabled} that the service accepts. */
+export enum KnownClusterSecretArchiveEnabled {
+  /** True */
+  True = "True",
+  /** False */
+  False = "False",
+}
+
+/**
+ * Defines values for ClusterSecretArchiveEnabled. \
+ * {@link KnownClusterSecretArchiveEnabled} can be used interchangeably with ClusterSecretArchiveEnabled,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **True** \
+ * **False**
+ */
+export type ClusterSecretArchiveEnabled = string;
+
+/** Known values of {@link ClusterUpdateStrategyType} that the service accepts. */
+export enum KnownClusterUpdateStrategyType {
+  /** Rack */
+  Rack = "Rack",
+  /** PauseAfterRack */
+  PauseAfterRack = "PauseAfterRack",
+}
+
+/**
+ * Defines values for ClusterUpdateStrategyType. \
+ * {@link KnownClusterUpdateStrategyType} can be used interchangeably with ClusterUpdateStrategyType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Rack** \
+ * **PauseAfterRack**
+ */
+export type ClusterUpdateStrategyType = string;
+
+/** Known values of {@link UsageDomainPlatform} that the service accepts. */
+export enum KnownUsageDomainPlatform {
+  /** Edge */
+  Edge = "Edge",
+  /** FarEdge */
+  FarEdge = "FarEdge",
+}
+
+/**
+ * Defines values for UsageDomainPlatform. \
+ * {@link KnownUsageDomainPlatform} can be used interchangeably with UsageDomainPlatform,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Edge** \
+ * **FarEdge**
+ */
+export type UsageDomainPlatform = string;
+
+/** Known values of {@link EdgeClusterSkuFabricManagedBy} that the service accepts. */
+export enum KnownEdgeClusterSkuFabricManagedBy {
+  /** System */
+  System = "System",
+  /** User */
+  User = "User",
+}
+
+/**
+ * Defines values for EdgeClusterSkuFabricManagedBy. \
+ * {@link KnownEdgeClusterSkuFabricManagedBy} can be used interchangeably with EdgeClusterSkuFabricManagedBy,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **System** \
+ * **User**
+ */
+export type EdgeClusterSkuFabricManagedBy = string;
+
+/** Known values of {@link EdgeClusterSkuPtpRequired} that the service accepts. */
+export enum KnownEdgeClusterSkuPtpRequired {
+  /** True */
+  True = "True",
+  /** False */
+  False = "False",
+}
+
+/**
+ * Defines values for EdgeClusterSkuPtpRequired. \
+ * {@link KnownEdgeClusterSkuPtpRequired} can be used interchangeably with EdgeClusterSkuPtpRequired,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **True** \
+ * **False**
+ */
+export type EdgeClusterSkuPtpRequired = string;
+
 /** Known values of {@link AvailabilityLifecycle} that the service accepts. */
 export enum KnownAvailabilityLifecycle {
   /** Preview */
   Preview = "Preview",
   /** GenerallyAvailable */
-  GenerallyAvailable = "GenerallyAvailable"
+  GenerallyAvailable = "GenerallyAvailable",
 }
 
 /**
@@ -3410,6 +4852,78 @@ export enum KnownAvailabilityLifecycle {
  */
 export type AvailabilityLifecycle = string;
 
+/** Known values of {@link EdgeClusterLifecycleStatus} that the service accepts. */
+export enum KnownEdgeClusterLifecycleStatus {
+  /** Defined */
+  Defined = "Defined",
+  /** ControlPlaneOnly */
+  ControlPlaneOnly = "ControlPlaneOnly",
+  /** Upgrading */
+  Upgrading = "Upgrading",
+  /** Ready */
+  Ready = "Ready",
+  /** Deleting */
+  Deleting = "Deleting",
+}
+
+/**
+ * Defines values for EdgeClusterLifecycleStatus. \
+ * {@link KnownEdgeClusterLifecycleStatus} can be used interchangeably with EdgeClusterLifecycleStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Defined** \
+ * **ControlPlaneOnly** \
+ * **Upgrading** \
+ * **Ready** \
+ * **Deleting**
+ */
+export type EdgeClusterLifecycleStatus = string;
+
+/** Known values of {@link EdgeClusterProvisioningState} that the service accepts. */
+export enum KnownEdgeClusterProvisioningState {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** Accepted */
+  Accepted = "Accepted",
+}
+
+/**
+ * Defines values for EdgeClusterProvisioningState. \
+ * {@link KnownEdgeClusterProvisioningState} can be used interchangeably with EdgeClusterProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled** \
+ * **Accepted**
+ */
+export type EdgeClusterProvisioningState = string;
+
+/** Known values of {@link EdgeClusterPtpConfigurationNetworkTransportType} that the service accepts. */
+export enum KnownEdgeClusterPtpConfigurationNetworkTransportType {
+  /** UDPv4 */
+  UDPv4 = "UDPv4",
+  /** UDPv6 */
+  UDPv6 = "UDPv6",
+  /** L2 */
+  L2 = "L2",
+}
+
+/**
+ * Defines values for EdgeClusterPtpConfigurationNetworkTransportType. \
+ * {@link KnownEdgeClusterPtpConfigurationNetworkTransportType} can be used interchangeably with EdgeClusterPtpConfigurationNetworkTransportType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **UDPv4** \
+ * **UDPv6** \
+ * **L2**
+ */
+export type EdgeClusterPtpConfigurationNetworkTransportType = string;
+
 /** Known values of {@link KubernetesClusterDetailedStatus} that the service accepts. */
 export enum KnownKubernetesClusterDetailedStatus {
   /** Available */
@@ -3417,7 +4931,7 @@ export enum KnownKubernetesClusterDetailedStatus {
   /** Error */
   Error = "Error",
   /** Provisioning */
-  Provisioning = "Provisioning"
+  Provisioning = "Provisioning",
 }
 
 /**
@@ -3438,7 +4952,7 @@ export enum KnownFeatureDetailedStatus {
   /** Failed */
   Failed = "Failed",
   /** Unknown */
-  Unknown = "Unknown"
+  Unknown = "Unknown",
 }
 
 /**
@@ -3457,7 +4971,7 @@ export enum KnownHugepagesSize {
   /** TwoM */
   TwoM = "2M",
   /** OneG */
-  OneG = "1G"
+  OneG = "1G",
 }
 
 /**
@@ -3481,7 +4995,7 @@ export enum KnownKubernetesPluginType {
   /** Macvlan */
   Macvlan = "MACVLAN",
   /** Ipvlan */
-  Ipvlan = "IPVLAN"
+  Ipvlan = "IPVLAN",
 }
 
 /**
@@ -3502,7 +5016,7 @@ export enum KnownL3NetworkConfigurationIpamEnabled {
   /** True */
   True = "True",
   /** False */
-  False = "False"
+  False = "False",
 }
 
 /**
@@ -3522,7 +5036,7 @@ export enum KnownAgentPoolMode {
   /** User */
   User = "User",
   /** NotApplicable */
-  NotApplicable = "NotApplicable"
+  NotApplicable = "NotApplicable",
 }
 
 /**
@@ -3541,7 +5055,7 @@ export enum KnownAdvertiseToFabric {
   /** True */
   True = "True",
   /** False */
-  False = "False"
+  False = "False",
 }
 
 /**
@@ -3559,7 +5073,7 @@ export enum KnownBfdEnabled {
   /** True */
   True = "True",
   /** False */
-  False = "False"
+  False = "False",
 }
 
 /**
@@ -3577,7 +5091,7 @@ export enum KnownBgpMultiHop {
   /** True */
   True = "True",
   /** False */
-  False = "False"
+  False = "False",
 }
 
 /**
@@ -3595,7 +5109,7 @@ export enum KnownFabricPeeringEnabled {
   /** True */
   True = "True",
   /** False */
-  False = "False"
+  False = "False",
 }
 
 /**
@@ -3625,7 +5139,7 @@ export enum KnownKubernetesClusterNodeDetailedStatus {
   /** Terminating */
   Terminating = "Terminating",
   /** Unknown */
-  Unknown = "Unknown"
+  Unknown = "Unknown",
 }
 
 /**
@@ -3649,7 +5163,7 @@ export enum KnownDefaultGateway {
   /** True */
   True = "True",
   /** False */
-  False = "False"
+  False = "False",
 }
 
 /**
@@ -3669,7 +5183,7 @@ export enum KnownVirtualMachineIPAllocationMethod {
   /** Static */
   Static = "Static",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -3690,7 +5204,7 @@ export enum KnownKubernetesNodePowerState {
   /** Off */
   Off = "Off",
   /** Unknown */
-  Unknown = "Unknown"
+  Unknown = "Unknown",
 }
 
 /**
@@ -3709,7 +5223,7 @@ export enum KnownKubernetesNodeRole {
   /** ControlPlane */
   ControlPlane = "ControlPlane",
   /** Worker */
-  Worker = "Worker"
+  Worker = "Worker",
 }
 
 /**
@@ -3739,7 +5253,7 @@ export enum KnownKubernetesClusterProvisioningState {
   /** Updating */
   Updating = "Updating",
   /** Deleting */
-  Deleting = "Deleting"
+  Deleting = "Deleting",
 }
 
 /**
@@ -3765,7 +5279,7 @@ export enum KnownL2NetworkDetailedStatus {
   /** Available */
   Available = "Available",
   /** Provisioning */
-  Provisioning = "Provisioning"
+  Provisioning = "Provisioning",
 }
 
 /**
@@ -3786,7 +5300,7 @@ export enum KnownHybridAksPluginType {
   /** Sriov */
   Sriov = "SRIOV",
   /** OSDevice */
-  OSDevice = "OSDevice"
+  OSDevice = "OSDevice",
 }
 
 /**
@@ -3811,7 +5325,7 @@ export enum KnownL2NetworkProvisioningState {
   /** Provisioning */
   Provisioning = "Provisioning",
   /** Accepted */
-  Accepted = "Accepted"
+  Accepted = "Accepted",
 }
 
 /**
@@ -3834,7 +5348,7 @@ export enum KnownL3NetworkDetailedStatus {
   /** Available */
   Available = "Available",
   /** Provisioning */
-  Provisioning = "Provisioning"
+  Provisioning = "Provisioning",
 }
 
 /**
@@ -3853,7 +5367,7 @@ export enum KnownHybridAksIpamEnabled {
   /** True */
   True = "True",
   /** False */
-  False = "False"
+  False = "False",
 }
 
 /**
@@ -3873,7 +5387,7 @@ export enum KnownIpAllocationType {
   /** IPV6 */
   IPV6 = "IPV6",
   /** DualStack */
-  DualStack = "DualStack"
+  DualStack = "DualStack",
 }
 
 /**
@@ -3898,7 +5412,7 @@ export enum KnownL3NetworkProvisioningState {
   /** Provisioning */
   Provisioning = "Provisioning",
   /** Accepted */
-  Accepted = "Accepted"
+  Accepted = "Accepted",
 }
 
 /**
@@ -3917,7 +5431,7 @@ export type L3NetworkProvisioningState = string;
 /** Known values of {@link BootstrapProtocol} that the service accepts. */
 export enum KnownBootstrapProtocol {
   /** PXE */
-  PXE = "PXE"
+  PXE = "PXE",
 }
 
 /**
@@ -3938,7 +5452,7 @@ export enum KnownMachineSkuDiskConnectionType {
   /** Raid */
   Raid = "RAID",
   /** SAS */
-  SAS = "SAS"
+  SAS = "SAS",
 }
 
 /**
@@ -3958,7 +5472,7 @@ export enum KnownDiskType {
   /** HDD */
   HDD = "HDD",
   /** SSD */
-  SSD = "SSD"
+  SSD = "SSD",
 }
 
 /**
@@ -3974,7 +5488,7 @@ export type DiskType = string;
 /** Known values of {@link DeviceConnectionType} that the service accepts. */
 export enum KnownDeviceConnectionType {
   /** PCI */
-  PCI = "PCI"
+  PCI = "PCI",
 }
 
 /**
@@ -3989,7 +5503,7 @@ export type DeviceConnectionType = string;
 /** Known values of {@link RackSkuProvisioningState} that the service accepts. */
 export enum KnownRackSkuProvisioningState {
   /** Succeeded */
-  Succeeded = "Succeeded"
+  Succeeded = "Succeeded",
 }
 
 /**
@@ -4008,7 +5522,7 @@ export enum KnownRackSkuType {
   /** Compute */
   Compute = "Compute",
   /** Single */
-  Single = "Single"
+  Single = "Single",
 }
 
 /**
@@ -4029,7 +5543,7 @@ export enum KnownRackDetailedStatus {
   /** Available */
   Available = "Available",
   /** Provisioning */
-  Provisioning = "Provisioning"
+  Provisioning = "Provisioning",
 }
 
 /**
@@ -4054,7 +5568,7 @@ export enum KnownRackProvisioningState {
   /** Provisioning */
   Provisioning = "Provisioning",
   /** Accepted */
-  Accepted = "Accepted"
+  Accepted = "Accepted",
 }
 
 /**
@@ -4070,6 +5584,30 @@ export enum KnownRackProvisioningState {
  */
 export type RackProvisioningState = string;
 
+/** Known values of {@link RegistrationHubProvisioningState} that the service accepts. */
+export enum KnownRegistrationHubProvisioningState {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** Accepted */
+  Accepted = "Accepted",
+}
+
+/**
+ * Defines values for RegistrationHubProvisioningState. \
+ * {@link KnownRegistrationHubProvisioningState} can be used interchangeably with RegistrationHubProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled** \
+ * **Accepted**
+ */
+export type RegistrationHubProvisioningState = string;
+
 /** Known values of {@link StorageApplianceDetailedStatus} that the service accepts. */
 export enum KnownStorageApplianceDetailedStatus {
   /** Error */
@@ -4077,7 +5615,7 @@ export enum KnownStorageApplianceDetailedStatus {
   /** Available */
   Available = "Available",
   /** Provisioning */
-  Provisioning = "Provisioning"
+  Provisioning = "Provisioning",
 }
 
 /**
@@ -4102,7 +5640,7 @@ export enum KnownStorageApplianceProvisioningState {
   /** Provisioning */
   Provisioning = "Provisioning",
   /** Accepted */
-  Accepted = "Accepted"
+  Accepted = "Accepted",
 }
 
 /**
@@ -4123,7 +5661,7 @@ export enum KnownRemoteVendorManagementFeature {
   /** Supported */
   Supported = "Supported",
   /** Unsupported */
-  Unsupported = "Unsupported"
+  Unsupported = "Unsupported",
 }
 
 /**
@@ -4143,7 +5681,7 @@ export enum KnownRemoteVendorManagementStatus {
   /** Disabled */
   Disabled = "Disabled",
   /** Unsupported */
-  Unsupported = "Unsupported"
+  Unsupported = "Unsupported",
 }
 
 /**
@@ -4164,7 +5702,7 @@ export enum KnownTrunkedNetworkDetailedStatus {
   /** Available */
   Available = "Available",
   /** Provisioning */
-  Provisioning = "Provisioning"
+  Provisioning = "Provisioning",
 }
 
 /**
@@ -4189,7 +5727,7 @@ export enum KnownTrunkedNetworkProvisioningState {
   /** Provisioning */
   Provisioning = "Provisioning",
   /** Accepted */
-  Accepted = "Accepted"
+  Accepted = "Accepted",
 }
 
 /**
@@ -4210,7 +5748,7 @@ export enum KnownVirtualMachineBootMethod {
   /** Uefi */
   Uefi = "UEFI",
   /** Bios */
-  Bios = "BIOS"
+  Bios = "BIOS",
 }
 
 /**
@@ -4240,7 +5778,7 @@ export enum KnownVirtualMachineDetailedStatus {
   /** Terminating */
   Terminating = "Terminating",
   /** Unknown */
-  Unknown = "Unknown"
+  Unknown = "Unknown",
 }
 
 /**
@@ -4264,7 +5802,7 @@ export enum KnownVirtualMachineIsolateEmulatorThread {
   /** True */
   True = "True",
   /** False */
-  False = "False"
+  False = "False",
 }
 
 /**
@@ -4282,7 +5820,7 @@ export enum KnownVirtualMachinePlacementHintType {
   /** Affinity */
   Affinity = "Affinity",
   /** AntiAffinity */
-  AntiAffinity = "AntiAffinity"
+  AntiAffinity = "AntiAffinity",
 }
 
 /**
@@ -4300,7 +5838,7 @@ export enum KnownVirtualMachineSchedulingExecution {
   /** Hard */
   Hard = "Hard",
   /** Soft */
-  Soft = "Soft"
+  Soft = "Soft",
 }
 
 /**
@@ -4318,7 +5856,7 @@ export enum KnownVirtualMachinePlacementHintPodAffinityScope {
   /** Rack */
   Rack = "Rack",
   /** Machine */
-  Machine = "Machine"
+  Machine = "Machine",
 }
 
 /**
@@ -4338,7 +5876,7 @@ export enum KnownVirtualMachinePowerState {
   /** Off */
   Off = "Off",
   /** Unknown */
-  Unknown = "Unknown"
+  Unknown = "Unknown",
 }
 
 /**
@@ -4363,7 +5901,7 @@ export enum KnownVirtualMachineProvisioningState {
   /** Provisioning */
   Provisioning = "Provisioning",
   /** Accepted */
-  Accepted = "Accepted"
+  Accepted = "Accepted",
 }
 
 /**
@@ -4382,7 +5920,7 @@ export type VirtualMachineProvisioningState = string;
 /** Known values of {@link OsDiskCreateOption} that the service accepts. */
 export enum KnownOsDiskCreateOption {
   /** Ephemeral */
-  Ephemeral = "Ephemeral"
+  Ephemeral = "Ephemeral",
 }
 
 /**
@@ -4397,7 +5935,7 @@ export type OsDiskCreateOption = string;
 /** Known values of {@link OsDiskDeleteOption} that the service accepts. */
 export enum KnownOsDiskDeleteOption {
   /** Delete */
-  Delete = "Delete"
+  Delete = "Delete",
 }
 
 /**
@@ -4414,7 +5952,7 @@ export enum KnownVirtualMachineVirtioInterfaceType {
   /** Modern */
   Modern = "Modern",
   /** Transitional */
-  Transitional = "Transitional"
+  Transitional = "Transitional",
 }
 
 /**
@@ -4432,7 +5970,7 @@ export enum KnownVirtualMachineDeviceModelType {
   /** T1 */
   T1 = "T1",
   /** T2 */
-  T2 = "T2"
+  T2 = "T2",
 }
 
 /**
@@ -4452,7 +5990,7 @@ export enum KnownVolumeDetailedStatus {
   /** Active */
   Active = "Active",
   /** Provisioning */
-  Provisioning = "Provisioning"
+  Provisioning = "Provisioning",
 }
 
 /**
@@ -4477,7 +6015,7 @@ export enum KnownVolumeProvisioningState {
   /** Provisioning */
   Provisioning = "Provisioning",
   /** Accepted */
-  Accepted = "Accepted"
+  Accepted = "Accepted",
 }
 
 /**
@@ -4498,7 +6036,7 @@ export enum KnownBareMetalMachineEvacuate {
   /** True */
   True = "True",
   /** False */
-  False = "False"
+  False = "False",
 }
 
 /**
@@ -4516,7 +6054,7 @@ export enum KnownBareMetalMachineSkipShutdown {
   /** True */
   True = "True",
   /** False */
-  False = "False"
+  False = "False",
 }
 
 /**
@@ -4538,7 +6076,7 @@ export enum KnownBareMetalMachineKeySetDetailedStatus {
   /** AllInvalid */
   AllInvalid = "AllInvalid",
   /** Validating */
-  Validating = "Validating"
+  Validating = "Validating",
 }
 
 /**
@@ -4558,7 +6096,7 @@ export enum KnownBareMetalMachineKeySetPrivilegeLevel {
   /** Standard */
   Standard = "Standard",
   /** Superuser */
-  Superuser = "Superuser"
+  Superuser = "Superuser",
 }
 
 /**
@@ -4582,7 +6120,7 @@ export enum KnownBareMetalMachineKeySetProvisioningState {
   /** Accepted */
   Accepted = "Accepted",
   /** Provisioning */
-  Provisioning = "Provisioning"
+  Provisioning = "Provisioning",
 }
 
 /**
@@ -4603,7 +6141,7 @@ export enum KnownBareMetalMachineKeySetUserSetupStatus {
   /** Active */
   Active = "Active",
   /** Invalid */
-  Invalid = "Invalid"
+  Invalid = "Invalid",
 }
 
 /**
@@ -4625,7 +6163,7 @@ export enum KnownBmcKeySetDetailedStatus {
   /** AllInvalid */
   AllInvalid = "AllInvalid",
   /** Validating */
-  Validating = "Validating"
+  Validating = "Validating",
 }
 
 /**
@@ -4645,7 +6183,7 @@ export enum KnownBmcKeySetPrivilegeLevel {
   /** ReadOnly */
   ReadOnly = "ReadOnly",
   /** Administrator */
-  Administrator = "Administrator"
+  Administrator = "Administrator",
 }
 
 /**
@@ -4669,7 +6207,7 @@ export enum KnownBmcKeySetProvisioningState {
   /** Accepted */
   Accepted = "Accepted",
   /** Provisioning */
-  Provisioning = "Provisioning"
+  Provisioning = "Provisioning",
 }
 
 /**
@@ -4685,6 +6223,21 @@ export enum KnownBmcKeySetProvisioningState {
  */
 export type BmcKeySetProvisioningState = string;
 
+/** Known values of {@link ClusterContinueUpdateVersionMachineGroupTargetingMode} that the service accepts. */
+export enum KnownClusterContinueUpdateVersionMachineGroupTargetingMode {
+  /** AlphaByRack */
+  AlphaByRack = "AlphaByRack",
+}
+
+/**
+ * Defines values for ClusterContinueUpdateVersionMachineGroupTargetingMode. \
+ * {@link KnownClusterContinueUpdateVersionMachineGroupTargetingMode} can be used interchangeably with ClusterContinueUpdateVersionMachineGroupTargetingMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AlphaByRack**
+ */
+export type ClusterContinueUpdateVersionMachineGroupTargetingMode = string;
+
 /** Known values of {@link ClusterMetricsConfigurationDetailedStatus} that the service accepts. */
 export enum KnownClusterMetricsConfigurationDetailedStatus {
   /** Processing */
@@ -4692,7 +6245,7 @@ export enum KnownClusterMetricsConfigurationDetailedStatus {
   /** Applied */
   Applied = "Applied",
   /** Error */
-  Error = "Error"
+  Error = "Error",
 }
 
 /**
@@ -4717,7 +6270,7 @@ export enum KnownClusterMetricsConfigurationProvisioningState {
   /** Accepted */
   Accepted = "Accepted",
   /** Provisioning */
-  Provisioning = "Provisioning"
+  Provisioning = "Provisioning",
 }
 
 /**
@@ -4733,6 +6286,150 @@ export enum KnownClusterMetricsConfigurationProvisioningState {
  */
 export type ClusterMetricsConfigurationProvisioningState = string;
 
+/** Known values of {@link ClusterScanRuntimeParametersScanActivity} that the service accepts. */
+export enum KnownClusterScanRuntimeParametersScanActivity {
+  /** Scan */
+  Scan = "Scan",
+  /** Skip */
+  Skip = "Skip",
+}
+
+/**
+ * Defines values for ClusterScanRuntimeParametersScanActivity. \
+ * {@link KnownClusterScanRuntimeParametersScanActivity} can be used interchangeably with ClusterScanRuntimeParametersScanActivity,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Scan** \
+ * **Skip**
+ */
+export type ClusterScanRuntimeParametersScanActivity = string;
+
+/** Known values of {@link ListEdgeClusterUserCredentialAccessMechanism} that the service accepts. */
+export enum KnownListEdgeClusterUserCredentialAccessMechanism {
+  /** Relay */
+  Relay = "Relay",
+  /** Local */
+  Local = "Local",
+}
+
+/**
+ * Defines values for ListEdgeClusterUserCredentialAccessMechanism. \
+ * {@link KnownListEdgeClusterUserCredentialAccessMechanism} can be used interchangeably with ListEdgeClusterUserCredentialAccessMechanism,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Relay** \
+ * **Local**
+ */
+export type ListEdgeClusterUserCredentialAccessMechanism = string;
+
+/** Known values of {@link UserCredentialAuthenticationMethod} that the service accepts. */
+export enum KnownUserCredentialAuthenticationMethod {
+  /** AAD */
+  AAD = "AAD",
+  /** Token */
+  Token = "Token",
+}
+
+/**
+ * Defines values for UserCredentialAuthenticationMethod. \
+ * {@link KnownUserCredentialAuthenticationMethod} can be used interchangeably with UserCredentialAuthenticationMethod,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AAD** \
+ * **Token**
+ */
+export type UserCredentialAuthenticationMethod = string;
+
+/** Known values of {@link ListEdgeClusterUserCredentialClientProxy} that the service accepts. */
+export enum KnownListEdgeClusterUserCredentialClientProxy {
+  /** True */
+  True = "True",
+  /** False */
+  False = "False",
+}
+
+/**
+ * Defines values for ListEdgeClusterUserCredentialClientProxy. \
+ * {@link KnownListEdgeClusterUserCredentialClientProxy} can be used interchangeably with ListEdgeClusterUserCredentialClientProxy,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **True** \
+ * **False**
+ */
+export type ListEdgeClusterUserCredentialClientProxy = string;
+
+/** Known values of {@link EdgeClusterNodeLifecycleStatus} that the service accepts. */
+export enum KnownEdgeClusterNodeLifecycleStatus {
+  /** Unassociated */
+  Unassociated = "Unassociated",
+  /** Registering */
+  Registering = "Registering",
+  /** Joined */
+  Joined = "Joined",
+  /** PlatformReady */
+  PlatformReady = "PlatformReady",
+  /** UpdatingRuntime */
+  UpdatingRuntime = "UpdatingRuntime",
+  /** Failed */
+  Failed = "Failed",
+}
+
+/**
+ * Defines values for EdgeClusterNodeLifecycleStatus. \
+ * {@link KnownEdgeClusterNodeLifecycleStatus} can be used interchangeably with EdgeClusterNodeLifecycleStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unassociated** \
+ * **Registering** \
+ * **Joined** \
+ * **PlatformReady** \
+ * **UpdatingRuntime** \
+ * **Failed**
+ */
+export type EdgeClusterNodeLifecycleStatus = string;
+
+/** Known values of {@link EdgeClusterNodeMatchingIdentifierName} that the service accepts. */
+export enum KnownEdgeClusterNodeMatchingIdentifierName {
+  /** ProductSerialNumber */
+  ProductSerialNumber = "ProductSerialNumber",
+  /** AnyMacAddress */
+  AnyMacAddress = "AnyMacAddress",
+}
+
+/**
+ * Defines values for EdgeClusterNodeMatchingIdentifierName. \
+ * {@link KnownEdgeClusterNodeMatchingIdentifierName} can be used interchangeably with EdgeClusterNodeMatchingIdentifierName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ProductSerialNumber** \
+ * **AnyMacAddress**
+ */
+export type EdgeClusterNodeMatchingIdentifierName = string;
+
+/** Known values of {@link EdgeClusterNodeProvisioningState} that the service accepts. */
+export enum KnownEdgeClusterNodeProvisioningState {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** Accepted */
+  Accepted = "Accepted",
+}
+
+/**
+ * Defines values for EdgeClusterNodeProvisioningState. \
+ * {@link KnownEdgeClusterNodeProvisioningState} can be used interchangeably with EdgeClusterNodeProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled** \
+ * **Accepted**
+ */
+export type EdgeClusterNodeProvisioningState = string;
+
 /** Known values of {@link AgentPoolDetailedStatus} that the service accepts. */
 export enum KnownAgentPoolDetailedStatus {
   /** Available */
@@ -4740,7 +6437,7 @@ export enum KnownAgentPoolDetailedStatus {
   /** Error */
   Error = "Error",
   /** Provisioning */
-  Provisioning = "Provisioning"
+  Provisioning = "Provisioning",
 }
 
 /**
@@ -4769,7 +6466,7 @@ export enum KnownAgentPoolProvisioningState {
   /** Succeeded */
   Succeeded = "Succeeded",
   /** Updating */
-  Updating = "Updating"
+  Updating = "Updating",
 }
 
 /**
@@ -4787,12 +6484,189 @@ export enum KnownAgentPoolProvisioningState {
  */
 export type AgentPoolProvisioningState = string;
 
+/** Known values of {@link KubernetesClusterFeatureAvailabilityLifecycle} that the service accepts. */
+export enum KnownKubernetesClusterFeatureAvailabilityLifecycle {
+  /** Preview */
+  Preview = "Preview",
+  /** GenerallyAvailable */
+  GenerallyAvailable = "GenerallyAvailable",
+}
+
+/**
+ * Defines values for KubernetesClusterFeatureAvailabilityLifecycle. \
+ * {@link KnownKubernetesClusterFeatureAvailabilityLifecycle} can be used interchangeably with KubernetesClusterFeatureAvailabilityLifecycle,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Preview** \
+ * **GenerallyAvailable**
+ */
+export type KubernetesClusterFeatureAvailabilityLifecycle = string;
+
+/** Known values of {@link KubernetesClusterFeatureDetailedStatus} that the service accepts. */
+export enum KnownKubernetesClusterFeatureDetailedStatus {
+  /** Error */
+  Error = "Error",
+  /** Provisioning */
+  Provisioning = "Provisioning",
+  /** Installed */
+  Installed = "Installed",
+}
+
+/**
+ * Defines values for KubernetesClusterFeatureDetailedStatus. \
+ * {@link KnownKubernetesClusterFeatureDetailedStatus} can be used interchangeably with KubernetesClusterFeatureDetailedStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Error** \
+ * **Provisioning** \
+ * **Installed**
+ */
+export type KubernetesClusterFeatureDetailedStatus = string;
+
+/** Known values of {@link KubernetesClusterFeatureProvisioningState} that the service accepts. */
+export enum KnownKubernetesClusterFeatureProvisioningState {
+  /** Accepted */
+  Accepted = "Accepted",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Failed */
+  Failed = "Failed",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Updating */
+  Updating = "Updating",
+}
+
+/**
+ * Defines values for KubernetesClusterFeatureProvisioningState. \
+ * {@link KnownKubernetesClusterFeatureProvisioningState} can be used interchangeably with KubernetesClusterFeatureProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Accepted** \
+ * **Canceled** \
+ * **Deleting** \
+ * **Failed** \
+ * **Succeeded** \
+ * **Updating**
+ */
+export type KubernetesClusterFeatureProvisioningState = string;
+
+/** Known values of {@link KubernetesClusterFeatureRequired} that the service accepts. */
+export enum KnownKubernetesClusterFeatureRequired {
+  /** True */
+  True = "True",
+  /** False */
+  False = "False",
+}
+
+/**
+ * Defines values for KubernetesClusterFeatureRequired. \
+ * {@link KnownKubernetesClusterFeatureRequired} can be used interchangeably with KubernetesClusterFeatureRequired,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **True** \
+ * **False**
+ */
+export type KubernetesClusterFeatureRequired = string;
+
+/** Known values of {@link AllowRegistration} that the service accepts. */
+export enum KnownAllowRegistration {
+  /** True */
+  True = "True",
+  /** False */
+  False = "False",
+}
+
+/**
+ * Defines values for AllowRegistration. \
+ * {@link KnownAllowRegistration} can be used interchangeably with AllowRegistration,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **True** \
+ * **False**
+ */
+export type AllowRegistration = string;
+
+/** Known values of {@link RegistrationHubImageProvisioningState} that the service accepts. */
+export enum KnownRegistrationHubImageProvisioningState {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** Accepted */
+  Accepted = "Accepted",
+}
+
+/**
+ * Defines values for RegistrationHubImageProvisioningState. \
+ * {@link KnownRegistrationHubImageProvisioningState} can be used interchangeably with RegistrationHubImageProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled** \
+ * **Accepted**
+ */
+export type RegistrationHubImageProvisioningState = string;
+
+/** Known values of {@link RegistrationHubMachineProvisioningState} that the service accepts. */
+export enum KnownRegistrationHubMachineProvisioningState {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** Accepted */
+  Accepted = "Accepted",
+}
+
+/**
+ * Defines values for RegistrationHubMachineProvisioningState. \
+ * {@link KnownRegistrationHubMachineProvisioningState} can be used interchangeably with RegistrationHubMachineProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled** \
+ * **Accepted**
+ */
+export type RegistrationHubMachineProvisioningState = string;
+
+/** Known values of {@link RegistrationHubMachineRegistrationState} that the service accepts. */
+export enum KnownRegistrationHubMachineRegistrationState {
+  /** Unapproved */
+  Unapproved = "Unapproved",
+  /** Approved */
+  Approved = "Approved",
+  /** Declined */
+  Declined = "Declined",
+  /** Complete */
+  Complete = "Complete",
+}
+
+/**
+ * Defines values for RegistrationHubMachineRegistrationState. \
+ * {@link KnownRegistrationHubMachineRegistrationState} can be used interchangeably with RegistrationHubMachineRegistrationState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unapproved** \
+ * **Approved** \
+ * **Declined** \
+ * **Complete**
+ */
+export type RegistrationHubMachineRegistrationState = string;
+
 /** Known values of {@link ConsoleDetailedStatus} that the service accepts. */
 export enum KnownConsoleDetailedStatus {
   /** Ready */
   Ready = "Ready",
   /** Error */
-  Error = "Error"
+  Error = "Error",
 }
 
 /**
@@ -4810,7 +6684,7 @@ export enum KnownConsoleEnabled {
   /** True */
   True = "True",
   /** False */
-  False = "False"
+  False = "False",
 }
 
 /**
@@ -4834,7 +6708,7 @@ export enum KnownConsoleProvisioningState {
   /** Provisioning */
   Provisioning = "Provisioning",
   /** Accepted */
-  Accepted = "Accepted"
+  Accepted = "Accepted",
 }
 
 /**
@@ -4855,7 +6729,7 @@ export enum KnownSkipShutdown {
   /** True */
   True = "True",
   /** False */
-  False = "False"
+  False = "False",
 }
 
 /**
@@ -4923,6 +6797,9 @@ export interface BareMetalMachinesDeleteOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Contains response data for the delete operation. */
+export type BareMetalMachinesDeleteResponse = OperationStatusResult;
 
 /** Optional parameters. */
 export interface BareMetalMachinesUpdateOptionalParams
@@ -5069,28 +6946,32 @@ export interface BareMetalMachinesListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type BareMetalMachinesListBySubscriptionNextResponse = BareMetalMachineList;
+export type BareMetalMachinesListBySubscriptionNextResponse =
+  BareMetalMachineList;
 
 /** Optional parameters. */
 export interface BareMetalMachinesListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type BareMetalMachinesListByResourceGroupNextResponse = BareMetalMachineList;
+export type BareMetalMachinesListByResourceGroupNextResponse =
+  BareMetalMachineList;
 
 /** Optional parameters. */
 export interface CloudServicesNetworksListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type CloudServicesNetworksListBySubscriptionResponse = CloudServicesNetworkList;
+export type CloudServicesNetworksListBySubscriptionResponse =
+  CloudServicesNetworkList;
 
 /** Optional parameters. */
 export interface CloudServicesNetworksListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type CloudServicesNetworksListByResourceGroupResponse = CloudServicesNetworkList;
+export type CloudServicesNetworksListByResourceGroupResponse =
+  CloudServicesNetworkList;
 
 /** Optional parameters. */
 export interface CloudServicesNetworksGetOptionalParams
@@ -5120,6 +7001,9 @@ export interface CloudServicesNetworksDeleteOptionalParams
   resumeFrom?: string;
 }
 
+/** Contains response data for the delete operation. */
+export type CloudServicesNetworksDeleteResponse = OperationStatusResult;
+
 /** Optional parameters. */
 export interface CloudServicesNetworksUpdateOptionalParams
   extends coreClient.OperationOptions {
@@ -5139,14 +7023,16 @@ export interface CloudServicesNetworksListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type CloudServicesNetworksListBySubscriptionNextResponse = CloudServicesNetworkList;
+export type CloudServicesNetworksListBySubscriptionNextResponse =
+  CloudServicesNetworkList;
 
 /** Optional parameters. */
 export interface CloudServicesNetworksListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type CloudServicesNetworksListByResourceGroupNextResponse = CloudServicesNetworkList;
+export type CloudServicesNetworksListByResourceGroupNextResponse =
+  CloudServicesNetworkList;
 
 /** Optional parameters. */
 export interface ClusterManagersListBySubscriptionOptionalParams
@@ -5189,6 +7075,9 @@ export interface ClusterManagersDeleteOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Contains response data for the delete operation. */
+export type ClusterManagersDeleteResponse = OperationStatusResult;
 
 /** Optional parameters. */
 export interface ClusterManagersUpdateOptionalParams
@@ -5256,6 +7145,9 @@ export interface ClustersDeleteOptionalParams
   resumeFrom?: string;
 }
 
+/** Contains response data for the delete operation. */
+export type ClustersDeleteResponse = OperationStatusResult;
+
 /** Optional parameters. */
 export interface ClustersUpdateOptionalParams
   extends coreClient.OperationOptions {
@@ -5271,6 +7163,18 @@ export interface ClustersUpdateOptionalParams
 export type ClustersUpdateResponse = Cluster;
 
 /** Optional parameters. */
+export interface ClustersContinueUpdateVersionOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the continueUpdateVersion operation. */
+export type ClustersContinueUpdateVersionResponse = OperationStatusResult;
+
+/** Optional parameters. */
 export interface ClustersDeployOptionalParams
   extends coreClient.OperationOptions {
   /** The request body. */
@@ -5283,6 +7187,20 @@ export interface ClustersDeployOptionalParams
 
 /** Contains response data for the deploy operation. */
 export type ClustersDeployResponse = OperationStatusResult;
+
+/** Optional parameters. */
+export interface ClustersScanRuntimeOptionalParams
+  extends coreClient.OperationOptions {
+  /** The request body. */
+  clusterScanRuntimeParameters?: ClusterScanRuntimeParameters;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the scanRuntime operation. */
+export type ClustersScanRuntimeResponse = OperationStatusResult;
 
 /** Optional parameters. */
 export interface ClustersUpdateVersionOptionalParams
@@ -5311,18 +7229,182 @@ export interface ClustersListByResourceGroupNextOptionalParams
 export type ClustersListByResourceGroupNextResponse = ClusterList;
 
 /** Optional parameters. */
+export interface EdgeClusterMachineSkusListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscription operation. */
+export type EdgeClusterMachineSkusListBySubscriptionResponse =
+  EdgeClusterMachineSkuList;
+
+/** Optional parameters. */
+export interface EdgeClusterMachineSkusGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type EdgeClusterMachineSkusGetResponse = EdgeClusterMachineSku;
+
+/** Optional parameters. */
+export interface EdgeClusterMachineSkusListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type EdgeClusterMachineSkusListBySubscriptionNextResponse =
+  EdgeClusterMachineSkuList;
+
+/** Optional parameters. */
+export interface EdgeClusterRuntimeVersionsListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscription operation. */
+export type EdgeClusterRuntimeVersionsListBySubscriptionResponse =
+  EdgeClusterRuntimeVersionList;
+
+/** Optional parameters. */
+export interface EdgeClusterRuntimeVersionsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type EdgeClusterRuntimeVersionsGetResponse = EdgeClusterRuntimeVersion;
+
+/** Optional parameters. */
+export interface EdgeClusterRuntimeVersionsListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type EdgeClusterRuntimeVersionsListBySubscriptionNextResponse =
+  EdgeClusterRuntimeVersionList;
+
+/** Optional parameters. */
+export interface EdgeClusterSkusListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscription operation. */
+export type EdgeClusterSkusListBySubscriptionResponse = EdgeClusterSkuList;
+
+/** Optional parameters. */
+export interface EdgeClusterSkusGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type EdgeClusterSkusGetResponse = EdgeClusterSku;
+
+/** Optional parameters. */
+export interface EdgeClusterSkusListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type EdgeClusterSkusListBySubscriptionNextResponse = EdgeClusterSkuList;
+
+/** Optional parameters. */
+export interface EdgeClustersListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscription operation. */
+export type EdgeClustersListBySubscriptionResponse = EdgeClusterList;
+
+/** Optional parameters. */
+export interface EdgeClustersListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type EdgeClustersListByResourceGroupResponse = EdgeClusterList;
+
+/** Optional parameters. */
+export interface EdgeClustersGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type EdgeClustersGetResponse = EdgeCluster;
+
+/** Optional parameters. */
+export interface EdgeClustersCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type EdgeClustersCreateOrUpdateResponse = EdgeCluster;
+
+/** Optional parameters. */
+export interface EdgeClustersDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type EdgeClustersDeleteResponse = OperationStatusResult;
+
+/** Optional parameters. */
+export interface EdgeClustersUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** The request body. */
+  edgeClusterUpdateParameters?: EdgeClusterPatchParameters;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type EdgeClustersUpdateResponse = EdgeCluster;
+
+/** Optional parameters. */
+export interface EdgeClustersListClusterUserCredentialOptionalParams
+  extends coreClient.OperationOptions {
+  /** The request body. */
+  listUserCredentialParameters?: ListUserCredentialParameters;
+}
+
+/** Contains response data for the listClusterUserCredential operation. */
+export type EdgeClustersListClusterUserCredentialResponse = CredentialResults;
+
+/** Optional parameters. */
+export interface EdgeClustersStageRuntimeOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the stageRuntime operation. */
+export type EdgeClustersStageRuntimeResponse = OperationStatusResult;
+
+/** Optional parameters. */
+export interface EdgeClustersListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type EdgeClustersListBySubscriptionNextResponse = EdgeClusterList;
+
+/** Optional parameters. */
+export interface EdgeClustersListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type EdgeClustersListByResourceGroupNextResponse = EdgeClusterList;
+
+/** Optional parameters. */
 export interface KubernetesClustersListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type KubernetesClustersListBySubscriptionResponse = KubernetesClusterList;
+export type KubernetesClustersListBySubscriptionResponse =
+  KubernetesClusterList;
 
 /** Optional parameters. */
 export interface KubernetesClustersListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type KubernetesClustersListByResourceGroupResponse = KubernetesClusterList;
+export type KubernetesClustersListByResourceGroupResponse =
+  KubernetesClusterList;
 
 /** Optional parameters. */
 export interface KubernetesClustersGetOptionalParams
@@ -5351,6 +7433,9 @@ export interface KubernetesClustersDeleteOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Contains response data for the delete operation. */
+export type KubernetesClustersDeleteResponse = OperationStatusResult;
 
 /** Optional parameters. */
 export interface KubernetesClustersUpdateOptionalParams
@@ -5383,14 +7468,16 @@ export interface KubernetesClustersListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type KubernetesClustersListBySubscriptionNextResponse = KubernetesClusterList;
+export type KubernetesClustersListBySubscriptionNextResponse =
+  KubernetesClusterList;
 
 /** Optional parameters. */
 export interface KubernetesClustersListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type KubernetesClustersListByResourceGroupNextResponse = KubernetesClusterList;
+export type KubernetesClustersListByResourceGroupNextResponse =
+  KubernetesClusterList;
 
 /** Optional parameters. */
 export interface L2NetworksListBySubscriptionOptionalParams
@@ -5433,6 +7520,9 @@ export interface L2NetworksDeleteOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Contains response data for the delete operation. */
+export type L2NetworksDeleteResponse = OperationStatusResult;
 
 /** Optional parameters. */
 export interface L2NetworksUpdateOptionalParams
@@ -5499,6 +7589,9 @@ export interface L3NetworksDeleteOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Contains response data for the delete operation. */
+export type L3NetworksDeleteResponse = OperationStatusResult;
 
 /** Optional parameters. */
 export interface L3NetworksUpdateOptionalParams
@@ -5585,6 +7678,9 @@ export interface RacksDeleteOptionalParams extends coreClient.OperationOptions {
   resumeFrom?: string;
 }
 
+/** Contains response data for the delete operation. */
+export type RacksDeleteResponse = OperationStatusResult;
+
 /** Optional parameters. */
 export interface RacksUpdateOptionalParams extends coreClient.OperationOptions {
   /** The request body. */
@@ -5611,6 +7707,81 @@ export interface RacksListByResourceGroupNextOptionalParams
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type RacksListByResourceGroupNextResponse = RackList;
+
+/** Optional parameters. */
+export interface RegistrationHubsListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscription operation. */
+export type RegistrationHubsListBySubscriptionResponse = RegistrationHubList;
+
+/** Optional parameters. */
+export interface RegistrationHubsListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type RegistrationHubsListByResourceGroupResponse = RegistrationHubList;
+
+/** Optional parameters. */
+export interface RegistrationHubsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type RegistrationHubsGetResponse = RegistrationHub;
+
+/** Optional parameters. */
+export interface RegistrationHubsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type RegistrationHubsCreateOrUpdateResponse = RegistrationHub;
+
+/** Optional parameters. */
+export interface RegistrationHubsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type RegistrationHubsDeleteResponse = OperationStatusResult;
+
+/** Optional parameters. */
+export interface RegistrationHubsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** The request body. */
+  registrationHubUpdateParameters?: RegistrationHubPatchParameters;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type RegistrationHubsUpdateResponse = RegistrationHub;
+
+/** Optional parameters. */
+export interface RegistrationHubsListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type RegistrationHubsListBySubscriptionNextResponse =
+  RegistrationHubList;
+
+/** Optional parameters. */
+export interface RegistrationHubsListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type RegistrationHubsListByResourceGroupNextResponse =
+  RegistrationHubList;
 
 /** Optional parameters. */
 export interface StorageAppliancesListBySubscriptionOptionalParams
@@ -5654,6 +7825,9 @@ export interface StorageAppliancesDeleteOptionalParams
   resumeFrom?: string;
 }
 
+/** Contains response data for the delete operation. */
+export type StorageAppliancesDeleteResponse = OperationStatusResult;
+
 /** Optional parameters. */
 export interface StorageAppliancesUpdateOptionalParams
   extends coreClient.OperationOptions {
@@ -5678,7 +7852,8 @@ export interface StorageAppliancesDisableRemoteVendorManagementOptionalParams
 }
 
 /** Contains response data for the disableRemoteVendorManagement operation. */
-export type StorageAppliancesDisableRemoteVendorManagementResponse = OperationStatusResult;
+export type StorageAppliancesDisableRemoteVendorManagementResponse =
+  OperationStatusResult;
 
 /** Optional parameters. */
 export interface StorageAppliancesEnableRemoteVendorManagementOptionalParams
@@ -5692,21 +7867,24 @@ export interface StorageAppliancesEnableRemoteVendorManagementOptionalParams
 }
 
 /** Contains response data for the enableRemoteVendorManagement operation. */
-export type StorageAppliancesEnableRemoteVendorManagementResponse = OperationStatusResult;
+export type StorageAppliancesEnableRemoteVendorManagementResponse =
+  OperationStatusResult;
 
 /** Optional parameters. */
 export interface StorageAppliancesListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type StorageAppliancesListBySubscriptionNextResponse = StorageApplianceList;
+export type StorageAppliancesListBySubscriptionNextResponse =
+  StorageApplianceList;
 
 /** Optional parameters. */
 export interface StorageAppliancesListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type StorageAppliancesListByResourceGroupNextResponse = StorageApplianceList;
+export type StorageAppliancesListByResourceGroupNextResponse =
+  StorageApplianceList;
 
 /** Optional parameters. */
 export interface TrunkedNetworksListBySubscriptionOptionalParams
@@ -5749,6 +7927,9 @@ export interface TrunkedNetworksDeleteOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Contains response data for the delete operation. */
+export type TrunkedNetworksDeleteResponse = OperationStatusResult;
 
 /** Optional parameters. */
 export interface TrunkedNetworksUpdateOptionalParams
@@ -5815,6 +7996,9 @@ export interface VirtualMachinesDeleteOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Contains response data for the delete operation. */
+export type VirtualMachinesDeleteResponse = OperationStatusResult;
 
 /** Optional parameters. */
 export interface VirtualMachinesUpdateOptionalParams
@@ -5935,6 +8119,9 @@ export interface VolumesDeleteOptionalParams
   resumeFrom?: string;
 }
 
+/** Contains response data for the delete operation. */
+export type VolumesDeleteResponse = OperationStatusResult;
+
 /** Optional parameters. */
 export interface VolumesUpdateOptionalParams
   extends coreClient.OperationOptions {
@@ -5964,7 +8151,8 @@ export interface BareMetalMachineKeySetsListByClusterOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByCluster operation. */
-export type BareMetalMachineKeySetsListByClusterResponse = BareMetalMachineKeySetList;
+export type BareMetalMachineKeySetsListByClusterResponse =
+  BareMetalMachineKeySetList;
 
 /** Optional parameters. */
 export interface BareMetalMachineKeySetsGetOptionalParams
@@ -5983,7 +8171,8 @@ export interface BareMetalMachineKeySetsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type BareMetalMachineKeySetsCreateOrUpdateResponse = BareMetalMachineKeySet;
+export type BareMetalMachineKeySetsCreateOrUpdateResponse =
+  BareMetalMachineKeySet;
 
 /** Optional parameters. */
 export interface BareMetalMachineKeySetsDeleteOptionalParams
@@ -5993,6 +8182,9 @@ export interface BareMetalMachineKeySetsDeleteOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Contains response data for the delete operation. */
+export type BareMetalMachineKeySetsDeleteResponse = OperationStatusResult;
 
 /** Optional parameters. */
 export interface BareMetalMachineKeySetsUpdateOptionalParams
@@ -6013,7 +8205,8 @@ export interface BareMetalMachineKeySetsListByClusterNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByClusterNext operation. */
-export type BareMetalMachineKeySetsListByClusterNextResponse = BareMetalMachineKeySetList;
+export type BareMetalMachineKeySetsListByClusterNextResponse =
+  BareMetalMachineKeySetList;
 
 /** Optional parameters. */
 export interface BmcKeySetsListByClusterOptionalParams
@@ -6050,6 +8243,9 @@ export interface BmcKeySetsDeleteOptionalParams
   resumeFrom?: string;
 }
 
+/** Contains response data for the delete operation. */
+export type BmcKeySetsDeleteResponse = OperationStatusResult;
+
 /** Optional parameters. */
 export interface BmcKeySetsUpdateOptionalParams
   extends coreClient.OperationOptions {
@@ -6076,7 +8272,8 @@ export interface MetricsConfigurationsListByClusterOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByCluster operation. */
-export type MetricsConfigurationsListByClusterResponse = ClusterMetricsConfigurationList;
+export type MetricsConfigurationsListByClusterResponse =
+  ClusterMetricsConfigurationList;
 
 /** Optional parameters. */
 export interface MetricsConfigurationsGetOptionalParams
@@ -6095,7 +8292,8 @@ export interface MetricsConfigurationsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type MetricsConfigurationsCreateOrUpdateResponse = ClusterMetricsConfiguration;
+export type MetricsConfigurationsCreateOrUpdateResponse =
+  ClusterMetricsConfiguration;
 
 /** Optional parameters. */
 export interface MetricsConfigurationsDeleteOptionalParams
@@ -6105,6 +8303,9 @@ export interface MetricsConfigurationsDeleteOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Contains response data for the delete operation. */
+export type MetricsConfigurationsDeleteResponse = OperationStatusResult;
 
 /** Optional parameters. */
 export interface MetricsConfigurationsUpdateOptionalParams
@@ -6125,7 +8326,103 @@ export interface MetricsConfigurationsListByClusterNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByClusterNext operation. */
-export type MetricsConfigurationsListByClusterNextResponse = ClusterMetricsConfigurationList;
+export type MetricsConfigurationsListByClusterNextResponse =
+  ClusterMetricsConfigurationList;
+
+/** Optional parameters. */
+export interface EdgeClusterNodesListByEdgeClusterOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByEdgeCluster operation. */
+export type EdgeClusterNodesListByEdgeClusterResponse = EdgeClusterNodeList;
+
+/** Optional parameters. */
+export interface EdgeClusterNodesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type EdgeClusterNodesGetResponse = EdgeClusterNode;
+
+/** Optional parameters. */
+export interface EdgeClusterNodesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type EdgeClusterNodesCreateOrUpdateResponse = EdgeClusterNode;
+
+/** Optional parameters. */
+export interface EdgeClusterNodesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type EdgeClusterNodesDeleteResponse = OperationStatusResult;
+
+/** Optional parameters. */
+export interface EdgeClusterNodesUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** The request body. */
+  edgeClusterNodeUpdateParameters?: EdgeClusterNodePatchParameters;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type EdgeClusterNodesUpdateResponse = EdgeClusterNode;
+
+/** Optional parameters. */
+export interface EdgeClusterNodesReimageOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the reimage operation. */
+export type EdgeClusterNodesReimageResponse = OperationStatusResult;
+
+/** Optional parameters. */
+export interface EdgeClusterNodesRestartOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the restart operation. */
+export type EdgeClusterNodesRestartResponse = OperationStatusResult;
+
+/** Optional parameters. */
+export interface EdgeClusterNodesSynchronizeTimeOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the synchronizeTime operation. */
+export type EdgeClusterNodesSynchronizeTimeResponse = OperationStatusResult;
+
+/** Optional parameters. */
+export interface EdgeClusterNodesListByEdgeClusterNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByEdgeClusterNext operation. */
+export type EdgeClusterNodesListByEdgeClusterNextResponse = EdgeClusterNodeList;
 
 /** Optional parameters. */
 export interface AgentPoolsListByKubernetesClusterOptionalParams
@@ -6162,6 +8459,9 @@ export interface AgentPoolsDeleteOptionalParams
   resumeFrom?: string;
 }
 
+/** Contains response data for the delete operation. */
+export type AgentPoolsDeleteResponse = OperationStatusResult;
+
 /** Optional parameters. */
 export interface AgentPoolsUpdateOptionalParams
   extends coreClient.OperationOptions {
@@ -6182,6 +8482,203 @@ export interface AgentPoolsListByKubernetesClusterNextOptionalParams
 
 /** Contains response data for the listByKubernetesClusterNext operation. */
 export type AgentPoolsListByKubernetesClusterNextResponse = AgentPoolList;
+
+/** Optional parameters. */
+export interface KubernetesClusterFeaturesListByKubernetesClusterOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByKubernetesCluster operation. */
+export type KubernetesClusterFeaturesListByKubernetesClusterResponse =
+  KubernetesClusterFeatureList;
+
+/** Optional parameters. */
+export interface KubernetesClusterFeaturesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type KubernetesClusterFeaturesGetResponse = KubernetesClusterFeature;
+
+/** Optional parameters. */
+export interface KubernetesClusterFeaturesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type KubernetesClusterFeaturesCreateOrUpdateResponse =
+  KubernetesClusterFeature;
+
+/** Optional parameters. */
+export interface KubernetesClusterFeaturesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type KubernetesClusterFeaturesDeleteResponse = OperationStatusResult;
+
+/** Optional parameters. */
+export interface KubernetesClusterFeaturesUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** The request body. */
+  kubernetesClusterFeatureUpdateParameters?: KubernetesClusterFeaturePatchParameters;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type KubernetesClusterFeaturesUpdateResponse = KubernetesClusterFeature;
+
+/** Optional parameters. */
+export interface KubernetesClusterFeaturesListByKubernetesClusterNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByKubernetesClusterNext operation. */
+export type KubernetesClusterFeaturesListByKubernetesClusterNextResponse =
+  KubernetesClusterFeatureList;
+
+/** Optional parameters. */
+export interface RegistrationHubImagesListByRegistrationHubOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByRegistrationHub operation. */
+export type RegistrationHubImagesListByRegistrationHubResponse =
+  RegistrationHubImageList;
+
+/** Optional parameters. */
+export interface RegistrationHubImagesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type RegistrationHubImagesGetResponse = RegistrationHubImage;
+
+/** Optional parameters. */
+export interface RegistrationHubImagesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type RegistrationHubImagesCreateOrUpdateResponse = RegistrationHubImage;
+
+/** Optional parameters. */
+export interface RegistrationHubImagesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type RegistrationHubImagesDeleteResponse = OperationStatusResult;
+
+/** Optional parameters. */
+export interface RegistrationHubImagesUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** The request body. */
+  registrationHubImageUpdateParameters?: RegistrationHubImagePatchParameters;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type RegistrationHubImagesUpdateResponse = RegistrationHubImage;
+
+/** Optional parameters. */
+export interface RegistrationHubImagesListByRegistrationHubNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByRegistrationHubNext operation. */
+export type RegistrationHubImagesListByRegistrationHubNextResponse =
+  RegistrationHubImageList;
+
+/** Optional parameters. */
+export interface RegistrationHubMachinesListByRegistrationHubOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByRegistrationHub operation. */
+export type RegistrationHubMachinesListByRegistrationHubResponse =
+  RegistrationHubMachineList;
+
+/** Optional parameters. */
+export interface RegistrationHubMachinesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type RegistrationHubMachinesGetResponse = RegistrationHubMachine;
+
+/** Optional parameters. */
+export interface RegistrationHubMachinesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type RegistrationHubMachinesCreateOrUpdateResponse =
+  RegistrationHubMachine;
+
+/** Optional parameters. */
+export interface RegistrationHubMachinesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type RegistrationHubMachinesDeleteResponse = OperationStatusResult;
+
+/** Optional parameters. */
+export interface RegistrationHubMachinesUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** The request body. */
+  registrationHubMachineUpdateParameters?: RegistrationHubMachinePatchParameters;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type RegistrationHubMachinesUpdateResponse = RegistrationHubMachine;
+
+/** Optional parameters. */
+export interface RegistrationHubMachinesDeclineOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the decline operation. */
+export type RegistrationHubMachinesDeclineResponse = OperationStatusResult;
+
+/** Optional parameters. */
+export interface RegistrationHubMachinesListByRegistrationHubNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByRegistrationHubNext operation. */
+export type RegistrationHubMachinesListByRegistrationHubNextResponse =
+  RegistrationHubMachineList;
 
 /** Optional parameters. */
 export interface ConsolesListByVirtualMachineOptionalParams
@@ -6217,6 +8714,9 @@ export interface ConsolesDeleteOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Contains response data for the delete operation. */
+export type ConsolesDeleteResponse = OperationStatusResult;
 
 /** Optional parameters. */
 export interface ConsolesUpdateOptionalParams

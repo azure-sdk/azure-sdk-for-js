@@ -9,7 +9,7 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   BareMetalMachine as BareMetalMachineMapper,
@@ -26,8 +26,14 @@ import {
   ClusterManagerPatchParameters as ClusterManagerPatchParametersMapper,
   Cluster as ClusterMapper,
   ClusterPatchParameters as ClusterPatchParametersMapper,
+  ClusterContinueUpdateVersionParameters as ClusterContinueUpdateVersionParametersMapper,
   ClusterDeployParameters as ClusterDeployParametersMapper,
+  ClusterScanRuntimeParameters as ClusterScanRuntimeParametersMapper,
   ClusterUpdateVersionParameters as ClusterUpdateVersionParametersMapper,
+  EdgeCluster as EdgeClusterMapper,
+  EdgeClusterPatchParameters as EdgeClusterPatchParametersMapper,
+  ListUserCredentialParameters as ListUserCredentialParametersMapper,
+  EdgeClusterStageRuntimeParameters as EdgeClusterStageRuntimeParametersMapper,
   KubernetesCluster as KubernetesClusterMapper,
   KubernetesClusterPatchParameters as KubernetesClusterPatchParametersMapper,
   KubernetesClusterRestartNodeParameters as KubernetesClusterRestartNodeParametersMapper,
@@ -37,6 +43,8 @@ import {
   L3NetworkPatchParameters as L3NetworkPatchParametersMapper,
   Rack as RackMapper,
   RackPatchParameters as RackPatchParametersMapper,
+  RegistrationHub as RegistrationHubMapper,
+  RegistrationHubPatchParameters as RegistrationHubPatchParametersMapper,
   StorageAppliance as StorageApplianceMapper,
   StorageAppliancePatchParameters as StorageAppliancePatchParametersMapper,
   StorageApplianceEnableRemoteVendorManagementParameters as StorageApplianceEnableRemoteVendorManagementParametersMapper,
@@ -53,10 +61,18 @@ import {
   BmcKeySetPatchParameters as BmcKeySetPatchParametersMapper,
   ClusterMetricsConfiguration as ClusterMetricsConfigurationMapper,
   ClusterMetricsConfigurationPatchParameters as ClusterMetricsConfigurationPatchParametersMapper,
+  EdgeClusterNode as EdgeClusterNodeMapper,
+  EdgeClusterNodePatchParameters as EdgeClusterNodePatchParametersMapper,
   AgentPool as AgentPoolMapper,
   AgentPoolPatchParameters as AgentPoolPatchParametersMapper,
+  KubernetesClusterFeature as KubernetesClusterFeatureMapper,
+  KubernetesClusterFeaturePatchParameters as KubernetesClusterFeaturePatchParametersMapper,
+  RegistrationHubImage as RegistrationHubImageMapper,
+  RegistrationHubImagePatchParameters as RegistrationHubImagePatchParametersMapper,
+  RegistrationHubMachine as RegistrationHubMachineMapper,
+  RegistrationHubMachinePatchParameters as RegistrationHubMachinePatchParametersMapper,
   Console as ConsoleMapper,
-  ConsolePatchParameters as ConsolePatchParametersMapper
+  ConsolePatchParameters as ConsolePatchParametersMapper,
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -66,9 +82,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -77,22 +93,22 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-07-01",
+    defaultValue: "2024-05-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const nextLink: OperationURLParameter = {
@@ -101,10 +117,10 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const subscriptionId: OperationURLParameter = {
@@ -113,9 +129,9 @@ export const subscriptionId: OperationURLParameter = {
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "Uuid"
-    }
-  }
+      name: "Uuid",
+    },
+  },
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -123,28 +139,28 @@ export const resourceGroupName: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 90,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const bareMetalMachineName: OperationURLParameter = {
   parameterPath: "bareMetalMachineName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^([a-zA-Z0-9][a-zA-Z0-9]{0,62}[a-zA-Z0-9])$")
+      Pattern: new RegExp("^([a-zA-Z0-9][a-zA-Z0-9]{0,62}[a-zA-Z0-9])$"),
     },
     serializedName: "bareMetalMachineName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -154,470 +170,680 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const bareMetalMachineParameters: OperationParameter = {
   parameterPath: "bareMetalMachineParameters",
-  mapper: BareMetalMachineMapper
+  mapper: BareMetalMachineMapper,
 };
 
 export const bareMetalMachineUpdateParameters: OperationParameter = {
   parameterPath: ["options", "bareMetalMachineUpdateParameters"],
-  mapper: BareMetalMachinePatchParametersMapper
+  mapper: BareMetalMachinePatchParametersMapper,
 };
 
 export const bareMetalMachineCordonParameters: OperationParameter = {
   parameterPath: ["options", "bareMetalMachineCordonParameters"],
-  mapper: BareMetalMachineCordonParametersMapper
+  mapper: BareMetalMachineCordonParametersMapper,
 };
 
 export const bareMetalMachinePowerOffParameters: OperationParameter = {
   parameterPath: ["options", "bareMetalMachinePowerOffParameters"],
-  mapper: BareMetalMachinePowerOffParametersMapper
+  mapper: BareMetalMachinePowerOffParametersMapper,
 };
 
 export const bareMetalMachineReplaceParameters: OperationParameter = {
   parameterPath: ["options", "bareMetalMachineReplaceParameters"],
-  mapper: BareMetalMachineReplaceParametersMapper
+  mapper: BareMetalMachineReplaceParametersMapper,
 };
 
 export const bareMetalMachineRunCommandParameters: OperationParameter = {
   parameterPath: "bareMetalMachineRunCommandParameters",
-  mapper: BareMetalMachineRunCommandParametersMapper
+  mapper: BareMetalMachineRunCommandParametersMapper,
 };
 
 export const bareMetalMachineRunDataExtractsParameters: OperationParameter = {
   parameterPath: "bareMetalMachineRunDataExtractsParameters",
-  mapper: BareMetalMachineRunDataExtractsParametersMapper
+  mapper: BareMetalMachineRunDataExtractsParametersMapper,
 };
 
 export const bareMetalMachineRunReadCommandsParameters: OperationParameter = {
   parameterPath: "bareMetalMachineRunReadCommandsParameters",
-  mapper: BareMetalMachineRunReadCommandsParametersMapper
+  mapper: BareMetalMachineRunReadCommandsParametersMapper,
 };
 
 export const cloudServicesNetworkName: OperationURLParameter = {
   parameterPath: "cloudServicesNetworkName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^([a-zA-Z0-9][a-zA-Z0-9-_]{0,28}[a-zA-Z0-9])$")
+      Pattern: new RegExp("^([a-zA-Z0-9][a-zA-Z0-9-_]{0,28}[a-zA-Z0-9])$"),
     },
     serializedName: "cloudServicesNetworkName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const cloudServicesNetworkParameters: OperationParameter = {
   parameterPath: "cloudServicesNetworkParameters",
-  mapper: CloudServicesNetworkMapper
+  mapper: CloudServicesNetworkMapper,
 };
 
 export const cloudServicesNetworkUpdateParameters: OperationParameter = {
   parameterPath: ["options", "cloudServicesNetworkUpdateParameters"],
-  mapper: CloudServicesNetworkPatchParametersMapper
+  mapper: CloudServicesNetworkPatchParametersMapper,
 };
 
 export const clusterManagerName: OperationURLParameter = {
   parameterPath: "clusterManagerName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^([a-zA-Z0-9][a-zA-Z0-9-_]{0,28}[a-zA-Z0-9])$")
+      Pattern: new RegExp("^([a-zA-Z0-9][a-zA-Z0-9-_]{0,28}[a-zA-Z0-9])$"),
     },
     serializedName: "clusterManagerName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const clusterManagerParameters: OperationParameter = {
   parameterPath: "clusterManagerParameters",
-  mapper: ClusterManagerMapper
+  mapper: ClusterManagerMapper,
 };
 
 export const clusterManagerUpdateParameters: OperationParameter = {
   parameterPath: ["options", "clusterManagerUpdateParameters"],
-  mapper: ClusterManagerPatchParametersMapper
+  mapper: ClusterManagerPatchParametersMapper,
 };
 
 export const clusterName: OperationURLParameter = {
   parameterPath: "clusterName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^([a-zA-Z0-9][a-zA-Z0-9-_]{0,28}[a-zA-Z0-9])$")
+      Pattern: new RegExp("^([a-zA-Z0-9][a-zA-Z0-9-_]{0,28}[a-zA-Z0-9])$"),
     },
     serializedName: "clusterName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const clusterParameters: OperationParameter = {
   parameterPath: "clusterParameters",
-  mapper: ClusterMapper
+  mapper: ClusterMapper,
 };
 
 export const clusterUpdateParameters: OperationParameter = {
   parameterPath: ["options", "clusterUpdateParameters"],
-  mapper: ClusterPatchParametersMapper
+  mapper: ClusterPatchParametersMapper,
+};
+
+export const clusterContinueUpdateVersionParameters: OperationParameter = {
+  parameterPath: "clusterContinueUpdateVersionParameters",
+  mapper: ClusterContinueUpdateVersionParametersMapper,
 };
 
 export const clusterDeployParameters: OperationParameter = {
   parameterPath: ["options", "clusterDeployParameters"],
-  mapper: ClusterDeployParametersMapper
+  mapper: ClusterDeployParametersMapper,
+};
+
+export const clusterScanRuntimeParameters: OperationParameter = {
+  parameterPath: ["options", "clusterScanRuntimeParameters"],
+  mapper: ClusterScanRuntimeParametersMapper,
 };
 
 export const clusterUpdateVersionParameters: OperationParameter = {
   parameterPath: "clusterUpdateVersionParameters",
-  mapper: ClusterUpdateVersionParametersMapper
+  mapper: ClusterUpdateVersionParametersMapper,
+};
+
+export const edgeClusterMachineSkuName: OperationURLParameter = {
+  parameterPath: "edgeClusterMachineSkuName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^([a-zA-Z0-9][a-zA-Z0-9-_]{0,126}[a-zA-Z0-9])$"),
+    },
+    serializedName: "edgeClusterMachineSkuName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const edgeClusterRuntimeVersionName: OperationURLParameter = {
+  parameterPath: "edgeClusterRuntimeVersionName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^([a-zA-Z0-9][a-zA-Z0-9-_]{0,126}[a-zA-Z0-9])$"),
+    },
+    serializedName: "edgeClusterRuntimeVersionName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const edgeClusterSkuName: OperationURLParameter = {
+  parameterPath: "edgeClusterSkuName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^([a-zA-Z0-9][a-zA-Z0-9-_]{0,126}[a-zA-Z0-9])$"),
+    },
+    serializedName: "edgeClusterSkuName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const edgeClusterName: OperationURLParameter = {
+  parameterPath: "edgeClusterName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^([a-zA-Z0-9][a-zA-Z0-9-_]{0,28}[a-zA-Z0-9])$"),
+    },
+    serializedName: "edgeClusterName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const edgeClusterParameters: OperationParameter = {
+  parameterPath: "edgeClusterParameters",
+  mapper: EdgeClusterMapper,
+};
+
+export const edgeClusterUpdateParameters: OperationParameter = {
+  parameterPath: ["options", "edgeClusterUpdateParameters"],
+  mapper: EdgeClusterPatchParametersMapper,
+};
+
+export const listUserCredentialParameters: OperationParameter = {
+  parameterPath: ["options", "listUserCredentialParameters"],
+  mapper: ListUserCredentialParametersMapper,
+};
+
+export const edgeClusterStageRuntimeParameters: OperationParameter = {
+  parameterPath: "edgeClusterStageRuntimeParameters",
+  mapper: EdgeClusterStageRuntimeParametersMapper,
 };
 
 export const kubernetesClusterName: OperationURLParameter = {
   parameterPath: "kubernetesClusterName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^([a-zA-Z0-9][a-zA-Z0-9-_]{0,28}[a-zA-Z0-9])$")
+      Pattern: new RegExp("^([a-zA-Z0-9][a-zA-Z0-9-_]{0,28}[a-zA-Z0-9])$"),
     },
     serializedName: "kubernetesClusterName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const kubernetesClusterParameters: OperationParameter = {
   parameterPath: "kubernetesClusterParameters",
-  mapper: KubernetesClusterMapper
+  mapper: KubernetesClusterMapper,
 };
 
 export const kubernetesClusterUpdateParameters: OperationParameter = {
   parameterPath: ["options", "kubernetesClusterUpdateParameters"],
-  mapper: KubernetesClusterPatchParametersMapper
+  mapper: KubernetesClusterPatchParametersMapper,
 };
 
 export const kubernetesClusterRestartNodeParameters: OperationParameter = {
   parameterPath: "kubernetesClusterRestartNodeParameters",
-  mapper: KubernetesClusterRestartNodeParametersMapper
+  mapper: KubernetesClusterRestartNodeParametersMapper,
 };
 
 export const l2NetworkName: OperationURLParameter = {
   parameterPath: "l2NetworkName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^([a-zA-Z0-9][a-zA-Z0-9-_]{0,28}[a-zA-Z0-9])$")
+      Pattern: new RegExp("^([a-zA-Z0-9][a-zA-Z0-9-_]{0,28}[a-zA-Z0-9])$"),
     },
     serializedName: "l2NetworkName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const l2NetworkParameters: OperationParameter = {
   parameterPath: "l2NetworkParameters",
-  mapper: L2NetworkMapper
+  mapper: L2NetworkMapper,
 };
 
 export const l2NetworkUpdateParameters: OperationParameter = {
   parameterPath: ["options", "l2NetworkUpdateParameters"],
-  mapper: L2NetworkPatchParametersMapper
+  mapper: L2NetworkPatchParametersMapper,
 };
 
 export const l3NetworkName: OperationURLParameter = {
   parameterPath: "l3NetworkName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^([a-zA-Z0-9][a-zA-Z0-9-_]{0,28}[a-zA-Z0-9])$")
+      Pattern: new RegExp("^([a-zA-Z0-9][a-zA-Z0-9-_]{0,28}[a-zA-Z0-9])$"),
     },
     serializedName: "l3NetworkName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const l3NetworkParameters: OperationParameter = {
   parameterPath: "l3NetworkParameters",
-  mapper: L3NetworkMapper
+  mapper: L3NetworkMapper,
 };
 
 export const l3NetworkUpdateParameters: OperationParameter = {
   parameterPath: ["options", "l3NetworkUpdateParameters"],
-  mapper: L3NetworkPatchParametersMapper
+  mapper: L3NetworkPatchParametersMapper,
 };
 
 export const rackSkuName: OperationURLParameter = {
   parameterPath: "rackSkuName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^([a-zA-Z0-9][a-zA-Z0-9-_]{0,126}[a-zA-Z0-9])$"),
+    },
     serializedName: "rackSkuName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const rackName: OperationURLParameter = {
   parameterPath: "rackName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^([a-zA-Z0-9][a-zA-Z0-9-_]{0,28}[a-zA-Z0-9])$")
+      Pattern: new RegExp("^([a-zA-Z0-9][a-zA-Z0-9-_]{0,28}[a-zA-Z0-9])$"),
     },
     serializedName: "rackName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const rackParameters: OperationParameter = {
   parameterPath: "rackParameters",
-  mapper: RackMapper
+  mapper: RackMapper,
 };
 
 export const rackUpdateParameters: OperationParameter = {
   parameterPath: ["options", "rackUpdateParameters"],
-  mapper: RackPatchParametersMapper
+  mapper: RackPatchParametersMapper,
+};
+
+export const registrationHubName: OperationURLParameter = {
+  parameterPath: "registrationHubName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^([a-zA-Z0-9][a-zA-Z0-9-_]{0,28}[a-zA-Z0-9])$"),
+    },
+    serializedName: "registrationHubName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const registrationHubParameters: OperationParameter = {
+  parameterPath: "registrationHubParameters",
+  mapper: RegistrationHubMapper,
+};
+
+export const registrationHubUpdateParameters: OperationParameter = {
+  parameterPath: ["options", "registrationHubUpdateParameters"],
+  mapper: RegistrationHubPatchParametersMapper,
 };
 
 export const storageApplianceName: OperationURLParameter = {
   parameterPath: "storageApplianceName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^([a-zA-Z0-9][a-zA-Z0-9-_]{0,28}[a-zA-Z0-9])$")
+      Pattern: new RegExp("^([a-zA-Z0-9][a-zA-Z0-9-_]{0,28}[a-zA-Z0-9])$"),
     },
     serializedName: "storageApplianceName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const storageApplianceParameters: OperationParameter = {
   parameterPath: "storageApplianceParameters",
-  mapper: StorageApplianceMapper
+  mapper: StorageApplianceMapper,
 };
 
 export const storageApplianceUpdateParameters: OperationParameter = {
   parameterPath: ["options", "storageApplianceUpdateParameters"],
-  mapper: StorageAppliancePatchParametersMapper
+  mapper: StorageAppliancePatchParametersMapper,
 };
 
-export const storageApplianceEnableRemoteVendorManagementParameters: OperationParameter = {
-  parameterPath: [
-    "options",
-    "storageApplianceEnableRemoteVendorManagementParameters"
-  ],
-  mapper: StorageApplianceEnableRemoteVendorManagementParametersMapper
-};
+export const storageApplianceEnableRemoteVendorManagementParameters: OperationParameter =
+  {
+    parameterPath: [
+      "options",
+      "storageApplianceEnableRemoteVendorManagementParameters",
+    ],
+    mapper: StorageApplianceEnableRemoteVendorManagementParametersMapper,
+  };
 
 export const trunkedNetworkName: OperationURLParameter = {
   parameterPath: "trunkedNetworkName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^([a-zA-Z0-9][a-zA-Z0-9-_]{0,28}[a-zA-Z0-9])$")
+      Pattern: new RegExp("^([a-zA-Z0-9][a-zA-Z0-9-_]{0,28}[a-zA-Z0-9])$"),
     },
     serializedName: "trunkedNetworkName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const trunkedNetworkParameters: OperationParameter = {
   parameterPath: "trunkedNetworkParameters",
-  mapper: TrunkedNetworkMapper
+  mapper: TrunkedNetworkMapper,
 };
 
 export const trunkedNetworkUpdateParameters: OperationParameter = {
   parameterPath: ["options", "trunkedNetworkUpdateParameters"],
-  mapper: TrunkedNetworkPatchParametersMapper
+  mapper: TrunkedNetworkPatchParametersMapper,
 };
 
 export const virtualMachineName: OperationURLParameter = {
   parameterPath: "virtualMachineName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^([a-zA-Z0-9][a-zA-Z0-9]{0,62}[a-zA-Z0-9])$")
+      Pattern: new RegExp("^([a-zA-Z0-9][a-zA-Z0-9]{0,62}[a-zA-Z0-9])$"),
     },
     serializedName: "virtualMachineName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const virtualMachineParameters: OperationParameter = {
   parameterPath: "virtualMachineParameters",
-  mapper: VirtualMachineMapper
+  mapper: VirtualMachineMapper,
 };
 
 export const virtualMachineUpdateParameters: OperationParameter = {
   parameterPath: ["options", "virtualMachineUpdateParameters"],
-  mapper: VirtualMachinePatchParametersMapper
+  mapper: VirtualMachinePatchParametersMapper,
 };
 
 export const virtualMachinePowerOffParameters: OperationParameter = {
   parameterPath: ["options", "virtualMachinePowerOffParameters"],
-  mapper: VirtualMachinePowerOffParametersMapper
+  mapper: VirtualMachinePowerOffParametersMapper,
 };
 
 export const volumeName: OperationURLParameter = {
   parameterPath: "volumeName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^([a-zA-Z0-9][a-zA-Z0-9-_]{0,62}[a-zA-Z0-9])$")
+      Pattern: new RegExp("^([a-zA-Z0-9][a-zA-Z0-9-_]{0,62}[a-zA-Z0-9])$"),
     },
     serializedName: "volumeName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const volumeParameters: OperationParameter = {
   parameterPath: "volumeParameters",
-  mapper: VolumeMapper
+  mapper: VolumeMapper,
 };
 
 export const volumeUpdateParameters: OperationParameter = {
   parameterPath: ["options", "volumeUpdateParameters"],
-  mapper: VolumePatchParametersMapper
+  mapper: VolumePatchParametersMapper,
 };
 
 export const bareMetalMachineKeySetName: OperationURLParameter = {
   parameterPath: "bareMetalMachineKeySetName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^([a-zA-Z0-9][a-zA-Z0-9-_]{0,28}[a-zA-Z0-9])$")
+      Pattern: new RegExp("^([a-zA-Z0-9][a-zA-Z0-9-_]{0,28}[a-zA-Z0-9])$"),
     },
     serializedName: "bareMetalMachineKeySetName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const bareMetalMachineKeySetParameters: OperationParameter = {
   parameterPath: "bareMetalMachineKeySetParameters",
-  mapper: BareMetalMachineKeySetMapper
+  mapper: BareMetalMachineKeySetMapper,
 };
 
 export const bareMetalMachineKeySetUpdateParameters: OperationParameter = {
   parameterPath: ["options", "bareMetalMachineKeySetUpdateParameters"],
-  mapper: BareMetalMachineKeySetPatchParametersMapper
+  mapper: BareMetalMachineKeySetPatchParametersMapper,
 };
 
 export const bmcKeySetName: OperationURLParameter = {
   parameterPath: "bmcKeySetName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^([a-zA-Z0-9][a-zA-Z0-9-_]{0,28}[a-zA-Z0-9])$")
+      Pattern: new RegExp("^([a-zA-Z0-9][a-zA-Z0-9-_]{0,28}[a-zA-Z0-9])$"),
     },
     serializedName: "bmcKeySetName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const bmcKeySetParameters: OperationParameter = {
   parameterPath: "bmcKeySetParameters",
-  mapper: BmcKeySetMapper
+  mapper: BmcKeySetMapper,
 };
 
 export const bmcKeySetUpdateParameters: OperationParameter = {
   parameterPath: ["options", "bmcKeySetUpdateParameters"],
-  mapper: BmcKeySetPatchParametersMapper
+  mapper: BmcKeySetPatchParametersMapper,
 };
 
 export const metricsConfigurationName: OperationURLParameter = {
   parameterPath: "metricsConfigurationName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^default$")
+      Pattern: new RegExp("^default$"),
     },
     serializedName: "metricsConfigurationName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const metricsConfigurationParameters: OperationParameter = {
   parameterPath: "metricsConfigurationParameters",
-  mapper: ClusterMetricsConfigurationMapper
+  mapper: ClusterMetricsConfigurationMapper,
 };
 
 export const metricsConfigurationUpdateParameters: OperationParameter = {
   parameterPath: ["options", "metricsConfigurationUpdateParameters"],
-  mapper: ClusterMetricsConfigurationPatchParametersMapper
+  mapper: ClusterMetricsConfigurationPatchParametersMapper,
+};
+
+export const nodeName: OperationURLParameter = {
+  parameterPath: "nodeName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^([a-zA-Z0-9][a-zA-Z0-9]{0,62}[a-zA-Z0-9])$"),
+    },
+    serializedName: "nodeName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const edgeClusterNodeParameters: OperationParameter = {
+  parameterPath: "edgeClusterNodeParameters",
+  mapper: EdgeClusterNodeMapper,
+};
+
+export const edgeClusterNodeUpdateParameters: OperationParameter = {
+  parameterPath: ["options", "edgeClusterNodeUpdateParameters"],
+  mapper: EdgeClusterNodePatchParametersMapper,
 };
 
 export const agentPoolName: OperationURLParameter = {
   parameterPath: "agentPoolName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^([a-zA-Z0-9][a-zA-Z0-9-_]{0,28}[a-zA-Z0-9])$")
+      Pattern: new RegExp("^([a-zA-Z0-9][a-zA-Z0-9-_]{0,28}[a-zA-Z0-9])$"),
     },
     serializedName: "agentPoolName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const agentPoolParameters: OperationParameter = {
   parameterPath: "agentPoolParameters",
-  mapper: AgentPoolMapper
+  mapper: AgentPoolMapper,
 };
 
 export const agentPoolUpdateParameters: OperationParameter = {
   parameterPath: ["options", "agentPoolUpdateParameters"],
-  mapper: AgentPoolPatchParametersMapper
+  mapper: AgentPoolPatchParametersMapper,
+};
+
+export const featureName: OperationURLParameter = {
+  parameterPath: "featureName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^([a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9])$"),
+    },
+    serializedName: "featureName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const kubernetesClusterFeatureParameters: OperationParameter = {
+  parameterPath: "kubernetesClusterFeatureParameters",
+  mapper: KubernetesClusterFeatureMapper,
+};
+
+export const kubernetesClusterFeatureUpdateParameters: OperationParameter = {
+  parameterPath: ["options", "kubernetesClusterFeatureUpdateParameters"],
+  mapper: KubernetesClusterFeaturePatchParametersMapper,
+};
+
+export const imageName: OperationURLParameter = {
+  parameterPath: "imageName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^([a-zA-Z0-9][a-zA-Z0-9-_]{0,28}[a-zA-Z0-9])$"),
+    },
+    serializedName: "imageName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const registrationHubImageParameters: OperationParameter = {
+  parameterPath: "registrationHubImageParameters",
+  mapper: RegistrationHubImageMapper,
+};
+
+export const registrationHubImageUpdateParameters: OperationParameter = {
+  parameterPath: ["options", "registrationHubImageUpdateParameters"],
+  mapper: RegistrationHubImagePatchParametersMapper,
+};
+
+export const machineName: OperationURLParameter = {
+  parameterPath: "machineName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^([a-zA-Z0-9][a-zA-Z0-9-_]{0,38}[a-zA-Z0-9])$"),
+    },
+    serializedName: "machineName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const registrationHubMachineParameters: OperationParameter = {
+  parameterPath: "registrationHubMachineParameters",
+  mapper: RegistrationHubMachineMapper,
+};
+
+export const registrationHubMachineUpdateParameters: OperationParameter = {
+  parameterPath: ["options", "registrationHubMachineUpdateParameters"],
+  mapper: RegistrationHubMachinePatchParametersMapper,
 };
 
 export const consoleName: OperationURLParameter = {
   parameterPath: "consoleName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^default$")
+      Pattern: new RegExp("^default$"),
     },
     serializedName: "consoleName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const consoleParameters: OperationParameter = {
   parameterPath: "consoleParameters",
-  mapper: ConsoleMapper
+  mapper: ConsoleMapper,
 };
 
 export const consoleUpdateParameters: OperationParameter = {
   parameterPath: ["options", "consoleUpdateParameters"],
-  mapper: ConsolePatchParametersMapper
+  mapper: ConsolePatchParametersMapper,
 };

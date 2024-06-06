@@ -1,5 +1,341 @@
 # Release History
     
+## 1.1.0-beta.1 (2024-06-06)
+Compared with version 1.0.0
+    
+**Features**
+
+  - Added operation group EdgeClusterMachineSkus
+  - Added operation group EdgeClusterNodes
+  - Added operation group EdgeClusterRuntimeVersions
+  - Added operation group EdgeClusters
+  - Added operation group EdgeClusterSkus
+  - Added operation group KubernetesClusterFeatures
+  - Added operation group RegistrationHubImages
+  - Added operation group RegistrationHubMachines
+  - Added operation group RegistrationHubs
+  - Added operation Clusters.beginContinueUpdateVersion
+  - Added operation Clusters.beginContinueUpdateVersionAndWait
+  - Added operation Clusters.beginScanRuntime
+  - Added operation Clusters.beginScanRuntimeAndWait
+  - Added Interface AdministratorConfigurationPatch
+  - Added Interface ClusterContinueUpdateVersionParameters
+  - Added Interface ClusterScanRuntimeParameters
+  - Added Interface ClustersContinueUpdateVersionHeaders
+  - Added Interface ClustersContinueUpdateVersionOptionalParams
+  - Added Interface ClusterSecretArchive
+  - Added Interface ClustersScanRuntimeHeaders
+  - Added Interface ClustersScanRuntimeOptionalParams
+  - Added Interface ClusterUpdateStrategy
+  - Added Interface CommandOutputSettings
+  - Added Interface CredentialResult
+  - Added Interface CredentialResults
+  - Added Interface EdgeCluster
+  - Added Interface EdgeClusterAvailableUpgradeRuntimeVersion
+  - Added Interface EdgeClusterEntraConfiguration
+  - Added Interface EdgeClusterList
+  - Added Interface EdgeClusterMachineSku
+  - Added Interface EdgeClusterMachineSkuCpu
+  - Added Interface EdgeClusterMachineSkuDevice
+  - Added Interface EdgeClusterMachineSkuList
+  - Added Interface EdgeClusterMachineSkuMemory
+  - Added Interface EdgeClusterMachineSkusGetOptionalParams
+  - Added Interface EdgeClusterMachineSkusListBySubscriptionNextOptionalParams
+  - Added Interface EdgeClusterMachineSkusListBySubscriptionOptionalParams
+  - Added Interface EdgeClusterMachineSkuSystem
+  - Added Interface EdgeClusterNode
+  - Added Interface EdgeClusterNodeList
+  - Added Interface EdgeClusterNodeMatchingIdentifier
+  - Added Interface EdgeClusterNodeNetworkInterface
+  - Added Interface EdgeClusterNodePatchParameters
+  - Added Interface EdgeClusterNodesCreateOrUpdateHeaders
+  - Added Interface EdgeClusterNodesCreateOrUpdateOptionalParams
+  - Added Interface EdgeClusterNodesDeleteHeaders
+  - Added Interface EdgeClusterNodesDeleteOptionalParams
+  - Added Interface EdgeClusterNodesGetOptionalParams
+  - Added Interface EdgeClusterNodesListByEdgeClusterNextOptionalParams
+  - Added Interface EdgeClusterNodesListByEdgeClusterOptionalParams
+  - Added Interface EdgeClusterNodesReimageHeaders
+  - Added Interface EdgeClusterNodesReimageOptionalParams
+  - Added Interface EdgeClusterNodesRestartHeaders
+  - Added Interface EdgeClusterNodesRestartOptionalParams
+  - Added Interface EdgeClusterNodesSynchronizeTimeHeaders
+  - Added Interface EdgeClusterNodesSynchronizeTimeOptionalParams
+  - Added Interface EdgeClusterNodesUpdateHeaders
+  - Added Interface EdgeClusterNodesUpdateOptionalParams
+  - Added Interface EdgeClusterPatchParameters
+  - Added Interface EdgeClusterPtpConfiguration
+  - Added Interface EdgeClusterRuntimeVersion
+  - Added Interface EdgeClusterRuntimeVersionList
+  - Added Interface EdgeClusterRuntimeVersionsGetOptionalParams
+  - Added Interface EdgeClusterRuntimeVersionsListBySubscriptionNextOptionalParams
+  - Added Interface EdgeClusterRuntimeVersionsListBySubscriptionOptionalParams
+  - Added Interface EdgeClustersCreateOrUpdateHeaders
+  - Added Interface EdgeClustersCreateOrUpdateOptionalParams
+  - Added Interface EdgeClustersDeleteHeaders
+  - Added Interface EdgeClustersDeleteOptionalParams
+  - Added Interface EdgeClustersGetOptionalParams
+  - Added Interface EdgeClusterSku
+  - Added Interface EdgeClusterSkuList
+  - Added Interface EdgeClusterSkusGetOptionalParams
+  - Added Interface EdgeClusterSkusListBySubscriptionNextOptionalParams
+  - Added Interface EdgeClusterSkusListBySubscriptionOptionalParams
+  - Added Interface EdgeClustersListByResourceGroupNextOptionalParams
+  - Added Interface EdgeClustersListByResourceGroupOptionalParams
+  - Added Interface EdgeClustersListBySubscriptionNextOptionalParams
+  - Added Interface EdgeClustersListBySubscriptionOptionalParams
+  - Added Interface EdgeClustersListClusterUserCredentialOptionalParams
+  - Added Interface EdgeClustersStageRuntimeHeaders
+  - Added Interface EdgeClustersStageRuntimeOptionalParams
+  - Added Interface EdgeClusterStageRuntimeParameters
+  - Added Interface EdgeClustersUpdateHeaders
+  - Added Interface EdgeClustersUpdateOptionalParams
+  - Added Interface HybridConnectionConfig
+  - Added Interface IdentitySelector
+  - Added Interface KubernetesClusterFeature
+  - Added Interface KubernetesClusterFeatureList
+  - Added Interface KubernetesClusterFeaturePatchParameters
+  - Added Interface KubernetesClusterFeaturesCreateOrUpdateHeaders
+  - Added Interface KubernetesClusterFeaturesCreateOrUpdateOptionalParams
+  - Added Interface KubernetesClusterFeaturesDeleteHeaders
+  - Added Interface KubernetesClusterFeaturesDeleteOptionalParams
+  - Added Interface KubernetesClusterFeaturesGetOptionalParams
+  - Added Interface KubernetesClusterFeaturesListByKubernetesClusterNextOptionalParams
+  - Added Interface KubernetesClusterFeaturesListByKubernetesClusterOptionalParams
+  - Added Interface KubernetesClusterFeaturesUpdateHeaders
+  - Added Interface KubernetesClusterFeaturesUpdateOptionalParams
+  - Added Interface L2ServiceLoadBalancerConfiguration
+  - Added Interface ListUserCredentialParameters
+  - Added Interface MachineSkuSupportRange
+  - Added Interface ManagedServiceIdentity
+  - Added Interface NodePoolAdministratorConfigurationPatch
+  - Added Interface ProxyResource
+  - Added Interface RegistrationHub
+  - Added Interface RegistrationHubImage
+  - Added Interface RegistrationHubImageList
+  - Added Interface RegistrationHubImagePatchParameters
+  - Added Interface RegistrationHubImagesCreateOrUpdateHeaders
+  - Added Interface RegistrationHubImagesCreateOrUpdateOptionalParams
+  - Added Interface RegistrationHubImagesDeleteHeaders
+  - Added Interface RegistrationHubImagesDeleteOptionalParams
+  - Added Interface RegistrationHubImagesGetOptionalParams
+  - Added Interface RegistrationHubImagesListByRegistrationHubNextOptionalParams
+  - Added Interface RegistrationHubImagesListByRegistrationHubOptionalParams
+  - Added Interface RegistrationHubImagesUpdateHeaders
+  - Added Interface RegistrationHubImagesUpdateOptionalParams
+  - Added Interface RegistrationHubList
+  - Added Interface RegistrationHubMachine
+  - Added Interface RegistrationHubMachineConfiguration
+  - Added Interface RegistrationHubMachineCpu
+  - Added Interface RegistrationHubMachineDevice
+  - Added Interface RegistrationHubMachineList
+  - Added Interface RegistrationHubMachineMemory
+  - Added Interface RegistrationHubMachinePatchParameters
+  - Added Interface RegistrationHubMachinesCreateOrUpdateHeaders
+  - Added Interface RegistrationHubMachinesCreateOrUpdateOptionalParams
+  - Added Interface RegistrationHubMachinesDeclineHeaders
+  - Added Interface RegistrationHubMachinesDeclineOptionalParams
+  - Added Interface RegistrationHubMachinesDeleteHeaders
+  - Added Interface RegistrationHubMachinesDeleteOptionalParams
+  - Added Interface RegistrationHubMachinesGetOptionalParams
+  - Added Interface RegistrationHubMachinesListByRegistrationHubNextOptionalParams
+  - Added Interface RegistrationHubMachinesListByRegistrationHubOptionalParams
+  - Added Interface RegistrationHubMachinesUpdateHeaders
+  - Added Interface RegistrationHubMachinesUpdateOptionalParams
+  - Added Interface RegistrationHubMachineSystem
+  - Added Interface RegistrationHubPatchParameters
+  - Added Interface RegistrationHubsCreateOrUpdateHeaders
+  - Added Interface RegistrationHubsCreateOrUpdateOptionalParams
+  - Added Interface RegistrationHubsDeleteHeaders
+  - Added Interface RegistrationHubsDeleteOptionalParams
+  - Added Interface RegistrationHubsGetOptionalParams
+  - Added Interface RegistrationHubsListByResourceGroupNextOptionalParams
+  - Added Interface RegistrationHubsListByResourceGroupOptionalParams
+  - Added Interface RegistrationHubsListBySubscriptionNextOptionalParams
+  - Added Interface RegistrationHubsListBySubscriptionOptionalParams
+  - Added Interface RegistrationHubsUpdateHeaders
+  - Added Interface RegistrationHubsUpdateOptionalParams
+  - Added Interface RuntimeProtectionConfiguration
+  - Added Interface RuntimeProtectionStatus
+  - Added Interface SecretArchiveReference
+  - Added Interface SecretRotationStatus
+  - Added Interface StringKeyValuePair
+  - Added Interface UsageDomain
+  - Added Interface UserAssignedIdentity
+  - Added Interface VersionRange
+  - Added Type Alias AgentPoolsDeleteResponse
+  - Added Type Alias AllowRegistration
+  - Added Type Alias BareMetalMachineKeySetsDeleteResponse
+  - Added Type Alias BareMetalMachinesDeleteResponse
+  - Added Type Alias BmcKeySetsDeleteResponse
+  - Added Type Alias CloudServicesNetworksDeleteResponse
+  - Added Type Alias ClusterContinueUpdateVersionMachineGroupTargetingMode
+  - Added Type Alias ClusterManagersDeleteResponse
+  - Added Type Alias ClusterScanRuntimeParametersScanActivity
+  - Added Type Alias ClustersContinueUpdateVersionResponse
+  - Added Type Alias ClustersDeleteResponse
+  - Added Type Alias ClusterSecretArchiveEnabled
+  - Added Type Alias ClustersScanRuntimeResponse
+  - Added Type Alias ClusterUpdateStrategyType
+  - Added Type Alias ConsolesDeleteResponse
+  - Added Type Alias EdgeClusterLifecycleStatus
+  - Added Type Alias EdgeClusterMachineSkusGetResponse
+  - Added Type Alias EdgeClusterMachineSkusListBySubscriptionNextResponse
+  - Added Type Alias EdgeClusterMachineSkusListBySubscriptionResponse
+  - Added Type Alias EdgeClusterNodeLifecycleStatus
+  - Added Type Alias EdgeClusterNodeMatchingIdentifierName
+  - Added Type Alias EdgeClusterNodeProvisioningState
+  - Added Type Alias EdgeClusterNodesCreateOrUpdateResponse
+  - Added Type Alias EdgeClusterNodesDeleteResponse
+  - Added Type Alias EdgeClusterNodesGetResponse
+  - Added Type Alias EdgeClusterNodesListByEdgeClusterNextResponse
+  - Added Type Alias EdgeClusterNodesListByEdgeClusterResponse
+  - Added Type Alias EdgeClusterNodesReimageResponse
+  - Added Type Alias EdgeClusterNodesRestartResponse
+  - Added Type Alias EdgeClusterNodesSynchronizeTimeResponse
+  - Added Type Alias EdgeClusterNodesUpdateResponse
+  - Added Type Alias EdgeClusterProvisioningState
+  - Added Type Alias EdgeClusterPtpConfigurationNetworkTransportType
+  - Added Type Alias EdgeClusterRuntimeVersionsGetResponse
+  - Added Type Alias EdgeClusterRuntimeVersionsListBySubscriptionNextResponse
+  - Added Type Alias EdgeClusterRuntimeVersionsListBySubscriptionResponse
+  - Added Type Alias EdgeClustersCreateOrUpdateResponse
+  - Added Type Alias EdgeClustersDeleteResponse
+  - Added Type Alias EdgeClustersGetResponse
+  - Added Type Alias EdgeClusterSkuFabricManagedBy
+  - Added Type Alias EdgeClusterSkuPtpRequired
+  - Added Type Alias EdgeClusterSkusGetResponse
+  - Added Type Alias EdgeClusterSkusListBySubscriptionNextResponse
+  - Added Type Alias EdgeClusterSkusListBySubscriptionResponse
+  - Added Type Alias EdgeClustersListByResourceGroupNextResponse
+  - Added Type Alias EdgeClustersListByResourceGroupResponse
+  - Added Type Alias EdgeClustersListBySubscriptionNextResponse
+  - Added Type Alias EdgeClustersListBySubscriptionResponse
+  - Added Type Alias EdgeClustersListClusterUserCredentialResponse
+  - Added Type Alias EdgeClustersStageRuntimeResponse
+  - Added Type Alias EdgeClustersUpdateResponse
+  - Added Type Alias KubernetesClusterFeatureAvailabilityLifecycle
+  - Added Type Alias KubernetesClusterFeatureDetailedStatus
+  - Added Type Alias KubernetesClusterFeatureProvisioningState
+  - Added Type Alias KubernetesClusterFeatureRequired
+  - Added Type Alias KubernetesClusterFeaturesCreateOrUpdateResponse
+  - Added Type Alias KubernetesClusterFeaturesDeleteResponse
+  - Added Type Alias KubernetesClusterFeaturesGetResponse
+  - Added Type Alias KubernetesClusterFeaturesListByKubernetesClusterNextResponse
+  - Added Type Alias KubernetesClusterFeaturesListByKubernetesClusterResponse
+  - Added Type Alias KubernetesClusterFeaturesUpdateResponse
+  - Added Type Alias KubernetesClustersDeleteResponse
+  - Added Type Alias L2NetworksDeleteResponse
+  - Added Type Alias L3NetworksDeleteResponse
+  - Added Type Alias ListEdgeClusterUserCredentialAccessMechanism
+  - Added Type Alias ListEdgeClusterUserCredentialClientProxy
+  - Added Type Alias ManagedServiceIdentitySelectorType
+  - Added Type Alias ManagedServiceIdentityType
+  - Added Type Alias MetricsConfigurationsDeleteResponse
+  - Added Type Alias RacksDeleteResponse
+  - Added Type Alias RegistrationHubImageProvisioningState
+  - Added Type Alias RegistrationHubImagesCreateOrUpdateResponse
+  - Added Type Alias RegistrationHubImagesDeleteResponse
+  - Added Type Alias RegistrationHubImagesGetResponse
+  - Added Type Alias RegistrationHubImagesListByRegistrationHubNextResponse
+  - Added Type Alias RegistrationHubImagesListByRegistrationHubResponse
+  - Added Type Alias RegistrationHubImagesUpdateResponse
+  - Added Type Alias RegistrationHubMachineProvisioningState
+  - Added Type Alias RegistrationHubMachineRegistrationState
+  - Added Type Alias RegistrationHubMachinesCreateOrUpdateResponse
+  - Added Type Alias RegistrationHubMachinesDeclineResponse
+  - Added Type Alias RegistrationHubMachinesDeleteResponse
+  - Added Type Alias RegistrationHubMachinesGetResponse
+  - Added Type Alias RegistrationHubMachinesListByRegistrationHubNextResponse
+  - Added Type Alias RegistrationHubMachinesListByRegistrationHubResponse
+  - Added Type Alias RegistrationHubMachinesUpdateResponse
+  - Added Type Alias RegistrationHubProvisioningState
+  - Added Type Alias RegistrationHubsCreateOrUpdateResponse
+  - Added Type Alias RegistrationHubsDeleteResponse
+  - Added Type Alias RegistrationHubsGetResponse
+  - Added Type Alias RegistrationHubsListByResourceGroupNextResponse
+  - Added Type Alias RegistrationHubsListByResourceGroupResponse
+  - Added Type Alias RegistrationHubsListBySubscriptionNextResponse
+  - Added Type Alias RegistrationHubsListBySubscriptionResponse
+  - Added Type Alias RegistrationHubsUpdateResponse
+  - Added Type Alias RuntimeProtectionEnforcementLevel
+  - Added Type Alias StorageAppliancesDeleteResponse
+  - Added Type Alias TrunkedNetworksDeleteResponse
+  - Added Type Alias UsageDomainPlatform
+  - Added Type Alias UserCredentialAuthenticationMethod
+  - Added Type Alias VirtualMachinesDeleteResponse
+  - Added Type Alias VolumesDeleteResponse
+  - Interface AgentPoolPatchParameters has a new optional parameter administratorConfiguration
+  - Interface AgentPoolsUpdateHeaders has a new optional parameter location
+  - Interface AgentPoolUpgradeSettings has a new optional parameter drainTimeout
+  - Interface AgentPoolUpgradeSettings has a new optional parameter maxUnavailable
+  - Interface BareMetalMachine has a new optional parameter machineClusterVersion
+  - Interface BareMetalMachine has a new optional parameter machineRoles
+  - Interface BareMetalMachine has a new optional parameter runtimeProtectionStatus
+  - Interface BareMetalMachine has a new optional parameter secretRotationStatus
+  - Interface BareMetalMachineKeySetsUpdateHeaders has a new optional parameter location
+  - Interface BareMetalMachinesUpdateHeaders has a new optional parameter location
+  - Interface BmcKeySetsUpdateHeaders has a new optional parameter location
+  - Interface CloudServicesNetworksUpdateHeaders has a new optional parameter location
+  - Interface Cluster has a new optional parameter commandOutputSettings
+  - Interface Cluster has a new optional parameter identity
+  - Interface Cluster has a new optional parameter runtimeProtectionConfiguration
+  - Interface Cluster has a new optional parameter secretArchive
+  - Interface Cluster has a new optional parameter updateStrategy
+  - Interface ClusterManager has a new optional parameter identity
+  - Interface ClusterManagerPatchParameters has a new optional parameter identity
+  - Interface ClusterPatchParameters has a new optional parameter commandOutputSettings
+  - Interface ClusterPatchParameters has a new optional parameter identity
+  - Interface ClusterPatchParameters has a new optional parameter runtimeProtectionConfiguration
+  - Interface ClusterPatchParameters has a new optional parameter secretArchive
+  - Interface ClusterPatchParameters has a new optional parameter updateStrategy
+  - Interface ClustersUpdateHeaders has a new optional parameter location
+  - Interface ConsolesUpdateHeaders has a new optional parameter location
+  - Interface ControlPlaneNodePatchConfiguration has a new optional parameter administratorConfiguration
+  - Interface KeySetUser has a new optional parameter userPrincipalName
+  - Interface KubernetesClusterPatchParameters has a new optional parameter administratorConfiguration
+  - Interface KubernetesClustersUpdateHeaders has a new optional parameter location
+  - Interface MetricsConfigurationsUpdateHeaders has a new optional parameter location
+  - Interface NetworkConfiguration has a new optional parameter l2ServiceLoadBalancerConfiguration
+  - Interface RacksUpdateHeaders has a new optional parameter location
+  - Interface StorageAppliance has a new optional parameter manufacturer
+  - Interface StorageAppliance has a new optional parameter model
+  - Interface StorageAppliance has a new optional parameter secretRotationStatus
+  - Interface StorageAppliance has a new optional parameter version
+  - Interface StorageAppliancesUpdateHeaders has a new optional parameter location
+  - Interface VirtualMachinesUpdateHeaders has a new optional parameter location
+  - Added Enum KnownAllowRegistration
+  - Added Enum KnownClusterContinueUpdateVersionMachineGroupTargetingMode
+  - Added Enum KnownClusterScanRuntimeParametersScanActivity
+  - Added Enum KnownClusterSecretArchiveEnabled
+  - Added Enum KnownClusterUpdateStrategyType
+  - Added Enum KnownEdgeClusterLifecycleStatus
+  - Added Enum KnownEdgeClusterNodeLifecycleStatus
+  - Added Enum KnownEdgeClusterNodeMatchingIdentifierName
+  - Added Enum KnownEdgeClusterNodeProvisioningState
+  - Added Enum KnownEdgeClusterProvisioningState
+  - Added Enum KnownEdgeClusterPtpConfigurationNetworkTransportType
+  - Added Enum KnownEdgeClusterSkuFabricManagedBy
+  - Added Enum KnownEdgeClusterSkuPtpRequired
+  - Added Enum KnownKubernetesClusterFeatureAvailabilityLifecycle
+  - Added Enum KnownKubernetesClusterFeatureDetailedStatus
+  - Added Enum KnownKubernetesClusterFeatureProvisioningState
+  - Added Enum KnownKubernetesClusterFeatureRequired
+  - Added Enum KnownListEdgeClusterUserCredentialAccessMechanism
+  - Added Enum KnownListEdgeClusterUserCredentialClientProxy
+  - Added Enum KnownManagedServiceIdentitySelectorType
+  - Added Enum KnownManagedServiceIdentityType
+  - Added Enum KnownRegistrationHubImageProvisioningState
+  - Added Enum KnownRegistrationHubMachineProvisioningState
+  - Added Enum KnownRegistrationHubMachineRegistrationState
+  - Added Enum KnownRegistrationHubProvisioningState
+  - Added Enum KnownRuntimeProtectionEnforcementLevel
+  - Added Enum KnownUsageDomainPlatform
+  - Added Enum KnownUserCredentialAuthenticationMethod
+  - Enum KnownClusterConnectionStatus has a new value Disconnected
+  - Enum KnownClusterDetailedStatus has a new value UpdatePaused
+    
+    
 ## 1.0.0 (2023-08-22)
 
-The package of @azure/arm-networkcloud is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+The package of @azure/arm-networkcloud is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).

@@ -11,7 +11,7 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
@@ -20,11 +20,16 @@ import {
   CloudServicesNetworksImpl,
   ClusterManagersImpl,
   ClustersImpl,
+  EdgeClusterMachineSkusImpl,
+  EdgeClusterRuntimeVersionsImpl,
+  EdgeClusterSkusImpl,
+  EdgeClustersImpl,
   KubernetesClustersImpl,
   L2NetworksImpl,
   L3NetworksImpl,
   RackSkusImpl,
   RacksImpl,
+  RegistrationHubsImpl,
   StorageAppliancesImpl,
   TrunkedNetworksImpl,
   VirtualMachinesImpl,
@@ -32,8 +37,12 @@ import {
   BareMetalMachineKeySetsImpl,
   BmcKeySetsImpl,
   MetricsConfigurationsImpl,
+  EdgeClusterNodesImpl,
   AgentPoolsImpl,
-  ConsolesImpl
+  KubernetesClusterFeaturesImpl,
+  RegistrationHubImagesImpl,
+  RegistrationHubMachinesImpl,
+  ConsolesImpl,
 } from "./operations";
 import {
   Operations,
@@ -41,11 +50,16 @@ import {
   CloudServicesNetworks,
   ClusterManagers,
   Clusters,
+  EdgeClusterMachineSkus,
+  EdgeClusterRuntimeVersions,
+  EdgeClusterSkus,
+  EdgeClusters,
   KubernetesClusters,
   L2Networks,
   L3Networks,
   RackSkus,
   Racks,
+  RegistrationHubs,
   StorageAppliances,
   TrunkedNetworks,
   VirtualMachines,
@@ -53,8 +67,12 @@ import {
   BareMetalMachineKeySets,
   BmcKeySets,
   MetricsConfigurations,
+  EdgeClusterNodes,
   AgentPools,
-  Consoles
+  KubernetesClusterFeatures,
+  RegistrationHubImages,
+  RegistrationHubMachines,
+  Consoles,
 } from "./operationsInterfaces";
 import { NetworkCloudOptionalParams } from "./models";
 
@@ -72,7 +90,7 @@ export class NetworkCloud extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: NetworkCloudOptionalParams
+    options?: NetworkCloudOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -87,10 +105,10 @@ export class NetworkCloud extends coreClient.ServiceClient {
     }
     const defaults: NetworkCloudOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-networkcloud/1.0.0`;
+    const packageDetails = `azsdk-js-arm-networkcloud/1.1.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -100,20 +118,21 @@ export class NetworkCloud extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -123,7 +142,7 @@ export class NetworkCloud extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -133,9 +152,9 @@ export class NetworkCloud extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -143,17 +162,22 @@ export class NetworkCloud extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-07-01";
+    this.apiVersion = options.apiVersion || "2024-05-01-preview";
     this.operations = new OperationsImpl(this);
     this.bareMetalMachines = new BareMetalMachinesImpl(this);
     this.cloudServicesNetworks = new CloudServicesNetworksImpl(this);
     this.clusterManagers = new ClusterManagersImpl(this);
     this.clusters = new ClustersImpl(this);
+    this.edgeClusterMachineSkus = new EdgeClusterMachineSkusImpl(this);
+    this.edgeClusterRuntimeVersions = new EdgeClusterRuntimeVersionsImpl(this);
+    this.edgeClusterSkus = new EdgeClusterSkusImpl(this);
+    this.edgeClusters = new EdgeClustersImpl(this);
     this.kubernetesClusters = new KubernetesClustersImpl(this);
     this.l2Networks = new L2NetworksImpl(this);
     this.l3Networks = new L3NetworksImpl(this);
     this.rackSkus = new RackSkusImpl(this);
     this.racks = new RacksImpl(this);
+    this.registrationHubs = new RegistrationHubsImpl(this);
     this.storageAppliances = new StorageAppliancesImpl(this);
     this.trunkedNetworks = new TrunkedNetworksImpl(this);
     this.virtualMachines = new VirtualMachinesImpl(this);
@@ -161,7 +185,11 @@ export class NetworkCloud extends coreClient.ServiceClient {
     this.bareMetalMachineKeySets = new BareMetalMachineKeySetsImpl(this);
     this.bmcKeySets = new BmcKeySetsImpl(this);
     this.metricsConfigurations = new MetricsConfigurationsImpl(this);
+    this.edgeClusterNodes = new EdgeClusterNodesImpl(this);
     this.agentPools = new AgentPoolsImpl(this);
+    this.kubernetesClusterFeatures = new KubernetesClusterFeaturesImpl(this);
+    this.registrationHubImages = new RegistrationHubImagesImpl(this);
+    this.registrationHubMachines = new RegistrationHubMachinesImpl(this);
     this.consoles = new ConsolesImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
@@ -175,7 +203,7 @@ export class NetworkCloud extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -189,7 +217,7 @@ export class NetworkCloud extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
@@ -199,11 +227,16 @@ export class NetworkCloud extends coreClient.ServiceClient {
   cloudServicesNetworks: CloudServicesNetworks;
   clusterManagers: ClusterManagers;
   clusters: Clusters;
+  edgeClusterMachineSkus: EdgeClusterMachineSkus;
+  edgeClusterRuntimeVersions: EdgeClusterRuntimeVersions;
+  edgeClusterSkus: EdgeClusterSkus;
+  edgeClusters: EdgeClusters;
   kubernetesClusters: KubernetesClusters;
   l2Networks: L2Networks;
   l3Networks: L3Networks;
   rackSkus: RackSkus;
   racks: Racks;
+  registrationHubs: RegistrationHubs;
   storageAppliances: StorageAppliances;
   trunkedNetworks: TrunkedNetworks;
   virtualMachines: VirtualMachines;
@@ -211,6 +244,10 @@ export class NetworkCloud extends coreClient.ServiceClient {
   bareMetalMachineKeySets: BareMetalMachineKeySets;
   bmcKeySets: BmcKeySets;
   metricsConfigurations: MetricsConfigurations;
+  edgeClusterNodes: EdgeClusterNodes;
   agentPools: AgentPools;
+  kubernetesClusterFeatures: KubernetesClusterFeatures;
+  registrationHubImages: RegistrationHubImages;
+  registrationHubMachines: RegistrationHubMachines;
   consoles: Consoles;
 }
