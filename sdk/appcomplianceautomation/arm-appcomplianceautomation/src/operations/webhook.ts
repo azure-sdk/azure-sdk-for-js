@@ -8,37 +8,34 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { Snapshot } from "../operationsInterfaces";
+import { Webhook } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AppComplianceAutomationToolForMicrosoft365 } from "../appComplianceAutomationToolForMicrosoft365";
 import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
-import {
-  SnapshotResource,
-  SnapshotListNextOptionalParams,
-  SnapshotListOptionalParams,
-  SnapshotListResponse,
-  SnapshotGetOptionalParams,
-  SnapshotGetResponse,
-  SnapshotDownloadRequest,
-  SnapshotDownloadOptionalParams,
-  SnapshotDownloadResponse,
-  SnapshotListNextResponse,
+  WebhookResource,
+  WebhookListNextOptionalParams,
+  WebhookListOptionalParams,
+  WebhookListResponse,
+  WebhookGetOptionalParams,
+  WebhookGetResponse,
+  WebhookCreateOrUpdateOptionalParams,
+  WebhookCreateOrUpdateResponse,
+  WebhookResourcePatch,
+  WebhookUpdateOptionalParams,
+  WebhookUpdateResponse,
+  WebhookDeleteOptionalParams,
+  WebhookListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Snapshot operations. */
-export class SnapshotImpl implements Snapshot {
+/** Class containing Webhook operations. */
+export class WebhookImpl implements Webhook {
   private readonly client: AppComplianceAutomationToolForMicrosoft365;
 
   /**
-   * Initialize a new instance of the class Snapshot class.
+   * Initialize a new instance of the class Webhook class.
    * @param client Reference to the service client
    */
   constructor(client: AppComplianceAutomationToolForMicrosoft365) {
@@ -46,14 +43,14 @@ export class SnapshotImpl implements Snapshot {
   }
 
   /**
-   * Get the AppComplianceAutomation snapshot list.
+   * Get the AppComplianceAutomation webhook list.
    * @param reportName Report Name.
    * @param options The options parameters.
    */
   public list(
     reportName: string,
-    options?: SnapshotListOptionalParams,
-  ): PagedAsyncIterableIterator<SnapshotResource> {
+    options?: WebhookListOptionalParams,
+  ): PagedAsyncIterableIterator<WebhookResource> {
     const iter = this.listPagingAll(reportName, options);
     return {
       next() {
@@ -73,10 +70,10 @@ export class SnapshotImpl implements Snapshot {
 
   private async *listPagingPage(
     reportName: string,
-    options?: SnapshotListOptionalParams,
+    options?: WebhookListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<SnapshotResource[]> {
-    let result: SnapshotListResponse;
+  ): AsyncIterableIterator<WebhookResource[]> {
+    let result: WebhookListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(reportName, options);
@@ -96,22 +93,22 @@ export class SnapshotImpl implements Snapshot {
 
   private async *listPagingAll(
     reportName: string,
-    options?: SnapshotListOptionalParams,
-  ): AsyncIterableIterator<SnapshotResource> {
+    options?: WebhookListOptionalParams,
+  ): AsyncIterableIterator<WebhookResource> {
     for await (const page of this.listPagingPage(reportName, options)) {
       yield* page;
     }
   }
 
   /**
-   * Get the AppComplianceAutomation snapshot list.
+   * Get the AppComplianceAutomation webhook list.
    * @param reportName Report Name.
    * @param options The options parameters.
    */
   private _list(
     reportName: string,
-    options?: SnapshotListOptionalParams,
-  ): Promise<SnapshotListResponse> {
+    options?: WebhookListOptionalParams,
+  ): Promise<WebhookListResponse> {
     return this.client.sendOperationRequest(
       { reportName, options },
       listOperationSpec,
@@ -119,115 +116,75 @@ export class SnapshotImpl implements Snapshot {
   }
 
   /**
-   * Get the AppComplianceAutomation snapshot and its properties.
+   * Get the AppComplianceAutomation webhook and its properties.
    * @param reportName Report Name.
-   * @param snapshotName Snapshot Name.
+   * @param webhookName Webhook Name.
    * @param options The options parameters.
    */
   get(
     reportName: string,
-    snapshotName: string,
-    options?: SnapshotGetOptionalParams,
-  ): Promise<SnapshotGetResponse> {
+    webhookName: string,
+    options?: WebhookGetOptionalParams,
+  ): Promise<WebhookGetResponse> {
     return this.client.sendOperationRequest(
-      { reportName, snapshotName, options },
+      { reportName, webhookName, options },
       getOperationSpec,
     );
   }
 
   /**
-   * Download compliance needs from snapshot, like: Compliance Report, Resource List.
+   * Create a new AppComplianceAutomation webhook or update an exiting AppComplianceAutomation webhook.
    * @param reportName Report Name.
-   * @param snapshotName Snapshot Name.
-   * @param body Parameters for the query operation
+   * @param webhookName Webhook Name.
+   * @param properties Parameters for the create or update operation
    * @param options The options parameters.
    */
-  async beginDownload(
+  createOrUpdate(
     reportName: string,
-    snapshotName: string,
-    body: SnapshotDownloadRequest,
-    options?: SnapshotDownloadOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<SnapshotDownloadResponse>,
-      SnapshotDownloadResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<SnapshotDownloadResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { reportName, snapshotName, body, options },
-      spec: downloadOperationSpec,
-    });
-    const poller = await createHttpPoller<
-      SnapshotDownloadResponse,
-      OperationState<SnapshotDownloadResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
-    });
-    await poller.poll();
-    return poller;
+    webhookName: string,
+    properties: WebhookResource,
+    options?: WebhookCreateOrUpdateOptionalParams,
+  ): Promise<WebhookCreateOrUpdateResponse> {
+    return this.client.sendOperationRequest(
+      { reportName, webhookName, properties, options },
+      createOrUpdateOperationSpec,
+    );
   }
 
   /**
-   * Download compliance needs from snapshot, like: Compliance Report, Resource List.
+   * Update an exiting AppComplianceAutomation webhook.
    * @param reportName Report Name.
-   * @param snapshotName Snapshot Name.
-   * @param body Parameters for the query operation
+   * @param webhookName Webhook Name.
+   * @param properties Parameters for the create or update operation
    * @param options The options parameters.
    */
-  async beginDownloadAndWait(
+  update(
     reportName: string,
-    snapshotName: string,
-    body: SnapshotDownloadRequest,
-    options?: SnapshotDownloadOptionalParams,
-  ): Promise<SnapshotDownloadResponse> {
-    const poller = await this.beginDownload(
-      reportName,
-      snapshotName,
-      body,
-      options,
+    webhookName: string,
+    properties: WebhookResourcePatch,
+    options?: WebhookUpdateOptionalParams,
+  ): Promise<WebhookUpdateResponse> {
+    return this.client.sendOperationRequest(
+      { reportName, webhookName, properties, options },
+      updateOperationSpec,
     );
-    return poller.pollUntilDone();
+  }
+
+  /**
+   * Delete an AppComplianceAutomation webhook.
+   * @param reportName Report Name.
+   * @param webhookName Webhook Name.
+   * @param options The options parameters.
+   */
+  delete(
+    reportName: string,
+    webhookName: string,
+    options?: WebhookDeleteOptionalParams,
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { reportName, webhookName, options },
+      deleteOperationSpec,
+    );
   }
 
   /**
@@ -239,8 +196,8 @@ export class SnapshotImpl implements Snapshot {
   private _listNext(
     reportName: string,
     nextLink: string,
-    options?: SnapshotListNextOptionalParams,
-  ): Promise<SnapshotListNextResponse> {
+    options?: WebhookListNextOptionalParams,
+  ): Promise<WebhookListNextResponse> {
     return this.client.sendOperationRequest(
       { reportName, nextLink, options },
       listNextOperationSpec,
@@ -251,11 +208,11 @@ export class SnapshotImpl implements Snapshot {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/snapshots",
+  path: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/webhooks",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SnapshotResourceListResult,
+      bodyMapper: Mappers.WebhookResourceListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -276,11 +233,11 @@ const listOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/snapshots/{snapshotName}",
+  path: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/webhooks/{webhookName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SnapshotResource,
+      bodyMapper: Mappers.WebhookResource,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -290,40 +247,75 @@ const getOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.reportName,
-    Parameters.snapshotName,
+    Parameters.webhookName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const downloadOperationSpec: coreClient.OperationSpec = {
-  path: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/snapshots/{snapshotName}/download",
-  httpMethod: "POST",
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/webhooks/{webhookName}",
+  httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.DownloadResponse,
+      bodyMapper: Mappers.WebhookResource,
     },
     201: {
-      bodyMapper: Mappers.DownloadResponse,
-    },
-    202: {
-      bodyMapper: Mappers.DownloadResponse,
-    },
-    204: {
-      bodyMapper: Mappers.DownloadResponse,
+      bodyMapper: Mappers.WebhookResource,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body8,
+  requestBody: Parameters.properties4,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.reportName,
-    Parameters.snapshotName,
+    Parameters.webhookName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
+  serializer,
+};
+const updateOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/webhooks/{webhookName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.WebhookResource,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.properties5,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.reportName,
+    Parameters.webhookName,
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer,
+};
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/webhooks/{webhookName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.reportName,
+    Parameters.webhookName,
+  ],
+  headerParameters: [Parameters.accept],
   serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
@@ -331,7 +323,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SnapshotResourceListResult,
+      bodyMapper: Mappers.WebhookResourceListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
