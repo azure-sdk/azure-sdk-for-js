@@ -8,6 +8,9 @@
 
 export * from "./operations";
 export * from "./services";
+export * from "./serviceClassificationsNoSubscription";
+export * from "./serviceClassifications";
+export * from "./problemClassificationsNoSubscription";
 export * from "./problemClassifications";
 export * from "./supportTickets";
 export * from "./supportTicketsNoSubscription";
@@ -19,3 +22,4 @@ export * from "./fileWorkspaces";
 export * from "./fileWorkspacesNoSubscription";
 export * from "./files";
 export * from "./filesNoSubscription";
+export * from "./lookUpResourceId";
