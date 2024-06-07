@@ -12230,7 +12230,7 @@ packages:
     dev: false
 
   file:projects/arm-appservice-1.tgz:
-    resolution: {integrity: sha512-ty0dMNeEV6BYj7X9wqgW86iHPuaXcM0lAES4/XffcGi7IzZVfuzg0li8Vena/FOmW2SlqDDmxT0/RJNMNnLKaQ==, tarball: file:projects/arm-appservice-1.tgz}
+    resolution: {integrity: sha512-8W9upLlL0c+2hXQWRdzjqwIROon/FlTt2g3OT+K9IZaUTCnDS9SkkKlbYtI2GJ1YjHl/oD5CLRJF9Cjiigx7Bw==, tarball: file:projects/arm-appservice-1.tgz}
     name: '@rush-temp/arm-appservice-1'
     version: 0.0.0
     dependencies:
@@ -12251,6 +12251,7 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.4.5)
       tslib: 2.6.2
+      tsx: 4.11.2
       typescript: 5.4.5
       uglify-js: 3.17.4
     transitivePeerDependencies:
