@@ -11,7 +11,7 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import { OperationsImpl, SubscriptionsImpl, TenantsImpl } from "./operations";
@@ -21,7 +21,7 @@ import * as Mappers from "./models/mappers";
 import {
   SubscriptionClientOptionalParams,
   CheckResourceNameOptionalParams,
-  CheckResourceNameResponse
+  CheckResourceNameResponse,
 } from "./models";
 
 export class SubscriptionClient extends coreClient.ServiceClient {
@@ -35,7 +35,7 @@ export class SubscriptionClient extends coreClient.ServiceClient {
    */
   constructor(
     credentials: coreAuth.TokenCredential,
-    options?: SubscriptionClientOptionalParams
+    options?: SubscriptionClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -47,7 +47,7 @@ export class SubscriptionClient extends coreClient.ServiceClient {
     }
     const defaults: SubscriptionClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
     const packageDetails = `azsdk-js-arm-resources-subscriptions/2.1.1`;
@@ -60,20 +60,21 @@ export class SubscriptionClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -83,7 +84,7 @@ export class SubscriptionClient extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -93,9 +94,9 @@ export class SubscriptionClient extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
 
@@ -117,7 +118,7 @@ export class SubscriptionClient extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -131,7 +132,7 @@ export class SubscriptionClient extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
@@ -142,11 +143,11 @@ export class SubscriptionClient extends coreClient.ServiceClient {
    * @param options The options parameters.
    */
   checkResourceName(
-    options?: CheckResourceNameOptionalParams
+    options?: CheckResourceNameOptionalParams,
   ): Promise<CheckResourceNameResponse> {
     return this.sendOperationRequest(
       { options },
-      checkResourceNameOperationSpec
+      checkResourceNameOperationSpec,
     );
   }
 
@@ -162,16 +163,16 @@ const checkResourceNameOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CheckResourceNameResult
+      bodyMapper: Mappers.CheckResourceNameResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.resourceNameDefinition,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
