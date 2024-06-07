@@ -12084,7 +12084,7 @@ packages:
     dev: false
 
   file:projects/arm-appcomplianceautomation.tgz:
-    resolution: {integrity: sha512-9sn969aZYnAGicmEOTkxX3+sAgDLqVugjhsuu9OEzop8QVFY3xk+YjH1Tg8DoAcDQ9NRg106o/8cMhJSFyrsFg==, tarball: file:projects/arm-appcomplianceautomation.tgz}
+    resolution: {integrity: sha512-rKZwrEtGPqNPrUgThMF78TffXs4dm3AVQhTa/3w254V0yQ6WaQlgN52+8G2zCBgXGEzGL/1I696OuwJMXFG9+A==, tarball: file:projects/arm-appcomplianceautomation.tgz}
     name: '@rush-temp/arm-appcomplianceautomation'
     version: 0.0.0
     dependencies:
@@ -12099,11 +12099,13 @@ packages:
       '@types/node': 18.19.33
       chai: 4.3.10
       cross-env: 7.0.3
+      dotenv: 16.4.5
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.4.5)
       tslib: 2.6.2
+      tsx: 4.11.2
       typescript: 5.4.5
       uglify-js: 3.17.4
     transitivePeerDependencies:
