@@ -234,7 +234,6 @@ export const CatalogListResult: coreClient.CompositeMapper = {
       },
       nextLink: {
         serializedName: "nextLink",
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -384,7 +383,6 @@ export const CertificateListResult: coreClient.CompositeMapper = {
       },
       nextLink: {
         serializedName: "nextLink",
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -519,7 +517,6 @@ export const ImageListResult: coreClient.CompositeMapper = {
       },
       nextLink: {
         serializedName: "nextLink",
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -617,7 +614,6 @@ export const DeploymentListResult: coreClient.CompositeMapper = {
       },
       nextLink: {
         serializedName: "nextLink",
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -702,7 +698,6 @@ export const DeviceGroupListResult: coreClient.CompositeMapper = {
       },
       nextLink: {
         serializedName: "nextLink",
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -784,7 +779,6 @@ export const PagedDeviceInsight: coreClient.CompositeMapper = {
       },
       nextLink: {
         serializedName: "nextLink",
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -878,7 +872,6 @@ export const DeviceListResult: coreClient.CompositeMapper = {
       },
       nextLink: {
         serializedName: "nextLink",
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -964,7 +957,6 @@ export const ProductListResult: coreClient.CompositeMapper = {
       },
       nextLink: {
         serializedName: "nextLink",
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -1373,16 +1365,16 @@ export const CatalogsDeleteHeaders: coreClient.CompositeMapper = {
     name: "Composite",
     className: "CatalogsDeleteHeaders",
     modelProperties: {
-      retryAfter: {
-        serializedName: "retry-after",
-        type: {
-          name: "Number",
-        },
-      },
       location: {
         serializedName: "location",
         type: {
           name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },
@@ -1394,16 +1386,16 @@ export const CatalogsUploadImageHeaders: coreClient.CompositeMapper = {
     name: "Composite",
     className: "CatalogsUploadImageHeaders",
     modelProperties: {
-      retryAfter: {
-        serializedName: "retry-after",
-        type: {
-          name: "Number",
-        },
-      },
       location: {
         serializedName: "location",
         type: {
           name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },
@@ -1430,16 +1422,16 @@ export const ImagesDeleteHeaders: coreClient.CompositeMapper = {
     name: "Composite",
     className: "ImagesDeleteHeaders",
     modelProperties: {
-      retryAfter: {
-        serializedName: "retry-after",
-        type: {
-          name: "Number",
-        },
-      },
       location: {
         serializedName: "location",
         type: {
           name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },
@@ -1466,16 +1458,16 @@ export const ProductsUpdateHeaders: coreClient.CompositeMapper = {
     name: "Composite",
     className: "ProductsUpdateHeaders",
     modelProperties: {
-      retryAfter: {
-        serializedName: "retry-after",
-        type: {
-          name: "Number",
-        },
-      },
       location: {
         serializedName: "location",
         type: {
           name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },
@@ -1487,16 +1479,16 @@ export const ProductsDeleteHeaders: coreClient.CompositeMapper = {
     name: "Composite",
     className: "ProductsDeleteHeaders",
     modelProperties: {
-      retryAfter: {
-        serializedName: "retry-after",
-        type: {
-          name: "Number",
-        },
-      },
       location: {
         serializedName: "location",
         type: {
           name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },
@@ -1523,16 +1515,16 @@ export const DeviceGroupsUpdateHeaders: coreClient.CompositeMapper = {
     name: "Composite",
     className: "DeviceGroupsUpdateHeaders",
     modelProperties: {
-      retryAfter: {
-        serializedName: "retry-after",
-        type: {
-          name: "Number",
-        },
-      },
       location: {
         serializedName: "location",
         type: {
           name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },
@@ -1544,16 +1536,16 @@ export const DeviceGroupsDeleteHeaders: coreClient.CompositeMapper = {
     name: "Composite",
     className: "DeviceGroupsDeleteHeaders",
     modelProperties: {
-      retryAfter: {
-        serializedName: "retry-after",
-        type: {
-          name: "Number",
-        },
-      },
       location: {
         serializedName: "location",
         type: {
           name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },
@@ -1565,16 +1557,16 @@ export const DeviceGroupsClaimDevicesHeaders: coreClient.CompositeMapper = {
     name: "Composite",
     className: "DeviceGroupsClaimDevicesHeaders",
     modelProperties: {
-      retryAfter: {
-        serializedName: "retry-after",
-        type: {
-          name: "Number",
-        },
-      },
       location: {
         serializedName: "location",
         type: {
           name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },
@@ -1601,16 +1593,16 @@ export const DeploymentsDeleteHeaders: coreClient.CompositeMapper = {
     name: "Composite",
     className: "DeploymentsDeleteHeaders",
     modelProperties: {
-      retryAfter: {
-        serializedName: "retry-after",
-        type: {
-          name: "Number",
-        },
-      },
       location: {
         serializedName: "location",
         type: {
           name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },
@@ -1637,6 +1629,12 @@ export const DevicesUpdateHeaders: coreClient.CompositeMapper = {
     name: "Composite",
     className: "DevicesUpdateHeaders",
     modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
       retryAfter: {
         serializedName: "retry-after",
         type: {
@@ -1652,16 +1650,16 @@ export const DevicesDeleteHeaders: coreClient.CompositeMapper = {
     name: "Composite",
     className: "DevicesDeleteHeaders",
     modelProperties: {
-      retryAfter: {
-        serializedName: "retry-after",
-        type: {
-          name: "Number",
-        },
-      },
       location: {
         serializedName: "location",
         type: {
           name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },
@@ -1674,16 +1672,16 @@ export const DevicesGenerateCapabilityImageHeaders: coreClient.CompositeMapper =
       name: "Composite",
       className: "DevicesGenerateCapabilityImageHeaders",
       modelProperties: {
-        retryAfter: {
-          serializedName: "retry-after",
-          type: {
-            name: "Number",
-          },
-        },
         location: {
           serializedName: "location",
           type: {
             name: "String",
+          },
+        },
+        retryAfter: {
+          serializedName: "retry-after",
+          type: {
+            name: "Number",
           },
         },
       },
