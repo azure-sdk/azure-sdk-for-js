@@ -18538,7 +18538,7 @@ packages:
     dev: false
 
   file:projects/arm-support.tgz:
-    resolution: {integrity: sha512-EZx9LOr4FvnzC3bqcuWjHo1Opm4bDSGesycx1/D38K98O4Fq/vGs6M0pILw0rp6lhYHh5mNo9jtZw3Ssjm2NAg==, tarball: file:projects/arm-support.tgz}
+    resolution: {integrity: sha512-wabTkCaQTxQaGHGeY6H4nTbxNYGYIackAOk4e+69yjNciylLubIohFbwIsbuBX/XbA8SkhYKRUaZixZWpAtllA==, tarball: file:projects/arm-support.tgz}
     name: '@rush-temp/arm-support'
     version: 0.0.0
     dependencies:
@@ -18559,6 +18559,7 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.4.5)
       tslib: 2.6.2
+      tsx: 4.11.2
       typescript: 5.4.5
       uglify-js: 3.17.4
     transitivePeerDependencies:
