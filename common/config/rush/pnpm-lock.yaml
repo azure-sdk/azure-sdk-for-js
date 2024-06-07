@@ -1264,6 +1264,21 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/arm-compute@21.6.0:
+    resolution: {integrity: sha512-Qk6kxoqMgzOvceUBqD1WTHrPh/iaxlTLQPp241u3iNVOE4FVSTqSzTxjG1tr/UL1rBWGvoLPZExUFddo+Qd5KQ==}
+    engines: {node: '>=18.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.7.2
+      '@azure/core-client': 1.9.2
+      '@azure/core-lro': 2.7.2
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': 1.16.0
+      tslib: 2.6.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/arm-cosmosdb@16.0.0-beta.6:
     resolution: {integrity: sha512-Ue4ocP8qCsFDeBZ/MjMNyVt4e9QhU3UgrRfZSw6kWiMzdrCgDePnZvjzZs9PQpjAsXbHGd9HlEIXg9Dl6Y/uww==}
     engines: {node: '>=14.0.0'}
@@ -13030,7 +13045,7 @@ packages:
     dev: false
 
   file:projects/arm-compute-1.tgz:
-    resolution: {integrity: sha512-D5urrfqEdVKKBCW/Z9tNK8m9M56W0IjKOhRWCutVSUoAziqB/JuRP0KCKgaqomEeDX4j0xQwXSmWo7SueqNpkw==, tarball: file:projects/arm-compute-1.tgz}
+    resolution: {integrity: sha512-hbbNtwGfezfBybAcTyGIor33cZVLVGx7dhOzZGbmRsOCSBYP8v2QlKYAf5rE35V9mhlWQSu0tWZ8RpRPBjRDog==, tarball: file:projects/arm-compute-1.tgz}
     name: '@rush-temp/arm-compute-1'
     version: 0.0.0
     dependencies:
@@ -13052,6 +13067,7 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.4.5)
       tslib: 2.6.2
+      tsx: 4.11.2
       typescript: 5.4.5
       uglify-js: 3.17.4
     transitivePeerDependencies:
@@ -15053,13 +15069,14 @@ packages:
     dev: false
 
   file:projects/arm-imagebuilder.tgz:
-    resolution: {integrity: sha512-ZhLDWmh649eA5wl/RujEO16BLPS7sqyEVck9r08TJVhbmn1Ocq4qAYzGqTuEtxJ1i519baUaVhEHyRb+nkik1w==, tarball: file:projects/arm-imagebuilder.tgz}
+    resolution: {integrity: sha512-cxrmmSjeDEqUpN19Uq2QdX94tT/phyw5ywTJ3+c/4jj6bq5bQ3U4+BUvGcmm5LQaC+9kbVwMc1nDglMKb4qqgw==, tarball: file:projects/arm-imagebuilder.tgz}
     name: '@rush-temp/arm-imagebuilder'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.1.0
       '@azure-tools/test-recorder': 3.5.0
       '@azure/abort-controller': 1.1.0
+      '@azure/arm-compute': 21.6.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.2.0
       '@microsoft/api-extractor': 7.46.2(@types/node@18.19.33)
