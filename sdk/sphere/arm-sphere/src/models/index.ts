@@ -125,11 +125,8 @@ export interface ErrorAdditionalInfo {
 export interface CatalogListResult {
   /** The Catalog items on this page */
   value: Catalog[];
-  /**
-   * The link to the next page of items
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
 /** Catalog properties */
@@ -196,11 +193,8 @@ export interface CatalogUpdate {
 export interface CertificateListResult {
   /** The Certificate items on this page */
   value: Certificate[];
-  /**
-   * The link to the next page of items
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
 /** The properties of certificate */
@@ -267,11 +261,8 @@ export interface CountElementsResponse {
 export interface ImageListResult {
   /** The Image items on this page */
   value: Image[];
-  /**
-   * The link to the next page of items
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
 /** The properties of image */
@@ -318,11 +309,8 @@ export interface ImageProperties {
 export interface DeploymentListResult {
   /** The Deployment items on this page */
   value: Deployment[];
-  /**
-   * The link to the next page of items
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
 /** The properties of deployment */
@@ -353,11 +341,8 @@ export interface ListDeviceGroupsRequest {
 export interface DeviceGroupListResult {
   /** The DeviceGroup items on this page */
   value: DeviceGroup[];
-  /**
-   * The link to the next page of items
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
 /** The properties of deviceGroup */
@@ -388,11 +373,8 @@ export interface DeviceGroupProperties {
 export interface PagedDeviceInsight {
   /** The DeviceInsight items on this page */
   value: DeviceInsight[];
-  /**
-   * The link to the next page of items
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
 /** Device insight report. */
@@ -419,11 +401,8 @@ export interface DeviceInsight {
 export interface DeviceListResult {
   /** The Device items on this page */
   value: Device[];
-  /**
-   * The link to the next page of items
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
 /** The properties of device */
@@ -466,11 +445,8 @@ export interface DeviceProperties {
 export interface ProductListResult {
   /** The Product items on this page */
   value: Product[];
-  /**
-   * The link to the next page of items
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
 /** The properties of product */
@@ -619,18 +595,18 @@ export interface CatalogsCreateOrUpdateHeaders {
 
 /** Defines headers for Catalogs_delete operation. */
 export interface CatalogsDeleteHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for Catalogs_uploadImage operation. */
 export interface CatalogsUploadImageHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for Images_createOrUpdate operation. */
@@ -641,10 +617,10 @@ export interface ImagesCreateOrUpdateHeaders {
 
 /** Defines headers for Images_delete operation. */
 export interface ImagesDeleteHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for Products_createOrUpdate operation. */
@@ -655,18 +631,18 @@ export interface ProductsCreateOrUpdateHeaders {
 
 /** Defines headers for Products_update operation. */
 export interface ProductsUpdateHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for Products_delete operation. */
 export interface ProductsDeleteHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for DeviceGroups_createOrUpdate operation. */
@@ -677,26 +653,26 @@ export interface DeviceGroupsCreateOrUpdateHeaders {
 
 /** Defines headers for DeviceGroups_update operation. */
 export interface DeviceGroupsUpdateHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for DeviceGroups_delete operation. */
 export interface DeviceGroupsDeleteHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for DeviceGroups_claimDevices operation. */
 export interface DeviceGroupsClaimDevicesHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for Deployments_createOrUpdate operation. */
@@ -707,10 +683,10 @@ export interface DeploymentsCreateOrUpdateHeaders {
 
 /** Defines headers for Deployments_delete operation. */
 export interface DeploymentsDeleteHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for Devices_createOrUpdate operation. */
@@ -721,24 +697,26 @@ export interface DevicesCreateOrUpdateHeaders {
 
 /** Defines headers for Devices_update operation. */
 export interface DevicesUpdateHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number;
 }
 
 /** Defines headers for Devices_delete operation. */
 export interface DevicesDeleteHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for Devices_generateCapabilityImage operation. */
 export interface DevicesGenerateCapabilityImageHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Known values of {@link Origin} that the service accepts. */
