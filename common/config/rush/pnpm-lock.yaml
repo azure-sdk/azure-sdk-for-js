@@ -12509,7 +12509,7 @@ packages:
     dev: false
 
   file:projects/arm-avs.tgz:
-    resolution: {integrity: sha512-a18JtfHB9CiIXMyh+bqd1UHcjJqfomgibayRWgUemCeH6t9W7PWHYlIq5+0V/8MtjuJa2Mjrc0v8npl2t50qTA==, tarball: file:projects/arm-avs.tgz}
+    resolution: {integrity: sha512-WF+d17UkeWmJbd4KiVy3EdafYqJQNmO5sBqswhdNVKRca0OQLgyG1ikvLyEYTgMP5/CvHRYZr6jDZOCK7iPxLw==, tarball: file:projects/arm-avs.tgz}
     name: '@rush-temp/arm-avs'
     version: 0.0.0
     dependencies:
@@ -12530,6 +12530,7 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.4.5)
       tslib: 2.6.2
+      tsx: 4.11.2
       typescript: 5.4.5
       uglify-js: 3.17.4
     transitivePeerDependencies:
