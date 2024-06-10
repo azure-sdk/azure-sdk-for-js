@@ -17396,7 +17396,7 @@ packages:
     dev: false
 
   file:projects/arm-resourcehealth.tgz:
-    resolution: {integrity: sha512-wDVa/5RrLM4j+1dg2+JdFV2OS2m52vPfZU2bsJeNYuOPcRKb7PUMBw30TutKCtNoqn2/7WAT2KDsaL/rcl0Qww==, tarball: file:projects/arm-resourcehealth.tgz}
+    resolution: {integrity: sha512-0HYxh7U0lhe91801lKAMnCneVe7ThIj3NlO/wVibk+GmJUrQfXhk8XDAvPwf0Ot2LlwPt/fzm3PPpoAvSuoS0w==, tarball: file:projects/arm-resourcehealth.tgz}
     name: '@rush-temp/arm-resourcehealth'
     version: 0.0.0
     dependencies:
@@ -17415,6 +17415,7 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.33)(typescript@5.4.5)
       tslib: 2.6.2
+      tsx: 4.11.2
       typescript: 5.4.5
       uglify-js: 3.17.4
     transitivePeerDependencies:
