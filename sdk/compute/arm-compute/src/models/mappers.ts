@@ -13574,6 +13574,12 @@ export const VirtualMachineScaleSet: coreClient.CompositeMapper = {
           className: "ResiliencyPolicy",
         },
       },
+      zonalPlatformFaultDomainAlignMode: {
+        serializedName: "properties.zonalPlatformFaultDomainAlignMode",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };

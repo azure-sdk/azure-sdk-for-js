@@ -4040,6 +4040,12 @@ export enum KnownWindowsVMGuestPatchMode {
 }
 
 // @public
+export enum KnownZonalPlatformFaultDomainAlignMode {
+    Aligned = "Aligned",
+    Unaligned = "Unaligned"
+}
+
+// @public
 export interface LastPatchInstallationSummary {
     readonly error?: ApiError;
     readonly excludedPatchCount?: number;
@@ -6785,6 +6791,7 @@ export interface VirtualMachineScaleSet extends Resource {
     readonly uniqueId?: string;
     upgradePolicy?: UpgradePolicy;
     virtualMachineProfile?: VirtualMachineScaleSetVMProfile;
+    zonalPlatformFaultDomainAlignMode?: ZonalPlatformFaultDomainAlignMode;
     zoneBalance?: boolean;
     zones?: string[];
 }
@@ -8342,6 +8349,9 @@ export interface WinRMListener {
     certificateUrl?: string;
     protocol?: ProtocolTypes;
 }
+
+// @public
+export type ZonalPlatformFaultDomainAlignMode = string;
 
 // (No @packageDocumentation comment for this package)
 

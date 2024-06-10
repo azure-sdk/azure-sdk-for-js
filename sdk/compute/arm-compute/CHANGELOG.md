@@ -1,15 +1,14 @@
 # Release History
+    
+## 21.7.0 (2024-06-10)
+    
+**Features**
 
-## 21.6.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Type Alias ZonalPlatformFaultDomainAlignMode
+  - Interface VirtualMachineScaleSet has a new optional parameter zonalPlatformFaultDomainAlignMode
+  - Added Enum KnownZonalPlatformFaultDomainAlignMode
+    
+    
 ## 21.6.0 (2024-04-26)
     
 **Features**
