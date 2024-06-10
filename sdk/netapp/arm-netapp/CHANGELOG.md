@@ -1,5 +1,78 @@
 # Release History
     
+## 21.1.0-beta.1 (2024-06-10)
+Compared with version 21.0.0
+    
+**Features**
+
+  - Added operation Accounts.beginChangeKeyVault
+  - Added operation Accounts.beginChangeKeyVaultAndWait
+  - Added operation Accounts.beginGetChangeKeyVaultInformation
+  - Added operation Accounts.beginGetChangeKeyVaultInformationAndWait
+  - Added operation Accounts.beginMigrateEncryptionKey
+  - Added operation Accounts.beginMigrateEncryptionKeyAndWait
+  - Added operation Volumes.beginCreateOnPremMigrationReplication
+  - Added operation Volumes.beginCreateOnPremMigrationReplicationAndWait
+  - Added operation Volumes.beginFinalizeOnPremMigration
+  - Added operation Volumes.beginFinalizeOnPremMigrationAndWait
+  - Added operation Volumes.beginPeerClusterForOnPremMigration
+  - Added operation Volumes.beginPeerClusterForOnPremMigrationAndWait
+  - Added operation Volumes.beginPerformReplicationTransfer
+  - Added operation Volumes.beginPerformReplicationTransferAndWait
+  - Added operation Volumes.beginSplitCloneFromParent
+  - Added operation Volumes.beginSplitCloneFromParentAndWait
+  - Added Interface AccountsChangeKeyVaultHeaders
+  - Added Interface AccountsChangeKeyVaultOptionalParams
+  - Added Interface AccountsGetChangeKeyVaultInformationHeaders
+  - Added Interface AccountsGetChangeKeyVaultInformationOptionalParams
+  - Added Interface AccountsMigrateEncryptionKeyHeaders
+  - Added Interface AccountsMigrateEncryptionKeyOptionalParams
+  - Added Interface ChangeKeyVault
+  - Added Interface ClusterPeerCommandResponse
+  - Added Interface EncryptionMigrationRequest
+  - Added Interface KeyVaultPrivateEndpoint
+  - Added Interface PeerClusterForVolumeMigrationRequest
+  - Added Interface RemotePath
+  - Added Interface SvmPeerCommandResponse
+  - Added Interface VolumesCreateOnPremMigrationReplicationHeaders
+  - Added Interface VolumesCreateOnPremMigrationReplicationOptionalParams
+  - Added Interface VolumesFinalizeOnPremMigrationHeaders
+  - Added Interface VolumesFinalizeOnPremMigrationOptionalParams
+  - Added Interface VolumesPeerClusterForOnPremMigrationHeaders
+  - Added Interface VolumesPeerClusterForOnPremMigrationOptionalParams
+  - Added Interface VolumesPerformReplicationTransferHeaders
+  - Added Interface VolumesPerformReplicationTransferOptionalParams
+  - Added Interface VolumesSplitCloneFromParentHeaders
+  - Added Interface VolumesSplitCloneFromParentOptionalParams
+  - Added Type Alias AcceptGrowCapacityPoolForShortTermCloneSplit
+  - Added Type Alias AccountsChangeKeyVaultResponse
+  - Added Type Alias AccountsGetChangeKeyVaultInformationResponse
+  - Added Type Alias AccountsMigrateEncryptionKeyResponse
+  - Added Type Alias VolumeLanguage
+  - Added Type Alias VolumesCreateOnPremMigrationReplicationResponse
+  - Added Type Alias VolumesFinalizeOnPremMigrationResponse
+  - Added Type Alias VolumesPeerClusterForOnPremMigrationResponse
+  - Added Type Alias VolumesPerformReplicationTransferResponse
+  - Added Type Alias VolumesSplitCloneFromParentResponse
+  - Interface FilePathAvailabilityRequest has a new optional parameter availabilityZone
+  - Interface NetAppAccount has a new optional parameter isMultiAdEnabled
+  - Interface NetAppAccount has a new optional parameter nfsV4IDDomain
+  - Interface NetAppAccountPatch has a new optional parameter isMultiAdEnabled
+  - Interface NetAppAccountPatch has a new optional parameter nfsV4IDDomain
+  - Interface NetAppResourceCheckFilePathAvailabilityOptionalParams has a new optional parameter availabilityZone
+  - Interface Replication has a new optional parameter replicationId
+  - Interface ReplicationObject has a new optional parameter remotePath
+  - Interface Volume has a new optional parameter acceptGrowCapacityPoolForShortTermCloneSplit
+  - Interface Volume has a new optional parameter inheritedSizeInBytes
+  - Interface Volume has a new optional parameter language
+  - Interface VolumeGroupVolumeProperties has a new optional parameter acceptGrowCapacityPoolForShortTermCloneSplit
+  - Interface VolumeGroupVolumeProperties has a new optional parameter inheritedSizeInBytes
+  - Interface VolumeGroupVolumeProperties has a new optional parameter language
+  - Interface VolumePatch has a new optional parameter protocolTypes
+  - Added Enum KnownAcceptGrowCapacityPoolForShortTermCloneSplit
+  - Added Enum KnownVolumeLanguage
+    
+    
 ## 21.0.0 (2024-05-14)
     
 **Features**

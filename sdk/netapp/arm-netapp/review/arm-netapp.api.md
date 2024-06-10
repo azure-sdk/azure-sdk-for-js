@@ -11,6 +11,9 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
+export type AcceptGrowCapacityPoolForShortTermCloneSplit = string;
+
+// @public
 export interface AccountEncryption {
     identity?: EncryptionIdentity;
     keySource?: KeySource;
@@ -19,10 +22,16 @@ export interface AccountEncryption {
 
 // @public
 export interface Accounts {
+    beginChangeKeyVault(resourceGroupName: string, accountName: string, options?: AccountsChangeKeyVaultOptionalParams): Promise<SimplePollerLike<OperationState<AccountsChangeKeyVaultResponse>, AccountsChangeKeyVaultResponse>>;
+    beginChangeKeyVaultAndWait(resourceGroupName: string, accountName: string, options?: AccountsChangeKeyVaultOptionalParams): Promise<AccountsChangeKeyVaultResponse>;
     beginCreateOrUpdate(resourceGroupName: string, accountName: string, body: NetAppAccount, options?: AccountsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AccountsCreateOrUpdateResponse>, AccountsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, accountName: string, body: NetAppAccount, options?: AccountsCreateOrUpdateOptionalParams): Promise<AccountsCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, accountName: string, options?: AccountsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, accountName: string, options?: AccountsDeleteOptionalParams): Promise<void>;
+    beginGetChangeKeyVaultInformation(resourceGroupName: string, accountName: string, options?: AccountsGetChangeKeyVaultInformationOptionalParams): Promise<SimplePollerLike<OperationState<AccountsGetChangeKeyVaultInformationResponse>, AccountsGetChangeKeyVaultInformationResponse>>;
+    beginGetChangeKeyVaultInformationAndWait(resourceGroupName: string, accountName: string, options?: AccountsGetChangeKeyVaultInformationOptionalParams): Promise<AccountsGetChangeKeyVaultInformationResponse>;
+    beginMigrateEncryptionKey(resourceGroupName: string, accountName: string, options?: AccountsMigrateEncryptionKeyOptionalParams): Promise<SimplePollerLike<OperationState<AccountsMigrateEncryptionKeyResponse>, AccountsMigrateEncryptionKeyResponse>>;
+    beginMigrateEncryptionKeyAndWait(resourceGroupName: string, accountName: string, options?: AccountsMigrateEncryptionKeyOptionalParams): Promise<AccountsMigrateEncryptionKeyResponse>;
     beginRenewCredentials(resourceGroupName: string, accountName: string, options?: AccountsRenewCredentialsOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginRenewCredentialsAndWait(resourceGroupName: string, accountName: string, options?: AccountsRenewCredentialsOptionalParams): Promise<void>;
     beginUpdate(resourceGroupName: string, accountName: string, body: NetAppAccountPatch, options?: AccountsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AccountsUpdateResponse>, AccountsUpdateResponse>>;
@@ -31,6 +40,22 @@ export interface Accounts {
     list(resourceGroupName: string, options?: AccountsListOptionalParams): PagedAsyncIterableIterator<NetAppAccount>;
     listBySubscription(options?: AccountsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<NetAppAccount>;
 }
+
+// @public
+export interface AccountsChangeKeyVaultHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface AccountsChangeKeyVaultOptionalParams extends coreClient.OperationOptions {
+    body?: ChangeKeyVault;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type AccountsChangeKeyVaultResponse = AccountsChangeKeyVaultHeaders;
 
 // @public
 export interface AccountsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
@@ -46,6 +71,21 @@ export interface AccountsDeleteOptionalParams extends coreClient.OperationOption
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export interface AccountsGetChangeKeyVaultInformationHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface AccountsGetChangeKeyVaultInformationOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type AccountsGetChangeKeyVaultInformationResponse = AccountsGetChangeKeyVaultInformationHeaders;
 
 // @public
 export interface AccountsGetOptionalParams extends coreClient.OperationOptions {
@@ -81,6 +121,22 @@ export interface AccountsListOptionalParams extends coreClient.OperationOptions 
 
 // @public
 export type AccountsListResponse = NetAppAccountList;
+
+// @public
+export interface AccountsMigrateEncryptionKeyHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface AccountsMigrateEncryptionKeyOptionalParams extends coreClient.OperationOptions {
+    body?: EncryptionMigrationRequest;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type AccountsMigrateEncryptionKeyResponse = AccountsMigrateEncryptionKeyHeaders;
 
 // @public
 export interface AccountsRenewCredentialsOptionalParams extends coreClient.OperationOptions {
@@ -568,6 +624,14 @@ export interface CapacityPoolPatch {
 }
 
 // @public
+export interface ChangeKeyVault {
+    keyName: string;
+    keyVaultPrivateEndpoints: KeyVaultPrivateEndpoint[];
+    keyVaultResourceId: string;
+    keyVaultUri: string;
+}
+
+// @public
 export interface CheckAvailabilityResponse {
     isAvailable?: boolean;
     message?: string;
@@ -592,6 +656,11 @@ export interface CloudError {
 export interface CloudErrorBody {
     code?: string;
     message?: string;
+}
+
+// @public
+export interface ClusterPeerCommandResponse {
+    peerAcceptCommand?: string;
 }
 
 // @public
@@ -625,6 +694,12 @@ export interface EncryptionIdentity {
 
 // @public
 export type EncryptionKeySource = string;
+
+// @public
+export interface EncryptionMigrationRequest {
+    privateEndpointId: string;
+    virtualNetworkId: string;
+}
 
 // @public
 export type EncryptionType = string;
@@ -676,6 +751,7 @@ export type FileAccessLogs = string;
 
 // @public
 export interface FilePathAvailabilityRequest {
+    availabilityZone?: string;
     name: string;
     subnetId: string;
 }
@@ -707,6 +783,12 @@ export type InAvailabilityReasonType = string;
 export type KeySource = string;
 
 // @public
+export interface KeyVaultPrivateEndpoint {
+    privateEndpointId?: string;
+    virtualNetworkId?: string;
+}
+
+// @public
 export interface KeyVaultProperties {
     keyName: string;
     readonly keyVaultId?: string;
@@ -717,6 +799,12 @@ export interface KeyVaultProperties {
 
 // @public
 export type KeyVaultStatus = string;
+
+// @public
+export enum KnownAcceptGrowCapacityPoolForShortTermCloneSplit {
+    Accepted = "Accepted",
+    Declined = "Declined"
+}
 
 // @public
 export enum KnownActiveDirectoryStatus {
@@ -937,6 +1025,79 @@ export enum KnownType {
 }
 
 // @public
+export enum KnownVolumeLanguage {
+    Ar = "ar",
+    ArUtf8 = "ar.utf-8",
+    C = "c",
+    Cs = "cs",
+    CsUtf8 = "cs.utf-8",
+    CUtf8 = "c.utf-8",
+    Da = "da",
+    DaUtf8 = "da.utf-8",
+    De = "de",
+    DeUtf8 = "de.utf-8",
+    En = "en",
+    EnUs = "en-us",
+    EnUsUtf8 = "en-us.utf-8",
+    EnUtf8 = "en.utf-8",
+    Es = "es",
+    EsUtf8 = "es.utf-8",
+    Fi = "fi",
+    FiUtf8 = "fi.utf-8",
+    Fr = "fr",
+    FrUtf8 = "fr.utf-8",
+    He = "he",
+    HeUtf8 = "he.utf-8",
+    Hr = "hr",
+    HrUtf8 = "hr.utf-8",
+    Hu = "hu",
+    HuUtf8 = "hu.utf-8",
+    It = "it",
+    ItUtf8 = "it.utf-8",
+    Ja = "ja",
+    JaJp932 = "ja-jp.932",
+    JaJp932Utf8 = "ja-jp.932.utf-8",
+    JaJpPck = "ja-jp.pck",
+    JaJpPckUtf8 = "ja-jp.pck.utf-8",
+    JaJpPckV2 = "ja-jp.pck-v2",
+    JaJpPckV2Utf8 = "ja-jp.pck-v2.utf-8",
+    JaUtf8 = "ja.utf-8",
+    JaV1 = "ja-v1",
+    JaV1Utf8 = "ja-v1.utf-8",
+    Ko = "ko",
+    KoUtf8 = "ko.utf-8",
+    Nl = "nl",
+    NlUtf8 = "nl.utf-8",
+    No = "no",
+    NoUtf8 = "no.utf-8",
+    Pl = "pl",
+    PlUtf8 = "pl.utf-8",
+    Pt = "pt",
+    PtUtf8 = "pt.utf-8",
+    Ro = "ro",
+    RoUtf8 = "ro.utf-8",
+    Ru = "ru",
+    RuUtf8 = "ru.utf-8",
+    Sk = "sk",
+    SkUtf8 = "sk.utf-8",
+    Sl = "sl",
+    SlUtf8 = "sl.utf-8",
+    Sv = "sv",
+    SvUtf8 = "sv.utf-8",
+    Tr = "tr",
+    TrUtf8 = "tr.utf-8",
+    Utf8Mb4 = "utf8mb4",
+    Zh = "zh",
+    ZhGbk = "zh.gbk",
+    ZhGbkUtf8 = "zh.gbk.utf-8",
+    ZhTw = "zh-tw",
+    ZhTwBig5 = "zh-tw.big5",
+    ZhTwBig5Utf8 = "zh-tw.big5.utf-8",
+    ZhTwUtf8 = "zh-tw.utf-8",
+    ZhUtf8 = "zh.utf-8"
+}
+
+// @public
 export enum KnownVolumeStorageToNetworkProximity {
     AcrossT2 = "AcrossT2",
     Default = "Default",
@@ -1040,6 +1201,8 @@ export interface NetAppAccount extends TrackedResource {
     encryption?: AccountEncryption;
     readonly etag?: string;
     identity?: ManagedServiceIdentity;
+    readonly isMultiAdEnabled?: boolean;
+    nfsV4IDDomain?: string;
     readonly provisioningState?: string;
 }
 
@@ -1056,8 +1219,10 @@ export interface NetAppAccountPatch {
     encryption?: AccountEncryption;
     readonly id?: string;
     identity?: ManagedServiceIdentity;
+    readonly isMultiAdEnabled?: boolean;
     location?: string;
     readonly name?: string;
+    nfsV4IDDomain?: string;
     readonly provisioningState?: string;
     tags?: {
         [propertyName: string]: string;
@@ -1132,6 +1297,7 @@ export interface NetAppResource {
 
 // @public
 export interface NetAppResourceCheckFilePathAvailabilityOptionalParams extends coreClient.OperationOptions {
+    availabilityZone?: string;
 }
 
 // @public
@@ -1283,6 +1449,12 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 export type OperationsListResponse = OperationListResult;
 
 // @public
+export interface PeerClusterForVolumeMigrationRequest {
+    peerAddresses: string[];
+    remotePath?: RemotePath;
+}
+
+// @public
 export interface PlacementKeyValuePairs {
     key: string;
     value: string;
@@ -1414,16 +1586,25 @@ export interface RelocateVolumeRequest {
 }
 
 // @public
+export interface RemotePath {
+    externalHostName: string;
+    serverName: string;
+    volumeName: string;
+}
+
+// @public
 export interface Replication {
     endpointType?: EndpointType;
     remoteVolumeRegion?: string;
     remoteVolumeResourceId: string;
+    readonly replicationId?: string;
     replicationSchedule?: ReplicationSchedule;
 }
 
 // @public
 export interface ReplicationObject {
     endpointType?: EndpointType;
+    remotePath?: RemotePath;
     remoteVolumeRegion?: string;
     remoteVolumeResourceId: string;
     readonly replicationId?: string;
@@ -1796,6 +1977,11 @@ export interface SubvolumesUpdateOptionalParams extends coreClient.OperationOpti
 export type SubvolumesUpdateResponse = SubvolumeInfo;
 
 // @public
+export interface SvmPeerCommandResponse {
+    svmPeeringCommand?: string;
+}
+
+// @public
 export interface SystemData {
     createdAt?: Date;
     createdBy?: string;
@@ -1832,6 +2018,7 @@ export interface UserAssignedIdentity {
 
 // @public
 export interface Volume extends TrackedResource {
+    acceptGrowCapacityPoolForShortTermCloneSplit?: AcceptGrowCapacityPoolForShortTermCloneSplit;
     readonly actualThroughputMibps?: number;
     avsDataStore?: AvsDataStore;
     backupId?: string;
@@ -1854,11 +2041,13 @@ export interface Volume extends TrackedResource {
     exportPolicy?: VolumePropertiesExportPolicy;
     readonly fileAccessLogs?: FileAccessLogs;
     readonly fileSystemId?: string;
+    readonly inheritedSizeInBytes?: number;
     isDefaultQuotaEnabled?: boolean;
     isLargeVolume?: boolean;
     isRestoring?: boolean;
     kerberosEnabled?: boolean;
     keyVaultPrivateEndpointResourceId?: string;
+    language?: VolumeLanguage;
     ldapEnabled?: boolean;
     readonly maximumNumberOfFiles?: number;
     readonly mountTargets?: MountTargetProperties[];
@@ -1981,6 +2170,7 @@ export type VolumeGroupsListByNetAppAccountResponse = VolumeGroupList;
 
 // @public
 export interface VolumeGroupVolumeProperties {
+    acceptGrowCapacityPoolForShortTermCloneSplit?: AcceptGrowCapacityPoolForShortTermCloneSplit;
     readonly actualThroughputMibps?: number;
     avsDataStore?: AvsDataStore;
     backupId?: string;
@@ -2003,11 +2193,13 @@ export interface VolumeGroupVolumeProperties {
     readonly fileAccessLogs?: FileAccessLogs;
     readonly fileSystemId?: string;
     readonly id?: string;
+    readonly inheritedSizeInBytes?: number;
     isDefaultQuotaEnabled?: boolean;
     isLargeVolume?: boolean;
     isRestoring?: boolean;
     kerberosEnabled?: boolean;
     keyVaultPrivateEndpointResourceId?: string;
+    language?: VolumeLanguage;
     ldapEnabled?: boolean;
     readonly maximumNumberOfFiles?: number;
     readonly mountTargets?: MountTargetProperties[];
@@ -2045,6 +2237,9 @@ export interface VolumeGroupVolumeProperties {
 }
 
 // @public
+export type VolumeLanguage = string;
+
+// @public
 export interface VolumeList {
     nextLink?: string;
     value?: Volume[];
@@ -2063,6 +2258,7 @@ export interface VolumePatch {
     isDefaultQuotaEnabled?: boolean;
     location?: string;
     readonly name?: string;
+    protocolTypes?: string[];
     serviceLevel?: ServiceLevel;
     smbAccessBasedEnumeration?: SmbAccessBasedEnumeration;
     smbNonBrowsable?: SmbNonBrowsable;
@@ -2193,16 +2389,24 @@ export interface Volumes {
     beginBreakFileLocksAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesBreakFileLocksOptionalParams): Promise<void>;
     beginBreakReplication(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesBreakReplicationOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginBreakReplicationAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesBreakReplicationOptionalParams): Promise<void>;
+    beginCreateOnPremMigrationReplication(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesCreateOnPremMigrationReplicationOptionalParams): Promise<SimplePollerLike<OperationState<VolumesCreateOnPremMigrationReplicationResponse>, VolumesCreateOnPremMigrationReplicationResponse>>;
+    beginCreateOnPremMigrationReplicationAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesCreateOnPremMigrationReplicationOptionalParams): Promise<VolumesCreateOnPremMigrationReplicationResponse>;
     beginCreateOrUpdate(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, body: Volume, options?: VolumesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VolumesCreateOrUpdateResponse>, VolumesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, body: Volume, options?: VolumesCreateOrUpdateOptionalParams): Promise<VolumesCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesDeleteOptionalParams): Promise<void>;
     beginDeleteReplication(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesDeleteReplicationOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteReplicationAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesDeleteReplicationOptionalParams): Promise<void>;
+    beginFinalizeOnPremMigration(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesFinalizeOnPremMigrationOptionalParams): Promise<SimplePollerLike<OperationState<VolumesFinalizeOnPremMigrationResponse>, VolumesFinalizeOnPremMigrationResponse>>;
+    beginFinalizeOnPremMigrationAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesFinalizeOnPremMigrationOptionalParams): Promise<VolumesFinalizeOnPremMigrationResponse>;
     beginFinalizeRelocation(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesFinalizeRelocationOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginFinalizeRelocationAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesFinalizeRelocationOptionalParams): Promise<void>;
     beginListGetGroupIdListForLdapUser(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, body: GetGroupIdListForLdapUserRequest, options?: VolumesListGetGroupIdListForLdapUserOptionalParams): Promise<SimplePollerLike<OperationState<VolumesListGetGroupIdListForLdapUserResponse>, VolumesListGetGroupIdListForLdapUserResponse>>;
     beginListGetGroupIdListForLdapUserAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, body: GetGroupIdListForLdapUserRequest, options?: VolumesListGetGroupIdListForLdapUserOptionalParams): Promise<VolumesListGetGroupIdListForLdapUserResponse>;
+    beginPeerClusterForOnPremMigration(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, body: PeerClusterForVolumeMigrationRequest, options?: VolumesPeerClusterForOnPremMigrationOptionalParams): Promise<SimplePollerLike<OperationState<VolumesPeerClusterForOnPremMigrationResponse>, VolumesPeerClusterForOnPremMigrationResponse>>;
+    beginPeerClusterForOnPremMigrationAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, body: PeerClusterForVolumeMigrationRequest, options?: VolumesPeerClusterForOnPremMigrationOptionalParams): Promise<VolumesPeerClusterForOnPremMigrationResponse>;
+    beginPerformReplicationTransfer(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesPerformReplicationTransferOptionalParams): Promise<SimplePollerLike<OperationState<VolumesPerformReplicationTransferResponse>, VolumesPerformReplicationTransferResponse>>;
+    beginPerformReplicationTransferAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesPerformReplicationTransferOptionalParams): Promise<VolumesPerformReplicationTransferResponse>;
     beginPoolChange(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, body: PoolChangeRequest, options?: VolumesPoolChangeOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginPoolChangeAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, body: PoolChangeRequest, options?: VolumesPoolChangeOptionalParams): Promise<void>;
     beginPopulateAvailabilityZone(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesPopulateAvailabilityZoneOptionalParams): Promise<SimplePollerLike<OperationState<VolumesPopulateAvailabilityZoneResponse>, VolumesPopulateAvailabilityZoneResponse>>;
@@ -2221,6 +2425,8 @@ export interface Volumes {
     beginRevertAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, body: VolumeRevert, options?: VolumesRevertOptionalParams): Promise<void>;
     beginRevertRelocation(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesRevertRelocationOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginRevertRelocationAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesRevertRelocationOptionalParams): Promise<void>;
+    beginSplitCloneFromParent(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesSplitCloneFromParentOptionalParams): Promise<SimplePollerLike<OperationState<VolumesSplitCloneFromParentResponse>, VolumesSplitCloneFromParentResponse>>;
+    beginSplitCloneFromParentAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesSplitCloneFromParentOptionalParams): Promise<VolumesSplitCloneFromParentResponse>;
     beginUpdate(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, body: VolumePatch, options?: VolumesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VolumesUpdateResponse>, VolumesUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, body: VolumePatch, options?: VolumesUpdateOptionalParams): Promise<VolumesUpdateResponse>;
     get(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesGetOptionalParams): Promise<VolumesGetResponse>;
@@ -2256,6 +2462,21 @@ export interface VolumesBreakReplicationOptionalParams extends coreClient.Operat
 }
 
 // @public
+export interface VolumesCreateOnPremMigrationReplicationHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface VolumesCreateOnPremMigrationReplicationOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type VolumesCreateOnPremMigrationReplicationResponse = SvmPeerCommandResponse;
+
+// @public
 export interface VolumesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -2276,6 +2497,21 @@ export interface VolumesDeleteReplicationOptionalParams extends coreClient.Opera
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export interface VolumesFinalizeOnPremMigrationHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface VolumesFinalizeOnPremMigrationOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type VolumesFinalizeOnPremMigrationResponse = VolumesFinalizeOnPremMigrationHeaders;
 
 // @public
 export interface VolumesFinalizeRelocationOptionalParams extends coreClient.OperationOptions {
@@ -2330,6 +2566,36 @@ export type VolumesListResponse = VolumeList;
 export interface VolumeSnapshotProperties {
     snapshotPolicyId?: string;
 }
+
+// @public
+export interface VolumesPeerClusterForOnPremMigrationHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface VolumesPeerClusterForOnPremMigrationOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type VolumesPeerClusterForOnPremMigrationResponse = ClusterPeerCommandResponse;
+
+// @public
+export interface VolumesPerformReplicationTransferHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface VolumesPerformReplicationTransferOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type VolumesPerformReplicationTransferResponse = VolumesPerformReplicationTransferHeaders;
 
 // @public
 export interface VolumesPoolChangeOptionalParams extends coreClient.OperationOptions {
@@ -2410,6 +2676,21 @@ export interface VolumesRevertRelocationOptionalParams extends coreClient.Operat
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export interface VolumesSplitCloneFromParentHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface VolumesSplitCloneFromParentOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type VolumesSplitCloneFromParentResponse = VolumesSplitCloneFromParentHeaders;
 
 // @public
 export type VolumeStorageToNetworkProximity = string;
