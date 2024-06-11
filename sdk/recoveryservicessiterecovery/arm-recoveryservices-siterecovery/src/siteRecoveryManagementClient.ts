@@ -31,6 +31,9 @@ import {
   ReplicationProtectedItemsImpl,
   RecoveryPointsImpl,
   TargetComputeSizesImpl,
+  ReplicationProtectionClustersImpl,
+  ClusterRecoveryPointsImpl,
+  ClusterRecoveryPointOperationsImpl,
   ReplicationProtectionContainerMappingsImpl,
   ReplicationRecoveryServicesProvidersImpl,
   ReplicationStorageClassificationsImpl,
@@ -61,6 +64,9 @@ import {
   ReplicationProtectedItems,
   RecoveryPoints,
   TargetComputeSizes,
+  ReplicationProtectionClusters,
+  ClusterRecoveryPoints,
+  ClusterRecoveryPointOperations,
   ReplicationProtectionContainerMappings,
   ReplicationRecoveryServicesProviders,
   ReplicationStorageClassifications,
@@ -80,16 +86,28 @@ export class SiteRecoveryManagementClient extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
   subscriptionId: string;
+  resourceName: string;
+  fabricName: string;
+  protectionContainerName: string;
+  replicationProtectionClusterName: string;
 
   /**
    * Initializes a new instance of the SiteRecoveryManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param subscriptionId The subscription Id.
+   * @param resourceName The name of the recovery services vault.
+   * @param fabricName Fabric name.
+   * @param protectionContainerName Protection container name.
+   * @param replicationProtectionClusterName Replication protection cluster name.
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
+    resourceName: string,
+    fabricName: string,
+    protectionContainerName: string,
+    replicationProtectionClusterName: string,
     options?: SiteRecoveryManagementClientOptionalParams,
   ) {
     if (credentials === undefined) {
@@ -97,6 +115,18 @@ export class SiteRecoveryManagementClient extends coreClient.ServiceClient {
     }
     if (subscriptionId === undefined) {
       throw new Error("'subscriptionId' cannot be null");
+    }
+    if (resourceName === undefined) {
+      throw new Error("'resourceName' cannot be null");
+    }
+    if (fabricName === undefined) {
+      throw new Error("'fabricName' cannot be null");
+    }
+    if (protectionContainerName === undefined) {
+      throw new Error("'protectionContainerName' cannot be null");
+    }
+    if (replicationProtectionClusterName === undefined) {
+      throw new Error("'replicationProtectionClusterName' cannot be null");
     }
 
     // Initializing default values for options
@@ -108,7 +138,7 @@ export class SiteRecoveryManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-recoveryservices-siterecovery/5.2.1`;
+    const packageDetails = `azsdk-js-arm-recoveryservices-siterecovery/6.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -159,10 +189,14 @@ export class SiteRecoveryManagementClient extends coreClient.ServiceClient {
     }
     // Parameter assignments
     this.subscriptionId = subscriptionId;
+    this.resourceName = resourceName;
+    this.fabricName = fabricName;
+    this.protectionContainerName = protectionContainerName;
+    this.replicationProtectionClusterName = replicationProtectionClusterName;
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-08-01";
+    this.apiVersion = options.apiVersion || "2024-04-01";
     this.operations = new OperationsImpl(this);
     this.replicationAlertSettings = new ReplicationAlertSettingsImpl(this);
     this.replicationAppliances = new ReplicationAppliancesImpl(this);
@@ -183,6 +217,12 @@ export class SiteRecoveryManagementClient extends coreClient.ServiceClient {
     this.replicationProtectedItems = new ReplicationProtectedItemsImpl(this);
     this.recoveryPoints = new RecoveryPointsImpl(this);
     this.targetComputeSizes = new TargetComputeSizesImpl(this);
+    this.replicationProtectionClusters = new ReplicationProtectionClustersImpl(
+      this,
+    );
+    this.clusterRecoveryPoints = new ClusterRecoveryPointsImpl(this);
+    this.clusterRecoveryPointOperations =
+      new ClusterRecoveryPointOperationsImpl(this);
     this.replicationProtectionContainerMappings =
       new ReplicationProtectionContainerMappingsImpl(this);
     this.replicationRecoveryServicesProviders =
@@ -249,6 +289,9 @@ export class SiteRecoveryManagementClient extends coreClient.ServiceClient {
   replicationProtectedItems: ReplicationProtectedItems;
   recoveryPoints: RecoveryPoints;
   targetComputeSizes: TargetComputeSizes;
+  replicationProtectionClusters: ReplicationProtectionClusters;
+  clusterRecoveryPoints: ClusterRecoveryPoints;
+  clusterRecoveryPointOperations: ClusterRecoveryPointOperations;
   replicationProtectionContainerMappings: ReplicationProtectionContainerMappings;
   replicationRecoveryServicesProviders: ReplicationRecoveryServicesProviders;
   replicationStorageClassifications: ReplicationStorageClassifications;
