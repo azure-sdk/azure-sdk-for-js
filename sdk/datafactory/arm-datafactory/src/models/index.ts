@@ -3853,6 +3853,8 @@ export interface ExecuteDataFlowActivityTypeProperties {
   staging?: DataFlowStagingInfo;
   /** The integration runtime reference. */
   integrationRuntime?: IntegrationRuntimeReference;
+  /** Continuation settings for execute data flow activity. */
+  continuationSettings?: ContinuationSettingsReference;
   /** Compute properties for data flow activity. */
   compute?: ExecuteDataFlowActivityTypePropertiesCompute;
   /** Trace level setting used for data flow monitoring output. Supported values are: 'coarse', 'fine', and 'none'. Type: string (or Expression with resultType string) */
@@ -3863,6 +3865,16 @@ export interface ExecuteDataFlowActivityTypeProperties {
   runConcurrently?: any;
   /** Specify number of parallel staging for sources applicable to the sink. Type: integer (or Expression with resultType integer) */
   sourceStagingConcurrency?: any;
+}
+
+/** Continuation settings for execute data flow activity. */
+export interface ContinuationSettingsReference {
+  /** Continuation TTL in minutes. */
+  continuationTtlInMinutes?: any;
+  /** Idle condition. */
+  idleCondition?: any;
+  /** Customized checkpoint key. */
+  customizedCheckpointKey?: any;
 }
 
 /** Compute properties for data flow activity. */
@@ -4580,6 +4592,8 @@ export interface SqlServerLinkedService extends LinkedService {
   encryptedCredential?: string;
   /** Sql always encrypted properties. */
   alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties;
+  /** The credential reference containing authentication information. */
+  credential?: CredentialReference;
 }
 
 /** Amazon RDS for SQL Server linked service. */
@@ -8294,6 +8308,8 @@ export interface ExecuteWranglingDataflowActivity extends Activity {
   staging?: DataFlowStagingInfo;
   /** The integration runtime reference. */
   integrationRuntime?: IntegrationRuntimeReference;
+  /** Continuation settings for execute data flow activity. */
+  continuationSettings?: ContinuationSettingsReference;
   /** Compute properties for data flow activity. */
   compute?: ExecuteDataFlowActivityTypePropertiesCompute;
   /** Trace level setting used for data flow monitoring output. Supported values are: 'coarse', 'fine', and 'none'. Type: string (or Expression with resultType string) */
@@ -8764,6 +8780,8 @@ export interface SqlServerLinkedServiceTypeProperties
   encryptedCredential?: string;
   /** Sql always encrypted properties. */
   alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties;
+  /** The credential reference containing authentication information. */
+  credential?: CredentialReference;
 }
 
 /** Amazon Rds for SQL Server linked service properties. */
@@ -11138,6 +11156,8 @@ export interface ExecuteDataFlowActivity extends ExecutionActivity {
   staging?: DataFlowStagingInfo;
   /** The integration runtime reference. */
   integrationRuntime?: IntegrationRuntimeReference;
+  /** Continuation settings for execute data flow activity. */
+  continuationSettings?: ContinuationSettingsReference;
   /** Compute properties for data flow activity. */
   compute?: ExecuteDataFlowActivityTypePropertiesCompute;
   /** Trace level setting used for data flow monitoring output. Supported values are: 'coarse', 'fine', and 'none'. Type: string (or Expression with resultType string) */
@@ -12858,6 +12878,8 @@ export enum KnownSqlServerAuthenticationType {
   SQL = "SQL",
   /** Windows */
   Windows = "Windows",
+  /** UserAssignedManagedIdentity */
+  UserAssignedManagedIdentity = "UserAssignedManagedIdentity",
 }
 
 /**
@@ -12866,7 +12888,8 @@ export enum KnownSqlServerAuthenticationType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **SQL** \
- * **Windows**
+ * **Windows** \
+ * **UserAssignedManagedIdentity**
  */
 export type SqlServerAuthenticationType = string;
 
