@@ -18,7 +18,33 @@ export interface A2AAddDisksInput extends AddDisksProviderSpecificInput {
 }
 
 // @public
+export interface A2AApplyClusterRecoveryPointInput extends ApplyClusterRecoveryPointProviderSpecificInput {
+    instanceType: "A2A";
+}
+
+// @public
 export interface A2AApplyRecoveryPointInput extends ApplyRecoveryPointProviderSpecificInput {
+    instanceType: "A2A";
+}
+
+// @public
+export interface A2AClusterRecoveryPointDetails extends ClusterProviderSpecificRecoveryPointDetails {
+    instanceType: "A2A";
+    nodes?: string[];
+    recoveryPointSyncType?: RecoveryPointSyncType;
+}
+
+// @public
+export interface A2AClusterTestFailoverInput extends ClusterTestFailoverProviderSpecificInput {
+    clusterRecoveryPointId?: string;
+    individualNodeRecoveryPoints?: string[];
+    instanceType: "A2A";
+}
+
+// @public
+export interface A2AClusterUnplannedFailoverInput extends ClusterUnplannedFailoverProviderSpecificInput {
+    clusterRecoveryPointId?: string;
+    individualNodeRecoveryPoints?: string[];
     instanceType: "A2A";
 }
 
@@ -103,6 +129,7 @@ export interface A2AEnableProtectionInput extends EnableProtectionProviderSpecif
     instanceType: "A2A";
     multiVmGroupId?: string;
     multiVmGroupName?: string;
+    protectionClusterId?: string;
     recoveryAvailabilitySetId?: string;
     recoveryAvailabilityZone?: string;
     recoveryAzureNetworkId?: string;
@@ -199,6 +226,20 @@ export interface A2AProtectedDiskDetails {
 }
 
 // @public
+export interface A2AProtectedItemDetail {
+    diskEncryptionInfo?: DiskEncryptionInfo;
+    recoveryAvailabilitySetId?: string;
+    recoveryAvailabilityZone?: string;
+    recoveryBootDiagStorageAccountId?: string;
+    recoveryCapacityReservationGroupId?: string;
+    recoveryProximityPlacementGroupId?: string;
+    recoveryResourceGroupId?: string;
+    recoveryVirtualMachineScaleSetId?: string;
+    replicationProtectedItemName?: string;
+    vmManagedDisks?: A2AVmManagedDiskInputDetails[];
+}
+
+// @public
 export interface A2AProtectedManagedDiskDetails {
     allowedDiskLevelOperation?: string[];
     dataPendingAtSourceAgentInMB?: number;
@@ -290,6 +331,7 @@ export interface A2AReplicationDetails extends ReplicationProviderSpecificSettin
     readonly initialRecoveryFabricLocation?: string;
     readonly initialRecoveryZone?: string;
     instanceType: "A2A";
+    isClusterInfraReady?: boolean;
     isReplicationAgentCertificateUpdateRequired?: boolean;
     isReplicationAgentUpdateRequired?: boolean;
     lastHeartbeat?: Date;
@@ -307,6 +349,7 @@ export interface A2AReplicationDetails extends ReplicationProviderSpecificSettin
     primaryFabricLocation?: string;
     protectedDisks?: A2AProtectedDiskDetails[];
     protectedManagedDisks?: A2AProtectedManagedDiskDetails[];
+    protectionClusterId?: string;
     recoveryAvailabilitySet?: string;
     recoveryAvailabilityZone?: string;
     readonly recoveryAzureGeneration?: string;
@@ -362,6 +405,31 @@ export interface A2AReplicationIntentDetails extends ReplicationProtectionIntent
 }
 
 // @public
+export interface A2AReplicationProtectionClusterDetails extends ReplicationClusterProviderSpecificSettings {
+    clusterManagementId?: string;
+    failoverRecoveryPointId?: string;
+    initialPrimaryExtendedLocation?: ExtendedLocation;
+    initialPrimaryFabricLocation?: string;
+    initialPrimaryZone?: string;
+    initialRecoveryExtendedLocation?: ExtendedLocation;
+    initialRecoveryFabricLocation?: string;
+    initialRecoveryZone?: string;
+    instanceType: "A2A";
+    lastRpoCalculatedTime?: Date;
+    lifecycleId?: string;
+    multiVmGroupCreateOption?: MultiVmGroupCreateOption;
+    multiVmGroupId?: string;
+    multiVmGroupName?: string;
+    primaryAvailabilityZone?: string;
+    primaryExtendedLocation?: ExtendedLocation;
+    primaryFabricLocation?: string;
+    recoveryAvailabilityZone?: string;
+    recoveryExtendedLocation?: ExtendedLocation;
+    recoveryFabricLocation?: string;
+    rpoInSeconds?: number;
+}
+
+// @public
 export interface A2AReprotectInput extends ReverseReplicationProviderSpecificInput {
     instanceType: "A2A";
     policyId?: string;
@@ -374,6 +442,40 @@ export interface A2AReprotectInput extends ReverseReplicationProviderSpecificInp
 
 // @public
 export type A2ARpRecoveryPointType = string;
+
+// @public
+export interface A2ASharedDiskIRErrorDetails {
+    readonly errorCode?: string;
+    readonly errorCodeEnum?: string;
+    readonly errorMessage?: string;
+    readonly possibleCauses?: string;
+    readonly recommendedAction?: string;
+}
+
+// @public
+export interface A2ASharedDiskReplicationDetails extends SharedDiskReplicationProviderSpecificSettings {
+    failoverRecoveryPointId?: string;
+    instanceType: "A2A";
+    lastRpoCalculatedTime?: Date;
+    managementId?: string;
+    monitoringJobType?: string;
+    monitoringPercentageCompletion?: number;
+    primaryFabricLocation?: string;
+    protectedManagedDisks?: A2AProtectedManagedDiskDetails[];
+    recoveryFabricLocation?: string;
+    rpoInSeconds?: number;
+    sharedDiskIRErrors?: A2ASharedDiskIRErrorDetails[];
+    unprotectedDisks?: A2AUnprotectedDiskDetails[];
+}
+
+// @public
+export interface A2ASwitchClusterProtectionInput extends SwitchClusterProtectionProviderSpecificInput {
+    instanceType: "A2A";
+    policyId?: string;
+    // (undocumented)
+    protectedItemsDetail?: A2AProtectedItemDetail[];
+    recoveryContainerId?: string;
+}
 
 // @public
 export interface A2ASwitchProtectionInput extends SwitchProtectionProviderSpecificInput {
@@ -481,11 +583,11 @@ export interface AddDisksInputProperties {
 
 // @public
 export interface AddDisksProviderSpecificInput {
-    instanceType: "A2A";
+    instanceType: "A2A" | "InMageRcm";
 }
 
 // @public (undocumented)
-export type AddDisksProviderSpecificInputUnion = AddDisksProviderSpecificInput | A2AAddDisksInput;
+export type AddDisksProviderSpecificInputUnion = AddDisksProviderSpecificInput | A2AAddDisksInput | InMageRcmAddDisksInput;
 
 // @public
 export interface AddRecoveryServicesProviderInput {
@@ -600,6 +702,26 @@ export interface ApplianceSpecificDetails {
 
 // @public (undocumented)
 export type ApplianceSpecificDetailsUnion = ApplianceSpecificDetails | InMageRcmApplianceSpecificDetails;
+
+// @public
+export interface ApplyClusterRecoveryPointInput {
+    properties: ApplyClusterRecoveryPointInputProperties;
+}
+
+// @public
+export interface ApplyClusterRecoveryPointInputProperties {
+    clusterRecoveryPointId?: string;
+    individualNodeRecoveryPoints?: string[];
+    providerSpecificDetails: ApplyClusterRecoveryPointProviderSpecificInputUnion;
+}
+
+// @public
+export interface ApplyClusterRecoveryPointProviderSpecificInput {
+    instanceType: "A2A";
+}
+
+// @public (undocumented)
+export type ApplyClusterRecoveryPointProviderSpecificInputUnion = ApplyClusterRecoveryPointProviderSpecificInput | A2AApplyClusterRecoveryPointInput;
 
 // @public
 export interface ApplyRecoveryPointInput {
@@ -720,6 +842,143 @@ export interface AzureVmDiskDetails {
 
 // @public
 export type ChurnOptionSelected = string;
+
+// @public
+export interface ClusterFailoverJobDetails extends JobDetails {
+    instanceType: "ClusterFailoverJobDetails";
+    protectedItemDetails?: FailoverReplicationProtectedItemDetails[];
+}
+
+// @public
+export interface ClusterProviderSpecificRecoveryPointDetails {
+    instanceType: "A2A";
+}
+
+// @public (undocumented)
+export type ClusterProviderSpecificRecoveryPointDetailsUnion = ClusterProviderSpecificRecoveryPointDetails | A2AClusterRecoveryPointDetails;
+
+// @public
+export interface ClusterRecoveryPoint {
+    id?: string;
+    name?: string;
+    properties?: ClusterRecoveryPointProperties;
+    type?: string;
+}
+
+// @public
+export interface ClusterRecoveryPointCollection {
+    nextLink?: string;
+    value?: ClusterRecoveryPoint[];
+}
+
+// @public
+export interface ClusterRecoveryPointGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ClusterRecoveryPointGetResponse = ClusterRecoveryPoint;
+
+// @public
+export interface ClusterRecoveryPointOperations {
+    get(resourceGroupName: string, recoveryPointName: string, options?: ClusterRecoveryPointGetOptionalParams): Promise<ClusterRecoveryPointGetResponse>;
+}
+
+// @public
+export interface ClusterRecoveryPointProperties {
+    providerSpecificDetails?: ClusterProviderSpecificRecoveryPointDetailsUnion;
+    recoveryPointTime?: Date;
+    recoveryPointType?: ClusterRecoveryPointType;
+}
+
+// @public
+export interface ClusterRecoveryPoints {
+    listByReplicationProtectionCluster(resourceGroupName: string, options?: ClusterRecoveryPointsListByReplicationProtectionClusterOptionalParams): PagedAsyncIterableIterator<ClusterRecoveryPoint>;
+}
+
+// @public
+export interface ClusterRecoveryPointsListByReplicationProtectionClusterNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ClusterRecoveryPointsListByReplicationProtectionClusterNextResponse = ClusterRecoveryPointCollection;
+
+// @public
+export interface ClusterRecoveryPointsListByReplicationProtectionClusterOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ClusterRecoveryPointsListByReplicationProtectionClusterResponse = ClusterRecoveryPointCollection;
+
+// @public
+export type ClusterRecoveryPointType = string;
+
+// @public
+export interface ClusterSwitchProtectionJobDetails extends JobDetails {
+    instanceType: "ClusterSwitchProtectionJobDetails";
+    newReplicationProtectionClusterId?: string;
+}
+
+// @public
+export interface ClusterTestFailoverCleanupInput {
+    properties: ClusterTestFailoverCleanupInputProperties;
+}
+
+// @public
+export interface ClusterTestFailoverCleanupInputProperties {
+    comments?: string;
+}
+
+// @public
+export interface ClusterTestFailoverInput {
+    properties: ClusterTestFailoverInputProperties;
+}
+
+// @public
+export interface ClusterTestFailoverInputProperties {
+    failoverDirection?: FailoverDirection;
+    networkId?: string;
+    networkType?: string;
+    providerSpecificDetails?: ClusterTestFailoverProviderSpecificInputUnion;
+}
+
+// @public
+export interface ClusterTestFailoverJobDetails extends JobDetails {
+    comments?: string;
+    instanceType: "ClusterTestFailoverJobDetails";
+    networkFriendlyName?: string;
+    networkName?: string;
+    networkType?: string;
+    protectedItemDetails?: FailoverReplicationProtectedItemDetails[];
+    testFailoverStatus?: string;
+}
+
+// @public
+export interface ClusterTestFailoverProviderSpecificInput {
+    instanceType: "A2A";
+}
+
+// @public (undocumented)
+export type ClusterTestFailoverProviderSpecificInputUnion = ClusterTestFailoverProviderSpecificInput | A2AClusterTestFailoverInput;
+
+// @public
+export interface ClusterUnplannedFailoverInput {
+    properties: ClusterUnplannedFailoverInputProperties;
+}
+
+// @public
+export interface ClusterUnplannedFailoverInputProperties {
+    failoverDirection?: string;
+    providerSpecificDetails?: ClusterUnplannedFailoverProviderSpecificInputUnion;
+    sourceSiteOperations?: string;
+}
+
+// @public
+export interface ClusterUnplannedFailoverProviderSpecificInput {
+    instanceType: "A2A";
+}
+
+// @public (undocumented)
+export type ClusterUnplannedFailoverProviderSpecificInputUnion = ClusterUnplannedFailoverProviderSpecificInput | A2AClusterUnplannedFailoverInput;
 
 // @public
 export interface ComputeSizeErrorDetails {
@@ -929,6 +1188,9 @@ export interface DiskEncryptionKeyInfo {
 
 // @public
 export type DiskReplicationProgressHealth = string;
+
+// @public
+export type DiskState = string;
 
 // @public
 export interface DiskVolumeDetails {
@@ -1225,6 +1487,9 @@ export type FabricSpecificUpdateNetworkMappingInputUnion = FabricSpecificUpdateN
 export type FailoverDeploymentModel = string;
 
 // @public
+export type FailoverDirection = string;
+
+// @public
 export interface FailoverJobDetails extends JobDetails {
     instanceType: "FailoverJobDetails";
     protectedItemDetails?: FailoverReplicationProtectedItemDetails[];
@@ -1355,6 +1620,7 @@ export interface HyperVReplicaAzureDiskInputDetails {
     diskId?: string;
     diskType?: DiskAccountType;
     logStorageAccountId?: string;
+    sectorSizeInBytes?: number;
 }
 
 // @public
@@ -1388,12 +1654,14 @@ export interface HyperVReplicaAzureEnableProtectionInput extends EnableProtectio
     };
     targetProximityPlacementGroupId?: string;
     targetStorageAccountId?: string;
+    targetVmSecurityProfile?: SecurityProfileProperties;
     targetVmSize?: string;
     targetVmTags?: {
         [propertyName: string]: string;
     };
     useManagedDisks?: string;
     useManagedDisksForReplication?: string;
+    userSelectedOSName?: string;
     vhdId?: string;
     vmName?: string;
 }
@@ -1419,7 +1687,9 @@ export interface HyperVReplicaAzureManagedDiskDetails {
     diskEncryptionSetId?: string;
     diskId?: string;
     replicaDiskType?: string;
+    sectorSizeInBytes?: number;
     seedManagedDiskId?: string;
+    targetDiskAccountType?: DiskAccountType;
 }
 
 // @public
@@ -1489,6 +1759,7 @@ export interface HyperVReplicaAzureReplicationDetails extends ReplicationProvide
         [propertyName: string]: string;
     };
     targetProximityPlacementGroupId?: string;
+    targetVmSecurityProfile?: SecurityProfileProperties;
     targetVmTags?: {
         [propertyName: string]: string;
     };
@@ -2133,6 +2404,12 @@ export interface InMageProtectedDiskDetails {
 }
 
 // @public
+export interface InMageRcmAddDisksInput extends AddDisksProviderSpecificInput {
+    disks: InMageRcmDiskInput[];
+    instanceType: "InMageRcm";
+}
+
+// @public
 export interface InMageRcmAgentUpgradeBlockingErrorDetails {
     readonly errorCode?: string;
     readonly errorMessage?: string;
@@ -2195,6 +2472,7 @@ export interface InMageRcmDiskInput {
     diskId: string;
     diskType: DiskAccountType;
     logStorageAccountId: string;
+    sectorSizeInBytes?: number;
 }
 
 // @public
@@ -2202,6 +2480,7 @@ export interface InMageRcmDisksDefaultInput {
     diskEncryptionSetId?: string;
     diskType: DiskAccountType;
     logStorageAccountId: string;
+    sectorSizeInBytes?: number;
 }
 
 // @public
@@ -2214,17 +2493,24 @@ export interface InMageRcmEnableProtectionInput extends EnableProtectionProvider
     multiVmGroupName?: string;
     processServerId: string;
     runAsAccountId?: string;
+    seedManagedDiskTags?: UserCreatedResourceTag[];
+    sqlServerLicenseType?: SqlServerLicenseType;
     targetAvailabilitySetId?: string;
     targetAvailabilityZone?: string;
     targetBootDiagnosticsStorageAccountId?: string;
+    targetManagedDiskTags?: UserCreatedResourceTag[];
     targetNetworkId?: string;
+    targetNicTags?: UserCreatedResourceTag[];
     targetProximityPlacementGroupId?: string;
     targetResourceGroupId: string;
     targetSubnetName?: string;
     targetVmName?: string;
+    targetVmSecurityProfile?: SecurityProfileProperties;
     targetVmSize?: string;
+    targetVmTags?: UserCreatedResourceTag[];
     testNetworkId?: string;
     testSubnetName?: string;
+    userSelectedOSName?: string;
 }
 
 // @public
@@ -2499,17 +2785,20 @@ export interface InMageRcmPolicyDetails extends PolicyProviderSpecificDetails {
 // @public
 export interface InMageRcmProtectedDiskDetails {
     readonly capacityInBytes?: number;
+    customTargetDiskName?: string;
     readonly dataPendingAtSourceAgentInMB?: number;
     readonly dataPendingInLogDataStoreInMB?: number;
     readonly diskEncryptionSetId?: string;
     readonly diskId?: string;
     readonly diskName?: string;
+    readonly diskState?: DiskState;
     diskType?: DiskAccountType;
     irDetails?: InMageRcmSyncDetails;
     readonly isInitialReplicationComplete?: string;
     readonly isOSDisk?: string;
     readonly logStorageAccountId?: string;
     resyncDetails?: InMageRcmSyncDetails;
+    sectorSizeInBytes?: number;
     readonly seedBlobUri?: string;
     readonly seedManagedDiskId?: string;
     readonly targetManagedDiskId?: string;
@@ -2556,6 +2845,7 @@ export interface InMageRcmReplicationDetails extends ReplicationProviderSpecific
     licenseType?: string;
     mobilityAgentDetails?: InMageRcmMobilityAgentDetails;
     readonly multiVmGroupName?: string;
+    osName?: string;
     readonly osType?: string;
     readonly primaryNicIpAddress?: string;
     readonly processorCoreCount?: number;
@@ -2569,18 +2859,26 @@ export interface InMageRcmReplicationDetails extends ReplicationProviderSpecific
     readonly resyncState?: ResyncState;
     readonly resyncTransferredBytes?: number;
     readonly runAsAccountId?: string;
+    seedManagedDiskTags?: UserCreatedResourceTag[];
+    sqlServerLicenseType?: string;
     readonly storageAccountId?: string;
+    supportedOSVersions?: string[];
     targetAvailabilitySetId?: string;
     targetAvailabilityZone?: string;
     targetBootDiagnosticsStorageAccountId?: string;
     readonly targetGeneration?: string;
     targetLocation?: string;
+    targetManagedDiskTags?: UserCreatedResourceTag[];
     targetNetworkId?: string;
+    targetNicTags?: UserCreatedResourceTag[];
     targetProximityPlacementGroupId?: string;
     targetResourceGroupId?: string;
     targetVmName?: string;
+    targetVmSecurityProfile?: SecurityProfileProperties;
     targetVmSize?: string;
+    targetVmTags?: UserCreatedResourceTag[];
     testNetworkId?: string;
+    unprotectedDisks?: InMageRcmUnProtectedDiskDetails[];
     vmNics?: InMageRcmNicDetails[];
 }
 
@@ -2620,6 +2918,13 @@ export interface InMageRcmUnplannedFailoverInput extends UnplannedFailoverProvid
 }
 
 // @public
+export interface InMageRcmUnProtectedDiskDetails {
+    readonly capacityInBytes?: number;
+    readonly diskId?: string;
+    readonly diskName?: string;
+}
+
+// @public
 export interface InMageRcmUpdateApplianceForReplicationProtectedItemInput extends UpdateApplianceForReplicationProtectedItemProviderSpecificInput {
     instanceType: "InMageRcm";
     runAsAccountId?: string;
@@ -2635,14 +2940,18 @@ export interface InMageRcmUpdateContainerMappingInput extends ReplicationProvide
 export interface InMageRcmUpdateReplicationProtectedItemInput extends UpdateReplicationProtectedItemProviderInput {
     instanceType: "InMageRcm";
     licenseType?: LicenseType;
+    sqlServerLicenseType?: SqlServerLicenseType;
     targetAvailabilitySetId?: string;
     targetAvailabilityZone?: string;
     targetBootDiagnosticsStorageAccountId?: string;
+    targetManagedDiskTags?: UserCreatedResourceTag[];
     targetNetworkId?: string;
+    targetNicTags?: UserCreatedResourceTag[];
     targetProximityPlacementGroupId?: string;
     targetResourceGroupId?: string;
     targetVmName?: string;
     targetVmSize?: string;
+    targetVmTags?: UserCreatedResourceTag[];
     testNetworkId?: string;
     vmNics?: InMageRcmNicInput[];
 }
@@ -2836,11 +3145,11 @@ export interface JobDetails {
     affectedObjectDetails?: {
         [propertyName: string]: string;
     };
-    instanceType: "AsrJobDetails" | "ExportJobDetails" | "FailoverJobDetails" | "SwitchProtectionJobDetails" | "TestFailoverJobDetails";
+    instanceType: "AsrJobDetails" | "ClusterFailoverJobDetails" | "ClusterSwitchProtectionJobDetails" | "ClusterTestFailoverJobDetails" | "ExportJobDetails" | "FailoverJobDetails" | "SwitchProtectionJobDetails" | "TestFailoverJobDetails";
 }
 
 // @public (undocumented)
-export type JobDetailsUnion = JobDetails | AsrJobDetails | ExportJobDetails | FailoverJobDetails | SwitchProtectionJobDetails | TestFailoverJobDetails;
+export type JobDetailsUnion = JobDetails | AsrJobDetails | ClusterFailoverJobDetails | ClusterSwitchProtectionJobDetails | ClusterTestFailoverJobDetails | ExportJobDetails | FailoverJobDetails | SwitchProtectionJobDetails | TestFailoverJobDetails;
 
 // @public
 export interface JobEntity {
@@ -2988,6 +3297,13 @@ export enum KnownChurnOptionSelected {
 }
 
 // @public
+export enum KnownClusterRecoveryPointType {
+    ApplicationConsistent = "ApplicationConsistent",
+    CrashConsistent = "CrashConsistent",
+    NotSpecified = "NotSpecified"
+}
+
+// @public
 export enum KnownDataSyncStatus {
     ForDownTime = "ForDownTime",
     ForSynchronization = "ForSynchronization"
@@ -3002,8 +3318,12 @@ export enum KnownDisableProtectionReason {
 // @public
 export enum KnownDiskAccountType {
     PremiumLRS = "Premium_LRS",
+    PremiumV2LRS = "PremiumV2_LRS",
+    PremiumZRS = "Premium_ZRS",
     StandardLRS = "Standard_LRS",
-    StandardSSDLRS = "StandardSSD_LRS"
+    StandardSSDLRS = "StandardSSD_LRS",
+    StandardSSDZRS = "StandardSSD_ZRS",
+    UltraSSDLRS = "UltraSSD_LRS"
 }
 
 // @public
@@ -3013,6 +3333,14 @@ export enum KnownDiskReplicationProgressHealth {
     NoProgress = "NoProgress",
     Queued = "Queued",
     SlowProgress = "SlowProgress"
+}
+
+// @public
+export enum KnownDiskState {
+    InitialReplicationFailed = "InitialReplicationFailed",
+    InitialReplicationPending = "InitialReplicationPending",
+    Protected = "Protected",
+    Unavailable = "Unavailable"
 }
 
 // @public
@@ -3038,6 +3366,12 @@ export enum KnownFailoverDeploymentModel {
     Classic = "Classic",
     NotApplicable = "NotApplicable",
     ResourceManager = "ResourceManager"
+}
+
+// @public
+export enum KnownFailoverDirection {
+    PrimaryToRecovery = "PrimaryToRecovery",
+    RecoveryToPrimary = "RecoveryToPrimary"
 }
 
 // @public
@@ -3087,6 +3421,13 @@ export enum KnownLicenseType {
     NoLicenseType = "NoLicenseType",
     NotSpecified = "NotSpecified",
     WindowsServer = "WindowsServer"
+}
+
+// @public
+export enum KnownLinuxLicenseType {
+    LinuxServer = "LinuxServer",
+    NoLicenseType = "NoLicenseType",
+    NotSpecified = "NotSpecified"
 }
 
 // @public
@@ -3252,6 +3593,12 @@ export enum KnownRpInMageRecoveryPointType {
 }
 
 // @public
+export enum KnownSecurityConfiguration {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownSecurityType {
     ConfidentialVM = "ConfidentialVM",
     None = "None",
@@ -3316,6 +3663,9 @@ export enum KnownVmReplicationProgressHealth {
 export type LicenseType = string;
 
 // @public
+export type LinuxLicenseType = string;
+
+// @public
 export interface LogicalNetwork extends Resource {
     properties?: LogicalNetworkProperties;
 }
@@ -3332,6 +3682,13 @@ export interface LogicalNetworkProperties {
     logicalNetworkDefinitionsStatus?: string;
     logicalNetworkUsage?: string;
     networkVirtualizationStatus?: string;
+}
+
+// @public
+export interface ManagedRunCommandScriptInput {
+    scriptParameters: string;
+    scriptUrl: string;
+    stepName: string;
 }
 
 // @public
@@ -3623,6 +3980,7 @@ export interface OSDetails {
     osType?: string;
     oSVersion?: string;
     productType?: string;
+    userSelectedOSName?: string;
 }
 
 // @public
@@ -4311,6 +4669,14 @@ export interface RecoveryVirtualNetworkCustomDetails {
 export type RecoveryVirtualNetworkCustomDetailsUnion = RecoveryVirtualNetworkCustomDetails | ExistingRecoveryVirtualNetwork | NewRecoveryVirtualNetwork;
 
 // @public
+export interface RegisteredClusterNodes {
+    biosId?: string;
+    clusterNodeFqdn?: string;
+    isSharedDiskVirtualNode?: boolean;
+    machineId?: string;
+}
+
+// @public
 export interface RemoveDisksInput {
     properties?: RemoveDisksInputProperties;
 }
@@ -4425,6 +4791,14 @@ export interface ReplicationAppliancesListOptionalParams extends coreClient.Oper
 
 // @public
 export type ReplicationAppliancesListResponse = ApplianceCollection;
+
+// @public
+export interface ReplicationClusterProviderSpecificSettings {
+    instanceType: "A2A";
+}
+
+// @public (undocumented)
+export type ReplicationClusterProviderSpecificSettingsUnion = ReplicationClusterProviderSpecificSettings | A2AReplicationProtectionClusterDetails;
 
 // @public
 export interface ReplicationEligibilityResults {
@@ -5367,6 +5741,264 @@ export interface ReplicationProtectedItemsUpdateOptionalParams extends coreClien
 export type ReplicationProtectedItemsUpdateResponse = ReplicationProtectedItem;
 
 // @public
+export interface ReplicationProtectionCluster {
+    readonly id?: string;
+    readonly name?: string;
+    properties?: ReplicationProtectionClusterProperties;
+    readonly type?: string;
+}
+
+// @public
+export interface ReplicationProtectionClusterCollection {
+    nextLink?: string;
+    value?: ReplicationProtectionCluster[];
+}
+
+// @public
+export interface ReplicationProtectionClusterProperties {
+    activeLocation?: string;
+    agentClusterId?: string;
+    allowedOperations?: string[];
+    areAllClusterNodesRegistered?: boolean;
+    clusterFqdn?: string;
+    clusterNodeFqdns?: string[];
+    clusterProtectedItemIds?: string[];
+    clusterRegisteredNodes?: RegisteredClusterNodes[];
+    currentScenario?: CurrentScenarioDetails;
+    healthErrors?: HealthError[];
+    lastSuccessfulFailoverTime?: Date;
+    lastSuccessfulTestFailoverTime?: Date;
+    policyFriendlyName?: string;
+    policyId?: string;
+    primaryFabricFriendlyName?: string;
+    primaryFabricProvider?: string;
+    primaryProtectionContainerFriendlyName?: string;
+    protectionClusterType?: string;
+    protectionState?: string;
+    protectionStateDescription?: string;
+    providerSpecificDetails?: ReplicationClusterProviderSpecificSettingsUnion;
+    readonly provisioningState?: string;
+    recoveryContainerId?: string;
+    recoveryFabricFriendlyName?: string;
+    recoveryFabricId?: string;
+    recoveryProtectionContainerFriendlyName?: string;
+    replicationHealth?: string;
+    sharedDiskProperties?: SharedDiskReplicationItemProperties;
+    testFailoverState?: string;
+    testFailoverStateDescription?: string;
+}
+
+// @public
+export interface ReplicationProtectionClusters {
+    beginApplyRecoveryPoint(resourceGroupName: string, applyClusterRecoveryPointInput: ApplyClusterRecoveryPointInput, options?: ReplicationProtectionClustersApplyRecoveryPointOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationProtectionClustersApplyRecoveryPointResponse>, ReplicationProtectionClustersApplyRecoveryPointResponse>>;
+    beginApplyRecoveryPointAndWait(resourceGroupName: string, applyClusterRecoveryPointInput: ApplyClusterRecoveryPointInput, options?: ReplicationProtectionClustersApplyRecoveryPointOptionalParams): Promise<ReplicationProtectionClustersApplyRecoveryPointResponse>;
+    beginCreate(resourceName: string, resourceGroupName: string, replicationProtectionCluster: ReplicationProtectionCluster, options?: ReplicationProtectionClustersCreateOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationProtectionClustersCreateResponse>, ReplicationProtectionClustersCreateResponse>>;
+    beginCreateAndWait(resourceName: string, resourceGroupName: string, replicationProtectionCluster: ReplicationProtectionCluster, options?: ReplicationProtectionClustersCreateOptionalParams): Promise<ReplicationProtectionClustersCreateResponse>;
+    beginFailoverCommit(resourceGroupName: string, options?: ReplicationProtectionClustersFailoverCommitOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationProtectionClustersFailoverCommitResponse>, ReplicationProtectionClustersFailoverCommitResponse>>;
+    beginFailoverCommitAndWait(resourceGroupName: string, options?: ReplicationProtectionClustersFailoverCommitOptionalParams): Promise<ReplicationProtectionClustersFailoverCommitResponse>;
+    beginPurge(resourceName: string, resourceGroupName: string, options?: ReplicationProtectionClustersPurgeOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationProtectionClustersPurgeResponse>, ReplicationProtectionClustersPurgeResponse>>;
+    beginPurgeAndWait(resourceName: string, resourceGroupName: string, options?: ReplicationProtectionClustersPurgeOptionalParams): Promise<ReplicationProtectionClustersPurgeResponse>;
+    beginRepairReplication(resourceGroupName: string, options?: ReplicationProtectionClustersRepairReplicationOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationProtectionClustersRepairReplicationResponse>, ReplicationProtectionClustersRepairReplicationResponse>>;
+    beginRepairReplicationAndWait(resourceGroupName: string, options?: ReplicationProtectionClustersRepairReplicationOptionalParams): Promise<ReplicationProtectionClustersRepairReplicationResponse>;
+    beginTestFailover(resourceGroupName: string, failoverInput: ClusterTestFailoverInput, options?: ReplicationProtectionClustersTestFailoverOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationProtectionClustersTestFailoverResponse>, ReplicationProtectionClustersTestFailoverResponse>>;
+    beginTestFailoverAndWait(resourceGroupName: string, failoverInput: ClusterTestFailoverInput, options?: ReplicationProtectionClustersTestFailoverOptionalParams): Promise<ReplicationProtectionClustersTestFailoverResponse>;
+    beginTestFailoverCleanup(resourceGroupName: string, cleanupInput: ClusterTestFailoverCleanupInput, options?: ReplicationProtectionClustersTestFailoverCleanupOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationProtectionClustersTestFailoverCleanupResponse>, ReplicationProtectionClustersTestFailoverCleanupResponse>>;
+    beginTestFailoverCleanupAndWait(resourceGroupName: string, cleanupInput: ClusterTestFailoverCleanupInput, options?: ReplicationProtectionClustersTestFailoverCleanupOptionalParams): Promise<ReplicationProtectionClustersTestFailoverCleanupResponse>;
+    beginUnplannedFailover(resourceGroupName: string, failoverInput: ClusterUnplannedFailoverInput, options?: ReplicationProtectionClustersUnplannedFailoverOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationProtectionClustersUnplannedFailoverResponse>, ReplicationProtectionClustersUnplannedFailoverResponse>>;
+    beginUnplannedFailoverAndWait(resourceGroupName: string, failoverInput: ClusterUnplannedFailoverInput, options?: ReplicationProtectionClustersUnplannedFailoverOptionalParams): Promise<ReplicationProtectionClustersUnplannedFailoverResponse>;
+    get(resourceGroupName: string, options?: ReplicationProtectionClustersGetOptionalParams): Promise<ReplicationProtectionClustersGetResponse>;
+    getOperationResults(resourceGroupName: string, jobId: string, options?: ReplicationProtectionClustersGetOperationResultsOptionalParams): Promise<ReplicationProtectionClustersGetOperationResultsResponse>;
+    list(resourceGroupName: string, options?: ReplicationProtectionClustersListOptionalParams): PagedAsyncIterableIterator<ReplicationProtectionCluster>;
+    listByReplicationProtectionContainers(resourceGroupName: string, options?: ReplicationProtectionClustersListByReplicationProtectionContainersOptionalParams): PagedAsyncIterableIterator<ReplicationProtectionCluster>;
+}
+
+// @public
+export interface ReplicationProtectionClustersApplyRecoveryPointHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
+    // (undocumented)
+    retryAfter?: string;
+}
+
+// @public
+export interface ReplicationProtectionClustersApplyRecoveryPointOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ReplicationProtectionClustersApplyRecoveryPointResponse = ReplicationProtectionCluster;
+
+// @public
+export interface ReplicationProtectionClustersCreateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ReplicationProtectionClustersCreateResponse = ReplicationProtectionCluster;
+
+// @public
+export interface ReplicationProtectionClustersFailoverCommitHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
+    // (undocumented)
+    retryAfter?: string;
+}
+
+// @public
+export interface ReplicationProtectionClustersFailoverCommitOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ReplicationProtectionClustersFailoverCommitResponse = ReplicationProtectionCluster;
+
+// @public
+export interface ReplicationProtectionClustersGetOperationResultsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ReplicationProtectionClustersGetOperationResultsResponse = ReplicationProtectionCluster;
+
+// @public
+export interface ReplicationProtectionClustersGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ReplicationProtectionClustersGetResponse = ReplicationProtectionCluster;
+
+// @public
+export interface ReplicationProtectionClustersListByReplicationProtectionContainersNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ReplicationProtectionClustersListByReplicationProtectionContainersNextResponse = ReplicationProtectionClusterCollection;
+
+// @public
+export interface ReplicationProtectionClustersListByReplicationProtectionContainersOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ReplicationProtectionClustersListByReplicationProtectionContainersResponse = ReplicationProtectionClusterCollection;
+
+// @public
+export interface ReplicationProtectionClustersListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ReplicationProtectionClustersListNextResponse = ReplicationProtectionClusterCollection;
+
+// @public
+export interface ReplicationProtectionClustersListOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    skipToken?: string;
+}
+
+// @public
+export type ReplicationProtectionClustersListResponse = ReplicationProtectionClusterCollection;
+
+// @public
+export interface ReplicationProtectionClustersPurgeHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
+    // (undocumented)
+    retryAfter?: string;
+}
+
+// @public
+export interface ReplicationProtectionClustersPurgeOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ReplicationProtectionClustersPurgeResponse = ReplicationProtectionClustersPurgeHeaders;
+
+// @public
+export interface ReplicationProtectionClustersRepairReplicationHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
+    // (undocumented)
+    retryAfter?: string;
+}
+
+// @public
+export interface ReplicationProtectionClustersRepairReplicationOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ReplicationProtectionClustersRepairReplicationResponse = ReplicationProtectionCluster;
+
+// @public
+export interface ReplicationProtectionClustersTestFailoverCleanupHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
+    // (undocumented)
+    retryAfter?: string;
+}
+
+// @public
+export interface ReplicationProtectionClustersTestFailoverCleanupOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ReplicationProtectionClustersTestFailoverCleanupResponse = ReplicationProtectionCluster;
+
+// @public
+export interface ReplicationProtectionClustersTestFailoverHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
+    // (undocumented)
+    retryAfter?: string;
+}
+
+// @public
+export interface ReplicationProtectionClustersTestFailoverOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ReplicationProtectionClustersTestFailoverResponse = ReplicationProtectionCluster;
+
+// @public
+export interface ReplicationProtectionClustersUnplannedFailoverHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
+    // (undocumented)
+    retryAfter?: string;
+}
+
+// @public
+export interface ReplicationProtectionClustersUnplannedFailoverOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ReplicationProtectionClustersUnplannedFailoverResponse = ReplicationProtectionCluster;
+
+// @public
 export interface ReplicationProtectionContainerMappings {
     beginCreate(resourceName: string, resourceGroupName: string, fabricName: string, protectionContainerName: string, mappingName: string, creationInput: CreateProtectionContainerMappingInput, options?: ReplicationProtectionContainerMappingsCreateOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationProtectionContainerMappingsCreateResponse>, ReplicationProtectionContainerMappingsCreateResponse>>;
     beginCreateAndWait(resourceName: string, resourceGroupName: string, fabricName: string, protectionContainerName: string, mappingName: string, creationInput: CreateProtectionContainerMappingInput, options?: ReplicationProtectionContainerMappingsCreateOptionalParams): Promise<ReplicationProtectionContainerMappingsCreateResponse>;
@@ -5454,6 +6086,8 @@ export interface ReplicationProtectionContainers {
     beginDeleteAndWait(resourceName: string, resourceGroupName: string, fabricName: string, protectionContainerName: string, options?: ReplicationProtectionContainersDeleteOptionalParams): Promise<void>;
     beginDiscoverProtectableItem(resourceName: string, resourceGroupName: string, fabricName: string, protectionContainerName: string, discoverProtectableItemRequest: DiscoverProtectableItemRequest, options?: ReplicationProtectionContainersDiscoverProtectableItemOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationProtectionContainersDiscoverProtectableItemResponse>, ReplicationProtectionContainersDiscoverProtectableItemResponse>>;
     beginDiscoverProtectableItemAndWait(resourceName: string, resourceGroupName: string, fabricName: string, protectionContainerName: string, discoverProtectableItemRequest: DiscoverProtectableItemRequest, options?: ReplicationProtectionContainersDiscoverProtectableItemOptionalParams): Promise<ReplicationProtectionContainersDiscoverProtectableItemResponse>;
+    beginSwitchClusterProtection(resourceGroupName: string, switchInput: SwitchClusterProtectionInput, options?: ReplicationProtectionContainersSwitchClusterProtectionOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationProtectionContainersSwitchClusterProtectionResponse>, ReplicationProtectionContainersSwitchClusterProtectionResponse>>;
+    beginSwitchClusterProtectionAndWait(resourceGroupName: string, switchInput: SwitchClusterProtectionInput, options?: ReplicationProtectionContainersSwitchClusterProtectionOptionalParams): Promise<ReplicationProtectionContainersSwitchClusterProtectionResponse>;
     beginSwitchProtection(resourceName: string, resourceGroupName: string, fabricName: string, protectionContainerName: string, switchInput: SwitchProtectionInput, options?: ReplicationProtectionContainersSwitchProtectionOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationProtectionContainersSwitchProtectionResponse>, ReplicationProtectionContainersSwitchProtectionResponse>>;
     beginSwitchProtectionAndWait(resourceName: string, resourceGroupName: string, fabricName: string, protectionContainerName: string, switchInput: SwitchProtectionInput, options?: ReplicationProtectionContainersSwitchProtectionOptionalParams): Promise<ReplicationProtectionContainersSwitchProtectionResponse>;
     get(resourceName: string, resourceGroupName: string, fabricName: string, protectionContainerName: string, options?: ReplicationProtectionContainersGetOptionalParams): Promise<ReplicationProtectionContainersGetResponse>;
@@ -5519,6 +6153,35 @@ export interface ReplicationProtectionContainersListOptionalParams extends coreC
 
 // @public
 export type ReplicationProtectionContainersListResponse = ProtectionContainerCollection;
+
+// @public
+export interface ReplicationProtectionContainersSwitchClusterProtectionHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
+    // (undocumented)
+    retryAfter?: string;
+}
+
+// @public
+export interface ReplicationProtectionContainersSwitchClusterProtectionOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ReplicationProtectionContainersSwitchClusterProtectionResponse = ProtectionContainer;
+
+// @public
+export interface ReplicationProtectionContainersSwitchProtectionHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
+    // (undocumented)
+    retryAfter?: string;
+}
 
 // @public
 export interface ReplicationProtectionContainersSwitchProtectionOptionalParams extends coreClient.OperationOptions {
@@ -6235,6 +6898,18 @@ export interface ScriptActionTaskDetails extends TaskTypeDetails {
 }
 
 // @public
+export type SecurityConfiguration = string;
+
+// @public
+export interface SecurityProfileProperties {
+    targetVmConfidentialEncryption?: SecurityConfiguration;
+    targetVmMonitoring?: SecurityConfiguration;
+    targetVmSecureBoot?: SecurityConfiguration;
+    targetVmSecurityType?: SecurityType;
+    targetVmTpm?: SecurityConfiguration;
+}
+
+// @public
 export type SecurityType = string;
 
 // @public
@@ -6252,17 +6927,45 @@ export type SetMultiVmSyncStatus = string;
 // @public
 export type Severity = string;
 
+// @public
+export interface SharedDiskReplicationItemProperties {
+    activeLocation?: string;
+    allowedOperations?: string[];
+    currentScenario?: CurrentScenarioDetails;
+    healthErrors?: HealthError[];
+    protectionState?: string;
+    replicationHealth?: string;
+    sharedDiskProviderSpecificDetails?: SharedDiskReplicationProviderSpecificSettingsUnion;
+    testFailoverState?: string;
+}
+
+// @public
+export interface SharedDiskReplicationProviderSpecificSettings {
+    instanceType: "A2A";
+}
+
+// @public (undocumented)
+export type SharedDiskReplicationProviderSpecificSettingsUnion = SharedDiskReplicationProviderSpecificSettings | A2ASharedDiskReplicationDetails;
+
 // @public (undocumented)
 export class SiteRecoveryManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: SiteRecoveryManagementClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, resourceName: string, fabricName: string, protectionContainerName: string, replicationProtectionClusterName: string, options?: SiteRecoveryManagementClientOptionalParams);
     // (undocumented)
     apiVersion: string;
+    // (undocumented)
+    clusterRecoveryPointOperations: ClusterRecoveryPointOperations;
+    // (undocumented)
+    clusterRecoveryPoints: ClusterRecoveryPoints;
+    // (undocumented)
+    fabricName: string;
     // (undocumented)
     migrationRecoveryPoints: MigrationRecoveryPoints;
     // (undocumented)
     operations: Operations;
+    // (undocumented)
+    protectionContainerName: string;
     // (undocumented)
     recoveryPoints: RecoveryPoints;
     // (undocumented)
@@ -6292,6 +6995,10 @@ export class SiteRecoveryManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     replicationProtectedItems: ReplicationProtectedItems;
     // (undocumented)
+    replicationProtectionClusterName: string;
+    // (undocumented)
+    replicationProtectionClusters: ReplicationProtectionClusters;
+    // (undocumented)
     replicationProtectionContainerMappings: ReplicationProtectionContainerMappings;
     // (undocumented)
     replicationProtectionContainers: ReplicationProtectionContainers;
@@ -6311,6 +7018,8 @@ export class SiteRecoveryManagementClient extends coreClient.ServiceClient {
     replicationVaultSetting: ReplicationVaultSetting;
     // (undocumented)
     replicationvCenters: ReplicationvCenters;
+    // (undocumented)
+    resourceName: string;
     // (undocumented)
     subscriptionId: string;
     // (undocumented)
@@ -6424,6 +7133,25 @@ export interface SupportedOSProperty {
     instanceType?: string;
     supportedOs?: SupportedOSDetails[];
 }
+
+// @public
+export interface SwitchClusterProtectionInput {
+    properties?: SwitchClusterProtectionInputProperties;
+}
+
+// @public
+export interface SwitchClusterProtectionInputProperties {
+    providerSpecificDetails?: SwitchClusterProtectionProviderSpecificInputUnion;
+    replicationProtectionClusterName?: string;
+}
+
+// @public
+export interface SwitchClusterProtectionProviderSpecificInput {
+    instanceType: "A2A";
+}
+
+// @public (undocumented)
+export type SwitchClusterProtectionProviderSpecificInputUnion = SwitchClusterProtectionProviderSpecificInput | A2ASwitchClusterProtectionInput;
 
 // @public
 export interface SwitchProtectionInput {
@@ -6754,6 +7482,12 @@ export interface UpdateVCenterRequestProperties {
 }
 
 // @public
+export interface UserCreatedResourceTag {
+    tagName?: string;
+    tagValue?: string;
+}
+
+// @public
 export interface VaultHealthDetails extends Resource {
     properties?: VaultHealthProperties;
 }
@@ -6953,6 +7687,7 @@ export interface VMwareCbtDiskInput {
     isOSDisk: string;
     logStorageAccountId: string;
     logStorageAccountSasSecretName: string;
+    sectorSizeInBytes?: number;
 }
 
 // @public
@@ -6962,6 +7697,7 @@ export interface VMwareCbtEnableMigrationInput extends EnableMigrationProviderSp
     disksToInclude: VMwareCbtDiskInput[];
     instanceType: "VMwareCbt";
     licenseType?: LicenseType;
+    linuxLicenseType?: LinuxLicenseType;
     performAutoResync?: string;
     performSqlBulkRegistration?: string;
     seedDiskTags?: {
@@ -6990,6 +7726,7 @@ export interface VMwareCbtEnableMigrationInput extends EnableMigrationProviderSp
     };
     testNetworkId?: string;
     testSubnetName?: string;
+    userSelectedOSName?: string;
     vmwareMachineId: string;
 }
 
@@ -7004,6 +7741,7 @@ export interface VMwareCbtMigrateInput extends MigrateProviderSpecificInput {
     instanceType: "VMwareCbt";
     osUpgradeVersion?: string;
     performShutdown: string;
+    postMigrationSteps?: ManagedRunCommandScriptInput[];
 }
 
 // @public
@@ -7022,6 +7760,7 @@ export interface VMwareCbtMigrationDetails extends MigrationProviderSpecificSett
     readonly lastRecoveryPointId?: string;
     readonly lastRecoveryPointReceived?: Date;
     licenseType?: string;
+    linuxLicenseType?: LinuxLicenseType;
     readonly migrationProgressPercentage?: number;
     readonly migrationRecoveryPointId?: string;
     readonly operationName?: string;
@@ -7125,6 +7864,7 @@ export interface VMwareCbtProtectedDiskDetails {
     readonly isOSDisk?: string;
     readonly logStorageAccountId?: string;
     readonly logStorageAccountSasSecretName?: string;
+    sectorSizeInBytes?: number;
     readonly seedBlobUri?: string;
     readonly seedManagedDiskId?: string;
     readonly targetBlobUri?: string;
@@ -7173,6 +7913,7 @@ export interface VMwareCbtTestMigrateInput extends TestMigrateProviderSpecificIn
     instanceType: "VMwareCbt";
     networkId: string;
     osUpgradeVersion?: string;
+    postMigrationSteps?: ManagedRunCommandScriptInput[];
     recoveryPointId: string;
     vmNics?: VMwareCbtNicInput[];
 }
@@ -7188,6 +7929,7 @@ export interface VMwareCbtUpdateDiskInput {
 export interface VMwareCbtUpdateMigrationItemInput extends UpdateMigrationItemProviderSpecificInput {
     instanceType: "VMwareCbt";
     licenseType?: LicenseType;
+    linuxLicenseType?: LinuxLicenseType;
     performAutoResync?: string;
     sqlServerLicenseType?: SqlServerLicenseType;
     targetAvailabilitySetId?: string;
