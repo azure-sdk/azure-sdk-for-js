@@ -173,6 +173,8 @@ export interface FilePathAvailabilityRequest {
   name: string;
   /** The Azure Resource URI for a delegated subnet. Must have the delegation Microsoft.NetApp/volumes */
   subnetId: string;
+  /** The Azure Resource logical availability zone which is used within zone mapping lookup for the subscription and region. The lookup will retrieve the physical zone where volume is placed. */
+  availabilityZone?: string;
 }
 
 /** Quota availability request content. */
@@ -490,6 +492,41 @@ export interface NetAppAccountPatch {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly disableShowmount?: boolean;
+  /** Domain for NFSv4 user ID mapping. This property will be set for all NetApp accounts in the subscription and region and only affect non ldap NFSv4 volumes. */
+  nfsV4IDDomain?: string;
+  /**
+   * This will have true value only if account is Multiple AD enabled.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isMultiAdEnabled?: boolean;
+}
+
+/** Encryption migration request */
+export interface EncryptionMigrationRequest {
+  /** Identifier for the virtual network */
+  virtualNetworkId: string;
+  /** Identifier of the private endpoint to reach the Azure Key Vault */
+  privateEndpointId: string;
+}
+
+/** Change key vault request */
+export interface ChangeKeyVault {
+  /** The URI of the key vault/managed HSM that should be used for encryption. */
+  keyVaultUri: string;
+  /** The name of the key that should be used for encryption. */
+  keyName: string;
+  /** Azure resource ID of the key vault/managed HSM that should be used for encryption. */
+  keyVaultResourceId: string;
+  /** Pairs of virtual network ID and private endpoint ID. Every virtual network that has volumes encrypted with customer-managed keys needs its own key vault private endpoint. */
+  keyVaultPrivateEndpoints: KeyVaultPrivateEndpoint[];
+}
+
+/** Pairs of virtual network ID and private endpoint ID. Every virtual network that has volumes encrypted with customer-managed keys needs its own key vault private endpoint. */
+export interface KeyVaultPrivateEndpoint {
+  /** Identifier for the virtual network id */
+  virtualNetworkId?: string;
+  /** Identifier of the private endpoint to reach the Azure Key Vault */
+  privateEndpointId?: string;
 }
 
 /** List of capacity pool resources */
@@ -521,7 +558,7 @@ export interface CapacityPoolPatch {
   readonly type?: string;
   /** Resource tags */
   tags?: { [propertyName: string]: string };
-  /** Provisioned size of the pool (in bytes). Allowed values are in 1TiB chunks (value must be multiply of 1099511627776). */
+  /** Provisioned size of the pool (in bytes). Allowed values are in 1TiB chunks (value must be multiply of 4398046511104). */
   size?: number;
   /** The qos type of the pool */
   qosType?: QosType;
@@ -628,10 +665,22 @@ export interface ReplicationObject {
   endpointType?: EndpointType;
   /** Schedule */
   replicationSchedule?: ReplicationSchedule;
-  /** The resource ID of the remote volume. */
+  /** The resource ID of the remote volume. Required for cross region and cross zone replication */
   remoteVolumeResourceId: string;
+  /** The full path to a volume that is to be migrated into ANF. Required for Migration volumes */
+  remotePath?: RemotePath;
   /** The remote region for the other end of the Volume Replication. */
   remoteVolumeRegion?: string;
+}
+
+/** The full path to a volume that is to be migrated into ANF. Required for Migration volumes */
+export interface RemotePath {
+  /** The Path to a ONTAP Host */
+  externalHostName: string;
+  /** The name of a server on the ONTAP Host */
+  serverName: string;
+  /** The name of a volume on the server */
+  volumeName: string;
 }
 
 /** Volume Snapshot Properties */
@@ -686,6 +735,8 @@ export interface VolumePatch {
   usageThreshold?: number;
   /** Set of export policy rules */
   exportPolicy?: VolumePatchPropertiesExportPolicy;
+  /** Set of protocol types, default NFSv3, CIFS for SMB protocol */
+  protocolTypes?: string[];
   /** Maximum throughput in MiB/s that can be achieved by this volume and this will be accepted as input only for manual qosType volume */
   throughputMibps?: number;
   /** DataProtection type volumes include an object containing details of the replication */
@@ -791,6 +842,11 @@ export interface ListReplications {
 
 /** Replication properties */
 export interface Replication {
+  /**
+   * UUID v4 used to identify the replication.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly replicationId?: string;
   /** Indicates whether the local volume is the source or destination for the Volume Replication */
   endpointType?: EndpointType;
   /** Schedule */
@@ -805,6 +861,26 @@ export interface Replication {
 export interface AuthorizeRequest {
   /** Resource id of the remote volume */
   remoteVolumeResourceId?: string;
+}
+
+/** Source cluster properties for a cluster peer request */
+export interface PeerClusterForVolumeMigrationRequest {
+  /** A list of IC-LIF IPs that can be used to connect to the on-prem cluster */
+  peerAddresses: string[];
+  /** The full path to a volume that is to be migrated into ANF. Required for Migration volumes */
+  remotePath?: RemotePath;
+}
+
+/** Information about cluster peering process */
+export interface ClusterPeerCommandResponse {
+  /** A command that needs to be run on the external ONTAP to accept cluster peering.  Will only be present if <code>clusterPeeringStatus</code> is <code>pending</code> */
+  peerAcceptCommand?: string;
+}
+
+/** Information about SVM peering process */
+export interface SvmPeerCommandResponse {
+  /** A command that needs to be run on the external ONTAP to accept SVM peering.  Will only be present if <code>svmPeeringStatus</code> is <code>pending</code> */
+  svmPeeringCommand?: string;
 }
 
 /** Pool change request */
@@ -1174,10 +1250,12 @@ export interface VolumeGroupVolumeProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly mountTargets?: MountTargetProperties[];
-  /** What type of volume is this. For destination volumes in Cross Region Replication, set type to DataProtection */
+  /** What type of volume is this. For destination volumes in Cross Region Replication, set type to DataProtection. For creating clone volume, set type to ShortTermClone */
   volumeType?: string;
   /** DataProtection type volumes include an object containing details of the replication */
   dataProtection?: VolumePropertiesDataProtection;
+  /** While auto splitting the short term clone volume, if the parent pool does not have enough space to accommodate the volume after split, it will be automatically resized, which will lead to increased billing. To accept capacity pool size auto grow and create a short term clone volume, set the property as accepted. */
+  acceptGrowCapacityPoolForShortTermCloneSplit?: AcceptGrowCapacityPoolForShortTermCloneSplit;
   /** Restoring */
   isRestoring?: boolean;
   /** If enabled (true) the volume will contain a read-only snapshot directory which provides access to each of the volume's snapshots (defaults to true). */
@@ -1285,6 +1363,13 @@ export interface VolumeGroupVolumeProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly originatingResourceId?: string;
+  /**
+   * Space shared by short term clone volume with parent volume in bytes.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly inheritedSizeInBytes?: number;
+  /** Language supported for volume. */
+  language?: VolumeLanguage;
 }
 
 /** List of Subvolumes */
@@ -1713,6 +1798,13 @@ export interface NetAppAccount extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly disableShowmount?: boolean;
+  /** Domain for NFSv4 user ID mapping. This property will be set for all NetApp accounts in the subscription and region and only affect non ldap NFSv4 volumes. */
+  nfsV4IDDomain?: string;
+  /**
+   * This will have true value only if account is Multiple AD enabled.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isMultiAdEnabled?: boolean;
 }
 
 /** Capacity pool resource */
@@ -1813,10 +1905,12 @@ export interface Volume extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly mountTargets?: MountTargetProperties[];
-  /** What type of volume is this. For destination volumes in Cross Region Replication, set type to DataProtection */
+  /** What type of volume is this. For destination volumes in Cross Region Replication, set type to DataProtection. For creating clone volume, set type to ShortTermClone */
   volumeType?: string;
   /** DataProtection type volumes include an object containing details of the replication */
   dataProtection?: VolumePropertiesDataProtection;
+  /** While auto splitting the short term clone volume, if the parent pool does not have enough space to accommodate the volume after split, it will be automatically resized, which will lead to increased billing. To accept capacity pool size auto grow and create a short term clone volume, set the property as accepted. */
+  acceptGrowCapacityPoolForShortTermCloneSplit?: AcceptGrowCapacityPoolForShortTermCloneSplit;
   /** Restoring */
   isRestoring?: boolean;
   /** If enabled (true) the volume will contain a read-only snapshot directory which provides access to each of the volume's snapshots (defaults to true). */
@@ -1924,6 +2018,13 @@ export interface Volume extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly originatingResourceId?: string;
+  /**
+   * Space shared by short term clone volume with parent volume in bytes.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly inheritedSizeInBytes?: number;
+  /** Language supported for volume. */
+  language?: VolumeLanguage;
 }
 
 /** Snapshot policy information */
@@ -2016,6 +2117,21 @@ export interface NetAppResourceUpdateNetworkSiblingSetHeaders {
   location?: string;
 }
 
+/** Defines headers for Accounts_migrateEncryptionKey operation. */
+export interface AccountsMigrateEncryptionKeyHeaders {
+  location?: string;
+}
+
+/** Defines headers for Accounts_getChangeKeyVaultInformation operation. */
+export interface AccountsGetChangeKeyVaultInformationHeaders {
+  location?: string;
+}
+
+/** Defines headers for Accounts_changeKeyVault operation. */
+export interface AccountsChangeKeyVaultHeaders {
+  location?: string;
+}
+
 /** Defines headers for Volumes_populateAvailabilityZone operation. */
 export interface VolumesPopulateAvailabilityZoneHeaders {
   location?: string;
@@ -2026,6 +2142,11 @@ export interface VolumesResetCifsPasswordHeaders {
   location?: string;
 }
 
+/** Defines headers for Volumes_splitCloneFromParent operation. */
+export interface VolumesSplitCloneFromParentHeaders {
+  location?: string;
+}
+
 /** Defines headers for Volumes_breakFileLocks operation. */
 export interface VolumesBreakFileLocksHeaders {
   location?: string;
@@ -2033,6 +2154,26 @@ export interface VolumesBreakFileLocksHeaders {
 
 /** Defines headers for Volumes_listGetGroupIdListForLdapUser operation. */
 export interface VolumesListGetGroupIdListForLdapUserHeaders {
+  location?: string;
+}
+
+/** Defines headers for Volumes_peerClusterForOnPremMigration operation. */
+export interface VolumesPeerClusterForOnPremMigrationHeaders {
+  location?: string;
+}
+
+/** Defines headers for Volumes_createOnPremMigrationReplication operation. */
+export interface VolumesCreateOnPremMigrationReplicationHeaders {
+  location?: string;
+}
+
+/** Defines headers for Volumes_finalizeOnPremMigration operation. */
+export interface VolumesFinalizeOnPremMigrationHeaders {
+  location?: string;
+}
+
+/** Defines headers for Volumes_performReplicationTransfer operation. */
+export interface VolumesPerformReplicationTransferHeaders {
   location?: string;
 }
 
@@ -2497,6 +2638,24 @@ export enum KnownReplicationSchedule {
  */
 export type ReplicationSchedule = string;
 
+/** Known values of {@link AcceptGrowCapacityPoolForShortTermCloneSplit} that the service accepts. */
+export enum KnownAcceptGrowCapacityPoolForShortTermCloneSplit {
+  /** Auto grow capacity pool for short term clone split is accepted. */
+  Accepted = "Accepted",
+  /** Auto grow capacity pool for short term clone split is declined. Short term clone volume creation will not be allowed, to create short term clone volume accept auto grow capacity pool. */
+  Declined = "Declined",
+}
+
+/**
+ * Defines values for AcceptGrowCapacityPoolForShortTermCloneSplit. \
+ * {@link KnownAcceptGrowCapacityPoolForShortTermCloneSplit} can be used interchangeably with AcceptGrowCapacityPoolForShortTermCloneSplit,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Accepted**: Auto grow capacity pool for short term clone split is accepted. \
+ * **Declined**: Auto grow capacity pool for short term clone split is declined. Short term clone volume creation will not be allowed, to create short term clone volume accept auto grow capacity pool.
+ */
+export type AcceptGrowCapacityPoolForShortTermCloneSplit = string;
+
 /** Known values of {@link SecurityStyle} that the service accepts. */
 export enum KnownSecurityStyle {
   /** Ntfs */
@@ -2644,6 +2803,225 @@ export enum KnownEnableSubvolumes {
  */
 export type EnableSubvolumes = string;
 
+/** Known values of {@link VolumeLanguage} that the service accepts. */
+export enum KnownVolumeLanguage {
+  /** Posix with UTF-8 */
+  CUtf8 = "c.utf-8",
+  /** UTF-8 with 4 byte character support */
+  Utf8Mb4 = "utf8mb4",
+  /** Arabic - Deprecated */
+  Ar = "ar",
+  /** Arabic with UTF-8 */
+  ArUtf8 = "ar.utf-8",
+  /** Croatian - Deprecated */
+  Hr = "hr",
+  /** Croatian with UTF-8 */
+  HrUtf8 = "hr.utf-8",
+  /** Czech - Deprecated */
+  Cs = "cs",
+  /** Czech with UTF-8 */
+  CsUtf8 = "cs.utf-8",
+  /** Danish - Deprecated */
+  Da = "da",
+  /** Danish with UTF-8 */
+  DaUtf8 = "da.utf-8",
+  /** Dutch - Deprecated */
+  Nl = "nl",
+  /** Dutch with UTF-8 */
+  NlUtf8 = "nl.utf-8",
+  /** English - Deprecated */
+  En = "en",
+  /** English with UTF-8 */
+  EnUtf8 = "en.utf-8",
+  /** Finnish - Deprecated */
+  Fi = "fi",
+  /** Finnish with UTF-8 */
+  FiUtf8 = "fi.utf-8",
+  /** French - Deprecated */
+  Fr = "fr",
+  /** French with UTF-8 */
+  FrUtf8 = "fr.utf-8",
+  /** German - Deprecated */
+  De = "de",
+  /** German with UTF-8 */
+  DeUtf8 = "de.utf-8",
+  /** Hebrew - Deprecated */
+  He = "he",
+  /** Hebrew with UTF-8 */
+  HeUtf8 = "he.utf-8",
+  /** Hungarian - Deprecated */
+  Hu = "hu",
+  /** Hungarian with UTF-8 */
+  HuUtf8 = "hu.utf-8",
+  /** Italian - Deprecated */
+  It = "it",
+  /** Italian with UTF-8 */
+  ItUtf8 = "it.utf-8",
+  /** Japanese euc-j - Deprecated */
+  Ja = "ja",
+  /** Japanese euc-j with UTF-8 */
+  JaUtf8 = "ja.utf-8",
+  /** Japanese euc-j - Deprecated */
+  JaV1 = "ja-v1",
+  /** Japanese euc-j with UTF-8 */
+  JaV1Utf8 = "ja-v1.utf-8",
+  /** Japanese pck */
+  JaJpPck = "ja-jp.pck",
+  /** Japanese pck with UTF-8 - Deprecated */
+  JaJpPckUtf8 = "ja-jp.pck.utf-8",
+  /** Japanese cp932 */
+  JaJp932 = "ja-jp.932",
+  /** Japanese cp932 with UTF-8 - Deprecated */
+  JaJp932Utf8 = "ja-jp.932.utf-8",
+  /** Japanese pck - sjis */
+  JaJpPckV2 = "ja-jp.pck-v2",
+  /** Japanese pck - sjis with UTF-8 - Deprecated */
+  JaJpPckV2Utf8 = "ja-jp.pck-v2.utf-8",
+  /** Korean - Deprecated */
+  Ko = "ko",
+  /** Korean with UTF-8 */
+  KoUtf8 = "ko.utf-8",
+  /** Norwegian - Deprecated */
+  No = "no",
+  /** Norwegian with UTF-8 */
+  NoUtf8 = "no.utf-8",
+  /** Polish - Deprecated */
+  Pl = "pl",
+  /** Polish with UTF-8 */
+  PlUtf8 = "pl.utf-8",
+  /** Portuguese - Deprecated */
+  Pt = "pt",
+  /** Portuguese with UTF-8 */
+  PtUtf8 = "pt.utf-8",
+  /** Posix - Deprecated */
+  C = "c",
+  /** Romanian - Deprecated */
+  Ro = "ro",
+  /** Romanian with UTF-8 */
+  RoUtf8 = "ro.utf-8",
+  /** Russian - Deprecated */
+  Ru = "ru",
+  /** Russian with UTF-8 */
+  RuUtf8 = "ru.utf-8",
+  /** Simplified Chinese - Deprecated */
+  Zh = "zh",
+  /** Simplified Chinese with UTF-8 */
+  ZhUtf8 = "zh.utf-8",
+  /** Simplified gbk Chinese */
+  ZhGbk = "zh.gbk",
+  /** Simplified gbk Chinese with UTF-8 - Deprecated */
+  ZhGbkUtf8 = "zh.gbk.utf-8",
+  /** Traditional Chinese BIG 5 */
+  ZhTwBig5 = "zh-tw.big5",
+  /** Traditional Chinese BIG 5 with UTF-8 - Deprecated */
+  ZhTwBig5Utf8 = "zh-tw.big5.utf-8",
+  /** Traditional Chinese EUC-TW */
+  ZhTw = "zh-tw",
+  /** Traditional Chinese EUC-TW with UTF-8 - Deprecated */
+  ZhTwUtf8 = "zh-tw.utf-8",
+  /** Slovak - Deprecated */
+  Sk = "sk",
+  /** Slovak with UTF-8 */
+  SkUtf8 = "sk.utf-8",
+  /** Slovenian - Deprecated */
+  Sl = "sl",
+  /** Slovenian with UTF-8 */
+  SlUtf8 = "sl.utf-8",
+  /** Spanish - Deprecated */
+  Es = "es",
+  /** Spanish with UTF-8 */
+  EsUtf8 = "es.utf-8",
+  /** Swedish - Deprecated */
+  Sv = "sv",
+  /** Swedish with UTF-8 */
+  SvUtf8 = "sv.utf-8",
+  /** Turkish - Deprecated */
+  Tr = "tr",
+  /** Turkish with UTF-8 */
+  TrUtf8 = "tr.utf-8",
+  /** US English - Deprecated */
+  EnUs = "en-us",
+  /** US English with UTF-8 */
+  EnUsUtf8 = "en-us.utf-8",
+}
+
+/**
+ * Defines values for VolumeLanguage. \
+ * {@link KnownVolumeLanguage} can be used interchangeably with VolumeLanguage,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **c.utf-8**: Posix with UTF-8 \
+ * **utf8mb4**: UTF-8 with 4 byte character support \
+ * **ar**: Arabic - Deprecated \
+ * **ar.utf-8**: Arabic with UTF-8 \
+ * **hr**: Croatian - Deprecated \
+ * **hr.utf-8**: Croatian with UTF-8 \
+ * **cs**: Czech - Deprecated \
+ * **cs.utf-8**: Czech with UTF-8 \
+ * **da**: Danish - Deprecated \
+ * **da.utf-8**: Danish with UTF-8 \
+ * **nl**: Dutch - Deprecated \
+ * **nl.utf-8**: Dutch with UTF-8 \
+ * **en**: English - Deprecated \
+ * **en.utf-8**: English with UTF-8 \
+ * **fi**: Finnish - Deprecated \
+ * **fi.utf-8**: Finnish with UTF-8 \
+ * **fr**: French - Deprecated \
+ * **fr.utf-8**: French with UTF-8 \
+ * **de**: German - Deprecated \
+ * **de.utf-8**: German with UTF-8 \
+ * **he**: Hebrew - Deprecated \
+ * **he.utf-8**: Hebrew with UTF-8 \
+ * **hu**: Hungarian - Deprecated \
+ * **hu.utf-8**: Hungarian with UTF-8 \
+ * **it**: Italian - Deprecated \
+ * **it.utf-8**: Italian with UTF-8 \
+ * **ja**: Japanese euc-j - Deprecated \
+ * **ja.utf-8**: Japanese euc-j with UTF-8 \
+ * **ja-v1**: Japanese euc-j - Deprecated \
+ * **ja-v1.utf-8**: Japanese euc-j with UTF-8 \
+ * **ja-jp.pck**: Japanese pck \
+ * **ja-jp.pck.utf-8**: Japanese pck with UTF-8 - Deprecated \
+ * **ja-jp.932**: Japanese cp932 \
+ * **ja-jp.932.utf-8**: Japanese cp932 with UTF-8 - Deprecated \
+ * **ja-jp.pck-v2**: Japanese pck - sjis \
+ * **ja-jp.pck-v2.utf-8**: Japanese pck - sjis with UTF-8 - Deprecated \
+ * **ko**: Korean - Deprecated \
+ * **ko.utf-8**: Korean with UTF-8 \
+ * **no**: Norwegian - Deprecated \
+ * **no.utf-8**: Norwegian with UTF-8 \
+ * **pl**: Polish - Deprecated \
+ * **pl.utf-8**: Polish with UTF-8 \
+ * **pt**: Portuguese - Deprecated \
+ * **pt.utf-8**: Portuguese with UTF-8 \
+ * **c**: Posix - Deprecated \
+ * **ro**: Romanian - Deprecated \
+ * **ro.utf-8**: Romanian with UTF-8 \
+ * **ru**: Russian - Deprecated \
+ * **ru.utf-8**: Russian with UTF-8 \
+ * **zh**: Simplified Chinese - Deprecated \
+ * **zh.utf-8**: Simplified Chinese with UTF-8 \
+ * **zh.gbk**: Simplified gbk Chinese \
+ * **zh.gbk.utf-8**: Simplified gbk Chinese with UTF-8 - Deprecated \
+ * **zh-tw.big5**: Traditional Chinese BIG 5 \
+ * **zh-tw.big5.utf-8**: Traditional Chinese BIG 5 with UTF-8 - Deprecated \
+ * **zh-tw**: Traditional Chinese EUC-TW \
+ * **zh-tw.utf-8**: Traditional Chinese EUC-TW with UTF-8 - Deprecated \
+ * **sk**: Slovak - Deprecated \
+ * **sk.utf-8**: Slovak with UTF-8 \
+ * **sl**: Slovenian - Deprecated \
+ * **sl.utf-8**: Slovenian with UTF-8 \
+ * **es**: Spanish - Deprecated \
+ * **es.utf-8**: Spanish with UTF-8 \
+ * **sv**: Swedish - Deprecated \
+ * **sv.utf-8**: Swedish with UTF-8 \
+ * **tr**: Turkish - Deprecated \
+ * **tr.utf-8**: Turkish with UTF-8 \
+ * **en-us**: US English - Deprecated \
+ * **en-us.utf-8**: US English with UTF-8
+ */
+export type VolumeLanguage = string;
+
 /** Known values of {@link RelationshipStatus} that the service accepts. */
 export enum KnownRelationshipStatus {
   /** Idle */
@@ -2775,7 +3153,10 @@ export type NetAppResourceCheckNameAvailabilityResponse =
 
 /** Optional parameters. */
 export interface NetAppResourceCheckFilePathAvailabilityOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** The Azure Resource logical availability zone which is used within zone mapping lookup for the subscription and region. The lookup will retrieve the physical zone where volume is placed. */
+  availabilityZone?: string;
+}
 
 /** Contains response data for the checkFilePathAvailability operation. */
 export type NetAppResourceCheckFilePathAvailabilityResponse =
@@ -2912,6 +3293,48 @@ export interface AccountsRenewCredentialsOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Optional parameters. */
+export interface AccountsMigrateEncryptionKeyOptionalParams
+  extends coreClient.OperationOptions {
+  /** The required parameters to perform encryption migration. */
+  body?: EncryptionMigrationRequest;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the migrateEncryptionKey operation. */
+export type AccountsMigrateEncryptionKeyResponse =
+  AccountsMigrateEncryptionKeyHeaders;
+
+/** Optional parameters. */
+export interface AccountsGetChangeKeyVaultInformationOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the getChangeKeyVaultInformation operation. */
+export type AccountsGetChangeKeyVaultInformationResponse =
+  AccountsGetChangeKeyVaultInformationHeaders;
+
+/** Optional parameters. */
+export interface AccountsChangeKeyVaultOptionalParams
+  extends coreClient.OperationOptions {
+  /** The required parameters to perform encryption migration. */
+  body?: ChangeKeyVault;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the changeKeyVault operation. */
+export type AccountsChangeKeyVaultResponse = AccountsChangeKeyVaultHeaders;
 
 /** Optional parameters. */
 export interface AccountsListBySubscriptionNextOptionalParams
@@ -3059,6 +3482,19 @@ export interface VolumesResetCifsPasswordOptionalParams
 export type VolumesResetCifsPasswordResponse = VolumesResetCifsPasswordHeaders;
 
 /** Optional parameters. */
+export interface VolumesSplitCloneFromParentOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the splitCloneFromParent operation. */
+export type VolumesSplitCloneFromParentResponse =
+  VolumesSplitCloneFromParentHeaders;
+
+/** Optional parameters. */
 export interface VolumesBreakFileLocksOptionalParams
   extends coreClient.OperationOptions {
   /** Optional body to provide the ability to clear file locks with selected options */
@@ -3151,6 +3587,58 @@ export interface VolumesReInitializeReplicationOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Optional parameters. */
+export interface VolumesPeerClusterForOnPremMigrationOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the peerClusterForOnPremMigration operation. */
+export type VolumesPeerClusterForOnPremMigrationResponse =
+  ClusterPeerCommandResponse;
+
+/** Optional parameters. */
+export interface VolumesCreateOnPremMigrationReplicationOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOnPremMigrationReplication operation. */
+export type VolumesCreateOnPremMigrationReplicationResponse =
+  SvmPeerCommandResponse;
+
+/** Optional parameters. */
+export interface VolumesFinalizeOnPremMigrationOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the finalizeOnPremMigration operation. */
+export type VolumesFinalizeOnPremMigrationResponse =
+  VolumesFinalizeOnPremMigrationHeaders;
+
+/** Optional parameters. */
+export interface VolumesPerformReplicationTransferOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the performReplicationTransfer operation. */
+export type VolumesPerformReplicationTransferResponse =
+  VolumesPerformReplicationTransferHeaders;
 
 /** Optional parameters. */
 export interface VolumesPoolChangeOptionalParams
