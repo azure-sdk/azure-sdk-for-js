@@ -21,7 +21,7 @@ import {
   QuotaNames,
   QuotasGetOptionalParams,
   QuotasGetResponse,
-  QuotasListBySubscriptionNextResponse
+  QuotasListBySubscriptionNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -44,7 +44,7 @@ export class QuotasImpl implements Quotas {
    */
   public listBySubscription(
     location: string,
-    options?: QuotasListBySubscriptionOptionalParams
+    options?: QuotasListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<Quota> {
     const iter = this.listBySubscriptionPagingAll(location, options);
     return {
@@ -59,14 +59,14 @@ export class QuotasImpl implements Quotas {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(location, options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     location: string,
     options?: QuotasListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Quota[]> {
     let result: QuotasListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -81,7 +81,7 @@ export class QuotasImpl implements Quotas {
       result = await this._listBySubscriptionNext(
         location,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -92,11 +92,11 @@ export class QuotasImpl implements Quotas {
 
   private async *listBySubscriptionPagingAll(
     location: string,
-    options?: QuotasListBySubscriptionOptionalParams
+    options?: QuotasListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<Quota> {
     for await (const page of this.listBySubscriptionPagingPage(
       location,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -109,28 +109,28 @@ export class QuotasImpl implements Quotas {
    */
   private _listBySubscription(
     location: string,
-    options?: QuotasListBySubscriptionOptionalParams
+    options?: QuotasListBySubscriptionOptionalParams,
   ): Promise<QuotasListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { location, options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
   /**
-   * Get quota by name.
+   * Get subscription quota by name.
    * @param location The location of quota in ARM Normalized format like eastus, southeastasia etc.
-   * @param name The quota name.
+   * @param quotaName The quota name.
    * @param options The options parameters.
    */
   get(
     location: string,
-    name: QuotaNames,
-    options?: QuotasGetOptionalParams
+    quotaName: QuotaNames,
+    options?: QuotasGetOptionalParams,
   ): Promise<QuotasGetResponse> {
     return this.client.sendOperationRequest(
-      { location, name, options },
-      getOperationSpec
+      { location, quotaName, options },
+      getOperationSpec,
     );
   }
 
@@ -143,11 +143,11 @@ export class QuotasImpl implements Quotas {
   private _listBySubscriptionNext(
     location: string,
     nextLink: string,
-    options?: QuotasListBySubscriptionNextOptionalParams
+    options?: QuotasListBySubscriptionNextOptionalParams,
   ): Promise<QuotasListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { location, nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 }
@@ -155,65 +155,63 @@ export class QuotasImpl implements Quotas {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.AzurePlaywrightService/locations/{location}/quotas",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.AzurePlaywrightService/locations/{location}/quotas",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.QuotaListResult
+      bodyMapper: Mappers.QuotaListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.AzurePlaywrightService/locations/{location}/quotas/{name}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Quota
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.location,
-    Parameters.name1
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.AzurePlaywrightService/locations/{location}/quotas/{quotaName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Quota,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.location,
+    Parameters.quotaName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.QuotaListResult
+      bodyMapper: Mappers.QuotaListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
