@@ -733,9 +733,9 @@ export type ActionType = string;
 
 /** Known values of {@link ResourceSkuRestrictionsType} that the service accepts. */
 export enum KnownResourceSkuRestrictionsType {
-  /** Location */
+  /** SKU restricted by location. */
   Location = "Location",
-  /** Zone */
+  /** SKU restricted by availability zone. */
   Zone = "Zone",
 }
 
@@ -744,16 +744,16 @@ export enum KnownResourceSkuRestrictionsType {
  * {@link KnownResourceSkuRestrictionsType} can be used interchangeably with ResourceSkuRestrictionsType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Location** \
- * **Zone**
+ * **Location**: SKU restricted by location. \
+ * **Zone**: SKU restricted by availability zone.
  */
 export type ResourceSkuRestrictionsType = string;
 
 /** Known values of {@link ResourceSkuRestrictionsReasonCode} that the service accepts. */
 export enum KnownResourceSkuRestrictionsReasonCode {
-  /** QuotaId */
+  /** The restriction is due to exceeding a quota limitation. */
   QuotaId = "QuotaId",
-  /** NotAvailableForSubscription */
+  /** The restriction is not available for this subscription. */
   NotAvailableForSubscription = "NotAvailableForSubscription",
 }
 
@@ -762,8 +762,8 @@ export enum KnownResourceSkuRestrictionsReasonCode {
  * {@link KnownResourceSkuRestrictionsReasonCode} can be used interchangeably with ResourceSkuRestrictionsReasonCode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **QuotaId** \
- * **NotAvailableForSubscription**
+ * **QuotaId**: The restriction is due to exceeding a quota limitation. \
+ * **NotAvailableForSubscription**: The restriction is not available for this subscription.
  */
 export type ResourceSkuRestrictionsReasonCode = string;
 
