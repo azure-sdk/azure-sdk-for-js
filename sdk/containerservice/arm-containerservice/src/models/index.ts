@@ -69,35 +69,6 @@ export interface CloudErrorBody {
   details?: CloudErrorBody[];
 }
 
-/** The OS option profile. */
-export interface OSOptionProfile {
-  /**
-   * The ID of the OS option resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The name of the OS option resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The type of the OS option resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** The list of OS options. */
-  osOptionPropertyList: OSOptionProperty[];
-}
-
-/** OS option property. */
-export interface OSOptionProperty {
-  /** The OS type. */
-  osType: string;
-  /** Whether the image is FIPS-enabled. */
-  enableFipsImage: boolean;
-}
-
 /** Hold values properties, which is array of KubernetesVersion */
 export interface KubernetesVersionListResult {
   /** Array of AKS supported Kubernetes versions. */
@@ -2968,16 +2939,6 @@ export interface OperationsListOptionalParams
 
 /** Contains response data for the list operation. */
 export type OperationsListResponse = OperationListResult;
-
-/** Optional parameters. */
-export interface ManagedClustersGetOSOptionsOptionalParams
-  extends coreClient.OperationOptions {
-  /** The resource type for which the OS options needs to be returned */
-  resourceType?: string;
-}
-
-/** Contains response data for the getOSOptions operation. */
-export type ManagedClustersGetOSOptionsResponse = OSOptionProfile;
 
 /** Optional parameters. */
 export interface ManagedClustersListKubernetesVersionsOptionalParams
