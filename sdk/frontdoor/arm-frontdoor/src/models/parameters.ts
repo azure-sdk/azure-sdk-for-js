@@ -50,22 +50,6 @@ export const $host: OperationURLParameter = {
   skipEncoding: true,
 };
 
-export const resourceGroupName: OperationURLParameter = {
-  parameterPath: "resourceGroupName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[a-zA-Z0-9_\\-\\(\\)\\.]*[^\\.]$"),
-      MaxLength: 80,
-      MinLength: 1,
-    },
-    serializedName: "resourceGroupName",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
@@ -83,6 +67,22 @@ export const apiVersion: OperationQueryParameter = {
     defaultValue: "2024-02-01",
     isConstant: true,
     serializedName: "api-version",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const resourceGroupName: OperationURLParameter = {
+  parameterPath: "resourceGroupName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9_\\-\\(\\)\\.]*[^\\.]$"),
+      MaxLength: 80,
+      MinLength: 1,
+    },
+    serializedName: "resourceGroupName",
+    required: true,
     type: {
       name: "String",
     },

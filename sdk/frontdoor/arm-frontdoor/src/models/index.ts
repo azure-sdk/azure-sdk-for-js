@@ -208,7 +208,13 @@ export interface Resource {
 }
 
 /** Error response indicates Front Door service is not able to process the incoming request. The reason is provided in the error message. */
-export interface ErrorResponse {
+export interface DefaultErrorResponse {
+  /** Error model. */
+  error?: DefaultErrorResponseError;
+}
+
+/** Error model. */
+export interface DefaultErrorResponseError {
   /**
    * Error code.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -222,13 +228,7 @@ export interface ErrorResponse {
 }
 
 /** Error response indicates Front Door service is not able to process the incoming request. The reason is provided in the error message. */
-export interface DefaultErrorResponse {
-  /** Error model. */
-  error?: DefaultErrorResponseError;
-}
-
-/** Error model. */
-export interface DefaultErrorResponseError {
+export interface ErrorResponse {
   /**
    * Error code.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2654,13 +2654,6 @@ export type ResourceType =
   | "Microsoft.Network/frontDoors/frontendEndpoints";
 
 /** Optional parameters. */
-export interface PoliciesListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type PoliciesListResponse = WebApplicationFirewallPolicyList;
-
-/** Optional parameters. */
 export interface PoliciesListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -2707,13 +2700,6 @@ export interface PoliciesDeleteOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
-
-/** Optional parameters. */
-export interface PoliciesListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type PoliciesListNextResponse = WebApplicationFirewallPolicyList;
 
 /** Optional parameters. */
 export interface PoliciesListBySubscriptionNextOptionalParams

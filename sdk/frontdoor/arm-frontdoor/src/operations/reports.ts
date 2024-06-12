@@ -118,8 +118,8 @@ const getLatencyScorecardsOperationSpec: coreClient.OperationSpec = {
   ],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.profileName,
     Parameters.experimentName,
   ],
@@ -148,8 +148,8 @@ const getTimeseriesOperationSpec: coreClient.OperationSpec = {
   ],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.profileName,
     Parameters.experimentName,
   ],

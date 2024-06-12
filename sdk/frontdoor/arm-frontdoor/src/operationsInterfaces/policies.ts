@@ -10,7 +10,6 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   WebApplicationFirewallPolicy,
-  PoliciesListOptionalParams,
   PoliciesListBySubscriptionOptionalParams,
   PoliciesGetOptionalParams,
   PoliciesGetResponse,
@@ -25,15 +24,6 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Policies. */
 export interface Policies {
-  /**
-   * Lists all of the protection policies within a resource group.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param options The options parameters.
-   */
-  list(
-    resourceGroupName: string,
-    options?: PoliciesListOptionalParams,
-  ): PagedAsyncIterableIterator<WebApplicationFirewallPolicy>;
   /**
    * Lists all of the protection policies within a subscription.
    * @param options The options parameters.

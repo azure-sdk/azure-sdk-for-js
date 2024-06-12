@@ -1,15 +1,12 @@
 # Release History
+    
+## 6.0.0 (2024-06-12)
+    
+**Breaking Changes**
 
-## 5.3.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation Policies.list
+    
+    
 ## 5.3.0 (2024-04-15)
     
 **Features**

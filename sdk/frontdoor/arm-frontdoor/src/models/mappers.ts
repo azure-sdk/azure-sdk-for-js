@@ -621,29 +621,6 @@ export const Resource: coreClient.CompositeMapper = {
   },
 };
 
-export const ErrorResponse: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ErrorResponse",
-    modelProperties: {
-      code: {
-        serializedName: "code",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      message: {
-        serializedName: "message",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
 export const DefaultErrorResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -664,6 +641,29 @@ export const DefaultErrorResponseError: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DefaultErrorResponseError",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      message: {
+        serializedName: "message",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ErrorResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorResponse",
     modelProperties: {
       code: {
         serializedName: "code",

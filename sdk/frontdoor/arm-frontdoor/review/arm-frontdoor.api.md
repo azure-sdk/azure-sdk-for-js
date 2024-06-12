@@ -1356,7 +1356,6 @@ export interface Policies {
     beginUpdate(resourceGroupName: string, policyName: string, parameters: TagsObject, options?: PoliciesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PoliciesUpdateResponse>, PoliciesUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, policyName: string, parameters: TagsObject, options?: PoliciesUpdateOptionalParams): Promise<PoliciesUpdateResponse>;
     get(resourceGroupName: string, policyName: string, options?: PoliciesGetOptionalParams): Promise<PoliciesGetResponse>;
-    list(resourceGroupName: string, options?: PoliciesListOptionalParams): PagedAsyncIterableIterator<WebApplicationFirewallPolicy>;
     listBySubscription(options?: PoliciesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<WebApplicationFirewallPolicy>;
 }
 
@@ -1395,20 +1394,6 @@ export interface PoliciesListBySubscriptionOptionalParams extends coreClient.Ope
 
 // @public
 export type PoliciesListBySubscriptionResponse = WebApplicationFirewallPolicyList;
-
-// @public
-export interface PoliciesListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PoliciesListNextResponse = WebApplicationFirewallPolicyList;
-
-// @public
-export interface PoliciesListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PoliciesListResponse = WebApplicationFirewallPolicyList;
 
 // @public
 export interface PoliciesUpdateOptionalParams extends coreClient.OperationOptions {

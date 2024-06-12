@@ -21,9 +21,6 @@ import {
 import { createLroSpec } from "../lroImpl";
 import {
   WebApplicationFirewallPolicy,
-  PoliciesListNextOptionalParams,
-  PoliciesListOptionalParams,
-  PoliciesListResponse,
   PoliciesListBySubscriptionNextOptionalParams,
   PoliciesListBySubscriptionOptionalParams,
   PoliciesListBySubscriptionResponse,
@@ -35,7 +32,6 @@ import {
   PoliciesUpdateOptionalParams,
   PoliciesUpdateResponse,
   PoliciesDeleteOptionalParams,
-  PoliciesListNextResponse,
   PoliciesListBySubscriptionNextResponse,
 } from "../models";
 
@@ -50,68 +46,6 @@ export class PoliciesImpl implements Policies {
    */
   constructor(client: FrontDoorManagementClient) {
     this.client = client;
-  }
-
-  /**
-   * Lists all of the protection policies within a resource group.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param options The options parameters.
-   */
-  public list(
-    resourceGroupName: string,
-    options?: PoliciesListOptionalParams,
-  ): PagedAsyncIterableIterator<WebApplicationFirewallPolicy> {
-    const iter = this.listPagingAll(resourceGroupName, options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listPagingPage(resourceGroupName, options, settings);
-      },
-    };
-  }
-
-  private async *listPagingPage(
-    resourceGroupName: string,
-    options?: PoliciesListOptionalParams,
-    settings?: PageSettings,
-  ): AsyncIterableIterator<WebApplicationFirewallPolicy[]> {
-    let result: PoliciesListResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._list(resourceGroupName, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listPagingAll(
-    resourceGroupName: string,
-    options?: PoliciesListOptionalParams,
-  ): AsyncIterableIterator<WebApplicationFirewallPolicy> {
-    for await (const page of this.listPagingPage(resourceGroupName, options)) {
-      yield* page;
-    }
   }
 
   /**
@@ -166,21 +100,6 @@ export class PoliciesImpl implements Policies {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
     }
-  }
-
-  /**
-   * Lists all of the protection policies within a resource group.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param options The options parameters.
-   */
-  private _list(
-    resourceGroupName: string,
-    options?: PoliciesListOptionalParams,
-  ): Promise<PoliciesListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listOperationSpec,
-    );
   }
 
   /**
@@ -485,23 +404,6 @@ export class PoliciesImpl implements Policies {
   }
 
   /**
-   * ListNext
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param nextLink The nextLink from the previous successful call to the List method.
-   * @param options The options parameters.
-   */
-  private _listNext(
-    resourceGroupName: string,
-    nextLink: string,
-    options?: PoliciesListNextOptionalParams,
-  ): Promise<PoliciesListNextResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, nextLink, options },
-      listNextOperationSpec,
-    );
-  }
-
-  /**
    * ListBySubscriptionNext
    * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
    * @param options The options parameters.
@@ -519,26 +421,6 @@ export class PoliciesImpl implements Policies {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoorWebApplicationFirewallPolicies",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.WebApplicationFirewallPolicyList,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/frontDoorWebApplicationFirewallPolicies",
   httpMethod: "GET",
@@ -569,8 +451,8 @@ const getOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.policyName,
   ],
   headerParameters: [Parameters.accept],
@@ -600,8 +482,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.policyName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -632,8 +514,8 @@ const updateOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.policyName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -647,30 +529,10 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.policyName,
   ],
-  serializer,
-};
-const listNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.WebApplicationFirewallPolicyList,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
-  headerParameters: [Parameters.accept],
   serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {

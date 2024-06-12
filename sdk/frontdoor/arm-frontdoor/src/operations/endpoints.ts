@@ -144,8 +144,8 @@ const purgeContentOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.frontDoorName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
