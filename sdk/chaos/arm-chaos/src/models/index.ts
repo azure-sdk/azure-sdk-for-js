@@ -35,6 +35,30 @@ export interface CapabilityListResult {
   readonly nextLink?: string;
 }
 
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /**
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
@@ -49,25 +73,6 @@ export interface SystemData {
   lastModifiedByType?: CreatedByType;
   /** The timestamp of resource last modification (UTC) */
   lastModifiedAt?: Date;
-}
-
-/** Common fields that are returned in the response for all Azure Resource Manager resources */
-export interface Resource {
-  /**
-   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The name of the resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
 }
 
 /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
@@ -156,22 +161,24 @@ export interface ExperimentListResult {
   readonly nextLink?: string;
 }
 
-/** The identity of a resource. */
-export interface ResourceIdentity {
-  /** String of the resource identity type. */
-  type: ResourceIdentityType;
-  /** The list of user identities associated with the Experiment. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface ManagedServiceIdentity {
   /**
-   * GUID that represents the principal ID of this resource identity.
+   * The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly principalId?: string;
   /**
-   * GUID that represents the tenant ID of this resource identity.
+   * The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly tenantId?: string;
+  /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
+  type: ManagedServiceIdentityType;
+  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+  userAssignedIdentities?: {
+    [propertyName: string]: UserAssignedIdentity | null;
+  };
 }
 
 /** User assigned identity properties */
@@ -230,10 +237,18 @@ export interface ChaosTargetFilter {
   type: "Simple";
 }
 
+/** Model that represents the Customer Managed Storage for an Experiment. */
+export interface CustomerDataStorageProperties {
+  /** ARM Resource ID of the Storage account to use for Customer Data storage. */
+  storageAccountResourceId?: string;
+  /** Name of the Azure Blob Storage container to use or create. */
+  blobContainerName?: string;
+}
+
 /** Describes an experiment update. */
 export interface ExperimentUpdate {
   /** The identity of the experiment resource. */
-  identity?: ResourceIdentity;
+  identity?: ExperimentIdentity;
   /** The tags of the experiment resource. */
   tags?: { [propertyName: string]: string };
 }
@@ -552,6 +567,67 @@ export interface OperationDisplay {
   readonly description?: string;
 }
 
+/** Model that represents a list of private access resources and a link for pagination. */
+export interface PrivateAccessListResult {
+  /**
+   * List of private access resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: PrivateAccess[];
+  /**
+   * URL to retrieve the next page of private access resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** The private endpoint resource. */
+export interface PrivateEndpoint {
+  /**
+   * The ARM identifier for private endpoint.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+}
+
+/** A collection of information about the state of the connection between service consumer and provider. */
+export interface PrivateLinkServiceConnectionState {
+  /** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
+  status?: PrivateEndpointServiceConnectionStatus;
+  /** The reason for approval/rejection of the connection. */
+  description?: string;
+  /** A message indicating if changes on the service provider require any updates on the consumer. */
+  actionsRequired?: string;
+}
+
+/** Describes a private access update. */
+export interface PrivateAccessPatch {
+  /** The tags of the private access resource. */
+  tags?: { [propertyName: string]: string };
+}
+
+/** A list of private link resources */
+export interface PrivateLinkResourceListResult {
+  /** Array of private link resources */
+  value?: PrivateLinkResource[];
+  /**
+   * The uri to fetch the next page of snapshots. Call ListNext() with this to fetch the next page of snapshots.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** A list of private link resources */
+export interface PrivateEndpointConnectionListResult {
+  /** Array of private endpoint connections */
+  value?: PrivateEndpointConnection[];
+  /**
+   * The uri to fetch the next page of snapshots. Call ListNext() with this to fetch the next page of snapshots.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
 /** Model that represents a list of Target Type resources and a link for pagination. */
 export interface TargetTypeListResult {
   /**
@@ -602,91 +678,8 @@ export interface ChaosTargetSimpleFilterParameters {
   zones?: string[];
 }
 
-/** Model that represents a Capability resource. */
-export interface Capability extends Resource {
-  /**
-   * The standard system metadata of a resource type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /**
-   * String of the Publisher that this Capability extends.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly publisher?: string;
-  /**
-   * String of the Target Type that this Capability extends.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly targetType?: string;
-  /**
-   * Localized string of the description.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly description?: string;
-  /**
-   * URL to retrieve JSON schema of the Capability parameters.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly parametersSchema?: string;
-  /**
-   * String of the URN for this Capability Type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly urn?: string;
-}
-
-/** Model that represents a Capability Type resource. */
-export interface CapabilityType extends Resource {
-  /**
-   * The system metadata properties of the capability type resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /** Location of the Capability Type resource. */
-  location?: string;
-  /**
-   * String of the Publisher that this Capability Type extends.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly publisher?: string;
-  /**
-   * String of the Target Type that this Capability Type extends.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly targetType?: string;
-  /**
-   * Localized string of the display name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly displayName?: string;
-  /**
-   * Localized string of the description.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly description?: string;
-  /**
-   * URL to retrieve JSON schema of the Capability Type parameters.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly parametersSchema?: string;
-  /**
-   * String of the URN for this Capability Type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly urn?: string;
-  /**
-   * String of the kind of this Capability Type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly kind?: string;
-  /** Control plane actions necessary to execute capability type. */
-  azureRbacActions?: string[];
-  /** Data plane actions necessary to execute capability type. */
-  azureRbacDataActions?: string[];
-  /** Runtime properties of this Capability Type. */
-  runtimeProperties?: CapabilityTypePropertiesRuntimeProperties;
-}
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
 export interface TrackedResource extends Resource {
@@ -696,48 +689,35 @@ export interface TrackedResource extends Resource {
   location: string;
 }
 
-/** Model that represents a Target Type resource. */
-export interface TargetType extends Resource {
+/** The private endpoint connection resource. */
+export interface PrivateEndpointConnection extends Resource {
   /**
-   * The system metadata properties of the target type resource.
+   * The group ids for the private endpoint resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly systemData?: SystemData;
-  /** Location of the Target Type resource. */
-  location?: string;
-  /**
-   * Localized string of the display name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly displayName?: string;
-  /**
-   * Localized string of the description.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly description?: string;
-  /**
-   * URL to retrieve JSON schema of the Target Type properties.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly propertiesSchema?: string;
-  /**
-   * List of resource types this Target Type can extend.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resourceTypes?: string[];
+  readonly groupIds?: string[];
+  /** The private endpoint resource. */
+  privateEndpoint?: PrivateEndpoint;
+  /** A collection of information about the state of the connection between service consumer and provider. */
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+  /** The provisioning state of the private endpoint connection resource. */
+  provisioningState?: PrivateEndpointConnectionProvisioningState;
 }
 
-/** Model that represents a Target resource. */
-export interface Target extends Resource {
+/** A private link resource. */
+export interface PrivateLinkResource extends Resource {
   /**
-   * The system metadata of the target resource.
+   * The private link resource group id.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly systemData?: SystemData;
-  /** Location of the target resource. */
-  location?: string;
-  /** The properties of the target resource. */
-  properties: { [propertyName: string]: any };
+  readonly groupId?: string;
+  /**
+   * The private link resource required member names.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly requiredMembers?: string[];
+  /** The private link resource private link DNS zone name. */
+  requiredZoneNames?: string[];
 }
 
 /** The status of operation. */
@@ -746,13 +726,22 @@ export interface OperationStatus extends ErrorResponse {
   id?: string;
   /** The operation name. */
   name?: string;
-  /** The start time of the operation. */
-  startTime?: string;
-  /** The end time of the operation. */
-  endTime?: string;
+  /**
+   * The start time of the operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startTime?: Date;
+  /**
+   * The end time of the operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endTime?: Date;
   /** The status of the operation. */
   status?: string;
 }
+
+/** The identity of the experiment resource. */
+export interface ExperimentIdentity extends ManagedServiceIdentity {}
 
 /** Model that represents a delay action. */
 export interface DelayAction extends ChaosExperimentAction {
@@ -830,15 +819,120 @@ export interface ExperimentExecutionDetailsProperties
   readonly runInformation?: ExperimentExecutionDetailsPropertiesRunInformation;
 }
 
-/** Model that represents a Experiment resource. */
-export interface Experiment extends TrackedResource {
+/** Model that represents a Capability resource. */
+export interface Capability extends ProxyResource {
   /**
-   * The system metadata of the experiment resource.
+   * String of the Publisher that this Capability extends.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly systemData?: SystemData;
+  readonly publisher?: string;
+  /**
+   * String of the Target Type that this Capability extends.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly targetType?: string;
+  /**
+   * Localized string of the description.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
+  /**
+   * URL to retrieve JSON schema of the Capability parameters.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly parametersSchema?: string;
+  /**
+   * String of the URN for this Capability Type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly urn?: string;
+}
+
+/** Model that represents a Capability Type resource. */
+export interface CapabilityType extends ProxyResource {
+  /** Location of the Capability Type resource. */
+  location?: string;
+  /**
+   * String of the Publisher that this Capability Type extends.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly publisher?: string;
+  /**
+   * String of the Target Type that this Capability Type extends.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly targetType?: string;
+  /**
+   * Localized string of the display name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly displayName?: string;
+  /**
+   * Localized string of the description.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
+  /**
+   * URL to retrieve JSON schema of the Capability Type parameters.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly parametersSchema?: string;
+  /**
+   * String of the URN for this Capability Type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly urn?: string;
+  /**
+   * String of the kind of this Capability Type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly kind?: string;
+  /** Control plane actions necessary to execute capability type. */
+  azureRbacActions?: string[];
+  /** Data plane actions necessary to execute capability type. */
+  azureRbacDataActions?: string[];
+  /** Runtime properties of this Capability Type. */
+  runtimeProperties?: CapabilityTypePropertiesRuntimeProperties;
+}
+
+/** Model that represents a Target Type resource. */
+export interface TargetType extends ProxyResource {
+  /** Location of the Target Type resource. */
+  location?: string;
+  /**
+   * Localized string of the display name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly displayName?: string;
+  /**
+   * Localized string of the description.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
+  /**
+   * URL to retrieve JSON schema of the Target Type properties.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly propertiesSchema?: string;
+  /**
+   * List of resource types this Target Type can extend.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceTypes?: string[];
+}
+
+/** Model that represents a Target resource. */
+export interface Target extends ProxyResource {
+  /** Location of the target resource. */
+  location?: string;
+  /** The properties of the target resource. */
+  properties: { [propertyName: string]: any };
+}
+
+/** Model that represents a Experiment resource. */
+export interface Experiment extends TrackedResource {
   /** The identity of the experiment resource. */
-  identity?: ResourceIdentity;
+  identity?: ExperimentIdentity;
   /**
    * Most recent provisioning state for the given experiment resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -848,6 +942,40 @@ export interface Experiment extends TrackedResource {
   steps: ChaosExperimentStep[];
   /** List of selectors. */
   selectors: ChaosTargetSelectorUnion[];
+  /** Optional customer-managed Storage account where Experiment schema will be stored. */
+  customerDataStorage?: CustomerDataStorageProperties;
+}
+
+/** PrivateAccesses tracked resource. */
+export interface PrivateAccess extends TrackedResource {
+  /**
+   * Most recent provisioning state for the given privateAccess resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * A readonly collection of private endpoint connection. Currently only one endpoint connection is supported.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateEndpointConnections?: PrivateEndpointConnection[];
+  /** Public Network Access Control for PrivateAccess resource. */
+  publicNetworkAccess?: PublicNetworkAccessOption;
+}
+
+/** Defines headers for PrivateAccesses_update operation. */
+export interface PrivateAccessesUpdateHeaders {
+  location?: string;
+}
+
+/** Defines headers for PrivateAccesses_delete operation. */
+export interface PrivateAccessesDeleteHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+
+/** Defines headers for PrivateAccesses_deleteAPrivateEndpointConnection operation. */
+export interface PrivateAccessesDeleteAPrivateEndpointConnectionHeaders {
+  location?: string;
 }
 
 /** Known values of {@link CreatedByType} that the service accepts. */
@@ -873,6 +1001,30 @@ export enum KnownCreatedByType {
  * **Key**
  */
 export type CreatedByType = string;
+
+/** Known values of {@link ManagedServiceIdentityType} that the service accepts. */
+export enum KnownManagedServiceIdentityType {
+  /** None */
+  None = "None",
+  /** SystemAssigned */
+  SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
+  UserAssigned = "UserAssigned",
+  /** SystemAssignedUserAssigned */
+  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
+}
+
+/**
+ * Defines values for ManagedServiceIdentityType. \
+ * {@link KnownManagedServiceIdentityType} can be used interchangeably with ManagedServiceIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **SystemAssigned** \
+ * **UserAssigned** \
+ * **SystemAssigned,UserAssigned**
+ */
+export type ManagedServiceIdentityType = string;
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
@@ -973,6 +1125,69 @@ export enum KnownActionType {
  */
 export type ActionType = string;
 
+/** Known values of {@link PrivateEndpointServiceConnectionStatus} that the service accepts. */
+export enum KnownPrivateEndpointServiceConnectionStatus {
+  /** Pending */
+  Pending = "Pending",
+  /** Approved */
+  Approved = "Approved",
+  /** Rejected */
+  Rejected = "Rejected",
+}
+
+/**
+ * Defines values for PrivateEndpointServiceConnectionStatus. \
+ * {@link KnownPrivateEndpointServiceConnectionStatus} can be used interchangeably with PrivateEndpointServiceConnectionStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Pending** \
+ * **Approved** \
+ * **Rejected**
+ */
+export type PrivateEndpointServiceConnectionStatus = string;
+
+/** Known values of {@link PrivateEndpointConnectionProvisioningState} that the service accepts. */
+export enum KnownPrivateEndpointConnectionProvisioningState {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Creating */
+  Creating = "Creating",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Failed */
+  Failed = "Failed",
+}
+
+/**
+ * Defines values for PrivateEndpointConnectionProvisioningState. \
+ * {@link KnownPrivateEndpointConnectionProvisioningState} can be used interchangeably with PrivateEndpointConnectionProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Creating** \
+ * **Deleting** \
+ * **Failed**
+ */
+export type PrivateEndpointConnectionProvisioningState = string;
+
+/** Known values of {@link PublicNetworkAccessOption} that the service accepts. */
+export enum KnownPublicNetworkAccessOption {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled",
+}
+
+/**
+ * Defines values for PublicNetworkAccessOption. \
+ * {@link KnownPublicNetworkAccessOption} can be used interchangeably with PublicNetworkAccessOption,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type PublicNetworkAccessOption = string;
+
 /** Known values of {@link TargetReferenceType} that the service accepts. */
 export enum KnownTargetReferenceType {
   /** ChaosTarget */
@@ -987,8 +1202,6 @@ export enum KnownTargetReferenceType {
  * **ChaosTarget**
  */
 export type TargetReferenceType = string;
-/** Defines values for ResourceIdentityType. */
-export type ResourceIdentityType = "None" | "SystemAssigned" | "UserAssigned";
 
 /** Optional parameters. */
 export interface CapabilitiesListOptionalParams
@@ -1195,6 +1408,136 @@ export interface OperationsListAllNextOptionalParams
 
 /** Contains response data for the listAllNext operation. */
 export type OperationsListAllNextResponse = OperationListResult;
+
+/** Optional parameters. */
+export interface PrivateAccessesListAllOptionalParams
+  extends coreClient.OperationOptions {
+  /** String that sets the continuation token. */
+  continuationToken?: string;
+}
+
+/** Contains response data for the listAll operation. */
+export type PrivateAccessesListAllResponse = PrivateAccessListResult;
+
+/** Optional parameters. */
+export interface PrivateAccessesListOptionalParams
+  extends coreClient.OperationOptions {
+  /** String that sets the continuation token. */
+  continuationToken?: string;
+}
+
+/** Contains response data for the list operation. */
+export type PrivateAccessesListResponse = PrivateAccessListResult;
+
+/** Optional parameters. */
+export interface PrivateAccessesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type PrivateAccessesGetResponse = PrivateAccess;
+
+/** Optional parameters. */
+export interface PrivateAccessesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type PrivateAccessesCreateOrUpdateResponse = PrivateAccess;
+
+/** Optional parameters. */
+export interface PrivateAccessesUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type PrivateAccessesUpdateResponse = PrivateAccess;
+
+/** Optional parameters. */
+export interface PrivateAccessesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type PrivateAccessesDeleteResponse = PrivateAccessesDeleteHeaders;
+
+/** Optional parameters. */
+export interface PrivateAccessesGetPrivateLinkResourcesOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getPrivateLinkResources operation. */
+export type PrivateAccessesGetPrivateLinkResourcesResponse =
+  PrivateLinkResourceListResult;
+
+/** Optional parameters. */
+export interface PrivateAccessesGetAPrivateEndpointConnectionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getAPrivateEndpointConnection operation. */
+export type PrivateAccessesGetAPrivateEndpointConnectionResponse =
+  PrivateEndpointConnection;
+
+/** Optional parameters. */
+export interface PrivateAccessesDeleteAPrivateEndpointConnectionOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the deleteAPrivateEndpointConnection operation. */
+export type PrivateAccessesDeleteAPrivateEndpointConnectionResponse =
+  PrivateAccessesDeleteAPrivateEndpointConnectionHeaders;
+
+/** Optional parameters. */
+export interface PrivateAccessesListPrivateEndpointConnectionsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listPrivateEndpointConnections operation. */
+export type PrivateAccessesListPrivateEndpointConnectionsResponse =
+  PrivateEndpointConnectionListResult;
+
+/** Optional parameters. */
+export interface PrivateAccessesListAllNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listAllNext operation. */
+export type PrivateAccessesListAllNextResponse = PrivateAccessListResult;
+
+/** Optional parameters. */
+export interface PrivateAccessesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type PrivateAccessesListNextResponse = PrivateAccessListResult;
+
+/** Optional parameters. */
+export interface PrivateAccessesGetPrivateLinkResourcesNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getPrivateLinkResourcesNext operation. */
+export type PrivateAccessesGetPrivateLinkResourcesNextResponse =
+  PrivateLinkResourceListResult;
+
+/** Optional parameters. */
+export interface PrivateAccessesListPrivateEndpointConnectionsNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listPrivateEndpointConnectionsNext operation. */
+export type PrivateAccessesListPrivateEndpointConnectionsNextResponse =
+  PrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
 export interface TargetTypesListOptionalParams
