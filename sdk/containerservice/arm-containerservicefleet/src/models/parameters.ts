@@ -72,13 +72,10 @@ export const nextLink: OperationURLParameter = {
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
-    constraints: {
-      MinLength: 1,
-    },
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String",
+      name: "Uuid",
     },
   },
 };

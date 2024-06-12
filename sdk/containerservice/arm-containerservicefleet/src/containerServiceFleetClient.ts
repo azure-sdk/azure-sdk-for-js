@@ -38,7 +38,7 @@ export class ContainerServiceFleetClient extends coreClient.ServiceClient {
   /**
    * Initializes a new instance of the ContainerServiceFleetClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId The ID of the target subscription.
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param options The parameter options
    */
   constructor(
