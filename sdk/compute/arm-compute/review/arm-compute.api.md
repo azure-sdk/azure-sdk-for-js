@@ -39,6 +39,9 @@ export interface AdditionalUnattendContent {
 export type AggregatedReplicationState = string;
 
 // @public
+export type AllocationStrategy = string;
+
+// @public
 export interface AlternativeOption {
     type?: AlternativeType;
     value?: string;
@@ -3147,6 +3150,12 @@ export enum KnownAggregatedReplicationState {
 }
 
 // @public
+export enum KnownAllocationStrategy {
+    CapacityOptimized = "CapacityOptimized",
+    LowestPrice = "LowestPrice"
+}
+
+// @public
 export enum KnownAlternativeType {
     None = "None",
     Offer = "Offer",
@@ -5271,8 +5280,16 @@ export type SecurityEncryptionTypes = string;
 
 // @public
 export interface SecurityPostureReference {
-    excludeExtensions?: VirtualMachineExtension[];
+    excludeExtensions?: string[];
+    id: string;
+    isOverridable?: boolean;
+}
+
+// @public
+export interface SecurityPostureReferenceUpdate {
+    excludeExtensions?: string[];
     id?: string;
+    isOverridable?: boolean;
 }
 
 // @public
@@ -5508,6 +5525,17 @@ export interface Sku {
     capacity?: number;
     name?: string;
     tier?: string;
+}
+
+// @public
+export interface SkuProfile {
+    allocationStrategy?: AllocationStrategy;
+    vmSizes?: SkuProfileVMSize[];
+}
+
+// @public
+export interface SkuProfileVMSize {
+    name?: string;
 }
 
 // @public
@@ -6780,6 +6808,7 @@ export interface VirtualMachineScaleSet extends Resource {
     scheduledEventsPolicy?: ScheduledEventsPolicy;
     singlePlacementGroup?: boolean;
     sku?: Sku;
+    skuProfile?: SkuProfile;
     spotRestorePolicy?: SpotRestorePolicy;
     readonly timeCreated?: Date;
     readonly uniqueId?: string;
@@ -7423,6 +7452,7 @@ export interface VirtualMachineScaleSetUpdate extends UpdateResource {
     scaleInPolicy?: ScaleInPolicy;
     singlePlacementGroup?: boolean;
     sku?: Sku;
+    skuProfile?: SkuProfile;
     spotRestorePolicy?: SpotRestorePolicy;
     upgradePolicy?: UpgradePolicy;
     virtualMachineProfile?: VirtualMachineScaleSetUpdateVMProfile;
@@ -7512,6 +7542,7 @@ export interface VirtualMachineScaleSetUpdateVMProfile {
     networkProfile?: VirtualMachineScaleSetUpdateNetworkProfile;
     osProfile?: VirtualMachineScaleSetUpdateOSProfile;
     scheduledEventsProfile?: ScheduledEventsProfile;
+    securityPostureReference?: SecurityPostureReferenceUpdate;
     securityProfile?: SecurityProfile;
     storageProfile?: VirtualMachineScaleSetUpdateStorageProfile;
     userData?: string;

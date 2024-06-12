@@ -1,15 +1,25 @@
 # Release History
+    
+## 22.0.0 (2024-06-12)
+    
+**Features**
 
-## 21.6.1 (Unreleased)
+  - Added Interface SecurityPostureReferenceUpdate
+  - Added Interface SkuProfile
+  - Added Interface SkuProfileVMSize
+  - Added Type Alias AllocationStrategy
+  - Interface SecurityPostureReference has a new optional parameter isOverridable
+  - Interface VirtualMachineScaleSet has a new optional parameter skuProfile
+  - Interface VirtualMachineScaleSetUpdate has a new optional parameter skuProfile
+  - Interface VirtualMachineScaleSetUpdateVMProfile has a new optional parameter securityPostureReference
+  - Added Enum KnownAllocationStrategy
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Parameter id of interface SecurityPostureReference is now required
+  - Type of parameter excludeExtensions of interface SecurityPostureReference is changed from VirtualMachineExtension[] to string[]
+    
+    
 ## 21.6.0 (2024-04-26)
     
 **Features**
