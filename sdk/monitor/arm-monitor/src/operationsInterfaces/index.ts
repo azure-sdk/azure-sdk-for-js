@@ -6,6 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+export * from "./actionGroups";
+export * from "./dataCollectionEndpoints";
+export * from "./scheduledQueryRule";
 export * from "./metricNamespaces";
 export * from "./metricDefinitions";
 export * from "./metricsOperations";
@@ -19,7 +22,6 @@ export * from "./alertRules";
 export * from "./logProfiles";
 export * from "./diagnosticSettings";
 export * from "./diagnosticSettingsCategory";
-export * from "./actionGroups";
 export * from "./tenantActionGroups";
 export * from "./activityLogs";
 export * from "./eventCategories";
@@ -35,6 +37,5 @@ export * from "./privateLinkResources";
 export * from "./privateEndpointConnections";
 export * from "./privateLinkScopedResources";
 export * from "./activityLogAlerts";
-export * from "./dataCollectionEndpoints";
 export * from "./dataCollectionRuleAssociations";
 export * from "./dataCollectionRules";

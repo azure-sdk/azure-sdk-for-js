@@ -9,9 +9,15 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
+  NetworkSecurityPerimeterConfiguration,
+  ActionGroupsListNSPOptionalParams,
   ActionGroupResource,
   ActionGroupsListBySubscriptionIdOptionalParams,
   ActionGroupsListByResourceGroupOptionalParams,
+  ActionGroupsGetNSPOptionalParams,
+  ActionGroupsGetNSPResponse,
+  ActionGroupsReconcileNSPOptionalParams,
+  ActionGroupsReconcileNSPResponse,
   ActionGroupsCreateOrUpdateOptionalParams,
   ActionGroupsCreateOrUpdateResponse,
   ActionGroupsGetOptionalParams,
@@ -33,6 +39,17 @@ import {
 /** Interface representing a ActionGroups. */
 export interface ActionGroups {
   /**
+   * Gets a list of NSP configurations for specified action group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param actionGroupName The name of the action group.
+   * @param options The options parameters.
+   */
+  listNSP(
+    resourceGroupName: string,
+    actionGroupName: string,
+    options?: ActionGroupsListNSPOptionalParams,
+  ): PagedAsyncIterableIterator<NetworkSecurityPerimeterConfiguration>;
+  /**
    * Get a list of all action groups in a subscription.
    * @param options The options parameters.
    */
@@ -48,6 +65,53 @@ export interface ActionGroups {
     resourceGroupName: string,
     options?: ActionGroupsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<ActionGroupResource>;
+  /**
+   * Gets a specified NSP configuration for specified action group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param actionGroupName The name of the action group.
+   * @param networkSecurityPerimeterConfigurationName The name for a network security perimeter
+   *                                                  configuration
+   * @param options The options parameters.
+   */
+  getNSP(
+    resourceGroupName: string,
+    actionGroupName: string,
+    networkSecurityPerimeterConfigurationName: string,
+    options?: ActionGroupsGetNSPOptionalParams,
+  ): Promise<ActionGroupsGetNSPResponse>;
+  /**
+   * Reconciles a specified NSP configuration for specified action group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param actionGroupName The name of the action group.
+   * @param networkSecurityPerimeterConfigurationName The name for a network security perimeter
+   *                                                  configuration
+   * @param options The options parameters.
+   */
+  beginReconcileNSP(
+    resourceGroupName: string,
+    actionGroupName: string,
+    networkSecurityPerimeterConfigurationName: string,
+    options?: ActionGroupsReconcileNSPOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ActionGroupsReconcileNSPResponse>,
+      ActionGroupsReconcileNSPResponse
+    >
+  >;
+  /**
+   * Reconciles a specified NSP configuration for specified action group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param actionGroupName The name of the action group.
+   * @param networkSecurityPerimeterConfigurationName The name for a network security perimeter
+   *                                                  configuration
+   * @param options The options parameters.
+   */
+  beginReconcileNSPAndWait(
+    resourceGroupName: string,
+    actionGroupName: string,
+    networkSecurityPerimeterConfigurationName: string,
+    options?: ActionGroupsReconcileNSPOptionalParams,
+  ): Promise<ActionGroupsReconcileNSPResponse>;
   /**
    * Create a new action group or update an existing one.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
