@@ -19,7 +19,7 @@ import {
   ManagedPrivateEndpointUpdateParameters,
   ManagedPrivateEndpointsUpdateOptionalParams,
   ManagedPrivateEndpointsUpdateResponse,
-  ManagedPrivateEndpointsDeleteOptionalParams
+  ManagedPrivateEndpointsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,7 +34,7 @@ export interface ManagedPrivateEndpoints {
   list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: ManagedPrivateEndpointsListOptionalParams
+    options?: ManagedPrivateEndpointsListOptionalParams,
   ): PagedAsyncIterableIterator<ManagedPrivateEndpointModel>;
   /**
    * Refresh and sync managed private endpoints of a grafana resource to latest state.
@@ -45,7 +45,7 @@ export interface ManagedPrivateEndpoints {
   beginRefresh(
     resourceGroupName: string,
     workspaceName: string,
-    options?: ManagedPrivateEndpointsRefreshOptionalParams
+    options?: ManagedPrivateEndpointsRefreshOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Refresh and sync managed private endpoints of a grafana resource to latest state.
@@ -56,7 +56,7 @@ export interface ManagedPrivateEndpoints {
   beginRefreshAndWait(
     resourceGroupName: string,
     workspaceName: string,
-    options?: ManagedPrivateEndpointsRefreshOptionalParams
+    options?: ManagedPrivateEndpointsRefreshOptionalParams,
   ): Promise<void>;
   /**
    * Get a specific managed private endpoint of a grafana resource.
@@ -69,7 +69,7 @@ export interface ManagedPrivateEndpoints {
     resourceGroupName: string,
     workspaceName: string,
     managedPrivateEndpointName: string,
-    options?: ManagedPrivateEndpointsGetOptionalParams
+    options?: ManagedPrivateEndpointsGetOptionalParams,
   ): Promise<ManagedPrivateEndpointsGetResponse>;
   /**
    * Create or update a managed private endpoint for a grafana resource.
@@ -84,7 +84,7 @@ export interface ManagedPrivateEndpoints {
     workspaceName: string,
     managedPrivateEndpointName: string,
     requestBodyParameters: ManagedPrivateEndpointModel,
-    options?: ManagedPrivateEndpointsCreateOptionalParams
+    options?: ManagedPrivateEndpointsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ManagedPrivateEndpointsCreateResponse>,
@@ -104,7 +104,7 @@ export interface ManagedPrivateEndpoints {
     workspaceName: string,
     managedPrivateEndpointName: string,
     requestBodyParameters: ManagedPrivateEndpointModel,
-    options?: ManagedPrivateEndpointsCreateOptionalParams
+    options?: ManagedPrivateEndpointsCreateOptionalParams,
   ): Promise<ManagedPrivateEndpointsCreateResponse>;
   /**
    * Update a managed private endpoint for an existing grafana resource.
@@ -119,7 +119,7 @@ export interface ManagedPrivateEndpoints {
     workspaceName: string,
     managedPrivateEndpointName: string,
     requestBodyParameters: ManagedPrivateEndpointUpdateParameters,
-    options?: ManagedPrivateEndpointsUpdateOptionalParams
+    options?: ManagedPrivateEndpointsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ManagedPrivateEndpointsUpdateResponse>,
@@ -139,7 +139,7 @@ export interface ManagedPrivateEndpoints {
     workspaceName: string,
     managedPrivateEndpointName: string,
     requestBodyParameters: ManagedPrivateEndpointUpdateParameters,
-    options?: ManagedPrivateEndpointsUpdateOptionalParams
+    options?: ManagedPrivateEndpointsUpdateOptionalParams,
   ): Promise<ManagedPrivateEndpointsUpdateResponse>;
   /**
    * Delete a managed private endpoint for a grafana resource.
@@ -152,7 +152,7 @@ export interface ManagedPrivateEndpoints {
     resourceGroupName: string,
     workspaceName: string,
     managedPrivateEndpointName: string,
-    options?: ManagedPrivateEndpointsDeleteOptionalParams
+    options?: ManagedPrivateEndpointsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a managed private endpoint for a grafana resource.
@@ -165,6 +165,6 @@ export interface ManagedPrivateEndpoints {
     resourceGroupName: string,
     workspaceName: string,
     managedPrivateEndpointName: string,
-    options?: ManagedPrivateEndpointsDeleteOptionalParams
+    options?: ManagedPrivateEndpointsDeleteOptionalParams,
   ): Promise<void>;
 }

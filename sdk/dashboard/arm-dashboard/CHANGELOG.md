@@ -1,15 +1,15 @@
 # Release History
+    
+## 2.0.0 (2024-06-13)
+    
+**Breaking Changes**
 
-## 1.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation group Operations
+  - Class DashboardManagementClient no longer has parameter operations
+  - Removed Enum KnownActionType
+  - Removed Enum KnownOrigin
+    
+    
 ## 1.1.0 (2023-11-10)
     
 **Features**
