@@ -8,66 +8,63 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  SessionHost,
-  SessionHostsListOptionalParams,
-  SessionHostsGetOptionalParams,
-  SessionHostsGetResponse,
-  SessionHostsDeleteOptionalParams,
-  SessionHostsUpdateOptionalParams,
-  SessionHostsUpdateResponse,
+  SessionHostManagement,
+  SessionHostManagementsListByHostPoolOptionalParams,
+  SessionHostManagementsGetOptionalParams,
+  SessionHostManagementsGetResponse,
+  SessionHostManagementsCreateOrUpdateOptionalParams,
+  SessionHostManagementsCreateOrUpdateResponse,
+  SessionHostManagementsUpdateOptionalParams,
+  SessionHostManagementsUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a SessionHosts. */
-export interface SessionHosts {
+/** Interface representing a SessionHostManagements. */
+export interface SessionHostManagements {
   /**
-   * List sessionHosts.
+   * List SessionHostManagements by hostPool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostPoolName The name of the host pool within the specified resource group
    * @param options The options parameters.
    */
-  list(
+  listByHostPool(
     resourceGroupName: string,
     hostPoolName: string,
-    options?: SessionHostsListOptionalParams,
-  ): PagedAsyncIterableIterator<SessionHost>;
+    options?: SessionHostManagementsListByHostPoolOptionalParams,
+  ): PagedAsyncIterableIterator<SessionHostManagement>;
   /**
-   * Get a session host.
+   * Get a SessionHostManagement.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostPoolName The name of the host pool within the specified resource group
-   * @param sessionHostName The name of the session host within the specified host pool
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     hostPoolName: string,
-    sessionHostName: string,
-    options?: SessionHostsGetOptionalParams,
-  ): Promise<SessionHostsGetResponse>;
+    options?: SessionHostManagementsGetOptionalParams,
+  ): Promise<SessionHostManagementsGetResponse>;
   /**
-   * Remove a SessionHost.
+   * Create or update a SessionHostManagement.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostPoolName The name of the host pool within the specified resource group
-   * @param sessionHostName The name of the session host within the specified host pool
+   * @param sessionHostManagement Object containing SessionHostManagement definitions.
    * @param options The options parameters.
    */
-  delete(
+  createOrUpdate(
     resourceGroupName: string,
     hostPoolName: string,
-    sessionHostName: string,
-    options?: SessionHostsDeleteOptionalParams,
-  ): Promise<void>;
+    sessionHostManagement: SessionHostManagement,
+    options?: SessionHostManagementsCreateOrUpdateOptionalParams,
+  ): Promise<SessionHostManagementsCreateOrUpdateResponse>;
   /**
-   * Update a session host.
+   * Update a SessionHostManagement.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostPoolName The name of the host pool within the specified resource group
-   * @param sessionHostName The name of the session host within the specified host pool
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
     hostPoolName: string,
-    sessionHostName: string,
-    options?: SessionHostsUpdateOptionalParams,
-  ): Promise<SessionHostsUpdateResponse>;
+    options?: SessionHostManagementsUpdateOptionalParams,
+  ): Promise<SessionHostManagementsUpdateResponse>;
 }
