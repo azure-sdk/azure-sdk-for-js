@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { Clusters } from "../operationsInterfaces";
+import { IscsiPaths } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,30 +20,25 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  Cluster,
-  ClustersListNextOptionalParams,
-  ClustersListOptionalParams,
-  ClustersListResponse,
-  ClustersGetOptionalParams,
-  ClustersGetResponse,
-  ClustersCreateOrUpdateOptionalParams,
-  ClustersCreateOrUpdateResponse,
-  ClusterUpdate,
-  ClustersUpdateOptionalParams,
-  ClustersUpdateResponse,
-  ClustersDeleteOptionalParams,
-  ClustersListZonesOptionalParams,
-  ClustersListZonesResponse,
-  ClustersListNextResponse,
+  IscsiPath,
+  IscsiPathsListByPrivateCloudNextOptionalParams,
+  IscsiPathsListByPrivateCloudOptionalParams,
+  IscsiPathsListByPrivateCloudResponse,
+  IscsiPathsGetOptionalParams,
+  IscsiPathsGetResponse,
+  IscsiPathsCreateOrUpdateOptionalParams,
+  IscsiPathsCreateOrUpdateResponse,
+  IscsiPathsDeleteOptionalParams,
+  IscsiPathsListByPrivateCloudNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Clusters operations. */
-export class ClustersImpl implements Clusters {
+/** Class containing IscsiPaths operations. */
+export class IscsiPathsImpl implements IscsiPaths {
   private readonly client: AzureVMwareSolutionAPI;
 
   /**
-   * Initialize a new instance of the class Clusters class.
+   * Initialize a new instance of the class IscsiPaths class.
    * @param client Reference to the service client
    */
   constructor(client: AzureVMwareSolutionAPI) {
@@ -51,17 +46,17 @@ export class ClustersImpl implements Clusters {
   }
 
   /**
-   * List Cluster resources by PrivateCloud
+   * List IscsiPath resources by PrivateCloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param options The options parameters.
    */
-  public list(
+  public listByPrivateCloud(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: ClustersListOptionalParams,
-  ): PagedAsyncIterableIterator<Cluster> {
-    const iter = this.listPagingAll(
+    options?: IscsiPathsListByPrivateCloudOptionalParams,
+  ): PagedAsyncIterableIterator<IscsiPath> {
+    const iter = this.listByPrivateCloudPagingAll(
       resourceGroupName,
       privateCloudName,
       options,
@@ -77,7 +72,7 @@ export class ClustersImpl implements Clusters {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
+        return this.listByPrivateCloudPagingPage(
           resourceGroupName,
           privateCloudName,
           options,
@@ -87,23 +82,27 @@ export class ClustersImpl implements Clusters {
     };
   }
 
-  private async *listPagingPage(
+  private async *listByPrivateCloudPagingPage(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: ClustersListOptionalParams,
+    options?: IscsiPathsListByPrivateCloudOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<Cluster[]> {
-    let result: ClustersListResponse;
+  ): AsyncIterableIterator<IscsiPath[]> {
+    let result: IscsiPathsListByPrivateCloudResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(resourceGroupName, privateCloudName, options);
+      result = await this._listByPrivateCloud(
+        resourceGroupName,
+        privateCloudName,
+        options,
+      );
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
+      result = await this._listByPrivateCloudNext(
         resourceGroupName,
         privateCloudName,
         continuationToken,
@@ -116,12 +115,12 @@ export class ClustersImpl implements Clusters {
     }
   }
 
-  private async *listPagingAll(
+  private async *listByPrivateCloudPagingAll(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: ClustersListOptionalParams,
-  ): AsyncIterableIterator<Cluster> {
-    for await (const page of this.listPagingPage(
+    options?: IscsiPathsListByPrivateCloudOptionalParams,
+  ): AsyncIterableIterator<IscsiPath> {
+    for await (const page of this.listByPrivateCloudPagingPage(
       resourceGroupName,
       privateCloudName,
       options,
@@ -131,65 +130,61 @@ export class ClustersImpl implements Clusters {
   }
 
   /**
-   * List Cluster resources by PrivateCloud
+   * List IscsiPath resources by PrivateCloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param options The options parameters.
    */
-  private _list(
+  private _listByPrivateCloud(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: ClustersListOptionalParams,
-  ): Promise<ClustersListResponse> {
+    options?: IscsiPathsListByPrivateCloudOptionalParams,
+  ): Promise<IscsiPathsListByPrivateCloudResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, privateCloudName, options },
-      listOperationSpec,
+      listByPrivateCloudOperationSpec,
     );
   }
 
   /**
-   * Get a Cluster
+   * Get a IscsiPath
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param clusterName Name of the cluster
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     privateCloudName: string,
-    clusterName: string,
-    options?: ClustersGetOptionalParams,
-  ): Promise<ClustersGetResponse> {
+    options?: IscsiPathsGetOptionalParams,
+  ): Promise<IscsiPathsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, privateCloudName, clusterName, options },
+      { resourceGroupName, privateCloudName, options },
       getOperationSpec,
     );
   }
 
   /**
-   * Create a Cluster
+   * Create a IscsiPath
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param clusterName Name of the cluster
-   * @param cluster Resource create parameters.
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     privateCloudName: string,
-    clusterName: string,
-    cluster: Cluster,
-    options?: ClustersCreateOrUpdateOptionalParams,
+    resource: IscsiPath,
+    options?: IscsiPathsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<ClustersCreateOrUpdateResponse>,
-      ClustersCreateOrUpdateResponse
+      OperationState<IscsiPathsCreateOrUpdateResponse>,
+      IscsiPathsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<ClustersCreateOrUpdateResponse> => {
+    ): Promise<IscsiPathsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -226,18 +221,12 @@ export class ClustersImpl implements Clusters {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: {
-        resourceGroupName,
-        privateCloudName,
-        clusterName,
-        cluster,
-        options,
-      },
+      args: { resourceGroupName, privateCloudName, resource, options },
       spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
-      ClustersCreateOrUpdateResponse,
-      OperationState<ClustersCreateOrUpdateResponse>
+      IscsiPathsCreateOrUpdateResponse,
+      OperationState<IscsiPathsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -248,148 +237,37 @@ export class ClustersImpl implements Clusters {
   }
 
   /**
-   * Create a Cluster
+   * Create a IscsiPath
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param clusterName Name of the cluster
-   * @param cluster Resource create parameters.
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     privateCloudName: string,
-    clusterName: string,
-    cluster: Cluster,
-    options?: ClustersCreateOrUpdateOptionalParams,
-  ): Promise<ClustersCreateOrUpdateResponse> {
+    resource: IscsiPath,
+    options?: IscsiPathsCreateOrUpdateOptionalParams,
+  ): Promise<IscsiPathsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       privateCloudName,
-      clusterName,
-      cluster,
+      resource,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Update a Cluster
+   * Delete a IscsiPath
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param clusterName Name of the cluster
-   * @param clusterUpdate The cluster properties to be updated.
-   * @param options The options parameters.
-   */
-  async beginUpdate(
-    resourceGroupName: string,
-    privateCloudName: string,
-    clusterName: string,
-    clusterUpdate: ClusterUpdate,
-    options?: ClustersUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ClustersUpdateResponse>,
-      ClustersUpdateResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<ClustersUpdateResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
-        resourceGroupName,
-        privateCloudName,
-        clusterName,
-        clusterUpdate,
-        options,
-      },
-      spec: updateOperationSpec,
-    });
-    const poller = await createHttpPoller<
-      ClustersUpdateResponse,
-      OperationState<ClustersUpdateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Update a Cluster
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param clusterName Name of the cluster
-   * @param clusterUpdate The cluster properties to be updated.
-   * @param options The options parameters.
-   */
-  async beginUpdateAndWait(
-    resourceGroupName: string,
-    privateCloudName: string,
-    clusterName: string,
-    clusterUpdate: ClusterUpdate,
-    options?: ClustersUpdateOptionalParams,
-  ): Promise<ClustersUpdateResponse> {
-    const poller = await this.beginUpdate(
-      resourceGroupName,
-      privateCloudName,
-      clusterName,
-      clusterUpdate,
-      options,
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Delete a Cluster
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param clusterName Name of the cluster
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     privateCloudName: string,
-    clusterName: string,
-    options?: ClustersDeleteOptionalParams,
+    options?: IscsiPathsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -431,7 +309,7 @@ export class ClustersImpl implements Clusters {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, privateCloudName, clusterName, options },
+      args: { resourceGroupName, privateCloudName, options },
       spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
@@ -444,74 +322,52 @@ export class ClustersImpl implements Clusters {
   }
 
   /**
-   * Delete a Cluster
+   * Delete a IscsiPath
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param clusterName Name of the cluster
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     privateCloudName: string,
-    clusterName: string,
-    options?: ClustersDeleteOptionalParams,
+    options?: IscsiPathsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       privateCloudName,
-      clusterName,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * List hosts by zone in a cluster
+   * ListByPrivateCloudNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param clusterName Name of the cluster
+   * @param nextLink The nextLink from the previous successful call to the ListByPrivateCloud method.
    * @param options The options parameters.
    */
-  listZones(
-    resourceGroupName: string,
-    privateCloudName: string,
-    clusterName: string,
-    options?: ClustersListZonesOptionalParams,
-  ): Promise<ClustersListZonesResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, privateCloudName, clusterName, options },
-      listZonesOperationSpec,
-    );
-  }
-
-  /**
-   * ListNext
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param nextLink The nextLink from the previous successful call to the List method.
-   * @param options The options parameters.
-   */
-  private _listNext(
+  private _listByPrivateCloudNext(
     resourceGroupName: string,
     privateCloudName: string,
     nextLink: string,
-    options?: ClustersListNextOptionalParams,
-  ): Promise<ClustersListNextResponse> {
+    options?: IscsiPathsListByPrivateCloudNextOptionalParams,
+  ): Promise<IscsiPathsListByPrivateCloudNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, privateCloudName, nextLink, options },
-      listNextOperationSpec,
+      listByPrivateCloudNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters",
+const listByPrivateCloudOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/iscsiPaths",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ClusterList,
+      bodyMapper: Mappers.IscsiPathListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -528,11 +384,11 @@ const listOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/iscsiPaths/default",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Cluster,
+      bodyMapper: Mappers.IscsiPath,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -544,79 +400,44 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateCloudName,
-    Parameters.clusterName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/iscsiPaths/default",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Cluster,
+      bodyMapper: Mappers.IscsiPath,
     },
     201: {
-      bodyMapper: Mappers.Cluster,
+      bodyMapper: Mappers.IscsiPath,
     },
     202: {
-      bodyMapper: Mappers.Cluster,
+      bodyMapper: Mappers.IscsiPath,
     },
     204: {
-      bodyMapper: Mappers.Cluster,
+      bodyMapper: Mappers.IscsiPath,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.cluster,
+  requestBody: Parameters.resource,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateCloudName,
-    Parameters.clusterName,
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer,
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Cluster,
-    },
-    201: {
-      bodyMapper: Mappers.Cluster,
-    },
-    202: {
-      bodyMapper: Mappers.Cluster,
-    },
-    204: {
-      bodyMapper: Mappers.Cluster,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  requestBody: Parameters.clusterUpdate,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.privateCloudName,
-    Parameters.clusterName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/iscsiPaths/default",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -633,39 +454,16 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateCloudName,
-    Parameters.clusterName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listZonesOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}/listZones",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ClusterZoneList,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.privateCloudName,
-    Parameters.clusterName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listNextOperationSpec: coreClient.OperationSpec = {
+const listByPrivateCloudNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ClusterList,
+      bodyMapper: Mappers.IscsiPathListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
