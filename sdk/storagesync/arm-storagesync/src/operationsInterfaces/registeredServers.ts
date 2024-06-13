@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   RegisteredServer,
   RegisteredServersListByStorageSyncServiceOptionalParams,
@@ -16,11 +16,14 @@ import {
   RegisteredServerCreateParameters,
   RegisteredServersCreateOptionalParams,
   RegisteredServersCreateResponse,
+  RegisteredServerUpdateParameters,
+  RegisteredServersUpdateOptionalParams,
+  RegisteredServersUpdateResponse,
   RegisteredServersDeleteOptionalParams,
   RegisteredServersDeleteResponse,
   TriggerRolloverRequest,
   RegisteredServersTriggerRolloverOptionalParams,
-  RegisteredServersTriggerRolloverResponse
+  RegisteredServersTriggerRolloverResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -35,7 +38,7 @@ export interface RegisteredServers {
   listByStorageSyncService(
     resourceGroupName: string,
     storageSyncServiceName: string,
-    options?: RegisteredServersListByStorageSyncServiceOptionalParams
+    options?: RegisteredServersListByStorageSyncServiceOptionalParams,
   ): PagedAsyncIterableIterator<RegisteredServer>;
   /**
    * Get a given registered server.
@@ -48,7 +51,7 @@ export interface RegisteredServers {
     resourceGroupName: string,
     storageSyncServiceName: string,
     serverId: string,
-    options?: RegisteredServersGetOptionalParams
+    options?: RegisteredServersGetOptionalParams,
   ): Promise<RegisteredServersGetResponse>;
   /**
    * Add a new registered server.
@@ -63,10 +66,10 @@ export interface RegisteredServers {
     storageSyncServiceName: string,
     serverId: string,
     parameters: RegisteredServerCreateParameters,
-    options?: RegisteredServersCreateOptionalParams
+    options?: RegisteredServersCreateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<RegisteredServersCreateResponse>,
+    SimplePollerLike<
+      OperationState<RegisteredServersCreateResponse>,
       RegisteredServersCreateResponse
     >
   >;
@@ -83,8 +86,43 @@ export interface RegisteredServers {
     storageSyncServiceName: string,
     serverId: string,
     parameters: RegisteredServerCreateParameters,
-    options?: RegisteredServersCreateOptionalParams
+    options?: RegisteredServersCreateOptionalParams,
   ): Promise<RegisteredServersCreateResponse>;
+  /**
+   * Update registered server.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param storageSyncServiceName Name of Storage Sync Service resource.
+   * @param serverId GUID identifying the on-premises server.
+   * @param parameters Body of Registered Server object.
+   * @param options The options parameters.
+   */
+  beginUpdate(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    serverId: string,
+    parameters: RegisteredServerUpdateParameters,
+    options?: RegisteredServersUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<RegisteredServersUpdateResponse>,
+      RegisteredServersUpdateResponse
+    >
+  >;
+  /**
+   * Update registered server.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param storageSyncServiceName Name of Storage Sync Service resource.
+   * @param serverId GUID identifying the on-premises server.
+   * @param parameters Body of Registered Server object.
+   * @param options The options parameters.
+   */
+  beginUpdateAndWait(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    serverId: string,
+    parameters: RegisteredServerUpdateParameters,
+    options?: RegisteredServersUpdateOptionalParams,
+  ): Promise<RegisteredServersUpdateResponse>;
   /**
    * Delete the given registered server.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -96,10 +134,10 @@ export interface RegisteredServers {
     resourceGroupName: string,
     storageSyncServiceName: string,
     serverId: string,
-    options?: RegisteredServersDeleteOptionalParams
+    options?: RegisteredServersDeleteOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<RegisteredServersDeleteResponse>,
+    SimplePollerLike<
+      OperationState<RegisteredServersDeleteResponse>,
       RegisteredServersDeleteResponse
     >
   >;
@@ -114,7 +152,7 @@ export interface RegisteredServers {
     resourceGroupName: string,
     storageSyncServiceName: string,
     serverId: string,
-    options?: RegisteredServersDeleteOptionalParams
+    options?: RegisteredServersDeleteOptionalParams,
   ): Promise<RegisteredServersDeleteResponse>;
   /**
    * Triggers Server certificate rollover.
@@ -129,10 +167,10 @@ export interface RegisteredServers {
     storageSyncServiceName: string,
     serverId: string,
     parameters: TriggerRolloverRequest,
-    options?: RegisteredServersTriggerRolloverOptionalParams
+    options?: RegisteredServersTriggerRolloverOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<RegisteredServersTriggerRolloverResponse>,
+    SimplePollerLike<
+      OperationState<RegisteredServersTriggerRolloverResponse>,
       RegisteredServersTriggerRolloverResponse
     >
   >;
@@ -149,6 +187,6 @@ export interface RegisteredServers {
     storageSyncServiceName: string,
     serverId: string,
     parameters: TriggerRolloverRequest,
-    options?: RegisteredServersTriggerRolloverOptionalParams
+    options?: RegisteredServersTriggerRolloverOptionalParams,
   ): Promise<RegisteredServersTriggerRolloverResponse>;
 }

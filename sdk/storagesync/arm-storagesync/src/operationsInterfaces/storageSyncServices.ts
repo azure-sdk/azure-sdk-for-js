@@ -7,14 +7,11 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   StorageSyncService,
   StorageSyncServicesListByResourceGroupOptionalParams,
   StorageSyncServicesListBySubscriptionOptionalParams,
-  CheckNameAvailabilityParameters,
-  StorageSyncServicesCheckNameAvailabilityOptionalParams,
-  StorageSyncServicesCheckNameAvailabilityResponse,
   StorageSyncServiceCreateParameters,
   StorageSyncServicesCreateOptionalParams,
   StorageSyncServicesCreateResponse,
@@ -23,7 +20,7 @@ import {
   StorageSyncServicesUpdateOptionalParams,
   StorageSyncServicesUpdateResponse,
   StorageSyncServicesDeleteOptionalParams,
-  StorageSyncServicesDeleteResponse
+  StorageSyncServicesDeleteResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -36,26 +33,15 @@ export interface StorageSyncServices {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: StorageSyncServicesListByResourceGroupOptionalParams
+    options?: StorageSyncServicesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<StorageSyncService>;
   /**
    * Get a StorageSyncService list by subscription.
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: StorageSyncServicesListBySubscriptionOptionalParams
+    options?: StorageSyncServicesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<StorageSyncService>;
-  /**
-   * Check the give namespace name availability.
-   * @param locationName The desired region for the name check.
-   * @param parameters Parameters to check availability of the given namespace name
-   * @param options The options parameters.
-   */
-  checkNameAvailability(
-    locationName: string,
-    parameters: CheckNameAvailabilityParameters,
-    options?: StorageSyncServicesCheckNameAvailabilityOptionalParams
-  ): Promise<StorageSyncServicesCheckNameAvailabilityResponse>;
   /**
    * Create a new StorageSyncService.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -67,10 +53,10 @@ export interface StorageSyncServices {
     resourceGroupName: string,
     storageSyncServiceName: string,
     parameters: StorageSyncServiceCreateParameters,
-    options?: StorageSyncServicesCreateOptionalParams
+    options?: StorageSyncServicesCreateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<StorageSyncServicesCreateResponse>,
+    SimplePollerLike<
+      OperationState<StorageSyncServicesCreateResponse>,
       StorageSyncServicesCreateResponse
     >
   >;
@@ -85,7 +71,7 @@ export interface StorageSyncServices {
     resourceGroupName: string,
     storageSyncServiceName: string,
     parameters: StorageSyncServiceCreateParameters,
-    options?: StorageSyncServicesCreateOptionalParams
+    options?: StorageSyncServicesCreateOptionalParams,
   ): Promise<StorageSyncServicesCreateResponse>;
   /**
    * Get a given StorageSyncService.
@@ -96,7 +82,7 @@ export interface StorageSyncServices {
   get(
     resourceGroupName: string,
     storageSyncServiceName: string,
-    options?: StorageSyncServicesGetOptionalParams
+    options?: StorageSyncServicesGetOptionalParams,
   ): Promise<StorageSyncServicesGetResponse>;
   /**
    * Patch a given StorageSyncService.
@@ -107,10 +93,10 @@ export interface StorageSyncServices {
   beginUpdate(
     resourceGroupName: string,
     storageSyncServiceName: string,
-    options?: StorageSyncServicesUpdateOptionalParams
+    options?: StorageSyncServicesUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<StorageSyncServicesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<StorageSyncServicesUpdateResponse>,
       StorageSyncServicesUpdateResponse
     >
   >;
@@ -123,7 +109,7 @@ export interface StorageSyncServices {
   beginUpdateAndWait(
     resourceGroupName: string,
     storageSyncServiceName: string,
-    options?: StorageSyncServicesUpdateOptionalParams
+    options?: StorageSyncServicesUpdateOptionalParams,
   ): Promise<StorageSyncServicesUpdateResponse>;
   /**
    * Delete a given StorageSyncService.
@@ -134,10 +120,10 @@ export interface StorageSyncServices {
   beginDelete(
     resourceGroupName: string,
     storageSyncServiceName: string,
-    options?: StorageSyncServicesDeleteOptionalParams
+    options?: StorageSyncServicesDeleteOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<StorageSyncServicesDeleteResponse>,
+    SimplePollerLike<
+      OperationState<StorageSyncServicesDeleteResponse>,
       StorageSyncServicesDeleteResponse
     >
   >;
@@ -150,6 +136,6 @@ export interface StorageSyncServices {
   beginDeleteAndWait(
     resourceGroupName: string,
     storageSyncServiceName: string,
-    options?: StorageSyncServicesDeleteOptionalParams
+    options?: StorageSyncServicesDeleteOptionalParams,
   ): Promise<StorageSyncServicesDeleteResponse>;
 }

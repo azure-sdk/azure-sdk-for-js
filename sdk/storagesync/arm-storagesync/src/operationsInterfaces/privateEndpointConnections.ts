@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   PrivateEndpointConnection,
   PrivateEndpointConnectionsListByStorageSyncServiceOptionalParams,
@@ -15,7 +15,7 @@ import {
   PrivateEndpointConnectionsGetResponse,
   PrivateEndpointConnectionsCreateOptionalParams,
   PrivateEndpointConnectionsCreateResponse,
-  PrivateEndpointConnectionsDeleteOptionalParams
+  PrivateEndpointConnectionsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface PrivateEndpointConnections {
   listByStorageSyncService(
     resourceGroupName: string,
     storageSyncServiceName: string,
-    options?: PrivateEndpointConnectionsListByStorageSyncServiceOptionalParams
+    options?: PrivateEndpointConnectionsListByStorageSyncServiceOptionalParams,
   ): PagedAsyncIterableIterator<PrivateEndpointConnection>;
   /**
    * Gets the specified private endpoint connection associated with the storage sync service.
@@ -38,14 +38,14 @@ export interface PrivateEndpointConnections {
    * @param storageSyncServiceName The name of the storage sync service name within the specified
    *                               resource group.
    * @param privateEndpointConnectionName The name of the private endpoint connection associated with the
-   *                                      Azure resource
+   *                                      Azure resource.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     storageSyncServiceName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsGetOptionalParams
+    options?: PrivateEndpointConnectionsGetOptionalParams,
   ): Promise<PrivateEndpointConnectionsGetResponse>;
   /**
    * Update the state of specified private endpoint connection associated with the storage sync service.
@@ -53,7 +53,7 @@ export interface PrivateEndpointConnections {
    * @param storageSyncServiceName The name of the storage sync service name within the specified
    *                               resource group.
    * @param privateEndpointConnectionName The name of the private endpoint connection associated with the
-   *                                      Azure resource
+   *                                      Azure resource.
    * @param properties The private endpoint connection properties.
    * @param options The options parameters.
    */
@@ -62,10 +62,10 @@ export interface PrivateEndpointConnections {
     storageSyncServiceName: string,
     privateEndpointConnectionName: string,
     properties: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionsCreateOptionalParams
+    options?: PrivateEndpointConnectionsCreateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<PrivateEndpointConnectionsCreateResponse>,
+    SimplePollerLike<
+      OperationState<PrivateEndpointConnectionsCreateResponse>,
       PrivateEndpointConnectionsCreateResponse
     >
   >;
@@ -75,7 +75,7 @@ export interface PrivateEndpointConnections {
    * @param storageSyncServiceName The name of the storage sync service name within the specified
    *                               resource group.
    * @param privateEndpointConnectionName The name of the private endpoint connection associated with the
-   *                                      Azure resource
+   *                                      Azure resource.
    * @param properties The private endpoint connection properties.
    * @param options The options parameters.
    */
@@ -84,7 +84,7 @@ export interface PrivateEndpointConnections {
     storageSyncServiceName: string,
     privateEndpointConnectionName: string,
     properties: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionsCreateOptionalParams
+    options?: PrivateEndpointConnectionsCreateOptionalParams,
   ): Promise<PrivateEndpointConnectionsCreateResponse>;
   /**
    * Deletes the specified private endpoint connection associated with the storage sync service.
@@ -92,28 +92,28 @@ export interface PrivateEndpointConnections {
    * @param storageSyncServiceName The name of the storage sync service name within the specified
    *                               resource group.
    * @param privateEndpointConnectionName The name of the private endpoint connection associated with the
-   *                                      Azure resource
+   *                                      Azure resource.
    * @param options The options parameters.
    */
   beginDelete(
     resourceGroupName: string,
     storageSyncServiceName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: PrivateEndpointConnectionsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified private endpoint connection associated with the storage sync service.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param storageSyncServiceName The name of the storage sync service name within the specified
    *                               resource group.
    * @param privateEndpointConnectionName The name of the private endpoint connection associated with the
-   *                                      Azure resource
+   *                                      Azure resource.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
     resourceGroupName: string,
     storageSyncServiceName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsDeleteOptionalParams
+    options?: PrivateEndpointConnectionsDeleteOptionalParams,
   ): Promise<void>;
 }

@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ServerEndpoint,
   ServerEndpointsListBySyncGroupOptionalParams,
@@ -22,7 +22,7 @@ import {
   ServerEndpointsDeleteResponse,
   RecallActionParameters,
   ServerEndpointsRecallActionOptionalParams,
-  ServerEndpointsRecallActionResponse
+  ServerEndpointsRecallActionResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -39,7 +39,7 @@ export interface ServerEndpoints {
     resourceGroupName: string,
     storageSyncServiceName: string,
     syncGroupName: string,
-    options?: ServerEndpointsListBySyncGroupOptionalParams
+    options?: ServerEndpointsListBySyncGroupOptionalParams,
   ): PagedAsyncIterableIterator<ServerEndpoint>;
   /**
    * Create a new ServerEndpoint.
@@ -56,10 +56,10 @@ export interface ServerEndpoints {
     syncGroupName: string,
     serverEndpointName: string,
     parameters: ServerEndpointCreateParameters,
-    options?: ServerEndpointsCreateOptionalParams
+    options?: ServerEndpointsCreateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ServerEndpointsCreateResponse>,
+    SimplePollerLike<
+      OperationState<ServerEndpointsCreateResponse>,
       ServerEndpointsCreateResponse
     >
   >;
@@ -78,7 +78,7 @@ export interface ServerEndpoints {
     syncGroupName: string,
     serverEndpointName: string,
     parameters: ServerEndpointCreateParameters,
-    options?: ServerEndpointsCreateOptionalParams
+    options?: ServerEndpointsCreateOptionalParams,
   ): Promise<ServerEndpointsCreateResponse>;
   /**
    * Patch a given ServerEndpoint.
@@ -93,10 +93,10 @@ export interface ServerEndpoints {
     storageSyncServiceName: string,
     syncGroupName: string,
     serverEndpointName: string,
-    options?: ServerEndpointsUpdateOptionalParams
+    options?: ServerEndpointsUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ServerEndpointsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ServerEndpointsUpdateResponse>,
       ServerEndpointsUpdateResponse
     >
   >;
@@ -113,7 +113,7 @@ export interface ServerEndpoints {
     storageSyncServiceName: string,
     syncGroupName: string,
     serverEndpointName: string,
-    options?: ServerEndpointsUpdateOptionalParams
+    options?: ServerEndpointsUpdateOptionalParams,
   ): Promise<ServerEndpointsUpdateResponse>;
   /**
    * Get a ServerEndpoint.
@@ -128,7 +128,7 @@ export interface ServerEndpoints {
     storageSyncServiceName: string,
     syncGroupName: string,
     serverEndpointName: string,
-    options?: ServerEndpointsGetOptionalParams
+    options?: ServerEndpointsGetOptionalParams,
   ): Promise<ServerEndpointsGetResponse>;
   /**
    * Delete a given ServerEndpoint.
@@ -143,10 +143,10 @@ export interface ServerEndpoints {
     storageSyncServiceName: string,
     syncGroupName: string,
     serverEndpointName: string,
-    options?: ServerEndpointsDeleteOptionalParams
+    options?: ServerEndpointsDeleteOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ServerEndpointsDeleteResponse>,
+    SimplePollerLike<
+      OperationState<ServerEndpointsDeleteResponse>,
       ServerEndpointsDeleteResponse
     >
   >;
@@ -163,7 +163,7 @@ export interface ServerEndpoints {
     storageSyncServiceName: string,
     syncGroupName: string,
     serverEndpointName: string,
-    options?: ServerEndpointsDeleteOptionalParams
+    options?: ServerEndpointsDeleteOptionalParams,
   ): Promise<ServerEndpointsDeleteResponse>;
   /**
    * Recall a server endpoint.
@@ -180,10 +180,10 @@ export interface ServerEndpoints {
     syncGroupName: string,
     serverEndpointName: string,
     parameters: RecallActionParameters,
-    options?: ServerEndpointsRecallActionOptionalParams
+    options?: ServerEndpointsRecallActionOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ServerEndpointsRecallActionResponse>,
+    SimplePollerLike<
+      OperationState<ServerEndpointsRecallActionResponse>,
       ServerEndpointsRecallActionResponse
     >
   >;
@@ -202,6 +202,6 @@ export interface ServerEndpoints {
     syncGroupName: string,
     serverEndpointName: string,
     parameters: RecallActionParameters,
-    options?: ServerEndpointsRecallActionOptionalParams
+    options?: ServerEndpointsRecallActionOptionalParams,
   ): Promise<ServerEndpointsRecallActionResponse>;
 }

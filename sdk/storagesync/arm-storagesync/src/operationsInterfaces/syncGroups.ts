@@ -16,7 +16,7 @@ import {
   SyncGroupsGetOptionalParams,
   SyncGroupsGetResponse,
   SyncGroupsDeleteOptionalParams,
-  SyncGroupsDeleteResponse
+  SyncGroupsDeleteResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface SyncGroups {
   listByStorageSyncService(
     resourceGroupName: string,
     storageSyncServiceName: string,
-    options?: SyncGroupsListByStorageSyncServiceOptionalParams
+    options?: SyncGroupsListByStorageSyncServiceOptionalParams,
   ): PagedAsyncIterableIterator<SyncGroup>;
   /**
    * Create a new SyncGroup.
@@ -46,7 +46,7 @@ export interface SyncGroups {
     storageSyncServiceName: string,
     syncGroupName: string,
     parameters: SyncGroupCreateParameters,
-    options?: SyncGroupsCreateOptionalParams
+    options?: SyncGroupsCreateOptionalParams,
   ): Promise<SyncGroupsCreateResponse>;
   /**
    * Get a given SyncGroup.
@@ -59,7 +59,7 @@ export interface SyncGroups {
     resourceGroupName: string,
     storageSyncServiceName: string,
     syncGroupName: string,
-    options?: SyncGroupsGetOptionalParams
+    options?: SyncGroupsGetOptionalParams,
   ): Promise<SyncGroupsGetResponse>;
   /**
    * Delete a given SyncGroup.
@@ -72,6 +72,6 @@ export interface SyncGroups {
     resourceGroupName: string,
     storageSyncServiceName: string,
     syncGroupName: string,
-    options?: SyncGroupsDeleteOptionalParams
+    options?: SyncGroupsDeleteOptionalParams,
   ): Promise<SyncGroupsDeleteResponse>;
 }

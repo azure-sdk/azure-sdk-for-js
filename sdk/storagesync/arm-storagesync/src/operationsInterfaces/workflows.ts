@@ -13,7 +13,7 @@ import {
   WorkflowsGetOptionalParams,
   WorkflowsGetResponse,
   WorkflowsAbortOptionalParams,
-  WorkflowsAbortResponse
+  WorkflowsAbortResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -28,7 +28,7 @@ export interface Workflows {
   listByStorageSyncService(
     resourceGroupName: string,
     storageSyncServiceName: string,
-    options?: WorkflowsListByStorageSyncServiceOptionalParams
+    options?: WorkflowsListByStorageSyncServiceOptionalParams,
   ): PagedAsyncIterableIterator<Workflow>;
   /**
    * Get Workflows resource
@@ -41,7 +41,7 @@ export interface Workflows {
     resourceGroupName: string,
     storageSyncServiceName: string,
     workflowId: string,
-    options?: WorkflowsGetOptionalParams
+    options?: WorkflowsGetOptionalParams,
   ): Promise<WorkflowsGetResponse>;
   /**
    * Abort the given workflow.
@@ -54,6 +54,6 @@ export interface Workflows {
     resourceGroupName: string,
     storageSyncServiceName: string,
     workflowId: string,
-    options?: WorkflowsAbortOptionalParams
+    options?: WorkflowsAbortOptionalParams,
   ): Promise<WorkflowsAbortResponse>;
 }

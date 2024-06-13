@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   CloudEndpoint,
   CloudEndpointsListBySyncGroupOptionalParams,
@@ -30,7 +30,9 @@ import {
   PostRestoreRequest,
   CloudEndpointsPostRestoreOptionalParams,
   TriggerChangeDetectionParameters,
-  CloudEndpointsTriggerChangeDetectionOptionalParams
+  CloudEndpointsTriggerChangeDetectionOptionalParams,
+  CloudEndpointsAfsShareMetadataCertificatePublicKeysOptionalParams,
+  CloudEndpointsAfsShareMetadataCertificatePublicKeysResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -47,7 +49,7 @@ export interface CloudEndpoints {
     resourceGroupName: string,
     storageSyncServiceName: string,
     syncGroupName: string,
-    options?: CloudEndpointsListBySyncGroupOptionalParams
+    options?: CloudEndpointsListBySyncGroupOptionalParams,
   ): PagedAsyncIterableIterator<CloudEndpoint>;
   /**
    * Create a new CloudEndpoint.
@@ -64,10 +66,10 @@ export interface CloudEndpoints {
     syncGroupName: string,
     cloudEndpointName: string,
     parameters: CloudEndpointCreateParameters,
-    options?: CloudEndpointsCreateOptionalParams
+    options?: CloudEndpointsCreateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<CloudEndpointsCreateResponse>,
+    SimplePollerLike<
+      OperationState<CloudEndpointsCreateResponse>,
       CloudEndpointsCreateResponse
     >
   >;
@@ -86,7 +88,7 @@ export interface CloudEndpoints {
     syncGroupName: string,
     cloudEndpointName: string,
     parameters: CloudEndpointCreateParameters,
-    options?: CloudEndpointsCreateOptionalParams
+    options?: CloudEndpointsCreateOptionalParams,
   ): Promise<CloudEndpointsCreateResponse>;
   /**
    * Get a given CloudEndpoint.
@@ -101,7 +103,7 @@ export interface CloudEndpoints {
     storageSyncServiceName: string,
     syncGroupName: string,
     cloudEndpointName: string,
-    options?: CloudEndpointsGetOptionalParams
+    options?: CloudEndpointsGetOptionalParams,
   ): Promise<CloudEndpointsGetResponse>;
   /**
    * Delete a given CloudEndpoint.
@@ -116,10 +118,10 @@ export interface CloudEndpoints {
     storageSyncServiceName: string,
     syncGroupName: string,
     cloudEndpointName: string,
-    options?: CloudEndpointsDeleteOptionalParams
+    options?: CloudEndpointsDeleteOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<CloudEndpointsDeleteResponse>,
+    SimplePollerLike<
+      OperationState<CloudEndpointsDeleteResponse>,
       CloudEndpointsDeleteResponse
     >
   >;
@@ -136,7 +138,7 @@ export interface CloudEndpoints {
     storageSyncServiceName: string,
     syncGroupName: string,
     cloudEndpointName: string,
-    options?: CloudEndpointsDeleteOptionalParams
+    options?: CloudEndpointsDeleteOptionalParams,
   ): Promise<CloudEndpointsDeleteResponse>;
   /**
    * Pre Backup a given CloudEndpoint.
@@ -153,10 +155,10 @@ export interface CloudEndpoints {
     syncGroupName: string,
     cloudEndpointName: string,
     parameters: BackupRequest,
-    options?: CloudEndpointsPreBackupOptionalParams
+    options?: CloudEndpointsPreBackupOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<CloudEndpointsPreBackupResponse>,
+    SimplePollerLike<
+      OperationState<CloudEndpointsPreBackupResponse>,
       CloudEndpointsPreBackupResponse
     >
   >;
@@ -175,7 +177,7 @@ export interface CloudEndpoints {
     syncGroupName: string,
     cloudEndpointName: string,
     parameters: BackupRequest,
-    options?: CloudEndpointsPreBackupOptionalParams
+    options?: CloudEndpointsPreBackupOptionalParams,
   ): Promise<CloudEndpointsPreBackupResponse>;
   /**
    * Post Backup a given CloudEndpoint.
@@ -192,10 +194,10 @@ export interface CloudEndpoints {
     syncGroupName: string,
     cloudEndpointName: string,
     parameters: BackupRequest,
-    options?: CloudEndpointsPostBackupOptionalParams
+    options?: CloudEndpointsPostBackupOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<CloudEndpointsPostBackupResponse>,
+    SimplePollerLike<
+      OperationState<CloudEndpointsPostBackupResponse>,
       CloudEndpointsPostBackupResponse
     >
   >;
@@ -214,7 +216,7 @@ export interface CloudEndpoints {
     syncGroupName: string,
     cloudEndpointName: string,
     parameters: BackupRequest,
-    options?: CloudEndpointsPostBackupOptionalParams
+    options?: CloudEndpointsPostBackupOptionalParams,
   ): Promise<CloudEndpointsPostBackupResponse>;
   /**
    * Pre Restore a given CloudEndpoint.
@@ -231,8 +233,8 @@ export interface CloudEndpoints {
     syncGroupName: string,
     cloudEndpointName: string,
     parameters: PreRestoreRequest,
-    options?: CloudEndpointsPreRestoreOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: CloudEndpointsPreRestoreOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Pre Restore a given CloudEndpoint.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -248,7 +250,7 @@ export interface CloudEndpoints {
     syncGroupName: string,
     cloudEndpointName: string,
     parameters: PreRestoreRequest,
-    options?: CloudEndpointsPreRestoreOptionalParams
+    options?: CloudEndpointsPreRestoreOptionalParams,
   ): Promise<void>;
   /**
    * Restore Heartbeat a given CloudEndpoint.
@@ -263,7 +265,7 @@ export interface CloudEndpoints {
     storageSyncServiceName: string,
     syncGroupName: string,
     cloudEndpointName: string,
-    options?: CloudEndpointsRestoreheartbeatOptionalParams
+    options?: CloudEndpointsRestoreheartbeatOptionalParams,
   ): Promise<CloudEndpointsRestoreheartbeatResponse>;
   /**
    * Post Restore a given CloudEndpoint.
@@ -280,8 +282,8 @@ export interface CloudEndpoints {
     syncGroupName: string,
     cloudEndpointName: string,
     parameters: PostRestoreRequest,
-    options?: CloudEndpointsPostRestoreOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: CloudEndpointsPostRestoreOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Post Restore a given CloudEndpoint.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -297,7 +299,7 @@ export interface CloudEndpoints {
     syncGroupName: string,
     cloudEndpointName: string,
     parameters: PostRestoreRequest,
-    options?: CloudEndpointsPostRestoreOptionalParams
+    options?: CloudEndpointsPostRestoreOptionalParams,
   ): Promise<void>;
   /**
    * Triggers detection of changes performed on Azure File share connected to the specified Azure File
@@ -315,8 +317,8 @@ export interface CloudEndpoints {
     syncGroupName: string,
     cloudEndpointName: string,
     parameters: TriggerChangeDetectionParameters,
-    options?: CloudEndpointsTriggerChangeDetectionOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: CloudEndpointsTriggerChangeDetectionOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Triggers detection of changes performed on Azure File share connected to the specified Azure File
    * Sync Cloud Endpoint.
@@ -333,6 +335,21 @@ export interface CloudEndpoints {
     syncGroupName: string,
     cloudEndpointName: string,
     parameters: TriggerChangeDetectionParameters,
-    options?: CloudEndpointsTriggerChangeDetectionOptionalParams
+    options?: CloudEndpointsTriggerChangeDetectionOptionalParams,
   ): Promise<void>;
+  /**
+   * Get the AFS file share metadata signing certificate public keys.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param storageSyncServiceName Name of Storage Sync Service resource.
+   * @param syncGroupName Name of Sync Group resource.
+   * @param cloudEndpointName Name of Cloud Endpoint object.
+   * @param options The options parameters.
+   */
+  afsShareMetadataCertificatePublicKeys(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    syncGroupName: string,
+    cloudEndpointName: string,
+    options?: CloudEndpointsAfsShareMetadataCertificatePublicKeysOptionalParams,
+  ): Promise<CloudEndpointsAfsShareMetadataCertificatePublicKeysResponse>;
 }

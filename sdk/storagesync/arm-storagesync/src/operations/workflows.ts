@@ -19,7 +19,7 @@ import {
   WorkflowsGetOptionalParams,
   WorkflowsGetResponse,
   WorkflowsAbortOptionalParams,
-  WorkflowsAbortResponse
+  WorkflowsAbortResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -44,12 +44,12 @@ export class WorkflowsImpl implements Workflows {
   public listByStorageSyncService(
     resourceGroupName: string,
     storageSyncServiceName: string,
-    options?: WorkflowsListByStorageSyncServiceOptionalParams
+    options?: WorkflowsListByStorageSyncServiceOptionalParams,
   ): PagedAsyncIterableIterator<Workflow> {
     const iter = this.listByStorageSyncServicePagingAll(
       resourceGroupName,
       storageSyncServiceName,
-      options
+      options,
     );
     return {
       next() {
@@ -66,9 +66,9 @@ export class WorkflowsImpl implements Workflows {
           resourceGroupName,
           storageSyncServiceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -76,13 +76,13 @@ export class WorkflowsImpl implements Workflows {
     resourceGroupName: string,
     storageSyncServiceName: string,
     options?: WorkflowsListByStorageSyncServiceOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<Workflow[]> {
     let result: WorkflowsListByStorageSyncServiceResponse;
     result = await this._listByStorageSyncService(
       resourceGroupName,
       storageSyncServiceName,
-      options
+      options,
     );
     yield result.value || [];
   }
@@ -90,12 +90,12 @@ export class WorkflowsImpl implements Workflows {
   private async *listByStorageSyncServicePagingAll(
     resourceGroupName: string,
     storageSyncServiceName: string,
-    options?: WorkflowsListByStorageSyncServiceOptionalParams
+    options?: WorkflowsListByStorageSyncServiceOptionalParams,
   ): AsyncIterableIterator<Workflow> {
     for await (const page of this.listByStorageSyncServicePagingPage(
       resourceGroupName,
       storageSyncServiceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -110,11 +110,11 @@ export class WorkflowsImpl implements Workflows {
   private _listByStorageSyncService(
     resourceGroupName: string,
     storageSyncServiceName: string,
-    options?: WorkflowsListByStorageSyncServiceOptionalParams
+    options?: WorkflowsListByStorageSyncServiceOptionalParams,
   ): Promise<WorkflowsListByStorageSyncServiceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, storageSyncServiceName, options },
-      listByStorageSyncServiceOperationSpec
+      listByStorageSyncServiceOperationSpec,
     );
   }
 
@@ -129,11 +129,11 @@ export class WorkflowsImpl implements Workflows {
     resourceGroupName: string,
     storageSyncServiceName: string,
     workflowId: string,
-    options?: WorkflowsGetOptionalParams
+    options?: WorkflowsGetOptionalParams,
   ): Promise<WorkflowsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, storageSyncServiceName, workflowId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -148,11 +148,11 @@ export class WorkflowsImpl implements Workflows {
     resourceGroupName: string,
     storageSyncServiceName: string,
     workflowId: string,
-    options?: WorkflowsAbortOptionalParams
+    options?: WorkflowsAbortOptionalParams,
   ): Promise<WorkflowsAbortResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, storageSyncServiceName, workflowId, options },
-      abortOperationSpec
+      abortOperationSpec,
     );
   }
 }
@@ -160,40 +160,38 @@ export class WorkflowsImpl implements Workflows {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByStorageSyncServiceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/workflows",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/workflows",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.WorkflowArray,
-      headersMapper: Mappers.WorkflowsListByStorageSyncServiceHeaders
+      headersMapper: Mappers.WorkflowsListByStorageSyncServiceHeaders,
     },
     default: {
-      bodyMapper: Mappers.StorageSyncError
-    }
+      bodyMapper: Mappers.StorageSyncError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.storageSyncServiceName
+    Parameters.storageSyncServiceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/workflows/{workflowId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/workflows/{workflowId}",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.Workflow,
-      headersMapper: Mappers.WorkflowsGetHeaders
+      headersMapper: Mappers.WorkflowsGetHeaders,
     },
     default: {
-      bodyMapper: Mappers.StorageSyncError
-    }
+      bodyMapper: Mappers.StorageSyncError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -201,22 +199,21 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.storageSyncServiceName,
-    Parameters.workflowId
+    Parameters.workflowId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const abortOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/workflows/{workflowId}/abort",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/workflows/{workflowId}/abort",
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper: Mappers.WorkflowsAbortHeaders
+      headersMapper: Mappers.WorkflowsAbortHeaders,
     },
     default: {
-      bodyMapper: Mappers.StorageSyncError
-    }
+      bodyMapper: Mappers.StorageSyncError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -224,8 +221,8 @@ const abortOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.storageSyncServiceName,
-    Parameters.workflowId
+    Parameters.workflowId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
