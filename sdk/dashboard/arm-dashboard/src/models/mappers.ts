@@ -8,212 +8,6 @@
 
 import * as coreClient from "@azure/core-client";
 
-export const OperationListResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "OperationListResult",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "Operation"
-            }
-          }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const Operation: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "Operation",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      isDataAction: {
-        serializedName: "isDataAction",
-        readOnly: true,
-        type: {
-          name: "Boolean"
-        }
-      },
-      display: {
-        serializedName: "display",
-        type: {
-          name: "Composite",
-          className: "OperationDisplay"
-        }
-      },
-      origin: {
-        serializedName: "origin",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      actionType: {
-        serializedName: "actionType",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const OperationDisplay: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "OperationDisplay",
-    modelProperties: {
-      provider: {
-        serializedName: "provider",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      resource: {
-        serializedName: "resource",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      operation: {
-        serializedName: "operation",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      description: {
-        serializedName: "description",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ErrorResponse: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ErrorResponse",
-    modelProperties: {
-      error: {
-        serializedName: "error",
-        type: {
-          name: "Composite",
-          className: "ErrorDetail"
-        }
-      }
-    }
-  }
-};
-
-export const ErrorDetail: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ErrorDetail",
-    modelProperties: {
-      code: {
-        serializedName: "code",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      message: {
-        serializedName: "message",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      target: {
-        serializedName: "target",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      details: {
-        serializedName: "details",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ErrorDetail"
-            }
-          }
-        }
-      },
-      additionalInfo: {
-        serializedName: "additionalInfo",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ErrorAdditionalInfo"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ErrorAdditionalInfo",
-    modelProperties: {
-      type: {
-        serializedName: "type",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      info: {
-        serializedName: "info",
-        readOnly: true,
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
-        }
-      }
-    }
-  }
-};
-
 export const ManagedGrafanaListResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -226,19 +20,19 @@ export const ManagedGrafanaListResponse: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ManagedGrafana"
-            }
-          }
-        }
+              className: "ManagedGrafana",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ManagedGrafana: coreClient.CompositeMapper = {
@@ -250,66 +44,66 @@ export const ManagedGrafana: coreClient.CompositeMapper = {
         serializedName: "id",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       type: {
         serializedName: "type",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       sku: {
         serializedName: "sku",
         type: {
           name: "Composite",
-          className: "ResourceSku"
-        }
+          className: "ResourceSku",
+        },
       },
       properties: {
         serializedName: "properties",
         type: {
           name: "Composite",
-          className: "ManagedGrafanaProperties"
-        }
+          className: "ManagedGrafanaProperties",
+        },
       },
       identity: {
         serializedName: "identity",
         type: {
           name: "Composite",
-          className: "ManagedServiceIdentity"
-        }
+          className: "ManagedServiceIdentity",
+        },
       },
       systemData: {
         serializedName: "systemData",
         type: {
           name: "Composite",
-          className: "SystemData"
-        }
+          className: "SystemData",
+        },
       },
       tags: {
         serializedName: "tags",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
+          value: { type: { name: "String" } },
+        },
       },
       location: {
         serializedName: "location",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ResourceSku: coreClient.CompositeMapper = {
@@ -321,11 +115,11 @@ export const ResourceSku: coreClient.CompositeMapper = {
         serializedName: "name",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ManagedGrafanaProperties: coreClient.CompositeMapper = {
@@ -337,50 +131,50 @@ export const ManagedGrafanaProperties: coreClient.CompositeMapper = {
         serializedName: "provisioningState",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       grafanaVersion: {
         serializedName: "grafanaVersion",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       endpoint: {
         serializedName: "endpoint",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       publicNetworkAccess: {
         defaultValue: "Enabled",
         serializedName: "publicNetworkAccess",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       zoneRedundancy: {
         defaultValue: "Disabled",
         serializedName: "zoneRedundancy",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       apiKey: {
         defaultValue: "Disabled",
         serializedName: "apiKey",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       deterministicOutboundIP: {
         defaultValue: "Disabled",
         serializedName: "deterministicOutboundIP",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       outboundIPs: {
         serializedName: "outboundIPs",
@@ -389,10 +183,10 @@ export const ManagedGrafanaProperties: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       privateEndpointConnections: {
         serializedName: "privateEndpointConnections",
@@ -402,53 +196,53 @@ export const ManagedGrafanaProperties: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "PrivateEndpointConnection"
-            }
-          }
-        }
+              className: "PrivateEndpointConnection",
+            },
+          },
+        },
       },
       autoGeneratedDomainNameLabelScope: {
         serializedName: "autoGeneratedDomainNameLabelScope",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       grafanaIntegrations: {
         serializedName: "grafanaIntegrations",
         type: {
           name: "Composite",
-          className: "GrafanaIntegrations"
-        }
+          className: "GrafanaIntegrations",
+        },
       },
       enterpriseConfigurations: {
         serializedName: "enterpriseConfigurations",
         type: {
           name: "Composite",
-          className: "EnterpriseConfigurations"
-        }
+          className: "EnterpriseConfigurations",
+        },
       },
       grafanaConfigurations: {
         serializedName: "grafanaConfigurations",
         type: {
           name: "Composite",
-          className: "GrafanaConfigurations"
-        }
+          className: "GrafanaConfigurations",
+        },
       },
       grafanaPlugins: {
         serializedName: "grafanaPlugins",
         type: {
           name: "Dictionary",
-          value: { type: { name: "Composite", className: "GrafanaPlugin" } }
-        }
+          value: { type: { name: "Composite", className: "GrafanaPlugin" } },
+        },
       },
       grafanaMajorVersion: {
         serializedName: "grafanaMajorVersion",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const PrivateEndpoint: coreClient.CompositeMapper = {
@@ -460,11 +254,11 @@ export const PrivateEndpoint: coreClient.CompositeMapper = {
         serializedName: "id",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const PrivateLinkServiceConnectionState: coreClient.CompositeMapper = {
@@ -475,23 +269,23 @@ export const PrivateLinkServiceConnectionState: coreClient.CompositeMapper = {
       status: {
         serializedName: "status",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       description: {
         serializedName: "description",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       actionsRequired: {
         serializedName: "actionsRequired",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const Resource: coreClient.CompositeMapper = {
@@ -503,32 +297,32 @@ export const Resource: coreClient.CompositeMapper = {
         serializedName: "id",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       type: {
         serializedName: "type",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       systemData: {
         serializedName: "systemData",
         type: {
           name: "Composite",
-          className: "SystemData"
-        }
-      }
-    }
-  }
+          className: "SystemData",
+        },
+      },
+    },
+  },
 };
 
 export const SystemData: coreClient.CompositeMapper = {
@@ -539,41 +333,41 @@ export const SystemData: coreClient.CompositeMapper = {
       createdBy: {
         serializedName: "createdBy",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       createdByType: {
         serializedName: "createdByType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       createdAt: {
         serializedName: "createdAt",
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       lastModifiedBy: {
         serializedName: "lastModifiedBy",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       lastModifiedByType: {
         serializedName: "lastModifiedByType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       lastModifiedAt: {
         serializedName: "lastModifiedAt",
         type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
+          name: "DateTime",
+        },
+      },
+    },
+  },
 };
 
 export const GrafanaIntegrations: coreClient.CompositeMapper = {
@@ -588,13 +382,13 @@ export const GrafanaIntegrations: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "AzureMonitorWorkspaceIntegration"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "AzureMonitorWorkspaceIntegration",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const AzureMonitorWorkspaceIntegration: coreClient.CompositeMapper = {
@@ -605,11 +399,11 @@ export const AzureMonitorWorkspaceIntegration: coreClient.CompositeMapper = {
       azureMonitorWorkspaceResourceId: {
         serializedName: "azureMonitorWorkspaceResourceId",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const EnterpriseConfigurations: coreClient.CompositeMapper = {
@@ -620,17 +414,17 @@ export const EnterpriseConfigurations: coreClient.CompositeMapper = {
       marketplacePlanId: {
         serializedName: "marketplacePlanId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       marketplaceAutoRenew: {
         serializedName: "marketplaceAutoRenew",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const GrafanaConfigurations: coreClient.CompositeMapper = {
@@ -642,11 +436,11 @@ export const GrafanaConfigurations: coreClient.CompositeMapper = {
         serializedName: "smtp",
         type: {
           name: "Composite",
-          className: "Smtp"
-        }
-      }
-    }
-  }
+          className: "Smtp",
+        },
+      },
+    },
+  },
 };
 
 export const Smtp: coreClient.CompositeMapper = {
@@ -658,53 +452,53 @@ export const Smtp: coreClient.CompositeMapper = {
         defaultValue: false,
         serializedName: "enabled",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       host: {
         serializedName: "host",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       user: {
         serializedName: "user",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       password: {
         serializedName: "password",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       fromAddress: {
         serializedName: "fromAddress",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       fromName: {
         serializedName: "fromName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       startTLSPolicy: {
         serializedName: "startTLSPolicy",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       skipVerify: {
         serializedName: "skipVerify",
         type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
+          name: "Boolean",
+        },
+      },
+    },
+  },
 };
 
 export const GrafanaPlugin: coreClient.CompositeMapper = {
@@ -716,11 +510,11 @@ export const GrafanaPlugin: coreClient.CompositeMapper = {
         serializedName: "pluginId",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ManagedServiceIdentity: coreClient.CompositeMapper = {
@@ -732,34 +526,34 @@ export const ManagedServiceIdentity: coreClient.CompositeMapper = {
         serializedName: "principalId",
         readOnly: true,
         type: {
-          name: "Uuid"
-        }
+          name: "Uuid",
+        },
       },
       tenantId: {
         serializedName: "tenantId",
         readOnly: true,
         type: {
-          name: "Uuid"
-        }
+          name: "Uuid",
+        },
       },
       type: {
         serializedName: "type",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       userAssignedIdentities: {
         serializedName: "userAssignedIdentities",
         type: {
           name: "Dictionary",
           value: {
-            type: { name: "Composite", className: "UserAssignedIdentity" }
-          }
-        }
-      }
-    }
-  }
+            type: { name: "Composite", className: "UserAssignedIdentity" },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const UserAssignedIdentity: coreClient.CompositeMapper = {
@@ -771,18 +565,114 @@ export const UserAssignedIdentity: coreClient.CompositeMapper = {
         serializedName: "principalId",
         readOnly: true,
         type: {
-          name: "Uuid"
-        }
+          name: "Uuid",
+        },
       },
       clientId: {
         serializedName: "clientId",
         readOnly: true,
         type: {
-          name: "Uuid"
-        }
-      }
-    }
-  }
+          name: "Uuid",
+        },
+      },
+    },
+  },
+};
+
+export const ErrorResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorResponse",
+    modelProperties: {
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorDetail",
+        },
+      },
+    },
+  },
+};
+
+export const ErrorDetail: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorDetail",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      message: {
+        serializedName: "message",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      target: {
+        serializedName: "target",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      details: {
+        serializedName: "details",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorDetail",
+            },
+          },
+        },
+      },
+      additionalInfo: {
+        serializedName: "additionalInfo",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorAdditionalInfo",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorAdditionalInfo",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      info: {
+        serializedName: "info",
+        readOnly: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } },
+        },
+      },
+    },
+  },
 };
 
 export const ManagedGrafanaUpdateParameters: coreClient.CompositeMapper = {
@@ -794,104 +684,105 @@ export const ManagedGrafanaUpdateParameters: coreClient.CompositeMapper = {
         serializedName: "sku",
         type: {
           name: "Composite",
-          className: "ResourceSku"
-        }
+          className: "ResourceSku",
+        },
       },
       identity: {
         serializedName: "identity",
         type: {
           name: "Composite",
-          className: "ManagedServiceIdentity"
-        }
+          className: "ManagedServiceIdentity",
+        },
       },
       tags: {
         serializedName: "tags",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
+          value: { type: { name: "String" } },
+        },
       },
       properties: {
         serializedName: "properties",
         type: {
           name: "Composite",
-          className: "ManagedGrafanaPropertiesUpdateParameters"
-        }
-      }
-    }
-  }
+          className: "ManagedGrafanaPropertiesUpdateParameters",
+        },
+      },
+    },
+  },
 };
 
-export const ManagedGrafanaPropertiesUpdateParameters: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManagedGrafanaPropertiesUpdateParameters",
-    modelProperties: {
-      zoneRedundancy: {
-        defaultValue: "Disabled",
-        serializedName: "zoneRedundancy",
-        type: {
-          name: "String"
-        }
+export const ManagedGrafanaPropertiesUpdateParameters: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ManagedGrafanaPropertiesUpdateParameters",
+      modelProperties: {
+        zoneRedundancy: {
+          defaultValue: "Disabled",
+          serializedName: "zoneRedundancy",
+          type: {
+            name: "String",
+          },
+        },
+        apiKey: {
+          defaultValue: "Disabled",
+          serializedName: "apiKey",
+          type: {
+            name: "String",
+          },
+        },
+        deterministicOutboundIP: {
+          defaultValue: "Disabled",
+          serializedName: "deterministicOutboundIP",
+          type: {
+            name: "String",
+          },
+        },
+        publicNetworkAccess: {
+          defaultValue: "Enabled",
+          serializedName: "publicNetworkAccess",
+          type: {
+            name: "String",
+          },
+        },
+        grafanaIntegrations: {
+          serializedName: "grafanaIntegrations",
+          type: {
+            name: "Composite",
+            className: "GrafanaIntegrations",
+          },
+        },
+        enterpriseConfigurations: {
+          serializedName: "enterpriseConfigurations",
+          type: {
+            name: "Composite",
+            className: "EnterpriseConfigurations",
+          },
+        },
+        grafanaConfigurations: {
+          serializedName: "grafanaConfigurations",
+          type: {
+            name: "Composite",
+            className: "GrafanaConfigurations",
+          },
+        },
+        grafanaPlugins: {
+          serializedName: "grafanaPlugins",
+          type: {
+            name: "Dictionary",
+            value: { type: { name: "Composite", className: "GrafanaPlugin" } },
+          },
+        },
+        grafanaMajorVersion: {
+          serializedName: "grafanaMajorVersion",
+          type: {
+            name: "String",
+          },
+        },
       },
-      apiKey: {
-        defaultValue: "Disabled",
-        serializedName: "apiKey",
-        type: {
-          name: "String"
-        }
-      },
-      deterministicOutboundIP: {
-        defaultValue: "Disabled",
-        serializedName: "deterministicOutboundIP",
-        type: {
-          name: "String"
-        }
-      },
-      publicNetworkAccess: {
-        defaultValue: "Enabled",
-        serializedName: "publicNetworkAccess",
-        type: {
-          name: "String"
-        }
-      },
-      grafanaIntegrations: {
-        serializedName: "grafanaIntegrations",
-        type: {
-          name: "Composite",
-          className: "GrafanaIntegrations"
-        }
-      },
-      enterpriseConfigurations: {
-        serializedName: "enterpriseConfigurations",
-        type: {
-          name: "Composite",
-          className: "EnterpriseConfigurations"
-        }
-      },
-      grafanaConfigurations: {
-        serializedName: "grafanaConfigurations",
-        type: {
-          name: "Composite",
-          className: "GrafanaConfigurations"
-        }
-      },
-      grafanaPlugins: {
-        serializedName: "grafanaPlugins",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "Composite", className: "GrafanaPlugin" } }
-        }
-      },
-      grafanaMajorVersion: {
-        serializedName: "grafanaMajorVersion",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
 export const PrivateEndpointConnectionListResult: coreClient.CompositeMapper = {
   type: {
@@ -905,20 +796,20 @@ export const PrivateEndpointConnectionListResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "PrivateEndpointConnection"
-            }
-          }
-        }
+              className: "PrivateEndpointConnection",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const PrivateLinkResourceListResult: coreClient.CompositeMapper = {
@@ -933,20 +824,20 @@ export const PrivateLinkResourceListResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "PrivateLinkResource"
-            }
-          }
-        }
+              className: "PrivateLinkResource",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const EnterpriseDetails: coreClient.CompositeMapper = {
@@ -958,18 +849,18 @@ export const EnterpriseDetails: coreClient.CompositeMapper = {
         serializedName: "saasSubscriptionDetails",
         type: {
           name: "Composite",
-          className: "SaasSubscriptionDetails"
-        }
+          className: "SaasSubscriptionDetails",
+        },
       },
       marketplaceTrialQuota: {
         serializedName: "marketplaceTrialQuota",
         type: {
           name: "Composite",
-          className: "MarketplaceTrialQuota"
-        }
-      }
-    }
-  }
+          className: "MarketplaceTrialQuota",
+        },
+      },
+    },
+  },
 };
 
 export const SaasSubscriptionDetails: coreClient.CompositeMapper = {
@@ -980,30 +871,30 @@ export const SaasSubscriptionDetails: coreClient.CompositeMapper = {
       planId: {
         serializedName: "planId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       offerId: {
         serializedName: "offerId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       publisherId: {
         serializedName: "publisherId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       term: {
         serializedName: "term",
         type: {
           name: "Composite",
-          className: "SubscriptionTerm"
-        }
-      }
-    }
-  }
+          className: "SubscriptionTerm",
+        },
+      },
+    },
+  },
 };
 
 export const SubscriptionTerm: coreClient.CompositeMapper = {
@@ -1014,23 +905,23 @@ export const SubscriptionTerm: coreClient.CompositeMapper = {
       termUnit: {
         serializedName: "termUnit",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       startDate: {
         serializedName: "startDate",
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       endDate: {
         serializedName: "endDate",
         type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
+          name: "DateTime",
+        },
+      },
+    },
+  },
 };
 
 export const MarketplaceTrialQuota: coreClient.CompositeMapper = {
@@ -1042,29 +933,29 @@ export const MarketplaceTrialQuota: coreClient.CompositeMapper = {
         defaultValue: "None",
         serializedName: "availablePromotion",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       grafanaResourceId: {
         serializedName: "grafanaResourceId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       trialStartAt: {
         serializedName: "trialStartAt",
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       trialEndAt: {
         serializedName: "trialEndAt",
         type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
+          name: "DateTime",
+        },
+      },
+    },
+  },
 };
 
 export const GrafanaAvailablePluginListResponse: coreClient.CompositeMapper = {
@@ -1079,19 +970,19 @@ export const GrafanaAvailablePluginListResponse: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "GrafanaAvailablePlugin"
-            }
-          }
-        }
+              className: "GrafanaAvailablePlugin",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const GrafanaAvailablePlugin: coreClient.CompositeMapper = {
@@ -1103,85 +994,88 @@ export const GrafanaAvailablePlugin: coreClient.CompositeMapper = {
         serializedName: "pluginId",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ManagedPrivateEndpointModelListResponse: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManagedPrivateEndpointModelListResponse",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ManagedPrivateEndpointModel"
-            }
-          }
-        }
+          name: "String",
+        },
       },
-      nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
+    },
+  },
 };
 
-export const ManagedPrivateEndpointConnectionState: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManagedPrivateEndpointConnectionState",
-    modelProperties: {
-      status: {
-        serializedName: "status",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
+export const ManagedPrivateEndpointModelListResponse: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ManagedPrivateEndpointModelListResponse",
+      modelProperties: {
+        value: {
+          serializedName: "value",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "ManagedPrivateEndpointModel",
+              },
+            },
+          },
+        },
+        nextLink: {
+          serializedName: "nextLink",
+          type: {
+            name: "String",
+          },
+        },
       },
-      description: {
-        serializedName: "description",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
-export const ManagedPrivateEndpointUpdateParameters: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManagedPrivateEndpointUpdateParameters",
-    modelProperties: {
-      tags: {
-        serializedName: "tags",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
-      }
-    }
-  }
-};
+export const ManagedPrivateEndpointConnectionState: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ManagedPrivateEndpointConnectionState",
+      modelProperties: {
+        status: {
+          serializedName: "status",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        description: {
+          serializedName: "description",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const ManagedPrivateEndpointUpdateParameters: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ManagedPrivateEndpointUpdateParameters",
+      modelProperties: {
+        tags: {
+          serializedName: "tags",
+          type: {
+            name: "Dictionary",
+            value: { type: { name: "String" } },
+          },
+        },
+      },
+    },
+  };
 
 export const PrivateEndpointConnection: coreClient.CompositeMapper = {
   type: {
@@ -1193,15 +1087,15 @@ export const PrivateEndpointConnection: coreClient.CompositeMapper = {
         serializedName: "properties.privateEndpoint",
         type: {
           name: "Composite",
-          className: "PrivateEndpoint"
-        }
+          className: "PrivateEndpoint",
+        },
       },
       privateLinkServiceConnectionState: {
         serializedName: "properties.privateLinkServiceConnectionState",
         type: {
           name: "Composite",
-          className: "PrivateLinkServiceConnectionState"
-        }
+          className: "PrivateLinkServiceConnectionState",
+        },
       },
       groupIds: {
         serializedName: "properties.groupIds",
@@ -1209,20 +1103,20 @@ export const PrivateEndpointConnection: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       provisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const PrivateLinkResource: coreClient.CompositeMapper = {
@@ -1235,15 +1129,15 @@ export const PrivateLinkResource: coreClient.CompositeMapper = {
         serializedName: "properties.provisioningState",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       groupId: {
         serializedName: "properties.groupId",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       requiredMembers: {
         serializedName: "properties.requiredMembers",
@@ -1252,10 +1146,10 @@ export const PrivateLinkResource: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       requiredZoneNames: {
         serializedName: "properties.requiredZoneNames",
@@ -1263,13 +1157,13 @@ export const PrivateLinkResource: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
+              name: "String",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const TrackedResource: coreClient.CompositeMapper = {
@@ -1282,18 +1176,18 @@ export const TrackedResource: coreClient.CompositeMapper = {
         serializedName: "tags",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
+          value: { type: { name: "String" } },
+        },
       },
       location: {
         serializedName: "location",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ManagedPrivateEndpointModel: coreClient.CompositeMapper = {
@@ -1306,20 +1200,20 @@ export const ManagedPrivateEndpointModel: coreClient.CompositeMapper = {
         serializedName: "properties.provisioningState",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       privateLinkResourceId: {
         serializedName: "properties.privateLinkResourceId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       privateLinkResourceRegion: {
         serializedName: "properties.privateLinkResourceRegion",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       groupIds: {
         serializedName: "properties.groupIds",
@@ -1327,39 +1221,39 @@ export const ManagedPrivateEndpointModel: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       requestMessage: {
         serializedName: "properties.requestMessage",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       connectionState: {
         serializedName: "properties.connectionState",
         type: {
           name: "Composite",
-          className: "ManagedPrivateEndpointConnectionState"
-        }
+          className: "ManagedPrivateEndpointConnectionState",
+        },
       },
       privateLinkServiceUrl: {
         serializedName: "properties.privateLinkServiceUrl",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       privateLinkServicePrivateIP: {
         serializedName: "properties.privateLinkServicePrivateIP",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const GrafanaCreateHeaders: coreClient.CompositeMapper = {
@@ -1370,11 +1264,11 @@ export const GrafanaCreateHeaders: coreClient.CompositeMapper = {
       azureAsyncOperation: {
         serializedName: "azure-asyncoperation",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const GrafanaUpdateHeaders: coreClient.CompositeMapper = {
@@ -1385,11 +1279,11 @@ export const GrafanaUpdateHeaders: coreClient.CompositeMapper = {
       azureAsyncOperation: {
         serializedName: "azure-asyncoperation",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const GrafanaDeleteHeaders: coreClient.CompositeMapper = {
@@ -1400,99 +1294,105 @@ export const GrafanaDeleteHeaders: coreClient.CompositeMapper = {
       azureAsyncOperation: {
         serializedName: "azure-asyncoperation",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
-export const PrivateEndpointConnectionsApproveHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "PrivateEndpointConnectionsApproveHeaders",
-    modelProperties: {
-      azureAsyncOperation: {
-        serializedName: "azure-asyncoperation",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
+export const PrivateEndpointConnectionsApproveHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "PrivateEndpointConnectionsApproveHeaders",
+      modelProperties: {
+        azureAsyncOperation: {
+          serializedName: "azure-asyncoperation",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
 
-export const PrivateEndpointConnectionsDeleteHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "PrivateEndpointConnectionsDeleteHeaders",
-    modelProperties: {
-      azureAsyncOperation: {
-        serializedName: "azure-asyncoperation",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
+export const PrivateEndpointConnectionsDeleteHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "PrivateEndpointConnectionsDeleteHeaders",
+      modelProperties: {
+        azureAsyncOperation: {
+          serializedName: "azure-asyncoperation",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
 
-export const ManagedPrivateEndpointsRefreshHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManagedPrivateEndpointsRefreshHeaders",
-    modelProperties: {
-      azureAsyncOperation: {
-        serializedName: "azure-asyncoperation",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
+export const ManagedPrivateEndpointsRefreshHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ManagedPrivateEndpointsRefreshHeaders",
+      modelProperties: {
+        azureAsyncOperation: {
+          serializedName: "azure-asyncoperation",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
 
-export const ManagedPrivateEndpointsCreateHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManagedPrivateEndpointsCreateHeaders",
-    modelProperties: {
-      azureAsyncOperation: {
-        serializedName: "azure-asyncoperation",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
+export const ManagedPrivateEndpointsCreateHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ManagedPrivateEndpointsCreateHeaders",
+      modelProperties: {
+        azureAsyncOperation: {
+          serializedName: "azure-asyncoperation",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
 
-export const ManagedPrivateEndpointsUpdateHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManagedPrivateEndpointsUpdateHeaders",
-    modelProperties: {
-      azureAsyncOperation: {
-        serializedName: "azure-asyncoperation",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
+export const ManagedPrivateEndpointsUpdateHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ManagedPrivateEndpointsUpdateHeaders",
+      modelProperties: {
+        azureAsyncOperation: {
+          serializedName: "azure-asyncoperation",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
 
-export const ManagedPrivateEndpointsDeleteHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManagedPrivateEndpointsDeleteHeaders",
-    modelProperties: {
-      azureAsyncOperation: {
-        serializedName: "azure-asyncoperation",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
+export const ManagedPrivateEndpointsDeleteHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ManagedPrivateEndpointsDeleteHeaders",
+      modelProperties: {
+        azureAsyncOperation: {
+          serializedName: "azure-asyncoperation",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };

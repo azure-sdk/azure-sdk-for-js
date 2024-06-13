@@ -11,9 +11,6 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
-export type ActionType = string;
-
-// @public
 export type ApiKey = string;
 
 // @public
@@ -41,8 +38,6 @@ export class DashboardManagementClient extends coreClient.ServiceClient {
     grafana: Grafana;
     // (undocumented)
     managedPrivateEndpoints: ManagedPrivateEndpoints;
-    // (undocumented)
-    operations: Operations;
     // (undocumented)
     privateEndpointConnections: PrivateEndpointConnections;
     // (undocumented)
@@ -228,11 +223,6 @@ export interface GrafanaUpdateOptionalParams extends coreClient.OperationOptions
 export type GrafanaUpdateResponse = ManagedGrafana;
 
 // @public
-export enum KnownActionType {
-    Internal = "Internal"
-}
-
-// @public
 export enum KnownApiKey {
     Disabled = "Disabled",
     Enabled = "Enabled"
@@ -283,13 +273,6 @@ export enum KnownManagedServiceIdentityType {
 export enum KnownMarketplaceAutoRenew {
     Disabled = "Disabled",
     Enabled = "Enabled"
-}
-
-// @public
-export enum KnownOrigin {
-    System = "system",
-    User = "user",
-    UserSystem = "user,system"
 }
 
 // @public
@@ -553,51 +536,6 @@ export interface MarketplaceTrialQuota {
     trialEndAt?: Date;
     trialStartAt?: Date;
 }
-
-// @public
-export interface Operation {
-    readonly actionType?: ActionType;
-    display?: OperationDisplay;
-    readonly isDataAction?: boolean;
-    readonly name?: string;
-    readonly origin?: Origin;
-}
-
-// @public
-export interface OperationDisplay {
-    readonly description?: string;
-    readonly operation?: string;
-    readonly provider?: string;
-    readonly resource?: string;
-}
-
-// @public
-export interface OperationListResult {
-    readonly nextLink?: string;
-    readonly value?: Operation[];
-}
-
-// @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
-}
-
-// @public
-export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListNextResponse = OperationListResult;
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListResponse = OperationListResult;
-
-// @public
-export type Origin = string;
 
 // @public
 export interface PrivateEndpoint {
