@@ -1,15 +1,16 @@
 # Release History
+    
+## 2.0.0 (2024-06-13)
+    
+**Features**
 
-## 1.1.1 (Unreleased)
+  - Added Interface AzureResourceManagerLegacyManagedServiceIdentityV4
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Type of parameter identity of interface FleetPatch is changed from ManagedServiceIdentity to AzureResourceManagerLegacyManagedServiceIdentityV4
+    
+    
 ## 1.1.0 (2024-05-15)
     
 **Features**
