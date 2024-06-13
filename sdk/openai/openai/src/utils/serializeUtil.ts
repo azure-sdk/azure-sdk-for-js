@@ -24,6 +24,8 @@ import {
   OnYourDataDeploymentNameVectorizationSource as OnYourDataDeploymentNameVectorizationSourceRest,
   OnYourDataModelIdVectorizationSource as OnYourDataModelIdVectorizationSourceRest,
   OnYourDataVectorizationSource as OnYourDataVectorizationSourceRest,
+  OnYourDataVectorSearchAccessTokenAuthenticationOptions as OnYourDataVectorSearchAccessTokenAuthenticationOptionsRest,
+  OnYourDataVectorSearchAuthenticationOptions as OnYourDataVectorSearchAuthenticationOptionsRest,
 } from "../rest/index.js";
 import {
   ChatRequestUserMessage,
@@ -48,49 +50,43 @@ import {
   OnYourDataDeploymentNameVectorizationSource,
   OnYourDataModelIdVectorizationSource,
   OnYourDataVectorizationSourceUnion,
+  OnYourDataVectorSearchAccessTokenAuthenticationOptions,
+  OnYourDataVectorSearchAuthenticationOptionsUnion,
 } from "../models/models.js";
-import { snakeCaseKeys } from "../api/util.js";
 
 /** serialize function for ChatRequestUserMessage */
-function serializeChatRequestUserMessage(obj: ChatRequestUserMessage): ChatRequestUserMessageRest {
+function serializeChatRequestUserMessage(
+  obj: ChatRequestUserMessage,
+): ChatRequestUserMessageRest {
   return {
     role: obj["role"],
-    content:
-      typeof obj["content"] === "string"
-        ? obj["content"]
-        : obj["content"].map(serializeChatRequestContentItemUnion),
+    content: obj["content"] as any,
     name: obj["name"],
   };
 }
 
-/** serialize function for ChatMessageImageContentItem */
-function serializeChatRequestContentItemUnion(
-  obj: ChatMessageContentItemUnion,
-): ChatMessageContentItemRest {
-  switch (obj.type) {
-    case "image_url":
-      return serializeChatMessageImageContentItem(obj as ChatMessageImageContentItem);
-    default:
-      return obj;
-  }
-}
 /** serialize function for ChatRequestAssistantMessage */
 function serializeChatRequestAssistantMessage(
   obj: ChatRequestAssistantMessage,
 ): ChatRequestAssistantMessageRest {
-  if (obj.content === undefined) {
-    obj.content = null;
-  }
-  const { functionCall, toolCalls, ...rest } = obj;
   return {
-    ...snakeCaseKeys(rest),
-    ...(!toolCalls || toolCalls.length === 0 ? {} : { tool_calls: toolCalls }),
-    ...(functionCall ? { function_call: functionCall } : {}),
+    role: obj["role"],
+    content: obj["content"],
+    name: obj["name"],
+    tool_calls: obj["toolCalls"],
+    function_call: !obj.functionCall
+      ? undefined
+      : {
+          name: obj.functionCall?.["name"],
+          arguments: obj.functionCall?.["arguments"],
+        },
   };
 }
 
 /** serialize function for ChatRequestToolMessage */
-function serializeChatRequestToolMessage(obj: ChatRequestToolMessage): ChatRequestToolMessageRest {
+function serializeChatRequestToolMessage(
+  obj: ChatRequestToolMessage,
+): ChatRequestToolMessageRest {
   return {
     role: obj["role"],
     content: obj["content"],
@@ -106,7 +102,9 @@ export function serializeChatRequestMessageUnion(
     case "user":
       return serializeChatRequestUserMessage(obj as ChatRequestUserMessage);
     case "assistant":
-      return serializeChatRequestAssistantMessage(obj as ChatRequestAssistantMessage);
+      return serializeChatRequestAssistantMessage(
+        obj as ChatRequestAssistantMessage,
+      );
     case "tool":
       return serializeChatRequestToolMessage(obj as ChatRequestToolMessage);
     default:
@@ -130,7 +128,9 @@ export function serializeChatMessageContentItemUnion(
 ): ChatMessageContentItemRest {
   switch (obj.type) {
     case "image_url":
-      return serializeChatMessageImageContentItem(obj as ChatMessageImageContentItem);
+      return serializeChatMessageImageContentItem(
+        obj as ChatMessageImageContentItem,
+      );
     default:
       return obj;
   }
@@ -143,32 +143,41 @@ function serializeAzureSearchChatExtensionConfiguration(
   return {
     type: obj["type"],
     parameters: {
-      authentication: !obj.authentication
-        ? obj.authentication
-        : serializeOnYourDataAuthenticationOptionsUnion(obj.authentication),
-      top_n_documents: obj["topNDocuments"],
-      in_scope: obj["inScope"],
-      strictness: obj["strictness"],
-      role_information: obj["roleInformation"],
-      endpoint: obj["endpoint"],
-      index_name: obj["indexName"],
-      fields_mapping: !obj.fieldsMapping
+      authentication: !obj.parameters.authentication
+        ? obj.parameters.authentication
+        : serializeOnYourDataAuthenticationOptionsUnion(
+            obj.parameters.authentication,
+          ),
+      top_n_documents: obj.parameters["topNDocuments"],
+      in_scope: obj.parameters["inScope"],
+      strictness: obj.parameters["strictness"],
+      role_information: obj.parameters["roleInformation"],
+      max_search_queries: obj.parameters["maxSearchQueries"],
+      allow_partial_result: obj.parameters["allowPartialResult"],
+      include_contexts: obj.parameters["includeContexts"],
+      endpoint: obj.parameters["endpoint"],
+      index_name: obj.parameters["indexName"],
+      fields_mapping: !obj.parameters.fieldsMapping
         ? undefined
         : {
-            title_field: obj.fieldsMapping?.["titleField"],
-            url_field: obj.fieldsMapping?.["urlField"],
-            filepath_field: obj.fieldsMapping?.["filepathField"],
-            content_fields: obj.fieldsMapping?.["contentFields"],
-            content_fields_separator: obj.fieldsMapping?.["contentFieldsSeparator"],
-            vector_fields: obj.fieldsMapping?.["vectorFields"],
-            image_vector_fields: obj.fieldsMapping?.["imageVectorFields"],
+            title_field: obj.parameters.fieldsMapping?.["titleField"],
+            url_field: obj.parameters.fieldsMapping?.["urlField"],
+            filepath_field: obj.parameters.fieldsMapping?.["filepathField"],
+            content_fields: obj.parameters.fieldsMapping?.["contentFields"],
+            content_fields_separator:
+              obj.parameters.fieldsMapping?.["contentFieldsSeparator"],
+            vector_fields: obj.parameters.fieldsMapping?.["vectorFields"],
+            image_vector_fields:
+              obj.parameters.fieldsMapping?.["imageVectorFields"],
           },
-      query_type: obj["queryType"],
-      semantic_configuration: obj["semanticConfiguration"],
-      filter: obj["filter"],
-      embedding_dependency: !obj.embeddingDependency
-        ? obj.embeddingDependency
-        : serializeOnYourDataVectorizationSourceUnion(obj.embeddingDependency),
+      query_type: obj.parameters["queryType"],
+      semantic_configuration: obj.parameters["semanticConfiguration"],
+      filter: obj.parameters["filter"],
+      embedding_dependency: !obj.parameters.embeddingDependency
+        ? obj.parameters.embeddingDependency
+        : serializeOnYourDataVectorizationSourceUnion(
+            obj.parameters.embeddingDependency,
+          ),
     },
   };
 }
@@ -180,17 +189,22 @@ function serializeAzureMachineLearningIndexChatExtensionConfiguration(
   return {
     type: obj["type"],
     parameters: {
-      authentication: !obj.authentication
-        ? obj.authentication
-        : serializeOnYourDataAuthenticationOptionsUnion(obj.authentication),
-      top_n_documents: obj["topNDocuments"],
-      in_scope: obj["inScope"],
-      strictness: obj["strictness"],
-      role_information: obj["roleInformation"],
-      project_resource_id: obj["projectResourceId"],
-      name: obj["name"],
-      version: obj["version"],
-      filter: obj["filter"],
+      authentication: !obj.parameters.authentication
+        ? obj.parameters.authentication
+        : serializeOnYourDataAuthenticationOptionsUnion(
+            obj.parameters.authentication,
+          ),
+      top_n_documents: obj.parameters["topNDocuments"],
+      in_scope: obj.parameters["inScope"],
+      strictness: obj.parameters["strictness"],
+      role_information: obj.parameters["roleInformation"],
+      max_search_queries: obj.parameters["maxSearchQueries"],
+      allow_partial_result: obj.parameters["allowPartialResult"],
+      include_contexts: obj.parameters["includeContexts"],
+      project_resource_id: obj.parameters["projectResourceId"],
+      name: obj.parameters["name"],
+      version: obj.parameters["version"],
+      filter: obj.parameters["filter"],
     },
   };
 }
@@ -202,25 +216,33 @@ function serializeAzureCosmosDBChatExtensionConfiguration(
   return {
     type: obj["type"],
     parameters: {
-      authentication: !obj.authentication
-        ? obj.authentication
-        : serializeOnYourDataAuthenticationOptionsUnion(obj.authentication),
-      top_n_documents: obj["topNDocuments"],
-      in_scope: obj["inScope"],
-      strictness: obj["strictness"],
-      role_information: obj["roleInformation"],
-      database_name: obj["databaseName"],
-      container_name: obj["containerName"],
-      index_name: obj["indexName"],
+      authentication: !obj.parameters.authentication
+        ? obj.parameters.authentication
+        : serializeOnYourDataAuthenticationOptionsUnion(
+            obj.parameters.authentication,
+          ),
+      top_n_documents: obj.parameters["topNDocuments"],
+      in_scope: obj.parameters["inScope"],
+      strictness: obj.parameters["strictness"],
+      role_information: obj.parameters["roleInformation"],
+      max_search_queries: obj.parameters["maxSearchQueries"],
+      allow_partial_result: obj.parameters["allowPartialResult"],
+      include_contexts: obj.parameters["includeContexts"],
+      database_name: obj.parameters["databaseName"],
+      container_name: obj.parameters["containerName"],
+      index_name: obj.parameters["indexName"],
       fields_mapping: {
-        title_field: obj.fieldsMapping["titleField"],
-        url_field: obj.fieldsMapping["urlField"],
-        filepath_field: obj.fieldsMapping["filepathField"],
-        content_fields: obj.fieldsMapping["contentFields"],
-        content_fields_separator: obj.fieldsMapping["contentFieldsSeparator"],
-        vector_fields: obj.fieldsMapping["vectorFields"],
+        title_field: obj.parameters.fieldsMapping["titleField"],
+        url_field: obj.parameters.fieldsMapping["urlField"],
+        filepath_field: obj.parameters.fieldsMapping["filepathField"],
+        content_fields: obj.parameters.fieldsMapping["contentFields"],
+        content_fields_separator:
+          obj.parameters.fieldsMapping["contentFieldsSeparator"],
+        vector_fields: obj.parameters.fieldsMapping["vectorFields"],
       },
-      embedding_dependency: serializeOnYourDataVectorizationSourceUnion(obj.embeddingDependency),
+      embedding_dependency: serializeOnYourDataVectorizationSourceUnion(
+        obj.parameters.embeddingDependency,
+      ),
     },
   };
 }
@@ -232,29 +254,37 @@ function serializeElasticsearchChatExtensionConfiguration(
   return {
     type: obj["type"],
     parameters: {
-      authentication: !obj.authentication
-        ? obj.authentication
-        : serializeOnYourDataAuthenticationOptionsUnion(obj.authentication),
-      top_n_documents: obj["topNDocuments"],
-      in_scope: obj["inScope"],
-      strictness: obj["strictness"],
-      role_information: obj["roleInformation"],
-      endpoint: obj["endpoint"],
-      index_name: obj["indexName"],
-      fields_mapping: !obj.fieldsMapping
+      authentication: !obj.parameters.authentication
+        ? obj.parameters.authentication
+        : serializeOnYourDataAuthenticationOptionsUnion(
+            obj.parameters.authentication,
+          ),
+      top_n_documents: obj.parameters["topNDocuments"],
+      in_scope: obj.parameters["inScope"],
+      strictness: obj.parameters["strictness"],
+      role_information: obj.parameters["roleInformation"],
+      max_search_queries: obj.parameters["maxSearchQueries"],
+      allow_partial_result: obj.parameters["allowPartialResult"],
+      include_contexts: obj.parameters["includeContexts"],
+      endpoint: obj.parameters["endpoint"],
+      index_name: obj.parameters["indexName"],
+      fields_mapping: !obj.parameters.fieldsMapping
         ? undefined
         : {
-            title_field: obj.fieldsMapping?.["titleField"],
-            url_field: obj.fieldsMapping?.["urlField"],
-            filepath_field: obj.fieldsMapping?.["filepathField"],
-            content_fields: obj.fieldsMapping?.["contentFields"],
-            content_fields_separator: obj.fieldsMapping?.["contentFieldsSeparator"],
-            vector_fields: obj.fieldsMapping?.["vectorFields"],
+            title_field: obj.parameters.fieldsMapping?.["titleField"],
+            url_field: obj.parameters.fieldsMapping?.["urlField"],
+            filepath_field: obj.parameters.fieldsMapping?.["filepathField"],
+            content_fields: obj.parameters.fieldsMapping?.["contentFields"],
+            content_fields_separator:
+              obj.parameters.fieldsMapping?.["contentFieldsSeparator"],
+            vector_fields: obj.parameters.fieldsMapping?.["vectorFields"],
           },
-      query_type: obj["queryType"],
-      embedding_dependency: !obj.embeddingDependency
-        ? obj.embeddingDependency
-        : serializeOnYourDataVectorizationSourceUnion(obj.embeddingDependency),
+      query_type: obj.parameters["queryType"],
+      embedding_dependency: !obj.parameters.embeddingDependency
+        ? obj.parameters.embeddingDependency
+        : serializeOnYourDataVectorizationSourceUnion(
+            obj.parameters.embeddingDependency,
+          ),
     },
   };
 }
@@ -266,23 +296,31 @@ function serializePineconeChatExtensionConfiguration(
   return {
     type: obj["type"],
     parameters: {
-      authentication: !obj.authentication
-        ? obj.authentication
-        : serializeOnYourDataAuthenticationOptionsUnion(obj.authentication),
-      top_n_documents: obj["topNDocuments"],
-      in_scope: obj["inScope"],
-      strictness: obj["strictness"],
-      role_information: obj["roleInformation"],
-      environment: obj["environment"],
-      index_name: obj["indexName"],
+      authentication: !obj.parameters.authentication
+        ? obj.parameters.authentication
+        : serializeOnYourDataAuthenticationOptionsUnion(
+            obj.parameters.authentication,
+          ),
+      top_n_documents: obj.parameters["topNDocuments"],
+      in_scope: obj.parameters["inScope"],
+      strictness: obj.parameters["strictness"],
+      role_information: obj.parameters["roleInformation"],
+      max_search_queries: obj.parameters["maxSearchQueries"],
+      allow_partial_result: obj.parameters["allowPartialResult"],
+      include_contexts: obj.parameters["includeContexts"],
+      environment: obj.parameters["environment"],
+      index_name: obj.parameters["indexName"],
       fields_mapping: {
-        title_field: obj.fieldsMapping["titleField"],
-        url_field: obj.fieldsMapping["urlField"],
-        filepath_field: obj.fieldsMapping["filepathField"],
-        content_fields: obj.fieldsMapping["contentFields"],
-        content_fields_separator: obj.fieldsMapping["contentFieldsSeparator"],
+        title_field: obj.parameters.fieldsMapping["titleField"],
+        url_field: obj.parameters.fieldsMapping["urlField"],
+        filepath_field: obj.parameters.fieldsMapping["filepathField"],
+        content_fields: obj.parameters.fieldsMapping["contentFields"],
+        content_fields_separator:
+          obj.parameters.fieldsMapping["contentFieldsSeparator"],
       },
-      embedding_dependency: serializeOnYourDataVectorizationSourceUnion(obj.embeddingDependency),
+      embedding_dependency: serializeOnYourDataVectorizationSourceUnion(
+        obj.parameters.embeddingDependency,
+      ),
     },
   };
 }
@@ -309,7 +347,9 @@ export function serializeAzureChatExtensionConfigurationUnion(
         obj as ElasticsearchChatExtensionConfiguration,
       );
     case "pinecone":
-      return serializePineconeChatExtensionConfiguration(obj as PineconeChatExtensionConfiguration);
+      return serializePineconeChatExtensionConfiguration(
+        obj as PineconeChatExtensionConfiguration,
+      );
     default:
       return obj;
   }
@@ -390,7 +430,9 @@ function serializeOnYourDataEndpointVectorizationSource(
   return {
     type: obj["type"],
     endpoint: obj["endpoint"],
-    authentication: serializeOnYourDataAuthenticationOptionsUnion(obj.authentication),
+    authentication: serializeOnYourDataVectorSearchAuthenticationOptionsUnion(
+      obj.authentication,
+    ),
   };
 }
 
@@ -398,7 +440,11 @@ function serializeOnYourDataEndpointVectorizationSource(
 function serializeOnYourDataDeploymentNameVectorizationSource(
   obj: OnYourDataDeploymentNameVectorizationSource,
 ): OnYourDataDeploymentNameVectorizationSourceRest {
-  return { type: obj["type"], deployment_name: obj["deploymentName"] };
+  return {
+    type: obj["type"],
+    deployment_name: obj["deploymentName"],
+    dimensions: obj["dimensions"],
+  };
 }
 
 /** serialize function for OnYourDataModelIdVectorizationSource */
@@ -424,6 +470,27 @@ export function serializeOnYourDataVectorizationSourceUnion(
     case "model_id":
       return serializeOnYourDataModelIdVectorizationSource(
         obj as OnYourDataModelIdVectorizationSource,
+      );
+    default:
+      return obj;
+  }
+}
+
+/** serialize function for OnYourDataVectorSearchAccessTokenAuthenticationOptions */
+function serializeOnYourDataVectorSearchAccessTokenAuthenticationOptions(
+  obj: OnYourDataVectorSearchAccessTokenAuthenticationOptions,
+): OnYourDataVectorSearchAccessTokenAuthenticationOptionsRest {
+  return { type: obj["type"], access_token: obj["accessToken"] };
+}
+
+/** serialize function for OnYourDataVectorSearchAuthenticationOptionsUnion */
+export function serializeOnYourDataVectorSearchAuthenticationOptionsUnion(
+  obj: OnYourDataVectorSearchAuthenticationOptionsUnion,
+): OnYourDataVectorSearchAuthenticationOptionsRest {
+  switch (obj.type) {
+    case "access_token":
+      return serializeOnYourDataVectorSearchAccessTokenAuthenticationOptions(
+        obj as OnYourDataVectorSearchAccessTokenAuthenticationOptions,
       );
     default:
       return obj;
