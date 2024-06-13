@@ -1,15 +1,22 @@
 # Release History
+    
+## 22.0.0 (2024-06-13)
+    
+**Features**
 
-## 21.6.1 (Unreleased)
+  - Added Interface SecurityPostureReferenceUpdate
+  - Added Type Alias ZonalPlatformFaultDomainAlignMode
+  - Interface SecurityPostureReference has a new optional parameter isOverridable
+  - Interface VirtualMachineScaleSet has a new optional parameter zonalPlatformFaultDomainAlignMode
+  - Interface VirtualMachineScaleSetUpdateVMProfile has a new optional parameter securityPostureReference
+  - Added Enum KnownZonalPlatformFaultDomainAlignMode
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Parameter id of interface SecurityPostureReference is now required
+  - Type of parameter excludeExtensions of interface SecurityPostureReference is changed from VirtualMachineExtension[] to string[]
+    
+    
 ## 21.6.0 (2024-04-26)
     
 **Features**
