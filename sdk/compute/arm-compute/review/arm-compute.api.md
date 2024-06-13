@@ -4040,6 +4040,12 @@ export enum KnownWindowsVMGuestPatchMode {
 }
 
 // @public
+export enum KnownZonalPlatformFaultDomainAlignMode {
+    Aligned = "Aligned",
+    Unaligned = "Unaligned"
+}
+
+// @public
 export interface LastPatchInstallationSummary {
     readonly error?: ApiError;
     readonly excludedPatchCount?: number;
@@ -5271,8 +5277,16 @@ export type SecurityEncryptionTypes = string;
 
 // @public
 export interface SecurityPostureReference {
-    excludeExtensions?: VirtualMachineExtension[];
+    excludeExtensions?: string[];
+    id: string;
+    isOverridable?: boolean;
+}
+
+// @public
+export interface SecurityPostureReferenceUpdate {
+    excludeExtensions?: string[];
     id?: string;
+    isOverridable?: boolean;
 }
 
 // @public
@@ -6785,6 +6799,7 @@ export interface VirtualMachineScaleSet extends Resource {
     readonly uniqueId?: string;
     upgradePolicy?: UpgradePolicy;
     virtualMachineProfile?: VirtualMachineScaleSetVMProfile;
+    zonalPlatformFaultDomainAlignMode?: ZonalPlatformFaultDomainAlignMode;
     zoneBalance?: boolean;
     zones?: string[];
 }
@@ -7512,6 +7527,7 @@ export interface VirtualMachineScaleSetUpdateVMProfile {
     networkProfile?: VirtualMachineScaleSetUpdateNetworkProfile;
     osProfile?: VirtualMachineScaleSetUpdateOSProfile;
     scheduledEventsProfile?: ScheduledEventsProfile;
+    securityPostureReference?: SecurityPostureReferenceUpdate;
     securityProfile?: SecurityProfile;
     storageProfile?: VirtualMachineScaleSetUpdateStorageProfile;
     userData?: string;
@@ -8342,6 +8358,9 @@ export interface WinRMListener {
     certificateUrl?: string;
     protocol?: ProtocolTypes;
 }
+
+// @public
+export type ZonalPlatformFaultDomainAlignMode = string;
 
 // (No @packageDocumentation comment for this package)
 
