@@ -385,11 +385,19 @@ export interface ImageVersionProperties {
 /** The type used for update operations of the Pool. */
 export interface PoolUpdate {
   /** The managed service identities assigned to this resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: AzureResourceManagerCommonTypesManagedServiceIdentity;
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** The updatable properties of the Pool. */
   properties?: PoolUpdateProperties;
+}
+
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface AzureResourceManagerCommonTypesManagedServiceIdentity {
+  /** The type of managed identity assigned to this resource. */
+  type?: ManagedServiceIdentityType;
+  /** The identities assigned to this resource by the user. */
+  userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
 }
 
 /** The updatable properties of the Pool. */
@@ -733,9 +741,9 @@ export type ActionType = string;
 
 /** Known values of {@link ResourceSkuRestrictionsType} that the service accepts. */
 export enum KnownResourceSkuRestrictionsType {
-  /** Location */
+  /** SKU restricted by location. */
   Location = "Location",
-  /** Zone */
+  /** SKU restricted by availability zone. */
   Zone = "Zone",
 }
 
@@ -744,16 +752,16 @@ export enum KnownResourceSkuRestrictionsType {
  * {@link KnownResourceSkuRestrictionsType} can be used interchangeably with ResourceSkuRestrictionsType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Location** \
- * **Zone**
+ * **Location**: SKU restricted by location. \
+ * **Zone**: SKU restricted by availability zone.
  */
 export type ResourceSkuRestrictionsType = string;
 
 /** Known values of {@link ResourceSkuRestrictionsReasonCode} that the service accepts. */
 export enum KnownResourceSkuRestrictionsReasonCode {
-  /** QuotaId */
+  /** The restriction is due to exceeding a quota limitation. */
   QuotaId = "QuotaId",
-  /** NotAvailableForSubscription */
+  /** The restriction is not available for this subscription. */
   NotAvailableForSubscription = "NotAvailableForSubscription",
 }
 
@@ -762,8 +770,8 @@ export enum KnownResourceSkuRestrictionsReasonCode {
  * {@link KnownResourceSkuRestrictionsReasonCode} can be used interchangeably with ResourceSkuRestrictionsReasonCode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **QuotaId** \
- * **NotAvailableForSubscription**
+ * **QuotaId**: The restriction is due to exceeding a quota limitation. \
+ * **NotAvailableForSubscription**: The restriction is not available for this subscription.
  */
 export type ResourceSkuRestrictionsReasonCode = string;
 
