@@ -26,6 +26,14 @@ export interface AccountSasToken {
 export type ActionType = string;
 
 // @public
+export interface AzureResourceManagerLegacyManagedServiceIdentityV4 {
+    type?: ManagedServiceIdentityType;
+    userAssignedIdentities?: {
+        [propertyName: string]: UserAssignedIdentity;
+    };
+}
+
+// @public
 export type Bypass = string;
 
 // @public
@@ -294,7 +302,7 @@ export type DataProductsUpdateResponse = DataProduct;
 
 // @public
 export interface DataProductUpdate {
-    identity?: ManagedServiceIdentity;
+    identity?: AzureResourceManagerLegacyManagedServiceIdentityV4;
     properties?: DataProductUpdateProperties;
     tags?: {
         [propertyName: string]: string;
@@ -574,11 +582,6 @@ export enum KnownProvisioningState {
 }
 
 // @public
-export enum KnownVersions {
-    V20231115 = "2023-11-15"
-}
-
-// @public
 export interface ListRoleAssignments {
     count: number;
     roleAssignmentResponse: RoleAssignmentDetail[];
@@ -745,9 +748,6 @@ export interface UserAssignedIdentity {
     readonly clientId?: string;
     readonly principalId?: string;
 }
-
-// @public
-export type Versions = string;
 
 // @public
 export interface VirtualNetworkRule {
