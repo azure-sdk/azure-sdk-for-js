@@ -962,7 +962,7 @@ export const PoolUpdate: coreClient.CompositeMapper = {
         serializedName: "identity",
         type: {
           name: "Composite",
-          className: "ManagedServiceIdentity",
+          className: "AzureResourceManagerCommonTypesManagedServiceIdentity",
         },
       },
       tags: {
@@ -982,6 +982,32 @@ export const PoolUpdate: coreClient.CompositeMapper = {
     },
   },
 };
+
+export const AzureResourceManagerCommonTypesManagedServiceIdentity: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "AzureResourceManagerCommonTypesManagedServiceIdentity",
+      modelProperties: {
+        type: {
+          serializedName: "type",
+          type: {
+            name: "String",
+          },
+        },
+        userAssignedIdentities: {
+          serializedName: "userAssignedIdentities",
+          nullable: true,
+          type: {
+            name: "Dictionary",
+            value: {
+              type: { name: "Composite", className: "UserAssignedIdentity" },
+            },
+          },
+        },
+      },
+    },
+  };
 
 export const PoolUpdateProperties: coreClient.CompositeMapper = {
   type: {
