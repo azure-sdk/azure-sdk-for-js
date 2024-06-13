@@ -16,7 +16,7 @@ import { MicrosoftNetworkAnalytics } from "../microsoftNetworkAnalytics";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -38,7 +38,7 @@ import {
   ContainerSaS,
   DataTypesGenerateStorageContainerSasTokenOptionalParams,
   DataTypesGenerateStorageContainerSasTokenResponse,
-  DataTypesListByDataProductNextResponse
+  DataTypesListByDataProductNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -63,12 +63,12 @@ export class DataTypesImpl implements DataTypes {
   public listByDataProduct(
     resourceGroupName: string,
     dataProductName: string,
-    options?: DataTypesListByDataProductOptionalParams
+    options?: DataTypesListByDataProductOptionalParams,
   ): PagedAsyncIterableIterator<DataType> {
     const iter = this.listByDataProductPagingAll(
       resourceGroupName,
       dataProductName,
-      options
+      options,
     );
     return {
       next() {
@@ -85,9 +85,9 @@ export class DataTypesImpl implements DataTypes {
           resourceGroupName,
           dataProductName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -95,7 +95,7 @@ export class DataTypesImpl implements DataTypes {
     resourceGroupName: string,
     dataProductName: string,
     options?: DataTypesListByDataProductOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DataType[]> {
     let result: DataTypesListByDataProductResponse;
     let continuationToken = settings?.continuationToken;
@@ -103,7 +103,7 @@ export class DataTypesImpl implements DataTypes {
       result = await this._listByDataProduct(
         resourceGroupName,
         dataProductName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -115,7 +115,7 @@ export class DataTypesImpl implements DataTypes {
         resourceGroupName,
         dataProductName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -127,12 +127,12 @@ export class DataTypesImpl implements DataTypes {
   private async *listByDataProductPagingAll(
     resourceGroupName: string,
     dataProductName: string,
-    options?: DataTypesListByDataProductOptionalParams
+    options?: DataTypesListByDataProductOptionalParams,
   ): AsyncIterableIterator<DataType> {
     for await (const page of this.listByDataProductPagingPage(
       resourceGroupName,
       dataProductName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -147,11 +147,11 @@ export class DataTypesImpl implements DataTypes {
   private _listByDataProduct(
     resourceGroupName: string,
     dataProductName: string,
-    options?: DataTypesListByDataProductOptionalParams
+    options?: DataTypesListByDataProductOptionalParams,
   ): Promise<DataTypesListByDataProductResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, dataProductName, options },
-      listByDataProductOperationSpec
+      listByDataProductOperationSpec,
     );
   }
 
@@ -166,11 +166,11 @@ export class DataTypesImpl implements DataTypes {
     resourceGroupName: string,
     dataProductName: string,
     dataTypeName: string,
-    options?: DataTypesGetOptionalParams
+    options?: DataTypesGetOptionalParams,
   ): Promise<DataTypesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, dataProductName, dataTypeName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -187,7 +187,7 @@ export class DataTypesImpl implements DataTypes {
     dataProductName: string,
     dataTypeName: string,
     resource: DataType,
-    options?: DataTypesCreateOptionalParams
+    options?: DataTypesCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DataTypesCreateResponse>,
@@ -196,21 +196,20 @@ export class DataTypesImpl implements DataTypes {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<DataTypesCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -219,8 +218,8 @@ export class DataTypesImpl implements DataTypes {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -228,8 +227,8 @@ export class DataTypesImpl implements DataTypes {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -240,9 +239,9 @@ export class DataTypesImpl implements DataTypes {
         dataProductName,
         dataTypeName,
         resource,
-        options
+        options,
       },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       DataTypesCreateResponse,
@@ -250,7 +249,7 @@ export class DataTypesImpl implements DataTypes {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -269,14 +268,14 @@ export class DataTypesImpl implements DataTypes {
     dataProductName: string,
     dataTypeName: string,
     resource: DataType,
-    options?: DataTypesCreateOptionalParams
+    options?: DataTypesCreateOptionalParams,
   ): Promise<DataTypesCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       dataProductName,
       dataTypeName,
       resource,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -294,7 +293,7 @@ export class DataTypesImpl implements DataTypes {
     dataProductName: string,
     dataTypeName: string,
     properties: DataTypeUpdate,
-    options?: DataTypesUpdateOptionalParams
+    options?: DataTypesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DataTypesUpdateResponse>,
@@ -303,21 +302,20 @@ export class DataTypesImpl implements DataTypes {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<DataTypesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -326,8 +324,8 @@ export class DataTypesImpl implements DataTypes {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -335,8 +333,8 @@ export class DataTypesImpl implements DataTypes {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -347,9 +345,9 @@ export class DataTypesImpl implements DataTypes {
         dataProductName,
         dataTypeName,
         properties,
-        options
+        options,
       },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       DataTypesUpdateResponse,
@@ -357,7 +355,7 @@ export class DataTypesImpl implements DataTypes {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -376,14 +374,14 @@ export class DataTypesImpl implements DataTypes {
     dataProductName: string,
     dataTypeName: string,
     properties: DataTypeUpdate,
-    options?: DataTypesUpdateOptionalParams
+    options?: DataTypesUpdateOptionalParams,
   ): Promise<DataTypesUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       dataProductName,
       dataTypeName,
       properties,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -399,7 +397,7 @@ export class DataTypesImpl implements DataTypes {
     resourceGroupName: string,
     dataProductName: string,
     dataTypeName: string,
-    options?: DataTypesDeleteOptionalParams
+    options?: DataTypesDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DataTypesDeleteResponse>,
@@ -408,21 +406,20 @@ export class DataTypesImpl implements DataTypes {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<DataTypesDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -431,8 +428,8 @@ export class DataTypesImpl implements DataTypes {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -440,15 +437,15 @@ export class DataTypesImpl implements DataTypes {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, dataProductName, dataTypeName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
       DataTypesDeleteResponse,
@@ -456,7 +453,7 @@ export class DataTypesImpl implements DataTypes {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -473,13 +470,13 @@ export class DataTypesImpl implements DataTypes {
     resourceGroupName: string,
     dataProductName: string,
     dataTypeName: string,
-    options?: DataTypesDeleteOptionalParams
+    options?: DataTypesDeleteOptionalParams,
   ): Promise<DataTypesDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       dataProductName,
       dataTypeName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -497,7 +494,7 @@ export class DataTypesImpl implements DataTypes {
     dataProductName: string,
     dataTypeName: string,
     body: Record<string, unknown>,
-    options?: DataTypesDeleteDataOptionalParams
+    options?: DataTypesDeleteDataOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DataTypesDeleteDataResponse>,
@@ -506,21 +503,20 @@ export class DataTypesImpl implements DataTypes {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<DataTypesDeleteDataResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -529,8 +525,8 @@ export class DataTypesImpl implements DataTypes {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -538,15 +534,15 @@ export class DataTypesImpl implements DataTypes {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, dataProductName, dataTypeName, body, options },
-      spec: deleteDataOperationSpec
+      spec: deleteDataOperationSpec,
     });
     const poller = await createHttpPoller<
       DataTypesDeleteDataResponse,
@@ -554,7 +550,7 @@ export class DataTypesImpl implements DataTypes {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -573,14 +569,14 @@ export class DataTypesImpl implements DataTypes {
     dataProductName: string,
     dataTypeName: string,
     body: Record<string, unknown>,
-    options?: DataTypesDeleteDataOptionalParams
+    options?: DataTypesDeleteDataOptionalParams,
   ): Promise<DataTypesDeleteDataResponse> {
     const poller = await this.beginDeleteData(
       resourceGroupName,
       dataProductName,
       dataTypeName,
       body,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -598,11 +594,11 @@ export class DataTypesImpl implements DataTypes {
     dataProductName: string,
     dataTypeName: string,
     body: ContainerSaS,
-    options?: DataTypesGenerateStorageContainerSasTokenOptionalParams
+    options?: DataTypesGenerateStorageContainerSasTokenOptionalParams,
   ): Promise<DataTypesGenerateStorageContainerSasTokenResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, dataProductName, dataTypeName, body, options },
-      generateStorageContainerSasTokenOperationSpec
+      generateStorageContainerSasTokenOperationSpec,
     );
   }
 
@@ -617,11 +613,11 @@ export class DataTypesImpl implements DataTypes {
     resourceGroupName: string,
     dataProductName: string,
     nextLink: string,
-    options?: DataTypesListByDataProductNextOptionalParams
+    options?: DataTypesListByDataProductNextOptionalParams,
   ): Promise<DataTypesListByDataProductNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, dataProductName, nextLink, options },
-      listByDataProductNextOperationSpec
+      listByDataProductNextOperationSpec,
     );
   }
 }
@@ -629,38 +625,15 @@ export class DataTypesImpl implements DataTypes {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByDataProductOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkAnalytics/dataProducts/{dataProductName}/dataTypes",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkAnalytics/dataProducts/{dataProductName}/dataTypes",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataTypeListResult
+      bodyMapper: Mappers.DataTypeListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.dataProductName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkAnalytics/dataProducts/{dataProductName}/dataTypes/{dataTypeName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DataType
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -668,31 +641,51 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.dataProductName,
-    Parameters.dataTypeName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkAnalytics/dataProducts/{dataProductName}/dataTypes/{dataTypeName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DataType,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.dataProductName,
+    Parameters.dataTypeName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkAnalytics/dataProducts/{dataProductName}/dataTypes/{dataTypeName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkAnalytics/dataProducts/{dataProductName}/dataTypes/{dataTypeName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.DataType
+      bodyMapper: Mappers.DataType,
     },
     201: {
-      bodyMapper: Mappers.DataType
+      bodyMapper: Mappers.DataType,
     },
     202: {
-      bodyMapper: Mappers.DataType
+      bodyMapper: Mappers.DataType,
     },
     204: {
-      bodyMapper: Mappers.DataType
+      bodyMapper: Mappers.DataType,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.resource1,
   queryParameters: [Parameters.apiVersion],
@@ -701,32 +694,31 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.dataProductName,
-    Parameters.dataTypeName
+    Parameters.dataTypeName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkAnalytics/dataProducts/{dataProductName}/dataTypes/{dataTypeName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkAnalytics/dataProducts/{dataProductName}/dataTypes/{dataTypeName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.DataType
+      bodyMapper: Mappers.DataType,
     },
     201: {
-      bodyMapper: Mappers.DataType
+      bodyMapper: Mappers.DataType,
     },
     202: {
-      bodyMapper: Mappers.DataType
+      bodyMapper: Mappers.DataType,
     },
     204: {
-      bodyMapper: Mappers.DataType
+      bodyMapper: Mappers.DataType,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.properties1,
   queryParameters: [Parameters.apiVersion],
@@ -735,32 +727,31 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.dataProductName,
-    Parameters.dataTypeName
+    Parameters.dataTypeName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkAnalytics/dataProducts/{dataProductName}/dataTypes/{dataTypeName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkAnalytics/dataProducts/{dataProductName}/dataTypes/{dataTypeName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.DataTypesDeleteHeaders
+      headersMapper: Mappers.DataTypesDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.DataTypesDeleteHeaders
+      headersMapper: Mappers.DataTypesDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.DataTypesDeleteHeaders
+      headersMapper: Mappers.DataTypesDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.DataTypesDeleteHeaders
+      headersMapper: Mappers.DataTypesDeleteHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -768,31 +759,30 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.dataProductName,
-    Parameters.dataTypeName
+    Parameters.dataTypeName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteDataOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkAnalytics/dataProducts/{dataProductName}/dataTypes/{dataTypeName}/deleteData",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkAnalytics/dataProducts/{dataProductName}/dataTypes/{dataTypeName}/deleteData",
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper: Mappers.DataTypesDeleteDataHeaders
+      headersMapper: Mappers.DataTypesDeleteDataHeaders,
     },
     201: {
-      headersMapper: Mappers.DataTypesDeleteDataHeaders
+      headersMapper: Mappers.DataTypesDeleteDataHeaders,
     },
     202: {
-      headersMapper: Mappers.DataTypesDeleteDataHeaders
+      headersMapper: Mappers.DataTypesDeleteDataHeaders,
     },
     204: {
-      headersMapper: Mappers.DataTypesDeleteDataHeaders
+      headersMapper: Mappers.DataTypesDeleteDataHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body2,
   queryParameters: [Parameters.apiVersion],
@@ -801,55 +791,55 @@ const deleteDataOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.dataProductName,
-    Parameters.dataTypeName
+    Parameters.dataTypeName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
-const generateStorageContainerSasTokenOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkAnalytics/dataProducts/{dataProductName}/dataTypes/{dataTypeName}/generateStorageContainerSasToken",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ContainerSasToken
+const generateStorageContainerSasTokenOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkAnalytics/dataProducts/{dataProductName}/dataTypes/{dataTypeName}/generateStorageContainerSasToken",
+    httpMethod: "POST",
+    responses: {
+      200: {
+        bodyMapper: Mappers.ContainerSasToken,
+      },
+      default: {
+        bodyMapper: Mappers.ErrorResponse,
+      },
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.body5,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.dataProductName,
-    Parameters.dataTypeName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
+    requestBody: Parameters.body5,
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.dataProductName,
+      Parameters.dataTypeName,
+    ],
+    headerParameters: [Parameters.accept, Parameters.contentType],
+    mediaType: "json",
+    serializer,
+  };
 const listByDataProductNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataTypeListResult
+      bodyMapper: Mappers.DataTypeListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.dataProductName
+    Parameters.dataProductName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

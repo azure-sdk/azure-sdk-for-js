@@ -391,11 +391,19 @@ export interface DataProductVersion {
 /** The type used for update operations of the DataProduct. */
 export interface DataProductUpdate {
   /** The managed service identities assigned to this resource. */
-  identity?: ManagedServiceIdentity;
+  identity?: AzureResourceManagerLegacyManagedServiceIdentityV4;
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** The updatable properties of the DataProduct. */
   properties?: DataProductUpdateProperties;
+}
+
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface AzureResourceManagerLegacyManagedServiceIdentityV4 {
+  /** The type of managed identity assigned to this resource. */
+  type?: ManagedServiceIdentityType;
+  /** The identities assigned to this resource by the user. */
+  userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
 }
 
 /** The updatable properties of the DataProduct. */
@@ -598,18 +606,18 @@ export interface DataProductsCreateHeaders {
 
 /** Defines headers for DataProducts_update operation. */
 export interface DataProductsUpdateHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for DataProducts_delete operation. */
 export interface DataProductsDeleteHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for DataTypes_create operation. */
@@ -620,26 +628,26 @@ export interface DataTypesCreateHeaders {
 
 /** Defines headers for DataTypes_update operation. */
 export interface DataTypesUpdateHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for DataTypes_delete operation. */
 export interface DataTypesDeleteHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for DataTypes_deleteData operation. */
 export interface DataTypesDeleteDataHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Known values of {@link Origin} that the service accepts. */
@@ -649,7 +657,7 @@ export enum KnownOrigin {
   /** System */
   System = "system",
   /** UserSystem */
-  UserSystem = "user,system"
+  UserSystem = "user,system",
 }
 
 /**
@@ -666,7 +674,7 @@ export type Origin = string;
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
   /** Internal */
-  Internal = "Internal"
+  Internal = "Internal",
 }
 
 /**
@@ -693,7 +701,7 @@ export enum KnownProvisioningState {
   /** Represents an operation under deletion. */
   Deleting = "Deleting",
   /** Represents an accepted operation. */
-  Accepted = "Accepted"
+  Accepted = "Accepted",
 }
 
 /**
@@ -716,7 +724,7 @@ export enum KnownControlState {
   /** Field to enable a setting. */
   Enabled = "Enabled",
   /** Field to disable a setting. */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -734,7 +742,7 @@ export enum KnownDefaultAction {
   /** Represents allow action. */
   Allow = "Allow",
   /** Represents deny action. */
-  Deny = "Deny"
+  Deny = "Deny",
 }
 
 /**
@@ -756,7 +764,7 @@ export enum KnownManagedServiceIdentityType {
   /** UserAssigned */
   UserAssigned = "UserAssigned",
   /** SystemAssignedUserAssigned */
-  SystemAssignedUserAssigned = "SystemAssigned, UserAssigned"
+  SystemAssignedUserAssigned = "SystemAssigned, UserAssigned",
 }
 
 /**
@@ -780,7 +788,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -803,7 +811,7 @@ export enum KnownDataProductUserRole {
    * Field to specify user of type SensitiveReader.
    * This user has privileged access to read sensitive data of a data product.
    */
-  SensitiveReader = "SensitiveReader"
+  SensitiveReader = "SensitiveReader",
 }
 
 /**
@@ -822,7 +830,7 @@ export enum KnownDataTypeState {
   /** Field to specify stopped state. */
   Stopped = "Stopped",
   /** Field to specify running state. */
-  Running = "Running"
+  Running = "Running",
 }
 
 /**
@@ -844,7 +852,7 @@ export enum KnownBypass {
   /** Represents bypassing metrics traffic. */
   Metrics = "Metrics",
   /** Represents bypassing azure services traffic. */
-  AzureServices = "AzureServices"
+  AzureServices = "AzureServices",
 }
 
 /**
@@ -858,21 +866,6 @@ export enum KnownBypass {
  * **AzureServices**: Represents bypassing azure services traffic.
  */
 export type Bypass = string;
-
-/** Known values of {@link Versions} that the service accepts. */
-export enum KnownVersions {
-  /** The 2023-11-15 stable version. */
-  V20231115 = "2023-11-15"
-}
-
-/**
- * Defines values for Versions. \
- * {@link KnownVersions} can be used interchangeably with Versions,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **2023-11-15**: The 2023-11-15 stable version.
- */
-export type Versions = string;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
@@ -957,7 +950,8 @@ export interface DataProductsGenerateStorageAccountSasTokenOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the generateStorageAccountSasToken operation. */
-export type DataProductsGenerateStorageAccountSasTokenResponse = AccountSasToken;
+export type DataProductsGenerateStorageAccountSasTokenResponse =
+  AccountSasToken;
 
 /** Optional parameters. */
 export interface DataProductsListRolesAssignmentsOptionalParams
@@ -993,14 +987,16 @@ export interface DataProductsCatalogsListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type DataProductsCatalogsListBySubscriptionResponse = DataProductsCatalogListResult;
+export type DataProductsCatalogsListBySubscriptionResponse =
+  DataProductsCatalogListResult;
 
 /** Optional parameters. */
 export interface DataProductsCatalogsListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type DataProductsCatalogsListByResourceGroupResponse = DataProductsCatalogListResult;
+export type DataProductsCatalogsListByResourceGroupResponse =
+  DataProductsCatalogListResult;
 
 /** Optional parameters. */
 export interface DataProductsCatalogsGetOptionalParams
@@ -1014,14 +1010,16 @@ export interface DataProductsCatalogsListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type DataProductsCatalogsListBySubscriptionNextResponse = DataProductsCatalogListResult;
+export type DataProductsCatalogsListBySubscriptionNextResponse =
+  DataProductsCatalogListResult;
 
 /** Optional parameters. */
 export interface DataProductsCatalogsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type DataProductsCatalogsListByResourceGroupNextResponse = DataProductsCatalogListResult;
+export type DataProductsCatalogsListByResourceGroupNextResponse =
+  DataProductsCatalogListResult;
 
 /** Optional parameters. */
 export interface DataTypesListByDataProductOptionalParams
@@ -1090,7 +1088,8 @@ export interface DataTypesGenerateStorageContainerSasTokenOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the generateStorageContainerSasToken operation. */
-export type DataTypesGenerateStorageContainerSasTokenResponse = ContainerSasToken;
+export type DataTypesGenerateStorageContainerSasTokenResponse =
+  ContainerSasToken;
 
 /** Optional parameters. */
 export interface DataTypesListByDataProductNextOptionalParams
