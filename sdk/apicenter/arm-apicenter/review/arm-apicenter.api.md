@@ -15,25 +15,29 @@ export type ActionType = string;
 
 // @public
 export interface Api extends ProxyResource {
-    properties?: ApiProperties;
+    contacts?: Contact[];
+    customProperties?: Record<string, unknown>;
+    description?: string;
+    externalDocumentation?: ExternalDocumentation[];
+    kind?: ApiKind;
+    license?: License;
+    readonly lifecycleStage?: LifecycleStage;
+    summary?: string;
+    termsOfService?: TermsOfService;
+    title?: string;
 }
 
 // @public
 export interface ApiDefinition extends ProxyResource {
-    properties?: ApiDefinitionProperties;
+    description?: string;
+    readonly specification?: ApiDefinitionPropertiesSpecification;
+    title?: string;
 }
 
 // @public
 export interface ApiDefinitionListResult {
     readonly nextLink?: string;
     readonly value: ApiDefinition[];
-}
-
-// @public
-export interface ApiDefinitionProperties {
-    description?: string;
-    readonly specification?: ApiDefinitionPropertiesSpecification;
-    title: string;
 }
 
 // @public
@@ -144,20 +148,6 @@ export interface ApiListResult {
 }
 
 // @public
-export interface ApiProperties {
-    contacts?: Contact[];
-    customProperties?: Record<string, unknown>;
-    description?: string;
-    externalDocumentation?: ExternalDocumentation[];
-    kind: ApiKind;
-    license?: License;
-    readonly lifecycleStage?: LifecycleStage;
-    summary?: string;
-    termsOfService?: TermsOfService;
-    title: string;
-}
-
-// @public
 export interface Apis {
     createOrUpdate(resourceGroupName: string, serviceName: string, workspaceName: string, apiName: string, resource: Api, options?: ApisCreateOrUpdateOptionalParams): Promise<ApisCreateOrUpdateResponse>;
     delete(resourceGroupName: string, serviceName: string, workspaceName: string, apiName: string, options?: ApisDeleteOptionalParams): Promise<void>;
@@ -245,19 +235,14 @@ export type ApiSpecImportSourceFormat = string;
 
 // @public
 export interface ApiVersion extends ProxyResource {
-    properties?: ApiVersionProperties;
+    lifecycleStage?: LifecycleStage;
+    title?: string;
 }
 
 // @public
 export interface ApiVersionListResult {
     readonly nextLink?: string;
     readonly value: ApiVersion[];
-}
-
-// @public
-export interface ApiVersionProperties {
-    lifecycleStage: LifecycleStage;
-    title: string;
 }
 
 // @public
@@ -335,6 +320,8 @@ export class AzureAPICenter extends coreClient.ServiceClient {
     // (undocumented)
     apiVersions: ApiVersions;
     // (undocumented)
+    deletedServices: DeletedServices;
+    // (undocumented)
     deployments: Deployments;
     // (undocumented)
     environments: Environments;
@@ -368,18 +355,72 @@ export interface Contact {
 export type CreatedByType = string;
 
 // @public
-export interface Deployment extends ProxyResource {
-    properties?: DeploymentProperties;
+export interface DeletedService extends ProxyResource {
+    scheduledPurgeDate?: Date;
+    softDeletionDate?: Date;
 }
 
 // @public
-export interface DeploymentListResult {
+export interface DeletedServiceListResult {
     readonly nextLink?: string;
-    readonly value: Deployment[];
+    readonly value: DeletedService[];
 }
 
 // @public
-export interface DeploymentProperties {
+export interface DeletedServices {
+    delete(resourceGroupName: string, deletedServiceName: string, options?: DeletedServicesDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, deletedServiceName: string, options?: DeletedServicesGetOptionalParams): Promise<DeletedServicesGetResponse>;
+    list(resourceGroupName: string, options?: DeletedServicesListOptionalParams): PagedAsyncIterableIterator<DeletedService>;
+    listBySubscription(options?: DeletedServicesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<DeletedService>;
+}
+
+// @public
+export interface DeletedServicesDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface DeletedServicesGetHeaders {
+    eTag?: string;
+}
+
+// @public
+export interface DeletedServicesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DeletedServicesGetResponse = DeletedServicesGetHeaders & DeletedService;
+
+// @public
+export interface DeletedServicesListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DeletedServicesListBySubscriptionNextResponse = DeletedServiceListResult;
+
+// @public
+export interface DeletedServicesListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DeletedServicesListBySubscriptionResponse = DeletedServiceListResult;
+
+// @public
+export interface DeletedServicesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DeletedServicesListNextResponse = DeletedServiceListResult;
+
+// @public
+export interface DeletedServicesListOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+}
+
+// @public
+export type DeletedServicesListResponse = DeletedServiceListResult;
+
+// @public
+export interface Deployment extends ProxyResource {
     customProperties?: Record<string, unknown>;
     definitionId?: string;
     description?: string;
@@ -387,6 +428,12 @@ export interface DeploymentProperties {
     server?: DeploymentServer;
     state?: DeploymentState;
     title?: string;
+}
+
+// @public
+export interface DeploymentListResult {
+    readonly nextLink?: string;
+    readonly value: Deployment[];
 }
 
 // @public
@@ -460,7 +507,12 @@ export type DeploymentState = string;
 
 // @public
 export interface Environment extends ProxyResource {
-    properties?: EnvironmentProperties;
+    customProperties?: Record<string, unknown>;
+    description?: string;
+    kind?: EnvironmentKind;
+    onboarding?: Onboarding;
+    server?: EnvironmentServer;
+    title?: string;
 }
 
 // @public
@@ -470,16 +522,6 @@ export type EnvironmentKind = string;
 export interface EnvironmentListResult {
     readonly nextLink?: string;
     readonly value: Environment[];
-}
-
-// @public
-export interface EnvironmentProperties {
-    customProperties?: Record<string, unknown>;
-    description?: string;
-    kind: EnvironmentKind;
-    onboarding?: Onboarding;
-    server?: EnvironmentServer;
-    title: string;
 }
 
 // @public
@@ -689,11 +731,6 @@ export enum KnownProvisioningState {
 }
 
 // @public
-export enum KnownVersions {
-    V20240301 = "2024-03-01"
-}
-
-// @public
 export interface License {
     identifier?: string;
     name?: string;
@@ -728,7 +765,8 @@ export type MetadataAssignmentEntity = string;
 
 // @public
 export interface MetadataSchema extends ProxyResource {
-    properties?: MetadataSchemaProperties;
+    assignedTo?: MetadataAssignment[];
+    schema?: string;
 }
 
 // @public
@@ -749,12 +787,6 @@ export interface MetadataSchemaExportResult {
 export interface MetadataSchemaListResult {
     readonly nextLink?: string;
     readonly value: MetadataSchema[];
-}
-
-// @public
-export interface MetadataSchemaProperties {
-    assignedTo?: MetadataAssignment[];
-    schema: string;
 }
 
 // @public
@@ -887,18 +919,14 @@ export interface Resource {
 // @public
 export interface Service extends TrackedResource {
     identity?: ManagedServiceIdentity;
-    properties?: ServiceProperties;
+    readonly provisioningState?: ProvisioningState;
+    restore?: boolean;
 }
 
 // @public
 export interface ServiceListResult {
     readonly nextLink?: string;
     readonly value: Service[];
-}
-
-// @public
-export interface ServiceProperties {
-    readonly provisioningState?: ProvisioningState;
 }
 
 // @public
@@ -984,6 +1012,7 @@ export type ServicesUpdateResponse = Service;
 // @public
 export interface ServiceUpdate {
     identity?: ManagedServiceIdentity;
+    restore?: boolean;
     tags?: {
         [propertyName: string]: string;
     };
@@ -1019,23 +1048,15 @@ export interface UserAssignedIdentity {
 }
 
 // @public
-export type Versions = string;
-
-// @public
 export interface Workspace extends ProxyResource {
-    properties?: WorkspaceProperties;
+    description?: string;
+    title?: string;
 }
 
 // @public
 export interface WorkspaceListResult {
     readonly nextLink?: string;
     readonly value: Workspace[];
-}
-
-// @public
-export interface WorkspaceProperties {
-    description?: string;
-    title: string;
 }
 
 // @public
