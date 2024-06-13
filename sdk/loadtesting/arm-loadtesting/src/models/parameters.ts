@@ -9,12 +9,12 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
-  QuotaBucketRequest as QuotaBucketRequestMapper,
   LoadTestResource as LoadTestResourceMapper,
-  LoadTestResourcePatchRequestBody as LoadTestResourcePatchRequestBodyMapper
+  LoadTestResourceUpdate as LoadTestResourceUpdateMapper,
+  QuotaBucketRequest as QuotaBucketRequestMapper,
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -24,9 +24,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -35,10 +35,10 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const apiVersion: OperationQueryParameter = {
@@ -48,9 +48,9 @@ export const apiVersion: OperationQueryParameter = {
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const nextLink: OperationURLParameter = {
@@ -59,49 +59,47 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
-    constraints: {
-      MinLength: 1
-    },
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "Uuid",
+    },
+  },
 };
 
-export const location: OperationURLParameter = {
-  parameterPath: "location",
+export const resourceGroupName: OperationURLParameter = {
+  parameterPath: "resourceGroupName",
   mapper: {
     constraints: {
-      MinLength: 1
+      MaxLength: 90,
+      MinLength: 1,
     },
-    serializedName: "location",
+    serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const quotaBucketName: OperationURLParameter = {
-  parameterPath: "quotaBucketName",
+export const loadTestName: OperationURLParameter = {
+  parameterPath: "loadTestName",
   mapper: {
-    serializedName: "quotaBucketName",
+    serializedName: "loadTestName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -111,48 +109,47 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const quotaBucketRequest: OperationParameter = {
-  parameterPath: "quotaBucketRequest",
-  mapper: QuotaBucketRequestMapper
+export const resource: OperationParameter = {
+  parameterPath: "resource",
+  mapper: LoadTestResourceMapper,
 };
 
-export const resourceGroupName: OperationURLParameter = {
-  parameterPath: "resourceGroupName",
+export const properties: OperationParameter = {
+  parameterPath: "properties",
+  mapper: LoadTestResourceUpdateMapper,
+};
+
+export const location: OperationURLParameter = {
+  parameterPath: "location",
   mapper: {
     constraints: {
-      MaxLength: 90,
-      MinLength: 1
+      MinLength: 1,
     },
-    serializedName: "resourceGroupName",
+    serializedName: "location",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const loadTestName: OperationURLParameter = {
-  parameterPath: "loadTestName",
+export const quotaBucketName: OperationURLParameter = {
+  parameterPath: "quotaBucketName",
   mapper: {
-    serializedName: "loadTestName",
+    serializedName: "quotaBucketName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const loadTestResource: OperationParameter = {
-  parameterPath: "loadTestResource",
-  mapper: LoadTestResourceMapper
-};
-
-export const loadTestResourcePatchRequestBody: OperationParameter = {
-  parameterPath: "loadTestResourcePatchRequestBody",
-  mapper: LoadTestResourcePatchRequestBodyMapper
+export const body: OperationParameter = {
+  parameterPath: "body",
+  mapper: QuotaBucketRequestMapper,
 };

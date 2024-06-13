@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { LoadTestClient } from "../loadTestClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   LoadTestResource,
   LoadTestsListBySubscriptionNextOptionalParams,
@@ -31,13 +35,14 @@ import {
   LoadTestsGetResponse,
   LoadTestsCreateOrUpdateOptionalParams,
   LoadTestsCreateOrUpdateResponse,
-  LoadTestResourcePatchRequestBody,
+  LoadTestResourceUpdate,
   LoadTestsUpdateOptionalParams,
   LoadTestsUpdateResponse,
   LoadTestsDeleteOptionalParams,
+  LoadTestsDeleteResponse,
   LoadTestsListBySubscriptionNextResponse,
   LoadTestsListByResourceGroupNextResponse,
-  LoadTestsListOutboundNetworkDependenciesEndpointsNextResponse
+  LoadTestsListOutboundNetworkDependenciesEndpointsNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -54,11 +59,11 @@ export class LoadTestsImpl implements LoadTests {
   }
 
   /**
-   * Lists loadtests resources in a subscription.
+   * List LoadTestResource resources by subscription ID
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: LoadTestsListBySubscriptionOptionalParams
+    options?: LoadTestsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<LoadTestResource> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -73,13 +78,13 @@ export class LoadTestsImpl implements LoadTests {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: LoadTestsListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<LoadTestResource[]> {
     let result: LoadTestsListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -100,7 +105,7 @@ export class LoadTestsImpl implements LoadTests {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: LoadTestsListBySubscriptionOptionalParams
+    options?: LoadTestsListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<LoadTestResource> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -108,13 +113,13 @@ export class LoadTestsImpl implements LoadTests {
   }
 
   /**
-   * Lists loadtest resources in a resource group.
+   * List LoadTestResource resources by resource group
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: LoadTestsListByResourceGroupOptionalParams
+    options?: LoadTestsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<LoadTestResource> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -131,16 +136,16 @@ export class LoadTestsImpl implements LoadTests {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: LoadTestsListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<LoadTestResource[]> {
     let result: LoadTestsListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -155,7 +160,7 @@ export class LoadTestsImpl implements LoadTests {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -166,11 +171,11 @@ export class LoadTestsImpl implements LoadTests {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: LoadTestsListByResourceGroupOptionalParams
+    options?: LoadTestsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<LoadTestResource> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -179,18 +184,18 @@ export class LoadTestsImpl implements LoadTests {
   /**
    * Lists the endpoints that agents may call as part of load testing.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param loadTestName Load Test name.
+   * @param loadTestName Load Test name
    * @param options The options parameters.
    */
   public listOutboundNetworkDependenciesEndpoints(
     resourceGroupName: string,
     loadTestName: string,
-    options?: LoadTestsListOutboundNetworkDependenciesEndpointsOptionalParams
+    options?: LoadTestsListOutboundNetworkDependenciesEndpointsOptionalParams,
   ): PagedAsyncIterableIterator<OutboundEnvironmentEndpoint> {
     const iter = this.listOutboundNetworkDependenciesEndpointsPagingAll(
       resourceGroupName,
       loadTestName,
-      options
+      options,
     );
     return {
       next() {
@@ -207,9 +212,9 @@ export class LoadTestsImpl implements LoadTests {
           resourceGroupName,
           loadTestName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -217,7 +222,7 @@ export class LoadTestsImpl implements LoadTests {
     resourceGroupName: string,
     loadTestName: string,
     options?: LoadTestsListOutboundNetworkDependenciesEndpointsOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<OutboundEnvironmentEndpoint[]> {
     let result: LoadTestsListOutboundNetworkDependenciesEndpointsResponse;
     let continuationToken = settings?.continuationToken;
@@ -225,7 +230,7 @@ export class LoadTestsImpl implements LoadTests {
       result = await this._listOutboundNetworkDependenciesEndpoints(
         resourceGroupName,
         loadTestName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -237,7 +242,7 @@ export class LoadTestsImpl implements LoadTests {
         resourceGroupName,
         loadTestName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -249,97 +254,96 @@ export class LoadTestsImpl implements LoadTests {
   private async *listOutboundNetworkDependenciesEndpointsPagingAll(
     resourceGroupName: string,
     loadTestName: string,
-    options?: LoadTestsListOutboundNetworkDependenciesEndpointsOptionalParams
+    options?: LoadTestsListOutboundNetworkDependenciesEndpointsOptionalParams,
   ): AsyncIterableIterator<OutboundEnvironmentEndpoint> {
     for await (const page of this.listOutboundNetworkDependenciesEndpointsPagingPage(
       resourceGroupName,
       loadTestName,
-      options
+      options,
     )) {
       yield* page;
     }
   }
 
   /**
-   * Lists loadtests resources in a subscription.
+   * List LoadTestResource resources by subscription ID
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: LoadTestsListBySubscriptionOptionalParams
+    options?: LoadTestsListBySubscriptionOptionalParams,
   ): Promise<LoadTestsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
   /**
-   * Lists loadtest resources in a resource group.
+   * List LoadTestResource resources by resource group
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: LoadTestsListByResourceGroupOptionalParams
+    options?: LoadTestsListByResourceGroupOptionalParams,
   ): Promise<LoadTestsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
   /**
-   * Get a LoadTest resource.
+   * Get a LoadTestResource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param loadTestName Load Test name.
+   * @param loadTestName Load Test name
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     loadTestName: string,
-    options?: LoadTestsGetOptionalParams
+    options?: LoadTestsGetOptionalParams,
   ): Promise<LoadTestsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, loadTestName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
   /**
-   * Create or update LoadTest resource.
+   * Create a LoadTestResource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param loadTestName Load Test name.
-   * @param loadTestResource LoadTest resource data
+   * @param loadTestName Load Test name
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     loadTestName: string,
-    loadTestResource: LoadTestResource,
-    options?: LoadTestsCreateOrUpdateOptionalParams
+    resource: LoadTestResource,
+    options?: LoadTestsCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<LoadTestsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<LoadTestsCreateOrUpdateResponse>,
       LoadTestsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<LoadTestsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -348,8 +352,8 @@ export class LoadTestsImpl implements LoadTests {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -357,82 +361,84 @@ export class LoadTestsImpl implements LoadTests {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, loadTestName, loadTestResource, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, loadTestName, resource, options },
+      spec: createOrUpdateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      LoadTestsCreateOrUpdateResponse,
+      OperationState<LoadTestsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Create or update LoadTest resource.
+   * Create a LoadTestResource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param loadTestName Load Test name.
-   * @param loadTestResource LoadTest resource data
+   * @param loadTestName Load Test name
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     loadTestName: string,
-    loadTestResource: LoadTestResource,
-    options?: LoadTestsCreateOrUpdateOptionalParams
+    resource: LoadTestResource,
+    options?: LoadTestsCreateOrUpdateOptionalParams,
   ): Promise<LoadTestsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       loadTestName,
-      loadTestResource,
-      options
+      resource,
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Update a loadtest resource.
+   * Update a LoadTestResource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param loadTestName Load Test name.
-   * @param loadTestResourcePatchRequestBody LoadTest resource update data
+   * @param loadTestName Load Test name
+   * @param properties The resource properties to be updated.
    * @param options The options parameters.
    */
   async beginUpdate(
     resourceGroupName: string,
     loadTestName: string,
-    loadTestResourcePatchRequestBody: LoadTestResourcePatchRequestBody,
-    options?: LoadTestsUpdateOptionalParams
+    properties: LoadTestResourceUpdate,
+    options?: LoadTestsUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<LoadTestsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<LoadTestsUpdateResponse>,
       LoadTestsUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<LoadTestsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -441,8 +447,8 @@ export class LoadTestsImpl implements LoadTests {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -450,80 +456,82 @@ export class LoadTestsImpl implements LoadTests {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
-        resourceGroupName,
-        loadTestName,
-        loadTestResourcePatchRequestBody,
-        options
-      },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, loadTestName, properties, options },
+      spec: updateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      LoadTestsUpdateResponse,
+      OperationState<LoadTestsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Update a loadtest resource.
+   * Update a LoadTestResource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param loadTestName Load Test name.
-   * @param loadTestResourcePatchRequestBody LoadTest resource update data
+   * @param loadTestName Load Test name
+   * @param properties The resource properties to be updated.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
     loadTestName: string,
-    loadTestResourcePatchRequestBody: LoadTestResourcePatchRequestBody,
-    options?: LoadTestsUpdateOptionalParams
+    properties: LoadTestResourceUpdate,
+    options?: LoadTestsUpdateOptionalParams,
   ): Promise<LoadTestsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       loadTestName,
-      loadTestResourcePatchRequestBody,
-      options
+      properties,
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Delete a LoadTest resource.
+   * Delete a LoadTestResource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param loadTestName Load Test name.
+   * @param loadTestName Load Test name
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     loadTestName: string,
-    options?: LoadTestsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: LoadTestsDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<LoadTestsDeleteResponse>,
+      LoadTestsDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
+      spec: coreClient.OperationSpec,
+    ): Promise<LoadTestsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -532,8 +540,8 @@ export class LoadTestsImpl implements LoadTests {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -541,40 +549,43 @@ export class LoadTestsImpl implements LoadTests {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, loadTestName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, loadTestName, options },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      LoadTestsDeleteResponse,
+      OperationState<LoadTestsDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Delete a LoadTest resource.
+   * Delete a LoadTestResource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param loadTestName Load Test name.
+   * @param loadTestName Load Test name
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     loadTestName: string,
-    options?: LoadTestsDeleteOptionalParams
-  ): Promise<void> {
+    options?: LoadTestsDeleteOptionalParams,
+  ): Promise<LoadTestsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       loadTestName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -582,17 +593,17 @@ export class LoadTestsImpl implements LoadTests {
   /**
    * Lists the endpoints that agents may call as part of load testing.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param loadTestName Load Test name.
+   * @param loadTestName Load Test name
    * @param options The options parameters.
    */
   private _listOutboundNetworkDependenciesEndpoints(
     resourceGroupName: string,
     loadTestName: string,
-    options?: LoadTestsListOutboundNetworkDependenciesEndpointsOptionalParams
+    options?: LoadTestsListOutboundNetworkDependenciesEndpointsOptionalParams,
   ): Promise<LoadTestsListOutboundNetworkDependenciesEndpointsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, loadTestName, options },
-      listOutboundNetworkDependenciesEndpointsOperationSpec
+      listOutboundNetworkDependenciesEndpointsOperationSpec,
     );
   }
 
@@ -603,11 +614,11 @@ export class LoadTestsImpl implements LoadTests {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: LoadTestsListBySubscriptionNextOptionalParams
+    options?: LoadTestsListBySubscriptionNextOptionalParams,
   ): Promise<LoadTestsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 
@@ -620,18 +631,18 @@ export class LoadTestsImpl implements LoadTests {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: LoadTestsListByResourceGroupNextOptionalParams
+    options?: LoadTestsListByResourceGroupNextOptionalParams,
   ): Promise<LoadTestsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 
   /**
    * ListOutboundNetworkDependenciesEndpointsNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param loadTestName Load Test name.
+   * @param loadTestName Load Test name
    * @param nextLink The nextLink from the previous successful call to the
    *                 ListOutboundNetworkDependenciesEndpoints method.
    * @param options The options parameters.
@@ -640,11 +651,11 @@ export class LoadTestsImpl implements LoadTests {
     resourceGroupName: string,
     loadTestName: string,
     nextLink: string,
-    options?: LoadTestsListOutboundNetworkDependenciesEndpointsNextOptionalParams
+    options?: LoadTestsListOutboundNetworkDependenciesEndpointsNextOptionalParams,
   ): Promise<LoadTestsListOutboundNetworkDependenciesEndpointsNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, loadTestName, nextLink, options },
-      listOutboundNetworkDependenciesEndpointsNextOperationSpec
+      listOutboundNetworkDependenciesEndpointsNextOperationSpec,
     );
   }
 }
@@ -652,233 +663,236 @@ export class LoadTestsImpl implements LoadTests {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.LoadTestService/loadTests",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.LoadTestService/loadTests",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LoadTestResourcePageList
+      bodyMapper: Mappers.LoadTestResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LoadTestService/loadTests",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LoadTestService/loadTests",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LoadTestResourcePageList
+      bodyMapper: Mappers.LoadTestResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LoadTestService/loadTests/{loadTestName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.LoadTestResource
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.loadTestName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LoadTestService/loadTests/{loadTestName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.LoadTestResource,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.loadTestName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LoadTestService/loadTests/{loadTestName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LoadTestService/loadTests/{loadTestName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.LoadTestResource
+      bodyMapper: Mappers.LoadTestResource,
     },
     201: {
-      bodyMapper: Mappers.LoadTestResource
+      bodyMapper: Mappers.LoadTestResource,
     },
     202: {
-      bodyMapper: Mappers.LoadTestResource
+      bodyMapper: Mappers.LoadTestResource,
     },
     204: {
-      bodyMapper: Mappers.LoadTestResource
+      bodyMapper: Mappers.LoadTestResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.loadTestResource,
+  requestBody: Parameters.resource,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.loadTestName
+    Parameters.loadTestName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LoadTestService/loadTests/{loadTestName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LoadTestService/loadTests/{loadTestName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.LoadTestResource
+      bodyMapper: Mappers.LoadTestResource,
     },
     201: {
-      bodyMapper: Mappers.LoadTestResource
+      bodyMapper: Mappers.LoadTestResource,
     },
     202: {
-      bodyMapper: Mappers.LoadTestResource
+      bodyMapper: Mappers.LoadTestResource,
     },
     204: {
-      bodyMapper: Mappers.LoadTestResource
+      bodyMapper: Mappers.LoadTestResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.loadTestResourcePatchRequestBody,
+  requestBody: Parameters.properties,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.loadTestName
+    Parameters.loadTestName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LoadTestService/loadTests/{loadTestName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LoadTestService/loadTests/{loadTestName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.loadTestName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listOutboundNetworkDependenciesEndpointsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LoadTestService/loadTests/{loadTestName}/outboundNetworkDependenciesEndpoints",
-  httpMethod: "GET",
-  responses: {
     200: {
-      bodyMapper: Mappers.OutboundEnvironmentEndpointCollection
+      headersMapper: Mappers.LoadTestsDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.LoadTestsDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.LoadTestsDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.LoadTestsDeleteHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.loadTestName
+    Parameters.loadTestName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
+const listOutboundNetworkDependenciesEndpointsOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LoadTestService/loadTests/{loadTestName}/outboundNetworkDependenciesEndpoints",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.PagedOutboundEnvironmentEndpoint,
+      },
+      default: {
+        bodyMapper: Mappers.ErrorResponse,
+      },
+    },
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.loadTestName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LoadTestResourcePageList
+      bodyMapper: Mappers.LoadTestResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LoadTestResourcePageList
+      bodyMapper: Mappers.LoadTestResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listOutboundNetworkDependenciesEndpointsNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.OutboundEnvironmentEndpointCollection
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.loadTestName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
+const listOutboundNetworkDependenciesEndpointsNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.PagedOutboundEnvironmentEndpoint,
+      },
+      default: {
+        bodyMapper: Mappers.ErrorResponse,
+      },
+    },
+    urlParameters: [
+      Parameters.$host,
+      Parameters.nextLink,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.loadTestName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
