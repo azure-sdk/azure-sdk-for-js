@@ -19,14 +19,13 @@ import { StreamableMethod } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export interface ClientRequestIdHeaderOutput {
-}
+export type CommunicationMessageKind = string | "text" | "image" | "template";
 
 // @public
-function createClient(connectionString: string, options?: ClientOptions): MessagesServiceClient;
+export type CommunicationMessagesChannelOutput = string | "whatsApp";
 
 // @public
-function createClient(endpoint: string, credential: KeyCredential | TokenCredential, options?: ClientOptions): MessagesServiceClient;
+function createClient(endpointParam: string, credentials: TokenCredential | KeyCredential, options?: ClientOptions): MessagesServiceClient;
 export default createClient;
 
 // @public
@@ -185,9 +184,12 @@ export interface MessageTemplate {
 export type MessageTemplateBindings = MessageTemplateBindingsParent | WhatsAppMessageTemplateBindings;
 
 // @public
+export type MessageTemplateBindingsKind = string | "whatsApp";
+
+// @public
 export interface MessageTemplateBindingsParent {
     // (undocumented)
-    kind: string;
+    kind: MessageTemplateBindingsKind;
 }
 
 // @public
@@ -212,10 +214,10 @@ export type MessageTemplateItemOutput = MessageTemplateItemOutputParent | WhatsA
 // @public
 export interface MessageTemplateItemOutputParent {
     // (undocumented)
-    kind: string;
+    kind: CommunicationMessagesChannelOutput;
     language: string;
     readonly name: string;
-    status: string;
+    status: MessageTemplateStatusOutput;
 }
 
 // @public
@@ -235,6 +237,9 @@ export interface MessageTemplateQuickAction extends MessageTemplateValueParent {
 }
 
 // @public
+export type MessageTemplateStatusOutput = string | "approved" | "rejected" | "pending" | "paused";
+
+// @public
 export interface MessageTemplateText extends MessageTemplateValueParent {
     kind: "text";
     text: string;
@@ -244,9 +249,12 @@ export interface MessageTemplateText extends MessageTemplateValueParent {
 export type MessageTemplateValue = MessageTemplateValueParent | MessageTemplateText | MessageTemplateImage | MessageTemplateDocument | MessageTemplateVideo | MessageTemplateLocation | MessageTemplateQuickAction;
 
 // @public
+export type MessageTemplateValueKind = string | "text" | "image" | "document" | "video" | "location" | "quickAction";
+
+// @public
 export interface MessageTemplateValueParent {
     // (undocumented)
-    kind: string;
+    kind: MessageTemplateValueKind;
     name: string;
 }
 
@@ -265,7 +273,7 @@ export type NotificationContent = NotificationContentParent | TextNotificationCo
 export interface NotificationContentParent {
     channelRegistrationId: string;
     // (undocumented)
-    kind: string;
+    kind: CommunicationMessageKind;
     to: string[];
 }
 
@@ -285,14 +293,6 @@ export type PaginateReturn<TResult> = TResult extends {
 // @public
 export interface PagingOptions<TResponse> {
     customGetPage?: GetPage<PaginateReturn<TResponse>[]>;
-}
-
-// @public
-export interface RepeatabilityRequestHeadersOutput {
-}
-
-// @public
-export interface RepeatabilityResponseHeadersOutput {
 }
 
 // @public
@@ -381,6 +381,9 @@ export interface TextNotificationContent extends NotificationContentParent {
 }
 
 // @public
+export type WhatsAppMessageButtonSubType = string | "quickReply" | "url";
+
+// @public
 export interface WhatsAppMessageTemplateBindings extends MessageTemplateBindingsParent {
     body?: Array<WhatsAppMessageTemplateBindingsComponent>;
     buttons?: Array<WhatsAppMessageTemplateBindingsButton>;
@@ -392,7 +395,7 @@ export interface WhatsAppMessageTemplateBindings extends MessageTemplateBindings
 // @public
 export interface WhatsAppMessageTemplateBindingsButton {
     refValue: string;
-    subType: string;
+    subType: WhatsAppMessageButtonSubType;
 }
 
 // @public
