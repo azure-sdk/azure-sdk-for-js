@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { VirtualMachines } from "../operationsInterfaces";
+import { IscsiPaths } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,25 +20,25 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  VirtualMachine,
-  VirtualMachinesListNextOptionalParams,
-  VirtualMachinesListOptionalParams,
-  VirtualMachinesListResponse,
-  VirtualMachinesGetOptionalParams,
-  VirtualMachinesGetResponse,
-  VirtualMachineRestrictMovement,
-  VirtualMachinesRestrictMovementOptionalParams,
-  VirtualMachinesRestrictMovementResponse,
-  VirtualMachinesListNextResponse,
+  IscsiPath,
+  IscsiPathsListByPrivateCloudNextOptionalParams,
+  IscsiPathsListByPrivateCloudOptionalParams,
+  IscsiPathsListByPrivateCloudResponse,
+  IscsiPathsGetOptionalParams,
+  IscsiPathsGetResponse,
+  IscsiPathsCreateOrUpdateOptionalParams,
+  IscsiPathsCreateOrUpdateResponse,
+  IscsiPathsDeleteOptionalParams,
+  IscsiPathsListByPrivateCloudNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing VirtualMachines operations. */
-export class VirtualMachinesImpl implements VirtualMachines {
+/** Class containing IscsiPaths operations. */
+export class IscsiPathsImpl implements IscsiPaths {
   private readonly client: AzureVMwareSolutionAPI;
 
   /**
-   * Initialize a new instance of the class VirtualMachines class.
+   * Initialize a new instance of the class IscsiPaths class.
    * @param client Reference to the service client
    */
   constructor(client: AzureVMwareSolutionAPI) {
@@ -46,22 +46,19 @@ export class VirtualMachinesImpl implements VirtualMachines {
   }
 
   /**
-   * List VirtualMachine resources by Cluster
+   * List IscsiPath resources by PrivateCloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param clusterName Name of the cluster
    * @param options The options parameters.
    */
-  public list(
+  public listByPrivateCloud(
     resourceGroupName: string,
     privateCloudName: string,
-    clusterName: string,
-    options?: VirtualMachinesListOptionalParams,
-  ): PagedAsyncIterableIterator<VirtualMachine> {
-    const iter = this.listPagingAll(
+    options?: IscsiPathsListByPrivateCloudOptionalParams,
+  ): PagedAsyncIterableIterator<IscsiPath> {
+    const iter = this.listByPrivateCloudPagingAll(
       resourceGroupName,
       privateCloudName,
-      clusterName,
       options,
     );
     return {
@@ -75,10 +72,9 @@ export class VirtualMachinesImpl implements VirtualMachines {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
+        return this.listByPrivateCloudPagingPage(
           resourceGroupName,
           privateCloudName,
-          clusterName,
           options,
           settings,
         );
@@ -86,20 +82,18 @@ export class VirtualMachinesImpl implements VirtualMachines {
     };
   }
 
-  private async *listPagingPage(
+  private async *listByPrivateCloudPagingPage(
     resourceGroupName: string,
     privateCloudName: string,
-    clusterName: string,
-    options?: VirtualMachinesListOptionalParams,
+    options?: IscsiPathsListByPrivateCloudOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<VirtualMachine[]> {
-    let result: VirtualMachinesListResponse;
+  ): AsyncIterableIterator<IscsiPath[]> {
+    let result: IscsiPathsListByPrivateCloudResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(
+      result = await this._listByPrivateCloud(
         resourceGroupName,
         privateCloudName,
-        clusterName,
         options,
       );
       let page = result.value || [];
@@ -108,10 +102,9 @@ export class VirtualMachinesImpl implements VirtualMachines {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
+      result = await this._listByPrivateCloudNext(
         resourceGroupName,
         privateCloudName,
-        clusterName,
         continuationToken,
         options,
       );
@@ -122,16 +115,14 @@ export class VirtualMachinesImpl implements VirtualMachines {
     }
   }
 
-  private async *listPagingAll(
+  private async *listByPrivateCloudPagingAll(
     resourceGroupName: string,
     privateCloudName: string,
-    clusterName: string,
-    options?: VirtualMachinesListOptionalParams,
-  ): AsyncIterableIterator<VirtualMachine> {
-    for await (const page of this.listPagingPage(
+    options?: IscsiPathsListByPrivateCloudOptionalParams,
+  ): AsyncIterableIterator<IscsiPath> {
+    for await (const page of this.listByPrivateCloudPagingPage(
       resourceGroupName,
       privateCloudName,
-      clusterName,
       options,
     )) {
       yield* page;
@@ -139,77 +130,61 @@ export class VirtualMachinesImpl implements VirtualMachines {
   }
 
   /**
-   * List VirtualMachine resources by Cluster
+   * List IscsiPath resources by PrivateCloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param clusterName Name of the cluster
    * @param options The options parameters.
    */
-  private _list(
+  private _listByPrivateCloud(
     resourceGroupName: string,
     privateCloudName: string,
-    clusterName: string,
-    options?: VirtualMachinesListOptionalParams,
-  ): Promise<VirtualMachinesListResponse> {
+    options?: IscsiPathsListByPrivateCloudOptionalParams,
+  ): Promise<IscsiPathsListByPrivateCloudResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, privateCloudName, clusterName, options },
-      listOperationSpec,
+      { resourceGroupName, privateCloudName, options },
+      listByPrivateCloudOperationSpec,
     );
   }
 
   /**
-   * Get a VirtualMachine
+   * Get a IscsiPath
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param clusterName Name of the cluster
-   * @param virtualMachineId ID of the virtual machine.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     privateCloudName: string,
-    clusterName: string,
-    virtualMachineId: string,
-    options?: VirtualMachinesGetOptionalParams,
-  ): Promise<VirtualMachinesGetResponse> {
+    options?: IscsiPathsGetOptionalParams,
+  ): Promise<IscsiPathsGetResponse> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        privateCloudName,
-        clusterName,
-        virtualMachineId,
-        options,
-      },
+      { resourceGroupName, privateCloudName, options },
       getOperationSpec,
     );
   }
 
   /**
-   * Enable or disable DRS-driven VM movement restriction
+   * Create a IscsiPath
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param clusterName Name of the cluster
-   * @param virtualMachineId ID of the virtual machine.
-   * @param restrictMovement The body type of the operation request.
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
-  async beginRestrictMovement(
+  async beginCreateOrUpdate(
     resourceGroupName: string,
     privateCloudName: string,
-    clusterName: string,
-    virtualMachineId: string,
-    restrictMovement: VirtualMachineRestrictMovement,
-    options?: VirtualMachinesRestrictMovementOptionalParams,
+    resource: IscsiPath,
+    options?: IscsiPathsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<VirtualMachinesRestrictMovementResponse>,
-      VirtualMachinesRestrictMovementResponse
+      OperationState<IscsiPathsCreateOrUpdateResponse>,
+      IscsiPathsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<VirtualMachinesRestrictMovementResponse> => {
+    ): Promise<IscsiPathsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -246,20 +221,98 @@ export class VirtualMachinesImpl implements VirtualMachines {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: {
-        resourceGroupName,
-        privateCloudName,
-        clusterName,
-        virtualMachineId,
-        restrictMovement,
-        options,
-      },
-      spec: restrictMovementOperationSpec,
+      args: { resourceGroupName, privateCloudName, resource, options },
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
-      VirtualMachinesRestrictMovementResponse,
-      OperationState<VirtualMachinesRestrictMovementResponse>
+      IscsiPathsCreateOrUpdateResponse,
+      OperationState<IscsiPathsCreateOrUpdateResponse>
     >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Create a IscsiPath
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param resource Resource create parameters.
+   * @param options The options parameters.
+   */
+  async beginCreateOrUpdateAndWait(
+    resourceGroupName: string,
+    privateCloudName: string,
+    resource: IscsiPath,
+    options?: IscsiPathsCreateOrUpdateOptionalParams,
+  ): Promise<IscsiPathsCreateOrUpdateResponse> {
+    const poller = await this.beginCreateOrUpdate(
+      resourceGroupName,
+      privateCloudName,
+      resource,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Delete a IscsiPath
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param options The options parameters.
+   */
+  async beginDelete(
+    resourceGroupName: string,
+    privateCloudName: string,
+    options?: IscsiPathsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, privateCloudName, options },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       resourceLocationConfig: "location",
@@ -269,63 +322,52 @@ export class VirtualMachinesImpl implements VirtualMachines {
   }
 
   /**
-   * Enable or disable DRS-driven VM movement restriction
+   * Delete a IscsiPath
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param clusterName Name of the cluster
-   * @param virtualMachineId ID of the virtual machine.
-   * @param restrictMovement The body type of the operation request.
    * @param options The options parameters.
    */
-  async beginRestrictMovementAndWait(
+  async beginDeleteAndWait(
     resourceGroupName: string,
     privateCloudName: string,
-    clusterName: string,
-    virtualMachineId: string,
-    restrictMovement: VirtualMachineRestrictMovement,
-    options?: VirtualMachinesRestrictMovementOptionalParams,
-  ): Promise<VirtualMachinesRestrictMovementResponse> {
-    const poller = await this.beginRestrictMovement(
+    options?: IscsiPathsDeleteOptionalParams,
+  ): Promise<void> {
+    const poller = await this.beginDelete(
       resourceGroupName,
       privateCloudName,
-      clusterName,
-      virtualMachineId,
-      restrictMovement,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * ListNext
+   * ListByPrivateCloudNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param clusterName Name of the cluster
-   * @param nextLink The nextLink from the previous successful call to the List method.
+   * @param nextLink The nextLink from the previous successful call to the ListByPrivateCloud method.
    * @param options The options parameters.
    */
-  private _listNext(
+  private _listByPrivateCloudNext(
     resourceGroupName: string,
     privateCloudName: string,
-    clusterName: string,
     nextLink: string,
-    options?: VirtualMachinesListNextOptionalParams,
-  ): Promise<VirtualMachinesListNextResponse> {
+    options?: IscsiPathsListByPrivateCloudNextOptionalParams,
+  ): Promise<IscsiPathsListByPrivateCloudNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, privateCloudName, clusterName, nextLink, options },
-      listNextOperationSpec,
+      { resourceGroupName, privateCloudName, nextLink, options },
+      listByPrivateCloudNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}/virtualMachines",
+const listByPrivateCloudOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/iscsiPaths",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VirtualMachinesList,
+      bodyMapper: Mappers.IscsiPathListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -337,17 +379,16 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateCloudName,
-    Parameters.clusterName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}/virtualMachines/{virtualMachineId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/iscsiPaths/default",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VirtualMachine,
+      bodyMapper: Mappers.IscsiPath,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -359,52 +400,70 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateCloudName,
-    Parameters.clusterName,
-    Parameters.virtualMachineId,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const restrictMovementOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}/virtualMachines/{virtualMachineId}/restrictMovement",
-  httpMethod: "POST",
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/iscsiPaths/default",
+  httpMethod: "PUT",
   responses: {
     200: {
-      headersMapper: Mappers.VirtualMachinesRestrictMovementHeaders,
+      bodyMapper: Mappers.IscsiPath,
     },
     201: {
-      headersMapper: Mappers.VirtualMachinesRestrictMovementHeaders,
+      bodyMapper: Mappers.IscsiPath,
     },
     202: {
-      headersMapper: Mappers.VirtualMachinesRestrictMovementHeaders,
+      bodyMapper: Mappers.IscsiPath,
     },
     204: {
-      headersMapper: Mappers.VirtualMachinesRestrictMovementHeaders,
+      bodyMapper: Mappers.IscsiPath,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.restrictMovement,
+  requestBody: Parameters.resource,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateCloudName,
-    Parameters.clusterName,
-    Parameters.virtualMachineId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
-const listNextOperationSpec: coreClient.OperationSpec = {
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/iscsiPaths/default",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.privateCloudName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listByPrivateCloudNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VirtualMachinesList,
+      bodyMapper: Mappers.IscsiPathListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -416,7 +475,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateCloudName,
-    Parameters.clusterName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
