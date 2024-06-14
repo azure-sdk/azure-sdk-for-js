@@ -1,15 +1,12 @@
 # Release History
+    
+## 2.0.0 (2024-06-14)
+    
+**Breaking Changes**
 
-## 1.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed Enum KnownVersions
+    
+    
 ## 1.0.0 (2024-01-24)
 
-The package of @azure/arm-networkanalytics is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+The package of @azure/arm-networkanalytics is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).
