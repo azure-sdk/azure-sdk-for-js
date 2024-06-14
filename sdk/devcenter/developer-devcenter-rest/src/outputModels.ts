@@ -295,7 +295,7 @@ export interface EnvironmentDefinitionParameterOutput {
 /** Properties of an environment type. */
 export interface EnvironmentTypeOutput {
   /** Name of the environment type. */
-  name: string;
+  readonly name: string;
   /**
    * Id of a subscription or management group that the environment type will be
    * mapped to. The environment's resources will be deployed into this subscription
@@ -309,7 +309,12 @@ export interface EnvironmentTypeOutput {
 /** Paged collection of Project items */
 export type PagedProjectOutput = Paged<ProjectOutput>;
 /** Enum describing allowed operation states. */
-export type OperationStateOutput = "NotStarted" | "Running" | "Succeeded" | "Failed" | "Canceled";
+export type OperationStateOutput =
+  | "NotStarted"
+  | "Running"
+  | "Succeeded"
+  | "Failed"
+  | "Canceled";
 /** Paged collection of Pool items */
 export type PagedPoolOutput = Paged<PoolOutput>;
 /** Alias for OsTypeOutput */
@@ -340,11 +345,18 @@ export type SkuNameOutput =
   | "general_a_32c128gb2048ssd_v2"
   | string;
 /** Alias for HibernateSupportOutput */
-export type HibernateSupportOutput = "Enabled" | "Disabled" | "OsUnsupported" | string;
+export type HibernateSupportOutput =
+  | "Enabled"
+  | "Disabled"
+  | "OsUnsupported"
+  | string;
 /** Alias for LocalAdminStatusOutput */
 export type LocalAdminStatusOutput = "Enabled" | "Disabled" | string;
 /** Alias for StopOnDisconnectEnableStatusOutput */
-export type StopOnDisconnectEnableStatusOutput = "Enabled" | "Disabled" | string;
+export type StopOnDisconnectEnableStatusOutput =
+  | "Enabled"
+  | "Disabled"
+  | string;
 /** Alias for PoolHealthStatusOutput */
 export type PoolHealthStatusOutput =
   | "Unknown"
@@ -389,9 +401,13 @@ export type PagedDevBoxActionOutput = Paged<DevBoxActionOutput>;
 /** Alias for DevBoxActionTypeOutput */
 export type DevBoxActionTypeOutput = "Stop" | string;
 /** Paged collection of DevBoxActionDelayResult items */
-export type PagedDevBoxActionDelayResultOutput = Paged<DevBoxActionDelayResultOutput>;
+export type PagedDevBoxActionDelayResultOutput =
+  Paged<DevBoxActionDelayResultOutput>;
 /** Alias for DevBoxActionDelayResultStatusOutput */
-export type DevBoxActionDelayResultStatusOutput = "Succeeded" | "Failed" | string;
+export type DevBoxActionDelayResultStatusOutput =
+  | "Succeeded"
+  | "Failed"
+  | string;
 /** Paged collection of Environment items */
 export type PagedEnvironmentOutput = Paged<EnvironmentOutput>;
 /** Alias for EnvironmentProvisioningStateOutput */
@@ -413,7 +429,8 @@ export type EnvironmentProvisioningStateOutput =
 /** Paged collection of Catalog items */
 export type PagedCatalogOutput = Paged<CatalogOutput>;
 /** Paged collection of EnvironmentDefinition items */
-export type PagedEnvironmentDefinitionOutput = Paged<EnvironmentDefinitionOutput>;
+export type PagedEnvironmentDefinitionOutput =
+  Paged<EnvironmentDefinitionOutput>;
 /** Alias for ParameterTypeOutput */
 export type ParameterTypeOutput =
   | "array"

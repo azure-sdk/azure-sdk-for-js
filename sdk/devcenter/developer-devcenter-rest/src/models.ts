@@ -64,7 +64,11 @@ export type SkuName =
   | "general_a_32c128gb2048ssd_v2"
   | string;
 /** Alias for HibernateSupport */
-export type HibernateSupport = "Enabled" | "Disabled" | "OsUnsupported" | string;
+export type HibernateSupport =
+  | "Enabled"
+  | "Disabled"
+  | "OsUnsupported"
+  | string;
 /** Alias for LocalAdminStatus */
 export type LocalAdminStatus = "Enabled" | "Disabled" | string;
 /** Alias for DevBoxProvisioningState */
