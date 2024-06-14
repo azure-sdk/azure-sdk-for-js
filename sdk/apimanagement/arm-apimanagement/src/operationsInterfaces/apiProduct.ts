@@ -23,6 +23,6 @@ export interface ApiProduct {
     resourceGroupName: string,
     serviceName: string,
     apiId: string,
-    options?: ApiProductListByApisOptionalParams
+    options?: ApiProductListByApisOptionalParams,
   ): PagedAsyncIterableIterator<ProductContract>;
 }

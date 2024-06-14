@@ -16,7 +16,7 @@ import {
   QuotaByCounterKeysListByServiceResponse,
   QuotaCounterValueUpdateContract,
   QuotaByCounterKeysUpdateOptionalParams,
-  QuotaByCounterKeysUpdateResponse
+  QuotaByCounterKeysUpdateResponse,
 } from "../models";
 
 /** Class containing QuotaByCounterKeys operations. */
@@ -46,11 +46,11 @@ export class QuotaByCounterKeysImpl implements QuotaByCounterKeys {
     resourceGroupName: string,
     serviceName: string,
     quotaCounterKey: string,
-    options?: QuotaByCounterKeysListByServiceOptionalParams
+    options?: QuotaByCounterKeysListByServiceOptionalParams,
   ): Promise<QuotaByCounterKeysListByServiceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, quotaCounterKey, options },
-      listByServiceOperationSpec
+      listByServiceOperationSpec,
     );
   }
 
@@ -71,11 +71,11 @@ export class QuotaByCounterKeysImpl implements QuotaByCounterKeys {
     serviceName: string,
     quotaCounterKey: string,
     parameters: QuotaCounterValueUpdateContract,
-    options?: QuotaByCounterKeysUpdateOptionalParams
+    options?: QuotaByCounterKeysUpdateOptionalParams,
   ): Promise<QuotaByCounterKeysUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, quotaCounterKey, parameters, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 }
@@ -83,50 +83,48 @@ export class QuotaByCounterKeysImpl implements QuotaByCounterKeys {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByServiceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/quotas/{quotaCounterKey}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/quotas/{quotaCounterKey}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.QuotaCounterCollection
+      bodyMapper: Mappers.QuotaCounterCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.quotaCounterKey
+    Parameters.serviceName,
+    Parameters.quotaCounterKey,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/quotas/{quotaCounterKey}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/quotas/{quotaCounterKey}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.QuotaCounterCollection
+      bodyMapper: Mappers.QuotaCounterCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters65,
+  requestBody: Parameters.parameters77,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.quotaCounterKey
+    Parameters.serviceName,
+    Parameters.quotaCounterKey,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
