@@ -15,12 +15,6 @@ import {
   TrainLargeFaceList202Response,
   TrainLargeFaceListDefaultResponse,
   TrainLargeFaceListLogicalResponse,
-  TrainPersonGroup202Response,
-  TrainPersonGroupDefaultResponse,
-  TrainPersonGroupLogicalResponse,
-  TrainLargePersonGroup202Response,
-  TrainLargePersonGroupDefaultResponse,
-  TrainLargePersonGroupLogicalResponse,
   CreatePerson202Response,
   CreatePersonDefaultResponse,
   CreatePersonLogicalResponse,
@@ -42,12 +36,21 @@ import {
   UpdateDynamicPersonGroupWithPersonChanges202Response,
   UpdateDynamicPersonGroupWithPersonChangesDefaultResponse,
   UpdateDynamicPersonGroupWithPersonChangesLogicalResponse,
+  TrainPersonGroup202Response,
+  TrainPersonGroupDefaultResponse,
+  TrainPersonGroupLogicalResponse,
+  TrainLargePersonGroup202Response,
+  TrainLargePersonGroupDefaultResponse,
+  TrainLargePersonGroupLogicalResponse,
 } from "./responses.js";
 
 /**
  * A simple poller that can be used to poll a long running operation.
  */
-export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+export interface SimplePollerLike<
+  TState extends OperationState<TResult>,
+  TResult,
+> {
   /**
    * Returns true if the poller has finished polling.
    */
@@ -75,7 +78,9 @@ export interface SimplePollerLike<TState extends OperationState<TResult>, TResul
   /**
    * Returns a promise that will resolve once the underlying operation is completed.
    */
-  pollUntilDone(pollOptions?: { abortSignal?: AbortSignalLike }): Promise<TResult>;
+  pollUntilDone(pollOptions?: {
+    abortSignal?: AbortSignalLike;
+  }): Promise<TResult>;
   /**
    * Invokes the provided callback after each polling is completed,
    * sending the current state of the poller's operation.
@@ -116,24 +121,14 @@ export interface SimplePollerLike<TState extends OperationState<TResult>, TResul
  * @returns - A poller object to poll for operation state updates and eventually get the final response.
  */
 export async function getLongRunningPoller<
-  TResult extends TrainLargeFaceListLogicalResponse | TrainLargeFaceListDefaultResponse,
+  TResult extends
+    | TrainLargeFaceListLogicalResponse
+    | TrainLargeFaceListDefaultResponse,
 >(
   client: Client,
-  initialResponse: TrainLargeFaceList202Response | TrainLargeFaceListDefaultResponse,
-  options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>,
-): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
-export async function getLongRunningPoller<
-  TResult extends TrainPersonGroupLogicalResponse | TrainPersonGroupDefaultResponse,
->(
-  client: Client,
-  initialResponse: TrainPersonGroup202Response | TrainPersonGroupDefaultResponse,
-  options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>,
-): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
-export async function getLongRunningPoller<
-  TResult extends TrainLargePersonGroupLogicalResponse | TrainLargePersonGroupDefaultResponse,
->(
-  client: Client,
-  initialResponse: TrainLargePersonGroup202Response | TrainLargePersonGroupDefaultResponse,
+  initialResponse:
+    | TrainLargeFaceList202Response
+    | TrainLargeFaceListDefaultResponse,
   options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>,
 ): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 export async function getLongRunningPoller<
@@ -158,10 +153,14 @@ export async function getLongRunningPoller<
   options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>,
 ): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 export async function getLongRunningPoller<
-  TResult extends DeletePersonFaceLogicalResponse | DeletePersonFaceDefaultResponse,
+  TResult extends
+    | DeletePersonFaceLogicalResponse
+    | DeletePersonFaceDefaultResponse,
 >(
   client: Client,
-  initialResponse: DeletePersonFace202Response | DeletePersonFaceDefaultResponse,
+  initialResponse:
+    | DeletePersonFace202Response
+    | DeletePersonFaceDefaultResponse,
   options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>,
 ): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 export async function getLongRunningPoller<
@@ -176,10 +175,14 @@ export async function getLongRunningPoller<
   options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>,
 ): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 export async function getLongRunningPoller<
-  TResult extends DeleteDynamicPersonGroupLogicalResponse | DeleteDynamicPersonGroupDefaultResponse,
+  TResult extends
+    | DeleteDynamicPersonGroupLogicalResponse
+    | DeleteDynamicPersonGroupDefaultResponse,
 >(
   client: Client,
-  initialResponse: DeleteDynamicPersonGroup202Response | DeleteDynamicPersonGroupDefaultResponse,
+  initialResponse:
+    | DeleteDynamicPersonGroup202Response
+    | DeleteDynamicPersonGroupDefaultResponse,
   options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>,
 ): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 export async function getLongRunningPoller<
@@ -191,6 +194,28 @@ export async function getLongRunningPoller<
   initialResponse:
     | UpdateDynamicPersonGroupWithPersonChanges202Response
     | UpdateDynamicPersonGroupWithPersonChangesDefaultResponse,
+  options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>,
+): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
+export async function getLongRunningPoller<
+  TResult extends
+    | TrainPersonGroupLogicalResponse
+    | TrainPersonGroupDefaultResponse,
+>(
+  client: Client,
+  initialResponse:
+    | TrainPersonGroup202Response
+    | TrainPersonGroupDefaultResponse,
+  options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>,
+): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
+export async function getLongRunningPoller<
+  TResult extends
+    | TrainLargePersonGroupLogicalResponse
+    | TrainLargePersonGroupDefaultResponse,
+>(
+  client: Client,
+  initialResponse:
+    | TrainLargePersonGroup202Response
+    | TrainLargePersonGroupDefaultResponse,
   options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>,
 ): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 export async function getLongRunningPoller<TResult extends HttpResponse>(
@@ -206,7 +231,10 @@ export async function getLongRunningPoller<TResult extends HttpResponse>(
       // response we were provided.
       return getLroResponse(initialResponse);
     },
-    sendPollRequest: async (path, sendPollRequestOptions?: { abortSignal?: AbortSignalLike }) => {
+    sendPollRequest: async (
+      path,
+      options?: { abortSignal?: AbortSignalLike },
+    ) => {
       // This is the callback that is going to be called to poll the service
       // to get the latest status. We use the client provided and the polling path
       // which is an opaque URL provided by caller, the service sends this in one of the following headers: operation-location, azure-asyncoperation or location
@@ -214,7 +242,7 @@ export async function getLongRunningPoller<TResult extends HttpResponse>(
       function abortListener(): void {
         abortController.abort();
       }
-      const inputAbortSignal = sendPollRequestOptions?.abortSignal;
+      const inputAbortSignal = options?.abortSignal;
       const abortSignal = abortController.signal;
       if (inputAbortSignal?.aborted) {
         abortController.abort();
@@ -232,7 +260,8 @@ export async function getLongRunningPoller<TResult extends HttpResponse>(
         inputAbortSignal?.removeEventListener("abort", abortListener);
       }
       const lroResponse = getLroResponse(response as TResult);
-      lroResponse.rawResponse.headers["x-ms-original-url"] = initialResponse.request.url;
+      lroResponse.rawResponse.headers["x-ms-original-url"] =
+        initialResponse.request.url;
       return lroResponse;
     },
   };
@@ -288,7 +317,9 @@ function getLroResponse<TResult extends HttpResponse>(
   response: TResult,
 ): OperationResponse<TResult> {
   if (Number.isNaN(response.status)) {
-    throw new TypeError(`Status code of the response is not a number. Value: ${response.status}`);
+    throw new TypeError(
+      `Status code of the response is not a number. Value: ${response.status}`,
+    );
   }
 
   return {

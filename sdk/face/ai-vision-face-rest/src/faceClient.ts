@@ -24,7 +24,10 @@ export default function createClient(
   options: FaceClientOptions = {},
 ): FaceClient {
   const apiVersion = options.apiVersion ?? "v1.1-preview.1";
-  const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpointParam}/face/${apiVersion}`;
+  const endpointUrl =
+    options.endpoint ??
+    options.baseUrl ??
+    `${endpointParam}/face/${apiVersion}`;
 
   const userAgentInfo = `azsdk-js-ai-vision-face-rest/1.0.0-beta.1`;
   const userAgentPrefix =
@@ -40,31 +43,22 @@ export default function createClient(
       logger: options.loggingOptions?.logger ?? logger.info,
     },
     credentials: {
-      scopes: options.credentials?.scopes ?? ["https://cognitiveservices.azure.com/.default"],
-      apiKeyHeaderName: options.credentials?.apiKeyHeaderName ?? "Ocp-Apim-Subscription-Key",
+      scopes: options.credentials?.scopes ?? [
+        "https://cognitiveservices.azure.com/.default",
+      ],
+      apiKeyHeaderName:
+        options.credentials?.apiKeyHeaderName ?? "Ocp-Apim-Subscription-Key",
     },
   };
 
   const client = getClient(endpointUrl, credentials, options) as FaceClient;
 
   client.pipeline.removePolicy({ name: "ApiVersionPolicy" });
-
-  client.pipeline.addPolicy({
-    name: "VerifyImageFilenamePolicy",
-    sendRequest: (request, next) => {
-      for (const part of request.multipartBody?.parts ?? []) {
-        const contentDisposition = part.headers.get("content-disposition");
-        if (
-          contentDisposition &&
-          contentDisposition.includes(`name="VerifyImage"`) &&
-          !contentDisposition.includes("filename=")
-        ) {
-          part.headers.set("content-disposition", `form-data; name="VerifyImage"; filename="blob"`);
-        }
-      }
-      return next(request);
-    },
-  });
+  if (options.apiVersion) {
+    logger.warning(
+      "This client does not support client api-version, please change it at the operation level",
+    );
+  }
 
   return client;
 }
