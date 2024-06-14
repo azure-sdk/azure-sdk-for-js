@@ -1,5 +1,188 @@
 # Release History
     
+## 5.0.0 (2024-06-14)
+    
+**Features**
+
+  - Added operation group IscsiPaths
+  - Added Interface AddonsCreateOrUpdateHeaders
+  - Added Interface AddonsDeleteHeaders
+  - Added Interface AuthorizationsCreateOrUpdateHeaders
+  - Added Interface AuthorizationsDeleteHeaders
+  - Added Interface CloudLinksCreateOrUpdateHeaders
+  - Added Interface CloudLinksDeleteHeaders
+  - Added Interface ClustersCreateOrUpdateHeaders
+  - Added Interface ClustersDeleteHeaders
+  - Added Interface ClustersUpdateHeaders
+  - Added Interface DatastoresCreateOrUpdateHeaders
+  - Added Interface DatastoresDeleteHeaders
+  - Added Interface ElasticSanVolume
+  - Added Interface GlobalReachConnectionsCreateOrUpdateHeaders
+  - Added Interface GlobalReachConnectionsDeleteHeaders
+  - Added Interface IscsiPath
+  - Added Interface IscsiPathListResult
+  - Added Interface IscsiPathsCreateOrUpdateHeaders
+  - Added Interface IscsiPathsCreateOrUpdateOptionalParams
+  - Added Interface IscsiPathsDeleteHeaders
+  - Added Interface IscsiPathsDeleteOptionalParams
+  - Added Interface IscsiPathsGetOptionalParams
+  - Added Interface IscsiPathsListByPrivateCloudNextOptionalParams
+  - Added Interface IscsiPathsListByPrivateCloudOptionalParams
+  - Added Interface OperationListResult
+  - Added Interface PlacementPoliciesCreateOrUpdateHeaders
+  - Added Interface PlacementPoliciesDeleteHeaders
+  - Added Interface PlacementPoliciesUpdateHeaders
+  - Added Interface PrivateCloudsCreateOrUpdateHeaders
+  - Added Interface PrivateCloudsDeleteHeaders
+  - Added Interface PrivateCloudsRotateNsxtPasswordHeaders
+  - Added Interface PrivateCloudsRotateVcenterPasswordHeaders
+  - Added Interface PrivateCloudsUpdateHeaders
+  - Added Interface ScriptExecutionsCreateOrUpdateHeaders
+  - Added Interface ScriptExecutionsDeleteHeaders
+  - Added Interface SystemData
+  - Added Interface VirtualMachinesRestrictMovementHeaders
+  - Added Interface WorkloadNetworkDhcpEntityUpdate
+  - Added Interface WorkloadNetworkDhcpRelayUpdate
+  - Added Interface WorkloadNetworkDhcpServerUpdate
+  - Added Interface WorkloadNetworkDhcpUpdate
+  - Added Interface WorkloadNetworkDnsServiceUpdate
+  - Added Interface WorkloadNetworkDnsZoneUpdate
+  - Added Interface WorkloadNetworkPortMirroringUpdate
+  - Added Interface WorkloadNetworksCreateDhcpHeaders
+  - Added Interface WorkloadNetworksCreateDnsServiceHeaders
+  - Added Interface WorkloadNetworksCreateDnsZoneHeaders
+  - Added Interface WorkloadNetworksCreatePortMirroringHeaders
+  - Added Interface WorkloadNetworksCreatePublicIPHeaders
+  - Added Interface WorkloadNetworksCreateSegmentsHeaders
+  - Added Interface WorkloadNetworksCreateVMGroupHeaders
+  - Added Interface WorkloadNetworksDeleteDhcpHeaders
+  - Added Interface WorkloadNetworksDeleteDnsServiceHeaders
+  - Added Interface WorkloadNetworksDeleteDnsZoneHeaders
+  - Added Interface WorkloadNetworksDeletePortMirroringHeaders
+  - Added Interface WorkloadNetworksDeletePublicIPHeaders
+  - Added Interface WorkloadNetworksDeleteSegmentHeaders
+  - Added Interface WorkloadNetworksDeleteVMGroupHeaders
+  - Added Interface WorkloadNetworkSegmentUpdate
+  - Added Interface WorkloadNetworksUpdateDhcpHeaders
+  - Added Interface WorkloadNetworksUpdateDnsServiceHeaders
+  - Added Interface WorkloadNetworksUpdateDnsZoneHeaders
+  - Added Interface WorkloadNetworksUpdatePortMirroringHeaders
+  - Added Interface WorkloadNetworksUpdateSegmentsHeaders
+  - Added Interface WorkloadNetworksUpdateVMGroupHeaders
+  - Added Interface WorkloadNetworkVMGroupUpdate
+  - Added Type Alias ActionType
+  - Added Type Alias CloudLinkProvisioningState
+  - Added Type Alias CreatedByType
+  - Added Type Alias DnsZoneType
+  - Added Type Alias HcxEnterpriseSiteProvisioningState
+  - Added Type Alias IscsiPathProvisioningState
+  - Added Type Alias IscsiPathsCreateOrUpdateResponse
+  - Added Type Alias IscsiPathsGetResponse
+  - Added Type Alias IscsiPathsListByPrivateCloudNextResponse
+  - Added Type Alias IscsiPathsListByPrivateCloudResponse
+  - Added Type Alias Origin
+  - Added Type Alias PrivateCloudsRotateNsxtPasswordResponse
+  - Added Type Alias PrivateCloudsRotateVcenterPasswordResponse
+  - Added Type Alias ScriptCmdletAudience
+  - Added Type Alias ScriptCmdletProvisioningState
+  - Added Type Alias ScriptPackageProvisioningState
+  - Added Type Alias SkuTier
+  - Added Type Alias VirtualMachineProvisioningState
+  - Added Type Alias VirtualMachinesRestrictMovementResponse
+  - Added Type Alias WorkloadNetworkDhcpEntityUpdateUnion
+  - Added Type Alias WorkloadNetworkProvisioningState
+  - Interface CloudLink has a new optional parameter provisioningState
+  - Interface Cluster has a new optional parameter vsanDatastoreName
+  - Interface ClusterUpdate has a new optional parameter sku
+  - Interface Datastore has a new optional parameter elasticSanVolume
+  - Interface Endpoints has a new optional parameter hcxCloudManagerIp
+  - Interface Endpoints has a new optional parameter nsxtManagerIp
+  - Interface Endpoints has a new optional parameter vcenterIp
+  - Interface HcxEnterpriseSite has a new optional parameter provisioningState
+  - Interface ManagementCluster has a new optional parameter clusterId
+  - Interface ManagementCluster has a new optional parameter clusterSize
+  - Interface ManagementCluster has a new optional parameter hosts
+  - Interface ManagementCluster has a new optional parameter provisioningState
+  - Interface ManagementCluster has a new optional parameter vsanDatastoreName
+  - Interface Operation has a new optional parameter actionType
+  - Interface PrivateCloud has a new optional parameter dnsZoneType
+  - Interface PrivateCloud has a new optional parameter virtualNetworkId
+  - Interface PrivateCloudUpdate has a new optional parameter dnsZoneType
+  - Interface PrivateCloudUpdate has a new optional parameter sku
+  - Interface Resource has a new optional parameter systemData
+  - Interface ScriptCmdlet has a new optional parameter audience
+  - Interface ScriptCmdlet has a new optional parameter provisioningState
+  - Interface ScriptPackage has a new optional parameter provisioningState
+  - Interface Sku has a new optional parameter capacity
+  - Interface Sku has a new optional parameter family
+  - Interface Sku has a new optional parameter size
+  - Interface Sku has a new optional parameter tier
+  - Interface VirtualMachine has a new optional parameter provisioningState
+  - Interface WorkloadNetwork has a new optional parameter provisioningState
+  - Interface WorkloadNetworkGateway has a new optional parameter provisioningState
+  - Interface WorkloadNetworkVirtualMachine has a new optional parameter provisioningState
+  - Type of parameter addonType of interface AddonProperties is changed from "SRM" | "VR" | "HCX" | "Arc" to "Arc" | "HCX" | "SRM" | "VR"
+  - Type of parameter type of interface PlacementPolicyProperties is changed from "VmVm" | "VmHost" to "VmHost" | "VmVm"
+  - Type of parameter type of interface ScriptExecutionParameter is changed from "SecureValue" | "Value" | "Credential" to "Credential" | "SecureValue" | "Value"
+  - Type of parameter dhcpType of interface WorkloadNetworkDhcpEntity is changed from "SERVER" | "RELAY" to "RELAY" | "SERVER"
+  - Added Enum KnownActionType
+  - Added Enum KnownCloudLinkProvisioningState
+  - Added Enum KnownCreatedByType
+  - Added Enum KnownDnsZoneType
+  - Added Enum KnownHcxEnterpriseSiteProvisioningState
+  - Added Enum KnownIscsiPathProvisioningState
+  - Added Enum KnownOrigin
+  - Added Enum KnownScriptCmdletAudience
+  - Added Enum KnownScriptCmdletProvisioningState
+  - Added Enum KnownScriptPackageProvisioningState
+  - Added Enum KnownVirtualMachineProvisioningState
+  - Added Enum KnownWorkloadNetworkProvisioningState
+
+**Breaking Changes**
+
+  - Operation WorkloadNetworks.beginUpdateDhcp has a new signature
+  - Operation WorkloadNetworks.beginUpdateDhcpAndWait has a new signature
+  - Operation WorkloadNetworks.beginUpdateDnsService has a new signature
+  - Operation WorkloadNetworks.beginUpdateDnsServiceAndWait has a new signature
+  - Operation WorkloadNetworks.beginUpdateDnsZone has a new signature
+  - Operation WorkloadNetworks.beginUpdateDnsZoneAndWait has a new signature
+  - Operation WorkloadNetworks.beginUpdatePortMirroring has a new signature
+  - Operation WorkloadNetworks.beginUpdatePortMirroringAndWait has a new signature
+  - Operation WorkloadNetworks.beginUpdateSegments has a new signature
+  - Operation WorkloadNetworks.beginUpdateSegmentsAndWait has a new signature
+  - Operation WorkloadNetworks.beginUpdateVMGroup has a new signature
+  - Operation WorkloadNetworks.beginUpdateVMGroupAndWait has a new signature
+  - Operation WorkloadNetworks.get has a new signature
+  - Interface Operation no longer has parameter properties
+  - Parameter value of interface AddonList is now required
+  - Parameter value of interface CloudLinkList is now required
+  - Parameter value of interface ClusterList is now required
+  - Parameter value of interface DatastoreList is now required
+  - Parameter value of interface ExpressRouteAuthorizationList is now required
+  - Parameter value of interface GlobalReachConnectionList is now required
+  - Parameter value of interface HcxEnterpriseSiteList is now required
+  - Parameter value of interface PlacementPoliciesList is now required
+  - Parameter type of interface PrivateCloudIdentity is now required
+  - Parameter value of interface PrivateCloudList is now required
+  - Parameter value of interface ScriptCmdletsList is now required
+  - Parameter value of interface ScriptExecutionsList is now required
+  - Parameter value of interface ScriptPackagesList is now required
+  - Parameter location of interface TrackedResource is now required
+  - Parameter value of interface VirtualMachinesList is now required
+  - Parameter value of interface WorkloadNetworkDhcpList is now required
+  - Parameter value of interface WorkloadNetworkDnsServicesList is now required
+  - Parameter value of interface WorkloadNetworkDnsZonesList is now required
+  - Parameter value of interface WorkloadNetworkGatewayList is now required
+  - Parameter value of interface WorkloadNetworkList is now required
+  - Parameter value of interface WorkloadNetworkPortMirroringList is now required
+  - Parameter value of interface WorkloadNetworkPublicIPsList is now required
+  - Parameter value of interface WorkloadNetworkSegmentsList is now required
+  - Parameter value of interface WorkloadNetworkVirtualMachinesList is now required
+  - Parameter value of interface WorkloadNetworkVMGroupsList is now required
+  - Type of parameter origin of interface Operation is changed from string to Origin
+  - Removed Enum KnownWorkloadNetworkName
+    
+    
 ## 4.0.0 (2023-08-10)
     
 **Features**
@@ -138,4 +321,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).
