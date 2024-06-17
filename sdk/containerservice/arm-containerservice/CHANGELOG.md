@@ -1,15 +1,16 @@
 # Release History
+    
+## 21.0.0 (2024-06-17)
+    
+**Features**
 
-## 20.0.1 (Unreleased)
+  - Enum KnownNodeOSUpgradeChannel has a new value SecurityPatch
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation ManagedClusters.getOSOptions
+    
+    
 ## 20.0.0 (2024-04-26)
     
 **Features**
@@ -26,7 +27,7 @@
 
   - Interface IstioEgressGateway no longer has parameter nodeSelector
     
-
+    
 ## 20.0.0-beta.1 (2024-04-12)
     
 **Features**
