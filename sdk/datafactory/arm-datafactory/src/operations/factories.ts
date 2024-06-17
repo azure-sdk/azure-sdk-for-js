@@ -56,7 +56,7 @@ export class FactoriesImpl implements Factories {
   }
 
   /**
-   * Lists factories under the specified subscription.
+   * Lists factories under the specified subscription. test
    * @param options The options parameters.
    */
   public list(
@@ -179,7 +179,7 @@ export class FactoriesImpl implements Factories {
   }
 
   /**
-   * Lists factories under the specified subscription.
+   * Lists factories under the specified subscription. test
    * @param options The options parameters.
    */
   private _list(
