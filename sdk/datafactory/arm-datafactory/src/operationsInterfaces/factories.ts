@@ -50,7 +50,7 @@ export interface Factories {
     options?: FactoriesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Factory>;
   /**
-   * Updates a factory's repo information.
+   * Updates a factory's repo information. testtest
    * @param locationId The location identifier.
    * @param factoryRepoUpdate Update factory repo request definition.
    * @param options The options parameters.
