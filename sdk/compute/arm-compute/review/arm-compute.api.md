@@ -5271,8 +5271,16 @@ export type SecurityEncryptionTypes = string;
 
 // @public
 export interface SecurityPostureReference {
-    excludeExtensions?: VirtualMachineExtension[];
+    excludeExtensions?: string[];
+    id: string;
+    isOverridable?: boolean;
+}
+
+// @public
+export interface SecurityPostureReferenceUpdate {
+    excludeExtensions?: string[];
     id?: string;
+    isOverridable?: boolean;
 }
 
 // @public
@@ -7426,6 +7434,7 @@ export interface VirtualMachineScaleSetUpdate extends UpdateResource {
     spotRestorePolicy?: SpotRestorePolicy;
     upgradePolicy?: UpgradePolicy;
     virtualMachineProfile?: VirtualMachineScaleSetUpdateVMProfile;
+    zones?: string[];
 }
 
 // @public
@@ -7512,6 +7521,7 @@ export interface VirtualMachineScaleSetUpdateVMProfile {
     networkProfile?: VirtualMachineScaleSetUpdateNetworkProfile;
     osProfile?: VirtualMachineScaleSetUpdateOSProfile;
     scheduledEventsProfile?: ScheduledEventsProfile;
+    securityPostureReference?: SecurityPostureReferenceUpdate;
     securityProfile?: SecurityProfile;
     storageProfile?: VirtualMachineScaleSetUpdateStorageProfile;
     userData?: string;
