@@ -9,7 +9,6 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   Key,
-  KeysListOptionalParams,
   KeysListVersionsOptionalParams,
   KeyCreateParameters,
   KeysCreateIfNotExistOptionalParams,
@@ -17,23 +16,12 @@ import {
   KeysGetOptionalParams,
   KeysGetResponse,
   KeysGetVersionOptionalParams,
-  KeysGetVersionResponse
+  KeysGetVersionResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Keys. */
 export interface Keys {
-  /**
-   * Lists the keys in the specified key vault.
-   * @param resourceGroupName The name of the resource group which contains the specified key vault.
-   * @param vaultName The name of the vault which contains the keys to be retrieved.
-   * @param options The options parameters.
-   */
-  list(
-    resourceGroupName: string,
-    vaultName: string,
-    options?: KeysListOptionalParams
-  ): PagedAsyncIterableIterator<Key>;
   /**
    * Lists the versions of the specified key in the specified key vault.
    * @param resourceGroupName The name of the resource group which contains the specified key vault.
@@ -45,7 +33,7 @@ export interface Keys {
     resourceGroupName: string,
     vaultName: string,
     keyName: string,
-    options?: KeysListVersionsOptionalParams
+    options?: KeysListVersionsOptionalParams,
   ): PagedAsyncIterableIterator<Key>;
   /**
    * Creates the first version of a new key if it does not exist. If it already exists, then the existing
@@ -64,7 +52,7 @@ export interface Keys {
     vaultName: string,
     keyName: string,
     parameters: KeyCreateParameters,
-    options?: KeysCreateIfNotExistOptionalParams
+    options?: KeysCreateIfNotExistOptionalParams,
   ): Promise<KeysCreateIfNotExistResponse>;
   /**
    * Gets the current version of the specified key from the specified key vault.
@@ -77,7 +65,7 @@ export interface Keys {
     resourceGroupName: string,
     vaultName: string,
     keyName: string,
-    options?: KeysGetOptionalParams
+    options?: KeysGetOptionalParams,
   ): Promise<KeysGetResponse>;
   /**
    * Gets the specified version of the specified key in the specified key vault.
@@ -92,6 +80,6 @@ export interface Keys {
     vaultName: string,
     keyName: string,
     keyVersion: string,
-    options?: KeysGetVersionOptionalParams
+    options?: KeysGetVersionOptionalParams,
   ): Promise<KeysGetVersionResponse>;
 }
