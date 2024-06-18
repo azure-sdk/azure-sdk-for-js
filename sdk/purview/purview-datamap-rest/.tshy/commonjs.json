@@ -2,14 +2,13 @@
   "extends": "./build.json",
   "include": [
     "../src/**/*.ts",
-    "../src/**/*.mts",
+    "../src/**/*.cts",
     "../src/**/*.tsx"
   ],
   "exclude": [
-    ".././src/log-browser.mts",
-    ".././src/log-react-native.mts"
+    "../src/**/*.mts"
   ],
   "compilerOptions": {
-    "outDir": "../.tshy-build/esm"
+    "outDir": "../.tshy-build/commonjs"
   }
 }
