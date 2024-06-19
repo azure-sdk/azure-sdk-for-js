@@ -61,7 +61,9 @@ export interface Identity {
   type: IdentityType;
   /** The list of user identities associated with the Kusto cluster. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
   userAssignedIdentities?: {
-    [propertyName: string]: ComponentsSgqdofSchemasIdentityPropertiesUserassignedidentitiesAdditionalproperties;
+    [
+      propertyName: string
+    ]: ComponentsSgqdofSchemasIdentityPropertiesUserassignedidentitiesAdditionalproperties;
   };
 }
 
@@ -1420,7 +1422,7 @@ export interface ClustersDeleteHeaders {
 
 /** Defines headers for Clusters_stop operation. */
 export interface ClustersStopHeaders {
-  /** URL to query the status of the operation. */
+  /** URL to query the status of the operation. testtest */
   location?: string;
   /** URL to query the status of the operation. */
   azureAsyncOperation?: string;
@@ -1759,7 +1761,7 @@ export enum KnownAzureSkuName {
   /** StandardE8DV5 */
   StandardE8DV5 = "Standard_E8d_v5",
   /** StandardE16DV5 */
-  StandardE16DV5 = "Standard_E16d_v5"
+  StandardE16DV5 = "Standard_E16d_v5",
 }
 
 /**
@@ -1839,7 +1841,7 @@ export enum KnownAzureSkuTier {
   /** Basic */
   Basic = "Basic",
   /** Standard */
-  Standard = "Standard"
+  Standard = "Standard",
 }
 
 /**
@@ -1861,7 +1863,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -1885,7 +1887,7 @@ export enum KnownIdentityType {
   /** UserAssigned */
   UserAssigned = "UserAssigned",
   /** SystemAssignedUserAssigned */
-  SystemAssignedUserAssigned = "SystemAssigned, UserAssigned"
+  SystemAssignedUserAssigned = "SystemAssigned, UserAssigned",
 }
 
 /**
@@ -1921,7 +1923,7 @@ export enum KnownState {
   /** Updating */
   Updating = "Updating",
   /** Migrated */
-  Migrated = "Migrated"
+  Migrated = "Migrated",
 }
 
 /**
@@ -1957,7 +1959,7 @@ export enum KnownProvisioningState {
   /** Moving */
   Moving = "Moving",
   /** Canceled */
-  Canceled = "Canceled"
+  Canceled = "Canceled",
 }
 
 /**
@@ -1980,7 +1982,7 @@ export enum KnownVnetState {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -1998,7 +2000,7 @@ export enum KnownLanguageExtensionName {
   /** Python */
   Python = "PYTHON",
   /** R */
-  R = "R"
+  R = "R",
 }
 
 /**
@@ -2022,7 +2024,7 @@ export enum KnownLanguageExtensionImageName {
   /** Python3108DL */
   Python3108DL = "Python3_10_8_DL",
   /** PythonCustomImage */
-  PythonCustomImage = "PythonCustomImage"
+  PythonCustomImage = "PythonCustomImage",
 }
 
 /**
@@ -2043,7 +2045,7 @@ export enum KnownPublicNetworkAccess {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -2061,7 +2063,7 @@ export enum KnownEngineType {
   /** V2 */
   V2 = "V2",
   /** V3 */
-  V3 = "V3"
+  V3 = "V3",
 }
 
 /**
@@ -2079,7 +2081,7 @@ export enum KnownClusterNetworkAccessFlag {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -2097,7 +2099,7 @@ export enum KnownPublicIPType {
   /** IPv4 */
   IPv4 = "IPv4",
   /** DualStack */
-  DualStack = "DualStack"
+  DualStack = "DualStack",
 }
 
 /**
@@ -2115,7 +2117,7 @@ export enum KnownMigrationClusterRole {
   /** Source */
   Source = "Source",
   /** Destination */
-  Destination = "Destination"
+  Destination = "Destination",
 }
 
 /**
@@ -2133,7 +2135,7 @@ export enum KnownReason {
   /** Invalid */
   Invalid = "Invalid",
   /** AlreadyExists */
-  AlreadyExists = "AlreadyExists"
+  AlreadyExists = "AlreadyExists",
 }
 
 /**
@@ -2151,7 +2153,7 @@ export enum KnownClusterPrincipalRole {
   /** AllDatabasesAdmin */
   AllDatabasesAdmin = "AllDatabasesAdmin",
   /** AllDatabasesViewer */
-  AllDatabasesViewer = "AllDatabasesViewer"
+  AllDatabasesViewer = "AllDatabasesViewer",
 }
 
 /**
@@ -2171,7 +2173,7 @@ export enum KnownPrincipalType {
   /** Group */
   Group = "Group",
   /** User */
-  User = "User"
+  User = "User",
 }
 
 /**
@@ -2192,7 +2194,7 @@ export enum KnownDatabaseShareOrigin {
   /** DataShare */
   DataShare = "DataShare",
   /** Other */
-  Other = "Other"
+  Other = "Other",
 }
 
 /**
@@ -2213,7 +2215,7 @@ export enum KnownAzureScaleType {
   /** Manual */
   Manual = "manual",
   /** None */
-  None = "none"
+  None = "none",
 }
 
 /**
@@ -2232,7 +2234,7 @@ export enum KnownKind {
   /** ReadWrite */
   ReadWrite = "ReadWrite",
   /** ReadOnlyFollowing */
-  ReadOnlyFollowing = "ReadOnlyFollowing"
+  ReadOnlyFollowing = "ReadOnlyFollowing",
 }
 
 /**
@@ -2250,7 +2252,7 @@ export enum KnownCallerRole {
   /** Admin */
   Admin = "Admin",
   /** None */
-  None = "None"
+  None = "None",
 }
 
 /**
@@ -2276,7 +2278,7 @@ export enum KnownDatabasePrincipalRole {
   /** UnrestrictedViewer */
   UnrestrictedViewer = "UnrestrictedViewer",
   /** Viewer */
-  Viewer = "Viewer"
+  Viewer = "Viewer",
 }
 
 /**
@@ -2300,7 +2302,7 @@ export enum KnownDatabasePrincipalType {
   /** Group */
   Group = "Group",
   /** User */
-  User = "User"
+  User = "User",
 }
 
 /**
@@ -2317,7 +2319,7 @@ export type DatabasePrincipalType = string;
 /** Known values of {@link Language} that the service accepts. */
 export enum KnownLanguage {
   /** Python */
-  Python = "Python"
+  Python = "Python",
 }
 
 /**
@@ -2336,7 +2338,7 @@ export enum KnownDefaultPrincipalsModificationKind {
   /** Replace */
   Replace = "Replace",
   /** None */
-  None = "None"
+  None = "None",
 }
 
 /**
@@ -2359,7 +2361,7 @@ export enum KnownDataConnectionKind {
   /** IotHub */
   IotHub = "IotHub",
   /** CosmosDb */
-  CosmosDb = "CosmosDb"
+  CosmosDb = "CosmosDb",
 }
 
 /**
@@ -2383,7 +2385,7 @@ export enum KnownStatus {
   /** Failed */
   Failed = "Failed",
   /** Running */
-  Running = "Running"
+  Running = "Running",
 }
 
 /**
@@ -2405,7 +2407,7 @@ export enum KnownPrincipalsModificationKind {
   /** Replace */
   Replace = "Replace",
   /** None */
-  None = "None"
+  None = "None",
 }
 
 /**
@@ -2452,7 +2454,7 @@ export enum KnownEventHubDataFormat {
   /** Apacheavro */
   Apacheavro = "APACHEAVRO",
   /** W3Clogfile */
-  W3Clogfile = "W3CLOGFILE"
+  W3Clogfile = "W3CLOGFILE",
 }
 
 /**
@@ -2484,7 +2486,7 @@ export enum KnownCompression {
   /** None */
   None = "None",
   /** GZip */
-  GZip = "GZip"
+  GZip = "GZip",
 }
 
 /**
@@ -2502,7 +2504,7 @@ export enum KnownDatabaseRouting {
   /** Single */
   Single = "Single",
   /** Multi */
-  Multi = "Multi"
+  Multi = "Multi",
 }
 
 /**
@@ -2548,7 +2550,7 @@ export enum KnownIotHubDataFormat {
   /** Apacheavro */
   Apacheavro = "APACHEAVRO",
   /** W3Clogfile */
-  W3Clogfile = "W3CLOGFILE"
+  W3Clogfile = "W3CLOGFILE",
 }
 
 /**
@@ -2608,7 +2610,7 @@ export enum KnownEventGridDataFormat {
   /** Apacheavro */
   Apacheavro = "APACHEAVRO",
   /** W3Clogfile */
-  W3Clogfile = "W3CLOGFILE"
+  W3Clogfile = "W3CLOGFILE",
 }
 
 /**
@@ -2640,7 +2642,7 @@ export enum KnownBlobStorageEventType {
   /** MicrosoftStorageBlobCreated */
   MicrosoftStorageBlobCreated = "Microsoft.Storage.BlobCreated",
   /** MicrosoftStorageBlobRenamed */
-  MicrosoftStorageBlobRenamed = "Microsoft.Storage.BlobRenamed"
+  MicrosoftStorageBlobRenamed = "Microsoft.Storage.BlobRenamed",
 }
 
 /**
@@ -2756,7 +2758,8 @@ export interface ClustersDiagnoseVirtualNetworkOptionalParams
 }
 
 /** Contains response data for the diagnoseVirtualNetwork operation. */
-export type ClustersDiagnoseVirtualNetworkResponse = DiagnoseVirtualNetworkResult;
+export type ClustersDiagnoseVirtualNetworkResponse =
+  DiagnoseVirtualNetworkResult;
 
 /** Optional parameters. */
 export interface ClustersListByResourceGroupOptionalParams
@@ -2798,7 +2801,8 @@ export interface ClustersListOutboundNetworkDependenciesEndpointsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listOutboundNetworkDependenciesEndpoints operation. */
-export type ClustersListOutboundNetworkDependenciesEndpointsResponse = OutboundNetworkDependenciesEndpointListResult;
+export type ClustersListOutboundNetworkDependenciesEndpointsResponse =
+  OutboundNetworkDependenciesEndpointListResult;
 
 /** Optional parameters. */
 export interface ClustersListLanguageExtensionsOptionalParams
@@ -2830,14 +2834,16 @@ export interface ClustersListOutboundNetworkDependenciesEndpointsNextOptionalPar
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listOutboundNetworkDependenciesEndpointsNext operation. */
-export type ClustersListOutboundNetworkDependenciesEndpointsNextResponse = OutboundNetworkDependenciesEndpointListResult;
+export type ClustersListOutboundNetworkDependenciesEndpointsNextResponse =
+  OutboundNetworkDependenciesEndpointListResult;
 
 /** Optional parameters. */
 export interface ClusterPrincipalAssignmentsCheckNameAvailabilityOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkNameAvailability operation. */
-export type ClusterPrincipalAssignmentsCheckNameAvailabilityResponse = CheckNameResult;
+export type ClusterPrincipalAssignmentsCheckNameAvailabilityResponse =
+  CheckNameResult;
 
 /** Optional parameters. */
 export interface ClusterPrincipalAssignmentsGetOptionalParams
@@ -2856,7 +2862,8 @@ export interface ClusterPrincipalAssignmentsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type ClusterPrincipalAssignmentsCreateOrUpdateResponse = ClusterPrincipalAssignment;
+export type ClusterPrincipalAssignmentsCreateOrUpdateResponse =
+  ClusterPrincipalAssignment;
 
 /** Optional parameters. */
 export interface ClusterPrincipalAssignmentsDeleteOptionalParams
@@ -2872,7 +2879,8 @@ export interface ClusterPrincipalAssignmentsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type ClusterPrincipalAssignmentsListResponse = ClusterPrincipalAssignmentListResult;
+export type ClusterPrincipalAssignmentsListResponse =
+  ClusterPrincipalAssignmentListResult;
 
 /** Optional parameters. */
 export interface SkusListOptionalParams extends coreClient.OperationOptions {}
@@ -2976,21 +2984,24 @@ export interface AttachedDatabaseConfigurationsCheckNameAvailabilityOptionalPara
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkNameAvailability operation. */
-export type AttachedDatabaseConfigurationsCheckNameAvailabilityResponse = CheckNameResult;
+export type AttachedDatabaseConfigurationsCheckNameAvailabilityResponse =
+  CheckNameResult;
 
 /** Optional parameters. */
 export interface AttachedDatabaseConfigurationsListByClusterOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByCluster operation. */
-export type AttachedDatabaseConfigurationsListByClusterResponse = AttachedDatabaseConfigurationListResult;
+export type AttachedDatabaseConfigurationsListByClusterResponse =
+  AttachedDatabaseConfigurationListResult;
 
 /** Optional parameters. */
 export interface AttachedDatabaseConfigurationsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type AttachedDatabaseConfigurationsGetResponse = AttachedDatabaseConfiguration;
+export type AttachedDatabaseConfigurationsGetResponse =
+  AttachedDatabaseConfiguration;
 
 /** Optional parameters. */
 export interface AttachedDatabaseConfigurationsCreateOrUpdateOptionalParams
@@ -3002,7 +3013,8 @@ export interface AttachedDatabaseConfigurationsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type AttachedDatabaseConfigurationsCreateOrUpdateResponse = AttachedDatabaseConfiguration;
+export type AttachedDatabaseConfigurationsCreateOrUpdateResponse =
+  AttachedDatabaseConfiguration;
 
 /** Optional parameters. */
 export interface AttachedDatabaseConfigurationsDeleteOptionalParams
@@ -3018,14 +3030,16 @@ export interface ManagedPrivateEndpointsCheckNameAvailabilityOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkNameAvailability operation. */
-export type ManagedPrivateEndpointsCheckNameAvailabilityResponse = CheckNameResult;
+export type ManagedPrivateEndpointsCheckNameAvailabilityResponse =
+  CheckNameResult;
 
 /** Optional parameters. */
 export interface ManagedPrivateEndpointsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type ManagedPrivateEndpointsListResponse = ManagedPrivateEndpointListResult;
+export type ManagedPrivateEndpointsListResponse =
+  ManagedPrivateEndpointListResult;
 
 /** Optional parameters. */
 export interface ManagedPrivateEndpointsGetOptionalParams
@@ -3044,7 +3058,8 @@ export interface ManagedPrivateEndpointsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type ManagedPrivateEndpointsCreateOrUpdateResponse = ManagedPrivateEndpoint;
+export type ManagedPrivateEndpointsCreateOrUpdateResponse =
+  ManagedPrivateEndpoint;
 
 /** Optional parameters. */
 export interface ManagedPrivateEndpointsUpdateOptionalParams
@@ -3079,14 +3094,16 @@ export interface DatabasePrincipalAssignmentsCheckNameAvailabilityOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkNameAvailability operation. */
-export type DatabasePrincipalAssignmentsCheckNameAvailabilityResponse = CheckNameResult;
+export type DatabasePrincipalAssignmentsCheckNameAvailabilityResponse =
+  CheckNameResult;
 
 /** Optional parameters. */
 export interface DatabasePrincipalAssignmentsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type DatabasePrincipalAssignmentsGetResponse = DatabasePrincipalAssignment;
+export type DatabasePrincipalAssignmentsGetResponse =
+  DatabasePrincipalAssignment;
 
 /** Optional parameters. */
 export interface DatabasePrincipalAssignmentsCreateOrUpdateOptionalParams
@@ -3098,7 +3115,8 @@ export interface DatabasePrincipalAssignmentsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type DatabasePrincipalAssignmentsCreateOrUpdateResponse = DatabasePrincipalAssignment;
+export type DatabasePrincipalAssignmentsCreateOrUpdateResponse =
+  DatabasePrincipalAssignment;
 
 /** Optional parameters. */
 export interface DatabasePrincipalAssignmentsDeleteOptionalParams
@@ -3114,7 +3132,8 @@ export interface DatabasePrincipalAssignmentsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type DatabasePrincipalAssignmentsListResponse = DatabasePrincipalAssignmentListResult;
+export type DatabasePrincipalAssignmentsListResponse =
+  DatabasePrincipalAssignmentListResult;
 
 /** Optional parameters. */
 export interface ScriptsListByDatabaseOptionalParams
@@ -3174,7 +3193,8 @@ export interface SandboxCustomImagesListByClusterOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByCluster operation. */
-export type SandboxCustomImagesListByClusterResponse = SandboxCustomImagesListResult;
+export type SandboxCustomImagesListByClusterResponse =
+  SandboxCustomImagesListResult;
 
 /** Optional parameters. */
 export interface SandboxCustomImagesGetOptionalParams
@@ -3228,7 +3248,8 @@ export interface PrivateEndpointConnectionsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionListResult;
+export type PrivateEndpointConnectionsListResponse =
+  PrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsGetOptionalParams
@@ -3247,7 +3268,8 @@ export interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnection;
+export type PrivateEndpointConnectionsCreateOrUpdateResponse =
+  PrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsDeleteOptionalParams
@@ -3289,7 +3311,8 @@ export interface DataConnectionsDataConnectionValidationOptionalParams
 }
 
 /** Contains response data for the dataConnectionValidation operation. */
-export type DataConnectionsDataConnectionValidationResponse = DataConnectionValidationListResult;
+export type DataConnectionsDataConnectionValidationResponse =
+  DataConnectionValidationListResult;
 
 /** Optional parameters. */
 export interface DataConnectionsCheckNameAvailabilityOptionalParams
@@ -3364,7 +3387,8 @@ export interface OperationsResultsLocationGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type OperationsResultsLocationGetResponse = OperationsResultsLocationGetHeaders;
+export type OperationsResultsLocationGetResponse =
+  OperationsResultsLocationGetHeaders;
 
 /** Optional parameters. */
 export interface KustoManagementClientOptionalParams
