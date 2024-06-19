@@ -3483,12 +3483,6 @@ export enum KnownLinuxVMGuestPatchMode {
 }
 
 // @public
-export enum KnownMode {
-    Audit = "Audit",
-    Enforce = "Enforce"
-}
-
-// @public
 export enum KnownNetworkAccessPolicy {
     AllowAll = "AllowAll",
     AllowPrivate = "AllowPrivate",
@@ -4205,9 +4199,6 @@ export interface ManagedDiskParameters extends SubResource {
 }
 
 // @public
-export type Mode = string;
-
-// @public
 export type NetworkAccessPolicy = string;
 
 // @public
@@ -4615,7 +4606,6 @@ export interface ProximityPlacementGroupUpdate extends UpdateResource {
 export interface ProxyAgentSettings {
     enabled?: boolean;
     keyIncarnationId?: number;
-    mode?: Mode;
 }
 
 // @public
@@ -5271,8 +5261,16 @@ export type SecurityEncryptionTypes = string;
 
 // @public
 export interface SecurityPostureReference {
-    excludeExtensions?: VirtualMachineExtension[];
+    excludeExtensions?: string[];
+    id: string;
+    isOverridable?: boolean;
+}
+
+// @public
+export interface SecurityPostureReferenceUpdate {
+    excludeExtensions?: string[];
     id?: string;
+    isOverridable?: boolean;
 }
 
 // @public
@@ -7512,6 +7510,7 @@ export interface VirtualMachineScaleSetUpdateVMProfile {
     networkProfile?: VirtualMachineScaleSetUpdateNetworkProfile;
     osProfile?: VirtualMachineScaleSetUpdateOSProfile;
     scheduledEventsProfile?: ScheduledEventsProfile;
+    securityPostureReference?: SecurityPostureReferenceUpdate;
     securityProfile?: SecurityProfile;
     storageProfile?: VirtualMachineScaleSetUpdateStorageProfile;
     userData?: string;
