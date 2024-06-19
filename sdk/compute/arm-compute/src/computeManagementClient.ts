@@ -48,12 +48,16 @@ import {
   GalleryApplicationsImpl,
   GalleryApplicationVersionsImpl,
   GallerySharingProfileImpl,
+  GallerySecurityPosturesImpl,
+  GallerySecurityPostureVersionsImpl,
   SharedGalleriesImpl,
   SharedGalleryImagesImpl,
   SharedGalleryImageVersionsImpl,
   CommunityGalleriesImpl,
   CommunityGalleryImagesImpl,
   CommunityGalleryImageVersionsImpl,
+  CommunityGallerySecurityPosturesImpl,
+  CommunityGallerySecurityPostureVersionsImpl,
   CloudServiceRoleInstancesImpl,
   CloudServiceRolesImpl,
   CloudServicesImpl,
@@ -99,12 +103,16 @@ import {
   GalleryApplications,
   GalleryApplicationVersions,
   GallerySharingProfile,
+  GallerySecurityPostures,
+  GallerySecurityPostureVersions,
   SharedGalleries,
   SharedGalleryImages,
   SharedGalleryImageVersions,
   CommunityGalleries,
   CommunityGalleryImages,
   CommunityGalleryImageVersions,
+  CommunityGallerySecurityPostures,
+  CommunityGallerySecurityPostureVersions,
   CloudServiceRoleInstances,
   CloudServiceRoles,
   CloudServices,
@@ -145,7 +153,7 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-compute/21.6.1`;
+    const packageDetails = `azsdk-js-arm-compute/22.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -245,6 +253,9 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
     this.galleryApplications = new GalleryApplicationsImpl(this);
     this.galleryApplicationVersions = new GalleryApplicationVersionsImpl(this);
     this.gallerySharingProfile = new GallerySharingProfileImpl(this);
+    this.gallerySecurityPostures = new GallerySecurityPosturesImpl(this);
+    this.gallerySecurityPostureVersions =
+      new GallerySecurityPostureVersionsImpl(this);
     this.sharedGalleries = new SharedGalleriesImpl(this);
     this.sharedGalleryImages = new SharedGalleryImagesImpl(this);
     this.sharedGalleryImageVersions = new SharedGalleryImageVersionsImpl(this);
@@ -253,6 +264,10 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
     this.communityGalleryImageVersions = new CommunityGalleryImageVersionsImpl(
       this,
     );
+    this.communityGallerySecurityPostures =
+      new CommunityGallerySecurityPosturesImpl(this);
+    this.communityGallerySecurityPostureVersions =
+      new CommunityGallerySecurityPostureVersionsImpl(this);
     this.cloudServiceRoleInstances = new CloudServiceRoleInstancesImpl(this);
     this.cloudServiceRoles = new CloudServiceRolesImpl(this);
     this.cloudServices = new CloudServicesImpl(this);
@@ -300,12 +315,16 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
   galleryApplications: GalleryApplications;
   galleryApplicationVersions: GalleryApplicationVersions;
   gallerySharingProfile: GallerySharingProfile;
+  gallerySecurityPostures: GallerySecurityPostures;
+  gallerySecurityPostureVersions: GallerySecurityPostureVersions;
   sharedGalleries: SharedGalleries;
   sharedGalleryImages: SharedGalleryImages;
   sharedGalleryImageVersions: SharedGalleryImageVersions;
   communityGalleries: CommunityGalleries;
   communityGalleryImages: CommunityGalleryImages;
   communityGalleryImageVersions: CommunityGalleryImageVersions;
+  communityGallerySecurityPostures: CommunityGallerySecurityPostures;
+  communityGallerySecurityPostureVersions: CommunityGallerySecurityPostureVersions;
   cloudServiceRoleInstances: CloudServiceRoleInstances;
   cloudServiceRoles: CloudServiceRoles;
   cloudServices: CloudServices;

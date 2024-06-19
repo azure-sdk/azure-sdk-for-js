@@ -211,39 +211,6 @@ export interface AutomaticOSUpgradePolicy {
   osRollingUpgradeDeferral?: boolean;
 }
 
-/** Specifies Redeploy, Reboot and ScheduledEventsAdditionalPublishingTargets Scheduled Event related configurations. */
-export interface ScheduledEventsPolicy {
-  /** The configuration parameters used while creating userInitiatedRedeploy scheduled event setting creation. */
-  userInitiatedRedeploy?: UserInitiatedRedeploy;
-  /** The configuration parameters used while creating userInitiatedReboot scheduled event setting creation. */
-  userInitiatedReboot?: UserInitiatedReboot;
-  /** The configuration parameters used while publishing scheduledEventsAdditionalPublishingTargets. */
-  scheduledEventsAdditionalPublishingTargets?: ScheduledEventsAdditionalPublishingTargets;
-}
-
-/** Specifies Redeploy related Scheduled Event related configurations. */
-export interface UserInitiatedRedeploy {
-  /** Specifies Redeploy Scheduled Event related configurations. */
-  automaticallyApprove?: boolean;
-}
-
-/** Specifies Reboot related Scheduled Event related configurations. */
-export interface UserInitiatedReboot {
-  /** Specifies Reboot Scheduled Event related configurations. */
-  automaticallyApprove?: boolean;
-}
-
-export interface ScheduledEventsAdditionalPublishingTargets {
-  /** The configuration parameters used while creating eventGridAndResourceGraph Scheduled Event setting. */
-  eventGridAndResourceGraph?: EventGridAndResourceGraph;
-}
-
-/** Specifies eventGridAndResourceGraph related Scheduled Event related configurations. */
-export interface EventGridAndResourceGraph {
-  /** Specifies if event grid and resource graph is enabled for Scheduled event related configurations. */
-  enable?: boolean;
-}
-
 /** Specifies the configuration parameters for automatic repairs on the virtual machine scale set. */
 export interface AutomaticRepairsPolicy {
   /** Specifies whether automatic repairs should be enabled on the virtual machine scale set. The default value is false. */
@@ -291,7 +258,7 @@ export interface VirtualMachineScaleSetVMProfile {
   /** Specifies the security posture to be used for all virtual machines in the scale set. Minimum api-version: 2023-03-01 */
   securityPostureReference?: SecurityPostureReference;
   /**
-   * Specifies the time in which this VM profile for the Virtual Machine Scale Set was created. Minimum API version for this property is 2024-03-01. This value will be added to VMSS Flex VM tags when creating/updating the VMSS VM Profile with minimum api-version 2024-03-01.
+   * Specifies the time in which this VM profile for the Virtual Machine Scale Set was created. Minimum API version for this property is 2023-09-01. This value will be added to VMSS Flex VM tags when creating/updating the VMSS VM Profile with minimum api-version 2023-09-01.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly timeCreated?: Date;
@@ -491,7 +458,7 @@ export interface VirtualMachineScaleSetOSDisk {
 export interface DiffDiskSettings {
   /** Specifies the ephemeral disk settings for operating system disk. */
   option?: DiffDiskOptions;
-  /** Specifies the ephemeral disk placement for operating system disk. Possible values are: **CacheDisk,** **ResourceDisk,** **NvmeDisk.** The defaulting behavior is: **CacheDisk** if one is configured for the VM size otherwise **ResourceDisk** or **NvmeDisk** is used. Refer to the VM size documentation for Windows VM at https://docs.microsoft.com/azure/virtual-machines/windows/sizes and Linux VM at https://docs.microsoft.com/azure/virtual-machines/linux/sizes to check which VM sizes exposes a cache disk. Minimum api-version for NvmeDisk: 2024-03-01. */
+  /** Specifies the ephemeral disk placement for operating system disk. Possible values are: **CacheDisk,** **ResourceDisk.** The defaulting behavior is: **CacheDisk** if one is configured for the VM size otherwise **ResourceDisk** is used. Refer to the VM size documentation for Windows VM at https://docs.microsoft.com/azure/virtual-machines/windows/sizes and Linux VM at https://docs.microsoft.com/azure/virtual-machines/linux/sizes to check which VM sizes exposes a cache disk. */
   placement?: DiffDiskPlacement;
 }
 
@@ -669,7 +636,7 @@ export interface SecurityProfile {
   securityType?: SecurityTypes;
   /** Specifies the Managed Identity used by ADE to get access token for keyvault operations. */
   encryptionIdentity?: EncryptionIdentity;
-  /** Specifies ProxyAgent settings while creating the virtual machine. Minimum api-version: 2024-03-01. */
+  /** Specifies ProxyAgent settings while creating the virtual machine. Minimum api-version: 2023-09-01. */
   proxyAgentSettings?: ProxyAgentSettings;
 }
 
@@ -687,7 +654,7 @@ export interface EncryptionIdentity {
   userAssignedIdentityResourceId?: string;
 }
 
-/** Specifies ProxyAgent settings while creating the virtual machine. Minimum api-version: 2024-03-01. */
+/** Specifies ProxyAgent settings while creating the virtual machine. Minimum api-version: 2023-09-01. */
 export interface ProxyAgentSettings {
   /** Specifies whether ProxyAgent feature should be enabled on the virtual machine or virtual machine scale set. */
   enabled?: boolean;
@@ -1040,8 +1007,6 @@ export interface VirtualMachineScaleSetUpdateOSDisk {
   caching?: CachingTypes;
   /** Specifies whether writeAccelerator should be enabled or disabled on the disk. */
   writeAcceleratorEnabled?: boolean;
-  /** Specifies the ephemeral disk Settings for the operating system disk used by the virtual machine scale set. */
-  diffDiskSettings?: DiffDiskSettings;
   /** Specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. <br><br> diskSizeGB is the number of bytes x 1024^3 for the disk and the value cannot be larger than 1023 */
   diskSizeGB?: number;
   /** The Source User Image VirtualHardDisk. This VirtualHardDisk will be copied before using it to attach to the Virtual Machine. If SourceImage is provided, the destination VirtualHardDisk should not exist. */
@@ -1657,7 +1622,7 @@ export interface OSDisk {
   writeAcceleratorEnabled?: boolean;
   /** Specifies the ephemeral Disk Settings for the operating system disk used by the virtual machine. */
   diffDiskSettings?: DiffDiskSettings;
-  /** Specifies how the virtual machine disk should be created. Possible values are **Attach:** This value is used when you are using a specialized disk to create the virtual machine. **FromImage:** This value is used when you are using an image to create the virtual machine. If you are using a platform image, you should also use the imageReference element described above. If you are using a marketplace image, you should also use the plan element previously described. */
+  /** Specifies how the virtual machine should be created. Possible values are: **Attach.** This value is used when you are using a specialized disk to create the virtual machine. **FromImage.** This value is used when you are using an image to create the virtual machine. If you are using a platform image, you should also use the imageReference element described above. If you are using a marketplace image, you should also use the plan element previously described. */
   createOption: DiskCreateOptionTypes;
   /** Specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. The property 'diskSizeGB' is the number of bytes x 1024^3 for the disk and the value cannot be larger than 1023. */
   diskSizeGB?: number;
@@ -1681,14 +1646,12 @@ export interface DataDisk {
   caching?: CachingTypes;
   /** Specifies whether writeAccelerator should be enabled or disabled on the disk. */
   writeAcceleratorEnabled?: boolean;
-  /** Specifies how the virtual machine disk should be created. Possible values are **Attach:** This value is used when you are using a specialized disk to create the virtual machine. **FromImage:** This value is used when you are using an image to create the virtual machine data disk. If you are using a platform image, you should also use the imageReference element described above. If you are using a marketplace image, you should also use the plan element previously described. **Empty:** This value is used when creating an empty data disk. **Copy:** This value is used to create a data disk from a snapshot or another disk. **Restore:** This value is used to create a data disk from a disk restore point. */
+  /** Specifies how the virtual machine should be created. Possible values are: **Attach.** This value is used when you are using a specialized disk to create the virtual machine. **FromImage.** This value is used when you are using an image to create the virtual machine. If you are using a platform image, you should also use the imageReference element described above. If you are using a marketplace image, you should also use the plan element previously described. */
   createOption: DiskCreateOptionTypes;
   /** Specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. The property 'diskSizeGB' is the number of bytes x 1024^3 for the disk and the value cannot be larger than 1023. */
   diskSizeGB?: number;
   /** The managed disk parameters. */
   managedDisk?: ManagedDiskParameters;
-  /** The source resource identifier. It can be a snapshot, or disk restore point from which to create a disk. */
-  sourceResource?: ApiEntityReference;
   /** Specifies whether the data disk is in process of detachment from the VirtualMachine/VirtualMachineScaleset */
   toBeDetached?: boolean;
   /**
@@ -1902,14 +1865,6 @@ export interface DataDisksToAttach {
   diskId: string;
   /** The logical unit number of the data disk. This value is used to identify data disks within the VM and therefore must be unique for each data disk attached to a VM. If not specified, lun would be auto assigned. */
   lun?: number;
-  /** Specifies the caching requirements. Possible values are: **None,** **ReadOnly,** **ReadWrite.** The defaulting behavior is: **None for Standard storage. ReadOnly for Premium storage.** */
-  caching?: CachingTypes;
-  /** Specifies whether data disk should be deleted or detached upon VM deletion. Possible values are: **Delete.** If this value is used, the data disk is deleted when VM is deleted. **Detach.** If this value is used, the data disk is retained after VM is deleted. The default value is set to **Detach**. */
-  deleteOption?: DiskDeleteOptionTypes;
-  /** Specifies the customer managed disk encryption set resource id for the managed disk. */
-  diskEncryptionSet?: DiskEncryptionSetParameters;
-  /** Specifies whether writeAccelerator should be enabled or disabled on the disk. */
-  writeAcceleratorEnabled?: boolean;
 }
 
 /** Describes the data disk to be detached. */
@@ -2766,7 +2721,7 @@ export interface CapacityReservationGroupInstanceView {
    */
   readonly capacityReservations?: CapacityReservationInstanceViewWithName[];
   /**
-   * List of the subscriptions that the capacity reservation group is shared with. **Note:** Minimum api-version: 2024-03-01. Please refer to https://aka.ms/computereservationsharing for more details.
+   * List of the subscriptions that the capacity reservation group is shared with. **Note:** Minimum api-version: 2023-09-01. Please refer to https://aka.ms/computereservationsharing for more details.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly sharedSubscriptionIds?: SubResourceReadOnly[];
@@ -2795,7 +2750,7 @@ export interface CapacityReservationUtilization {
 }
 
 export interface ResourceSharingProfile {
-  /** Specifies an array of subscription resource IDs that capacity reservation group is shared with. **Note:** Minimum api-version: 2024-03-01. Please refer to https://aka.ms/computereservationsharing for more details. */
+  /** Specifies an array of subscription resource IDs that capacity reservation group is shared with. **Note:** Minimum api-version: 2023-09-01. Please refer to https://aka.ms/computereservationsharing for more details. */
   subscriptionIds?: SubResource[];
 }
 
@@ -4102,6 +4057,42 @@ export interface SharingUpdate {
   groups?: SharingProfileGroup[];
 }
 
+/** A setting for gallery security posture. */
+export interface PostureSetting {
+  /** The name of the gallery security posture setting. */
+  name?: string;
+  /** The value of the gallery security posture setting. */
+  value?: string;
+}
+
+/** A setting for gallery security posture. */
+export interface VirtualMachineExtensionAutoGenerated {
+  /** The name of the gallery security posture virtual machine extension. */
+  name?: string;
+  /** The value of the gallery security posture virtual machine extension. */
+  type?: string;
+  /** A setting for gallery security posture. */
+  properties?: VirtualMachineExtensionProperties;
+}
+
+/** A setting for gallery security posture. */
+export interface VirtualMachineExtensionProperties {
+  /** The publisher name of the gallery security posture virtual machine extension. */
+  publisher?: string;
+  /** The type of the gallery security posture virtual machine extension. */
+  type?: string;
+  /** The typeHandlerVersion of the gallery security posture virtual machine extension. */
+  typeHandlerVersion?: string;
+  /** The minor version for auto upgrade of the gallery security posture virtual machine extension. */
+  autoUpgradeMinorVersion?: string;
+  /** Whether enable auto upgrade of the gallery security posture virtual machine extension. */
+  enableAutomaticUpgrade?: string;
+  /** The settings of the gallery security posture virtual machine extension. */
+  settings?: string;
+  /** The protectedSettings of the gallery security posture virtual machine extension. */
+  protectedSettings?: string;
+}
+
 /** The List Shared Galleries operation response. */
 export interface SharedGalleryList {
   /** A list of shared galleries. */
@@ -4181,11 +4172,6 @@ export interface PirCommunityGalleryResource {
    */
   readonly name?: string;
   /**
-   * Resource location
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly location?: string;
-  /**
    * Resource type
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -4218,6 +4204,34 @@ export interface CommunityGalleryImageVersionList {
   value: CommunityGalleryImageVersion[];
   /** The URI to fetch the next page of community gallery image versions. Call ListNext() with this to fetch the next page of community gallery image versions. */
   nextLink?: string;
+}
+
+/** A setting for gallery security posture. */
+export interface VirtualMachineExtensionAutoGenerated2 {
+  /** The name of the gallery security posture virtual machine extension. */
+  name?: string;
+  /** The value of the gallery security posture virtual machine extension. */
+  type?: string;
+  /** A setting for gallery security posture. */
+  properties?: VirtualMachineExtensionPropertiesAutoGenerated;
+}
+
+/** A setting for gallery security posture. */
+export interface VirtualMachineExtensionPropertiesAutoGenerated {
+  /** The publisher name of the gallery security posture virtual machine extension. */
+  publisher?: string;
+  /** The type of the gallery security posture virtual machine extension. */
+  type?: string;
+  /** The typeHandlerVersion of the gallery security posture virtual machine extension. */
+  typeHandlerVersion?: string;
+  /** The minor version for auto upgrade of the gallery security posture virtual machine extension. */
+  autoUpgradeMinorVersion?: string;
+  /** Whether enable auto upgrade of the gallery security posture virtual machine extension. */
+  enableAutomaticUpgrade?: string;
+  /** The settings of the gallery security posture virtual machine extension. */
+  settings?: string;
+  /** The protectedSettings of the gallery security posture virtual machine extension. */
+  protectedSettings?: string;
 }
 
 /** Describes the cloud service role instance. */
@@ -5174,8 +5188,6 @@ export interface VirtualMachineScaleSet extends Resource {
   readonly etag?: string;
   /** The upgrade policy. */
   upgradePolicy?: UpgradePolicy;
-  /** The ScheduledEventsPolicy. */
-  scheduledEventsPolicy?: ScheduledEventsPolicy;
   /** Policy for automatic repairs. */
   automaticRepairsPolicy?: AutomaticRepairsPolicy;
   /** The virtual machine profile. */
@@ -5363,8 +5375,6 @@ export interface VirtualMachine extends Resource {
   readonly etag?: string;
   /** Specifies the hardware settings for the virtual machine. */
   hardwareProfile?: HardwareProfile;
-  /** Specifies Redeploy, Reboot and ScheduledEventsAdditionalPublishingTargets Scheduled Event related configurations for the virtual machine. */
-  scheduledEventsPolicy?: ScheduledEventsPolicy;
   /** Specifies the storage settings for the virtual machine disks. */
   storageProfile?: StorageProfile;
   /** Specifies additional capabilities enabled or disabled on the virtual machine. */
@@ -5616,7 +5626,7 @@ export interface CapacityReservationGroup extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly instanceView?: CapacityReservationGroupInstanceView;
-  /** Specifies the settings to enable sharing across subscriptions for the capacity reservation group resource. Pls. keep in mind the capacity reservation group resource generally can be shared across subscriptions belonging to a single azure AAD tenant or cross AAD tenant if there is a trust relationship established between the AAD tenants. **Note:** Minimum api-version: 2024-03-01. Please refer to https://aka.ms/computereservationsharing for more details. */
+  /** Specifies the settings to enable sharing across subscriptions for the capacity reservation group resource. Pls. keep in mind the capacity reservation group resource generally can be shared across subscriptions belonging to a single azure AAD tenant or cross AAD tenant if there is a trust relationship established between the AAD tenants. **Note:** Minimum api-version: 2023-09-01. Please refer to https://aka.ms/computereservationsharing for more details. */
   sharingProfile?: ResourceSharingProfile;
 }
 
@@ -5999,7 +6009,7 @@ export interface GalleryImage extends Resource {
   readonly provisioningState?: GalleryProvisioningState;
   /** A list of gallery image features. */
   features?: GalleryImageFeature[];
-  /** The architecture of the image. Applicable to OS disks only. */
+  /** CPU architecture supported by an OS disk. */
   architecture?: Architecture;
 }
 
@@ -6049,6 +6059,53 @@ export interface GalleryApplicationVersion extends Resource {
   publishingProfile?: GalleryApplicationVersionPublishingProfile;
   /** The safety profile of the Gallery Application Version. */
   safetyProfile?: GalleryApplicationVersionSafetyProfile;
+  /**
+   * The provisioning state, which only appears in the response.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: GalleryProvisioningState;
+  /**
+   * This is the replication status of the gallery image version.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly replicationStatus?: ReplicationStatus;
+}
+
+/** Specifies information about the gallery security posture definition that you want to create or update. */
+export interface GallerySecurityPosture extends Resource {
+  /** The description of this gallery security posture definition resource. This property is updatable. */
+  description?: string;
+  /** The Eula agreement for the gallery security posture definition. */
+  eula?: string;
+  /** The privacy statement uri. */
+  privacyStatementUri?: string;
+  /** The release note uri. */
+  releaseNoteUri?: string;
+  /** The end of life date of the gallery security posture definition. This property can be used for decommission purposes. This property is updatable. */
+  endOfLifeDate?: Date;
+  /** This property allows you to specify the supported type of the OS that application is built for. Possible values are: **Windows,** **Linux.** */
+  osType?: OperatingSystemTypes;
+  /** Applicable resource types, like virtual machine scale set, of this posture setting. */
+  applicableResourceTypes?: string[];
+}
+
+/** Specifies information about the gallery security posture version that you want to create or update. */
+export interface GallerySecurityPostureVersion extends Resource {
+  /** If set to true, virtual machines deployed from the latest version of the security posture won't use this version. */
+  excludeFromLatest?: boolean;
+  /**
+   * The timestamp for when the gallery security posture version is published.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly publishedDate?: Date;
+  /** The end of life date of the gallery security posture version. This property can be used for decommissioning purposes. This property is updatable. */
+  endOfLifeDate?: Date;
+  /** A list of security posture settings, in key-value pair. */
+  settings?: PostureSetting[];
+  /** The target regions where the security posture version is going to be replicated to. This property is updatable. */
+  targetLocations?: TargetRegion[];
+  /** A setting for gallery security posture. */
+  virtualMachineExtensions?: VirtualMachineExtensionAutoGenerated;
   /**
    * The provisioning state, which only appears in the response.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -6129,8 +6186,6 @@ export interface VirtualMachineUpdate extends UpdateResource {
   zones?: string[];
   /** Specifies the hardware settings for the virtual machine. */
   hardwareProfile?: HardwareProfile;
-  /** Specifies Redeploy, Reboot and ScheduledEventsAdditionalPublishingTargets Scheduled Event related configurations for the virtual machine. */
-  scheduledEventsPolicy?: ScheduledEventsPolicy;
   /** Specifies the storage settings for the virtual machine disks. */
   storageProfile?: StorageProfile;
   /** Specifies additional capabilities enabled or disabled on the virtual machine. */
@@ -6340,7 +6395,7 @@ export interface CapacityReservationGroupUpdate extends UpdateResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly instanceView?: CapacityReservationGroupInstanceView;
-  /** Specifies the settings to enable sharing across subscriptions for the capacity reservation group resource. Pls. keep in mind the capacity reservation group resource generally can be shared across subscriptions belonging to a single azure AAD tenant or cross AAD tenant if there is a trust relationship established between the AAD tenants. **Note:** Minimum api-version: 2024-03-01. Please refer to https://aka.ms/computereservationsharing for more details. */
+  /** Specifies the settings to enable sharing across subscriptions for the capacity reservation group resource. Pls. keep in mind the capacity reservation group resource generally can be shared across subscriptions belonging to a single azure AAD tenant or cross AAD tenant if there is a trust relationship established between the AAD tenants. **Note:** Minimum api-version: 2023-09-01. Please refer to https://aka.ms/computereservationsharing for more details. */
   sharingProfile?: ResourceSharingProfile;
 }
 
@@ -6425,10 +6480,7 @@ export interface VirtualMachineRunCommandUpdate extends UpdateResource {
 
 /** Describes a Virtual Machine Scale Set VM Reimage Parameters. */
 export interface VirtualMachineScaleSetVMReimageParameters
-  extends VirtualMachineReimageParameters {
-  /** Parameter to force update ephemeral OS disk for a virtual machine scale set VM */
-  forceUpdateOSDiskForEphemeral?: boolean;
-}
+  extends VirtualMachineReimageParameters {}
 
 /** The instance view of a dedicated host that includes the name of the dedicated host. It is used for the response to the instance view of a dedicated host group. */
 export interface DedicatedHostInstanceViewWithName
@@ -6622,7 +6674,7 @@ export interface GalleryImageUpdate extends UpdateResourceDefinition {
   readonly provisioningState?: GalleryProvisioningState;
   /** A list of gallery image features. */
   features?: GalleryImageFeature[];
-  /** The architecture of the image. Applicable to OS disks only. */
+  /** CPU architecture supported by an OS disk. */
   architecture?: Architecture;
 }
 
@@ -6673,6 +6725,54 @@ export interface GalleryApplicationVersionUpdate
   publishingProfile?: GalleryApplicationVersionPublishingProfile;
   /** The safety profile of the Gallery Application Version. */
   safetyProfile?: GalleryApplicationVersionSafetyProfile;
+  /**
+   * The provisioning state, which only appears in the response.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: GalleryProvisioningState;
+  /**
+   * This is the replication status of the gallery image version.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly replicationStatus?: ReplicationStatus;
+}
+
+/** Specifies information about the gallery security posture definition that you want to update. */
+export interface GallerySecurityPostureUpdate extends UpdateResourceDefinition {
+  /** The description of this gallery security posture definition resource. This property is updatable. */
+  description?: string;
+  /** The Eula agreement for the gallery security posture definition. */
+  eula?: string;
+  /** The privacy statement uri. */
+  privacyStatementUri?: string;
+  /** The release note uri. */
+  releaseNoteUri?: string;
+  /** The end of life date of the gallery security posture definition. This property can be used for decommission purposes. This property is updatable. */
+  endOfLifeDate?: Date;
+  /** This property allows you to specify the supported type of the OS that application is built for. Possible values are: **Windows,** **Linux.** */
+  osType?: OperatingSystemTypes;
+  /** Applicable resource types, like virtual machine scale set, of this posture setting. */
+  applicableResourceTypes?: string[];
+}
+
+/** Specifies information about the gallery security posture version that you want to update. */
+export interface GallerySecurityPostureVersionUpdate
+  extends UpdateResourceDefinition {
+  /** If set to true, virtual machines deployed from the latest version of the security posture won't use this version. */
+  excludeFromLatest?: boolean;
+  /**
+   * The timestamp for when the gallery security posture version is published.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly publishedDate?: Date;
+  /** The end of life date of the gallery security posture version. This property can be used for decommissioning purposes. This property is updatable. */
+  endOfLifeDate?: Date;
+  /** A list of security posture settings, in key-value pair. */
+  settings?: PostureSetting[];
+  /** The target regions where the security posture version is going to be replicated to. This property is updatable. */
+  targetLocations?: TargetRegion[];
+  /** A setting for gallery security posture. */
+  virtualMachineExtensions?: VirtualMachineExtensionAutoGenerated;
   /**
    * The provisioning state, which only appears in the response.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -6807,7 +6907,7 @@ export interface CommunityGalleryImage extends PirCommunityGalleryResource {
   features?: GalleryImageFeature[];
   /** Describes the gallery image definition purchase plan. This is used by marketplace images. */
   purchasePlan?: ImagePurchasePlan;
-  /** The architecture of the image. Applicable to OS disks only. */
+  /** CPU architecture supported by an OS disk. */
   architecture?: Architecture;
   /** Privacy statement URI for the current community gallery image. */
   privacyStatementUri?: string;
@@ -6834,6 +6934,49 @@ export interface CommunityGalleryImageVersion
   disclaimer?: string;
   /** The artifact tags of a community gallery resource. */
   artifactTags?: { [propertyName: string]: string };
+}
+
+/** Specifies information about the gallery security posture that you want to create or update. */
+export interface CommunitySecurityPosture extends PirCommunityGalleryResource {
+  /** This property allows you to specify the type of the OS that is included in the disk when creating a VM from a managed image. Possible values are: **Windows,** **Linux.** */
+  osType?: OperatingSystemTypes;
+  /** Applicable resource types, like virtual machine scale set, of this posture setting. */
+  applicableResourceTypes?: string[];
+  /** Description for the current community security posture. */
+  description?: string;
+  /** Release notes URI for the current community gallery security posture. */
+  releaseNotesUri?: string;
+  /** The end of life date of the gallery security posture. This property can be used for decommissioning purposes. This property is updatable. */
+  endOfLifeDate?: Date;
+  /** Privacy statement URI for the current community gallery security posture. */
+  privacyStatementUri?: string;
+  /** The end-user license agreement for the current community gallery security posture. */
+  eula?: string;
+  /** The disclaimer for a community gallery resource. */
+  disclaimer?: string;
+  /** The artifact tags of a community gallery resource. */
+  artifactTags?: { [propertyName: string]: string };
+}
+
+/** Specifies information about the gallery security posture version that you want to create or update. */
+export interface CommunitySecurityPostureVersion
+  extends PirCommunityGalleryResource {
+  /** Specifies information about the gallery security posture that you want to create or update. */
+  securityPosture?: CommunitySecurityPosture;
+  /** If set to true, Virtual Machines deployed from the latest version of the security posture won't use this posture version. */
+  excludeFromLatest?: boolean;
+  /** A list of security posture settings, in key-value pair. */
+  settings?: PostureSetting[];
+  /** A setting for gallery security posture. */
+  vmExtensions?: VirtualMachineExtensionAutoGenerated2;
+  /** The disclaimer for a community gallery resource. */
+  disclaimer?: string;
+  /** The artifact tags of a community gallery resource. */
+  artifactTags?: { [propertyName: string]: string };
+  /** The published date of the gallery security posture version. This property can be used for decommissioning purposes. This property is updatable. */
+  publishedDate?: Date;
+  /** The end of life date of the gallery security posture version. This property can be used for decommissioning purposes. This property is updatable. */
+  endOfLifeDate?: Date;
 }
 
 /** Describes a Virtual Machine Image. */
@@ -6892,7 +7035,7 @@ export interface SharedGalleryImage extends PirSharedGalleryResource {
   features?: GalleryImageFeature[];
   /** Describes the gallery image definition purchase plan. This is used by marketplace images. */
   purchasePlan?: ImagePurchasePlan;
-  /** The architecture of the image. Applicable to OS disks only. */
+  /** CPU architecture supported by an OS disk. */
   architecture?: Architecture;
   /** Privacy statement uri for the current community gallery image. */
   privacyStatementUri?: string;
@@ -7098,10 +7241,6 @@ export enum KnownDiskCreateOptionTypes {
   Empty = "Empty",
   /** Attach */
   Attach = "Attach",
-  /** Copy */
-  Copy = "Copy",
-  /** Restore */
-  Restore = "Restore",
 }
 
 /**
@@ -7111,9 +7250,7 @@ export enum KnownDiskCreateOptionTypes {
  * ### Known values supported by the service
  * **FromImage** \
  * **Empty** \
- * **Attach** \
- * **Copy** \
- * **Restore**
+ * **Attach**
  */
 export type DiskCreateOptionTypes = string;
 
@@ -7138,8 +7275,6 @@ export enum KnownDiffDiskPlacement {
   CacheDisk = "CacheDisk",
   /** ResourceDisk */
   ResourceDisk = "ResourceDisk",
-  /** NvmeDisk */
-  NvmeDisk = "NvmeDisk",
 }
 
 /**
@@ -7148,8 +7283,7 @@ export enum KnownDiffDiskPlacement {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **CacheDisk** \
- * **ResourceDisk** \
- * **NvmeDisk**
+ * **ResourceDisk**
  */
 export type DiffDiskPlacement = string;
 
@@ -8691,27 +8825,6 @@ export enum KnownExpandTypesForGetCapacityReservationGroups {
  * **virtualMachines\/$ref**
  */
 export type ExpandTypesForGetCapacityReservationGroups = string;
-
-/** Known values of {@link ResourceIdOptionsForGetCapacityReservationGroups} that the service accepts. */
-export enum KnownResourceIdOptionsForGetCapacityReservationGroups {
-  /** CreatedInSubscription */
-  CreatedInSubscription = "CreatedInSubscription",
-  /** SharedWithSubscription */
-  SharedWithSubscription = "SharedWithSubscription",
-  /** All */
-  All = "All",
-}
-
-/**
- * Defines values for ResourceIdOptionsForGetCapacityReservationGroups. \
- * {@link KnownResourceIdOptionsForGetCapacityReservationGroups} can be used interchangeably with ResourceIdOptionsForGetCapacityReservationGroups,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **CreatedInSubscription** \
- * **SharedWithSubscription** \
- * **All**
- */
-export type ResourceIdOptionsForGetCapacityReservationGroups = string;
 
 /** Known values of {@link CapacityReservationInstanceViewTypes} that the service accepts. */
 export enum KnownCapacityReservationInstanceViewTypes {
@@ -11448,8 +11561,6 @@ export interface CapacityReservationGroupsListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {
   /** The expand expression to apply on the operation. Based on the expand param(s) specified we return Virtual Machine or ScaleSet VM Instance or both resource Ids which are associated to capacity reservation group in the response. */
   expand?: ExpandTypesForGetCapacityReservationGroups;
-  /** The query option to fetch Capacity Reservation Group Resource Ids. <br> 'CreatedInSubscription' enables fetching Resource Ids for all capacity reservation group resources created in the subscription. <br> 'SharedWithSubscription' enables fetching Resource Ids for all capacity reservation group resources shared with the subscription. <br> 'All' enables fetching Resource Ids for all capacity reservation group resources shared with the subscription and created in the subscription. */
-  resourceIdsOnly?: ResourceIdOptionsForGetCapacityReservationGroups;
 }
 
 /** Contains response data for the listBySubscription operation. */
@@ -12465,6 +12576,93 @@ export interface GallerySharingProfileUpdateOptionalParams
 export type GallerySharingProfileUpdateResponse = SharingUpdate;
 
 /** Optional parameters. */
+export interface GallerySecurityPosturesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type GallerySecurityPosturesCreateOrUpdateResponse =
+  GallerySecurityPosture;
+
+/** Optional parameters. */
+export interface GallerySecurityPosturesUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type GallerySecurityPosturesUpdateResponse = GallerySecurityPosture;
+
+/** Optional parameters. */
+export interface GallerySecurityPosturesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type GallerySecurityPosturesGetResponse = GallerySecurityPosture;
+
+/** Optional parameters. */
+export interface GallerySecurityPosturesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface GallerySecurityPostureVersionsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type GallerySecurityPostureVersionsCreateOrUpdateResponse =
+  GallerySecurityPostureVersion;
+
+/** Optional parameters. */
+export interface GallerySecurityPostureVersionsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type GallerySecurityPostureVersionsUpdateResponse =
+  GallerySecurityPostureVersion;
+
+/** Optional parameters. */
+export interface GallerySecurityPostureVersionsGetOptionalParams
+  extends coreClient.OperationOptions {
+  /** The expand expression to apply on the operation. */
+  expand?: ReplicationStatusTypes;
+}
+
+/** Contains response data for the get operation. */
+export type GallerySecurityPostureVersionsGetResponse =
+  GallerySecurityPostureVersion;
+
+/** Optional parameters. */
+export interface GallerySecurityPostureVersionsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
 export interface SharedGalleriesListOptionalParams
   extends coreClient.OperationOptions {
   /** The query parameter to decide what shared galleries to fetch when doing listing operations. */
@@ -12589,6 +12787,22 @@ export interface CommunityGalleryImageVersionsListNextOptionalParams
 /** Contains response data for the listNext operation. */
 export type CommunityGalleryImageVersionsListNextResponse =
   CommunityGalleryImageVersionList;
+
+/** Optional parameters. */
+export interface CommunityGallerySecurityPosturesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type CommunityGallerySecurityPosturesGetResponse =
+  CommunitySecurityPosture;
+
+/** Optional parameters. */
+export interface CommunityGallerySecurityPostureVersionsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type CommunityGallerySecurityPostureVersionsGetResponse =
+  CommunitySecurityPostureVersion;
 
 /** Optional parameters. */
 export interface CloudServiceRoleInstancesDeleteOptionalParams

@@ -437,11 +437,7 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.expand8,
-    Parameters.resourceIdsOnly,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.expand8],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
