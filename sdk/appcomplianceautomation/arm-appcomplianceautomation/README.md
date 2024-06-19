@@ -6,7 +6,7 @@ App Compliance Automation Tool for Microsoft 365 API spec
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appcomplianceautomation/arm-appcomplianceautomation) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-appcomplianceautomation) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-appcomplianceautomation?view=azure-node-preview) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-appcomplianceautomation) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
