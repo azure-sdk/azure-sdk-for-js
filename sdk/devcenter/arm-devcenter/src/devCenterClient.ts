@@ -15,7 +15,10 @@ import {
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
+  PlansImpl,
+  PlanMembersImpl,
   DevCentersImpl,
+  EncryptionSetsImpl,
   ProjectsImpl,
   AttachedNetworksImpl,
   ProjectCatalogsImpl,
@@ -24,6 +27,7 @@ import {
   GalleriesImpl,
   ImagesImpl,
   ImageVersionsImpl,
+  SkusImpl,
   CatalogsImpl,
   EnvironmentTypesImpl,
   ProjectAllowedEnvironmentTypesImpl,
@@ -34,13 +38,17 @@ import {
   UsagesImpl,
   CheckNameAvailabilityImpl,
   CheckScopedNameAvailabilityImpl,
-  SkusImpl,
+  CustomizationTasksImpl,
+  ProjectCatalogImageDefinitionsImpl,
   PoolsImpl,
   SchedulesImpl,
   NetworkConnectionsImpl,
 } from "./operations";
 import {
+  Plans,
+  PlanMembers,
   DevCenters,
+  EncryptionSets,
   Projects,
   AttachedNetworks,
   ProjectCatalogs,
@@ -49,6 +57,7 @@ import {
   Galleries,
   Images,
   ImageVersions,
+  Skus,
   Catalogs,
   EnvironmentTypes,
   ProjectAllowedEnvironmentTypes,
@@ -59,7 +68,8 @@ import {
   Usages,
   CheckNameAvailability,
   CheckScopedNameAvailability,
-  Skus,
+  CustomizationTasks,
+  ProjectCatalogImageDefinitions,
   Pools,
   Schedules,
   NetworkConnections,
@@ -98,7 +108,7 @@ export class DevCenterClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-devcenter/1.1.1`;
+    const packageDetails = `azsdk-js-arm-devcenter/1.2.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -152,8 +162,11 @@ export class DevCenterClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-02-01";
+    this.apiVersion = options.apiVersion || "2024-06-01-preview";
+    this.plans = new PlansImpl(this);
+    this.planMembers = new PlanMembersImpl(this);
     this.devCenters = new DevCentersImpl(this);
+    this.encryptionSets = new EncryptionSetsImpl(this);
     this.projects = new ProjectsImpl(this);
     this.attachedNetworks = new AttachedNetworksImpl(this);
     this.projectCatalogs = new ProjectCatalogsImpl(this);
@@ -163,6 +176,7 @@ export class DevCenterClient extends coreClient.ServiceClient {
     this.galleries = new GalleriesImpl(this);
     this.images = new ImagesImpl(this);
     this.imageVersions = new ImageVersionsImpl(this);
+    this.skus = new SkusImpl(this);
     this.catalogs = new CatalogsImpl(this);
     this.environmentTypes = new EnvironmentTypesImpl(this);
     this.projectAllowedEnvironmentTypes =
@@ -176,7 +190,9 @@ export class DevCenterClient extends coreClient.ServiceClient {
     this.checkScopedNameAvailability = new CheckScopedNameAvailabilityImpl(
       this,
     );
-    this.skus = new SkusImpl(this);
+    this.customizationTasks = new CustomizationTasksImpl(this);
+    this.projectCatalogImageDefinitions =
+      new ProjectCatalogImageDefinitionsImpl(this);
     this.pools = new PoolsImpl(this);
     this.schedules = new SchedulesImpl(this);
     this.networkConnections = new NetworkConnectionsImpl(this);
@@ -211,7 +227,10 @@ export class DevCenterClient extends coreClient.ServiceClient {
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
+  plans: Plans;
+  planMembers: PlanMembers;
   devCenters: DevCenters;
+  encryptionSets: EncryptionSets;
   projects: Projects;
   attachedNetworks: AttachedNetworks;
   projectCatalogs: ProjectCatalogs;
@@ -220,6 +239,7 @@ export class DevCenterClient extends coreClient.ServiceClient {
   galleries: Galleries;
   images: Images;
   imageVersions: ImageVersions;
+  skus: Skus;
   catalogs: Catalogs;
   environmentTypes: EnvironmentTypes;
   projectAllowedEnvironmentTypes: ProjectAllowedEnvironmentTypes;
@@ -230,7 +250,8 @@ export class DevCenterClient extends coreClient.ServiceClient {
   usages: Usages;
   checkNameAvailability: CheckNameAvailability;
   checkScopedNameAvailability: CheckScopedNameAvailability;
-  skus: Skus;
+  customizationTasks: CustomizationTasks;
+  projectCatalogImageDefinitions: ProjectCatalogImageDefinitions;
   pools: Pools;
   schedules: Schedules;
   networkConnections: NetworkConnections;

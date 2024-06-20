@@ -8,13 +8,13 @@
 
 import * as coreClient from "@azure/core-client";
 
-/** Result of the list devcenters operation */
-export interface DevCenterListResult {
+/** Result of the list devcenter plans operation */
+export interface PlanListResult {
   /**
    * Current page of results.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly value?: DevCenter[];
+  readonly value?: DevCenterPlan[];
   /**
    * URL to get the next set of results if there are any.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -22,75 +22,18 @@ export interface DevCenterListResult {
   readonly nextLink?: string;
 }
 
-/** Properties of the devcenter. These properties can be updated after the resource has been created. */
-export interface DevCenterUpdateProperties {
-  /** Encryption settings to be used for server-side encryption for proprietary content (such as catalogs, logs, customizations). */
-  encryption?: Encryption;
-  /** The display name of the devcenter. */
-  displayName?: string;
-  /** Dev Center settings to be used when associating a project with a catalog. */
-  projectCatalogSettings?: DevCenterProjectCatalogSettings;
-}
-
-export interface Encryption {
-  /** All Customer-managed key encryption properties for the resource. */
-  customerManagedKeyEncryption?: CustomerManagedKeyEncryption;
-}
-
-/** All Customer-managed key encryption properties for the resource. */
-export interface CustomerManagedKeyEncryption {
-  /** All identity configuration for Customer-managed key settings defining which identity should be used to auth to Key Vault. */
-  keyEncryptionKeyIdentity?: CustomerManagedKeyEncryptionKeyIdentity;
-  /** key encryption key Url, versioned or non-versioned. Ex: https://contosovault.vault.azure.net/keys/contosokek/562a4bb76b524a1493a6afe8e536ee78 or https://contosovault.vault.azure.net/keys/contosokek. */
-  keyEncryptionKeyUrl?: string;
-}
-
-/** All identity configuration for Customer-managed key settings defining which identity should be used to auth to Key Vault. */
-export interface CustomerManagedKeyEncryptionKeyIdentity {
-  /** Values can be systemAssignedIdentity or userAssignedIdentity */
-  identityType?: IdentityType;
-  /** user assigned identity to use for accessing key encryption key Url. Ex: /subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/<resource group>/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myId. Mutually exclusive with identityType systemAssignedIdentity and delegatedResourceIdentity. */
-  userAssignedIdentityResourceId?: string;
-  /** delegated identity to use for accessing key encryption key Url. Ex: /subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/<resource group>/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myId. Mutually exclusive with identityType systemAssignedIdentity and userAssignedIdentity - internal use only. */
-  delegatedIdentityClientId?: string;
-}
-
-/** Project catalog settings for project catalogs under a project associated to this dev center. */
-export interface DevCenterProjectCatalogSettings {
-  /** Whether project catalogs associated with projects in this dev center can be configured to sync catalog items. */
-  catalogItemSyncEnableStatus?: CatalogItemSyncEnableStatus;
-}
-
-/** Managed service identity (system assigned and/or user assigned identities) */
-export interface ManagedServiceIdentity {
-  /**
-   * The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalId?: string;
-  /**
-   * The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly tenantId?: string;
-  /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
-  type: ManagedServiceIdentityType;
-  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
-}
-
-/** User assigned identity properties */
-export interface UserAssignedIdentity {
-  /**
-   * The principal ID of the assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalId?: string;
-  /**
-   * The client ID of the assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly clientId?: string;
+/** The resource model definition representing SKU */
+export interface Sku {
+  /** The name of the SKU. E.g. P3. It is typically a letter+number code */
+  name: string;
+  /** This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT. */
+  tier?: SkuTier;
+  /** The SKU size. When the name field is the combination of tier and some other value, this would be the standalone code. */
+  size?: string;
+  /** If the service has different generations of hardware, for the same SKU, then that can be captured here. */
+  family?: string;
+  /** If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted. */
+  capacity?: number;
 }
 
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
@@ -190,6 +133,151 @@ export interface TrackedResourceUpdate {
   location?: string;
 }
 
+/** Result of the list devcenter plan members operation */
+export interface PlanMembersListResult {
+  /**
+   * Current page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: DevCenterPlanMember[];
+  /**
+   * URL to get the next set of results if there are any.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** The devcenter plan member resource for partial updates. Properties not provided in the update request will not be changed. */
+export interface PlanMemberUpdate {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+}
+
+/** Result of the list devcenters operation */
+export interface DevCenterListResult {
+  /**
+   * Current page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: DevCenter[];
+  /**
+   * URL to get the next set of results if there are any.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Properties of the devcenter. These properties can be updated after the resource has been created. */
+export interface DevCenterUpdateProperties {
+  /** Resource Id of an associated Plan */
+  planId?: string;
+  /** Encryption settings to be used for server-side encryption for proprietary content (such as catalogs, logs, customizations). */
+  encryption?: Encryption;
+  /** The display name of the devcenter. */
+  displayName?: string;
+  /** Dev Center settings to be used when associating a project with a catalog. */
+  projectCatalogSettings?: DevCenterProjectCatalogSettings;
+  /** Network settings that will be enforced on network resources associated with the Dev Center. */
+  networkSettings?: DevCenterNetworkSettings;
+  /** Settings to be used in the provisioning of all Dev Boxes that belong to this dev center. */
+  devBoxProvisioningSettings?: DevBoxProvisioningSettings;
+}
+
+export interface Encryption {
+  /** All Customer-managed key encryption properties for the resource. */
+  customerManagedKeyEncryption?: CustomerManagedKeyEncryption;
+}
+
+/** All Customer-managed key encryption properties for the resource. */
+export interface CustomerManagedKeyEncryption {
+  /** All identity configuration for Customer-managed key settings defining which identity should be used to auth to Key Vault. */
+  keyEncryptionKeyIdentity?: CustomerManagedKeyEncryptionKeyIdentity;
+  /** key encryption key Url, versioned or non-versioned. Ex: https://contosovault.vault.azure.net/keys/contosokek/562a4bb76b524a1493a6afe8e536ee78 or https://contosovault.vault.azure.net/keys/contosokek. */
+  keyEncryptionKeyUrl?: string;
+}
+
+/** All identity configuration for Customer-managed key settings defining which identity should be used to auth to Key Vault. */
+export interface CustomerManagedKeyEncryptionKeyIdentity {
+  /** Values can be systemAssignedIdentity or userAssignedIdentity */
+  identityType?: IdentityType;
+  /** user assigned identity to use for accessing key encryption key Url. Ex: /subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/<resource group>/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myId. Mutually exclusive with identityType systemAssignedIdentity and delegatedResourceIdentity. */
+  userAssignedIdentityResourceId?: string;
+  /** delegated identity to use for accessing key encryption key Url. Ex: /subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/<resource group>/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myId. Mutually exclusive with identityType systemAssignedIdentity and userAssignedIdentity - internal use only. */
+  delegatedIdentityClientId?: string;
+}
+
+/** Project catalog settings for project catalogs under a project associated to this dev center. */
+export interface DevCenterProjectCatalogSettings {
+  /** Whether project catalogs associated with projects in this dev center can be configured to sync catalog items. */
+  catalogItemSyncEnableStatus?: CatalogItemSyncEnableStatus;
+}
+
+/** Network settings for the Dev Center. */
+export interface DevCenterNetworkSettings {
+  /** Indicates whether pools in this Dev Center can use Microsoft Hosted Networks. Defaults to Enabled if not set. */
+  microsoftHostedNetworkEnableStatus?: MicrosoftHostedNetworkEnableStatus;
+}
+
+/** Provisioning settings that apply to all Dev Boxes created in this dev center */
+export interface DevBoxProvisioningSettings {
+  /** Whether project catalogs associated with projects in this dev center can be configured to sync catalog items. */
+  installAzureMonitorAgentEnableStatus?: InstallAzureMonitorAgentEnableStatus;
+}
+
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface ManagedServiceIdentity {
+  /**
+   * The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
+  type: ManagedServiceIdentityType;
+  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+  userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
+}
+
+/** User assigned identity properties */
+export interface UserAssignedIdentity {
+  /**
+   * The principal ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The client ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientId?: string;
+}
+
+/** Result of the list devcenter encryption set operation */
+export interface EncryptionSetListResult {
+  /**
+   * Current page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: DevCenterEncryptionSet[];
+  /**
+   * URL to get the next set of results if there are any.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Properties of the devcenter encryption set. These properties can be updated after the resource has been created. */
+export interface DevCenterEncryptionSetUpdateProperties {
+  /** Devbox disk encryption enable or disable status. Indicates if Devbox disks encryption using DevCenter CMK is enabled or not. */
+  devboxDisksEncryptionEnableStatus?: DevboxDisksEncryptionEnableStatus;
+  /** Key encryption key Url, versioned or non-versioned. Ex: https://contosovault.vault.azure.net/keys/contosokek/562a4bb76b524a1493a6afe8e536ee78 or https://contosovault.vault.azure.net/keys/contosokek. */
+  keyEncryptionKeyUrl?: string;
+}
+
 /** Results of the project list operation. */
 export interface ProjectListResult {
   /**
@@ -222,6 +310,29 @@ export interface ProjectUpdateProperties {
 export interface ProjectCatalogSettings {
   /** Indicates catalog item types that can be synced. */
   catalogItemSyncTypes?: CatalogItemType[];
+}
+
+/** Applicable inherited settings for a project. */
+export interface InheritedSettingsForProject {
+  /**
+   * Dev Center settings to be used when associating a project with a catalog.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly projectCatalogSettings?: DevCenterProjectCatalogSettings;
+  /**
+   * Network settings that will be enforced on this project.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly networkSettings?: ProjectNetworkSettings;
+}
+
+/** Network settings for the project. */
+export interface ProjectNetworkSettings {
+  /**
+   * Indicates whether pools in this Dev Center can use Microsoft Hosted Networks. Defaults to Enabled if not set.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly microsoftHostedNetworkEnableStatus?: MicrosoftHostedNetworkEnableStatus;
 }
 
 /** Results of the Attached Networks list operation. */
@@ -506,6 +617,34 @@ export interface ImageVersionListResult {
   readonly nextLink?: string;
 }
 
+/** Results of the Microsoft.DevCenter SKU list operation. */
+export interface SkuListResult {
+  /**
+   * Current page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: DevCenterSku[];
+  /**
+   * URL to get the next set of results if there are any.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** A name/value pair to describe a capability. */
+export interface Capability {
+  /**
+   * Name of the capability.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Value of the capability.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: string;
+}
+
 /** Result of the environment type list operation. */
 export interface EnvironmentTypeListResult {
   /**
@@ -665,20 +804,6 @@ export interface DevBoxDefinitionUpdateProperties {
   hibernateSupport?: HibernateSupport;
 }
 
-/** The resource model definition representing SKU */
-export interface Sku {
-  /** The name of the SKU. Ex - P3. It is typically a letter+number code */
-  name: string;
-  /** This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT. */
-  tier?: SkuTier;
-  /** The SKU size. When the name field is the combination of tier and some other value, this would be the standalone code. */
-  size?: string;
-  /** If the service has different generations of hardware, for the same SKU, then that can be captured here. */
-  family?: string;
-  /** If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted. */
-  capacity?: number;
-}
-
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface OperationListResult {
   /**
@@ -832,13 +957,13 @@ export interface CheckScopedNameAvailabilityRequest {
   scope?: string;
 }
 
-/** Results of the Microsoft.DevCenter SKU list operation. */
-export interface SkuListResult {
+/** Results of the Task list operation. */
+export interface CustomizationTaskListResult {
   /**
    * Current page of results.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly value?: DevCenterSku[];
+  readonly value?: CustomizationTask[];
   /**
    * URL to get the next set of results if there are any.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -846,18 +971,37 @@ export interface SkuListResult {
   readonly nextLink?: string;
 }
 
-/** A name/value pair to describe a capability. */
-export interface Capability {
+/** Input for a Task. */
+export interface CustomizationTaskInput {
   /**
-   * Name of the capability.
+   * Description of the input.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly name?: string;
+  readonly description?: string;
   /**
-   * Value of the capability.
+   * Type of the input.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly value?: string;
+  readonly type?: CustomizationTaskInputType;
+  /**
+   * Whether or not the input is required.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly required?: boolean;
+}
+
+/** Results of the Image Definition list operation. */
+export interface ImageDefinitionListResult {
+  /**
+   * Current page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: ImageDefinition[];
+  /**
+   * URL to get the next set of results if there are any.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
 }
 
 /** Results of the machine pool list operation. */
@@ -890,8 +1034,12 @@ export interface HealthStatusDetail {
 
 /** Properties of a Pool. These properties can be updated after the resource has been created. */
 export interface PoolUpdateProperties {
-  /** Name of a Dev Box definition in parent Project of this Pool */
+  /** Indicates if the pool is created from an existing Dev Box Definition or if one is provided directly. */
+  devBoxDefinitionType?: PoolDevBoxDefinitionType;
+  /** Name of a Dev Box definition in parent Project of this Pool. Will be ignored if devBoxDefinitionType is Value. */
   devBoxDefinitionName?: string;
+  /** A definition of the machines that are created from this Pool. Will be ignored if devBoxDefinitionType is Reference or not provided. */
+  devBoxDefinition?: PoolDevBoxDefinition;
   /** Name of a Network Connection in parent Project of this Pool */
   networkConnectionName?: string;
   /** Specifies the license type indicating the caller has already acquired licenses for the Dev Boxes that will be created. */
@@ -908,6 +1056,19 @@ export interface PoolUpdateProperties {
   virtualNetworkType?: VirtualNetworkType;
   /** The regions of the managed virtual network (required when managedNetworkType is Managed). */
   managedVirtualNetworkRegions?: string[];
+}
+
+/** Represents a definition for a Developer Machine. */
+export interface PoolDevBoxDefinition {
+  /** Image reference information. */
+  imageReference?: ImageReference;
+  /** The SKU for Dev Boxes created from the Pool. */
+  sku?: Sku;
+  /**
+   * Image reference information for the currently active image (only populated during updates).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly activeImageReference?: ImageReference;
 }
 
 /** Stop on disconnect configuration settings for Dev Boxes created in this pool. */
@@ -1084,18 +1245,23 @@ export interface EndpointDetail {
   readonly port?: number;
 }
 
-/** Properties of the devcenter. */
-export interface DevCenterProperties extends DevCenterUpdateProperties {
+/** The resource model definition representing SKU for DevCenter resources */
+export interface DevCenterSku extends Sku {
   /**
-   * The provisioning state of the resource.
+   * The name of the resource type
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: ProvisioningState;
+  readonly resourceType?: string;
   /**
-   * The URI of the Dev Center.
+   * SKU supported locations.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly devCenterUri?: string;
+  readonly locations?: string[];
+  /**
+   * Collection of name/value pairs to describe the SKU capabilities.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly capabilities?: Capability[];
 }
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
@@ -1104,6 +1270,23 @@ export interface TrackedResource extends Resource {
   tags?: { [propertyName: string]: string };
   /** The geo-location where the resource lives */
   location: string;
+}
+
+/** Represents a devcenter plan member resource. */
+export interface DevCenterPlanMember extends Resource {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** The unique id of the member. */
+  memberId?: string;
+  /** The type of the member (user, group) */
+  memberType?: PlanMemberType;
+  /** Resource tags. */
+  tagsPropertiesTags?: { [propertyName: string]: string };
+  /**
+   * The provisioning state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
 }
 
 /** Represents an attached NetworkConnection. */
@@ -1287,16 +1470,38 @@ export interface HealthCheckStatusDetails extends Resource {
   readonly healthChecks?: HealthCheck[];
 }
 
+/** The devcenter plan resource for partial updates. Properties not provided in the update request will not be changed. */
+export interface PlanUpdate extends TrackedResourceUpdate {
+  /** The SKU for DevCenters created using this definition. */
+  sku?: Sku;
+}
+
 /** The devcenter resource for partial updates. Properties not provided in the update request will not be changed. */
 export interface DevCenterUpdate extends TrackedResourceUpdate {
   /** Managed identity properties */
   identity?: ManagedServiceIdentity;
+  /** Resource Id of an associated Plan */
+  planId?: string;
   /** Encryption settings to be used for server-side encryption for proprietary content (such as catalogs, logs, customizations). */
   encryption?: Encryption;
   /** The display name of the devcenter. */
   displayName?: string;
   /** Dev Center settings to be used when associating a project with a catalog. */
   projectCatalogSettings?: DevCenterProjectCatalogSettings;
+  /** Network settings that will be enforced on network resources associated with the Dev Center. */
+  networkSettings?: DevCenterNetworkSettings;
+  /** Settings to be used in the provisioning of all Dev Boxes that belong to this dev center. */
+  devBoxProvisioningSettings?: DevBoxProvisioningSettings;
+}
+
+/** The devcenter encryption set resource for partial updates. Properties not provided in the update request will not be changed. */
+export interface EncryptionSetUpdate extends TrackedResourceUpdate {
+  /** Managed identity properties */
+  identity?: ManagedServiceIdentity;
+  /** Devbox disk encryption enable or disable status. Indicates if Devbox disks encryption using DevCenter CMK is enabled or not. */
+  devboxDisksEncryptionEnableStatus?: DevboxDisksEncryptionEnableStatus;
+  /** Key encryption key Url, versioned or non-versioned. Ex: https://contosovault.vault.azure.net/keys/contosokek/562a4bb76b524a1493a6afe8e536ee78 or https://contosovault.vault.azure.net/keys/contosokek. */
+  keyEncryptionKeyUrl?: string;
 }
 
 /** The project properties for partial update. Properties not provided in the update request will not be changed. */
@@ -1329,8 +1534,12 @@ export interface DevBoxDefinitionUpdate extends TrackedResourceUpdate {
 
 /** The pool properties for partial update. Properties not provided in the update request will not be changed. */
 export interface PoolUpdate extends TrackedResourceUpdate {
-  /** Name of a Dev Box definition in parent Project of this Pool */
+  /** Indicates if the pool is created from an existing Dev Box Definition or if one is provided directly. */
+  devBoxDefinitionType?: PoolDevBoxDefinitionType;
+  /** Name of a Dev Box definition in parent Project of this Pool. Will be ignored if devBoxDefinitionType is Value. */
   devBoxDefinitionName?: string;
+  /** A definition of the machines that are created from this Pool. Will be ignored if devBoxDefinitionType is Reference or not provided. */
+  devBoxDefinition?: PoolDevBoxDefinition;
   /** Name of a Network Connection in parent Project of this Pool */
   networkConnectionName?: string;
   /** Specifies the license type indicating the caller has already acquired licenses for the Dev Boxes that will be created. */
@@ -1375,6 +1584,30 @@ export interface NetworkConnectionUpdate extends TrackedResourceUpdate {
   domainUsername?: string;
   /** The password for the account used to join domain */
   domainPassword?: string;
+}
+
+/** Properties of the devcenter. */
+export interface DevCenterProperties extends DevCenterUpdateProperties {
+  /**
+   * The provisioning state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * The URI of the Dev Center.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly devCenterUri?: string;
+}
+
+/** Properties of the devcenter encryption set. */
+export interface DevCenterEncryptionSetProperties
+  extends DevCenterEncryptionSetUpdateProperties {
+  /**
+   * The provisioning state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
 }
 
 /** Properties of a project. */
@@ -1480,25 +1713,6 @@ export interface DevBoxDefinitionProperties
   readonly activeImageReference?: ImageReference;
 }
 
-/** The resource model definition representing SKU for DevCenter resources */
-export interface DevCenterSku extends Sku {
-  /**
-   * The name of the resource type
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resourceType?: string;
-  /**
-   * SKU supported locations.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly locations?: string[];
-  /**
-   * Collection of name/value pairs to describe the SKU capabilities.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly capabilities?: Capability[];
-}
-
 /** The current status of an async operation */
 export interface OperationStatus extends OperationStatusResult {
   /**
@@ -1550,16 +1764,33 @@ export interface NetworkProperties extends NetworkConnectionUpdateProperties {
   domainJoinType: DomainJoinType;
 }
 
+/** Represents a devcenter plan resource. */
+export interface DevCenterPlan extends TrackedResource {
+  /** The SKU for DevCenters created using this definition. */
+  sku?: Sku;
+  /**
+   * The provisioning state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
 /** Represents a devcenter resource. */
 export interface DevCenter extends TrackedResource {
   /** Managed identity properties */
   identity?: ManagedServiceIdentity;
+  /** Resource Id of an associated Plan */
+  planId?: string;
   /** Encryption settings to be used for server-side encryption for proprietary content (such as catalogs, logs, customizations). */
   encryption?: Encryption;
   /** The display name of the devcenter. */
   displayName?: string;
   /** Dev Center settings to be used when associating a project with a catalog. */
   projectCatalogSettings?: DevCenterProjectCatalogSettings;
+  /** Network settings that will be enforced on network resources associated with the Dev Center. */
+  networkSettings?: DevCenterNetworkSettings;
+  /** Settings to be used in the provisioning of all Dev Boxes that belong to this dev center. */
+  devBoxProvisioningSettings?: DevBoxProvisioningSettings;
   /**
    * The provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1570,6 +1801,21 @@ export interface DevCenter extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly devCenterUri?: string;
+}
+
+/** Represents a devcenter encryption set resource. */
+export interface DevCenterEncryptionSet extends TrackedResource {
+  /** Managed identity properties */
+  identity?: ManagedServiceIdentity;
+  /** Devbox disk encryption enable or disable status. Indicates if Devbox disks encryption using DevCenter CMK is enabled or not. */
+  devboxDisksEncryptionEnableStatus?: DevboxDisksEncryptionEnableStatus;
+  /** Key encryption key Url, versioned or non-versioned. Ex: https://contosovault.vault.azure.net/keys/contosokek/562a4bb76b524a1493a6afe8e536ee78 or https://contosovault.vault.azure.net/keys/contosokek. */
+  keyEncryptionKeyUrl?: string;
+  /**
+   * The provisioning state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
 }
 
 /** Represents a project resource. */
@@ -1637,8 +1883,12 @@ export interface DevBoxDefinition extends TrackedResource {
 
 /** A pool of Virtual Machines. */
 export interface Pool extends TrackedResource {
-  /** Name of a Dev Box definition in parent Project of this Pool */
+  /** Indicates if the pool is created from an existing Dev Box Definition or if one is provided directly. */
+  devBoxDefinitionType?: PoolDevBoxDefinitionType;
+  /** Name of a Dev Box definition in parent Project of this Pool. Will be ignored if devBoxDefinitionType is Value. */
   devBoxDefinitionName?: string;
+  /** A definition of the machines that are created from this Pool. Will be ignored if devBoxDefinitionType is Reference or not provided. */
+  devBoxDefinition?: PoolDevBoxDefinition;
   /** Name of a Network Connection in parent Project of this Pool */
   networkConnectionName?: string;
   /** Specifies the license type indicating the caller has already acquired licenses for the Dev Boxes that will be created. */
@@ -1797,6 +2047,31 @@ export interface ImageVersion extends ProxyResource {
   readonly provisioningState?: ProvisioningState;
 }
 
+/** Represents a Task to be used in customizing a Dev Box. */
+export interface CustomizationTask extends ProxyResource {
+  /**
+   * Inputs to the task.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly inputs?: { [propertyName: string]: CustomizationTaskInput };
+  /**
+   * The default timeout for the task.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly timeout?: number;
+  /**
+   * Validation status for the Task.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly validationStatus?: CatalogResourceValidationStatus;
+}
+
+/** Represents a definition for an Image. */
+export interface ImageDefinition extends ProxyResource {
+  /** Image reference information. */
+  imageReference?: ImageReference;
+}
+
 /** The Schedule properties defining when and what to execute. */
 export interface ScheduleProperties extends ScheduleUpdateProperties {
   /**
@@ -1806,6 +2081,26 @@ export interface ScheduleProperties extends ScheduleUpdateProperties {
   readonly provisioningState?: ProvisioningState;
 }
 
+/** Defines headers for Plans_update operation. */
+export interface PlansUpdateHeaders {
+  location?: string;
+}
+
+/** Defines headers for Plans_delete operation. */
+export interface PlansDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for PlanMembers_update operation. */
+export interface PlanMembersUpdateHeaders {
+  location?: string;
+}
+
+/** Defines headers for PlanMembers_delete operation. */
+export interface PlanMembersDeleteHeaders {
+  location?: string;
+}
+
 /** Defines headers for DevCenters_update operation. */
 export interface DevCentersUpdateHeaders {
   location?: string;
@@ -1813,6 +2108,16 @@ export interface DevCentersUpdateHeaders {
 
 /** Defines headers for DevCenters_delete operation. */
 export interface DevCentersDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for EncryptionSets_update operation. */
+export interface EncryptionSetsUpdateHeaders {
+  location?: string;
+}
+
+/** Defines headers for EncryptionSets_delete operation. */
+export interface EncryptionSetsDeleteHeaders {
   location?: string;
 }
 
@@ -1991,6 +2296,48 @@ export enum KnownProvisioningState {
  */
 export type ProvisioningState = string;
 
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  /** User */
+  User = "User",
+  /** Application */
+  Application = "Application",
+  /** ManagedIdentity */
+  ManagedIdentity = "ManagedIdentity",
+  /** Key */
+  Key = "Key",
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
+
+/** Known values of {@link PlanMemberType} that the service accepts. */
+export enum KnownPlanMemberType {
+  /** User */
+  User = "User",
+  /** Group */
+  Group = "Group",
+}
+
+/**
+ * Defines values for PlanMemberType. \
+ * {@link KnownPlanMemberType} can be used interchangeably with PlanMemberType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Group**
+ */
+export type PlanMemberType = string;
+
 /** Known values of {@link IdentityType} that the service accepts. */
 export enum KnownIdentityType {
   /** SystemAssignedIdentity */
@@ -2030,6 +2377,42 @@ export enum KnownCatalogItemSyncEnableStatus {
  */
 export type CatalogItemSyncEnableStatus = string;
 
+/** Known values of {@link MicrosoftHostedNetworkEnableStatus} that the service accepts. */
+export enum KnownMicrosoftHostedNetworkEnableStatus {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled",
+}
+
+/**
+ * Defines values for MicrosoftHostedNetworkEnableStatus. \
+ * {@link KnownMicrosoftHostedNetworkEnableStatus} can be used interchangeably with MicrosoftHostedNetworkEnableStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type MicrosoftHostedNetworkEnableStatus = string;
+
+/** Known values of {@link InstallAzureMonitorAgentEnableStatus} that the service accepts. */
+export enum KnownInstallAzureMonitorAgentEnableStatus {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled",
+}
+
+/**
+ * Defines values for InstallAzureMonitorAgentEnableStatus. \
+ * {@link KnownInstallAzureMonitorAgentEnableStatus} can be used interchangeably with InstallAzureMonitorAgentEnableStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type InstallAzureMonitorAgentEnableStatus = string;
+
 /** Known values of {@link ManagedServiceIdentityType} that the service accepts. */
 export enum KnownManagedServiceIdentityType {
   /** None */
@@ -2054,34 +2437,30 @@ export enum KnownManagedServiceIdentityType {
  */
 export type ManagedServiceIdentityType = string;
 
-/** Known values of {@link CreatedByType} that the service accepts. */
-export enum KnownCreatedByType {
-  /** User */
-  User = "User",
-  /** Application */
-  Application = "Application",
-  /** ManagedIdentity */
-  ManagedIdentity = "ManagedIdentity",
-  /** Key */
-  Key = "Key",
+/** Known values of {@link DevboxDisksEncryptionEnableStatus} that the service accepts. */
+export enum KnownDevboxDisksEncryptionEnableStatus {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled",
 }
 
 /**
- * Defines values for CreatedByType. \
- * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ * Defines values for DevboxDisksEncryptionEnableStatus. \
+ * {@link KnownDevboxDisksEncryptionEnableStatus} can be used interchangeably with DevboxDisksEncryptionEnableStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **User** \
- * **Application** \
- * **ManagedIdentity** \
- * **Key**
+ * **Enabled** \
+ * **Disabled**
  */
-export type CreatedByType = string;
+export type DevboxDisksEncryptionEnableStatus = string;
 
 /** Known values of {@link CatalogItemType} that the service accepts. */
 export enum KnownCatalogItemType {
   /** EnvironmentDefinition */
   EnvironmentDefinition = "EnvironmentDefinition",
+  /** ImageDefinition */
+  ImageDefinition = "ImageDefinition",
 }
 
 /**
@@ -2089,7 +2468,8 @@ export enum KnownCatalogItemType {
  * {@link KnownCatalogItemType} can be used interchangeably with CatalogItemType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **EnvironmentDefinition**
+ * **EnvironmentDefinition** \
+ * **ImageDefinition**
  */
 export type CatalogItemType = string;
 
@@ -2129,6 +2509,8 @@ export enum KnownDomainJoinType {
   HybridAzureADJoin = "HybridAzureADJoin",
   /** AzureADJoin */
   AzureADJoin = "AzureADJoin",
+  /** None */
+  None = "None",
 }
 
 /**
@@ -2137,7 +2519,8 @@ export enum KnownDomainJoinType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **HybridAzureADJoin** \
- * **AzureADJoin**
+ * **AzureADJoin** \
+ * **None**
  */
 export type DomainJoinType = string;
 
@@ -2387,6 +2770,27 @@ export enum KnownCheckNameAvailabilityReason {
  */
 export type CheckNameAvailabilityReason = string;
 
+/** Known values of {@link CustomizationTaskInputType} that the service accepts. */
+export enum KnownCustomizationTaskInputType {
+  /** String */
+  String = "string",
+  /** Number */
+  Number = "number",
+  /** Boolean */
+  Boolean = "boolean",
+}
+
+/**
+ * Defines values for CustomizationTaskInputType. \
+ * {@link KnownCustomizationTaskInputType} can be used interchangeably with CustomizationTaskInputType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **string** \
+ * **number** \
+ * **boolean**
+ */
+export type CustomizationTaskInputType = string;
+
 /** Known values of {@link HealthStatus} that the service accepts. */
 export enum KnownHealthStatus {
   /** Unknown */
@@ -2413,6 +2817,24 @@ export enum KnownHealthStatus {
  * **Unhealthy**
  */
 export type HealthStatus = string;
+
+/** Known values of {@link PoolDevBoxDefinitionType} that the service accepts. */
+export enum KnownPoolDevBoxDefinitionType {
+  /** Reference */
+  Reference = "Reference",
+  /** Value */
+  Value = "Value",
+}
+
+/**
+ * Defines values for PoolDevBoxDefinitionType. \
+ * {@link KnownPoolDevBoxDefinitionType} can be used interchangeably with PoolDevBoxDefinitionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Reference** \
+ * **Value**
+ */
+export type PoolDevBoxDefinitionType = string;
 
 /** Known values of {@link LicenseType} that the service accepts. */
 export enum KnownLicenseType {
@@ -2552,6 +2974,140 @@ export type ScheduleEnableStatus = string;
 export type SkuTier = "Free" | "Basic" | "Standard" | "Premium";
 
 /** Optional parameters. */
+export interface PlansListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {
+  /** The maximum number of resources to return from the operation. Example: '$top=10'. */
+  top?: number;
+}
+
+/** Contains response data for the listBySubscription operation. */
+export type PlansListBySubscriptionResponse = PlanListResult;
+
+/** Optional parameters. */
+export interface PlansListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {
+  /** The maximum number of resources to return from the operation. Example: '$top=10'. */
+  top?: number;
+}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type PlansListByResourceGroupResponse = PlanListResult;
+
+/** Optional parameters. */
+export interface PlansGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type PlansGetResponse = DevCenterPlan;
+
+/** Optional parameters. */
+export interface PlansCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type PlansCreateOrUpdateResponse = DevCenterPlan;
+
+/** Optional parameters. */
+export interface PlansUpdateOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type PlansUpdateResponse = DevCenterPlan;
+
+/** Optional parameters. */
+export interface PlansDeleteOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type PlansDeleteResponse = PlansDeleteHeaders;
+
+/** Optional parameters. */
+export interface PlansListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type PlansListBySubscriptionNextResponse = PlanListResult;
+
+/** Optional parameters. */
+export interface PlansListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type PlansListByResourceGroupNextResponse = PlanListResult;
+
+/** Optional parameters. */
+export interface PlanMembersListOptionalParams
+  extends coreClient.OperationOptions {
+  /** The maximum number of resources to return from the operation. Example: '$top=10'. */
+  top?: number;
+}
+
+/** Contains response data for the list operation. */
+export type PlanMembersListResponse = PlanMembersListResult;
+
+/** Optional parameters. */
+export interface PlanMembersGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type PlanMembersGetResponse = DevCenterPlanMember;
+
+/** Optional parameters. */
+export interface PlanMembersCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type PlanMembersCreateOrUpdateResponse = DevCenterPlanMember;
+
+/** Optional parameters. */
+export interface PlanMembersUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type PlanMembersUpdateResponse = DevCenterPlanMember;
+
+/** Optional parameters. */
+export interface PlanMembersDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type PlanMembersDeleteResponse = PlanMembersDeleteHeaders;
+
+/** Optional parameters. */
+export interface PlanMembersListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type PlanMembersListNextResponse = PlanMembersListResult;
+
+/** Optional parameters. */
 export interface DevCentersListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
@@ -2629,6 +3185,66 @@ export interface DevCentersListByResourceGroupNextOptionalParams
 export type DevCentersListByResourceGroupNextResponse = DevCenterListResult;
 
 /** Optional parameters. */
+export interface EncryptionSetsListOptionalParams
+  extends coreClient.OperationOptions {
+  /** The maximum number of resources to return from the operation. Example: '$top=10'. */
+  top?: number;
+}
+
+/** Contains response data for the list operation. */
+export type EncryptionSetsListResponse = EncryptionSetListResult;
+
+/** Optional parameters. */
+export interface EncryptionSetsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type EncryptionSetsGetResponse = DevCenterEncryptionSet;
+
+/** Optional parameters. */
+export interface EncryptionSetsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type EncryptionSetsCreateOrUpdateResponse = DevCenterEncryptionSet;
+
+/** Optional parameters. */
+export interface EncryptionSetsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type EncryptionSetsUpdateResponse = DevCenterEncryptionSet;
+
+/** Optional parameters. */
+export interface EncryptionSetsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type EncryptionSetsDeleteResponse = EncryptionSetsDeleteHeaders;
+
+/** Optional parameters. */
+export interface EncryptionSetsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type EncryptionSetsListNextResponse = EncryptionSetListResult;
+
+/** Optional parameters. */
 export interface ProjectsListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
@@ -2690,6 +3306,13 @@ export interface ProjectsDeleteOptionalParams
 
 /** Contains response data for the delete operation. */
 export type ProjectsDeleteResponse = ProjectsDeleteHeaders;
+
+/** Optional parameters. */
+export interface ProjectsGetInheritedSettingsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getInheritedSettings operation. */
+export type ProjectsGetInheritedSettingsResponse = InheritedSettingsForProject;
 
 /** Optional parameters. */
 export interface ProjectsListBySubscriptionNextOptionalParams
@@ -3011,6 +3634,20 @@ export interface ImagesGetOptionalParams extends coreClient.OperationOptions {}
 export type ImagesGetResponse = Image;
 
 /** Optional parameters. */
+export interface ImagesListByProjectOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByProject operation. */
+export type ImagesListByProjectResponse = ImageListResult;
+
+/** Optional parameters. */
+export interface ImagesGetByProjectOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getByProject operation. */
+export type ImagesGetByProjectResponse = Image;
+
+/** Optional parameters. */
 export interface ImagesListByDevCenterNextOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -3023,6 +3660,13 @@ export interface ImagesListByGalleryNextOptionalParams
 
 /** Contains response data for the listByGalleryNext operation. */
 export type ImagesListByGalleryNextResponse = ImageListResult;
+
+/** Optional parameters. */
+export interface ImagesListByProjectNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByProjectNext operation. */
+export type ImagesListByProjectNextResponse = ImageListResult;
 
 /** Optional parameters. */
 export interface ImageVersionsListByImageOptionalParams
@@ -3039,11 +3683,63 @@ export interface ImageVersionsGetOptionalParams
 export type ImageVersionsGetResponse = ImageVersion;
 
 /** Optional parameters. */
+export interface ImageVersionsListByProjectOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByProject operation. */
+export type ImageVersionsListByProjectResponse = ImageVersionListResult;
+
+/** Optional parameters. */
+export interface ImageVersionsGetByProjectOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getByProject operation. */
+export type ImageVersionsGetByProjectResponse = ImageVersion;
+
+/** Optional parameters. */
 export interface ImageVersionsListByImageNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByImageNext operation. */
 export type ImageVersionsListByImageNextResponse = ImageVersionListResult;
+
+/** Optional parameters. */
+export interface ImageVersionsListByProjectNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByProjectNext operation. */
+export type ImageVersionsListByProjectNextResponse = ImageVersionListResult;
+
+/** Optional parameters. */
+export interface SkusListByProjectOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByProject operation. */
+export type SkusListByProjectResponse = SkuListResult;
+
+/** Optional parameters. */
+export interface SkusListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {
+  /** The maximum number of resources to return from the operation. Example: '$top=10'. */
+  top?: number;
+}
+
+/** Contains response data for the listBySubscription operation. */
+export type SkusListBySubscriptionResponse = SkuListResult;
+
+/** Optional parameters. */
+export interface SkusListByProjectNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByProjectNext operation. */
+export type SkusListByProjectNextResponse = SkuListResult;
+
+/** Optional parameters. */
+export interface SkusListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type SkusListBySubscriptionNextResponse = SkuListResult;
 
 /** Optional parameters. */
 export interface CatalogsListByDevCenterOptionalParams
@@ -3389,21 +4085,65 @@ export type CheckScopedNameAvailabilityExecuteResponse =
   CheckNameAvailabilityResponse;
 
 /** Optional parameters. */
-export interface SkusListBySubscriptionOptionalParams
+export interface CustomizationTasksListByCatalogOptionalParams
   extends coreClient.OperationOptions {
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
   top?: number;
 }
 
-/** Contains response data for the listBySubscription operation. */
-export type SkusListBySubscriptionResponse = SkuListResult;
+/** Contains response data for the listByCatalog operation. */
+export type CustomizationTasksListByCatalogResponse =
+  CustomizationTaskListResult;
 
 /** Optional parameters. */
-export interface SkusListBySubscriptionNextOptionalParams
+export interface CustomizationTasksGetOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listBySubscriptionNext operation. */
-export type SkusListBySubscriptionNextResponse = SkuListResult;
+/** Contains response data for the get operation. */
+export type CustomizationTasksGetResponse = CustomizationTask;
+
+/** Optional parameters. */
+export interface CustomizationTasksGetErrorDetailsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getErrorDetails operation. */
+export type CustomizationTasksGetErrorDetailsResponse =
+  CatalogResourceValidationErrorDetails;
+
+/** Optional parameters. */
+export interface CustomizationTasksListByCatalogNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByCatalogNext operation. */
+export type CustomizationTasksListByCatalogNextResponse =
+  CustomizationTaskListResult;
+
+/** Optional parameters. */
+export interface ProjectCatalogImageDefinitionsListByProjectCatalogOptionalParams
+  extends coreClient.OperationOptions {
+  /** The maximum number of resources to return from the operation. Example: '$top=10'. */
+  top?: number;
+}
+
+/** Contains response data for the listByProjectCatalog operation. */
+export type ProjectCatalogImageDefinitionsListByProjectCatalogResponse =
+  ImageDefinitionListResult;
+
+/** Optional parameters. */
+export interface ProjectCatalogImageDefinitionsGetByProjectCatalogOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getByProjectCatalog operation. */
+export type ProjectCatalogImageDefinitionsGetByProjectCatalogResponse =
+  ImageDefinition;
+
+/** Optional parameters. */
+export interface ProjectCatalogImageDefinitionsListByProjectCatalogNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByProjectCatalogNext operation. */
+export type ProjectCatalogImageDefinitionsListByProjectCatalogNextResponse =
+  ImageDefinitionListResult;
 
 /** Optional parameters. */
 export interface PoolsListByProjectOptionalParams

@@ -7,11 +7,26 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { DevCenterSku, SkusListBySubscriptionOptionalParams } from "../models";
+import {
+  DevCenterSku,
+  SkusListByProjectOptionalParams,
+  SkusListBySubscriptionOptionalParams,
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Skus. */
 export interface Skus {
+  /**
+   * Lists SKUs available to the project
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param projectName The name of the project.
+   * @param options The options parameters.
+   */
+  listByProject(
+    resourceGroupName: string,
+    projectName: string,
+    options?: SkusListByProjectOptionalParams,
+  ): PagedAsyncIterableIterator<DevCenterSku>;
   /**
    * Lists the Microsoft.DevCenter SKUs available in a subscription
    * @param options The options parameters.
