@@ -6,32 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  SummaryResource,
-  SummariesListByFirmwareOptionalParams,
   SummaryName,
   SummariesGetOptionalParams,
   SummariesGetResponse,
 } from "../models";
 
-/// <reference lib="esnext.asynciterable" />
 /** Interface representing a Summaries. */
 export interface Summaries {
-  /**
-   * Lists analysis result summary names of a firmware. To fetch the full summary data, get that summary
-   * by name.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the firmware analysis workspace.
-   * @param firmwareId The id of the firmware.
-   * @param options The options parameters.
-   */
-  listByFirmware(
-    resourceGroupName: string,
-    workspaceName: string,
-    firmwareId: string,
-    options?: SummariesListByFirmwareOptionalParams,
-  ): PagedAsyncIterableIterator<SummaryResource>;
   /**
    * Get an analysis result summary of a firmware by name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

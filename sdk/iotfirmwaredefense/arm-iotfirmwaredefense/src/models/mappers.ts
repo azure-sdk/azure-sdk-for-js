@@ -1253,34 +1253,6 @@ export const SbomComponent: coreClient.CompositeMapper = {
   },
 };
 
-export const SummaryListResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SummaryListResult",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "SummaryResource",
-            },
-          },
-        },
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
 export const SummaryResourceProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1369,6 +1341,34 @@ export const GenerateUploadUrlRequest: coreClient.CompositeMapper = {
     modelProperties: {
       firmwareId: {
         serializedName: "firmwareId",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const SummaryListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SummaryListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SummaryResource",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
         type: {
           name: "String",
         },

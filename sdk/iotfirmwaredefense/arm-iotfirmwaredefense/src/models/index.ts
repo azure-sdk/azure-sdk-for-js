@@ -495,17 +495,6 @@ export interface SbomComponent {
   filePaths?: string[];
 }
 
-/** List of analysis summaries. */
-export interface SummaryListResult {
-  /**
-   * The list of summaries.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: SummaryResource[];
-  /** The uri to fetch the next page of resources. */
-  nextLink?: string;
-}
-
 /** Properties of an analysis summary. */
 export interface SummaryResourceProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -547,6 +536,17 @@ export interface WorkspaceUpdateDefinition {
 export interface GenerateUploadUrlRequest {
   /** A unique ID for the firmware to be uploaded. */
   firmwareId?: string;
+}
+
+/** List of analysis summaries. */
+export interface SummaryListResult {
+  /**
+   * The list of summaries.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: SummaryResource[];
+  /** The uri to fetch the next page of resources. */
+  nextLink?: string;
 }
 
 /** binary hardening analysis result resource */
@@ -817,33 +817,6 @@ export enum KnownActionType {
  */
 export type ActionType = string;
 
-/** Known values of {@link SummaryType} that the service accepts. */
-export enum KnownSummaryType {
-  /** Firmware */
-  Firmware = "Firmware",
-  /** CVE */
-  CVE = "CVE",
-  /** BinaryHardening */
-  BinaryHardening = "BinaryHardening",
-  /** CryptoCertificate */
-  CryptoCertificate = "CryptoCertificate",
-  /** CryptoKey */
-  CryptoKey = "CryptoKey",
-}
-
-/**
- * Defines values for SummaryType. \
- * {@link KnownSummaryType} can be used interchangeably with SummaryType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Firmware** \
- * **CVE** \
- * **BinaryHardening** \
- * **CryptoCertificate** \
- * **CryptoKey**
- */
-export type SummaryType = string;
-
 /** Known values of {@link SummaryName} that the service accepts. */
 export enum KnownSummaryName {
   /** Firmware */
@@ -870,6 +843,33 @@ export enum KnownSummaryName {
  * **CryptoKey**
  */
 export type SummaryName = string;
+
+/** Known values of {@link SummaryType} that the service accepts. */
+export enum KnownSummaryType {
+  /** Firmware */
+  Firmware = "Firmware",
+  /** CVE */
+  CVE = "CVE",
+  /** BinaryHardening */
+  BinaryHardening = "BinaryHardening",
+  /** CryptoCertificate */
+  CryptoCertificate = "CryptoCertificate",
+  /** CryptoKey */
+  CryptoKey = "CryptoKey",
+}
+
+/**
+ * Defines values for SummaryType. \
+ * {@link KnownSummaryType} can be used interchangeably with SummaryType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Firmware** \
+ * **CVE** \
+ * **BinaryHardening** \
+ * **CryptoCertificate** \
+ * **CryptoKey**
+ */
+export type SummaryType = string;
 
 /** Optional parameters. */
 export interface BinaryHardeningListByFirmwareOptionalParams
@@ -1026,25 +1026,11 @@ export interface SbomComponentsListByFirmwareNextOptionalParams
 export type SbomComponentsListByFirmwareNextResponse = SbomComponentListResult;
 
 /** Optional parameters. */
-export interface SummariesListByFirmwareOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByFirmware operation. */
-export type SummariesListByFirmwareResponse = SummaryListResult;
-
-/** Optional parameters. */
 export interface SummariesGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type SummariesGetResponse = SummaryResource;
-
-/** Optional parameters. */
-export interface SummariesListByFirmwareNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByFirmwareNext operation. */
-export type SummariesListByFirmwareNextResponse = SummaryListResult;
 
 /** Optional parameters. */
 export interface WorkspacesListBySubscriptionOptionalParams

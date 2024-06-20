@@ -650,7 +650,6 @@ export interface StatusMessage {
 // @public
 export interface Summaries {
     get(resourceGroupName: string, workspaceName: string, firmwareId: string, summaryName: SummaryName, options?: SummariesGetOptionalParams): Promise<SummariesGetResponse>;
-    listByFirmware(resourceGroupName: string, workspaceName: string, firmwareId: string, options?: SummariesListByFirmwareOptionalParams): PagedAsyncIterableIterator<SummaryResource>;
 }
 
 // @public
@@ -659,20 +658,6 @@ export interface SummariesGetOptionalParams extends coreClient.OperationOptions 
 
 // @public
 export type SummariesGetResponse = SummaryResource;
-
-// @public
-export interface SummariesListByFirmwareNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SummariesListByFirmwareNextResponse = SummaryListResult;
-
-// @public
-export interface SummariesListByFirmwareOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SummariesListByFirmwareResponse = SummaryListResult;
 
 // @public
 export interface SummaryListResult {
