@@ -158,6 +158,10 @@ export interface FleetHubProfile {
 export interface APIServerAccessProfile {
   /** Whether to create the Fleet hub as a private cluster or not. */
   enablePrivateCluster?: boolean;
+  /** Whether to enable apiserver vnet integration for the Fleet hub or not. */
+  enableVnetIntegration?: boolean;
+  /** The subnet to be used when apiserver vnet integration is enabled. It is required when creating a new Fleet with BYO vnet. */
+  subnetId?: string;
 }
 
 /** Agent profile for the Fleet hub. */
@@ -248,6 +252,20 @@ export interface FleetPatch {
   identity?: ManagedServiceIdentity;
 }
 
+/** The response of a AutoUpgradeProfile list operation. */
+export interface AutoUpgradeProfileListResult {
+  /** The AutoUpgradeProfile items on this page */
+  value: AutoUpgradeProfile[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** The node image upgrade to be applied to the target clusters in auto upgrade. */
+export interface AutoUpgradeNodeImageSelection {
+  /** The node image upgrade type. */
+  type: AutoUpgradeNodeImageSelectionType;
+}
+
 /** The Credential results response. */
 export interface FleetCredentialResults {
   /**
@@ -336,7 +354,11 @@ export interface ManagedClusterUpdate {
 
 /** The upgrade to apply to a ManagedCluster. */
 export interface ManagedClusterUpgradeSpec {
-  /** ManagedClusterUpgradeType is the type of upgrade to be applied. */
+  /**
+   * The upgrade type.
+   * Full requires the KubernetesVersion property to be set.
+   * NodeImageOnly requires the KubernetesVersion property not to be set.
+   */
   type: ManagedClusterUpgradeType;
   /** The Kubernetes version to upgrade the member clusters to. */
   kubernetesVersion?: string;
@@ -346,6 +368,17 @@ export interface ManagedClusterUpgradeSpec {
 export interface NodeImageSelection {
   /** The node image upgrade type. */
   type: NodeImageSelectionType;
+  /** Custom node image versions to upgrade the nodes to. This field is required if node image selection type is Custom. Otherwise, it must be empty. For each node image family (e.g., 'AKSUbuntu-1804gen2containerd'), this field can contain at most one version (e.g., only one of 'AKSUbuntu-1804gen2containerd-2023.01.12' or 'AKSUbuntu-1804gen2containerd-2023.02.12', not both). If the nodes belong to a family without a matching image version in this field, they are not upgraded. */
+  customNodeImageVersions?: NodeImageVersion[];
+}
+
+/** The node upgrade image version. */
+export interface NodeImageVersion {
+  /**
+   * The image version to upgrade the nodes to (e.g., 'AKSUbuntu-1804gen2containerd-2022.12.13').
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly version?: string;
 }
 
 /** The status of a UpdateRun. */
@@ -486,15 +519,6 @@ export interface NodeImageSelectionStatus {
   readonly selectedNodeImageVersions?: NodeImageVersion[];
 }
 
-/** The node upgrade image version. */
-export interface NodeImageVersion {
-  /**
-   * The image version to upgrade the nodes to (e.g., 'AKSUbuntu-1804gen2containerd-2022.12.13').
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly version?: string;
-}
-
 /** The properties of a skip operation containing multiple skip requests. */
 export interface SkipProperties {
   /** The targets to skip. */
@@ -548,6 +572,33 @@ export interface Fleet extends TrackedResource {
   readonly provisioningState?: FleetProvisioningState;
   /** The FleetHubProfile configures the Fleet's hub. */
   hubProfile?: FleetHubProfile;
+}
+
+/** The AutoUpgradeProfile resource. */
+export interface AutoUpgradeProfile extends ProxyResource {
+  /**
+   * If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly eTag?: string;
+  /**
+   * The provisioning state of the AutoUpgradeProfile resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: AutoUpgradeProfileProvisioningState;
+  /** The resource id of the UpdateStrategy resource to reference. If not specified, the auto upgrade will run on all clusters which are members of the fleet. */
+  updateStrategyId?: string;
+  /** Configures how auto-upgrade will be run. */
+  channel?: UpgradeChannel;
+  /** The node image upgrade to be applied to the target clusters in auto upgrade. */
+  nodeImageSelection?: AutoUpgradeNodeImageSelection;
+  /**
+   * If set to False: the auto upgrade has effect - target managed clusters will be upgraded on schedule.
+   * If set to True: the auto upgrade has no effect - no upgrade will be run on the target managed clusters.
+   * This is a boolean and not an enum because enabled/disabled are all available states of the auto upgrade profile.
+   * By default, this is set to False.
+   */
+  disabled?: boolean;
 }
 
 /** A member of the Fleet. It contains a reference to an existing Kubernetes cluster on Azure. */
@@ -634,18 +685,32 @@ export interface FleetsCreateOrUpdateHeaders {
 
 /** Defines headers for Fleets_update operation. */
 export interface FleetsUpdateHeaders {
-  /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 
 /** Defines headers for Fleets_delete operation. */
 export interface FleetsDeleteHeaders {
-  /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+
+/** Defines headers for AutoUpgradeProfiles_createOrUpdate operation. */
+export interface AutoUpgradeProfilesCreateOrUpdateHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for AutoUpgradeProfiles_delete operation. */
+export interface AutoUpgradeProfilesDeleteHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 
 /** Defines headers for FleetMembers_create operation. */
@@ -656,18 +721,18 @@ export interface FleetMembersCreateHeaders {
 
 /** Defines headers for FleetMembers_update operation. */
 export interface FleetMembersUpdateHeaders {
-  /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 
 /** Defines headers for FleetMembers_delete operation. */
 export interface FleetMembersDeleteHeaders {
-  /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 
 /** Defines headers for UpdateRuns_createOrUpdate operation. */
@@ -678,34 +743,26 @@ export interface UpdateRunsCreateOrUpdateHeaders {
 
 /** Defines headers for UpdateRuns_delete operation. */
 export interface UpdateRunsDeleteHeaders {
-  /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number;
-}
-
-/** Defines headers for UpdateRuns_skip operation. */
-export interface UpdateRunsSkipHeaders {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
 }
 
 /** Defines headers for UpdateRuns_start operation. */
 export interface UpdateRunsStartHeaders {
-  /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 
 /** Defines headers for UpdateRuns_stop operation. */
 export interface UpdateRunsStopHeaders {
-  /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 
 /** Defines headers for FleetUpdateStrategies_createOrUpdate operation. */
@@ -716,10 +773,10 @@ export interface FleetUpdateStrategiesCreateOrUpdateHeaders {
 
 /** Defines headers for FleetUpdateStrategies_delete operation. */
 export interface FleetUpdateStrategiesDeleteHeaders {
-  /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 
 /** Known values of {@link Origin} that the service accepts. */
@@ -836,6 +893,70 @@ export enum KnownCreatedByType {
  */
 export type CreatedByType = string;
 
+/** Known values of {@link AutoUpgradeProfileProvisioningState} that the service accepts. */
+export enum KnownAutoUpgradeProfileProvisioningState {
+  /** Resource has been created. */
+  Succeeded = "Succeeded",
+  /** Resource creation failed. */
+  Failed = "Failed",
+  /** Resource creation was canceled. */
+  Canceled = "Canceled",
+}
+
+/**
+ * Defines values for AutoUpgradeProfileProvisioningState. \
+ * {@link KnownAutoUpgradeProfileProvisioningState} can be used interchangeably with AutoUpgradeProfileProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded**: Resource has been created. \
+ * **Failed**: Resource creation failed. \
+ * **Canceled**: Resource creation was canceled.
+ */
+export type AutoUpgradeProfileProvisioningState = string;
+
+/** Known values of {@link UpgradeChannel} that the service accepts. */
+export enum KnownUpgradeChannel {
+  /**
+   *  Upgrades the clusters kubernetes version to the latest supported patch release on minor version N-1, where N is the latest supported minor version.
+   *  For example, if a cluster runs version 1.17.7 and versions 1.17.9, 1.18.4, 1.18.6, and 1.19.1 are available, the cluster upgrades to 1.18.6.
+   */
+  Stable = "Stable",
+  /** Upgrades the clusters kubernetes version to the latest supported patch release on the latest supported minor version. */
+  Rapid = "Rapid",
+  /** Upgrade node image version of the clusters. */
+  NodeImage = "NodeImage",
+}
+
+/**
+ * Defines values for UpgradeChannel. \
+ * {@link KnownUpgradeChannel} can be used interchangeably with UpgradeChannel,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Stable**:  Upgrades the clusters kubernetes version to the latest supported patch release on minor version N-1, where N is the latest supported minor version.
+ *  For example, if a cluster runs version 1.17.7 and versions 1.17.9, 1.18.4, 1.18.6, and 1.19.1 are available, the cluster upgrades to 1.18.6. \
+ * **Rapid**: Upgrades the clusters kubernetes version to the latest supported patch release on the latest supported minor version. \
+ * **NodeImage**: Upgrade node image version of the clusters.
+ */
+export type UpgradeChannel = string;
+
+/** Known values of {@link AutoUpgradeNodeImageSelectionType} that the service accepts. */
+export enum KnownAutoUpgradeNodeImageSelectionType {
+  /** Use the latest image version when upgrading nodes. Clusters may use different image versions (e.g., 'AKSUbuntu-1804gen2containerd-2021.10.12' and 'AKSUbuntu-1804gen2containerd-2021.10.19') because, for example, the latest available version is different in different regions. */
+  Latest = "Latest",
+  /** The image versions to upgrade nodes to are selected as described below: for each node pool in managed clusters affected by the update run, the system selects the latest image version such that it is available across all other node pools (in all other clusters) of the same image type. As a result, all node pools of the same image type will be upgraded to the same image version. For example, if the latest image version for image type 'AKSUbuntu-1804gen2containerd' is 'AKSUbuntu-1804gen2containerd-2021.10.12' for a node pool in cluster A in region X, and is 'AKSUbuntu-1804gen2containerd-2021.10.17' for a node pool in cluster B in region Y, the system will upgrade both node pools to image version 'AKSUbuntu-1804gen2containerd-2021.10.12'. */
+  Consistent = "Consistent",
+}
+
+/**
+ * Defines values for AutoUpgradeNodeImageSelectionType. \
+ * {@link KnownAutoUpgradeNodeImageSelectionType} can be used interchangeably with AutoUpgradeNodeImageSelectionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Latest**: Use the latest image version when upgrading nodes. Clusters may use different image versions (e.g., 'AKSUbuntu-1804gen2containerd-2021.10.12' and 'AKSUbuntu-1804gen2containerd-2021.10.19') because, for example, the latest available version is different in different regions. \
+ * **Consistent**: The image versions to upgrade nodes to are selected as described below: for each node pool in managed clusters affected by the update run, the system selects the latest image version such that it is available across all other node pools (in all other clusters) of the same image type. As a result, all node pools of the same image type will be upgraded to the same image version. For example, if the latest image version for image type 'AKSUbuntu-1804gen2containerd' is 'AKSUbuntu-1804gen2containerd-2021.10.12' for a node pool in cluster A in region X, and is 'AKSUbuntu-1804gen2containerd-2021.10.17' for a node pool in cluster B in region Y, the system will upgrade both node pools to image version 'AKSUbuntu-1804gen2containerd-2021.10.12'.
+ */
+export type AutoUpgradeNodeImageSelectionType = string;
+
 /** Known values of {@link FleetMemberProvisioningState} that the service accepts. */
 export enum KnownFleetMemberProvisioningState {
   /** Resource has been created. */
@@ -889,12 +1010,10 @@ export type UpdateRunProvisioningState = string;
 
 /** Known values of {@link ManagedClusterUpgradeType} that the service accepts. */
 export enum KnownManagedClusterUpgradeType {
-  /** Full upgrades the control plane and all agent pools of the target ManagedClusters. Requires the ManagedClusterUpgradeSpec.KubernetesVersion property to be set. */
+  /** Full upgrades the control plane and all agent pools of the target ManagedClusters. */
   Full = "Full",
-  /** NodeImageOnly upgrades only the node images of the target ManagedClusters. Requires the ManagedClusterUpgradeSpec.KubernetesVersion property to NOT be set. */
+  /** NodeImageOnly upgrades only the node images of the target ManagedClusters. */
   NodeImageOnly = "NodeImageOnly",
-  /** ControlPlaneOnly upgrades only targets the KubernetesVersion of the ManagedClusters and will not be applied to the AgentPool. Requires the ManagedClusterUpgradeSpec.KubernetesVersion property to be set. */
-  ControlPlaneOnly = "ControlPlaneOnly",
 }
 
 /**
@@ -902,9 +1021,8 @@ export enum KnownManagedClusterUpgradeType {
  * {@link KnownManagedClusterUpgradeType} can be used interchangeably with ManagedClusterUpgradeType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Full**: Full upgrades the control plane and all agent pools of the target ManagedClusters. Requires the ManagedClusterUpgradeSpec.KubernetesVersion property to be set. \
- * **NodeImageOnly**: NodeImageOnly upgrades only the node images of the target ManagedClusters. Requires the ManagedClusterUpgradeSpec.KubernetesVersion property to NOT be set. \
- * **ControlPlaneOnly**: ControlPlaneOnly upgrades only targets the KubernetesVersion of the ManagedClusters and will not be applied to the AgentPool. Requires the ManagedClusterUpgradeSpec.KubernetesVersion property to be set.
+ * **Full**: Full upgrades the control plane and all agent pools of the target ManagedClusters. \
+ * **NodeImageOnly**: NodeImageOnly upgrades only the node images of the target ManagedClusters.
  */
 export type ManagedClusterUpgradeType = string;
 
@@ -914,6 +1032,8 @@ export enum KnownNodeImageSelectionType {
   Latest = "Latest",
   /** The image versions to upgrade nodes to are selected as described below: for each node pool in managed clusters affected by the update run, the system selects the latest image version such that it is available across all other node pools (in all other clusters) of the same image type. As a result, all node pools of the same image type will be upgraded to the same image version. For example, if the latest image version for image type 'AKSUbuntu-1804gen2containerd' is 'AKSUbuntu-1804gen2containerd-2021.10.12' for a node pool in cluster A in region X, and is 'AKSUbuntu-1804gen2containerd-2021.10.17' for a node pool in cluster B in region Y, the system will upgrade both node pools to image version 'AKSUbuntu-1804gen2containerd-2021.10.12'. */
   Consistent = "Consistent",
+  /** Upgrade the nodes to the custom image versions. When set, update run will use node image versions provided in customNodeImageVersions to upgrade the nodes. If set, customNodeImageVersions must not be empty. */
+  Custom = "Custom",
 }
 
 /**
@@ -922,7 +1042,8 @@ export enum KnownNodeImageSelectionType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Latest**: Use the latest image version when upgrading nodes. Clusters may use different image versions (e.g., 'AKSUbuntu-1804gen2containerd-2021.10.12' and 'AKSUbuntu-1804gen2containerd-2021.10.19') because, for example, the latest available version is different in different regions. \
- * **Consistent**: The image versions to upgrade nodes to are selected as described below: for each node pool in managed clusters affected by the update run, the system selects the latest image version such that it is available across all other node pools (in all other clusters) of the same image type. As a result, all node pools of the same image type will be upgraded to the same image version. For example, if the latest image version for image type 'AKSUbuntu-1804gen2containerd' is 'AKSUbuntu-1804gen2containerd-2021.10.12' for a node pool in cluster A in region X, and is 'AKSUbuntu-1804gen2containerd-2021.10.17' for a node pool in cluster B in region Y, the system will upgrade both node pools to image version 'AKSUbuntu-1804gen2containerd-2021.10.12'.
+ * **Consistent**: The image versions to upgrade nodes to are selected as described below: for each node pool in managed clusters affected by the update run, the system selects the latest image version such that it is available across all other node pools (in all other clusters) of the same image type. As a result, all node pools of the same image type will be upgraded to the same image version. For example, if the latest image version for image type 'AKSUbuntu-1804gen2containerd' is 'AKSUbuntu-1804gen2containerd-2021.10.12' for a node pool in cluster A in region X, and is 'AKSUbuntu-1804gen2containerd-2021.10.17' for a node pool in cluster B in region Y, the system will upgrade both node pools to image version 'AKSUbuntu-1804gen2containerd-2021.10.12'. \
+ * **Custom**: Upgrade the nodes to the custom image versions. When set, update run will use node image versions provided in customNodeImageVersions to upgrade the nodes. If set, customNodeImageVersions must not be empty.
  */
 export type NodeImageSelectionType = string;
 
@@ -1101,6 +1222,56 @@ export interface FleetsListByResourceGroupNextOptionalParams
 export type FleetsListByResourceGroupNextResponse = FleetListResult;
 
 /** Optional parameters. */
+export interface AutoUpgradeProfilesListByFleetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByFleet operation. */
+export type AutoUpgradeProfilesListByFleetResponse =
+  AutoUpgradeProfileListResult;
+
+/** Optional parameters. */
+export interface AutoUpgradeProfilesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type AutoUpgradeProfilesGetResponse = AutoUpgradeProfile;
+
+/** Optional parameters. */
+export interface AutoUpgradeProfilesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** The request should only proceed if an entity matches this string. */
+  ifMatch?: string;
+  /** The request should only proceed if no entity matches this string. */
+  ifNoneMatch?: string;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type AutoUpgradeProfilesCreateOrUpdateResponse = AutoUpgradeProfile;
+
+/** Optional parameters. */
+export interface AutoUpgradeProfilesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** The request should only proceed if an entity matches this string. */
+  ifMatch?: string;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface AutoUpgradeProfilesListByFleetNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByFleetNext operation. */
+export type AutoUpgradeProfilesListByFleetNextResponse =
+  AutoUpgradeProfileListResult;
+
+/** Optional parameters. */
 export interface FleetMembersListByFleetOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -1208,10 +1379,6 @@ export interface UpdateRunsSkipOptionalParams
   extends coreClient.OperationOptions {
   /** The request should only proceed if an entity matches this string. */
   ifMatch?: string;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
 }
 
 /** Contains response data for the skip operation. */

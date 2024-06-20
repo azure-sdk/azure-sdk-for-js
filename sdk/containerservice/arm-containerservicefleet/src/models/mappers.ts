@@ -310,6 +310,18 @@ export const APIServerAccessProfile: coreClient.CompositeMapper = {
           name: "Boolean",
         },
       },
+      enableVnetIntegration: {
+        serializedName: "enableVnetIntegration",
+        type: {
+          name: "Boolean",
+        },
+      },
+      subnetId: {
+        serializedName: "subnetId",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -496,6 +508,50 @@ export const FleetPatch: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ManagedServiceIdentity",
+        },
+      },
+    },
+  },
+};
+
+export const AutoUpgradeProfileListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AutoUpgradeProfileListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AutoUpgradeProfile",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const AutoUpgradeNodeImageSelection: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AutoUpgradeNodeImageSelection",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        required: true,
+        type: {
+          name: "String",
         },
       },
     },
@@ -762,6 +818,34 @@ export const NodeImageSelection: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      customNodeImageVersions: {
+        serializedName: "customNodeImageVersions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "NodeImageVersion",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const NodeImageVersion: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NodeImageVersion",
+    modelProperties: {
+      version: {
+        serializedName: "version",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -1007,22 +1091,6 @@ export const NodeImageSelectionStatus: coreClient.CompositeMapper = {
   },
 };
 
-export const NodeImageVersion: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "NodeImageVersion",
-    modelProperties: {
-      version: {
-        serializedName: "version",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
 export const SkipProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1162,6 +1230,55 @@ export const Fleet: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "FleetHubProfile",
+        },
+      },
+    },
+  },
+};
+
+export const AutoUpgradeProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AutoUpgradeProfile",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      eTag: {
+        serializedName: "eTag",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      updateStrategyId: {
+        serializedName: "properties.updateStrategyId",
+        type: {
+          name: "String",
+        },
+      },
+      channel: {
+        serializedName: "properties.channel",
+        type: {
+          name: "String",
+        },
+      },
+      nodeImageSelection: {
+        serializedName: "properties.nodeImageSelection",
+        type: {
+          name: "Composite",
+          className: "AutoUpgradeNodeImageSelection",
+        },
+      },
+      disabled: {
+        serializedName: "properties.disabled",
+        type: {
+          name: "Boolean",
         },
       },
     },
@@ -1311,16 +1428,16 @@ export const FleetsUpdateHeaders: coreClient.CompositeMapper = {
     name: "Composite",
     className: "FleetsUpdateHeaders",
     modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String",
-        },
-      },
       retryAfter: {
         serializedName: "retry-after",
         type: {
           name: "Number",
+        },
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
         },
       },
     },
@@ -1332,16 +1449,53 @@ export const FleetsDeleteHeaders: coreClient.CompositeMapper = {
     name: "Composite",
     className: "FleetsDeleteHeaders",
     modelProperties: {
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
+        },
+      },
       location: {
         serializedName: "location",
         type: {
           name: "String",
         },
       },
+    },
+  },
+};
+
+export const AutoUpgradeProfilesCreateOrUpdateHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "AutoUpgradeProfilesCreateOrUpdateHeaders",
+      modelProperties: {
+        retryAfter: {
+          serializedName: "retry-after",
+          type: {
+            name: "Number",
+          },
+        },
+      },
+    },
+  };
+
+export const AutoUpgradeProfilesDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AutoUpgradeProfilesDeleteHeaders",
+    modelProperties: {
       retryAfter: {
         serializedName: "retry-after",
         type: {
           name: "Number",
+        },
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
         },
       },
     },
@@ -1368,16 +1522,16 @@ export const FleetMembersUpdateHeaders: coreClient.CompositeMapper = {
     name: "Composite",
     className: "FleetMembersUpdateHeaders",
     modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String",
-        },
-      },
       retryAfter: {
         serializedName: "retry-after",
         type: {
           name: "Number",
+        },
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
         },
       },
     },
@@ -1389,16 +1543,16 @@ export const FleetMembersDeleteHeaders: coreClient.CompositeMapper = {
     name: "Composite",
     className: "FleetMembersDeleteHeaders",
     modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String",
-        },
-      },
       retryAfter: {
         serializedName: "retry-after",
         type: {
           name: "Number",
+        },
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
         },
       },
     },
@@ -1425,37 +1579,16 @@ export const UpdateRunsDeleteHeaders: coreClient.CompositeMapper = {
     name: "Composite",
     className: "UpdateRunsDeleteHeaders",
     modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String",
-        },
-      },
       retryAfter: {
         serializedName: "retry-after",
         type: {
           name: "Number",
         },
       },
-    },
-  },
-};
-
-export const UpdateRunsSkipHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "UpdateRunsSkipHeaders",
-    modelProperties: {
       location: {
         serializedName: "location",
         type: {
           name: "String",
-        },
-      },
-      retryAfter: {
-        serializedName: "retry-after",
-        type: {
-          name: "Number",
         },
       },
     },
@@ -1467,16 +1600,16 @@ export const UpdateRunsStartHeaders: coreClient.CompositeMapper = {
     name: "Composite",
     className: "UpdateRunsStartHeaders",
     modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String",
-        },
-      },
       retryAfter: {
         serializedName: "retry-after",
         type: {
           name: "Number",
+        },
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
         },
       },
     },
@@ -1488,16 +1621,16 @@ export const UpdateRunsStopHeaders: coreClient.CompositeMapper = {
     name: "Composite",
     className: "UpdateRunsStopHeaders",
     modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String",
-        },
-      },
       retryAfter: {
         serializedName: "retry-after",
         type: {
           name: "Number",
+        },
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
         },
       },
     },
@@ -1525,16 +1658,16 @@ export const FleetUpdateStrategiesDeleteHeaders: coreClient.CompositeMapper = {
     name: "Composite",
     className: "FleetUpdateStrategiesDeleteHeaders",
     modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String",
-        },
-      },
       retryAfter: {
         serializedName: "retry-after",
         type: {
           name: "Number",
+        },
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
         },
       },
     },

@@ -121,27 +121,7 @@ export interface UpdateRuns {
    * @param body The content of the action request
    * @param options The options parameters.
    */
-  beginSkip(
-    resourceGroupName: string,
-    fleetName: string,
-    updateRunName: string,
-    body: SkipProperties,
-    options?: UpdateRunsSkipOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<UpdateRunsSkipResponse>,
-      UpdateRunsSkipResponse
-    >
-  >;
-  /**
-   * Skips one or a combination of member/group/stage/afterStageWait(s) of an update run.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param fleetName The name of the Fleet resource.
-   * @param updateRunName The name of the UpdateRun resource.
-   * @param body The content of the action request
-   * @param options The options parameters.
-   */
-  beginSkipAndWait(
+  skip(
     resourceGroupName: string,
     fleetName: string,
     updateRunName: string,

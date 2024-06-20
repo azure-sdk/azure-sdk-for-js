@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { FleetUpdateStrategies } from "../operationsInterfaces";
+import { AutoUpgradeProfiles } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,25 +20,25 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  FleetUpdateStrategy,
-  FleetUpdateStrategiesListByFleetNextOptionalParams,
-  FleetUpdateStrategiesListByFleetOptionalParams,
-  FleetUpdateStrategiesListByFleetResponse,
-  FleetUpdateStrategiesGetOptionalParams,
-  FleetUpdateStrategiesGetResponse,
-  FleetUpdateStrategiesCreateOrUpdateOptionalParams,
-  FleetUpdateStrategiesCreateOrUpdateResponse,
-  FleetUpdateStrategiesDeleteOptionalParams,
-  FleetUpdateStrategiesListByFleetNextResponse,
+  AutoUpgradeProfile,
+  AutoUpgradeProfilesListByFleetNextOptionalParams,
+  AutoUpgradeProfilesListByFleetOptionalParams,
+  AutoUpgradeProfilesListByFleetResponse,
+  AutoUpgradeProfilesGetOptionalParams,
+  AutoUpgradeProfilesGetResponse,
+  AutoUpgradeProfilesCreateOrUpdateOptionalParams,
+  AutoUpgradeProfilesCreateOrUpdateResponse,
+  AutoUpgradeProfilesDeleteOptionalParams,
+  AutoUpgradeProfilesListByFleetNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing FleetUpdateStrategies operations. */
-export class FleetUpdateStrategiesImpl implements FleetUpdateStrategies {
+/** Class containing AutoUpgradeProfiles operations. */
+export class AutoUpgradeProfilesImpl implements AutoUpgradeProfiles {
   private readonly client: ContainerServiceFleetClient;
 
   /**
-   * Initialize a new instance of the class FleetUpdateStrategies class.
+   * Initialize a new instance of the class AutoUpgradeProfiles class.
    * @param client Reference to the service client
    */
   constructor(client: ContainerServiceFleetClient) {
@@ -46,7 +46,7 @@ export class FleetUpdateStrategiesImpl implements FleetUpdateStrategies {
   }
 
   /**
-   * List FleetUpdateStrategy resources by Fleet
+   * List AutoUpgradeProfile resources by Fleet
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param fleetName The name of the Fleet resource.
    * @param options The options parameters.
@@ -54,8 +54,8 @@ export class FleetUpdateStrategiesImpl implements FleetUpdateStrategies {
   public listByFleet(
     resourceGroupName: string,
     fleetName: string,
-    options?: FleetUpdateStrategiesListByFleetOptionalParams,
-  ): PagedAsyncIterableIterator<FleetUpdateStrategy> {
+    options?: AutoUpgradeProfilesListByFleetOptionalParams,
+  ): PagedAsyncIterableIterator<AutoUpgradeProfile> {
     const iter = this.listByFleetPagingAll(
       resourceGroupName,
       fleetName,
@@ -85,10 +85,10 @@ export class FleetUpdateStrategiesImpl implements FleetUpdateStrategies {
   private async *listByFleetPagingPage(
     resourceGroupName: string,
     fleetName: string,
-    options?: FleetUpdateStrategiesListByFleetOptionalParams,
+    options?: AutoUpgradeProfilesListByFleetOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<FleetUpdateStrategy[]> {
-    let result: FleetUpdateStrategiesListByFleetResponse;
+  ): AsyncIterableIterator<AutoUpgradeProfile[]> {
+    let result: AutoUpgradeProfilesListByFleetResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByFleet(resourceGroupName, fleetName, options);
@@ -114,8 +114,8 @@ export class FleetUpdateStrategiesImpl implements FleetUpdateStrategies {
   private async *listByFleetPagingAll(
     resourceGroupName: string,
     fleetName: string,
-    options?: FleetUpdateStrategiesListByFleetOptionalParams,
-  ): AsyncIterableIterator<FleetUpdateStrategy> {
+    options?: AutoUpgradeProfilesListByFleetOptionalParams,
+  ): AsyncIterableIterator<AutoUpgradeProfile> {
     for await (const page of this.listByFleetPagingPage(
       resourceGroupName,
       fleetName,
@@ -126,7 +126,7 @@ export class FleetUpdateStrategiesImpl implements FleetUpdateStrategies {
   }
 
   /**
-   * List FleetUpdateStrategy resources by Fleet
+   * List AutoUpgradeProfile resources by Fleet
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param fleetName The name of the Fleet resource.
    * @param options The options parameters.
@@ -134,8 +134,8 @@ export class FleetUpdateStrategiesImpl implements FleetUpdateStrategies {
   private _listByFleet(
     resourceGroupName: string,
     fleetName: string,
-    options?: FleetUpdateStrategiesListByFleetOptionalParams,
-  ): Promise<FleetUpdateStrategiesListByFleetResponse> {
+    options?: AutoUpgradeProfilesListByFleetOptionalParams,
+  ): Promise<AutoUpgradeProfilesListByFleetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, fleetName, options },
       listByFleetOperationSpec,
@@ -143,48 +143,48 @@ export class FleetUpdateStrategiesImpl implements FleetUpdateStrategies {
   }
 
   /**
-   * Get a FleetUpdateStrategy
+   * Get a AutoUpgradeProfile
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param fleetName The name of the Fleet resource.
-   * @param updateStrategyName The name of the UpdateStrategy resource.
+   * @param autoUpgradeProfileName The name of the AutoUpgradeProfile resource.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     fleetName: string,
-    updateStrategyName: string,
-    options?: FleetUpdateStrategiesGetOptionalParams,
-  ): Promise<FleetUpdateStrategiesGetResponse> {
+    autoUpgradeProfileName: string,
+    options?: AutoUpgradeProfilesGetOptionalParams,
+  ): Promise<AutoUpgradeProfilesGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, fleetName, updateStrategyName, options },
+      { resourceGroupName, fleetName, autoUpgradeProfileName, options },
       getOperationSpec,
     );
   }
 
   /**
-   * Create a FleetUpdateStrategy
+   * Create a AutoUpgradeProfile
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param fleetName The name of the Fleet resource.
-   * @param updateStrategyName The name of the UpdateStrategy resource.
+   * @param autoUpgradeProfileName The name of the AutoUpgradeProfile resource.
    * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     fleetName: string,
-    updateStrategyName: string,
-    resource: FleetUpdateStrategy,
-    options?: FleetUpdateStrategiesCreateOrUpdateOptionalParams,
+    autoUpgradeProfileName: string,
+    resource: AutoUpgradeProfile,
+    options?: AutoUpgradeProfilesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<FleetUpdateStrategiesCreateOrUpdateResponse>,
-      FleetUpdateStrategiesCreateOrUpdateResponse
+      OperationState<AutoUpgradeProfilesCreateOrUpdateResponse>,
+      AutoUpgradeProfilesCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<FleetUpdateStrategiesCreateOrUpdateResponse> => {
+    ): Promise<AutoUpgradeProfilesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -224,15 +224,15 @@ export class FleetUpdateStrategiesImpl implements FleetUpdateStrategies {
       args: {
         resourceGroupName,
         fleetName,
-        updateStrategyName,
+        autoUpgradeProfileName,
         resource,
         options,
       },
       spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
-      FleetUpdateStrategiesCreateOrUpdateResponse,
-      OperationState<FleetUpdateStrategiesCreateOrUpdateResponse>
+      AutoUpgradeProfilesCreateOrUpdateResponse,
+      OperationState<AutoUpgradeProfilesCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -243,24 +243,24 @@ export class FleetUpdateStrategiesImpl implements FleetUpdateStrategies {
   }
 
   /**
-   * Create a FleetUpdateStrategy
+   * Create a AutoUpgradeProfile
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param fleetName The name of the Fleet resource.
-   * @param updateStrategyName The name of the UpdateStrategy resource.
+   * @param autoUpgradeProfileName The name of the AutoUpgradeProfile resource.
    * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     fleetName: string,
-    updateStrategyName: string,
-    resource: FleetUpdateStrategy,
-    options?: FleetUpdateStrategiesCreateOrUpdateOptionalParams,
-  ): Promise<FleetUpdateStrategiesCreateOrUpdateResponse> {
+    autoUpgradeProfileName: string,
+    resource: AutoUpgradeProfile,
+    options?: AutoUpgradeProfilesCreateOrUpdateOptionalParams,
+  ): Promise<AutoUpgradeProfilesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       fleetName,
-      updateStrategyName,
+      autoUpgradeProfileName,
       resource,
       options,
     );
@@ -268,17 +268,17 @@ export class FleetUpdateStrategiesImpl implements FleetUpdateStrategies {
   }
 
   /**
-   * Delete a FleetUpdateStrategy
+   * Delete a AutoUpgradeProfile
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param fleetName The name of the Fleet resource.
-   * @param updateStrategyName The name of the UpdateStrategy resource.
+   * @param autoUpgradeProfileName The name of the AutoUpgradeProfile resource.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     fleetName: string,
-    updateStrategyName: string,
-    options?: FleetUpdateStrategiesDeleteOptionalParams,
+    autoUpgradeProfileName: string,
+    options?: AutoUpgradeProfilesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -320,7 +320,7 @@ export class FleetUpdateStrategiesImpl implements FleetUpdateStrategies {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, fleetName, updateStrategyName, options },
+      args: { resourceGroupName, fleetName, autoUpgradeProfileName, options },
       spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
@@ -333,22 +333,22 @@ export class FleetUpdateStrategiesImpl implements FleetUpdateStrategies {
   }
 
   /**
-   * Delete a FleetUpdateStrategy
+   * Delete a AutoUpgradeProfile
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param fleetName The name of the Fleet resource.
-   * @param updateStrategyName The name of the UpdateStrategy resource.
+   * @param autoUpgradeProfileName The name of the AutoUpgradeProfile resource.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     fleetName: string,
-    updateStrategyName: string,
-    options?: FleetUpdateStrategiesDeleteOptionalParams,
+    autoUpgradeProfileName: string,
+    options?: AutoUpgradeProfilesDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       fleetName,
-      updateStrategyName,
+      autoUpgradeProfileName,
       options,
     );
     return poller.pollUntilDone();
@@ -365,8 +365,8 @@ export class FleetUpdateStrategiesImpl implements FleetUpdateStrategies {
     resourceGroupName: string,
     fleetName: string,
     nextLink: string,
-    options?: FleetUpdateStrategiesListByFleetNextOptionalParams,
-  ): Promise<FleetUpdateStrategiesListByFleetNextResponse> {
+    options?: AutoUpgradeProfilesListByFleetNextOptionalParams,
+  ): Promise<AutoUpgradeProfilesListByFleetNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, fleetName, nextLink, options },
       listByFleetNextOperationSpec,
@@ -377,11 +377,11 @@ export class FleetUpdateStrategiesImpl implements FleetUpdateStrategies {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByFleetOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/updateStrategies",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/autoUpgradeProfiles",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FleetUpdateStrategyListResult,
+      bodyMapper: Mappers.AutoUpgradeProfileListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -398,11 +398,11 @@ const listByFleetOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/updateStrategies/{updateStrategyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/autoUpgradeProfiles/{autoUpgradeProfileName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FleetUpdateStrategy,
+      bodyMapper: Mappers.AutoUpgradeProfile,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -414,39 +414,39 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.fleetName,
-    Parameters.updateStrategyName,
+    Parameters.autoUpgradeProfileName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/updateStrategies/{updateStrategyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/autoUpgradeProfiles/{autoUpgradeProfileName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.FleetUpdateStrategy,
+      bodyMapper: Mappers.AutoUpgradeProfile,
     },
     201: {
-      bodyMapper: Mappers.FleetUpdateStrategy,
+      bodyMapper: Mappers.AutoUpgradeProfile,
     },
     202: {
-      bodyMapper: Mappers.FleetUpdateStrategy,
+      bodyMapper: Mappers.AutoUpgradeProfile,
     },
     204: {
-      bodyMapper: Mappers.FleetUpdateStrategy,
+      bodyMapper: Mappers.AutoUpgradeProfile,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.resource4,
+  requestBody: Parameters.resource1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.fleetName,
-    Parameters.updateStrategyName,
+    Parameters.autoUpgradeProfileName,
   ],
   headerParameters: [
     Parameters.accept,
@@ -458,7 +458,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/updateStrategies/{updateStrategyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/autoUpgradeProfiles/{autoUpgradeProfileName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -475,7 +475,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.fleetName,
-    Parameters.updateStrategyName,
+    Parameters.autoUpgradeProfileName,
   ],
   headerParameters: [Parameters.accept, Parameters.ifMatch],
   serializer,
@@ -485,7 +485,7 @@ const listByFleetNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FleetUpdateStrategyListResult,
+      bodyMapper: Mappers.AutoUpgradeProfileListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,

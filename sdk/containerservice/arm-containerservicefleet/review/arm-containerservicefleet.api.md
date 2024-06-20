@@ -22,7 +22,96 @@ export interface AgentProfile {
 // @public
 export interface APIServerAccessProfile {
     enablePrivateCluster?: boolean;
+    enableVnetIntegration?: boolean;
+    subnetId?: string;
 }
+
+// @public
+export interface AutoUpgradeNodeImageSelection {
+    type: AutoUpgradeNodeImageSelectionType;
+}
+
+// @public
+export type AutoUpgradeNodeImageSelectionType = string;
+
+// @public
+export interface AutoUpgradeProfile extends ProxyResource {
+    channel?: UpgradeChannel;
+    disabled?: boolean;
+    readonly eTag?: string;
+    nodeImageSelection?: AutoUpgradeNodeImageSelection;
+    readonly provisioningState?: AutoUpgradeProfileProvisioningState;
+    updateStrategyId?: string;
+}
+
+// @public
+export interface AutoUpgradeProfileListResult {
+    nextLink?: string;
+    value: AutoUpgradeProfile[];
+}
+
+// @public
+export type AutoUpgradeProfileProvisioningState = string;
+
+// @public
+export interface AutoUpgradeProfiles {
+    beginCreateOrUpdate(resourceGroupName: string, fleetName: string, autoUpgradeProfileName: string, resource: AutoUpgradeProfile, options?: AutoUpgradeProfilesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AutoUpgradeProfilesCreateOrUpdateResponse>, AutoUpgradeProfilesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, fleetName: string, autoUpgradeProfileName: string, resource: AutoUpgradeProfile, options?: AutoUpgradeProfilesCreateOrUpdateOptionalParams): Promise<AutoUpgradeProfilesCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, fleetName: string, autoUpgradeProfileName: string, options?: AutoUpgradeProfilesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, fleetName: string, autoUpgradeProfileName: string, options?: AutoUpgradeProfilesDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, fleetName: string, autoUpgradeProfileName: string, options?: AutoUpgradeProfilesGetOptionalParams): Promise<AutoUpgradeProfilesGetResponse>;
+    listByFleet(resourceGroupName: string, fleetName: string, options?: AutoUpgradeProfilesListByFleetOptionalParams): PagedAsyncIterableIterator<AutoUpgradeProfile>;
+}
+
+// @public
+export interface AutoUpgradeProfilesCreateOrUpdateHeaders {
+    retryAfter?: number;
+}
+
+// @public
+export interface AutoUpgradeProfilesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type AutoUpgradeProfilesCreateOrUpdateResponse = AutoUpgradeProfile;
+
+// @public
+export interface AutoUpgradeProfilesDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface AutoUpgradeProfilesDeleteOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface AutoUpgradeProfilesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AutoUpgradeProfilesGetResponse = AutoUpgradeProfile;
+
+// @public
+export interface AutoUpgradeProfilesListByFleetNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AutoUpgradeProfilesListByFleetNextResponse = AutoUpgradeProfileListResult;
+
+// @public
+export interface AutoUpgradeProfilesListByFleetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AutoUpgradeProfilesListByFleetResponse = AutoUpgradeProfileListResult;
 
 // @public (undocumented)
 export class ContainerServiceFleetClient extends coreClient.ServiceClient {
@@ -31,6 +120,8 @@ export class ContainerServiceFleetClient extends coreClient.ServiceClient {
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ContainerServiceFleetClientOptionalParams);
     // (undocumented)
     apiVersion: string;
+    // (undocumented)
+    autoUpgradeProfiles: AutoUpgradeProfiles;
     // (undocumented)
     fleetMembers: FleetMembers;
     // (undocumented)
@@ -407,6 +498,19 @@ export enum KnownActionType {
 }
 
 // @public
+export enum KnownAutoUpgradeNodeImageSelectionType {
+    Consistent = "Consistent",
+    Latest = "Latest"
+}
+
+// @public
+export enum KnownAutoUpgradeProfileProvisioningState {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    Succeeded = "Succeeded"
+}
+
+// @public
 export enum KnownCreatedByType {
     Application = "Application",
     Key = "Key",
@@ -443,7 +547,6 @@ export enum KnownFleetUpdateStrategyProvisioningState {
 
 // @public
 export enum KnownManagedClusterUpgradeType {
-    ControlPlaneOnly = "ControlPlaneOnly",
     Full = "Full",
     NodeImageOnly = "NodeImageOnly"
 }
@@ -459,6 +562,7 @@ export enum KnownManagedServiceIdentityType {
 // @public
 export enum KnownNodeImageSelectionType {
     Consistent = "Consistent",
+    Custom = "Custom",
     Latest = "Latest"
 }
 
@@ -493,6 +597,13 @@ export enum KnownUpdateState {
     Skipped = "Skipped",
     Stopped = "Stopped",
     Stopping = "Stopping"
+}
+
+// @public
+export enum KnownUpgradeChannel {
+    NodeImage = "NodeImage",
+    Rapid = "Rapid",
+    Stable = "Stable"
 }
 
 // @public
@@ -534,6 +645,7 @@ export interface MemberUpdateStatus {
 
 // @public
 export interface NodeImageSelection {
+    customNodeImageVersions?: NodeImageVersion[];
     type: NodeImageSelectionType;
 }
 
@@ -676,14 +788,13 @@ export interface UpdateRuns {
     beginCreateOrUpdateAndWait(resourceGroupName: string, fleetName: string, updateRunName: string, resource: UpdateRun, options?: UpdateRunsCreateOrUpdateOptionalParams): Promise<UpdateRunsCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, fleetName: string, updateRunName: string, options?: UpdateRunsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, fleetName: string, updateRunName: string, options?: UpdateRunsDeleteOptionalParams): Promise<void>;
-    beginSkip(resourceGroupName: string, fleetName: string, updateRunName: string, body: SkipProperties, options?: UpdateRunsSkipOptionalParams): Promise<SimplePollerLike<OperationState<UpdateRunsSkipResponse>, UpdateRunsSkipResponse>>;
-    beginSkipAndWait(resourceGroupName: string, fleetName: string, updateRunName: string, body: SkipProperties, options?: UpdateRunsSkipOptionalParams): Promise<UpdateRunsSkipResponse>;
     beginStart(resourceGroupName: string, fleetName: string, updateRunName: string, options?: UpdateRunsStartOptionalParams): Promise<SimplePollerLike<OperationState<UpdateRunsStartResponse>, UpdateRunsStartResponse>>;
     beginStartAndWait(resourceGroupName: string, fleetName: string, updateRunName: string, options?: UpdateRunsStartOptionalParams): Promise<UpdateRunsStartResponse>;
     beginStop(resourceGroupName: string, fleetName: string, updateRunName: string, options?: UpdateRunsStopOptionalParams): Promise<SimplePollerLike<OperationState<UpdateRunsStopResponse>, UpdateRunsStopResponse>>;
     beginStopAndWait(resourceGroupName: string, fleetName: string, updateRunName: string, options?: UpdateRunsStopOptionalParams): Promise<UpdateRunsStopResponse>;
     get(resourceGroupName: string, fleetName: string, updateRunName: string, options?: UpdateRunsGetOptionalParams): Promise<UpdateRunsGetResponse>;
     listByFleet(resourceGroupName: string, fleetName: string, options?: UpdateRunsListByFleetOptionalParams): PagedAsyncIterableIterator<UpdateRun>;
+    skip(resourceGroupName: string, fleetName: string, updateRunName: string, body: SkipProperties, options?: UpdateRunsSkipOptionalParams): Promise<UpdateRunsSkipResponse>;
 }
 
 // @public
@@ -737,16 +848,8 @@ export interface UpdateRunsListByFleetOptionalParams extends coreClient.Operatio
 export type UpdateRunsListByFleetResponse = UpdateRunListResult;
 
 // @public
-export interface UpdateRunsSkipHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
 export interface UpdateRunsSkipOptionalParams extends coreClient.OperationOptions {
     ifMatch?: string;
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
 }
 
 // @public
@@ -821,6 +924,9 @@ export interface UpdateStatus {
     readonly startTime?: Date;
     readonly state?: UpdateState;
 }
+
+// @public
+export type UpgradeChannel = string;
 
 // @public
 export interface UserAssignedIdentity {

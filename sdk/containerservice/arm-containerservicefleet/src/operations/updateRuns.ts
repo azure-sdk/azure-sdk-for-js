@@ -363,96 +363,17 @@ export class UpdateRunsImpl implements UpdateRuns {
    * @param body The content of the action request
    * @param options The options parameters.
    */
-  async beginSkip(
-    resourceGroupName: string,
-    fleetName: string,
-    updateRunName: string,
-    body: SkipProperties,
-    options?: UpdateRunsSkipOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<UpdateRunsSkipResponse>,
-      UpdateRunsSkipResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<UpdateRunsSkipResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, fleetName, updateRunName, body, options },
-      spec: skipOperationSpec,
-    });
-    const poller = await createHttpPoller<
-      UpdateRunsSkipResponse,
-      OperationState<UpdateRunsSkipResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Skips one or a combination of member/group/stage/afterStageWait(s) of an update run.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param fleetName The name of the Fleet resource.
-   * @param updateRunName The name of the UpdateRun resource.
-   * @param body The content of the action request
-   * @param options The options parameters.
-   */
-  async beginSkipAndWait(
+  skip(
     resourceGroupName: string,
     fleetName: string,
     updateRunName: string,
     body: SkipProperties,
     options?: UpdateRunsSkipOptionalParams,
   ): Promise<UpdateRunsSkipResponse> {
-    const poller = await this.beginSkip(
-      resourceGroupName,
-      fleetName,
-      updateRunName,
-      body,
-      options,
+    return this.client.sendOperationRequest(
+      { resourceGroupName, fleetName, updateRunName, body, options },
+      skipOperationSpec,
     );
-    return poller.pollUntilDone();
   }
 
   /**
@@ -730,7 +651,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.resource2,
+  requestBody: Parameters.resource3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -776,15 +697,6 @@ const skipOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.UpdateRun,
-    },
-    201: {
-      bodyMapper: Mappers.UpdateRun,
-    },
-    202: {
-      bodyMapper: Mappers.UpdateRun,
-    },
-    204: {
       bodyMapper: Mappers.UpdateRun,
     },
     default: {

@@ -1,15 +1,46 @@
 # Release History
+    
+## 2.0.0-beta.1 (2024-06-20)
+Compared with version 1.1.0
+    
+**Features**
 
-## 1.1.1 (Unreleased)
+  - Added operation group AutoUpgradeProfiles
+  - Added operation UpdateRuns.skip
+  - Added Interface AutoUpgradeNodeImageSelection
+  - Added Interface AutoUpgradeProfile
+  - Added Interface AutoUpgradeProfileListResult
+  - Added Interface AutoUpgradeProfilesCreateOrUpdateHeaders
+  - Added Interface AutoUpgradeProfilesCreateOrUpdateOptionalParams
+  - Added Interface AutoUpgradeProfilesDeleteHeaders
+  - Added Interface AutoUpgradeProfilesDeleteOptionalParams
+  - Added Interface AutoUpgradeProfilesGetOptionalParams
+  - Added Interface AutoUpgradeProfilesListByFleetNextOptionalParams
+  - Added Interface AutoUpgradeProfilesListByFleetOptionalParams
+  - Added Type Alias AutoUpgradeNodeImageSelectionType
+  - Added Type Alias AutoUpgradeProfileProvisioningState
+  - Added Type Alias AutoUpgradeProfilesCreateOrUpdateResponse
+  - Added Type Alias AutoUpgradeProfilesGetResponse
+  - Added Type Alias AutoUpgradeProfilesListByFleetNextResponse
+  - Added Type Alias AutoUpgradeProfilesListByFleetResponse
+  - Added Type Alias UpgradeChannel
+  - Interface APIServerAccessProfile has a new optional parameter enableVnetIntegration
+  - Interface APIServerAccessProfile has a new optional parameter subnetId
+  - Interface NodeImageSelection has a new optional parameter customNodeImageVersions
+  - Added Enum KnownAutoUpgradeNodeImageSelectionType
+  - Added Enum KnownAutoUpgradeProfileProvisioningState
+  - Added Enum KnownUpgradeChannel
+  - Enum KnownNodeImageSelectionType has a new value Custom
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation UpdateRuns.beginSkip
+  - Removed operation UpdateRuns.beginSkipAndWait
+  - Interface UpdateRunsSkipOptionalParams no longer has parameter resumeFrom
+  - Interface UpdateRunsSkipOptionalParams no longer has parameter updateIntervalInMs
+  - Enum KnownManagedClusterUpgradeType no longer has value ControlPlaneOnly
+    
+    
 ## 1.1.0 (2024-05-15)
     
 **Features**
