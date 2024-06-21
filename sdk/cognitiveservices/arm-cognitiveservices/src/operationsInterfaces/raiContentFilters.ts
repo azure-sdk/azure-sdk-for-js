@@ -7,18 +7,21 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { CommitmentTier, CommitmentTiersListOptionalParams } from "../models";
+import {
+  RaiContentFilter,
+  RaiContentFiltersListOptionalParams,
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a CommitmentTiers. */
-export interface CommitmentTiers {
+/** Interface representing a RaiContentFilters. */
+export interface RaiContentFilters {
   /**
-   * List Commitment Tiers.
+   * List Content Filters types.
    * @param location Resource location.
    * @param options The options parameters.
    */
   list(
     location: string,
-    options?: CommitmentTiersListOptionalParams,
-  ): PagedAsyncIterableIterator<CommitmentTier>;
+    options?: RaiContentFiltersListOptionalParams,
+  ): PagedAsyncIterableIterator<RaiContentFilter>;
 }
