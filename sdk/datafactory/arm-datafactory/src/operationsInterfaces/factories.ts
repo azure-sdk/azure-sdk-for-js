@@ -34,7 +34,7 @@ import {
 /** Interface representing a Factories. */
 export interface Factories {
   /**
-   * Lists factories under the specified subscription.
+   * Lists factories under the specified subscription. test 1
    * @param options The options parameters.
    */
   list(
