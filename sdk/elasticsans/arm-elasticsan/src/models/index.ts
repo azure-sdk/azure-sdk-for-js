@@ -8,119 +8,6 @@
 
 import * as coreClient from "@azure/core-client";
 
-/** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
-export interface OperationListResult {
-  /**
-   * List of operations supported by the resource provider
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: Operation[];
-  /**
-   * URL to get the next set of operation list results (if there are any).
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** Details of a REST API operation, returned from the Resource Provider Operations API */
-export interface Operation {
-  /**
-   * The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action"
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isDataAction?: boolean;
-  /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
-  /**
-   * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system"
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly origin?: Origin;
-  /**
-   * Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly actionType?: ActionType;
-}
-
-/** Localized display information for this particular operation. */
-export interface OperationDisplay {
-  /**
-   * The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute".
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provider?: string;
-  /**
-   * The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections".
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resource?: string;
-  /**
-   * The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine".
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly operation?: string;
-  /**
-   * The short, localized friendly description of the operation; suitable for tool tips and detailed views.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly description?: string;
-}
-
-/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
-export interface ErrorResponse {
-  /** The error object. */
-  error?: ErrorDetail;
-}
-
-/** The error detail. */
-export interface ErrorDetail {
-  /**
-   * The error code.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly code?: string;
-  /**
-   * The error message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-  /**
-   * The error target.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly target?: string;
-  /**
-   * The error details.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly details?: ErrorDetail[];
-  /**
-   * The error additional info.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly additionalInfo?: ErrorAdditionalInfo[];
-}
-
-/** The resource management error additional info. */
-export interface ErrorAdditionalInfo {
-  /**
-   * The additional info type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * The additional info.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly info?: Record<string, unknown>;
-}
-
 /** List of SKU Information objects */
 export interface SkuInformationList {
   /**
@@ -189,6 +76,55 @@ export interface SKUCapability {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly value?: string;
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
 }
 
 /** List of Elastic Sans */
@@ -414,6 +350,8 @@ export interface VolumeGroupProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
+  /** A boolean indicating whether or not Data Integrity Check is enabled */
+  enforceDataIntegrityCheckForIscsi?: boolean;
 }
 
 /** The encryption settings on the volume group. */
@@ -487,6 +425,8 @@ export interface VolumeGroupUpdateProperties {
   encryptionProperties?: EncryptionProperties;
   /** A collection of rules governing the accessibility from specific network locations. */
   networkAcls?: NetworkRuleSet;
+  /** A boolean indicating whether or not Data Integrity Check is enabled */
+  enforceDataIntegrityCheckForIscsi?: boolean;
 }
 
 /** Volume response properties. */
@@ -744,48 +684,12 @@ export interface VolumeSnapshotsDeleteHeaders {
   location?: string;
 }
 
-/** Known values of {@link Origin} that the service accepts. */
-export enum KnownOrigin {
-  /** User */
-  User = "user",
-  /** System */
-  System = "system",
-  /** UserSystem */
-  UserSystem = "user,system"
-}
-
-/**
- * Defines values for Origin. \
- * {@link KnownOrigin} can be used interchangeably with Origin,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **user** \
- * **system** \
- * **user,system**
- */
-export type Origin = string;
-
-/** Known values of {@link ActionType} that the service accepts. */
-export enum KnownActionType {
-  /** Internal */
-  Internal = "Internal"
-}
-
-/**
- * Defines values for ActionType. \
- * {@link KnownActionType} can be used interchangeably with ActionType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Internal**
- */
-export type ActionType = string;
-
 /** Known values of {@link SkuName} that the service accepts. */
 export enum KnownSkuName {
   /** Premium locally redundant storage */
   PremiumLRS = "Premium_LRS",
   /** Premium zone redundant storage */
-  PremiumZRS = "Premium_ZRS"
+  PremiumZRS = "Premium_ZRS",
 }
 
 /**
@@ -801,7 +705,7 @@ export type SkuName = string;
 /** Known values of {@link SkuTier} that the service accepts. */
 export enum KnownSkuTier {
   /** Premium Tier */
-  Premium = "Premium"
+  Premium = "Premium",
 }
 
 /**
@@ -830,7 +734,7 @@ export enum KnownProvisioningStates {
   /** Updating */
   Updating = "Updating",
   /** Deleting */
-  Deleting = "Deleting"
+  Deleting = "Deleting",
 }
 
 /**
@@ -858,7 +762,7 @@ export enum KnownPrivateEndpointServiceConnectionStatus {
   /** Failed */
   Failed = "Failed",
   /** Rejected */
-  Rejected = "Rejected"
+  Rejected = "Rejected",
 }
 
 /**
@@ -882,7 +786,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -902,7 +806,7 @@ export enum KnownPublicNetworkAccess {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -922,7 +826,7 @@ export enum KnownIdentityType {
   /** SystemAssigned */
   SystemAssigned = "SystemAssigned",
   /** UserAssigned */
-  UserAssigned = "UserAssigned"
+  UserAssigned = "UserAssigned",
 }
 
 /**
@@ -941,7 +845,7 @@ export enum KnownStorageTargetType {
   /** Iscsi */
   Iscsi = "Iscsi",
   /** None */
-  None = "None"
+  None = "None",
 }
 
 /**
@@ -959,7 +863,7 @@ export enum KnownEncryptionType {
   /** Volume is encrypted at rest with Platform managed key. It is the default encryption type. */
   EncryptionAtRestWithPlatformKey = "EncryptionAtRestWithPlatformKey",
   /** Volume is encrypted at rest with Customer managed key that can be changed and revoked by a customer. */
-  EncryptionAtRestWithCustomerManagedKey = "EncryptionAtRestWithCustomerManagedKey"
+  EncryptionAtRestWithCustomerManagedKey = "EncryptionAtRestWithCustomerManagedKey",
 }
 
 /**
@@ -975,7 +879,7 @@ export type EncryptionType = string;
 /** Known values of {@link Action} that the service accepts. */
 export enum KnownAction {
   /** Allow */
-  Allow = "Allow"
+  Allow = "Allow",
 }
 
 /**
@@ -998,7 +902,7 @@ export enum KnownVolumeCreateOption {
   /** Disk */
   Disk = "Disk",
   /** DiskRestorePoint */
-  DiskRestorePoint = "DiskRestorePoint"
+  DiskRestorePoint = "DiskRestorePoint",
 }
 
 /**
@@ -1031,7 +935,7 @@ export enum KnownOperationalStatus {
   /** Stopped */
   Stopped = "Stopped",
   /** StoppedDeallocated */
-  StoppedDeallocated = "Stopped (deallocated)"
+  StoppedDeallocated = "Stopped (deallocated)",
 }
 
 /**
@@ -1055,7 +959,7 @@ export enum KnownXMsDeleteSnapshots {
   /** True */
   True = "true",
   /** False */
-  False = "false"
+  False = "false",
 }
 
 /**
@@ -1073,7 +977,7 @@ export enum KnownXMsForceDelete {
   /** True */
   True = "true",
   /** False */
-  False = "false"
+  False = "false",
 }
 
 /**
@@ -1085,13 +989,6 @@ export enum KnownXMsForceDelete {
  * **false**
  */
 export type XMsForceDelete = string;
-
-/** Optional parameters. */
-export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type OperationsListResponse = OperationListResult;
 
 /** Optional parameters. */
 export interface SkusListOptionalParams extends coreClient.OperationOptions {
@@ -1291,7 +1188,8 @@ export interface PrivateEndpointConnectionsCreateOptionalParams
 }
 
 /** Contains response data for the create operation. */
-export type PrivateEndpointConnectionsCreateResponse = PrivateEndpointConnection;
+export type PrivateEndpointConnectionsCreateResponse =
+  PrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsGetOptionalParams
@@ -1314,14 +1212,16 @@ export interface PrivateEndpointConnectionsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionListResult;
+export type PrivateEndpointConnectionsListResponse =
+  PrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
 export interface PrivateLinkResourcesListByElasticSanOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByElasticSan operation. */
-export type PrivateLinkResourcesListByElasticSanResponse = PrivateLinkResourceListResult;
+export type PrivateLinkResourcesListByElasticSanResponse =
+  PrivateLinkResourceListResult;
 
 /** Optional parameters. */
 export interface VolumeSnapshotsListByVolumeGroupOptionalParams

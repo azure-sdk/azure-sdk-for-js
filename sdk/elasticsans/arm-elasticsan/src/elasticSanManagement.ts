@@ -11,35 +11,33 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
-  OperationsImpl,
   SkusImpl,
   ElasticSansImpl,
   VolumeGroupsImpl,
   VolumesImpl,
   PrivateEndpointConnectionsImpl,
   PrivateLinkResourcesImpl,
-  VolumeSnapshotsImpl
+  VolumeSnapshotsImpl,
 } from "./operations";
 import {
-  Operations,
   Skus,
   ElasticSans,
   VolumeGroups,
   Volumes,
   PrivateEndpointConnections,
   PrivateLinkResources,
-  VolumeSnapshots
+  VolumeSnapshots,
 } from "./operationsInterfaces";
 import { ElasticSanManagementOptionalParams } from "./models";
 
 export class ElasticSanManagement extends coreClient.ServiceClient {
   $host: string;
-  apiVersion: string;
   subscriptionId: string;
+  apiVersion: string;
 
   /**
    * Initializes a new instance of the ElasticSanManagement class.
@@ -50,7 +48,7 @@ export class ElasticSanManagement extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: ElasticSanManagementOptionalParams
+    options?: ElasticSanManagementOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -65,10 +63,10 @@ export class ElasticSanManagement extends coreClient.ServiceClient {
     }
     const defaults: ElasticSanManagementOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-elasticsan/1.0.1`;
+    const packageDetails = `azsdk-js-arm-elasticsan/2.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -78,20 +76,21 @@ export class ElasticSanManagement extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -101,7 +100,7 @@ export class ElasticSanManagement extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -111,9 +110,9 @@ export class ElasticSanManagement extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -121,8 +120,7 @@ export class ElasticSanManagement extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-01-01";
-    this.operations = new OperationsImpl(this);
+    this.apiVersion = options.apiVersion || "2024-05-01";
     this.skus = new SkusImpl(this);
     this.elasticSans = new ElasticSansImpl(this);
     this.volumeGroups = new VolumeGroupsImpl(this);
@@ -142,7 +140,7 @@ export class ElasticSanManagement extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -156,12 +154,11 @@ export class ElasticSanManagement extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
-  operations: Operations;
   skus: Skus;
   elasticSans: ElasticSans;
   volumeGroups: VolumeGroups;

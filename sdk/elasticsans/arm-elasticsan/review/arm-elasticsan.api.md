@@ -14,9 +14,6 @@ import { SimplePollerLike } from '@azure/core-lro';
 export type Action = string;
 
 // @public
-export type ActionType = string;
-
-// @public
 export type CreatedByType = string;
 
 // @public
@@ -39,8 +36,6 @@ export class ElasticSanManagement extends coreClient.ServiceClient {
     apiVersion: string;
     // (undocumented)
     elasticSans: ElasticSans;
-    // (undocumented)
-    operations: Operations;
     // (undocumented)
     privateEndpointConnections: PrivateEndpointConnections;
     // (undocumented)
@@ -254,11 +249,6 @@ export enum KnownAction {
 }
 
 // @public
-export enum KnownActionType {
-    Internal = "Internal"
-}
-
-// @public
 export enum KnownCreatedByType {
     Application = "Application",
     Key = "Key",
@@ -289,13 +279,6 @@ export enum KnownOperationalStatus {
     Unhealthy = "Unhealthy",
     Unknown = "Unknown",
     Updating = "Updating"
-}
-
-// @public
-export enum KnownOrigin {
-    System = "system",
-    User = "user",
-    UserSystem = "user,system"
 }
 
 // @public
@@ -373,45 +356,7 @@ export interface NetworkRuleSet {
 }
 
 // @public
-export interface Operation {
-    readonly actionType?: ActionType;
-    display?: OperationDisplay;
-    readonly isDataAction?: boolean;
-    readonly name?: string;
-    readonly origin?: Origin;
-}
-
-// @public
 export type OperationalStatus = string;
-
-// @public
-export interface OperationDisplay {
-    readonly description?: string;
-    readonly operation?: string;
-    readonly provider?: string;
-    readonly resource?: string;
-}
-
-// @public
-export interface OperationListResult {
-    readonly nextLink?: string;
-    readonly value?: Operation[];
-}
-
-// @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
-}
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListResponse = OperationListResult;
-
-// @public
-export type Origin = string;
 
 // @public
 export interface PrivateEndpoint {
@@ -680,6 +625,7 @@ export interface VolumeGroupList {
 export interface VolumeGroupProperties {
     encryption?: EncryptionType;
     encryptionProperties?: EncryptionProperties;
+    enforceDataIntegrityCheckForIscsi?: boolean;
     networkAcls?: NetworkRuleSet;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     protocolType?: StorageTargetType;
@@ -765,6 +711,7 @@ export interface VolumeGroupUpdate {
 export interface VolumeGroupUpdateProperties {
     encryption?: EncryptionType;
     encryptionProperties?: EncryptionProperties;
+    enforceDataIntegrityCheckForIscsi?: boolean;
     networkAcls?: NetworkRuleSet;
     protocolType?: StorageTargetType;
 }
