@@ -4062,6 +4062,9 @@ export interface IpAddressRange {
 export type IpFilterTag = string;
 
 // @public
+export type IPMode = "IPv4" | "IPv6" | "IPv4AndIPv6";
+
+// @public
 export interface IpSecurityRestriction {
     action?: string;
     description?: string;
@@ -6215,6 +6218,7 @@ export interface Site extends Resource {
     hyperV?: boolean;
     identity?: ManagedServiceIdentity;
     readonly inProgressOperationId?: string;
+    ipMode?: IPMode;
     readonly isDefaultContainer?: boolean;
     isXenon?: boolean;
     keyVaultReferenceIdentity?: string;
@@ -6232,6 +6236,7 @@ export interface Site extends Resource {
     scmSiteAlsoStopped?: boolean;
     serverFarmId?: string;
     siteConfig?: SiteConfig;
+    readonly sku?: string;
     readonly slotSwapStatus?: SlotSwapStatus;
     readonly state?: string;
     storageAccountRequired?: boolean;
@@ -6571,7 +6576,7 @@ export interface SiteLimits {
 }
 
 // @public
-export type SiteLoadBalancing = "WeightedRoundRobin" | "LeastRequests" | "LeastResponseTime" | "WeightedTotalTraffic" | "RequestHash" | "PerSiteRoundRobin";
+export type SiteLoadBalancing = "WeightedRoundRobin" | "LeastRequests" | "LeastResponseTime" | "WeightedTotalTraffic" | "RequestHash" | "PerSiteRoundRobin" | "LeastRequestsWithTieBreaker";
 
 // @public
 export interface SiteLogsConfig extends ProxyOnlyResource {
@@ -12111,6 +12116,7 @@ export interface WebSiteInstanceStatus extends ProxyOnlyResource {
     };
     detectorUrl?: string;
     healthCheckUrl?: string;
+    physicalZone?: string;
     // (undocumented)
     state?: SiteRuntimeState;
     statusUrl?: string;
