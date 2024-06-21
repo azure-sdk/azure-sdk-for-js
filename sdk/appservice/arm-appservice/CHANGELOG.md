@@ -1,15 +1,15 @@
 # Release History
+    
+## 15.1.0 (2024-06-21)
+    
+**Features**
 
-## 15.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Type Alias IPMode
+  - Interface Site has a new optional parameter ipMode
+  - Interface Site has a new optional parameter sku
+  - Interface WebSiteInstanceStatus has a new optional parameter physicalZone
+    
+    
 ## 15.0.0 (2024-06-11)
     
 ### Features Added

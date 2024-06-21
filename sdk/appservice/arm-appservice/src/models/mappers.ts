@@ -2964,6 +2964,7 @@ export const SiteConfig: coreClient.CompositeMapper = {
             "WeightedTotalTraffic",
             "RequestHash",
             "PerSiteRoundRobin",
+            "LeastRequestsWithTieBreaker",
           ],
         },
       },
@@ -16472,6 +16473,14 @@ export const Site: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      ipMode: {
+        serializedName: "properties.ipMode",
+        xmlName: "properties.ipMode",
+        type: {
+          name: "Enum",
+          allowedValues: ["IPv4", "IPv6", "IPv4AndIPv6"],
+        },
+      },
       hostNamesDisabled: {
         serializedName: "properties.hostNamesDisabled",
         xmlName: "properties.hostNamesDisabled",
@@ -16632,6 +16641,14 @@ export const Site: coreClient.CompositeMapper = {
       managedEnvironmentId: {
         serializedName: "properties.managedEnvironmentId",
         xmlName: "properties.managedEnvironmentId",
+        type: {
+          name: "String",
+        },
+      },
+      sku: {
+        serializedName: "properties.sku",
+        readOnly: true,
+        xmlName: "properties.sku",
         type: {
           name: "String",
         },
@@ -23022,6 +23039,7 @@ export const SiteConfigResource: coreClient.CompositeMapper = {
             "WeightedTotalTraffic",
             "RequestHash",
             "PerSiteRoundRobin",
+            "LeastRequestsWithTieBreaker",
           ],
         },
       },
@@ -24630,6 +24648,13 @@ export const WebSiteInstanceStatus: coreClient.CompositeMapper = {
         type: {
           name: "Dictionary",
           value: { type: { name: "Composite", className: "ContainerInfo" } },
+        },
+      },
+      physicalZone: {
+        serializedName: "properties.physicalZone",
+        xmlName: "properties.physicalZone",
+        type: {
+          name: "String",
         },
       },
     },
