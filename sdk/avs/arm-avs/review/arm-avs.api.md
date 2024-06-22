@@ -11,7 +11,10 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
-export interface Addon extends Resource {
+export type ActionType = string;
+
+// @public
+export interface Addon extends ProxyResource {
     properties?: AddonPropertiesUnion;
 }
 
@@ -29,18 +32,18 @@ export interface AddonHcxProperties extends AddonProperties {
 
 // @public
 export interface AddonList {
-    readonly nextLink?: string;
-    readonly value?: Addon[];
+    nextLink?: string;
+    value: Addon[];
 }
 
 // @public
 export interface AddonProperties {
-    addonType: "SRM" | "VR" | "HCX" | "Arc";
+    addonType: "Arc" | "HCX" | "SRM" | "VR";
     readonly provisioningState?: AddonProvisioningState;
 }
 
 // @public (undocumented)
-export type AddonPropertiesUnion = AddonProperties | AddonSrmProperties | AddonVrProperties | AddonHcxProperties | AddonArcProperties;
+export type AddonPropertiesUnion = AddonProperties | AddonArcProperties | AddonHcxProperties | AddonSrmProperties | AddonVrProperties;
 
 // @public
 export type AddonProvisioningState = string;
@@ -56,6 +59,11 @@ export interface Addons {
 }
 
 // @public
+export interface AddonsCreateOrUpdateHeaders {
+    retryAfter?: number;
+}
+
+// @public
 export interface AddonsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -63,6 +71,12 @@ export interface AddonsCreateOrUpdateOptionalParams extends coreClient.Operation
 
 // @public
 export type AddonsCreateOrUpdateResponse = Addon;
+
+// @public
+export interface AddonsDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface AddonsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -131,6 +145,11 @@ export interface Authorizations {
 }
 
 // @public
+export interface AuthorizationsCreateOrUpdateHeaders {
+    retryAfter?: number;
+}
+
+// @public
 export interface AuthorizationsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -138,6 +157,12 @@ export interface AuthorizationsCreateOrUpdateOptionalParams extends coreClient.O
 
 // @public
 export type AuthorizationsCreateOrUpdateResponse = ExpressRouteAuthorization;
+
+// @public
+export interface AuthorizationsDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface AuthorizationsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -179,6 +204,20 @@ export type AvailabilityStrategy = string;
 // @public
 export type AzureHybridBenefitType = string;
 
+// @public
+export interface AzureResourceManagerCommonTypesSkuUpdate {
+    capacity?: number;
+    family?: string;
+    name?: string;
+    size?: string;
+    tier?: SkuTier;
+}
+
+// @public
+export interface AzureResourceManagerCommonTypesSystemAssignedServiceIdentityUpdate {
+    type?: SystemAssignedServiceIdentityType;
+}
+
 // @public (undocumented)
 export class AzureVMwareSolutionAPI extends coreClient.ServiceClient {
     // (undocumented)
@@ -200,6 +239,8 @@ export class AzureVMwareSolutionAPI extends coreClient.ServiceClient {
     globalReachConnections: GlobalReachConnections;
     // (undocumented)
     hcxEnterpriseSites: HcxEnterpriseSites;
+    // (undocumented)
+    iscsiPaths: IscsiPaths;
     // (undocumented)
     locations: Locations;
     // (undocumented)
@@ -238,16 +279,20 @@ export interface Circuit {
 }
 
 // @public
-export interface CloudLink extends Resource {
+export interface CloudLink extends ProxyResource {
     linkedCloud?: string;
+    readonly provisioningState?: CloudLinkProvisioningState;
     readonly status?: CloudLinkStatus;
 }
 
 // @public
 export interface CloudLinkList {
-    readonly nextLink?: string;
-    readonly value?: CloudLink[];
+    nextLink?: string;
+    value: CloudLink[];
 }
+
+// @public
+export type CloudLinkProvisioningState = string;
 
 // @public
 export interface CloudLinks {
@@ -260,6 +305,11 @@ export interface CloudLinks {
 }
 
 // @public
+export interface CloudLinksCreateOrUpdateHeaders {
+    retryAfter?: number;
+}
+
+// @public
 export interface CloudLinksCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -267,6 +317,12 @@ export interface CloudLinksCreateOrUpdateOptionalParams extends coreClient.Opera
 
 // @public
 export type CloudLinksCreateOrUpdateResponse = CloudLink;
+
+// @public
+export interface CloudLinksDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface CloudLinksDeleteOptionalParams extends coreClient.OperationOptions {
@@ -299,22 +355,19 @@ export type CloudLinksListResponse = CloudLinkList;
 export type CloudLinkStatus = string;
 
 // @public
-export interface Cluster extends Resource {
+export interface Cluster extends ProxyResource {
     readonly clusterId?: number;
     clusterSize?: number;
     hosts?: string[];
     readonly provisioningState?: ClusterProvisioningState;
     sku: Sku;
+    vsanDatastoreName?: string;
 }
 
 // @public
 export interface ClusterList {
-    readonly nextLink?: string;
-    readonly value?: Cluster[];
-}
-
-// @public
-export interface ClusterProperties extends CommonClusterProperties {
+    nextLink?: string;
+    value: Cluster[];
 }
 
 // @public
@@ -334,6 +387,11 @@ export interface Clusters {
 }
 
 // @public
+export interface ClustersCreateOrUpdateHeaders {
+    retryAfter?: number;
+}
+
+// @public
 export interface ClustersCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -341,6 +399,12 @@ export interface ClustersCreateOrUpdateOptionalParams extends coreClient.Operati
 
 // @public
 export type ClustersCreateOrUpdateResponse = Cluster;
+
+// @public
+export interface ClustersDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface ClustersDeleteOptionalParams extends coreClient.OperationOptions {
@@ -377,6 +441,12 @@ export interface ClustersListZonesOptionalParams extends coreClient.OperationOpt
 export type ClustersListZonesResponse = ClusterZoneList;
 
 // @public
+export interface ClustersUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface ClustersUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -389,6 +459,7 @@ export type ClustersUpdateResponse = Cluster;
 export interface ClusterUpdate {
     clusterSize?: number;
     hosts?: string[];
+    sku?: AzureResourceManagerCommonTypesSkuUpdate;
 }
 
 // @public
@@ -403,16 +474,12 @@ export interface ClusterZoneList {
 }
 
 // @public
-export interface CommonClusterProperties {
-    readonly clusterId?: number;
-    clusterSize?: number;
-    hosts?: string[];
-    readonly provisioningState?: ClusterProvisioningState;
-}
+export type CreatedByType = string;
 
 // @public
-export interface Datastore extends Resource {
+export interface Datastore extends ProxyResource {
     diskPoolVolume?: DiskPoolVolume;
+    elasticSanVolume?: ElasticSanVolume;
     netAppVolume?: NetAppVolume;
     readonly provisioningState?: DatastoreProvisioningState;
     readonly status?: DatastoreStatus;
@@ -420,8 +487,8 @@ export interface Datastore extends Resource {
 
 // @public
 export interface DatastoreList {
-    readonly nextLink?: string;
-    readonly value?: Datastore[];
+    nextLink?: string;
+    value: Datastore[];
 }
 
 // @public
@@ -438,6 +505,11 @@ export interface Datastores {
 }
 
 // @public
+export interface DatastoresCreateOrUpdateHeaders {
+    retryAfter?: number;
+}
+
+// @public
 export interface DatastoresCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -445,6 +517,12 @@ export interface DatastoresCreateOrUpdateOptionalParams extends coreClient.Opera
 
 // @public
 export type DatastoresCreateOrUpdateResponse = Datastore;
+
+// @public
+export interface DatastoresDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface DatastoresDeleteOptionalParams extends coreClient.OperationOptions {
@@ -494,6 +572,14 @@ export type DnsServiceLogLevelEnum = string;
 export type DnsServiceStatusEnum = string;
 
 // @public
+export type DnsZoneType = string;
+
+// @public
+export interface ElasticSanVolume {
+    targetId: string;
+}
+
+// @public
 export interface Encryption {
     keyVaultProperties?: EncryptionKeyVaultProperties;
     status?: EncryptionState;
@@ -521,7 +607,10 @@ export type EncryptionVersionType = string;
 // @public
 export interface Endpoints {
     readonly hcxCloudManager?: string;
+    readonly hcxCloudManagerIp?: string;
     readonly nsxtManager?: string;
+    readonly nsxtManagerIp?: string;
+    readonly vcenterIp?: string;
     readonly vcsa?: string;
 }
 
@@ -546,7 +635,7 @@ export interface ErrorResponse {
 }
 
 // @public
-export interface ExpressRouteAuthorization extends Resource {
+export interface ExpressRouteAuthorization extends ProxyResource {
     readonly expressRouteAuthorizationId?: string;
     readonly expressRouteAuthorizationKey?: string;
     expressRouteId?: string;
@@ -555,8 +644,8 @@ export interface ExpressRouteAuthorization extends Resource {
 
 // @public
 export interface ExpressRouteAuthorizationList {
-    readonly nextLink?: string;
-    readonly value?: ExpressRouteAuthorization[];
+    nextLink?: string;
+    value: ExpressRouteAuthorization[];
 }
 
 // @public
@@ -566,7 +655,7 @@ export type ExpressRouteAuthorizationProvisioningState = string;
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
-export interface GlobalReachConnection extends Resource {
+export interface GlobalReachConnection extends ProxyResource {
     readonly addressPrefix?: string;
     authorizationKey?: string;
     readonly circuitConnectionStatus?: GlobalReachConnectionStatus;
@@ -577,8 +666,8 @@ export interface GlobalReachConnection extends Resource {
 
 // @public
 export interface GlobalReachConnectionList {
-    readonly nextLink?: string;
-    readonly value?: GlobalReachConnection[];
+    nextLink?: string;
+    value: GlobalReachConnection[];
 }
 
 // @public
@@ -595,6 +684,11 @@ export interface GlobalReachConnections {
 }
 
 // @public
+export interface GlobalReachConnectionsCreateOrUpdateHeaders {
+    retryAfter?: number;
+}
+
+// @public
 export interface GlobalReachConnectionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -602,6 +696,12 @@ export interface GlobalReachConnectionsCreateOrUpdateOptionalParams extends core
 
 // @public
 export type GlobalReachConnectionsCreateOrUpdateResponse = GlobalReachConnection;
+
+// @public
+export interface GlobalReachConnectionsDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface GlobalReachConnectionsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -634,16 +734,20 @@ export type GlobalReachConnectionsListResponse = GlobalReachConnectionList;
 export type GlobalReachConnectionStatus = string;
 
 // @public
-export interface HcxEnterpriseSite extends Resource {
+export interface HcxEnterpriseSite extends ProxyResource {
     readonly activationKey?: string;
+    readonly provisioningState?: HcxEnterpriseSiteProvisioningState;
     readonly status?: HcxEnterpriseSiteStatus;
 }
 
 // @public
 export interface HcxEnterpriseSiteList {
-    readonly nextLink?: string;
-    readonly value?: HcxEnterpriseSite[];
+    nextLink?: string;
+    value: HcxEnterpriseSite[];
 }
+
+// @public
+export type HcxEnterpriseSiteProvisioningState = string;
 
 // @public
 export interface HcxEnterpriseSites {
@@ -706,6 +810,83 @@ export interface IdentitySource {
 export type InternetEnum = string;
 
 // @public
+export interface IscsiPath extends ProxyResource {
+    networkBlock?: string;
+    readonly provisioningState?: IscsiPathProvisioningState;
+}
+
+// @public
+export interface IscsiPathListResult {
+    nextLink?: string;
+    value: IscsiPath[];
+}
+
+// @public
+export type IscsiPathProvisioningState = string;
+
+// @public
+export interface IscsiPaths {
+    beginCreateOrUpdate(resourceGroupName: string, privateCloudName: string, resource: IscsiPath, options?: IscsiPathsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<IscsiPathsCreateOrUpdateResponse>, IscsiPathsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, privateCloudName: string, resource: IscsiPath, options?: IscsiPathsCreateOrUpdateOptionalParams): Promise<IscsiPathsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, privateCloudName: string, options?: IscsiPathsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, privateCloudName: string, options?: IscsiPathsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, privateCloudName: string, options?: IscsiPathsGetOptionalParams): Promise<IscsiPathsGetResponse>;
+    listByPrivateCloud(resourceGroupName: string, privateCloudName: string, options?: IscsiPathsListByPrivateCloudOptionalParams): PagedAsyncIterableIterator<IscsiPath>;
+}
+
+// @public
+export interface IscsiPathsCreateOrUpdateHeaders {
+    retryAfter?: number;
+}
+
+// @public
+export interface IscsiPathsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type IscsiPathsCreateOrUpdateResponse = IscsiPath;
+
+// @public
+export interface IscsiPathsDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface IscsiPathsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface IscsiPathsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type IscsiPathsGetResponse = IscsiPath;
+
+// @public
+export interface IscsiPathsListByPrivateCloudNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type IscsiPathsListByPrivateCloudNextResponse = IscsiPathListResult;
+
+// @public
+export interface IscsiPathsListByPrivateCloudOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type IscsiPathsListByPrivateCloudResponse = IscsiPathListResult;
+
+// @public
+export enum KnownActionType {
+    Internal = "Internal"
+}
+
+// @public
 export enum KnownAddonProvisioningState {
     Building = "Building",
     Canceled = "Canceled",
@@ -749,6 +930,13 @@ export enum KnownAzureHybridBenefitType {
 }
 
 // @public
+export enum KnownCloudLinkProvisioningState {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    Succeeded = "Succeeded"
+}
+
+// @public
 export enum KnownCloudLinkStatus {
     Active = "Active",
     Building = "Building",
@@ -765,6 +953,14 @@ export enum KnownClusterProvisioningState {
     Failed = "Failed",
     Succeeded = "Succeeded",
     Updating = "Updating"
+}
+
+// @public
+export enum KnownCreatedByType {
+    Application = "Application",
+    Key = "Key",
+    ManagedIdentity = "ManagedIdentity",
+    User = "User"
 }
 
 // @public
@@ -812,6 +1008,12 @@ export enum KnownDnsServiceStatusEnum {
 }
 
 // @public
+export enum KnownDnsZoneType {
+    Private = "Private",
+    Public = "Public"
+}
+
+// @public
 export enum KnownEncryptionKeyStatus {
     AccessDenied = "AccessDenied",
     Connected = "Connected"
@@ -853,6 +1055,13 @@ export enum KnownGlobalReachConnectionStatus {
 }
 
 // @public
+export enum KnownHcxEnterpriseSiteProvisioningState {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    Succeeded = "Succeeded"
+}
+
+// @public
 export enum KnownHcxEnterpriseSiteStatus {
     Available = "Available",
     Consumed = "Consumed",
@@ -864,6 +1073,17 @@ export enum KnownHcxEnterpriseSiteStatus {
 export enum KnownInternetEnum {
     Disabled = "Disabled",
     Enabled = "Enabled"
+}
+
+// @public
+export enum KnownIscsiPathProvisioningState {
+    Building = "Building",
+    Canceled = "Canceled",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Pending = "Pending",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
 }
 
 // @public
@@ -882,6 +1102,13 @@ export enum KnownNsxPublicIpQuotaRaisedEnum {
 export enum KnownOptionalParamEnum {
     Optional = "Optional",
     Required = "Required"
+}
+
+// @public
+export enum KnownOrigin {
+    System = "system",
+    User = "user",
+    UserSystem = "user,system"
 }
 
 // @public
@@ -944,6 +1171,19 @@ export enum KnownResourceIdentityType {
 }
 
 // @public
+export enum KnownScriptCmdletAudience {
+    Any = "Any",
+    Automation = "Automation"
+}
+
+// @public
+export enum KnownScriptCmdletProvisioningState {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    Succeeded = "Succeeded"
+}
+
+// @public
 export enum KnownScriptExecutionParameterType {
     Credential = "Credential",
     SecureValue = "SecureValue",
@@ -971,6 +1211,13 @@ export enum KnownScriptOutputStreamType {
 }
 
 // @public
+export enum KnownScriptPackageProvisioningState {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    Succeeded = "Succeeded"
+}
+
+// @public
 export enum KnownScriptParameterTypes {
     Bool = "Bool",
     Credential = "Credential",
@@ -993,10 +1240,23 @@ export enum KnownSslEnum {
 }
 
 // @public
+export enum KnownSystemAssignedServiceIdentityType {
+    None = "None",
+    SystemAssigned = "SystemAssigned"
+}
+
+// @public
 export enum KnownTrialStatus {
     TrialAvailable = "TrialAvailable",
     TrialDisabled = "TrialDisabled",
     TrialUsed = "TrialUsed"
+}
+
+// @public
+export enum KnownVirtualMachineProvisioningState {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    Succeeded = "Succeeded"
 }
 
 // @public
@@ -1055,12 +1315,17 @@ export enum KnownWorkloadNetworkDnsZoneProvisioningState {
 }
 
 // @public
-export enum KnownWorkloadNetworkName {
-    Default = "default"
+export enum KnownWorkloadNetworkPortMirroringProvisioningState {
+    Building = "Building",
+    Canceled = "Canceled",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
 }
 
 // @public
-export enum KnownWorkloadNetworkPortMirroringProvisioningState {
+export enum KnownWorkloadNetworkProvisioningState {
     Building = "Building",
     Canceled = "Canceled",
     Deleting = "Deleting",
@@ -1121,39 +1386,12 @@ export interface LocationsCheckTrialAvailabilityOptionalParams extends coreClien
 export type LocationsCheckTrialAvailabilityResponse = Trial;
 
 // @public
-export interface LogSpecification {
-    blobDuration?: string;
-    displayName?: string;
-    name?: string;
-}
-
-// @public
-export interface ManagementCluster extends CommonClusterProperties {
-}
-
-// @public
-export interface MetricDimension {
-    displayName?: string;
-    internalName?: string;
-    name?: string;
-    toBeExportedForShoebox?: boolean;
-}
-
-// @public
-export interface MetricSpecification {
-    aggregationType?: string;
-    category?: string;
-    dimensions?: MetricDimension[];
-    displayDescription?: string;
-    displayName?: string;
-    enableRegionalMdmAccount?: string;
-    fillGapWithZero?: boolean;
-    name?: string;
-    sourceMdmAccount?: string;
-    sourceMdmNamespace?: string;
-    supportedAggregationTypes?: string[];
-    supportedTimeGrainTypes?: string[];
-    unit?: string;
+export interface ManagementCluster {
+    readonly clusterId?: number;
+    clusterSize?: number;
+    hosts?: string[];
+    readonly provisioningState?: ClusterProvisioningState;
+    vsanDatastoreName?: string;
 }
 
 // @public
@@ -1169,11 +1407,11 @@ export type NsxPublicIpQuotaRaisedEnum = string;
 
 // @public
 export interface Operation {
-    readonly display?: OperationDisplay;
-    isDataAction?: boolean;
+    readonly actionType?: ActionType;
+    display?: OperationDisplay;
+    readonly isDataAction?: boolean;
     readonly name?: string;
-    origin?: string;
-    properties?: OperationProperties;
+    readonly origin?: Origin;
 }
 
 // @public
@@ -1185,14 +1423,9 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationList {
+export interface OperationListResult {
     readonly nextLink?: string;
     readonly value?: Operation[];
-}
-
-// @public
-export interface OperationProperties {
-    serviceSpecification?: ServiceSpecification;
 }
 
 // @public
@@ -1205,17 +1438,20 @@ export interface OperationsListNextOptionalParams extends coreClient.OperationOp
 }
 
 // @public
-export type OperationsListNextResponse = OperationList;
+export type OperationsListNextResponse = OperationListResult;
 
 // @public
 export interface OperationsListOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type OperationsListResponse = OperationList;
+export type OperationsListResponse = OperationListResult;
 
 // @public
 export type OptionalParamEnum = string;
+
+// @public
+export type Origin = string;
 
 // @public
 export interface PlacementPolicies {
@@ -1230,6 +1466,11 @@ export interface PlacementPolicies {
 }
 
 // @public
+export interface PlacementPoliciesCreateOrUpdateHeaders {
+    retryAfter?: number;
+}
+
+// @public
 export interface PlacementPoliciesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -1237,6 +1478,12 @@ export interface PlacementPoliciesCreateOrUpdateOptionalParams extends coreClien
 
 // @public
 export type PlacementPoliciesCreateOrUpdateResponse = PlacementPolicy;
+
+// @public
+export interface PlacementPoliciesDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface PlacementPoliciesDeleteOptionalParams extends coreClient.OperationOptions {
@@ -1253,8 +1500,8 @@ export type PlacementPoliciesGetResponse = PlacementPolicy;
 
 // @public
 export interface PlacementPoliciesList {
-    readonly nextLink?: string;
-    readonly value?: PlacementPolicy[];
+    nextLink?: string;
+    value: PlacementPolicy[];
 }
 
 // @public
@@ -1272,6 +1519,12 @@ export interface PlacementPoliciesListOptionalParams extends coreClient.Operatio
 export type PlacementPoliciesListResponse = PlacementPoliciesList;
 
 // @public
+export interface PlacementPoliciesUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface PlacementPoliciesUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -1281,7 +1534,7 @@ export interface PlacementPoliciesUpdateOptionalParams extends coreClient.Operat
 export type PlacementPoliciesUpdateResponse = PlacementPolicy;
 
 // @public
-export interface PlacementPolicy extends Resource {
+export interface PlacementPolicy extends ProxyResource {
     properties?: PlacementPolicyPropertiesUnion;
 }
 
@@ -1290,11 +1543,11 @@ export interface PlacementPolicyProperties {
     displayName?: string;
     readonly provisioningState?: PlacementPolicyProvisioningState;
     state?: PlacementPolicyState;
-    type: "VmVm" | "VmHost";
+    type: "VmHost" | "VmVm";
 }
 
 // @public (undocumented)
-export type PlacementPolicyPropertiesUnion = PlacementPolicyProperties | VmPlacementPolicyProperties | VmHostPlacementPolicyProperties;
+export type PlacementPolicyPropertiesUnion = PlacementPolicyProperties | VmHostPlacementPolicyProperties | VmPlacementPolicyProperties;
 
 // @public
 export type PlacementPolicyProvisioningState = string;
@@ -1324,6 +1577,7 @@ export type PortMirroringStatusEnum = string;
 export interface PrivateCloud extends TrackedResource {
     availability?: AvailabilityProperties;
     circuit?: Circuit;
+    dnsZoneType?: DnsZoneType;
     encryption?: Encryption;
     readonly endpoints?: Endpoints;
     extendedNetworkBlocks?: string[];
@@ -1343,6 +1597,7 @@ export interface PrivateCloud extends TrackedResource {
     sku: Sku;
     readonly vcenterCertificateThumbprint?: string;
     vcenterPassword?: string;
+    virtualNetworkId?: string;
     readonly vmotionNetwork?: string;
 }
 
@@ -1350,31 +1605,13 @@ export interface PrivateCloud extends TrackedResource {
 export interface PrivateCloudIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
-    type?: ResourceIdentityType;
+    type: ResourceIdentityType;
 }
 
 // @public
 export interface PrivateCloudList {
-    readonly nextLink?: string;
-    readonly value?: PrivateCloud[];
-}
-
-// @public
-export interface PrivateCloudProperties extends PrivateCloudUpdateProperties {
-    circuit?: Circuit;
-    readonly endpoints?: Endpoints;
-    readonly externalCloudLinks?: string[];
-    readonly managementNetwork?: string;
-    networkBlock: string;
-    readonly nsxPublicIpQuotaRaised?: NsxPublicIpQuotaRaisedEnum;
-    readonly nsxtCertificateThumbprint?: string;
-    nsxtPassword?: string;
-    readonly provisioningNetwork?: string;
-    readonly provisioningState?: PrivateCloudProvisioningState;
-    secondaryCircuit?: Circuit;
-    readonly vcenterCertificateThumbprint?: string;
-    vcenterPassword?: string;
-    readonly vmotionNetwork?: string;
+    nextLink?: string;
+    value: PrivateCloud[];
 }
 
 // @public
@@ -1386,16 +1623,21 @@ export interface PrivateClouds {
     beginCreateOrUpdateAndWait(resourceGroupName: string, privateCloudName: string, privateCloud: PrivateCloud, options?: PrivateCloudsCreateOrUpdateOptionalParams): Promise<PrivateCloudsCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, privateCloudName: string, options?: PrivateCloudsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, privateCloudName: string, options?: PrivateCloudsDeleteOptionalParams): Promise<void>;
-    beginRotateNsxtPassword(resourceGroupName: string, privateCloudName: string, options?: PrivateCloudsRotateNsxtPasswordOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginRotateNsxtPasswordAndWait(resourceGroupName: string, privateCloudName: string, options?: PrivateCloudsRotateNsxtPasswordOptionalParams): Promise<void>;
-    beginRotateVcenterPassword(resourceGroupName: string, privateCloudName: string, options?: PrivateCloudsRotateVcenterPasswordOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginRotateVcenterPasswordAndWait(resourceGroupName: string, privateCloudName: string, options?: PrivateCloudsRotateVcenterPasswordOptionalParams): Promise<void>;
+    beginRotateNsxtPassword(resourceGroupName: string, privateCloudName: string, options?: PrivateCloudsRotateNsxtPasswordOptionalParams): Promise<SimplePollerLike<OperationState<PrivateCloudsRotateNsxtPasswordResponse>, PrivateCloudsRotateNsxtPasswordResponse>>;
+    beginRotateNsxtPasswordAndWait(resourceGroupName: string, privateCloudName: string, options?: PrivateCloudsRotateNsxtPasswordOptionalParams): Promise<PrivateCloudsRotateNsxtPasswordResponse>;
+    beginRotateVcenterPassword(resourceGroupName: string, privateCloudName: string, options?: PrivateCloudsRotateVcenterPasswordOptionalParams): Promise<SimplePollerLike<OperationState<PrivateCloudsRotateVcenterPasswordResponse>, PrivateCloudsRotateVcenterPasswordResponse>>;
+    beginRotateVcenterPasswordAndWait(resourceGroupName: string, privateCloudName: string, options?: PrivateCloudsRotateVcenterPasswordOptionalParams): Promise<PrivateCloudsRotateVcenterPasswordResponse>;
     beginUpdate(resourceGroupName: string, privateCloudName: string, privateCloudUpdate: PrivateCloudUpdate, options?: PrivateCloudsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PrivateCloudsUpdateResponse>, PrivateCloudsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, privateCloudName: string, privateCloudUpdate: PrivateCloudUpdate, options?: PrivateCloudsUpdateOptionalParams): Promise<PrivateCloudsUpdateResponse>;
     get(resourceGroupName: string, privateCloudName: string, options?: PrivateCloudsGetOptionalParams): Promise<PrivateCloudsGetResponse>;
     list(resourceGroupName: string, options?: PrivateCloudsListOptionalParams): PagedAsyncIterableIterator<PrivateCloud>;
     listAdminCredentials(resourceGroupName: string, privateCloudName: string, options?: PrivateCloudsListAdminCredentialsOptionalParams): Promise<PrivateCloudsListAdminCredentialsResponse>;
     listInSubscription(options?: PrivateCloudsListInSubscriptionOptionalParams): PagedAsyncIterableIterator<PrivateCloud>;
+}
+
+// @public
+export interface PrivateCloudsCreateOrUpdateHeaders {
+    retryAfter?: number;
 }
 
 // @public
@@ -1406,6 +1648,12 @@ export interface PrivateCloudsCreateOrUpdateOptionalParams extends coreClient.Op
 
 // @public
 export type PrivateCloudsCreateOrUpdateResponse = PrivateCloud;
+
+// @public
+export interface PrivateCloudsDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface PrivateCloudsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -1456,15 +1704,39 @@ export interface PrivateCloudsListOptionalParams extends coreClient.OperationOpt
 export type PrivateCloudsListResponse = PrivateCloudList;
 
 // @public
+export interface PrivateCloudsRotateNsxtPasswordHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface PrivateCloudsRotateNsxtPasswordOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
+export type PrivateCloudsRotateNsxtPasswordResponse = PrivateCloudsRotateNsxtPasswordHeaders;
+
+// @public
+export interface PrivateCloudsRotateVcenterPasswordHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface PrivateCloudsRotateVcenterPasswordOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+}
+
+// @public
+export type PrivateCloudsRotateVcenterPasswordResponse = PrivateCloudsRotateVcenterPasswordHeaders;
+
+// @public
+export interface PrivateCloudsUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -1479,25 +1751,17 @@ export type PrivateCloudsUpdateResponse = PrivateCloud;
 // @public
 export interface PrivateCloudUpdate {
     availability?: AvailabilityProperties;
+    dnsZoneType?: DnsZoneType;
     encryption?: Encryption;
     extendedNetworkBlocks?: string[];
-    identity?: PrivateCloudIdentity;
+    identity?: AzureResourceManagerCommonTypesSystemAssignedServiceIdentityUpdate;
     identitySources?: IdentitySource[];
     internet?: InternetEnum;
     managementCluster?: ManagementCluster;
+    sku?: AzureResourceManagerCommonTypesSkuUpdate;
     tags?: {
         [propertyName: string]: string;
     };
-}
-
-// @public
-export interface PrivateCloudUpdateProperties {
-    availability?: AvailabilityProperties;
-    encryption?: Encryption;
-    extendedNetworkBlocks?: string[];
-    identitySources?: IdentitySource[];
-    internet?: InternetEnum;
-    managementCluster?: ManagementCluster;
 }
 
 // @public
@@ -1526,6 +1790,7 @@ export type QuotaEnabled = string;
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
@@ -1534,10 +1799,18 @@ export type ResourceIdentityType = string;
 
 // @public
 export interface ScriptCmdlet extends ProxyResource {
+    readonly audience?: ScriptCmdletAudience;
     readonly description?: string;
     readonly parameters?: ScriptParameter[];
+    readonly provisioningState?: ScriptCmdletProvisioningState;
     readonly timeout?: string;
 }
+
+// @public
+export type ScriptCmdletAudience = string;
+
+// @public
+export type ScriptCmdletProvisioningState = string;
 
 // @public
 export interface ScriptCmdlets {
@@ -1554,8 +1827,8 @@ export type ScriptCmdletsGetResponse = ScriptCmdlet;
 
 // @public
 export interface ScriptCmdletsList {
-    readonly nextLink?: string;
-    readonly value?: ScriptCmdlet[];
+    nextLink?: string;
+    value: ScriptCmdlet[];
 }
 
 // @public
@@ -1596,14 +1869,14 @@ export interface ScriptExecution extends ProxyResource {
 // @public
 export interface ScriptExecutionParameter {
     name: string;
-    type: "SecureValue" | "Value" | "Credential";
+    type: "Credential" | "SecureValue" | "Value";
 }
 
 // @public
 export type ScriptExecutionParameterType = string;
 
 // @public (undocumented)
-export type ScriptExecutionParameterUnion = ScriptExecutionParameter | ScriptSecureStringExecutionParameter | ScriptStringExecutionParameter | PSCredentialExecutionParameter;
+export type ScriptExecutionParameterUnion = ScriptExecutionParameter | PSCredentialExecutionParameter | ScriptSecureStringExecutionParameter | ScriptStringExecutionParameter;
 
 // @public
 export type ScriptExecutionProvisioningState = string;
@@ -1620,6 +1893,11 @@ export interface ScriptExecutions {
 }
 
 // @public
+export interface ScriptExecutionsCreateOrUpdateHeaders {
+    retryAfter?: number;
+}
+
+// @public
 export interface ScriptExecutionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -1627,6 +1905,12 @@ export interface ScriptExecutionsCreateOrUpdateOptionalParams extends coreClient
 
 // @public
 export type ScriptExecutionsCreateOrUpdateResponse = ScriptExecution;
+
+// @public
+export interface ScriptExecutionsDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface ScriptExecutionsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -1651,8 +1935,8 @@ export type ScriptExecutionsGetResponse = ScriptExecution;
 
 // @public
 export interface ScriptExecutionsList {
-    readonly nextLink?: string;
-    readonly value?: ScriptExecution[];
+    nextLink?: string;
+    value: ScriptExecution[];
 }
 
 // @public
@@ -1676,9 +1960,13 @@ export type ScriptOutputStreamType = string;
 export interface ScriptPackage extends ProxyResource {
     readonly company?: string;
     readonly description?: string;
+    readonly provisioningState?: ScriptPackageProvisioningState;
     readonly uri?: string;
     readonly version?: string;
 }
+
+// @public
+export type ScriptPackageProvisioningState = string;
 
 // @public
 export interface ScriptPackages {
@@ -1695,8 +1983,8 @@ export type ScriptPackagesGetResponse = ScriptPackage;
 
 // @public
 export interface ScriptPackagesList {
-    readonly nextLink?: string;
-    readonly value?: ScriptPackage[];
+    nextLink?: string;
+    value: ScriptPackage[];
 }
 
 // @public
@@ -1741,22 +2029,36 @@ export interface ScriptStringExecutionParameter extends ScriptExecutionParameter
 export type SegmentStatusEnum = string;
 
 // @public
-export interface ServiceSpecification {
-    logSpecifications?: LogSpecification[];
-    metricSpecifications?: MetricSpecification[];
+export interface Sku {
+    capacity?: number;
+    family?: string;
+    name: string;
+    size?: string;
+    tier?: SkuTier;
 }
 
 // @public
-export interface Sku {
-    name: string;
-}
+export type SkuTier = "Free" | "Basic" | "Standard" | "Premium";
 
 // @public
 export type SslEnum = string;
 
 // @public
+export type SystemAssignedServiceIdentityType = string;
+
+// @public
+export interface SystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
+}
+
+// @public
 export interface TrackedResource extends Resource {
-    location?: string;
+    location: string;
     tags?: {
         [propertyName: string]: string;
     };
@@ -1776,8 +2078,12 @@ export interface VirtualMachine extends ProxyResource {
     readonly displayName?: string;
     readonly folderPath?: string;
     readonly moRefId?: string;
+    readonly provisioningState?: VirtualMachineProvisioningState;
     readonly restrictMovement?: VirtualMachineRestrictMovementState;
 }
+
+// @public
+export type VirtualMachineProvisioningState = string;
 
 // @public
 export interface VirtualMachineRestrictMovement {
@@ -1789,8 +2095,8 @@ export type VirtualMachineRestrictMovementState = string;
 
 // @public
 export interface VirtualMachines {
-    beginRestrictMovement(resourceGroupName: string, privateCloudName: string, clusterName: string, virtualMachineId: string, restrictMovement: VirtualMachineRestrictMovement, options?: VirtualMachinesRestrictMovementOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginRestrictMovementAndWait(resourceGroupName: string, privateCloudName: string, clusterName: string, virtualMachineId: string, restrictMovement: VirtualMachineRestrictMovement, options?: VirtualMachinesRestrictMovementOptionalParams): Promise<void>;
+    beginRestrictMovement(resourceGroupName: string, privateCloudName: string, clusterName: string, virtualMachineId: string, restrictMovement: VirtualMachineRestrictMovement, options?: VirtualMachinesRestrictMovementOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachinesRestrictMovementResponse>, VirtualMachinesRestrictMovementResponse>>;
+    beginRestrictMovementAndWait(resourceGroupName: string, privateCloudName: string, clusterName: string, virtualMachineId: string, restrictMovement: VirtualMachineRestrictMovement, options?: VirtualMachinesRestrictMovementOptionalParams): Promise<VirtualMachinesRestrictMovementResponse>;
     get(resourceGroupName: string, privateCloudName: string, clusterName: string, virtualMachineId: string, options?: VirtualMachinesGetOptionalParams): Promise<VirtualMachinesGetResponse>;
     list(resourceGroupName: string, privateCloudName: string, clusterName: string, options?: VirtualMachinesListOptionalParams): PagedAsyncIterableIterator<VirtualMachine>;
 }
@@ -1804,8 +2110,8 @@ export type VirtualMachinesGetResponse = VirtualMachine;
 
 // @public
 export interface VirtualMachinesList {
-    readonly nextLink?: string;
-    readonly value?: VirtualMachine[];
+    nextLink?: string;
+    value: VirtualMachine[];
 }
 
 // @public
@@ -1823,10 +2129,19 @@ export interface VirtualMachinesListOptionalParams extends coreClient.OperationO
 export type VirtualMachinesListResponse = VirtualMachinesList;
 
 // @public
+export interface VirtualMachinesRestrictMovementHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface VirtualMachinesRestrictMovementOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type VirtualMachinesRestrictMovementResponse = VirtualMachinesRestrictMovementHeaders;
 
 // @public
 export type VisibilityParameterEnum = string;
@@ -1856,6 +2171,7 @@ export type VMTypeEnum = string;
 
 // @public
 export interface WorkloadNetwork extends ProxyResource {
+    readonly provisioningState?: WorkloadNetworkProvisioningState;
 }
 
 // @public
@@ -1865,7 +2181,7 @@ export interface WorkloadNetworkDhcp extends ProxyResource {
 
 // @public
 export interface WorkloadNetworkDhcpEntity {
-    dhcpType: "SERVER" | "RELAY";
+    dhcpType: "RELAY" | "SERVER";
     displayName?: string;
     readonly provisioningState?: WorkloadNetworkDhcpProvisioningState;
     revision?: number;
@@ -1873,12 +2189,12 @@ export interface WorkloadNetworkDhcpEntity {
 }
 
 // @public (undocumented)
-export type WorkloadNetworkDhcpEntityUnion = WorkloadNetworkDhcpEntity | WorkloadNetworkDhcpServer | WorkloadNetworkDhcpRelay;
+export type WorkloadNetworkDhcpEntityUnion = WorkloadNetworkDhcpEntity | WorkloadNetworkDhcpRelay | WorkloadNetworkDhcpServer;
 
 // @public
 export interface WorkloadNetworkDhcpList {
-    readonly nextLink?: string;
-    readonly value?: WorkloadNetworkDhcp[];
+    nextLink?: string;
+    value: WorkloadNetworkDhcp[];
 }
 
 // @public
@@ -1914,8 +2230,8 @@ export type WorkloadNetworkDnsServiceProvisioningState = string;
 
 // @public
 export interface WorkloadNetworkDnsServicesList {
-    readonly nextLink?: string;
-    readonly value?: WorkloadNetworkDnsService[];
+    nextLink?: string;
+    value: WorkloadNetworkDnsService[];
 }
 
 // @public
@@ -1934,30 +2250,28 @@ export type WorkloadNetworkDnsZoneProvisioningState = string;
 
 // @public
 export interface WorkloadNetworkDnsZonesList {
-    readonly nextLink?: string;
-    readonly value?: WorkloadNetworkDnsZone[];
+    nextLink?: string;
+    value: WorkloadNetworkDnsZone[];
 }
 
 // @public
 export interface WorkloadNetworkGateway extends ProxyResource {
     displayName?: string;
     readonly path?: string;
+    readonly provisioningState?: WorkloadNetworkProvisioningState;
 }
 
 // @public
 export interface WorkloadNetworkGatewayList {
-    readonly nextLink?: string;
-    readonly value?: WorkloadNetworkGateway[];
+    nextLink?: string;
+    value: WorkloadNetworkGateway[];
 }
 
 // @public
 export interface WorkloadNetworkList {
-    readonly nextLink?: string;
-    readonly value?: WorkloadNetwork[];
+    nextLink?: string;
+    value: WorkloadNetwork[];
 }
-
-// @public
-export type WorkloadNetworkName = string;
 
 // @public
 export interface WorkloadNetworkPortMirroring extends ProxyResource {
@@ -1972,12 +2286,15 @@ export interface WorkloadNetworkPortMirroring extends ProxyResource {
 
 // @public
 export interface WorkloadNetworkPortMirroringList {
-    readonly nextLink?: string;
-    readonly value?: WorkloadNetworkPortMirroring[];
+    nextLink?: string;
+    value: WorkloadNetworkPortMirroring[];
 }
 
 // @public
 export type WorkloadNetworkPortMirroringProvisioningState = string;
+
+// @public
+export type WorkloadNetworkProvisioningState = string;
 
 // @public
 export interface WorkloadNetworkPublicIP extends ProxyResource {
@@ -1992,8 +2309,8 @@ export type WorkloadNetworkPublicIPProvisioningState = string;
 
 // @public
 export interface WorkloadNetworkPublicIPsList {
-    readonly nextLink?: string;
-    readonly value?: WorkloadNetworkPublicIP[];
+    nextLink?: string;
+    value: WorkloadNetworkPublicIP[];
 }
 
 // @public
@@ -2038,7 +2355,7 @@ export interface WorkloadNetworks {
     beginUpdateSegmentsAndWait(resourceGroupName: string, privateCloudName: string, segmentId: string, workloadNetworkSegment: WorkloadNetworkSegment, options?: WorkloadNetworksUpdateSegmentsOptionalParams): Promise<WorkloadNetworksUpdateSegmentsResponse>;
     beginUpdateVMGroup(resourceGroupName: string, privateCloudName: string, vmGroupId: string, workloadNetworkVMGroup: WorkloadNetworkVMGroup, options?: WorkloadNetworksUpdateVMGroupOptionalParams): Promise<SimplePollerLike<OperationState<WorkloadNetworksUpdateVMGroupResponse>, WorkloadNetworksUpdateVMGroupResponse>>;
     beginUpdateVMGroupAndWait(resourceGroupName: string, privateCloudName: string, vmGroupId: string, workloadNetworkVMGroup: WorkloadNetworkVMGroup, options?: WorkloadNetworksUpdateVMGroupOptionalParams): Promise<WorkloadNetworksUpdateVMGroupResponse>;
-    get(resourceGroupName: string, privateCloudName: string, workloadNetworkName: WorkloadNetworkName, options?: WorkloadNetworksGetOptionalParams): Promise<WorkloadNetworksGetResponse>;
+    get(resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksGetOptionalParams): Promise<WorkloadNetworksGetResponse>;
     getDhcp(resourceGroupName: string, dhcpId: string, privateCloudName: string, options?: WorkloadNetworksGetDhcpOptionalParams): Promise<WorkloadNetworksGetDhcpResponse>;
     getDnsService(resourceGroupName: string, privateCloudName: string, dnsServiceId: string, options?: WorkloadNetworksGetDnsServiceOptionalParams): Promise<WorkloadNetworksGetDnsServiceResponse>;
     getDnsZone(resourceGroupName: string, privateCloudName: string, dnsZoneId: string, options?: WorkloadNetworksGetDnsZoneOptionalParams): Promise<WorkloadNetworksGetDnsZoneResponse>;
@@ -2061,6 +2378,11 @@ export interface WorkloadNetworks {
 }
 
 // @public
+export interface WorkloadNetworksCreateDhcpHeaders {
+    retryAfter?: number;
+}
+
+// @public
 export interface WorkloadNetworksCreateDhcpOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -2068,6 +2390,11 @@ export interface WorkloadNetworksCreateDhcpOptionalParams extends coreClient.Ope
 
 // @public
 export type WorkloadNetworksCreateDhcpResponse = WorkloadNetworkDhcp;
+
+// @public
+export interface WorkloadNetworksCreateDnsServiceHeaders {
+    retryAfter?: number;
+}
 
 // @public
 export interface WorkloadNetworksCreateDnsServiceOptionalParams extends coreClient.OperationOptions {
@@ -2079,6 +2406,11 @@ export interface WorkloadNetworksCreateDnsServiceOptionalParams extends coreClie
 export type WorkloadNetworksCreateDnsServiceResponse = WorkloadNetworkDnsService;
 
 // @public
+export interface WorkloadNetworksCreateDnsZoneHeaders {
+    retryAfter?: number;
+}
+
+// @public
 export interface WorkloadNetworksCreateDnsZoneOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -2086,6 +2418,11 @@ export interface WorkloadNetworksCreateDnsZoneOptionalParams extends coreClient.
 
 // @public
 export type WorkloadNetworksCreateDnsZoneResponse = WorkloadNetworkDnsZone;
+
+// @public
+export interface WorkloadNetworksCreatePortMirroringHeaders {
+    retryAfter?: number;
+}
 
 // @public
 export interface WorkloadNetworksCreatePortMirroringOptionalParams extends coreClient.OperationOptions {
@@ -2097,6 +2434,11 @@ export interface WorkloadNetworksCreatePortMirroringOptionalParams extends coreC
 export type WorkloadNetworksCreatePortMirroringResponse = WorkloadNetworkPortMirroring;
 
 // @public
+export interface WorkloadNetworksCreatePublicIPHeaders {
+    retryAfter?: number;
+}
+
+// @public
 export interface WorkloadNetworksCreatePublicIPOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -2104,6 +2446,11 @@ export interface WorkloadNetworksCreatePublicIPOptionalParams extends coreClient
 
 // @public
 export type WorkloadNetworksCreatePublicIPResponse = WorkloadNetworkPublicIP;
+
+// @public
+export interface WorkloadNetworksCreateSegmentsHeaders {
+    retryAfter?: number;
+}
 
 // @public
 export interface WorkloadNetworksCreateSegmentsOptionalParams extends coreClient.OperationOptions {
@@ -2115,6 +2462,11 @@ export interface WorkloadNetworksCreateSegmentsOptionalParams extends coreClient
 export type WorkloadNetworksCreateSegmentsResponse = WorkloadNetworkSegment;
 
 // @public
+export interface WorkloadNetworksCreateVMGroupHeaders {
+    retryAfter?: number;
+}
+
+// @public
 export interface WorkloadNetworksCreateVMGroupOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -2124,9 +2476,21 @@ export interface WorkloadNetworksCreateVMGroupOptionalParams extends coreClient.
 export type WorkloadNetworksCreateVMGroupResponse = WorkloadNetworkVMGroup;
 
 // @public
+export interface WorkloadNetworksDeleteDhcpHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface WorkloadNetworksDeleteDhcpOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface WorkloadNetworksDeleteDnsServiceHeaders {
+    location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -2136,9 +2500,21 @@ export interface WorkloadNetworksDeleteDnsServiceOptionalParams extends coreClie
 }
 
 // @public
+export interface WorkloadNetworksDeleteDnsZoneHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface WorkloadNetworksDeleteDnsZoneOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface WorkloadNetworksDeletePortMirroringHeaders {
+    location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -2148,15 +2524,33 @@ export interface WorkloadNetworksDeletePortMirroringOptionalParams extends coreC
 }
 
 // @public
+export interface WorkloadNetworksDeletePublicIPHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface WorkloadNetworksDeletePublicIPOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
+export interface WorkloadNetworksDeleteSegmentHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface WorkloadNetworksDeleteSegmentOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface WorkloadNetworksDeleteVMGroupHeaders {
+    location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -2186,8 +2580,8 @@ export type WorkloadNetworkSegmentProvisioningState = string;
 
 // @public
 export interface WorkloadNetworkSegmentsList {
-    readonly nextLink?: string;
-    readonly value?: WorkloadNetworkSegment[];
+    nextLink?: string;
+    value: WorkloadNetworkSegment[];
 }
 
 // @public
@@ -2407,6 +2801,12 @@ export interface WorkloadNetworksListVMGroupsOptionalParams extends coreClient.O
 export type WorkloadNetworksListVMGroupsResponse = WorkloadNetworkVMGroupsList;
 
 // @public
+export interface WorkloadNetworksUpdateDhcpHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface WorkloadNetworksUpdateDhcpOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -2414,6 +2814,12 @@ export interface WorkloadNetworksUpdateDhcpOptionalParams extends coreClient.Ope
 
 // @public
 export type WorkloadNetworksUpdateDhcpResponse = WorkloadNetworkDhcp;
+
+// @public
+export interface WorkloadNetworksUpdateDnsServiceHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface WorkloadNetworksUpdateDnsServiceOptionalParams extends coreClient.OperationOptions {
@@ -2425,6 +2831,12 @@ export interface WorkloadNetworksUpdateDnsServiceOptionalParams extends coreClie
 export type WorkloadNetworksUpdateDnsServiceResponse = WorkloadNetworkDnsService;
 
 // @public
+export interface WorkloadNetworksUpdateDnsZoneHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface WorkloadNetworksUpdateDnsZoneOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -2432,6 +2844,12 @@ export interface WorkloadNetworksUpdateDnsZoneOptionalParams extends coreClient.
 
 // @public
 export type WorkloadNetworksUpdateDnsZoneResponse = WorkloadNetworkDnsZone;
+
+// @public
+export interface WorkloadNetworksUpdatePortMirroringHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface WorkloadNetworksUpdatePortMirroringOptionalParams extends coreClient.OperationOptions {
@@ -2443,6 +2861,12 @@ export interface WorkloadNetworksUpdatePortMirroringOptionalParams extends coreC
 export type WorkloadNetworksUpdatePortMirroringResponse = WorkloadNetworkPortMirroring;
 
 // @public
+export interface WorkloadNetworksUpdateSegmentsHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface WorkloadNetworksUpdateSegmentsOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -2450,6 +2874,12 @@ export interface WorkloadNetworksUpdateSegmentsOptionalParams extends coreClient
 
 // @public
 export type WorkloadNetworksUpdateSegmentsResponse = WorkloadNetworkSegment;
+
+// @public
+export interface WorkloadNetworksUpdateVMGroupHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface WorkloadNetworksUpdateVMGroupOptionalParams extends coreClient.OperationOptions {
@@ -2463,13 +2893,14 @@ export type WorkloadNetworksUpdateVMGroupResponse = WorkloadNetworkVMGroup;
 // @public
 export interface WorkloadNetworkVirtualMachine extends ProxyResource {
     displayName?: string;
+    readonly provisioningState?: WorkloadNetworkProvisioningState;
     readonly vmType?: VMTypeEnum;
 }
 
 // @public
 export interface WorkloadNetworkVirtualMachinesList {
-    readonly nextLink?: string;
-    readonly value?: WorkloadNetworkVirtualMachine[];
+    nextLink?: string;
+    value: WorkloadNetworkVirtualMachine[];
 }
 
 // @public
@@ -2486,8 +2917,8 @@ export type WorkloadNetworkVMGroupProvisioningState = string;
 
 // @public
 export interface WorkloadNetworkVMGroupsList {
-    readonly nextLink?: string;
-    readonly value?: WorkloadNetworkVMGroup[];
+    nextLink?: string;
+    value: WorkloadNetworkVMGroup[];
 }
 
 // (No @packageDocumentation comment for this package)
