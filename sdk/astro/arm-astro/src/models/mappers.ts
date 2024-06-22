@@ -286,7 +286,6 @@ export const LiftrBaseMarketplaceDetails: coreClient.CompositeMapper = {
     modelProperties: {
       subscriptionId: {
         serializedName: "subscriptionId",
-        required: true,
         type: {
           name: "String",
         },
@@ -653,7 +652,7 @@ export const OrganizationResourceUpdate: coreClient.CompositeMapper = {
         serializedName: "identity",
         type: {
           name: "Composite",
-          className: "ManagedServiceIdentity",
+          className: "AzureResourceManagerLegacyManagedServiceIdentityV4Update",
         },
       },
       tags: {
@@ -673,6 +672,31 @@ export const OrganizationResourceUpdate: coreClient.CompositeMapper = {
     },
   },
 };
+
+export const AzureResourceManagerLegacyManagedServiceIdentityV4Update: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "AzureResourceManagerLegacyManagedServiceIdentityV4Update",
+      modelProperties: {
+        type: {
+          serializedName: "type",
+          type: {
+            name: "String",
+          },
+        },
+        userAssignedIdentities: {
+          serializedName: "userAssignedIdentities",
+          type: {
+            name: "Dictionary",
+            value: {
+              type: { name: "Composite", className: "UserAssignedIdentity" },
+            },
+          },
+        },
+      },
+    },
+  };
 
 export const OrganizationResourceUpdateProperties: coreClient.CompositeMapper =
   {
@@ -861,16 +885,16 @@ export const OrganizationsUpdateHeaders: coreClient.CompositeMapper = {
     name: "Composite",
     className: "OrganizationsUpdateHeaders",
     modelProperties: {
-      retryAfter: {
-        serializedName: "retry-after",
-        type: {
-          name: "Number",
-        },
-      },
       location: {
         serializedName: "location",
         type: {
           name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },
@@ -882,16 +906,16 @@ export const OrganizationsDeleteHeaders: coreClient.CompositeMapper = {
     name: "Composite",
     className: "OrganizationsDeleteHeaders",
     modelProperties: {
-      retryAfter: {
-        serializedName: "retry-after",
-        type: {
-          name: "Number",
-        },
-      },
       location: {
         serializedName: "location",
         type: {
           name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },

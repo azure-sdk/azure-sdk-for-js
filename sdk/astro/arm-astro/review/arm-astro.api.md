@@ -36,6 +36,14 @@ export interface AstroManagementClientOptionalParams extends coreClient.ServiceC
 }
 
 // @public
+export interface AzureResourceManagerLegacyManagedServiceIdentityV4Update {
+    type?: ManagedServiceIdentityType;
+    userAssignedIdentities?: {
+        [propertyName: string]: UserAssignedIdentity;
+    };
+}
+
+// @public
 export type CreatedByType = string;
 
 // @public
@@ -112,11 +120,6 @@ export enum KnownSingleSignOnStates {
 }
 
 // @public
-export enum KnownVersions {
-    V1Preview = "2023-08-01"
-}
-
-// @public
 export interface LiftrBaseDataOrganizationProperties {
     marketplace: LiftrBaseMarketplaceDetails;
     partnerOrganizationProperties?: LiftrBaseDataPartnerOrganizationProperties;
@@ -145,7 +148,7 @@ export interface LiftrBaseDataPartnerOrganizationPropertiesUpdate {
 // @public
 export interface LiftrBaseMarketplaceDetails {
     offerDetails: LiftrBaseOfferDetails;
-    subscriptionId: string;
+    subscriptionId?: string;
     subscriptionStatus?: MarketplaceSubscriptionStatus;
 }
 
@@ -258,7 +261,7 @@ export interface OrganizationResourceListResult {
 
 // @public
 export interface OrganizationResourceUpdate {
-    identity?: ManagedServiceIdentity;
+    identity?: AzureResourceManagerLegacyManagedServiceIdentityV4Update;
     properties?: OrganizationResourceUpdateProperties;
     tags?: {
         [propertyName: string]: string;
@@ -403,9 +406,6 @@ export interface UserAssignedIdentity {
     readonly clientId?: string;
     readonly principalId?: string;
 }
-
-// @public
-export type Versions = string;
 
 // (No @packageDocumentation comment for this package)
 
