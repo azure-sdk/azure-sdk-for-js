@@ -495,12 +495,37 @@ export const FleetPatch: coreClient.CompositeMapper = {
         serializedName: "identity",
         type: {
           name: "Composite",
-          className: "ManagedServiceIdentity",
+          className: "AzureResourceManagerLegacyManagedServiceIdentityV4Update",
         },
       },
     },
   },
 };
+
+export const AzureResourceManagerLegacyManagedServiceIdentityV4Update: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "AzureResourceManagerLegacyManagedServiceIdentityV4Update",
+      modelProperties: {
+        type: {
+          serializedName: "type",
+          type: {
+            name: "String",
+          },
+        },
+        userAssignedIdentities: {
+          serializedName: "userAssignedIdentities",
+          type: {
+            name: "Dictionary",
+            value: {
+              type: { name: "Composite", className: "UserAssignedIdentity" },
+            },
+          },
+        },
+      },
+    },
+  };
 
 export const FleetCredentialResults: coreClient.CompositeMapper = {
   type: {
