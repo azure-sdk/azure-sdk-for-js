@@ -24,6 +24,14 @@ export interface APIServerAccessProfile {
     enablePrivateCluster?: boolean;
 }
 
+// @public
+export interface AzureResourceManagerLegacyManagedServiceIdentityV4Update {
+    type?: ManagedServiceIdentityType;
+    userAssignedIdentities?: {
+        [propertyName: string]: UserAssignedIdentity;
+    };
+}
+
 // @public (undocumented)
 export class ContainerServiceFleetClient extends coreClient.ServiceClient {
     // (undocumented)
@@ -212,7 +220,7 @@ export interface FleetMemberUpdate {
 
 // @public
 export interface FleetPatch {
-    identity?: ManagedServiceIdentity;
+    identity?: AzureResourceManagerLegacyManagedServiceIdentityV4Update;
     tags?: {
         [propertyName: string]: string;
     };
