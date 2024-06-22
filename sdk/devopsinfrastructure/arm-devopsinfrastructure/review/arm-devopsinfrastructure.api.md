@@ -63,6 +63,14 @@ export interface AzureDevOpsPermissionProfile {
 export type AzureDevOpsPermissionType = string;
 
 // @public
+export interface AzureResourceManagerCommonTypesManagedServiceIdentityUpdate {
+    type?: ManagedServiceIdentityType;
+    userAssignedIdentities?: {
+        [propertyName: string]: UserAssignedIdentity;
+    };
+}
+
+// @public
 export type CachingType = string;
 
 // @public
@@ -530,7 +538,7 @@ export type PoolsUpdateResponse = Pool;
 
 // @public
 export interface PoolUpdate {
-    identity?: ManagedServiceIdentity;
+    identity?: AzureResourceManagerCommonTypesManagedServiceIdentityUpdate;
     properties?: PoolUpdateProperties;
     tags?: {
         [propertyName: string]: string;
