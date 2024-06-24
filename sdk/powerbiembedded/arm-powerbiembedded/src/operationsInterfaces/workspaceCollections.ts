@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   WorkspaceCollection,
   WorkspaceCollectionsListByResourceGroupOptionalParams,
@@ -30,7 +30,7 @@ import {
   WorkspaceCollectionsRegenerateKeyOptionalParams,
   WorkspaceCollectionsRegenerateKeyResponse,
   MigrateWorkspaceCollectionRequest,
-  WorkspaceCollectionsMigrateOptionalParams
+  WorkspaceCollectionsMigrateOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -43,14 +43,14 @@ export interface WorkspaceCollections {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: WorkspaceCollectionsListByResourceGroupOptionalParams
+    options?: WorkspaceCollectionsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<WorkspaceCollection>;
   /**
    * Retrieves all existing Power BI workspace collections in the specified subscription.
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: WorkspaceCollectionsListBySubscriptionOptionalParams
+    options?: WorkspaceCollectionsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<WorkspaceCollection>;
   /**
    * Retrieves an existing Power BI Workspace Collection.
@@ -61,7 +61,7 @@ export interface WorkspaceCollections {
   getByName(
     resourceGroupName: string,
     workspaceCollectionName: string,
-    options?: WorkspaceCollectionsGetByNameOptionalParams
+    options?: WorkspaceCollectionsGetByNameOptionalParams,
   ): Promise<WorkspaceCollectionsGetByNameResponse>;
   /**
    * Creates a new Power BI Workspace Collection with the specified properties. A Power BI Workspace
@@ -76,7 +76,7 @@ export interface WorkspaceCollections {
     resourceGroupName: string,
     workspaceCollectionName: string,
     body: CreateWorkspaceCollectionRequest,
-    options?: WorkspaceCollectionsCreateOptionalParams
+    options?: WorkspaceCollectionsCreateOptionalParams,
   ): Promise<WorkspaceCollectionsCreateResponse>;
   /**
    * Update an existing Power BI Workspace Collection with the specified properties.
@@ -89,7 +89,7 @@ export interface WorkspaceCollections {
     resourceGroupName: string,
     workspaceCollectionName: string,
     body: UpdateWorkspaceCollectionRequest,
-    options?: WorkspaceCollectionsUpdateOptionalParams
+    options?: WorkspaceCollectionsUpdateOptionalParams,
   ): Promise<WorkspaceCollectionsUpdateResponse>;
   /**
    * Delete a Power BI Workspace Collection.
@@ -100,8 +100,8 @@ export interface WorkspaceCollections {
   beginDelete(
     resourceGroupName: string,
     workspaceCollectionName: string,
-    options?: WorkspaceCollectionsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: WorkspaceCollectionsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a Power BI Workspace Collection.
    * @param resourceGroupName Azure resource group
@@ -111,7 +111,7 @@ export interface WorkspaceCollections {
   beginDeleteAndWait(
     resourceGroupName: string,
     workspaceCollectionName: string,
-    options?: WorkspaceCollectionsDeleteOptionalParams
+    options?: WorkspaceCollectionsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Verify the specified Power BI Workspace Collection name is valid and not already in use.
@@ -122,7 +122,7 @@ export interface WorkspaceCollections {
   checkNameAvailability(
     location: string,
     body: CheckNameRequest,
-    options?: WorkspaceCollectionsCheckNameAvailabilityOptionalParams
+    options?: WorkspaceCollectionsCheckNameAvailabilityOptionalParams,
   ): Promise<WorkspaceCollectionsCheckNameAvailabilityResponse>;
   /**
    * Retrieves the primary and secondary access keys for the specified Power BI Workspace Collection.
@@ -133,7 +133,7 @@ export interface WorkspaceCollections {
   getAccessKeys(
     resourceGroupName: string,
     workspaceCollectionName: string,
-    options?: WorkspaceCollectionsGetAccessKeysOptionalParams
+    options?: WorkspaceCollectionsGetAccessKeysOptionalParams,
   ): Promise<WorkspaceCollectionsGetAccessKeysResponse>;
   /**
    * Regenerates the primary or secondary access key for the specified Power BI Workspace Collection.
@@ -146,7 +146,7 @@ export interface WorkspaceCollections {
     resourceGroupName: string,
     workspaceCollectionName: string,
     body: WorkspaceCollectionAccessKey,
-    options?: WorkspaceCollectionsRegenerateKeyOptionalParams
+    options?: WorkspaceCollectionsRegenerateKeyOptionalParams,
   ): Promise<WorkspaceCollectionsRegenerateKeyResponse>;
   /**
    * Migrates an existing Power BI Workspace Collection to a different resource group and/or
@@ -158,6 +158,6 @@ export interface WorkspaceCollections {
   migrate(
     resourceGroupName: string,
     body: MigrateWorkspaceCollectionRequest,
-    options?: WorkspaceCollectionsMigrateOptionalParams
+    options?: WorkspaceCollectionsMigrateOptionalParams,
   ): Promise<void>;
 }
