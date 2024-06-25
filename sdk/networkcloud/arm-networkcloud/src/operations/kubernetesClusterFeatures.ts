@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { CloudServicesNetworks } from "../operationsInterfaces";
+import { KubernetesClusterFeatures } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,32 +20,30 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  CloudServicesNetwork,
-  CloudServicesNetworksListBySubscriptionNextOptionalParams,
-  CloudServicesNetworksListBySubscriptionOptionalParams,
-  CloudServicesNetworksListBySubscriptionResponse,
-  CloudServicesNetworksListByResourceGroupNextOptionalParams,
-  CloudServicesNetworksListByResourceGroupOptionalParams,
-  CloudServicesNetworksListByResourceGroupResponse,
-  CloudServicesNetworksGetOptionalParams,
-  CloudServicesNetworksGetResponse,
-  CloudServicesNetworksCreateOrUpdateOptionalParams,
-  CloudServicesNetworksCreateOrUpdateResponse,
-  CloudServicesNetworksDeleteOptionalParams,
-  CloudServicesNetworksDeleteResponse,
-  CloudServicesNetworksUpdateOptionalParams,
-  CloudServicesNetworksUpdateResponse,
-  CloudServicesNetworksListBySubscriptionNextResponse,
-  CloudServicesNetworksListByResourceGroupNextResponse,
+  KubernetesClusterFeature,
+  KubernetesClusterFeaturesListByKubernetesClusterNextOptionalParams,
+  KubernetesClusterFeaturesListByKubernetesClusterOptionalParams,
+  KubernetesClusterFeaturesListByKubernetesClusterResponse,
+  KubernetesClusterFeaturesGetOptionalParams,
+  KubernetesClusterFeaturesGetResponse,
+  KubernetesClusterFeaturesCreateOrUpdateOptionalParams,
+  KubernetesClusterFeaturesCreateOrUpdateResponse,
+  KubernetesClusterFeaturesDeleteOptionalParams,
+  KubernetesClusterFeaturesDeleteResponse,
+  KubernetesClusterFeaturesUpdateOptionalParams,
+  KubernetesClusterFeaturesUpdateResponse,
+  KubernetesClusterFeaturesListByKubernetesClusterNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing CloudServicesNetworks operations. */
-export class CloudServicesNetworksImpl implements CloudServicesNetworks {
+/** Class containing KubernetesClusterFeatures operations. */
+export class KubernetesClusterFeaturesImpl
+  implements KubernetesClusterFeatures
+{
   private readonly client: NetworkCloud;
 
   /**
-   * Initialize a new instance of the class CloudServicesNetworks class.
+   * Initialize a new instance of the class KubernetesClusterFeatures class.
    * @param client Reference to the service client
    */
   constructor(client: NetworkCloud) {
@@ -53,69 +51,21 @@ export class CloudServicesNetworksImpl implements CloudServicesNetworks {
   }
 
   /**
-   * Get a list of cloud services networks in the provided subscription.
-   * @param options The options parameters.
-   */
-  public listBySubscription(
-    options?: CloudServicesNetworksListBySubscriptionOptionalParams,
-  ): PagedAsyncIterableIterator<CloudServicesNetwork> {
-    const iter = this.listBySubscriptionPagingAll(options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listBySubscriptionPagingPage(options, settings);
-      },
-    };
-  }
-
-  private async *listBySubscriptionPagingPage(
-    options?: CloudServicesNetworksListBySubscriptionOptionalParams,
-    settings?: PageSettings,
-  ): AsyncIterableIterator<CloudServicesNetwork[]> {
-    let result: CloudServicesNetworksListBySubscriptionResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listBySubscription(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listBySubscriptionNext(continuationToken, options);
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listBySubscriptionPagingAll(
-    options?: CloudServicesNetworksListBySubscriptionOptionalParams,
-  ): AsyncIterableIterator<CloudServicesNetwork> {
-    for await (const page of this.listBySubscriptionPagingPage(options)) {
-      yield* page;
-    }
-  }
-
-  /**
-   * Get a list of cloud services networks in the provided resource group.
+   * Get a list of features for the provided Kubernetes cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param kubernetesClusterName The name of the Kubernetes cluster.
    * @param options The options parameters.
    */
-  public listByResourceGroup(
+  public listByKubernetesCluster(
     resourceGroupName: string,
-    options?: CloudServicesNetworksListByResourceGroupOptionalParams,
-  ): PagedAsyncIterableIterator<CloudServicesNetwork> {
-    const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
+    kubernetesClusterName: string,
+    options?: KubernetesClusterFeaturesListByKubernetesClusterOptionalParams,
+  ): PagedAsyncIterableIterator<KubernetesClusterFeature> {
+    const iter = this.listByKubernetesClusterPagingAll(
+      resourceGroupName,
+      kubernetesClusterName,
+      options,
+    );
     return {
       next() {
         return iter.next();
@@ -127,8 +77,9 @@ export class CloudServicesNetworksImpl implements CloudServicesNetworks {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
+        return this.listByKubernetesClusterPagingPage(
           resourceGroupName,
+          kubernetesClusterName,
           options,
           settings,
         );
@@ -136,23 +87,29 @@ export class CloudServicesNetworksImpl implements CloudServicesNetworks {
     };
   }
 
-  private async *listByResourceGroupPagingPage(
+  private async *listByKubernetesClusterPagingPage(
     resourceGroupName: string,
-    options?: CloudServicesNetworksListByResourceGroupOptionalParams,
+    kubernetesClusterName: string,
+    options?: KubernetesClusterFeaturesListByKubernetesClusterOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<CloudServicesNetwork[]> {
-    let result: CloudServicesNetworksListByResourceGroupResponse;
+  ): AsyncIterableIterator<KubernetesClusterFeature[]> {
+    let result: KubernetesClusterFeaturesListByKubernetesClusterResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByResourceGroup(resourceGroupName, options);
+      result = await this._listByKubernetesCluster(
+        resourceGroupName,
+        kubernetesClusterName,
+        options,
+      );
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
+      result = await this._listByKubernetesClusterNext(
         resourceGroupName,
+        kubernetesClusterName,
         continuationToken,
         options,
       );
@@ -163,12 +120,14 @@ export class CloudServicesNetworksImpl implements CloudServicesNetworks {
     }
   }
 
-  private async *listByResourceGroupPagingAll(
+  private async *listByKubernetesClusterPagingAll(
     resourceGroupName: string,
-    options?: CloudServicesNetworksListByResourceGroupOptionalParams,
-  ): AsyncIterableIterator<CloudServicesNetwork> {
-    for await (const page of this.listByResourceGroupPagingPage(
+    kubernetesClusterName: string,
+    options?: KubernetesClusterFeaturesListByKubernetesClusterOptionalParams,
+  ): AsyncIterableIterator<KubernetesClusterFeature> {
+    for await (const page of this.listByKubernetesClusterPagingPage(
       resourceGroupName,
+      kubernetesClusterName,
       options,
     )) {
       yield* page;
@@ -176,72 +135,66 @@ export class CloudServicesNetworksImpl implements CloudServicesNetworks {
   }
 
   /**
-   * Get a list of cloud services networks in the provided subscription.
-   * @param options The options parameters.
-   */
-  private _listBySubscription(
-    options?: CloudServicesNetworksListBySubscriptionOptionalParams,
-  ): Promise<CloudServicesNetworksListBySubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listBySubscriptionOperationSpec,
-    );
-  }
-
-  /**
-   * Get a list of cloud services networks in the provided resource group.
+   * Get a list of features for the provided Kubernetes cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param kubernetesClusterName The name of the Kubernetes cluster.
    * @param options The options parameters.
    */
-  private _listByResourceGroup(
+  private _listByKubernetesCluster(
     resourceGroupName: string,
-    options?: CloudServicesNetworksListByResourceGroupOptionalParams,
-  ): Promise<CloudServicesNetworksListByResourceGroupResponse> {
+    kubernetesClusterName: string,
+    options?: KubernetesClusterFeaturesListByKubernetesClusterOptionalParams,
+  ): Promise<KubernetesClusterFeaturesListByKubernetesClusterResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listByResourceGroupOperationSpec,
+      { resourceGroupName, kubernetesClusterName, options },
+      listByKubernetesClusterOperationSpec,
     );
   }
 
   /**
-   * Get properties of the provided cloud services network.
+   * Get properties of the provided the Kubernetes cluster feature.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param cloudServicesNetworkName The name of the cloud services network.
+   * @param kubernetesClusterName The name of the Kubernetes cluster.
+   * @param featureName The name of the feature.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    cloudServicesNetworkName: string,
-    options?: CloudServicesNetworksGetOptionalParams,
-  ): Promise<CloudServicesNetworksGetResponse> {
+    kubernetesClusterName: string,
+    featureName: string,
+    options?: KubernetesClusterFeaturesGetOptionalParams,
+  ): Promise<KubernetesClusterFeaturesGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, cloudServicesNetworkName, options },
+      { resourceGroupName, kubernetesClusterName, featureName, options },
       getOperationSpec,
     );
   }
 
   /**
-   * Create a new cloud services network or update the properties of the existing cloud services network.
+   * Create a new Kubernetes cluster feature or update properties of the Kubernetes cluster feature if it
+   * exists.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param cloudServicesNetworkName The name of the cloud services network.
-   * @param cloudServicesNetworkParameters The request body.
+   * @param kubernetesClusterName The name of the Kubernetes cluster.
+   * @param featureName The name of the feature.
+   * @param kubernetesClusterFeatureParameters The request body.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
-    cloudServicesNetworkName: string,
-    cloudServicesNetworkParameters: CloudServicesNetwork,
-    options?: CloudServicesNetworksCreateOrUpdateOptionalParams,
+    kubernetesClusterName: string,
+    featureName: string,
+    kubernetesClusterFeatureParameters: KubernetesClusterFeature,
+    options?: KubernetesClusterFeaturesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<CloudServicesNetworksCreateOrUpdateResponse>,
-      CloudServicesNetworksCreateOrUpdateResponse
+      OperationState<KubernetesClusterFeaturesCreateOrUpdateResponse>,
+      KubernetesClusterFeaturesCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<CloudServicesNetworksCreateOrUpdateResponse> => {
+    ): Promise<KubernetesClusterFeaturesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -280,15 +233,16 @@ export class CloudServicesNetworksImpl implements CloudServicesNetworks {
       sendOperationFn,
       args: {
         resourceGroupName,
-        cloudServicesNetworkName,
-        cloudServicesNetworkParameters,
+        kubernetesClusterName,
+        featureName,
+        kubernetesClusterFeatureParameters,
         options,
       },
       spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
-      CloudServicesNetworksCreateOrUpdateResponse,
-      OperationState<CloudServicesNetworksCreateOrUpdateResponse>
+      KubernetesClusterFeaturesCreateOrUpdateResponse,
+      OperationState<KubernetesClusterFeaturesCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -299,47 +253,53 @@ export class CloudServicesNetworksImpl implements CloudServicesNetworks {
   }
 
   /**
-   * Create a new cloud services network or update the properties of the existing cloud services network.
+   * Create a new Kubernetes cluster feature or update properties of the Kubernetes cluster feature if it
+   * exists.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param cloudServicesNetworkName The name of the cloud services network.
-   * @param cloudServicesNetworkParameters The request body.
+   * @param kubernetesClusterName The name of the Kubernetes cluster.
+   * @param featureName The name of the feature.
+   * @param kubernetesClusterFeatureParameters The request body.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
-    cloudServicesNetworkName: string,
-    cloudServicesNetworkParameters: CloudServicesNetwork,
-    options?: CloudServicesNetworksCreateOrUpdateOptionalParams,
-  ): Promise<CloudServicesNetworksCreateOrUpdateResponse> {
+    kubernetesClusterName: string,
+    featureName: string,
+    kubernetesClusterFeatureParameters: KubernetesClusterFeature,
+    options?: KubernetesClusterFeaturesCreateOrUpdateOptionalParams,
+  ): Promise<KubernetesClusterFeaturesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
-      cloudServicesNetworkName,
-      cloudServicesNetworkParameters,
+      kubernetesClusterName,
+      featureName,
+      kubernetesClusterFeatureParameters,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Delete the provided cloud services network.
+   * Delete the provided Kubernetes cluster feature.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param cloudServicesNetworkName The name of the cloud services network.
+   * @param kubernetesClusterName The name of the Kubernetes cluster.
+   * @param featureName The name of the feature.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
-    cloudServicesNetworkName: string,
-    options?: CloudServicesNetworksDeleteOptionalParams,
+    kubernetesClusterName: string,
+    featureName: string,
+    options?: KubernetesClusterFeaturesDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<CloudServicesNetworksDeleteResponse>,
-      CloudServicesNetworksDeleteResponse
+      OperationState<KubernetesClusterFeaturesDeleteResponse>,
+      KubernetesClusterFeaturesDeleteResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<CloudServicesNetworksDeleteResponse> => {
+    ): Promise<KubernetesClusterFeaturesDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -376,12 +336,12 @@ export class CloudServicesNetworksImpl implements CloudServicesNetworks {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, cloudServicesNetworkName, options },
+      args: { resourceGroupName, kubernetesClusterName, featureName, options },
       spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
-      CloudServicesNetworksDeleteResponse,
-      OperationState<CloudServicesNetworksDeleteResponse>
+      KubernetesClusterFeaturesDeleteResponse,
+      OperationState<KubernetesClusterFeaturesDeleteResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -392,45 +352,49 @@ export class CloudServicesNetworksImpl implements CloudServicesNetworks {
   }
 
   /**
-   * Delete the provided cloud services network.
+   * Delete the provided Kubernetes cluster feature.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param cloudServicesNetworkName The name of the cloud services network.
+   * @param kubernetesClusterName The name of the Kubernetes cluster.
+   * @param featureName The name of the feature.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
-    cloudServicesNetworkName: string,
-    options?: CloudServicesNetworksDeleteOptionalParams,
-  ): Promise<CloudServicesNetworksDeleteResponse> {
+    kubernetesClusterName: string,
+    featureName: string,
+    options?: KubernetesClusterFeaturesDeleteOptionalParams,
+  ): Promise<KubernetesClusterFeaturesDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
-      cloudServicesNetworkName,
+      kubernetesClusterName,
+      featureName,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Update properties of the provided cloud services network, or update the tags associated with it.
-   * Properties and tag updates can be done independently.
+   * Patch properties of the provided Kubernetes cluster feature.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param cloudServicesNetworkName The name of the cloud services network.
+   * @param kubernetesClusterName The name of the Kubernetes cluster.
+   * @param featureName The name of the feature.
    * @param options The options parameters.
    */
   async beginUpdate(
     resourceGroupName: string,
-    cloudServicesNetworkName: string,
-    options?: CloudServicesNetworksUpdateOptionalParams,
+    kubernetesClusterName: string,
+    featureName: string,
+    options?: KubernetesClusterFeaturesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<CloudServicesNetworksUpdateResponse>,
-      CloudServicesNetworksUpdateResponse
+      OperationState<KubernetesClusterFeaturesUpdateResponse>,
+      KubernetesClusterFeaturesUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<CloudServicesNetworksUpdateResponse> => {
+    ): Promise<KubernetesClusterFeaturesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -467,12 +431,12 @@ export class CloudServicesNetworksImpl implements CloudServicesNetworks {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, cloudServicesNetworkName, options },
+      args: { resourceGroupName, kubernetesClusterName, featureName, options },
       spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
-      CloudServicesNetworksUpdateResponse,
-      OperationState<CloudServicesNetworksUpdateResponse>
+      KubernetesClusterFeaturesUpdateResponse,
+      OperationState<KubernetesClusterFeaturesUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -483,82 +447,56 @@ export class CloudServicesNetworksImpl implements CloudServicesNetworks {
   }
 
   /**
-   * Update properties of the provided cloud services network, or update the tags associated with it.
-   * Properties and tag updates can be done independently.
+   * Patch properties of the provided Kubernetes cluster feature.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param cloudServicesNetworkName The name of the cloud services network.
+   * @param kubernetesClusterName The name of the Kubernetes cluster.
+   * @param featureName The name of the feature.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
-    cloudServicesNetworkName: string,
-    options?: CloudServicesNetworksUpdateOptionalParams,
-  ): Promise<CloudServicesNetworksUpdateResponse> {
+    kubernetesClusterName: string,
+    featureName: string,
+    options?: KubernetesClusterFeaturesUpdateOptionalParams,
+  ): Promise<KubernetesClusterFeaturesUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
-      cloudServicesNetworkName,
+      kubernetesClusterName,
+      featureName,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * ListBySubscriptionNext
-   * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
-   * @param options The options parameters.
-   */
-  private _listBySubscriptionNext(
-    nextLink: string,
-    options?: CloudServicesNetworksListBySubscriptionNextOptionalParams,
-  ): Promise<CloudServicesNetworksListBySubscriptionNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listBySubscriptionNextOperationSpec,
-    );
-  }
-
-  /**
-   * ListByResourceGroupNext
+   * ListByKubernetesClusterNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
+   * @param kubernetesClusterName The name of the Kubernetes cluster.
+   * @param nextLink The nextLink from the previous successful call to the ListByKubernetesCluster
+   *                 method.
    * @param options The options parameters.
    */
-  private _listByResourceGroupNext(
+  private _listByKubernetesClusterNext(
     resourceGroupName: string,
+    kubernetesClusterName: string,
     nextLink: string,
-    options?: CloudServicesNetworksListByResourceGroupNextOptionalParams,
-  ): Promise<CloudServicesNetworksListByResourceGroupNextResponse> {
+    options?: KubernetesClusterFeaturesListByKubernetesClusterNextOptionalParams,
+  ): Promise<KubernetesClusterFeaturesListByKubernetesClusterNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec,
+      { resourceGroupName, kubernetesClusterName, nextLink, options },
+      listByKubernetesClusterNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.NetworkCloud/cloudServicesNetworks",
+const listByKubernetesClusterOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/kubernetesClusters/{kubernetesClusterName}/features",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CloudServicesNetworkList,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/cloudServicesNetworks",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.CloudServicesNetworkList,
+      bodyMapper: Mappers.KubernetesClusterFeatureList,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -569,16 +507,17 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.kubernetesClusterName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/cloudServicesNetworks/{cloudServicesNetworkName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/kubernetesClusters/{kubernetesClusterName}/features/{featureName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CloudServicesNetwork,
+      bodyMapper: Mappers.KubernetesClusterFeature,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -589,45 +528,47 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.cloudServicesNetworkName,
+    Parameters.kubernetesClusterName,
+    Parameters.featureName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/cloudServicesNetworks/{cloudServicesNetworkName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/kubernetesClusters/{kubernetesClusterName}/features/{featureName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.CloudServicesNetwork,
+      bodyMapper: Mappers.KubernetesClusterFeature,
     },
     201: {
-      bodyMapper: Mappers.CloudServicesNetwork,
+      bodyMapper: Mappers.KubernetesClusterFeature,
     },
     202: {
-      bodyMapper: Mappers.CloudServicesNetwork,
+      bodyMapper: Mappers.KubernetesClusterFeature,
     },
     204: {
-      bodyMapper: Mappers.CloudServicesNetwork,
+      bodyMapper: Mappers.KubernetesClusterFeature,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.cloudServicesNetworkParameters,
+  requestBody: Parameters.kubernetesClusterFeatureParameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.cloudServicesNetworkName,
+    Parameters.kubernetesClusterName,
+    Parameters.featureName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/cloudServicesNetworks/{cloudServicesNetworkName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/kubernetesClusters/{kubernetesClusterName}/features/{featureName}",
   httpMethod: "DELETE",
   responses: {
     200: {
@@ -651,68 +592,51 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.cloudServicesNetworkName,
+    Parameters.kubernetesClusterName,
+    Parameters.featureName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/cloudServicesNetworks/{cloudServicesNetworkName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/kubernetesClusters/{kubernetesClusterName}/features/{featureName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.CloudServicesNetwork,
+      bodyMapper: Mappers.KubernetesClusterFeature,
     },
     201: {
-      bodyMapper: Mappers.CloudServicesNetwork,
+      bodyMapper: Mappers.KubernetesClusterFeature,
     },
     202: {
-      bodyMapper: Mappers.CloudServicesNetwork,
+      bodyMapper: Mappers.KubernetesClusterFeature,
     },
     204: {
-      bodyMapper: Mappers.CloudServicesNetwork,
+      bodyMapper: Mappers.KubernetesClusterFeature,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.cloudServicesNetworkUpdateParameters,
+  requestBody: Parameters.kubernetesClusterFeatureUpdateParameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.cloudServicesNetworkName,
+    Parameters.kubernetesClusterName,
+    Parameters.featureName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
-const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
+const listByKubernetesClusterNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CloudServicesNetworkList,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.CloudServicesNetworkList,
+      bodyMapper: Mappers.KubernetesClusterFeatureList,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -723,6 +647,7 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.kubernetesClusterName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
