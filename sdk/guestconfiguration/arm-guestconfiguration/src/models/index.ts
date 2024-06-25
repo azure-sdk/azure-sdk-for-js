@@ -72,6 +72,8 @@ export interface GuestConfigurationNavigation {
   contentUri?: string;
   /** Combined hash of the guest configuration package and configuration parameters. */
   contentHash?: string;
+  /** Managed identity with storage access of the guest configuration package and configuration parameters. */
+  contentManagedIdentity?: string;
   /** Specifies the assignment type and execution of the configuration. Possible values are Audit, DeployAndAutoCorrect, ApplyAndAutoCorrect and ApplyAndMonitor. */
   assignmentType?: AssignmentType;
   /**

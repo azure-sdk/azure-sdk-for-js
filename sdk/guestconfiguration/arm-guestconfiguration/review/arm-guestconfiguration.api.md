@@ -429,6 +429,7 @@ export interface GuestConfigurationNavigation {
     configurationProtectedParameter?: ConfigurationParameter[];
     readonly configurationSetting?: ConfigurationSetting;
     contentHash?: string;
+    contentManagedIdentity?: string;
     readonly contentType?: string;
     contentUri?: string;
     kind?: Kind;

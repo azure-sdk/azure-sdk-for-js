@@ -107,7 +107,7 @@ export const vmName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-01-25",
+    defaultValue: "2024-04-05",
     isConstant: true,
     serializedName: "api-version",
     type: {
