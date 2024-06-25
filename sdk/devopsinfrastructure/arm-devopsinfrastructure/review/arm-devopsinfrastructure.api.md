@@ -284,6 +284,7 @@ export class ManagedDevOpsInfrastructure extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ManagedDevOpsInfrastructureOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, options?: ManagedDevOpsInfrastructureOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -297,7 +298,7 @@ export class ManagedDevOpsInfrastructure extends coreClient.ServiceClient {
     // (undocumented)
     sku: Sku;
     // (undocumented)
-    subscriptionId: string;
+    subscriptionId?: string;
     // (undocumented)
     subscriptionUsages: SubscriptionUsages;
 }
@@ -558,28 +559,17 @@ export interface ProxyResource extends Resource {
 }
 
 // @public
-export interface Quota extends ProxyResource {
-    properties?: QuotaProperties;
-}
-
-// @public
-export interface QuotaListResult {
-    nextLink?: string;
-    value: Quota[];
+export interface Quota {
+    currentValue: number;
+    limit: number;
+    readonly name: QuotaName;
+    unit: string;
 }
 
 // @public
 export interface QuotaName {
     localizedValue?: string;
     value?: string;
-}
-
-// @public
-export interface QuotaProperties {
-    currentValue: number;
-    limit: number;
-    name: QuotaName;
-    unit: string;
 }
 
 // @public
@@ -625,6 +615,12 @@ export interface ResourceDetailsObjectProperties {
     image: string;
     imageVersion: string;
     status: ResourceStatus;
+}
+
+// @public
+export interface ResourceListResult {
+    nextLink?: string;
+    value: Quota[];
 }
 
 // @public
@@ -772,7 +768,7 @@ export interface StorageProfile {
 
 // @public
 export interface SubscriptionUsages {
-    listByLocation(locationName: string, options?: SubscriptionUsagesListByLocationOptionalParams): PagedAsyncIterableIterator<Quota>;
+    listByLocation(options?: SubscriptionUsagesListByLocationOptionalParams): PagedAsyncIterableIterator<Quota>;
 }
 
 // @public
@@ -780,14 +776,14 @@ export interface SubscriptionUsagesListByLocationNextOptionalParams extends core
 }
 
 // @public
-export type SubscriptionUsagesListByLocationNextResponse = QuotaListResult;
+export type SubscriptionUsagesListByLocationNextResponse = ResourceListResult;
 
 // @public
 export interface SubscriptionUsagesListByLocationOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type SubscriptionUsagesListByLocationResponse = QuotaListResult;
+export type SubscriptionUsagesListByLocationResponse = ResourceListResult;
 
 // @public
 export interface SystemData {
