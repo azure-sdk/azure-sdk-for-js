@@ -11,7 +11,7 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
@@ -25,7 +25,8 @@ import {
   HostSettingsImpl,
   OperationResultsImpl,
   PrivateEndpointConnectionsImpl,
-  PrivateLinkResourcesImpl
+  PrivateLinkResourcesImpl,
+  NetworkSecurityPerimeterConfigurationsImpl,
 } from "./operations";
 import {
   Bots,
@@ -38,14 +39,15 @@ import {
   HostSettings,
   OperationResults,
   PrivateEndpointConnections,
-  PrivateLinkResources
+  PrivateLinkResources,
+  NetworkSecurityPerimeterConfigurations,
 } from "./operationsInterfaces";
 import { AzureBotServiceOptionalParams } from "./models";
 
 export class AzureBotService extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
-  subscriptionId: string;
+  subscriptionId?: string;
 
   /**
    * Initializes a new instance of the AzureBotService class.
@@ -56,13 +58,27 @@ export class AzureBotService extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: AzureBotServiceOptionalParams
+    options?: AzureBotServiceOptionalParams,
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    options?: AzureBotServiceOptionalParams,
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    subscriptionIdOrOptions?: AzureBotServiceOptionalParams | string,
+    options?: AzureBotServiceOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
     }
-    if (subscriptionId === undefined) {
-      throw new Error("'subscriptionId' cannot be null");
+
+    let subscriptionId: string | undefined;
+
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
     }
 
     // Initializing default values for options
@@ -71,10 +87,10 @@ export class AzureBotService extends coreClient.ServiceClient {
     }
     const defaults: AzureBotServiceOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-botservice/4.0.1`;
+    const packageDetails = `azsdk-js-arm-botservice/5.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -84,20 +100,21 @@ export class AzureBotService extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -107,7 +124,7 @@ export class AzureBotService extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -117,9 +134,9 @@ export class AzureBotService extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -127,7 +144,7 @@ export class AzureBotService extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-09-15";
+    this.apiVersion = options.apiVersion || "2023-09-15-preview";
     this.bots = new BotsImpl(this);
     this.channels = new ChannelsImpl(this);
     this.directLine = new DirectLineImpl(this);
@@ -139,6 +156,8 @@ export class AzureBotService extends coreClient.ServiceClient {
     this.operationResults = new OperationResultsImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
+    this.networkSecurityPerimeterConfigurations =
+      new NetworkSecurityPerimeterConfigurationsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -151,7 +170,7 @@ export class AzureBotService extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -165,7 +184,7 @@ export class AzureBotService extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
@@ -181,4 +200,5 @@ export class AzureBotService extends coreClient.ServiceClient {
   operationResults: OperationResults;
   privateEndpointConnections: PrivateEndpointConnections;
   privateLinkResources: PrivateLinkResources;
+  networkSecurityPerimeterConfigurations: NetworkSecurityPerimeterConfigurations;
 }

@@ -15,7 +15,7 @@ import {
   SiteInfo,
   RegenerateKeysChannelName,
   DirectLineRegenerateKeysOptionalParams,
-  DirectLineRegenerateKeysResponse
+  DirectLineRegenerateKeysResponse,
 } from "../models";
 
 /** Class containing DirectLine operations. */
@@ -44,11 +44,11 @@ export class DirectLineImpl implements DirectLine {
     resourceName: string,
     channelName: RegenerateKeysChannelName,
     parameters: SiteInfo,
-    options?: DirectLineRegenerateKeysOptionalParams
+    options?: DirectLineRegenerateKeysOptionalParams,
   ): Promise<DirectLineRegenerateKeysResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, channelName, parameters, options },
-      regenerateKeysOperationSpec
+      regenerateKeysOperationSpec,
     );
   }
 }
@@ -56,16 +56,15 @@ export class DirectLineImpl implements DirectLine {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const regenerateKeysOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BotService/botServices/{resourceName}/channels/{channelName}/regeneratekeys",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BotService/botServices/{resourceName}/channels/{channelName}/regeneratekeys",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.BotChannel
+      bodyMapper: Mappers.BotChannel,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   requestBody: Parameters.parameters5,
   queryParameters: [Parameters.apiVersion],
@@ -74,9 +73,9 @@ const regenerateKeysOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.resourceName,
     Parameters.subscriptionId,
-    Parameters.channelName2
+    Parameters.channelName2,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };

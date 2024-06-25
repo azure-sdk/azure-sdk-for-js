@@ -9,7 +9,7 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   Bot as BotMapper,
@@ -18,7 +18,7 @@ import {
   SiteInfo as SiteInfoMapper,
   ConnectionSetting as ConnectionSettingMapper,
   QnAMakerEndpointKeysRequestBody as QnAMakerEndpointKeysRequestBodyMapper,
-  PrivateEndpointConnection as PrivateEndpointConnectionMapper
+  PrivateEndpointConnection as PrivateEndpointConnectionMapper,
 } from "../models/mappers";
 
 export const contentType: OperationParameter = {
@@ -28,14 +28,14 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters: OperationParameter = {
   parameterPath: "parameters",
-  mapper: BotMapper
+  mapper: BotMapper,
 };
 
 export const accept: OperationParameter = {
@@ -45,9 +45,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -56,10 +56,10 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -68,14 +68,14 @@ export const resourceGroupName: OperationURLParameter = {
     constraints: {
       Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9_.-]*$"),
       MaxLength: 64,
-      MinLength: 2
+      MinLength: 2,
     },
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resourceName: OperationURLParameter = {
@@ -84,26 +84,26 @@ export const resourceName: OperationURLParameter = {
     constraints: {
       Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9_.-]*$"),
       MaxLength: 64,
-      MinLength: 2
+      MinLength: 2,
     },
     serializedName: "resourceName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-09-15",
+    defaultValue: "2023-09-15-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const subscriptionId: OperationURLParameter = {
@@ -112,44 +112,44 @@ export const subscriptionId: OperationURLParameter = {
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const location: OperationParameter = {
   parameterPath: ["options", "location"],
-  mapper: BotMapper
+  mapper: BotMapper,
 };
 
 export const tags: OperationParameter = {
   parameterPath: ["options", "tags"],
-  mapper: BotMapper
+  mapper: BotMapper,
 };
 
 export const sku: OperationParameter = {
   parameterPath: ["options", "sku"],
-  mapper: BotMapper
+  mapper: BotMapper,
 };
 
 export const kind: OperationParameter = {
   parameterPath: ["options", "kind"],
-  mapper: BotMapper
+  mapper: BotMapper,
 };
 
 export const etag: OperationParameter = {
   parameterPath: ["options", "etag"],
-  mapper: BotMapper
+  mapper: BotMapper,
 };
 
 export const properties: OperationParameter = {
   parameterPath: ["options", "properties"],
-  mapper: BotMapper
+  mapper: BotMapper,
 };
 
 export const parameters2: OperationParameter = {
   parameterPath: "parameters",
-  mapper: CheckNameAvailabilityRequestBodyMapper
+  mapper: CheckNameAvailabilityRequestBodyMapper,
 };
 
 export const nextLink: OperationURLParameter = {
@@ -158,15 +158,15 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const parameters3: OperationParameter = {
   parameterPath: "parameters",
-  mapper: BotChannelMapper
+  mapper: BotChannelMapper,
 };
 
 export const channelName: OperationURLParameter = {
@@ -195,40 +195,40 @@ export const channelName: OperationURLParameter = {
         "TelephonyChannel",
         "AcsChatChannel",
         "SearchAssistant",
-        "M365Extensions"
-      ]
-    }
-  }
+        "M365Extensions",
+      ],
+    },
+  },
 };
 
 export const location1: OperationParameter = {
   parameterPath: ["options", "location"],
-  mapper: BotChannelMapper
+  mapper: BotChannelMapper,
 };
 
 export const tags1: OperationParameter = {
   parameterPath: ["options", "tags"],
-  mapper: BotChannelMapper
+  mapper: BotChannelMapper,
 };
 
 export const sku1: OperationParameter = {
   parameterPath: ["options", "sku"],
-  mapper: BotChannelMapper
+  mapper: BotChannelMapper,
 };
 
 export const kind1: OperationParameter = {
   parameterPath: ["options", "kind"],
-  mapper: BotChannelMapper
+  mapper: BotChannelMapper,
 };
 
 export const etag1: OperationParameter = {
   parameterPath: ["options", "etag"],
-  mapper: BotChannelMapper
+  mapper: BotChannelMapper,
 };
 
 export const properties1: OperationParameter = {
   parameterPath: ["options", "properties"],
-  mapper: BotChannelMapper
+  mapper: BotChannelMapper,
 };
 
 export const channelName1: OperationURLParameter = {
@@ -237,19 +237,19 @@ export const channelName1: OperationURLParameter = {
     constraints: {
       Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9_.-]*$"),
       MaxLength: 64,
-      MinLength: 2
+      MinLength: 2,
     },
     serializedName: "channelName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters5: OperationParameter = {
   parameterPath: "parameters",
-  mapper: SiteInfoMapper
+  mapper: SiteInfoMapper,
 };
 
 export const channelName2: OperationURLParameter = {
@@ -259,9 +259,9 @@ export const channelName2: OperationURLParameter = {
     required: true,
     type: {
       name: "Enum",
-      allowedValues: ["WebChatChannel", "DirectLineChannel"]
-    }
-  }
+      allowedValues: ["WebChatChannel", "DirectLineChannel"],
+    },
+  },
 };
 
 export const connectionName: OperationURLParameter = {
@@ -270,24 +270,24 @@ export const connectionName: OperationURLParameter = {
     constraints: {
       Pattern: new RegExp("^[a-zA-Z0-9][\\sa-zA-Z0-9_.-]*$"),
       MaxLength: 64,
-      MinLength: 2
+      MinLength: 2,
     },
     serializedName: "connectionName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters6: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ConnectionSettingMapper
+  mapper: ConnectionSettingMapper,
 };
 
 export const parameters7: OperationParameter = {
   parameterPath: "parameters",
-  mapper: QnAMakerEndpointKeysRequestBodyMapper
+  mapper: QnAMakerEndpointKeysRequestBodyMapper,
 };
 
 export const operationResultId: OperationURLParameter = {
@@ -296,9 +296,9 @@ export const operationResultId: OperationURLParameter = {
     serializedName: "operationResultId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const privateEndpointConnectionName: OperationURLParameter = {
@@ -307,12 +307,27 @@ export const privateEndpointConnectionName: OperationURLParameter = {
     serializedName: "privateEndpointConnectionName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const properties2: OperationParameter = {
   parameterPath: "properties",
-  mapper: PrivateEndpointConnectionMapper
+  mapper: PrivateEndpointConnectionMapper,
 };
+
+export const networkSecurityPerimeterConfigurationName: OperationURLParameter =
+  {
+    parameterPath: "networkSecurityPerimeterConfigurationName",
+    mapper: {
+      constraints: {
+        Pattern: new RegExp(".*"),
+      },
+      serializedName: "networkSecurityPerimeterConfigurationName",
+      required: true,
+      type: {
+        name: "String",
+      },
+    },
+  };

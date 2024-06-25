@@ -11,11 +11,15 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureBotService } from "../azureBotService";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   OperationResultsGetOptionalParams,
-  OperationResultsGetResponse
+  OperationResultsGetResponse,
 } from "../models";
 
 /** Class containing OperationResults operations. */
@@ -37,30 +41,29 @@ export class OperationResultsImpl implements OperationResults {
    */
   async beginGet(
     operationResultId: string,
-    options?: OperationResultsGetOptionalParams
+    options?: OperationResultsGetOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<OperationResultsGetResponse>,
+    SimplePollerLike<
+      OperationState<OperationResultsGetResponse>,
       OperationResultsGetResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<OperationResultsGetResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -69,8 +72,8 @@ export class OperationResultsImpl implements OperationResults {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -78,19 +81,22 @@ export class OperationResultsImpl implements OperationResults {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { operationResultId, options },
-      getOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { operationResultId, options },
+      spec: getOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      OperationResultsGetResponse,
+      OperationState<OperationResultsGetResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -103,7 +109,7 @@ export class OperationResultsImpl implements OperationResults {
    */
   async beginGetAndWait(
     operationResultId: string,
-    options?: OperationResultsGetOptionalParams
+    options?: OperationResultsGetOptionalParams,
   ): Promise<OperationResultsGetResponse> {
     const poller = await this.beginGet(operationResultId, options);
     return poller.pollUntilDone();
@@ -113,32 +119,31 @@ export class OperationResultsImpl implements OperationResults {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.BotService/operationresults/{operationResultId}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.BotService/operationresults/{operationResultId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationResultsDescription
+      bodyMapper: Mappers.OperationResultsDescription,
     },
     201: {
-      bodyMapper: Mappers.OperationResultsDescription
+      bodyMapper: Mappers.OperationResultsDescription,
     },
     202: {
-      bodyMapper: Mappers.OperationResultsDescription
+      bodyMapper: Mappers.OperationResultsDescription,
     },
     204: {
-      bodyMapper: Mappers.OperationResultsDescription
+      bodyMapper: Mappers.OperationResultsDescription,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.operationResultId
+    Parameters.operationResultId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

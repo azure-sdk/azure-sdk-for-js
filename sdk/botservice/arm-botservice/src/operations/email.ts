@@ -13,7 +13,7 @@ import * as Parameters from "../models/parameters";
 import { AzureBotService } from "../azureBotService";
 import {
   EmailCreateSignInUrlOptionalParams,
-  EmailCreateSignInUrlResponse
+  EmailCreateSignInUrlResponse,
 } from "../models";
 
 /** Class containing Email operations. */
@@ -37,11 +37,11 @@ export class EmailImpl implements Email {
   createSignInUrl(
     resourceGroupName: string,
     resourceName: string,
-    options?: EmailCreateSignInUrlOptionalParams
+    options?: EmailCreateSignInUrlOptionalParams,
   ): Promise<EmailCreateSignInUrlResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, options },
-      createSignInUrlOperationSpec
+      createSignInUrlOperationSpec,
     );
   }
 }
@@ -49,24 +49,23 @@ export class EmailImpl implements Email {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createSignInUrlOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BotService/botServices/{resourceName}/createEmailSignInUrl",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BotService/botServices/{resourceName}/createEmailSignInUrl",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CreateEmailSignInUrlResponse
+      bodyMapper: Mappers.CreateEmailSignInUrlResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

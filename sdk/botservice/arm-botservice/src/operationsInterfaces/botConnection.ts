@@ -20,7 +20,7 @@ import {
   BotConnectionUpdateResponse,
   BotConnectionGetOptionalParams,
   BotConnectionGetResponse,
-  BotConnectionDeleteOptionalParams
+  BotConnectionDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -35,14 +35,14 @@ export interface BotConnection {
   listByBotService(
     resourceGroupName: string,
     resourceName: string,
-    options?: BotConnectionListByBotServiceOptionalParams
+    options?: BotConnectionListByBotServiceOptionalParams,
   ): PagedAsyncIterableIterator<ConnectionSetting>;
   /**
    * Lists the available Service Providers for creating Connection Settings
    * @param options The options parameters.
    */
   listServiceProviders(
-    options?: BotConnectionListServiceProvidersOptionalParams
+    options?: BotConnectionListServiceProvidersOptionalParams,
   ): Promise<BotConnectionListServiceProvidersResponse>;
   /**
    * Get a Connection Setting registration for a Bot Service
@@ -55,7 +55,7 @@ export interface BotConnection {
     resourceGroupName: string,
     resourceName: string,
     connectionName: string,
-    options?: BotConnectionListWithSecretsOptionalParams
+    options?: BotConnectionListWithSecretsOptionalParams,
   ): Promise<BotConnectionListWithSecretsResponse>;
   /**
    * Register a new Auth Connection for a Bot Service
@@ -70,7 +70,7 @@ export interface BotConnection {
     resourceName: string,
     connectionName: string,
     parameters: ConnectionSetting,
-    options?: BotConnectionCreateOptionalParams
+    options?: BotConnectionCreateOptionalParams,
   ): Promise<BotConnectionCreateResponse>;
   /**
    * Updates a Connection Setting registration for a Bot Service
@@ -85,7 +85,7 @@ export interface BotConnection {
     resourceName: string,
     connectionName: string,
     parameters: ConnectionSetting,
-    options?: BotConnectionUpdateOptionalParams
+    options?: BotConnectionUpdateOptionalParams,
   ): Promise<BotConnectionUpdateResponse>;
   /**
    * Get a Connection Setting registration for a Bot Service
@@ -98,7 +98,7 @@ export interface BotConnection {
     resourceGroupName: string,
     resourceName: string,
     connectionName: string,
-    options?: BotConnectionGetOptionalParams
+    options?: BotConnectionGetOptionalParams,
   ): Promise<BotConnectionGetResponse>;
   /**
    * Deletes a Connection Setting registration for a Bot Service
@@ -111,6 +111,6 @@ export interface BotConnection {
     resourceGroupName: string,
     resourceName: string,
     connectionName: string,
-    options?: BotConnectionDeleteOptionalParams
+    options?: BotConnectionDeleteOptionalParams,
   ): Promise<void>;
 }
