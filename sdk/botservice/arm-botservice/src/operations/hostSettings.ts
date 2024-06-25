@@ -13,7 +13,7 @@ import * as Parameters from "../models/parameters";
 import { AzureBotService } from "../azureBotService";
 import {
   HostSettingsGetOptionalParams,
-  HostSettingsGetResponse
+  HostSettingsGetResponse,
 } from "../models";
 
 /** Class containing HostSettings operations. */
@@ -33,7 +33,7 @@ export class HostSettingsImpl implements HostSettings {
    * @param options The options parameters.
    */
   get(
-    options?: HostSettingsGetOptionalParams
+    options?: HostSettingsGetOptionalParams,
   ): Promise<HostSettingsGetResponse> {
     return this.client.sendOperationRequest({ options }, getOperationSpec);
   }
@@ -42,19 +42,18 @@ export class HostSettingsImpl implements HostSettings {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.BotService/hostSettings",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.BotService/hostSettings",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.HostSettingsResponse
+      bodyMapper: Mappers.HostSettingsResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

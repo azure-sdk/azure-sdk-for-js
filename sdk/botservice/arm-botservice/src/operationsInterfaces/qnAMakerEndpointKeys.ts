@@ -9,7 +9,7 @@
 import {
   QnAMakerEndpointKeysRequestBody,
   QnAMakerEndpointKeysGetOptionalParams,
-  QnAMakerEndpointKeysGetResponse
+  QnAMakerEndpointKeysGetResponse,
 } from "../models";
 
 /** Interface representing a QnAMakerEndpointKeys. */
@@ -21,6 +21,6 @@ export interface QnAMakerEndpointKeys {
    */
   get(
     parameters: QnAMakerEndpointKeysRequestBody,
-    options?: QnAMakerEndpointKeysGetOptionalParams
+    options?: QnAMakerEndpointKeysGetOptionalParams,
   ): Promise<QnAMakerEndpointKeysGetResponse>;
 }

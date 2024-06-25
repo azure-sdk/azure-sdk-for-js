@@ -10,7 +10,7 @@ import {
   SiteInfo,
   RegenerateKeysChannelName,
   DirectLineRegenerateKeysOptionalParams,
-  DirectLineRegenerateKeysResponse
+  DirectLineRegenerateKeysResponse,
 } from "../models";
 
 /** Interface representing a DirectLine. */
@@ -29,6 +29,6 @@ export interface DirectLine {
     resourceName: string,
     channelName: RegenerateKeysChannelName,
     parameters: SiteInfo,
-    options?: DirectLineRegenerateKeysOptionalParams
+    options?: DirectLineRegenerateKeysOptionalParams,
   ): Promise<DirectLineRegenerateKeysResponse>;
 }
