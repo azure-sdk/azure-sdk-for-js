@@ -11,8 +11,11 @@ import {
   Image,
   ImagesListByDevCenterOptionalParams,
   ImagesListByGalleryOptionalParams,
+  ImagesListByProjectOptionalParams,
   ImagesGetOptionalParams,
   ImagesGetResponse,
+  ImagesGetByProjectOptionalParams,
+  ImagesGetByProjectResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -43,6 +46,17 @@ export interface Images {
     options?: ImagesListByGalleryOptionalParams,
   ): PagedAsyncIterableIterator<Image>;
   /**
+   * Lists images for a project.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param projectName The name of the project.
+   * @param options The options parameters.
+   */
+  listByProject(
+    resourceGroupName: string,
+    projectName: string,
+    options?: ImagesListByProjectOptionalParams,
+  ): PagedAsyncIterableIterator<Image>;
+  /**
    * Gets a gallery image.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
@@ -57,4 +71,17 @@ export interface Images {
     imageName: string,
     options?: ImagesGetOptionalParams,
   ): Promise<ImagesGetResponse>;
+  /**
+   * Gets an image.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param projectName The name of the project.
+   * @param imageName The name of the image.
+   * @param options The options parameters.
+   */
+  getByProject(
+    resourceGroupName: string,
+    projectName: string,
+    imageName: string,
+    options?: ImagesGetByProjectOptionalParams,
+  ): Promise<ImagesGetByProjectResponse>;
 }
