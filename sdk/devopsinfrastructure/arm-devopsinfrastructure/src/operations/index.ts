@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+export * from "./subscriptionUsages";
 export * from "./operations";
 export * from "./sku";
-export * from "./subscriptionUsages";
 export * from "./pools";
 export * from "./imageVersions";
 export * from "./resourceDetails";

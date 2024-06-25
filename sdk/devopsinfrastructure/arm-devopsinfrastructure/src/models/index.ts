@@ -27,6 +27,86 @@ export type ResourcePredictionsProfileUpdateUnion =
   | AutomaticResourcePredictionsProfileUpdate
   | ManualResourcePredictionsProfileUpdate;
 
+/** The response of a Quota list operation. */
+export interface ResourceListResult {
+  /** The Quota items on this page */
+  value: Quota[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** Describes Resource Quota */
+export interface Quota {
+  /**
+   * The name of the quota.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name: QuotaName;
+  /** The unit of usage measurement. */
+  unit: string;
+  /** The current usage of the resource. */
+  currentValue: number;
+  /** The maximum permitted usage of the resource. */
+  limit: number;
+}
+
+/** The Quota Names */
+export interface QuotaName {
+  /** The name of the resource. */
+  value?: string;
+  /** The localized name of the resource. */
+  localizedValue?: string;
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
+}
+
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface OperationListResult {
   /**
@@ -89,55 +169,6 @@ export interface OperationDisplay {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly description?: string;
-}
-
-/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
-export interface ErrorResponse {
-  /** The error object. */
-  error?: ErrorDetail;
-}
-
-/** The error detail. */
-export interface ErrorDetail {
-  /**
-   * The error code.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly code?: string;
-  /**
-   * The error message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-  /**
-   * The error target.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly target?: string;
-  /**
-   * The error details.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly details?: ErrorDetail[];
-  /**
-   * The error additional info.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly additionalInfo?: ErrorAdditionalInfo[];
-}
-
-/** The resource management error additional info. */
-export interface ErrorAdditionalInfo {
-  /**
-   * The additional info type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * The additional info.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly info?: Record<string, unknown>;
 }
 
 /** The response of a ResourceSku list operation. */
@@ -252,34 +283,6 @@ export interface SystemData {
   lastModifiedByType?: CreatedByType;
   /** The timestamp of resource last modification (UTC) */
   lastModifiedAt?: Date;
-}
-
-/** The response of a Quota list operation. */
-export interface QuotaListResult {
-  /** The Quota items on this page */
-  value: Quota[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-/** Describes Resource Quota properties */
-export interface QuotaProperties {
-  /** The unit of usage measurement. */
-  unit: string;
-  /** The current usage of the resource. */
-  currentValue: number;
-  /** The maximum permitted usage of the resource. */
-  limit: number;
-  /** The details of the quota. */
-  name: QuotaName;
-}
-
-/** The Quota Names */
-export interface QuotaName {
-  /** The name of the resource. */
-  value?: string;
-  /** The localized name of the resource. */
-  localizedValue?: string;
 }
 
 /** The response of a Pool list operation. */
@@ -647,12 +650,6 @@ export interface ResourceSku extends ProxyResource {
   properties?: ResourceSkuProperties;
 }
 
-/** Describes Resource Quota */
-export interface Quota extends ProxyResource {
-  /** The resource-specific properties for this resource. */
-  properties?: QuotaProperties;
-}
-
 /** An image version object */
 export interface ImageVersion extends ProxyResource {
   /** The resource-specific properties for this resource. */
@@ -733,9 +730,9 @@ export type ActionType = string;
 
 /** Known values of {@link ResourceSkuRestrictionsType} that the service accepts. */
 export enum KnownResourceSkuRestrictionsType {
-  /** Location */
+  /** SKU restricted by location. */
   Location = "Location",
-  /** Zone */
+  /** SKU restricted by availability zone. */
   Zone = "Zone",
 }
 
@@ -744,16 +741,16 @@ export enum KnownResourceSkuRestrictionsType {
  * {@link KnownResourceSkuRestrictionsType} can be used interchangeably with ResourceSkuRestrictionsType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Location** \
- * **Zone**
+ * **Location**: SKU restricted by location. \
+ * **Zone**: SKU restricted by availability zone.
  */
 export type ResourceSkuRestrictionsType = string;
 
 /** Known values of {@link ResourceSkuRestrictionsReasonCode} that the service accepts. */
 export enum KnownResourceSkuRestrictionsReasonCode {
-  /** QuotaId */
+  /** The restriction is due to exceeding a quota limitation. */
   QuotaId = "QuotaId",
-  /** NotAvailableForSubscription */
+  /** The restriction is not available for this subscription. */
   NotAvailableForSubscription = "NotAvailableForSubscription",
 }
 
@@ -762,8 +759,8 @@ export enum KnownResourceSkuRestrictionsReasonCode {
  * {@link KnownResourceSkuRestrictionsReasonCode} can be used interchangeably with ResourceSkuRestrictionsReasonCode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **QuotaId** \
- * **NotAvailableForSubscription**
+ * **QuotaId**: The restriction is due to exceeding a quota limitation. \
+ * **NotAvailableForSubscription**: The restriction is not available for this subscription.
  */
 export type ResourceSkuRestrictionsReasonCode = string;
 
@@ -1047,6 +1044,20 @@ export enum KnownOsDiskStorageAccountType {
 export type OsDiskStorageAccountType = string;
 
 /** Optional parameters. */
+export interface SubscriptionUsagesListByLocationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByLocation operation. */
+export type SubscriptionUsagesListByLocationResponse = ResourceListResult;
+
+/** Optional parameters. */
+export interface SubscriptionUsagesListByLocationNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByLocationNext operation. */
+export type SubscriptionUsagesListByLocationNextResponse = ResourceListResult;
+
+/** Optional parameters. */
 export interface OperationsListOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -1073,20 +1084,6 @@ export interface SkuListByLocationNextOptionalParams
 
 /** Contains response data for the listByLocationNext operation. */
 export type SkuListByLocationNextResponse = ResourceSkuListResult;
-
-/** Optional parameters. */
-export interface SubscriptionUsagesListByLocationOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByLocation operation. */
-export type SubscriptionUsagesListByLocationResponse = QuotaListResult;
-
-/** Optional parameters. */
-export interface SubscriptionUsagesListByLocationNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByLocationNext operation. */
-export type SubscriptionUsagesListByLocationNextResponse = QuotaListResult;
 
 /** Optional parameters. */
 export interface PoolsListBySubscriptionOptionalParams

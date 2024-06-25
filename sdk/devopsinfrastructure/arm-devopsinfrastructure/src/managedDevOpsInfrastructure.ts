@@ -15,17 +15,17 @@ import {
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
+  SubscriptionUsagesImpl,
   OperationsImpl,
   SkuImpl,
-  SubscriptionUsagesImpl,
   PoolsImpl,
   ImageVersionsImpl,
   ResourceDetailsImpl,
 } from "./operations";
 import {
+  SubscriptionUsages,
   Operations,
   Sku,
-  SubscriptionUsages,
   Pools,
   ImageVersions,
   ResourceDetails,
@@ -35,7 +35,7 @@ import { ManagedDevOpsInfrastructureOptionalParams } from "./models";
 export class ManagedDevOpsInfrastructure extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
-  subscriptionId: string;
+  subscriptionId?: string;
 
   /**
    * Initializes a new instance of the ManagedDevOpsInfrastructure class.
@@ -47,12 +47,28 @@ export class ManagedDevOpsInfrastructure extends coreClient.ServiceClient {
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
     options?: ManagedDevOpsInfrastructureOptionalParams,
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    options?: ManagedDevOpsInfrastructureOptionalParams,
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    subscriptionIdOrOptions?:
+      | ManagedDevOpsInfrastructureOptionalParams
+      | string,
+    options?: ManagedDevOpsInfrastructureOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
     }
-    if (subscriptionId === undefined) {
-      throw new Error("'subscriptionId' cannot be null");
+
+    let subscriptionId: string | undefined;
+
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
     }
 
     // Initializing default values for options
@@ -119,9 +135,9 @@ export class ManagedDevOpsInfrastructure extends coreClient.ServiceClient {
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
     this.apiVersion = options.apiVersion || "2024-04-04-preview";
+    this.subscriptionUsages = new SubscriptionUsagesImpl(this);
     this.operations = new OperationsImpl(this);
     this.sku = new SkuImpl(this);
-    this.subscriptionUsages = new SubscriptionUsagesImpl(this);
     this.pools = new PoolsImpl(this);
     this.imageVersions = new ImageVersionsImpl(this);
     this.resourceDetails = new ResourceDetailsImpl(this);
@@ -156,9 +172,9 @@ export class ManagedDevOpsInfrastructure extends coreClient.ServiceClient {
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
+  subscriptionUsages: SubscriptionUsages;
   operations: Operations;
   sku: Sku;
-  subscriptionUsages: SubscriptionUsages;
   pools: Pools;
   imageVersions: ImageVersions;
   resourceDetails: ResourceDetails;

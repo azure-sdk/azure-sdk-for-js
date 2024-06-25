@@ -16,12 +16,10 @@ import {
 /** Interface representing a SubscriptionUsages. */
 export interface SubscriptionUsages {
   /**
-   * List Quota resources by subscription ID
-   * @param locationName Name of the location.
+   * Returns quotas by location
    * @param options The options parameters.
    */
   listByLocation(
-    locationName: string,
     options?: SubscriptionUsagesListByLocationOptionalParams,
   ): PagedAsyncIterableIterator<Quota>;
 }
