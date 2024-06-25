@@ -658,6 +658,7 @@ export enum KnownNetworkPolicy {
 export enum KnownNodeOSUpgradeChannel {
     NodeImage = "NodeImage",
     None = "None",
+    SecurityPatch = "SecurityPatch",
     Unmanaged = "Unmanaged"
 }
 
@@ -1240,7 +1241,10 @@ export interface ManagedClusterPoolUpgradeProfileUpgradesItem {
 // @public
 export interface ManagedClusterPropertiesAutoScalerProfile {
     balanceSimilarNodeGroups?: string;
+    daemonsetEvictionForEmptyNodes?: boolean;
+    daemonsetEvictionForOccupiedNodes?: boolean;
     expander?: Expander;
+    ignoreDaemonsetsUtilization?: boolean;
     maxEmptyBulkDelete?: string;
     maxGracefulTerminationSec?: string;
     maxNodeProvisionTime?: string;
@@ -1287,7 +1291,6 @@ export interface ManagedClusters {
     getCommandResult(resourceGroupName: string, resourceName: string, commandId: string, options?: ManagedClustersGetCommandResultOptionalParams): Promise<ManagedClustersGetCommandResultResponse>;
     getMeshRevisionProfile(location: string, mode: string, options?: ManagedClustersGetMeshRevisionProfileOptionalParams): Promise<ManagedClustersGetMeshRevisionProfileResponse>;
     getMeshUpgradeProfile(resourceGroupName: string, resourceName: string, mode: string, options?: ManagedClustersGetMeshUpgradeProfileOptionalParams): Promise<ManagedClustersGetMeshUpgradeProfileResponse>;
-    getOSOptions(location: string, options?: ManagedClustersGetOSOptionsOptionalParams): Promise<ManagedClustersGetOSOptionsResponse>;
     getUpgradeProfile(resourceGroupName: string, resourceName: string, options?: ManagedClustersGetUpgradeProfileOptionalParams): Promise<ManagedClustersGetUpgradeProfileResponse>;
     list(options?: ManagedClustersListOptionalParams): PagedAsyncIterableIterator<ManagedCluster>;
     listByResourceGroup(resourceGroupName: string, options?: ManagedClustersListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ManagedCluster>;
@@ -1410,14 +1413,6 @@ export type ManagedClustersGetMeshUpgradeProfileResponse = MeshUpgradeProfile;
 // @public
 export interface ManagedClustersGetOptionalParams extends coreClient.OperationOptions {
 }
-
-// @public
-export interface ManagedClustersGetOSOptionsOptionalParams extends coreClient.OperationOptions {
-    resourceType?: string;
-}
-
-// @public
-export type ManagedClustersGetOSOptionsResponse = OSOptionProfile;
 
 // @public
 export type ManagedClustersGetResponse = ManagedCluster;
@@ -1799,20 +1794,6 @@ export interface OperationValue {
 
 // @public
 export type OSDiskType = string;
-
-// @public
-export interface OSOptionProfile {
-    readonly id?: string;
-    readonly name?: string;
-    osOptionPropertyList: OSOptionProperty[];
-    readonly type?: string;
-}
-
-// @public
-export interface OSOptionProperty {
-    enableFipsImage: boolean;
-    osType: string;
-}
 
 // @public
 export type Ossku = string;
