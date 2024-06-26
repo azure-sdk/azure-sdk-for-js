@@ -218,10 +218,47 @@ export interface TrafficAnalyticsConfigurationProperties {
   trafficAnalyticsInterval?: number;
 }
 
+/** Identity for the resource. */
+export interface ManagedServiceIdentity {
+  /**
+   * The principal id of the system assigned identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant id of the system assigned identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /** The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine. */
+  type?: ResourceIdentityType;
+  /** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
+  userAssignedIdentities?: {
+    [
+      propertyName: string
+    ]: Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties;
+  };
+}
+
+export interface Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties {
+  /**
+   * The principal id of user assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The client id of user assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientId?: string;
+}
+
 /** The service endpoint properties. */
 export interface ServiceEndpointPropertiesFormat {
   /** The type of the endpoint service. */
   service?: string;
+  /** SubResource as network identifier. */
+  networkIdentifier?: SubResource;
   /** A list of locations. */
   locations?: string[];
   /**
@@ -492,41 +529,6 @@ export interface ApplicationGatewayGlobalConfiguration {
   enableRequestBuffering?: boolean;
   /** Enable response buffering. */
   enableResponseBuffering?: boolean;
-}
-
-/** Identity for the resource. */
-export interface ManagedServiceIdentity {
-  /**
-   * The principal id of the system assigned identity. This property will only be provided for a system assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalId?: string;
-  /**
-   * The tenant id of the system assigned identity. This property will only be provided for a system assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly tenantId?: string;
-  /** The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine. */
-  type?: ResourceIdentityType;
-  /** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: {
-    [
-      propertyName: string
-    ]: Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties;
-  };
-}
-
-export interface Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties {
-  /**
-   * The principal id of user assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalId?: string;
-  /**
-   * The client id of user assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly clientId?: string;
 }
 
 /** Tags object for patch operations. */
@@ -998,7 +1000,7 @@ export interface IPRule {
 
 /** The sku of this Bastion Host. */
 export interface Sku {
-  /** The name of this Bastion Host. */
+  /** The name of the sku of this Bastion Host. */
   name?: BastionHostSkuName;
 }
 
@@ -3212,8 +3214,12 @@ export interface FlowLogInformation {
   targetResourceId: string;
   /** Parameters that define the configuration of traffic analytics. */
   flowAnalyticsConfiguration?: TrafficAnalyticsProperties;
+  /** FlowLog resource Managed Identity */
+  identity?: ManagedServiceIdentity;
   /** ID of the storage account which is used to store the flow log. */
   storageId: string;
+  /** Optional condition to filter flowlogs */
+  enabledFilteringCriteria?: string;
   /** Flag to enable/disable flow logging. */
   enabled: boolean;
   /** Parameters that define the retention policy for flow log. */
@@ -7635,6 +7641,11 @@ export interface ExpressRouteCircuitAuthorization extends SubResource {
   /** The authorization use status. */
   authorizationUseStatus?: AuthorizationUseStatus;
   /**
+   * The reference to the ExpressRoute connection resource using the authorization.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly connectionResourceUri?: string;
+  /**
    * The provisioning state of the authorization resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -8040,6 +8051,8 @@ export interface Probe extends SubResource {
   port?: number;
   /** The interval, in seconds, for how frequently to probe the endpoint for health status. Typically, the interval is slightly less than half the allocated timeout period (in seconds) which allows two full probes before taking the instance out of rotation. The default value is 15, the minimum value is 5. */
   intervalInSeconds?: number;
+  /** Determines how new connections are handled by the load balancer when all backend instances are probed down. */
+  noHealthyBackendsBehavior?: ProbeNoHealthyBackendsBehavior;
   /** The number of probes where if no response, will result in stopping further traffic from being delivered to the endpoint. This values allows endpoints to be taken out of rotation faster or slower than the typical times used in Azure. */
   numberOfProbes?: number;
   /** The number of consecutive successful or failed probes in order to allow or deny traffic from being delivered to this endpoint. After failing the number of consecutive probes equal to this value, the endpoint will be taken out of rotation and require the same number of successful consecutive probes to be placed back in rotation. */
@@ -9266,6 +9279,8 @@ export interface FlowLog extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly etag?: string;
+  /** FlowLog resource Managed Identity */
+  identity?: ManagedServiceIdentity;
   /** ID of network security group to which flow log will be applied. */
   targetResourceId?: string;
   /**
@@ -9275,6 +9290,8 @@ export interface FlowLog extends Resource {
   readonly targetResourceGuid?: string;
   /** ID of the storage account which is used to store the flow log. */
   storageId?: string;
+  /** Optional condition to filter flowlogs */
+  enabledFilteringCriteria?: string;
   /** Flag to enable/disable flow logging. */
   enabled?: boolean;
   /** Parameters that define the retention policy for flow log. */
@@ -9744,6 +9761,8 @@ export interface BastionHost extends Resource {
   enableTunneling?: boolean;
   /** Enable/Disable Kerberos feature of the Bastion Host resource. */
   enableKerberos?: boolean;
+  /** Enable/Disable Session Recording feature of the Bastion Host resource. */
+  enableSessionRecording?: boolean;
 }
 
 /** Describes a Virtual Machine. */
@@ -10602,6 +10621,8 @@ export interface VirtualNetworkGateway extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly etag?: string;
+  /** The identity of the virtual network gateway, if configured. */
+  identity?: ManagedServiceIdentity;
   /** Autoscale configuration for virutal network gateway */
   autoScaleConfiguration?: VirtualNetworkGatewayAutoScaleConfiguration;
   /** IP configurations for virtual network gateway. */
@@ -13214,6 +13235,8 @@ export enum KnownBastionHostSkuName {
   Standard = "Standard",
   /** Developer */
   Developer = "Developer",
+  /** Premium */
+  Premium = "Premium",
 }
 
 /**
@@ -13223,7 +13246,8 @@ export enum KnownBastionHostSkuName {
  * ### Known values supported by the service
  * **Basic** \
  * **Standard** \
- * **Developer**
+ * **Developer** \
+ * **Premium**
  */
 export type BastionHostSkuName = string;
 
@@ -13940,6 +13964,24 @@ export enum KnownProbeProtocol {
  * **Https**
  */
 export type ProbeProtocol = string;
+
+/** Known values of {@link ProbeNoHealthyBackendsBehavior} that the service accepts. */
+export enum KnownProbeNoHealthyBackendsBehavior {
+  /** No new flows will be sent to the backend pool. */
+  AllProbedDown = "AllProbedDown",
+  /** When all backend instances are probed down, incoming packets will be sent to all instances. */
+  AllProbedUp = "AllProbedUp",
+}
+
+/**
+ * Defines values for ProbeNoHealthyBackendsBehavior. \
+ * {@link KnownProbeNoHealthyBackendsBehavior} can be used interchangeably with ProbeNoHealthyBackendsBehavior,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AllProbedDown**: No new flows will be sent to the backend pool. \
+ * **AllProbedUp**: When all backend instances are probed down, incoming packets will be sent to all instances.
+ */
+export type ProbeNoHealthyBackendsBehavior = string;
 
 /** Known values of {@link LoadBalancerOutboundRuleProtocol} that the service accepts. */
 export enum KnownLoadBalancerOutboundRuleProtocol {
@@ -16838,18 +16880,18 @@ export enum KnownHubVirtualNetworkConnectionStatus {
  * **NotConnected**
  */
 export type HubVirtualNetworkConnectionStatus = string;
-/** Defines values for PublicIpAddressDnsSettingsDomainNameLabelScope. */
-export type PublicIpAddressDnsSettingsDomainNameLabelScope =
-  | "TenantReuse"
-  | "SubscriptionReuse"
-  | "ResourceGroupReuse"
-  | "NoReuse";
 /** Defines values for ResourceIdentityType. */
 export type ResourceIdentityType =
   | "SystemAssigned"
   | "UserAssigned"
   | "SystemAssigned, UserAssigned"
   | "None";
+/** Defines values for PublicIpAddressDnsSettingsDomainNameLabelScope. */
+export type PublicIpAddressDnsSettingsDomainNameLabelScope =
+  | "TenantReuse"
+  | "SubscriptionReuse"
+  | "ResourceGroupReuse"
+  | "NoReuse";
 /** Defines values for SlotType. */
 export type SlotType = "Production" | "Staging";
 /** Defines values for FirewallPolicyIdpsSignatureMode. */
@@ -18560,7 +18602,10 @@ export type ExpressRouteServiceProvidersListNextResponse =
 
 /** Optional parameters. */
 export interface ExpressRouteCrossConnectionsListOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** The filter to apply on the operation. For example, you can use $filter=name eq '{circuitServiceKey}'. */
+  filter?: string;
+}
 
 /** Contains response data for the list operation. */
 export type ExpressRouteCrossConnectionsListResponse =
@@ -20507,6 +20552,13 @@ export interface InboundSecurityRuleCreateOrUpdateOptionalParams
 
 /** Contains response data for the createOrUpdate operation. */
 export type InboundSecurityRuleCreateOrUpdateResponse = InboundSecurityRule;
+
+/** Optional parameters. */
+export interface InboundSecurityRuleGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type InboundSecurityRuleGetResponse = InboundSecurityRule;
 
 /** Optional parameters. */
 export interface NetworkWatchersCreateOrUpdateOptionalParams

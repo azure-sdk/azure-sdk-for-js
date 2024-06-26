@@ -1993,6 +1993,7 @@ export interface BastionHost extends Resource {
     enableFileCopy?: boolean;
     enableIpConnect?: boolean;
     enableKerberos?: boolean;
+    enableSessionRecording?: boolean;
     enableShareableLink?: boolean;
     enableTunneling?: boolean;
     readonly etag?: string;
@@ -3570,6 +3571,7 @@ export interface ExpressRouteCircuitArpTable {
 export interface ExpressRouteCircuitAuthorization extends SubResource {
     authorizationKey?: string;
     authorizationUseStatus?: AuthorizationUseStatus;
+    readonly connectionResourceUri?: string;
     readonly etag?: string;
     name?: string;
     readonly provisioningState?: ProvisioningState;
@@ -4209,6 +4211,7 @@ export type ExpressRouteCrossConnectionsListNextResponse = ExpressRouteCrossConn
 
 // @public
 export interface ExpressRouteCrossConnectionsListOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
 }
 
 // @public
@@ -5225,9 +5228,11 @@ export interface FirewallPolicyTransportSecurity {
 // @public
 export interface FlowLog extends Resource {
     enabled?: boolean;
+    enabledFilteringCriteria?: string;
     readonly etag?: string;
     flowAnalyticsConfiguration?: TrafficAnalyticsProperties;
     format?: FlowLogFormatParameters;
+    identity?: ManagedServiceIdentity;
     readonly provisioningState?: ProvisioningState;
     retentionPolicy?: RetentionPolicyParameters;
     storageId?: string;
@@ -5247,8 +5252,10 @@ export type FlowLogFormatType = string;
 // @public
 export interface FlowLogInformation {
     enabled: boolean;
+    enabledFilteringCriteria?: string;
     flowAnalyticsConfiguration?: TrafficAnalyticsProperties;
     format?: FlowLogFormatParameters;
+    identity?: ManagedServiceIdentity;
     retentionPolicy?: RetentionPolicyParameters;
     storageId: string;
     targetResourceId: string;
@@ -5796,9 +5803,17 @@ export interface InboundSecurityRuleCreateOrUpdateOptionalParams extends coreCli
 export type InboundSecurityRuleCreateOrUpdateResponse = InboundSecurityRule;
 
 // @public
+export interface InboundSecurityRuleGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type InboundSecurityRuleGetResponse = InboundSecurityRule;
+
+// @public
 export interface InboundSecurityRuleOperations {
     beginCreateOrUpdate(resourceGroupName: string, networkVirtualApplianceName: string, ruleCollectionName: string, parameters: InboundSecurityRule, options?: InboundSecurityRuleCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<InboundSecurityRuleCreateOrUpdateResponse>, InboundSecurityRuleCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, networkVirtualApplianceName: string, ruleCollectionName: string, parameters: InboundSecurityRule, options?: InboundSecurityRuleCreateOrUpdateOptionalParams): Promise<InboundSecurityRuleCreateOrUpdateResponse>;
+    get(resourceGroupName: string, networkVirtualApplianceName: string, ruleCollectionName: string, options?: InboundSecurityRuleGetOptionalParams): Promise<InboundSecurityRuleGetResponse>;
 }
 
 // @public
@@ -6431,6 +6446,7 @@ export enum KnownBastionConnectProtocol {
 export enum KnownBastionHostSkuName {
     Basic = "Basic",
     Developer = "Developer",
+    Premium = "Premium",
     Standard = "Standard"
 }
 
@@ -7195,6 +7211,12 @@ export enum KnownPreferredRoutingGateway {
     ExpressRoute = "ExpressRoute",
     None = "None",
     VpnGateway = "VpnGateway"
+}
+
+// @public
+export enum KnownProbeNoHealthyBackendsBehavior {
+    AllProbedDown = "AllProbedDown",
+    AllProbedUp = "AllProbedUp"
 }
 
 // @public
@@ -11315,6 +11337,7 @@ export interface Probe extends SubResource {
     intervalInSeconds?: number;
     readonly loadBalancingRules?: SubResource[];
     name?: string;
+    noHealthyBackendsBehavior?: ProbeNoHealthyBackendsBehavior;
     numberOfProbes?: number;
     port?: number;
     probeThreshold?: number;
@@ -11323,6 +11346,9 @@ export interface Probe extends SubResource {
     requestPath?: string;
     readonly type?: string;
 }
+
+// @public
+export type ProbeNoHealthyBackendsBehavior = string;
 
 // @public
 export type ProbeProtocol = string;
@@ -12799,6 +12825,7 @@ export interface ServiceEndpointPolicyListResult {
 // @public
 export interface ServiceEndpointPropertiesFormat {
     locations?: string[];
+    networkIdentifier?: SubResource;
     readonly provisioningState?: ProvisioningState;
     service?: string;
 }
@@ -13940,6 +13967,7 @@ export interface VirtualNetworkGateway extends Resource {
     extendedLocation?: ExtendedLocation;
     gatewayDefaultSite?: SubResource;
     gatewayType?: VirtualNetworkGatewayType;
+    identity?: ManagedServiceIdentity;
     readonly inboundDnsForwardingEndpoint?: string;
     ipConfigurations?: VirtualNetworkGatewayIPConfiguration[];
     natRules?: VirtualNetworkGatewayNatRule[];
