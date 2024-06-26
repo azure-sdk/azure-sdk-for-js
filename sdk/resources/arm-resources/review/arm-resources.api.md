@@ -279,12 +279,20 @@ export interface DeploymentOperationsListResult {
 }
 
 // @public
+export interface DeploymentParameter {
+    reference?: KeyVaultParameterReference;
+    value?: any;
+}
+
+// @public
 export interface DeploymentProperties {
     debugSetting?: DebugSetting;
     expressionEvaluationOptions?: ExpressionEvaluationOptions;
     mode: DeploymentMode;
     onErrorDeployment?: OnErrorDeployment;
-    parameters?: Record<string, unknown>;
+    parameters?: {
+        [propertyName: string]: DeploymentParameter;
+    };
     parametersLink?: ParametersLink;
     template?: Record<string, unknown>;
     templateLink?: TemplateLink;
@@ -819,8 +827,12 @@ export interface ErrorResponse {
 }
 
 // @public
+export type ExportTemplateOutputFormat = string;
+
+// @public
 export interface ExportTemplateRequest {
     options?: string;
+    outputFormat?: ExportTemplateOutputFormat;
     resources?: string[];
 }
 
@@ -890,6 +902,18 @@ export interface IdentityUserAssignedIdentitiesValue {
 }
 
 // @public
+export interface KeyVaultParameterReference {
+    keyVault: KeyVaultReference;
+    secretName: string;
+    secretVersion?: string;
+}
+
+// @public
+export interface KeyVaultReference {
+    id: string;
+}
+
+// @public
 export enum KnownAliasPathAttributes {
     Modifiable = "Modifiable",
     None = "None"
@@ -905,6 +929,12 @@ export enum KnownAliasPathTokenType {
     Number = "Number",
     Object = "Object",
     String = "String"
+}
+
+// @public
+export enum KnownExportTemplateOutputFormat {
+    Bicep = "Bicep",
+    Json = "Json"
 }
 
 // @public
@@ -1235,6 +1265,7 @@ export interface ResourceGroup {
 // @public
 export interface ResourceGroupExportResult {
     error?: ErrorResponse;
+    output?: string;
     template?: Record<string, unknown>;
 }
 
@@ -1293,6 +1324,11 @@ export interface ResourceGroupsCreateOrUpdateOptionalParams extends coreClient.O
 
 // @public
 export type ResourceGroupsCreateOrUpdateResponse = ResourceGroup;
+
+// @public
+export interface ResourceGroupsDeleteHeaders {
+    location?: string;
+}
 
 // @public
 export interface ResourceGroupsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -1354,6 +1390,7 @@ export class ResourceManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ResourceManagementClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, options?: ResourceManagementClientOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -1371,7 +1408,7 @@ export class ResourceManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     resources: Resources;
     // (undocumented)
-    subscriptionId: string;
+    subscriptionId?: string;
     // (undocumented)
     tagsOperations: TagsOperations;
 }
@@ -1622,7 +1659,14 @@ export interface Tags {
 }
 
 // @public
+export interface TagsCreateOrUpdateAtScopeHeaders {
+    location?: string;
+}
+
+// @public
 export interface TagsCreateOrUpdateAtScopeOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -1643,7 +1687,14 @@ export interface TagsCreateOrUpdateValueOptionalParams extends coreClient.Operat
 export type TagsCreateOrUpdateValueResponse = TagValue;
 
 // @public
+export interface TagsDeleteAtScopeHeaders {
+    location?: string;
+}
+
+// @public
 export interface TagsDeleteAtScopeOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -1683,15 +1734,18 @@ export interface TagsListResult {
 
 // @public
 export interface TagsOperations {
+    beginCreateOrUpdateAtScope(scope: string, parameters: TagsResource, options?: TagsCreateOrUpdateAtScopeOptionalParams): Promise<SimplePollerLike<OperationState<TagsCreateOrUpdateAtScopeResponse>, TagsCreateOrUpdateAtScopeResponse>>;
+    beginCreateOrUpdateAtScopeAndWait(scope: string, parameters: TagsResource, options?: TagsCreateOrUpdateAtScopeOptionalParams): Promise<TagsCreateOrUpdateAtScopeResponse>;
+    beginDeleteAtScope(scope: string, options?: TagsDeleteAtScopeOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAtScopeAndWait(scope: string, options?: TagsDeleteAtScopeOptionalParams): Promise<void>;
+    beginUpdateAtScope(scope: string, parameters: TagsPatchResource, options?: TagsUpdateAtScopeOptionalParams): Promise<SimplePollerLike<OperationState<TagsUpdateAtScopeResponse>, TagsUpdateAtScopeResponse>>;
+    beginUpdateAtScopeAndWait(scope: string, parameters: TagsPatchResource, options?: TagsUpdateAtScopeOptionalParams): Promise<TagsUpdateAtScopeResponse>;
     createOrUpdate(tagName: string, options?: TagsCreateOrUpdateOptionalParams): Promise<TagsCreateOrUpdateResponse>;
-    createOrUpdateAtScope(scope: string, parameters: TagsResource, options?: TagsCreateOrUpdateAtScopeOptionalParams): Promise<TagsCreateOrUpdateAtScopeResponse>;
     createOrUpdateValue(tagName: string, tagValue: string, options?: TagsCreateOrUpdateValueOptionalParams): Promise<TagsCreateOrUpdateValueResponse>;
     delete(tagName: string, options?: TagsDeleteOptionalParams): Promise<void>;
-    deleteAtScope(scope: string, options?: TagsDeleteAtScopeOptionalParams): Promise<void>;
     deleteValue(tagName: string, tagValue: string, options?: TagsDeleteValueOptionalParams): Promise<void>;
     getAtScope(scope: string, options?: TagsGetAtScopeOptionalParams): Promise<TagsGetAtScopeResponse>;
     list(options?: TagsListOptionalParams): PagedAsyncIterableIterator<TagDetails>;
-    updateAtScope(scope: string, parameters: TagsPatchResource, options?: TagsUpdateAtScopeOptionalParams): Promise<TagsUpdateAtScopeResponse>;
 }
 
 // @public
@@ -1712,7 +1766,14 @@ export interface TagsResource {
 }
 
 // @public
+export interface TagsUpdateAtScopeHeaders {
+    location?: string;
+}
+
+// @public
 export interface TagsUpdateAtScopeOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
