@@ -7,12 +7,10 @@
 import { Client } from '@azure-rest/core-client';
 import { ClientOptions } from '@azure-rest/core-client';
 import { HttpResponse } from '@azure-rest/core-client';
-import { KeyCredential } from '@azure/core-auth';
 import { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
 import { RequestParameters } from '@azure-rest/core-client';
 import { StreamableMethod } from '@azure-rest/core-client';
-import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface BackTranslationOutput {
@@ -32,13 +30,7 @@ export interface BreakSentenceItemOutput {
 export function buildMultiCollection(items: string[], parameterName: string): string;
 
 // @public
-function createClient(credential: TranslatorCredential | TranslatorTokenCredential | KeyCredential | TokenCredential, options?: ClientOptions): TextTranslationClient;
-
-// @public
-function createClient(endpoint: string, options?: ClientOptions): TextTranslationClient;
-
-// @public
-function createClient(endpoint: string, credential: TranslatorCredential | TranslatorTokenCredential | KeyCredential | TokenCredential, options?: ClientOptions): TextTranslationClient;
+function createClient(endpointParam: string, options?: ClientOptions): TextTranslationClient;
 export default createClient;
 
 // @public
@@ -554,24 +546,6 @@ export interface TranslationTextOutput {
     text: string;
     to: string;
     transliteration?: TransliteratedTextOutput;
-}
-
-// @public (undocumented)
-export interface TranslatorCredential {
-    // (undocumented)
-    key: string;
-    // (undocumented)
-    region: string;
-}
-
-// @public (undocumented)
-export interface TranslatorTokenCredential {
-    // (undocumented)
-    azureResourceId: string;
-    // (undocumented)
-    region: string;
-    // (undocumented)
-    tokenCredential: TokenCredential;
 }
 
 // @public
