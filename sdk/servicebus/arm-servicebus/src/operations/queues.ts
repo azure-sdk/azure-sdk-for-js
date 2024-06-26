@@ -38,7 +38,7 @@ import {
   QueuesGetOptionalParams,
   QueuesGetResponse,
   QueuesListAuthorizationRulesNextResponse,
-  QueuesListByNamespaceNextResponse
+  QueuesListByNamespaceNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -65,13 +65,13 @@ export class QueuesImpl implements Queues {
     resourceGroupName: string,
     namespaceName: string,
     queueName: string,
-    options?: QueuesListAuthorizationRulesOptionalParams
+    options?: QueuesListAuthorizationRulesOptionalParams,
   ): PagedAsyncIterableIterator<SBAuthorizationRule> {
     const iter = this.listAuthorizationRulesPagingAll(
       resourceGroupName,
       namespaceName,
       queueName,
-      options
+      options,
     );
     return {
       next() {
@@ -89,9 +89,9 @@ export class QueuesImpl implements Queues {
           namespaceName,
           queueName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -100,7 +100,7 @@ export class QueuesImpl implements Queues {
     namespaceName: string,
     queueName: string,
     options?: QueuesListAuthorizationRulesOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SBAuthorizationRule[]> {
     let result: QueuesListAuthorizationRulesResponse;
     let continuationToken = settings?.continuationToken;
@@ -109,7 +109,7 @@ export class QueuesImpl implements Queues {
         resourceGroupName,
         namespaceName,
         queueName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -122,7 +122,7 @@ export class QueuesImpl implements Queues {
         namespaceName,
         queueName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -135,13 +135,13 @@ export class QueuesImpl implements Queues {
     resourceGroupName: string,
     namespaceName: string,
     queueName: string,
-    options?: QueuesListAuthorizationRulesOptionalParams
+    options?: QueuesListAuthorizationRulesOptionalParams,
   ): AsyncIterableIterator<SBAuthorizationRule> {
     for await (const page of this.listAuthorizationRulesPagingPage(
       resourceGroupName,
       namespaceName,
       queueName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -156,12 +156,12 @@ export class QueuesImpl implements Queues {
   public listByNamespace(
     resourceGroupName: string,
     namespaceName: string,
-    options?: QueuesListByNamespaceOptionalParams
+    options?: QueuesListByNamespaceOptionalParams,
   ): PagedAsyncIterableIterator<SBQueue> {
     const iter = this.listByNamespacePagingAll(
       resourceGroupName,
       namespaceName,
-      options
+      options,
     );
     return {
       next() {
@@ -178,9 +178,9 @@ export class QueuesImpl implements Queues {
           resourceGroupName,
           namespaceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -188,7 +188,7 @@ export class QueuesImpl implements Queues {
     resourceGroupName: string,
     namespaceName: string,
     options?: QueuesListByNamespaceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SBQueue[]> {
     let result: QueuesListByNamespaceResponse;
     let continuationToken = settings?.continuationToken;
@@ -196,7 +196,7 @@ export class QueuesImpl implements Queues {
       result = await this._listByNamespace(
         resourceGroupName,
         namespaceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -208,7 +208,7 @@ export class QueuesImpl implements Queues {
         resourceGroupName,
         namespaceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -220,12 +220,12 @@ export class QueuesImpl implements Queues {
   private async *listByNamespacePagingAll(
     resourceGroupName: string,
     namespaceName: string,
-    options?: QueuesListByNamespaceOptionalParams
+    options?: QueuesListByNamespaceOptionalParams,
   ): AsyncIterableIterator<SBQueue> {
     for await (const page of this.listByNamespacePagingPage(
       resourceGroupName,
       namespaceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -242,11 +242,11 @@ export class QueuesImpl implements Queues {
     resourceGroupName: string,
     namespaceName: string,
     queueName: string,
-    options?: QueuesListAuthorizationRulesOptionalParams
+    options?: QueuesListAuthorizationRulesOptionalParams,
   ): Promise<QueuesListAuthorizationRulesResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, queueName, options },
-      listAuthorizationRulesOperationSpec
+      listAuthorizationRulesOperationSpec,
     );
   }
 
@@ -265,7 +265,7 @@ export class QueuesImpl implements Queues {
     queueName: string,
     authorizationRuleName: string,
     parameters: SBAuthorizationRule,
-    options?: QueuesCreateOrUpdateAuthorizationRuleOptionalParams
+    options?: QueuesCreateOrUpdateAuthorizationRuleOptionalParams,
   ): Promise<QueuesCreateOrUpdateAuthorizationRuleResponse> {
     return this.client.sendOperationRequest(
       {
@@ -274,9 +274,9 @@ export class QueuesImpl implements Queues {
         queueName,
         authorizationRuleName,
         parameters,
-        options
+        options,
       },
-      createOrUpdateAuthorizationRuleOperationSpec
+      createOrUpdateAuthorizationRuleOperationSpec,
     );
   }
 
@@ -293,7 +293,7 @@ export class QueuesImpl implements Queues {
     namespaceName: string,
     queueName: string,
     authorizationRuleName: string,
-    options?: QueuesDeleteAuthorizationRuleOptionalParams
+    options?: QueuesDeleteAuthorizationRuleOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       {
@@ -301,9 +301,9 @@ export class QueuesImpl implements Queues {
         namespaceName,
         queueName,
         authorizationRuleName,
-        options
+        options,
       },
-      deleteAuthorizationRuleOperationSpec
+      deleteAuthorizationRuleOperationSpec,
     );
   }
 
@@ -320,7 +320,7 @@ export class QueuesImpl implements Queues {
     namespaceName: string,
     queueName: string,
     authorizationRuleName: string,
-    options?: QueuesGetAuthorizationRuleOptionalParams
+    options?: QueuesGetAuthorizationRuleOptionalParams,
   ): Promise<QueuesGetAuthorizationRuleResponse> {
     return this.client.sendOperationRequest(
       {
@@ -328,9 +328,9 @@ export class QueuesImpl implements Queues {
         namespaceName,
         queueName,
         authorizationRuleName,
-        options
+        options,
       },
-      getAuthorizationRuleOperationSpec
+      getAuthorizationRuleOperationSpec,
     );
   }
 
@@ -347,7 +347,7 @@ export class QueuesImpl implements Queues {
     namespaceName: string,
     queueName: string,
     authorizationRuleName: string,
-    options?: QueuesListKeysOptionalParams
+    options?: QueuesListKeysOptionalParams,
   ): Promise<QueuesListKeysResponse> {
     return this.client.sendOperationRequest(
       {
@@ -355,9 +355,9 @@ export class QueuesImpl implements Queues {
         namespaceName,
         queueName,
         authorizationRuleName,
-        options
+        options,
       },
-      listKeysOperationSpec
+      listKeysOperationSpec,
     );
   }
 
@@ -376,7 +376,7 @@ export class QueuesImpl implements Queues {
     queueName: string,
     authorizationRuleName: string,
     parameters: RegenerateAccessKeyParameters,
-    options?: QueuesRegenerateKeysOptionalParams
+    options?: QueuesRegenerateKeysOptionalParams,
   ): Promise<QueuesRegenerateKeysResponse> {
     return this.client.sendOperationRequest(
       {
@@ -385,9 +385,9 @@ export class QueuesImpl implements Queues {
         queueName,
         authorizationRuleName,
         parameters,
-        options
+        options,
       },
-      regenerateKeysOperationSpec
+      regenerateKeysOperationSpec,
     );
   }
 
@@ -400,11 +400,11 @@ export class QueuesImpl implements Queues {
   private _listByNamespace(
     resourceGroupName: string,
     namespaceName: string,
-    options?: QueuesListByNamespaceOptionalParams
+    options?: QueuesListByNamespaceOptionalParams,
   ): Promise<QueuesListByNamespaceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, options },
-      listByNamespaceOperationSpec
+      listByNamespaceOperationSpec,
     );
   }
 
@@ -421,11 +421,11 @@ export class QueuesImpl implements Queues {
     namespaceName: string,
     queueName: string,
     parameters: SBQueue,
-    options?: QueuesCreateOrUpdateOptionalParams
+    options?: QueuesCreateOrUpdateOptionalParams,
   ): Promise<QueuesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, queueName, parameters, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -440,11 +440,11 @@ export class QueuesImpl implements Queues {
     resourceGroupName: string,
     namespaceName: string,
     queueName: string,
-    options?: QueuesDeleteOptionalParams
+    options?: QueuesDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, queueName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -459,11 +459,11 @@ export class QueuesImpl implements Queues {
     resourceGroupName: string,
     namespaceName: string,
     queueName: string,
-    options?: QueuesGetOptionalParams
+    options?: QueuesGetOptionalParams,
   ): Promise<QueuesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, queueName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -480,11 +480,11 @@ export class QueuesImpl implements Queues {
     namespaceName: string,
     queueName: string,
     nextLink: string,
-    options?: QueuesListAuthorizationRulesNextOptionalParams
+    options?: QueuesListAuthorizationRulesNextOptionalParams,
   ): Promise<QueuesListAuthorizationRulesNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, queueName, nextLink, options },
-      listAuthorizationRulesNextOperationSpec
+      listAuthorizationRulesNextOperationSpec,
     );
   }
 
@@ -499,11 +499,11 @@ export class QueuesImpl implements Queues {
     resourceGroupName: string,
     namespaceName: string,
     nextLink: string,
-    options?: QueuesListByNamespaceNextOptionalParams
+    options?: QueuesListByNamespaceNextOptionalParams,
   ): Promise<QueuesListByNamespaceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, nextLink, options },
-      listByNamespaceNextOperationSpec
+      listByNamespaceNextOperationSpec,
     );
   }
 }
@@ -511,16 +511,15 @@ export class QueuesImpl implements Queues {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listAuthorizationRulesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/queues/{queueName}/authorizationRules",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/queues/{queueName}/authorizationRules",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SBAuthorizationRuleListResult
+      bodyMapper: Mappers.SBAuthorizationRuleListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -528,119 +527,21 @@ const listAuthorizationRulesOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.namespaceName1,
-    Parameters.queueName
+    Parameters.queueName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateAuthorizationRuleOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/queues/{queueName}/authorizationRules/{authorizationRuleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/queues/{queueName}/authorizationRules/{authorizationRuleName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SBAuthorizationRule
+      bodyMapper: Mappers.SBAuthorizationRule,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.parameters3,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName1,
-    Parameters.authorizationRuleName,
-    Parameters.queueName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const deleteAuthorizationRuleOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/queues/{queueName}/authorizationRules/{authorizationRuleName}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName1,
-    Parameters.authorizationRuleName,
-    Parameters.queueName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getAuthorizationRuleOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/queues/{queueName}/authorizationRules/{authorizationRuleName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SBAuthorizationRule
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName1,
-    Parameters.authorizationRuleName,
-    Parameters.queueName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listKeysOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/queues/{queueName}/authorizationRules/{authorizationRuleName}/ListKeys",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AccessKeys
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName1,
-    Parameters.authorizationRuleName,
-    Parameters.queueName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const regenerateKeysOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/queues/{queueName}/authorizationRules/{authorizationRuleName}/regenerateKeys",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AccessKeys
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   requestBody: Parameters.parameters4,
   queryParameters: [Parameters.apiVersion],
@@ -650,69 +551,159 @@ const regenerateKeysOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.namespaceName1,
     Parameters.authorizationRuleName,
-    Parameters.queueName
+    Parameters.queueName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
-const listByNamespaceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/queues",
+const deleteAuthorizationRuleOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/queues/{queueName}/authorizationRules/{authorizationRuleName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.namespaceName1,
+    Parameters.authorizationRuleName,
+    Parameters.queueName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getAuthorizationRuleOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/queues/{queueName}/authorizationRules/{authorizationRuleName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SBQueueListResult
+      bodyMapper: Mappers.SBAuthorizationRule,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.namespaceName1,
+    Parameters.authorizationRuleName,
+    Parameters.queueName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listKeysOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/queues/{queueName}/authorizationRules/{authorizationRuleName}/ListKeys",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AccessKeys,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.namespaceName1,
+    Parameters.authorizationRuleName,
+    Parameters.queueName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const regenerateKeysOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/queues/{queueName}/authorizationRules/{authorizationRuleName}/regenerateKeys",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AccessKeys,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters5,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.namespaceName1,
+    Parameters.authorizationRuleName,
+    Parameters.queueName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const listByNamespaceOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/queues",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SBQueueListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.skip, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.namespaceName1
+    Parameters.namespaceName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/queues/{queueName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/queues/{queueName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SBQueue
+      bodyMapper: Mappers.SBQueue,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters10,
+  requestBody: Parameters.parameters11,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.namespaceName1,
-    Parameters.queueName
+    Parameters.queueName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/queues/{queueName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/queues/{queueName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -720,22 +711,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.namespaceName1,
-    Parameters.queueName
+    Parameters.queueName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/queues/{queueName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/queues/{queueName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SBQueue
+      bodyMapper: Mappers.SBQueue,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -743,21 +733,21 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.namespaceName1,
-    Parameters.queueName
+    Parameters.queueName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listAuthorizationRulesNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SBAuthorizationRuleListResult
+      bodyMapper: Mappers.SBAuthorizationRuleListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -765,29 +755,29 @@ const listAuthorizationRulesNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.namespaceName1,
     Parameters.nextLink,
-    Parameters.queueName
+    Parameters.queueName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByNamespaceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SBQueueListResult
+      bodyMapper: Mappers.SBQueueListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.namespaceName1,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

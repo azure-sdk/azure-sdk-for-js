@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   SBNamespace,
   NamespacesListOptionalParams,
@@ -24,6 +24,9 @@ import {
   SBNamespaceUpdateParameters,
   NamespacesUpdateOptionalParams,
   NamespacesUpdateResponse,
+  FailOver,
+  NamespacesFailoverOptionalParams,
+  NamespacesFailoverResponse,
   NamespacesCreateOrUpdateNetworkRuleSetOptionalParams,
   NamespacesCreateOrUpdateNetworkRuleSetResponse,
   NamespacesGetNetworkRuleSetOptionalParams,
@@ -40,7 +43,7 @@ import {
   NamespacesRegenerateKeysResponse,
   CheckNameAvailability,
   NamespacesCheckNameAvailabilityOptionalParams,
-  NamespacesCheckNameAvailabilityResponse
+  NamespacesCheckNameAvailabilityResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -51,7 +54,7 @@ export interface Namespaces {
    * @param options The options parameters.
    */
   list(
-    options?: NamespacesListOptionalParams
+    options?: NamespacesListOptionalParams,
   ): PagedAsyncIterableIterator<SBNamespace>;
   /**
    * Gets the available namespaces within a resource group.
@@ -60,7 +63,7 @@ export interface Namespaces {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: NamespacesListByResourceGroupOptionalParams
+    options?: NamespacesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<SBNamespace>;
   /**
    * Gets list of NetworkRuleSet for a Namespace.
@@ -71,7 +74,7 @@ export interface Namespaces {
   listNetworkRuleSets(
     resourceGroupName: string,
     namespaceName: string,
-    options?: NamespacesListNetworkRuleSetsOptionalParams
+    options?: NamespacesListNetworkRuleSetsOptionalParams,
   ): PagedAsyncIterableIterator<NetworkRuleSet>;
   /**
    * Gets the authorization rules for a namespace.
@@ -82,7 +85,7 @@ export interface Namespaces {
   listAuthorizationRules(
     resourceGroupName: string,
     namespaceName: string,
-    options?: NamespacesListAuthorizationRulesOptionalParams
+    options?: NamespacesListAuthorizationRulesOptionalParams,
   ): PagedAsyncIterableIterator<SBAuthorizationRule>;
   /**
    * Creates or updates a service namespace. Once created, this namespace's resource manifest is
@@ -96,10 +99,10 @@ export interface Namespaces {
     resourceGroupName: string,
     namespaceName: string,
     parameters: SBNamespace,
-    options?: NamespacesCreateOrUpdateOptionalParams
+    options?: NamespacesCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<NamespacesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<NamespacesCreateOrUpdateResponse>,
       NamespacesCreateOrUpdateResponse
     >
   >;
@@ -115,7 +118,7 @@ export interface Namespaces {
     resourceGroupName: string,
     namespaceName: string,
     parameters: SBNamespace,
-    options?: NamespacesCreateOrUpdateOptionalParams
+    options?: NamespacesCreateOrUpdateOptionalParams,
   ): Promise<NamespacesCreateOrUpdateResponse>;
   /**
    * Deletes an existing namespace. This operation also removes all associated resources under the
@@ -127,8 +130,8 @@ export interface Namespaces {
   beginDelete(
     resourceGroupName: string,
     namespaceName: string,
-    options?: NamespacesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: NamespacesDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an existing namespace. This operation also removes all associated resources under the
    * namespace.
@@ -139,7 +142,7 @@ export interface Namespaces {
   beginDeleteAndWait(
     resourceGroupName: string,
     namespaceName: string,
-    options?: NamespacesDeleteOptionalParams
+    options?: NamespacesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets a description for the specified namespace.
@@ -150,7 +153,7 @@ export interface Namespaces {
   get(
     resourceGroupName: string,
     namespaceName: string,
-    options?: NamespacesGetOptionalParams
+    options?: NamespacesGetOptionalParams,
   ): Promise<NamespacesGetResponse>;
   /**
    * Updates a service namespace. Once created, this namespace's resource manifest is immutable. This
@@ -164,8 +167,39 @@ export interface Namespaces {
     resourceGroupName: string,
     namespaceName: string,
     parameters: SBNamespaceUpdateParameters,
-    options?: NamespacesUpdateOptionalParams
+    options?: NamespacesUpdateOptionalParams,
   ): Promise<NamespacesUpdateResponse>;
+  /**
+   * GeoDR Failover
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param namespaceName The namespace name
+   * @param parameters Parameters for updating a namespace resource.
+   * @param options The options parameters.
+   */
+  beginFailover(
+    resourceGroupName: string,
+    namespaceName: string,
+    parameters: FailOver,
+    options?: NamespacesFailoverOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<NamespacesFailoverResponse>,
+      NamespacesFailoverResponse
+    >
+  >;
+  /**
+   * GeoDR Failover
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param namespaceName The namespace name
+   * @param parameters Parameters for updating a namespace resource.
+   * @param options The options parameters.
+   */
+  beginFailoverAndWait(
+    resourceGroupName: string,
+    namespaceName: string,
+    parameters: FailOver,
+    options?: NamespacesFailoverOptionalParams,
+  ): Promise<NamespacesFailoverResponse>;
   /**
    * Create or update NetworkRuleSet for a Namespace.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
@@ -177,7 +211,7 @@ export interface Namespaces {
     resourceGroupName: string,
     namespaceName: string,
     parameters: NetworkRuleSet,
-    options?: NamespacesCreateOrUpdateNetworkRuleSetOptionalParams
+    options?: NamespacesCreateOrUpdateNetworkRuleSetOptionalParams,
   ): Promise<NamespacesCreateOrUpdateNetworkRuleSetResponse>;
   /**
    * Gets NetworkRuleSet for a Namespace.
@@ -188,7 +222,7 @@ export interface Namespaces {
   getNetworkRuleSet(
     resourceGroupName: string,
     namespaceName: string,
-    options?: NamespacesGetNetworkRuleSetOptionalParams
+    options?: NamespacesGetNetworkRuleSetOptionalParams,
   ): Promise<NamespacesGetNetworkRuleSetResponse>;
   /**
    * Creates or updates an authorization rule for a namespace.
@@ -203,7 +237,7 @@ export interface Namespaces {
     namespaceName: string,
     authorizationRuleName: string,
     parameters: SBAuthorizationRule,
-    options?: NamespacesCreateOrUpdateAuthorizationRuleOptionalParams
+    options?: NamespacesCreateOrUpdateAuthorizationRuleOptionalParams,
   ): Promise<NamespacesCreateOrUpdateAuthorizationRuleResponse>;
   /**
    * Deletes a namespace authorization rule.
@@ -216,7 +250,7 @@ export interface Namespaces {
     resourceGroupName: string,
     namespaceName: string,
     authorizationRuleName: string,
-    options?: NamespacesDeleteAuthorizationRuleOptionalParams
+    options?: NamespacesDeleteAuthorizationRuleOptionalParams,
   ): Promise<void>;
   /**
    * Gets an authorization rule for a namespace by rule name.
@@ -229,7 +263,7 @@ export interface Namespaces {
     resourceGroupName: string,
     namespaceName: string,
     authorizationRuleName: string,
-    options?: NamespacesGetAuthorizationRuleOptionalParams
+    options?: NamespacesGetAuthorizationRuleOptionalParams,
   ): Promise<NamespacesGetAuthorizationRuleResponse>;
   /**
    * Gets the primary and secondary connection strings for the namespace.
@@ -242,7 +276,7 @@ export interface Namespaces {
     resourceGroupName: string,
     namespaceName: string,
     authorizationRuleName: string,
-    options?: NamespacesListKeysOptionalParams
+    options?: NamespacesListKeysOptionalParams,
   ): Promise<NamespacesListKeysResponse>;
   /**
    * Regenerates the primary or secondary connection strings for the namespace.
@@ -257,7 +291,7 @@ export interface Namespaces {
     namespaceName: string,
     authorizationRuleName: string,
     parameters: RegenerateAccessKeyParameters,
-    options?: NamespacesRegenerateKeysOptionalParams
+    options?: NamespacesRegenerateKeysOptionalParams,
   ): Promise<NamespacesRegenerateKeysResponse>;
   /**
    * Check the give namespace name availability.
@@ -266,6 +300,6 @@ export interface Namespaces {
    */
   checkNameAvailability(
     parameters: CheckNameAvailability,
-    options?: NamespacesCheckNameAvailabilityOptionalParams
+    options?: NamespacesCheckNameAvailabilityOptionalParams,
   ): Promise<NamespacesCheckNameAvailabilityResponse>;
 }

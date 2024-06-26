@@ -14,7 +14,7 @@ import {
   SubscriptionsCreateOrUpdateResponse,
   SubscriptionsDeleteOptionalParams,
   SubscriptionsGetOptionalParams,
-  SubscriptionsGetResponse
+  SubscriptionsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface Subscriptions {
     resourceGroupName: string,
     namespaceName: string,
     topicName: string,
-    options?: SubscriptionsListByTopicOptionalParams
+    options?: SubscriptionsListByTopicOptionalParams,
   ): PagedAsyncIterableIterator<SBSubscription>;
   /**
    * Creates a topic subscription.
@@ -48,7 +48,7 @@ export interface Subscriptions {
     topicName: string,
     subscriptionName: string,
     parameters: SBSubscription,
-    options?: SubscriptionsCreateOrUpdateOptionalParams
+    options?: SubscriptionsCreateOrUpdateOptionalParams,
   ): Promise<SubscriptionsCreateOrUpdateResponse>;
   /**
    * Deletes a subscription from the specified topic.
@@ -63,7 +63,7 @@ export interface Subscriptions {
     namespaceName: string,
     topicName: string,
     subscriptionName: string,
-    options?: SubscriptionsDeleteOptionalParams
+    options?: SubscriptionsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Returns a subscription description for the specified topic.
@@ -78,6 +78,6 @@ export interface Subscriptions {
     namespaceName: string,
     topicName: string,
     subscriptionName: string,
-    options?: SubscriptionsGetOptionalParams
+    options?: SubscriptionsGetOptionalParams,
   ): Promise<SubscriptionsGetResponse>;
 }
