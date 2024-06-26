@@ -9,14 +9,14 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   CreateWorkspaceCollectionRequest as CreateWorkspaceCollectionRequestMapper,
   UpdateWorkspaceCollectionRequest as UpdateWorkspaceCollectionRequestMapper,
   CheckNameRequest as CheckNameRequestMapper,
   WorkspaceCollectionAccessKey as WorkspaceCollectionAccessKeyMapper,
-  MigrateWorkspaceCollectionRequest as MigrateWorkspaceCollectionRequestMapper
+  MigrateWorkspaceCollectionRequest as MigrateWorkspaceCollectionRequestMapper,
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -26,9 +26,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -37,10 +37,10 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const subscriptionId: OperationURLParameter = {
@@ -49,9 +49,9 @@ export const subscriptionId: OperationURLParameter = {
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -60,9 +60,9 @@ export const resourceGroupName: OperationURLParameter = {
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const workspaceCollectionName: OperationURLParameter = {
@@ -71,9 +71,9 @@ export const workspaceCollectionName: OperationURLParameter = {
     serializedName: "workspaceCollectionName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const apiVersion: OperationQueryParameter = {
@@ -83,9 +83,9 @@ export const apiVersion: OperationQueryParameter = {
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -95,24 +95,24 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const body: OperationParameter = {
   parameterPath: "body",
-  mapper: CreateWorkspaceCollectionRequestMapper
+  mapper: CreateWorkspaceCollectionRequestMapper,
 };
 
 export const body1: OperationParameter = {
   parameterPath: "body",
-  mapper: UpdateWorkspaceCollectionRequestMapper
+  mapper: UpdateWorkspaceCollectionRequestMapper,
 };
 
 export const body2: OperationParameter = {
   parameterPath: "body",
-  mapper: CheckNameRequestMapper
+  mapper: CheckNameRequestMapper,
 };
 
 export const location: OperationURLParameter = {
@@ -121,17 +121,17 @@ export const location: OperationURLParameter = {
     serializedName: "location",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const body3: OperationParameter = {
   parameterPath: "body",
-  mapper: WorkspaceCollectionAccessKeyMapper
+  mapper: WorkspaceCollectionAccessKeyMapper,
 };
 
 export const body4: OperationParameter = {
   parameterPath: "body",
-  mapper: MigrateWorkspaceCollectionRequestMapper
+  mapper: MigrateWorkspaceCollectionRequestMapper,
 };

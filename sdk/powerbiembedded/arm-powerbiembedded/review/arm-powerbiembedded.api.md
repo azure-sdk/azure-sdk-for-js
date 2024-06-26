@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export type AccessKeyName = "key1" | "key2";
@@ -133,11 +133,12 @@ export class PowerBIEmbeddedManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: PowerBIEmbeddedManagementClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, options?: PowerBIEmbeddedManagementClientOptionalParams);
     // (undocumented)
     apiVersion: string;
     getAvailableOperations(options?: GetAvailableOperationsOptionalParams): Promise<GetAvailableOperationsResponse>;
     // (undocumented)
-    subscriptionId: string;
+    subscriptionId?: string;
     // (undocumented)
     workspaceCollections: WorkspaceCollections;
     // (undocumented)
@@ -201,7 +202,7 @@ export interface WorkspaceCollectionList {
 
 // @public
 export interface WorkspaceCollections {
-    beginDelete(resourceGroupName: string, workspaceCollectionName: string, options?: WorkspaceCollectionsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, workspaceCollectionName: string, options?: WorkspaceCollectionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, workspaceCollectionName: string, options?: WorkspaceCollectionsDeleteOptionalParams): Promise<void>;
     checkNameAvailability(location: string, body: CheckNameRequest, options?: WorkspaceCollectionsCheckNameAvailabilityOptionalParams): Promise<WorkspaceCollectionsCheckNameAvailabilityResponse>;
     create(resourceGroupName: string, workspaceCollectionName: string, body: CreateWorkspaceCollectionRequest, options?: WorkspaceCollectionsCreateOptionalParams): Promise<WorkspaceCollectionsCreateResponse>;

@@ -15,7 +15,7 @@ import { PowerBIEmbeddedManagementClient } from "../powerBIEmbeddedManagementCli
 import {
   Workspace,
   WorkspacesListOptionalParams,
-  WorkspacesListResponse
+  WorkspacesListResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -40,12 +40,12 @@ export class WorkspacesImpl implements Workspaces {
   public list(
     resourceGroupName: string,
     workspaceCollectionName: string,
-    options?: WorkspacesListOptionalParams
+    options?: WorkspacesListOptionalParams,
   ): PagedAsyncIterableIterator<Workspace> {
     const iter = this.listPagingAll(
       resourceGroupName,
       workspaceCollectionName,
-      options
+      options,
     );
     return {
       next() {
@@ -62,9 +62,9 @@ export class WorkspacesImpl implements Workspaces {
           resourceGroupName,
           workspaceCollectionName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -72,13 +72,13 @@ export class WorkspacesImpl implements Workspaces {
     resourceGroupName: string,
     workspaceCollectionName: string,
     options?: WorkspacesListOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<Workspace[]> {
     let result: WorkspacesListResponse;
     result = await this._list(
       resourceGroupName,
       workspaceCollectionName,
-      options
+      options,
     );
     yield result.value || [];
   }
@@ -86,12 +86,12 @@ export class WorkspacesImpl implements Workspaces {
   private async *listPagingAll(
     resourceGroupName: string,
     workspaceCollectionName: string,
-    options?: WorkspacesListOptionalParams
+    options?: WorkspacesListOptionalParams,
   ): AsyncIterableIterator<Workspace> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceCollectionName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -106,11 +106,11 @@ export class WorkspacesImpl implements Workspaces {
   private _list(
     resourceGroupName: string,
     workspaceCollectionName: string,
-    options?: WorkspacesListOptionalParams
+    options?: WorkspacesListOptionalParams,
   ): Promise<WorkspacesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceCollectionName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 }
@@ -118,24 +118,23 @@ export class WorkspacesImpl implements Workspaces {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBI/workspaceCollections/{workspaceCollectionName}/workspaces",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBI/workspaceCollections/{workspaceCollectionName}/workspaces",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkspaceList
+      bodyMapper: Mappers.WorkspaceList,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceCollectionName
+    Parameters.workspaceCollectionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
