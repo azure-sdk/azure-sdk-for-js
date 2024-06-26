@@ -26,7 +26,7 @@ import {
   QueuesCreateOrUpdateResponse,
   QueuesDeleteOptionalParams,
   QueuesGetOptionalParams,
-  QueuesGetResponse
+  QueuesGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -43,7 +43,7 @@ export interface Queues {
     resourceGroupName: string,
     namespaceName: string,
     queueName: string,
-    options?: QueuesListAuthorizationRulesOptionalParams
+    options?: QueuesListAuthorizationRulesOptionalParams,
   ): PagedAsyncIterableIterator<SBAuthorizationRule>;
   /**
    * Gets the queues within a namespace.
@@ -54,7 +54,7 @@ export interface Queues {
   listByNamespace(
     resourceGroupName: string,
     namespaceName: string,
-    options?: QueuesListByNamespaceOptionalParams
+    options?: QueuesListByNamespaceOptionalParams,
   ): PagedAsyncIterableIterator<SBQueue>;
   /**
    * Creates an authorization rule for a queue.
@@ -71,7 +71,7 @@ export interface Queues {
     queueName: string,
     authorizationRuleName: string,
     parameters: SBAuthorizationRule,
-    options?: QueuesCreateOrUpdateAuthorizationRuleOptionalParams
+    options?: QueuesCreateOrUpdateAuthorizationRuleOptionalParams,
   ): Promise<QueuesCreateOrUpdateAuthorizationRuleResponse>;
   /**
    * Deletes a queue authorization rule.
@@ -86,7 +86,7 @@ export interface Queues {
     namespaceName: string,
     queueName: string,
     authorizationRuleName: string,
-    options?: QueuesDeleteAuthorizationRuleOptionalParams
+    options?: QueuesDeleteAuthorizationRuleOptionalParams,
   ): Promise<void>;
   /**
    * Gets an authorization rule for a queue by rule name.
@@ -101,7 +101,7 @@ export interface Queues {
     namespaceName: string,
     queueName: string,
     authorizationRuleName: string,
-    options?: QueuesGetAuthorizationRuleOptionalParams
+    options?: QueuesGetAuthorizationRuleOptionalParams,
   ): Promise<QueuesGetAuthorizationRuleResponse>;
   /**
    * Primary and secondary connection strings to the queue.
@@ -116,7 +116,7 @@ export interface Queues {
     namespaceName: string,
     queueName: string,
     authorizationRuleName: string,
-    options?: QueuesListKeysOptionalParams
+    options?: QueuesListKeysOptionalParams,
   ): Promise<QueuesListKeysResponse>;
   /**
    * Regenerates the primary or secondary connection strings to the queue.
@@ -133,7 +133,7 @@ export interface Queues {
     queueName: string,
     authorizationRuleName: string,
     parameters: RegenerateAccessKeyParameters,
-    options?: QueuesRegenerateKeysOptionalParams
+    options?: QueuesRegenerateKeysOptionalParams,
   ): Promise<QueuesRegenerateKeysResponse>;
   /**
    * Creates or updates a Service Bus queue. This operation is idempotent.
@@ -148,7 +148,7 @@ export interface Queues {
     namespaceName: string,
     queueName: string,
     parameters: SBQueue,
-    options?: QueuesCreateOrUpdateOptionalParams
+    options?: QueuesCreateOrUpdateOptionalParams,
   ): Promise<QueuesCreateOrUpdateResponse>;
   /**
    * Deletes a queue from the specified namespace in a resource group.
@@ -161,7 +161,7 @@ export interface Queues {
     resourceGroupName: string,
     namespaceName: string,
     queueName: string,
-    options?: QueuesDeleteOptionalParams
+    options?: QueuesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Returns a description for the specified queue.
@@ -174,6 +174,6 @@ export interface Queues {
     resourceGroupName: string,
     namespaceName: string,
     queueName: string,
-    options?: QueuesGetOptionalParams
+    options?: QueuesGetOptionalParams,
   ): Promise<QueuesGetResponse>;
 }

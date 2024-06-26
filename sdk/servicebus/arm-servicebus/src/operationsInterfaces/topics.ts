@@ -26,7 +26,7 @@ import {
   TopicsCreateOrUpdateResponse,
   TopicsDeleteOptionalParams,
   TopicsGetOptionalParams,
-  TopicsGetResponse
+  TopicsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -43,7 +43,7 @@ export interface Topics {
     resourceGroupName: string,
     namespaceName: string,
     topicName: string,
-    options?: TopicsListAuthorizationRulesOptionalParams
+    options?: TopicsListAuthorizationRulesOptionalParams,
   ): PagedAsyncIterableIterator<SBAuthorizationRule>;
   /**
    * Gets all the topics in a namespace.
@@ -54,7 +54,7 @@ export interface Topics {
   listByNamespace(
     resourceGroupName: string,
     namespaceName: string,
-    options?: TopicsListByNamespaceOptionalParams
+    options?: TopicsListByNamespaceOptionalParams,
   ): PagedAsyncIterableIterator<SBTopic>;
   /**
    * Creates an authorization rule for the specified topic.
@@ -71,7 +71,7 @@ export interface Topics {
     topicName: string,
     authorizationRuleName: string,
     parameters: SBAuthorizationRule,
-    options?: TopicsCreateOrUpdateAuthorizationRuleOptionalParams
+    options?: TopicsCreateOrUpdateAuthorizationRuleOptionalParams,
   ): Promise<TopicsCreateOrUpdateAuthorizationRuleResponse>;
   /**
    * Returns the specified authorization rule.
@@ -86,7 +86,7 @@ export interface Topics {
     namespaceName: string,
     topicName: string,
     authorizationRuleName: string,
-    options?: TopicsGetAuthorizationRuleOptionalParams
+    options?: TopicsGetAuthorizationRuleOptionalParams,
   ): Promise<TopicsGetAuthorizationRuleResponse>;
   /**
    * Deletes a topic authorization rule.
@@ -101,7 +101,7 @@ export interface Topics {
     namespaceName: string,
     topicName: string,
     authorizationRuleName: string,
-    options?: TopicsDeleteAuthorizationRuleOptionalParams
+    options?: TopicsDeleteAuthorizationRuleOptionalParams,
   ): Promise<void>;
   /**
    * Gets the primary and secondary connection strings for the topic.
@@ -116,7 +116,7 @@ export interface Topics {
     namespaceName: string,
     topicName: string,
     authorizationRuleName: string,
-    options?: TopicsListKeysOptionalParams
+    options?: TopicsListKeysOptionalParams,
   ): Promise<TopicsListKeysResponse>;
   /**
    * Regenerates primary or secondary connection strings for the topic.
@@ -133,7 +133,7 @@ export interface Topics {
     topicName: string,
     authorizationRuleName: string,
     parameters: RegenerateAccessKeyParameters,
-    options?: TopicsRegenerateKeysOptionalParams
+    options?: TopicsRegenerateKeysOptionalParams,
   ): Promise<TopicsRegenerateKeysResponse>;
   /**
    * Creates a topic in the specified namespace.
@@ -148,7 +148,7 @@ export interface Topics {
     namespaceName: string,
     topicName: string,
     parameters: SBTopic,
-    options?: TopicsCreateOrUpdateOptionalParams
+    options?: TopicsCreateOrUpdateOptionalParams,
   ): Promise<TopicsCreateOrUpdateResponse>;
   /**
    * Deletes a topic from the specified namespace and resource group.
@@ -161,7 +161,7 @@ export interface Topics {
     resourceGroupName: string,
     namespaceName: string,
     topicName: string,
-    options?: TopicsDeleteOptionalParams
+    options?: TopicsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Returns a description for the specified topic.
@@ -174,6 +174,6 @@ export interface Topics {
     resourceGroupName: string,
     namespaceName: string,
     topicName: string,
-    options?: TopicsGetOptionalParams
+    options?: TopicsGetOptionalParams,
   ): Promise<TopicsGetResponse>;
 }
