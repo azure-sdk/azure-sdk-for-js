@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { WebPubSubSharedPrivateLinkResources } from "../operationsInterfaces";
+import { WebPubSubReplicaSharedPrivateLinkResources } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -21,26 +21,25 @@ import {
 import { createLroSpec } from "../lroImpl";
 import {
   SharedPrivateLinkResource,
-  WebPubSubSharedPrivateLinkResourcesListNextOptionalParams,
-  WebPubSubSharedPrivateLinkResourcesListOptionalParams,
-  WebPubSubSharedPrivateLinkResourcesListResponse,
-  WebPubSubSharedPrivateLinkResourcesGetOptionalParams,
-  WebPubSubSharedPrivateLinkResourcesGetResponse,
-  WebPubSubSharedPrivateLinkResourcesCreateOrUpdateOptionalParams,
-  WebPubSubSharedPrivateLinkResourcesCreateOrUpdateResponse,
-  WebPubSubSharedPrivateLinkResourcesDeleteOptionalParams,
-  WebPubSubSharedPrivateLinkResourcesListNextResponse,
+  WebPubSubReplicaSharedPrivateLinkResourcesListNextOptionalParams,
+  WebPubSubReplicaSharedPrivateLinkResourcesListOptionalParams,
+  WebPubSubReplicaSharedPrivateLinkResourcesListResponse,
+  WebPubSubReplicaSharedPrivateLinkResourcesGetOptionalParams,
+  WebPubSubReplicaSharedPrivateLinkResourcesGetResponse,
+  WebPubSubReplicaSharedPrivateLinkResourcesCreateOrUpdateOptionalParams,
+  WebPubSubReplicaSharedPrivateLinkResourcesCreateOrUpdateResponse,
+  WebPubSubReplicaSharedPrivateLinkResourcesListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing WebPubSubSharedPrivateLinkResources operations. */
-export class WebPubSubSharedPrivateLinkResourcesImpl
-  implements WebPubSubSharedPrivateLinkResources
+/** Class containing WebPubSubReplicaSharedPrivateLinkResources operations. */
+export class WebPubSubReplicaSharedPrivateLinkResourcesImpl
+  implements WebPubSubReplicaSharedPrivateLinkResources
 {
   private readonly client: WebPubSubManagementClient;
 
   /**
-   * Initialize a new instance of the class WebPubSubSharedPrivateLinkResources class.
+   * Initialize a new instance of the class WebPubSubReplicaSharedPrivateLinkResources class.
    * @param client Reference to the service client
    */
   constructor(client: WebPubSubManagementClient) {
@@ -51,14 +50,21 @@ export class WebPubSubSharedPrivateLinkResourcesImpl
    * List shared private link resources
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
+   * @param replicaName The name of the replica.
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubSharedPrivateLinkResourcesListOptionalParams,
+    replicaName: string,
+    options?: WebPubSubReplicaSharedPrivateLinkResourcesListOptionalParams,
   ): PagedAsyncIterableIterator<SharedPrivateLinkResource> {
-    const iter = this.listPagingAll(resourceGroupName, resourceName, options);
+    const iter = this.listPagingAll(
+      resourceGroupName,
+      resourceName,
+      replicaName,
+      options,
+    );
     return {
       next() {
         return iter.next();
@@ -73,6 +79,7 @@ export class WebPubSubSharedPrivateLinkResourcesImpl
         return this.listPagingPage(
           resourceGroupName,
           resourceName,
+          replicaName,
           options,
           settings,
         );
@@ -83,13 +90,19 @@ export class WebPubSubSharedPrivateLinkResourcesImpl
   private async *listPagingPage(
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubSharedPrivateLinkResourcesListOptionalParams,
+    replicaName: string,
+    options?: WebPubSubReplicaSharedPrivateLinkResourcesListOptionalParams,
     settings?: PageSettings,
   ): AsyncIterableIterator<SharedPrivateLinkResource[]> {
-    let result: WebPubSubSharedPrivateLinkResourcesListResponse;
+    let result: WebPubSubReplicaSharedPrivateLinkResourcesListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(resourceGroupName, resourceName, options);
+      result = await this._list(
+        resourceGroupName,
+        resourceName,
+        replicaName,
+        options,
+      );
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -99,6 +112,7 @@ export class WebPubSubSharedPrivateLinkResourcesImpl
       result = await this._listNext(
         resourceGroupName,
         resourceName,
+        replicaName,
         continuationToken,
         options,
       );
@@ -112,11 +126,13 @@ export class WebPubSubSharedPrivateLinkResourcesImpl
   private async *listPagingAll(
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubSharedPrivateLinkResourcesListOptionalParams,
+    replicaName: string,
+    options?: WebPubSubReplicaSharedPrivateLinkResourcesListOptionalParams,
   ): AsyncIterableIterator<SharedPrivateLinkResource> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       resourceName,
+      replicaName,
       options,
     )) {
       yield* page;
@@ -127,37 +143,42 @@ export class WebPubSubSharedPrivateLinkResourcesImpl
    * List shared private link resources
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
+   * @param replicaName The name of the replica.
    * @param options The options parameters.
    */
   private _list(
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubSharedPrivateLinkResourcesListOptionalParams,
-  ): Promise<WebPubSubSharedPrivateLinkResourcesListResponse> {
+    replicaName: string,
+    options?: WebPubSubReplicaSharedPrivateLinkResourcesListOptionalParams,
+  ): Promise<WebPubSubReplicaSharedPrivateLinkResourcesListResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, resourceName, options },
+      { resourceGroupName, resourceName, replicaName, options },
       listOperationSpec,
     );
   }
 
   /**
    * Get the specified shared private link resource
-   * @param sharedPrivateLinkResourceName The name of the shared private link resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
+   * @param replicaName The name of the replica.
+   * @param sharedPrivateLinkResourceName The name of the shared private link resource.
    * @param options The options parameters.
    */
   get(
-    sharedPrivateLinkResourceName: string,
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubSharedPrivateLinkResourcesGetOptionalParams,
-  ): Promise<WebPubSubSharedPrivateLinkResourcesGetResponse> {
+    replicaName: string,
+    sharedPrivateLinkResourceName: string,
+    options?: WebPubSubReplicaSharedPrivateLinkResourcesGetOptionalParams,
+  ): Promise<WebPubSubReplicaSharedPrivateLinkResourcesGetResponse> {
     return this.client.sendOperationRequest(
       {
-        sharedPrivateLinkResourceName,
         resourceGroupName,
         resourceName,
+        replicaName,
+        sharedPrivateLinkResourceName,
         options,
       },
       getOperationSpec,
@@ -166,28 +187,30 @@ export class WebPubSubSharedPrivateLinkResourcesImpl
 
   /**
    * Create or update a shared private link resource
-   * @param sharedPrivateLinkResourceName The name of the shared private link resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
+   * @param replicaName The name of the replica.
+   * @param sharedPrivateLinkResourceName The name of the shared private link resource.
    * @param parameters The shared private link resource
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
-    sharedPrivateLinkResourceName: string,
     resourceGroupName: string,
     resourceName: string,
+    replicaName: string,
+    sharedPrivateLinkResourceName: string,
     parameters: SharedPrivateLinkResource,
-    options?: WebPubSubSharedPrivateLinkResourcesCreateOrUpdateOptionalParams,
+    options?: WebPubSubReplicaSharedPrivateLinkResourcesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<WebPubSubSharedPrivateLinkResourcesCreateOrUpdateResponse>,
-      WebPubSubSharedPrivateLinkResourcesCreateOrUpdateResponse
+      OperationState<WebPubSubReplicaSharedPrivateLinkResourcesCreateOrUpdateResponse>,
+      WebPubSubReplicaSharedPrivateLinkResourcesCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<WebPubSubSharedPrivateLinkResourcesCreateOrUpdateResponse> => {
+    ): Promise<WebPubSubReplicaSharedPrivateLinkResourcesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -225,17 +248,18 @@ export class WebPubSubSharedPrivateLinkResourcesImpl
     const lro = createLroSpec({
       sendOperationFn,
       args: {
-        sharedPrivateLinkResourceName,
         resourceGroupName,
         resourceName,
+        replicaName,
+        sharedPrivateLinkResourceName,
         parameters,
         options,
       },
       spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
-      WebPubSubSharedPrivateLinkResourcesCreateOrUpdateResponse,
-      OperationState<WebPubSubSharedPrivateLinkResourcesCreateOrUpdateResponse>
+      WebPubSubReplicaSharedPrivateLinkResourcesCreateOrUpdateResponse,
+      OperationState<WebPubSubReplicaSharedPrivateLinkResourcesCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -247,116 +271,27 @@ export class WebPubSubSharedPrivateLinkResourcesImpl
 
   /**
    * Create or update a shared private link resource
-   * @param sharedPrivateLinkResourceName The name of the shared private link resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
+   * @param replicaName The name of the replica.
+   * @param sharedPrivateLinkResourceName The name of the shared private link resource.
    * @param parameters The shared private link resource
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
-    sharedPrivateLinkResourceName: string,
     resourceGroupName: string,
     resourceName: string,
+    replicaName: string,
+    sharedPrivateLinkResourceName: string,
     parameters: SharedPrivateLinkResource,
-    options?: WebPubSubSharedPrivateLinkResourcesCreateOrUpdateOptionalParams,
-  ): Promise<WebPubSubSharedPrivateLinkResourcesCreateOrUpdateResponse> {
+    options?: WebPubSubReplicaSharedPrivateLinkResourcesCreateOrUpdateOptionalParams,
+  ): Promise<WebPubSubReplicaSharedPrivateLinkResourcesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
-      sharedPrivateLinkResourceName,
       resourceGroupName,
       resourceName,
+      replicaName,
+      sharedPrivateLinkResourceName,
       parameters,
-      options,
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Delete the specified shared private link resource
-   * @param sharedPrivateLinkResourceName The name of the shared private link resource.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName The name of the resource.
-   * @param options The options parameters.
-   */
-  async beginDelete(
-    sharedPrivateLinkResourceName: string,
-    resourceGroupName: string,
-    resourceName: string,
-    options?: WebPubSubSharedPrivateLinkResourcesDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
-        sharedPrivateLinkResourceName,
-        resourceGroupName,
-        resourceName,
-        options,
-      },
-      spec: deleteOperationSpec,
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Delete the specified shared private link resource
-   * @param sharedPrivateLinkResourceName The name of the shared private link resource.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName The name of the resource.
-   * @param options The options parameters.
-   */
-  async beginDeleteAndWait(
-    sharedPrivateLinkResourceName: string,
-    resourceGroupName: string,
-    resourceName: string,
-    options?: WebPubSubSharedPrivateLinkResourcesDeleteOptionalParams,
-  ): Promise<void> {
-    const poller = await this.beginDelete(
-      sharedPrivateLinkResourceName,
-      resourceGroupName,
-      resourceName,
       options,
     );
     return poller.pollUntilDone();
@@ -366,17 +301,19 @@ export class WebPubSubSharedPrivateLinkResourcesImpl
    * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
+   * @param replicaName The name of the replica.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
     resourceGroupName: string,
     resourceName: string,
+    replicaName: string,
     nextLink: string,
-    options?: WebPubSubSharedPrivateLinkResourcesListNextOptionalParams,
-  ): Promise<WebPubSubSharedPrivateLinkResourcesListNextResponse> {
+    options?: WebPubSubReplicaSharedPrivateLinkResourcesListNextOptionalParams,
+  ): Promise<WebPubSubReplicaSharedPrivateLinkResourcesListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, resourceName, nextLink, options },
+      { resourceGroupName, resourceName, replicaName, nextLink, options },
       listNextOperationSpec,
     );
   }
@@ -385,7 +322,7 @@ export class WebPubSubSharedPrivateLinkResourcesImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/sharedPrivateLinkResources",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/replicas/{replicaName}/sharedPrivateLinkResources",
   httpMethod: "GET",
   responses: {
     200: {
@@ -401,12 +338,13 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
+    Parameters.replicaName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/replicas/{replicaName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}",
   httpMethod: "GET",
   responses: {
     200: {
@@ -422,13 +360,14 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
+    Parameters.replicaName,
     Parameters.sharedPrivateLinkResourceName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/replicas/{replicaName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}",
   httpMethod: "PUT",
   responses: {
     200: {
@@ -454,33 +393,11 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
+    Parameters.replicaName,
     Parameters.sharedPrivateLinkResourceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
-};
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName,
-    Parameters.sharedPrivateLinkResourceName,
-  ],
-  headerParameters: [Parameters.accept],
   serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
@@ -500,6 +417,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
+    Parameters.replicaName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
