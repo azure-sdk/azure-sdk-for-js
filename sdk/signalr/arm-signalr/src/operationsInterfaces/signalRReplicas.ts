@@ -19,7 +19,7 @@ import {
   SignalRReplicasUpdateOptionalParams,
   SignalRReplicasUpdateResponse,
   SignalRReplicasRestartOptionalParams,
-  SignalRReplicasRestartResponse
+  SignalRReplicasRestartResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,7 +34,7 @@ export interface SignalRReplicas {
   list(
     resourceGroupName: string,
     resourceName: string,
-    options?: SignalRReplicasListOptionalParams
+    options?: SignalRReplicasListOptionalParams,
   ): PagedAsyncIterableIterator<Replica>;
   /**
    * Get the replica and its properties.
@@ -47,7 +47,7 @@ export interface SignalRReplicas {
     resourceGroupName: string,
     resourceName: string,
     replicaName: string,
-    options?: SignalRReplicasGetOptionalParams
+    options?: SignalRReplicasGetOptionalParams,
   ): Promise<SignalRReplicasGetResponse>;
   /**
    * Create or update a replica.
@@ -62,7 +62,7 @@ export interface SignalRReplicas {
     resourceName: string,
     replicaName: string,
     parameters: Replica,
-    options?: SignalRReplicasCreateOrUpdateOptionalParams
+    options?: SignalRReplicasCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SignalRReplicasCreateOrUpdateResponse>,
@@ -82,7 +82,7 @@ export interface SignalRReplicas {
     resourceName: string,
     replicaName: string,
     parameters: Replica,
-    options?: SignalRReplicasCreateOrUpdateOptionalParams
+    options?: SignalRReplicasCreateOrUpdateOptionalParams,
   ): Promise<SignalRReplicasCreateOrUpdateResponse>;
   /**
    * Operation to delete a replica.
@@ -95,7 +95,7 @@ export interface SignalRReplicas {
     resourceGroupName: string,
     resourceName: string,
     replicaName: string,
-    options?: SignalRReplicasDeleteOptionalParams
+    options?: SignalRReplicasDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Operation to update an exiting replica.
@@ -110,7 +110,7 @@ export interface SignalRReplicas {
     resourceName: string,
     replicaName: string,
     parameters: Replica,
-    options?: SignalRReplicasUpdateOptionalParams
+    options?: SignalRReplicasUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SignalRReplicasUpdateResponse>,
@@ -130,7 +130,7 @@ export interface SignalRReplicas {
     resourceName: string,
     replicaName: string,
     parameters: Replica,
-    options?: SignalRReplicasUpdateOptionalParams
+    options?: SignalRReplicasUpdateOptionalParams,
   ): Promise<SignalRReplicasUpdateResponse>;
   /**
    * Operation to restart a replica.
@@ -143,7 +143,7 @@ export interface SignalRReplicas {
     resourceGroupName: string,
     resourceName: string,
     replicaName: string,
-    options?: SignalRReplicasRestartOptionalParams
+    options?: SignalRReplicasRestartOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SignalRReplicasRestartResponse>,
@@ -161,6 +161,6 @@ export interface SignalRReplicas {
     resourceGroupName: string,
     resourceName: string,
     replicaName: string,
-    options?: SignalRReplicasRestartOptionalParams
+    options?: SignalRReplicasRestartOptionalParams,
   ): Promise<SignalRReplicasRestartResponse>;
 }

@@ -16,7 +16,7 @@ import { SignalRManagementClient } from "../signalRManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -29,7 +29,7 @@ import {
   SignalRCustomDomainsCreateOrUpdateOptionalParams,
   SignalRCustomDomainsCreateOrUpdateResponse,
   SignalRCustomDomainsDeleteOptionalParams,
-  SignalRCustomDomainsListNextResponse
+  SignalRCustomDomainsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -54,7 +54,7 @@ export class SignalRCustomDomainsImpl implements SignalRCustomDomains {
   public list(
     resourceGroupName: string,
     resourceName: string,
-    options?: SignalRCustomDomainsListOptionalParams
+    options?: SignalRCustomDomainsListOptionalParams,
   ): PagedAsyncIterableIterator<CustomDomain> {
     const iter = this.listPagingAll(resourceGroupName, resourceName, options);
     return {
@@ -72,9 +72,9 @@ export class SignalRCustomDomainsImpl implements SignalRCustomDomains {
           resourceGroupName,
           resourceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -82,7 +82,7 @@ export class SignalRCustomDomainsImpl implements SignalRCustomDomains {
     resourceGroupName: string,
     resourceName: string,
     options?: SignalRCustomDomainsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<CustomDomain[]> {
     let result: SignalRCustomDomainsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -98,7 +98,7 @@ export class SignalRCustomDomainsImpl implements SignalRCustomDomains {
         resourceGroupName,
         resourceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -110,12 +110,12 @@ export class SignalRCustomDomainsImpl implements SignalRCustomDomains {
   private async *listPagingAll(
     resourceGroupName: string,
     resourceName: string,
-    options?: SignalRCustomDomainsListOptionalParams
+    options?: SignalRCustomDomainsListOptionalParams,
   ): AsyncIterableIterator<CustomDomain> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       resourceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -130,11 +130,11 @@ export class SignalRCustomDomainsImpl implements SignalRCustomDomains {
   private _list(
     resourceGroupName: string,
     resourceName: string,
-    options?: SignalRCustomDomainsListOptionalParams
+    options?: SignalRCustomDomainsListOptionalParams,
   ): Promise<SignalRCustomDomainsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -149,11 +149,11 @@ export class SignalRCustomDomainsImpl implements SignalRCustomDomains {
     resourceGroupName: string,
     resourceName: string,
     name: string,
-    options?: SignalRCustomDomainsGetOptionalParams
+    options?: SignalRCustomDomainsGetOptionalParams,
   ): Promise<SignalRCustomDomainsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, name, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -170,7 +170,7 @@ export class SignalRCustomDomainsImpl implements SignalRCustomDomains {
     resourceName: string,
     name: string,
     parameters: CustomDomain,
-    options?: SignalRCustomDomainsCreateOrUpdateOptionalParams
+    options?: SignalRCustomDomainsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SignalRCustomDomainsCreateOrUpdateResponse>,
@@ -179,21 +179,20 @@ export class SignalRCustomDomainsImpl implements SignalRCustomDomains {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<SignalRCustomDomainsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -202,8 +201,8 @@ export class SignalRCustomDomainsImpl implements SignalRCustomDomains {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -211,15 +210,15 @@ export class SignalRCustomDomainsImpl implements SignalRCustomDomains {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, resourceName, name, parameters, options },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       SignalRCustomDomainsCreateOrUpdateResponse,
@@ -227,7 +226,7 @@ export class SignalRCustomDomainsImpl implements SignalRCustomDomains {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -246,14 +245,14 @@ export class SignalRCustomDomainsImpl implements SignalRCustomDomains {
     resourceName: string,
     name: string,
     parameters: CustomDomain,
-    options?: SignalRCustomDomainsCreateOrUpdateOptionalParams
+    options?: SignalRCustomDomainsCreateOrUpdateOptionalParams,
   ): Promise<SignalRCustomDomainsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       resourceName,
       name,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -269,25 +268,24 @@ export class SignalRCustomDomainsImpl implements SignalRCustomDomains {
     resourceGroupName: string,
     resourceName: string,
     name: string,
-    options?: SignalRCustomDomainsDeleteOptionalParams
+    options?: SignalRCustomDomainsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -296,8 +294,8 @@ export class SignalRCustomDomainsImpl implements SignalRCustomDomains {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -305,20 +303,20 @@ export class SignalRCustomDomainsImpl implements SignalRCustomDomains {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, resourceName, name, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -335,13 +333,13 @@ export class SignalRCustomDomainsImpl implements SignalRCustomDomains {
     resourceGroupName: string,
     resourceName: string,
     name: string,
-    options?: SignalRCustomDomainsDeleteOptionalParams
+    options?: SignalRCustomDomainsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       resourceName,
       name,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -357,11 +355,11 @@ export class SignalRCustomDomainsImpl implements SignalRCustomDomains {
     resourceGroupName: string,
     resourceName: string,
     nextLink: string,
-    options?: SignalRCustomDomainsListNextOptionalParams
+    options?: SignalRCustomDomainsListNextOptionalParams,
   ): Promise<SignalRCustomDomainsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -369,38 +367,15 @@ export class SignalRCustomDomainsImpl implements SignalRCustomDomains {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/customDomains",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/customDomains",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CustomDomainList
+      bodyMapper: Mappers.CustomDomainList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/customDomains/{name}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.CustomDomain
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -408,31 +383,51 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.name
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/customDomains/{name}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CustomDomain,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
+    Parameters.name,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/customDomains/{name}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/customDomains/{name}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.CustomDomain
+      bodyMapper: Mappers.CustomDomain,
     },
     201: {
-      bodyMapper: Mappers.CustomDomain
+      bodyMapper: Mappers.CustomDomain,
     },
     202: {
-      bodyMapper: Mappers.CustomDomain
+      bodyMapper: Mappers.CustomDomain,
     },
     204: {
-      bodyMapper: Mappers.CustomDomain
+      bodyMapper: Mappers.CustomDomain,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters4,
   queryParameters: [Parameters.apiVersion],
@@ -441,15 +436,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.name
+    Parameters.name,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/customDomains/{name}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/customDomains/{name}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -457,8 +451,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -466,29 +460,29 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.name
+    Parameters.name,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CustomDomainList
+      bodyMapper: Mappers.CustomDomainList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.resourceName
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

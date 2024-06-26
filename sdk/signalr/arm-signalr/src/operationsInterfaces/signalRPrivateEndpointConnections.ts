@@ -15,7 +15,7 @@ import {
   SignalRPrivateEndpointConnectionsGetResponse,
   SignalRPrivateEndpointConnectionsUpdateOptionalParams,
   SignalRPrivateEndpointConnectionsUpdateResponse,
-  SignalRPrivateEndpointConnectionsDeleteOptionalParams
+  SignalRPrivateEndpointConnectionsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface SignalRPrivateEndpointConnections {
   list(
     resourceGroupName: string,
     resourceName: string,
-    options?: SignalRPrivateEndpointConnectionsListOptionalParams
+    options?: SignalRPrivateEndpointConnectionsListOptionalParams,
   ): PagedAsyncIterableIterator<PrivateEndpointConnection>;
   /**
    * Get the specified private endpoint connection
@@ -44,7 +44,7 @@ export interface SignalRPrivateEndpointConnections {
     privateEndpointConnectionName: string,
     resourceGroupName: string,
     resourceName: string,
-    options?: SignalRPrivateEndpointConnectionsGetOptionalParams
+    options?: SignalRPrivateEndpointConnectionsGetOptionalParams,
   ): Promise<SignalRPrivateEndpointConnectionsGetResponse>;
   /**
    * Update the state of specified private endpoint connection
@@ -60,7 +60,7 @@ export interface SignalRPrivateEndpointConnections {
     resourceGroupName: string,
     resourceName: string,
     parameters: PrivateEndpointConnection,
-    options?: SignalRPrivateEndpointConnectionsUpdateOptionalParams
+    options?: SignalRPrivateEndpointConnectionsUpdateOptionalParams,
   ): Promise<SignalRPrivateEndpointConnectionsUpdateResponse>;
   /**
    * Delete the specified private endpoint connection
@@ -74,7 +74,7 @@ export interface SignalRPrivateEndpointConnections {
     privateEndpointConnectionName: string,
     resourceGroupName: string,
     resourceName: string,
-    options?: SignalRPrivateEndpointConnectionsDeleteOptionalParams
+    options?: SignalRPrivateEndpointConnectionsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete the specified private endpoint connection
@@ -88,6 +88,6 @@ export interface SignalRPrivateEndpointConnections {
     privateEndpointConnectionName: string,
     resourceGroupName: string,
     resourceName: string,
-    options?: SignalRPrivateEndpointConnectionsDeleteOptionalParams
+    options?: SignalRPrivateEndpointConnectionsDeleteOptionalParams,
   ): Promise<void>;
 }
