@@ -6,7 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface Accounts {
@@ -105,6 +107,9 @@ export interface AccountsUpdateOptionalParams extends coreClient.OperationOption
 // @public
 export type AccountsUpdateResponse = MapsAccount;
 
+// @public
+export type ActionType = string;
+
 // @public (undocumented)
 export class AzureMapsManagementClient extends coreClient.ServiceClient {
     // (undocumented)
@@ -119,6 +124,10 @@ export class AzureMapsManagementClient extends coreClient.ServiceClient {
     creators: Creators;
     // (undocumented)
     maps: Maps;
+    // (undocumented)
+    privateEndpointConnections: PrivateEndpointConnections;
+    // (undocumented)
+    privateLinkResources: PrivateLinkResources;
     // (undocumented)
     subscriptionId?: string;
 }
@@ -146,7 +155,6 @@ export type CreatedByType = string;
 // @public
 export interface Creator extends TrackedResource {
     properties: CreatorProperties;
-    readonly systemData?: SystemData;
 }
 
 // @public
@@ -157,8 +165,10 @@ export interface CreatorList {
 
 // @public
 export interface CreatorProperties {
+    consumedStorageUnitSizeInBytes?: number;
     readonly provisioningState?: string;
     storageUnits: number;
+    totalStorageUnitSizeInBytes?: number;
 }
 
 // @public
@@ -211,41 +221,37 @@ export type CreatorsUpdateResponse = Creator;
 
 // @public
 export interface CreatorUpdateParameters {
+    consumedStorageUnitSizeInBytes?: number;
     readonly provisioningState?: string;
     storageUnits?: number;
     tags?: {
         [propertyName: string]: string;
     };
-}
-
-// @public
-export interface CustomerManagedKeyEncryption {
-    keyEncryptionKeyIdentity?: CustomerManagedKeyEncryptionKeyIdentity;
-    keyEncryptionKeyUrl?: string;
-}
-
-// @public
-export interface CustomerManagedKeyEncryptionKeyIdentity {
-    delegatedIdentityClientId?: string;
-    identityType?: IdentityType;
-    userAssignedIdentityResourceId?: string;
-}
-
-// @public
-export interface Dimension {
-    displayName?: string;
-    internalMetricName?: string;
-    internalName?: string;
-    name?: string;
-    sourceMdmNamespace?: string;
-    toBeExportedToShoebox?: boolean;
+    totalStorageUnitSizeInBytes?: number;
 }
 
 // @public
 export interface Encryption {
-    customerManagedKeyEncryption?: CustomerManagedKeyEncryption;
+    customerManagedKeyEncryption?: EncryptionCustomerManagedKeyEncryption;
     infrastructureEncryption?: InfrastructureEncryption;
 }
+
+// @public
+export interface EncryptionCustomerManagedKeyEncryption {
+    keyEncryptionKeyIdentity?: EncryptionCustomerManagedKeyEncryptionKeyIdentity;
+    keyEncryptionKeyUrl?: string;
+}
+
+// @public
+export interface EncryptionCustomerManagedKeyEncryptionKeyIdentity {
+    delegatedIdentityClientId?: string;
+    federatedClientId?: string;
+    identityType?: EncryptionCustomerManagedKeyEncryptionKeyIdentityType;
+    userAssignedIdentityResourceId?: string;
+}
+
+// @public
+export type EncryptionCustomerManagedKeyEncryptionKeyIdentityType = string;
 
 // @public
 export interface ErrorAdditionalInfo {
@@ -271,9 +277,6 @@ export interface ErrorResponse {
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
-export type IdentityType = string;
-
-// @public
 export type InfrastructureEncryption = string;
 
 // @public
@@ -284,6 +287,11 @@ export { KeyType_2 as KeyType }
 export type Kind = string;
 
 // @public
+export enum KnownActionType {
+    Internal = "Internal"
+}
+
+// @public
 export enum KnownCreatedByType {
     Application = "Application",
     Key = "Key",
@@ -292,7 +300,7 @@ export enum KnownCreatedByType {
 }
 
 // @public
-export enum KnownIdentityType {
+export enum KnownEncryptionCustomerManagedKeyEncryptionKeyIdentityType {
     DelegatedResourceIdentity = "delegatedResourceIdentity",
     SystemAssignedIdentity = "systemAssignedIdentity",
     UserAssignedIdentity = "userAssignedIdentity"
@@ -312,7 +320,6 @@ export enum KnownKeyType {
 
 // @public
 export enum KnownKind {
-    Gen1 = "Gen1",
     Gen2 = "Gen2"
 }
 
@@ -320,15 +327,41 @@ export enum KnownKind {
 export enum KnownManagedServiceIdentityType {
     None = "None",
     SystemAssigned = "SystemAssigned",
-    SystemAssignedUserAssigned = "SystemAssigned, UserAssigned",
+    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
     UserAssigned = "UserAssigned"
 }
 
 // @public
 export enum KnownName {
-    G2 = "G2",
-    S0 = "S0",
-    S1 = "S1"
+    G2 = "G2"
+}
+
+// @public
+export enum KnownOrigin {
+    System = "system",
+    User = "user",
+    UserSystem = "user,system"
+}
+
+// @public
+export enum KnownPrivateEndpointConnectionProvisioningState {
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownPrivateEndpointServiceConnectionStatus {
+    Approved = "Approved",
+    Pending = "Pending",
+    Rejected = "Rejected"
+}
+
+// @public
+export enum KnownPublicNetworkAccess {
+    Disabled = "disabled",
+    Enabled = "enabled"
 }
 
 // @public
@@ -345,12 +378,17 @@ export interface LinkedResource {
 }
 
 // @public
+export interface LocationsItem {
+    locationName: string;
+}
+
+// @public
 export interface ManagedServiceIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type: ManagedServiceIdentityType;
     userAssignedIdentities?: {
-        [propertyName: string]: UserAssignedIdentity;
+        [propertyName: string]: UserAssignedIdentity | null;
     };
 }
 
@@ -359,8 +397,7 @@ export type ManagedServiceIdentityType = string;
 
 // @public
 export interface Maps {
-    listOperations(options?: MapsListOperationsOptionalParams): PagedAsyncIterableIterator<OperationDetail>;
-    listSubscriptionOperations(options?: MapsListSubscriptionOperationsOptionalParams): PagedAsyncIterableIterator<OperationDetail>;
+    listOperations(options?: MapsListOperationsOptionalParams): PagedAsyncIterableIterator<Operation>;
 }
 
 // @public
@@ -369,7 +406,6 @@ export interface MapsAccount extends TrackedResource {
     kind?: Kind;
     properties?: MapsAccountProperties;
     sku: Sku;
-    readonly systemData?: SystemData;
 }
 
 // @public
@@ -386,7 +422,10 @@ export interface MapsAccountProperties {
     disableLocalAuth?: boolean;
     encryption?: Encryption;
     linkedResources?: LinkedResource[];
+    locations?: LocationsItem[];
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: string;
+    publicNetworkAccess?: PublicNetworkAccess;
     readonly uniqueId?: string;
 }
 
@@ -409,7 +448,10 @@ export interface MapsAccountUpdateParameters {
     identity?: ManagedServiceIdentity;
     kind?: Kind;
     linkedResources?: LinkedResource[];
+    locations?: LocationsItem[];
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: string;
+    publicNetworkAccess?: PublicNetworkAccess;
     sku?: Sku;
     tags?: {
         [propertyName: string]: string;
@@ -427,83 +469,186 @@ export interface MapsListOperationsNextOptionalParams extends coreClient.Operati
 }
 
 // @public
-export type MapsListOperationsNextResponse = MapsOperations;
+export type MapsListOperationsNextResponse = OperationListResult;
 
 // @public
 export interface MapsListOperationsOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type MapsListOperationsResponse = MapsOperations;
-
-// @public
-export interface MapsListSubscriptionOperationsNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type MapsListSubscriptionOperationsNextResponse = MapsOperations;
-
-// @public
-export interface MapsListSubscriptionOperationsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type MapsListSubscriptionOperationsResponse = MapsOperations;
-
-// @public
-export interface MapsOperations {
-    nextLink?: string;
-    readonly value?: OperationDetail[];
-}
-
-// @public
-export interface MetricSpecification {
-    aggregationType?: string;
-    category?: string;
-    dimensions?: Dimension[];
-    displayDescription?: string;
-    displayName?: string;
-    fillGapWithZero?: boolean;
-    internalMetricName?: string;
-    lockAggregationType?: string;
-    name?: string;
-    resourceIdDimensionNameOverride?: string;
-    sourceMdmAccount?: string;
-    sourceMdmNamespace?: string;
-    supportedAggregationTypes?: string;
-    unit?: string;
-}
+export type MapsListOperationsResponse = OperationListResult;
 
 // @public
 export type Name = string;
 
 // @public
-export interface OperationDetail {
+export interface Operation {
+    readonly actionType?: ActionType;
     display?: OperationDisplay;
-    isDataAction?: boolean;
-    name?: string;
-    origin?: string;
-    serviceSpecification?: ServiceSpecification;
+    readonly isDataAction?: boolean;
+    readonly name?: string;
+    readonly origin?: Origin;
 }
 
 // @public
 export interface OperationDisplay {
-    description?: string;
-    operation?: string;
-    provider?: string;
-    resource?: string;
+    readonly description?: string;
+    readonly operation?: string;
+    readonly provider?: string;
+    readonly resource?: string;
 }
+
+// @public
+export interface OperationListResult {
+    readonly nextLink?: string;
+    readonly value?: Operation[];
+}
+
+// @public
+export type Origin = string;
+
+// @public
+export interface PrivateEndpoint {
+    readonly id?: string;
+}
+
+// @public
+export interface PrivateEndpointConnection extends Resource {
+    readonly groupIds?: string[];
+    privateEndpoint?: PrivateEndpoint;
+    privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+    readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
+}
+
+// @public
+export interface PrivateEndpointConnectionList {
+    readonly nextLink?: string;
+    value?: PrivateEndpointConnection[];
+}
+
+// @public
+export type PrivateEndpointConnectionProvisioningState = string;
+
+// @public
+export interface PrivateEndpointConnections {
+    beginCreate(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOptionalParams): Promise<SimplePollerLike<OperationState<PrivateEndpointConnectionsCreateResponse>, PrivateEndpointConnectionsCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOptionalParams): Promise<PrivateEndpointConnectionsCreateResponse>;
+    beginDelete(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<PrivateEndpointConnectionsDeleteResponse>, PrivateEndpointConnectionsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<PrivateEndpointConnectionsDeleteResponse>;
+    get(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams): Promise<PrivateEndpointConnectionsGetResponse>;
+    listByAccount(resourceGroupName: string, accountName: string, options?: PrivateEndpointConnectionsListByAccountOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnection>;
+}
+
+// @public
+export interface PrivateEndpointConnectionsCreateHeaders {
+    azureAsyncOperation?: string;
+}
+
+// @public
+export interface PrivateEndpointConnectionsCreateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type PrivateEndpointConnectionsCreateResponse = PrivateEndpointConnection;
+
+// @public
+export interface PrivateEndpointConnectionsDeleteHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: string;
+}
+
+// @public
+export interface PrivateEndpointConnectionsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type PrivateEndpointConnectionsDeleteResponse = PrivateEndpointConnectionsDeleteHeaders;
+
+// @public
+export interface PrivateEndpointConnectionsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection;
+
+// @public
+export interface PrivateEndpointConnectionsListByAccountNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateEndpointConnectionsListByAccountNextResponse = PrivateEndpointConnectionList;
+
+// @public
+export interface PrivateEndpointConnectionsListByAccountOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateEndpointConnectionsListByAccountResponse = PrivateEndpointConnectionList;
+
+// @public
+export type PrivateEndpointServiceConnectionStatus = string;
+
+// @public
+export interface PrivateLinkResource extends Resource {
+    readonly groupId?: string;
+    readonly requiredMembers?: string[];
+    requiredZoneNames?: string[];
+}
+
+// @public
+export interface PrivateLinkResourceList {
+    readonly nextLink?: string;
+    value?: PrivateLinkResource[];
+}
+
+// @public
+export interface PrivateLinkResources {
+    get(resourceGroupName: string, accountName: string, privateLinkResourceName: string, options?: PrivateLinkResourcesGetOptionalParams): Promise<PrivateLinkResourcesGetResponse>;
+    listByAccount(resourceGroupName: string, accountName: string, options?: PrivateLinkResourcesListByAccountOptionalParams): PagedAsyncIterableIterator<PrivateLinkResource>;
+}
+
+// @public
+export interface PrivateLinkResourcesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateLinkResourcesGetResponse = PrivateLinkResource;
+
+// @public
+export interface PrivateLinkResourcesListByAccountNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateLinkResourcesListByAccountNextResponse = PrivateLinkResourceList;
+
+// @public
+export interface PrivateLinkResourcesListByAccountOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateLinkResourcesListByAccountResponse = PrivateLinkResourceList;
+
+// @public
+export interface PrivateLinkServiceConnectionState {
+    actionsRequired?: string;
+    description?: string;
+    status?: PrivateEndpointServiceConnectionStatus;
+}
+
+// @public
+export type PublicNetworkAccess = string;
 
 // @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
-}
-
-// @public
-export interface ServiceSpecification {
-    metricSpecifications?: MetricSpecification[];
 }
 
 // @public

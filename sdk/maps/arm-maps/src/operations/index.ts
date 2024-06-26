@@ -9,3 +9,5 @@
 export * from "./accounts";
 export * from "./maps";
 export * from "./creators";
+export * from "./privateLinkResources";
+export * from "./privateEndpointConnections";

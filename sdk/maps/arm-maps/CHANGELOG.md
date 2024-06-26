@@ -1,15 +1,81 @@
 # Release History
+    
+## 4.0.0-beta.1 (2024-06-26)
+Compared with version 3.1.0
+    
+**Features**
 
-## 3.1.1 (Unreleased)
+  - Added operation group PrivateEndpointConnections
+  - Added operation group PrivateLinkResources
+  - Added Interface EncryptionCustomerManagedKeyEncryption
+  - Added Interface EncryptionCustomerManagedKeyEncryptionKeyIdentity
+  - Added Interface LocationsItem
+  - Added Interface Operation
+  - Added Interface OperationListResult
+  - Added Interface PrivateEndpoint
+  - Added Interface PrivateEndpointConnection
+  - Added Interface PrivateEndpointConnectionList
+  - Added Interface PrivateEndpointConnectionsCreateHeaders
+  - Added Interface PrivateEndpointConnectionsCreateOptionalParams
+  - Added Interface PrivateEndpointConnectionsDeleteHeaders
+  - Added Interface PrivateEndpointConnectionsDeleteOptionalParams
+  - Added Interface PrivateEndpointConnectionsGetOptionalParams
+  - Added Interface PrivateEndpointConnectionsListByAccountNextOptionalParams
+  - Added Interface PrivateEndpointConnectionsListByAccountOptionalParams
+  - Added Interface PrivateLinkResource
+  - Added Interface PrivateLinkResourceList
+  - Added Interface PrivateLinkResourcesGetOptionalParams
+  - Added Interface PrivateLinkResourcesListByAccountNextOptionalParams
+  - Added Interface PrivateLinkResourcesListByAccountOptionalParams
+  - Added Interface PrivateLinkServiceConnectionState
+  - Added Type Alias ActionType
+  - Added Type Alias EncryptionCustomerManagedKeyEncryptionKeyIdentityType
+  - Added Type Alias Origin
+  - Added Type Alias PrivateEndpointConnectionProvisioningState
+  - Added Type Alias PrivateEndpointConnectionsCreateResponse
+  - Added Type Alias PrivateEndpointConnectionsDeleteResponse
+  - Added Type Alias PrivateEndpointConnectionsGetResponse
+  - Added Type Alias PrivateEndpointConnectionsListByAccountNextResponse
+  - Added Type Alias PrivateEndpointConnectionsListByAccountResponse
+  - Added Type Alias PrivateEndpointServiceConnectionStatus
+  - Added Type Alias PrivateLinkResourcesGetResponse
+  - Added Type Alias PrivateLinkResourcesListByAccountNextResponse
+  - Added Type Alias PrivateLinkResourcesListByAccountResponse
+  - Added Type Alias PublicNetworkAccess
+  - Interface CreatorProperties has a new optional parameter consumedStorageUnitSizeInBytes
+  - Interface CreatorProperties has a new optional parameter totalStorageUnitSizeInBytes
+  - Interface CreatorUpdateParameters has a new optional parameter consumedStorageUnitSizeInBytes
+  - Interface CreatorUpdateParameters has a new optional parameter totalStorageUnitSizeInBytes
+  - Interface MapsAccountProperties has a new optional parameter locations
+  - Interface MapsAccountProperties has a new optional parameter privateEndpointConnections
+  - Interface MapsAccountProperties has a new optional parameter publicNetworkAccess
+  - Interface MapsAccountUpdateParameters has a new optional parameter locations
+  - Interface MapsAccountUpdateParameters has a new optional parameter privateEndpointConnections
+  - Interface MapsAccountUpdateParameters has a new optional parameter publicNetworkAccess
+  - Interface Resource has a new optional parameter systemData
+  - Added Enum KnownActionType
+  - Added Enum KnownEncryptionCustomerManagedKeyEncryptionKeyIdentityType
+  - Added Enum KnownOrigin
+  - Added Enum KnownPrivateEndpointConnectionProvisioningState
+  - Added Enum KnownPrivateEndpointServiceConnectionStatus
+  - Added Enum KnownPublicNetworkAccess
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation Maps.listSubscriptionOperations
+  - Interface Creator no longer has parameter systemData
+  - Interface MapsAccount no longer has parameter systemData
+  - Type of parameter customerManagedKeyEncryption of interface Encryption is changed from CustomerManagedKeyEncryption to EncryptionCustomerManagedKeyEncryption
+  - Type of parameter userAssignedIdentities of interface ManagedServiceIdentity is changed from {
+        [propertyName: string]: UserAssignedIdentity;
+    } to {
+        [propertyName: string]: UserAssignedIdentity | null;
+    }
+  - Removed Enum KnownIdentityType
+  - Enum KnownKind no longer has value Gen1
+  - Enum KnownName no longer has value S0
+  - Enum KnownName no longer has value S1
+    
 ## 3.1.0 (2023-08-08)
 
 **Features**
@@ -61,4 +127,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).
