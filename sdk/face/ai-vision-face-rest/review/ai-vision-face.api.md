@@ -871,7 +871,7 @@ export type CreateLargePersonGroupPersonParameters = CreateLargePersonGroupPerso
 // @public (undocumented)
 export interface CreateLivenessSession {
     get(options?: GetLivenessSessionsParameters): StreamableMethod<GetLivenessSessions200Response | GetLivenessSessionsDefaultResponse>;
-    post(options?: CreateLivenessSessionParameters): StreamableMethod<CreateLivenessSession200Response | CreateLivenessSessionDefaultResponse>;
+    post(options: CreateLivenessSessionParameters): StreamableMethod<CreateLivenessSession200Response | CreateLivenessSessionDefaultResponse>;
 }
 
 // @public
@@ -884,8 +884,7 @@ export interface CreateLivenessSession200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface CreateLivenessSessionBodyParam {
-    // (undocumented)
-    body?: CreateLivenessSessionContent;
+    body: CreateLivenessSessionContent;
 }
 
 // @public
@@ -931,8 +930,7 @@ export interface CreateLivenessWithVerifySession200Response extends HttpResponse
 
 // @public (undocumented)
 export interface CreateLivenessWithVerifySessionBodyParam {
-    // (undocumented)
-    body?: CreateLivenessSessionContent;
+    body: CreateLivenessSessionContent;
 }
 
 // @public
@@ -987,7 +985,7 @@ export interface CreateLivenessWithVerifySessionResultOutput {
 export interface CreateLivenessWithVerifySessionWithVerifyImage {
     get(options?: GetLivenessWithVerifySessionsParameters): StreamableMethod<GetLivenessWithVerifySessions200Response | GetLivenessWithVerifySessionsDefaultResponse>;
     post(options: CreateLivenessWithVerifySessionWithVerifyImageParameters): StreamableMethod<CreateLivenessWithVerifySessionWithVerifyImage200Response | CreateLivenessWithVerifySessionWithVerifyImageDefaultResponse>;
-    post(options?: CreateLivenessWithVerifySessionParameters): StreamableMethod<CreateLivenessWithVerifySession200Response | CreateLivenessWithVerifySessionDefaultResponse>;
+    post(options: CreateLivenessWithVerifySessionParameters): StreamableMethod<CreateLivenessWithVerifySession200Response | CreateLivenessWithVerifySessionDefaultResponse>;
 }
 
 // @public
@@ -2857,12 +2855,6 @@ export interface GetLivenessWithVerifySessionsQueryParamProperties {
 export function getLongRunningPoller<TResult extends TrainLargeFaceListLogicalResponse | TrainLargeFaceListDefaultResponse>(client: Client, initialResponse: TrainLargeFaceList202Response | TrainLargeFaceListDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 
 // @public (undocumented)
-export function getLongRunningPoller<TResult extends TrainPersonGroupLogicalResponse | TrainPersonGroupDefaultResponse>(client: Client, initialResponse: TrainPersonGroup202Response | TrainPersonGroupDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
-
-// @public (undocumented)
-export function getLongRunningPoller<TResult extends TrainLargePersonGroupLogicalResponse | TrainLargePersonGroupDefaultResponse>(client: Client, initialResponse: TrainLargePersonGroup202Response | TrainLargePersonGroupDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
-
-// @public (undocumented)
 export function getLongRunningPoller<TResult extends CreatePersonLogicalResponse | CreatePersonDefaultResponse>(client: Client, initialResponse: CreatePerson202Response | CreatePersonDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 
 // @public (undocumented)
@@ -2882,6 +2874,12 @@ export function getLongRunningPoller<TResult extends DeleteDynamicPersonGroupLog
 
 // @public (undocumented)
 export function getLongRunningPoller<TResult extends UpdateDynamicPersonGroupWithPersonChangesLogicalResponse | UpdateDynamicPersonGroupWithPersonChangesDefaultResponse>(client: Client, initialResponse: UpdateDynamicPersonGroupWithPersonChanges202Response | UpdateDynamicPersonGroupWithPersonChangesDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
+
+// @public (undocumented)
+export function getLongRunningPoller<TResult extends TrainPersonGroupLogicalResponse | TrainPersonGroupDefaultResponse>(client: Client, initialResponse: TrainPersonGroup202Response | TrainPersonGroupDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
+
+// @public (undocumented)
+export function getLongRunningPoller<TResult extends TrainLargePersonGroupLogicalResponse | TrainLargePersonGroupDefaultResponse>(client: Client, initialResponse: TrainLargePersonGroup202Response | TrainLargePersonGroupDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 
 // @public (undocumented)
 export interface GetOperationResult {
