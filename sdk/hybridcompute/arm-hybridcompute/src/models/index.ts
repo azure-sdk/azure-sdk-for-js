@@ -230,6 +230,56 @@ export interface ServiceStatus {
   startupType?: string;
 }
 
+/** Describes the hardware of the machine */
+export interface HardwareProfile {
+  /** The total physical memory on the machine */
+  totalPhysicalMemoryInBytes?: number;
+  /** The total number of CPU sockets available on the machine */
+  numberOfCpuSockets?: number;
+  /** The physical processors of the machine. */
+  processors?: Processor[];
+}
+
+/** Describes the firmware of the machine */
+export interface Processor {
+  /** The name of the processor. */
+  name?: string;
+  /** The total number of physical cores on the processor. */
+  numberOfCores?: number;
+}
+
+/** Describes the storage configuration of the machine */
+export interface StorageProfile {
+  /** The disks on the machine. */
+  disks?: Disk[];
+}
+
+/** Describes a disk on the machine */
+export interface Disk {
+  /** The path of the disk. */
+  path?: string;
+  /** The type of the disk. */
+  type?: string;
+  /** The generated ID of the disk. */
+  generatedId?: string;
+  /** The ID of the disk. */
+  id?: string;
+  /** The name of the disk. */
+  name?: string;
+  /** The size of the disk, in bytes */
+  maxSizeInBytes?: number;
+  /** The amount of space used on the disk, in bytes */
+  usedSpaceInBytes?: number;
+}
+
+/** Describes the firmware of the machine */
+export interface FirmwareProfile {
+  /** The serial number of the firmware */
+  serialNumber?: string;
+  /** The type of the firmware */
+  type?: string;
+}
+
 /** The metadata of the cloud environment (Azure/GCP/AWS/OCI...). */
 export interface CloudMetadata {
   /**
@@ -288,6 +338,24 @@ export interface OSProfileWindowsConfiguration {
   assessmentMode?: AssessmentModeTypes;
   /** Specifies the patch mode. */
   patchMode?: PatchModeTypes;
+  /** Captures the hotpatch capability enrollment intent of the customers, which enables customers to patch their Windows machines without requiring a reboot. */
+  enableHotpatching?: boolean;
+  /**
+   * Status of the hotpatch capability enrollment or disenrollment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: PatchSettingsStatus;
+}
+
+/** Status of the hotpatch capability enrollment or disenrollment. */
+export interface PatchSettingsStatus {
+  /** Indicates the current status of the hotpatch being enabled or disabled. */
+  hotpatchEnablementStatus?: HotpatchEnablementStatus;
+  /**
+   * The errors that were encountered during the hotpatch capability enrollment or disenrollment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly error?: ErrorDetail;
 }
 
 /** Specifies the linux configuration for update management. */
@@ -296,6 +364,13 @@ export interface OSProfileLinuxConfiguration {
   assessmentMode?: AssessmentModeTypes;
   /** Specifies the patch mode. */
   patchMode?: PatchModeTypes;
+  /** Captures the hotpatch capability enrollment intent of the customers, which enables customers to patch their Windows machines without requiring a reboot. */
+  enableHotpatching?: boolean;
+  /**
+   * Status of the hotpatch capability enrollment or disenrollment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: PatchSettingsStatus;
 }
 
 /** License Profile Instance View in Machine Properties. */
@@ -317,20 +392,30 @@ export interface LicenseProfileMachineInstanceView {
   /** Indicates the product type of the license. */
   productType?: LicenseProfileProductType;
   /**
-   * The timestamp in UTC when the billing starts.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly billingStartDate?: Date;
-  /**
    * The timestamp in UTC when the user enrolls the feature.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly enrollmentDate?: Date;
   /**
+   * The timestamp in UTC when the billing starts.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingStartDate?: Date;
+  /**
    * The timestamp in UTC when the user disenrolled the feature.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly disenrollmentDate?: Date;
+  /**
+   * The timestamp in UTC when the billing ends.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingEndDate?: Date;
+  /**
+   * The errors that were encountered during the feature enrollment or disenrollment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly error?: ErrorDetail;
   /** The list of product features. */
   productFeatures?: ProductFeature[];
   /** Specifies if this machine is licensed as part of a Software Assurance agreement. */
@@ -366,20 +451,30 @@ export interface ProductFeature {
   /** Indicates the current status of the product features. */
   subscriptionStatus?: LicenseProfileSubscriptionStatus;
   /**
-   * The timestamp in UTC when the billing starts.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly billingStartDate?: Date;
-  /**
    * The timestamp in UTC when the user enrolls the feature.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly enrollmentDate?: Date;
   /**
+   * The timestamp in UTC when the billing starts.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingStartDate?: Date;
+  /**
    * The timestamp in UTC when the user disenrolled the feature.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly disenrollmentDate?: Date;
+  /**
+   * The timestamp in UTC when the billing ends.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingEndDate?: Date;
+  /**
+   * The errors that were encountered during the feature enrollment or disenrollment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly error?: ErrorDetail;
 }
 
 /** Describes the Machine Extension Instance View. */
@@ -416,6 +511,12 @@ export interface NetworkProfile {
 
 /** Describes a network interface. */
 export interface NetworkInterface {
+  /** Represents MAC address of the network interface. */
+  macAddress?: string;
+  /** Represents the ID of the network interface. */
+  id?: string;
+  /** Represents the name of the network interface. */
+  name?: string;
   /** The list of IP addresses in this interface. */
   ipAddresses?: IpAddress[];
 }
@@ -1541,6 +1642,12 @@ export interface Machine extends TrackedResource {
   readonly agentConfiguration?: AgentConfiguration;
   /** Statuses of dependent services that are reported back to ARM. */
   serviceStatuses?: ServiceStatuses;
+  /** Information about the machine's hardware */
+  hardwareProfile?: HardwareProfile;
+  /** Information about the machine's storage */
+  storageProfile?: StorageProfile;
+  /** Information about the machine's firmware */
+  firmwareProfile?: FirmwareProfile;
   /** The metadata of the cloud environment (Azure/GCP/AWS/OCI...). */
   cloudMetadata?: CloudMetadata;
   /** The info of the machine w.r.t Agent Upgrade */
@@ -1698,20 +1805,30 @@ export interface LicenseProfile extends TrackedResource {
   /** Indicates the product type of the license. */
   productType?: LicenseProfileProductType;
   /**
-   * The timestamp in UTC when the billing starts.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly billingStartDate?: Date;
-  /**
    * The timestamp in UTC when the user enrolls the feature.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly enrollmentDate?: Date;
   /**
+   * The timestamp in UTC when the billing starts.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingStartDate?: Date;
+  /**
    * The timestamp in UTC when the user disenrolled the feature.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly disenrollmentDate?: Date;
+  /**
+   * The timestamp in UTC when the billing ends.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingEndDate?: Date;
+  /**
+   * The errors that were encountered during the feature enrollment or disenrollment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly error?: ErrorDetail;
   /** The list of product features. */
   productFeatures?: ProductFeature[];
   /**
@@ -2215,6 +2332,33 @@ export enum KnownPatchModeTypes {
  */
 export type PatchModeTypes = string;
 
+/** Known values of {@link HotpatchEnablementStatus} that the service accepts. */
+export enum KnownHotpatchEnablementStatus {
+  /** Unknown */
+  Unknown = "Unknown",
+  /** PendingEvaluation */
+  PendingEvaluation = "PendingEvaluation",
+  /** Disabled */
+  Disabled = "Disabled",
+  /** ActionRequired */
+  ActionRequired = "ActionRequired",
+  /** Enabled */
+  Enabled = "Enabled",
+}
+
+/**
+ * Defines values for HotpatchEnablementStatus. \
+ * {@link KnownHotpatchEnablementStatus} can be used interchangeably with HotpatchEnablementStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown** \
+ * **PendingEvaluation** \
+ * **Disabled** \
+ * **ActionRequired** \
+ * **Enabled**
+ */
+export type HotpatchEnablementStatus = string;
+
 /** Known values of {@link LicenseStatus} that the service accepts. */
 export enum KnownLicenseStatus {
   /** Unlicensed */
@@ -2333,6 +2477,10 @@ export enum KnownLicenseProfileSubscriptionStatus {
   Enabled = "Enabled",
   /** Disabled */
   Disabled = "Disabled",
+  /** Disabling */
+  Disabling = "Disabling",
+  /** Failed */
+  Failed = "Failed",
 }
 
 /**
@@ -2343,7 +2491,9 @@ export enum KnownLicenseProfileSubscriptionStatus {
  * **Unknown** \
  * **Enabling** \
  * **Enabled** \
- * **Disabled**
+ * **Disabled** \
+ * **Disabling** \
+ * **Failed**
  */
 export type LicenseProfileSubscriptionStatus = string;
 
