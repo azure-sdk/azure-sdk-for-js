@@ -1,15 +1,21 @@
 # Release History
+    
+## 22.0.0 (2024-06-26)
+    
+**Features**
 
-## 21.6.1 (Unreleased)
+  - Added Interface SecurityPostureReferenceUpdate
+  - Interface AvailabilitySet has a new optional parameter scheduledEventsPolicy
+  - Interface AvailabilitySetUpdate has a new optional parameter scheduledEventsPolicy
+  - Interface SecurityPostureReference has a new optional parameter isOverridable
+  - Interface VirtualMachineScaleSetUpdateVMProfile has a new optional parameter securityPostureReference
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Parameter id of interface SecurityPostureReference is now required
+  - Type of parameter excludeExtensions of interface SecurityPostureReference is changed from VirtualMachineExtension[] to string[]
+    
+    
 ## 21.6.0 (2024-04-26)
     
 **Features**

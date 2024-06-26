@@ -110,6 +110,7 @@ export interface AvailabilitySet extends Resource {
     platformFaultDomainCount?: number;
     platformUpdateDomainCount?: number;
     proximityPlacementGroup?: SubResource;
+    scheduledEventsPolicy?: ScheduledEventsPolicy;
     sku?: Sku;
     readonly statuses?: InstanceViewStatus[];
     virtualMachines?: SubResource[];
@@ -201,6 +202,7 @@ export interface AvailabilitySetUpdate extends UpdateResource {
     platformFaultDomainCount?: number;
     platformUpdateDomainCount?: number;
     proximityPlacementGroup?: SubResource;
+    scheduledEventsPolicy?: ScheduledEventsPolicy;
     sku?: Sku;
     readonly statuses?: InstanceViewStatus[];
     virtualMachines?: SubResource[];
@@ -5271,8 +5273,16 @@ export type SecurityEncryptionTypes = string;
 
 // @public
 export interface SecurityPostureReference {
-    excludeExtensions?: VirtualMachineExtension[];
+    excludeExtensions?: string[];
+    id: string;
+    isOverridable?: boolean;
+}
+
+// @public
+export interface SecurityPostureReferenceUpdate {
+    excludeExtensions?: string[];
     id?: string;
+    isOverridable?: boolean;
 }
 
 // @public
@@ -7512,6 +7522,7 @@ export interface VirtualMachineScaleSetUpdateVMProfile {
     networkProfile?: VirtualMachineScaleSetUpdateNetworkProfile;
     osProfile?: VirtualMachineScaleSetUpdateOSProfile;
     scheduledEventsProfile?: ScheduledEventsProfile;
+    securityPostureReference?: SecurityPostureReferenceUpdate;
     securityProfile?: SecurityProfile;
     storageProfile?: VirtualMachineScaleSetUpdateStorageProfile;
     userData?: string;
