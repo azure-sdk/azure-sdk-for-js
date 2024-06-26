@@ -65,7 +65,7 @@ export interface ContainerGroupProperties {
   /** The IP address type of the container group. */
   ipAddress?: IpAddress;
   /** The operating system type required by the containers in the container group. */
-  osType: OperatingSystemTypes;
+  osType?: OperatingSystemTypes;
   /** The list of volumes that can be mounted by containers in this container group. */
   volumes?: Volume[];
   /**
@@ -91,6 +91,15 @@ export interface ContainerGroupProperties {
   confidentialComputeProperties?: ConfidentialComputeProperties;
   /** The priority of the container group. */
   priority?: ContainerGroupPriority;
+  /** The reference container group profile properties. */
+  containerGroupProfile?: ContainerGroupProfileReferenceDefinition;
+  /** The reference standby pool profile properties. */
+  standbyPoolProfile?: StandbyPoolProfileDefinition;
+  /**
+   * The flag indicating whether the container group is created by standby pool.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isCreatedFromStandbyPool?: boolean;
 }
 
 /** Identity for the container group. */
@@ -130,7 +139,7 @@ export interface Container {
   /** The user-provided name of the container instance. */
   name: string;
   /** The name of the image used to create the container instance. */
-  image: string;
+  image?: string;
   /** The commands to execute within the container instance in exec form. */
   command?: string[];
   /** The exposed ports on the container instance. */
@@ -143,7 +152,7 @@ export interface Container {
    */
   readonly instanceView?: ContainerPropertiesInstanceView;
   /** The resource requirements of the container instance. */
-  resources: ResourceRequirements;
+  resources?: ResourceRequirements;
   /** The volume mounts available to the container instance. */
   volumeMounts?: VolumeMount[];
   /** The liveness probe. */
@@ -152,6 +161,8 @@ export interface Container {
   readinessProbe?: ContainerProbe;
   /** The container security properties. */
   securityContext?: SecurityContextDefinition;
+  /** The config map. */
+  configMap?: ConfigMap;
 }
 
 /** The port exposed on the container instance. */
@@ -373,6 +384,12 @@ export interface SecurityContextCapabilitiesDefinition {
   drop?: string[];
 }
 
+/** The container config map. */
+export interface ConfigMap {
+  /** The key value pairs dictionary in the config map. */
+  keyValuePairs?: { [propertyName: string]: string };
+}
+
 /** Image registry credential. */
 export interface ImageRegistryCredential {
   /** The Docker image registry server without a protocol such as "http" and "https". */
@@ -577,6 +594,22 @@ export interface DeploymentExtensionSpec {
 export interface ConfidentialComputeProperties {
   /** The base64 encoded confidential compute enforcement policy */
   ccePolicy?: string;
+}
+
+/** The container group profile reference. */
+export interface ContainerGroupProfileReferenceDefinition {
+  /** The container group profile reference id.This will be an ARM resource id in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroupProfiles/{containerGroupProfileName}'. */
+  id?: string;
+  /** The container group profile reference revision. */
+  revision?: number;
+}
+
+/** The standby pool profile reference. */
+export interface StandbyPoolProfileDefinition {
+  /** The standby pool profile reference id.This will be an ARM resource id in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StandbyPool/standbyContainerGroupPools/{standbyPoolName}'. */
+  id?: string;
+  /** The flag to determine whether ACI should fail the create request if the container group can not be obtained from standby pool. */
+  failContainerGroupCreateOnReuseFailure?: boolean;
 }
 
 /** An error response from the Container Instance service. */
@@ -804,7 +837,7 @@ export enum KnownContainerNetworkProtocol {
   /** TCP */
   TCP = "TCP",
   /** UDP */
-  UDP = "UDP"
+  UDP = "UDP",
 }
 
 /**
@@ -824,7 +857,7 @@ export enum KnownGpuSku {
   /** P100 */
   P100 = "P100",
   /** V100 */
-  V100 = "V100"
+  V100 = "V100",
 }
 
 /**
@@ -843,7 +876,7 @@ export enum KnownScheme {
   /** Http */
   Http = "http",
   /** Https */
-  Https = "https"
+  Https = "https",
 }
 
 /**
@@ -863,7 +896,7 @@ export enum KnownContainerGroupRestartPolicy {
   /** OnFailure */
   OnFailure = "OnFailure",
   /** Never */
-  Never = "Never"
+  Never = "Never",
 }
 
 /**
@@ -882,7 +915,7 @@ export enum KnownContainerGroupNetworkProtocol {
   /** TCP */
   TCP = "TCP",
   /** UDP */
-  UDP = "UDP"
+  UDP = "UDP",
 }
 
 /**
@@ -900,7 +933,7 @@ export enum KnownContainerGroupIpAddressType {
   /** Public */
   Public = "Public",
   /** Private */
-  Private = "Private"
+  Private = "Private",
 }
 
 /**
@@ -924,7 +957,7 @@ export enum KnownDnsNameLabelReusePolicy {
   /** ResourceGroupReuse */
   ResourceGroupReuse = "ResourceGroupReuse",
   /** Noreuse */
-  Noreuse = "Noreuse"
+  Noreuse = "Noreuse",
 }
 
 /**
@@ -945,7 +978,7 @@ export enum KnownOperatingSystemTypes {
   /** Windows */
   Windows = "Windows",
   /** Linux */
-  Linux = "Linux"
+  Linux = "Linux",
 }
 
 /**
@@ -963,7 +996,7 @@ export enum KnownLogAnalyticsLogType {
   /** ContainerInsights */
   ContainerInsights = "ContainerInsights",
   /** ContainerInstanceLogs */
-  ContainerInstanceLogs = "ContainerInstanceLogs"
+  ContainerInstanceLogs = "ContainerInstanceLogs",
 }
 
 /**
@@ -983,7 +1016,7 @@ export enum KnownContainerGroupSku {
   /** Dedicated */
   Dedicated = "Dedicated",
   /** Confidential */
-  Confidential = "Confidential"
+  Confidential = "Confidential",
 }
 
 /**
@@ -1002,7 +1035,7 @@ export enum KnownContainerGroupPriority {
   /** Regular */
   Regular = "Regular",
   /** Spot */
-  Spot = "Spot"
+  Spot = "Spot",
 }
 
 /**
@@ -1020,7 +1053,7 @@ export enum KnownContainerInstanceOperationsOrigin {
   /** User */
   User = "User",
   /** System */
-  System = "System"
+  System = "System",
 }
 
 /**
@@ -1051,7 +1084,8 @@ export interface ContainerGroupsListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type ContainerGroupsListByResourceGroupResponse = ContainerGroupListResult;
+export type ContainerGroupsListByResourceGroupResponse =
+  ContainerGroupListResult;
 
 /** Optional parameters. */
 export interface ContainerGroupsGetOptionalParams
@@ -1135,7 +1169,8 @@ export interface ContainerGroupsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type ContainerGroupsListByResourceGroupNextResponse = ContainerGroupListResult;
+export type ContainerGroupsListByResourceGroupNextResponse =
+  ContainerGroupListResult;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams

@@ -72,16 +72,24 @@ export interface ConfidentialComputeProperties {
 }
 
 // @public
+export interface ConfigMap {
+    keyValuePairs?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
 export interface Container {
     command?: string[];
+    configMap?: ConfigMap;
     environmentVariables?: EnvironmentVariable[];
-    image: string;
+    image?: string;
     readonly instanceView?: ContainerPropertiesInstanceView;
     livenessProbe?: ContainerProbe;
     name: string;
     ports?: ContainerPort[];
     readinessProbe?: ContainerProbe;
-    resources: ResourceRequirements;
+    resources?: ResourceRequirements;
     securityContext?: SecurityContextDefinition;
     volumeMounts?: VolumeMount[];
 }
@@ -150,8 +158,15 @@ export type ContainerGroupNetworkProtocol = string;
 export type ContainerGroupPriority = string;
 
 // @public
+export interface ContainerGroupProfileReferenceDefinition {
+    id?: string;
+    revision?: number;
+}
+
+// @public
 export interface ContainerGroupProperties {
     confidentialComputeProperties?: ConfidentialComputeProperties;
+    containerGroupProfile?: ContainerGroupProfileReferenceDefinition;
     containers: Container[];
     diagnostics?: ContainerGroupDiagnostics;
     dnsConfig?: DnsConfiguration;
@@ -162,11 +177,13 @@ export interface ContainerGroupProperties {
     initContainers?: InitContainerDefinition[];
     readonly instanceView?: ContainerGroupPropertiesInstanceView;
     ipAddress?: IpAddress;
-    osType: OperatingSystemTypes;
+    readonly isCreatedFromStandbyPool?: boolean;
+    osType?: OperatingSystemTypes;
     priority?: ContainerGroupPriority;
     readonly provisioningState?: string;
     restartPolicy?: ContainerGroupRestartPolicy;
     sku?: ContainerGroupSku;
+    standbyPoolProfile?: StandbyPoolProfileDefinition;
     subnetIds?: ContainerGroupSubnetId[];
     volumes?: Volume[];
 }
@@ -748,6 +765,12 @@ export interface SecurityContextDefinition {
     runAsGroup?: number;
     runAsUser?: number;
     seccompProfile?: string;
+}
+
+// @public
+export interface StandbyPoolProfileDefinition {
+    failContainerGroupCreateOnReuseFailure?: boolean;
+    id?: string;
 }
 
 // @public

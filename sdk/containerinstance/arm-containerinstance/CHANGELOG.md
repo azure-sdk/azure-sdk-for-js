@@ -1,15 +1,19 @@
 # Release History
+    
+## 9.2.0-beta.1 (2024-06-26)
+Compared with version 9.1.0
+    
+**Features**
 
-## 9.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface ConfigMap
+  - Added Interface ContainerGroupProfileReferenceDefinition
+  - Added Interface StandbyPoolProfileDefinition
+  - Interface Container has a new optional parameter configMap
+  - Interface ContainerGroupProperties has a new optional parameter containerGroupProfile
+  - Interface ContainerGroupProperties has a new optional parameter isCreatedFromStandbyPool
+  - Interface ContainerGroupProperties has a new optional parameter standbyPoolProfile
+    
+    
 ## 9.1.0 (2023-04-24)
     
 **Features**
@@ -89,4 +93,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).
