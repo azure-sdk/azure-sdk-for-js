@@ -523,6 +523,79 @@ export const TrafficAnalyticsConfigurationProperties: coreClient.CompositeMapper
     },
   };
 
+export const ManagedServiceIdentity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedServiceIdentity",
+    modelProperties: {
+      principalId: {
+        serializedName: "principalId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      tenantId: {
+        serializedName: "tenantId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "SystemAssigned",
+            "UserAssigned",
+            "SystemAssigned, UserAssigned",
+            "None",
+          ],
+        },
+      },
+      userAssignedIdentities: {
+        serializedName: "userAssignedIdentities",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className:
+                "Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className:
+        "Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties",
+      modelProperties: {
+        principalId: {
+          serializedName: "principalId",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        clientId: {
+          serializedName: "clientId",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
 export const ServiceEndpointPropertiesFormat: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -532,6 +605,13 @@ export const ServiceEndpointPropertiesFormat: coreClient.CompositeMapper = {
         serializedName: "service",
         type: {
           name: "String",
+        },
+      },
+      networkIdentifier: {
+        serializedName: "networkIdentifier",
+        type: {
+          name: "Composite",
+          className: "SubResource",
         },
       },
       locations: {
@@ -1329,79 +1409,6 @@ export const ApplicationGatewayGlobalConfiguration: coreClient.CompositeMapper =
           serializedName: "enableResponseBuffering",
           type: {
             name: "Boolean",
-          },
-        },
-      },
-    },
-  };
-
-export const ManagedServiceIdentity: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManagedServiceIdentity",
-    modelProperties: {
-      principalId: {
-        serializedName: "principalId",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      tenantId: {
-        serializedName: "tenantId",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      type: {
-        serializedName: "type",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "SystemAssigned",
-            "UserAssigned",
-            "SystemAssigned, UserAssigned",
-            "None",
-          ],
-        },
-      },
-      userAssignedIdentities: {
-        serializedName: "userAssignedIdentities",
-        type: {
-          name: "Dictionary",
-          value: {
-            type: {
-              name: "Composite",
-              className:
-                "Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties",
-            },
-          },
-        },
-      },
-    },
-  },
-};
-
-export const Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className:
-        "Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties",
-      modelProperties: {
-        principalId: {
-          serializedName: "principalId",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
-        },
-        clientId: {
-          serializedName: "clientId",
-          readOnly: true,
-          type: {
-            name: "String",
           },
         },
       },
@@ -2670,6 +2677,77 @@ export const IPPrefixesList: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "String",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const FirewallPacketCaptureParameters: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FirewallPacketCaptureParameters",
+    modelProperties: {
+      durationInSeconds: {
+        constraints: {
+          InclusiveMaximum: 1800,
+          InclusiveMinimum: 30,
+        },
+        serializedName: "durationInSeconds",
+        type: {
+          name: "Number",
+        },
+      },
+      numberOfPacketsToCapture: {
+        constraints: {
+          InclusiveMaximum: 90000,
+          InclusiveMinimum: 100,
+        },
+        serializedName: "numberOfPacketsToCapture",
+        type: {
+          name: "Number",
+        },
+      },
+      sasUrl: {
+        serializedName: "sasUrl",
+        type: {
+          name: "String",
+        },
+      },
+      fileName: {
+        serializedName: "fileName",
+        type: {
+          name: "String",
+        },
+      },
+      protocol: {
+        serializedName: "protocol",
+        type: {
+          name: "String",
+        },
+      },
+      flags: {
+        serializedName: "flags",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AzureFirewallPacketCaptureFlags",
+            },
+          },
+        },
+      },
+      filters: {
+        serializedName: "filters",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AzureFirewallPacketCaptureRule",
             },
           },
         },
@@ -9277,9 +9355,22 @@ export const FlowLogInformation: coreClient.CompositeMapper = {
           className: "TrafficAnalyticsProperties",
         },
       },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "ManagedServiceIdentity",
+        },
+      },
       storageId: {
         serializedName: "properties.storageId",
         required: true,
+        type: {
+          name: "String",
+        },
+      },
+      enabledFilteringCriteria: {
+        serializedName: "properties.enabledFilteringCriteria",
         type: {
           name: "String",
         },
@@ -20938,78 +21029,6 @@ export const AzureFirewallIPConfiguration: coreClient.CompositeMapper = {
   },
 };
 
-export const FirewallPacketCaptureParameters: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "FirewallPacketCaptureParameters",
-    modelProperties: {
-      ...SubResource.type.modelProperties,
-      durationInSeconds: {
-        constraints: {
-          InclusiveMaximum: 1800,
-          InclusiveMinimum: 30,
-        },
-        serializedName: "properties.durationInSeconds",
-        type: {
-          name: "Number",
-        },
-      },
-      numberOfPacketsToCapture: {
-        constraints: {
-          InclusiveMaximum: 90000,
-          InclusiveMinimum: 100,
-        },
-        serializedName: "properties.numberOfPacketsToCapture",
-        type: {
-          name: "Number",
-        },
-      },
-      sasUrl: {
-        serializedName: "properties.sasUrl",
-        type: {
-          name: "String",
-        },
-      },
-      fileName: {
-        serializedName: "properties.fileName",
-        type: {
-          name: "String",
-        },
-      },
-      protocol: {
-        serializedName: "properties.protocol",
-        type: {
-          name: "String",
-        },
-      },
-      flags: {
-        serializedName: "properties.flags",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "AzureFirewallPacketCaptureFlags",
-            },
-          },
-        },
-      },
-      filters: {
-        serializedName: "properties.filters",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "AzureFirewallPacketCaptureRule",
-            },
-          },
-        },
-      },
-    },
-  },
-};
-
 export const BastionHostIPConfiguration: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -21125,6 +21144,13 @@ export const ExpressRouteCircuitAuthorization: coreClient.CompositeMapper = {
       },
       authorizationUseStatus: {
         serializedName: "properties.authorizationUseStatus",
+        type: {
+          name: "String",
+        },
+      },
+      connectionResourceUri: {
+        serializedName: "properties.connectionResourceUri",
+        readOnly: true,
         type: {
           name: "String",
         },
@@ -22026,6 +22052,12 @@ export const Probe: coreClient.CompositeMapper = {
         serializedName: "properties.intervalInSeconds",
         type: {
           name: "Number",
+        },
+      },
+      noHealthyBackendsBehavior: {
+        serializedName: "properties.NoHealthyBackendsBehavior",
+        type: {
+          name: "String",
         },
       },
       numberOfProbes: {
@@ -24976,6 +25008,13 @@ export const FlowLog: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "ManagedServiceIdentity",
+        },
+      },
       targetResourceId: {
         serializedName: "properties.targetResourceId",
         type: {
@@ -24991,6 +25030,12 @@ export const FlowLog: coreClient.CompositeMapper = {
       },
       storageId: {
         serializedName: "properties.storageId",
+        type: {
+          name: "String",
+        },
+      },
+      enabledFilteringCriteria: {
+        serializedName: "properties.enabledFilteringCriteria",
         type: {
           name: "String",
         },
@@ -26382,6 +26427,13 @@ export const BastionHost: coreClient.CompositeMapper = {
       enableKerberos: {
         defaultValue: false,
         serializedName: "properties.enableKerberos",
+        type: {
+          name: "Boolean",
+        },
+      },
+      enableSessionRecording: {
+        defaultValue: false,
+        serializedName: "properties.enableSessionRecording",
         type: {
           name: "Boolean",
         },
@@ -28508,6 +28560,13 @@ export const VirtualNetworkGateway: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String",
+        },
+      },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "ManagedServiceIdentity",
         },
       },
       autoScaleConfiguration: {
