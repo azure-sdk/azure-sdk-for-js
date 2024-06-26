@@ -8,6 +8,12 @@
 
 import * as coreClient from "@azure/core-client";
 
+export type ClientConnectionCountRuleUnion =
+  | ClientConnectionCountRule
+  | ThrottleByJwtCustomClaimRule
+  | ThrottleByJwtSignatureRule
+  | ThrottleByUserIdRule;
+
 /** Result of the request to list REST API operations. It contains a list of operations. */
 export interface OperationList {
   /** List of operations supported by the resource provider. */
@@ -219,7 +225,7 @@ export interface ResourceSku {
   /**
    * The name of the SKU. Required.
    *
-   * Allowed values: Standard_S1, Free_F1, Premium_P1
+   * Allowed values: Standard_S1, Free_F1, Premium_P1, Premium_P2
    */
   name: string;
   /**
@@ -239,12 +245,14 @@ export interface ResourceSku {
    */
   readonly family?: string;
   /**
-   * Optional, integer. The unit count of the resource. 1 by default.
+   * Optional, integer. The unit count of the resource.
+   * 1 for Free_F1/Standard_S1/Premium_P1, 100 for Premium_P2 by default.
    *
    * If present, following values are allowed:
-   *     Free: 1;
-   *     Standard: 1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100;
-   *     Premium:  1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100;
+   *     Free_F1: 1;
+   *     Standard_S1: 1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100;
+   *     Premium_P1:  1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100;
+   *     Premium_P2:  100,200,300,400,500,600,700,800,900,1000;
    */
   capacity?: number;
 }
@@ -489,6 +497,21 @@ export interface IPRule {
   action?: ACLAction;
 }
 
+/** Application firewall settings for the resource */
+export interface ApplicationFirewallSettings {
+  /** Rules to control the client connection count */
+  clientConnectionCountRules?: ClientConnectionCountRuleUnion[];
+}
+
+/** A base class for client connection count rules */
+export interface ClientConnectionCountRule {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type:
+    | "ThrottleByJwtCustomClaimRule"
+    | "ThrottleByJwtSignatureRule"
+    | "ThrottleByUserIdRule";
+}
+
 /** A class represent managed identities used for request and response */
 export interface ManagedIdentity {
   /** Represents the identity type: systemAssigned, userAssigned, None */
@@ -618,6 +641,14 @@ export interface ReplicaList {
   nextLink?: string;
 }
 
+/** A list of shared private link resources */
+export interface SharedPrivateLinkResourceList {
+  /** The list of the shared private link resources */
+  value?: SharedPrivateLinkResource[];
+  /** Request URL that can be used to query next page of private endpoint connections. Returned when the total number of requested private endpoint connections exceed maximum page size. */
+  nextLink?: string;
+}
+
 /** The list skus operation response */
 export interface SkuList {
   /**
@@ -681,14 +712,6 @@ export interface SkuCapacity {
   readonly scaleType?: ScaleType;
 }
 
-/** A list of shared private link resources */
-export interface SharedPrivateLinkResourceList {
-  /** The list of the shared private link resources */
-  value?: SharedPrivateLinkResource[];
-  /** Request URL that can be used to query next page of private endpoint connections. Returned when the total number of requested private endpoint connections exceed maximum page size. */
-  nextLink?: string;
-}
-
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
@@ -704,6 +727,33 @@ export interface TrackedResource extends Resource {
 export interface PrivateEndpointACL extends NetworkACL {
   /** Name of the private endpoint connection */
   name: string;
+}
+
+/** Throttle the client connection by a custom JWT claim */
+export interface ThrottleByJwtCustomClaimRule
+  extends ClientConnectionCountRule {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "ThrottleByJwtCustomClaimRule";
+  /** The name of the claim in the JWT token. The client connection with the same claim value will be aggregated. If the claim is not found in the token, the connection will be allowed. */
+  claimName: string;
+  /** Maximum connection count allowed for the same Jwt claim value. Clients with the same Jwt claim will get rejected if the connection count exceeds this value. Default value is 20. */
+  maxCount?: number;
+}
+
+/** Throttle the client connection by the JWT signature */
+export interface ThrottleByJwtSignatureRule extends ClientConnectionCountRule {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "ThrottleByJwtSignatureRule";
+  /** Maximum connection count allowed for the same JWT signature. Clients with the same JWT signature will get rejected if the connection count exceeds this value. Default value is 20. */
+  maxCount?: number;
+}
+
+/** Throttle the client connection by the user ID */
+export interface ThrottleByUserIdRule extends ClientConnectionCountRule {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "ThrottleByUserIdRule";
+  /** Maximum connection count allowed for the same user ID. Clients with the same user ID will get rejected if the connection count exceeds this value. Default value is 20. */
+  maxCount?: number;
 }
 
 /** A private endpoint connection to an azure resource */
@@ -860,6 +910,8 @@ export interface SignalRResource extends TrackedResource {
   upstream?: ServerlessUpstreamSettings;
   /** Network ACLs for the resource */
   networkACLs?: SignalRNetworkACLs;
+  /** Application firewall settings for the resource */
+  applicationFirewall?: ApplicationFirewallSettings;
   /**
    * Enable or disable public network access. Default to "Enabled".
    * When it's Enabled, network ACLs still apply.
@@ -948,7 +1000,7 @@ export enum KnownSignalRSkuTier {
   /** Standard */
   Standard = "Standard",
   /** Premium */
-  Premium = "Premium"
+  Premium = "Premium",
 }
 
 /**
@@ -982,7 +1034,7 @@ export enum KnownProvisioningState {
   /** Deleting */
   Deleting = "Deleting",
   /** Moving */
-  Moving = "Moving"
+  Moving = "Moving",
 }
 
 /**
@@ -1011,7 +1063,7 @@ export enum KnownPrivateLinkServiceConnectionStatus {
   /** Rejected */
   Rejected = "Rejected",
   /** Disconnected */
-  Disconnected = "Disconnected"
+  Disconnected = "Disconnected",
 }
 
 /**
@@ -1035,7 +1087,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -1061,7 +1113,7 @@ export enum KnownSharedPrivateLinkResourceStatus {
   /** Disconnected */
   Disconnected = "Disconnected",
   /** Timeout */
-  Timeout = "Timeout"
+  Timeout = "Timeout",
 }
 
 /**
@@ -1086,7 +1138,7 @@ export enum KnownFeatureFlags {
   /** EnableMessagingLogs */
   EnableMessagingLogs = "EnableMessagingLogs",
   /** EnableLiveTrace */
-  EnableLiveTrace = "EnableLiveTrace"
+  EnableLiveTrace = "EnableLiveTrace",
 }
 
 /**
@@ -1106,7 +1158,7 @@ export enum KnownUpstreamAuthType {
   /** None */
   None = "None",
   /** ManagedIdentity */
-  ManagedIdentity = "ManagedIdentity"
+  ManagedIdentity = "ManagedIdentity",
 }
 
 /**
@@ -1124,7 +1176,7 @@ export enum KnownACLAction {
   /** Allow */
   Allow = "Allow",
   /** Deny */
-  Deny = "Deny"
+  Deny = "Deny",
 }
 
 /**
@@ -1146,7 +1198,7 @@ export enum KnownSignalRRequestType {
   /** Restapi */
   Restapi = "RESTAPI",
   /** Trace */
-  Trace = "Trace"
+  Trace = "Trace",
 }
 
 /**
@@ -1161,12 +1213,33 @@ export enum KnownSignalRRequestType {
  */
 export type SignalRRequestType = string;
 
+/** Known values of {@link ClientConnectionCountRuleDiscriminator} that the service accepts. */
+export enum KnownClientConnectionCountRuleDiscriminator {
+  /** ThrottleByJwtSignatureRule */
+  ThrottleByJwtSignatureRule = "ThrottleByJwtSignatureRule",
+  /** ThrottleByUserIdRule */
+  ThrottleByUserIdRule = "ThrottleByUserIdRule",
+  /** ThrottleByJwtCustomClaimRule */
+  ThrottleByJwtCustomClaimRule = "ThrottleByJwtCustomClaimRule",
+}
+
+/**
+ * Defines values for ClientConnectionCountRuleDiscriminator. \
+ * {@link KnownClientConnectionCountRuleDiscriminator} can be used interchangeably with ClientConnectionCountRuleDiscriminator,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ThrottleByJwtSignatureRule** \
+ * **ThrottleByUserIdRule** \
+ * **ThrottleByJwtCustomClaimRule**
+ */
+export type ClientConnectionCountRuleDiscriminator = string;
+
 /** Known values of {@link ServiceKind} that the service accepts. */
 export enum KnownServiceKind {
   /** SignalR */
   SignalR = "SignalR",
   /** RawWebSockets */
-  RawWebSockets = "RawWebSockets"
+  RawWebSockets = "RawWebSockets",
 }
 
 /**
@@ -1186,7 +1259,7 @@ export enum KnownManagedIdentityType {
   /** SystemAssigned */
   SystemAssigned = "SystemAssigned",
   /** UserAssigned */
-  UserAssigned = "UserAssigned"
+  UserAssigned = "UserAssigned",
 }
 
 /**
@@ -1207,7 +1280,7 @@ export enum KnownKeyType {
   /** Secondary */
   Secondary = "Secondary",
   /** Salt */
-  Salt = "Salt"
+  Salt = "Salt",
 }
 
 /**
@@ -1228,7 +1301,7 @@ export enum KnownScaleType {
   /** Manual */
   Manual = "Manual",
   /** Automatic */
-  Automatic = "Automatic"
+  Automatic = "Automatic",
 }
 
 /**
@@ -1472,21 +1545,24 @@ export interface SignalRPrivateEndpointConnectionsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type SignalRPrivateEndpointConnectionsListResponse = PrivateEndpointConnectionList;
+export type SignalRPrivateEndpointConnectionsListResponse =
+  PrivateEndpointConnectionList;
 
 /** Optional parameters. */
 export interface SignalRPrivateEndpointConnectionsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type SignalRPrivateEndpointConnectionsGetResponse = PrivateEndpointConnection;
+export type SignalRPrivateEndpointConnectionsGetResponse =
+  PrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface SignalRPrivateEndpointConnectionsUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
-export type SignalRPrivateEndpointConnectionsUpdateResponse = PrivateEndpointConnection;
+export type SignalRPrivateEndpointConnectionsUpdateResponse =
+  PrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface SignalRPrivateEndpointConnectionsDeleteOptionalParams
@@ -1502,7 +1578,8 @@ export interface SignalRPrivateEndpointConnectionsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type SignalRPrivateEndpointConnectionsListNextResponse = PrivateEndpointConnectionList;
+export type SignalRPrivateEndpointConnectionsListNextResponse =
+  PrivateEndpointConnectionList;
 
 /** Optional parameters. */
 export interface SignalRPrivateLinkResourcesListOptionalParams
@@ -1516,7 +1593,8 @@ export interface SignalRPrivateLinkResourcesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type SignalRPrivateLinkResourcesListNextResponse = PrivateLinkResourceList;
+export type SignalRPrivateLinkResourcesListNextResponse =
+  PrivateLinkResourceList;
 
 /** Optional parameters. */
 export interface SignalRReplicasListOptionalParams
@@ -1580,18 +1658,57 @@ export interface SignalRReplicasListNextOptionalParams
 export type SignalRReplicasListNextResponse = ReplicaList;
 
 /** Optional parameters. */
+export interface SignalRReplicaSharedPrivateLinkResourcesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type SignalRReplicaSharedPrivateLinkResourcesListResponse =
+  SharedPrivateLinkResourceList;
+
+/** Optional parameters. */
+export interface SignalRReplicaSharedPrivateLinkResourcesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SignalRReplicaSharedPrivateLinkResourcesGetResponse =
+  SharedPrivateLinkResource;
+
+/** Optional parameters. */
+export interface SignalRReplicaSharedPrivateLinkResourcesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type SignalRReplicaSharedPrivateLinkResourcesCreateOrUpdateResponse =
+  SharedPrivateLinkResource;
+
+/** Optional parameters. */
+export interface SignalRReplicaSharedPrivateLinkResourcesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type SignalRReplicaSharedPrivateLinkResourcesListNextResponse =
+  SharedPrivateLinkResourceList;
+
+/** Optional parameters. */
 export interface SignalRSharedPrivateLinkResourcesListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type SignalRSharedPrivateLinkResourcesListResponse = SharedPrivateLinkResourceList;
+export type SignalRSharedPrivateLinkResourcesListResponse =
+  SharedPrivateLinkResourceList;
 
 /** Optional parameters. */
 export interface SignalRSharedPrivateLinkResourcesGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type SignalRSharedPrivateLinkResourcesGetResponse = SharedPrivateLinkResource;
+export type SignalRSharedPrivateLinkResourcesGetResponse =
+  SharedPrivateLinkResource;
 
 /** Optional parameters. */
 export interface SignalRSharedPrivateLinkResourcesCreateOrUpdateOptionalParams
@@ -1603,7 +1720,8 @@ export interface SignalRSharedPrivateLinkResourcesCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type SignalRSharedPrivateLinkResourcesCreateOrUpdateResponse = SharedPrivateLinkResource;
+export type SignalRSharedPrivateLinkResourcesCreateOrUpdateResponse =
+  SharedPrivateLinkResource;
 
 /** Optional parameters. */
 export interface SignalRSharedPrivateLinkResourcesDeleteOptionalParams
@@ -1619,7 +1737,8 @@ export interface SignalRSharedPrivateLinkResourcesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type SignalRSharedPrivateLinkResourcesListNextResponse = SharedPrivateLinkResourceList;
+export type SignalRSharedPrivateLinkResourcesListNextResponse =
+  SharedPrivateLinkResourceList;
 
 /** Optional parameters. */
 export interface SignalRManagementClientOptionalParams
