@@ -14,6 +14,16 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { MonitorClient } from "../monitorClient";
 import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
+import {
+  NetworkSecurityPerimeterConfiguration,
+  DataCollectionEndpointsListNSPNextOptionalParams,
+  DataCollectionEndpointsListNSPOptionalParams,
+  DataCollectionEndpointsListNSPResponse,
   DataCollectionEndpointResource,
   DataCollectionEndpointsListByResourceGroupNextOptionalParams,
   DataCollectionEndpointsListByResourceGroupOptionalParams,
@@ -21,6 +31,10 @@ import {
   DataCollectionEndpointsListBySubscriptionNextOptionalParams,
   DataCollectionEndpointsListBySubscriptionOptionalParams,
   DataCollectionEndpointsListBySubscriptionResponse,
+  DataCollectionEndpointsGetNSPOptionalParams,
+  DataCollectionEndpointsGetNSPResponse,
+  DataCollectionEndpointsReconcileNSPOptionalParams,
+  DataCollectionEndpointsReconcileNSPResponse,
   DataCollectionEndpointsGetOptionalParams,
   DataCollectionEndpointsGetResponse,
   DataCollectionEndpointsCreateOptionalParams,
@@ -28,6 +42,7 @@ import {
   DataCollectionEndpointsUpdateOptionalParams,
   DataCollectionEndpointsUpdateResponse,
   DataCollectionEndpointsDeleteOptionalParams,
+  DataCollectionEndpointsListNSPNextResponse,
   DataCollectionEndpointsListByResourceGroupNextResponse,
   DataCollectionEndpointsListBySubscriptionNextResponse,
 } from "../models";
@@ -43,6 +58,91 @@ export class DataCollectionEndpointsImpl implements DataCollectionEndpoints {
    */
   constructor(client: MonitorClient) {
     this.client = client;
+  }
+
+  /**
+   * Gets a list of NSP configurations for the specified data collection endpoint.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param dataCollectionEndpointName The name of the data collection endpoint. The name is case
+   *                                   insensitive.
+   * @param options The options parameters.
+   */
+  public listNSP(
+    resourceGroupName: string,
+    dataCollectionEndpointName: string,
+    options?: DataCollectionEndpointsListNSPOptionalParams,
+  ): PagedAsyncIterableIterator<NetworkSecurityPerimeterConfiguration> {
+    const iter = this.listNSPPagingAll(
+      resourceGroupName,
+      dataCollectionEndpointName,
+      options,
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listNSPPagingPage(
+          resourceGroupName,
+          dataCollectionEndpointName,
+          options,
+          settings,
+        );
+      },
+    };
+  }
+
+  private async *listNSPPagingPage(
+    resourceGroupName: string,
+    dataCollectionEndpointName: string,
+    options?: DataCollectionEndpointsListNSPOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<NetworkSecurityPerimeterConfiguration[]> {
+    let result: DataCollectionEndpointsListNSPResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listNSP(
+        resourceGroupName,
+        dataCollectionEndpointName,
+        options,
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listNSPNext(
+        resourceGroupName,
+        dataCollectionEndpointName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listNSPPagingAll(
+    resourceGroupName: string,
+    dataCollectionEndpointName: string,
+    options?: DataCollectionEndpointsListNSPOptionalParams,
+  ): AsyncIterableIterator<NetworkSecurityPerimeterConfiguration> {
+    for await (const page of this.listNSPPagingPage(
+      resourceGroupName,
+      dataCollectionEndpointName,
+      options,
+    )) {
+      yield* page;
+    }
   }
 
   /**
@@ -169,6 +269,154 @@ export class DataCollectionEndpointsImpl implements DataCollectionEndpoints {
   }
 
   /**
+   * Gets a list of NSP configurations for the specified data collection endpoint.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param dataCollectionEndpointName The name of the data collection endpoint. The name is case
+   *                                   insensitive.
+   * @param options The options parameters.
+   */
+  private _listNSP(
+    resourceGroupName: string,
+    dataCollectionEndpointName: string,
+    options?: DataCollectionEndpointsListNSPOptionalParams,
+  ): Promise<DataCollectionEndpointsListNSPResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, dataCollectionEndpointName, options },
+      listNSPOperationSpec,
+    );
+  }
+
+  /**
+   * Gets the specified NSP configuration for the specified data collection endpoint.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param dataCollectionEndpointName The name of the data collection endpoint. The name is case
+   *                                   insensitive.
+   * @param networkSecurityPerimeterConfigurationName The name for a network security perimeter
+   *                                                  configuration
+   * @param options The options parameters.
+   */
+  getNSP(
+    resourceGroupName: string,
+    dataCollectionEndpointName: string,
+    networkSecurityPerimeterConfigurationName: string,
+    options?: DataCollectionEndpointsGetNSPOptionalParams,
+  ): Promise<DataCollectionEndpointsGetNSPResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        dataCollectionEndpointName,
+        networkSecurityPerimeterConfigurationName,
+        options,
+      },
+      getNSPOperationSpec,
+    );
+  }
+
+  /**
+   * Reconciles the specified NSP configuration for the specified data collection endpoint.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param dataCollectionEndpointName The name of the data collection endpoint. The name is case
+   *                                   insensitive.
+   * @param networkSecurityPerimeterConfigurationName The name for a network security perimeter
+   *                                                  configuration
+   * @param options The options parameters.
+   */
+  async beginReconcileNSP(
+    resourceGroupName: string,
+    dataCollectionEndpointName: string,
+    networkSecurityPerimeterConfigurationName: string,
+    options?: DataCollectionEndpointsReconcileNSPOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<DataCollectionEndpointsReconcileNSPResponse>,
+      DataCollectionEndpointsReconcileNSPResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<DataCollectionEndpointsReconcileNSPResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        dataCollectionEndpointName,
+        networkSecurityPerimeterConfigurationName,
+        options,
+      },
+      spec: reconcileNSPOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      DataCollectionEndpointsReconcileNSPResponse,
+      OperationState<DataCollectionEndpointsReconcileNSPResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Reconciles the specified NSP configuration for the specified data collection endpoint.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param dataCollectionEndpointName The name of the data collection endpoint. The name is case
+   *                                   insensitive.
+   * @param networkSecurityPerimeterConfigurationName The name for a network security perimeter
+   *                                                  configuration
+   * @param options The options parameters.
+   */
+  async beginReconcileNSPAndWait(
+    resourceGroupName: string,
+    dataCollectionEndpointName: string,
+    networkSecurityPerimeterConfigurationName: string,
+    options?: DataCollectionEndpointsReconcileNSPOptionalParams,
+  ): Promise<DataCollectionEndpointsReconcileNSPResponse> {
+    const poller = await this.beginReconcileNSP(
+      resourceGroupName,
+      dataCollectionEndpointName,
+      networkSecurityPerimeterConfigurationName,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * Lists all data collection endpoints in the specified resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
@@ -269,6 +517,26 @@ export class DataCollectionEndpointsImpl implements DataCollectionEndpoints {
   }
 
   /**
+   * ListNSPNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param dataCollectionEndpointName The name of the data collection endpoint. The name is case
+   *                                   insensitive.
+   * @param nextLink The nextLink from the previous successful call to the ListNSP method.
+   * @param options The options parameters.
+   */
+  private _listNSPNext(
+    resourceGroupName: string,
+    dataCollectionEndpointName: string,
+    nextLink: string,
+    options?: DataCollectionEndpointsListNSPNextOptionalParams,
+  ): Promise<DataCollectionEndpointsListNSPNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, dataCollectionEndpointName, nextLink, options },
+      listNSPNextOperationSpec,
+    );
+  }
+
+  /**
    * ListByResourceGroupNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
@@ -303,6 +571,80 @@ export class DataCollectionEndpointsImpl implements DataCollectionEndpoints {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listNSPOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/dataCollectionEndpoints/{dataCollectionEndpointName}/networkSecurityPerimeterConfigurations",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.NetworkSecurityPerimeterConfigurationListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.dataCollectionEndpointName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getNSPOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/dataCollectionEndpoints/{dataCollectionEndpointName}/networkSecurityPerimeterConfigurations/{networkSecurityPerimeterConfigurationName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.NetworkSecurityPerimeterConfiguration,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.networkSecurityPerimeterConfigurationName,
+    Parameters.dataCollectionEndpointName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const reconcileNSPOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/dataCollectionEndpoints/{dataCollectionEndpointName}/networkSecurityPerimeterConfigurations/{networkSecurityPerimeterConfigurationName}/reconcile",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper: Mappers.DataCollectionEndpointsReconcileNSPHeaders,
+    },
+    201: {
+      headersMapper: Mappers.DataCollectionEndpointsReconcileNSPHeaders,
+    },
+    202: {
+      headersMapper: Mappers.DataCollectionEndpointsReconcileNSPHeaders,
+    },
+    204: {
+      headersMapper: Mappers.DataCollectionEndpointsReconcileNSPHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.networkSecurityPerimeterConfigurationName,
+    Parameters.dataCollectionEndpointName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/dataCollectionEndpoints",
   httpMethod: "GET",
@@ -314,11 +656,11 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponseCommonV2,
     },
   },
-  queryParameters: [Parameters.apiVersion14],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -334,7 +676,7 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponseCommonV2,
     },
   },
-  queryParameters: [Parameters.apiVersion14],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
@@ -350,12 +692,12 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponseCommonV2,
     },
   },
-  queryParameters: [Parameters.apiVersion14],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.dataCollectionEndpointName,
+    Parameters.subscriptionId,
+    Parameters.dataCollectionEndpointName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -374,13 +716,13 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponseCommonV2,
     },
   },
-  requestBody: Parameters.body1,
-  queryParameters: [Parameters.apiVersion14],
+  requestBody: Parameters.body,
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.dataCollectionEndpointName,
+    Parameters.subscriptionId,
+    Parameters.dataCollectionEndpointName1,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -397,13 +739,13 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponseCommonV2,
     },
   },
-  requestBody: Parameters.body2,
-  queryParameters: [Parameters.apiVersion14],
+  requestBody: Parameters.body1,
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.dataCollectionEndpointName,
+    Parameters.subscriptionId,
+    Parameters.dataCollectionEndpointName1,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -419,11 +761,32 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponseCommonV2,
     },
   },
-  queryParameters: [Parameters.apiVersion14],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.dataCollectionEndpointName1,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listNSPNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.NetworkSecurityPerimeterConfigurationListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
     Parameters.dataCollectionEndpointName,
   ],
   headerParameters: [Parameters.accept],
@@ -442,8 +805,8 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
