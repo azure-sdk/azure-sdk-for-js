@@ -14,43 +14,43 @@ import {
   QuotasGetResponse,
   QuotaBucketRequest,
   QuotasCheckAvailabilityOptionalParams,
-  QuotasCheckAvailabilityResponse
+  QuotasCheckAvailabilityResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Quotas. */
 export interface Quotas {
   /**
-   * Lists all the available quota per region per subscription.
-   * @param location The name of Azure region.
+   * List quotas for a given subscription Id.
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   list(
     location: string,
-    options?: QuotasListOptionalParams
+    options?: QuotasListOptionalParams,
   ): PagedAsyncIterableIterator<QuotaResource>;
   /**
    * Get the available quota for a quota bucket per region per subscription.
-   * @param location The name of Azure region.
-   * @param quotaBucketName Quota Bucket name.
+   * @param location The name of the Azure region.
+   * @param quotaBucketName The quota name.
    * @param options The options parameters.
    */
   get(
     location: string,
     quotaBucketName: string,
-    options?: QuotasGetOptionalParams
+    options?: QuotasGetOptionalParams,
   ): Promise<QuotasGetResponse>;
   /**
    * Check Quota Availability on quota bucket per region per subscription.
-   * @param location The name of Azure region.
-   * @param quotaBucketName Quota Bucket name.
-   * @param quotaBucketRequest Quota Bucket Request data
+   * @param location The name of the Azure region.
+   * @param quotaBucketName The quota name.
+   * @param body The content of the action request
    * @param options The options parameters.
    */
   checkAvailability(
     location: string,
     quotaBucketName: string,
-    quotaBucketRequest: QuotaBucketRequest,
-    options?: QuotasCheckAvailabilityOptionalParams
+    body: QuotaBucketRequest,
+    options?: QuotasCheckAvailabilityOptionalParams,
   ): Promise<QuotasCheckAvailabilityResponse>;
 }
