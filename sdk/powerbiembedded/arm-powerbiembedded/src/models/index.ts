@@ -137,7 +137,7 @@ export interface MigrateWorkspaceCollectionRequest {
 /** Known values of {@link AzureSkuName} that the service accepts. */
 export enum KnownAzureSkuName {
   /** S1 */
-  S1 = "S1"
+  S1 = "S1",
 }
 
 /**
@@ -152,7 +152,7 @@ export type AzureSkuName = string;
 /** Known values of {@link AzureSkuTier} that the service accepts. */
 export enum KnownAzureSkuTier {
   /** Standard */
-  Standard = "Standard"
+  Standard = "Standard",
 }
 
 /**
@@ -169,7 +169,7 @@ export enum KnownCheckNameReason {
   /** Unavailable */
   Unavailable = "Unavailable",
   /** Invalid */
-  Invalid = "Invalid"
+  Invalid = "Invalid",
 }
 
 /**
@@ -219,35 +219,40 @@ export interface WorkspaceCollectionsCheckNameAvailabilityOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkNameAvailability operation. */
-export type WorkspaceCollectionsCheckNameAvailabilityResponse = CheckNameResponse;
+export type WorkspaceCollectionsCheckNameAvailabilityResponse =
+  CheckNameResponse;
 
 /** Optional parameters. */
 export interface WorkspaceCollectionsListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type WorkspaceCollectionsListByResourceGroupResponse = WorkspaceCollectionList;
+export type WorkspaceCollectionsListByResourceGroupResponse =
+  WorkspaceCollectionList;
 
 /** Optional parameters. */
 export interface WorkspaceCollectionsListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type WorkspaceCollectionsListBySubscriptionResponse = WorkspaceCollectionList;
+export type WorkspaceCollectionsListBySubscriptionResponse =
+  WorkspaceCollectionList;
 
 /** Optional parameters. */
 export interface WorkspaceCollectionsGetAccessKeysOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getAccessKeys operation. */
-export type WorkspaceCollectionsGetAccessKeysResponse = WorkspaceCollectionAccessKeys;
+export type WorkspaceCollectionsGetAccessKeysResponse =
+  WorkspaceCollectionAccessKeys;
 
 /** Optional parameters. */
 export interface WorkspaceCollectionsRegenerateKeyOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the regenerateKey operation. */
-export type WorkspaceCollectionsRegenerateKeyResponse = WorkspaceCollectionAccessKeys;
+export type WorkspaceCollectionsRegenerateKeyResponse =
+  WorkspaceCollectionAccessKeys;
 
 /** Optional parameters. */
 export interface WorkspaceCollectionsMigrateOptionalParams

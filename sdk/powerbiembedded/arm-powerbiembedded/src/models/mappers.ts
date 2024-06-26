@@ -16,50 +16,50 @@ export const WorkspaceCollection: coreClient.CompositeMapper = {
       id: {
         serializedName: "id",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       type: {
         serializedName: "type",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       location: {
         serializedName: "location",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       tags: {
         serializedName: "tags",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
+          value: { type: { name: "String" } },
+        },
       },
       sku: {
         serializedName: "sku",
         type: {
           name: "Composite",
-          className: "AzureSku"
-        }
+          className: "AzureSku",
+        },
       },
       properties: {
         serializedName: "properties",
         type: {
           name: "Dictionary",
-          value: { type: { name: "any" } }
-        }
-      }
-    }
-  }
+          value: { type: { name: "any" } },
+        },
+      },
+    },
+  },
 };
 
 export const AzureSku: coreClient.CompositeMapper = {
@@ -71,18 +71,18 @@ export const AzureSku: coreClient.CompositeMapper = {
         serializedName: "name",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       tier: {
         serializedName: "tier",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ErrorModel: coreClient.CompositeMapper = {
@@ -93,20 +93,20 @@ export const ErrorModel: coreClient.CompositeMapper = {
       code: {
         serializedName: "code",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       message: {
         serializedName: "message",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       target: {
         serializedName: "target",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       details: {
         serializedName: "details",
@@ -115,13 +115,13 @@ export const ErrorModel: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ErrorDetail"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "ErrorDetail",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const ErrorDetail: coreClient.CompositeMapper = {
@@ -132,23 +132,23 @@ export const ErrorDetail: coreClient.CompositeMapper = {
       code: {
         serializedName: "code",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       message: {
         serializedName: "message",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       target: {
         serializedName: "target",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const CreateWorkspaceCollectionRequest: coreClient.CompositeMapper = {
@@ -159,25 +159,25 @@ export const CreateWorkspaceCollectionRequest: coreClient.CompositeMapper = {
       location: {
         serializedName: "location",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       tags: {
         serializedName: "tags",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
+          value: { type: { name: "String" } },
+        },
       },
       sku: {
         serializedName: "sku",
         type: {
           name: "Composite",
-          className: "AzureSku"
-        }
-      }
-    }
-  }
+          className: "AzureSku",
+        },
+      },
+    },
+  },
 };
 
 export const UpdateWorkspaceCollectionRequest: coreClient.CompositeMapper = {
@@ -189,18 +189,18 @@ export const UpdateWorkspaceCollectionRequest: coreClient.CompositeMapper = {
         serializedName: "tags",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
+          value: { type: { name: "String" } },
+        },
       },
       sku: {
         serializedName: "sku",
         type: {
           name: "Composite",
-          className: "AzureSku"
-        }
-      }
-    }
-  }
+          className: "AzureSku",
+        },
+      },
+    },
+  },
 };
 
 export const CheckNameRequest: coreClient.CompositeMapper = {
@@ -211,18 +211,18 @@ export const CheckNameRequest: coreClient.CompositeMapper = {
       name: {
         serializedName: "name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       type: {
         defaultValue: "Microsoft.PowerBI/workspaceCollections",
         serializedName: "type",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const CheckNameResponse: coreClient.CompositeMapper = {
@@ -233,23 +233,23 @@ export const CheckNameResponse: coreClient.CompositeMapper = {
       nameAvailable: {
         serializedName: "nameAvailable",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       reason: {
         serializedName: "reason",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       message: {
         serializedName: "message",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const WorkspaceCollectionList: coreClient.CompositeMapper = {
@@ -264,13 +264,13 @@ export const WorkspaceCollectionList: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "WorkspaceCollection"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "WorkspaceCollection",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const WorkspaceCollectionAccessKeys: coreClient.CompositeMapper = {
@@ -281,17 +281,17 @@ export const WorkspaceCollectionAccessKeys: coreClient.CompositeMapper = {
       key1: {
         serializedName: "key1",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       key2: {
         serializedName: "key2",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const WorkspaceCollectionAccessKey: coreClient.CompositeMapper = {
@@ -303,11 +303,11 @@ export const WorkspaceCollectionAccessKey: coreClient.CompositeMapper = {
         serializedName: "keyName",
         type: {
           name: "Enum",
-          allowedValues: ["key1", "key2"]
-        }
-      }
-    }
-  }
+          allowedValues: ["key1", "key2"],
+        },
+      },
+    },
+  },
 };
 
 export const OperationList: coreClient.CompositeMapper = {
@@ -322,13 +322,13 @@ export const OperationList: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "Operation"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "Operation",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const Operation: coreClient.CompositeMapper = {
@@ -339,18 +339,18 @@ export const Operation: coreClient.CompositeMapper = {
       name: {
         serializedName: "name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       display: {
         serializedName: "display",
         type: {
           name: "Composite",
-          className: "Display"
-        }
-      }
-    }
-  }
+          className: "Display",
+        },
+      },
+    },
+  },
 };
 
 export const Display: coreClient.CompositeMapper = {
@@ -361,35 +361,35 @@ export const Display: coreClient.CompositeMapper = {
       provider: {
         serializedName: "provider",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       resource: {
         serializedName: "resource",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       operation: {
         serializedName: "operation",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       description: {
         serializedName: "description",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       origin: {
         serializedName: "origin",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const WorkspaceList: coreClient.CompositeMapper = {
@@ -404,13 +404,13 @@ export const WorkspaceList: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "Workspace"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "Workspace",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const Workspace: coreClient.CompositeMapper = {
@@ -421,30 +421,30 @@ export const Workspace: coreClient.CompositeMapper = {
       id: {
         serializedName: "id",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       type: {
         serializedName: "type",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       properties: {
         serializedName: "properties",
         type: {
           name: "Dictionary",
-          value: { type: { name: "any" } }
-        }
-      }
-    }
-  }
+          value: { type: { name: "any" } },
+        },
+      },
+    },
+  },
 };
 
 export const MigrateWorkspaceCollectionRequest: coreClient.CompositeMapper = {
@@ -455,8 +455,8 @@ export const MigrateWorkspaceCollectionRequest: coreClient.CompositeMapper = {
       targetResourceGroup: {
         serializedName: "targetResourceGroup",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       resources: {
         serializedName: "resources",
@@ -464,11 +464,11 @@ export const MigrateWorkspaceCollectionRequest: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
+              name: "String",
+            },
+          },
+        },
+      },
+    },
+  },
 };

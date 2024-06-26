@@ -21,6 +21,6 @@ export interface Workspaces {
   list(
     resourceGroupName: string,
     workspaceCollectionName: string,
-    options?: WorkspacesListOptionalParams
+    options?: WorkspacesListOptionalParams,
   ): PagedAsyncIterableIterator<Workspace>;
 }

@@ -1,15 +1,11 @@
 # Release History
+    
+## 3.0.0 (2024-06-26)
+    
+**Breaking Changes**
 
-## 2.0.3 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Class PowerBIEmbeddedManagementClient has a new signature
+    
 ## 2.0.2 (2022-12-05)
 
 **Features**
@@ -34,4 +30,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).
