@@ -407,6 +407,12 @@ export interface OsProfile {
 }
 
 // @public
+export interface PagedQuota {
+    nextLink?: string;
+    value: Quota[];
+}
+
+// @public
 export interface Pool extends TrackedResource {
     identity?: ManagedServiceIdentity;
     properties?: PoolProperties;
@@ -558,28 +564,18 @@ export interface ProxyResource extends Resource {
 }
 
 // @public
-export interface Quota extends ProxyResource {
-    properties?: QuotaProperties;
-}
-
-// @public
-export interface QuotaListResult {
-    nextLink?: string;
-    value: Quota[];
+export interface Quota {
+    currentValue: number;
+    id: string;
+    limit: number;
+    readonly name?: QuotaName;
+    unit: string;
 }
 
 // @public
 export interface QuotaName {
     localizedValue?: string;
     value?: string;
-}
-
-// @public
-export interface QuotaProperties {
-    currentValue: number;
-    limit: number;
-    name: QuotaName;
-    unit: string;
 }
 
 // @public
@@ -772,22 +768,22 @@ export interface StorageProfile {
 
 // @public
 export interface SubscriptionUsages {
-    listByLocation(locationName: string, options?: SubscriptionUsagesListByLocationOptionalParams): PagedAsyncIterableIterator<Quota>;
+    listUsages(location: string, options?: SubscriptionUsagesUsagesOptionalParams): PagedAsyncIterableIterator<Quota>;
 }
 
 // @public
-export interface SubscriptionUsagesListByLocationNextOptionalParams extends coreClient.OperationOptions {
+export interface SubscriptionUsagesUsagesNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type SubscriptionUsagesListByLocationNextResponse = QuotaListResult;
+export type SubscriptionUsagesUsagesNextResponse = PagedQuota;
 
 // @public
-export interface SubscriptionUsagesListByLocationOptionalParams extends coreClient.OperationOptions {
+export interface SubscriptionUsagesUsagesOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type SubscriptionUsagesListByLocationResponse = QuotaListResult;
+export type SubscriptionUsagesUsagesResponse = PagedQuota;
 
 // @public
 export interface SystemData {
