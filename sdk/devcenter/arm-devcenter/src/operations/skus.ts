@@ -15,9 +15,13 @@ import * as Parameters from "../models/parameters";
 import { DevCenterClient } from "../devCenterClient";
 import {
   DevCenterSku,
+  SkusListByProjectNextOptionalParams,
+  SkusListByProjectOptionalParams,
+  SkusListByProjectResponse,
   SkusListBySubscriptionNextOptionalParams,
   SkusListBySubscriptionOptionalParams,
   SkusListBySubscriptionResponse,
+  SkusListByProjectNextResponse,
   SkusListBySubscriptionNextResponse,
 } from "../models";
 
@@ -32,6 +36,90 @@ export class SkusImpl implements Skus {
    */
   constructor(client: DevCenterClient) {
     this.client = client;
+  }
+
+  /**
+   * Lists SKUs available to the project
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param projectName The name of the project.
+   * @param options The options parameters.
+   */
+  public listByProject(
+    resourceGroupName: string,
+    projectName: string,
+    options?: SkusListByProjectOptionalParams,
+  ): PagedAsyncIterableIterator<DevCenterSku> {
+    const iter = this.listByProjectPagingAll(
+      resourceGroupName,
+      projectName,
+      options,
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByProjectPagingPage(
+          resourceGroupName,
+          projectName,
+          options,
+          settings,
+        );
+      },
+    };
+  }
+
+  private async *listByProjectPagingPage(
+    resourceGroupName: string,
+    projectName: string,
+    options?: SkusListByProjectOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<DevCenterSku[]> {
+    let result: SkusListByProjectResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByProject(
+        resourceGroupName,
+        projectName,
+        options,
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByProjectNext(
+        resourceGroupName,
+        projectName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listByProjectPagingAll(
+    resourceGroupName: string,
+    projectName: string,
+    options?: SkusListByProjectOptionalParams,
+  ): AsyncIterableIterator<DevCenterSku> {
+    for await (const page of this.listByProjectPagingPage(
+      resourceGroupName,
+      projectName,
+      options,
+    )) {
+      yield* page;
+    }
   }
 
   /**
@@ -89,6 +177,23 @@ export class SkusImpl implements Skus {
   }
 
   /**
+   * Lists SKUs available to the project
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param projectName The name of the project.
+   * @param options The options parameters.
+   */
+  private _listByProject(
+    resourceGroupName: string,
+    projectName: string,
+    options?: SkusListByProjectOptionalParams,
+  ): Promise<SkusListByProjectResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, projectName, options },
+      listByProjectOperationSpec,
+    );
+  }
+
+  /**
    * Lists the Microsoft.DevCenter SKUs available in a subscription
    * @param options The options parameters.
    */
@@ -98,6 +203,25 @@ export class SkusImpl implements Skus {
     return this.client.sendOperationRequest(
       { options },
       listBySubscriptionOperationSpec,
+    );
+  }
+
+  /**
+   * ListByProjectNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param projectName The name of the project.
+   * @param nextLink The nextLink from the previous successful call to the ListByProject method.
+   * @param options The options parameters.
+   */
+  private _listByProjectNext(
+    resourceGroupName: string,
+    projectName: string,
+    nextLink: string,
+    options?: SkusListByProjectNextOptionalParams,
+  ): Promise<SkusListByProjectNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, projectName, nextLink, options },
+      listByProjectNextOperationSpec,
     );
   }
 
@@ -119,6 +243,27 @@ export class SkusImpl implements Skus {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listByProjectOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/listSkus",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SkuListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.projectName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/providers/Microsoft.DevCenter/skus",
   httpMethod: "GET",
@@ -132,6 +277,27 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listByProjectNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SkuListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.nextLink,
+    Parameters.projectName,
+  ],
   headerParameters: [Parameters.accept],
   serializer,
 };

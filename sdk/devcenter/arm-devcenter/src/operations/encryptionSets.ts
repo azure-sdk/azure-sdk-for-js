@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { Projects } from "../operationsInterfaces";
+import { EncryptionSets } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,35 +20,29 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  Project,
-  ProjectsListBySubscriptionNextOptionalParams,
-  ProjectsListBySubscriptionOptionalParams,
-  ProjectsListBySubscriptionResponse,
-  ProjectsListByResourceGroupNextOptionalParams,
-  ProjectsListByResourceGroupOptionalParams,
-  ProjectsListByResourceGroupResponse,
-  ProjectsGetOptionalParams,
-  ProjectsGetResponse,
-  ProjectsCreateOrUpdateOptionalParams,
-  ProjectsCreateOrUpdateResponse,
-  ProjectUpdate,
-  ProjectsUpdateOptionalParams,
-  ProjectsUpdateResponse,
-  ProjectsDeleteOptionalParams,
-  ProjectsDeleteResponse,
-  ProjectsGetInheritedSettingsOptionalParams,
-  ProjectsGetInheritedSettingsResponse,
-  ProjectsListBySubscriptionNextResponse,
-  ProjectsListByResourceGroupNextResponse,
+  DevCenterEncryptionSet,
+  EncryptionSetsListNextOptionalParams,
+  EncryptionSetsListOptionalParams,
+  EncryptionSetsListResponse,
+  EncryptionSetsGetOptionalParams,
+  EncryptionSetsGetResponse,
+  EncryptionSetsCreateOrUpdateOptionalParams,
+  EncryptionSetsCreateOrUpdateResponse,
+  EncryptionSetUpdate,
+  EncryptionSetsUpdateOptionalParams,
+  EncryptionSetsUpdateResponse,
+  EncryptionSetsDeleteOptionalParams,
+  EncryptionSetsDeleteResponse,
+  EncryptionSetsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Projects operations. */
-export class ProjectsImpl implements Projects {
+/** Class containing EncryptionSets operations. */
+export class EncryptionSetsImpl implements EncryptionSets {
   private readonly client: DevCenterClient;
 
   /**
-   * Initialize a new instance of the class Projects class.
+   * Initialize a new instance of the class EncryptionSets class.
    * @param client Reference to the service client
    */
   constructor(client: DevCenterClient) {
@@ -56,69 +50,17 @@ export class ProjectsImpl implements Projects {
   }
 
   /**
-   * Lists all projects in the subscription.
-   * @param options The options parameters.
-   */
-  public listBySubscription(
-    options?: ProjectsListBySubscriptionOptionalParams,
-  ): PagedAsyncIterableIterator<Project> {
-    const iter = this.listBySubscriptionPagingAll(options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listBySubscriptionPagingPage(options, settings);
-      },
-    };
-  }
-
-  private async *listBySubscriptionPagingPage(
-    options?: ProjectsListBySubscriptionOptionalParams,
-    settings?: PageSettings,
-  ): AsyncIterableIterator<Project[]> {
-    let result: ProjectsListBySubscriptionResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listBySubscription(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listBySubscriptionNext(continuationToken, options);
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listBySubscriptionPagingAll(
-    options?: ProjectsListBySubscriptionOptionalParams,
-  ): AsyncIterableIterator<Project> {
-    for await (const page of this.listBySubscriptionPagingPage(options)) {
-      yield* page;
-    }
-  }
-
-  /**
-   * Lists all projects in the resource group.
+   * Lists all encryption sets in the devcenter.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param devCenterName The name of the devcenter.
    * @param options The options parameters.
    */
-  public listByResourceGroup(
+  public list(
     resourceGroupName: string,
-    options?: ProjectsListByResourceGroupOptionalParams,
-  ): PagedAsyncIterableIterator<Project> {
-    const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
+    devCenterName: string,
+    options?: EncryptionSetsListOptionalParams,
+  ): PagedAsyncIterableIterator<DevCenterEncryptionSet> {
+    const iter = this.listPagingAll(resourceGroupName, devCenterName, options);
     return {
       next() {
         return iter.next();
@@ -130,8 +72,9 @@ export class ProjectsImpl implements Projects {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
+        return this.listPagingPage(
           resourceGroupName,
+          devCenterName,
           options,
           settings,
         );
@@ -139,23 +82,25 @@ export class ProjectsImpl implements Projects {
     };
   }
 
-  private async *listByResourceGroupPagingPage(
+  private async *listPagingPage(
     resourceGroupName: string,
-    options?: ProjectsListByResourceGroupOptionalParams,
+    devCenterName: string,
+    options?: EncryptionSetsListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<Project[]> {
-    let result: ProjectsListByResourceGroupResponse;
+  ): AsyncIterableIterator<DevCenterEncryptionSet[]> {
+    let result: EncryptionSetsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByResourceGroup(resourceGroupName, options);
+      result = await this._list(resourceGroupName, devCenterName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
+      result = await this._listNext(
         resourceGroupName,
+        devCenterName,
         continuationToken,
         options,
       );
@@ -166,12 +111,14 @@ export class ProjectsImpl implements Projects {
     }
   }
 
-  private async *listByResourceGroupPagingAll(
+  private async *listPagingAll(
     resourceGroupName: string,
-    options?: ProjectsListByResourceGroupOptionalParams,
-  ): AsyncIterableIterator<Project> {
-    for await (const page of this.listByResourceGroupPagingPage(
+    devCenterName: string,
+    options?: EncryptionSetsListOptionalParams,
+  ): AsyncIterableIterator<DevCenterEncryptionSet> {
+    for await (const page of this.listPagingPage(
       resourceGroupName,
+      devCenterName,
       options,
     )) {
       yield* page;
@@ -179,72 +126,65 @@ export class ProjectsImpl implements Projects {
   }
 
   /**
-   * Lists all projects in the subscription.
-   * @param options The options parameters.
-   */
-  private _listBySubscription(
-    options?: ProjectsListBySubscriptionOptionalParams,
-  ): Promise<ProjectsListBySubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listBySubscriptionOperationSpec,
-    );
-  }
-
-  /**
-   * Lists all projects in the resource group.
+   * Lists all encryption sets in the devcenter.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param devCenterName The name of the devcenter.
    * @param options The options parameters.
    */
-  private _listByResourceGroup(
+  private _list(
     resourceGroupName: string,
-    options?: ProjectsListByResourceGroupOptionalParams,
-  ): Promise<ProjectsListByResourceGroupResponse> {
+    devCenterName: string,
+    options?: EncryptionSetsListOptionalParams,
+  ): Promise<EncryptionSetsListResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listByResourceGroupOperationSpec,
+      { resourceGroupName, devCenterName, options },
+      listOperationSpec,
     );
   }
 
   /**
-   * Gets a specific project.
+   * Gets a devcenter encryption set.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param projectName The name of the project.
+   * @param devCenterName The name of the devcenter.
+   * @param encryptionSetName The name of the devcenter encryption set.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    projectName: string,
-    options?: ProjectsGetOptionalParams,
-  ): Promise<ProjectsGetResponse> {
+    devCenterName: string,
+    encryptionSetName: string,
+    options?: EncryptionSetsGetOptionalParams,
+  ): Promise<EncryptionSetsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, projectName, options },
+      { resourceGroupName, devCenterName, encryptionSetName, options },
       getOperationSpec,
     );
   }
 
   /**
-   * Creates or updates a project.
+   * Creates or updates a devcenter encryption set resource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param projectName The name of the project.
-   * @param body Represents a project.
+   * @param devCenterName The name of the devcenter.
+   * @param encryptionSetName The name of the devcenter encryption set.
+   * @param body Represents a devcenter encryption set.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
-    projectName: string,
-    body: Project,
-    options?: ProjectsCreateOrUpdateOptionalParams,
+    devCenterName: string,
+    encryptionSetName: string,
+    body: DevCenterEncryptionSet,
+    options?: EncryptionSetsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<ProjectsCreateOrUpdateResponse>,
-      ProjectsCreateOrUpdateResponse
+      OperationState<EncryptionSetsCreateOrUpdateResponse>,
+      EncryptionSetsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<ProjectsCreateOrUpdateResponse> => {
+    ): Promise<EncryptionSetsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -281,12 +221,18 @@ export class ProjectsImpl implements Projects {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, projectName, body, options },
+      args: {
+        resourceGroupName,
+        devCenterName,
+        encryptionSetName,
+        body,
+        options,
+      },
       spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
-      ProjectsCreateOrUpdateResponse,
-      OperationState<ProjectsCreateOrUpdateResponse>
+      EncryptionSetsCreateOrUpdateResponse,
+      OperationState<EncryptionSetsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -297,21 +243,24 @@ export class ProjectsImpl implements Projects {
   }
 
   /**
-   * Creates or updates a project.
+   * Creates or updates a devcenter encryption set resource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param projectName The name of the project.
-   * @param body Represents a project.
+   * @param devCenterName The name of the devcenter.
+   * @param encryptionSetName The name of the devcenter encryption set.
+   * @param body Represents a devcenter encryption set.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
-    projectName: string,
-    body: Project,
-    options?: ProjectsCreateOrUpdateOptionalParams,
-  ): Promise<ProjectsCreateOrUpdateResponse> {
+    devCenterName: string,
+    encryptionSetName: string,
+    body: DevCenterEncryptionSet,
+    options?: EncryptionSetsCreateOrUpdateOptionalParams,
+  ): Promise<EncryptionSetsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
-      projectName,
+      devCenterName,
+      encryptionSetName,
       body,
       options,
     );
@@ -319,27 +268,29 @@ export class ProjectsImpl implements Projects {
   }
 
   /**
-   * Partially updates a project.
+   * Partially updates a devcenter encryption set.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param projectName The name of the project.
-   * @param body Updatable project properties.
+   * @param devCenterName The name of the devcenter.
+   * @param encryptionSetName The name of the devcenter encryption set.
+   * @param body Updatable devcenter encryption set properties.
    * @param options The options parameters.
    */
   async beginUpdate(
     resourceGroupName: string,
-    projectName: string,
-    body: ProjectUpdate,
-    options?: ProjectsUpdateOptionalParams,
+    devCenterName: string,
+    encryptionSetName: string,
+    body: EncryptionSetUpdate,
+    options?: EncryptionSetsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<ProjectsUpdateResponse>,
-      ProjectsUpdateResponse
+      OperationState<EncryptionSetsUpdateResponse>,
+      EncryptionSetsUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<ProjectsUpdateResponse> => {
+    ): Promise<EncryptionSetsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -376,12 +327,18 @@ export class ProjectsImpl implements Projects {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, projectName, body, options },
+      args: {
+        resourceGroupName,
+        devCenterName,
+        encryptionSetName,
+        body,
+        options,
+      },
       spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
-      ProjectsUpdateResponse,
-      OperationState<ProjectsUpdateResponse>
+      EncryptionSetsUpdateResponse,
+      OperationState<EncryptionSetsUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -392,21 +349,24 @@ export class ProjectsImpl implements Projects {
   }
 
   /**
-   * Partially updates a project.
+   * Partially updates a devcenter encryption set.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param projectName The name of the project.
-   * @param body Updatable project properties.
+   * @param devCenterName The name of the devcenter.
+   * @param encryptionSetName The name of the devcenter encryption set.
+   * @param body Updatable devcenter encryption set properties.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
-    projectName: string,
-    body: ProjectUpdate,
-    options?: ProjectsUpdateOptionalParams,
-  ): Promise<ProjectsUpdateResponse> {
+    devCenterName: string,
+    encryptionSetName: string,
+    body: EncryptionSetUpdate,
+    options?: EncryptionSetsUpdateOptionalParams,
+  ): Promise<EncryptionSetsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
-      projectName,
+      devCenterName,
+      encryptionSetName,
       body,
       options,
     );
@@ -414,25 +374,27 @@ export class ProjectsImpl implements Projects {
   }
 
   /**
-   * Deletes a project resource.
+   * Deletes a devcenter encryption set
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param projectName The name of the project.
+   * @param devCenterName The name of the devcenter.
+   * @param encryptionSetName The name of the devcenter encryption set.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
-    projectName: string,
-    options?: ProjectsDeleteOptionalParams,
+    devCenterName: string,
+    encryptionSetName: string,
+    options?: EncryptionSetsDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<ProjectsDeleteResponse>,
-      ProjectsDeleteResponse
+      OperationState<EncryptionSetsDeleteResponse>,
+      EncryptionSetsDeleteResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<ProjectsDeleteResponse> => {
+    ): Promise<EncryptionSetsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -469,12 +431,12 @@ export class ProjectsImpl implements Projects {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, projectName, options },
+      args: { resourceGroupName, devCenterName, encryptionSetName, options },
       spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
-      ProjectsDeleteResponse,
-      OperationState<ProjectsDeleteResponse>
+      EncryptionSetsDeleteResponse,
+      OperationState<EncryptionSetsDeleteResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -485,98 +447,55 @@ export class ProjectsImpl implements Projects {
   }
 
   /**
-   * Deletes a project resource.
+   * Deletes a devcenter encryption set
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param projectName The name of the project.
+   * @param devCenterName The name of the devcenter.
+   * @param encryptionSetName The name of the devcenter encryption set.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
-    projectName: string,
-    options?: ProjectsDeleteOptionalParams,
-  ): Promise<ProjectsDeleteResponse> {
+    devCenterName: string,
+    encryptionSetName: string,
+    options?: EncryptionSetsDeleteOptionalParams,
+  ): Promise<EncryptionSetsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
-      projectName,
+      devCenterName,
+      encryptionSetName,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Gets applicable inherited settings for this project.
+   * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param projectName The name of the project.
+   * @param devCenterName The name of the devcenter.
+   * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
-  getInheritedSettings(
+  private _listNext(
     resourceGroupName: string,
-    projectName: string,
-    options?: ProjectsGetInheritedSettingsOptionalParams,
-  ): Promise<ProjectsGetInheritedSettingsResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, projectName, options },
-      getInheritedSettingsOperationSpec,
-    );
-  }
-
-  /**
-   * ListBySubscriptionNext
-   * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
-   * @param options The options parameters.
-   */
-  private _listBySubscriptionNext(
+    devCenterName: string,
     nextLink: string,
-    options?: ProjectsListBySubscriptionNextOptionalParams,
-  ): Promise<ProjectsListBySubscriptionNextResponse> {
+    options?: EncryptionSetsListNextOptionalParams,
+  ): Promise<EncryptionSetsListNextResponse> {
     return this.client.sendOperationRequest(
-      { nextLink, options },
-      listBySubscriptionNextOperationSpec,
-    );
-  }
-
-  /**
-   * ListByResourceGroupNext
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
-   * @param options The options parameters.
-   */
-  private _listByResourceGroupNext(
-    resourceGroupName: string,
-    nextLink: string,
-    options?: ProjectsListByResourceGroupNextOptionalParams,
-  ): Promise<ProjectsListByResourceGroupNextResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec,
+      { resourceGroupName, devCenterName, nextLink, options },
+      listNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DevCenter/projects",
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/encryptionSets",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProjectListResult,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.top],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ProjectListResult,
+      bodyMapper: Mappers.EncryptionSetListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -587,16 +506,17 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.devCenterName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/encryptionSets/{encryptionSetName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Project,
+      bodyMapper: Mappers.DevCenterEncryptionSet,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -607,90 +527,93 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.projectName,
+    Parameters.devCenterName,
+    Parameters.encryptionSetName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/encryptionSets/{encryptionSetName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Project,
+      bodyMapper: Mappers.DevCenterEncryptionSet,
     },
     201: {
-      bodyMapper: Mappers.Project,
+      bodyMapper: Mappers.DevCenterEncryptionSet,
     },
     202: {
-      bodyMapper: Mappers.Project,
+      bodyMapper: Mappers.DevCenterEncryptionSet,
     },
     204: {
-      bodyMapper: Mappers.Project,
+      bodyMapper: Mappers.DevCenterEncryptionSet,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body8,
+  requestBody: Parameters.body6,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.projectName,
+    Parameters.devCenterName,
+    Parameters.encryptionSetName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/encryptionSets/{encryptionSetName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Project,
+      bodyMapper: Mappers.DevCenterEncryptionSet,
     },
     201: {
-      bodyMapper: Mappers.Project,
+      bodyMapper: Mappers.DevCenterEncryptionSet,
     },
     202: {
-      bodyMapper: Mappers.Project,
+      bodyMapper: Mappers.DevCenterEncryptionSet,
     },
     204: {
-      bodyMapper: Mappers.Project,
+      bodyMapper: Mappers.DevCenterEncryptionSet,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body9,
+  requestBody: Parameters.body7,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.projectName,
+    Parameters.devCenterName,
+    Parameters.encryptionSetName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/encryptionSets/{encryptionSetName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.ProjectsDeleteHeaders,
+      headersMapper: Mappers.EncryptionSetsDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.ProjectsDeleteHeaders,
+      headersMapper: Mappers.EncryptionSetsDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.ProjectsDeleteHeaders,
+      headersMapper: Mappers.EncryptionSetsDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.ProjectsDeleteHeaders,
+      headersMapper: Mappers.EncryptionSetsDeleteHeaders,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -701,57 +624,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.projectName,
+    Parameters.devCenterName,
+    Parameters.encryptionSetName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const getInheritedSettingsOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/getInheritedSettings",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.InheritedSettingsForProject,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.projectName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
+const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProjectListResult,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ProjectListResult,
+      bodyMapper: Mappers.EncryptionSetListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -762,6 +646,7 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
+    Parameters.devCenterName,
   ],
   headerParameters: [Parameters.accept],
   serializer,

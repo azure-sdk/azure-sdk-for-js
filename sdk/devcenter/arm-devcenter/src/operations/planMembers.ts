@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { Projects } from "../operationsInterfaces";
+import { PlanMembers } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,35 +20,29 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  Project,
-  ProjectsListBySubscriptionNextOptionalParams,
-  ProjectsListBySubscriptionOptionalParams,
-  ProjectsListBySubscriptionResponse,
-  ProjectsListByResourceGroupNextOptionalParams,
-  ProjectsListByResourceGroupOptionalParams,
-  ProjectsListByResourceGroupResponse,
-  ProjectsGetOptionalParams,
-  ProjectsGetResponse,
-  ProjectsCreateOrUpdateOptionalParams,
-  ProjectsCreateOrUpdateResponse,
-  ProjectUpdate,
-  ProjectsUpdateOptionalParams,
-  ProjectsUpdateResponse,
-  ProjectsDeleteOptionalParams,
-  ProjectsDeleteResponse,
-  ProjectsGetInheritedSettingsOptionalParams,
-  ProjectsGetInheritedSettingsResponse,
-  ProjectsListBySubscriptionNextResponse,
-  ProjectsListByResourceGroupNextResponse,
+  DevCenterPlanMember,
+  PlanMembersListNextOptionalParams,
+  PlanMembersListOptionalParams,
+  PlanMembersListResponse,
+  PlanMembersGetOptionalParams,
+  PlanMembersGetResponse,
+  PlanMembersCreateOrUpdateOptionalParams,
+  PlanMembersCreateOrUpdateResponse,
+  PlanMemberUpdate,
+  PlanMembersUpdateOptionalParams,
+  PlanMembersUpdateResponse,
+  PlanMembersDeleteOptionalParams,
+  PlanMembersDeleteResponse,
+  PlanMembersListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Projects operations. */
-export class ProjectsImpl implements Projects {
+/** Class containing PlanMembers operations. */
+export class PlanMembersImpl implements PlanMembers {
   private readonly client: DevCenterClient;
 
   /**
-   * Initialize a new instance of the class Projects class.
+   * Initialize a new instance of the class PlanMembers class.
    * @param client Reference to the service client
    */
   constructor(client: DevCenterClient) {
@@ -56,69 +50,17 @@ export class ProjectsImpl implements Projects {
   }
 
   /**
-   * Lists all projects in the subscription.
-   * @param options The options parameters.
-   */
-  public listBySubscription(
-    options?: ProjectsListBySubscriptionOptionalParams,
-  ): PagedAsyncIterableIterator<Project> {
-    const iter = this.listBySubscriptionPagingAll(options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listBySubscriptionPagingPage(options, settings);
-      },
-    };
-  }
-
-  private async *listBySubscriptionPagingPage(
-    options?: ProjectsListBySubscriptionOptionalParams,
-    settings?: PageSettings,
-  ): AsyncIterableIterator<Project[]> {
-    let result: ProjectsListBySubscriptionResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listBySubscription(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listBySubscriptionNext(continuationToken, options);
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listBySubscriptionPagingAll(
-    options?: ProjectsListBySubscriptionOptionalParams,
-  ): AsyncIterableIterator<Project> {
-    for await (const page of this.listBySubscriptionPagingPage(options)) {
-      yield* page;
-    }
-  }
-
-  /**
-   * Lists all projects in the resource group.
+   * Lists all of the members assigned to a devcenter plan.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param planName The name of the devcenter plan.
    * @param options The options parameters.
    */
-  public listByResourceGroup(
+  public list(
     resourceGroupName: string,
-    options?: ProjectsListByResourceGroupOptionalParams,
-  ): PagedAsyncIterableIterator<Project> {
-    const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
+    planName: string,
+    options?: PlanMembersListOptionalParams,
+  ): PagedAsyncIterableIterator<DevCenterPlanMember> {
+    const iter = this.listPagingAll(resourceGroupName, planName, options);
     return {
       next() {
         return iter.next();
@@ -130,8 +72,9 @@ export class ProjectsImpl implements Projects {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
+        return this.listPagingPage(
           resourceGroupName,
+          planName,
           options,
           settings,
         );
@@ -139,23 +82,25 @@ export class ProjectsImpl implements Projects {
     };
   }
 
-  private async *listByResourceGroupPagingPage(
+  private async *listPagingPage(
     resourceGroupName: string,
-    options?: ProjectsListByResourceGroupOptionalParams,
+    planName: string,
+    options?: PlanMembersListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<Project[]> {
-    let result: ProjectsListByResourceGroupResponse;
+  ): AsyncIterableIterator<DevCenterPlanMember[]> {
+    let result: PlanMembersListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByResourceGroup(resourceGroupName, options);
+      result = await this._list(resourceGroupName, planName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
+      result = await this._listNext(
         resourceGroupName,
+        planName,
         continuationToken,
         options,
       );
@@ -166,12 +111,14 @@ export class ProjectsImpl implements Projects {
     }
   }
 
-  private async *listByResourceGroupPagingAll(
+  private async *listPagingAll(
     resourceGroupName: string,
-    options?: ProjectsListByResourceGroupOptionalParams,
-  ): AsyncIterableIterator<Project> {
-    for await (const page of this.listByResourceGroupPagingPage(
+    planName: string,
+    options?: PlanMembersListOptionalParams,
+  ): AsyncIterableIterator<DevCenterPlanMember> {
+    for await (const page of this.listPagingPage(
       resourceGroupName,
+      planName,
       options,
     )) {
       yield* page;
@@ -179,72 +126,65 @@ export class ProjectsImpl implements Projects {
   }
 
   /**
-   * Lists all projects in the subscription.
-   * @param options The options parameters.
-   */
-  private _listBySubscription(
-    options?: ProjectsListBySubscriptionOptionalParams,
-  ): Promise<ProjectsListBySubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listBySubscriptionOperationSpec,
-    );
-  }
-
-  /**
-   * Lists all projects in the resource group.
+   * Lists all of the members assigned to a devcenter plan.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param planName The name of the devcenter plan.
    * @param options The options parameters.
    */
-  private _listByResourceGroup(
+  private _list(
     resourceGroupName: string,
-    options?: ProjectsListByResourceGroupOptionalParams,
-  ): Promise<ProjectsListByResourceGroupResponse> {
+    planName: string,
+    options?: PlanMembersListOptionalParams,
+  ): Promise<PlanMembersListResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listByResourceGroupOperationSpec,
+      { resourceGroupName, planName, options },
+      listOperationSpec,
     );
   }
 
   /**
-   * Gets a specific project.
+   * Gets a devcenter plan member.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param projectName The name of the project.
+   * @param planName The name of the devcenter plan.
+   * @param memberName The name of a devcenter plan member.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    projectName: string,
-    options?: ProjectsGetOptionalParams,
-  ): Promise<ProjectsGetResponse> {
+    planName: string,
+    memberName: string,
+    options?: PlanMembersGetOptionalParams,
+  ): Promise<PlanMembersGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, projectName, options },
+      { resourceGroupName, planName, memberName, options },
       getOperationSpec,
     );
   }
 
   /**
-   * Creates or updates a project.
+   * Creates or updates a devcenter plan member resource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param projectName The name of the project.
-   * @param body Represents a project.
+   * @param planName The name of the devcenter plan.
+   * @param memberName The name of a devcenter plan member.
+   * @param body Represents a devcenter plan.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
-    projectName: string,
-    body: Project,
-    options?: ProjectsCreateOrUpdateOptionalParams,
+    planName: string,
+    memberName: string,
+    body: DevCenterPlanMember,
+    options?: PlanMembersCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<ProjectsCreateOrUpdateResponse>,
-      ProjectsCreateOrUpdateResponse
+      OperationState<PlanMembersCreateOrUpdateResponse>,
+      PlanMembersCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<ProjectsCreateOrUpdateResponse> => {
+    ): Promise<PlanMembersCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -281,12 +221,12 @@ export class ProjectsImpl implements Projects {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, projectName, body, options },
+      args: { resourceGroupName, planName, memberName, body, options },
       spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
-      ProjectsCreateOrUpdateResponse,
-      OperationState<ProjectsCreateOrUpdateResponse>
+      PlanMembersCreateOrUpdateResponse,
+      OperationState<PlanMembersCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -297,21 +237,24 @@ export class ProjectsImpl implements Projects {
   }
 
   /**
-   * Creates or updates a project.
+   * Creates or updates a devcenter plan member resource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param projectName The name of the project.
-   * @param body Represents a project.
+   * @param planName The name of the devcenter plan.
+   * @param memberName The name of a devcenter plan member.
+   * @param body Represents a devcenter plan.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
-    projectName: string,
-    body: Project,
-    options?: ProjectsCreateOrUpdateOptionalParams,
-  ): Promise<ProjectsCreateOrUpdateResponse> {
+    planName: string,
+    memberName: string,
+    body: DevCenterPlanMember,
+    options?: PlanMembersCreateOrUpdateOptionalParams,
+  ): Promise<PlanMembersCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
-      projectName,
+      planName,
+      memberName,
       body,
       options,
     );
@@ -319,27 +262,29 @@ export class ProjectsImpl implements Projects {
   }
 
   /**
-   * Partially updates a project.
+   * Partially updates a devcenter plan.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param projectName The name of the project.
-   * @param body Updatable project properties.
+   * @param planName The name of the devcenter plan.
+   * @param memberName The name of a devcenter plan member.
+   * @param body Updatable devcenter plan properties.
    * @param options The options parameters.
    */
   async beginUpdate(
     resourceGroupName: string,
-    projectName: string,
-    body: ProjectUpdate,
-    options?: ProjectsUpdateOptionalParams,
+    planName: string,
+    memberName: string,
+    body: PlanMemberUpdate,
+    options?: PlanMembersUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<ProjectsUpdateResponse>,
-      ProjectsUpdateResponse
+      OperationState<PlanMembersUpdateResponse>,
+      PlanMembersUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<ProjectsUpdateResponse> => {
+    ): Promise<PlanMembersUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -376,12 +321,12 @@ export class ProjectsImpl implements Projects {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, projectName, body, options },
+      args: { resourceGroupName, planName, memberName, body, options },
       spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
-      ProjectsUpdateResponse,
-      OperationState<ProjectsUpdateResponse>
+      PlanMembersUpdateResponse,
+      OperationState<PlanMembersUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -392,21 +337,24 @@ export class ProjectsImpl implements Projects {
   }
 
   /**
-   * Partially updates a project.
+   * Partially updates a devcenter plan.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param projectName The name of the project.
-   * @param body Updatable project properties.
+   * @param planName The name of the devcenter plan.
+   * @param memberName The name of a devcenter plan member.
+   * @param body Updatable devcenter plan properties.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
-    projectName: string,
-    body: ProjectUpdate,
-    options?: ProjectsUpdateOptionalParams,
-  ): Promise<ProjectsUpdateResponse> {
+    planName: string,
+    memberName: string,
+    body: PlanMemberUpdate,
+    options?: PlanMembersUpdateOptionalParams,
+  ): Promise<PlanMembersUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
-      projectName,
+      planName,
+      memberName,
       body,
       options,
     );
@@ -414,25 +362,27 @@ export class ProjectsImpl implements Projects {
   }
 
   /**
-   * Deletes a project resource.
+   * Deletes a devcenter plan member
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param projectName The name of the project.
+   * @param planName The name of the devcenter plan.
+   * @param memberName The name of a devcenter plan member.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
-    projectName: string,
-    options?: ProjectsDeleteOptionalParams,
+    planName: string,
+    memberName: string,
+    options?: PlanMembersDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<ProjectsDeleteResponse>,
-      ProjectsDeleteResponse
+      OperationState<PlanMembersDeleteResponse>,
+      PlanMembersDeleteResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<ProjectsDeleteResponse> => {
+    ): Promise<PlanMembersDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -469,12 +419,12 @@ export class ProjectsImpl implements Projects {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, projectName, options },
+      args: { resourceGroupName, planName, memberName, options },
       spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
-      ProjectsDeleteResponse,
-      OperationState<ProjectsDeleteResponse>
+      PlanMembersDeleteResponse,
+      OperationState<PlanMembersDeleteResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -485,98 +435,55 @@ export class ProjectsImpl implements Projects {
   }
 
   /**
-   * Deletes a project resource.
+   * Deletes a devcenter plan member
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param projectName The name of the project.
+   * @param planName The name of the devcenter plan.
+   * @param memberName The name of a devcenter plan member.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
-    projectName: string,
-    options?: ProjectsDeleteOptionalParams,
-  ): Promise<ProjectsDeleteResponse> {
+    planName: string,
+    memberName: string,
+    options?: PlanMembersDeleteOptionalParams,
+  ): Promise<PlanMembersDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
-      projectName,
+      planName,
+      memberName,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Gets applicable inherited settings for this project.
+   * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param projectName The name of the project.
+   * @param planName The name of the devcenter plan.
+   * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
-  getInheritedSettings(
+  private _listNext(
     resourceGroupName: string,
-    projectName: string,
-    options?: ProjectsGetInheritedSettingsOptionalParams,
-  ): Promise<ProjectsGetInheritedSettingsResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, projectName, options },
-      getInheritedSettingsOperationSpec,
-    );
-  }
-
-  /**
-   * ListBySubscriptionNext
-   * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
-   * @param options The options parameters.
-   */
-  private _listBySubscriptionNext(
+    planName: string,
     nextLink: string,
-    options?: ProjectsListBySubscriptionNextOptionalParams,
-  ): Promise<ProjectsListBySubscriptionNextResponse> {
+    options?: PlanMembersListNextOptionalParams,
+  ): Promise<PlanMembersListNextResponse> {
     return this.client.sendOperationRequest(
-      { nextLink, options },
-      listBySubscriptionNextOperationSpec,
-    );
-  }
-
-  /**
-   * ListByResourceGroupNext
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
-   * @param options The options parameters.
-   */
-  private _listByResourceGroupNext(
-    resourceGroupName: string,
-    nextLink: string,
-    options?: ProjectsListByResourceGroupNextOptionalParams,
-  ): Promise<ProjectsListByResourceGroupNextResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec,
+      { resourceGroupName, planName, nextLink, options },
+      listNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DevCenter/projects",
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/plans/{planName}/members",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProjectListResult,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.top],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ProjectListResult,
+      bodyMapper: Mappers.PlanMembersListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -587,16 +494,17 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.planName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/plans/{planName}/members/{memberName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Project,
+      bodyMapper: Mappers.DevCenterPlanMember,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -607,90 +515,93 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.projectName,
+    Parameters.planName,
+    Parameters.memberName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/plans/{planName}/members/{memberName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Project,
+      bodyMapper: Mappers.DevCenterPlanMember,
     },
     201: {
-      bodyMapper: Mappers.Project,
+      bodyMapper: Mappers.DevCenterPlanMember,
     },
     202: {
-      bodyMapper: Mappers.Project,
+      bodyMapper: Mappers.DevCenterPlanMember,
     },
     204: {
-      bodyMapper: Mappers.Project,
+      bodyMapper: Mappers.DevCenterPlanMember,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body8,
+  requestBody: Parameters.body2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.projectName,
+    Parameters.planName,
+    Parameters.memberName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/plans/{planName}/members/{memberName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Project,
+      bodyMapper: Mappers.DevCenterPlanMember,
     },
     201: {
-      bodyMapper: Mappers.Project,
+      bodyMapper: Mappers.DevCenterPlanMember,
     },
     202: {
-      bodyMapper: Mappers.Project,
+      bodyMapper: Mappers.DevCenterPlanMember,
     },
     204: {
-      bodyMapper: Mappers.Project,
+      bodyMapper: Mappers.DevCenterPlanMember,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body9,
+  requestBody: Parameters.body3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.projectName,
+    Parameters.planName,
+    Parameters.memberName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/plans/{planName}/members/{memberName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.ProjectsDeleteHeaders,
+      headersMapper: Mappers.PlanMembersDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.ProjectsDeleteHeaders,
+      headersMapper: Mappers.PlanMembersDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.ProjectsDeleteHeaders,
+      headersMapper: Mappers.PlanMembersDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.ProjectsDeleteHeaders,
+      headersMapper: Mappers.PlanMembersDeleteHeaders,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -701,57 +612,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.projectName,
+    Parameters.planName,
+    Parameters.memberName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const getInheritedSettingsOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/getInheritedSettings",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.InheritedSettingsForProject,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.projectName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
+const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProjectListResult,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ProjectListResult,
+      bodyMapper: Mappers.PlanMembersListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -761,6 +633,7 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.planName,
     Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
