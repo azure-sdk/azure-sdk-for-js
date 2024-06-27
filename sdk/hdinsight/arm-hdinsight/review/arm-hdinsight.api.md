@@ -894,6 +894,12 @@ export enum KnownOSType {
 }
 
 // @public
+export enum KnownOutboundDependenciesManagedType {
+    External = "External",
+    Managed = "Managed"
+}
+
+// @public
 export enum KnownPrivateEndpointConnectionProvisioningState {
     Canceled = "Canceled",
     Deleting = "Deleting",
@@ -1058,6 +1064,7 @@ export interface NameAvailabilityCheckResult {
 
 // @public
 export interface NetworkProperties {
+    outboundDependenciesManagedType?: OutboundDependenciesManagedType;
     privateLink?: PrivateLink;
     resourceProviderConnection?: ResourceProviderConnection;
 }
@@ -1114,6 +1121,9 @@ export interface OsProfile {
 
 // @public
 export type OSType = string;
+
+// @public
+export type OutboundDependenciesManagedType = string;
 
 // @public
 export interface PrivateEndpoint {

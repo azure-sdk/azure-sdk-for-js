@@ -24,7 +24,7 @@ import {
   ExtensionsGetResponse,
   ExtensionsDeleteOptionalParams,
   ExtensionsGetAzureAsyncOperationStatusOptionalParams,
-  ExtensionsGetAzureAsyncOperationStatusResponse
+  ExtensionsGetAzureAsyncOperationStatusResponse,
 } from "../models";
 
 /** Interface representing a Extensions. */
@@ -40,7 +40,7 @@ export interface Extensions {
     resourceGroupName: string,
     clusterName: string,
     parameters: ClusterMonitoringRequest,
-    options?: ExtensionsEnableMonitoringOptionalParams
+    options?: ExtensionsEnableMonitoringOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Enables the Operations Management Suite (OMS) on the HDInsight cluster.
@@ -53,7 +53,7 @@ export interface Extensions {
     resourceGroupName: string,
     clusterName: string,
     parameters: ClusterMonitoringRequest,
-    options?: ExtensionsEnableMonitoringOptionalParams
+    options?: ExtensionsEnableMonitoringOptionalParams,
   ): Promise<void>;
   /**
    * Gets the status of Operations Management Suite (OMS) on the HDInsight cluster.
@@ -64,7 +64,7 @@ export interface Extensions {
   getMonitoringStatus(
     resourceGroupName: string,
     clusterName: string,
-    options?: ExtensionsGetMonitoringStatusOptionalParams
+    options?: ExtensionsGetMonitoringStatusOptionalParams,
   ): Promise<ExtensionsGetMonitoringStatusResponse>;
   /**
    * Disables the Operations Management Suite (OMS) on the HDInsight cluster.
@@ -75,7 +75,7 @@ export interface Extensions {
   beginDisableMonitoring(
     resourceGroupName: string,
     clusterName: string,
-    options?: ExtensionsDisableMonitoringOptionalParams
+    options?: ExtensionsDisableMonitoringOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Disables the Operations Management Suite (OMS) on the HDInsight cluster.
@@ -86,7 +86,7 @@ export interface Extensions {
   beginDisableMonitoringAndWait(
     resourceGroupName: string,
     clusterName: string,
-    options?: ExtensionsDisableMonitoringOptionalParams
+    options?: ExtensionsDisableMonitoringOptionalParams,
   ): Promise<void>;
   /**
    * Enables the Azure Monitor on the HDInsight cluster.
@@ -99,7 +99,7 @@ export interface Extensions {
     resourceGroupName: string,
     clusterName: string,
     parameters: AzureMonitorRequest,
-    options?: ExtensionsEnableAzureMonitorOptionalParams
+    options?: ExtensionsEnableAzureMonitorOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Enables the Azure Monitor on the HDInsight cluster.
@@ -112,7 +112,7 @@ export interface Extensions {
     resourceGroupName: string,
     clusterName: string,
     parameters: AzureMonitorRequest,
-    options?: ExtensionsEnableAzureMonitorOptionalParams
+    options?: ExtensionsEnableAzureMonitorOptionalParams,
   ): Promise<void>;
   /**
    * Gets the status of Azure Monitor on the HDInsight cluster.
@@ -123,7 +123,7 @@ export interface Extensions {
   getAzureMonitorStatus(
     resourceGroupName: string,
     clusterName: string,
-    options?: ExtensionsGetAzureMonitorStatusOptionalParams
+    options?: ExtensionsGetAzureMonitorStatusOptionalParams,
   ): Promise<ExtensionsGetAzureMonitorStatusResponse>;
   /**
    * Disables the Azure Monitor on the HDInsight cluster.
@@ -134,7 +134,7 @@ export interface Extensions {
   beginDisableAzureMonitor(
     resourceGroupName: string,
     clusterName: string,
-    options?: ExtensionsDisableAzureMonitorOptionalParams
+    options?: ExtensionsDisableAzureMonitorOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Disables the Azure Monitor on the HDInsight cluster.
@@ -145,7 +145,7 @@ export interface Extensions {
   beginDisableAzureMonitorAndWait(
     resourceGroupName: string,
     clusterName: string,
-    options?: ExtensionsDisableAzureMonitorOptionalParams
+    options?: ExtensionsDisableAzureMonitorOptionalParams,
   ): Promise<void>;
   /**
    * Creates an HDInsight cluster extension.
@@ -160,7 +160,7 @@ export interface Extensions {
     clusterName: string,
     extensionName: string,
     parameters: Extension,
-    options?: ExtensionsCreateOptionalParams
+    options?: ExtensionsCreateOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Creates an HDInsight cluster extension.
@@ -175,7 +175,7 @@ export interface Extensions {
     clusterName: string,
     extensionName: string,
     parameters: Extension,
-    options?: ExtensionsCreateOptionalParams
+    options?: ExtensionsCreateOptionalParams,
   ): Promise<void>;
   /**
    * Gets the extension properties for the specified HDInsight cluster extension.
@@ -188,7 +188,7 @@ export interface Extensions {
     resourceGroupName: string,
     clusterName: string,
     extensionName: string,
-    options?: ExtensionsGetOptionalParams
+    options?: ExtensionsGetOptionalParams,
   ): Promise<ExtensionsGetResponse>;
   /**
    * Deletes the specified extension for HDInsight cluster.
@@ -201,7 +201,7 @@ export interface Extensions {
     resourceGroupName: string,
     clusterName: string,
     extensionName: string,
-    options?: ExtensionsDeleteOptionalParams
+    options?: ExtensionsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified extension for HDInsight cluster.
@@ -214,7 +214,7 @@ export interface Extensions {
     resourceGroupName: string,
     clusterName: string,
     extensionName: string,
-    options?: ExtensionsDeleteOptionalParams
+    options?: ExtensionsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets the async operation status.
@@ -229,6 +229,6 @@ export interface Extensions {
     clusterName: string,
     extensionName: string,
     operationId: string,
-    options?: ExtensionsGetAzureAsyncOperationStatusOptionalParams
+    options?: ExtensionsGetAzureAsyncOperationStatusOptionalParams,
   ): Promise<ExtensionsGetAzureAsyncOperationStatusResponse>;
 }

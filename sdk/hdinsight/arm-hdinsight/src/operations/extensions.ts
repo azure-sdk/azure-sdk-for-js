@@ -14,7 +14,7 @@ import { HDInsightManagementClient } from "../hDInsightManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -34,7 +34,7 @@ import {
   ExtensionsGetResponse,
   ExtensionsDeleteOptionalParams,
   ExtensionsGetAzureAsyncOperationStatusOptionalParams,
-  ExtensionsGetAzureAsyncOperationStatusResponse
+  ExtensionsGetAzureAsyncOperationStatusResponse,
 } from "../models";
 
 /** Class containing Extensions operations. */
@@ -60,25 +60,24 @@ export class ExtensionsImpl implements Extensions {
     resourceGroupName: string,
     clusterName: string,
     parameters: ClusterMonitoringRequest,
-    options?: ExtensionsEnableMonitoringOptionalParams
+    options?: ExtensionsEnableMonitoringOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -87,8 +86,8 @@ export class ExtensionsImpl implements Extensions {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -96,20 +95,20 @@ export class ExtensionsImpl implements Extensions {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, clusterName, parameters, options },
-      spec: enableMonitoringOperationSpec
+      spec: enableMonitoringOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -126,13 +125,13 @@ export class ExtensionsImpl implements Extensions {
     resourceGroupName: string,
     clusterName: string,
     parameters: ClusterMonitoringRequest,
-    options?: ExtensionsEnableMonitoringOptionalParams
+    options?: ExtensionsEnableMonitoringOptionalParams,
   ): Promise<void> {
     const poller = await this.beginEnableMonitoring(
       resourceGroupName,
       clusterName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -146,11 +145,11 @@ export class ExtensionsImpl implements Extensions {
   getMonitoringStatus(
     resourceGroupName: string,
     clusterName: string,
-    options?: ExtensionsGetMonitoringStatusOptionalParams
+    options?: ExtensionsGetMonitoringStatusOptionalParams,
   ): Promise<ExtensionsGetMonitoringStatusResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, options },
-      getMonitoringStatusOperationSpec
+      getMonitoringStatusOperationSpec,
     );
   }
 
@@ -163,25 +162,24 @@ export class ExtensionsImpl implements Extensions {
   async beginDisableMonitoring(
     resourceGroupName: string,
     clusterName: string,
-    options?: ExtensionsDisableMonitoringOptionalParams
+    options?: ExtensionsDisableMonitoringOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -190,8 +188,8 @@ export class ExtensionsImpl implements Extensions {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -199,20 +197,20 @@ export class ExtensionsImpl implements Extensions {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, clusterName, options },
-      spec: disableMonitoringOperationSpec
+      spec: disableMonitoringOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -227,12 +225,12 @@ export class ExtensionsImpl implements Extensions {
   async beginDisableMonitoringAndWait(
     resourceGroupName: string,
     clusterName: string,
-    options?: ExtensionsDisableMonitoringOptionalParams
+    options?: ExtensionsDisableMonitoringOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDisableMonitoring(
       resourceGroupName,
       clusterName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -248,25 +246,24 @@ export class ExtensionsImpl implements Extensions {
     resourceGroupName: string,
     clusterName: string,
     parameters: AzureMonitorRequest,
-    options?: ExtensionsEnableAzureMonitorOptionalParams
+    options?: ExtensionsEnableAzureMonitorOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -275,8 +272,8 @@ export class ExtensionsImpl implements Extensions {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -284,20 +281,20 @@ export class ExtensionsImpl implements Extensions {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, clusterName, parameters, options },
-      spec: enableAzureMonitorOperationSpec
+      spec: enableAzureMonitorOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -314,13 +311,13 @@ export class ExtensionsImpl implements Extensions {
     resourceGroupName: string,
     clusterName: string,
     parameters: AzureMonitorRequest,
-    options?: ExtensionsEnableAzureMonitorOptionalParams
+    options?: ExtensionsEnableAzureMonitorOptionalParams,
   ): Promise<void> {
     const poller = await this.beginEnableAzureMonitor(
       resourceGroupName,
       clusterName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -334,11 +331,11 @@ export class ExtensionsImpl implements Extensions {
   getAzureMonitorStatus(
     resourceGroupName: string,
     clusterName: string,
-    options?: ExtensionsGetAzureMonitorStatusOptionalParams
+    options?: ExtensionsGetAzureMonitorStatusOptionalParams,
   ): Promise<ExtensionsGetAzureMonitorStatusResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, options },
-      getAzureMonitorStatusOperationSpec
+      getAzureMonitorStatusOperationSpec,
     );
   }
 
@@ -351,25 +348,24 @@ export class ExtensionsImpl implements Extensions {
   async beginDisableAzureMonitor(
     resourceGroupName: string,
     clusterName: string,
-    options?: ExtensionsDisableAzureMonitorOptionalParams
+    options?: ExtensionsDisableAzureMonitorOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -378,8 +374,8 @@ export class ExtensionsImpl implements Extensions {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -387,20 +383,20 @@ export class ExtensionsImpl implements Extensions {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, clusterName, options },
-      spec: disableAzureMonitorOperationSpec
+      spec: disableAzureMonitorOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -415,12 +411,12 @@ export class ExtensionsImpl implements Extensions {
   async beginDisableAzureMonitorAndWait(
     resourceGroupName: string,
     clusterName: string,
-    options?: ExtensionsDisableAzureMonitorOptionalParams
+    options?: ExtensionsDisableAzureMonitorOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDisableAzureMonitor(
       resourceGroupName,
       clusterName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -438,25 +434,24 @@ export class ExtensionsImpl implements Extensions {
     clusterName: string,
     extensionName: string,
     parameters: Extension,
-    options?: ExtensionsCreateOptionalParams
+    options?: ExtensionsCreateOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -465,8 +460,8 @@ export class ExtensionsImpl implements Extensions {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -474,8 +469,8 @@ export class ExtensionsImpl implements Extensions {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -486,14 +481,14 @@ export class ExtensionsImpl implements Extensions {
         clusterName,
         extensionName,
         parameters,
-        options
+        options,
       },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -512,14 +507,14 @@ export class ExtensionsImpl implements Extensions {
     clusterName: string,
     extensionName: string,
     parameters: Extension,
-    options?: ExtensionsCreateOptionalParams
+    options?: ExtensionsCreateOptionalParams,
   ): Promise<void> {
     const poller = await this.beginCreate(
       resourceGroupName,
       clusterName,
       extensionName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -535,11 +530,11 @@ export class ExtensionsImpl implements Extensions {
     resourceGroupName: string,
     clusterName: string,
     extensionName: string,
-    options?: ExtensionsGetOptionalParams
+    options?: ExtensionsGetOptionalParams,
   ): Promise<ExtensionsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, extensionName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -554,25 +549,24 @@ export class ExtensionsImpl implements Extensions {
     resourceGroupName: string,
     clusterName: string,
     extensionName: string,
-    options?: ExtensionsDeleteOptionalParams
+    options?: ExtensionsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -581,8 +575,8 @@ export class ExtensionsImpl implements Extensions {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -590,20 +584,20 @@ export class ExtensionsImpl implements Extensions {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, clusterName, extensionName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -620,13 +614,13 @@ export class ExtensionsImpl implements Extensions {
     resourceGroupName: string,
     clusterName: string,
     extensionName: string,
-    options?: ExtensionsDeleteOptionalParams
+    options?: ExtensionsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       clusterName,
       extensionName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -644,11 +638,11 @@ export class ExtensionsImpl implements Extensions {
     clusterName: string,
     extensionName: string,
     operationId: string,
-    options?: ExtensionsGetAzureAsyncOperationStatusOptionalParams
+    options?: ExtensionsGetAzureAsyncOperationStatusOptionalParams,
   ): Promise<ExtensionsGetAzureAsyncOperationStatusResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, extensionName, operationId, options },
-      getAzureAsyncOperationStatusOperationSpec
+      getAzureAsyncOperationStatusOperationSpec,
     );
   }
 }
@@ -656,8 +650,7 @@ export class ExtensionsImpl implements Extensions {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const enableMonitoringOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/extensions/clustermonitoring",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/extensions/clustermonitoring",
   httpMethod: "PUT",
   responses: {
     200: {},
@@ -665,8 +658,8 @@ const enableMonitoringOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters10,
   queryParameters: [Parameters.apiVersion],
@@ -674,37 +667,35 @@ const enableMonitoringOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.clusterName
+    Parameters.clusterName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getMonitoringStatusOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/extensions/clustermonitoring",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/extensions/clustermonitoring",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ClusterMonitoringResponse
+      bodyMapper: Mappers.ClusterMonitoringResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.clusterName
+    Parameters.clusterName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const disableMonitoringOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/extensions/clustermonitoring",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/extensions/clustermonitoring",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -712,22 +703,21 @@ const disableMonitoringOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.clusterName
+    Parameters.clusterName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const enableAzureMonitorOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/extensions/azureMonitor",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/extensions/azureMonitor",
   httpMethod: "PUT",
   responses: {
     200: {},
@@ -735,8 +725,8 @@ const enableAzureMonitorOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters11,
   queryParameters: [Parameters.apiVersion],
@@ -744,37 +734,35 @@ const enableAzureMonitorOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.clusterName
+    Parameters.clusterName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getAzureMonitorStatusOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/extensions/azureMonitor",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/extensions/azureMonitor",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AzureMonitorResponse
+      bodyMapper: Mappers.AzureMonitorResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.clusterName
+    Parameters.clusterName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const disableAzureMonitorOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/extensions/azureMonitor",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/extensions/azureMonitor",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -782,22 +770,21 @@ const disableAzureMonitorOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.clusterName
+    Parameters.clusterName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/extensions/{extensionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/extensions/{extensionName}",
   httpMethod: "PUT",
   responses: {
     200: {},
@@ -805,8 +792,8 @@ const createOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters12,
   queryParameters: [Parameters.apiVersion],
@@ -815,23 +802,22 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.extensionName
+    Parameters.extensionName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/extensions/{extensionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/extensions/{extensionName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ClusterMonitoringResponse
+      bodyMapper: Mappers.ClusterMonitoringResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -839,14 +825,13 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.extensionName
+    Parameters.extensionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/extensions/{extensionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/extensions/{extensionName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -854,8 +839,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -863,22 +848,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.extensionName
+    Parameters.extensionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getAzureAsyncOperationStatusOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/extensions/{extensionName}/azureAsyncOperations/{operationId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/extensions/{extensionName}/azureAsyncOperations/{operationId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AsyncOperationResult
+      bodyMapper: Mappers.AsyncOperationResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -887,8 +871,8 @@ const getAzureAsyncOperationStatusOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.operationId,
-    Parameters.extensionName
+    Parameters.extensionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

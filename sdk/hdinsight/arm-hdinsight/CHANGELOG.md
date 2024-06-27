@@ -1,5 +1,16 @@
 # Release History
     
+## 1.3.0-beta.2 (2024-06-27)
+Compared with version 1.2.1
+    
+**Features**
+
+  - Added Type Alias OutboundDependenciesManagedType
+  - Interface NetworkProperties has a new optional parameter outboundDependenciesManagedType
+  - Interface StorageAccount has a new optional parameter enableSecureChannel
+  - Added Enum KnownOutboundDependenciesManagedType
+    
+    
 ## 1.3.0-beta.1 (2023-07-06)
     
 **Features**
@@ -37,4 +48,4 @@
 
 ## 1.1.0 (2021-12-29)
 
-The package of @azure/arm-hdinsight is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+The package of @azure/arm-hdinsight is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).
