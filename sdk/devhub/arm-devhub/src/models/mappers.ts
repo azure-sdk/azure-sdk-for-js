@@ -21,20 +21,20 @@ export const OperationListResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "Operation"
-            }
-          }
-        }
+              className: "Operation",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const Operation: coreClient.CompositeMapper = {
@@ -46,39 +46,39 @@ export const Operation: coreClient.CompositeMapper = {
         serializedName: "name",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       isDataAction: {
         serializedName: "isDataAction",
         readOnly: true,
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       display: {
         serializedName: "display",
         type: {
           name: "Composite",
-          className: "OperationDisplay"
-        }
+          className: "OperationDisplay",
+        },
       },
       origin: {
         serializedName: "origin",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       actionType: {
         serializedName: "actionType",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const OperationDisplay: coreClient.CompositeMapper = {
@@ -90,32 +90,32 @@ export const OperationDisplay: coreClient.CompositeMapper = {
         serializedName: "provider",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       resource: {
         serializedName: "resource",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       operation: {
         serializedName: "operation",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       description: {
         serializedName: "description",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ErrorResponse: coreClient.CompositeMapper = {
@@ -127,11 +127,11 @@ export const ErrorResponse: coreClient.CompositeMapper = {
         serializedName: "error",
         type: {
           name: "Composite",
-          className: "ErrorDetail"
-        }
-      }
-    }
-  }
+          className: "ErrorDetail",
+        },
+      },
+    },
+  },
 };
 
 export const ErrorDetail: coreClient.CompositeMapper = {
@@ -143,22 +143,22 @@ export const ErrorDetail: coreClient.CompositeMapper = {
         serializedName: "code",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       message: {
         serializedName: "message",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       target: {
         serializedName: "target",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       details: {
         serializedName: "details",
@@ -168,10 +168,10 @@ export const ErrorDetail: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ErrorDetail"
-            }
-          }
-        }
+              className: "ErrorDetail",
+            },
+          },
+        },
       },
       additionalInfo: {
         serializedName: "additionalInfo",
@@ -181,13 +181,13 @@ export const ErrorDetail: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ErrorAdditionalInfo"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "ErrorAdditionalInfo",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
@@ -199,19 +199,19 @@ export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
         serializedName: "type",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       info: {
         serializedName: "info",
         readOnly: true,
         type: {
           name: "Dictionary",
-          value: { type: { name: "any" } }
-        }
-      }
-    }
-  }
+          value: { type: { name: "any" } },
+        },
+      },
+    },
+  },
 };
 
 export const GitHubOAuthCallRequest: coreClient.CompositeMapper = {
@@ -222,11 +222,11 @@ export const GitHubOAuthCallRequest: coreClient.CompositeMapper = {
       redirectUrl: {
         serializedName: "redirectUrl",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const GitHubOAuthInfoResponse: coreClient.CompositeMapper = {
@@ -237,17 +237,17 @@ export const GitHubOAuthInfoResponse: coreClient.CompositeMapper = {
       authURL: {
         serializedName: "authURL",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       token: {
         serializedName: "token",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const Resource: coreClient.CompositeMapper = {
@@ -259,32 +259,32 @@ export const Resource: coreClient.CompositeMapper = {
         serializedName: "id",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       type: {
         serializedName: "type",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       systemData: {
         serializedName: "systemData",
         type: {
           name: "Composite",
-          className: "SystemData"
-        }
-      }
-    }
-  }
+          className: "SystemData",
+        },
+      },
+    },
+  },
 };
 
 export const SystemData: coreClient.CompositeMapper = {
@@ -295,41 +295,41 @@ export const SystemData: coreClient.CompositeMapper = {
       createdBy: {
         serializedName: "createdBy",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       createdByType: {
         serializedName: "createdByType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       createdAt: {
         serializedName: "createdAt",
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       lastModifiedBy: {
         serializedName: "lastModifiedBy",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       lastModifiedByType: {
         serializedName: "lastModifiedByType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       lastModifiedAt: {
         serializedName: "lastModifiedAt",
         type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
+          name: "DateTime",
+        },
+      },
+    },
+  },
 };
 
 export const GitHubOAuthListResponse: coreClient.CompositeMapper = {
@@ -344,13 +344,13 @@ export const GitHubOAuthListResponse: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "GitHubOAuthResponse"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "GitHubOAuthResponse",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const WorkflowListResult: coreClient.CompositeMapper = {
@@ -365,20 +365,20 @@ export const WorkflowListResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "Workflow"
-            }
-          }
-        }
+              className: "Workflow",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const DeploymentProperties: coreClient.CompositeMapper = {
@@ -389,8 +389,8 @@ export const DeploymentProperties: coreClient.CompositeMapper = {
       manifestType: {
         serializedName: "manifestType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       kubeManifestLocations: {
         serializedName: "kubeManifestLocations",
@@ -398,32 +398,32 @@ export const DeploymentProperties: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       helmChartPath: {
         serializedName: "helmChartPath",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       helmValues: {
         serializedName: "helmValues",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       overrides: {
         serializedName: "overrides",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
-      }
-    }
-  }
+          value: { type: { name: "String" } },
+        },
+      },
+    },
+  },
 };
 
 export const Acr: coreClient.CompositeMapper = {
@@ -434,51 +434,52 @@ export const Acr: coreClient.CompositeMapper = {
       acrSubscriptionId: {
         serializedName: "acrSubscriptionId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       acrResourceGroup: {
         serializedName: "acrResourceGroup",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       acrRegistryName: {
         serializedName: "acrRegistryName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       acrRepositoryName: {
         serializedName: "acrRepositoryName",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
-export const GitHubWorkflowProfileOidcCredentials: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "GitHubWorkflowProfileOidcCredentials",
-    modelProperties: {
-      azureClientId: {
-        serializedName: "azureClientId",
-        type: {
-          name: "String"
-        }
+export const GitHubWorkflowProfileOidcCredentials: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "GitHubWorkflowProfileOidcCredentials",
+      modelProperties: {
+        azureClientId: {
+          serializedName: "azureClientId",
+          type: {
+            name: "String",
+          },
+        },
+        azureTenantId: {
+          serializedName: "azureTenantId",
+          type: {
+            name: "String",
+          },
+        },
       },
-      azureTenantId: {
-        serializedName: "azureTenantId",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
 export const WorkflowRun: coreClient.CompositeMapper = {
   type: {
@@ -489,31 +490,31 @@ export const WorkflowRun: coreClient.CompositeMapper = {
         serializedName: "succeeded",
         readOnly: true,
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       workflowRunURL: {
         serializedName: "workflowRunURL",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       lastRunAt: {
         serializedName: "lastRunAt",
         readOnly: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       workflowRunStatus: {
         serializedName: "workflowRunStatus",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ArtifactGenerationProperties: coreClient.CompositeMapper = {
@@ -524,83 +525,83 @@ export const ArtifactGenerationProperties: coreClient.CompositeMapper = {
       generationLanguage: {
         serializedName: "generationLanguage",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       languageVersion: {
         serializedName: "languageVersion",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       builderVersion: {
         serializedName: "builderVersion",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       port: {
         serializedName: "port",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       appName: {
         serializedName: "appName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       dockerfileOutputDirectory: {
         serializedName: "dockerfileOutputDirectory",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       manifestOutputDirectory: {
         serializedName: "manifestOutputDirectory",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       dockerfileGenerationMode: {
         serializedName: "dockerfileGenerationMode",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       manifestGenerationMode: {
         serializedName: "manifestGenerationMode",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       manifestType: {
         serializedName: "manifestType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       imageName: {
         serializedName: "imageName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       namespace: {
         serializedName: "namespace",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       imageTag: {
         serializedName: "imageTag",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const DeleteWorkflowResponse: coreClient.CompositeMapper = {
@@ -611,11 +612,11 @@ export const DeleteWorkflowResponse: coreClient.CompositeMapper = {
       status: {
         serializedName: "status",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const TagsObject: coreClient.CompositeMapper = {
@@ -627,11 +628,285 @@ export const TagsObject: coreClient.CompositeMapper = {
         serializedName: "tags",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
-      }
-    }
-  }
+          value: { type: { name: "String" } },
+        },
+      },
+    },
+  },
+};
+
+export const IacProfileListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "IacProfileListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "IacProfile",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const StageProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StageProperties",
+    modelProperties: {
+      stageName: {
+        serializedName: "stageName",
+        type: {
+          name: "String",
+        },
+      },
+      dependencies: {
+        serializedName: "dependencies",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+      gitEnvironment: {
+        serializedName: "gitEnvironment",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const IacTemplateProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "IacTemplateProperties",
+    modelProperties: {
+      templateName: {
+        serializedName: "templateName",
+        type: {
+          name: "String",
+        },
+      },
+      sourceResourceId: {
+        serializedName: "sourceResourceId",
+        type: {
+          name: "String",
+        },
+      },
+      instanceStage: {
+        serializedName: "instanceStage",
+        type: {
+          name: "String",
+        },
+      },
+      instanceName: {
+        serializedName: "instanceName",
+        type: {
+          name: "String",
+        },
+      },
+      templateDetails: {
+        serializedName: "templateDetails",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "IacTemplateDetails",
+            },
+          },
+        },
+      },
+      quickStartTemplateType: {
+        serializedName: "quickStartTemplateType",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const IacTemplateDetails: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "IacTemplateDetails",
+    modelProperties: {
+      productName: {
+        serializedName: "productName",
+        type: {
+          name: "String",
+        },
+      },
+      count: {
+        serializedName: "count",
+        type: {
+          name: "Number",
+        },
+      },
+      namingConvention: {
+        serializedName: "namingConvention",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ExportTemplateRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExportTemplateRequest",
+    modelProperties: {
+      templateName: {
+        serializedName: "templateName",
+        type: {
+          name: "String",
+        },
+      },
+      resourceGroupIds: {
+        serializedName: "resourceGroupIds",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+      siteId: {
+        serializedName: "siteId",
+        type: {
+          name: "String",
+        },
+      },
+      instanceName: {
+        serializedName: "instanceName",
+        type: {
+          name: "String",
+        },
+      },
+      instanceStage: {
+        serializedName: "instanceStage",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const PrLinkResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PrLinkResponse",
+    modelProperties: {
+      prLink: {
+        serializedName: "prLink",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ScaleTemplateRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ScaleTemplateRequest",
+    modelProperties: {
+      templateName: {
+        serializedName: "templateName",
+        type: {
+          name: "String",
+        },
+      },
+      scaleRequirement: {
+        serializedName: "scaleRequirement",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ScaleProperty",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const ScaleProperty: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ScaleProperty",
+    modelProperties: {
+      region: {
+        serializedName: "region",
+        type: {
+          name: "String",
+        },
+      },
+      stage: {
+        serializedName: "stage",
+        type: {
+          name: "String",
+        },
+      },
+      numberOfStore: {
+        serializedName: "numberOfStore",
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const QuickTemplateRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "QuickTemplateRequest",
+    modelProperties: {
+      templateName: {
+        serializedName: "templateName",
+        type: {
+          name: "String",
+        },
+      },
+      quickStartTemplateType: {
+        serializedName: "quickStartTemplateType",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ProxyResource: coreClient.CompositeMapper = {
@@ -639,9 +914,9 @@ export const ProxyResource: coreClient.CompositeMapper = {
     name: "Composite",
     className: "ProxyResource",
     modelProperties: {
-      ...Resource.type.modelProperties
-    }
-  }
+      ...Resource.type.modelProperties,
+    },
+  },
 };
 
 export const TrackedResource: coreClient.CompositeMapper = {
@@ -654,18 +929,18 @@ export const TrackedResource: coreClient.CompositeMapper = {
         serializedName: "tags",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
+          value: { type: { name: "String" } },
+        },
       },
       location: {
         serializedName: "location",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const GitHubOAuthResponse: coreClient.CompositeMapper = {
@@ -677,11 +952,11 @@ export const GitHubOAuthResponse: coreClient.CompositeMapper = {
       username: {
         serializedName: "properties.username",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const Workflow: coreClient.CompositeMapper = {
@@ -694,185 +969,297 @@ export const Workflow: coreClient.CompositeMapper = {
         serializedName:
           "properties.artifactGenerationProperties.generationLanguage",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       languageVersion: {
         serializedName:
           "properties.artifactGenerationProperties.languageVersion",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       builderVersion: {
         serializedName:
           "properties.artifactGenerationProperties.builderVersion",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       port: {
         serializedName: "properties.artifactGenerationProperties.port",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       appName: {
         serializedName: "properties.artifactGenerationProperties.appName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       dockerfileOutputDirectory: {
         serializedName:
           "properties.artifactGenerationProperties.dockerfileOutputDirectory",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       manifestOutputDirectory: {
         serializedName:
           "properties.artifactGenerationProperties.manifestOutputDirectory",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       dockerfileGenerationMode: {
         serializedName:
           "properties.artifactGenerationProperties.dockerfileGenerationMode",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       manifestGenerationMode: {
         serializedName:
           "properties.artifactGenerationProperties.manifestGenerationMode",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       manifestType: {
         serializedName: "properties.artifactGenerationProperties.manifestType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       imageName: {
         serializedName: "properties.artifactGenerationProperties.imageName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       namespacePropertiesArtifactGenerationPropertiesNamespace: {
         serializedName: "properties.artifactGenerationProperties.namespace",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       imageTag: {
         serializedName: "properties.artifactGenerationProperties.imageTag",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       repositoryOwner: {
         serializedName: "properties.githubWorkflowProfile.repositoryOwner",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       repositoryName: {
         serializedName: "properties.githubWorkflowProfile.repositoryName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       branchName: {
         serializedName: "properties.githubWorkflowProfile.branchName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       dockerfile: {
         serializedName: "properties.githubWorkflowProfile.dockerfile",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       dockerBuildContext: {
         serializedName: "properties.githubWorkflowProfile.dockerBuildContext",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       deploymentProperties: {
         serializedName: "properties.githubWorkflowProfile.deploymentProperties",
         type: {
           name: "Composite",
-          className: "DeploymentProperties"
-        }
+          className: "DeploymentProperties",
+        },
       },
       namespacePropertiesGithubWorkflowProfileNamespace: {
         serializedName: "properties.githubWorkflowProfile.namespace",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       acr: {
         serializedName: "properties.githubWorkflowProfile.acr",
         type: {
           name: "Composite",
-          className: "Acr"
-        }
+          className: "Acr",
+        },
       },
       oidcCredentials: {
         serializedName: "properties.githubWorkflowProfile.oidcCredentials",
         type: {
           name: "Composite",
-          className: "GitHubWorkflowProfileOidcCredentials"
-        }
+          className: "GitHubWorkflowProfileOidcCredentials",
+        },
       },
       aksResourceId: {
         serializedName: "properties.githubWorkflowProfile.aksResourceId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       prURL: {
         serializedName: "properties.githubWorkflowProfile.prURL",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       pullNumber: {
         serializedName: "properties.githubWorkflowProfile.pullNumber",
         readOnly: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       prStatus: {
         serializedName: "properties.githubWorkflowProfile.prStatus",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       lastWorkflowRun: {
         serializedName: "properties.githubWorkflowProfile.lastWorkflowRun",
         type: {
           name: "Composite",
-          className: "WorkflowRun"
-        }
+          className: "WorkflowRun",
+        },
       },
       authStatus: {
         serializedName: "properties.githubWorkflowProfile.authStatus",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const IacProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "IacProfile",
+    modelProperties: {
+      ...TrackedResource.type.modelProperties,
+      etag: {
+        serializedName: "etag",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      stages: {
+        serializedName: "properties.stages",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "StageProperties",
+            },
+          },
+        },
+      },
+      templates: {
+        serializedName: "properties.templates",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "IacTemplateProperties",
+            },
+          },
+        },
+      },
+      storageAccountSubscription: {
+        serializedName:
+          "properties.terraformProfile.storageAccountSubscription",
+        type: {
+          name: "String",
+        },
+      },
+      storageAccountResourceGroup: {
+        serializedName:
+          "properties.terraformProfile.storageAccountResourceGroup",
+        type: {
+          name: "String",
+        },
+      },
+      storageAccountName: {
+        serializedName: "properties.terraformProfile.storageAccountName",
+        type: {
+          name: "String",
+        },
+      },
+      storageContainerName: {
+        serializedName: "properties.terraformProfile.storageContainerName",
+        type: {
+          name: "String",
+        },
+      },
+      repositoryName: {
+        serializedName: "properties.githubProfile.repositoryName",
+        type: {
+          name: "String",
+        },
+      },
+      repositoryMainBranch: {
+        serializedName: "properties.githubProfile.repositoryMainBranch",
+        type: {
+          name: "String",
+        },
+      },
+      repositoryOwner: {
+        serializedName: "properties.githubProfile.repositoryOwner",
+        type: {
+          name: "String",
+        },
+      },
+      authStatus: {
+        serializedName: "properties.githubProfile.authStatus",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      pullNumber: {
+        serializedName: "properties.githubProfile.pullNumber",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      prStatus: {
+        serializedName: "properties.githubProfile.prStatus",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      branchName: {
+        serializedName: "properties.githubProfile.branchName",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
 };

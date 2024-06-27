@@ -69,6 +69,8 @@ export class DeveloperHubServiceClient extends coreClient.ServiceClient {
     generatePreviewArtifacts(location: string, parameters: ArtifactGenerationProperties, options?: GeneratePreviewArtifactsOptionalParams): Promise<GeneratePreviewArtifactsResponse>;
     gitHubOAuth(location: string, options?: GitHubOAuthOptionalParams): Promise<GitHubOAuthOperationResponse>;
     gitHubOAuthCallback(location: string, code: string, state: string, options?: GitHubOAuthCallbackOptionalParams): Promise<GitHubOAuthCallbackResponse>;
+    // (undocumented)
+    iacProfiles: IacProfiles;
     listGitHubOAuth(location: string, options?: ListGitHubOAuthOptionalParams): Promise<ListGitHubOAuthResponse>;
     // (undocumented)
     operations: Operations;
@@ -106,6 +108,19 @@ export interface ErrorDetail {
 // @public
 export interface ErrorResponse {
     error?: ErrorDetail;
+}
+
+// @public (undocumented)
+export interface ExportTemplateRequest {
+    // (undocumented)
+    instanceName?: string;
+    // (undocumented)
+    instanceStage?: string;
+    // (undocumented)
+    resourceGroupIds?: string[];
+    // (undocumented)
+    siteId?: string;
+    templateName?: string;
 }
 
 // @public
@@ -166,6 +181,142 @@ export interface GitHubOAuthResponse extends ProxyResource {
 export interface GitHubWorkflowProfileOidcCredentials {
     azureClientId?: string;
     azureTenantId?: string;
+}
+
+// @public
+export interface IacProfile extends TrackedResource {
+    readonly authStatus?: AuthorizationStatus;
+    branchName?: string;
+    readonly etag?: string;
+    readonly prStatus?: PullRequestStatus;
+    readonly pullNumber?: number;
+    repositoryMainBranch?: string;
+    repositoryName?: string;
+    repositoryOwner?: string;
+    // (undocumented)
+    stages?: StageProperties[];
+    storageAccountName?: string;
+    storageAccountResourceGroup?: string;
+    storageAccountSubscription?: string;
+    storageContainerName?: string;
+    // (undocumented)
+    templates?: IacTemplateProperties[];
+}
+
+// @public (undocumented)
+export interface IacProfileListResult {
+    readonly nextLink?: string;
+    value?: IacProfile[];
+}
+
+// @public
+export interface IacProfiles {
+    createOrUpdate(resourceGroupName: string, iacProfileName: string, parameters: IacProfile, options?: IacProfilesCreateOrUpdateOptionalParams): Promise<IacProfilesCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, iacProfileName: string, options?: IacProfilesDeleteOptionalParams): Promise<void>;
+    export(resourceGroupName: string, iacProfileName: string, parameters: ExportTemplateRequest, options?: IacProfilesExportOptionalParams): Promise<IacProfilesExportResponse>;
+    get(resourceGroupName: string, iacProfileName: string, options?: IacProfilesGetOptionalParams): Promise<IacProfilesGetResponse>;
+    list(options?: IacProfilesListOptionalParams): PagedAsyncIterableIterator<IacProfile>;
+    listByResourceGroup(resourceGroupName: string, options?: IacProfilesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<IacProfile>;
+    quickTemplate(resourceGroupName: string, iacProfileName: string, parameters: QuickTemplateRequest, options?: IacProfilesQuickTemplateOptionalParams): Promise<IacProfilesQuickTemplateResponse>;
+    scale(resourceGroupName: string, iacProfileName: string, parameters: ScaleTemplateRequest, options?: IacProfilesScaleOptionalParams): Promise<IacProfilesScaleResponse>;
+    sync(resourceGroupName: string, iacProfileName: string, options?: IacProfilesSyncOptionalParams): Promise<void>;
+    updateTags(resourceGroupName: string, iacProfileName: string, parameters: TagsObject, options?: IacProfilesUpdateTagsOptionalParams): Promise<IacProfilesUpdateTagsResponse>;
+}
+
+// @public
+export interface IacProfilesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type IacProfilesCreateOrUpdateResponse = IacProfile;
+
+// @public
+export interface IacProfilesDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface IacProfilesExportOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type IacProfilesExportResponse = PrLinkResponse;
+
+// @public
+export interface IacProfilesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type IacProfilesGetResponse = IacProfile;
+
+// @public
+export interface IacProfilesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type IacProfilesListByResourceGroupNextResponse = IacProfileListResult;
+
+// @public
+export interface IacProfilesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type IacProfilesListByResourceGroupResponse = IacProfileListResult;
+
+// @public
+export interface IacProfilesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type IacProfilesListNextResponse = IacProfileListResult;
+
+// @public
+export interface IacProfilesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type IacProfilesListResponse = IacProfileListResult;
+
+// @public
+export interface IacProfilesQuickTemplateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type IacProfilesQuickTemplateResponse = PrLinkResponse;
+
+// @public
+export interface IacProfilesScaleOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type IacProfilesScaleResponse = PrLinkResponse;
+
+// @public
+export interface IacProfilesSyncOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface IacProfilesUpdateTagsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type IacProfilesUpdateTagsResponse = IacProfile;
+
+// @public (undocumented)
+export interface IacTemplateDetails {
+    count?: number;
+    namingConvention?: string;
+    productName?: string;
+}
+
+// @public
+export interface IacTemplateProperties {
+    instanceName?: string;
+    instanceStage?: string;
+    readonly quickStartTemplateType?: QuickStartTemplateType;
+    sourceResourceId?: string;
+    // (undocumented)
+    templateDetails?: IacTemplateDetails[];
+    templateName?: string;
 }
 
 // @public
@@ -245,6 +396,14 @@ export enum KnownPullRequestStatus {
 }
 
 // @public
+export enum KnownQuickStartTemplateType {
+    HCI = "HCI",
+    Hciaks = "HCIAKS",
+    Hciarcvm = "HCIARCVM",
+    None = "None"
+}
+
+// @public
 export enum KnownWorkflowRunStatus {
     Completed = "completed",
     Inprogress = "inprogress",
@@ -302,6 +461,11 @@ export type OperationsListResponse = OperationListResult;
 // @public
 export type Origin = string;
 
+// @public (undocumented)
+export interface PrLinkResponse {
+    prLink?: string;
+}
+
 // @public
 export interface ProxyResource extends Resource {
 }
@@ -310,11 +474,43 @@ export interface ProxyResource extends Resource {
 export type PullRequestStatus = string;
 
 // @public
+export type QuickStartTemplateType = string;
+
+// @public (undocumented)
+export interface QuickTemplateRequest {
+    readonly quickStartTemplateType?: QuickStartTemplateType;
+    templateName?: string;
+}
+
+// @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
     readonly systemData?: SystemData;
     readonly type?: string;
+}
+
+// @public (undocumented)
+export interface ScaleProperty {
+    numberOfStore?: number;
+    region?: string;
+    stage?: string;
+}
+
+// @public (undocumented)
+export interface ScaleTemplateRequest {
+    // (undocumented)
+    scaleRequirement?: ScaleProperty[];
+    templateName?: string;
+}
+
+// @public
+export interface StageProperties {
+    // (undocumented)
+    dependencies?: string[];
+    // (undocumented)
+    gitEnvironment?: string;
+    stageName?: string;
 }
 
 // @public
