@@ -261,7 +261,7 @@ export interface AutonomousDatabaseCharacterSetListResult {
 
 // @public
 export interface AutonomousDatabaseCharacterSetProperties {
-    readonly characterSet: string;
+    readonly characterSet?: string;
 }
 
 // @public
@@ -326,7 +326,7 @@ export interface AutonomousDatabaseNationalCharacterSetListResult {
 
 // @public
 export interface AutonomousDatabaseNationalCharacterSetProperties {
-    readonly characterSet: string;
+    readonly characterSet?: string;
 }
 
 // @public
@@ -623,7 +623,7 @@ export interface AutonomousDbVersionProperties {
     readonly isDefaultForPaid?: boolean;
     readonly isFreeTierEnabled?: boolean;
     readonly isPaidEnabled?: boolean;
-    readonly version: string;
+    readonly version?: string;
 }
 
 // @public
@@ -1146,7 +1146,7 @@ export interface DbNodeProperties {
     readonly cpuCoreCount?: number;
     readonly dbNodeStorageSizeInGbs?: number;
     readonly dbServerId?: string;
-    readonly dbSystemId: string;
+    readonly dbSystemId?: string;
     readonly faultDomain?: string;
     readonly hostIpId?: string;
     readonly hostname?: string;
@@ -1154,7 +1154,7 @@ export interface DbNodeProperties {
     readonly lifecycleState?: DbNodeProvisioningState;
     readonly maintenanceType?: DbNodeMaintenanceType;
     readonly memorySizeInGbs?: number;
-    readonly ocid: string;
+    readonly ocid?: string;
     readonly provisioningState?: ResourceProvisioningState;
     readonly softwareStorageSizeInGb?: number;
     readonly timeCreated?: Date;
@@ -1300,7 +1300,7 @@ export interface DbSystemShapeListResult {
 
 // @public
 export interface DbSystemShapeProperties {
-    readonly availableCoreCount: number;
+    readonly availableCoreCount?: number;
     readonly availableCoreCountPerNode?: number;
     readonly availableDataStorageInTbs?: number;
     readonly availableDataStoragePerServerInTbs?: number;
@@ -1369,13 +1369,13 @@ export interface DnsPrivateViewListResult {
 // @public
 export interface DnsPrivateViewProperties {
     readonly displayName?: string;
-    readonly isProtected: boolean;
+    readonly isProtected?: boolean;
     readonly lifecycleState?: DnsPrivateViewsLifecycleState;
-    readonly ocid: string;
+    readonly ocid?: string;
     readonly provisioningState?: ResourceProvisioningState;
-    readonly self: string;
-    readonly timeCreated: Date;
-    readonly timeUpdated: Date;
+    readonly self?: string;
+    readonly timeCreated?: Date;
+    readonly timeUpdated?: Date;
 }
 
 // @public
@@ -1421,16 +1421,16 @@ export interface DnsPrivateZoneListResult {
 
 // @public
 export interface DnsPrivateZoneProperties {
-    readonly isProtected: boolean;
+    readonly isProtected?: boolean;
     readonly lifecycleState?: DnsPrivateZonesLifecycleState;
-    readonly ocid: string;
+    readonly ocid?: string;
     readonly provisioningState?: ResourceProvisioningState;
-    readonly self: string;
-    readonly serial: number;
-    readonly timeCreated: Date;
-    readonly version: string;
+    readonly self?: string;
+    readonly serial?: number;
+    readonly timeCreated?: Date;
+    readonly version?: string;
     readonly viewId?: string;
-    readonly zoneType: ZoneType;
+    readonly zoneType?: ZoneType;
 }
 
 // @public
@@ -1525,7 +1525,7 @@ export interface GiVersionListResult {
 
 // @public
 export interface GiVersionProperties {
-    readonly version: string;
+    readonly version?: string;
 }
 
 // @public
@@ -2476,7 +2476,7 @@ export interface SystemVersionListResult {
 
 // @public
 export interface SystemVersionProperties {
-    readonly systemVersion: string;
+    readonly systemVersion?: string;
 }
 
 // @public
