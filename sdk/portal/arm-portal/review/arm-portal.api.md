@@ -241,6 +241,7 @@ export class Portal extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: PortalOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, options?: PortalOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -250,7 +251,7 @@ export class Portal extends coreClient.ServiceClient {
     // (undocumented)
     operations: Operations;
     // (undocumented)
-    subscriptionId: string;
+    subscriptionId?: string;
     // (undocumented)
     tenantConfigurations: TenantConfigurations;
 }

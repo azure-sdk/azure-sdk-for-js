@@ -15,7 +15,7 @@ import {
   TenantConfigurationsGetResponse,
   TenantConfigurationsCreateOptionalParams,
   TenantConfigurationsCreateResponse,
-  TenantConfigurationsDeleteOptionalParams
+  TenantConfigurationsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -26,7 +26,7 @@ export interface TenantConfigurations {
    * @param options The options parameters.
    */
   list(
-    options?: TenantConfigurationsListOptionalParams
+    options?: TenantConfigurationsListOptionalParams,
   ): PagedAsyncIterableIterator<Configuration>;
   /**
    * Gets the tenant configuration.
@@ -35,7 +35,7 @@ export interface TenantConfigurations {
    */
   get(
     configurationName: ConfigurationName,
-    options?: TenantConfigurationsGetOptionalParams
+    options?: TenantConfigurationsGetOptionalParams,
   ): Promise<TenantConfigurationsGetResponse>;
   /**
    * Create the tenant configuration. If configuration already exists - update it. User has to be a
@@ -47,7 +47,7 @@ export interface TenantConfigurations {
   create(
     configurationName: ConfigurationName,
     tenantConfiguration: Configuration,
-    options?: TenantConfigurationsCreateOptionalParams
+    options?: TenantConfigurationsCreateOptionalParams,
   ): Promise<TenantConfigurationsCreateResponse>;
   /**
    * Delete the tenant configuration. User has to be a Tenant Admin for this operation.
@@ -56,6 +56,6 @@ export interface TenantConfigurations {
    */
   delete(
     configurationName: ConfigurationName,
-    options?: TenantConfigurationsDeleteOptionalParams
+    options?: TenantConfigurationsDeleteOptionalParams,
   ): Promise<void>;
 }

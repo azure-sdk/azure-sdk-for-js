@@ -18,7 +18,7 @@ import {
   DashboardsGetResponse,
   PatchableDashboard,
   DashboardsUpdateOptionalParams,
-  DashboardsUpdateResponse
+  DashboardsUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,14 +31,14 @@ export interface Dashboards {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: DashboardsListByResourceGroupOptionalParams
+    options?: DashboardsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Dashboard>;
   /**
    * Gets all the dashboards within a subscription.
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: DashboardsListBySubscriptionOptionalParams
+    options?: DashboardsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<Dashboard>;
   /**
    * Creates or updates a Dashboard.
@@ -51,7 +51,7 @@ export interface Dashboards {
     resourceGroupName: string,
     dashboardName: string,
     dashboard: Dashboard,
-    options?: DashboardsCreateOrUpdateOptionalParams
+    options?: DashboardsCreateOrUpdateOptionalParams,
   ): Promise<DashboardsCreateOrUpdateResponse>;
   /**
    * Deletes the Dashboard.
@@ -62,7 +62,7 @@ export interface Dashboards {
   delete(
     resourceGroupName: string,
     dashboardName: string,
-    options?: DashboardsDeleteOptionalParams
+    options?: DashboardsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets the Dashboard.
@@ -73,7 +73,7 @@ export interface Dashboards {
   get(
     resourceGroupName: string,
     dashboardName: string,
-    options?: DashboardsGetOptionalParams
+    options?: DashboardsGetOptionalParams,
   ): Promise<DashboardsGetResponse>;
   /**
    * Updates an existing Dashboard.
@@ -86,6 +86,6 @@ export interface Dashboards {
     resourceGroupName: string,
     dashboardName: string,
     dashboard: PatchableDashboard,
-    options?: DashboardsUpdateOptionalParams
+    options?: DashboardsUpdateOptionalParams,
   ): Promise<DashboardsUpdateResponse>;
 }

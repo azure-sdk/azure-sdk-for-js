@@ -30,7 +30,7 @@ import {
   DashboardsUpdateOptionalParams,
   DashboardsUpdateResponse,
   DashboardsListByResourceGroupNextResponse,
-  DashboardsListBySubscriptionNextResponse
+  DashboardsListBySubscriptionNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -53,7 +53,7 @@ export class DashboardsImpl implements Dashboards {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: DashboardsListByResourceGroupOptionalParams
+    options?: DashboardsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Dashboard> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -70,16 +70,16 @@ export class DashboardsImpl implements Dashboards {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: DashboardsListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Dashboard[]> {
     let result: DashboardsListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -94,7 +94,7 @@ export class DashboardsImpl implements Dashboards {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -105,11 +105,11 @@ export class DashboardsImpl implements Dashboards {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: DashboardsListByResourceGroupOptionalParams
+    options?: DashboardsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<Dashboard> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -120,7 +120,7 @@ export class DashboardsImpl implements Dashboards {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: DashboardsListBySubscriptionOptionalParams
+    options?: DashboardsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<Dashboard> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -135,13 +135,13 @@ export class DashboardsImpl implements Dashboards {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: DashboardsListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Dashboard[]> {
     let result: DashboardsListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -162,7 +162,7 @@ export class DashboardsImpl implements Dashboards {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: DashboardsListBySubscriptionOptionalParams
+    options?: DashboardsListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<Dashboard> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -180,11 +180,11 @@ export class DashboardsImpl implements Dashboards {
     resourceGroupName: string,
     dashboardName: string,
     dashboard: Dashboard,
-    options?: DashboardsCreateOrUpdateOptionalParams
+    options?: DashboardsCreateOrUpdateOptionalParams,
   ): Promise<DashboardsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, dashboardName, dashboard, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -197,11 +197,11 @@ export class DashboardsImpl implements Dashboards {
   delete(
     resourceGroupName: string,
     dashboardName: string,
-    options?: DashboardsDeleteOptionalParams
+    options?: DashboardsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, dashboardName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -214,11 +214,11 @@ export class DashboardsImpl implements Dashboards {
   get(
     resourceGroupName: string,
     dashboardName: string,
-    options?: DashboardsGetOptionalParams
+    options?: DashboardsGetOptionalParams,
   ): Promise<DashboardsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, dashboardName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -233,11 +233,11 @@ export class DashboardsImpl implements Dashboards {
     resourceGroupName: string,
     dashboardName: string,
     dashboard: PatchableDashboard,
-    options?: DashboardsUpdateOptionalParams
+    options?: DashboardsUpdateOptionalParams,
   ): Promise<DashboardsUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, dashboardName, dashboard, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -248,11 +248,11 @@ export class DashboardsImpl implements Dashboards {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: DashboardsListByResourceGroupOptionalParams
+    options?: DashboardsListByResourceGroupOptionalParams,
   ): Promise<DashboardsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -261,11 +261,11 @@ export class DashboardsImpl implements Dashboards {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: DashboardsListBySubscriptionOptionalParams
+    options?: DashboardsListBySubscriptionOptionalParams,
   ): Promise<DashboardsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -278,11 +278,11 @@ export class DashboardsImpl implements Dashboards {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: DashboardsListByResourceGroupNextOptionalParams
+    options?: DashboardsListByResourceGroupNextOptionalParams,
   ): Promise<DashboardsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 
@@ -293,11 +293,11 @@ export class DashboardsImpl implements Dashboards {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: DashboardsListBySubscriptionNextOptionalParams
+    options?: DashboardsListBySubscriptionNextOptionalParams,
   ): Promise<DashboardsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 }
@@ -305,19 +305,18 @@ export class DashboardsImpl implements Dashboards {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Portal/dashboards/{dashboardName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Portal/dashboards/{dashboardName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Dashboard
+      bodyMapper: Mappers.Dashboard,
     },
     201: {
-      bodyMapper: Mappers.Dashboard
+      bodyMapper: Mappers.Dashboard,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.dashboard,
   queryParameters: [Parameters.apiVersion],
@@ -325,68 +324,65 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.dashboardName
+    Parameters.dashboardName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Portal/dashboards/{dashboardName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Portal/dashboards/{dashboardName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.dashboardName
+    Parameters.dashboardName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Portal/dashboards/{dashboardName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Portal/dashboards/{dashboardName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Dashboard
+      bodyMapper: Mappers.Dashboard,
     },
     404: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.dashboardName
+    Parameters.dashboardName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Portal/dashboards/{dashboardName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Portal/dashboards/{dashboardName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Dashboard
+      bodyMapper: Mappers.Dashboard,
     },
     404: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.dashboard1,
   queryParameters: [Parameters.apiVersion],
@@ -394,85 +390,84 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.dashboardName
+    Parameters.dashboardName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Portal/dashboards",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Portal/dashboards",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DashboardListResult
+      bodyMapper: Mappers.DashboardListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/providers/Microsoft.Portal/dashboards",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DashboardListResult
+      bodyMapper: Mappers.DashboardListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DashboardListResult
+      bodyMapper: Mappers.DashboardListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DashboardListResult
+      bodyMapper: Mappers.DashboardListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

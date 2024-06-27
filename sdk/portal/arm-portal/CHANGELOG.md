@@ -1,15 +1,12 @@
 # Release History
+    
+## 1.0.0-beta.6 (2024-06-27)
+Compared with version 1.0.0-beta.5
+    
+**Breaking Changes**
 
-## 1.0.0-beta.6 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Class Portal has a new signature
+    
 ## 1.0.0-beta.5 (2023-02-02)
 
 **Features**
@@ -42,4 +39,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).

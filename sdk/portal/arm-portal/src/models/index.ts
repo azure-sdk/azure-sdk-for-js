@@ -254,7 +254,7 @@ export interface Configuration extends ProxyResource {
 /** Known values of {@link ConfigurationName} that the service accepts. */
 export enum KnownConfigurationName {
   /** Default */
-  Default = "default"
+  Default = "default",
 }
 
 /**

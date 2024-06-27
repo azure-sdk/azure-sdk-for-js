@@ -16683,7 +16683,7 @@ packages:
     dev: false
 
   file:projects/arm-portal.tgz:
-    resolution: {integrity: sha512-fwhmrGLAbV+R4lg4lSLPo/oMiREbvkpO7VDTbStO9HockVVCLrmktFCLYFlgRKZ31ReGFmVlOQvieeBOsx/SCg==, tarball: file:projects/arm-portal.tgz}
+    resolution: {integrity: sha512-cTZcnO5Tf68lXioOhV0MQwQ20vpp05RGHQRKjP50wRMaDhqajOCMVHIRjewW4JWowRjMIFdfzDPxSMO+PO/VAw==, tarball: file:projects/arm-portal.tgz}
     name: '@rush-temp/arm-portal'
     version: 0.0.0
     dependencies:
@@ -16701,6 +16701,7 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.4.5)
       tslib: 2.6.3
+      tsx: 4.15.7
       typescript: 5.4.5
       uglify-js: 3.18.0
     transitivePeerDependencies:
@@ -20529,7 +20530,7 @@ packages:
     dev: false
 
   file:projects/eventhubs-checkpointstore-blob.tgz:
-    resolution: {integrity: sha512-fpCOyM0dO+71rfZa6CfTklgsZbUvfdTWY0UIVoh492rxwawM2T2NKXcZOH9dfP7dHAiThnOjOZzq6h2d99X4Cg==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
+    resolution: {integrity: sha512-lC0ETP1LwXefVLXMlLZK+H+cTyU7Di4o6UD+ZOoiZMZ6/6Kx0Io2+NTjH+3s8vpU+FfYKrm8QuGoYE6cg1G3ug==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
     name: '@rush-temp/eventhubs-checkpointstore-blob'
     version: 0.0.0
     dependencies:
