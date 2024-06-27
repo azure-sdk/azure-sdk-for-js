@@ -526,6 +526,8 @@ export interface EncryptionInTransitProperties {
 
 /** The network properties. */
 export interface NetworkProperties {
+  /** A value to describe how the outbound dependencies of a HDInsight cluster are managed. 'Managed' means that the outbound dependencies are managed by the HDInsight service. 'External' means that the outbound dependencies are managed by a customer specific solution. */
+  outboundDependenciesManagedType?: OutboundDependenciesManagedType;
   /** The direction for the resource provider connection. */
   resourceProviderConnection?: ResourceProviderConnection;
   /** Indicates whether or not private link is enabled. */
@@ -1433,7 +1435,7 @@ export enum KnownDaysOfWeek {
   /** Saturday */
   Saturday = "Saturday",
   /** Sunday */
-  Sunday = "Sunday"
+  Sunday = "Sunday",
 }
 
 /**
@@ -1462,7 +1464,7 @@ export enum KnownPrivateLinkConfigurationProvisioningState {
   /** Canceled */
   Canceled = "Canceled",
   /** Deleting */
-  Deleting = "Deleting"
+  Deleting = "Deleting",
 }
 
 /**
@@ -1483,7 +1485,7 @@ export enum KnownPrivateIPAllocationMethod {
   /** Dynamic */
   Dynamic = "dynamic",
   /** Static */
-  Static = "static"
+  Static = "static",
 }
 
 /**
@@ -1505,7 +1507,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -1527,7 +1529,7 @@ export enum KnownAsyncOperationState {
   /** Succeeded */
   Succeeded = "Succeeded",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -1546,7 +1548,7 @@ export enum KnownOSType {
   /** Windows */
   Windows = "Windows",
   /** Linux */
-  Linux = "Linux"
+  Linux = "Linux",
 }
 
 /**
@@ -1564,7 +1566,7 @@ export enum KnownTier {
   /** Standard */
   Standard = "Standard",
   /** Premium */
-  Premium = "Premium"
+  Premium = "Premium",
 }
 
 /**
@@ -1580,7 +1582,7 @@ export type Tier = string;
 /** Known values of {@link DirectoryType} that the service accepts. */
 export enum KnownDirectoryType {
   /** ActiveDirectory */
-  ActiveDirectory = "ActiveDirectory"
+  ActiveDirectory = "ActiveDirectory",
 }
 
 /**
@@ -1599,7 +1601,7 @@ export enum KnownJsonWebKeyEncryptionAlgorithm {
   /** RSAOaep256 */
   RSAOaep256 = "RSA-OAEP-256",
   /** RSA15 */
-  RSA15 = "RSA1_5"
+  RSA15 = "RSA1_5",
 }
 
 /**
@@ -1613,12 +1615,30 @@ export enum KnownJsonWebKeyEncryptionAlgorithm {
  */
 export type JsonWebKeyEncryptionAlgorithm = string;
 
+/** Known values of {@link OutboundDependenciesManagedType} that the service accepts. */
+export enum KnownOutboundDependenciesManagedType {
+  /** Managed */
+  Managed = "Managed",
+  /** External */
+  External = "External",
+}
+
+/**
+ * Defines values for OutboundDependenciesManagedType. \
+ * {@link KnownOutboundDependenciesManagedType} can be used interchangeably with OutboundDependenciesManagedType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Managed** \
+ * **External**
+ */
+export type OutboundDependenciesManagedType = string;
+
 /** Known values of {@link ResourceProviderConnection} that the service accepts. */
 export enum KnownResourceProviderConnection {
   /** Inbound */
   Inbound = "Inbound",
   /** Outbound */
-  Outbound = "Outbound"
+  Outbound = "Outbound",
 }
 
 /**
@@ -1636,7 +1656,7 @@ export enum KnownPrivateLink {
   /** Disabled */
   Disabled = "Disabled",
   /** Enabled */
-  Enabled = "Enabled"
+  Enabled = "Enabled",
 }
 
 /**
@@ -1658,7 +1678,7 @@ export enum KnownResourceIdentityType {
   /** SystemAssignedUserAssigned */
   SystemAssignedUserAssigned = "SystemAssigned, UserAssigned",
   /** None */
-  None = "None"
+  None = "None",
 }
 
 /**
@@ -1684,7 +1704,7 @@ export enum KnownHDInsightClusterProvisioningState {
   /** Canceled */
   Canceled = "Canceled",
   /** Deleting */
-  Deleting = "Deleting"
+  Deleting = "Deleting",
 }
 
 /**
@@ -1709,7 +1729,7 @@ export enum KnownPrivateLinkServiceConnectionStatus {
   /** Pending */
   Pending = "Pending",
   /** Removed */
-  Removed = "Removed"
+  Removed = "Removed",
 }
 
 /**
@@ -1737,7 +1757,7 @@ export enum KnownPrivateEndpointConnectionProvisioningState {
   /** Canceled */
   Canceled = "Canceled",
   /** Deleting */
-  Deleting = "Deleting"
+  Deleting = "Deleting",
 }
 
 /**
@@ -1757,7 +1777,7 @@ export type PrivateEndpointConnectionProvisioningState = string;
 /** Known values of {@link RoleName} that the service accepts. */
 export enum KnownRoleName {
   /** Workernode */
-  Workernode = "workernode"
+  Workernode = "workernode",
 }
 
 /**
@@ -1778,7 +1798,7 @@ export enum KnownFilterMode {
   /** Recommend */
   Recommend = "Recommend",
   /** Default */
-  Default = "Default"
+  Default = "Default",
 }
 
 /**
@@ -1833,7 +1853,8 @@ export interface ApplicationsGetAzureAsyncOperationStatusOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getAzureAsyncOperationStatus operation. */
-export type ApplicationsGetAzureAsyncOperationStatusResponse = AsyncOperationResult;
+export type ApplicationsGetAzureAsyncOperationStatusResponse =
+  AsyncOperationResult;
 
 /** Optional parameters. */
 export interface ApplicationsListByClusterNextOptionalParams
@@ -2076,7 +2097,8 @@ export interface ExtensionsGetAzureAsyncOperationStatusOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getAzureAsyncOperationStatus operation. */
-export type ExtensionsGetAzureAsyncOperationStatusResponse = AsyncOperationResult;
+export type ExtensionsGetAzureAsyncOperationStatusResponse =
+  AsyncOperationResult;
 
 /** Optional parameters. */
 export interface LocationsGetCapabilitiesOptionalParams
@@ -2104,21 +2126,24 @@ export interface LocationsGetAzureAsyncOperationStatusOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getAzureAsyncOperationStatus operation. */
-export type LocationsGetAzureAsyncOperationStatusResponse = AsyncOperationResult;
+export type LocationsGetAzureAsyncOperationStatusResponse =
+  AsyncOperationResult;
 
 /** Optional parameters. */
 export interface LocationsCheckNameAvailabilityOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkNameAvailability operation. */
-export type LocationsCheckNameAvailabilityResponse = NameAvailabilityCheckResult;
+export type LocationsCheckNameAvailabilityResponse =
+  NameAvailabilityCheckResult;
 
 /** Optional parameters. */
 export interface LocationsValidateClusterCreateRequestOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the validateClusterCreateRequest operation. */
-export type LocationsValidateClusterCreateRequestResponse = ClusterCreateValidationResult;
+export type LocationsValidateClusterCreateRequestResponse =
+  ClusterCreateValidationResult;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
@@ -2139,7 +2164,8 @@ export interface PrivateEndpointConnectionsListByClusterOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByCluster operation. */
-export type PrivateEndpointConnectionsListByClusterResponse = PrivateEndpointConnectionListResult;
+export type PrivateEndpointConnectionsListByClusterResponse =
+  PrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams
@@ -2151,7 +2177,8 @@ export interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnection;
+export type PrivateEndpointConnectionsCreateOrUpdateResponse =
+  PrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsGetOptionalParams
@@ -2174,14 +2201,16 @@ export interface PrivateEndpointConnectionsListByClusterNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByClusterNext operation. */
-export type PrivateEndpointConnectionsListByClusterNextResponse = PrivateEndpointConnectionListResult;
+export type PrivateEndpointConnectionsListByClusterNextResponse =
+  PrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
 export interface PrivateLinkResourcesListByClusterOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByCluster operation. */
-export type PrivateLinkResourcesListByClusterResponse = PrivateLinkResourceListResult;
+export type PrivateLinkResourcesListByClusterResponse =
+  PrivateLinkResourceListResult;
 
 /** Optional parameters. */
 export interface PrivateLinkResourcesGetOptionalParams
@@ -2213,7 +2242,8 @@ export interface ScriptActionsGetExecutionAsyncOperationStatusOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getExecutionAsyncOperationStatus operation. */
-export type ScriptActionsGetExecutionAsyncOperationStatusResponse = AsyncOperationResult;
+export type ScriptActionsGetExecutionAsyncOperationStatusResponse =
+  AsyncOperationResult;
 
 /** Optional parameters. */
 export interface ScriptActionsListByClusterNextOptionalParams
@@ -2227,7 +2257,8 @@ export interface ScriptExecutionHistoryListByClusterOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByCluster operation. */
-export type ScriptExecutionHistoryListByClusterResponse = ScriptActionExecutionHistoryList;
+export type ScriptExecutionHistoryListByClusterResponse =
+  ScriptActionExecutionHistoryList;
 
 /** Optional parameters. */
 export interface ScriptExecutionHistoryPromoteOptionalParams
@@ -2238,7 +2269,8 @@ export interface ScriptExecutionHistoryListByClusterNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByClusterNext operation. */
-export type ScriptExecutionHistoryListByClusterNextResponse = ScriptActionExecutionHistoryList;
+export type ScriptExecutionHistoryListByClusterNextResponse =
+  ScriptActionExecutionHistoryList;
 
 /** Optional parameters. */
 export interface VirtualMachinesListHostsOptionalParams
@@ -2261,7 +2293,8 @@ export interface VirtualMachinesGetAsyncOperationStatusOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getAsyncOperationStatus operation. */
-export type VirtualMachinesGetAsyncOperationStatusResponse = AsyncOperationResult;
+export type VirtualMachinesGetAsyncOperationStatusResponse =
+  AsyncOperationResult;
 
 /** Optional parameters. */
 export interface HDInsightManagementClientOptionalParams
