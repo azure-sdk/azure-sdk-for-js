@@ -172,6 +172,7 @@ export class ContainerAppsSourceControlsImpl
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param containerAppName Name of the Container App.
    * @param sourceControlName Name of the Container App SourceControl.
+   * @param xMsGithubAuxiliary Github personal access token used for SourceControl.
    * @param sourceControlEnvelope Properties used to create a Container App SourceControl
    * @param options The options parameters.
    */
@@ -179,6 +180,7 @@ export class ContainerAppsSourceControlsImpl
     resourceGroupName: string,
     containerAppName: string,
     sourceControlName: string,
+    xMsGithubAuxiliary: string,
     sourceControlEnvelope: SourceControl,
     options?: ContainerAppsSourceControlsCreateOrUpdateOptionalParams,
   ): Promise<
@@ -231,6 +233,7 @@ export class ContainerAppsSourceControlsImpl
         resourceGroupName,
         containerAppName,
         sourceControlName,
+        xMsGithubAuxiliary,
         sourceControlEnvelope,
         options,
       },
@@ -252,6 +255,7 @@ export class ContainerAppsSourceControlsImpl
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param containerAppName Name of the Container App.
    * @param sourceControlName Name of the Container App SourceControl.
+   * @param xMsGithubAuxiliary Github personal access token used for SourceControl.
    * @param sourceControlEnvelope Properties used to create a Container App SourceControl
    * @param options The options parameters.
    */
@@ -259,6 +263,7 @@ export class ContainerAppsSourceControlsImpl
     resourceGroupName: string,
     containerAppName: string,
     sourceControlName: string,
+    xMsGithubAuxiliary: string,
     sourceControlEnvelope: SourceControl,
     options?: ContainerAppsSourceControlsCreateOrUpdateOptionalParams,
   ): Promise<ContainerAppsSourceControlsCreateOrUpdateResponse> {
@@ -266,6 +271,7 @@ export class ContainerAppsSourceControlsImpl
       resourceGroupName,
       containerAppName,
       sourceControlName,
+      xMsGithubAuxiliary,
       sourceControlEnvelope,
       options,
     );
@@ -277,12 +283,14 @@ export class ContainerAppsSourceControlsImpl
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param containerAppName Name of the Container App.
    * @param sourceControlName Name of the Container App SourceControl.
+   * @param xMsGithubAuxiliary Github personal access token used for SourceControl.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     containerAppName: string,
     sourceControlName: string,
+    xMsGithubAuxiliary: string,
     options?: ContainerAppsSourceControlsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
@@ -325,7 +333,13 @@ export class ContainerAppsSourceControlsImpl
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, containerAppName, sourceControlName, options },
+      args: {
+        resourceGroupName,
+        containerAppName,
+        sourceControlName,
+        xMsGithubAuxiliary,
+        options,
+      },
       spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
@@ -341,18 +355,21 @@ export class ContainerAppsSourceControlsImpl
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param containerAppName Name of the Container App.
    * @param sourceControlName Name of the Container App SourceControl.
+   * @param xMsGithubAuxiliary Github personal access token used for SourceControl.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     containerAppName: string,
     sourceControlName: string,
+    xMsGithubAuxiliary: string,
     options?: ContainerAppsSourceControlsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       containerAppName,
       sourceControlName,
+      xMsGithubAuxiliary,
       options,
     );
     return poller.pollUntilDone();
@@ -452,7 +469,11 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.containerAppName,
     Parameters.sourceControlName,
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [
+    Parameters.contentType,
+    Parameters.accept,
+    Parameters.xMsGithubAuxiliary,
+  ],
   mediaType: "json",
   serializer,
 };
@@ -468,7 +489,11 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.ignoreWorkflowDeletionFailure,
+    Parameters.deleteWorkflow,
+  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -476,7 +501,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.containerAppName,
     Parameters.sourceControlName,
   ],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.xMsGithubAuxiliary],
   serializer,
 };
 const listByContainerAppNextOperationSpec: coreClient.OperationSpec = {
