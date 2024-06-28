@@ -8,6 +8,9 @@ dependencies:
   '@rush-temp/abort-controller':
     specifier: file:./projects/abort-controller.tgz
     version: file:projects/abort-controller.tgz
+  '@rush-temp/adp':
+    specifier: file:./projects/adp.tgz
+    version: file:projects/adp.tgz
   '@rush-temp/agrifood-farming':
     specifier: file:./projects/agrifood-farming.tgz
     version: file:projects/agrifood-farming.tgz
@@ -11234,6 +11237,36 @@ packages:
       - webdriverio
     dev: false
 
+  file:projects/adp.tgz:
+    resolution: {integrity: sha512-vZ0r0eKS78wdV6Ad6Fb6f//4EaYaS8eFonL6EYDNN+Javpu3E2XTbIWA25xwQk33+7usjaRRe6ZPme+8sxHDkA==, tarball: file:projects/adp.tgz}
+    name: '@rush-temp/adp'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-credential': 1.2.0
+      '@azure-tools/test-recorder': 3.5.2
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-lro': 2.7.2
+      '@microsoft/api-extractor': 7.47.0(@types/node@18.19.39)
+      '@types/chai': 4.3.16
+      '@types/mocha': 10.0.7
+      '@types/node': 18.19.39
+      chai: 4.3.10
+      cross-env: 7.0.3
+      dotenv: 16.4.5
+      mkdirp: 3.0.1
+      mocha: 10.4.0
+      rimraf: 5.0.7
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.4.5)
+      tslib: 2.6.3
+      tsx: 4.15.7
+      typescript: 5.4.5
+      uglify-js: 3.18.0
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - supports-color
+    dev: false
+
   file:projects/agrifood-farming.tgz:
     resolution: {integrity: sha512-zCbc0UW0+tESsYqiPUpRx5dnfIuwRdFJPYXMQXj5iM6Ei8vm0/d8EFirUZA8adCT31VOB8uRQd4u+2Lzy2466Q==, tarball: file:projects/agrifood-farming.tgz}
     name: '@rush-temp/agrifood-farming'
@@ -21009,7 +21042,7 @@ packages:
     dev: false
 
   file:projects/identity.tgz:
-    resolution: {integrity: sha512-0kw/50ONM3zpnEq4gPjay4yDezf/69osBllss4ouZaJ80iAmcrlVg+/3uMrtpB/ch9hu7RZCiv2NoSOj4Ppzag==, tarball: file:projects/identity.tgz}
+    resolution: {integrity: sha512-Jyrkc+fkjWKWEk916roF0udn04mQmJjEKbAcly+x+O4hXJfUTIXkF5QFn/gb0Felcpk3X/dyRgTmy/opumSsDg==, tarball: file:projects/identity.tgz}
     name: '@rush-temp/identity'
     version: 0.0.0
     dependencies:
