@@ -20,6 +20,9 @@ import {
   OracleSubscriptionsUpdateResponse,
   OracleSubscriptionsDeleteOptionalParams,
   OracleSubscriptionsDeleteResponse,
+  AzureSubscriptions,
+  OracleSubscriptionsAddAzureSubscriptionsOptionalParams,
+  OracleSubscriptionsAddAzureSubscriptionsResponse,
   OracleSubscriptionsListActivationLinksOptionalParams,
   OracleSubscriptionsListActivationLinksResponse,
   OracleSubscriptionsListCloudAccountDetailsOptionalParams,
@@ -110,6 +113,29 @@ export interface OracleSubscriptions {
   beginDeleteAndWait(
     options?: OracleSubscriptionsDeleteOptionalParams,
   ): Promise<OracleSubscriptionsDeleteResponse>;
+  /**
+   * Add Azure Subscriptions
+   * @param body The content of the action request
+   * @param options The options parameters.
+   */
+  beginAddAzureSubscriptions(
+    body: AzureSubscriptions,
+    options?: OracleSubscriptionsAddAzureSubscriptionsOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<OracleSubscriptionsAddAzureSubscriptionsResponse>,
+      OracleSubscriptionsAddAzureSubscriptionsResponse
+    >
+  >;
+  /**
+   * Add Azure Subscriptions
+   * @param body The content of the action request
+   * @param options The options parameters.
+   */
+  beginAddAzureSubscriptionsAndWait(
+    body: AzureSubscriptions,
+    options?: OracleSubscriptionsAddAzureSubscriptionsOptionalParams,
+  ): Promise<OracleSubscriptionsAddAzureSubscriptionsResponse>;
   /**
    * List Activation Links
    * @param options The options parameters.
