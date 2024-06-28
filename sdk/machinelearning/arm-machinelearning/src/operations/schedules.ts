@@ -12,7 +12,7 @@ import { Schedules } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AzureMachineLearningWorkspaces } from "../azureMachineLearningWorkspaces";
+import { AzureMachineLearningServicesMgmtClient } from "../azureMachineLearningServicesMgmtClient";
 import {
   SimplePollerLike,
   OperationState,
@@ -35,13 +35,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Schedules operations. */
 export class SchedulesImpl implements Schedules {
-  private readonly client: AzureMachineLearningWorkspaces;
+  private readonly client: AzureMachineLearningServicesMgmtClient;
 
   /**
    * Initialize a new instance of the class Schedules class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureMachineLearningWorkspaces) {
+  constructor(client: AzureMachineLearningServicesMgmtClient) {
     this.client = client;
   }
 
@@ -197,6 +197,7 @@ export class SchedulesImpl implements Schedules {
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -312,6 +313,7 @@ export class SchedulesImpl implements Schedules {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "original-uri",
     });
     await poller.poll();
     return poller;
@@ -454,7 +456,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body21,
+  requestBody: Parameters.body33,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
