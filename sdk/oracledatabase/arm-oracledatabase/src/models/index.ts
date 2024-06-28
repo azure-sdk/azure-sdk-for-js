@@ -1003,7 +1003,7 @@ export interface AutonomousDatabaseCharacterSetProperties {
    * The Oracle Autonomous Database supported character sets.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly characterSet: string;
+  readonly characterSet?: string;
 }
 
 /** The response of a AutonomousDatabaseNationalCharacterSet list operation. */
@@ -1020,7 +1020,7 @@ export interface AutonomousDatabaseNationalCharacterSetProperties {
    * The Oracle Autonomous Database supported national character sets.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly characterSet: string;
+  readonly characterSet?: string;
 }
 
 /** The response of a AutonomousDbVersion list operation. */
@@ -1037,7 +1037,7 @@ export interface AutonomousDbVersionProperties {
    * Supported Autonomous Db versions.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly version: string;
+  readonly version?: string;
   /**
    * The Autonomous Database workload type
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1084,7 +1084,7 @@ export interface DbSystemShapeProperties {
    * The maximum number of CPU cores that can be enabled on the DB system for this shape.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly availableCoreCount: number;
+  readonly availableCoreCount?: number;
   /**
    * The minimum number of CPU cores that can be enabled on the DB system for this shape.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1191,7 +1191,7 @@ export interface DnsPrivateViewProperties {
    * The OCID of the view
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly ocid: string;
+  readonly ocid?: string;
   /**
    * The display name of the view resource
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1201,7 +1201,7 @@ export interface DnsPrivateViewProperties {
    * A Boolean flag indicating whether or not parts of the resource are unable to be explicitly managed.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly isProtected: boolean;
+  readonly isProtected?: boolean;
   /**
    * Views lifecycleState
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1211,17 +1211,17 @@ export interface DnsPrivateViewProperties {
    * The canonical absolute URL of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly self: string;
+  readonly self?: string;
   /**
    * views timeCreated
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly timeCreated: Date;
+  readonly timeCreated?: Date;
   /**
    * views timeCreated
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly timeUpdated: Date;
+  readonly timeUpdated?: Date;
   /**
    * Azure resource provisioning state.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1243,12 +1243,12 @@ export interface DnsPrivateZoneProperties {
    * The OCID of the Zone
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly ocid: string;
+  readonly ocid?: string;
   /**
    * A Boolean flag indicating whether or not parts of the resource are unable to be explicitly managed.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly isProtected: boolean;
+  readonly isProtected?: boolean;
   /**
    * Zones lifecycleState
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1258,17 +1258,17 @@ export interface DnsPrivateZoneProperties {
    * The canonical absolute URL of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly self: string;
+  readonly self?: string;
   /**
    * The current serial of the zone. As seen in the zone's SOA record.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly serial: number;
+  readonly serial?: number;
   /**
    * Version is the never-repeating, totally-orderable, version of the zone, from which the serial field of the zone's SOA record is derived.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly version: string;
+  readonly version?: string;
   /**
    * The OCID of the private view containing the zone. This value will be null for zones in the global DNS, which are publicly resolvable and not part of a private view.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1278,12 +1278,12 @@ export interface DnsPrivateZoneProperties {
    * The type of the zone. Must be either PRIMARY or SECONDARY. SECONDARY is only supported for GLOBAL zones.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly zoneType: ZoneType;
+  readonly zoneType?: ZoneType;
   /**
    * Zones timeCreated
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly timeCreated: Date;
+  readonly timeCreated?: Date;
   /**
    * Azure resource provisioning state.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1305,7 +1305,7 @@ export interface GiVersionProperties {
    * A valid Oracle Grid Infrastructure (GI) software version.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly version: string;
+  readonly version?: string;
 }
 
 /** The response of a SystemVersion list operation. */
@@ -1322,7 +1322,7 @@ export interface SystemVersionProperties {
    * A valid Oracle System Version
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly systemVersion: string;
+  readonly systemVersion?: string;
 }
 
 /** The response of a OracleSubscription list operation. */
@@ -1919,7 +1919,7 @@ export interface DbNodeProperties {
    * DbNode OCID
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly ocid: string;
+  readonly ocid?: string;
   /**
    * Additional information about the planned maintenance.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1959,7 +1959,7 @@ export interface DbNodeProperties {
    * The OCID of the DB system.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly dbSystemId: string;
+  readonly dbSystemId?: string;
   /**
    * The name of the Fault Domain the instance is contained in.
    * NOTE: This property will not be serialized. It can only be populated by the server.

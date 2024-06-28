@@ -2437,7 +2437,6 @@ export const AutonomousDatabaseCharacterSetProperties: coreClient.CompositeMappe
             MinLength: 1,
           },
           serializedName: "characterSet",
-          required: true,
           readOnly: true,
           type: {
             name: "String",
@@ -2488,7 +2487,6 @@ export const AutonomousDatabaseNationalCharacterSetProperties: coreClient.Compos
             MinLength: 1,
           },
           serializedName: "characterSet",
-          required: true,
           readOnly: true,
           type: {
             name: "String",
@@ -2537,7 +2535,6 @@ export const AutonomousDbVersionProperties: coreClient.CompositeMapper = {
           MinLength: 1,
         },
         serializedName: "version",
-        required: true,
         readOnly: true,
         type: {
           name: "String",
@@ -2628,7 +2625,6 @@ export const DbSystemShapeProperties: coreClient.CompositeMapper = {
       },
       availableCoreCount: {
         serializedName: "availableCoreCount",
-        required: true,
         readOnly: true,
         type: {
           name: "Number",
@@ -2803,7 +2799,6 @@ export const DnsPrivateViewProperties: coreClient.CompositeMapper = {
           MinLength: 1,
         },
         serializedName: "ocid",
-        required: true,
         readOnly: true,
         type: {
           name: "String",
@@ -2818,7 +2813,6 @@ export const DnsPrivateViewProperties: coreClient.CompositeMapper = {
       },
       isProtected: {
         serializedName: "isProtected",
-        required: true,
         readOnly: true,
         type: {
           name: "Boolean",
@@ -2833,7 +2827,6 @@ export const DnsPrivateViewProperties: coreClient.CompositeMapper = {
       },
       self: {
         serializedName: "self",
-        required: true,
         readOnly: true,
         type: {
           name: "String",
@@ -2841,7 +2834,6 @@ export const DnsPrivateViewProperties: coreClient.CompositeMapper = {
       },
       timeCreated: {
         serializedName: "timeCreated",
-        required: true,
         readOnly: true,
         type: {
           name: "DateTime",
@@ -2849,7 +2841,6 @@ export const DnsPrivateViewProperties: coreClient.CompositeMapper = {
       },
       timeUpdated: {
         serializedName: "timeUpdated",
-        required: true,
         readOnly: true,
         type: {
           name: "DateTime",
@@ -2905,7 +2896,6 @@ export const DnsPrivateZoneProperties: coreClient.CompositeMapper = {
           MinLength: 1,
         },
         serializedName: "ocid",
-        required: true,
         readOnly: true,
         type: {
           name: "String",
@@ -2913,7 +2903,6 @@ export const DnsPrivateZoneProperties: coreClient.CompositeMapper = {
       },
       isProtected: {
         serializedName: "isProtected",
-        required: true,
         readOnly: true,
         type: {
           name: "Boolean",
@@ -2928,7 +2917,6 @@ export const DnsPrivateZoneProperties: coreClient.CompositeMapper = {
       },
       self: {
         serializedName: "self",
-        required: true,
         readOnly: true,
         type: {
           name: "String",
@@ -2936,7 +2924,6 @@ export const DnsPrivateZoneProperties: coreClient.CompositeMapper = {
       },
       serial: {
         serializedName: "serial",
-        required: true,
         readOnly: true,
         type: {
           name: "Number",
@@ -2944,7 +2931,6 @@ export const DnsPrivateZoneProperties: coreClient.CompositeMapper = {
       },
       version: {
         serializedName: "version",
-        required: true,
         readOnly: true,
         type: {
           name: "String",
@@ -2963,7 +2949,6 @@ export const DnsPrivateZoneProperties: coreClient.CompositeMapper = {
       },
       zoneType: {
         serializedName: "zoneType",
-        required: true,
         readOnly: true,
         type: {
           name: "String",
@@ -2971,7 +2956,6 @@ export const DnsPrivateZoneProperties: coreClient.CompositeMapper = {
       },
       timeCreated: {
         serializedName: "timeCreated",
-        required: true,
         readOnly: true,
         type: {
           name: "DateTime",
@@ -3027,7 +3011,6 @@ export const GiVersionProperties: coreClient.CompositeMapper = {
           MinLength: 1,
         },
         serializedName: "version",
-        required: true,
         readOnly: true,
         type: {
           name: "String",
@@ -3072,7 +3055,6 @@ export const SystemVersionProperties: coreClient.CompositeMapper = {
     modelProperties: {
       systemVersion: {
         serializedName: "systemVersion",
-        required: true,
         readOnly: true,
         type: {
           name: "String",
@@ -4514,7 +4496,6 @@ export const DbNodeProperties: coreClient.CompositeMapper = {
           MinLength: 1,
         },
         serializedName: "ocid",
-        required: true,
         readOnly: true,
         type: {
           name: "String",
@@ -4591,7 +4572,6 @@ export const DbNodeProperties: coreClient.CompositeMapper = {
           MinLength: 1,
         },
         serializedName: "dbSystemId",
-        required: true,
         readOnly: true,
         type: {
           name: "String",
