@@ -968,6 +968,9 @@ dependencies:
   '@rush-temp/maps-search':
     specifier: file:./projects/maps-search.tgz
     version: file:projects/maps-search.tgz
+  '@rush-temp/microsoft-playwright-testing':
+    specifier: file:./projects/microsoft-playwright-testing.tgz
+    version: file:projects/microsoft-playwright-testing.tgz
   '@rush-temp/mixed-reality-authentication':
     specifier: file:./projects/mixed-reality-authentication.tgz
     version: file:projects/mixed-reality-authentication.tgz
@@ -4087,7 +4090,7 @@ packages:
   /ajv-formats@3.0.1:
     resolution: {integrity: sha512-8iUql50EUR+uUcdRQ3HDqa6EVyo3docL8g5WJ3FNcWmu62IbkGUue/pEyLBW8VGKKucTPgqeks4fIU1DA4yowQ==}
     dependencies:
-      ajv: 8.13.0
+      ajv: 8.16.0
     dev: false
 
   /ajv@6.12.6:
@@ -11509,7 +11512,7 @@ packages:
     dev: false
 
   file:projects/ai-inference.tgz:
-    resolution: {integrity: sha512-A4/6r/5uXKLlNeqQWOVnDLjYIuS2NngXjdFV+RWfmvqcWcC3UNMPq/Kfcr633vfEQDrQXEw/VETKwAw3Wb0iNw==, tarball: file:projects/ai-inference.tgz}
+    resolution: {integrity: sha512-rfDitgGFCXV08sqAGkEesivYxvy06kF17TbUvY8692ojoth37WijFr0Dh+5iqtoN7o3XcoOtN36XQw2dpsELMg==, tarball: file:projects/ai-inference.tgz}
     name: '@rush-temp/ai-inference'
     version: 0.0.0
     dependencies:
@@ -21009,7 +21012,7 @@ packages:
     dev: false
 
   file:projects/identity.tgz:
-    resolution: {integrity: sha512-0kw/50ONM3zpnEq4gPjay4yDezf/69osBllss4ouZaJ80iAmcrlVg+/3uMrtpB/ch9hu7RZCiv2NoSOj4Ppzag==, tarball: file:projects/identity.tgz}
+    resolution: {integrity: sha512-Jyrkc+fkjWKWEk916roF0udn04mQmJjEKbAcly+x+O4hXJfUTIXkF5QFn/gb0Felcpk3X/dyRgTmy/opumSsDg==, tarball: file:projects/identity.tgz}
     name: '@rush-temp/identity'
     version: 0.0.0
     dependencies:
@@ -21629,6 +21632,25 @@ packages:
       - debug
       - supports-color
       - utf-8-validate
+    dev: false
+
+  file:projects/microsoft-playwright-testing.tgz:
+    resolution: {integrity: sha512-3Y5gXCexMtKQ1xn/dh1lFMU5iNKZlXsChm7yMFtzUDsgs0O953og44yzOROFeIXHnrBNWF5PycmGjwpWqEJ4zg==, tarball: file:projects/microsoft-playwright-testing.tgz}
+    name: '@rush-temp/microsoft-playwright-testing'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.47.0(@types/node@18.19.39)
+      '@types/node': 18.19.39
+      dotenv: 16.4.5
+      eslint: 8.57.0
+      mkdirp: 3.0.1
+      prettier: 3.3.2
+      rimraf: 5.0.7
+      tshy: 1.16.0
+      tslib: 2.6.3
+      typescript: 5.4.5
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   file:projects/mixed-reality-authentication.tgz:
