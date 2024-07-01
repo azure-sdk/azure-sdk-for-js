@@ -9173,6 +9173,7 @@ packages:
 
   /queue-tick@1.0.1:
     resolution: {integrity: sha512-kJt5qhMxoszgU/62PLP1CJytzd2NKetjSRnyuj31fDd3Rlcz3fzlFdFLD1SItunPwyqEOkca6GbV612BWfaBag==}
+    requiresBuild: true
     dev: false
 
   /randombytes@2.1.0:
@@ -10145,6 +10146,7 @@ packages:
 
   /text-decoder@1.1.0:
     resolution: {integrity: sha512-TmLJNj6UgX8xcUZo4UDStGQtDiTzF7BzWlzn9g7UWrjkpHr5uJTK1ld16wZ3LXb2vb6jH8qU89dW5whuMdXYdw==}
+    requiresBuild: true
     dependencies:
       b4a: 1.6.6
     dev: false
@@ -11509,7 +11511,7 @@ packages:
     dev: false
 
   file:projects/ai-inference.tgz:
-    resolution: {integrity: sha512-A4/6r/5uXKLlNeqQWOVnDLjYIuS2NngXjdFV+RWfmvqcWcC3UNMPq/Kfcr633vfEQDrQXEw/VETKwAw3Wb0iNw==, tarball: file:projects/ai-inference.tgz}
+    resolution: {integrity: sha512-rfDitgGFCXV08sqAGkEesivYxvy06kF17TbUvY8692ojoth37WijFr0Dh+5iqtoN7o3XcoOtN36XQw2dpsELMg==, tarball: file:projects/ai-inference.tgz}
     name: '@rush-temp/ai-inference'
     version: 0.0.0
     dependencies:
@@ -15918,12 +15920,14 @@ packages:
     dev: false
 
   file:projects/arm-migrate.tgz:
-    resolution: {integrity: sha512-3XYih3zKi3uosRyLrPhkgc12VqBEu181CSYSVUWuY1uwsoqTXeXVRh1cxMS3doUGCBE//dRVY8mdRYbQQWryBg==, tarball: file:projects/arm-migrate.tgz}
+    resolution: {integrity: sha512-4tAav+9gAU5M7D0RW5GeOnrlbapZJ8G5HOMij+N3GxV4c7UlK4myf0L6dGw+QrGrgyObVGCIe1MBUhfSVR5TpA==, tarball: file:projects/arm-migrate.tgz}
     name: '@rush-temp/arm-migrate'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-lro': 2.7.2
       '@microsoft/api-extractor': 7.47.0(@types/node@18.19.39)
       '@types/chai': 4.3.16
       '@types/mocha': 10.0.7
@@ -15936,6 +15940,7 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.4.5)
       tslib: 2.6.3
+      tsx: 4.15.7
       typescript: 5.4.5
       uglify-js: 3.18.0
     transitivePeerDependencies:
@@ -21009,7 +21014,7 @@ packages:
     dev: false
 
   file:projects/identity.tgz:
-    resolution: {integrity: sha512-0kw/50ONM3zpnEq4gPjay4yDezf/69osBllss4ouZaJ80iAmcrlVg+/3uMrtpB/ch9hu7RZCiv2NoSOj4Ppzag==, tarball: file:projects/identity.tgz}
+    resolution: {integrity: sha512-Jyrkc+fkjWKWEk916roF0udn04mQmJjEKbAcly+x+O4hXJfUTIXkF5QFn/gb0Felcpk3X/dyRgTmy/opumSsDg==, tarball: file:projects/identity.tgz}
     name: '@rush-temp/identity'
     version: 0.0.0
     dependencies:
