@@ -11509,7 +11509,7 @@ packages:
     dev: false
 
   file:projects/ai-inference.tgz:
-    resolution: {integrity: sha512-A4/6r/5uXKLlNeqQWOVnDLjYIuS2NngXjdFV+RWfmvqcWcC3UNMPq/Kfcr633vfEQDrQXEw/VETKwAw3Wb0iNw==, tarball: file:projects/ai-inference.tgz}
+    resolution: {integrity: sha512-rfDitgGFCXV08sqAGkEesivYxvy06kF17TbUvY8692ojoth37WijFr0Dh+5iqtoN7o3XcoOtN36XQw2dpsELMg==, tarball: file:projects/ai-inference.tgz}
     name: '@rush-temp/ai-inference'
     version: 0.0.0
     dependencies:
@@ -17339,7 +17339,7 @@ packages:
     dev: false
 
   file:projects/arm-resourcegraph.tgz:
-    resolution: {integrity: sha512-3y/nRUaDGzt1pNI66uXO7KBQlyMy5B2ZxglbZk10h5RbRjqNv7FVjWC9Sp5LaX/eC8VAOTZcHQrkPZlpyvjZdg==, tarball: file:projects/arm-resourcegraph.tgz}
+    resolution: {integrity: sha512-96+/lRk3dUKxWruDgAKhPG6ejNlZWG2lVbHieIzD9Gnsh9Db1N3278e+BUFtsDNHfwwSAICFJIo/n2V77DOt+Q==, tarball: file:projects/arm-resourcegraph.tgz}
     name: '@rush-temp/arm-resourcegraph'
     version: 0.0.0
     dependencies:
@@ -17351,11 +17351,13 @@ packages:
       '@types/node': 18.19.39
       chai: 4.3.10
       cross-env: 7.0.3
+      dotenv: 16.4.5
       mkdirp: 3.0.1
       mocha: 10.4.0
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.4.5)
       tslib: 2.6.3
+      tsx: 4.15.7
       typescript: 5.4.5
       uglify-js: 3.18.0
     transitivePeerDependencies:
@@ -21009,7 +21011,7 @@ packages:
     dev: false
 
   file:projects/identity.tgz:
-    resolution: {integrity: sha512-0kw/50ONM3zpnEq4gPjay4yDezf/69osBllss4ouZaJ80iAmcrlVg+/3uMrtpB/ch9hu7RZCiv2NoSOj4Ppzag==, tarball: file:projects/identity.tgz}
+    resolution: {integrity: sha512-Jyrkc+fkjWKWEk916roF0udn04mQmJjEKbAcly+x+O4hXJfUTIXkF5QFn/gb0Felcpk3X/dyRgTmy/opumSsDg==, tarball: file:projects/identity.tgz}
     name: '@rush-temp/identity'
     version: 0.0.0
     dependencies:
