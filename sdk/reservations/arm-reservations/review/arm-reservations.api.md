@@ -1125,8 +1125,6 @@ export interface RenewPropertiesResponsePricingCurrencyTotal {
 // @public
 export interface Reservation {
     archive(reservationOrderId: string, reservationId: string, options?: ReservationArchiveOptionalParams): Promise<void>;
-    beginAvailableScopes(reservationOrderId: string, reservationId: string, body: AvailableScopeRequest, options?: ReservationAvailableScopesOptionalParams): Promise<SimplePollerLike<OperationState<ReservationAvailableScopesResponse>, ReservationAvailableScopesResponse>>;
-    beginAvailableScopesAndWait(reservationOrderId: string, reservationId: string, body: AvailableScopeRequest, options?: ReservationAvailableScopesOptionalParams): Promise<ReservationAvailableScopesResponse>;
     beginMerge(reservationOrderId: string, body: MergeRequest, options?: ReservationMergeOptionalParams): Promise<SimplePollerLike<OperationState<ReservationMergeResponse>, ReservationMergeResponse>>;
     beginMergeAndWait(reservationOrderId: string, body: MergeRequest, options?: ReservationMergeOptionalParams): Promise<ReservationMergeResponse>;
     beginSplit(reservationOrderId: string, body: SplitRequest, options?: ReservationSplitOptionalParams): Promise<SimplePollerLike<OperationState<ReservationSplitResponse>, ReservationSplitResponse>>;
@@ -1143,15 +1141,6 @@ export interface Reservation {
 // @public
 export interface ReservationArchiveOptionalParams extends coreClient.OperationOptions {
 }
-
-// @public
-export interface ReservationAvailableScopesOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type ReservationAvailableScopesResponse = AvailableScopeProperties;
 
 // @public
 export type ReservationBillingPlan = string;

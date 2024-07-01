@@ -8,47 +8,6 @@
 
 import * as coreClient from "@azure/core-client";
 
-/** Available scope */
-export interface AvailableScopeRequest {
-  /** Available scope request properties */
-  properties?: AvailableScopeRequestProperties;
-}
-
-/** Available scope request properties */
-export interface AvailableScopeRequestProperties {
-  scopes?: string[];
-}
-
-/** The response of available scope api containing scopes and their eligibilities. */
-export interface AvailableScopeProperties {
-  /** The scopes checked by the available scope api. */
-  properties?: SubscriptionScopeProperties;
-}
-
-/** The scopes checked by the available scope api. */
-export interface SubscriptionScopeProperties {
-  scopes?: ScopeProperties[];
-}
-
-/** The scope and whether it is valid. */
-export interface ScopeProperties {
-  scope?: string;
-  valid?: boolean;
-}
-
-/** Error information */
-export interface ErrorModel {
-  /** Extended error information including error code and error message */
-  error?: ExtendedErrorInfo;
-}
-
-/** Extended error information including error code and error message */
-export interface ExtendedErrorInfo {
-  /** Error code describing the reason that service is not able to process the incoming request */
-  code?: ErrorResponseCode;
-  message?: string;
-}
-
 /** The list of catalogs and pagination information. */
 export interface CatalogsResult {
   /**
@@ -150,6 +109,19 @@ export interface SkuCapability {
   name?: string;
   /** An invariant if the feature is measured by quantity. */
   value?: string;
+}
+
+/** Error information */
+export interface ErrorModel {
+  /** Extended error information including error code and error message */
+  error?: ExtendedErrorInfo;
+}
+
+/** Extended error information including error code and error message */
+export interface ExtendedErrorInfo {
+  /** Error code describing the reason that service is not able to process the incoming request */
+  code?: ErrorResponseCode;
+  message?: string;
 }
 
 /** The response for applied reservations api */
@@ -1322,6 +1294,34 @@ export interface QuotaRequestDetailsList {
   nextLink?: string;
 }
 
+/** Available scope */
+export interface AvailableScopeRequest {
+  /** Available scope request properties */
+  properties?: AvailableScopeRequestProperties;
+}
+
+/** Available scope request properties */
+export interface AvailableScopeRequestProperties {
+  scopes?: string[];
+}
+
+/** The response of available scope api containing scopes and their eligibilities. */
+export interface AvailableScopeProperties {
+  /** The scopes checked by the available scope api. */
+  properties?: SubscriptionScopeProperties;
+}
+
+/** The scopes checked by the available scope api. */
+export interface SubscriptionScopeProperties {
+  scopes?: ScopeProperties[];
+}
+
+/** The scope and whether it is valid. */
+export interface ScopeProperties {
+  scope?: string;
+  valid?: boolean;
+}
+
 /** Current quota limits. */
 export interface CurrentQuotaLimit {
   /**
@@ -1461,6 +1461,14 @@ export interface ReservationResponse extends ProxyResource {
   kind?: "Microsoft.Compute";
 }
 
+/** Defines headers for ReservationOrder_purchase operation. */
+export interface ReservationOrderPurchaseHeaders {
+  /** URL for determining when an operation has completed. Only use this value only when Azure-AsyncOperation isn't returned. */
+  location?: string;
+  /** Clients should wait for the Retry-After interval before polling again */
+  retryAfter?: number;
+}
+
 /** Defines headers for Reservation_split operation. */
 export interface ReservationSplitHeaders {
   /** URL for determining when an operation has completed. Only use this value only when Azure-AsyncOperation isn't returned. */
@@ -1481,14 +1489,6 @@ export interface ReservationMergeHeaders {
 export interface ReservationUpdateHeaders {
   /** URL for checking the ongoing status of the operation. */
   azureAsyncOperation?: string;
-  /** URL for determining when an operation has completed. Only use this value only when Azure-AsyncOperation isn't returned. */
-  location?: string;
-  /** Clients should wait for the Retry-After interval before polling again */
-  retryAfter?: number;
-}
-
-/** Defines headers for ReservationOrder_purchase operation. */
-export interface ReservationOrderPurchaseHeaders {
   /** URL for determining when an operation has completed. Only use this value only when Azure-AsyncOperation isn't returned. */
   location?: string;
   /** Clients should wait for the Retry-After interval before polling again */
@@ -1537,6 +1537,45 @@ export interface QuotaListNextHeaders {
   /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
   eTag?: string;
 }
+
+/** Known values of {@link ReservationBillingPlan} that the service accepts. */
+export enum KnownReservationBillingPlan {
+  /** Upfront */
+  Upfront = "Upfront",
+  /** Monthly */
+  Monthly = "Monthly",
+}
+
+/**
+ * Defines values for ReservationBillingPlan. \
+ * {@link KnownReservationBillingPlan} can be used interchangeably with ReservationBillingPlan,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Upfront** \
+ * **Monthly**
+ */
+export type ReservationBillingPlan = string;
+
+/** Known values of {@link ReservationTerm} that the service accepts. */
+export enum KnownReservationTerm {
+  /** P1Y */
+  P1Y = "P1Y",
+  /** P3Y */
+  P3Y = "P3Y",
+  /** P5Y */
+  P5Y = "P5Y",
+}
+
+/**
+ * Defines values for ReservationTerm. \
+ * {@link KnownReservationTerm} can be used interchangeably with ReservationTerm,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **P1Y** \
+ * **P3Y** \
+ * **P5Y**
+ */
+export type ReservationTerm = string;
 
 /** Known values of {@link ErrorResponseCode} that the service accepts. */
 export enum KnownErrorResponseCode {
@@ -1655,7 +1694,7 @@ export enum KnownErrorResponseCode {
   /** SelfServiceRefundNotSupported */
   SelfServiceRefundNotSupported = "SelfServiceRefundNotSupported",
   /** RefundLimitExceeded */
-  RefundLimitExceeded = "RefundLimitExceeded"
+  RefundLimitExceeded = "RefundLimitExceeded",
 }
 
 /**
@@ -1724,45 +1763,6 @@ export enum KnownErrorResponseCode {
  */
 export type ErrorResponseCode = string;
 
-/** Known values of {@link ReservationBillingPlan} that the service accepts. */
-export enum KnownReservationBillingPlan {
-  /** Upfront */
-  Upfront = "Upfront",
-  /** Monthly */
-  Monthly = "Monthly"
-}
-
-/**
- * Defines values for ReservationBillingPlan. \
- * {@link KnownReservationBillingPlan} can be used interchangeably with ReservationBillingPlan,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Upfront** \
- * **Monthly**
- */
-export type ReservationBillingPlan = string;
-
-/** Known values of {@link ReservationTerm} that the service accepts. */
-export enum KnownReservationTerm {
-  /** P1Y */
-  P1Y = "P1Y",
-  /** P3Y */
-  P3Y = "P3Y",
-  /** P5Y */
-  P5Y = "P5Y"
-}
-
-/**
- * Defines values for ReservationTerm. \
- * {@link KnownReservationTerm} can be used interchangeably with ReservationTerm,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **P1Y** \
- * **P3Y** \
- * **P5Y**
- */
-export type ReservationTerm = string;
-
 /** Known values of {@link ReservedResourceType} that the service accepts. */
 export enum KnownReservedResourceType {
   /** VirtualMachines */
@@ -1816,7 +1816,7 @@ export enum KnownReservedResourceType {
   /** SqlEdge */
   SqlEdge = "SqlEdge",
   /** VirtualMachineSoftware */
-  VirtualMachineSoftware = "VirtualMachineSoftware"
+  VirtualMachineSoftware = "VirtualMachineSoftware",
 }
 
 /**
@@ -1860,7 +1860,7 @@ export enum KnownAppliedScopeType {
   /** Shared */
   Shared = "Shared",
   /** ManagementGroup */
-  ManagementGroup = "ManagementGroup"
+  ManagementGroup = "ManagementGroup",
 }
 
 /**
@@ -1879,7 +1879,7 @@ export enum KnownInstanceFlexibility {
   /** On */
   On = "On",
   /** Off */
-  Off = "Off"
+  Off = "Off",
 }
 
 /**
@@ -1901,7 +1901,7 @@ export enum KnownPaymentStatus {
   /** Scheduled */
   Scheduled = "Scheduled",
   /** Cancelled */
-  Cancelled = "Cancelled"
+  Cancelled = "Cancelled",
 }
 
 /**
@@ -1937,7 +1937,7 @@ export enum KnownReservationStatusCode {
   /** Expired */
   Expired = "Expired",
   /** Succeeded */
-  Succeeded = "Succeeded"
+  Succeeded = "Succeeded",
 }
 
 /**
@@ -1985,7 +1985,7 @@ export enum KnownProvisioningState {
   /** Split */
   Split = "Split",
   /** Merged */
-  Merged = "Merged"
+  Merged = "Merged",
 }
 
 /**
@@ -2018,7 +2018,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -2038,7 +2038,7 @@ export enum KnownSavingsPlanTerm {
   /** P1Y */
   P1Y = "P1Y",
   /** P3Y */
-  P3Y = "P3Y"
+  P3Y = "P3Y",
 }
 
 /**
@@ -2054,7 +2054,7 @@ export type SavingsPlanTerm = string;
 /** Known values of {@link BillingPlan} that the service accepts. */
 export enum KnownBillingPlan {
   /** P1M */
-  P1M = "P1M"
+  P1M = "P1M",
 }
 
 /**
@@ -2069,7 +2069,7 @@ export type BillingPlan = string;
 /** Known values of {@link CommitmentGrain} that the service accepts. */
 export enum KnownCommitmentGrain {
   /** Hourly */
-  Hourly = "Hourly"
+  Hourly = "Hourly",
 }
 
 /**
@@ -2090,7 +2090,7 @@ export enum KnownCalculateExchangeOperationResultStatus {
   /** Cancelled */
   Cancelled = "Cancelled",
   /** Pending */
-  Pending = "Pending"
+  Pending = "Pending",
 }
 
 /**
@@ -2116,7 +2116,7 @@ export enum KnownExchangeOperationResultStatus {
   /** PendingRefunds */
   PendingRefunds = "PendingRefunds",
   /** PendingPurchases */
-  PendingPurchases = "PendingPurchases"
+  PendingPurchases = "PendingPurchases",
 }
 
 /**
@@ -2141,7 +2141,7 @@ export enum KnownOperationStatus {
   /** Cancelled */
   Cancelled = "Cancelled",
   /** Pending */
-  Pending = "Pending"
+  Pending = "Pending",
 }
 
 /**
@@ -2167,7 +2167,7 @@ export enum KnownResourceType {
   /** Shared */
   Shared = "shared",
   /** ServiceSpecific */
-  ServiceSpecific = "serviceSpecific"
+  ServiceSpecific = "serviceSpecific",
 }
 
 /**
@@ -2194,7 +2194,7 @@ export enum KnownQuotaRequestState {
   /** Failed */
   Failed = "Failed",
   /** InProgress */
-  InProgress = "InProgress"
+  InProgress = "InProgress",
 }
 
 /**
@@ -2259,7 +2259,7 @@ export enum KnownLocation {
   /** Westcentralus */
   Westcentralus = "westcentralus",
   /** Ukwest */
-  Ukwest = "ukwest"
+  Ukwest = "ukwest",
 }
 
 /**
@@ -2313,7 +2313,7 @@ export enum KnownDisplayProvisioningState {
   /** Warning */
   Warning = "Warning",
   /** NoBenefit */
-  NoBenefit = "NoBenefit"
+  NoBenefit = "NoBenefit",
 }
 
 /**
@@ -2344,7 +2344,7 @@ export enum KnownUserFriendlyAppliedScopeType {
   /** ResourceGroup */
   ResourceGroup = "ResourceGroup",
   /** ManagementGroup */
-  ManagementGroup = "ManagementGroup"
+  ManagementGroup = "ManagementGroup",
 }
 
 /**
@@ -2371,7 +2371,7 @@ export enum KnownUserFriendlyRenewState {
   /** NotRenewed */
   NotRenewed = "NotRenewed",
   /** NotApplicable */
-  NotApplicable = "NotApplicable"
+  NotApplicable = "NotApplicable",
 }
 
 /**
@@ -2388,7 +2388,58 @@ export enum KnownUserFriendlyRenewState {
 export type UserFriendlyRenewState = string;
 
 /** Optional parameters. */
-export interface ReservationAvailableScopesOptionalParams
+export interface GetCatalogOptionalParams extends coreClient.OperationOptions {
+  /** The type of the resource for which the skus should be provided. */
+  reservedResourceType?: string;
+  /** Filters the skus based on the location specified in this parameter. This can be an Azure region or global */
+  location?: string;
+  /** Publisher id used to get the third party products */
+  publisherId?: string;
+  /** Offer id used to get the third party products */
+  offerId?: string;
+  /** Plan id used to get the third party products */
+  planId?: string;
+  /** May be used to filter by Catalog properties. The filter supports 'eq', 'or', and 'and'. */
+  filter?: string;
+  /** The number of reservations to skip from the list before returning results */
+  skip?: number;
+  /** To number of reservations to return */
+  take?: number;
+}
+
+/** Contains response data for the getCatalog operation. */
+export type GetCatalogResponse = CatalogsResult;
+
+/** Optional parameters. */
+export interface GetAppliedReservationListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getAppliedReservationList operation. */
+export type GetAppliedReservationListResponse = AppliedReservations;
+
+/** Optional parameters. */
+export interface GetCatalogNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getCatalogNext operation. */
+export type GetCatalogNextResponse = CatalogsResult;
+
+/** Optional parameters. */
+export interface ReservationOrderCalculateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the calculate operation. */
+export type ReservationOrderCalculateResponse = CalculatePriceResponse;
+
+/** Optional parameters. */
+export interface ReservationOrderListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ReservationOrderListResponse = ReservationOrderList;
+
+/** Optional parameters. */
+export interface ReservationOrderPurchaseOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -2396,8 +2447,32 @@ export interface ReservationAvailableScopesOptionalParams
   resumeFrom?: string;
 }
 
-/** Contains response data for the availableScopes operation. */
-export type ReservationAvailableScopesResponse = AvailableScopeProperties;
+/** Contains response data for the purchase operation. */
+export type ReservationOrderPurchaseResponse = ReservationOrderResponse;
+
+/** Optional parameters. */
+export interface ReservationOrderGetOptionalParams
+  extends coreClient.OperationOptions {
+  /** May be used to expand the planInformation. */
+  expand?: string;
+}
+
+/** Contains response data for the get operation. */
+export type ReservationOrderGetResponse = ReservationOrderResponse;
+
+/** Optional parameters. */
+export interface ReservationOrderChangeDirectoryOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the changeDirectory operation. */
+export type ReservationOrderChangeDirectoryResponse = ChangeDirectoryResponse;
+
+/** Optional parameters. */
+export interface ReservationOrderListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ReservationOrderListNextResponse = ReservationOrderList;
 
 /** Optional parameters. */
 export interface ReservationSplitOptionalParams
@@ -2509,93 +2584,6 @@ export interface ReservationListAllNextOptionalParams
 export type ReservationListAllNextResponse = ReservationsListResult;
 
 /** Optional parameters. */
-export interface GetCatalogOptionalParams extends coreClient.OperationOptions {
-  /** May be used to filter by Catalog properties. The filter supports 'eq', 'or', and 'and'. */
-  filter?: string;
-  /** The type of the resource for which the skus should be provided. */
-  reservedResourceType?: string;
-  /** Filters the skus based on the location specified in this parameter. This can be an Azure region or global */
-  location?: string;
-  /** Publisher id used to get the third party products */
-  publisherId?: string;
-  /** Offer id used to get the third party products */
-  offerId?: string;
-  /** Plan id used to get the third party products */
-  planId?: string;
-  /** The number of reservations to skip from the list before returning results */
-  skip?: number;
-  /** To number of reservations to return */
-  take?: number;
-}
-
-/** Contains response data for the getCatalog operation. */
-export type GetCatalogResponse = CatalogsResult;
-
-/** Optional parameters. */
-export interface GetAppliedReservationListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getAppliedReservationList operation. */
-export type GetAppliedReservationListResponse = AppliedReservations;
-
-/** Optional parameters. */
-export interface GetCatalogNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getCatalogNext operation. */
-export type GetCatalogNextResponse = CatalogsResult;
-
-/** Optional parameters. */
-export interface ReservationOrderCalculateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the calculate operation. */
-export type ReservationOrderCalculateResponse = CalculatePriceResponse;
-
-/** Optional parameters. */
-export interface ReservationOrderListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type ReservationOrderListResponse = ReservationOrderList;
-
-/** Optional parameters. */
-export interface ReservationOrderPurchaseOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the purchase operation. */
-export type ReservationOrderPurchaseResponse = ReservationOrderResponse;
-
-/** Optional parameters. */
-export interface ReservationOrderGetOptionalParams
-  extends coreClient.OperationOptions {
-  /** May be used to expand the planInformation. */
-  expand?: string;
-}
-
-/** Contains response data for the get operation. */
-export type ReservationOrderGetResponse = ReservationOrderResponse;
-
-/** Optional parameters. */
-export interface ReservationOrderChangeDirectoryOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the changeDirectory operation. */
-export type ReservationOrderChangeDirectoryResponse = ChangeDirectoryResponse;
-
-/** Optional parameters. */
-export interface ReservationOrderListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type ReservationOrderListNextResponse = ReservationOrderList;
-
-/** Optional parameters. */
 export interface OperationListOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -2637,7 +2625,8 @@ export interface CalculateExchangePostOptionalParams
 }
 
 /** Contains response data for the post operation. */
-export type CalculateExchangePostResponse = CalculateExchangeOperationResultResponse;
+export type CalculateExchangePostResponse =
+  CalculateExchangeOperationResultResponse;
 
 /** Optional parameters. */
 export interface ExchangePostOptionalParams

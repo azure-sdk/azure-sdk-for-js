@@ -14,13 +14,13 @@ import { AzureReservationAPI } from "../azureReservationAPI";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
   ExchangeRequest,
   ExchangePostOptionalParams,
-  ExchangePostResponse
+  ExchangePostResponse,
 } from "../models";
 
 /** Class containing Exchange operations. */
@@ -43,27 +43,26 @@ export class ExchangeImpl implements Exchange {
    */
   async beginPost(
     body: ExchangeRequest,
-    options?: ExchangePostOptionalParams
+    options?: ExchangePostOptionalParams,
   ): Promise<
     SimplePollerLike<OperationState<ExchangePostResponse>, ExchangePostResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ExchangePostResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -72,8 +71,8 @@ export class ExchangeImpl implements Exchange {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -81,15 +80,15 @@ export class ExchangeImpl implements Exchange {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { body, options },
-      spec: postOperationSpec
+      spec: postOperationSpec,
     });
     const poller = await createHttpPoller<
       ExchangePostResponse,
@@ -97,7 +96,7 @@ export class ExchangeImpl implements Exchange {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -111,7 +110,7 @@ export class ExchangeImpl implements Exchange {
    */
   async beginPostAndWait(
     body: ExchangeRequest,
-    options?: ExchangePostOptionalParams
+    options?: ExchangePostOptionalParams,
   ): Promise<ExchangePostResponse> {
     const poller = await this.beginPost(body, options);
     return poller.pollUntilDone();
@@ -125,25 +124,25 @@ const postOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ExchangeOperationResultResponse
+      bodyMapper: Mappers.ExchangeOperationResultResponse,
     },
     201: {
-      bodyMapper: Mappers.ExchangeOperationResultResponse
+      bodyMapper: Mappers.ExchangeOperationResultResponse,
     },
     202: {
-      bodyMapper: Mappers.ExchangeOperationResultResponse
+      bodyMapper: Mappers.ExchangeOperationResultResponse,
     },
     204: {
-      bodyMapper: Mappers.ExchangeOperationResultResponse
+      bodyMapper: Mappers.ExchangeOperationResultResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
-  requestBody: Parameters.body8,
+  requestBody: Parameters.body7,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

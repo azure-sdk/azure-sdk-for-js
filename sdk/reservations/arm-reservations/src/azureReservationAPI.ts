@@ -12,26 +12,26 @@ import * as coreAuth from "@azure/core-auth";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "./pagingHelper";
 import {
-  ReservationImpl,
   ReservationOrderImpl,
+  ReservationImpl,
   OperationImpl,
   CalculateRefundImpl,
   ReturnImpl,
   CalculateExchangeImpl,
   ExchangeImpl,
   QuotaImpl,
-  QuotaRequestStatusImpl
+  QuotaRequestStatusImpl,
 } from "./operations";
 import {
-  Reservation,
   ReservationOrder,
+  Reservation,
   Operation,
   CalculateRefund,
   Return,
   CalculateExchange,
   Exchange,
   Quota,
-  QuotaRequestStatus
+  QuotaRequestStatus,
 } from "./operationsInterfaces";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
@@ -43,7 +43,7 @@ import {
   GetCatalogResponse,
   GetAppliedReservationListOptionalParams,
   GetAppliedReservationListResponse,
-  GetCatalogNextResponse
+  GetCatalogNextResponse,
 } from "./models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -57,7 +57,7 @@ export class AzureReservationAPI extends coreClient.ServiceClient {
    */
   constructor(
     credentials: coreAuth.TokenCredential,
-    options?: AzureReservationAPIOptionalParams
+    options?: AzureReservationAPIOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -69,10 +69,10 @@ export class AzureReservationAPI extends coreClient.ServiceClient {
     }
     const defaults: AzureReservationAPIOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-reservations/9.0.1`;
+    const packageDetails = `azsdk-js-arm-reservations/10.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -82,20 +82,21 @@ export class AzureReservationAPI extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -105,7 +106,7 @@ export class AzureReservationAPI extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -115,16 +116,16 @@ export class AzureReservationAPI extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.reservation = new ReservationImpl(this);
     this.reservationOrder = new ReservationOrderImpl(this);
+    this.reservation = new ReservationImpl(this);
     this.operation = new OperationImpl(this);
     this.calculateRefund = new CalculateRefundImpl(this);
     this.return = new ReturnImpl(this);
@@ -141,7 +142,7 @@ export class AzureReservationAPI extends coreClient.ServiceClient {
    */
   public listCatalog(
     subscriptionId: string,
-    options?: GetCatalogOptionalParams
+    options?: GetCatalogOptionalParams,
   ): PagedAsyncIterableIterator<Catalog> {
     const iter = this.getCatalogPagingAll(subscriptionId, options);
     return {
@@ -156,14 +157,14 @@ export class AzureReservationAPI extends coreClient.ServiceClient {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.getCatalogPagingPage(subscriptionId, options, settings);
-      }
+      },
     };
   }
 
   private async *getCatalogPagingPage(
     subscriptionId: string,
     options?: GetCatalogOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Catalog[]> {
     let result: GetCatalogResponse;
     let continuationToken = settings?.continuationToken;
@@ -178,7 +179,7 @@ export class AzureReservationAPI extends coreClient.ServiceClient {
       result = await this._getCatalogNext(
         subscriptionId,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -189,11 +190,11 @@ export class AzureReservationAPI extends coreClient.ServiceClient {
 
   private async *getCatalogPagingAll(
     subscriptionId: string,
-    options?: GetCatalogOptionalParams
+    options?: GetCatalogOptionalParams,
   ): AsyncIterableIterator<Catalog> {
     for await (const page of this.getCatalogPagingPage(
       subscriptionId,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -206,11 +207,11 @@ export class AzureReservationAPI extends coreClient.ServiceClient {
    */
   private _getCatalog(
     subscriptionId: string,
-    options?: GetCatalogOptionalParams
+    options?: GetCatalogOptionalParams,
   ): Promise<GetCatalogResponse> {
     return this.sendOperationRequest(
       { subscriptionId, options },
-      getCatalogOperationSpec
+      getCatalogOperationSpec,
     );
   }
 
@@ -222,11 +223,11 @@ export class AzureReservationAPI extends coreClient.ServiceClient {
    */
   getAppliedReservationList(
     subscriptionId: string,
-    options?: GetAppliedReservationListOptionalParams
+    options?: GetAppliedReservationListOptionalParams,
   ): Promise<GetAppliedReservationListResponse> {
     return this.sendOperationRequest(
       { subscriptionId, options },
-      getAppliedReservationListOperationSpec
+      getAppliedReservationListOperationSpec,
     );
   }
 
@@ -239,16 +240,16 @@ export class AzureReservationAPI extends coreClient.ServiceClient {
   private _getCatalogNext(
     subscriptionId: string,
     nextLink: string,
-    options?: GetCatalogNextOptionalParams
+    options?: GetCatalogNextOptionalParams,
   ): Promise<GetCatalogNextResponse> {
     return this.sendOperationRequest(
       { subscriptionId, nextLink, options },
-      getCatalogNextOperationSpec
+      getCatalogNextOperationSpec,
     );
   }
 
-  reservation: Reservation;
   reservationOrder: ReservationOrder;
+  reservation: Reservation;
   operation: Operation;
   calculateRefund: CalculateRefund;
   return: Return;
@@ -265,60 +266,59 @@ const getCatalogOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CatalogsResult
+      bodyMapper: Mappers.CatalogsResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.filter,
     Parameters.reservedResourceType,
     Parameters.location,
     Parameters.publisherId,
     Parameters.offerId,
     Parameters.planId,
+    Parameters.filter,
     Parameters.skip,
-    Parameters.take1
+    Parameters.take,
   ],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getAppliedReservationListOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Capacity/appliedReservations",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Capacity/appliedReservations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AppliedReservations
+      bodyMapper: Mappers.AppliedReservations,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getCatalogNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CatalogsResult
+      bodyMapper: Mappers.CatalogsResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

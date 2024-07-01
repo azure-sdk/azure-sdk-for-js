@@ -10,7 +10,7 @@ import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   RefundRequest,
   ReturnPostOptionalParams,
-  ReturnPostResponse
+  ReturnPostResponse,
 } from "../models";
 
 /** Interface representing a Return. */
@@ -24,7 +24,7 @@ export interface Return {
   beginPost(
     reservationOrderId: string,
     body: RefundRequest,
-    options?: ReturnPostOptionalParams
+    options?: ReturnPostOptionalParams,
   ): Promise<
     SimplePollerLike<OperationState<ReturnPostResponse>, ReturnPostResponse>
   >;
@@ -37,6 +37,6 @@ export interface Return {
   beginPostAndWait(
     reservationOrderId: string,
     body: RefundRequest,
-    options?: ReturnPostOptionalParams
+    options?: ReturnPostOptionalParams,
   ): Promise<ReturnPostResponse>;
 }

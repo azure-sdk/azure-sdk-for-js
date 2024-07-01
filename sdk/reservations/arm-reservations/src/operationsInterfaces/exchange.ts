@@ -10,7 +10,7 @@ import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ExchangeRequest,
   ExchangePostOptionalParams,
-  ExchangePostResponse
+  ExchangePostResponse,
 } from "../models";
 
 /** Interface representing a Exchange. */
@@ -23,7 +23,7 @@ export interface Exchange {
    */
   beginPost(
     body: ExchangeRequest,
-    options?: ExchangePostOptionalParams
+    options?: ExchangePostOptionalParams,
   ): Promise<
     SimplePollerLike<OperationState<ExchangePostResponse>, ExchangePostResponse>
   >;
@@ -35,6 +35,6 @@ export interface Exchange {
    */
   beginPostAndWait(
     body: ExchangeRequest,
-    options?: ExchangePostOptionalParams
+    options?: ExchangePostOptionalParams,
   ): Promise<ExchangePostResponse>;
 }

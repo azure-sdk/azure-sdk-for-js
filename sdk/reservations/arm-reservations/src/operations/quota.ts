@@ -16,7 +16,7 @@ import { AzureReservationAPI } from "../azureReservationAPI";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -30,7 +30,7 @@ import {
   QuotaCreateOrUpdateResponse,
   QuotaUpdateOptionalParams,
   QuotaUpdateResponse,
-  QuotaListNextResponse
+  QuotaListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -58,13 +58,13 @@ export class QuotaImpl implements Quota {
     subscriptionId: string,
     providerId: string,
     location: string,
-    options?: QuotaListOptionalParams
+    options?: QuotaListOptionalParams,
   ): PagedAsyncIterableIterator<CurrentQuotaLimitBase> {
     const iter = this.listPagingAll(
       subscriptionId,
       providerId,
       location,
-      options
+      options,
     );
     return {
       next() {
@@ -82,9 +82,9 @@ export class QuotaImpl implements Quota {
           providerId,
           location,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -93,7 +93,7 @@ export class QuotaImpl implements Quota {
     providerId: string,
     location: string,
     options?: QuotaListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<CurrentQuotaLimitBase[]> {
     let result: QuotaListResponse;
     let continuationToken = settings?.continuationToken;
@@ -110,7 +110,7 @@ export class QuotaImpl implements Quota {
         providerId,
         location,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -123,13 +123,13 @@ export class QuotaImpl implements Quota {
     subscriptionId: string,
     providerId: string,
     location: string,
-    options?: QuotaListOptionalParams
+    options?: QuotaListOptionalParams,
   ): AsyncIterableIterator<CurrentQuotaLimitBase> {
     for await (const page of this.listPagingPage(
       subscriptionId,
       providerId,
       location,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -150,11 +150,11 @@ export class QuotaImpl implements Quota {
     providerId: string,
     location: string,
     resourceName: string,
-    options?: QuotaGetOptionalParams
+    options?: QuotaGetOptionalParams,
   ): Promise<QuotaGetResponse> {
     return this.client.sendOperationRequest(
       { subscriptionId, providerId, location, resourceName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -180,7 +180,7 @@ export class QuotaImpl implements Quota {
     location: string,
     resourceName: string,
     createQuotaRequest: CurrentQuotaLimitBase,
-    options?: QuotaCreateOrUpdateOptionalParams
+    options?: QuotaCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<QuotaCreateOrUpdateResponse>,
@@ -189,21 +189,20 @@ export class QuotaImpl implements Quota {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<QuotaCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -212,8 +211,8 @@ export class QuotaImpl implements Quota {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -221,8 +220,8 @@ export class QuotaImpl implements Quota {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -234,9 +233,9 @@ export class QuotaImpl implements Quota {
         location,
         resourceName,
         createQuotaRequest,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       QuotaCreateOrUpdateResponse,
@@ -244,7 +243,7 @@ export class QuotaImpl implements Quota {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "original-uri"
+      resourceLocationConfig: "original-uri",
     });
     await poller.poll();
     return poller;
@@ -272,7 +271,7 @@ export class QuotaImpl implements Quota {
     location: string,
     resourceName: string,
     createQuotaRequest: CurrentQuotaLimitBase,
-    options?: QuotaCreateOrUpdateOptionalParams
+    options?: QuotaCreateOrUpdateOptionalParams,
   ): Promise<QuotaCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       subscriptionId,
@@ -280,7 +279,7 @@ export class QuotaImpl implements Quota {
       location,
       resourceName,
       createQuotaRequest,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -306,27 +305,26 @@ export class QuotaImpl implements Quota {
     location: string,
     resourceName: string,
     createQuotaRequest: CurrentQuotaLimitBase,
-    options?: QuotaUpdateOptionalParams
+    options?: QuotaUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<OperationState<QuotaUpdateResponse>, QuotaUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<QuotaUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -335,8 +333,8 @@ export class QuotaImpl implements Quota {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -344,8 +342,8 @@ export class QuotaImpl implements Quota {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -357,9 +355,9 @@ export class QuotaImpl implements Quota {
         location,
         resourceName,
         createQuotaRequest,
-        options
+        options,
       },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       QuotaUpdateResponse,
@@ -367,7 +365,7 @@ export class QuotaImpl implements Quota {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "original-uri"
+      resourceLocationConfig: "original-uri",
     });
     await poller.poll();
     return poller;
@@ -394,7 +392,7 @@ export class QuotaImpl implements Quota {
     location: string,
     resourceName: string,
     createQuotaRequest: CurrentQuotaLimitBase,
-    options?: QuotaUpdateOptionalParams
+    options?: QuotaUpdateOptionalParams,
   ): Promise<QuotaUpdateResponse> {
     const poller = await this.beginUpdate(
       subscriptionId,
@@ -402,7 +400,7 @@ export class QuotaImpl implements Quota {
       location,
       resourceName,
       createQuotaRequest,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -419,11 +417,11 @@ export class QuotaImpl implements Quota {
     subscriptionId: string,
     providerId: string,
     location: string,
-    options?: QuotaListOptionalParams
+    options?: QuotaListOptionalParams,
   ): Promise<QuotaListResponse> {
     return this.client.sendOperationRequest(
       { subscriptionId, providerId, location, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -440,11 +438,11 @@ export class QuotaImpl implements Quota {
     providerId: string,
     location: string,
     nextLink: string,
-    options?: QuotaListNextOptionalParams
+    options?: QuotaListNextOptionalParams,
   ): Promise<QuotaListNextResponse> {
     return this.client.sendOperationRequest(
       { subscriptionId, providerId, location, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -452,17 +450,16 @@ export class QuotaImpl implements Quota {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Capacity/resourceProviders/{providerId}/locations/{location}/serviceLimits/{resourceName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Capacity/resourceProviders/{providerId}/locations/{location}/serviceLimits/{resourceName}",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.CurrentQuotaLimitBase,
-      headersMapper: Mappers.QuotaGetHeaders
+      headersMapper: Mappers.QuotaGetHeaders,
     },
     default: {
-      bodyMapper: Mappers.ExceptionResponse
-    }
+      bodyMapper: Mappers.ExceptionResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
@@ -470,31 +467,30 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.providerId,
     Parameters.location1,
-    Parameters.resourceName
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Capacity/resourceProviders/{providerId}/locations/{location}/serviceLimits/{resourceName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Capacity/resourceProviders/{providerId}/locations/{location}/serviceLimits/{resourceName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.CurrentQuotaLimitBase
+      bodyMapper: Mappers.CurrentQuotaLimitBase,
     },
     201: {
-      bodyMapper: Mappers.CurrentQuotaLimitBase
+      bodyMapper: Mappers.CurrentQuotaLimitBase,
     },
     202: {
-      bodyMapper: Mappers.CurrentQuotaLimitBase
+      bodyMapper: Mappers.CurrentQuotaLimitBase,
     },
     204: {
-      bodyMapper: Mappers.CurrentQuotaLimitBase
+      bodyMapper: Mappers.CurrentQuotaLimitBase,
     },
     default: {
-      bodyMapper: Mappers.ExceptionResponse
-    }
+      bodyMapper: Mappers.ExceptionResponse,
+    },
   },
   requestBody: Parameters.createQuotaRequest,
   queryParameters: [Parameters.apiVersion1],
@@ -503,32 +499,31 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.providerId,
     Parameters.location1,
-    Parameters.resourceName
+    Parameters.resourceName,
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Capacity/resourceProviders/{providerId}/locations/{location}/serviceLimits/{resourceName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Capacity/resourceProviders/{providerId}/locations/{location}/serviceLimits/{resourceName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.CurrentQuotaLimitBase
+      bodyMapper: Mappers.CurrentQuotaLimitBase,
     },
     201: {
-      bodyMapper: Mappers.CurrentQuotaLimitBase
+      bodyMapper: Mappers.CurrentQuotaLimitBase,
     },
     202: {
-      bodyMapper: Mappers.CurrentQuotaLimitBase
+      bodyMapper: Mappers.CurrentQuotaLimitBase,
     },
     204: {
-      bodyMapper: Mappers.CurrentQuotaLimitBase
+      bodyMapper: Mappers.CurrentQuotaLimitBase,
     },
     default: {
-      bodyMapper: Mappers.ExceptionResponse
-    }
+      bodyMapper: Mappers.ExceptionResponse,
+    },
   },
   requestBody: Parameters.createQuotaRequest,
   queryParameters: [Parameters.apiVersion1],
@@ -537,34 +532,33 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.providerId,
     Parameters.location1,
-    Parameters.resourceName
+    Parameters.resourceName,
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Capacity/resourceProviders/{providerId}/locations/{location}/serviceLimits",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Capacity/resourceProviders/{providerId}/locations/{location}/serviceLimits",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.QuotaLimits,
-      headersMapper: Mappers.QuotaListHeaders
+      headersMapper: Mappers.QuotaListHeaders,
     },
     default: {
-      bodyMapper: Mappers.ExceptionResponse
-    }
+      bodyMapper: Mappers.ExceptionResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.providerId,
-    Parameters.location1
+    Parameters.location1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
@@ -572,19 +566,19 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.QuotaLimits,
-      headersMapper: Mappers.QuotaListNextHeaders
+      headersMapper: Mappers.QuotaListNextHeaders,
     },
     default: {
-      bodyMapper: Mappers.ExceptionResponse
-    }
+      bodyMapper: Mappers.ExceptionResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.nextLink,
     Parameters.subscriptionId,
+    Parameters.nextLink,
     Parameters.providerId,
-    Parameters.location1
+    Parameters.location1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
