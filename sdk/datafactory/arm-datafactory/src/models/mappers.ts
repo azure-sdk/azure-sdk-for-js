@@ -333,80 +333,22 @@ export const CloudError: coreClient.CompositeMapper = {
   },
 };
 
-export const FactoryListResponse: coreClient.CompositeMapper = {
+export const FactoryRepoUpdate: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "FactoryListResponse",
+    className: "FactoryRepoUpdate",
     modelProperties: {
-      value: {
-        serializedName: "value",
-        required: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "Factory",
-            },
-          },
-        },
-      },
-      nextLink: {
-        serializedName: "nextLink",
+      factoryResourceId: {
+        serializedName: "factoryResourceId",
         type: {
           name: "String",
         },
       },
-    },
-  },
-};
-
-export const FactoryIdentity: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "FactoryIdentity",
-    modelProperties: {
-      type: {
-        serializedName: "type",
-        required: true,
+      repoConfiguration: {
+        serializedName: "repoConfiguration",
         type: {
-          name: "String",
-        },
-      },
-      principalId: {
-        serializedName: "principalId",
-        readOnly: true,
-        type: {
-          name: "Uuid",
-        },
-      },
-      tenantId: {
-        serializedName: "tenantId",
-        readOnly: true,
-        type: {
-          name: "Uuid",
-        },
-      },
-      userAssignedIdentities: {
-        serializedName: "userAssignedIdentities",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } },
-        },
-      },
-    },
-  },
-};
-
-export const PurviewConfiguration: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "PurviewConfiguration",
-    modelProperties: {
-      purviewResourceId: {
-        serializedName: "purviewResourceId",
-        type: {
-          name: "String",
+          name: "Composite",
+          className: "FactoryRepoConfiguration",
         },
       },
     },
@@ -468,6 +410,58 @@ export const FactoryRepoConfiguration: coreClient.CompositeMapper = {
         serializedName: "disablePublish",
         type: {
           name: "Boolean",
+        },
+      },
+    },
+  },
+};
+
+export const FactoryIdentity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FactoryIdentity",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      principalId: {
+        serializedName: "principalId",
+        readOnly: true,
+        type: {
+          name: "Uuid",
+        },
+      },
+      tenantId: {
+        serializedName: "tenantId",
+        readOnly: true,
+        type: {
+          name: "Uuid",
+        },
+      },
+      userAssignedIdentities: {
+        serializedName: "userAssignedIdentities",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } },
+        },
+      },
+    },
+  },
+};
+
+export const PurviewConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PurviewConfiguration",
+    modelProperties: {
+      purviewResourceId: {
+        serializedName: "purviewResourceId",
+        type: {
+          name: "String",
         },
       },
     },
@@ -598,28 +592,6 @@ export const Resource: coreClient.CompositeMapper = {
   },
 };
 
-export const FactoryRepoUpdate: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "FactoryRepoUpdate",
-    modelProperties: {
-      factoryResourceId: {
-        serializedName: "factoryResourceId",
-        type: {
-          name: "String",
-        },
-      },
-      repoConfiguration: {
-        serializedName: "repoConfiguration",
-        type: {
-          name: "Composite",
-          className: "FactoryRepoConfiguration",
-        },
-      },
-    },
-  },
-};
-
 export const ExposureControlRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -702,6 +674,34 @@ export const ExposureControlBatchResponse: coreClient.CompositeMapper = {
               className: "ExposureControlResponse",
             },
           },
+        },
+      },
+    },
+  },
+};
+
+export const FactoryListResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FactoryListResponse",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Factory",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
         },
       },
     },
@@ -7369,6 +7369,13 @@ export const ExecuteDataFlowActivityTypeProperties: coreClient.CompositeMapper =
             className: "IntegrationRuntimeReference",
           },
         },
+        continuationSettings: {
+          serializedName: "continuationSettings",
+          type: {
+            name: "Composite",
+            className: "ContinuationSettingsReference",
+          },
+        },
         compute: {
           serializedName: "compute",
           type: {
@@ -7403,6 +7410,33 @@ export const ExecuteDataFlowActivityTypeProperties: coreClient.CompositeMapper =
       },
     },
   };
+
+export const ContinuationSettingsReference: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContinuationSettingsReference",
+    modelProperties: {
+      continuationTtlInMinutes: {
+        serializedName: "continuationTtlInMinutes",
+        type: {
+          name: "any",
+        },
+      },
+      idleCondition: {
+        serializedName: "idleCondition",
+        type: {
+          name: "any",
+        },
+      },
+      customizedCheckpointKey: {
+        serializedName: "customizedCheckpointKey",
+        type: {
+          name: "any",
+        },
+      },
+    },
+  },
+};
 
 export const ExecuteDataFlowActivityTypePropertiesCompute: coreClient.CompositeMapper =
   {
@@ -9415,6 +9449,13 @@ export const SqlServerLinkedService: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "SqlAlwaysEncryptedProperties",
+        },
+      },
+      credential: {
+        serializedName: "typeProperties.credential",
+        type: {
+          name: "Composite",
+          className: "CredentialReference",
         },
       },
     },
@@ -19931,6 +19972,13 @@ export const ExecuteWranglingDataflowActivity: coreClient.CompositeMapper = {
           className: "IntegrationRuntimeReference",
         },
       },
+      continuationSettings: {
+        serializedName: "typeProperties.continuationSettings",
+        type: {
+          name: "Composite",
+          className: "ContinuationSettingsReference",
+        },
+      },
       compute: {
         serializedName: "typeProperties.compute",
         type: {
@@ -21279,6 +21327,13 @@ export const SqlServerLinkedServiceTypeProperties: coreClient.CompositeMapper =
           type: {
             name: "Composite",
             className: "SqlAlwaysEncryptedProperties",
+          },
+        },
+        credential: {
+          serializedName: "credential",
+          type: {
+            name: "Composite",
+            className: "CredentialReference",
           },
         },
       },
@@ -25807,6 +25862,12 @@ export const SnowflakeExportCopyCommand: coreClient.CompositeMapper = {
           value: { type: { name: "any" } },
         },
       },
+      storageIntegration: {
+        serializedName: "storageIntegration",
+        type: {
+          name: "any",
+        },
+      },
     },
   },
 };
@@ -25887,6 +25948,12 @@ export const SnowflakeImportCopyCommand: coreClient.CompositeMapper = {
         type: {
           name: "Dictionary",
           value: { type: { name: "any" } },
+        },
+      },
+      storageIntegration: {
+        serializedName: "storageIntegration",
+        type: {
+          name: "any",
         },
       },
     },
@@ -27926,6 +27993,13 @@ export const ExecuteDataFlowActivity: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "IntegrationRuntimeReference",
+        },
+      },
+      continuationSettings: {
+        serializedName: "typeProperties.continuationSettings",
+        type: {
+          name: "Composite",
+          className: "ContinuationSettingsReference",
         },
       },
       compute: {

@@ -684,12 +684,30 @@ export interface CloudError {
   details?: CloudError[];
 }
 
-/** A list of factory resources. */
-export interface FactoryListResponse {
-  /** List of factories. */
-  value: Factory[];
-  /** The link to the next page of results, if any remaining results exist. */
-  nextLink?: string;
+/** Factory's git repo information. */
+export interface FactoryRepoUpdate {
+  /** The factory resource id. */
+  factoryResourceId?: string;
+  /** Git repo information of the factory. */
+  repoConfiguration?: FactoryRepoConfigurationUnion;
+}
+
+/** Factory's git repo information. */
+export interface FactoryRepoConfiguration {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "FactoryVSTSConfiguration" | "FactoryGitHubConfiguration";
+  /** Account name. */
+  accountName: string;
+  /** Repository name. */
+  repositoryName: string;
+  /** Collaboration branch. */
+  collaborationBranch: string;
+  /** Root folder. */
+  rootFolder: string;
+  /** Last commit id. */
+  lastCommitId?: string;
+  /** Disable manual publish operation in ADF studio to favor automated publish. */
+  disablePublish?: boolean;
 }
 
 /** Identity properties of the factory resource. */
@@ -714,24 +732,6 @@ export interface FactoryIdentity {
 export interface PurviewConfiguration {
   /** Purview resource id. */
   purviewResourceId?: string;
-}
-
-/** Factory's git repo information. */
-export interface FactoryRepoConfiguration {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "FactoryVSTSConfiguration" | "FactoryGitHubConfiguration";
-  /** Account name. */
-  accountName: string;
-  /** Repository name. */
-  repositoryName: string;
-  /** Collaboration branch. */
-  collaborationBranch: string;
-  /** Root folder. */
-  rootFolder: string;
-  /** Last commit id. */
-  lastCommitId?: string;
-  /** Disable manual publish operation in ADF studio to favor automated publish. */
-  disablePublish?: boolean;
 }
 
 /** Definition of a single parameter for an entity. */
@@ -788,14 +788,6 @@ export interface Resource {
   readonly eTag?: string;
 }
 
-/** Factory's git repo information. */
-export interface FactoryRepoUpdate {
-  /** The factory resource id. */
-  factoryResourceId?: string;
-  /** Git repo information of the factory. */
-  repoConfiguration?: FactoryRepoConfigurationUnion;
-}
-
 /** The exposure control request. */
 export interface ExposureControlRequest {
   /** The feature name. */
@@ -828,6 +820,14 @@ export interface ExposureControlBatchRequest {
 export interface ExposureControlBatchResponse {
   /** List of exposure control feature values. */
   exposureControlResponses: ExposureControlResponse[];
+}
+
+/** A list of factory resources. */
+export interface FactoryListResponse {
+  /** List of factories. */
+  value: Factory[];
+  /** The link to the next page of results, if any remaining results exist. */
+  nextLink?: string;
 }
 
 /** Parameters for updating a factory resource. */
@@ -3853,6 +3853,8 @@ export interface ExecuteDataFlowActivityTypeProperties {
   staging?: DataFlowStagingInfo;
   /** The integration runtime reference. */
   integrationRuntime?: IntegrationRuntimeReference;
+  /** Continuation settings for execute data flow activity. */
+  continuationSettings?: ContinuationSettingsReference;
   /** Compute properties for data flow activity. */
   compute?: ExecuteDataFlowActivityTypePropertiesCompute;
   /** Trace level setting used for data flow monitoring output. Supported values are: 'coarse', 'fine', and 'none'. Type: string (or Expression with resultType string) */
@@ -3863,6 +3865,16 @@ export interface ExecuteDataFlowActivityTypeProperties {
   runConcurrently?: any;
   /** Specify number of parallel staging for sources applicable to the sink. Type: integer (or Expression with resultType integer) */
   sourceStagingConcurrency?: any;
+}
+
+/** Continuation settings for execute data flow activity. */
+export interface ContinuationSettingsReference {
+  /** Continuation TTL in minutes. */
+  continuationTtlInMinutes?: any;
+  /** Idle condition. */
+  idleCondition?: any;
+  /** Customized checkpoint key. */
+  customizedCheckpointKey?: any;
 }
 
 /** Compute properties for data flow activity. */
@@ -4580,6 +4592,8 @@ export interface SqlServerLinkedService extends LinkedService {
   encryptedCredential?: string;
   /** Sql always encrypted properties. */
   alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties;
+  /** The credential reference containing authentication information. */
+  credential?: CredentialReference;
 }
 
 /** Amazon RDS for SQL Server linked service. */
@@ -8294,6 +8308,8 @@ export interface ExecuteWranglingDataflowActivity extends Activity {
   staging?: DataFlowStagingInfo;
   /** The integration runtime reference. */
   integrationRuntime?: IntegrationRuntimeReference;
+  /** Continuation settings for execute data flow activity. */
+  continuationSettings?: ContinuationSettingsReference;
   /** Compute properties for data flow activity. */
   compute?: ExecuteDataFlowActivityTypePropertiesCompute;
   /** Trace level setting used for data flow monitoring output. Supported values are: 'coarse', 'fine', and 'none'. Type: string (or Expression with resultType string) */
@@ -8764,6 +8780,8 @@ export interface SqlServerLinkedServiceTypeProperties
   encryptedCredential?: string;
   /** Sql always encrypted properties. */
   alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties;
+  /** The credential reference containing authentication information. */
+  credential?: CredentialReference;
 }
 
 /** Amazon Rds for SQL Server linked service properties. */
@@ -10476,6 +10494,8 @@ export interface SnowflakeExportCopyCommand extends ExportSettings {
   additionalCopyOptions?: { [propertyName: string]: any };
   /** Additional format options directly passed to snowflake Copy Command. Type: key value pairs (value should be string type) (or Expression with resultType object). Example: "additionalFormatOptions": { "OVERWRITE": "TRUE", "MAX_FILE_SIZE": "'FALSE'" } */
   additionalFormatOptions?: { [propertyName: string]: any };
+  /** The name of the snowflake storage integration to use for the copy operation. Type: string (or Expression with resultType string). */
+  storageIntegration?: any;
 }
 
 /** Azure Databricks Delta Lake export command settings. */
@@ -10506,6 +10526,8 @@ export interface SnowflakeImportCopyCommand extends ImportSettings {
   additionalCopyOptions?: { [propertyName: string]: any };
   /** Additional format options directly passed to snowflake Copy Command. Type: key value pairs (value should be string type) (or Expression with resultType object). Example: "additionalFormatOptions": { "FORCE": "TRUE", "LOAD_UNCERTAIN_FILES": "'FALSE'" } */
   additionalFormatOptions?: { [propertyName: string]: any };
+  /** The name of the snowflake storage integration to use for the copy operation. Type: string (or Expression with resultType string). */
+  storageIntegration?: any;
 }
 
 /** A copy activity tabular translator. */
@@ -11138,6 +11160,8 @@ export interface ExecuteDataFlowActivity extends ExecutionActivity {
   staging?: DataFlowStagingInfo;
   /** The integration runtime reference. */
   integrationRuntime?: IntegrationRuntimeReference;
+  /** Continuation settings for execute data flow activity. */
+  continuationSettings?: ContinuationSettingsReference;
   /** Compute properties for data flow activity. */
   compute?: ExecuteDataFlowActivityTypePropertiesCompute;
   /** Trace level setting used for data flow monitoring output. Supported values are: 'coarse', 'fine', and 'none'. Type: string (or Expression with resultType string) */
@@ -12858,6 +12882,8 @@ export enum KnownSqlServerAuthenticationType {
   SQL = "SQL",
   /** Windows */
   Windows = "Windows",
+  /** UserAssignedManagedIdentity */
+  UserAssignedManagedIdentity = "UserAssignedManagedIdentity",
 }
 
 /**
@@ -12866,7 +12892,8 @@ export enum KnownSqlServerAuthenticationType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **SQL** \
- * **Windows**
+ * **Windows** \
+ * **UserAssignedManagedIdentity**
  */
 export type SqlServerAuthenticationType = string;
 
@@ -14706,13 +14733,6 @@ export interface OperationsListNextOptionalParams
 export type OperationsListNextResponse = OperationListResponse;
 
 /** Optional parameters. */
-export interface FactoriesListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type FactoriesListResponse = FactoryListResponse;
-
-/** Optional parameters. */
 export interface FactoriesConfigureFactoryRepoOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -14770,13 +14790,6 @@ export interface FactoriesGetDataPlaneAccessOptionalParams
 
 /** Contains response data for the getDataPlaneAccess operation. */
 export type FactoriesGetDataPlaneAccessResponse = AccessPolicyResponse;
-
-/** Optional parameters. */
-export interface FactoriesListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type FactoriesListNextResponse = FactoryListResponse;
 
 /** Optional parameters. */
 export interface FactoriesListByResourceGroupNextOptionalParams
