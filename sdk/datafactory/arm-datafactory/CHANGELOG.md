@@ -1,15 +1,31 @@
 # Release History
+    
+## 17.0.0 (2024-07-01)
+    
+**Features**
 
-## 16.0.1 (Unreleased)
+  - Added Interface ContinuationSettingsReference
+  - Interface ExecuteDataFlowActivity has a new optional parameter continuationSettings
+  - Interface ExecuteDataFlowActivityTypeProperties has a new optional parameter continuationSettings
+  - Interface ExecuteWranglingDataflowActivity has a new optional parameter continuationSettings
+  - Interface SnowflakeExportCopyCommand has a new optional parameter storageIntegration
+  - Interface SnowflakeImportCopyCommand has a new optional parameter storageIntegration
+  - Interface SqlServerLinkedService has a new optional parameter credential
+  - Interface SqlServerLinkedServiceTypeProperties has a new optional parameter credential
+  - Interface VerticaLinkedService has a new optional parameter database
+  - Interface VerticaLinkedService has a new optional parameter password
+  - Interface VerticaLinkedService has a new optional parameter port
+  - Interface VerticaLinkedService has a new optional parameter server
+  - Interface VerticaLinkedService has a new optional parameter username
+  - Interface VerticaLinkedService has a new optional parameter version
+  - Enum KnownSqlServerAuthenticationType has a new value UserAssignedManagedIdentity
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface VerticaLinkedService no longer has parameter pwd
+  - Type of parameter encryptedCredential of interface VerticaLinkedService is changed from string to any
+    
+    
 ## 16.0.0 (2024-06-11)
     
 **Features**
