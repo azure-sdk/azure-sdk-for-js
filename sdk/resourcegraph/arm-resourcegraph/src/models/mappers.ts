@@ -8,269 +8,101 @@
 
 import * as coreClient from "@azure/core-client";
 
-export const QueryRequest: coreClient.CompositeMapper = {
+export const QueryGenerationRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "QueryRequest",
+    className: "QueryGenerationRequest",
     modelProperties: {
-      subscriptions: {
-        serializedName: "subscriptions",
+      history: {
+        serializedName: "history",
         type: {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "Composite",
+              className: "HistoryContext",
+            },
+          },
+        },
       },
-      managementGroups: {
-        serializedName: "managementGroups",
+      prompt: {
+        serializedName: "prompt",
+        required: true,
         type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
+          name: "String",
+        },
       },
+    },
+  },
+};
+
+export const HistoryContext: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "HistoryContext",
+    modelProperties: {
+      content: {
+        serializedName: "content",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      role: {
+        serializedName: "role",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const QueryGenerationResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "QueryGenerationResponse",
+    modelProperties: {
       query: {
         serializedName: "query",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
-      options: {
-        serializedName: "options",
+      status: {
+        serializedName: "status",
         type: {
           name: "Composite",
-          className: "QueryRequestOptions"
-        }
-      },
-      facets: {
-        serializedName: "facets",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "FacetRequest"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const QueryRequestOptions: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "QueryRequestOptions",
-    modelProperties: {
-      skipToken: {
-        serializedName: "$skipToken",
-        type: {
-          name: "String"
-        }
-      },
-      top: {
-        constraints: {
-          InclusiveMaximum: 1000,
-          InclusiveMinimum: 1
+          className: "StatusResponse",
         },
-        serializedName: "$top",
-        type: {
-          name: "Number"
-        }
       },
-      skip: {
-        constraints: {
-          InclusiveMinimum: 0
-        },
-        serializedName: "$skip",
-        type: {
-          name: "Number"
-        }
-      },
-      resultFormat: {
-        serializedName: "resultFormat",
-        type: {
-          name: "Enum",
-          allowedValues: ["table", "objectArray"]
-        }
-      },
-      allowPartialScopes: {
-        defaultValue: false,
-        serializedName: "allowPartialScopes",
-        type: {
-          name: "Boolean"
-        }
-      },
-      authorizationScopeFilter: {
-        defaultValue: "AtScopeAndBelow",
-        serializedName: "authorizationScopeFilter",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "AtScopeAndBelow",
-            "AtScopeAndAbove",
-            "AtScopeExact",
-            "AtScopeAboveAndBelow"
-          ]
-        }
-      }
-    }
-  }
-};
-
-export const FacetRequest: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "FacetRequest",
-    modelProperties: {
-      expression: {
-        serializedName: "expression",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      options: {
-        serializedName: "options",
-        type: {
-          name: "Composite",
-          className: "FacetRequestOptions"
-        }
-      }
-    }
-  }
-};
-
-export const FacetRequestOptions: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "FacetRequestOptions",
-    modelProperties: {
-      sortBy: {
-        serializedName: "sortBy",
-        type: {
-          name: "String"
-        }
-      },
-      sortOrder: {
-        defaultValue: "desc",
-        serializedName: "sortOrder",
-        type: {
-          name: "Enum",
-          allowedValues: ["asc", "desc"]
-        }
-      },
-      filter: {
-        serializedName: "filter",
-        type: {
-          name: "String"
-        }
-      },
-      top: {
-        constraints: {
-          InclusiveMaximum: 1000,
-          InclusiveMinimum: 1
-        },
-        serializedName: "$top",
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const QueryResponse: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "QueryResponse",
-    modelProperties: {
-      totalRecords: {
-        serializedName: "totalRecords",
-        required: true,
-        type: {
-          name: "Number"
-        }
-      },
-      count: {
-        serializedName: "count",
-        required: true,
-        type: {
-          name: "Number"
-        }
-      },
-      resultTruncated: {
-        serializedName: "resultTruncated",
-        required: true,
-        type: {
-          name: "Enum",
-          allowedValues: ["true", "false"]
-        }
-      },
-      skipToken: {
-        serializedName: "$skipToken",
-        type: {
-          name: "String"
-        }
-      },
-      data: {
-        serializedName: "data",
-        required: true,
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
-        }
-      },
-      facets: {
-        serializedName: "facets",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "Facet"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const Facet: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "Facet",
-    uberParent: "Facet",
-    polymorphicDiscriminator: {
-      serializedName: "resultType",
-      clientName: "resultType"
     },
+  },
+};
+
+export const StatusResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StatusResponse",
     modelProperties: {
-      expression: {
-        serializedName: "expression",
+      category: {
+        serializedName: "category",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
-      resultType: {
-        serializedName: "resultType",
+      message: {
+        serializedName: "message",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ErrorResponse: coreClient.CompositeMapper = {
@@ -282,11 +114,11 @@ export const ErrorResponse: coreClient.CompositeMapper = {
         serializedName: "error",
         type: {
           name: "Composite",
-          className: "ErrorModel"
-        }
-      }
-    }
-  }
+          className: "ErrorModel",
+        },
+      },
+    },
+  },
 };
 
 export const ErrorModel: coreClient.CompositeMapper = {
@@ -298,15 +130,15 @@ export const ErrorModel: coreClient.CompositeMapper = {
         serializedName: "code",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       message: {
         serializedName: "message",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       details: {
         serializedName: "details",
@@ -315,13 +147,13 @@ export const ErrorModel: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ErrorDetails"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "ErrorDetails",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const ErrorDetails: coreClient.CompositeMapper = {
@@ -334,18 +166,283 @@ export const ErrorDetails: coreClient.CompositeMapper = {
         serializedName: "code",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       message: {
         serializedName: "message",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const QueryRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "QueryRequest",
+    modelProperties: {
+      subscriptions: {
+        serializedName: "subscriptions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+      managementGroups: {
+        serializedName: "managementGroups",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+      query: {
+        serializedName: "query",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      options: {
+        serializedName: "options",
+        type: {
+          name: "Composite",
+          className: "QueryRequestOptions",
+        },
+      },
+      facets: {
+        serializedName: "facets",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "FacetRequest",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const QueryRequestOptions: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "QueryRequestOptions",
+    modelProperties: {
+      skipToken: {
+        serializedName: "$skipToken",
+        type: {
+          name: "String",
+        },
+      },
+      top: {
+        constraints: {
+          InclusiveMaximum: 1000,
+          InclusiveMinimum: 1,
+        },
+        serializedName: "$top",
+        type: {
+          name: "Number",
+        },
+      },
+      skip: {
+        constraints: {
+          InclusiveMinimum: 0,
+        },
+        serializedName: "$skip",
+        type: {
+          name: "Number",
+        },
+      },
+      resultFormat: {
+        serializedName: "resultFormat",
+        type: {
+          name: "Enum",
+          allowedValues: ["table", "objectArray"],
+        },
+      },
+      allowPartialScopes: {
+        defaultValue: false,
+        serializedName: "allowPartialScopes",
+        type: {
+          name: "Boolean",
+        },
+      },
+      authorizationScopeFilter: {
+        defaultValue: "AtScopeAndBelow",
+        serializedName: "authorizationScopeFilter",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "AtScopeAndBelow",
+            "AtScopeAndAbove",
+            "AtScopeExact",
+            "AtScopeAboveAndBelow",
+          ],
+        },
+      },
+    },
+  },
+};
+
+export const FacetRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FacetRequest",
+    modelProperties: {
+      expression: {
+        serializedName: "expression",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      options: {
+        serializedName: "options",
+        type: {
+          name: "Composite",
+          className: "FacetRequestOptions",
+        },
+      },
+    },
+  },
+};
+
+export const FacetRequestOptions: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FacetRequestOptions",
+    modelProperties: {
+      sortBy: {
+        serializedName: "sortBy",
+        type: {
+          name: "String",
+        },
+      },
+      sortOrder: {
+        defaultValue: "desc",
+        serializedName: "sortOrder",
+        type: {
+          name: "Enum",
+          allowedValues: ["asc", "desc"],
+        },
+      },
+      filter: {
+        serializedName: "filter",
+        type: {
+          name: "String",
+        },
+      },
+      top: {
+        constraints: {
+          InclusiveMaximum: 1000,
+          InclusiveMinimum: 1,
+        },
+        serializedName: "$top",
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const QueryResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "QueryResponse",
+    modelProperties: {
+      totalRecords: {
+        serializedName: "totalRecords",
+        required: true,
+        type: {
+          name: "Number",
+        },
+      },
+      count: {
+        serializedName: "count",
+        required: true,
+        type: {
+          name: "Number",
+        },
+      },
+      resultTruncated: {
+        serializedName: "resultTruncated",
+        required: true,
+        type: {
+          name: "Enum",
+          allowedValues: ["true", "false"],
+        },
+      },
+      skipToken: {
+        serializedName: "$skipToken",
+        type: {
+          name: "String",
+        },
+      },
+      data: {
+        serializedName: "data",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } },
+        },
+      },
+      facets: {
+        serializedName: "facets",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Facet",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const Facet: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Facet",
+    uberParent: "Facet",
+    polymorphicDiscriminator: {
+      serializedName: "resultType",
+      clientName: "resultType",
+    },
+    modelProperties: {
+      expression: {
+        serializedName: "expression",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      resultType: {
+        serializedName: "resultType",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const OperationListResult: coreClient.CompositeMapper = {
@@ -360,13 +457,13 @@ export const OperationListResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "Operation"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "Operation",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const Operation: coreClient.CompositeMapper = {
@@ -377,24 +474,24 @@ export const Operation: coreClient.CompositeMapper = {
       name: {
         serializedName: "name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       display: {
         serializedName: "display",
         type: {
           name: "Composite",
-          className: "OperationDisplay"
-        }
+          className: "OperationDisplay",
+        },
       },
       origin: {
         serializedName: "origin",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const OperationDisplay: coreClient.CompositeMapper = {
@@ -405,29 +502,29 @@ export const OperationDisplay: coreClient.CompositeMapper = {
       provider: {
         serializedName: "provider",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       resource: {
         serializedName: "resource",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       operation: {
         serializedName: "operation",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       description: {
         serializedName: "description",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ResourcesHistoryRequest: coreClient.CompositeMapper = {
@@ -441,23 +538,23 @@ export const ResourcesHistoryRequest: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       query: {
         serializedName: "query",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       options: {
         serializedName: "options",
         type: {
           name: "Composite",
-          className: "ResourcesHistoryRequestOptions"
-        }
+          className: "ResourcesHistoryRequestOptions",
+        },
       },
       managementGroups: {
         serializedName: "managementGroups",
@@ -465,13 +562,13 @@ export const ResourcesHistoryRequest: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
+              name: "String",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const ResourcesHistoryRequestOptions: coreClient.CompositeMapper = {
@@ -483,43 +580,43 @@ export const ResourcesHistoryRequestOptions: coreClient.CompositeMapper = {
         serializedName: "interval",
         type: {
           name: "Composite",
-          className: "DateTimeInterval"
-        }
+          className: "DateTimeInterval",
+        },
       },
       top: {
         constraints: {
           InclusiveMaximum: 1000,
-          InclusiveMinimum: 1
+          InclusiveMinimum: 1,
         },
         serializedName: "$top",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       skip: {
         constraints: {
-          InclusiveMinimum: 0
+          InclusiveMinimum: 0,
         },
         serializedName: "$skip",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       skipToken: {
         serializedName: "$skipToken",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       resultFormat: {
         serializedName: "resultFormat",
         type: {
           name: "Enum",
-          allowedValues: ["table", "objectArray"]
-        }
-      }
-    }
-  }
+          allowedValues: ["table", "objectArray"],
+        },
+      },
+    },
+  },
 };
 
 export const DateTimeInterval: coreClient.CompositeMapper = {
@@ -531,19 +628,275 @@ export const DateTimeInterval: coreClient.CompositeMapper = {
         serializedName: "start",
         required: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       end: {
         serializedName: "end",
         required: true,
         type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
+          name: "DateTime",
+        },
+      },
+    },
+  },
 };
+
+export const ResourceChangesRequestParameters: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceChangesRequestParameters",
+    modelProperties: {
+      resourceIds: {
+        serializedName: "resourceIds",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+      subscriptionId: {
+        serializedName: "subscriptionId",
+        type: {
+          name: "String",
+        },
+      },
+      interval: {
+        serializedName: "interval",
+        type: {
+          name: "Composite",
+          className: "ResourceChangesRequestParametersInterval",
+        },
+      },
+      skipToken: {
+        serializedName: "$skipToken",
+        type: {
+          name: "String",
+        },
+      },
+      top: {
+        constraints: {
+          InclusiveMaximum: 1000,
+          InclusiveMinimum: 1,
+        },
+        serializedName: "$top",
+        type: {
+          name: "Number",
+        },
+      },
+      table: {
+        serializedName: "table",
+        type: {
+          name: "String",
+        },
+      },
+      fetchPropertyChanges: {
+        serializedName: "fetchPropertyChanges",
+        type: {
+          name: "Boolean",
+        },
+      },
+      fetchSnapshots: {
+        serializedName: "fetchSnapshots",
+        type: {
+          name: "Boolean",
+        },
+      },
+    },
+  },
+};
+
+export const ResourceChangeList: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceChangeList",
+    modelProperties: {
+      changes: {
+        serializedName: "changes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ResourceChangeData",
+            },
+          },
+        },
+      },
+      skipToken: {
+        serializedName: "$skipToken",
+        type: {
+          name: "any",
+        },
+      },
+    },
+  },
+};
+
+export const ResourceChangeData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceChangeData",
+    modelProperties: {
+      resourceId: {
+        serializedName: "resourceId",
+        type: {
+          name: "String",
+        },
+      },
+      changeId: {
+        serializedName: "changeId",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      beforeSnapshot: {
+        serializedName: "beforeSnapshot",
+        type: {
+          name: "Composite",
+          className: "ResourceChangeDataBeforeSnapshot",
+        },
+      },
+      afterSnapshot: {
+        serializedName: "afterSnapshot",
+        type: {
+          name: "Composite",
+          className: "ResourceChangeDataAfterSnapshot",
+        },
+      },
+      changeType: {
+        serializedName: "changeType",
+        type: {
+          name: "Enum",
+          allowedValues: ["Create", "Update", "Delete"],
+        },
+      },
+      propertyChanges: {
+        serializedName: "propertyChanges",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ResourcePropertyChange",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const ResourceSnapshotData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceSnapshotData",
+    modelProperties: {
+      snapshotId: {
+        serializedName: "snapshotId",
+        type: {
+          name: "String",
+        },
+      },
+      timestamp: {
+        serializedName: "timestamp",
+        required: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+      content: {
+        serializedName: "content",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } },
+        },
+      },
+    },
+  },
+};
+
+export const ResourcePropertyChange: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourcePropertyChange",
+    modelProperties: {
+      propertyName: {
+        serializedName: "propertyName",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      beforeValue: {
+        serializedName: "beforeValue",
+        type: {
+          name: "String",
+        },
+      },
+      afterValue: {
+        serializedName: "afterValue",
+        type: {
+          name: "String",
+        },
+      },
+      changeCategory: {
+        serializedName: "changeCategory",
+        required: true,
+        type: {
+          name: "Enum",
+          allowedValues: ["User", "System"],
+        },
+      },
+      propertyChangeType: {
+        serializedName: "propertyChangeType",
+        required: true,
+        type: {
+          name: "Enum",
+          allowedValues: ["Insert", "Update", "Remove"],
+        },
+      },
+    },
+  },
+};
+
+export const ResourceChangeDetailsRequestParameters: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ResourceChangeDetailsRequestParameters",
+      modelProperties: {
+        resourceIds: {
+          serializedName: "resourceIds",
+          required: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "String",
+              },
+            },
+          },
+        },
+        changeIds: {
+          serializedName: "changeIds",
+          required: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "String",
+              },
+            },
+          },
+        },
+      },
+    },
+  };
 
 export const Table: coreClient.CompositeMapper = {
   type: {
@@ -558,10 +911,10 @@ export const Table: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "Column"
-            }
-          }
-        }
+              className: "Column",
+            },
+          },
+        },
       },
       rows: {
         serializedName: "rows",
@@ -574,15 +927,15 @@ export const Table: coreClient.CompositeMapper = {
               element: {
                 type: {
                   name: "Dictionary",
-                  value: { type: { name: "any" } }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
+                  value: { type: { name: "any" } },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const Column: coreClient.CompositeMapper = {
@@ -594,8 +947,8 @@ export const Column: coreClient.CompositeMapper = {
         serializedName: "name",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       type: {
         serializedName: "type",
@@ -608,12 +961,12 @@ export const Column: coreClient.CompositeMapper = {
             "number",
             "boolean",
             "object",
-            "datetime"
-          ]
-        }
-      }
-    }
-  }
+            "datetime",
+          ],
+        },
+      },
+    },
+  },
 };
 
 export const FacetResult: coreClient.CompositeMapper = {
@@ -629,26 +982,26 @@ export const FacetResult: coreClient.CompositeMapper = {
         serializedName: "totalRecords",
         required: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       count: {
         serializedName: "count",
         required: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       data: {
         serializedName: "data",
         required: true,
         type: {
           name: "Dictionary",
-          value: { type: { name: "any" } }
-        }
-      }
-    }
-  }
+          value: { type: { name: "any" } },
+        },
+      },
+    },
+  },
 };
 
 export const FacetError: coreClient.CompositeMapper = {
@@ -668,17 +1021,48 @@ export const FacetError: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ErrorDetails"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "ErrorDetails",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const ResourceChangesRequestParametersInterval: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ResourceChangesRequestParametersInterval",
+      modelProperties: {
+        ...DateTimeInterval.type.modelProperties,
+      },
+    },
+  };
+
+export const ResourceChangeDataBeforeSnapshot: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceChangeDataBeforeSnapshot",
+    modelProperties: {
+      ...ResourceSnapshotData.type.modelProperties,
+    },
+  },
+};
+
+export const ResourceChangeDataAfterSnapshot: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceChangeDataAfterSnapshot",
+    modelProperties: {
+      ...ResourceSnapshotData.type.modelProperties,
+    },
+  },
 };
 
 export let discriminators = {
   Facet: Facet,
   "Facet.FacetResult": FacetResult,
-  "Facet.FacetError": FacetError
+  "Facet.FacetError": FacetError,
 };

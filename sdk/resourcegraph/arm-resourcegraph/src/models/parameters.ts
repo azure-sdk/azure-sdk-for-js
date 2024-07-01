@@ -9,11 +9,14 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
+  QueryGenerationRequest as QueryGenerationRequestMapper,
   QueryRequest as QueryRequestMapper,
-  ResourcesHistoryRequest as ResourcesHistoryRequestMapper
+  ResourcesHistoryRequest as ResourcesHistoryRequestMapper,
+  ResourceChangesRequestParameters as ResourceChangesRequestParametersMapper,
+  ResourceChangeDetailsRequestParameters as ResourceChangeDetailsRequestParametersMapper,
 } from "../models/mappers";
 
 export const contentType: OperationParameter = {
@@ -23,14 +26,14 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const query: OperationParameter = {
-  parameterPath: "query",
-  mapper: QueryRequestMapper
+export const body: OperationParameter = {
+  parameterPath: "body",
+  mapper: QueryGenerationRequestMapper,
 };
 
 export const accept: OperationParameter = {
@@ -40,9 +43,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -51,25 +54,64 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const apiVersion: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2023-09-01-preview",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const query: OperationParameter = {
+  parameterPath: "query",
+  mapper: QueryRequestMapper,
+};
+
+export const request: OperationParameter = {
+  parameterPath: "request",
+  mapper: ResourcesHistoryRequestMapper,
+};
+
+export const apiVersion1: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2021-06-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const request: OperationParameter = {
-  parameterPath: "request",
-  mapper: ResourcesHistoryRequestMapper
+export const parameters: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ResourceChangesRequestParametersMapper,
+};
+
+export const apiVersion2: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2020-09-01-preview",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters1: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ResourceChangeDetailsRequestParametersMapper,
 };
