@@ -8,14 +8,13 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  Configuration,
-  TenantConfigurationsListOptionalParams,
-  ConfigurationName,
+  TenantConfiguration,
+  TenantConfigurationsListByTenantOptionalParams,
   TenantConfigurationsGetOptionalParams,
   TenantConfigurationsGetResponse,
   TenantConfigurationsCreateOptionalParams,
   TenantConfigurationsCreateResponse,
-  TenantConfigurationsDeleteOptionalParams
+  TenantConfigurationsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -25,37 +24,37 @@ export interface TenantConfigurations {
    * Gets list of the tenant configurations.
    * @param options The options parameters.
    */
-  list(
-    options?: TenantConfigurationsListOptionalParams
-  ): PagedAsyncIterableIterator<Configuration>;
+  listByTenant(
+    options?: TenantConfigurationsListByTenantOptionalParams,
+  ): PagedAsyncIterableIterator<TenantConfiguration>;
   /**
    * Gets the tenant configuration.
-   * @param configurationName The configuration name. Value must be 'default'
+   * @param configurationName The name of the TenantConfiguration
    * @param options The options parameters.
    */
   get(
-    configurationName: ConfigurationName,
-    options?: TenantConfigurationsGetOptionalParams
+    configurationName: string,
+    options?: TenantConfigurationsGetOptionalParams,
   ): Promise<TenantConfigurationsGetResponse>;
   /**
    * Create the tenant configuration. If configuration already exists - update it. User has to be a
    * Tenant Admin for this operation.
-   * @param configurationName The configuration name. Value must be 'default'
-   * @param tenantConfiguration The parameters required to create or update tenant configuration.
+   * @param configurationName The name of the TenantConfiguration
+   * @param resource The parameters required to create or update tenant configuration.
    * @param options The options parameters.
    */
   create(
-    configurationName: ConfigurationName,
-    tenantConfiguration: Configuration,
-    options?: TenantConfigurationsCreateOptionalParams
+    configurationName: string,
+    resource: TenantConfiguration,
+    options?: TenantConfigurationsCreateOptionalParams,
   ): Promise<TenantConfigurationsCreateResponse>;
   /**
    * Delete the tenant configuration. User has to be a Tenant Admin for this operation.
-   * @param configurationName The configuration name. Value must be 'default'
+   * @param configurationName The name of the TenantConfiguration
    * @param options The options parameters.
    */
   delete(
-    configurationName: ConfigurationName,
-    options?: TenantConfigurationsDeleteOptionalParams
+    configurationName: string,
+    options?: TenantConfigurationsDeleteOptionalParams,
   ): Promise<void>;
 }
