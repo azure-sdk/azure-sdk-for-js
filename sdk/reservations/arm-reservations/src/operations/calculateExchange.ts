@@ -14,13 +14,13 @@ import { AzureReservationAPI } from "../azureReservationAPI";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
   CalculateExchangeRequest,
   CalculateExchangePostOptionalParams,
-  CalculateExchangePostResponse
+  CalculateExchangePostResponse,
 } from "../models";
 
 /** Class containing CalculateExchange operations. */
@@ -43,7 +43,7 @@ export class CalculateExchangeImpl implements CalculateExchange {
    */
   async beginPost(
     body: CalculateExchangeRequest,
-    options?: CalculateExchangePostOptionalParams
+    options?: CalculateExchangePostOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<CalculateExchangePostResponse>,
@@ -52,21 +52,20 @@ export class CalculateExchangeImpl implements CalculateExchange {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<CalculateExchangePostResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -75,8 +74,8 @@ export class CalculateExchangeImpl implements CalculateExchange {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -84,15 +83,15 @@ export class CalculateExchangeImpl implements CalculateExchange {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { body, options },
-      spec: postOperationSpec
+      spec: postOperationSpec,
     });
     const poller = await createHttpPoller<
       CalculateExchangePostResponse,
@@ -100,7 +99,7 @@ export class CalculateExchangeImpl implements CalculateExchange {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -114,7 +113,7 @@ export class CalculateExchangeImpl implements CalculateExchange {
    */
   async beginPostAndWait(
     body: CalculateExchangeRequest,
-    options?: CalculateExchangePostOptionalParams
+    options?: CalculateExchangePostOptionalParams,
   ): Promise<CalculateExchangePostResponse> {
     const poller = await this.beginPost(body, options);
     return poller.pollUntilDone();
@@ -128,25 +127,25 @@ const postOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CalculateExchangeOperationResultResponse
+      bodyMapper: Mappers.CalculateExchangeOperationResultResponse,
     },
     201: {
-      bodyMapper: Mappers.CalculateExchangeOperationResultResponse
+      bodyMapper: Mappers.CalculateExchangeOperationResultResponse,
     },
     202: {
-      bodyMapper: Mappers.CalculateExchangeOperationResultResponse
+      bodyMapper: Mappers.CalculateExchangeOperationResultResponse,
     },
     204: {
-      bodyMapper: Mappers.CalculateExchangeOperationResultResponse
+      bodyMapper: Mappers.CalculateExchangeOperationResultResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
-  requestBody: Parameters.body7,
+  requestBody: Parameters.body6,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

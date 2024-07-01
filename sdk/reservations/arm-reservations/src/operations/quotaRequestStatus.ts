@@ -20,7 +20,7 @@ import {
   QuotaRequestStatusListResponse,
   QuotaRequestStatusGetOptionalParams,
   QuotaRequestStatusGetResponse,
-  QuotaRequestStatusListNextResponse
+  QuotaRequestStatusListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -48,13 +48,13 @@ export class QuotaRequestStatusImpl implements QuotaRequestStatus {
     subscriptionId: string,
     providerId: string,
     location: string,
-    options?: QuotaRequestStatusListOptionalParams
+    options?: QuotaRequestStatusListOptionalParams,
   ): PagedAsyncIterableIterator<QuotaRequestDetails> {
     const iter = this.listPagingAll(
       subscriptionId,
       providerId,
       location,
-      options
+      options,
     );
     return {
       next() {
@@ -72,9 +72,9 @@ export class QuotaRequestStatusImpl implements QuotaRequestStatus {
           providerId,
           location,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -83,7 +83,7 @@ export class QuotaRequestStatusImpl implements QuotaRequestStatus {
     providerId: string,
     location: string,
     options?: QuotaRequestStatusListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<QuotaRequestDetails[]> {
     let result: QuotaRequestStatusListResponse;
     let continuationToken = settings?.continuationToken;
@@ -100,7 +100,7 @@ export class QuotaRequestStatusImpl implements QuotaRequestStatus {
         providerId,
         location,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -113,13 +113,13 @@ export class QuotaRequestStatusImpl implements QuotaRequestStatus {
     subscriptionId: string,
     providerId: string,
     location: string,
-    options?: QuotaRequestStatusListOptionalParams
+    options?: QuotaRequestStatusListOptionalParams,
   ): AsyncIterableIterator<QuotaRequestDetails> {
     for await (const page of this.listPagingPage(
       subscriptionId,
       providerId,
       location,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -140,11 +140,11 @@ export class QuotaRequestStatusImpl implements QuotaRequestStatus {
     providerId: string,
     location: string,
     id: string,
-    options?: QuotaRequestStatusGetOptionalParams
+    options?: QuotaRequestStatusGetOptionalParams,
   ): Promise<QuotaRequestStatusGetResponse> {
     return this.client.sendOperationRequest(
       { subscriptionId, providerId, location, id, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -160,11 +160,11 @@ export class QuotaRequestStatusImpl implements QuotaRequestStatus {
     subscriptionId: string,
     providerId: string,
     location: string,
-    options?: QuotaRequestStatusListOptionalParams
+    options?: QuotaRequestStatusListOptionalParams,
   ): Promise<QuotaRequestStatusListResponse> {
     return this.client.sendOperationRequest(
       { subscriptionId, providerId, location, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -181,11 +181,11 @@ export class QuotaRequestStatusImpl implements QuotaRequestStatus {
     providerId: string,
     location: string,
     nextLink: string,
-    options?: QuotaRequestStatusListNextOptionalParams
+    options?: QuotaRequestStatusListNextOptionalParams,
   ): Promise<QuotaRequestStatusListNextResponse> {
     return this.client.sendOperationRequest(
       { subscriptionId, providerId, location, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -193,16 +193,15 @@ export class QuotaRequestStatusImpl implements QuotaRequestStatus {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Capacity/resourceProviders/{providerId}/locations/{location}/serviceLimitsRequests/{id}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Capacity/resourceProviders/{providerId}/locations/{location}/serviceLimitsRequests/{id}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.QuotaRequestDetails
+      bodyMapper: Mappers.QuotaRequestDetails,
     },
     default: {
-      bodyMapper: Mappers.ExceptionResponse
-    }
+      bodyMapper: Mappers.ExceptionResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
@@ -210,56 +209,55 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.providerId,
     Parameters.location1,
-    Parameters.id
+    Parameters.id,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Capacity/resourceProviders/{providerId}/locations/{location}/serviceLimitsRequests",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Capacity/resourceProviders/{providerId}/locations/{location}/serviceLimitsRequests",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.QuotaRequestDetailsList
+      bodyMapper: Mappers.QuotaRequestDetailsList,
     },
     default: {
-      bodyMapper: Mappers.ExceptionResponse
-    }
+      bodyMapper: Mappers.ExceptionResponse,
+    },
   },
   queryParameters: [
     Parameters.filter,
     Parameters.apiVersion1,
     Parameters.top,
-    Parameters.skiptoken1
+    Parameters.skiptoken1,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.providerId,
-    Parameters.location1
+    Parameters.location1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.QuotaRequestDetailsList
+      bodyMapper: Mappers.QuotaRequestDetailsList,
     },
     default: {
-      bodyMapper: Mappers.ExceptionResponse
-    }
+      bodyMapper: Mappers.ExceptionResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.nextLink,
     Parameters.subscriptionId,
+    Parameters.nextLink,
     Parameters.providerId,
-    Parameters.location1
+    Parameters.location1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

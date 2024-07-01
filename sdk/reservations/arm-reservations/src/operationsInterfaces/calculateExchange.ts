@@ -10,7 +10,7 @@ import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   CalculateExchangeRequest,
   CalculateExchangePostOptionalParams,
-  CalculateExchangePostResponse
+  CalculateExchangePostResponse,
 } from "../models";
 
 /** Interface representing a CalculateExchange. */
@@ -23,7 +23,7 @@ export interface CalculateExchange {
    */
   beginPost(
     body: CalculateExchangeRequest,
-    options?: CalculateExchangePostOptionalParams
+    options?: CalculateExchangePostOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<CalculateExchangePostResponse>,
@@ -38,6 +38,6 @@ export interface CalculateExchange {
    */
   beginPostAndWait(
     body: CalculateExchangeRequest,
-    options?: CalculateExchangePostOptionalParams
+    options?: CalculateExchangePostOptionalParams,
   ): Promise<CalculateExchangePostResponse>;
 }

@@ -16,7 +16,7 @@ import { AzureReservationAPI } from "../azureReservationAPI";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -30,9 +30,6 @@ import {
   ReservationListAllNextOptionalParams,
   ReservationListAllOptionalParams,
   ReservationListAllResponse,
-  AvailableScopeRequest,
-  ReservationAvailableScopesOptionalParams,
-  ReservationAvailableScopesResponse,
   SplitRequest,
   ReservationSplitOptionalParams,
   ReservationSplitResponse,
@@ -48,7 +45,7 @@ import {
   ReservationUnarchiveOptionalParams,
   ReservationListNextResponse,
   ReservationListRevisionsNextResponse,
-  ReservationListAllNextResponse
+  ReservationListAllNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -71,7 +68,7 @@ export class ReservationImpl implements Reservation {
    */
   public list(
     reservationOrderId: string,
-    options?: ReservationListOptionalParams
+    options?: ReservationListOptionalParams,
   ): PagedAsyncIterableIterator<ReservationResponse> {
     const iter = this.listPagingAll(reservationOrderId, options);
     return {
@@ -86,14 +83,14 @@ export class ReservationImpl implements Reservation {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(reservationOrderId, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     reservationOrderId: string,
     options?: ReservationListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ReservationResponse[]> {
     let result: ReservationListResponse;
     let continuationToken = settings?.continuationToken;
@@ -108,7 +105,7 @@ export class ReservationImpl implements Reservation {
       result = await this._listNext(
         reservationOrderId,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -119,7 +116,7 @@ export class ReservationImpl implements Reservation {
 
   private async *listPagingAll(
     reservationOrderId: string,
-    options?: ReservationListOptionalParams
+    options?: ReservationListOptionalParams,
   ): AsyncIterableIterator<ReservationResponse> {
     for await (const page of this.listPagingPage(reservationOrderId, options)) {
       yield* page;
@@ -135,12 +132,12 @@ export class ReservationImpl implements Reservation {
   public listRevisions(
     reservationOrderId: string,
     reservationId: string,
-    options?: ReservationListRevisionsOptionalParams
+    options?: ReservationListRevisionsOptionalParams,
   ): PagedAsyncIterableIterator<ReservationResponse> {
     const iter = this.listRevisionsPagingAll(
       reservationOrderId,
       reservationId,
-      options
+      options,
     );
     return {
       next() {
@@ -157,9 +154,9 @@ export class ReservationImpl implements Reservation {
           reservationOrderId,
           reservationId,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -167,7 +164,7 @@ export class ReservationImpl implements Reservation {
     reservationOrderId: string,
     reservationId: string,
     options?: ReservationListRevisionsOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ReservationResponse[]> {
     let result: ReservationListRevisionsResponse;
     let continuationToken = settings?.continuationToken;
@@ -175,7 +172,7 @@ export class ReservationImpl implements Reservation {
       result = await this._listRevisions(
         reservationOrderId,
         reservationId,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -187,7 +184,7 @@ export class ReservationImpl implements Reservation {
         reservationOrderId,
         reservationId,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -199,12 +196,12 @@ export class ReservationImpl implements Reservation {
   private async *listRevisionsPagingAll(
     reservationOrderId: string,
     reservationId: string,
-    options?: ReservationListRevisionsOptionalParams
+    options?: ReservationListRevisionsOptionalParams,
   ): AsyncIterableIterator<ReservationResponse> {
     for await (const page of this.listRevisionsPagingPage(
       reservationOrderId,
       reservationId,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -216,7 +213,7 @@ export class ReservationImpl implements Reservation {
    * @param options The options parameters.
    */
   public listAll(
-    options?: ReservationListAllOptionalParams
+    options?: ReservationListAllOptionalParams,
   ): PagedAsyncIterableIterator<ReservationResponse> {
     const iter = this.listAllPagingAll(options);
     return {
@@ -231,13 +228,13 @@ export class ReservationImpl implements Reservation {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listAllPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listAllPagingPage(
     options?: ReservationListAllOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ReservationResponse[]> {
     let result: ReservationListAllResponse;
     let continuationToken = settings?.continuationToken;
@@ -258,108 +255,11 @@ export class ReservationImpl implements Reservation {
   }
 
   private async *listAllPagingAll(
-    options?: ReservationListAllOptionalParams
+    options?: ReservationListAllOptionalParams,
   ): AsyncIterableIterator<ReservationResponse> {
     for await (const page of this.listAllPagingPage(options)) {
       yield* page;
     }
-  }
-
-  /**
-   * Check whether the scopes from request is valid for `Reservation`.
-   *
-   * @param reservationOrderId Order Id of the reservation
-   * @param reservationId Id of the reservation item
-   * @param body Scopes to be checked for eligibility.
-   * @param options The options parameters.
-   */
-  async beginAvailableScopes(
-    reservationOrderId: string,
-    reservationId: string,
-    body: AvailableScopeRequest,
-    options?: ReservationAvailableScopesOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ReservationAvailableScopesResponse>,
-      ReservationAvailableScopesResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<ReservationAvailableScopesResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { reservationOrderId, reservationId, body, options },
-      spec: availableScopesOperationSpec
-    });
-    const poller = await createHttpPoller<
-      ReservationAvailableScopesResponse,
-      OperationState<ReservationAvailableScopesResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Check whether the scopes from request is valid for `Reservation`.
-   *
-   * @param reservationOrderId Order Id of the reservation
-   * @param reservationId Id of the reservation item
-   * @param body Scopes to be checked for eligibility.
-   * @param options The options parameters.
-   */
-  async beginAvailableScopesAndWait(
-    reservationOrderId: string,
-    reservationId: string,
-    body: AvailableScopeRequest,
-    options?: ReservationAvailableScopesOptionalParams
-  ): Promise<ReservationAvailableScopesResponse> {
-    const poller = await this.beginAvailableScopes(
-      reservationOrderId,
-      reservationId,
-      body,
-      options
-    );
-    return poller.pollUntilDone();
   }
 
   /**
@@ -371,7 +271,7 @@ export class ReservationImpl implements Reservation {
   async beginSplit(
     reservationOrderId: string,
     body: SplitRequest,
-    options?: ReservationSplitOptionalParams
+    options?: ReservationSplitOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ReservationSplitResponse>,
@@ -380,21 +280,20 @@ export class ReservationImpl implements Reservation {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ReservationSplitResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -403,8 +302,8 @@ export class ReservationImpl implements Reservation {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -412,15 +311,15 @@ export class ReservationImpl implements Reservation {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { reservationOrderId, body, options },
-      spec: splitOperationSpec
+      spec: splitOperationSpec,
     });
     const poller = await createHttpPoller<
       ReservationSplitResponse,
@@ -428,7 +327,7 @@ export class ReservationImpl implements Reservation {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -443,7 +342,7 @@ export class ReservationImpl implements Reservation {
   async beginSplitAndWait(
     reservationOrderId: string,
     body: SplitRequest,
-    options?: ReservationSplitOptionalParams
+    options?: ReservationSplitOptionalParams,
   ): Promise<ReservationSplitResponse> {
     const poller = await this.beginSplit(reservationOrderId, body, options);
     return poller.pollUntilDone();
@@ -459,7 +358,7 @@ export class ReservationImpl implements Reservation {
   async beginMerge(
     reservationOrderId: string,
     body: MergeRequest,
-    options?: ReservationMergeOptionalParams
+    options?: ReservationMergeOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ReservationMergeResponse>,
@@ -468,21 +367,20 @@ export class ReservationImpl implements Reservation {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ReservationMergeResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -491,8 +389,8 @@ export class ReservationImpl implements Reservation {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -500,15 +398,15 @@ export class ReservationImpl implements Reservation {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { reservationOrderId, body, options },
-      spec: mergeOperationSpec
+      spec: mergeOperationSpec,
     });
     const poller = await createHttpPoller<
       ReservationMergeResponse,
@@ -516,7 +414,7 @@ export class ReservationImpl implements Reservation {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -532,7 +430,7 @@ export class ReservationImpl implements Reservation {
   async beginMergeAndWait(
     reservationOrderId: string,
     body: MergeRequest,
-    options?: ReservationMergeOptionalParams
+    options?: ReservationMergeOptionalParams,
   ): Promise<ReservationMergeResponse> {
     const poller = await this.beginMerge(reservationOrderId, body, options);
     return poller.pollUntilDone();
@@ -545,11 +443,11 @@ export class ReservationImpl implements Reservation {
    */
   private _list(
     reservationOrderId: string,
-    options?: ReservationListOptionalParams
+    options?: ReservationListOptionalParams,
   ): Promise<ReservationListResponse> {
     return this.client.sendOperationRequest(
       { reservationOrderId, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -562,11 +460,11 @@ export class ReservationImpl implements Reservation {
   get(
     reservationOrderId: string,
     reservationId: string,
-    options?: ReservationGetOptionalParams
+    options?: ReservationGetOptionalParams,
   ): Promise<ReservationGetResponse> {
     return this.client.sendOperationRequest(
       { reservationOrderId, reservationId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -581,7 +479,7 @@ export class ReservationImpl implements Reservation {
     reservationOrderId: string,
     reservationId: string,
     parameters: Patch,
-    options?: ReservationUpdateOptionalParams
+    options?: ReservationUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ReservationUpdateResponse>,
@@ -590,21 +488,20 @@ export class ReservationImpl implements Reservation {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ReservationUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -613,8 +510,8 @@ export class ReservationImpl implements Reservation {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -622,15 +519,15 @@ export class ReservationImpl implements Reservation {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { reservationOrderId, reservationId, parameters, options },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       ReservationUpdateResponse,
@@ -638,7 +535,7 @@ export class ReservationImpl implements Reservation {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -655,13 +552,13 @@ export class ReservationImpl implements Reservation {
     reservationOrderId: string,
     reservationId: string,
     parameters: Patch,
-    options?: ReservationUpdateOptionalParams
+    options?: ReservationUpdateOptionalParams,
   ): Promise<ReservationUpdateResponse> {
     const poller = await this.beginUpdate(
       reservationOrderId,
       reservationId,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -675,11 +572,11 @@ export class ReservationImpl implements Reservation {
   archive(
     reservationOrderId: string,
     reservationId: string,
-    options?: ReservationArchiveOptionalParams
+    options?: ReservationArchiveOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { reservationOrderId, reservationId, options },
-      archiveOperationSpec
+      archiveOperationSpec,
     );
   }
 
@@ -693,11 +590,11 @@ export class ReservationImpl implements Reservation {
   unarchive(
     reservationOrderId: string,
     reservationId: string,
-    options?: ReservationUnarchiveOptionalParams
+    options?: ReservationUnarchiveOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { reservationOrderId, reservationId, options },
-      unarchiveOperationSpec
+      unarchiveOperationSpec,
     );
   }
 
@@ -710,11 +607,11 @@ export class ReservationImpl implements Reservation {
   private _listRevisions(
     reservationOrderId: string,
     reservationId: string,
-    options?: ReservationListRevisionsOptionalParams
+    options?: ReservationListRevisionsOptionalParams,
   ): Promise<ReservationListRevisionsResponse> {
     return this.client.sendOperationRequest(
       { reservationOrderId, reservationId, options },
-      listRevisionsOperationSpec
+      listRevisionsOperationSpec,
     );
   }
 
@@ -724,7 +621,7 @@ export class ReservationImpl implements Reservation {
    * @param options The options parameters.
    */
   private _listAll(
-    options?: ReservationListAllOptionalParams
+    options?: ReservationListAllOptionalParams,
   ): Promise<ReservationListAllResponse> {
     return this.client.sendOperationRequest({ options }, listAllOperationSpec);
   }
@@ -738,11 +635,11 @@ export class ReservationImpl implements Reservation {
   private _listNext(
     reservationOrderId: string,
     nextLink: string,
-    options?: ReservationListNextOptionalParams
+    options?: ReservationListNextOptionalParams,
   ): Promise<ReservationListNextResponse> {
     return this.client.sendOperationRequest(
       { reservationOrderId, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 
@@ -757,11 +654,11 @@ export class ReservationImpl implements Reservation {
     reservationOrderId: string,
     reservationId: string,
     nextLink: string,
-    options?: ReservationListRevisionsNextOptionalParams
+    options?: ReservationListRevisionsNextOptionalParams,
   ): Promise<ReservationListRevisionsNextResponse> {
     return this.client.sendOperationRequest(
       { reservationOrderId, reservationId, nextLink, options },
-      listRevisionsNextOperationSpec
+      listRevisionsNextOperationSpec,
     );
   }
 
@@ -772,52 +669,19 @@ export class ReservationImpl implements Reservation {
    */
   private _listAllNext(
     nextLink: string,
-    options?: ReservationListAllNextOptionalParams
+    options?: ReservationListAllNextOptionalParams,
   ): Promise<ReservationListAllNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listAllNextOperationSpec
+      listAllNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const availableScopesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId}/availableScopes",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AvailableScopeProperties
-    },
-    201: {
-      bodyMapper: Mappers.AvailableScopeProperties
-    },
-    202: {
-      bodyMapper: Mappers.AvailableScopeProperties
-    },
-    204: {
-      bodyMapper: Mappers.AvailableScopeProperties
-    },
-    default: {
-      bodyMapper: Mappers.ErrorModel
-    }
-  },
-  requestBody: Parameters.body,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.reservationOrderId,
-    Parameters.reservationId
-  ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
 const splitOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/split",
+  path: "/providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/split",
   httpMethod: "POST",
   responses: {
     200: {
@@ -825,247 +689,240 @@ const splitOperationSpec: coreClient.OperationSpec = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "ReservationResponse" }
-          }
-        }
-      }
+            type: { name: "Composite", className: "ReservationResponse" },
+          },
+        },
+      },
     },
     201: {
       bodyMapper: {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "ReservationResponse" }
-          }
-        }
-      }
+            type: { name: "Composite", className: "ReservationResponse" },
+          },
+        },
+      },
     },
     202: {
       bodyMapper: {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "ReservationResponse" }
-          }
-        }
-      }
+            type: { name: "Composite", className: "ReservationResponse" },
+          },
+        },
+      },
     },
     204: {
       bodyMapper: {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "ReservationResponse" }
-          }
-        }
-      }
+            type: { name: "Composite", className: "ReservationResponse" },
+          },
+        },
+      },
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
-  },
-  requestBody: Parameters.body1,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.reservationOrderId],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const mergeOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/merge",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: {
-        type: {
-          name: "Sequence",
-          element: {
-            type: { name: "Composite", className: "ReservationResponse" }
-          }
-        }
-      }
+      bodyMapper: Mappers.ErrorModel,
     },
-    201: {
-      bodyMapper: {
-        type: {
-          name: "Sequence",
-          element: {
-            type: { name: "Composite", className: "ReservationResponse" }
-          }
-        }
-      }
-    },
-    202: {
-      bodyMapper: {
-        type: {
-          name: "Sequence",
-          element: {
-            type: { name: "Composite", className: "ReservationResponse" }
-          }
-        }
-      }
-    },
-    204: {
-      bodyMapper: {
-        type: {
-          name: "Sequence",
-          element: {
-            type: { name: "Composite", className: "ReservationResponse" }
-          }
-        }
-      }
-    },
-    default: {
-      bodyMapper: Mappers.ErrorModel
-    }
   },
   requestBody: Parameters.body2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.reservationOrderId],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
+};
+const mergeOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/merge",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: {
+        type: {
+          name: "Sequence",
+          element: {
+            type: { name: "Composite", className: "ReservationResponse" },
+          },
+        },
+      },
+    },
+    201: {
+      bodyMapper: {
+        type: {
+          name: "Sequence",
+          element: {
+            type: { name: "Composite", className: "ReservationResponse" },
+          },
+        },
+      },
+    },
+    202: {
+      bodyMapper: {
+        type: {
+          name: "Sequence",
+          element: {
+            type: { name: "Composite", className: "ReservationResponse" },
+          },
+        },
+      },
+    },
+    204: {
+      bodyMapper: {
+        type: {
+          name: "Sequence",
+          element: {
+            type: { name: "Composite", className: "ReservationResponse" },
+          },
+        },
+      },
+    },
+    default: {
+      bodyMapper: Mappers.ErrorModel,
+    },
+  },
+  requestBody: Parameters.body3,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.reservationOrderId],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations",
+  path: "/providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ReservationList
+      bodyMapper: Mappers.ReservationList,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.reservationOrderId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId}",
+  path: "/providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ReservationResponse
+      bodyMapper: Mappers.ReservationResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [
     Parameters.$host,
     Parameters.reservationOrderId,
-    Parameters.reservationId
+    Parameters.reservationId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId}",
+  path: "/providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.ReservationResponse
+      bodyMapper: Mappers.ReservationResponse,
     },
     201: {
-      bodyMapper: Mappers.ReservationResponse
+      bodyMapper: Mappers.ReservationResponse,
     },
     202: {
-      bodyMapper: Mappers.ReservationResponse
+      bodyMapper: Mappers.ReservationResponse,
     },
     204: {
-      bodyMapper: Mappers.ReservationResponse
+      bodyMapper: Mappers.ReservationResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   requestBody: Parameters.parameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.reservationOrderId,
-    Parameters.reservationId
+    Parameters.reservationId,
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const archiveOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId}/archive",
+  path: "/providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId}/archive",
   httpMethod: "POST",
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.reservationOrderId,
-    Parameters.reservationId
+    Parameters.reservationId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const unarchiveOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId}/unarchive",
+  path: "/providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId}/unarchive",
   httpMethod: "POST",
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.reservationOrderId,
-    Parameters.reservationId
+    Parameters.reservationId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listRevisionsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId}/revisions",
+  path: "/providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId}/revisions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ReservationList
+      bodyMapper: Mappers.ReservationList,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.reservationOrderId,
-    Parameters.reservationId
+    Parameters.reservationId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listAllOperationSpec: coreClient.OperationSpec = {
   path: "/providers/Microsoft.Capacity/reservations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ReservationsListResult
+      bodyMapper: Mappers.ReservationsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
@@ -1074,63 +931,63 @@ const listAllOperationSpec: coreClient.OperationSpec = {
     Parameters.refreshSummary,
     Parameters.skiptoken,
     Parameters.selectedState,
-    Parameters.take
+    Parameters.take1,
   ],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ReservationList
+      bodyMapper: Mappers.ReservationList,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.nextLink,
     Parameters.reservationOrderId,
-    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listRevisionsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ReservationList
+      bodyMapper: Mappers.ReservationList,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.nextLink,
     Parameters.reservationOrderId,
     Parameters.reservationId,
-    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listAllNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ReservationsListResult
+      bodyMapper: Mappers.ReservationsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
