@@ -31,7 +31,7 @@ import {
   WorkflowUpdateTagsOptionalParams,
   WorkflowUpdateTagsResponse,
   WorkflowListNextResponse,
-  WorkflowListByResourceGroupNextResponse
+  WorkflowListByResourceGroupNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -52,7 +52,7 @@ export class WorkflowOperationsImpl implements WorkflowOperations {
    * @param options The options parameters.
    */
   public list(
-    options?: WorkflowListOptionalParams
+    options?: WorkflowListOptionalParams,
   ): PagedAsyncIterableIterator<Workflow> {
     const iter = this.listPagingAll(options);
     return {
@@ -67,13 +67,13 @@ export class WorkflowOperationsImpl implements WorkflowOperations {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: WorkflowListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Workflow[]> {
     let result: WorkflowListResponse;
     let continuationToken = settings?.continuationToken;
@@ -94,7 +94,7 @@ export class WorkflowOperationsImpl implements WorkflowOperations {
   }
 
   private async *listPagingAll(
-    options?: WorkflowListOptionalParams
+    options?: WorkflowListOptionalParams,
   ): AsyncIterableIterator<Workflow> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -108,7 +108,7 @@ export class WorkflowOperationsImpl implements WorkflowOperations {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: WorkflowListByResourceGroupOptionalParams
+    options?: WorkflowListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Workflow> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -125,16 +125,16 @@ export class WorkflowOperationsImpl implements WorkflowOperations {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: WorkflowListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Workflow[]> {
     let result: WorkflowListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -149,7 +149,7 @@ export class WorkflowOperationsImpl implements WorkflowOperations {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -160,11 +160,11 @@ export class WorkflowOperationsImpl implements WorkflowOperations {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: WorkflowListByResourceGroupOptionalParams
+    options?: WorkflowListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<Workflow> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -175,7 +175,7 @@ export class WorkflowOperationsImpl implements WorkflowOperations {
    * @param options The options parameters.
    */
   private _list(
-    options?: WorkflowListOptionalParams
+    options?: WorkflowListOptionalParams,
   ): Promise<WorkflowListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -187,11 +187,11 @@ export class WorkflowOperationsImpl implements WorkflowOperations {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: WorkflowListByResourceGroupOptionalParams
+    options?: WorkflowListByResourceGroupOptionalParams,
   ): Promise<WorkflowListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -204,11 +204,11 @@ export class WorkflowOperationsImpl implements WorkflowOperations {
   get(
     resourceGroupName: string,
     workflowName: string,
-    options?: WorkflowGetOptionalParams
+    options?: WorkflowGetOptionalParams,
   ): Promise<WorkflowGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workflowName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -223,11 +223,11 @@ export class WorkflowOperationsImpl implements WorkflowOperations {
     resourceGroupName: string,
     workflowName: string,
     parameters: Workflow,
-    options?: WorkflowCreateOrUpdateOptionalParams
+    options?: WorkflowCreateOrUpdateOptionalParams,
   ): Promise<WorkflowCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workflowName, parameters, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -240,11 +240,11 @@ export class WorkflowOperationsImpl implements WorkflowOperations {
   delete(
     resourceGroupName: string,
     workflowName: string,
-    options?: WorkflowDeleteOptionalParams
+    options?: WorkflowDeleteOptionalParams,
   ): Promise<WorkflowDeleteResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workflowName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -259,11 +259,11 @@ export class WorkflowOperationsImpl implements WorkflowOperations {
     resourceGroupName: string,
     workflowName: string,
     parameters: TagsObject,
-    options?: WorkflowUpdateTagsOptionalParams
+    options?: WorkflowUpdateTagsOptionalParams,
   ): Promise<WorkflowUpdateTagsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workflowName, parameters, options },
-      updateTagsOperationSpec
+      updateTagsOperationSpec,
     );
   }
 
@@ -274,11 +274,11 @@ export class WorkflowOperationsImpl implements WorkflowOperations {
    */
   private _listNext(
     nextLink: string,
-    options?: WorkflowListNextOptionalParams
+    options?: WorkflowListNextOptionalParams,
   ): Promise<WorkflowListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 
@@ -291,11 +291,11 @@ export class WorkflowOperationsImpl implements WorkflowOperations {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: WorkflowListByResourceGroupNextOptionalParams
+    options?: WorkflowListByResourceGroupNextOptionalParams,
   ): Promise<WorkflowListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 }
@@ -307,74 +307,71 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkflowListResult
+      bodyMapper: Mappers.WorkflowListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevHub/workflows",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevHub/workflows",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkflowListResult
+      bodyMapper: Mappers.WorkflowListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.managedClusterResource],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevHub/workflows/{workflowName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevHub/workflows/{workflowName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Workflow
+      bodyMapper: Mappers.Workflow,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workflowName
+    Parameters.workflowName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevHub/workflows/{workflowName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevHub/workflows/{workflowName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Workflow
+      bodyMapper: Mappers.Workflow,
     },
     201: {
-      bodyMapper: Mappers.Workflow
+      bodyMapper: Mappers.Workflow,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters2,
   queryParameters: [Parameters.apiVersion],
@@ -382,46 +379,44 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workflowName
+    Parameters.workflowName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevHub/workflows/{workflowName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevHub/workflows/{workflowName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      bodyMapper: Mappers.DeleteWorkflowResponse
+      bodyMapper: Mappers.DeleteWorkflowResponse,
     },
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workflowName
+    Parameters.workflowName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateTagsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevHub/workflows/{workflowName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevHub/workflows/{workflowName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Workflow
+      bodyMapper: Mappers.Workflow,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters3,
   queryParameters: [Parameters.apiVersion],
@@ -429,48 +424,48 @@ const updateTagsOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workflowName
+    Parameters.workflowName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkflowListResult
+      bodyMapper: Mappers.WorkflowListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkflowListResult
+      bodyMapper: Mappers.WorkflowListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
