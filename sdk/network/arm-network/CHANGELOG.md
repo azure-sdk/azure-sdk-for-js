@@ -1,15 +1,29 @@
 # Release History
+    
+## 33.3.0 (2024-07-02)
+    
+**Features**
 
-## 33.2.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation InboundSecurityRuleOperations.get
+  - Added Interface InboundSecurityRuleGetOptionalParams
+  - Added Type Alias InboundSecurityRuleGetResponse
+  - Added Type Alias PrivateEndpointVNetPolicies
+  - Added Type Alias ProbeNoHealthyBackendsBehavior
+  - Interface BastionHost has a new optional parameter enableSessionRecording
+  - Interface ExpressRouteCircuitAuthorization has a new optional parameter connectionResourceUri
+  - Interface ExpressRouteCrossConnectionsListOptionalParams has a new optional parameter filter
+  - Interface FlowLog has a new optional parameter identity
+  - Interface FlowLogInformation has a new optional parameter identity
+  - Interface PrivateLinkService has a new optional parameter destinationIPAddress
+  - Interface Probe has a new optional parameter noHealthyBackendsBehavior
+  - Interface ServiceEndpointPropertiesFormat has a new optional parameter networkIdentifier
+  - Interface VirtualNetwork has a new optional parameter privateEndpointVNetPolicies
+  - Interface VirtualNetworkGateway has a new optional parameter identity
+  - Added Enum KnownPrivateEndpointVNetPolicies
+  - Added Enum KnownProbeNoHealthyBackendsBehavior
+  - Enum KnownBastionHostSkuName has a new value Premium
+    
+    
 ## 33.2.0 (2024-06-07)
     
 ### Features Added

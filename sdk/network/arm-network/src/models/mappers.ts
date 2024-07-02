@@ -523,6 +523,79 @@ export const TrafficAnalyticsConfigurationProperties: coreClient.CompositeMapper
     },
   };
 
+export const ManagedServiceIdentity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedServiceIdentity",
+    modelProperties: {
+      principalId: {
+        serializedName: "principalId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      tenantId: {
+        serializedName: "tenantId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "SystemAssigned",
+            "UserAssigned",
+            "SystemAssigned, UserAssigned",
+            "None",
+          ],
+        },
+      },
+      userAssignedIdentities: {
+        serializedName: "userAssignedIdentities",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className:
+                "Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className:
+        "Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties",
+      modelProperties: {
+        principalId: {
+          serializedName: "principalId",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        clientId: {
+          serializedName: "clientId",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
 export const ServiceEndpointPropertiesFormat: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -532,6 +605,13 @@ export const ServiceEndpointPropertiesFormat: coreClient.CompositeMapper = {
         serializedName: "service",
         type: {
           name: "String",
+        },
+      },
+      networkIdentifier: {
+        serializedName: "networkIdentifier",
+        type: {
+          name: "Composite",
+          className: "SubResource",
         },
       },
       locations: {
@@ -1329,79 +1409,6 @@ export const ApplicationGatewayGlobalConfiguration: coreClient.CompositeMapper =
           serializedName: "enableResponseBuffering",
           type: {
             name: "Boolean",
-          },
-        },
-      },
-    },
-  };
-
-export const ManagedServiceIdentity: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManagedServiceIdentity",
-    modelProperties: {
-      principalId: {
-        serializedName: "principalId",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      tenantId: {
-        serializedName: "tenantId",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      type: {
-        serializedName: "type",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "SystemAssigned",
-            "UserAssigned",
-            "SystemAssigned, UserAssigned",
-            "None",
-          ],
-        },
-      },
-      userAssignedIdentities: {
-        serializedName: "userAssignedIdentities",
-        type: {
-          name: "Dictionary",
-          value: {
-            type: {
-              name: "Composite",
-              className:
-                "Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties",
-            },
-          },
-        },
-      },
-    },
-  },
-};
-
-export const Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className:
-        "Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties",
-      modelProperties: {
-        principalId: {
-          serializedName: "principalId",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
-        },
-        clientId: {
-          serializedName: "clientId",
-          readOnly: true,
-          type: {
-            name: "String",
           },
         },
       },
@@ -9275,6 +9282,13 @@ export const FlowLogInformation: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "TrafficAnalyticsProperties",
+        },
+      },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "ManagedServiceIdentity",
         },
       },
       storageId: {
@@ -21129,6 +21143,13 @@ export const ExpressRouteCircuitAuthorization: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      connectionResourceUri: {
+        serializedName: "properties.connectionResourceUri",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
       provisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
@@ -22026,6 +22047,12 @@ export const Probe: coreClient.CompositeMapper = {
         serializedName: "properties.intervalInSeconds",
         type: {
           name: "Number",
+        },
+      },
+      noHealthyBackendsBehavior: {
+        serializedName: "properties.NoHealthyBackendsBehavior",
+        type: {
+          name: "String",
         },
       },
       numberOfProbes: {
@@ -24702,6 +24729,12 @@ export const PrivateLinkService: coreClient.CompositeMapper = {
           },
         },
       },
+      destinationIPAddress: {
+        serializedName: "properties.destinationIPAddress",
+        type: {
+          name: "String",
+        },
+      },
       networkInterfaces: {
         serializedName: "properties.networkInterfaces",
         readOnly: true,
@@ -24974,6 +25007,13 @@ export const FlowLog: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String",
+        },
+      },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "ManagedServiceIdentity",
         },
       },
       targetResourceId: {
@@ -26382,6 +26422,13 @@ export const BastionHost: coreClient.CompositeMapper = {
       enableKerberos: {
         defaultValue: false,
         serializedName: "properties.enableKerberos",
+        type: {
+          name: "Boolean",
+        },
+      },
+      enableSessionRecording: {
+        defaultValue: false,
+        serializedName: "properties.enableSessionRecording",
         type: {
           name: "Boolean",
         },
@@ -28469,6 +28516,13 @@ export const VirtualNetwork: coreClient.CompositeMapper = {
           },
         },
       },
+      privateEndpointVNetPolicies: {
+        serializedName: "properties.privateEndpointVNetPolicies",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -28508,6 +28562,13 @@ export const VirtualNetworkGateway: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String",
+        },
+      },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "ManagedServiceIdentity",
         },
       },
       autoScaleConfiguration: {
