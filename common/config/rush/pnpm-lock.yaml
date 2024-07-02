@@ -13963,7 +13963,7 @@ packages:
     dev: false
 
   file:projects/arm-devhub.tgz:
-    resolution: {integrity: sha512-CiQbegRLBCM1f/43/3kVIWuf/0ag2pGrSoCGjDZDclgCS6ugw+1r8z8FM0cmUkPzlSYc1ORm1lvsgciBMxMBSw==, tarball: file:projects/arm-devhub.tgz}
+    resolution: {integrity: sha512-Ia5t9KGsfHOLVTBJH5j+Fv7TgOXywwQiqVMqOxpgceFdpC4+akDIITxR+YZBlP/ZqJNgU5bDhkF60e1sPnVUKg==, tarball: file:projects/arm-devhub.tgz}
     name: '@rush-temp/arm-devhub'
     version: 0.0.0
     dependencies:
@@ -13981,6 +13981,7 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.4.5)
       tslib: 2.6.3
+      tsx: 4.16.0
       typescript: 5.4.5
       uglify-js: 3.18.0
     transitivePeerDependencies:
@@ -20333,7 +20334,7 @@ packages:
     dev: false
 
   file:projects/event-hubs.tgz:
-    resolution: {integrity: sha512-xYQLYBO4TGESs2pRrCvymd+Dcwxt1XrIGFCh2uh/W4ZV88Ylenqoq0ORPvdMUECqnGbXTsacyWMe93l1FFkq6A==, tarball: file:projects/event-hubs.tgz}
+    resolution: {integrity: sha512-w2QQKZjOUsNAB8h+fiYZGb3HwLMPxmrgL5k810k2KH/QjUufjwoRvrCpD860O2rBTcwSTg1IUx26Yn09p9a+eA==, tarball: file:projects/event-hubs.tgz}
     name: '@rush-temp/event-hubs'
     version: 0.0.0
     dependencies:
