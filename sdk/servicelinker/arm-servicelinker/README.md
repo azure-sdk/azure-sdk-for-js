@@ -2,11 +2,11 @@
 
 This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure ServiceLinkerManagement client.
 
-Microsoft.ServiceLinker provider
+Microsoft.ServiceLinker provider testing
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicelinker/arm-servicelinker) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-servicelinker) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-servicelinker) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-servicelinker?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
