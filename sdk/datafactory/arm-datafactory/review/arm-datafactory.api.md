@@ -1569,6 +1569,13 @@ export interface ConnectionStateProperties {
 export type ConnectionType = string;
 
 // @public
+export interface ContinuationSettingsReference {
+    continuationTtlInMinutes?: any;
+    customizedCheckpointKey?: any;
+    idleCondition?: any;
+}
+
+// @public
 export interface ControlActivity extends Activity {
     type: "Container" | "ExecutePipeline" | "IfCondition" | "Switch" | "ForEach" | "Wait" | "Fail" | "Until" | "Validation" | "Filter" | "SetVariable" | "AppendVariable" | "WebHook";
 }
@@ -1963,8 +1970,6 @@ export class DataFactoryManagementClient extends coreClient.ServiceClient {
     managedPrivateEndpoints: ManagedPrivateEndpoints;
     // (undocumented)
     managedVirtualNetworks: ManagedVirtualNetworks;
-    // (undocumented)
-    operations: Operations;
     // (undocumented)
     pipelineRuns: PipelineRuns;
     // (undocumented)
@@ -2749,6 +2754,7 @@ export interface ExcelSource extends CopySource {
 // @public
 export interface ExecuteDataFlowActivity extends ExecutionActivity {
     compute?: ExecuteDataFlowActivityTypePropertiesCompute;
+    continuationSettings?: ContinuationSettingsReference;
     continueOnError?: any;
     dataFlow: DataFlowReference;
     integrationRuntime?: IntegrationRuntimeReference;
@@ -2762,6 +2768,7 @@ export interface ExecuteDataFlowActivity extends ExecutionActivity {
 // @public
 export interface ExecuteDataFlowActivityTypeProperties {
     compute?: ExecuteDataFlowActivityTypePropertiesCompute;
+    continuationSettings?: ContinuationSettingsReference;
     continueOnError?: any;
     dataFlow: DataFlowReference;
     integrationRuntime?: IntegrationRuntimeReference;
@@ -2836,6 +2843,7 @@ export interface ExecuteSsisPackageActivity extends ExecutionActivity {
 // @public
 export interface ExecuteWranglingDataflowActivity extends Activity {
     compute?: ExecuteDataFlowActivityTypePropertiesCompute;
+    continuationSettings?: ContinuationSettingsReference;
     continueOnError?: any;
     dataFlow: DataFlowReference;
     integrationRuntime?: IntegrationRuntimeReference;
@@ -5200,6 +5208,7 @@ export enum KnownSqlPartitionOption {
 // @public
 export enum KnownSqlServerAuthenticationType {
     SQL = "SQL",
+    UserAssignedManagedIdentity = "UserAssignedManagedIdentity",
     Windows = "Windows"
 }
 
@@ -6259,29 +6268,10 @@ export interface OperationMetricSpecification {
 }
 
 // @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
-}
-
-// @public
 export interface OperationServiceSpecification {
     logSpecifications?: OperationLogSpecification[];
     metricSpecifications?: OperationMetricSpecification[];
 }
-
-// @public
-export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListNextResponse = OperationListResponse;
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListResponse = OperationListResponse;
 
 // @public
 export interface OracleCloudStorageLinkedService extends LinkedService {
@@ -7952,6 +7942,7 @@ export interface SnowflakeExportCopyCommand extends ExportSettings {
     additionalFormatOptions?: {
         [propertyName: string]: any;
     };
+    storageIntegration?: any;
     type: "SnowflakeExportCopyCommand";
 }
 
@@ -7963,6 +7954,7 @@ export interface SnowflakeImportCopyCommand extends ImportSettings {
     additionalFormatOptions?: {
         [propertyName: string]: any;
     };
+    storageIntegration?: any;
     type: "SnowflakeImportCopyCommand";
 }
 
@@ -8198,6 +8190,7 @@ export interface SqlServerLinkedService extends LinkedService {
     connectRetryCount?: any;
     connectRetryInterval?: any;
     connectTimeout?: any;
+    credential?: CredentialReference;
     database?: any;
     encrypt?: any;
     encryptedCredential?: string;
@@ -8223,6 +8216,7 @@ export interface SqlServerLinkedServiceTypeProperties extends SqlServerBaseLinke
     alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties;
     authenticationType?: SqlServerAuthenticationType;
     connectionString?: any;
+    credential?: CredentialReference;
     encryptedCredential?: string;
     password?: SecretBaseUnion;
     userName?: any;
