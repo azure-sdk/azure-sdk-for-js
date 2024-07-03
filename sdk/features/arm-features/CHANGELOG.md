@@ -1,15 +1,12 @@
 # Release History
+    
+## 4.0.0 (2024-07-03)
+    
+**Breaking Changes**
 
-## 3.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Class FeatureClient has a new signature
+    
+    
 ## 3.1.0 (2022-11-22)
     
 **Features**
@@ -30,4 +27,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).
