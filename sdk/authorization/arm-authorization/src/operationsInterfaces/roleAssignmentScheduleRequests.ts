@@ -16,7 +16,7 @@ import {
   RoleAssignmentScheduleRequestsGetResponse,
   RoleAssignmentScheduleRequestsCancelOptionalParams,
   RoleAssignmentScheduleRequestsValidateOptionalParams,
-  RoleAssignmentScheduleRequestsValidateResponse
+  RoleAssignmentScheduleRequestsValidateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface RoleAssignmentScheduleRequests {
    */
   listForScope(
     scope: string,
-    options?: RoleAssignmentScheduleRequestsListForScopeOptionalParams
+    options?: RoleAssignmentScheduleRequestsListForScopeOptionalParams,
   ): PagedAsyncIterableIterator<RoleAssignmentScheduleRequest>;
   /**
    * Creates a role assignment schedule request.
@@ -49,7 +49,7 @@ export interface RoleAssignmentScheduleRequests {
     scope: string,
     roleAssignmentScheduleRequestName: string,
     parameters: RoleAssignmentScheduleRequest,
-    options?: RoleAssignmentScheduleRequestsCreateOptionalParams
+    options?: RoleAssignmentScheduleRequestsCreateOptionalParams,
   ): Promise<RoleAssignmentScheduleRequestsCreateResponse>;
   /**
    * Get the specified role assignment schedule request.
@@ -61,7 +61,7 @@ export interface RoleAssignmentScheduleRequests {
   get(
     scope: string,
     roleAssignmentScheduleRequestName: string,
-    options?: RoleAssignmentScheduleRequestsGetOptionalParams
+    options?: RoleAssignmentScheduleRequestsGetOptionalParams,
   ): Promise<RoleAssignmentScheduleRequestsGetResponse>;
   /**
    * Cancels a pending role assignment schedule request.
@@ -72,7 +72,7 @@ export interface RoleAssignmentScheduleRequests {
   cancel(
     scope: string,
     roleAssignmentScheduleRequestName: string,
-    options?: RoleAssignmentScheduleRequestsCancelOptionalParams
+    options?: RoleAssignmentScheduleRequestsCancelOptionalParams,
   ): Promise<void>;
   /**
    * Validates a new role assignment schedule request.
@@ -85,6 +85,6 @@ export interface RoleAssignmentScheduleRequests {
     scope: string,
     roleAssignmentScheduleRequestName: string,
     parameters: RoleAssignmentScheduleRequest,
-    options?: RoleAssignmentScheduleRequestsValidateOptionalParams
+    options?: RoleAssignmentScheduleRequestsValidateOptionalParams,
   ): Promise<RoleAssignmentScheduleRequestsValidateResponse>;
 }

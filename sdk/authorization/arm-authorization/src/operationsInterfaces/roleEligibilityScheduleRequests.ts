@@ -16,7 +16,7 @@ import {
   RoleEligibilityScheduleRequestsGetResponse,
   RoleEligibilityScheduleRequestsCancelOptionalParams,
   RoleEligibilityScheduleRequestsValidateOptionalParams,
-  RoleEligibilityScheduleRequestsValidateResponse
+  RoleEligibilityScheduleRequestsValidateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface RoleEligibilityScheduleRequests {
    */
   listForScope(
     scope: string,
-    options?: RoleEligibilityScheduleRequestsListForScopeOptionalParams
+    options?: RoleEligibilityScheduleRequestsListForScopeOptionalParams,
   ): PagedAsyncIterableIterator<RoleEligibilityScheduleRequest>;
   /**
    * Creates a role eligibility schedule request.
@@ -49,7 +49,7 @@ export interface RoleEligibilityScheduleRequests {
     scope: string,
     roleEligibilityScheduleRequestName: string,
     parameters: RoleEligibilityScheduleRequest,
-    options?: RoleEligibilityScheduleRequestsCreateOptionalParams
+    options?: RoleEligibilityScheduleRequestsCreateOptionalParams,
   ): Promise<RoleEligibilityScheduleRequestsCreateResponse>;
   /**
    * Get the specified role eligibility schedule request.
@@ -61,7 +61,7 @@ export interface RoleEligibilityScheduleRequests {
   get(
     scope: string,
     roleEligibilityScheduleRequestName: string,
-    options?: RoleEligibilityScheduleRequestsGetOptionalParams
+    options?: RoleEligibilityScheduleRequestsGetOptionalParams,
   ): Promise<RoleEligibilityScheduleRequestsGetResponse>;
   /**
    * Cancels a pending role eligibility schedule request.
@@ -72,7 +72,7 @@ export interface RoleEligibilityScheduleRequests {
   cancel(
     scope: string,
     roleEligibilityScheduleRequestName: string,
-    options?: RoleEligibilityScheduleRequestsCancelOptionalParams
+    options?: RoleEligibilityScheduleRequestsCancelOptionalParams,
   ): Promise<void>;
   /**
    * Validates a new role eligibility schedule request.
@@ -85,6 +85,6 @@ export interface RoleEligibilityScheduleRequests {
     scope: string,
     roleEligibilityScheduleRequestName: string,
     parameters: RoleEligibilityScheduleRequest,
-    options?: RoleEligibilityScheduleRequestsValidateOptionalParams
+    options?: RoleEligibilityScheduleRequestsValidateOptionalParams,
   ): Promise<RoleEligibilityScheduleRequestsValidateResponse>;
 }
