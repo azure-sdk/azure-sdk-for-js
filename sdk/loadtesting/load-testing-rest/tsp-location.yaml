@@ -1,0 +1,5 @@
+additionalDirectories: []
+commit: b06f9f9cef8765f92220c5e79940028ab4e36d0a
+repo: test-repo-billy/azure-rest-api-specs
+directory: specification/loadtestservice/LoadTestService
+
