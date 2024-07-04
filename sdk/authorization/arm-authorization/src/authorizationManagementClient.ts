@@ -8,40 +8,14 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
+import {
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest,
+} from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
-  ClassicAdministratorsImpl,
-  GlobalAdministratorImpl,
-  DenyAssignmentsImpl,
-  ProviderOperationsMetadataOperationsImpl,
   RoleAssignmentsImpl,
-  PermissionsImpl,
-  RoleDefinitionsImpl,
-  OperationsImpl,
-  AccessReviewHistoryDefinitionsImpl,
-  AccessReviewHistoryDefinitionOperationsImpl,
-  AccessReviewHistoryDefinitionInstanceImpl,
-  AccessReviewHistoryDefinitionInstancesImpl,
-  AccessReviewScheduleDefinitionsImpl,
-  AccessReviewInstancesImpl,
-  AccessReviewInstanceOperationsImpl,
-  AccessReviewInstanceDecisionsImpl,
-  AccessReviewInstanceContactedReviewersImpl,
-  AccessReviewDefaultSettingsOperationsImpl,
-  ScopeAccessReviewHistoryDefinitionsImpl,
-  ScopeAccessReviewHistoryDefinitionImpl,
-  ScopeAccessReviewHistoryDefinitionInstanceImpl,
-  ScopeAccessReviewHistoryDefinitionInstancesImpl,
-  ScopeAccessReviewScheduleDefinitionsImpl,
-  ScopeAccessReviewInstancesImpl,
-  ScopeAccessReviewInstanceImpl,
-  ScopeAccessReviewInstanceDecisionsImpl,
-  ScopeAccessReviewInstanceContactedReviewersImpl,
-  ScopeAccessReviewDefaultSettingsImpl,
-  AccessReviewScheduleDefinitionsAssignedForMyApprovalImpl,
-  AccessReviewInstancesAssignedForMyApprovalImpl,
-  AccessReviewInstanceMyDecisionsImpl,
-  TenantLevelAccessReviewInstanceContactedReviewersImpl,
   EligibleChildResourcesImpl,
   RoleAssignmentSchedulesImpl,
   RoleAssignmentScheduleInstancesImpl,
@@ -51,45 +25,9 @@ import {
   RoleEligibilityScheduleRequestsImpl,
   RoleManagementPoliciesImpl,
   RoleManagementPolicyAssignmentsImpl,
-  AlertsImpl,
-  AlertConfigurationsImpl,
-  AlertDefinitionsImpl,
-  AlertIncidentsImpl,
-  AlertOperationImpl
 } from "./operations";
 import {
-  ClassicAdministrators,
-  GlobalAdministrator,
-  DenyAssignments,
-  ProviderOperationsMetadataOperations,
   RoleAssignments,
-  Permissions,
-  RoleDefinitions,
-  Operations,
-  AccessReviewHistoryDefinitions,
-  AccessReviewHistoryDefinitionOperations,
-  AccessReviewHistoryDefinitionInstance,
-  AccessReviewHistoryDefinitionInstances,
-  AccessReviewScheduleDefinitions,
-  AccessReviewInstances,
-  AccessReviewInstanceOperations,
-  AccessReviewInstanceDecisions,
-  AccessReviewInstanceContactedReviewers,
-  AccessReviewDefaultSettingsOperations,
-  ScopeAccessReviewHistoryDefinitions,
-  ScopeAccessReviewHistoryDefinition,
-  ScopeAccessReviewHistoryDefinitionInstance,
-  ScopeAccessReviewHistoryDefinitionInstances,
-  ScopeAccessReviewScheduleDefinitions,
-  ScopeAccessReviewInstances,
-  ScopeAccessReviewInstance,
-  ScopeAccessReviewInstanceDecisions,
-  ScopeAccessReviewInstanceContactedReviewers,
-  ScopeAccessReviewDefaultSettings,
-  AccessReviewScheduleDefinitionsAssignedForMyApproval,
-  AccessReviewInstancesAssignedForMyApproval,
-  AccessReviewInstanceMyDecisions,
-  TenantLevelAccessReviewInstanceContactedReviewers,
   EligibleChildResources,
   RoleAssignmentSchedules,
   RoleAssignmentScheduleInstances,
@@ -99,39 +37,35 @@ import {
   RoleEligibilityScheduleRequests,
   RoleManagementPolicies,
   RoleManagementPolicyAssignments,
-  Alerts,
-  AlertConfigurations,
-  AlertDefinitions,
-  AlertIncidents,
-  AlertOperation
 } from "./operationsInterfaces";
 import { AuthorizationManagementClientOptionalParams } from "./models";
 
 export class AuthorizationManagementClient extends coreClient.ServiceClient {
   $host: string;
   subscriptionId?: string;
+  apiVersion: string;
 
   /**
    * Initializes a new instance of the AuthorizationManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId The ID of the target subscription.
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: AuthorizationManagementClientOptionalParams
+    options?: AuthorizationManagementClientOptionalParams,
   );
   constructor(
     credentials: coreAuth.TokenCredential,
-    options?: AuthorizationManagementClientOptionalParams
+    options?: AuthorizationManagementClientOptionalParams,
   );
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionIdOrOptions?:
       | AuthorizationManagementClientOptionalParams
       | string,
-    options?: AuthorizationManagementClientOptionalParams
+    options?: AuthorizationManagementClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -151,7 +85,7 @@ export class AuthorizationManagementClient extends coreClient.ServiceClient {
     }
     const defaults: AuthorizationManagementClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
     const packageDetails = `azsdk-js-arm-authorization/10.0.0-beta.2`;
@@ -164,20 +98,21 @@ export class AuthorizationManagementClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -187,7 +122,7 @@ export class AuthorizationManagementClient extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -197,9 +132,9 @@ export class AuthorizationManagementClient extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -207,140 +142,54 @@ export class AuthorizationManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.classicAdministrators = new ClassicAdministratorsImpl(this);
-    this.globalAdministrator = new GlobalAdministratorImpl(this);
-    this.denyAssignments = new DenyAssignmentsImpl(this);
-    this.providerOperationsMetadataOperations = new ProviderOperationsMetadataOperationsImpl(
-      this
-    );
+    this.apiVersion = options.apiVersion || "2024-02-01-preview";
     this.roleAssignments = new RoleAssignmentsImpl(this);
-    this.permissions = new PermissionsImpl(this);
-    this.roleDefinitions = new RoleDefinitionsImpl(this);
-    this.operations = new OperationsImpl(this);
-    this.accessReviewHistoryDefinitions = new AccessReviewHistoryDefinitionsImpl(
-      this
-    );
-    this.accessReviewHistoryDefinitionOperations = new AccessReviewHistoryDefinitionOperationsImpl(
-      this
-    );
-    this.accessReviewHistoryDefinitionInstance = new AccessReviewHistoryDefinitionInstanceImpl(
-      this
-    );
-    this.accessReviewHistoryDefinitionInstances = new AccessReviewHistoryDefinitionInstancesImpl(
-      this
-    );
-    this.accessReviewScheduleDefinitions = new AccessReviewScheduleDefinitionsImpl(
-      this
-    );
-    this.accessReviewInstances = new AccessReviewInstancesImpl(this);
-    this.accessReviewInstanceOperations = new AccessReviewInstanceOperationsImpl(
-      this
-    );
-    this.accessReviewInstanceDecisions = new AccessReviewInstanceDecisionsImpl(
-      this
-    );
-    this.accessReviewInstanceContactedReviewers = new AccessReviewInstanceContactedReviewersImpl(
-      this
-    );
-    this.accessReviewDefaultSettingsOperations = new AccessReviewDefaultSettingsOperationsImpl(
-      this
-    );
-    this.scopeAccessReviewHistoryDefinitions = new ScopeAccessReviewHistoryDefinitionsImpl(
-      this
-    );
-    this.scopeAccessReviewHistoryDefinition = new ScopeAccessReviewHistoryDefinitionImpl(
-      this
-    );
-    this.scopeAccessReviewHistoryDefinitionInstance = new ScopeAccessReviewHistoryDefinitionInstanceImpl(
-      this
-    );
-    this.scopeAccessReviewHistoryDefinitionInstances = new ScopeAccessReviewHistoryDefinitionInstancesImpl(
-      this
-    );
-    this.scopeAccessReviewScheduleDefinitions = new ScopeAccessReviewScheduleDefinitionsImpl(
-      this
-    );
-    this.scopeAccessReviewInstances = new ScopeAccessReviewInstancesImpl(this);
-    this.scopeAccessReviewInstance = new ScopeAccessReviewInstanceImpl(this);
-    this.scopeAccessReviewInstanceDecisions = new ScopeAccessReviewInstanceDecisionsImpl(
-      this
-    );
-    this.scopeAccessReviewInstanceContactedReviewers = new ScopeAccessReviewInstanceContactedReviewersImpl(
-      this
-    );
-    this.scopeAccessReviewDefaultSettings = new ScopeAccessReviewDefaultSettingsImpl(
-      this
-    );
-    this.accessReviewScheduleDefinitionsAssignedForMyApproval = new AccessReviewScheduleDefinitionsAssignedForMyApprovalImpl(
-      this
-    );
-    this.accessReviewInstancesAssignedForMyApproval = new AccessReviewInstancesAssignedForMyApprovalImpl(
-      this
-    );
-    this.accessReviewInstanceMyDecisions = new AccessReviewInstanceMyDecisionsImpl(
-      this
-    );
-    this.tenantLevelAccessReviewInstanceContactedReviewers = new TenantLevelAccessReviewInstanceContactedReviewersImpl(
-      this
-    );
     this.eligibleChildResources = new EligibleChildResourcesImpl(this);
     this.roleAssignmentSchedules = new RoleAssignmentSchedulesImpl(this);
-    this.roleAssignmentScheduleInstances = new RoleAssignmentScheduleInstancesImpl(
-      this
-    );
-    this.roleAssignmentScheduleRequests = new RoleAssignmentScheduleRequestsImpl(
-      this
-    );
+    this.roleAssignmentScheduleInstances =
+      new RoleAssignmentScheduleInstancesImpl(this);
+    this.roleAssignmentScheduleRequests =
+      new RoleAssignmentScheduleRequestsImpl(this);
     this.roleEligibilitySchedules = new RoleEligibilitySchedulesImpl(this);
-    this.roleEligibilityScheduleInstances = new RoleEligibilityScheduleInstancesImpl(
-      this
-    );
-    this.roleEligibilityScheduleRequests = new RoleEligibilityScheduleRequestsImpl(
-      this
-    );
+    this.roleEligibilityScheduleInstances =
+      new RoleEligibilityScheduleInstancesImpl(this);
+    this.roleEligibilityScheduleRequests =
+      new RoleEligibilityScheduleRequestsImpl(this);
     this.roleManagementPolicies = new RoleManagementPoliciesImpl(this);
-    this.roleManagementPolicyAssignments = new RoleManagementPolicyAssignmentsImpl(
-      this
-    );
-    this.alerts = new AlertsImpl(this);
-    this.alertConfigurations = new AlertConfigurationsImpl(this);
-    this.alertDefinitions = new AlertDefinitionsImpl(this);
-    this.alertIncidents = new AlertIncidentsImpl(this);
-    this.alertOperation = new AlertOperationImpl(this);
+    this.roleManagementPolicyAssignments =
+      new RoleManagementPolicyAssignmentsImpl(this);
+    this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
-  classicAdministrators: ClassicAdministrators;
-  globalAdministrator: GlobalAdministrator;
-  denyAssignments: DenyAssignments;
-  providerOperationsMetadataOperations: ProviderOperationsMetadataOperations;
+  /** A function that adds a policy that sets the api-version (or equivalent) to reflect the library version. */
+  private addCustomApiVersionPolicy(apiVersion?: string) {
+    if (!apiVersion) {
+      return;
+    }
+    const apiVersionPolicy = {
+      name: "CustomApiVersionPolicy",
+      async sendRequest(
+        request: PipelineRequest,
+        next: SendRequest,
+      ): Promise<PipelineResponse> {
+        const param = request.url.split("?");
+        if (param.length > 1) {
+          const newParams = param[1].split("&").map((item) => {
+            if (item.indexOf("api-version") > -1) {
+              return "api-version=" + apiVersion;
+            } else {
+              return item;
+            }
+          });
+          request.url = param[0] + "?" + newParams.join("&");
+        }
+        return next(request);
+      },
+    };
+    this.pipeline.addPolicy(apiVersionPolicy);
+  }
+
   roleAssignments: RoleAssignments;
-  permissions: Permissions;
-  roleDefinitions: RoleDefinitions;
-  operations: Operations;
-  accessReviewHistoryDefinitions: AccessReviewHistoryDefinitions;
-  accessReviewHistoryDefinitionOperations: AccessReviewHistoryDefinitionOperations;
-  accessReviewHistoryDefinitionInstance: AccessReviewHistoryDefinitionInstance;
-  accessReviewHistoryDefinitionInstances: AccessReviewHistoryDefinitionInstances;
-  accessReviewScheduleDefinitions: AccessReviewScheduleDefinitions;
-  accessReviewInstances: AccessReviewInstances;
-  accessReviewInstanceOperations: AccessReviewInstanceOperations;
-  accessReviewInstanceDecisions: AccessReviewInstanceDecisions;
-  accessReviewInstanceContactedReviewers: AccessReviewInstanceContactedReviewers;
-  accessReviewDefaultSettingsOperations: AccessReviewDefaultSettingsOperations;
-  scopeAccessReviewHistoryDefinitions: ScopeAccessReviewHistoryDefinitions;
-  scopeAccessReviewHistoryDefinition: ScopeAccessReviewHistoryDefinition;
-  scopeAccessReviewHistoryDefinitionInstance: ScopeAccessReviewHistoryDefinitionInstance;
-  scopeAccessReviewHistoryDefinitionInstances: ScopeAccessReviewHistoryDefinitionInstances;
-  scopeAccessReviewScheduleDefinitions: ScopeAccessReviewScheduleDefinitions;
-  scopeAccessReviewInstances: ScopeAccessReviewInstances;
-  scopeAccessReviewInstance: ScopeAccessReviewInstance;
-  scopeAccessReviewInstanceDecisions: ScopeAccessReviewInstanceDecisions;
-  scopeAccessReviewInstanceContactedReviewers: ScopeAccessReviewInstanceContactedReviewers;
-  scopeAccessReviewDefaultSettings: ScopeAccessReviewDefaultSettings;
-  accessReviewScheduleDefinitionsAssignedForMyApproval: AccessReviewScheduleDefinitionsAssignedForMyApproval;
-  accessReviewInstancesAssignedForMyApproval: AccessReviewInstancesAssignedForMyApproval;
-  accessReviewInstanceMyDecisions: AccessReviewInstanceMyDecisions;
-  tenantLevelAccessReviewInstanceContactedReviewers: TenantLevelAccessReviewInstanceContactedReviewers;
   eligibleChildResources: EligibleChildResources;
   roleAssignmentSchedules: RoleAssignmentSchedules;
   roleAssignmentScheduleInstances: RoleAssignmentScheduleInstances;
@@ -350,9 +199,4 @@ export class AuthorizationManagementClient extends coreClient.ServiceClient {
   roleEligibilityScheduleRequests: RoleEligibilityScheduleRequests;
   roleManagementPolicies: RoleManagementPolicies;
   roleManagementPolicyAssignments: RoleManagementPolicyAssignments;
-  alerts: Alerts;
-  alertConfigurations: AlertConfigurations;
-  alertDefinitions: AlertDefinitions;
-  alertIncidents: AlertIncidents;
-  alertOperation: AlertOperation;
 }

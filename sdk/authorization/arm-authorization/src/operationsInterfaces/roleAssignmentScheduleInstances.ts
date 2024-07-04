@@ -11,7 +11,7 @@ import {
   RoleAssignmentScheduleInstance,
   RoleAssignmentScheduleInstancesListForScopeOptionalParams,
   RoleAssignmentScheduleInstancesGetOptionalParams,
-  RoleAssignmentScheduleInstancesGetResponse
+  RoleAssignmentScheduleInstancesGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -24,7 +24,7 @@ export interface RoleAssignmentScheduleInstances {
    */
   listForScope(
     scope: string,
-    options?: RoleAssignmentScheduleInstancesListForScopeOptionalParams
+    options?: RoleAssignmentScheduleInstancesListForScopeOptionalParams,
   ): PagedAsyncIterableIterator<RoleAssignmentScheduleInstance>;
   /**
    * Gets the specified role assignment schedule instance.
@@ -36,6 +36,6 @@ export interface RoleAssignmentScheduleInstances {
   get(
     scope: string,
     roleAssignmentScheduleInstanceName: string,
-    options?: RoleAssignmentScheduleInstancesGetOptionalParams
+    options?: RoleAssignmentScheduleInstancesGetOptionalParams,
   ): Promise<RoleAssignmentScheduleInstancesGetResponse>;
 }

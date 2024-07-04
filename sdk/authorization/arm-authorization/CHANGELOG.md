@@ -1,15 +1,46 @@
 # Release History
+    
+## 10.0.0-beta.2 (2024-07-04)
+Compared with version 9.0.0
+    
+**Features**
 
-## 10.0.0-beta.2 (Unreleased)
+  - Added operation RoleAssignments.validate
+  - Added operation RoleAssignments.validateById
+  - Added Interface PIMOnlyModeSettings
+  - Added Interface RoleAssignmentsValidateByIdOptionalParams
+  - Added Interface RoleAssignmentsValidateOptionalParams
+  - Added Interface RoleManagementPolicyPimOnlyModeRule
+  - Added Interface UsersOrServicePrincipalSet
+  - Added Type Alias PIMOnlyMode
+  - Added Type Alias RoleAssignmentsValidateByIdResponse
+  - Added Type Alias RoleAssignmentsValidateResponse
+  - Interface AuthorizationManagementClientOptionalParams has a new optional parameter apiVersion
+  - Type of parameter ruleType of interface RoleManagementPolicyRule is changed from "RoleManagementPolicyApprovalRule" | "RoleManagementPolicyAuthenticationContextRule" | "RoleManagementPolicyEnablementRule" | "RoleManagementPolicyExpirationRule" | "RoleManagementPolicyNotificationRule" to "RoleManagementPolicyApprovalRule" | "RoleManagementPolicyAuthenticationContextRule" | "RoleManagementPolicyEnablementRule" | "RoleManagementPolicyExpirationRule" | "RoleManagementPolicyNotificationRule" | "RoleManagementPolicyPimOnlyModeRule"
+  - Added Enum KnownPIMOnlyMode
+  - Enum KnownRoleManagementPolicyRuleType has a new value RoleManagementPolicyPimOnlyModeRule
+  - Enum KnownUserType has a new value ServicePrincipal
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation group ClassicAdministrators
+  - Removed operation group DenyAssignments
+  - Removed operation group GlobalAdministrator
+  - Removed operation group Permissions_2
+  - Removed operation group ProviderOperationsMetadataOperations
+  - Removed operation group RoleDefinitions
+  - Removed operation RoleEligibilityScheduleRequests.validate
+  - Class AuthorizationManagementClient has a new signature
+  - Interface RoleAssignmentsListForScopeOptionalParams no longer has parameter skipToken
+  - Interface RoleManagementPolicyAssignment no longer has parameter effectiveRules
+  - Class AuthorizationManagementClient no longer has parameter classicAdministrators
+  - Class AuthorizationManagementClient no longer has parameter denyAssignments
+  - Class AuthorizationManagementClient no longer has parameter globalAdministrator
+  - Class AuthorizationManagementClient no longer has parameter permissions
+  - Class AuthorizationManagementClient no longer has parameter providerOperationsMetadataOperations
+  - Class AuthorizationManagementClient no longer has parameter roleDefinitions
+    
+    
 ## 10.0.0-beta.1 (2023-07-04)
     
 **Features**
@@ -319,4 +350,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).
