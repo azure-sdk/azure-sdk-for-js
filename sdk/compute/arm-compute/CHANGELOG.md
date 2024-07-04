@@ -1,15 +1,26 @@
 # Release History
+    
+## 22.0.0 (2024-07-04)
+    
+**Features**
 
-## 21.6.1 (Unreleased)
+  - Added Interface SecurityPostureReferenceUpdate
+  - Interface SecurityPostureReference has a new optional parameter isOverridable
+  - Interface VirtualMachineScaleSetUpdateVMProfile has a new optional parameter securityPostureReference
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation VirtualMachineExtensions.beginCreateOrUpdate
+  - Removed operation VirtualMachineExtensions.beginCreateOrUpdateAndWait
+  - Removed operation VirtualMachineExtensions.beginDelete
+  - Removed operation VirtualMachineExtensions.beginDeleteAndWait
+  - Removed operation VirtualMachineExtensions.beginUpdate
+  - Removed operation VirtualMachineExtensions.beginUpdateAndWait
+  - Removed operation VirtualMachineExtensions.get
+  - Parameter id of interface SecurityPostureReference is now required
+  - Type of parameter excludeExtensions of interface SecurityPostureReference is changed from VirtualMachineExtension[] to string[]
+    
+    
 ## 21.6.0 (2024-04-26)
     
 **Features**

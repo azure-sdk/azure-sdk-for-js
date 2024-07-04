@@ -27,8 +27,6 @@ import {
   VirtualMachineScaleSetVM as VirtualMachineScaleSetVMMapper,
   AttachDetachDataDisksRequest as AttachDetachDataDisksRequestMapper,
   RunCommandInput as RunCommandInputMapper,
-  VirtualMachineExtension as VirtualMachineExtensionMapper,
-  VirtualMachineExtensionUpdate as VirtualMachineExtensionUpdateMapper,
   VirtualMachineCaptureParameters as VirtualMachineCaptureParametersMapper,
   VirtualMachine as VirtualMachineMapper,
   VirtualMachineUpdate as VirtualMachineUpdateMapper,
@@ -466,11 +464,6 @@ export const accept1: OperationParameter = {
   },
 };
 
-export const extensionParameters4: OperationParameter = {
-  parameterPath: "extensionParameters",
-  mapper: VirtualMachineExtensionMapper,
-};
-
 export const vmName: OperationURLParameter = {
   parameterPath: "vmName",
   mapper: {
@@ -480,11 +473,6 @@ export const vmName: OperationURLParameter = {
       name: "String",
     },
   },
-};
-
-export const extensionParameters5: OperationParameter = {
-  parameterPath: "extensionParameters",
-  mapper: VirtualMachineExtensionUpdateMapper,
 };
 
 export const parameters7: OperationParameter = {

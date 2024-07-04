@@ -1273,6 +1273,21 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/arm-compute@21.6.0:
+    resolution: {integrity: sha512-Qk6kxoqMgzOvceUBqD1WTHrPh/iaxlTLQPp241u3iNVOE4FVSTqSzTxjG1tr/UL1rBWGvoLPZExUFddo+Qd5KQ==}
+    engines: {node: '>=18.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.7.2
+      '@azure/core-client': 1.9.2
+      '@azure/core-lro': 2.7.2
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': 1.16.1
+      tslib: 2.6.3
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/arm-cosmosdb@16.0.0-beta.6:
     resolution: {integrity: sha512-Ue4ocP8qCsFDeBZ/MjMNyVt4e9QhU3UgrRfZSw6kWiMzdrCgDePnZvjzZs9PQpjAsXbHGd9HlEIXg9Dl6Y/uww==}
     engines: {node: '>=14.0.0'}
@@ -13034,7 +13049,7 @@ packages:
     dev: false
 
   file:projects/arm-compute-1.tgz:
-    resolution: {integrity: sha512-cHmpUL4vSUYcRWf7fKSBBENOzXAOk4jug7q1q23ZfuvI87FCj/aBf+fLdMiLzGfTrKsn7/+wr/7zu6N9KmLByg==, tarball: file:projects/arm-compute-1.tgz}
+    resolution: {integrity: sha512-2ZN4oGy+ZUzDhVFK0MKxIKg5rtxAEgbHo6Sr60ptmsX8PwLR6WVJoeR+x6/gUW+rcBm5VlaRAMmQWziBSLX8LA==, tarball: file:projects/arm-compute-1.tgz}
     name: '@rush-temp/arm-compute-1'
     version: 0.0.0
     dependencies:
@@ -13055,6 +13070,7 @@ packages:
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.4.5)
       tslib: 2.6.3
+      tsx: 4.16.0
       typescript: 5.4.5
       uglify-js: 3.18.0
     transitivePeerDependencies:
@@ -14992,13 +15008,14 @@ packages:
     dev: false
 
   file:projects/arm-imagebuilder.tgz:
-    resolution: {integrity: sha512-yllt/Ixm5UxF81AFiYLpDKtLPDBRqCE+0gMkxg9ezcPnzTrREcSVylaj5MlDU9RWdAtoOi4O+5N5B1/6pPD5eA==, tarball: file:projects/arm-imagebuilder.tgz}
+    resolution: {integrity: sha512-9UYXwszNiVPQYO28zZPwKyerI4km7YQMEGpQgIfD6TwhnytMI4sHKti6mlOABcZbEL/CdQJPnvXTWVPOsjpLqA==, tarball: file:projects/arm-imagebuilder.tgz}
     name: '@rush-temp/arm-imagebuilder'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/abort-controller': 1.1.0
+      '@azure/arm-compute': 21.6.0
       '@azure/core-lro': 2.7.2
       '@microsoft/api-extractor': 7.47.0(@types/node@18.19.39)
       '@types/chai': 4.3.16
@@ -20333,7 +20350,7 @@ packages:
     dev: false
 
   file:projects/event-hubs.tgz:
-    resolution: {integrity: sha512-xYQLYBO4TGESs2pRrCvymd+Dcwxt1XrIGFCh2uh/W4ZV88Ylenqoq0ORPvdMUECqnGbXTsacyWMe93l1FFkq6A==, tarball: file:projects/event-hubs.tgz}
+    resolution: {integrity: sha512-w2QQKZjOUsNAB8h+fiYZGb3HwLMPxmrgL5k810k2KH/QjUufjwoRvrCpD860O2rBTcwSTg1IUx26Yn09p9a+eA==, tarball: file:projects/event-hubs.tgz}
     name: '@rush-temp/event-hubs'
     version: 0.0.0
     dependencies:
