@@ -9,23 +9,14 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   RoleAssignmentCreateParameters as RoleAssignmentCreateParametersMapper,
-  RoleDefinition as RoleDefinitionMapper,
-  AccessReviewHistoryDefinitionProperties as AccessReviewHistoryDefinitionPropertiesMapper,
-  AccessReviewScheduleDefinitionProperties as AccessReviewScheduleDefinitionPropertiesMapper,
-  AccessReviewInstanceProperties as AccessReviewInstancePropertiesMapper,
-  AccessReviewScheduleSettings as AccessReviewScheduleSettingsMapper,
-  RecordAllDecisionsProperties as RecordAllDecisionsPropertiesMapper,
-  AccessReviewDecisionProperties as AccessReviewDecisionPropertiesMapper,
   RoleAssignmentScheduleRequest as RoleAssignmentScheduleRequestMapper,
   RoleEligibilityScheduleRequest as RoleEligibilityScheduleRequestMapper,
   RoleManagementPolicy as RoleManagementPolicyMapper,
   RoleManagementPolicyAssignment as RoleManagementPolicyAssignmentMapper,
-  Alert as AlertMapper,
-  AlertConfiguration as AlertConfigurationMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -35,9 +26,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -46,48 +37,54 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
-};
-
-export const apiVersion: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2015-07-01",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
+  skipEncoding: true,
 };
 
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
-    constraints: {
-      MinLength: 1
-    },
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "Uuid",
+    },
+  },
 };
 
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
+export const apiVersion: OperationQueryParameter = {
+  parameterPath: "apiVersion",
   mapper: {
-    serializedName: "nextLink",
-    required: true,
+    defaultValue: "2024-02-01-preview",
+    isConstant: true,
+    serializedName: "api-version",
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+};
+
+export const filter: OperationQueryParameter = {
+  parameterPath: ["options", "filter"],
+  mapper: {
+    serializedName: "$filter",
+    type: {
+      name: "String",
+    },
+  },
+  skipEncoding: true,
+};
+
+export const tenantId: OperationQueryParameter = {
+  parameterPath: ["options", "tenantId"],
+  mapper: {
+    serializedName: "tenantId",
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -95,14 +92,14 @@ export const resourceGroupName: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 90,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resourceProviderNamespace: OperationURLParameter = {
@@ -111,22 +108,10 @@ export const resourceProviderNamespace: OperationURLParameter = {
     serializedName: "resourceProviderNamespace",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
-};
-
-export const parentResourcePath: OperationURLParameter = {
-  parameterPath: "parentResourcePath",
-  mapper: {
-    serializedName: "parentResourcePath",
-    required: true,
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const resourceType: OperationURLParameter = {
@@ -135,10 +120,10 @@ export const resourceType: OperationURLParameter = {
     serializedName: "resourceType",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const resourceName: OperationURLParameter = {
@@ -147,31 +132,10 @@ export const resourceName: OperationURLParameter = {
     serializedName: "resourceName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
-};
-
-export const apiVersion1: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2022-04-01",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const filter: OperationQueryParameter = {
-  parameterPath: ["options", "filter"],
-  mapper: {
-    serializedName: "$filter",
-    type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
+  skipEncoding: true,
 };
 
 export const scope: OperationURLParameter = {
@@ -180,77 +144,10 @@ export const scope: OperationURLParameter = {
     serializedName: "scope",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
-};
-
-export const denyAssignmentId: OperationURLParameter = {
-  parameterPath: "denyAssignmentId",
-  mapper: {
-    serializedName: "denyAssignmentId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const denyAssignmentId1: OperationURLParameter = {
-  parameterPath: "denyAssignmentId",
-  mapper: {
-    serializedName: "denyAssignmentId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
-};
-
-export const expand: OperationQueryParameter = {
-  parameterPath: ["options", "expand"],
-  mapper: {
-    defaultValue: "resourceTypes",
-    serializedName: "$expand",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const filter1: OperationQueryParameter = {
-  parameterPath: ["options", "filter"],
-  mapper: {
-    serializedName: "$filter",
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
-};
-
-export const tenantId: OperationQueryParameter = {
-  parameterPath: ["options", "tenantId"],
-  mapper: {
-    serializedName: "tenantId",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const resourceName1: OperationURLParameter = {
-  parameterPath: "resourceName",
-  mapper: {
-    serializedName: "resourceName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const roleAssignmentName: OperationURLParameter = {
@@ -259,10 +156,10 @@ export const roleAssignmentName: OperationURLParameter = {
     serializedName: "roleAssignmentName",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const contentType: OperationParameter = {
@@ -272,25 +169,14 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters: OperationParameter = {
   parameterPath: "parameters",
-  mapper: RoleAssignmentCreateParametersMapper
-};
-
-export const skipToken: OperationQueryParameter = {
-  parameterPath: ["options", "skipToken"],
-  mapper: {
-    serializedName: "$skipToken",
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
+  mapper: RoleAssignmentCreateParametersMapper,
 };
 
 export const roleAssignmentId: OperationURLParameter = {
@@ -299,184 +185,32 @@ export const roleAssignmentId: OperationURLParameter = {
     serializedName: "roleAssignmentId",
     required: true,
     type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
-};
-
-export const apiVersion2: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2022-05-01-preview",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const resourceName2: OperationURLParameter = {
-  parameterPath: "resourceName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp(".+")
+      name: "String",
     },
-    serializedName: "resourceName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const roleDefinitionId: OperationURLParameter = {
-  parameterPath: "roleDefinitionId",
-  mapper: {
-    serializedName: "roleDefinitionId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const roleDefinition: OperationParameter = {
-  parameterPath: "roleDefinition",
-  mapper: RoleDefinitionMapper
-};
-
-export const roleId: OperationURLParameter = {
-  parameterPath: "roleId",
-  mapper: {
-    serializedName: "roleId",
-    required: true,
-    type: {
-      name: "String"
-    }
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
-export const apiVersion3: OperationQueryParameter = {
-  parameterPath: "apiVersion",
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
   mapper: {
-    defaultValue: "2021-12-01-preview",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const historyDefinitionId: OperationURLParameter = {
-  parameterPath: "historyDefinitionId",
-  mapper: {
-    serializedName: "historyDefinitionId",
+    serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
+  skipEncoding: true,
 };
 
-export const properties: OperationParameter = {
-  parameterPath: "properties",
-  mapper: AccessReviewHistoryDefinitionPropertiesMapper
-};
-
-export const instanceId: OperationURLParameter = {
-  parameterPath: "instanceId",
+export const filter1: OperationQueryParameter = {
+  parameterPath: ["options", "filter"],
   mapper: {
-    serializedName: "instanceId",
-    required: true,
+    serializedName: "$filter",
     type: {
-      name: "String"
-    }
-  }
-};
-
-export const scheduleDefinitionId: OperationURLParameter = {
-  parameterPath: "scheduleDefinitionId",
-  mapper: {
-    serializedName: "scheduleDefinitionId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const properties1: OperationParameter = {
-  parameterPath: "properties",
-  mapper: AccessReviewScheduleDefinitionPropertiesMapper
-};
-
-export const id: OperationURLParameter = {
-  parameterPath: "id",
-  mapper: {
-    serializedName: "id",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const properties2: OperationParameter = {
-  parameterPath: "properties",
-  mapper: AccessReviewInstancePropertiesMapper
-};
-
-export const properties3: OperationParameter = {
-  parameterPath: "properties",
-  mapper: AccessReviewScheduleSettingsMapper
-};
-
-export const scope1: OperationURLParameter = {
-  parameterPath: "scope",
-  mapper: {
-    serializedName: "scope",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const properties4: OperationParameter = {
-  parameterPath: "properties",
-  mapper: RecordAllDecisionsPropertiesMapper
-};
-
-export const decisionId: OperationURLParameter = {
-  parameterPath: "decisionId",
-  mapper: {
-    serializedName: "decisionId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const properties5: OperationParameter = {
-  parameterPath: "properties",
-  mapper: AccessReviewDecisionPropertiesMapper
-};
-
-export const apiVersion4: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2020-10-01-preview",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const roleAssignmentScheduleName: OperationURLParameter = {
@@ -485,9 +219,9 @@ export const roleAssignmentScheduleName: OperationURLParameter = {
     serializedName: "roleAssignmentScheduleName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const roleAssignmentScheduleInstanceName: OperationURLParameter = {
@@ -496,14 +230,14 @@ export const roleAssignmentScheduleInstanceName: OperationURLParameter = {
     serializedName: "roleAssignmentScheduleInstanceName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters1: OperationParameter = {
   parameterPath: "parameters",
-  mapper: RoleAssignmentScheduleRequestMapper
+  mapper: RoleAssignmentScheduleRequestMapper,
 };
 
 export const roleAssignmentScheduleRequestName: OperationURLParameter = {
@@ -512,21 +246,9 @@ export const roleAssignmentScheduleRequestName: OperationURLParameter = {
     serializedName: "roleAssignmentScheduleRequestName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
-};
-
-export const apiVersion5: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2022-04-01-preview",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const roleEligibilityScheduleName: OperationURLParameter = {
@@ -535,9 +257,9 @@ export const roleEligibilityScheduleName: OperationURLParameter = {
     serializedName: "roleEligibilityScheduleName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const roleEligibilityScheduleInstanceName: OperationURLParameter = {
@@ -546,14 +268,14 @@ export const roleEligibilityScheduleInstanceName: OperationURLParameter = {
     serializedName: "roleEligibilityScheduleInstanceName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters2: OperationParameter = {
   parameterPath: "parameters",
-  mapper: RoleEligibilityScheduleRequestMapper
+  mapper: RoleEligibilityScheduleRequestMapper,
 };
 
 export const roleEligibilityScheduleRequestName: OperationURLParameter = {
@@ -562,9 +284,9 @@ export const roleEligibilityScheduleRequestName: OperationURLParameter = {
     serializedName: "roleEligibilityScheduleRequestName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const roleManagementPolicyName: OperationURLParameter = {
@@ -573,14 +295,14 @@ export const roleManagementPolicyName: OperationURLParameter = {
     serializedName: "roleManagementPolicyName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters3: OperationParameter = {
   parameterPath: "parameters",
-  mapper: RoleManagementPolicyMapper
+  mapper: RoleManagementPolicyMapper,
 };
 
 export const roleManagementPolicyAssignmentName: OperationURLParameter = {
@@ -589,82 +311,12 @@ export const roleManagementPolicyAssignmentName: OperationURLParameter = {
     serializedName: "roleManagementPolicyAssignmentName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters4: OperationParameter = {
   parameterPath: "parameters",
-  mapper: RoleManagementPolicyAssignmentMapper
-};
-
-export const alertId: OperationURLParameter = {
-  parameterPath: "alertId",
-  mapper: {
-    serializedName: "alertId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
-};
-
-export const apiVersion6: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2022-08-01-preview",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const parameters5: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: AlertMapper
-};
-
-export const parameters6: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: AlertConfigurationMapper
-};
-
-export const alertDefinitionId: OperationURLParameter = {
-  parameterPath: "alertDefinitionId",
-  mapper: {
-    serializedName: "alertDefinitionId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
-};
-
-export const alertIncidentId: OperationURLParameter = {
-  parameterPath: "alertIncidentId",
-  mapper: {
-    serializedName: "alertIncidentId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
-};
-
-export const operationId: OperationURLParameter = {
-  parameterPath: "operationId",
-  mapper: {
-    serializedName: "operationId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
+  mapper: RoleManagementPolicyAssignmentMapper,
 };
