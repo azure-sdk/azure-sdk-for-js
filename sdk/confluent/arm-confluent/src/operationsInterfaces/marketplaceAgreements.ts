@@ -6,24 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  ConfluentAgreementResource,
-  MarketplaceAgreementsListOptionalParams,
   MarketplaceAgreementsCreateOptionalParams,
   MarketplaceAgreementsCreateResponse,
 } from "../models";
 
-/// <reference lib="esnext.asynciterable" />
 /** Interface representing a MarketplaceAgreements. */
 export interface MarketplaceAgreements {
-  /**
-   * List Confluent marketplace agreements in the subscription.
-   * @param options The options parameters.
-   */
-  list(
-    options?: MarketplaceAgreementsListOptionalParams,
-  ): PagedAsyncIterableIterator<ConfluentAgreementResource>;
   /**
    * Create Confluent Marketplace agreement in the subscription.
    * @param options The options parameters.

@@ -1,15 +1,12 @@
 # Release History
+    
+## 4.0.0 (2024-07-05)
+    
+**Breaking Changes**
 
-## 3.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation MarketplaceAgreements.list
+    
+    
 ## 3.1.0 (2024-03-13)
     
 **Features**

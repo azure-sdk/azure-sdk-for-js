@@ -21,6 +21,23 @@ import {
   AccessCreateRoleBindingRequestModel as AccessCreateRoleBindingRequestModelMapper,
 } from "../models/mappers";
 
+export const contentType: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const body: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: ConfluentAgreementResourceMapper,
+};
+
 export const accept: OperationParameter = {
   parameterPath: "accept",
   mapper: {
@@ -66,23 +83,6 @@ export const subscriptionId: OperationURLParameter = {
       name: "String",
     },
   },
-};
-
-export const contentType: OperationParameter = {
-  parameterPath: ["options", "contentType"],
-  mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Content-Type",
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const body: OperationParameter = {
-  parameterPath: ["options", "body"],
-  mapper: ConfluentAgreementResourceMapper,
 };
 
 export const nextLink: OperationURLParameter = {

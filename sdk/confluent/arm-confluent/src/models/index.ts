@@ -8,14 +8,6 @@
 
 import * as coreClient from "@azure/core-client";
 
-/** Response of a list operation. */
-export interface ConfluentAgreementResourceListResponse {
-  /** Results of a list operation. */
-  value?: ConfluentAgreementResource[];
-  /** Link to the next set of results, if any. */
-  nextLink?: string;
-}
-
 /** Agreement Terms definition */
 export interface ConfluentAgreementResource {
   /**
@@ -806,6 +798,14 @@ export interface APIKeyOwnerEntity {
   kind?: string;
 }
 
+/** Response of a list operation. */
+export interface ConfluentAgreementResourceListResponse {
+  /** Results of a list operation. */
+  value?: ConfluentAgreementResource[];
+  /** Link to the next set of results, if any. */
+  nextLink?: string;
+}
+
 /** Metadata of the list */
 export interface SCConfluentListMetadata {
   /** First page of the list */
@@ -926,14 +926,6 @@ export enum KnownSaaSOfferStatus {
 export type SaaSOfferStatus = string;
 
 /** Optional parameters. */
-export interface MarketplaceAgreementsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type MarketplaceAgreementsListResponse =
-  ConfluentAgreementResourceListResponse;
-
-/** Optional parameters. */
 export interface MarketplaceAgreementsCreateOptionalParams
   extends coreClient.OperationOptions {
   /** Confluent Marketplace Agreement resource */
@@ -942,14 +934,6 @@ export interface MarketplaceAgreementsCreateOptionalParams
 
 /** Contains response data for the create operation. */
 export type MarketplaceAgreementsCreateResponse = ConfluentAgreementResource;
-
-/** Optional parameters. */
-export interface MarketplaceAgreementsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type MarketplaceAgreementsListNextResponse =
-  ConfluentAgreementResourceListResponse;
 
 /** Optional parameters. */
 export interface OrganizationOperationsListOptionalParams

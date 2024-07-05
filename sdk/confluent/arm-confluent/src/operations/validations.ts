@@ -91,7 +91,7 @@ const validateOrganizationOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.organizationName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
@@ -114,7 +114,7 @@ const validateOrganizationV2OperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.organizationName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };

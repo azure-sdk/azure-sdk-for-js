@@ -260,7 +260,7 @@ const listUsersOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.organizationName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
@@ -283,7 +283,7 @@ const listServiceAccountsOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.organizationName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
@@ -306,7 +306,7 @@ const listInvitationsOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.organizationName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
@@ -329,7 +329,7 @@ const inviteUserOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.organizationName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
@@ -352,7 +352,7 @@ const listEnvironmentsOperationSpec: coreClient.OperationSpec = {
     Parameters.organizationName,
     Parameters.resourceGroupName1,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
@@ -375,7 +375,7 @@ const listClustersOperationSpec: coreClient.OperationSpec = {
     Parameters.organizationName,
     Parameters.resourceGroupName1,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
@@ -398,7 +398,7 @@ const listRoleBindingsOperationSpec: coreClient.OperationSpec = {
     Parameters.organizationName,
     Parameters.resourceGroupName1,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
@@ -421,7 +421,7 @@ const createRoleBindingOperationSpec: coreClient.OperationSpec = {
     Parameters.organizationName,
     Parameters.resourceGroupName1,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
@@ -465,7 +465,7 @@ const listRoleBindingNameListOperationSpec: coreClient.OperationSpec = {
     Parameters.organizationName,
     Parameters.resourceGroupName1,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };

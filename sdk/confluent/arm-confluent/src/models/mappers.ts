@@ -8,34 +8,6 @@
 
 import * as coreClient from "@azure/core-client";
 
-export const ConfluentAgreementResourceListResponse: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "ConfluentAgreementResourceListResponse",
-      modelProperties: {
-        value: {
-          serializedName: "value",
-          type: {
-            name: "Sequence",
-            element: {
-              type: {
-                name: "Composite",
-                className: "ConfluentAgreementResource",
-              },
-            },
-          },
-        },
-        nextLink: {
-          serializedName: "nextLink",
-          type: {
-            name: "String",
-          },
-        },
-      },
-    },
-  };
-
 export const ConfluentAgreementResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -2276,6 +2248,34 @@ export const APIKeyOwnerEntity: coreClient.CompositeMapper = {
     },
   },
 };
+
+export const ConfluentAgreementResourceListResponse: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ConfluentAgreementResourceListResponse",
+      modelProperties: {
+        value: {
+          serializedName: "value",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "ConfluentAgreementResource",
+              },
+            },
+          },
+        },
+        nextLink: {
+          serializedName: "nextLink",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
 
 export const SCConfluentListMetadata: coreClient.CompositeMapper = {
   type: {

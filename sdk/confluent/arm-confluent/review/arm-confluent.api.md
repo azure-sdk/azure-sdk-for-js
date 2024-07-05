@@ -428,7 +428,6 @@ export interface ListSchemaRegistryClustersResponse {
 // @public
 export interface MarketplaceAgreements {
     create(options?: MarketplaceAgreementsCreateOptionalParams): Promise<MarketplaceAgreementsCreateResponse>;
-    list(options?: MarketplaceAgreementsListOptionalParams): PagedAsyncIterableIterator<ConfluentAgreementResource>;
 }
 
 // @public
@@ -438,20 +437,6 @@ export interface MarketplaceAgreementsCreateOptionalParams extends coreClient.Op
 
 // @public
 export type MarketplaceAgreementsCreateResponse = ConfluentAgreementResource;
-
-// @public
-export interface MarketplaceAgreementsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type MarketplaceAgreementsListNextResponse = ConfluentAgreementResourceListResponse;
-
-// @public
-export interface MarketplaceAgreementsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type MarketplaceAgreementsListResponse = ConfluentAgreementResourceListResponse;
 
 // @public
 export interface MetadataEntity {
