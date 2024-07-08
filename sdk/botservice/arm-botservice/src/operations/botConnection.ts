@@ -29,7 +29,7 @@ import {
   BotConnectionGetOptionalParams,
   BotConnectionGetResponse,
   BotConnectionDeleteOptionalParams,
-  BotConnectionListByBotServiceNextResponse
+  BotConnectionListByBotServiceNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -54,12 +54,12 @@ export class BotConnectionImpl implements BotConnection {
   public listByBotService(
     resourceGroupName: string,
     resourceName: string,
-    options?: BotConnectionListByBotServiceOptionalParams
+    options?: BotConnectionListByBotServiceOptionalParams,
   ): PagedAsyncIterableIterator<ConnectionSetting> {
     const iter = this.listByBotServicePagingAll(
       resourceGroupName,
       resourceName,
-      options
+      options,
     );
     return {
       next() {
@@ -76,9 +76,9 @@ export class BotConnectionImpl implements BotConnection {
           resourceGroupName,
           resourceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -86,7 +86,7 @@ export class BotConnectionImpl implements BotConnection {
     resourceGroupName: string,
     resourceName: string,
     options?: BotConnectionListByBotServiceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ConnectionSetting[]> {
     let result: BotConnectionListByBotServiceResponse;
     let continuationToken = settings?.continuationToken;
@@ -94,7 +94,7 @@ export class BotConnectionImpl implements BotConnection {
       result = await this._listByBotService(
         resourceGroupName,
         resourceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -106,7 +106,7 @@ export class BotConnectionImpl implements BotConnection {
         resourceGroupName,
         resourceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -118,12 +118,12 @@ export class BotConnectionImpl implements BotConnection {
   private async *listByBotServicePagingAll(
     resourceGroupName: string,
     resourceName: string,
-    options?: BotConnectionListByBotServiceOptionalParams
+    options?: BotConnectionListByBotServiceOptionalParams,
   ): AsyncIterableIterator<ConnectionSetting> {
     for await (const page of this.listByBotServicePagingPage(
       resourceGroupName,
       resourceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -134,11 +134,11 @@ export class BotConnectionImpl implements BotConnection {
    * @param options The options parameters.
    */
   listServiceProviders(
-    options?: BotConnectionListServiceProvidersOptionalParams
+    options?: BotConnectionListServiceProvidersOptionalParams,
   ): Promise<BotConnectionListServiceProvidersResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listServiceProvidersOperationSpec
+      listServiceProvidersOperationSpec,
     );
   }
 
@@ -153,11 +153,11 @@ export class BotConnectionImpl implements BotConnection {
     resourceGroupName: string,
     resourceName: string,
     connectionName: string,
-    options?: BotConnectionListWithSecretsOptionalParams
+    options?: BotConnectionListWithSecretsOptionalParams,
   ): Promise<BotConnectionListWithSecretsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, connectionName, options },
-      listWithSecretsOperationSpec
+      listWithSecretsOperationSpec,
     );
   }
 
@@ -174,11 +174,11 @@ export class BotConnectionImpl implements BotConnection {
     resourceName: string,
     connectionName: string,
     parameters: ConnectionSetting,
-    options?: BotConnectionCreateOptionalParams
+    options?: BotConnectionCreateOptionalParams,
   ): Promise<BotConnectionCreateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, connectionName, parameters, options },
-      createOperationSpec
+      createOperationSpec,
     );
   }
 
@@ -195,11 +195,11 @@ export class BotConnectionImpl implements BotConnection {
     resourceName: string,
     connectionName: string,
     parameters: ConnectionSetting,
-    options?: BotConnectionUpdateOptionalParams
+    options?: BotConnectionUpdateOptionalParams,
   ): Promise<BotConnectionUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, connectionName, parameters, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -214,11 +214,11 @@ export class BotConnectionImpl implements BotConnection {
     resourceGroupName: string,
     resourceName: string,
     connectionName: string,
-    options?: BotConnectionGetOptionalParams
+    options?: BotConnectionGetOptionalParams,
   ): Promise<BotConnectionGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, connectionName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -233,11 +233,11 @@ export class BotConnectionImpl implements BotConnection {
     resourceGroupName: string,
     resourceName: string,
     connectionName: string,
-    options?: BotConnectionDeleteOptionalParams
+    options?: BotConnectionDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, connectionName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -250,11 +250,11 @@ export class BotConnectionImpl implements BotConnection {
   private _listByBotService(
     resourceGroupName: string,
     resourceName: string,
-    options?: BotConnectionListByBotServiceOptionalParams
+    options?: BotConnectionListByBotServiceOptionalParams,
   ): Promise<BotConnectionListByBotServiceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, options },
-      listByBotServiceOperationSpec
+      listByBotServiceOperationSpec,
     );
   }
 
@@ -269,11 +269,11 @@ export class BotConnectionImpl implements BotConnection {
     resourceGroupName: string,
     resourceName: string,
     nextLink: string,
-    options?: BotConnectionListByBotServiceNextOptionalParams
+    options?: BotConnectionListByBotServiceNextOptionalParams,
   ): Promise<BotConnectionListByBotServiceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, nextLink, options },
-      listByBotServiceNextOperationSpec
+      listByBotServiceNextOperationSpec,
     );
   }
 }
@@ -281,33 +281,31 @@ export class BotConnectionImpl implements BotConnection {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listServiceProvidersOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.BotService/listAuthServiceProviders",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.BotService/listAuthServiceProviders",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ServiceProviderResponseList
+      bodyMapper: Mappers.ServiceProviderResponseList,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listWithSecretsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BotService/botServices/{resourceName}/connections/{connectionName}/listWithSecrets",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BotService/botServices/{resourceName}/connections/{connectionName}/listWithSecrets",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ConnectionSetting
+      bodyMapper: Mappers.ConnectionSetting,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -315,25 +313,24 @@ const listWithSecretsOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.resourceName,
     Parameters.subscriptionId,
-    Parameters.connectionName
+    Parameters.connectionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BotService/botServices/{resourceName}/connections/{connectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BotService/botServices/{resourceName}/connections/{connectionName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ConnectionSetting
+      bodyMapper: Mappers.ConnectionSetting,
     },
     201: {
-      bodyMapper: Mappers.ConnectionSetting
+      bodyMapper: Mappers.ConnectionSetting,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   requestBody: Parameters.parameters6,
   queryParameters: [Parameters.apiVersion],
@@ -342,26 +339,25 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.resourceName,
     Parameters.subscriptionId,
-    Parameters.connectionName
+    Parameters.connectionName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BotService/botServices/{resourceName}/connections/{connectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BotService/botServices/{resourceName}/connections/{connectionName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.ConnectionSetting
+      bodyMapper: Mappers.ConnectionSetting,
     },
     201: {
-      bodyMapper: Mappers.ConnectionSetting
+      bodyMapper: Mappers.ConnectionSetting,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   requestBody: Parameters.parameters6,
   queryParameters: [Parameters.apiVersion],
@@ -370,23 +366,22 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.resourceName,
     Parameters.subscriptionId,
-    Parameters.connectionName
+    Parameters.connectionName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BotService/botServices/{resourceName}/connections/{connectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BotService/botServices/{resourceName}/connections/{connectionName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConnectionSetting
+      bodyMapper: Mappers.ConnectionSetting,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -394,21 +389,20 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.resourceName,
     Parameters.subscriptionId,
-    Parameters.connectionName
+    Parameters.connectionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BotService/botServices/{resourceName}/connections/{connectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BotService/botServices/{resourceName}/connections/{connectionName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -416,51 +410,50 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.resourceName,
     Parameters.subscriptionId,
-    Parameters.connectionName
+    Parameters.connectionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByBotServiceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BotService/botServices/{resourceName}/connections",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BotService/botServices/{resourceName}/connections",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConnectionSettingResponseList
+      bodyMapper: Mappers.ConnectionSettingResponseList,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByBotServiceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConnectionSettingResponseList
+      bodyMapper: Mappers.ConnectionSettingResponseList,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.resourceName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

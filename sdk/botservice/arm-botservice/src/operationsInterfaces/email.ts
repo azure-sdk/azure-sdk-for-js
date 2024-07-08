@@ -8,7 +8,7 @@
 
 import {
   EmailCreateSignInUrlOptionalParams,
-  EmailCreateSignInUrlResponse
+  EmailCreateSignInUrlResponse,
 } from "../models";
 
 /** Interface representing a Email. */
@@ -22,6 +22,6 @@ export interface Email {
   createSignInUrl(
     resourceGroupName: string,
     resourceName: string,
-    options?: EmailCreateSignInUrlOptionalParams
+    options?: EmailCreateSignInUrlOptionalParams,
   ): Promise<EmailCreateSignInUrlResponse>;
 }
