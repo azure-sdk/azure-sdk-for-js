@@ -4,6 +4,8 @@
 
 ```ts
 
+/// <reference types="node" />
+
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
 import { OperationState } from '@azure/core-lro';
@@ -2886,6 +2888,12 @@ export interface HardwareProfile {
 export type HostCaching = "None" | "ReadOnly" | "ReadWrite";
 
 // @public
+export interface HostEndpointSettings {
+    inVMAccessControlProfileReferenceId?: string;
+    mode?: Mode;
+}
+
+// @public
 export type HyperVGeneration = string;
 
 // @public
@@ -3483,6 +3491,7 @@ export enum KnownLinuxVMGuestPatchMode {
 // @public
 export enum KnownMode {
     Audit = "Audit",
+    Disabled = "Disabled",
     Enforce = "Enforce"
 }
 
@@ -4612,8 +4621,9 @@ export interface ProximityPlacementGroupUpdate extends UpdateResource {
 // @public
 export interface ProxyAgentSettings {
     enabled?: boolean;
+    imds?: HostEndpointSettings;
     keyIncarnationId?: number;
-    mode?: Mode;
+    wireServer?: HostEndpointSettings;
 }
 
 // @public
@@ -5269,8 +5279,16 @@ export type SecurityEncryptionTypes = string;
 
 // @public
 export interface SecurityPostureReference {
-    excludeExtensions?: VirtualMachineExtension[];
+    excludeExtensions?: string[];
+    id: string;
+    isOverridable?: boolean;
+}
+
+// @public
+export interface SecurityPostureReferenceUpdate {
+    excludeExtensions?: string[];
     id?: string;
+    isOverridable?: boolean;
 }
 
 // @public
@@ -7510,6 +7528,7 @@ export interface VirtualMachineScaleSetUpdateVMProfile {
     networkProfile?: VirtualMachineScaleSetUpdateNetworkProfile;
     osProfile?: VirtualMachineScaleSetUpdateOSProfile;
     scheduledEventsProfile?: ScheduledEventsProfile;
+    securityPostureReference?: SecurityPostureReferenceUpdate;
     securityProfile?: SecurityProfile;
     storageProfile?: VirtualMachineScaleSetUpdateStorageProfile;
     userData?: string;

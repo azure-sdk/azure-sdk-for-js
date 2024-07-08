@@ -1,15 +1,24 @@
 # Release History
+    
+## 22.0.0 (2024-07-08)
+    
+**Features**
 
-## 21.6.1 (Unreleased)
+  - Added Interface HostEndpointSettings
+  - Added Interface SecurityPostureReferenceUpdate
+  - Interface ProxyAgentSettings has a new optional parameter imds
+  - Interface ProxyAgentSettings has a new optional parameter wireServer
+  - Interface SecurityPostureReference has a new optional parameter isOverridable
+  - Interface VirtualMachineScaleSetUpdateVMProfile has a new optional parameter securityPostureReference
+  - Enum KnownMode has a new value Disabled
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface ProxyAgentSettings no longer has parameter mode
+  - Parameter id of interface SecurityPostureReference is now required
+  - Type of parameter excludeExtensions of interface SecurityPostureReference is changed from VirtualMachineExtension[] to string[]
+    
+    
 ## 21.6.0 (2024-04-26)
     
 **Features**
