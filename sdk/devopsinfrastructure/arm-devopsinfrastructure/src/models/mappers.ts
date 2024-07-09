@@ -581,10 +581,10 @@ export const SystemData: coreClient.CompositeMapper = {
   },
 };
 
-export const QuotaListResult: coreClient.CompositeMapper = {
+export const PagedQuota: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "QuotaListResult",
+    className: "PagedQuota",
     modelProperties: {
       value: {
         serializedName: "value",
@@ -609,11 +609,25 @@ export const QuotaListResult: coreClient.CompositeMapper = {
   },
 };
 
-export const QuotaProperties: coreClient.CompositeMapper = {
+export const Quota: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "QuotaProperties",
+    className: "Quota",
     modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "Composite",
+          className: "QuotaName",
+        },
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
       unit: {
         serializedName: "unit",
         required: true,
@@ -633,13 +647,6 @@ export const QuotaProperties: coreClient.CompositeMapper = {
         required: true,
         type: {
           name: "Number",
-        },
-      },
-      name: {
-        serializedName: "name",
-        type: {
-          name: "Composite",
-          className: "QuotaName",
         },
       },
     },
@@ -1738,23 +1745,6 @@ export const ResourceSku: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ResourceSkuProperties",
-        },
-      },
-    },
-  },
-};
-
-export const Quota: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "Quota",
-    modelProperties: {
-      ...ProxyResource.type.modelProperties,
-      properties: {
-        serializedName: "properties",
-        type: {
-          name: "Composite",
-          className: "QuotaProperties",
         },
       },
     },
