@@ -7,25 +7,26 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Module,
-  Python2PackageListByAutomationAccountOptionalParams,
-  Python2PackageDeleteOptionalParams,
-  Python2PackageGetOptionalParams,
-  Python2PackageGetResponse,
+  Python3PackageListByAutomationAccountOptionalParams,
+  Python3PackageDeleteOptionalParams,
+  Python3PackageGetOptionalParams,
+  Python3PackageGetResponse,
   PythonPackageCreateParameters,
-  Python2PackageCreateOrUpdateOptionalParams,
-  Python2PackageCreateOrUpdateResponse,
+  Python3PackageCreateOrUpdateOptionalParams,
+  Python3PackageCreateOrUpdateResponse,
   PythonPackageUpdateParameters,
-  Python2PackageUpdateOptionalParams,
-  Python2PackageUpdateResponse,
+  Python3PackageUpdateOptionalParams,
+  Python3PackageUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a Python2Package. */
-export interface Python2Package {
+/** Interface representing a Python3Package. */
+export interface Python3Package {
   /**
-   * Retrieve a list of python 2 packages.
+   * Retrieve a list of python 3 packages.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param options The options parameters.
@@ -33,10 +34,10 @@ export interface Python2Package {
   listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: Python2PackageListByAutomationAccountOptionalParams,
+    options?: Python3PackageListByAutomationAccountOptionalParams,
   ): PagedAsyncIterableIterator<Module>;
   /**
-   * Delete the python 2 package by name.
+   * Delete the python 3 package by name.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param packageName The python package name.
@@ -46,10 +47,10 @@ export interface Python2Package {
     resourceGroupName: string,
     automationAccountName: string,
     packageName: string,
-    options?: Python2PackageDeleteOptionalParams,
+    options?: Python3PackageDeleteOptionalParams,
   ): Promise<void>;
   /**
-   * Retrieve the python 2 package identified by package name.
+   * Retrieve the python 3 package identified by package name.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param packageName The python package name.
@@ -59,25 +60,45 @@ export interface Python2Package {
     resourceGroupName: string,
     automationAccountName: string,
     packageName: string,
-    options?: Python2PackageGetOptionalParams,
-  ): Promise<Python2PackageGetResponse>;
+    options?: Python3PackageGetOptionalParams,
+  ): Promise<Python3PackageGetResponse>;
   /**
-   * Create or Update the python 2 package identified by package name.
+   * Create or Update the python 3 package identified by package name.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param packageName The name of python package.
    * @param parameters The create or update parameters for python package.
    * @param options The options parameters.
    */
-  createOrUpdate(
+  beginCreateOrUpdate(
     resourceGroupName: string,
     automationAccountName: string,
     packageName: string,
     parameters: PythonPackageCreateParameters,
-    options?: Python2PackageCreateOrUpdateOptionalParams,
-  ): Promise<Python2PackageCreateOrUpdateResponse>;
+    options?: Python3PackageCreateOrUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<Python3PackageCreateOrUpdateResponse>,
+      Python3PackageCreateOrUpdateResponse
+    >
+  >;
   /**
-   * Update the python 2 package identified by package name.
+   * Create or Update the python 3 package identified by package name.
+   * @param resourceGroupName Name of an Azure Resource group.
+   * @param automationAccountName The name of the automation account.
+   * @param packageName The name of python package.
+   * @param parameters The create or update parameters for python package.
+   * @param options The options parameters.
+   */
+  beginCreateOrUpdateAndWait(
+    resourceGroupName: string,
+    automationAccountName: string,
+    packageName: string,
+    parameters: PythonPackageCreateParameters,
+    options?: Python3PackageCreateOrUpdateOptionalParams,
+  ): Promise<Python3PackageCreateOrUpdateResponse>;
+  /**
+   * Update the python 3 package identified by package name.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param packageName The name of python package.
@@ -89,6 +110,6 @@ export interface Python2Package {
     automationAccountName: string,
     packageName: string,
     parameters: PythonPackageUpdateParameters,
-    options?: Python2PackageUpdateOptionalParams,
-  ): Promise<Python2PackageUpdateResponse>;
+    options?: Python3PackageUpdateOptionalParams,
+  ): Promise<Python3PackageUpdateResponse>;
 }
