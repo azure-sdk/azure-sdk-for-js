@@ -22710,7 +22710,7 @@ packages:
     dev: false
 
   file:projects/purview-datamap.tgz:
-    resolution: {integrity: sha512-MKf154evmKFTBD68rwGXTKraZkk3566Pigr7ELV6oezp0AqzSOHm7hvkY7ClsIbUFbKjKFYthhZIJz8lJU2P2Q==, tarball: file:projects/purview-datamap.tgz}
+    resolution: {integrity: sha512-ZLXPxIbuPSARe68+RJFEo5FgddZ70pWCWjnsmVsnYO3Hkf/xxczmIW374+n7ixB+dvSvpKwayWGWcALwT7ingw==, tarball: file:projects/purview-datamap.tgz}
     name: '@rush-temp/purview-datamap'
     version: 0.0.0
     dependencies:
@@ -22721,6 +22721,8 @@ packages:
       '@types/chai': 4.3.16
       '@types/mocha': 10.0.7
       '@types/node': 18.19.39
+      '@vitest/browser': 1.6.0(playwright@1.45.1)(vitest@1.6.0)
+      '@vitest/coverage-istanbul': 1.6.0(vitest@1.6.0)
       autorest: 3.7.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -22739,18 +22741,29 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.6.0
       nyc: 17.0.0
+      playwright: 1.45.1
+      prettier: 3.3.2
       rimraf: 5.0.8
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      tshy: 1.18.0
       tslib: 2.6.3
-      typescript: 5.5.3
+      typescript: 5.4.5
+      vitest: 1.6.0(@types/node@18.19.39)(@vitest/browser@1.6.0)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
-      - bufferutil
-      - debug
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - safaridriver
+      - sass
+      - stylus
+      - sugarss
       - supports-color
-      - utf-8-validate
+      - terser
+      - webdriverio
     dev: false
 
   file:projects/purview-scanning.tgz:
