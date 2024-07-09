@@ -7369,6 +7369,13 @@ export const ExecuteDataFlowActivityTypeProperties: coreClient.CompositeMapper =
             className: "IntegrationRuntimeReference",
           },
         },
+        continuationSettings: {
+          serializedName: "continuationSettings",
+          type: {
+            name: "Composite",
+            className: "ContinuationSettingsReference",
+          },
+        },
         compute: {
           serializedName: "compute",
           type: {
@@ -7403,6 +7410,33 @@ export const ExecuteDataFlowActivityTypeProperties: coreClient.CompositeMapper =
       },
     },
   };
+
+export const ContinuationSettingsReference: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContinuationSettingsReference",
+    modelProperties: {
+      continuationTtlInMinutes: {
+        serializedName: "continuationTtlInMinutes",
+        type: {
+          name: "any",
+        },
+      },
+      idleCondition: {
+        serializedName: "idleCondition",
+        type: {
+          name: "any",
+        },
+      },
+      customizedCheckpointKey: {
+        serializedName: "customizedCheckpointKey",
+        type: {
+          name: "any",
+        },
+      },
+    },
+  },
+};
 
 export const ExecuteDataFlowActivityTypePropertiesCompute: coreClient.CompositeMapper =
   {
@@ -9415,6 +9449,13 @@ export const SqlServerLinkedService: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "SqlAlwaysEncryptedProperties",
+        },
+      },
+      credential: {
+        serializedName: "typeProperties.credential",
+        type: {
+          name: "Composite",
+          className: "CredentialReference",
         },
       },
     },
@@ -19931,6 +19972,13 @@ export const ExecuteWranglingDataflowActivity: coreClient.CompositeMapper = {
           className: "IntegrationRuntimeReference",
         },
       },
+      continuationSettings: {
+        serializedName: "typeProperties.continuationSettings",
+        type: {
+          name: "Composite",
+          className: "ContinuationSettingsReference",
+        },
+      },
       compute: {
         serializedName: "typeProperties.compute",
         type: {
@@ -21279,6 +21327,13 @@ export const SqlServerLinkedServiceTypeProperties: coreClient.CompositeMapper =
           type: {
             name: "Composite",
             className: "SqlAlwaysEncryptedProperties",
+          },
+        },
+        credential: {
+          serializedName: "credential",
+          type: {
+            name: "Composite",
+            className: "CredentialReference",
           },
         },
       },
@@ -25807,6 +25862,12 @@ export const SnowflakeExportCopyCommand: coreClient.CompositeMapper = {
           value: { type: { name: "any" } },
         },
       },
+      storageIntegration: {
+        serializedName: "storageIntegration",
+        type: {
+          name: "any",
+        },
+      },
     },
   },
 };
@@ -25887,6 +25948,12 @@ export const SnowflakeImportCopyCommand: coreClient.CompositeMapper = {
         type: {
           name: "Dictionary",
           value: { type: { name: "any" } },
+        },
+      },
+      storageIntegration: {
+        serializedName: "storageIntegration",
+        type: {
+          name: "any",
         },
       },
     },
@@ -27926,6 +27993,13 @@ export const ExecuteDataFlowActivity: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "IntegrationRuntimeReference",
+        },
+      },
+      continuationSettings: {
+        serializedName: "typeProperties.continuationSettings",
+        type: {
+          name: "Composite",
+          className: "ContinuationSettingsReference",
         },
       },
       compute: {
