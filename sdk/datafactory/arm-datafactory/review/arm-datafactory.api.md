@@ -1569,6 +1569,13 @@ export interface ConnectionStateProperties {
 export type ConnectionType = string;
 
 // @public
+export interface ContinuationSettingsReference {
+    continuationTtlInMinutes?: any;
+    customizedCheckpointKey?: any;
+    idleCondition?: any;
+}
+
+// @public
 export interface ControlActivity extends Activity {
     type: "Container" | "ExecutePipeline" | "IfCondition" | "Switch" | "ForEach" | "Wait" | "Fail" | "Until" | "Validation" | "Filter" | "SetVariable" | "AppendVariable" | "WebHook";
 }
@@ -2749,6 +2756,7 @@ export interface ExcelSource extends CopySource {
 // @public
 export interface ExecuteDataFlowActivity extends ExecutionActivity {
     compute?: ExecuteDataFlowActivityTypePropertiesCompute;
+    continuationSettings?: ContinuationSettingsReference;
     continueOnError?: any;
     dataFlow: DataFlowReference;
     integrationRuntime?: IntegrationRuntimeReference;
@@ -2762,6 +2770,7 @@ export interface ExecuteDataFlowActivity extends ExecutionActivity {
 // @public
 export interface ExecuteDataFlowActivityTypeProperties {
     compute?: ExecuteDataFlowActivityTypePropertiesCompute;
+    continuationSettings?: ContinuationSettingsReference;
     continueOnError?: any;
     dataFlow: DataFlowReference;
     integrationRuntime?: IntegrationRuntimeReference;
@@ -2836,6 +2845,7 @@ export interface ExecuteSsisPackageActivity extends ExecutionActivity {
 // @public
 export interface ExecuteWranglingDataflowActivity extends Activity {
     compute?: ExecuteDataFlowActivityTypePropertiesCompute;
+    continuationSettings?: ContinuationSettingsReference;
     continueOnError?: any;
     dataFlow: DataFlowReference;
     integrationRuntime?: IntegrationRuntimeReference;
@@ -5200,6 +5210,7 @@ export enum KnownSqlPartitionOption {
 // @public
 export enum KnownSqlServerAuthenticationType {
     SQL = "SQL",
+    UserAssignedManagedIdentity = "UserAssignedManagedIdentity",
     Windows = "Windows"
 }
 
@@ -7878,8 +7889,10 @@ export interface SftpWriteSettings extends StoreWriteSettings {
 // @public
 export interface SharePointOnlineListLinkedService extends LinkedService {
     encryptedCredential?: string;
+    servicePrincipalCredential?: SecretBaseUnion;
+    servicePrincipalCredentialType?: any;
     servicePrincipalId: any;
-    servicePrincipalKey: SecretBaseUnion;
+    servicePrincipalKey?: SecretBaseUnion;
     siteUrl: any;
     tenantId: any;
     type: "SharePointOnlineList";
@@ -7952,6 +7965,7 @@ export interface SnowflakeExportCopyCommand extends ExportSettings {
     additionalFormatOptions?: {
         [propertyName: string]: any;
     };
+    storageIntegration?: any;
     type: "SnowflakeExportCopyCommand";
 }
 
@@ -7963,6 +7977,7 @@ export interface SnowflakeImportCopyCommand extends ImportSettings {
     additionalFormatOptions?: {
         [propertyName: string]: any;
     };
+    storageIntegration?: any;
     type: "SnowflakeImportCopyCommand";
 }
 
@@ -8198,6 +8213,7 @@ export interface SqlServerLinkedService extends LinkedService {
     connectRetryCount?: any;
     connectRetryInterval?: any;
     connectTimeout?: any;
+    credential?: CredentialReference;
     database?: any;
     encrypt?: any;
     encryptedCredential?: string;
@@ -8223,6 +8239,7 @@ export interface SqlServerLinkedServiceTypeProperties extends SqlServerBaseLinke
     alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties;
     authenticationType?: SqlServerAuthenticationType;
     connectionString?: any;
+    credential?: CredentialReference;
     encryptedCredential?: string;
     password?: SecretBaseUnion;
     userName?: any;
