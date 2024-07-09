@@ -254,24 +254,29 @@ export interface SystemData {
   lastModifiedAt?: Date;
 }
 
-/** The response of a Quota list operation. */
-export interface QuotaListResult {
+/** Paged collection of Quota items */
+export interface PagedQuota {
   /** The Quota items on this page */
   value: Quota[];
   /** The link to the next page of items */
   nextLink?: string;
 }
 
-/** Describes Resource Quota properties */
-export interface QuotaProperties {
+/** Describes Resource Quota */
+export interface Quota {
+  /**
+   * The name of the quota.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: QuotaName;
+  /** Fully qualified ARM resource id */
+  id: string;
   /** The unit of usage measurement. */
   unit: string;
   /** The current usage of the resource. */
   currentValue: number;
   /** The maximum permitted usage of the resource. */
   limit: number;
-  /** The details of the quota. */
-  name: QuotaName;
 }
 
 /** The Quota Names */
@@ -647,12 +652,6 @@ export interface ResourceSku extends ProxyResource {
   properties?: ResourceSkuProperties;
 }
 
-/** Describes Resource Quota */
-export interface Quota extends ProxyResource {
-  /** The resource-specific properties for this resource. */
-  properties?: QuotaProperties;
-}
-
 /** An image version object */
 export interface ImageVersion extends ProxyResource {
   /** The resource-specific properties for this resource. */
@@ -733,9 +732,9 @@ export type ActionType = string;
 
 /** Known values of {@link ResourceSkuRestrictionsType} that the service accepts. */
 export enum KnownResourceSkuRestrictionsType {
-  /** Location */
+  /** SKU restricted by location. */
   Location = "Location",
-  /** Zone */
+  /** SKU restricted by availability zone. */
   Zone = "Zone",
 }
 
@@ -744,16 +743,16 @@ export enum KnownResourceSkuRestrictionsType {
  * {@link KnownResourceSkuRestrictionsType} can be used interchangeably with ResourceSkuRestrictionsType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Location** \
- * **Zone**
+ * **Location**: SKU restricted by location. \
+ * **Zone**: SKU restricted by availability zone.
  */
 export type ResourceSkuRestrictionsType = string;
 
 /** Known values of {@link ResourceSkuRestrictionsReasonCode} that the service accepts. */
 export enum KnownResourceSkuRestrictionsReasonCode {
-  /** QuotaId */
+  /** The restriction is due to exceeding a quota limitation. */
   QuotaId = "QuotaId",
-  /** NotAvailableForSubscription */
+  /** The restriction is not available for this subscription. */
   NotAvailableForSubscription = "NotAvailableForSubscription",
 }
 
@@ -762,8 +761,8 @@ export enum KnownResourceSkuRestrictionsReasonCode {
  * {@link KnownResourceSkuRestrictionsReasonCode} can be used interchangeably with ResourceSkuRestrictionsReasonCode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **QuotaId** \
- * **NotAvailableForSubscription**
+ * **QuotaId**: The restriction is due to exceeding a quota limitation. \
+ * **NotAvailableForSubscription**: The restriction is not available for this subscription.
  */
 export type ResourceSkuRestrictionsReasonCode = string;
 
@@ -1075,18 +1074,18 @@ export interface SkuListByLocationNextOptionalParams
 export type SkuListByLocationNextResponse = ResourceSkuListResult;
 
 /** Optional parameters. */
-export interface SubscriptionUsagesListByLocationOptionalParams
+export interface SubscriptionUsagesUsagesOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listByLocation operation. */
-export type SubscriptionUsagesListByLocationResponse = QuotaListResult;
+/** Contains response data for the usages operation. */
+export type SubscriptionUsagesUsagesResponse = PagedQuota;
 
 /** Optional parameters. */
-export interface SubscriptionUsagesListByLocationNextOptionalParams
+export interface SubscriptionUsagesUsagesNextOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listByLocationNext operation. */
-export type SubscriptionUsagesListByLocationNextResponse = QuotaListResult;
+/** Contains response data for the usagesNext operation. */
+export type SubscriptionUsagesUsagesNextResponse = PagedQuota;
 
 /** Optional parameters. */
 export interface PoolsListBySubscriptionOptionalParams
