@@ -11913,12 +11913,12 @@ packages:
     dev: false
 
   file:projects/ai-vision-face.tgz:
-    resolution: {integrity: sha512-qTGwkqjpXfTIlwIxnaUIlqQQ7eUmtsJ+UGF1RXQR6ykkpASDvnXPdlb7d2T+A0MFXs0QlizdLEKKiBxmTqSLZw==, tarball: file:projects/ai-vision-face.tgz}
+    resolution: {integrity: sha512-BavO4ti5Fy3V3SpWaveCYtPMI0p69mNaOu9+ZTKUq6j1B4xVZd98bIlNFOA4dLAElKqkYPAH1s/mUnKa728R0Q==, tarball: file:projects/ai-vision-face.tgz}
     name: '@rush-temp/ai-vision-face'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.2.0
-      '@azure/core-lro': 3.0.0-beta.1
+      '@azure/core-lro': 3.0.0
       '@microsoft/api-extractor': 7.47.0(@types/node@18.19.39)
       '@types/node': 18.19.39
       '@vitest/browser': 1.6.0(playwright@1.45.1)(vitest@1.6.0)
@@ -11931,7 +11931,7 @@ packages:
       rimraf: 5.0.8
       tshy: 1.18.0
       tslib: 2.6.3
-      typescript: 5.5.3
+      typescript: 5.4.5
       vitest: 1.6.0(@types/node@18.19.39)(@vitest/browser@1.6.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
