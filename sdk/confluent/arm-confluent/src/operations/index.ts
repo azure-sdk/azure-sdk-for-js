@@ -11,3 +11,5 @@ export * from "./organizationOperations";
 export * from "./organization";
 export * from "./validations";
 export * from "./access";
+export * from "./connector";
+export * from "./topics";

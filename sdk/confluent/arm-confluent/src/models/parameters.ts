@@ -19,6 +19,7 @@ import {
   CreateAPIKeyModel as CreateAPIKeyModelMapper,
   AccessInviteUserAccountModel as AccessInviteUserAccountModelMapper,
   AccessCreateRoleBindingRequestModel as AccessCreateRoleBindingRequestModelMapper,
+  ConnectorResource as ConnectorResourceMapper,
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -48,7 +49,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-02-13",
+    defaultValue: "2024-07-07",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -231,4 +232,20 @@ export const roleBindingId: OperationURLParameter = {
       name: "String",
     },
   },
+};
+
+export const connectorName: OperationURLParameter = {
+  parameterPath: "connectorName",
+  mapper: {
+    serializedName: "connectorName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const body8: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: ConnectorResourceMapper,
 };

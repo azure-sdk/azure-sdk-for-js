@@ -20,6 +20,8 @@ import {
   OrganizationImpl,
   ValidationsImpl,
   AccessImpl,
+  ConnectorImpl,
+  TopicsImpl,
 } from "./operations";
 import {
   MarketplaceAgreements,
@@ -27,6 +29,8 @@ import {
   Organization,
   Validations,
   Access,
+  Connector,
+  Topics,
 } from "./operationsInterfaces";
 import { ConfluentManagementClientOptionalParams } from "./models";
 
@@ -76,7 +80,7 @@ export class ConfluentManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-confluent/3.1.1`;
+    const packageDetails = `azsdk-js-arm-confluent/3.2.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -130,12 +134,14 @@ export class ConfluentManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-02-13";
+    this.apiVersion = options.apiVersion || "2024-07-07";
     this.marketplaceAgreements = new MarketplaceAgreementsImpl(this);
     this.organizationOperations = new OrganizationOperationsImpl(this);
     this.organization = new OrganizationImpl(this);
     this.validations = new ValidationsImpl(this);
     this.access = new AccessImpl(this);
+    this.connector = new ConnectorImpl(this);
+    this.topics = new TopicsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -172,4 +178,6 @@ export class ConfluentManagementClient extends coreClient.ServiceClient {
   organization: Organization;
   validations: Validations;
   access: Access;
+  connector: Connector;
+  topics: Topics;
 }

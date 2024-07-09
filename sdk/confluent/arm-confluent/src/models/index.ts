@@ -8,6 +8,15 @@
 
 import * as coreClient from "@azure/core-client";
 
+export type ConnectorServiceTypeInfoBaseUnion =
+  | ConnectorServiceTypeInfoBase
+  | AzureBlobStorageSinkConnectorServiceInfo
+  | AzureBlobStorageSourceConnectorServiceInfo;
+export type PartnerInfoBaseUnion =
+  | PartnerInfoBase
+  | KafkaAzureBlobStorageSinkConnectorInfo
+  | KafkaAzureBlobStorageSourceConnectorInfo;
+
 /** Response of a list operation. */
 export interface ConfluentAgreementResourceListResponse {
   /** Results of a list operation. */
@@ -806,6 +815,174 @@ export interface APIKeyOwnerEntity {
   kind?: string;
 }
 
+/** Connector Info Base properties */
+export interface ConnectorInfoBase {
+  /** Connector Type */
+  connectorType?: ConnectorType;
+  /** Connector Class */
+  connectorClass?: ConnectorClass;
+  /** Connector Name */
+  connectorName?: string;
+  /** Connector Id */
+  connectorId?: string;
+  /** Connector Status */
+  connectorState?: ConnectorStatus;
+}
+
+/** The connector service type info */
+export interface ConnectorServiceTypeInfoBase {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  connectorServiceType:
+    | "AzureBlobStorageSinkConnector"
+    | "AzureBlobStorageSourceConnector";
+}
+
+/** The partner info base */
+export interface PartnerInfoBase {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  partnerConnectorType:
+    | "KafkaAzureBlobStorageSink"
+    | "KafkaAzureBlobStorageSource";
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /**
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
+}
+
+/** Result of GET request to list connectors in the cluster of a confluent organization */
+export interface ListConnectorsSuccessResponse {
+  /** List of connectors in a cluster of a confluent organization */
+  value?: ConnectorResource[];
+  /** URL to get the next set of connectors records if there are any. */
+  nextLink?: string;
+}
+
+/** Result of GET request to list topics in the cluster of a confluent organization */
+export interface ListTopicsSuccessResponse {
+  /** List of topics in a cluster of a confluent organization */
+  value?: TopicRecord[];
+  /** URL to get the next set of topics records if there are any. */
+  nextLink?: string;
+}
+
+/** Details of topic record */
+export interface TopicRecord {
+  /**
+   * The ARM Resource Id of the Topic
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * Display name of the topic
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /** Type of topic */
+  kind?: string;
+  /** Topic Id returned by Confluent */
+  topicId?: string;
+  /** Metadata of the record */
+  metadata?: TopicMetadataEntity;
+  /** Partition Specification of the topic */
+  partitions?: TopicsRelatedLink;
+  /** Config Specification of the topic */
+  configs?: TopicsRelatedLink;
+  /** Partition Reassignment Specification of the topic */
+  partitionsReassignments?: TopicsRelatedLink;
+  /** Partition count of the topic */
+  partitionsCount?: string;
+  /** Replication factor of the topic */
+  replicationFactor?: string;
+}
+
+/** Metadata of the data record */
+export interface TopicMetadataEntity {
+  /** Self lookup url */
+  self?: string;
+  /** Resource name of the record */
+  resourceName?: string;
+}
+
+/** Partition Config spec of the topic record */
+export interface TopicsRelatedLink {
+  /** Relationship of the topic */
+  related?: string;
+}
+
 /** Metadata of the list */
 export interface SCConfluentListMetadata {
   /** First page of the list */
@@ -818,6 +995,105 @@ export interface SCConfluentListMetadata {
   next?: string;
   /** Total size of the list */
   totalSize?: number;
+}
+
+/** The authentication info when auth_type is azureBlobStorageSinkConnector */
+export interface AzureBlobStorageSinkConnectorServiceInfo
+  extends ConnectorServiceTypeInfoBase {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  connectorServiceType: "AzureBlobStorageSinkConnector";
+  /** Azure Blob Storage Account Name */
+  storageAccountName?: string;
+  /** Azure Blob Storage Account Key */
+  storageAccountKey?: string;
+  /** Azure Blob Storage Account Container Name */
+  storageContainerName?: string;
+}
+
+/** The connector service type is AzureBlobStorageSourceConnector */
+export interface AzureBlobStorageSourceConnectorServiceInfo
+  extends ConnectorServiceTypeInfoBase {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  connectorServiceType: "AzureBlobStorageSourceConnector";
+  /** Azure Blob Storage Account Name */
+  storageAccountName?: string;
+  /** Azure Blob Storage Account Key */
+  storageAccountKey?: string;
+  /** Azure Blob Storage Account Container Name */
+  storageContainerName?: string;
+}
+
+/** The partner connector type is KafkaAzureBlobStorageSink */
+export interface KafkaAzureBlobStorageSinkConnectorInfo
+  extends PartnerInfoBase {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  partnerConnectorType: "KafkaAzureBlobStorageSink";
+  /** Kafka Auth Type */
+  authType?: AuthType;
+  /** Kafka Input Data Format Type */
+  inputFormat?: DataFormatType;
+  /** Kafka Output Data Format Type */
+  outputFormat?: DataFormatType;
+  /** Kafka API Key */
+  apiKey?: string;
+  /** Kafka API Key Secret */
+  apiSecret?: string;
+  /** Kafka Service Account Id */
+  serviceAccountId?: string;
+  /** Kafka topics list */
+  topics?: string[];
+  /** Kafka topics directory */
+  topicsDir?: string;
+  /** Flush size */
+  flushSize?: string;
+  /** Maximum Tasks */
+  maxTasks?: string;
+  /** Time Interval */
+  timeInterval?: string;
+}
+
+/** The partner connector type is KafkaAzureBlobStorageSource */
+export interface KafkaAzureBlobStorageSourceConnectorInfo
+  extends PartnerInfoBase {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  partnerConnectorType: "KafkaAzureBlobStorageSource";
+  /** Kafka Auth Type */
+  authType?: AuthType;
+  /** Kafka Input Data Format Type */
+  inputFormat?: DataFormatType;
+  /** Kafka Output Data Format Type */
+  outputFormat?: DataFormatType;
+  /** Kafka API Key */
+  apiKey?: string;
+  /** Kafka API Secret */
+  apiSecret?: string;
+  /** Kafka Service Account Id */
+  serviceAccountId?: string;
+  /** Kafka topics Regex pattern */
+  topicRegex?: string;
+  /** Kafka topics directory */
+  topicsDir?: string;
+  /** Maximum Tasks */
+  maxTasks?: string;
+}
+
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
+
+/** Details of connector record */
+export interface ConnectorResource extends ProxyResource {
+  /** Connector Info Base */
+  connectorBasicInfo?: ConnectorInfoBase;
+  /** Connector Service type info base properties. */
+  connectorServiceTypeInfo?: ConnectorServiceTypeInfoBaseUnion;
+  /** The connection information consumed by applications. */
+  partnerConnectorInfo?: PartnerInfoBaseUnion;
+}
+
+/** Defines headers for Connector_delete operation. */
+export interface ConnectorDeleteHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 
 /** Known values of {@link CreatedByType} that the service accepts. */
@@ -924,6 +1200,147 @@ export enum KnownSaaSOfferStatus {
  * **Updating**
  */
 export type SaaSOfferStatus = string;
+
+/** Known values of {@link ConnectorType} that the service accepts. */
+export enum KnownConnectorType {
+  /** Sink */
+  Sink = "SINK",
+  /** Source */
+  Source = "SOURCE",
+}
+
+/**
+ * Defines values for ConnectorType. \
+ * {@link KnownConnectorType} can be used interchangeably with ConnectorType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SINK** \
+ * **SOURCE**
+ */
+export type ConnectorType = string;
+
+/** Known values of {@link ConnectorClass} that the service accepts. */
+export enum KnownConnectorClass {
+  /** Azureblobsource */
+  Azureblobsource = "AZUREBLOBSOURCE",
+  /** Azureblobsink */
+  Azureblobsink = "AZUREBLOBSINK",
+}
+
+/**
+ * Defines values for ConnectorClass. \
+ * {@link KnownConnectorClass} can be used interchangeably with ConnectorClass,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AZUREBLOBSOURCE** \
+ * **AZUREBLOBSINK**
+ */
+export type ConnectorClass = string;
+
+/** Known values of {@link ConnectorStatus} that the service accepts. */
+export enum KnownConnectorStatus {
+  /** Provisioning */
+  Provisioning = "PROVISIONING",
+  /** Running */
+  Running = "RUNNING",
+  /** Paused */
+  Paused = "PAUSED",
+  /** Failed */
+  Failed = "FAILED",
+}
+
+/**
+ * Defines values for ConnectorStatus. \
+ * {@link KnownConnectorStatus} can be used interchangeably with ConnectorStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **PROVISIONING** \
+ * **RUNNING** \
+ * **PAUSED** \
+ * **FAILED**
+ */
+export type ConnectorStatus = string;
+
+/** Known values of {@link ConnectorServiceType} that the service accepts. */
+export enum KnownConnectorServiceType {
+  /** AzureBlobStorageSinkConnector */
+  AzureBlobStorageSinkConnector = "AzureBlobStorageSinkConnector",
+  /** AzureBlobStorageSourceConnector */
+  AzureBlobStorageSourceConnector = "AzureBlobStorageSourceConnector",
+}
+
+/**
+ * Defines values for ConnectorServiceType. \
+ * {@link KnownConnectorServiceType} can be used interchangeably with ConnectorServiceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AzureBlobStorageSinkConnector** \
+ * **AzureBlobStorageSourceConnector**
+ */
+export type ConnectorServiceType = string;
+
+/** Known values of {@link PartnerConnectorType} that the service accepts. */
+export enum KnownPartnerConnectorType {
+  /** KafkaAzureBlobStorageSource */
+  KafkaAzureBlobStorageSource = "KafkaAzureBlobStorageSource",
+  /** KafkaAzureBlobStorageSink */
+  KafkaAzureBlobStorageSink = "KafkaAzureBlobStorageSink",
+}
+
+/**
+ * Defines values for PartnerConnectorType. \
+ * {@link KnownPartnerConnectorType} can be used interchangeably with PartnerConnectorType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **KafkaAzureBlobStorageSource** \
+ * **KafkaAzureBlobStorageSink**
+ */
+export type PartnerConnectorType = string;
+
+/** Known values of {@link AuthType} that the service accepts. */
+export enum KnownAuthType {
+  /** ServiceAccount */
+  ServiceAccount = "SERVICE_ACCOUNT",
+  /** KafkaAPIKEY */
+  KafkaAPIKEY = "KAFKA_API_KEY",
+}
+
+/**
+ * Defines values for AuthType. \
+ * {@link KnownAuthType} can be used interchangeably with AuthType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SERVICE_ACCOUNT** \
+ * **KAFKA_API_KEY**
+ */
+export type AuthType = string;
+
+/** Known values of {@link DataFormatType} that the service accepts. */
+export enum KnownDataFormatType {
+  /** Avro */
+  Avro = "AVRO",
+  /** Json */
+  Json = "JSON",
+  /** String */
+  String = "STRING",
+  /** Bytes */
+  Bytes = "BYTES",
+  /** Protobuf */
+  Protobuf = "PROTOBUF",
+}
+
+/**
+ * Defines values for DataFormatType. \
+ * {@link KnownDataFormatType} can be used interchangeably with DataFormatType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AVRO** \
+ * **JSON** \
+ * **STRING** \
+ * **BYTES** \
+ * **PROTOBUF**
+ */
+export type DataFormatType = string;
 
 /** Optional parameters. */
 export interface MarketplaceAgreementsListOptionalParams
@@ -1228,6 +1645,72 @@ export interface AccessListRoleBindingNameListOptionalParams
 /** Contains response data for the listRoleBindingNameList operation. */
 export type AccessListRoleBindingNameListResponse =
   AccessRoleBindingNameListSuccessResponse;
+
+/** Optional parameters. */
+export interface ConnectorGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ConnectorGetResponse = ConnectorResource;
+
+/** Optional parameters. */
+export interface ConnectorCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Confluent Connector resource model */
+  body?: ConnectorResource;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ConnectorCreateOrUpdateResponse = ConnectorResource;
+
+/** Optional parameters. */
+export interface ConnectorDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type ConnectorDeleteResponse = ConnectorDeleteHeaders;
+
+/** Optional parameters. */
+export interface ConnectorListOptionalParams
+  extends coreClient.OperationOptions {
+  /** Pagination size */
+  pageSize?: number;
+  /** An opaque pagination token to fetch the next set of records */
+  pageToken?: string;
+}
+
+/** Contains response data for the list operation. */
+export type ConnectorListResponse = ListConnectorsSuccessResponse;
+
+/** Optional parameters. */
+export interface ConnectorListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ConnectorListNextResponse = ListConnectorsSuccessResponse;
+
+/** Optional parameters. */
+export interface TopicsListOptionalParams extends coreClient.OperationOptions {
+  /** Pagination size */
+  pageSize?: number;
+  /** An opaque pagination token to fetch the next set of records */
+  pageToken?: string;
+}
+
+/** Contains response data for the list operation. */
+export type TopicsListResponse = ListTopicsSuccessResponse;
+
+/** Optional parameters. */
+export interface TopicsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type TopicsListNextResponse = ListTopicsSuccessResponse;
 
 /** Optional parameters. */
 export interface ConfluentManagementClientOptionalParams

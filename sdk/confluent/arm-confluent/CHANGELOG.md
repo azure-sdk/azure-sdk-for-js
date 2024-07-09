@@ -1,15 +1,62 @@
 # Release History
+    
+## 3.2.0 (2024-07-09)
+    
+**Features**
 
-## 3.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group Connector
+  - Added operation group Topics
+  - Added Interface AzureBlobStorageSinkConnectorServiceInfo
+  - Added Interface AzureBlobStorageSourceConnectorServiceInfo
+  - Added Interface ConnectorCreateOrUpdateOptionalParams
+  - Added Interface ConnectorDeleteHeaders
+  - Added Interface ConnectorDeleteOptionalParams
+  - Added Interface ConnectorGetOptionalParams
+  - Added Interface ConnectorInfoBase
+  - Added Interface ConnectorListNextOptionalParams
+  - Added Interface ConnectorListOptionalParams
+  - Added Interface ConnectorResource
+  - Added Interface ConnectorServiceTypeInfoBase
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface KafkaAzureBlobStorageSinkConnectorInfo
+  - Added Interface KafkaAzureBlobStorageSourceConnectorInfo
+  - Added Interface ListConnectorsSuccessResponse
+  - Added Interface ListTopicsSuccessResponse
+  - Added Interface PartnerInfoBase
+  - Added Interface ProxyResource
+  - Added Interface Resource
+  - Added Interface TopicMetadataEntity
+  - Added Interface TopicRecord
+  - Added Interface TopicsListNextOptionalParams
+  - Added Interface TopicsListOptionalParams
+  - Added Interface TopicsRelatedLink
+  - Added Type Alias AuthType
+  - Added Type Alias ConnectorClass
+  - Added Type Alias ConnectorCreateOrUpdateResponse
+  - Added Type Alias ConnectorDeleteResponse
+  - Added Type Alias ConnectorGetResponse
+  - Added Type Alias ConnectorListNextResponse
+  - Added Type Alias ConnectorListResponse
+  - Added Type Alias ConnectorServiceType
+  - Added Type Alias ConnectorServiceTypeInfoBaseUnion
+  - Added Type Alias ConnectorStatus
+  - Added Type Alias ConnectorType
+  - Added Type Alias DataFormatType
+  - Added Type Alias PartnerConnectorType
+  - Added Type Alias PartnerInfoBaseUnion
+  - Added Type Alias TopicsListNextResponse
+  - Added Type Alias TopicsListResponse
+  - Added Enum KnownAuthType
+  - Added Enum KnownConnectorClass
+  - Added Enum KnownConnectorServiceType
+  - Added Enum KnownConnectorStatus
+  - Added Enum KnownConnectorType
+  - Added Enum KnownDataFormatType
+  - Added Enum KnownPartnerConnectorType
+    
+    
 ## 3.1.0 (2024-03-13)
     
 **Features**

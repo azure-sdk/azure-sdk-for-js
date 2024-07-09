@@ -2277,6 +2277,392 @@ export const APIKeyOwnerEntity: coreClient.CompositeMapper = {
   },
 };
 
+export const ConnectorInfoBase: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ConnectorInfoBase",
+    modelProperties: {
+      connectorType: {
+        serializedName: "connectorType",
+        type: {
+          name: "String",
+        },
+      },
+      connectorClass: {
+        serializedName: "connectorClass",
+        type: {
+          name: "String",
+        },
+      },
+      connectorName: {
+        serializedName: "connectorName",
+        type: {
+          name: "String",
+        },
+      },
+      connectorId: {
+        serializedName: "connectorId",
+        type: {
+          name: "String",
+        },
+      },
+      connectorState: {
+        serializedName: "connectorState",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ConnectorServiceTypeInfoBase: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ConnectorServiceTypeInfoBase",
+    uberParent: "ConnectorServiceTypeInfoBase",
+    polymorphicDiscriminator: {
+      serializedName: "connectorServiceType",
+      clientName: "connectorServiceType",
+    },
+    modelProperties: {
+      connectorServiceType: {
+        serializedName: "connectorServiceType",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const PartnerInfoBase: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PartnerInfoBase",
+    uberParent: "PartnerInfoBase",
+    polymorphicDiscriminator: {
+      serializedName: "partnerConnectorType",
+      clientName: "partnerConnectorType",
+    },
+    modelProperties: {
+      partnerConnectorType: {
+        serializedName: "partnerConnectorType",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const Resource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Resource",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData",
+        },
+      },
+    },
+  },
+};
+
+export const ErrorResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorResponse",
+    modelProperties: {
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorDetail",
+        },
+      },
+    },
+  },
+};
+
+export const ErrorDetail: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorDetail",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      message: {
+        serializedName: "message",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      target: {
+        serializedName: "target",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      details: {
+        serializedName: "details",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorDetail",
+            },
+          },
+        },
+      },
+      additionalInfo: {
+        serializedName: "additionalInfo",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorAdditionalInfo",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorAdditionalInfo",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      info: {
+        serializedName: "info",
+        readOnly: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } },
+        },
+      },
+    },
+  },
+};
+
+export const ListConnectorsSuccessResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ListConnectorsSuccessResponse",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ConnectorResource",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ListTopicsSuccessResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ListTopicsSuccessResponse",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "TopicRecord",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const TopicRecord: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TopicRecord",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      kind: {
+        serializedName: "properties.kind",
+        type: {
+          name: "String",
+        },
+      },
+      topicId: {
+        serializedName: "properties.topicId",
+        type: {
+          name: "String",
+        },
+      },
+      metadata: {
+        serializedName: "properties.metadata",
+        type: {
+          name: "Composite",
+          className: "TopicMetadataEntity",
+        },
+      },
+      partitions: {
+        serializedName: "properties.partitions",
+        type: {
+          name: "Composite",
+          className: "TopicsRelatedLink",
+        },
+      },
+      configs: {
+        serializedName: "properties.configs",
+        type: {
+          name: "Composite",
+          className: "TopicsRelatedLink",
+        },
+      },
+      partitionsReassignments: {
+        serializedName: "properties.partitionsReassignments",
+        type: {
+          name: "Composite",
+          className: "TopicsRelatedLink",
+        },
+      },
+      partitionsCount: {
+        serializedName: "properties.partitionsCount",
+        type: {
+          name: "String",
+        },
+      },
+      replicationFactor: {
+        serializedName: "properties.replicationFactor",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const TopicMetadataEntity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TopicMetadataEntity",
+    modelProperties: {
+      self: {
+        serializedName: "self",
+        type: {
+          name: "String",
+        },
+      },
+      resourceName: {
+        serializedName: "resourceName",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const TopicsRelatedLink: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TopicsRelatedLink",
+    modelProperties: {
+      related: {
+        serializedName: "related",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const SCConfluentListMetadata: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -2314,4 +2700,292 @@ export const SCConfluentListMetadata: coreClient.CompositeMapper = {
       },
     },
   },
+};
+
+export const AzureBlobStorageSinkConnectorServiceInfo: coreClient.CompositeMapper =
+  {
+    serializedName: "AzureBlobStorageSinkConnector",
+    type: {
+      name: "Composite",
+      className: "AzureBlobStorageSinkConnectorServiceInfo",
+      uberParent: "ConnectorServiceTypeInfoBase",
+      polymorphicDiscriminator:
+        ConnectorServiceTypeInfoBase.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...ConnectorServiceTypeInfoBase.type.modelProperties,
+        storageAccountName: {
+          serializedName: "storageAccountName",
+          type: {
+            name: "String",
+          },
+        },
+        storageAccountKey: {
+          serializedName: "storageAccountKey",
+          type: {
+            name: "String",
+          },
+        },
+        storageContainerName: {
+          serializedName: "storageContainerName",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const AzureBlobStorageSourceConnectorServiceInfo: coreClient.CompositeMapper =
+  {
+    serializedName: "AzureBlobStorageSourceConnector",
+    type: {
+      name: "Composite",
+      className: "AzureBlobStorageSourceConnectorServiceInfo",
+      uberParent: "ConnectorServiceTypeInfoBase",
+      polymorphicDiscriminator:
+        ConnectorServiceTypeInfoBase.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...ConnectorServiceTypeInfoBase.type.modelProperties,
+        storageAccountName: {
+          serializedName: "storageAccountName",
+          type: {
+            name: "String",
+          },
+        },
+        storageAccountKey: {
+          serializedName: "storageAccountKey",
+          type: {
+            name: "String",
+          },
+        },
+        storageContainerName: {
+          serializedName: "storageContainerName",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const KafkaAzureBlobStorageSinkConnectorInfo: coreClient.CompositeMapper =
+  {
+    serializedName: "KafkaAzureBlobStorageSink",
+    type: {
+      name: "Composite",
+      className: "KafkaAzureBlobStorageSinkConnectorInfo",
+      uberParent: "PartnerInfoBase",
+      polymorphicDiscriminator: PartnerInfoBase.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...PartnerInfoBase.type.modelProperties,
+        authType: {
+          serializedName: "authType",
+          type: {
+            name: "String",
+          },
+        },
+        inputFormat: {
+          serializedName: "inputFormat",
+          type: {
+            name: "String",
+          },
+        },
+        outputFormat: {
+          serializedName: "outputFormat",
+          type: {
+            name: "String",
+          },
+        },
+        apiKey: {
+          serializedName: "apiKey",
+          type: {
+            name: "String",
+          },
+        },
+        apiSecret: {
+          serializedName: "apiSecret",
+          type: {
+            name: "String",
+          },
+        },
+        serviceAccountId: {
+          serializedName: "serviceAccountId",
+          type: {
+            name: "String",
+          },
+        },
+        topics: {
+          serializedName: "topics",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "String",
+              },
+            },
+          },
+        },
+        topicsDir: {
+          serializedName: "topicsDir",
+          type: {
+            name: "String",
+          },
+        },
+        flushSize: {
+          serializedName: "flushSize",
+          type: {
+            name: "String",
+          },
+        },
+        maxTasks: {
+          serializedName: "maxTasks",
+          type: {
+            name: "String",
+          },
+        },
+        timeInterval: {
+          serializedName: "timeInterval",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const KafkaAzureBlobStorageSourceConnectorInfo: coreClient.CompositeMapper =
+  {
+    serializedName: "KafkaAzureBlobStorageSource",
+    type: {
+      name: "Composite",
+      className: "KafkaAzureBlobStorageSourceConnectorInfo",
+      uberParent: "PartnerInfoBase",
+      polymorphicDiscriminator: PartnerInfoBase.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...PartnerInfoBase.type.modelProperties,
+        authType: {
+          serializedName: "authType",
+          type: {
+            name: "String",
+          },
+        },
+        inputFormat: {
+          serializedName: "inputFormat",
+          type: {
+            name: "String",
+          },
+        },
+        outputFormat: {
+          serializedName: "outputFormat",
+          type: {
+            name: "String",
+          },
+        },
+        apiKey: {
+          serializedName: "apiKey",
+          type: {
+            name: "String",
+          },
+        },
+        apiSecret: {
+          serializedName: "apiSecret",
+          type: {
+            name: "String",
+          },
+        },
+        serviceAccountId: {
+          serializedName: "serviceAccountId",
+          type: {
+            name: "String",
+          },
+        },
+        topicRegex: {
+          serializedName: "topicRegex",
+          type: {
+            name: "String",
+          },
+        },
+        topicsDir: {
+          serializedName: "topicsDir",
+          type: {
+            name: "String",
+          },
+        },
+        maxTasks: {
+          serializedName: "maxTasks",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const ProxyResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ProxyResource",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+    },
+  },
+};
+
+export const ConnectorResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ConnectorResource",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      connectorBasicInfo: {
+        serializedName: "properties.connectorBasicInfo",
+        type: {
+          name: "Composite",
+          className: "ConnectorInfoBase",
+        },
+      },
+      connectorServiceTypeInfo: {
+        serializedName: "properties.connectorServiceTypeInfo",
+        type: {
+          name: "Composite",
+          className: "ConnectorServiceTypeInfoBase",
+        },
+      },
+      partnerConnectorInfo: {
+        serializedName: "properties.partnerConnectorInfo",
+        type: {
+          name: "Composite",
+          className: "PartnerInfoBase",
+        },
+      },
+    },
+  },
+};
+
+export const ConnectorDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ConnectorDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export let discriminators = {
+  ConnectorServiceTypeInfoBase: ConnectorServiceTypeInfoBase,
+  PartnerInfoBase: PartnerInfoBase,
+  "ConnectorServiceTypeInfoBase.AzureBlobStorageSinkConnector":
+    AzureBlobStorageSinkConnectorServiceInfo,
+  "ConnectorServiceTypeInfoBase.AzureBlobStorageSourceConnector":
+    AzureBlobStorageSourceConnectorServiceInfo,
+  "PartnerInfoBase.KafkaAzureBlobStorageSink":
+    KafkaAzureBlobStorageSinkConnectorInfo,
+  "PartnerInfoBase.KafkaAzureBlobStorageSource":
+    KafkaAzureBlobStorageSourceConnectorInfo,
 };

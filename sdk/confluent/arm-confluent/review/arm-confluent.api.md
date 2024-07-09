@@ -196,6 +196,25 @@ export interface APIKeySpecEntity {
 }
 
 // @public
+export type AuthType = string;
+
+// @public
+export interface AzureBlobStorageSinkConnectorServiceInfo extends ConnectorServiceTypeInfoBase {
+    connectorServiceType: "AzureBlobStorageSinkConnector";
+    storageAccountKey?: string;
+    storageAccountName?: string;
+    storageContainerName?: string;
+}
+
+// @public
+export interface AzureBlobStorageSourceConnectorServiceInfo extends ConnectorServiceTypeInfoBase {
+    connectorServiceType: "AzureBlobStorageSourceConnector";
+    storageAccountKey?: string;
+    storageAccountName?: string;
+    storageContainerName?: string;
+}
+
+// @public
 export interface ClusterByokEntity {
     id?: string;
     related?: string;
@@ -297,6 +316,8 @@ export class ConfluentManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     apiVersion: string;
     // (undocumented)
+    connector: Connector;
+    // (undocumented)
     marketplaceAgreements: MarketplaceAgreements;
     // (undocumented)
     organization: Organization;
@@ -304,6 +325,8 @@ export class ConfluentManagementClient extends coreClient.ServiceClient {
     organizationOperations: OrganizationOperations;
     // (undocumented)
     subscriptionId?: string;
+    // (undocumented)
+    topics: Topics;
     // (undocumented)
     validations: Validations;
 }
@@ -316,6 +339,96 @@ export interface ConfluentManagementClientOptionalParams extends coreClient.Serv
 }
 
 // @public
+export interface Connector {
+    beginDelete(resourceGroupName: string, organizationName: string, environmentId: string, clusterId: string, connectorName: string, options?: ConnectorDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ConnectorDeleteResponse>, ConnectorDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, organizationName: string, environmentId: string, clusterId: string, connectorName: string, options?: ConnectorDeleteOptionalParams): Promise<ConnectorDeleteResponse>;
+    createOrUpdate(resourceGroupName: string, organizationName: string, environmentId: string, clusterId: string, connectorName: string, options?: ConnectorCreateOrUpdateOptionalParams): Promise<ConnectorCreateOrUpdateResponse>;
+    get(resourceGroupName: string, organizationName: string, environmentId: string, clusterId: string, connectorName: string, options?: ConnectorGetOptionalParams): Promise<ConnectorGetResponse>;
+    list(resourceGroupName: string, organizationName: string, environmentId: string, clusterId: string, options?: ConnectorListOptionalParams): PagedAsyncIterableIterator<ConnectorResource>;
+}
+
+// @public
+export type ConnectorClass = string;
+
+// @public
+export interface ConnectorCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    body?: ConnectorResource;
+}
+
+// @public
+export type ConnectorCreateOrUpdateResponse = ConnectorResource;
+
+// @public
+export interface ConnectorDeleteHeaders {
+    location?: string;
+}
+
+// @public
+export interface ConnectorDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ConnectorDeleteResponse = ConnectorDeleteHeaders;
+
+// @public
+export interface ConnectorGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ConnectorGetResponse = ConnectorResource;
+
+// @public
+export interface ConnectorInfoBase {
+    connectorClass?: ConnectorClass;
+    connectorId?: string;
+    connectorName?: string;
+    connectorState?: ConnectorStatus;
+    connectorType?: ConnectorType;
+}
+
+// @public
+export interface ConnectorListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ConnectorListNextResponse = ListConnectorsSuccessResponse;
+
+// @public
+export interface ConnectorListOptionalParams extends coreClient.OperationOptions {
+    pageSize?: number;
+    pageToken?: string;
+}
+
+// @public
+export type ConnectorListResponse = ListConnectorsSuccessResponse;
+
+// @public
+export interface ConnectorResource extends ProxyResource {
+    connectorBasicInfo?: ConnectorInfoBase;
+    connectorServiceTypeInfo?: ConnectorServiceTypeInfoBaseUnion;
+    partnerConnectorInfo?: PartnerInfoBaseUnion;
+}
+
+// @public
+export type ConnectorServiceType = string;
+
+// @public
+export interface ConnectorServiceTypeInfoBase {
+    connectorServiceType: "AzureBlobStorageSinkConnector" | "AzureBlobStorageSourceConnector";
+}
+
+// @public (undocumented)
+export type ConnectorServiceTypeInfoBaseUnion = ConnectorServiceTypeInfoBase | AzureBlobStorageSinkConnectorServiceInfo | AzureBlobStorageSourceConnectorServiceInfo;
+
+// @public
+export type ConnectorStatus = string;
+
+// @public
+export type ConnectorType = string;
+
+// @public
 export interface CreateAPIKeyModel {
     description?: string;
     name?: string;
@@ -325,11 +438,34 @@ export interface CreateAPIKeyModel {
 export type CreatedByType = string;
 
 // @public
+export type DataFormatType = string;
+
+// @public
 export interface EnvironmentRecord {
     displayName?: string;
     id?: string;
     kind?: string;
     metadata?: MetadataEntity;
+}
+
+// @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
 }
 
 // @public
@@ -362,11 +498,88 @@ export interface InvitationRecord {
 }
 
 // @public
+export interface KafkaAzureBlobStorageSinkConnectorInfo extends PartnerInfoBase {
+    apiKey?: string;
+    apiSecret?: string;
+    authType?: AuthType;
+    flushSize?: string;
+    inputFormat?: DataFormatType;
+    maxTasks?: string;
+    outputFormat?: DataFormatType;
+    partnerConnectorType: "KafkaAzureBlobStorageSink";
+    serviceAccountId?: string;
+    timeInterval?: string;
+    topics?: string[];
+    topicsDir?: string;
+}
+
+// @public
+export interface KafkaAzureBlobStorageSourceConnectorInfo extends PartnerInfoBase {
+    apiKey?: string;
+    apiSecret?: string;
+    authType?: AuthType;
+    inputFormat?: DataFormatType;
+    maxTasks?: string;
+    outputFormat?: DataFormatType;
+    partnerConnectorType: "KafkaAzureBlobStorageSource";
+    serviceAccountId?: string;
+    topicRegex?: string;
+    topicsDir?: string;
+}
+
+// @public
+export enum KnownAuthType {
+    KafkaAPIKEY = "KAFKA_API_KEY",
+    ServiceAccount = "SERVICE_ACCOUNT"
+}
+
+// @public
+export enum KnownConnectorClass {
+    Azureblobsink = "AZUREBLOBSINK",
+    Azureblobsource = "AZUREBLOBSOURCE"
+}
+
+// @public
+export enum KnownConnectorServiceType {
+    AzureBlobStorageSinkConnector = "AzureBlobStorageSinkConnector",
+    AzureBlobStorageSourceConnector = "AzureBlobStorageSourceConnector"
+}
+
+// @public
+export enum KnownConnectorStatus {
+    Failed = "FAILED",
+    Paused = "PAUSED",
+    Provisioning = "PROVISIONING",
+    Running = "RUNNING"
+}
+
+// @public
+export enum KnownConnectorType {
+    Sink = "SINK",
+    Source = "SOURCE"
+}
+
+// @public
 export enum KnownCreatedByType {
     Application = "Application",
     Key = "Key",
     ManagedIdentity = "ManagedIdentity",
     User = "User"
+}
+
+// @public
+export enum KnownDataFormatType {
+    Avro = "AVRO",
+    Bytes = "BYTES",
+    Json = "JSON",
+    Protobuf = "PROTOBUF",
+    String = "STRING"
+}
+
+// @public
+export enum KnownPartnerConnectorType {
+    KafkaAzureBlobStorageSink = "KafkaAzureBlobStorageSink",
+    KafkaAzureBlobStorageSource = "KafkaAzureBlobStorageSource"
 }
 
 // @public
@@ -415,6 +628,12 @@ export interface ListClustersSuccessResponse {
 }
 
 // @public
+export interface ListConnectorsSuccessResponse {
+    nextLink?: string;
+    value?: ConnectorResource[];
+}
+
+// @public
 export interface ListRegionsSuccessResponse {
     data?: RegionRecord[];
 }
@@ -423,6 +642,12 @@ export interface ListRegionsSuccessResponse {
 export interface ListSchemaRegistryClustersResponse {
     nextLink?: string;
     value?: SchemaRegistryClusterRecord[];
+}
+
+// @public
+export interface ListTopicsSuccessResponse {
+    nextLink?: string;
+    value?: TopicRecord[];
 }
 
 // @public
@@ -723,7 +948,22 @@ export interface OrganizationUpdateOptionalParams extends coreClient.OperationOp
 export type OrganizationUpdateResponse = OrganizationResource;
 
 // @public
+export type PartnerConnectorType = string;
+
+// @public
+export interface PartnerInfoBase {
+    partnerConnectorType: "KafkaAzureBlobStorageSink" | "KafkaAzureBlobStorageSource";
+}
+
+// @public (undocumented)
+export type PartnerInfoBaseUnion = PartnerInfoBase | KafkaAzureBlobStorageSinkConnectorInfo | KafkaAzureBlobStorageSourceConnectorInfo;
+
+// @public
 export type ProvisionState = string;
+
+// @public
+export interface ProxyResource extends Resource {
+}
 
 // @public
 export interface RegionRecord {
@@ -740,6 +980,14 @@ export interface RegionSpecEntity {
     // (undocumented)
     packages?: string[];
     regionName?: string;
+}
+
+// @public
+export interface Resource {
+    readonly id?: string;
+    readonly name?: string;
+    readonly systemData?: SystemData;
+    readonly type?: string;
 }
 
 // @public
@@ -875,6 +1123,53 @@ export interface SystemData {
     lastModifiedAt?: Date;
     lastModifiedBy?: string;
     lastModifiedByType?: CreatedByType;
+}
+
+// @public
+export interface TopicMetadataEntity {
+    resourceName?: string;
+    self?: string;
+}
+
+// @public
+export interface TopicRecord {
+    configs?: TopicsRelatedLink;
+    readonly id?: string;
+    kind?: string;
+    metadata?: TopicMetadataEntity;
+    readonly name?: string;
+    partitions?: TopicsRelatedLink;
+    partitionsCount?: string;
+    partitionsReassignments?: TopicsRelatedLink;
+    replicationFactor?: string;
+    topicId?: string;
+    readonly type?: string;
+}
+
+// @public
+export interface Topics {
+    list(resourceGroupName: string, organizationName: string, environmentId: string, clusterId: string, options?: TopicsListOptionalParams): PagedAsyncIterableIterator<TopicRecord>;
+}
+
+// @public
+export interface TopicsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TopicsListNextResponse = ListTopicsSuccessResponse;
+
+// @public
+export interface TopicsListOptionalParams extends coreClient.OperationOptions {
+    pageSize?: number;
+    pageToken?: string;
+}
+
+// @public
+export type TopicsListResponse = ListTopicsSuccessResponse;
+
+// @public
+export interface TopicsRelatedLink {
+    related?: string;
 }
 
 // @public
