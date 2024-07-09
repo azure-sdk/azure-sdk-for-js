@@ -1306,6 +1306,21 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/arm-network@33.2.0:
+    resolution: {integrity: sha512-LLwQv+kZbbushJADrjEIlH6exnFxId4jICV9ol84IJ7aRC67qjKLSi92eMXY+ZWyPpzZWZZqMWJBMD2lDGxtkg==}
+    engines: {node: '>=18.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.7.2
+      '@azure/core-client': 1.9.2
+      '@azure/core-lro': 2.7.2
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': 1.16.1
+      tslib: 2.6.3
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/arm-recoveryservices@5.4.0:
     resolution: {integrity: sha512-+BsxHcFzJH28hMAsyI+bbAYVw79d12WagttmFvoidXXq76/5KpNCA2NWTGSV0AlJ+QaCF6+7I7P91PRYnJsr+w==}
     engines: {node: '>=14.0.0'}
@@ -10339,6 +10354,37 @@ packages:
       yn: 3.1.1
     dev: false
 
+  /ts-node@10.9.2(@types/node@18.19.39)(typescript@5.4.5):
+    resolution: {integrity: sha512-f0FFpIdcHgn8zcPSbf1dRevwt047YMnaiJM3u2w2RewrB+fob/zePZcrOyQoLMMO7aBIddLcQIEK5dYjkLnGrQ==}
+    hasBin: true
+    peerDependencies:
+      '@swc/core': '>=1.2.50'
+      '@swc/wasm': '>=1.2.50'
+      '@types/node': '*'
+      typescript: '>=2.7'
+    peerDependenciesMeta:
+      '@swc/core':
+        optional: true
+      '@swc/wasm':
+        optional: true
+    dependencies:
+      '@cspotcode/source-map-support': 0.8.1
+      '@tsconfig/node10': 1.0.11
+      '@tsconfig/node12': 1.0.11
+      '@tsconfig/node14': 1.0.3
+      '@tsconfig/node16': 1.0.4
+      '@types/node': 18.19.39
+      acorn: 8.12.1
+      acorn-walk: 8.3.3
+      arg: 4.1.3
+      create-require: 1.1.1
+      diff: 4.0.2
+      make-error: 1.3.6
+      typescript: 5.4.5
+      v8-compile-cache-lib: 3.0.1
+      yn: 3.1.1
+    dev: false
+
   /ts-node@10.9.2(@types/node@18.19.39)(typescript@5.5.3):
     resolution: {integrity: sha512-f0FFpIdcHgn8zcPSbf1dRevwt047YMnaiJM3u2w2RewrB+fob/zePZcrOyQoLMMO7aBIddLcQIEK5dYjkLnGrQ==}
     hasBin: true
@@ -16062,10 +16108,11 @@ packages:
     dev: false
 
   file:projects/arm-mongocluster.tgz:
-    resolution: {integrity: sha512-TCE1BQBcwQfCWsWwQR2LACQyRpqP0ZXWJNmx4IH8nE8raPACj7Cfr7zrQZ70mJfwEQ92pJiB2B5u3qZnnVKrlQ==, tarball: file:projects/arm-mongocluster.tgz}
+    resolution: {integrity: sha512-1d/XrVDFlFqqFsv8uSTG8FVPMOYbLr7YBu3qji/k6DU5WyaFqh2loZC459hE8dGy2aiBejC1UGaluc4mYQp0/g==, tarball: file:projects/arm-mongocluster.tgz}
     name: '@rush-temp/arm-mongocluster'
     version: 0.0.0
     dependencies:
+      '@azure/arm-network': 33.2.0
       '@microsoft/api-extractor': 7.47.0(@types/node@18.19.39)
       '@types/node': 18.19.39
       '@vitest/browser': 1.6.0(playwright@1.45.1)(vitest@1.6.0)
@@ -16268,7 +16315,7 @@ packages:
     dev: false
 
   file:projects/arm-network-1.tgz:
-    resolution: {integrity: sha512-vN9IB4RR2fUziN1jvC9F6hBEMdYADaAKFPMblUVajQqVUAIsGBEsasuprZ9B86plh7b6fQNC3TF8KB7OOjSWzg==, tarball: file:projects/arm-network-1.tgz}
+    resolution: {integrity: sha512-sM+STc1j8DAemdTcrgOmh4DQcA4MP2WSDfI+0nn+XNtEiPwE6G4i1caZLKH8CNZDCROs0e39BqdeVV3NshEIOQ==, tarball: file:projects/arm-network-1.tgz}
     name: '@rush-temp/arm-network-1'
     version: 0.0.0
     dependencies:
@@ -16286,10 +16333,10 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.6.0
       rimraf: 5.0.8
-      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.4.5)
       tslib: 2.6.3
       tsx: 4.16.2
-      typescript: 5.5.3
+      typescript: 5.4.5
       uglify-js: 3.18.0
     transitivePeerDependencies:
       - '@swc/core'
