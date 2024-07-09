@@ -13,7 +13,7 @@ import * as Parameters from "../models/parameters";
 import { AutomationClient } from "../automationClient";
 import {
   DscCompilationJobStreamListByJobOptionalParams,
-  DscCompilationJobStreamListByJobResponse
+  DscCompilationJobStreamListByJobResponse,
 } from "../models";
 
 /** Class containing DscCompilationJobStream operations. */
@@ -39,11 +39,11 @@ export class DscCompilationJobStreamImpl implements DscCompilationJobStream {
     resourceGroupName: string,
     automationAccountName: string,
     jobId: string,
-    options?: DscCompilationJobStreamListByJobOptionalParams
+    options?: DscCompilationJobStreamListByJobOptionalParams,
   ): Promise<DscCompilationJobStreamListByJobResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, jobId, options },
-      listByJobOperationSpec
+      listByJobOperationSpec,
     );
   }
 }
@@ -51,16 +51,15 @@ export class DscCompilationJobStreamImpl implements DscCompilationJobStream {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByJobOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/compilationjobs/{jobId}/streams",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/compilationjobs/{jobId}/streams",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.JobStreamListResult
+      bodyMapper: Mappers.JobStreamListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -68,8 +67,8 @@ const listByJobOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
-    Parameters.jobId
+    Parameters.jobId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

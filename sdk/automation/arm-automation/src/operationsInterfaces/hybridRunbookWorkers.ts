@@ -17,7 +17,7 @@ import {
   HybridRunbookWorkersCreateOptionalParams,
   HybridRunbookWorkersCreateResponse,
   HybridRunbookWorkerMoveParameters,
-  HybridRunbookWorkersMoveOptionalParams
+  HybridRunbookWorkersMoveOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,7 +34,7 @@ export interface HybridRunbookWorkers {
     resourceGroupName: string,
     automationAccountName: string,
     hybridRunbookWorkerGroupName: string,
-    options?: HybridRunbookWorkersListByHybridRunbookWorkerGroupOptionalParams
+    options?: HybridRunbookWorkersListByHybridRunbookWorkerGroupOptionalParams,
   ): PagedAsyncIterableIterator<HybridRunbookWorker>;
   /**
    * Delete a hybrid runbook worker.
@@ -49,7 +49,7 @@ export interface HybridRunbookWorkers {
     automationAccountName: string,
     hybridRunbookWorkerGroupName: string,
     hybridRunbookWorkerId: string,
-    options?: HybridRunbookWorkersDeleteOptionalParams
+    options?: HybridRunbookWorkersDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Retrieve a hybrid runbook worker.
@@ -64,7 +64,7 @@ export interface HybridRunbookWorkers {
     automationAccountName: string,
     hybridRunbookWorkerGroupName: string,
     hybridRunbookWorkerId: string,
-    options?: HybridRunbookWorkersGetOptionalParams
+    options?: HybridRunbookWorkersGetOptionalParams,
   ): Promise<HybridRunbookWorkersGetResponse>;
   /**
    * Create a hybrid runbook worker.
@@ -82,7 +82,7 @@ export interface HybridRunbookWorkers {
     hybridRunbookWorkerGroupName: string,
     hybridRunbookWorkerId: string,
     hybridRunbookWorkerCreationParameters: HybridRunbookWorkerCreateParameters,
-    options?: HybridRunbookWorkersCreateOptionalParams
+    options?: HybridRunbookWorkersCreateOptionalParams,
   ): Promise<HybridRunbookWorkersCreateResponse>;
   /**
    * Move a hybrid worker to a different group.
@@ -99,6 +99,6 @@ export interface HybridRunbookWorkers {
     hybridRunbookWorkerGroupName: string,
     hybridRunbookWorkerId: string,
     hybridRunbookWorkerMoveParameters: HybridRunbookWorkerMoveParameters,
-    options?: HybridRunbookWorkersMoveOptionalParams
+    options?: HybridRunbookWorkersMoveOptionalParams,
   ): Promise<void>;
 }

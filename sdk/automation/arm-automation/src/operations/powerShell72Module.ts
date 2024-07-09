@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { ModuleOperations } from "../operationsInterfaces";
+import { PowerShell72Module } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -21,28 +21,28 @@ import {
 import { createLroSpec } from "../lroImpl";
 import {
   Module,
-  ModuleListByAutomationAccountNextOptionalParams,
-  ModuleListByAutomationAccountOptionalParams,
-  ModuleListByAutomationAccountResponse,
-  ModuleDeleteOptionalParams,
-  ModuleGetOptionalParams,
-  ModuleGetResponse,
+  PowerShell72ModuleListByAutomationAccountNextOptionalParams,
+  PowerShell72ModuleListByAutomationAccountOptionalParams,
+  PowerShell72ModuleListByAutomationAccountResponse,
+  PowerShell72ModuleDeleteOptionalParams,
+  PowerShell72ModuleGetOptionalParams,
+  PowerShell72ModuleGetResponse,
   ModuleCreateOrUpdateParameters,
-  ModuleCreateOrUpdateOptionalParams,
-  ModuleCreateOrUpdateResponse,
+  PowerShell72ModuleCreateOrUpdateOptionalParams,
+  PowerShell72ModuleCreateOrUpdateResponse,
   ModuleUpdateParameters,
-  ModuleUpdateOptionalParams,
-  ModuleUpdateResponse,
-  ModuleListByAutomationAccountNextResponse,
+  PowerShell72ModuleUpdateOptionalParams,
+  PowerShell72ModuleUpdateResponse,
+  PowerShell72ModuleListByAutomationAccountNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing ModuleOperations operations. */
-export class ModuleOperationsImpl implements ModuleOperations {
+/** Class containing PowerShell72Module operations. */
+export class PowerShell72ModuleImpl implements PowerShell72Module {
   private readonly client: AutomationClient;
 
   /**
-   * Initialize a new instance of the class ModuleOperations class.
+   * Initialize a new instance of the class PowerShell72Module class.
    * @param client Reference to the service client
    */
   constructor(client: AutomationClient) {
@@ -50,15 +50,15 @@ export class ModuleOperationsImpl implements ModuleOperations {
   }
 
   /**
-   * Retrieve a list of modules.
-   * @param resourceGroupName Name of an Azure Resource group.
+   * Retrieve a list of PowerShell72 modules.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param automationAccountName The name of the automation account.
    * @param options The options parameters.
    */
   public listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: ModuleListByAutomationAccountOptionalParams,
+    options?: PowerShell72ModuleListByAutomationAccountOptionalParams,
   ): PagedAsyncIterableIterator<Module> {
     const iter = this.listByAutomationAccountPagingAll(
       resourceGroupName,
@@ -89,10 +89,10 @@ export class ModuleOperationsImpl implements ModuleOperations {
   private async *listByAutomationAccountPagingPage(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: ModuleListByAutomationAccountOptionalParams,
+    options?: PowerShell72ModuleListByAutomationAccountOptionalParams,
     settings?: PageSettings,
   ): AsyncIterableIterator<Module[]> {
-    let result: ModuleListByAutomationAccountResponse;
+    let result: PowerShell72ModuleListByAutomationAccountResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByAutomationAccount(
@@ -122,7 +122,7 @@ export class ModuleOperationsImpl implements ModuleOperations {
   private async *listByAutomationAccountPagingAll(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: ModuleListByAutomationAccountOptionalParams,
+    options?: PowerShell72ModuleListByAutomationAccountOptionalParams,
   ): AsyncIterableIterator<Module> {
     for await (const page of this.listByAutomationAccountPagingPage(
       resourceGroupName,
@@ -135,16 +135,16 @@ export class ModuleOperationsImpl implements ModuleOperations {
 
   /**
    * Delete the module by name.
-   * @param resourceGroupName Name of an Azure Resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param automationAccountName The name of the automation account.
-   * @param moduleName The module name.
+   * @param moduleName The name of module.
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     automationAccountName: string,
     moduleName: string,
-    options?: ModuleDeleteOptionalParams,
+    options?: PowerShell72ModuleDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, moduleName, options },
@@ -154,17 +154,17 @@ export class ModuleOperationsImpl implements ModuleOperations {
 
   /**
    * Retrieve the module identified by module name.
-   * @param resourceGroupName Name of an Azure Resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param automationAccountName The name of the automation account.
-   * @param moduleName The module name.
+   * @param moduleName The name of module.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     automationAccountName: string,
     moduleName: string,
-    options?: ModuleGetOptionalParams,
-  ): Promise<ModuleGetResponse> {
+    options?: PowerShell72ModuleGetOptionalParams,
+  ): Promise<PowerShell72ModuleGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, moduleName, options },
       getOperationSpec,
@@ -173,7 +173,7 @@ export class ModuleOperationsImpl implements ModuleOperations {
 
   /**
    * Create or Update the module identified by module name.
-   * @param resourceGroupName Name of an Azure Resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param automationAccountName The name of the automation account.
    * @param moduleName The name of module.
    * @param parameters The create or update parameters for module.
@@ -184,17 +184,17 @@ export class ModuleOperationsImpl implements ModuleOperations {
     automationAccountName: string,
     moduleName: string,
     parameters: ModuleCreateOrUpdateParameters,
-    options?: ModuleCreateOrUpdateOptionalParams,
+    options?: PowerShell72ModuleCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<ModuleCreateOrUpdateResponse>,
-      ModuleCreateOrUpdateResponse
+      OperationState<PowerShell72ModuleCreateOrUpdateResponse>,
+      PowerShell72ModuleCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<ModuleCreateOrUpdateResponse> => {
+    ): Promise<PowerShell72ModuleCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -241,8 +241,8 @@ export class ModuleOperationsImpl implements ModuleOperations {
       spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
-      ModuleCreateOrUpdateResponse,
-      OperationState<ModuleCreateOrUpdateResponse>
+      PowerShell72ModuleCreateOrUpdateResponse,
+      OperationState<PowerShell72ModuleCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -254,7 +254,7 @@ export class ModuleOperationsImpl implements ModuleOperations {
 
   /**
    * Create or Update the module identified by module name.
-   * @param resourceGroupName Name of an Azure Resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param automationAccountName The name of the automation account.
    * @param moduleName The name of module.
    * @param parameters The create or update parameters for module.
@@ -265,8 +265,8 @@ export class ModuleOperationsImpl implements ModuleOperations {
     automationAccountName: string,
     moduleName: string,
     parameters: ModuleCreateOrUpdateParameters,
-    options?: ModuleCreateOrUpdateOptionalParams,
-  ): Promise<ModuleCreateOrUpdateResponse> {
+    options?: PowerShell72ModuleCreateOrUpdateOptionalParams,
+  ): Promise<PowerShell72ModuleCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       automationAccountName,
@@ -279,7 +279,7 @@ export class ModuleOperationsImpl implements ModuleOperations {
 
   /**
    * Update the module identified by module name.
-   * @param resourceGroupName Name of an Azure Resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param automationAccountName The name of the automation account.
    * @param moduleName The name of module.
    * @param parameters The update parameters for module.
@@ -290,8 +290,8 @@ export class ModuleOperationsImpl implements ModuleOperations {
     automationAccountName: string,
     moduleName: string,
     parameters: ModuleUpdateParameters,
-    options?: ModuleUpdateOptionalParams,
-  ): Promise<ModuleUpdateResponse> {
+    options?: PowerShell72ModuleUpdateOptionalParams,
+  ): Promise<PowerShell72ModuleUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -305,16 +305,16 @@ export class ModuleOperationsImpl implements ModuleOperations {
   }
 
   /**
-   * Retrieve a list of modules.
-   * @param resourceGroupName Name of an Azure Resource group.
+   * Retrieve a list of PowerShell72 modules.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param automationAccountName The name of the automation account.
    * @param options The options parameters.
    */
   private _listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: ModuleListByAutomationAccountOptionalParams,
-  ): Promise<ModuleListByAutomationAccountResponse> {
+    options?: PowerShell72ModuleListByAutomationAccountOptionalParams,
+  ): Promise<PowerShell72ModuleListByAutomationAccountResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, options },
       listByAutomationAccountOperationSpec,
@@ -323,7 +323,7 @@ export class ModuleOperationsImpl implements ModuleOperations {
 
   /**
    * ListByAutomationAccountNext
-   * @param resourceGroupName Name of an Azure Resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param automationAccountName The name of the automation account.
    * @param nextLink The nextLink from the previous successful call to the ListByAutomationAccount
    *                 method.
@@ -333,8 +333,8 @@ export class ModuleOperationsImpl implements ModuleOperations {
     resourceGroupName: string,
     automationAccountName: string,
     nextLink: string,
-    options?: ModuleListByAutomationAccountNextOptionalParams,
-  ): Promise<ModuleListByAutomationAccountNextResponse> {
+    options?: PowerShell72ModuleListByAutomationAccountNextOptionalParams,
+  ): Promise<PowerShell72ModuleListByAutomationAccountNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, nextLink, options },
       listByAutomationAccountNextOperationSpec,
@@ -345,10 +345,11 @@ export class ModuleOperationsImpl implements ModuleOperations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/modules/{moduleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/powerShell72Modules/{moduleName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
+    204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
@@ -357,15 +358,15 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.automationAccountName,
-    Parameters.moduleName,
+    Parameters.resourceGroupName1,
+    Parameters.automationAccountName1,
+    Parameters.moduleName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/modules/{moduleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/powerShell72Modules/{moduleName}",
   httpMethod: "GET",
   responses: {
     200: {
@@ -379,15 +380,15 @@ const getOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.automationAccountName,
-    Parameters.moduleName,
+    Parameters.resourceGroupName1,
+    Parameters.automationAccountName1,
+    Parameters.moduleName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/modules/{moduleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/powerShell72Modules/{moduleName}",
   httpMethod: "PUT",
   responses: {
     200: {
@@ -411,16 +412,16 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.automationAccountName,
-    Parameters.moduleName,
+    Parameters.resourceGroupName1,
+    Parameters.automationAccountName1,
+    Parameters.moduleName1,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/modules/{moduleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/powerShell72Modules/{moduleName}",
   httpMethod: "PATCH",
   responses: {
     200: {
@@ -435,16 +436,16 @@ const updateOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.automationAccountName,
-    Parameters.moduleName,
+    Parameters.resourceGroupName1,
+    Parameters.automationAccountName1,
+    Parameters.moduleName1,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const listByAutomationAccountOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/modules",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/powerShell72Modules",
   httpMethod: "GET",
   responses: {
     200: {
@@ -458,8 +459,8 @@ const listByAutomationAccountOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.automationAccountName,
+    Parameters.resourceGroupName1,
+    Parameters.automationAccountName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -478,9 +479,9 @@ const listByAutomationAccountNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.automationAccountName,
     Parameters.nextLink,
+    Parameters.resourceGroupName1,
+    Parameters.automationAccountName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,
