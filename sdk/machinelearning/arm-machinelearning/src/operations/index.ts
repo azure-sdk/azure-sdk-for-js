@@ -6,15 +6,22 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./operations";
-export * from "./workspaces";
 export * from "./usages";
 export * from "./virtualMachineSizes";
 export * from "./quotas";
 export * from "./computeOperations";
-export * from "./privateEndpointConnections";
-export * from "./privateLinkResources";
-export * from "./workspaceConnections";
+export * from "./registryCodeContainers";
+export * from "./registryCodeVersions";
+export * from "./registryComponentContainers";
+export * from "./registryComponentVersions";
+export * from "./registryDataContainers";
+export * from "./registryDataVersions";
+export * from "./registryDataReferences";
+export * from "./registryEnvironmentContainers";
+export * from "./registryEnvironmentVersions";
+export * from "./marketplaceSubscriptions";
+export * from "./registryModelContainers";
+export * from "./registryModelVersions";
 export * from "./batchEndpoints";
 export * from "./batchDeployments";
 export * from "./codeContainers";
@@ -26,10 +33,17 @@ export * from "./dataVersions";
 export * from "./datastores";
 export * from "./environmentContainers";
 export * from "./environmentVersions";
+export * from "./featuresetContainers";
+export * from "./features";
+export * from "./featuresetVersions";
+export * from "./featurestoreEntityContainers";
+export * from "./featurestoreEntityVersions";
 export * from "./jobs";
 export * from "./modelContainers";
 export * from "./modelVersions";
 export * from "./onlineEndpoints";
 export * from "./onlineDeployments";
 export * from "./schedules";
+export * from "./serverlessEndpoints";
+export * from "./registries";
 export * from "./workspaceFeatures";
