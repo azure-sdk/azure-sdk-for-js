@@ -9,39 +9,21 @@ import * as coreClient from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 
 // @public
-export interface Configuration extends ProxyResource {
-    enforcePrivateMarkdownStorage?: boolean;
-}
+export type ActionType = string;
 
 // @public
-export interface ConfigurationList {
-    nextLink?: string;
-    value?: Configuration[];
-}
+export type CreatedByType = string;
 
 // @public
-export type ConfigurationName = string;
-
-// @public
-export interface Dashboard {
-    readonly id?: string;
+export interface Dashboard extends TrackedResource {
     lenses?: DashboardLens[];
-    location: string;
-    metadata?: {
-        [propertyName: string]: Record<string, unknown>;
-    };
-    readonly name?: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
-    readonly type?: string;
+    metadata?: Record<string, unknown>;
+    readonly provisioningState?: ResourceProvisioningState;
 }
 
 // @public
 export interface DashboardLens {
-    metadata?: {
-        [propertyName: string]: Record<string, unknown>;
-    };
+    metadata?: Record<string, unknown>;
     order: number;
     parts: DashboardParts[];
 }
@@ -49,14 +31,16 @@ export interface DashboardLens {
 // @public
 export interface DashboardListResult {
     nextLink?: string;
-    value?: Dashboard[];
+    value: Dashboard[];
 }
 
 // @public
 export interface DashboardPartMetadata {
-    [property: string]: any;
     type: "Extension/HubsExtension/PartType/MarkdownPart";
 }
+
+// @public
+export type DashboardPartMetadataType = string;
 
 // @public (undocumented)
 export type DashboardPartMetadataUnion = DashboardPartMetadata | MarkdownPartMetadata;
@@ -70,22 +54,26 @@ export interface DashboardParts {
 // @public
 export interface DashboardPartsPosition {
     colSpan: number;
-    metadata?: {
-        [propertyName: string]: Record<string, unknown>;
-    };
+    metadata?: Record<string, unknown>;
     rowSpan: number;
     x: number;
     y: number;
 }
 
 // @public
+export interface DashboardProperties {
+    lenses?: DashboardLens[];
+    metadata?: Record<string, unknown>;
+}
+
+// @public
 export interface Dashboards {
-    createOrUpdate(resourceGroupName: string, dashboardName: string, dashboard: Dashboard, options?: DashboardsCreateOrUpdateOptionalParams): Promise<DashboardsCreateOrUpdateResponse>;
+    createOrUpdate(resourceGroupName: string, dashboardName: string, resource: Dashboard, options?: DashboardsCreateOrUpdateOptionalParams): Promise<DashboardsCreateOrUpdateResponse>;
     delete(resourceGroupName: string, dashboardName: string, options?: DashboardsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, dashboardName: string, options?: DashboardsGetOptionalParams): Promise<DashboardsGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: DashboardsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Dashboard>;
     listBySubscription(options?: DashboardsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Dashboard>;
-    update(resourceGroupName: string, dashboardName: string, dashboard: PatchableDashboard, options?: DashboardsUpdateOptionalParams): Promise<DashboardsUpdateResponse>;
+    update(resourceGroupName: string, dashboardName: string, properties: PatchableDashboard, options?: DashboardsUpdateOptionalParams): Promise<DashboardsUpdateResponse>;
 }
 
 // @public
@@ -142,43 +130,78 @@ export interface DashboardsUpdateOptionalParams extends coreClient.OperationOpti
 export type DashboardsUpdateResponse = Dashboard;
 
 // @public
-export interface ErrorDefinition {
-    readonly code?: number;
-    readonly details?: ErrorDefinition[];
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
     readonly message?: string;
+    readonly target?: string;
 }
 
 // @public
 export interface ErrorResponse {
-    error?: ErrorDefinition;
+    error?: ErrorDetail;
 }
 
 // @public
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
-export enum KnownConfigurationName {
-    Default = "default"
+export enum KnownActionType {
+    Internal = "Internal"
 }
 
 // @public
-export interface ListTenantConfigurationViolations {
-    list(options?: ListTenantConfigurationViolationsListOptionalParams): PagedAsyncIterableIterator<Violation>;
+export enum KnownCreatedByType {
+    Application = "Application",
+    Key = "Key",
+    ManagedIdentity = "ManagedIdentity",
+    User = "User"
 }
 
 // @public
-export interface ListTenantConfigurationViolationsListNextOptionalParams extends coreClient.OperationOptions {
+export enum KnownDashboardPartMetadataType {
+    Markdown = "Extension/HubsExtension/PartType/MarkdownPart"
 }
 
 // @public
-export type ListTenantConfigurationViolationsListNextResponse = ViolationsList;
-
-// @public
-export interface ListTenantConfigurationViolationsListOptionalParams extends coreClient.OperationOptions {
+export enum KnownOrigin {
+    System = "system",
+    User = "user",
+    UserSystem = "user,system"
 }
 
 // @public
-export type ListTenantConfigurationViolationsListResponse = ViolationsList;
+export enum KnownResourceProvisioningState {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    Succeeded = "Succeeded"
+}
+
+// @public
+export interface ListTenantConfigurationViolationsOperations {
+    list(options?: ListTenantConfigurationViolationsOperationsListOptionalParams): PagedAsyncIterableIterator<Violation>;
+}
+
+// @public
+export interface ListTenantConfigurationViolationsOperationsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ListTenantConfigurationViolationsOperationsListNextResponse = PagedViolation;
+
+// @public
+export interface ListTenantConfigurationViolationsOperationsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ListTenantConfigurationViolationsOperationsListResponse = PagedViolation;
 
 // @public
 export interface MarkdownPartMetadata extends DashboardPartMetadata {
@@ -207,8 +230,31 @@ export interface MarkdownPartMetadataSettingsContentSettings {
 }
 
 // @public
+export interface Operation {
+    readonly actionType?: ActionType;
+    display?: OperationDisplay;
+    readonly isDataAction?: boolean;
+    readonly name?: string;
+    readonly origin?: Origin;
+}
+
+// @public
+export interface OperationDisplay {
+    readonly description?: string;
+    readonly operation?: string;
+    readonly provider?: string;
+    readonly resource?: string;
+}
+
+// @public
+export interface OperationListResult {
+    readonly nextLink?: string;
+    readonly value?: Operation[];
+}
+
+// @public
 export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<ResourceProviderOperation>;
+    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
 }
 
 // @public
@@ -216,21 +262,27 @@ export interface OperationsListNextOptionalParams extends coreClient.OperationOp
 }
 
 // @public
-export type OperationsListNextResponse = ResourceProviderOperationList;
+export type OperationsListNextResponse = OperationListResult;
 
 // @public
 export interface OperationsListOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type OperationsListResponse = ResourceProviderOperationList;
+export type OperationsListResponse = OperationListResult;
+
+// @public
+export type Origin = string;
+
+// @public
+export interface PagedViolation {
+    nextLink?: string;
+    value: Violation[];
+}
 
 // @public
 export interface PatchableDashboard {
-    lenses?: DashboardLens[];
-    metadata?: {
-        [propertyName: string]: Record<string, unknown>;
-    };
+    properties?: DashboardProperties;
     tags?: {
         [propertyName: string]: string;
     };
@@ -241,16 +293,17 @@ export class Portal extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: PortalOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, options?: PortalOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
     dashboards: Dashboards;
     // (undocumented)
-    listTenantConfigurationViolations: ListTenantConfigurationViolations;
+    listTenantConfigurationViolationsOperations: ListTenantConfigurationViolationsOperations;
     // (undocumented)
     operations: Operations;
     // (undocumented)
-    subscriptionId: string;
+    subscriptionId?: string;
     // (undocumented)
     tenantConfigurations: TenantConfigurations;
 }
@@ -270,36 +323,41 @@ export interface ProxyResource extends Resource {
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
 // @public
-export interface ResourceProviderOperation {
-    display?: ResourceProviderOperationDisplay;
-    isDataAction?: string;
-    name?: string;
+export type ResourceProvisioningState = string;
+
+// @public
+export interface SystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
 }
 
 // @public
-export interface ResourceProviderOperationDisplay {
-    description?: string;
-    operation?: string;
-    provider?: string;
-    resource?: string;
+export interface TenantConfiguration extends ProxyResource {
+    enforcePrivateMarkdownStorage?: boolean;
+    readonly provisioningState?: ResourceProvisioningState;
 }
 
 // @public
-export interface ResourceProviderOperationList {
+export interface TenantConfigurationListResult {
     nextLink?: string;
-    value?: ResourceProviderOperation[];
+    value: TenantConfiguration[];
 }
 
 // @public
 export interface TenantConfigurations {
-    create(configurationName: ConfigurationName, tenantConfiguration: Configuration, options?: TenantConfigurationsCreateOptionalParams): Promise<TenantConfigurationsCreateResponse>;
-    delete(configurationName: ConfigurationName, options?: TenantConfigurationsDeleteOptionalParams): Promise<void>;
-    get(configurationName: ConfigurationName, options?: TenantConfigurationsGetOptionalParams): Promise<TenantConfigurationsGetResponse>;
-    list(options?: TenantConfigurationsListOptionalParams): PagedAsyncIterableIterator<Configuration>;
+    create(configurationName: string, resource: TenantConfiguration, options?: TenantConfigurationsCreateOptionalParams): Promise<TenantConfigurationsCreateResponse>;
+    delete(configurationName: string, options?: TenantConfigurationsDeleteOptionalParams): Promise<void>;
+    get(configurationName: string, options?: TenantConfigurationsGetOptionalParams): Promise<TenantConfigurationsGetResponse>;
+    listByTenant(options?: TenantConfigurationsListByTenantOptionalParams): PagedAsyncIterableIterator<TenantConfiguration>;
 }
 
 // @public
@@ -307,7 +365,7 @@ export interface TenantConfigurationsCreateOptionalParams extends coreClient.Ope
 }
 
 // @public
-export type TenantConfigurationsCreateResponse = Configuration;
+export type TenantConfigurationsCreateResponse = TenantConfiguration;
 
 // @public
 export interface TenantConfigurationsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -318,33 +376,35 @@ export interface TenantConfigurationsGetOptionalParams extends coreClient.Operat
 }
 
 // @public
-export type TenantConfigurationsGetResponse = Configuration;
+export type TenantConfigurationsGetResponse = TenantConfiguration;
 
 // @public
-export interface TenantConfigurationsListNextOptionalParams extends coreClient.OperationOptions {
+export interface TenantConfigurationsListByTenantNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type TenantConfigurationsListNextResponse = ConfigurationList;
+export type TenantConfigurationsListByTenantNextResponse = TenantConfigurationListResult;
 
 // @public
-export interface TenantConfigurationsListOptionalParams extends coreClient.OperationOptions {
+export interface TenantConfigurationsListByTenantOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type TenantConfigurationsListResponse = ConfigurationList;
+export type TenantConfigurationsListByTenantResponse = TenantConfigurationListResult;
+
+// @public
+export interface TrackedResource extends Resource {
+    location: string;
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
 
 // @public
 export interface Violation {
     readonly errorMessage?: string;
     readonly id?: string;
     readonly userId?: string;
-}
-
-// @public
-export interface ViolationsList {
-    nextLink?: string;
-    value?: Violation[];
 }
 
 // (No @packageDocumentation comment for this package)
