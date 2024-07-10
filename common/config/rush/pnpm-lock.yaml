@@ -9230,6 +9230,7 @@ packages:
 
   /queue-tick@1.0.1:
     resolution: {integrity: sha512-kJt5qhMxoszgU/62PLP1CJytzd2NKetjSRnyuj31fDd3Rlcz3fzlFdFLD1SItunPwyqEOkca6GbV612BWfaBag==}
+    requiresBuild: true
     dev: false
 
   /randombytes@2.1.0:
@@ -10202,6 +10203,7 @@ packages:
 
   /text-decoder@1.1.0:
     resolution: {integrity: sha512-TmLJNj6UgX8xcUZo4UDStGQtDiTzF7BzWlzn9g7UWrjkpHr5uJTK1ld16wZ3LXb2vb6jH8qU89dW5whuMdXYdw==}
+    requiresBuild: true
     dependencies:
       b4a: 1.6.6
     dev: false
@@ -10347,6 +10349,37 @@ packages:
       diff: 4.0.2
       make-error: 1.3.6
       typescript: 5.3.3
+      v8-compile-cache-lib: 3.0.1
+      yn: 3.1.1
+    dev: false
+
+  /ts-node@10.9.2(@types/node@18.19.39)(typescript@5.4.5):
+    resolution: {integrity: sha512-f0FFpIdcHgn8zcPSbf1dRevwt047YMnaiJM3u2w2RewrB+fob/zePZcrOyQoLMMO7aBIddLcQIEK5dYjkLnGrQ==}
+    hasBin: true
+    peerDependencies:
+      '@swc/core': '>=1.2.50'
+      '@swc/wasm': '>=1.2.50'
+      '@types/node': '*'
+      typescript: '>=2.7'
+    peerDependenciesMeta:
+      '@swc/core':
+        optional: true
+      '@swc/wasm':
+        optional: true
+    dependencies:
+      '@cspotcode/source-map-support': 0.8.1
+      '@tsconfig/node10': 1.0.11
+      '@tsconfig/node12': 1.0.11
+      '@tsconfig/node14': 1.0.3
+      '@tsconfig/node16': 1.0.4
+      '@types/node': 18.19.39
+      acorn: 8.12.0
+      acorn-walk: 8.3.3
+      arg: 4.1.3
+      create-require: 1.1.1
+      diff: 4.0.2
+      make-error: 1.3.6
+      typescript: 5.4.5
       v8-compile-cache-lib: 3.0.1
       yn: 3.1.1
     dev: false
@@ -14790,7 +14823,7 @@ packages:
     dev: false
 
   file:projects/arm-guestconfiguration.tgz:
-    resolution: {integrity: sha512-ZwcGtfBzy84+WNoe0cE91mS9WUHGNiGfIb+1mBR62mXLoeezcKiDU1dtsNceXRqWizNGj0m6sAIu9uDW5P23Ow==, tarball: file:projects/arm-guestconfiguration.tgz}
+    resolution: {integrity: sha512-ZJO/d0YPzCSUAOmHDAYh2UcmD3fpOGsrl1m2SgBHXyJSjzPtd32L/kMXPqh2sG9EboASSvTr5fhuiTsT1V6QTQ==, tarball: file:projects/arm-guestconfiguration.tgz}
     name: '@rush-temp/arm-guestconfiguration'
     version: 0.0.0
     dependencies:
@@ -14807,9 +14840,10 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.5.2
       rimraf: 5.0.7
-      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.4.5)
       tslib: 2.6.3
-      typescript: 5.5.3
+      tsx: 4.16.0
+      typescript: 5.4.5
       uglify-js: 3.18.0
     transitivePeerDependencies:
       - '@swc/core'
@@ -19708,7 +19742,7 @@ packages:
     dev: false
 
   file:projects/container-registry.tgz:
-    resolution: {integrity: sha512-c8/zQeKUKYpwZ8q1xu2uj3NZJMfjrfq/xaKLOqZ3M0qAQy5l/ztYH99aI4Qc8mGIlB5Coof3ver4luBlQIXOfQ==, tarball: file:projects/container-registry.tgz}
+    resolution: {integrity: sha512-LB45zN3GxK2TpW+CGZKKFkW4ZcEaF72jsePoZ8Wp8SKCZetaEVY63SfAtLhTxy+psrJgACrtkJa/bJQ6R5YDAA==, tarball: file:projects/container-registry.tgz}
     name: '@rush-temp/container-registry'
     version: 0.0.0
     dependencies:

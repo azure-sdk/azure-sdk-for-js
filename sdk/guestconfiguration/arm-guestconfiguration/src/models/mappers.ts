@@ -148,6 +148,12 @@ export const GuestConfigurationNavigation: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      contentManagedIdentity: {
+        serializedName: "contentManagedIdentity",
+        type: {
+          name: "String",
+        },
+      },
       assignmentType: {
         serializedName: "assignmentType",
         type: {
