@@ -8,27 +8,28 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { ListTenantConfigurationViolations } from "../operationsInterfaces";
+import { ListTenantConfigurationViolationsOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { Portal } from "../portal";
 import {
   Violation,
-  ListTenantConfigurationViolationsListNextOptionalParams,
-  ListTenantConfigurationViolationsListOptionalParams,
-  ListTenantConfigurationViolationsListResponse,
-  ListTenantConfigurationViolationsListNextResponse
+  ListTenantConfigurationViolationsOperationsListNextOptionalParams,
+  ListTenantConfigurationViolationsOperationsListOptionalParams,
+  ListTenantConfigurationViolationsOperationsListResponse,
+  ListTenantConfigurationViolationsOperationsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing ListTenantConfigurationViolations operations. */
-export class ListTenantConfigurationViolationsImpl
-  implements ListTenantConfigurationViolations {
+/** Class containing ListTenantConfigurationViolationsOperations operations. */
+export class ListTenantConfigurationViolationsOperationsImpl
+  implements ListTenantConfigurationViolationsOperations
+{
   private readonly client: Portal;
 
   /**
-   * Initialize a new instance of the class ListTenantConfigurationViolations class.
+   * Initialize a new instance of the class ListTenantConfigurationViolationsOperations class.
    * @param client Reference to the service client
    */
   constructor(client: Portal) {
@@ -40,7 +41,7 @@ export class ListTenantConfigurationViolationsImpl
    * @param options The options parameters.
    */
   public list(
-    options?: ListTenantConfigurationViolationsListOptionalParams
+    options?: ListTenantConfigurationViolationsOperationsListOptionalParams,
   ): PagedAsyncIterableIterator<Violation> {
     const iter = this.listPagingAll(options);
     return {
@@ -55,15 +56,15 @@ export class ListTenantConfigurationViolationsImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
-    options?: ListTenantConfigurationViolationsListOptionalParams,
-    settings?: PageSettings
+    options?: ListTenantConfigurationViolationsOperationsListOptionalParams,
+    settings?: PageSettings,
   ): AsyncIterableIterator<Violation[]> {
-    let result: ListTenantConfigurationViolationsListResponse;
+    let result: ListTenantConfigurationViolationsOperationsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(options);
@@ -82,7 +83,7 @@ export class ListTenantConfigurationViolationsImpl
   }
 
   private async *listPagingAll(
-    options?: ListTenantConfigurationViolationsListOptionalParams
+    options?: ListTenantConfigurationViolationsOperationsListOptionalParams,
   ): AsyncIterableIterator<Violation> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -94,8 +95,8 @@ export class ListTenantConfigurationViolationsImpl
    * @param options The options parameters.
    */
   private _list(
-    options?: ListTenantConfigurationViolationsListOptionalParams
-  ): Promise<ListTenantConfigurationViolationsListResponse> {
+    options?: ListTenantConfigurationViolationsOperationsListOptionalParams,
+  ): Promise<ListTenantConfigurationViolationsOperationsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -106,11 +107,11 @@ export class ListTenantConfigurationViolationsImpl
    */
   private _listNext(
     nextLink: string,
-    options?: ListTenantConfigurationViolationsListNextOptionalParams
-  ): Promise<ListTenantConfigurationViolationsListNextResponse> {
+    options?: ListTenantConfigurationViolationsOperationsListNextOptionalParams,
+  ): Promise<ListTenantConfigurationViolationsOperationsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -122,29 +123,29 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ViolationsList
+      bodyMapper: Mappers.PagedViolation,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ViolationsList
+      bodyMapper: Mappers.PagedViolation,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
