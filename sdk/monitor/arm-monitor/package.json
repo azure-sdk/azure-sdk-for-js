@@ -30,24 +30,21 @@
   "devDependencies": {
     "@microsoft/api-extractor": "^7.31.1",
     "mkdirp": "^3.0.1",
-    "typescript": "~5.5.3",
+    "typescript": "~5.4.5",
     "uglify-js": "^3.4.9",
     "rimraf": "^5.0.0",
     "dotenv": "^16.0.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/identity": "^4.0.1",
     "@azure-tools/test-recorder": "^3.0.0",
-    "@azure-tools/test-credential": "^1.0.0",
+    "@azure-tools/test-credential": "^1.1.0",
     "mocha": "^10.0.0",
     "@types/mocha": "^10.0.0",
+    "tsx": "^4.7.1",
     "@types/chai": "^4.2.8",
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
     "@types/node": "^18.0.0",
-    "@azure/arm-eventhub": "5.2.0-beta.2",
-    "@azure/arm-logic": "^8.0.0",
-    "@azure/arm-operationalinsights": "^9.0.0",
-    "@azure/arm-storage": "^18.0.0",
     "ts-node": "^10.0.0"
   },
   "repository": {
@@ -109,13 +106,5 @@
     ]
   },
   "autoPublish": true,
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/arm-monitor",
-  "//sampleConfiguration": {
-    "productName": "",
-    "productSlugs": [
-      "azure"
-    ],
-    "disableDocsMs": true,
-    "apiRefLink": "https://docs.microsoft.com/javascript/api/@azure/arm-monitor?view=azure-node-preview"
-  }
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/arm-monitor"
 }
