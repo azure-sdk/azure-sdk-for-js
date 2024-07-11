@@ -27,9 +27,14 @@ import {
   RegenerateKeyParameters,
   ConfigurationStoresRegenerateKeyOptionalParams,
   ConfigurationStoresRegenerateKeyResponse,
+  SasTokenGenerationParameters,
+  ConfigurationStoresGenerateSasTokenOptionalParams,
+  ConfigurationStoresGenerateSasTokenResponse,
+  ResetSasTokensParameters,
+  ConfigurationStoresResetSasTokensOptionalParams,
   ConfigurationStoresGetDeletedOptionalParams,
   ConfigurationStoresGetDeletedResponse,
-  ConfigurationStoresPurgeDeletedOptionalParams
+  ConfigurationStoresPurgeDeletedOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -40,7 +45,7 @@ export interface ConfigurationStores {
    * @param options The options parameters.
    */
   list(
-    options?: ConfigurationStoresListOptionalParams
+    options?: ConfigurationStoresListOptionalParams,
   ): PagedAsyncIterableIterator<ConfigurationStore>;
   /**
    * Lists the configuration stores for a given resource group.
@@ -49,7 +54,7 @@ export interface ConfigurationStores {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: ConfigurationStoresListByResourceGroupOptionalParams
+    options?: ConfigurationStoresListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<ConfigurationStore>;
   /**
    * Lists the access key for the specified configuration store.
@@ -60,14 +65,14 @@ export interface ConfigurationStores {
   listKeys(
     resourceGroupName: string,
     configStoreName: string,
-    options?: ConfigurationStoresListKeysOptionalParams
+    options?: ConfigurationStoresListKeysOptionalParams,
   ): PagedAsyncIterableIterator<ApiKey>;
   /**
    * Gets information about the deleted configuration stores in a subscription.
    * @param options The options parameters.
    */
   listDeleted(
-    options?: ConfigurationStoresListDeletedOptionalParams
+    options?: ConfigurationStoresListDeletedOptionalParams,
   ): PagedAsyncIterableIterator<DeletedConfigurationStore>;
   /**
    * Gets the properties of the specified configuration store.
@@ -78,7 +83,7 @@ export interface ConfigurationStores {
   get(
     resourceGroupName: string,
     configStoreName: string,
-    options?: ConfigurationStoresGetOptionalParams
+    options?: ConfigurationStoresGetOptionalParams,
   ): Promise<ConfigurationStoresGetResponse>;
   /**
    * Creates a configuration store with the specified parameters.
@@ -91,7 +96,7 @@ export interface ConfigurationStores {
     resourceGroupName: string,
     configStoreName: string,
     configStoreCreationParameters: ConfigurationStore,
-    options?: ConfigurationStoresCreateOptionalParams
+    options?: ConfigurationStoresCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ConfigurationStoresCreateResponse>,
@@ -109,7 +114,7 @@ export interface ConfigurationStores {
     resourceGroupName: string,
     configStoreName: string,
     configStoreCreationParameters: ConfigurationStore,
-    options?: ConfigurationStoresCreateOptionalParams
+    options?: ConfigurationStoresCreateOptionalParams,
   ): Promise<ConfigurationStoresCreateResponse>;
   /**
    * Deletes a configuration store.
@@ -120,7 +125,7 @@ export interface ConfigurationStores {
   beginDelete(
     resourceGroupName: string,
     configStoreName: string,
-    options?: ConfigurationStoresDeleteOptionalParams
+    options?: ConfigurationStoresDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a configuration store.
@@ -131,7 +136,7 @@ export interface ConfigurationStores {
   beginDeleteAndWait(
     resourceGroupName: string,
     configStoreName: string,
-    options?: ConfigurationStoresDeleteOptionalParams
+    options?: ConfigurationStoresDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Updates a configuration store with the specified parameters.
@@ -144,7 +149,7 @@ export interface ConfigurationStores {
     resourceGroupName: string,
     configStoreName: string,
     configStoreUpdateParameters: ConfigurationStoreUpdateParameters,
-    options?: ConfigurationStoresUpdateOptionalParams
+    options?: ConfigurationStoresUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ConfigurationStoresUpdateResponse>,
@@ -162,7 +167,7 @@ export interface ConfigurationStores {
     resourceGroupName: string,
     configStoreName: string,
     configStoreUpdateParameters: ConfigurationStoreUpdateParameters,
-    options?: ConfigurationStoresUpdateOptionalParams
+    options?: ConfigurationStoresUpdateOptionalParams,
   ): Promise<ConfigurationStoresUpdateResponse>;
   /**
    * Regenerates an access key for the specified configuration store.
@@ -175,8 +180,35 @@ export interface ConfigurationStores {
     resourceGroupName: string,
     configStoreName: string,
     regenerateKeyParameters: RegenerateKeyParameters,
-    options?: ConfigurationStoresRegenerateKeyOptionalParams
+    options?: ConfigurationStoresRegenerateKeyOptionalParams,
   ): Promise<ConfigurationStoresRegenerateKeyResponse>;
+  /**
+   * Generates a SAS token for scoped, read-only access of the specified configuration store.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param configStoreName The name of the configuration store.
+   * @param sasTokenGenerationParameters The object containing information for the SAS token generation
+   *                                     request.
+   * @param options The options parameters.
+   */
+  generateSasToken(
+    resourceGroupName: string,
+    configStoreName: string,
+    sasTokenGenerationParameters: SasTokenGenerationParameters,
+    options?: ConfigurationStoresGenerateSasTokenOptionalParams,
+  ): Promise<ConfigurationStoresGenerateSasTokenResponse>;
+  /**
+   * Reset all SAS tokens of a given kind (primary/secondary).
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param configStoreName The name of the configuration store.
+   * @param resetSasTokensParameters The object containing information for the SAS token reset request.
+   * @param options The options parameters.
+   */
+  resetSasTokens(
+    resourceGroupName: string,
+    configStoreName: string,
+    resetSasTokensParameters: ResetSasTokensParameters,
+    options?: ConfigurationStoresResetSasTokensOptionalParams,
+  ): Promise<void>;
   /**
    * Gets a deleted Azure app configuration store.
    * @param location The location in which uniqueness will be verified.
@@ -186,7 +218,7 @@ export interface ConfigurationStores {
   getDeleted(
     location: string,
     configStoreName: string,
-    options?: ConfigurationStoresGetDeletedOptionalParams
+    options?: ConfigurationStoresGetDeletedOptionalParams,
   ): Promise<ConfigurationStoresGetDeletedResponse>;
   /**
    * Permanently deletes the specified configuration store.
@@ -197,7 +229,7 @@ export interface ConfigurationStores {
   beginPurgeDeleted(
     location: string,
     configStoreName: string,
-    options?: ConfigurationStoresPurgeDeletedOptionalParams
+    options?: ConfigurationStoresPurgeDeletedOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Permanently deletes the specified configuration store.
@@ -208,6 +240,6 @@ export interface ConfigurationStores {
   beginPurgeDeletedAndWait(
     location: string,
     configStoreName: string,
-    options?: ConfigurationStoresPurgeDeletedOptionalParams
+    options?: ConfigurationStoresPurgeDeletedOptionalParams,
   ): Promise<void>;
 }
