@@ -288,10 +288,10 @@ export interface VirtualMachineScaleSetVMProfile {
   hardwareProfile?: VirtualMachineScaleSetHardwareProfile;
   /** Specifies the service artifact reference id used to set same image version for all virtual machines in the scale set when using 'latest' image version. Minimum api-version: 2022-11-01 */
   serviceArtifactReference?: ServiceArtifactReference;
-  /** Specifies the security posture to be used for all virtual machines in the scale set. Minimum api-version: 2023-03-01 */
+  /** Specifies the security posture to be used in the scale set. Minimum api-version: 2023-03-01 */
   securityPostureReference?: SecurityPostureReference;
   /**
-   * Specifies the time in which this VM profile for the Virtual Machine Scale Set was created. Minimum API version for this property is 2024-03-01. This value will be added to VMSS Flex VM tags when creating/updating the VMSS VM Profile with minimum api-version 2024-03-01.
+   * Specifies the time in which this VM profile for the Virtual Machine Scale Set was created. This value will be added to VMSS Flex VM tags when creating/updating the VMSS VM Profile. Minimum API version for this property is 2023-09-01.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly timeCreated?: Date;
@@ -669,7 +669,7 @@ export interface SecurityProfile {
   securityType?: SecurityTypes;
   /** Specifies the Managed Identity used by ADE to get access token for keyvault operations. */
   encryptionIdentity?: EncryptionIdentity;
-  /** Specifies ProxyAgent settings while creating the virtual machine. Minimum api-version: 2024-03-01. */
+  /** Specifies ProxyAgent settings while creating the virtual machine. Minimum api-version: 2023-09-01. */
   proxyAgentSettings?: ProxyAgentSettings;
 }
 
@@ -687,7 +687,7 @@ export interface EncryptionIdentity {
   userAssignedIdentityResourceId?: string;
 }
 
-/** Specifies ProxyAgent settings while creating the virtual machine. Minimum api-version: 2024-03-01. */
+/** Specifies ProxyAgent settings while creating the virtual machine. Minimum api-version: 2023-09-01. */
 export interface ProxyAgentSettings {
   /** Specifies whether ProxyAgent feature should be enabled on the virtual machine or virtual machine scale set. */
   enabled?: boolean;
@@ -810,63 +810,14 @@ export interface ServiceArtifactReference {
   id?: string;
 }
 
-/** Specifies the security posture to be used for all virtual machines in the scale set. Minimum api-version: 2023-03-01 */
+/** Specifies the security posture to be used in the scale set. Minimum api-version: 2023-03-01 */
 export interface SecurityPostureReference {
-  /** The security posture reference id in the form of /CommunityGalleries/{communityGalleryName}/securityPostures/{securityPostureName}/versions/{major.minor.patch}|{major.*}|latest */
-  id?: string;
-  /** List of virtual machine extensions to exclude when applying the Security Posture. */
-  excludeExtensions?: VirtualMachineExtension[];
-}
-
-/** The instance view of a virtual machine extension. */
-export interface VirtualMachineExtensionInstanceView {
-  /** The virtual machine extension name. */
-  name?: string;
-  /** Specifies the type of the extension; an example is "CustomScriptExtension". */
-  type?: string;
-  /** Specifies the version of the script handler. */
-  typeHandlerVersion?: string;
-  /** The resource status information. */
-  substatuses?: InstanceViewStatus[];
-  /** The resource status information. */
-  statuses?: InstanceViewStatus[];
-}
-
-/** Instance view status. */
-export interface InstanceViewStatus {
-  /** The status code. */
-  code?: string;
-  /** The level code. */
-  level?: StatusLevelTypes;
-  /** The short localizable label for the status. */
-  displayStatus?: string;
-  /** The detailed status message, including for alerts and error messages. */
-  message?: string;
-  /** The time of the status. */
-  time?: Date;
-}
-
-/** The Resource model definition with location property as optional. */
-export interface ResourceWithOptionalLocation {
-  /** Resource location */
-  location?: string;
-  /**
-   * Resource Id
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Resource name
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Resource type
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** Resource tags */
-  tags?: { [propertyName: string]: string };
+  /** The security posture reference id in the form of /CommunityGalleries/{communityGalleryName}/securityPostures/{securityPostureName}/versions/{major.minor.patch}|latest */
+  id: string;
+  /** The list of virtual machine extension names to exclude when applying the security posture. */
+  excludeExtensions?: string[];
+  /** Whether the security posture can be overridden by the user. */
+  isOverridable?: boolean;
 }
 
 /** Enables or disables a capability on the virtual machine or virtual machine scale set. */
@@ -993,6 +944,8 @@ export interface VirtualMachineScaleSetUpdateVMProfile {
   storageProfile?: VirtualMachineScaleSetUpdateStorageProfile;
   /** The virtual machine scale set network profile. */
   networkProfile?: VirtualMachineScaleSetUpdateNetworkProfile;
+  /** The virtual machine scale set security posture reference. */
+  securityPostureReference?: SecurityPostureReferenceUpdate;
   /** The virtual machine scale set Security profile */
   securityProfile?: SecurityProfile;
   /** The virtual machine scale set diagnostics profile. */
@@ -1128,6 +1081,16 @@ export interface VirtualMachineScaleSetUpdatePublicIPAddressConfiguration {
   deleteOption?: DeleteOptions;
 }
 
+/** Specifies the security posture to be used in the scale set. Minimum api-version: 2023-03-01 */
+export interface SecurityPostureReferenceUpdate {
+  /** The security posture reference id in the form of /CommunityGalleries/{communityGalleryName}/securityPostures/{securityPostureName}/versions/{major.minor.patch}|latest */
+  id?: string;
+  /** The list of virtual machine extension names to exclude when applying the security posture. */
+  excludeExtensions?: string[];
+  /** Whether the security posture can be overridden by the user. */
+  isOverridable?: boolean;
+}
+
 /** The Update Resource model definition. */
 export interface UpdateResource {
   /** Resource tags */
@@ -1202,6 +1165,20 @@ export interface VirtualMachineScaleSetVMExtensionsSummary {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly statusesSummary?: VirtualMachineStatusCodeCount[];
+}
+
+/** Instance view status. */
+export interface InstanceViewStatus {
+  /** The status code. */
+  code?: string;
+  /** The level code. */
+  level?: StatusLevelTypes;
+  /** The short localizable label for the status. */
+  displayStatus?: string;
+  /** The detailed status message, including for alerts and error messages. */
+  message?: string;
+  /** The time of the status. */
+  time?: Date;
 }
 
 /** Summary for an orchestration service of a virtual machine scale set. */
@@ -1475,6 +1452,20 @@ export interface OrchestrationServiceStateInput {
   serviceName: OrchestrationServiceNames;
   /** The action to be performed. */
   action: OrchestrationServiceStateAction;
+}
+
+/** The instance view of a virtual machine extension. */
+export interface VirtualMachineExtensionInstanceView {
+  /** The virtual machine extension name. */
+  name?: string;
+  /** Specifies the type of the extension; an example is "CustomScriptExtension". */
+  type?: string;
+  /** Specifies the version of the script handler. */
+  typeHandlerVersion?: string;
+  /** The resource status information. */
+  substatuses?: InstanceViewStatus[];
+  /** The resource status information. */
+  statuses?: InstanceViewStatus[];
 }
 
 /** The List VMSS VM Extension operation response */
@@ -1844,6 +1835,29 @@ export interface VirtualMachineScaleSetVMProtectionPolicy {
   protectFromScaleIn?: boolean;
   /** Indicates that model updates or actions (including scale-in) initiated on the virtual machine scale set should not be applied to the virtual machine scale set VM. */
   protectFromScaleSetActions?: boolean;
+}
+
+/** The Resource model definition with location property as optional. */
+export interface ResourceWithOptionalLocation {
+  /** Resource location */
+  location?: string;
+  /**
+   * Resource Id
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * Resource name
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Resource type
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /** Resource tags */
+  tags?: { [propertyName: string]: string };
 }
 
 /** Identity for the virtual machine. */
@@ -2766,7 +2780,7 @@ export interface CapacityReservationGroupInstanceView {
    */
   readonly capacityReservations?: CapacityReservationInstanceViewWithName[];
   /**
-   * List of the subscriptions that the capacity reservation group is shared with. **Note:** Minimum api-version: 2024-03-01. Please refer to https://aka.ms/computereservationsharing for more details.
+   * List of the subscriptions that the capacity reservation group is shared with. **Note:** Minimum api-version: 2023-09-01. Please refer to https://aka.ms/computereservationsharing for more details.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly sharedSubscriptionIds?: SubResourceReadOnly[];
@@ -2795,7 +2809,7 @@ export interface CapacityReservationUtilization {
 }
 
 export interface ResourceSharingProfile {
-  /** Specifies an array of subscription resource IDs that capacity reservation group is shared with. **Note:** Minimum api-version: 2024-03-01. Please refer to https://aka.ms/computereservationsharing for more details. */
+  /** Specifies an array of subscription resource IDs that capacity reservation group is shared with. **Note:** Minimum api-version: 2023-09-01. Please refer to https://aka.ms/computereservationsharing for more details. */
   subscriptionIds?: SubResource[];
 }
 
@@ -5122,39 +5136,6 @@ export interface DiskRestorePointAttributes extends SubResourceReadOnly {
   sourceDiskRestorePoint?: ApiEntityReference;
 }
 
-/** Describes a Virtual Machine Extension. */
-export interface VirtualMachineExtension extends ResourceWithOptionalLocation {
-  /** How the extension handler should be forced to update even if the extension configuration has not changed. */
-  forceUpdateTag?: string;
-  /** The name of the extension handler publisher. */
-  publisher?: string;
-  /** Specifies the type of the extension; an example is "CustomScriptExtension". */
-  typePropertiesType?: string;
-  /** Specifies the version of the script handler. */
-  typeHandlerVersion?: string;
-  /** Indicates whether the extension should use a newer minor version if one is available at deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this property set to true. */
-  autoUpgradeMinorVersion?: boolean;
-  /** Indicates whether the extension should be automatically upgraded by the platform if there is a newer version of the extension available. */
-  enableAutomaticUpgrade?: boolean;
-  /** Json formatted public settings for the extension. */
-  settings?: any;
-  /** The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all. */
-  protectedSettings?: any;
-  /**
-   * The provisioning state, which only appears in the response.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: string;
-  /** The virtual machine extension instance view. */
-  instanceView?: VirtualMachineExtensionInstanceView;
-  /** Indicates whether failures stemming from the extension will be suppressed (Operational failures such as not connecting to the VM will not be suppressed regardless of this value). The default is false. */
-  suppressFailures?: boolean;
-  /** The extensions protected settings that are passed by reference, and consumed from key vault */
-  protectedSettingsFromKeyVault?: KeyVaultSecretReference;
-  /** Collection of extension names after which this extension needs to be provisioned. */
-  provisionAfterExtensions?: string[];
-}
-
 /** Describes a Virtual Machine Scale Set. */
 export interface VirtualMachineScaleSet extends Resource {
   /** The virtual machine scale set sku. */
@@ -5223,6 +5204,8 @@ export interface VirtualMachineScaleSet extends Resource {
   constrainedMaximumCapacity?: boolean;
   /** Policy for Resiliency */
   resiliencyPolicy?: ResiliencyPolicy;
+  /** Specifies the align mode between Virtual Machine Scale Set compute and storage Fault Domain count. */
+  zonalPlatformFaultDomainAlignMode?: ZonalPlatformFaultDomainAlignMode;
 }
 
 /** The status of the latest virtual machine scale set rolling upgrade. */
@@ -5327,10 +5310,10 @@ export interface VirtualMachineScaleSetVM extends Resource {
   readonly modelDefinitionApplied?: string;
   /** Specifies the protection policy of the virtual machine. */
   protectionPolicy?: VirtualMachineScaleSetVMProtectionPolicy;
-  /** UserData for the VM, which must be base-64 encoded. Customer should not pass any secrets in here. <br><br>Minimum api-version: 2021-03-01 */
+  /** UserData for the VM, which must be base-64 encoded. Customer should not pass any secrets in here. Minimum api-version: 2021-03-01 */
   userData?: string;
   /**
-   * Specifies the time at which the Virtual Machine resource was created.<br><br>Minimum api-version: 2021-11-01.
+   * Specifies the time at which the Virtual Machine resource was created. Minimum api-version: 2021-11-01.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly timeCreated?: Date;
@@ -5616,7 +5599,7 @@ export interface CapacityReservationGroup extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly instanceView?: CapacityReservationGroupInstanceView;
-  /** Specifies the settings to enable sharing across subscriptions for the capacity reservation group resource. Pls. keep in mind the capacity reservation group resource generally can be shared across subscriptions belonging to a single azure AAD tenant or cross AAD tenant if there is a trust relationship established between the AAD tenants. **Note:** Minimum api-version: 2024-03-01. Please refer to https://aka.ms/computereservationsharing for more details. */
+  /** Specifies the settings to enable sharing across subscriptions for the capacity reservation group resource. Pls. keep in mind the capacity reservation group resource generally can be shared across subscriptions belonging to a single azure AAD tenant or cross AAD tenant if there is a trust relationship established between the AAD tenants. **Note:** Minimum api-version: 2023-09-01. Please refer to https://aka.ms/computereservationsharing for more details. */
   sharingProfile?: ResourceSharingProfile;
 }
 
@@ -6093,6 +6076,8 @@ export interface VirtualMachineScaleSetUpdate extends UpdateResource {
   spotRestorePolicy?: SpotRestorePolicy;
   /** Policy for Resiliency */
   resiliencyPolicy?: ResiliencyPolicy;
+  /** Specifies the align mode between Virtual Machine Scale Set compute and storage Fault Domain count. */
+  zonalPlatformFaultDomainAlignMode?: ZonalPlatformFaultDomainAlignMode;
 }
 
 /** Describes a Virtual Machine Extension. */
@@ -6340,7 +6325,7 @@ export interface CapacityReservationGroupUpdate extends UpdateResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly instanceView?: CapacityReservationGroupInstanceView;
-  /** Specifies the settings to enable sharing across subscriptions for the capacity reservation group resource. Pls. keep in mind the capacity reservation group resource generally can be shared across subscriptions belonging to a single azure AAD tenant or cross AAD tenant if there is a trust relationship established between the AAD tenants. **Note:** Minimum api-version: 2024-03-01. Please refer to https://aka.ms/computereservationsharing for more details. */
+  /** Specifies the settings to enable sharing across subscriptions for the capacity reservation group resource. Pls. keep in mind the capacity reservation group resource generally can be shared across subscriptions belonging to a single azure AAD tenant or cross AAD tenant if there is a trust relationship established between the AAD tenants. **Note:** Minimum api-version: 2023-09-01. Please refer to https://aka.ms/computereservationsharing for more details. */
   sharingProfile?: ResourceSharingProfile;
 }
 
@@ -6428,6 +6413,39 @@ export interface VirtualMachineScaleSetVMReimageParameters
   extends VirtualMachineReimageParameters {
   /** Parameter to force update ephemeral OS disk for a virtual machine scale set VM */
   forceUpdateOSDiskForEphemeral?: boolean;
+}
+
+/** Describes a Virtual Machine Extension. */
+export interface VirtualMachineExtension extends ResourceWithOptionalLocation {
+  /** How the extension handler should be forced to update even if the extension configuration has not changed. */
+  forceUpdateTag?: string;
+  /** The name of the extension handler publisher. */
+  publisher?: string;
+  /** Specifies the type of the extension; an example is "CustomScriptExtension". */
+  typePropertiesType?: string;
+  /** Specifies the version of the script handler. */
+  typeHandlerVersion?: string;
+  /** Indicates whether the extension should use a newer minor version if one is available at deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this property set to true. */
+  autoUpgradeMinorVersion?: boolean;
+  /** Indicates whether the extension should be automatically upgraded by the platform if there is a newer version of the extension available. */
+  enableAutomaticUpgrade?: boolean;
+  /** Json formatted public settings for the extension. */
+  settings?: any;
+  /** The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all. */
+  protectedSettings?: any;
+  /**
+   * The provisioning state, which only appears in the response.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+  /** The virtual machine extension instance view. */
+  instanceView?: VirtualMachineExtensionInstanceView;
+  /** Indicates whether failures stemming from the extension will be suppressed (Operational failures such as not connecting to the VM will not be suppressed regardless of this value). The default is false. */
+  suppressFailures?: boolean;
+  /** The extensions protected settings that are passed by reference, and consumed from key vault */
+  protectedSettingsFromKeyVault?: KeyVaultSecretReference;
+  /** Collection of extension names after which this extension needs to be provisioned. */
+  provisionAfterExtensions?: string[];
 }
 
 /** The instance view of a dedicated host that includes the name of the dedicated host. It is used for the response to the instance view of a dedicated host group. */
@@ -7497,6 +7515,24 @@ export enum KnownOrchestrationMode {
  * **Flexible**
  */
 export type OrchestrationMode = string;
+
+/** Known values of {@link ZonalPlatformFaultDomainAlignMode} that the service accepts. */
+export enum KnownZonalPlatformFaultDomainAlignMode {
+  /** Aligned */
+  Aligned = "Aligned",
+  /** Unaligned */
+  Unaligned = "Unaligned",
+}
+
+/**
+ * Defines values for ZonalPlatformFaultDomainAlignMode. \
+ * {@link KnownZonalPlatformFaultDomainAlignMode} can be used interchangeably with ZonalPlatformFaultDomainAlignMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Aligned** \
+ * **Unaligned**
+ */
+export type ZonalPlatformFaultDomainAlignMode = string;
 
 /** Known values of {@link ExtendedLocationTypes} that the service accepts. */
 export enum KnownExtendedLocationTypes {
@@ -9679,14 +9715,14 @@ export type ProtocolTypes = "Http" | "Https";
 export type CachingTypes = "None" | "ReadOnly" | "ReadWrite";
 /** Defines values for OperatingSystemTypes. */
 export type OperatingSystemTypes = "Windows" | "Linux";
-/** Defines values for StatusLevelTypes. */
-export type StatusLevelTypes = "Info" | "Warning" | "Error";
 /** Defines values for ResourceIdentityType. */
 export type ResourceIdentityType =
   | "SystemAssigned"
   | "UserAssigned"
   | "SystemAssigned, UserAssigned"
   | "None";
+/** Defines values for StatusLevelTypes. */
+export type StatusLevelTypes = "Info" | "Warning" | "Error";
 /** Defines values for VirtualMachineScaleSetSkuScaleType. */
 export type VirtualMachineScaleSetSkuScaleType = "Automatic" | "None";
 /** Defines values for UpgradeState. */
@@ -10570,7 +10606,7 @@ export interface VirtualMachinesConvertToManagedDisksOptionalParams
 /** Optional parameters. */
 export interface VirtualMachinesDeallocateOptionalParams
   extends coreClient.OperationOptions {
-  /** Optional parameter to hibernate a virtual machine. (Feature in Preview) */
+  /** Optional parameter to hibernate a virtual machine. */
   hibernate?: boolean;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
