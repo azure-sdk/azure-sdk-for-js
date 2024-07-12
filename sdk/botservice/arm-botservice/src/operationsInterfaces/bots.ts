@@ -20,7 +20,7 @@ import {
   BotsGetResponse,
   CheckNameAvailabilityRequestBody,
   BotsGetCheckNameAvailabilityOptionalParams,
-  BotsGetCheckNameAvailabilityResponse
+  BotsGetCheckNameAvailabilityResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface Bots {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: BotsListByResourceGroupOptionalParams
+    options?: BotsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Bot>;
   /**
    * Returns all the resources of a particular type belonging to a subscription.
@@ -51,7 +51,7 @@ export interface Bots {
     resourceGroupName: string,
     resourceName: string,
     parameters: Bot,
-    options?: BotsCreateOptionalParams
+    options?: BotsCreateOptionalParams,
   ): Promise<BotsCreateResponse>;
   /**
    * Updates a Bot Service
@@ -62,7 +62,7 @@ export interface Bots {
   update(
     resourceGroupName: string,
     resourceName: string,
-    options?: BotsUpdateOptionalParams
+    options?: BotsUpdateOptionalParams,
   ): Promise<BotsUpdateResponse>;
   /**
    * Deletes a Bot Service from the resource group.
@@ -73,7 +73,7 @@ export interface Bots {
   delete(
     resourceGroupName: string,
     resourceName: string,
-    options?: BotsDeleteOptionalParams
+    options?: BotsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Returns a BotService specified by the parameters.
@@ -84,7 +84,7 @@ export interface Bots {
   get(
     resourceGroupName: string,
     resourceName: string,
-    options?: BotsGetOptionalParams
+    options?: BotsGetOptionalParams,
   ): Promise<BotsGetResponse>;
   /**
    * Check whether a bot name is available.
@@ -93,6 +93,6 @@ export interface Bots {
    */
   getCheckNameAvailability(
     parameters: CheckNameAvailabilityRequestBody,
-    options?: BotsGetCheckNameAvailabilityOptionalParams
+    options?: BotsGetCheckNameAvailabilityOptionalParams,
   ): Promise<BotsGetCheckNameAvailabilityResponse>;
 }
