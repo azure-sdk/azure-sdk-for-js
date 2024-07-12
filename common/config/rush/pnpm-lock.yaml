@@ -12002,7 +12002,7 @@ packages:
     dev: false
 
   file:projects/arm-agrifood.tgz:
-    resolution: {integrity: sha512-Y3bEbP7rhgnaAWTMQbpcJUCl8YePWqbH+dwcKRCXOh6UwRhOfVB01g1PHcxwuNr/L0ULjZhP6YERyHsLOPglkA==, tarball: file:projects/arm-agrifood.tgz}
+    resolution: {integrity: sha512-ebk7uyopqtrhNpa+Q7pOu6KSPCh2C2fQcwDCRfZ8fdfG/mjnSnCUM9QMAvJd0fml4/85bm0pTkr/8FSyg3yQcA==, tarball: file:projects/arm-agrifood.tgz}
     name: '@rush-temp/arm-agrifood'
     version: 0.0.0
     dependencies:
@@ -12016,11 +12016,13 @@ packages:
       '@types/node': 18.19.39
       chai: 4.3.10
       cross-env: 7.0.3
+      dotenv: 16.4.5
       mkdirp: 3.0.1
       mocha: 10.5.2
       rimraf: 5.0.7
       ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.4.5)
       tslib: 2.6.3
+      tsx: 4.16.0
       typescript: 5.4.5
       uglify-js: 3.18.0
     transitivePeerDependencies:
@@ -20333,7 +20335,7 @@ packages:
     dev: false
 
   file:projects/event-hubs.tgz:
-    resolution: {integrity: sha512-xYQLYBO4TGESs2pRrCvymd+Dcwxt1XrIGFCh2uh/W4ZV88Ylenqoq0ORPvdMUECqnGbXTsacyWMe93l1FFkq6A==, tarball: file:projects/event-hubs.tgz}
+    resolution: {integrity: sha512-w2QQKZjOUsNAB8h+fiYZGb3HwLMPxmrgL5k810k2KH/QjUufjwoRvrCpD860O2rBTcwSTg1IUx26Yn09p9a+eA==, tarball: file:projects/event-hubs.tgz}
     name: '@rush-temp/event-hubs'
     version: 0.0.0
     dependencies:
