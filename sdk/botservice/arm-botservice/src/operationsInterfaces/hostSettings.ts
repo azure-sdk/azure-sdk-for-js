@@ -8,7 +8,7 @@
 
 import {
   HostSettingsGetOptionalParams,
-  HostSettingsGetResponse
+  HostSettingsGetResponse,
 } from "../models";
 
 /** Interface representing a HostSettings. */
@@ -18,6 +18,6 @@ export interface HostSettings {
    * @param options The options parameters.
    */
   get(
-    options?: HostSettingsGetOptionalParams
+    options?: HostSettingsGetOptionalParams,
   ): Promise<HostSettingsGetResponse>;
 }

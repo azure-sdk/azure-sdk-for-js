@@ -14,7 +14,7 @@ import { AzureBotService } from "../azureBotService";
 import {
   QnAMakerEndpointKeysRequestBody,
   QnAMakerEndpointKeysGetOptionalParams,
-  QnAMakerEndpointKeysGetResponse
+  QnAMakerEndpointKeysGetResponse,
 } from "../models";
 
 /** Class containing QnAMakerEndpointKeys operations. */
@@ -36,11 +36,11 @@ export class QnAMakerEndpointKeysImpl implements QnAMakerEndpointKeys {
    */
   get(
     parameters: QnAMakerEndpointKeysRequestBody,
-    options?: QnAMakerEndpointKeysGetOptionalParams
+    options?: QnAMakerEndpointKeysGetOptionalParams,
   ): Promise<QnAMakerEndpointKeysGetResponse> {
     return this.client.sendOperationRequest(
       { parameters, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -48,21 +48,20 @@ export class QnAMakerEndpointKeysImpl implements QnAMakerEndpointKeys {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.BotService/listQnAMakerEndpointKeys",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.BotService/listQnAMakerEndpointKeys",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.QnAMakerEndpointKeysResponse
+      bodyMapper: Mappers.QnAMakerEndpointKeysResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   requestBody: Parameters.parameters7,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
