@@ -8,11 +8,13 @@ import {
   CompletionsOptions,
   ChatCompletionsOptions,
   ImageGenerationOptions,
+  SpeechGenerationOptions,
   EmbeddingsOptions,
 } from "./models.js";
 
 export interface GetAudioTranscriptionAsPlainTextBodyParam {
-  body?: AudioTranscriptionOptions;
+  /** Body parameter. */
+  body: AudioTranscriptionOptions;
 }
 
 export interface GetAudioTranscriptionAsPlainTextMediaTypesParam {
@@ -26,7 +28,8 @@ export type GetAudioTranscriptionAsPlainTextParameters =
     RequestParameters;
 
 export interface GetAudioTranscriptionAsResponseObjectBodyParam {
-  body?: AudioTranscriptionOptions;
+  /** Body parameter. */
+  body: AudioTranscriptionOptions;
 }
 
 export interface GetAudioTranscriptionAsResponseObjectMediaTypesParam {
@@ -40,7 +43,8 @@ export type GetAudioTranscriptionAsResponseObjectParameters =
     RequestParameters;
 
 export interface GetAudioTranslationAsPlainTextBodyParam {
-  body?: AudioTranslationOptions;
+  /** Body parameter. */
+  body: AudioTranslationOptions;
 }
 
 export interface GetAudioTranslationAsPlainTextMediaTypesParam {
@@ -54,7 +58,8 @@ export type GetAudioTranslationAsPlainTextParameters =
     RequestParameters;
 
 export interface GetAudioTranslationAsResponseObjectBodyParam {
-  body?: AudioTranslationOptions;
+  /** Body parameter. */
+  body: AudioTranslationOptions;
 }
 
 export interface GetAudioTranslationAsResponseObjectMediaTypesParam {
@@ -68,25 +73,40 @@ export type GetAudioTranslationAsResponseObjectParameters =
     RequestParameters;
 
 export interface GetCompletionsBodyParam {
-  body?: CompletionsOptions;
+  /** Body parameter. */
+  body: CompletionsOptions;
 }
 
-export type GetCompletionsParameters = GetCompletionsBodyParam & RequestParameters;
+export type GetCompletionsParameters = GetCompletionsBodyParam &
+  RequestParameters;
 
 export interface GetChatCompletionsBodyParam {
   body?: ChatCompletionsOptions;
 }
 
-export type GetChatCompletionsParameters = GetChatCompletionsBodyParam & RequestParameters;
+export type GetChatCompletionsParameters = GetChatCompletionsBodyParam &
+  RequestParameters;
 
 export interface GetImageGenerationsBodyParam {
-  body?: ImageGenerationOptions;
+  /** Body parameter. */
+  body: ImageGenerationOptions;
 }
 
-export type GetImageGenerationsParameters = GetImageGenerationsBodyParam & RequestParameters;
+export type GetImageGenerationsParameters = GetImageGenerationsBodyParam &
+  RequestParameters;
+
+export interface GenerateSpeechFromTextBodyParam {
+  /** Body parameter. */
+  body: SpeechGenerationOptions;
+}
+
+export type GenerateSpeechFromTextParameters = GenerateSpeechFromTextBodyParam &
+  RequestParameters;
 
 export interface GetEmbeddingsBodyParam {
-  body?: EmbeddingsOptions;
+  /** Body parameter. */
+  body: EmbeddingsOptions;
 }
 
-export type GetEmbeddingsParameters = GetEmbeddingsBodyParam & RequestParameters;
+export type GetEmbeddingsParameters = GetEmbeddingsBodyParam &
+  RequestParameters;
