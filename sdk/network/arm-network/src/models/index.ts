@@ -218,10 +218,47 @@ export interface TrafficAnalyticsConfigurationProperties {
   trafficAnalyticsInterval?: number;
 }
 
+/** Identity for the resource. */
+export interface ManagedServiceIdentity {
+  /**
+   * The principal id of the system assigned identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant id of the system assigned identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /** The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine. */
+  type?: ResourceIdentityType;
+  /** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
+  userAssignedIdentities?: {
+    [
+      propertyName: string
+    ]: Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties;
+  };
+}
+
+export interface Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties {
+  /**
+   * The principal id of user assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The client id of user assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientId?: string;
+}
+
 /** The service endpoint properties. */
 export interface ServiceEndpointPropertiesFormat {
   /** The type of the endpoint service. */
   service?: string;
+  /** SubResource as network identifier. */
+  networkIdentifier?: SubResource;
   /** A list of locations. */
   locations?: string[];
   /**
@@ -492,41 +529,6 @@ export interface ApplicationGatewayGlobalConfiguration {
   enableRequestBuffering?: boolean;
   /** Enable response buffering. */
   enableResponseBuffering?: boolean;
-}
-
-/** Identity for the resource. */
-export interface ManagedServiceIdentity {
-  /**
-   * The principal id of the system assigned identity. This property will only be provided for a system assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalId?: string;
-  /**
-   * The tenant id of the system assigned identity. This property will only be provided for a system assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly tenantId?: string;
-  /** The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine. */
-  type?: ResourceIdentityType;
-  /** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: {
-    [
-      propertyName: string
-    ]: Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties;
-  };
-}
-
-export interface Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties {
-  /**
-   * The principal id of user assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalId?: string;
-  /**
-   * The client id of user assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly clientId?: string;
 }
 
 /** Tags object for patch operations. */
@@ -928,6 +930,24 @@ export interface IPPrefixesList {
   ipPrefixes?: string[];
 }
 
+/** Azure Firewall Packet Capture Parameters. */
+export interface FirewallPacketCaptureParameters {
+  /** Duration of packet capture in seconds. */
+  durationInSeconds?: number;
+  /** Number of packets to be captured. */
+  numberOfPacketsToCapture?: number;
+  /** Upload capture location */
+  sasUrl?: string;
+  /** Name of file to be uploaded to sasURL */
+  fileName?: string;
+  /** The protocol of packets to capture */
+  protocol?: AzureFirewallNetworkRuleProtocol;
+  /** The tcp-flag type to be captured. Used with protocol TCP */
+  flags?: AzureFirewallPacketCaptureFlags[];
+  /** Rules to filter packet captures. */
+  filters?: AzureFirewallPacketCaptureRule[];
+}
+
 /** Properties of the AzureFirewallRCAction. */
 export interface AzureFirewallPacketCaptureFlags {
   /** Flags to capture */
@@ -998,7 +1018,7 @@ export interface IPRule {
 
 /** The sku of this Bastion Host. */
 export interface Sku {
-  /** The name of this Bastion Host. */
+  /** The name of the sku of this Bastion Host. */
   name?: BastionHostSkuName;
 }
 
@@ -3212,8 +3232,12 @@ export interface FlowLogInformation {
   targetResourceId: string;
   /** Parameters that define the configuration of traffic analytics. */
   flowAnalyticsConfiguration?: TrafficAnalyticsProperties;
+  /** FlowLog resource Managed Identity */
+  identity?: ManagedServiceIdentity;
   /** ID of the storage account which is used to store the flow log. */
   storageId: string;
+  /** Optional field to filter network traffic logs based on SrcIP, SrcPort, DstIP, DstPort, Protocol, Encryption, Direction and Action. If not specified, all network traffic will be logged. */
+  enabledFilteringCriteria?: string;
   /** Flag to enable/disable flow logging. */
   enabled: boolean;
   /** Parameters that define the retention policy for flow log. */
@@ -7557,24 +7581,6 @@ export interface AzureFirewallIPConfiguration extends SubResource {
   readonly provisioningState?: ProvisioningState;
 }
 
-/** Azure Firewall Packet Capture Parameters resource. */
-export interface FirewallPacketCaptureParameters extends SubResource {
-  /** Duration of packet capture in seconds. */
-  durationInSeconds?: number;
-  /** Number of packets to be captured. */
-  numberOfPacketsToCapture?: number;
-  /** Upload capture location */
-  sasUrl?: string;
-  /** Name of file to be uploaded to sasURL */
-  fileName?: string;
-  /** The protocol of packets to capture */
-  protocol?: AzureFirewallNetworkRuleProtocol;
-  /** The tcp-flag type to be captured. Used with protocol TCP */
-  flags?: AzureFirewallPacketCaptureFlags[];
-  /** Rules to filter packet captures. */
-  filters?: AzureFirewallPacketCaptureRule[];
-}
-
 /** IP configuration of an Bastion Host. */
 export interface BastionHostIPConfiguration extends SubResource {
   /** Name of the resource that is unique within a resource group. This name can be used to access the resource. */
@@ -7634,6 +7640,11 @@ export interface ExpressRouteCircuitAuthorization extends SubResource {
   authorizationKey?: string;
   /** The authorization use status. */
   authorizationUseStatus?: AuthorizationUseStatus;
+  /**
+   * The reference to the ExpressRoute connection resource using the authorization.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly connectionResourceUri?: string;
   /**
    * The provisioning state of the authorization resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -8040,6 +8051,8 @@ export interface Probe extends SubResource {
   port?: number;
   /** The interval, in seconds, for how frequently to probe the endpoint for health status. Typically, the interval is slightly less than half the allocated timeout period (in seconds) which allows two full probes before taking the instance out of rotation. The default value is 15, the minimum value is 5. */
   intervalInSeconds?: number;
+  /** Determines how new connections are handled by the load balancer when all backend instances are probed down. */
+  noHealthyBackendsBehavior?: ProbeNoHealthyBackendsBehavior;
   /** The number of probes where if no response, will result in stopping further traffic from being delivered to the endpoint. This values allows endpoints to be taken out of rotation faster or slower than the typical times used in Azure. */
   numberOfProbes?: number;
   /** The number of consecutive successful or failed probes in order to allow or deny traffic from being delivered to this endpoint. After failing the number of consecutive probes equal to this value, the endpoint will be taken out of rotation and require the same number of successful consecutive probes to be placed back in rotation. */
@@ -9144,6 +9157,8 @@ export interface PrivateLinkService extends Resource {
   loadBalancerFrontendIpConfigurations?: FrontendIPConfiguration[];
   /** An array of private link service IP configurations. */
   ipConfigurations?: PrivateLinkServiceIpConfiguration[];
+  /** The destination IP address of the private link service. */
+  destinationIPAddress?: string;
   /**
    * An array of references to the network interfaces created for this private link service.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -9266,6 +9281,8 @@ export interface FlowLog extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly etag?: string;
+  /** FlowLog resource Managed Identity */
+  identity?: ManagedServiceIdentity;
   /** ID of network security group to which flow log will be applied. */
   targetResourceId?: string;
   /**
@@ -9275,6 +9292,8 @@ export interface FlowLog extends Resource {
   readonly targetResourceGuid?: string;
   /** ID of the storage account which is used to store the flow log. */
   storageId?: string;
+  /** Optional field to filter network traffic logs based on SrcIP, SrcPort, DstIP, DstPort, Protocol, Encryption, Direction and Action. If not specified, all network traffic will be logged. */
+  enabledFilteringCriteria?: string;
   /** Flag to enable/disable flow logging. */
   enabled?: boolean;
   /** Parameters that define the retention policy for flow log. */
@@ -9744,6 +9763,8 @@ export interface BastionHost extends Resource {
   enableTunneling?: boolean;
   /** Enable/Disable Kerberos feature of the Bastion Host resource. */
   enableKerberos?: boolean;
+  /** Enable/Disable Session Recording feature of the Bastion Host resource. */
+  enableSessionRecording?: boolean;
 }
 
 /** Describes a Virtual Machine. */
@@ -10582,6 +10603,8 @@ export interface VirtualNetwork extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly flowLogs?: FlowLog[];
+  /** Private Endpoint VNet Policies. */
+  privateEndpointVNetPolicies?: PrivateEndpointVNetPolicies;
 }
 
 /** Network Intent Policy resource. */
@@ -10602,6 +10625,8 @@ export interface VirtualNetworkGateway extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly etag?: string;
+  /** The identity of the virtual network gateway, if configured. */
+  identity?: ManagedServiceIdentity;
   /** Autoscale configuration for virutal network gateway */
   autoScaleConfiguration?: VirtualNetworkGatewayAutoScaleConfiguration;
   /** IP configurations for virtual network gateway. */
@@ -11824,6 +11849,42 @@ export interface DdosProtectionPlansDeleteHeaders {
   location?: string;
 }
 
+/** Defines headers for ExpressRoutePorts_delete operation. */
+export interface ExpressRoutePortsDeleteHeaders {
+  /**
+   * URL for determining when an operation has completed. Send a GET request to the URL in Location header.
+   * The URI should return a 202 until the operation reaches a terminal state and 200 once it reaches a terminal state.
+   *
+   * For more info: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#202-accepted-and-location-headers
+   */
+  location?: string;
+  /**
+   * URL for checking the ongoing status of the operation.
+   * To get the status of the asynchronous operation, send a GET request to the URL in Azure-AsyncOperation header value.
+   *
+   * For more info: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#asynchronous-operations
+   */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for ExpressRoutePortAuthorizations_delete operation. */
+export interface ExpressRoutePortAuthorizationsDeleteHeaders {
+  /**
+   * URL for determining when an operation has completed. Send a GET request to the URL in Location header.
+   * The URI should return a 202 until the operation reaches a terminal state and 200 once it reaches a terminal state.
+   *
+   * For more info: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#202-accepted-and-location-headers
+   */
+  location?: string;
+  /**
+   * URL for checking the ongoing status of the operation.
+   * To get the status of the asynchronous operation, send a GET request to the URL in Azure-AsyncOperation header value.
+   *
+   * For more info: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#asynchronous-operations
+   */
+  azureAsyncOperation?: string;
+}
+
 /** Defines headers for FirewallPolicyDeployments_deploy operation. */
 export interface FirewallPolicyDeploymentsDeployHeaders {
   /** URL to get the status of the operation. */
@@ -11896,6 +11957,42 @@ export interface NetworkVirtualAppliancesCreateOrUpdateHeaders {
 export interface NetworkVirtualAppliancesRestartHeaders {
   /** The URL of the resource used to check the status of the asynchronous operation. */
   location?: string;
+}
+
+/** Defines headers for RouteFilters_delete operation. */
+export interface RouteFiltersDeleteHeaders {
+  /**
+   * URL for determining when an operation has completed. Send a GET request to the URL in Location header.
+   * The URI should return a 202 until the operation reaches a terminal state and 200 once it reaches a terminal state.
+   *
+   * For more info: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#202-accepted-and-location-headers
+   */
+  location?: string;
+  /**
+   * URL for checking the ongoing status of the operation.
+   * To get the status of the asynchronous operation, send a GET request to the URL in Azure-AsyncOperation header value.
+   *
+   * For more info: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#asynchronous-operations
+   */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for RouteFilterRules_delete operation. */
+export interface RouteFilterRulesDeleteHeaders {
+  /**
+   * URL for determining when an operation has completed. Send a GET request to the URL in Location header.
+   * The URI should return a 202 until the operation reaches a terminal state and 200 once it reaches a terminal state.
+   *
+   * For more info: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#202-accepted-and-location-headers
+   */
+  location?: string;
+  /**
+   * URL for checking the ongoing status of the operation.
+   * To get the status of the asynchronous operation, send a GET request to the URL in Azure-AsyncOperation header value.
+   *
+   * For more info: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#asynchronous-operations
+   */
+  azureAsyncOperation?: string;
 }
 
 /** Defines headers for NetworkVirtualApplianceConnections_delete operation. */
@@ -13214,6 +13311,8 @@ export enum KnownBastionHostSkuName {
   Standard = "Standard",
   /** Developer */
   Developer = "Developer",
+  /** Premium */
+  Premium = "Premium",
 }
 
 /**
@@ -13223,7 +13322,8 @@ export enum KnownBastionHostSkuName {
  * ### Known values supported by the service
  * **Basic** \
  * **Standard** \
- * **Developer**
+ * **Developer** \
+ * **Premium**
  */
 export type BastionHostSkuName = string;
 
@@ -13940,6 +14040,24 @@ export enum KnownProbeProtocol {
  * **Https**
  */
 export type ProbeProtocol = string;
+
+/** Known values of {@link ProbeNoHealthyBackendsBehavior} that the service accepts. */
+export enum KnownProbeNoHealthyBackendsBehavior {
+  /** No new flows will be sent to the backend pool. */
+  AllProbedDown = "AllProbedDown",
+  /** When all backend instances are probed down, incoming packets will be sent to all instances. */
+  AllProbedUp = "AllProbedUp",
+}
+
+/**
+ * Defines values for ProbeNoHealthyBackendsBehavior. \
+ * {@link KnownProbeNoHealthyBackendsBehavior} can be used interchangeably with ProbeNoHealthyBackendsBehavior,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AllProbedDown**: No new flows will be sent to the backend pool. \
+ * **AllProbedUp**: When all backend instances are probed down, incoming packets will be sent to all instances.
+ */
+export type ProbeNoHealthyBackendsBehavior = string;
 
 /** Known values of {@link LoadBalancerOutboundRuleProtocol} that the service accepts. */
 export enum KnownLoadBalancerOutboundRuleProtocol {
@@ -15137,6 +15255,24 @@ export enum KnownVirtualNetworkPeeringLevel {
  * **LocalAndRemoteNotInSync**
  */
 export type VirtualNetworkPeeringLevel = string;
+
+/** Known values of {@link PrivateEndpointVNetPolicies} that the service accepts. */
+export enum KnownPrivateEndpointVNetPolicies {
+  /** Disabled */
+  Disabled = "Disabled",
+  /** Basic */
+  Basic = "Basic",
+}
+
+/**
+ * Defines values for PrivateEndpointVNetPolicies. \
+ * {@link KnownPrivateEndpointVNetPolicies} can be used interchangeably with PrivateEndpointVNetPolicies,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Disabled** \
+ * **Basic**
+ */
+export type PrivateEndpointVNetPolicies = string;
 
 /** Known values of {@link SyncRemoteAddressSpace} that the service accepts. */
 export enum KnownSyncRemoteAddressSpace {
@@ -16838,18 +16974,18 @@ export enum KnownHubVirtualNetworkConnectionStatus {
  * **NotConnected**
  */
 export type HubVirtualNetworkConnectionStatus = string;
-/** Defines values for PublicIpAddressDnsSettingsDomainNameLabelScope. */
-export type PublicIpAddressDnsSettingsDomainNameLabelScope =
-  | "TenantReuse"
-  | "SubscriptionReuse"
-  | "ResourceGroupReuse"
-  | "NoReuse";
 /** Defines values for ResourceIdentityType. */
 export type ResourceIdentityType =
   | "SystemAssigned"
   | "UserAssigned"
   | "SystemAssigned, UserAssigned"
   | "None";
+/** Defines values for PublicIpAddressDnsSettingsDomainNameLabelScope. */
+export type PublicIpAddressDnsSettingsDomainNameLabelScope =
+  | "TenantReuse"
+  | "SubscriptionReuse"
+  | "ResourceGroupReuse"
+  | "NoReuse";
 /** Defines values for SlotType. */
 export type SlotType = "Production" | "Staging";
 /** Defines values for FirewallPolicyIdpsSignatureMode. */
@@ -18560,7 +18696,10 @@ export type ExpressRouteServiceProvidersListNextResponse =
 
 /** Optional parameters. */
 export interface ExpressRouteCrossConnectionsListOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** The filter to apply on the operation. For example, you can use $filter=name eq '{circuitServiceKey}'. */
+  filter?: string;
+}
 
 /** Contains response data for the list operation. */
 export type ExpressRouteCrossConnectionsListResponse =
@@ -20507,6 +20646,13 @@ export interface InboundSecurityRuleCreateOrUpdateOptionalParams
 
 /** Contains response data for the createOrUpdate operation. */
 export type InboundSecurityRuleCreateOrUpdateResponse = InboundSecurityRule;
+
+/** Optional parameters. */
+export interface InboundSecurityRuleGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type InboundSecurityRuleGetResponse = InboundSecurityRule;
 
 /** Optional parameters. */
 export interface NetworkWatchersCreateOrUpdateOptionalParams
