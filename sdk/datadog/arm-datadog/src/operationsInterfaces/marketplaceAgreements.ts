@@ -10,8 +10,6 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   DatadogAgreementResource,
   MarketplaceAgreementsListOptionalParams,
-  MarketplaceAgreementsCreateOrUpdateOptionalParams,
-  MarketplaceAgreementsCreateOrUpdateResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -22,13 +20,6 @@ export interface MarketplaceAgreements {
    * @param options The options parameters.
    */
   list(
-    options?: MarketplaceAgreementsListOptionalParams
+    options?: MarketplaceAgreementsListOptionalParams,
   ): PagedAsyncIterableIterator<DatadogAgreementResource>;
-  /**
-   * Create Datadog marketplace agreement in the subscription.
-   * @param options The options parameters.
-   */
-  createOrUpdate(
-    options?: MarketplaceAgreementsCreateOrUpdateOptionalParams
-  ): Promise<MarketplaceAgreementsCreateOrUpdateResponse>;
 }

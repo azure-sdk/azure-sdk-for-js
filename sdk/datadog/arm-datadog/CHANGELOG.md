@@ -1,5 +1,12 @@
 # Release History
     
+## 4.0.0 (2024-07-15)
+    
+**Breaking Changes**
+
+  - Removed operation MarketplaceAgreements.createOrUpdate
+    
+    
 ## 3.1.0 (2023-10-09)
     
 **Features**

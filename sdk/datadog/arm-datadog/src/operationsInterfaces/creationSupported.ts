@@ -11,7 +11,7 @@ import {
   CreateResourceSupportedResponse,
   CreationSupportedListOptionalParams,
   CreationSupportedGetOptionalParams,
-  CreationSupportedGetResponse
+  CreationSupportedGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -24,7 +24,7 @@ export interface CreationSupported {
    */
   list(
     datadogOrganizationId: string,
-    options?: CreationSupportedListOptionalParams
+    options?: CreationSupportedListOptionalParams,
   ): PagedAsyncIterableIterator<CreateResourceSupportedResponse>;
   /**
    * Informs if the current subscription is being already monitored for selected Datadog organization.
@@ -33,6 +33,6 @@ export interface CreationSupported {
    */
   get(
     datadogOrganizationId: string,
-    options?: CreationSupportedGetOptionalParams
+    options?: CreationSupportedGetOptionalParams,
   ): Promise<CreationSupportedGetResponse>;
 }
