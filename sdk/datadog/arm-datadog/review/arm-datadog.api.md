@@ -346,18 +346,8 @@ export type ManagedIdentityTypes = string;
 
 // @public
 export interface MarketplaceAgreements {
-    createOrUpdate(options?: MarketplaceAgreementsCreateOrUpdateOptionalParams): Promise<MarketplaceAgreementsCreateOrUpdateResponse>;
     list(options?: MarketplaceAgreementsListOptionalParams): PagedAsyncIterableIterator<DatadogAgreementResource>;
 }
-
-// @public
-export interface MarketplaceAgreementsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    // (undocumented)
-    body?: DatadogAgreementResource;
-}
-
-// @public
-export type MarketplaceAgreementsCreateOrUpdateResponse = DatadogAgreementResource;
 
 // @public
 export interface MarketplaceAgreementsListNextOptionalParams extends coreClient.OperationOptions {
