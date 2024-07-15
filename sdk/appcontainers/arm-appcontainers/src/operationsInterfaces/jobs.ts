@@ -9,11 +9,11 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
+  Diagnostics,
+  JobsListDetectorsOptionalParams,
   Job,
   JobsListBySubscriptionOptionalParams,
   JobsListByResourceGroupOptionalParams,
-  JobsListDetectorsOptionalParams,
-  JobsListDetectorsResponse,
   JobsGetDetectorOptionalParams,
   JobsGetDetectorResponse,
   JobsProxyGetOptionalParams,
@@ -29,6 +29,7 @@ import {
   JobsStartOptionalParams,
   JobsStartResponse,
   JobsStopExecutionOptionalParams,
+  JobsStopExecutionResponse,
   JobsStopMultipleExecutionsOptionalParams,
   JobsStopMultipleExecutionsResponse,
   JobsListSecretsOptionalParams,
@@ -38,6 +39,17 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Jobs. */
 export interface Jobs {
+  /**
+   * Get the list of diagnostics for a Container App Job.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param jobName Job Name
+   * @param options The options parameters.
+   */
+  listDetectors(
+    resourceGroupName: string,
+    jobName: string,
+    options?: JobsListDetectorsOptionalParams,
+  ): PagedAsyncIterableIterator<Diagnostics>;
   /**
    * Get the Container Apps Jobs in a given subscription.
    * @param options The options parameters.
@@ -54,17 +66,6 @@ export interface Jobs {
     resourceGroupName: string,
     options?: JobsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Job>;
-  /**
-   * Get the list of diagnostics for a Container App Job.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param jobName Job Name
-   * @param options The options parameters.
-   */
-  listDetectors(
-    resourceGroupName: string,
-    jobName: string,
-    options?: JobsListDetectorsOptionalParams,
-  ): Promise<JobsListDetectorsResponse>;
   /**
    * Get the diagnostics data for a Container App Job.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -217,7 +218,12 @@ export interface Jobs {
     jobName: string,
     jobExecutionName: string,
     options?: JobsStopExecutionOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<JobsStopExecutionResponse>,
+      JobsStopExecutionResponse
+    >
+  >;
   /**
    * Terminates execution of a running container apps job
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -230,7 +236,7 @@ export interface Jobs {
     jobName: string,
     jobExecutionName: string,
     options?: JobsStopExecutionOptionalParams,
-  ): Promise<void>;
+  ): Promise<JobsStopExecutionResponse>;
   /**
    * Terminates execution of a running container apps job
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

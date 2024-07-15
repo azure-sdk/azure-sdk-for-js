@@ -20,6 +20,10 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
+  Diagnostics,
+  JobsListDetectorsNextOptionalParams,
+  JobsListDetectorsOptionalParams,
+  JobsListDetectorsResponse,
   Job,
   JobsListBySubscriptionNextOptionalParams,
   JobsListBySubscriptionOptionalParams,
@@ -27,8 +31,6 @@ import {
   JobsListByResourceGroupNextOptionalParams,
   JobsListByResourceGroupOptionalParams,
   JobsListByResourceGroupResponse,
-  JobsListDetectorsOptionalParams,
-  JobsListDetectorsResponse,
   JobsGetDetectorOptionalParams,
   JobsGetDetectorResponse,
   JobsProxyGetOptionalParams,
@@ -44,10 +46,12 @@ import {
   JobsStartOptionalParams,
   JobsStartResponse,
   JobsStopExecutionOptionalParams,
+  JobsStopExecutionResponse,
   JobsStopMultipleExecutionsOptionalParams,
   JobsStopMultipleExecutionsResponse,
   JobsListSecretsOptionalParams,
   JobsListSecretsResponse,
+  JobsListDetectorsNextResponse,
   JobsListBySubscriptionNextResponse,
   JobsListByResourceGroupNextResponse,
 } from "../models";
@@ -63,6 +67,86 @@ export class JobsImpl implements Jobs {
    */
   constructor(client: ContainerAppsAPIClient) {
     this.client = client;
+  }
+
+  /**
+   * Get the list of diagnostics for a Container App Job.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param jobName Job Name
+   * @param options The options parameters.
+   */
+  public listDetectors(
+    resourceGroupName: string,
+    jobName: string,
+    options?: JobsListDetectorsOptionalParams,
+  ): PagedAsyncIterableIterator<Diagnostics> {
+    const iter = this.listDetectorsPagingAll(
+      resourceGroupName,
+      jobName,
+      options,
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listDetectorsPagingPage(
+          resourceGroupName,
+          jobName,
+          options,
+          settings,
+        );
+      },
+    };
+  }
+
+  private async *listDetectorsPagingPage(
+    resourceGroupName: string,
+    jobName: string,
+    options?: JobsListDetectorsOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<Diagnostics[]> {
+    let result: JobsListDetectorsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listDetectors(resourceGroupName, jobName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listDetectorsNext(
+        resourceGroupName,
+        jobName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listDetectorsPagingAll(
+    resourceGroupName: string,
+    jobName: string,
+    options?: JobsListDetectorsOptionalParams,
+  ): AsyncIterableIterator<Diagnostics> {
+    for await (const page of this.listDetectorsPagingPage(
+      resourceGroupName,
+      jobName,
+      options,
+    )) {
+      yield* page;
+    }
   }
 
   /**
@@ -194,7 +278,7 @@ export class JobsImpl implements Jobs {
    * @param jobName Job Name
    * @param options The options parameters.
    */
-  listDetectors(
+  private _listDetectors(
     resourceGroupName: string,
     jobName: string,
     options?: JobsListDetectorsOptionalParams,
@@ -645,11 +729,16 @@ export class JobsImpl implements Jobs {
     jobName: string,
     jobExecutionName: string,
     options?: JobsStopExecutionOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<JobsStopExecutionResponse>,
+      JobsStopExecutionResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<void> => {
+    ): Promise<JobsStopExecutionResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -689,7 +778,10 @@ export class JobsImpl implements Jobs {
       args: { resourceGroupName, jobName, jobExecutionName, options },
       spec: stopExecutionOperationSpec,
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      JobsStopExecutionResponse,
+      OperationState<JobsStopExecutionResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       resourceLocationConfig: "location",
@@ -710,7 +802,7 @@ export class JobsImpl implements Jobs {
     jobName: string,
     jobExecutionName: string,
     options?: JobsStopExecutionOptionalParams,
-  ): Promise<void> {
+  ): Promise<JobsStopExecutionResponse> {
     const poller = await this.beginStopExecution(
       resourceGroupName,
       jobName,
@@ -824,6 +916,25 @@ export class JobsImpl implements Jobs {
     return this.client.sendOperationRequest(
       { resourceGroupName, jobName, options },
       listSecretsOperationSpec,
+    );
+  }
+
+  /**
+   * ListDetectorsNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param jobName Job Name
+   * @param nextLink The nextLink from the previous successful call to the ListDetectors method.
+   * @param options The options parameters.
+   */
+  private _listDetectorsNext(
+    resourceGroupName: string,
+    jobName: string,
+    nextLink: string,
+    options?: JobsListDetectorsNextOptionalParams,
+  ): Promise<JobsListDetectorsNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, jobName, nextLink, options },
+      listDetectorsNextOperationSpec,
     );
   }
 
@@ -1106,10 +1217,18 @@ const stopExecutionOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/jobs/{jobName}/executions/{jobExecutionName}/stop",
   httpMethod: "POST",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      bodyMapper: { type: { name: "String" } },
+    },
+    201: {
+      bodyMapper: { type: { name: "String" } },
+    },
+    202: {
+      bodyMapper: { type: { name: "String" } },
+    },
+    204: {
+      bodyMapper: { type: { name: "String" } },
+    },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
@@ -1171,6 +1290,27 @@ const listSecretsOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.jobName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listDetectorsNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DiagnosticsCollection,
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.nextLink,
     Parameters.jobName,
   ],
   headerParameters: [Parameters.accept],

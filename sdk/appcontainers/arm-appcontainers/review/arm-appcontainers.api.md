@@ -268,15 +268,19 @@ export interface BaseContainer {
     command?: string[];
     env?: EnvironmentVar[];
     image?: string;
+    imageType?: ImageType;
     name?: string;
     resources?: ContainerResources;
     volumeMounts?: VolumeMount[];
 }
 
 // @public
-export interface BillingMeter extends ProxyResource {
+export interface BillingMeter {
+    readonly id?: string;
     location?: string;
+    readonly name?: string;
     properties?: BillingMeterProperties;
+    readonly type?: string;
 }
 
 // @public
@@ -674,9 +678,11 @@ export interface ClientRegistration {
 export interface Configuration {
     activeRevisionsMode?: ActiveRevisionsMode;
     dapr?: Dapr;
+    identitySettings?: IdentitySettings[];
     ingress?: Ingress;
     maxInactiveRevisions?: number;
     registries?: RegistryCredentials[];
+    runtime?: Runtime;
     secrets?: Secret[];
     service?: Service;
 }
@@ -915,6 +921,7 @@ export interface ConnectedEnvironmentStorage extends ProxyResource {
 // @public
 export interface ConnectedEnvironmentStorageProperties {
     azureFile?: AzureFileProperties;
+    smb?: SmbStorage;
 }
 
 // @public
@@ -942,12 +949,14 @@ export interface ContainerApp extends TrackedResource {
     readonly eventStreamEndpoint?: string;
     extendedLocation?: ExtendedLocation;
     identity?: ManagedServiceIdentity;
+    kind?: Kind;
     readonly latestReadyRevisionName?: string;
     readonly latestRevisionFqdn?: string;
     readonly latestRevisionName?: string;
     managedBy?: string;
     managedEnvironmentId?: string;
     readonly outboundIpAddresses?: string[];
+    patchingConfiguration?: ContainerAppPropertiesPatchingConfiguration;
     readonly provisioningState?: ContainerAppProvisioningState;
     template?: Template;
     workloadProfileName?: string;
@@ -1009,6 +1018,11 @@ export interface ContainerAppProbeTcpSocket {
 }
 
 // @public
+export interface ContainerAppPropertiesPatchingConfiguration {
+    patchingMode?: PatchingMode;
+}
+
+// @public
 export type ContainerAppProvisioningState = string;
 
 // @public
@@ -1038,7 +1052,7 @@ export interface ContainerApps {
 export class ContainerAppsAPIClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ContainerAppsAPIClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, sessionPoolName: string, options?: ContainerAppsAPIClientOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -1070,11 +1084,19 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
     // (undocumented)
     containerAppsAuthConfigs: ContainerAppsAuthConfigs;
     // (undocumented)
+    containerAppsBuilds: ContainerAppsBuilds;
+    // (undocumented)
+    containerAppsBuildsByContainerApp: ContainerAppsBuildsByContainerApp;
+    // (undocumented)
     containerAppsDiagnostics: ContainerAppsDiagnostics;
+    // (undocumented)
+    containerAppsPatches: ContainerAppsPatches;
     // (undocumented)
     containerAppsRevisionReplicas: ContainerAppsRevisionReplicas;
     // (undocumented)
     containerAppsRevisions: ContainerAppsRevisions;
+    // (undocumented)
+    containerAppsSessionPools: ContainerAppsSessionPools;
     // (undocumented)
     containerAppsSourceControls: ContainerAppsSourceControls;
     // (undocumented)
@@ -1085,6 +1107,8 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
     daprSubscriptions: DaprSubscriptions;
     // (undocumented)
     dotNetComponents: DotNetComponents;
+    // (undocumented)
+    functionsExtension: FunctionsExtension;
     getCustomDomainVerificationId(options?: GetCustomDomainVerificationIdOptionalParams): Promise<GetCustomDomainVerificationIdResponse>;
     // (undocumented)
     javaComponents: JavaComponents;
@@ -1094,9 +1118,15 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
     // (undocumented)
     jobsExecutions: JobsExecutions;
     // (undocumented)
+    logicApps: LogicApps;
+    // (undocumented)
     managedCertificates: ManagedCertificates;
     // (undocumented)
     managedEnvironmentDiagnostics: ManagedEnvironmentDiagnostics;
+    // (undocumented)
+    managedEnvironmentPrivateEndpointConnections: ManagedEnvironmentPrivateEndpointConnections;
+    // (undocumented)
+    managedEnvironmentPrivateLinkResources: ManagedEnvironmentPrivateLinkResources;
     // (undocumented)
     managedEnvironments: ManagedEnvironments;
     // (undocumented)
@@ -1109,6 +1139,8 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
     namespaces: Namespaces;
     // (undocumented)
     operations: Operations;
+    // (undocumented)
+    sessionPoolName: string;
     // (undocumented)
     subscriptionId: string;
     // (undocumented)
@@ -1161,6 +1193,78 @@ export interface ContainerAppsAuthConfigsListByContainerAppOptionalParams extend
 
 // @public
 export type ContainerAppsAuthConfigsListByContainerAppResponse = AuthConfigCollection;
+
+// @public
+export interface ContainerAppsBuildCollection {
+    nextLink?: string;
+    value: ContainerAppsBuildResource[];
+}
+
+// @public
+export interface ContainerAppsBuildConfiguration {
+    readonly baseOs?: string;
+    readonly environmentVariables?: EnvironmentVariable[];
+    readonly platform?: string;
+    readonly platformVersion?: string;
+    readonly preBuildSteps?: PreBuildStep[];
+}
+
+// @public
+export interface ContainerAppsBuildResource extends ProxyResource {
+    readonly buildStatus?: BuildStatus;
+    readonly configuration?: ContainerAppsBuildConfiguration;
+    readonly destinationContainerRegistry?: ContainerRegistryWithCustomImage;
+    readonly logStreamEndpoint?: string;
+    readonly provisioningState?: BuildProvisioningState;
+}
+
+// @public
+export interface ContainerAppsBuilds {
+    beginDelete(resourceGroupName: string, containerAppName: string, buildName: string, options?: ContainerAppsBuildsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ContainerAppsBuildsDeleteResponse>, ContainerAppsBuildsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, containerAppName: string, buildName: string, options?: ContainerAppsBuildsDeleteOptionalParams): Promise<ContainerAppsBuildsDeleteResponse>;
+    get(resourceGroupName: string, containerAppName: string, buildName: string, options?: ContainerAppsBuildsGetOptionalParams): Promise<ContainerAppsBuildsGetResponse>;
+}
+
+// @public
+export interface ContainerAppsBuildsByContainerApp {
+    list(resourceGroupName: string, containerAppName: string, options?: ContainerAppsBuildsByContainerAppListOptionalParams): PagedAsyncIterableIterator<ContainerAppsBuildResource>;
+}
+
+// @public
+export interface ContainerAppsBuildsByContainerAppListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ContainerAppsBuildsByContainerAppListNextResponse = ContainerAppsBuildCollection;
+
+// @public
+export interface ContainerAppsBuildsByContainerAppListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ContainerAppsBuildsByContainerAppListResponse = ContainerAppsBuildCollection;
+
+// @public
+export interface ContainerAppsBuildsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface ContainerAppsBuildsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ContainerAppsBuildsDeleteResponse = ContainerAppsBuildsDeleteHeaders;
+
+// @public
+export interface ContainerAppsBuildsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ContainerAppsBuildsGetResponse = ContainerAppsBuildResource;
 
 // @public
 export interface ContainerAppsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
@@ -1308,6 +1412,92 @@ export interface ContainerAppsListSecretsOptionalParams extends coreClient.Opera
 export type ContainerAppsListSecretsResponse = SecretsCollection;
 
 // @public
+export interface ContainerAppsPatches {
+    beginApply(resourceGroupName: string, containerAppName: string, patchName: string, options?: ContainerAppsPatchesApplyOptionalParams): Promise<SimplePollerLike<OperationState<ContainerAppsPatchesApplyResponse>, ContainerAppsPatchesApplyResponse>>;
+    beginApplyAndWait(resourceGroupName: string, containerAppName: string, patchName: string, options?: ContainerAppsPatchesApplyOptionalParams): Promise<ContainerAppsPatchesApplyResponse>;
+    beginDelete(resourceGroupName: string, containerAppName: string, patchName: string, options?: ContainerAppsPatchesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ContainerAppsPatchesDeleteResponse>, ContainerAppsPatchesDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, containerAppName: string, patchName: string, options?: ContainerAppsPatchesDeleteOptionalParams): Promise<ContainerAppsPatchesDeleteResponse>;
+    beginSkipConfigure(resourceGroupName: string, containerAppName: string, patchName: string, patchSkipConfig: PatchSkipConfig, options?: ContainerAppsPatchesSkipConfigureOptionalParams): Promise<SimplePollerLike<OperationState<ContainerAppsPatchesSkipConfigureResponse>, ContainerAppsPatchesSkipConfigureResponse>>;
+    beginSkipConfigureAndWait(resourceGroupName: string, containerAppName: string, patchName: string, patchSkipConfig: PatchSkipConfig, options?: ContainerAppsPatchesSkipConfigureOptionalParams): Promise<ContainerAppsPatchesSkipConfigureResponse>;
+    get(resourceGroupName: string, containerAppName: string, patchName: string, options?: ContainerAppsPatchesGetOptionalParams): Promise<ContainerAppsPatchesGetResponse>;
+    listByContainerApp(resourceGroupName: string, containerAppName: string, options?: ContainerAppsPatchesListByContainerAppOptionalParams): PagedAsyncIterableIterator<ContainerAppsPatchResource>;
+}
+
+// @public
+export interface ContainerAppsPatchesApplyHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface ContainerAppsPatchesApplyOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ContainerAppsPatchesApplyResponse = ContainerAppsPatchResource;
+
+// @public
+export interface ContainerAppsPatchesDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface ContainerAppsPatchesDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ContainerAppsPatchesDeleteResponse = ContainerAppsPatchesDeleteHeaders;
+
+// @public
+export interface ContainerAppsPatchesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ContainerAppsPatchesGetResponse = ContainerAppsPatchResource;
+
+// @public
+export interface ContainerAppsPatchesListByContainerAppNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ContainerAppsPatchesListByContainerAppNextResponse = PatchCollection;
+
+// @public
+export interface ContainerAppsPatchesListByContainerAppOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+}
+
+// @public
+export type ContainerAppsPatchesListByContainerAppResponse = PatchCollection;
+
+// @public
+export interface ContainerAppsPatchesSkipConfigureHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface ContainerAppsPatchesSkipConfigureOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ContainerAppsPatchesSkipConfigureResponse = ContainerAppsPatchesSkipConfigureHeaders;
+
+// @public
+export interface ContainerAppsPatchResource extends ProxyResource {
+    readonly properties?: PatchProperties;
+}
+
+// @public
 export interface ContainerAppsRevisionReplicas {
     getReplica(resourceGroupName: string, containerAppName: string, revisionName: string, replicaName: string, options?: ContainerAppsRevisionReplicasGetReplicaOptionalParams): Promise<ContainerAppsRevisionReplicasGetReplicaResponse>;
     listReplicas(resourceGroupName: string, containerAppName: string, revisionName: string, options?: ContainerAppsRevisionReplicasListReplicasOptionalParams): Promise<ContainerAppsRevisionReplicasListReplicasResponse>;
@@ -1369,6 +1559,93 @@ export type ContainerAppsRevisionsListRevisionsResponse = RevisionCollection;
 // @public
 export interface ContainerAppsRevisionsRestartRevisionOptionalParams extends coreClient.OperationOptions {
 }
+
+// @public
+export interface ContainerAppsSessionPools {
+    beginCreateOrUpdate(resourceGroupName: string, sessionPoolEnvelope: SessionPool, options?: ContainerAppsSessionPoolsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ContainerAppsSessionPoolsCreateOrUpdateResponse>, ContainerAppsSessionPoolsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, sessionPoolEnvelope: SessionPool, options?: ContainerAppsSessionPoolsCreateOrUpdateOptionalParams): Promise<ContainerAppsSessionPoolsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, options?: ContainerAppsSessionPoolsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ContainerAppsSessionPoolsDeleteResponse>, ContainerAppsSessionPoolsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, options?: ContainerAppsSessionPoolsDeleteOptionalParams): Promise<ContainerAppsSessionPoolsDeleteResponse>;
+    beginUpdate(resourceGroupName: string, sessionPoolEnvelope: SessionPoolUpdatableProperties, options?: ContainerAppsSessionPoolsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ContainerAppsSessionPoolsUpdateResponse>, ContainerAppsSessionPoolsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, sessionPoolEnvelope: SessionPoolUpdatableProperties, options?: ContainerAppsSessionPoolsUpdateOptionalParams): Promise<ContainerAppsSessionPoolsUpdateResponse>;
+    get(resourceGroupName: string, options?: ContainerAppsSessionPoolsGetOptionalParams): Promise<ContainerAppsSessionPoolsGetResponse>;
+    listByResourceGroup(resourceGroupName: string, options?: ContainerAppsSessionPoolsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<SessionPool>;
+    listBySubscription(options?: ContainerAppsSessionPoolsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<SessionPool>;
+}
+
+// @public
+export interface ContainerAppsSessionPoolsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ContainerAppsSessionPoolsCreateOrUpdateResponse = SessionPool;
+
+// @public
+export interface ContainerAppsSessionPoolsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface ContainerAppsSessionPoolsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ContainerAppsSessionPoolsDeleteResponse = ContainerAppsSessionPoolsDeleteHeaders;
+
+// @public
+export interface ContainerAppsSessionPoolsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ContainerAppsSessionPoolsGetResponse = SessionPool;
+
+// @public
+export interface ContainerAppsSessionPoolsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ContainerAppsSessionPoolsListByResourceGroupNextResponse = SessionPoolCollection;
+
+// @public
+export interface ContainerAppsSessionPoolsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ContainerAppsSessionPoolsListByResourceGroupResponse = SessionPoolCollection;
+
+// @public
+export interface ContainerAppsSessionPoolsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ContainerAppsSessionPoolsListBySubscriptionNextResponse = SessionPoolCollection;
+
+// @public
+export interface ContainerAppsSessionPoolsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ContainerAppsSessionPoolsListBySubscriptionResponse = SessionPoolCollection;
+
+// @public
+export interface ContainerAppsSessionPoolsUpdateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface ContainerAppsSessionPoolsUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ContainerAppsSessionPoolsUpdateResponse = SessionPool;
 
 // @public
 export interface ContainerAppsSourceControls {
@@ -1462,6 +1739,14 @@ export interface ContainerAppsUpdateOptionalParams extends coreClient.OperationO
 export type ContainerAppsUpdateResponse = ContainerApp;
 
 // @public
+export interface ContainerExecutionStatus {
+    additionalInformation?: string;
+    code?: number;
+    name?: string;
+    status?: string;
+}
+
+// @public
 export interface ContainerRegistry {
     containerRegistryServer: string;
     identityResourceId: string;
@@ -1479,6 +1764,9 @@ export interface ContainerResources {
     readonly ephemeralStorage?: string;
     memory?: string;
 }
+
+// @public
+export type ContainerType = string;
 
 // @public
 export interface CookieExpiration {
@@ -1501,6 +1789,13 @@ export interface CorsPolicy {
 
 // @public
 export type CreatedByType = string;
+
+// @public
+export interface CustomContainerTemplate {
+    containers?: SessionContainer[];
+    ingress?: SessionIngress;
+    registryCredentials?: SessionRegistryCredentials;
+}
 
 // @public
 export interface CustomDomain {
@@ -1562,6 +1857,7 @@ export interface CustomOpenIdConnectProvider {
 // @public
 export interface CustomScaleRule {
     auth?: ScaleRuleAuth[];
+    identity?: string;
     metadata?: {
         [propertyName: string]: string;
     };
@@ -1884,6 +2180,9 @@ export interface DestinationsConfiguration {
 }
 
 // @public
+export type DetectionStatus = string;
+
+// @public
 export interface DiagnosticDataProviderMetadata {
     propertyBag?: DiagnosticDataProviderMetadataPropertyBagItem[];
     providerName?: string;
@@ -2075,6 +2374,12 @@ export type DotNetComponentsUpdateResponse = DotNetComponent;
 export type DotNetComponentType = string;
 
 // @public
+export interface DynamicPoolConfiguration {
+    cooldownPeriodInSeconds?: number;
+    executionType?: ExecutionType;
+}
+
+// @public
 export interface EncryptionSettings {
     containerAppAuthEncryptionSecretName?: string;
     containerAppAuthSigningSecretName?: string;
@@ -2118,9 +2423,29 @@ export interface ErrorDetail {
 }
 
 // @public
+export interface ErrorEntity {
+    code?: string;
+    details?: ErrorEntity[];
+    extendedCode?: string;
+    innerErrors?: ErrorEntity[];
+    message?: string;
+    messageTemplate?: string;
+    parameters?: string[];
+    target?: string;
+}
+
+// @public
 export interface ErrorResponse {
     error?: ErrorDetail;
 }
+
+// @public
+export interface ExecutionStatus {
+    replicas?: ReplicaExecutionStatus[];
+}
+
+// @public
+export type ExecutionType = string;
 
 // @public
 export interface ExtendedLocation {
@@ -2148,6 +2473,20 @@ export interface ForwardProxy {
 
 // @public
 export type ForwardProxyConvention = "NoProxy" | "Standard" | "Custom";
+
+// @public
+export interface FunctionsExtension {
+    invokeFunctionsHost(resourceGroupName: string, containerAppName: string, revisionName: string, functionAppName: string, options?: FunctionsExtensionInvokeFunctionsHostOptionalParams): Promise<FunctionsExtensionInvokeFunctionsHostResponse>;
+}
+
+// @public
+export interface FunctionsExtensionInvokeFunctionsHostOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FunctionsExtensionInvokeFunctionsHostResponse = {
+    body: string;
+};
 
 // @public
 export function getContinuationToken(page: unknown): string | undefined;
@@ -2238,6 +2577,7 @@ export interface HttpRetryPolicy {
 // @public
 export interface HttpScaleRule {
     auth?: ScaleRuleAuth[];
+    identity?: string;
     metadata?: {
         [propertyName: string]: string;
     };
@@ -2268,6 +2608,18 @@ export interface IdentityProviders {
     google?: Google;
     twitter?: Twitter;
 }
+
+// @public
+export interface IdentitySettings {
+    identity: string;
+    lifecycle?: IdentitySettingsLifeCycle;
+}
+
+// @public
+export type IdentitySettingsLifeCycle = string;
+
+// @public
+export type ImageType = string;
 
 // @public
 export interface Ingress {
@@ -2322,10 +2674,7 @@ export interface IpSecurityRestrictionRule {
 
 // @public
 export interface JavaComponent extends ProxyResource {
-    componentType?: JavaComponentType;
-    configurations?: JavaComponentConfigurationProperty[];
-    readonly provisioningState?: JavaComponentProvisioningState;
-    serviceBinds?: JavaComponentServiceBind[];
+    properties?: JavaComponentPropertiesUnion;
 }
 
 // @public
@@ -2333,6 +2682,22 @@ export interface JavaComponentConfigurationProperty {
     propertyName?: string;
     value?: string;
 }
+
+// @public
+export interface JavaComponentIngress {
+    readonly fqdn?: string;
+}
+
+// @public
+export interface JavaComponentProperties {
+    componentType: "SpringBootAdmin" | "Nacos" | "SpringCloudEureka" | "SpringCloudConfig";
+    configurations?: JavaComponentConfigurationProperty[];
+    readonly provisioningState?: JavaComponentProvisioningState;
+    serviceBinds?: JavaComponentServiceBind[];
+}
+
+// @public (undocumented)
+export type JavaComponentPropertiesUnion = JavaComponentProperties | SpringBootAdminComponent | NacosComponent | SpringCloudEurekaComponent | SpringCloudConfigComponent;
 
 // @public
 export type JavaComponentProvisioningState = string;
@@ -2440,6 +2805,7 @@ export interface Job extends TrackedResource {
 // @public
 export interface JobConfiguration {
     eventTriggerConfig?: JobConfigurationEventTriggerConfig;
+    identitySettings?: IdentitySettings[];
     manualTriggerConfig?: JobConfigurationManualTriggerConfig;
     registries?: RegistryCredentials[];
     replicaRetryLimit?: number;
@@ -2471,6 +2837,7 @@ export interface JobConfigurationScheduleTriggerConfig {
 
 // @public
 export interface JobExecution {
+    detailedStatus?: ExecutionStatus;
     endTime?: Date;
     id?: string;
     name?: string;
@@ -2548,8 +2915,8 @@ export interface Jobs {
     beginDeleteAndWait(resourceGroupName: string, jobName: string, options?: JobsDeleteOptionalParams): Promise<void>;
     beginStart(resourceGroupName: string, jobName: string, options?: JobsStartOptionalParams): Promise<SimplePollerLike<OperationState<JobsStartResponse>, JobsStartResponse>>;
     beginStartAndWait(resourceGroupName: string, jobName: string, options?: JobsStartOptionalParams): Promise<JobsStartResponse>;
-    beginStopExecution(resourceGroupName: string, jobName: string, jobExecutionName: string, options?: JobsStopExecutionOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginStopExecutionAndWait(resourceGroupName: string, jobName: string, jobExecutionName: string, options?: JobsStopExecutionOptionalParams): Promise<void>;
+    beginStopExecution(resourceGroupName: string, jobName: string, jobExecutionName: string, options?: JobsStopExecutionOptionalParams): Promise<SimplePollerLike<OperationState<JobsStopExecutionResponse>, JobsStopExecutionResponse>>;
+    beginStopExecutionAndWait(resourceGroupName: string, jobName: string, jobExecutionName: string, options?: JobsStopExecutionOptionalParams): Promise<JobsStopExecutionResponse>;
     beginStopMultipleExecutions(resourceGroupName: string, jobName: string, options?: JobsStopMultipleExecutionsOptionalParams): Promise<SimplePollerLike<OperationState<JobsStopMultipleExecutionsResponse>, JobsStopMultipleExecutionsResponse>>;
     beginStopMultipleExecutionsAndWait(resourceGroupName: string, jobName: string, options?: JobsStopMultipleExecutionsOptionalParams): Promise<JobsStopMultipleExecutionsResponse>;
     beginUpdate(resourceGroupName: string, jobName: string, jobEnvelope: JobPatchProperties, options?: JobsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<JobsUpdateResponse>, JobsUpdateResponse>>;
@@ -2558,7 +2925,7 @@ export interface Jobs {
     getDetector(resourceGroupName: string, jobName: string, detectorName: string, options?: JobsGetDetectorOptionalParams): Promise<JobsGetDetectorResponse>;
     listByResourceGroup(resourceGroupName: string, options?: JobsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Job>;
     listBySubscription(options?: JobsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Job>;
-    listDetectors(resourceGroupName: string, jobName: string, options?: JobsListDetectorsOptionalParams): Promise<JobsListDetectorsResponse>;
+    listDetectors(resourceGroupName: string, jobName: string, options?: JobsListDetectorsOptionalParams): PagedAsyncIterableIterator<Diagnostics>;
     listSecrets(resourceGroupName: string, jobName: string, options?: JobsListSecretsOptionalParams): Promise<JobsListSecretsResponse>;
     proxyGet(resourceGroupName: string, jobName: string, options?: JobsProxyGetOptionalParams): Promise<JobsProxyGetResponse>;
 }
@@ -2574,6 +2941,7 @@ export interface JobScale {
 // @public
 export interface JobScaleRule {
     auth?: ScaleRuleAuth[];
+    identity?: string;
     metadata?: Record<string, unknown>;
     name?: string;
     type?: string;
@@ -2674,6 +3042,13 @@ export interface JobsListBySubscriptionOptionalParams extends coreClient.Operati
 export type JobsListBySubscriptionResponse = JobsCollection;
 
 // @public
+export interface JobsListDetectorsNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type JobsListDetectorsNextResponse = DiagnosticsCollection;
+
+// @public
 export interface JobsListDetectorsOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -2723,6 +3098,11 @@ export interface JobsStopExecutionOptionalParams extends coreClient.OperationOpt
 }
 
 // @public
+export type JobsStopExecutionResponse = {
+    body: string;
+};
+
+// @public
 export interface JobsStopMultipleExecutionsHeaders {
     // (undocumented)
     location?: string;
@@ -2769,6 +3149,9 @@ export interface JwtClaimChecks {
 export interface KedaConfiguration {
     readonly version?: string;
 }
+
+// @public
+export type Kind = string;
 
 // @public
 export enum KnownAccessMode {
@@ -2898,11 +3281,24 @@ export enum KnownContainerAppReplicaRunningState {
 }
 
 // @public
+export enum KnownContainerType {
+    CustomContainer = "CustomContainer",
+    PythonLTS = "PythonLTS"
+}
+
+// @public
 export enum KnownCreatedByType {
     Application = "Application",
     Key = "Key",
     ManagedIdentity = "ManagedIdentity",
     User = "User"
+}
+
+// @public
+export enum KnownDetectionStatus {
+    Failed = "Failed",
+    RegistryLoginFailed = "RegistryLoginFailed",
+    Succeeded = "Succeeded"
 }
 
 // @public
@@ -2916,8 +3312,7 @@ export enum KnownDotNetComponentProvisioningState {
 
 // @public
 export enum KnownDotNetComponentType {
-    AspireDashboard = "AspireDashboard",
-    AspireResourceServerApi = "AspireResourceServerApi"
+    AspireDashboard = "AspireDashboard"
 }
 
 // @public
@@ -2935,8 +3330,27 @@ export enum KnownEnvironmentProvisioningState {
 }
 
 // @public
+export enum KnownExecutionType {
+    Timed = "Timed"
+}
+
+// @public
 export enum KnownExtendedLocationTypes {
     CustomLocation = "CustomLocation"
+}
+
+// @public
+export enum KnownIdentitySettingsLifeCycle {
+    All = "All",
+    Init = "Init",
+    Main = "Main",
+    None = "None"
+}
+
+// @public
+export enum KnownImageType {
+    CloudBuild = "CloudBuild",
+    ContainerImage = "ContainerImage"
 }
 
 // @public
@@ -2971,6 +3385,7 @@ export enum KnownJavaComponentProvisioningState {
 
 // @public
 export enum KnownJavaComponentType {
+    Nacos = "Nacos",
     SpringBootAdmin = "SpringBootAdmin",
     SpringCloudConfig = "SpringCloudConfig",
     SpringCloudEureka = "SpringCloudEureka"
@@ -2997,6 +3412,27 @@ export enum KnownJobProvisioningState {
 }
 
 // @public
+export enum KnownKind {
+    Workflowapp = "workflowapp"
+}
+
+// @public
+export enum KnownLevel {
+    Debug = "debug",
+    Error = "error",
+    Info = "info",
+    Off = "off",
+    Trace = "trace",
+    Warn = "warn"
+}
+
+// @public
+export enum KnownLogicAppsProxyMethod {
+    GET = "GET",
+    Post = "POST"
+}
+
+// @public
 export enum KnownLogLevel {
     Debug = "debug",
     Error = "error",
@@ -3017,6 +3453,65 @@ export enum KnownManagedServiceIdentityType {
     SystemAssigned = "SystemAssigned",
     SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
     UserAssigned = "UserAssigned"
+}
+
+// @public
+export enum KnownPatchApplyStatus {
+    Canceled = "Canceled",
+    CreatingRevision = "CreatingRevision",
+    ImagePushPullFailed = "ImagePushPullFailed",
+    ManuallySkipped = "ManuallySkipped",
+    NotStarted = "NotStarted",
+    RebaseFailed = "RebaseFailed",
+    RebaseInProgress = "RebaseInProgress",
+    RevisionCreationFailed = "RevisionCreationFailed",
+    Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownPatchingMode {
+    Automatic = "Automatic",
+    Disabled = "Disabled",
+    Manual = "Manual"
+}
+
+// @public
+export enum KnownPatchType {
+    FrameworkAndOSSecurity = "FrameworkAndOSSecurity",
+    FrameworkSecurity = "FrameworkSecurity",
+    OSSecurity = "OSSecurity",
+    Other = "Other"
+}
+
+// @public
+export enum KnownPoolManagementType {
+    Dynamic = "Dynamic",
+    Manual = "Manual"
+}
+
+// @public
+export enum KnownPrivateEndpointConnectionProvisioningState {
+    Canceled = "Canceled",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Pending = "Pending",
+    Succeeded = "Succeeded",
+    Updating = "Updating",
+    Waiting = "Waiting"
+}
+
+// @public
+export enum KnownPrivateEndpointServiceConnectionStatus {
+    Approved = "Approved",
+    Disconnected = "Disconnected",
+    Pending = "Pending",
+    Rejected = "Rejected"
+}
+
+// @public
+export enum KnownPublicNetworkAccess {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
 }
 
 // @public
@@ -3052,6 +3547,21 @@ export enum KnownScheme {
 }
 
 // @public
+export enum KnownSessionNetworkStatus {
+    EgressDisabled = "EgressDisabled",
+    EgressEnabled = "EgressEnabled"
+}
+
+// @public
+export enum KnownSessionPoolProvisioningState {
+    Canceled = "Canceled",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    InProgress = "InProgress",
+    Succeeded = "Succeeded"
+}
+
+// @public
 export enum KnownSourceControlOperationState {
     Canceled = "Canceled",
     Failed = "Failed",
@@ -3064,7 +3574,8 @@ export enum KnownStorageType {
     AzureFile = "AzureFile",
     EmptyDir = "EmptyDir",
     NfsAzureFile = "NfsAzureFile",
-    Secret = "Secret"
+    Secret = "Secret",
+    Smb = "Smb"
 }
 
 // @public
@@ -3081,6 +3592,19 @@ export enum KnownType {
     Startup = "Startup"
 }
 
+// @public
+export enum KnownWorkflowState {
+    Completed = "Completed",
+    Deleted = "Deleted",
+    Disabled = "Disabled",
+    Enabled = "Enabled",
+    NotSpecified = "NotSpecified",
+    Suspended = "Suspended"
+}
+
+// @public
+export type Level = string;
+
 // @public (undocumented)
 export interface ListUsagesResult {
     nextLink?: string;
@@ -3093,6 +3617,90 @@ export interface LogAnalyticsConfiguration {
     dynamicJsonColumns?: boolean;
     sharedKey?: string;
 }
+
+// @public
+export interface LoggerSetting {
+    level: Level;
+    logger: string;
+}
+
+// @public
+export interface LogicApp extends ProxyResource {
+    properties?: Record<string, unknown>;
+}
+
+// @public
+export interface LogicApps {
+    createOrUpdate(resourceGroupName: string, containerAppName: string, logicAppName: string, resource: LogicApp, options?: LogicAppsCreateOrUpdateOptionalParams): Promise<LogicAppsCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, containerAppName: string, logicAppName: string, options?: LogicAppsDeleteOptionalParams): Promise<void>;
+    deployWorkflowArtifacts(resourceGroupName: string, containerAppName: string, logicAppName: string, options?: LogicAppsDeployWorkflowArtifactsOptionalParams): Promise<void>;
+    get(resourceGroupName: string, containerAppName: string, logicAppName: string, options?: LogicAppsGetOptionalParams): Promise<LogicAppsGetResponse>;
+    getWorkflow(resourceGroupName: string, containerAppName: string, logicAppName: string, workflowName: string, options?: LogicAppsGetWorkflowOptionalParams): Promise<LogicAppsGetWorkflowResponse>;
+    invoke(resourceGroupName: string, containerAppName: string, logicAppName: string, xMsLogicAppsProxyPath: string, xMsLogicAppsProxyMethod: LogicAppsProxyMethod, options?: LogicAppsInvokeOptionalParams): Promise<LogicAppsInvokeResponse>;
+    listWorkflows(resourceGroupName: string, containerAppName: string, logicAppName: string, options?: LogicAppsListWorkflowsOptionalParams): PagedAsyncIterableIterator<WorkflowEnvelope>;
+    listWorkflowsConnections(resourceGroupName: string, containerAppName: string, logicAppName: string, options?: LogicAppsListWorkflowsConnectionsOptionalParams): Promise<LogicAppsListWorkflowsConnectionsResponse>;
+}
+
+// @public
+export interface LogicAppsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type LogicAppsCreateOrUpdateResponse = LogicApp;
+
+// @public
+export interface LogicAppsDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface LogicAppsDeployWorkflowArtifactsOptionalParams extends coreClient.OperationOptions {
+    workflowArtifacts?: WorkflowArtifacts;
+}
+
+// @public
+export interface LogicAppsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type LogicAppsGetResponse = LogicApp;
+
+// @public
+export interface LogicAppsGetWorkflowOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type LogicAppsGetWorkflowResponse = WorkflowEnvelope;
+
+// @public
+export interface LogicAppsInvokeOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type LogicAppsInvokeResponse = Record<string, unknown>;
+
+// @public
+export interface LogicAppsListWorkflowsConnectionsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type LogicAppsListWorkflowsConnectionsResponse = WorkflowEnvelope;
+
+// @public
+export interface LogicAppsListWorkflowsNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type LogicAppsListWorkflowsNextResponse = WorkflowEnvelopeCollection;
+
+// @public
+export interface LogicAppsListWorkflowsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type LogicAppsListWorkflowsResponse = WorkflowEnvelopeCollection;
+
+// @public
+export type LogicAppsProxyMethod = string;
 
 // @public
 export interface Login {
@@ -3221,7 +3829,10 @@ export interface ManagedEnvironment extends TrackedResource {
     kind?: string;
     openTelemetryConfiguration?: OpenTelemetryConfiguration;
     peerAuthentication?: ManagedEnvironmentPropertiesPeerAuthentication;
+    peerTrafficConfiguration?: ManagedEnvironmentPropertiesPeerTrafficConfiguration;
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: EnvironmentProvisioningState;
+    publicNetworkAccess?: PublicNetworkAccess;
     readonly staticIp?: string;
     vnetConfiguration?: VnetConfiguration;
     workloadProfiles?: WorkloadProfile[];
@@ -3249,8 +3860,92 @@ export interface ManagedEnvironmentDiagnosticsListDetectorsOptionalParams extend
 export type ManagedEnvironmentDiagnosticsListDetectorsResponse = DiagnosticsCollection;
 
 // @public
+export interface ManagedEnvironmentPrivateEndpointConnections {
+    beginCreateOrUpdate(resourceGroupName: string, environmentName: string, privateEndpointConnectionName: string, privateEndpointConnectionEnvelope: PrivateEndpointConnection, options?: ManagedEnvironmentPrivateEndpointConnectionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ManagedEnvironmentPrivateEndpointConnectionsCreateOrUpdateResponse>, ManagedEnvironmentPrivateEndpointConnectionsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, environmentName: string, privateEndpointConnectionName: string, privateEndpointConnectionEnvelope: PrivateEndpointConnection, options?: ManagedEnvironmentPrivateEndpointConnectionsCreateOrUpdateOptionalParams): Promise<ManagedEnvironmentPrivateEndpointConnectionsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, environmentName: string, privateEndpointConnectionName: string, options?: ManagedEnvironmentPrivateEndpointConnectionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ManagedEnvironmentPrivateEndpointConnectionsDeleteResponse>, ManagedEnvironmentPrivateEndpointConnectionsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, environmentName: string, privateEndpointConnectionName: string, options?: ManagedEnvironmentPrivateEndpointConnectionsDeleteOptionalParams): Promise<ManagedEnvironmentPrivateEndpointConnectionsDeleteResponse>;
+    get(resourceGroupName: string, environmentName: string, privateEndpointConnectionName: string, options?: ManagedEnvironmentPrivateEndpointConnectionsGetOptionalParams): Promise<ManagedEnvironmentPrivateEndpointConnectionsGetResponse>;
+    list(resourceGroupName: string, environmentName: string, options?: ManagedEnvironmentPrivateEndpointConnectionsListOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnection>;
+}
+
+// @public
+export interface ManagedEnvironmentPrivateEndpointConnectionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ManagedEnvironmentPrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnection;
+
+// @public
+export interface ManagedEnvironmentPrivateEndpointConnectionsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface ManagedEnvironmentPrivateEndpointConnectionsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ManagedEnvironmentPrivateEndpointConnectionsDeleteResponse = ManagedEnvironmentPrivateEndpointConnectionsDeleteHeaders;
+
+// @public
+export interface ManagedEnvironmentPrivateEndpointConnectionsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedEnvironmentPrivateEndpointConnectionsGetResponse = PrivateEndpointConnection;
+
+// @public
+export interface ManagedEnvironmentPrivateEndpointConnectionsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedEnvironmentPrivateEndpointConnectionsListNextResponse = PrivateEndpointConnectionListResult;
+
+// @public
+export interface ManagedEnvironmentPrivateEndpointConnectionsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedEnvironmentPrivateEndpointConnectionsListResponse = PrivateEndpointConnectionListResult;
+
+// @public
+export interface ManagedEnvironmentPrivateLinkResources {
+    list(resourceGroupName: string, environmentName: string, options?: ManagedEnvironmentPrivateLinkResourcesListOptionalParams): PagedAsyncIterableIterator<PrivateLinkResource>;
+}
+
+// @public
+export interface ManagedEnvironmentPrivateLinkResourcesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedEnvironmentPrivateLinkResourcesListNextResponse = PrivateLinkResourceListResult;
+
+// @public
+export interface ManagedEnvironmentPrivateLinkResourcesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedEnvironmentPrivateLinkResourcesListResponse = PrivateLinkResourceListResult;
+
+// @public
 export interface ManagedEnvironmentPropertiesPeerAuthentication {
     mtls?: Mtls;
+}
+
+// @public
+export interface ManagedEnvironmentPropertiesPeerTrafficConfiguration {
+    encryption?: ManagedEnvironmentPropertiesPeerTrafficConfigurationEncryption;
+}
+
+// @public
+export interface ManagedEnvironmentPropertiesPeerTrafficConfigurationEncryption {
+    enabled?: boolean;
 }
 
 // @public
@@ -3458,6 +4153,12 @@ export interface Mtls {
 }
 
 // @public
+export interface NacosComponent extends JavaComponentProperties {
+    componentType: "Nacos";
+    ingress?: JavaComponentIngress;
+}
+
+// @public
 export interface Namespaces {
     checkNameAvailability(resourceGroupName: string, environmentName: string, checkNameAvailabilityRequest: CheckNameAvailabilityRequest, options?: NamespacesCheckNameAvailabilityOptionalParams): Promise<NamespacesCheckNameAvailabilityResponse>;
 }
@@ -3562,6 +4263,66 @@ export interface OtlpConfiguration {
 }
 
 // @public
+export type PatchApplyStatus = string;
+
+// @public
+export interface PatchCollection {
+    nextLink?: string;
+    value: ContainerAppsPatchResource[];
+}
+
+// @public
+export interface PatchDetails {
+    readonly detectionStatus: DetectionStatus;
+    readonly lastDetectionTime: Date;
+    readonly newImageName?: string;
+    readonly newLayer?: PatchDetailsNewLayer;
+    readonly oldLayer?: PatchDetailsOldLayer;
+    readonly patchType?: PatchType;
+    readonly targetContainerName: string;
+    readonly targetImage: string;
+}
+
+// @public
+export interface PatchDetailsNewLayer {
+    frameworkAndVersion?: string;
+    name?: string;
+    osAndVersion?: string;
+}
+
+// @public
+export interface PatchDetailsOldLayer {
+    frameworkAndVersion?: string;
+    name?: string;
+    osAndVersion?: string;
+}
+
+// @public
+export type PatchingMode = string;
+
+// @public
+export interface PatchProperties {
+    readonly createdAt?: Date;
+    readonly lastModifiedAt?: Date;
+    readonly patchApplyStatus?: PatchApplyStatus;
+    readonly patchDetails?: PatchDetails[];
+    targetContainerAppId?: string;
+    targetEnvironmentId?: string;
+    targetRevisionId?: string;
+}
+
+// @public
+export interface PatchSkipConfig {
+    skip?: boolean;
+}
+
+// @public
+export type PatchType = string;
+
+// @public
+export type PoolManagementType = string;
+
+// @public
 export interface PreBuildStep {
     description?: string;
     httpGet?: HttpGet;
@@ -3569,12 +4330,62 @@ export interface PreBuildStep {
 }
 
 // @public
+export interface PrivateEndpoint {
+    readonly id?: string;
+}
+
+// @public
+export interface PrivateEndpointConnection extends Resource {
+    readonly groupIds?: string[];
+    privateEndpoint?: PrivateEndpoint;
+    privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+    readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
+}
+
+// @public
+export interface PrivateEndpointConnectionListResult {
+    readonly nextLink?: string;
+    value?: PrivateEndpointConnection[];
+}
+
+// @public
+export type PrivateEndpointConnectionProvisioningState = string;
+
+// @public
+export type PrivateEndpointServiceConnectionStatus = string;
+
+// @public
+export interface PrivateLinkResource extends Resource {
+    readonly groupId?: string;
+    readonly requiredMembers?: string[];
+    requiredZoneNames?: string[];
+}
+
+// @public
+export interface PrivateLinkResourceListResult {
+    readonly nextLink?: string;
+    value?: PrivateLinkResource[];
+}
+
+// @public
+export interface PrivateLinkServiceConnectionState {
+    actionsRequired?: string;
+    description?: string;
+    status?: PrivateEndpointServiceConnectionStatus;
+}
+
+// @public
 export interface ProxyResource extends Resource {
 }
 
 // @public
+export type PublicNetworkAccess = string;
+
+// @public
 export interface QueueScaleRule {
+    accountName?: string;
     auth?: ScaleRuleAuth[];
+    identity?: string;
     queueLength?: number;
     queueName?: string;
 }
@@ -3622,6 +4433,12 @@ export interface ReplicaContainer {
 }
 
 // @public
+export interface ReplicaExecutionStatus {
+    containers?: ContainerExecutionStatus[];
+    name?: string;
+}
+
+// @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
@@ -3660,10 +4477,44 @@ export type RevisionProvisioningState = string;
 export type RevisionRunningState = string;
 
 // @public
+export interface Runtime {
+    dotnet?: RuntimeDotnet;
+    java?: RuntimeJava;
+}
+
+// @public
+export interface RuntimeDotnet {
+    autoConfigureDataProtection?: boolean;
+}
+
+// @public
+export interface RuntimeJava {
+    enableMetrics?: boolean;
+    javaAgent?: RuntimeJavaAgent;
+}
+
+// @public
+export interface RuntimeJavaAgent {
+    enabled?: boolean;
+    logging?: RuntimeJavaAgentLogging;
+}
+
+// @public
+export interface RuntimeJavaAgentLogging {
+    loggerSettings?: LoggerSetting[];
+}
+
+// @public
 export interface Scale {
     maxReplicas?: number;
     minReplicas?: number;
     rules?: ScaleRule[];
+}
+
+// @public
+export interface ScaleConfiguration {
+    maxConcurrentSessions?: number;
+    readySessionInstances?: number;
 }
 
 // @public
@@ -3719,6 +4570,91 @@ export interface ServiceBind {
 }
 
 // @public
+export interface SessionContainer {
+    args?: string[];
+    command?: string[];
+    env?: EnvironmentVar[];
+    image?: string;
+    name?: string;
+    resources?: SessionContainerResources;
+}
+
+// @public
+export interface SessionContainerResources {
+    cpu?: number;
+    memory?: string;
+}
+
+// @public
+export interface SessionIngress {
+    targetPort?: number;
+}
+
+// @public
+export interface SessionNetworkConfiguration {
+    status?: SessionNetworkStatus;
+}
+
+// @public
+export type SessionNetworkStatus = string;
+
+// @public
+export interface SessionPool extends TrackedResource {
+    containerType?: ContainerType;
+    customContainerTemplate?: CustomContainerTemplate;
+    dynamicPoolConfiguration?: DynamicPoolConfiguration;
+    environmentId?: string;
+    readonly nodeCount?: number;
+    readonly poolManagementEndpoint?: string;
+    poolManagementType?: PoolManagementType;
+    readonly provisioningState?: SessionPoolProvisioningState;
+    scaleConfiguration?: ScaleConfiguration;
+    secrets?: SessionPoolSecret[];
+    sessionNetworkConfiguration?: SessionNetworkConfiguration;
+}
+
+// @public
+export interface SessionPoolCollection {
+    readonly nextLink?: string;
+    value: SessionPool[];
+}
+
+// @public
+export type SessionPoolProvisioningState = string;
+
+// @public
+export interface SessionPoolSecret {
+    name?: string;
+    value?: string;
+}
+
+// @public
+export interface SessionPoolUpdatableProperties {
+    customContainerTemplate?: CustomContainerTemplate;
+    dynamicPoolConfiguration?: DynamicPoolConfiguration;
+    scaleConfiguration?: ScaleConfiguration;
+    secrets?: SessionPoolSecret[];
+    sessionNetworkConfiguration?: SessionNetworkConfiguration;
+}
+
+// @public
+export interface SessionRegistryCredentials {
+    passwordSecretRef?: string;
+    registryServer?: string;
+    username?: string;
+}
+
+// @public
+export interface SmbStorage {
+    accessMode?: AccessMode;
+    domain?: string;
+    host?: string;
+    password?: string;
+    shareName?: string;
+    username?: string;
+}
+
+// @public
 export interface SourceControl extends ProxyResource {
     branch?: string;
     githubActionConfiguration?: GithubActionConfiguration;
@@ -3734,6 +4670,23 @@ export interface SourceControlCollection {
 
 // @public
 export type SourceControlOperationState = string;
+
+// @public
+export interface SpringBootAdminComponent extends JavaComponentProperties {
+    componentType: "SpringBootAdmin";
+    ingress?: JavaComponentIngress;
+}
+
+// @public
+export interface SpringCloudConfigComponent extends JavaComponentProperties {
+    componentType: "SpringCloudConfig";
+}
+
+// @public
+export interface SpringCloudEurekaComponent extends JavaComponentProperties {
+    componentType: "SpringCloudEureka";
+    ingress?: JavaComponentIngress;
+}
 
 // @public
 export type StorageType = string;
@@ -3761,6 +4714,7 @@ export interface TcpRetryPolicy {
 // @public
 export interface TcpScaleRule {
     auth?: ScaleRuleAuth[];
+    identity?: string;
     metadata?: {
         [propertyName: string]: string;
     };
@@ -3895,6 +4849,48 @@ export interface VolumeMount {
     subPath?: string;
     volumeName?: string;
 }
+
+// @public
+export interface WorkflowArtifacts {
+    appSettings?: Record<string, unknown>;
+    files?: Record<string, unknown>;
+    filesToDelete?: string[];
+}
+
+// @public
+export interface WorkflowEnvelope {
+    readonly id?: string;
+    kind?: string;
+    location?: string;
+    readonly name?: string;
+    properties?: WorkflowEnvelopeProperties;
+    readonly type?: string;
+}
+
+// @public
+export interface WorkflowEnvelopeCollection {
+    readonly nextLink?: string;
+    value: WorkflowEnvelope[];
+}
+
+// @public
+export interface WorkflowEnvelopeProperties {
+    files?: Record<string, unknown>;
+    flowState?: WorkflowState;
+    health?: WorkflowHealth;
+}
+
+// @public
+export interface WorkflowHealth {
+    error?: ErrorEntity;
+    state: WorkflowHealthState;
+}
+
+// @public
+export type WorkflowHealthState = "NotSpecified" | "Healthy" | "Unhealthy" | "Unknown";
+
+// @public
+export type WorkflowState = string;
 
 // @public
 export interface WorkloadProfile {
