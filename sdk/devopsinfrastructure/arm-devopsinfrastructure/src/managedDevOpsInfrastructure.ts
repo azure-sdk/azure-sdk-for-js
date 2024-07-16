@@ -118,7 +118,7 @@ export class ManagedDevOpsInfrastructure extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-04-04-preview";
+    this.apiVersion = options.apiVersion || "2024-07-01-preview";
     this.operations = new OperationsImpl(this);
     this.sku = new SkuImpl(this);
     this.subscriptionUsages = new SubscriptionUsagesImpl(this);

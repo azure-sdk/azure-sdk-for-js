@@ -1,15 +1,32 @@
 # Release History
+    
+## 1.0.0-beta.2 (2024-07-16)
+Compared with version 1.0.0-beta.1
+    
+**Features**
 
-## 1.0.0-beta.2 (Unreleased)
+  - Added operation SubscriptionUsages.listUsages
+  - Added Interface PagedQuota
+  - Added Interface SubscriptionUsagesUsagesNextOptionalParams
+  - Added Interface SubscriptionUsagesUsagesOptionalParams
+  - Added Interface VersionProperties
+  - Added Type Alias SubscriptionUsagesUsagesNextResponse
+  - Added Type Alias SubscriptionUsagesUsagesResponse
+  - Interface Quota has a new optional parameter name
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation SubscriptionUsages.listByLocation
+  - Operation Pools.beginUpdate has a new signature
+  - Operation Pools.beginUpdateAndWait has a new signature
+  - Interface Quota no longer has parameter properties
+  - Interface Quota has a new required parameter currentValue
+  - Interface Quota has a new required parameter id
+  - Interface Quota has a new required parameter limit
+  - Interface Quota has a new required parameter unit
+  - Type of parameter properties of interface ImageVersion is changed from ImageVersionProperties to VersionProperties
+    
+    
 ## 1.0.0-beta.1 (2024-05-09)
 
 The package of @azure/arm-devopsinfrastructure is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).
