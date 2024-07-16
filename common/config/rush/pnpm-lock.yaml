@@ -1303,6 +1303,21 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/arm-network@33.2.0:
+    resolution: {integrity: sha512-LLwQv+kZbbushJADrjEIlH6exnFxId4jICV9ol84IJ7aRC67qjKLSi92eMXY+ZWyPpzZWZZqMWJBMD2lDGxtkg==}
+    engines: {node: '>=18.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.7.2
+      '@azure/core-client': 1.9.2
+      '@azure/core-lro': 2.7.2
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': 1.16.1
+      tslib: 2.6.3
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/arm-recoveryservices@5.4.0:
     resolution: {integrity: sha512-+BsxHcFzJH28hMAsyI+bbAYVw79d12WagttmFvoidXXq76/5KpNCA2NWTGSV0AlJ+QaCF6+7I7P91PRYnJsr+w==}
     engines: {node: '>=14.0.0'}
@@ -16123,10 +16138,11 @@ packages:
     dev: false
 
   file:projects/arm-mongocluster.tgz:
-    resolution: {integrity: sha512-u22kNdMto8bx7fAnUfv1KssjOdwLOMppylXkBZa+rCpm4WdRodlnVF/mCXVjkXd8TupRqtekx9aISLVw2K9/Fg==, tarball: file:projects/arm-mongocluster.tgz}
+    resolution: {integrity: sha512-hCAGMKX3zr5EOv6zpkXIpFiHAiLf+YtH1gJTG9sD7VsWYETBEK3maWDyY0Q1HguKMRSRjhAoR3dqvJQXgOPA6g==, tarball: file:projects/arm-mongocluster.tgz}
     name: '@rush-temp/arm-mongocluster'
     version: 0.0.0
     dependencies:
+      '@azure/arm-network': 33.2.0
       '@azure/identity': 4.3.0
       '@microsoft/api-extractor': 7.47.0(@types/node@18.19.39)
       '@types/node': 18.19.39
@@ -16336,7 +16352,7 @@ packages:
     dev: false
 
   file:projects/arm-network-1.tgz:
-    resolution: {integrity: sha512-j991GfJFS2mkKCEfma6mw3RSoMUoZrd8I9NgUjbj0lbi3qOBNiNsc7lxxK3oJlcZB8IcT5Ke7YKQ1NkQp9j1kA==, tarball: file:projects/arm-network-1.tgz}
+    resolution: {integrity: sha512-nGb7tSO54MnnBUXPNxfBIfWZUT/+wweKaCJaGDc9LocSoDT9hnmrAgFDQqcmOkzjwxWyvM8BsjB7zedacueRcg==, tarball: file:projects/arm-network-1.tgz}
     name: '@rush-temp/arm-network-1'
     version: 0.0.0
     dependencies:
@@ -16355,10 +16371,10 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.6.0
       rimraf: 5.0.8
-      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.3)
+      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.4.5)
       tslib: 2.6.3
       tsx: 4.16.2
-      typescript: 5.5.3
+      typescript: 5.4.5
       uglify-js: 3.18.0
     transitivePeerDependencies:
       - '@swc/core'
@@ -20883,7 +20899,7 @@ packages:
     dev: false
 
   file:projects/eventhubs-checkpointstore-blob.tgz:
-    resolution: {integrity: sha512-LYFL6kLe9RMnTr7nT1n1KddfKboDdKiBCjdzEzr1GAbRb9eXqDsXE0QjpmD7uJrFsy9gLaCCxmFTgVGYZxz9Wg==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
+    resolution: {integrity: sha512-0AJ9bD2JhjDS7p0sjDe1ydJrprqVRbrwpiYRY1JzhT3DqtszJdL8uNWiHLT0IbmDTtr0ZLCq4KpsJZA1WUp30A==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
     name: '@rush-temp/eventhubs-checkpointstore-blob'
     version: 0.0.0
     dependencies:
