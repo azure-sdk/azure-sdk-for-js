@@ -16,7 +16,6 @@ import {
   PoolsGetResponse,
   PoolsCreateOrUpdateOptionalParams,
   PoolsCreateOrUpdateResponse,
-  PoolUpdate,
   PoolsUpdateOptionalParams,
   PoolsUpdateResponse,
   PoolsDeleteOptionalParams,
@@ -94,7 +93,7 @@ export interface Pools {
   beginUpdate(
     resourceGroupName: string,
     poolName: string,
-    properties: PoolUpdate,
+    properties: Pool,
     options?: PoolsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<OperationState<PoolsUpdateResponse>, PoolsUpdateResponse>
@@ -109,7 +108,7 @@ export interface Pools {
   beginUpdateAndWait(
     resourceGroupName: string,
     poolName: string,
-    properties: PoolUpdate,
+    properties: Pool,
     options?: PoolsUpdateOptionalParams,
   ): Promise<PoolsUpdateResponse>;
   /**

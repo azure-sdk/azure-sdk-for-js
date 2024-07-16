@@ -31,7 +31,6 @@ import {
   PoolsGetResponse,
   PoolsCreateOrUpdateOptionalParams,
   PoolsCreateOrUpdateResponse,
-  PoolUpdate,
   PoolsUpdateOptionalParams,
   PoolsUpdateResponse,
   PoolsDeleteOptionalParams,
@@ -326,7 +325,7 @@ export class PoolsImpl implements Pools {
   async beginUpdate(
     resourceGroupName: string,
     poolName: string,
-    properties: PoolUpdate,
+    properties: Pool,
     options?: PoolsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<OperationState<PoolsUpdateResponse>, PoolsUpdateResponse>
@@ -396,7 +395,7 @@ export class PoolsImpl implements Pools {
   async beginUpdateAndWait(
     resourceGroupName: string,
     poolName: string,
-    properties: PoolUpdate,
+    properties: Pool,
     options?: PoolsUpdateOptionalParams,
   ): Promise<PoolsUpdateResponse> {
     const poller = await this.beginUpdate(

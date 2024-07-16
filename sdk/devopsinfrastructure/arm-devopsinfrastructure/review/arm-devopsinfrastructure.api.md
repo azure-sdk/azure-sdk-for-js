@@ -24,23 +24,7 @@ export interface AgentProfile {
 export type AgentProfileUnion = AgentProfile | Stateful | StatelessAgentProfile;
 
 // @public
-export interface AgentProfileUpdate {
-    kind: "Stateful" | "Stateless";
-    resourcePredictions?: Record<string, unknown>;
-    resourcePredictionsProfile?: ResourcePredictionsProfileUpdateUnion;
-}
-
-// @public (undocumented)
-export type AgentProfileUpdateUnion = AgentProfileUpdate | StatefulUpdate | StatelessAgentProfileUpdate;
-
-// @public
 export interface AutomaticResourcePredictionsProfile extends ResourcePredictionsProfile {
-    kind: "Automatic";
-    predictionPreference?: PredictionPreference;
-}
-
-// @public
-export interface AutomaticResourcePredictionsProfileUpdate extends ResourcePredictionsProfileUpdate {
     kind: "Automatic";
     predictionPreference?: PredictionPreference;
 }
@@ -126,18 +110,13 @@ export interface GitHubOrganizationProfile extends OrganizationProfile {
 
 // @public
 export interface ImageVersion extends ProxyResource {
-    properties?: ImageVersionProperties;
+    properties?: VersionProperties;
 }
 
 // @public
 export interface ImageVersionListResult {
     nextLink?: string;
     value: ImageVersion[];
-}
-
-// @public
-export interface ImageVersionProperties {
-    version: string;
 }
 
 // @public
@@ -328,11 +307,6 @@ export interface ManualResourcePredictionsProfile extends ResourcePredictionsPro
 }
 
 // @public
-export interface ManualResourcePredictionsProfileUpdate extends ResourcePredictionsProfileUpdate {
-    kind: "Manual";
-}
-
-// @public
 export interface NetworkProfile {
     subnetId: string;
 }
@@ -407,6 +381,12 @@ export interface OsProfile {
 }
 
 // @public
+export interface PagedQuota {
+    nextLink?: string;
+    value: Quota[];
+}
+
+// @public
 export interface Pool extends TrackedResource {
     identity?: ManagedServiceIdentity;
     properties?: PoolProperties;
@@ -442,8 +422,8 @@ export interface Pools {
     beginCreateOrUpdateAndWait(resourceGroupName: string, poolName: string, resource: Pool, options?: PoolsCreateOrUpdateOptionalParams): Promise<PoolsCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, poolName: string, options?: PoolsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<PoolsDeleteResponse>, PoolsDeleteResponse>>;
     beginDeleteAndWait(resourceGroupName: string, poolName: string, options?: PoolsDeleteOptionalParams): Promise<PoolsDeleteResponse>;
-    beginUpdate(resourceGroupName: string, poolName: string, properties: PoolUpdate, options?: PoolsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PoolsUpdateResponse>, PoolsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, poolName: string, properties: PoolUpdate, options?: PoolsUpdateOptionalParams): Promise<PoolsUpdateResponse>;
+    beginUpdate(resourceGroupName: string, poolName: string, properties: Pool, options?: PoolsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PoolsUpdateResponse>, PoolsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, poolName: string, properties: Pool, options?: PoolsUpdateOptionalParams): Promise<PoolsUpdateResponse>;
     get(resourceGroupName: string, poolName: string, options?: PoolsGetOptionalParams): Promise<PoolsGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: PoolsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Pool>;
     listBySubscription(options?: PoolsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Pool>;
@@ -529,25 +509,6 @@ export interface PoolsUpdateOptionalParams extends coreClient.OperationOptions {
 export type PoolsUpdateResponse = Pool;
 
 // @public
-export interface PoolUpdate {
-    identity?: ManagedServiceIdentity;
-    properties?: PoolUpdateProperties;
-    tags?: {
-        [propertyName: string]: string;
-    };
-}
-
-// @public
-export interface PoolUpdateProperties {
-    agentProfile?: AgentProfileUpdateUnion;
-    devCenterProjectResourceId?: string;
-    fabricProfile?: FabricProfileUnion;
-    maximumConcurrency?: number;
-    organizationProfile?: OrganizationProfileUnion;
-    provisioningState?: ProvisioningState;
-}
-
-// @public
 export type PredictionPreference = string;
 
 // @public
@@ -558,28 +519,18 @@ export interface ProxyResource extends Resource {
 }
 
 // @public
-export interface Quota extends ProxyResource {
-    properties?: QuotaProperties;
-}
-
-// @public
-export interface QuotaListResult {
-    nextLink?: string;
-    value: Quota[];
+export interface Quota {
+    currentValue: number;
+    id: string;
+    limit: number;
+    readonly name?: QuotaName;
+    unit: string;
 }
 
 // @public
 export interface QuotaName {
     localizedValue?: string;
     value?: string;
-}
-
-// @public
-export interface QuotaProperties {
-    currentValue: number;
-    limit: number;
-    name: QuotaName;
-    unit: string;
 }
 
 // @public
@@ -637,14 +588,6 @@ export type ResourcePredictionsProfileType = string;
 
 // @public (undocumented)
 export type ResourcePredictionsProfileUnion = ResourcePredictionsProfile | AutomaticResourcePredictionsProfile | ManualResourcePredictionsProfile;
-
-// @public
-export interface ResourcePredictionsProfileUpdate {
-    kind: "Automatic" | "Manual";
-}
-
-// @public (undocumented)
-export type ResourcePredictionsProfileUpdateUnion = ResourcePredictionsProfileUpdate | AutomaticResourcePredictionsProfileUpdate | ManualResourcePredictionsProfileUpdate;
 
 // @public
 export interface ResourceSku extends ProxyResource {
@@ -745,19 +688,7 @@ export interface Stateful extends AgentProfile {
 }
 
 // @public
-export interface StatefulUpdate extends AgentProfileUpdate {
-    gracePeriodTimeSpan?: string;
-    kind: "Stateful";
-    maxAgentLifetime?: string;
-}
-
-// @public
 export interface StatelessAgentProfile extends AgentProfile {
-    kind: "Stateless";
-}
-
-// @public
-export interface StatelessAgentProfileUpdate extends AgentProfileUpdate {
     kind: "Stateless";
 }
 
@@ -772,22 +703,22 @@ export interface StorageProfile {
 
 // @public
 export interface SubscriptionUsages {
-    listByLocation(locationName: string, options?: SubscriptionUsagesListByLocationOptionalParams): PagedAsyncIterableIterator<Quota>;
+    listUsages(location: string, options?: SubscriptionUsagesUsagesOptionalParams): PagedAsyncIterableIterator<Quota>;
 }
 
 // @public
-export interface SubscriptionUsagesListByLocationNextOptionalParams extends coreClient.OperationOptions {
+export interface SubscriptionUsagesUsagesNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type SubscriptionUsagesListByLocationNextResponse = QuotaListResult;
+export type SubscriptionUsagesUsagesNextResponse = PagedQuota;
 
 // @public
-export interface SubscriptionUsagesListByLocationOptionalParams extends coreClient.OperationOptions {
+export interface SubscriptionUsagesUsagesOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type SubscriptionUsagesListByLocationResponse = QuotaListResult;
+export type SubscriptionUsagesUsagesResponse = PagedQuota;
 
 // @public
 export interface SystemData {
@@ -811,6 +742,11 @@ export interface TrackedResource extends Resource {
 export interface UserAssignedIdentity {
     readonly clientId?: string;
     readonly principalId?: string;
+}
+
+// @public
+export interface VersionProperties {
+    version: string;
 }
 
 // @public
