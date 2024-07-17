@@ -18,7 +18,7 @@ import {
   AutoScaleVCoresDeleteOptionalParams,
   AutoScaleVCoreUpdateParameters,
   AutoScaleVCoresUpdateOptionalParams,
-  AutoScaleVCoresUpdateResponse
+  AutoScaleVCoresUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,14 +32,14 @@ export interface AutoScaleVCores {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: AutoScaleVCoresListByResourceGroupOptionalParams
+    options?: AutoScaleVCoresListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<AutoScaleVCore>;
   /**
    * Lists all the auto scale v-cores for the given subscription.
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: AutoScaleVCoresListBySubscriptionOptionalParams
+    options?: AutoScaleVCoresListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<AutoScaleVCore>;
   /**
    * Gets details about the specified auto scale v-core.
@@ -52,7 +52,7 @@ export interface AutoScaleVCores {
   get(
     resourceGroupName: string,
     vcoreName: string,
-    options?: AutoScaleVCoresGetOptionalParams
+    options?: AutoScaleVCoresGetOptionalParams,
   ): Promise<AutoScaleVCoresGetResponse>;
   /**
    * Provisions the specified auto scale v-core based on the configuration specified in the request.
@@ -67,7 +67,7 @@ export interface AutoScaleVCores {
     resourceGroupName: string,
     vcoreName: string,
     vCoreParameters: AutoScaleVCore,
-    options?: AutoScaleVCoresCreateOptionalParams
+    options?: AutoScaleVCoresCreateOptionalParams,
   ): Promise<AutoScaleVCoresCreateResponse>;
   /**
    * Deletes the specified auto scale v-core.
@@ -80,7 +80,7 @@ export interface AutoScaleVCores {
   delete(
     resourceGroupName: string,
     vcoreName: string,
-    options?: AutoScaleVCoresDeleteOptionalParams
+    options?: AutoScaleVCoresDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Updates the current state of the specified auto scale v-core.
@@ -96,6 +96,6 @@ export interface AutoScaleVCores {
     resourceGroupName: string,
     vcoreName: string,
     vCoreUpdateParameters: AutoScaleVCoreUpdateParameters,
-    options?: AutoScaleVCoresUpdateOptionalParams
+    options?: AutoScaleVCoresUpdateOptionalParams,
   ): Promise<AutoScaleVCoresUpdateResponse>;
 }
