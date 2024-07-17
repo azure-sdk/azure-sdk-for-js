@@ -3,15 +3,6 @@
 
 import { Paged } from "@azure/core-paging";
 
-/** Provides the 'Repeatability-*' headers to enable repeatable requests. */
-export interface RepeatabilityRequestHeadersOutput {}
-
-/** Provides the 'Repeatability-*' headers to enable repeatable requests. */
-export interface RepeatabilityResponseHeadersOutput {}
-
-/** Provides the 'x-ms-client-request-id' header to enable request correlation in requests and responses. */
-export interface ClientRequestIdHeaderOutput {}
-
 /** Result of the send message operation. */
 export interface SendMessageResultOutput {
   /** Receipts of the send message operation. */
@@ -32,13 +23,9 @@ export interface MessageTemplateItemOutputParent {
   readonly name: string;
   /** The template's language, in the ISO 639 format, consist of a two-letter language code followed by an optional two-letter country code, e.g., 'en' or 'en_US'. */
   language: string;
-  /**
-   * The aggregated template status.
-   *
-   * Possible values: "approved", "rejected", "pending", "paused"
-   */
-  status: string;
-  kind: string;
+  /** The aggregated template status. */
+  status: MessageTemplateStatusOutput;
+  kind: CommunicationMessagesChannelOutput;
 }
 
 /** The WhatsApp-specific template response contract */
@@ -58,3 +45,7 @@ export type MessageTemplateItemOutput =
 export type RepeatabilityResultOutput = "accepted" | "rejected";
 /** Paged collection of MessageTemplateItem items */
 export type PagedMessageTemplateItemOutput = Paged<MessageTemplateItemOutput>;
+/** Alias for MessageTemplateStatusOutput */
+export type MessageTemplateStatusOutput = string;
+/** Alias for CommunicationMessagesChannelOutput */
+export type CommunicationMessagesChannelOutput = string;
