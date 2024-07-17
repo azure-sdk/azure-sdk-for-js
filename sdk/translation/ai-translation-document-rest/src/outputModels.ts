@@ -160,22 +160,6 @@ export interface FileFormatOutput {
 }
 
 /** Alias for StatusOutput */
-export type StatusOutput =
-  | "NotStarted"
-  | "Running"
-  | "Succeeded"
-  | "Failed"
-  | "Cancelled"
-  | "Cancelling"
-  | "ValidationFailed"
-  | string;
+export type StatusOutput = string;
 /** Alias for TranslationErrorCodeOutput */
-export type TranslationErrorCodeOutput =
-  | "InvalidRequest"
-  | "InvalidArgument"
-  | "InternalServerError"
-  | "ServiceUnavailable"
-  | "ResourceNotFound"
-  | "Unauthorized"
-  | "RequestRateTooHigh"
-  | string;
+export type TranslationErrorCodeOutput = string;

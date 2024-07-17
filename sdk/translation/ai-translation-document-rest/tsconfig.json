@@ -4,7 +4,9 @@
     "outDir": "./dist-esm",
     "declarationDir": "./types",
     "paths": {
-      "@azure-rest/ai-translation-document": ["./src/index"]
+      "@azure-rest/ai-translation-document": [
+        "./src/index"
+      ]
     }
   },
   "include": [

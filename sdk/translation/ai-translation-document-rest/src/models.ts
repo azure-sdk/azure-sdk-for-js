@@ -3,14 +3,24 @@
 
 export interface DocumentTranslateContentDocumentPartDescriptor {
   name: "document";
-  body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream | File;
+  body:
+    | string
+    | Uint8Array
+    | ReadableStream<Uint8Array>
+    | NodeJS.ReadableStream
+    | File;
   filename?: string;
   contentType?: string;
 }
 
 export interface DocumentTranslateContentGlossaryPartDescriptor {
   name: "glossary";
-  body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream | File;
+  body:
+    | string
+    | Uint8Array
+    | ReadableStream<Uint8Array>
+    | NodeJS.ReadableStream
+    | File;
   filename?: string;
   contentType?: string;
 }
@@ -104,8 +114,8 @@ export type DocumentTranslateContent =
       | DocumentTranslateContentGlossaryPartDescriptor
     >;
 /** Alias for StorageSource */
-export type StorageSource = "AzureBlob" | string;
+export type StorageSource = string;
 /** Alias for StorageInputType */
-export type StorageInputType = "Folder" | "File" | string;
+export type StorageInputType = string;
 /** Alias for FileFormatType */
-export type FileFormatType = "document" | "glossary" | string;
+export type FileFormatType = string;
