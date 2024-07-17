@@ -6,10 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   OperationResultsGetOptionalParams,
-  OperationResultsGetResponse
+  OperationResultsGetResponse,
 } from "../models";
 
 /** Interface representing a OperationResults. */
@@ -21,10 +21,10 @@ export interface OperationResults {
    */
   beginGet(
     operationResultId: string,
-    options?: OperationResultsGetOptionalParams
+    options?: OperationResultsGetOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<OperationResultsGetResponse>,
+    SimplePollerLike<
+      OperationState<OperationResultsGetResponse>,
       OperationResultsGetResponse
     >
   >;
@@ -35,6 +35,6 @@ export interface OperationResults {
    */
   beginGetAndWait(
     operationResultId: string,
-    options?: OperationResultsGetOptionalParams
+    options?: OperationResultsGetOptionalParams,
   ): Promise<OperationResultsGetResponse>;
 }

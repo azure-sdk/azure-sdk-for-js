@@ -6,9 +6,12 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
+
+// @public
+export type AccessMode = string;
 
 // @public
 export interface AcsChatChannel extends Channel {
@@ -34,6 +37,7 @@ export class AzureBotService extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: AzureBotServiceOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, options?: AzureBotServiceOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -49,6 +53,8 @@ export class AzureBotService extends coreClient.ServiceClient {
     // (undocumented)
     hostSettings: HostSettings;
     // (undocumented)
+    networkSecurityPerimeterConfigurations: NetworkSecurityPerimeterConfigurations;
+    // (undocumented)
     operationResults: OperationResults;
     // (undocumented)
     operations: Operations;
@@ -59,7 +65,7 @@ export class AzureBotService extends coreClient.ServiceClient {
     // (undocumented)
     qnAMakerEndpointKeys: QnAMakerEndpointKeys;
     // (undocumented)
-    subscriptionId: string;
+    subscriptionId?: string;
 }
 
 // @public
@@ -173,6 +179,7 @@ export interface BotProperties {
     msaAppMSIResourceId?: string;
     msaAppTenantId?: string;
     msaAppType?: MsaAppType;
+    readonly networkSecurityPerimeterConfigurations?: NetworkSecurityPerimeterConfiguration[];
     openWithHint?: string;
     parameters?: {
         [propertyName: string]: string;
@@ -402,6 +409,8 @@ export interface ConnectionSettingParameter {
 export interface ConnectionSettingProperties {
     clientId?: string;
     clientSecret?: string;
+    id?: string;
+    name?: string;
     parameters?: ConnectionSettingParameter[];
     provisioningState?: string;
     scopes?: string;
@@ -506,14 +515,34 @@ export interface EmailCreateSignInUrlOptionalParams extends coreClient.Operation
 export type EmailCreateSignInUrlResponse = CreateEmailSignInUrlResponse;
 
 // @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
+}
+
+// @public
 export interface ErrorBody {
     code: string;
     message: string;
 }
 
 // @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
 export interface ErrorModel {
     error?: ErrorBody;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
 }
 
 // @public
@@ -586,6 +615,13 @@ export interface KikChannelProperties {
 export type Kind = string;
 
 // @public
+export enum KnownAccessMode {
+    Audit = "Audit",
+    Enforced = "Enforced",
+    Learning = "Learning"
+}
+
+// @public
 export enum KnownKind {
     Azurebot = "azurebot",
     Bot = "bot",
@@ -599,6 +635,12 @@ export enum KnownMsaAppType {
     MultiTenant = "MultiTenant",
     SingleTenant = "SingleTenant",
     UserAssignedMSI = "UserAssignedMSI"
+}
+
+// @public
+export enum KnownNspAccessRuleDirection {
+    Inbound = "Inbound",
+    Outbound = "Outbound"
 }
 
 // @public
@@ -626,9 +668,26 @@ export enum KnownPrivateEndpointServiceConnectionStatus {
 }
 
 // @public
+export enum KnownProvisioningState {
+    Accepted = "Accepted",
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
 export enum KnownPublicNetworkAccess {
     Disabled = "Disabled",
-    Enabled = "Enabled"
+    Enabled = "Enabled",
+    SecuredByPerimeter = "SecuredByPerimeter"
+}
+
+// @public
+export enum KnownSeverity {
+    Error = "Error",
+    Warning = "Warning"
 }
 
 // @public
@@ -697,6 +756,106 @@ export interface MsTeamsChannelProperties {
 }
 
 // @public
+export interface NetworkSecurityPerimeter {
+    readonly id?: string;
+    location?: string;
+    perimeterGuid?: string;
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfiguration {
+    id?: string;
+    name?: string;
+    readonly properties?: NetworkSecurityPerimeterConfigurationProperties;
+    type?: string;
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationList {
+    readonly nextLink?: string;
+    readonly value?: NetworkSecurityPerimeterConfiguration[];
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationProperties {
+    readonly networkSecurityPerimeter?: NetworkSecurityPerimeter;
+    readonly profile?: Profile;
+    provisioningIssues?: ProvisioningIssue[];
+    // (undocumented)
+    provisioningState?: ProvisioningState;
+    readonly resourceAssociation?: ResourceAssociation;
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurations {
+    beginReconcile(resourceGroupName: string, resourceName: string, networkSecurityPerimeterConfigurationName: string, options?: NetworkSecurityPerimeterConfigurationsReconcileOptionalParams): Promise<SimplePollerLike<OperationState<NetworkSecurityPerimeterConfigurationsReconcileResponse>, NetworkSecurityPerimeterConfigurationsReconcileResponse>>;
+    beginReconcileAndWait(resourceGroupName: string, resourceName: string, networkSecurityPerimeterConfigurationName: string, options?: NetworkSecurityPerimeterConfigurationsReconcileOptionalParams): Promise<NetworkSecurityPerimeterConfigurationsReconcileResponse>;
+    get(resourceGroupName: string, resourceName: string, networkSecurityPerimeterConfigurationName: string, options?: NetworkSecurityPerimeterConfigurationsGetOptionalParams): Promise<NetworkSecurityPerimeterConfigurationsGetResponse>;
+    list(resourceGroupName: string, resourceName: string, options?: NetworkSecurityPerimeterConfigurationsListOptionalParams): PagedAsyncIterableIterator<NetworkSecurityPerimeterConfiguration>;
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkSecurityPerimeterConfigurationsGetResponse = NetworkSecurityPerimeterConfiguration;
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkSecurityPerimeterConfigurationsListNextResponse = NetworkSecurityPerimeterConfigurationList;
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkSecurityPerimeterConfigurationsListResponse = NetworkSecurityPerimeterConfigurationList;
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationsReconcileHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationsReconcileOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type NetworkSecurityPerimeterConfigurationsReconcileResponse = NetworkSecurityPerimeterConfiguration;
+
+// @public
+export interface NspAccessRule {
+    name?: string;
+    readonly properties?: NspAccessRuleProperties;
+}
+
+// @public
+export type NspAccessRuleDirection = string;
+
+// @public
+export interface NspAccessRuleProperties {
+    addressPrefixes?: string[];
+    direction?: NspAccessRuleDirection;
+    readonly emailAddresses?: string[];
+    readonly fullyQualifiedDomainNames?: string[];
+    readonly networkSecurityPerimeters?: NetworkSecurityPerimeter[];
+    readonly phoneNumbers?: string[];
+    subscriptions?: NspAccessRulePropertiesSubscriptionsItem[];
+}
+
+// @public
+export interface NspAccessRulePropertiesSubscriptionsItem {
+    id?: string;
+}
+
+// @public
 export interface Omnichannel extends Channel {
     channelName: "Omnichannel";
 }
@@ -725,7 +884,7 @@ export interface OperationEntityListResult {
 
 // @public
 export interface OperationResults {
-    beginGet(operationResultId: string, options?: OperationResultsGetOptionalParams): Promise<PollerLike<PollOperationState<OperationResultsGetResponse>, OperationResultsGetResponse>>;
+    beginGet(operationResultId: string, options?: OperationResultsGetOptionalParams): Promise<SimplePollerLike<OperationState<OperationResultsGetResponse>, OperationResultsGetResponse>>;
     beginGetAndWait(operationResultId: string, options?: OperationResultsGetOptionalParams): Promise<OperationResultsGetResponse>;
 }
 
@@ -869,6 +1028,33 @@ export interface PrivateLinkServiceConnectionState {
 }
 
 // @public
+export interface Profile {
+    accessRules?: NspAccessRule[];
+    accessRulesVersion?: number;
+    diagnosticSettingsVersion?: number;
+    readonly enabledLogCategories?: string[];
+    name?: string;
+}
+
+// @public
+export interface ProvisioningIssue {
+    name?: string;
+    readonly properties?: ProvisioningIssueProperties;
+}
+
+// @public
+export interface ProvisioningIssueProperties {
+    description?: string;
+    issueType?: string;
+    severity?: Severity;
+    suggestedAccessRules?: NspAccessRule[];
+    readonly suggestedResourceIds?: string[];
+}
+
+// @public
+export type ProvisioningState = string;
+
+// @public
 export type PublicNetworkAccess = string;
 
 // @public
@@ -913,6 +1099,12 @@ export interface Resource {
     };
     readonly type?: string;
     readonly zones?: string[];
+}
+
+// @public
+export interface ResourceAssociation {
+    accessMode?: AccessMode;
+    name?: string;
 }
 
 // @public
@@ -961,6 +1153,9 @@ export interface ServiceProviderResponseList {
     nextLink?: string;
     readonly value?: ServiceProvider[];
 }
+
+// @public
+export type Severity = string;
 
 // @public
 export interface Site {

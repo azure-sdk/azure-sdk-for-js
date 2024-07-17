@@ -13,7 +13,7 @@ import * as Parameters from "../models/parameters";
 import { AzureBotService } from "../azureBotService";
 import {
   PrivateLinkResourcesListByBotResourceOptionalParams,
-  PrivateLinkResourcesListByBotResourceResponse
+  PrivateLinkResourcesListByBotResourceResponse,
 } from "../models";
 
 /** Class containing PrivateLinkResources operations. */
@@ -37,11 +37,11 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
   listByBotResource(
     resourceGroupName: string,
     resourceName: string,
-    options?: PrivateLinkResourcesListByBotResourceOptionalParams
+    options?: PrivateLinkResourcesListByBotResourceOptionalParams,
   ): Promise<PrivateLinkResourcesListByBotResourceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, options },
-      listByBotResourceOperationSpec
+      listByBotResourceOperationSpec,
     );
   }
 }
@@ -49,24 +49,23 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByBotResourceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BotService/botServices/{resourceName}/privateLinkResources",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BotService/botServices/{resourceName}/privateLinkResources",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateLinkResourceListResult
+      bodyMapper: Mappers.PrivateLinkResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
