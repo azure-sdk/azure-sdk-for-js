@@ -4528,7 +4528,7 @@ export interface BlobContainersCreateOrUpdateImmutabilityPolicyOptionalParams
   extends coreClient.OperationOptions {
   /** The ImmutabilityPolicy Properties that will be created or updated to a blob container. */
   parameters?: ImmutabilityPolicy;
-  /** The entity state (ETag) version of the immutability policy to update. A value of "*" can be used to apply the operation only if the immutability policy already exists. If omitted, this operation will always be applied. */
+  /** The entity state (ETag) version of the immutability policy to update must be returned to the server for all update operations. The ETag value must include the leading and trailing double quotes as returned by the service. */
   ifMatch?: string;
 }
 
@@ -4539,7 +4539,7 @@ export type BlobContainersCreateOrUpdateImmutabilityPolicyResponse =
 /** Optional parameters. */
 export interface BlobContainersGetImmutabilityPolicyOptionalParams
   extends coreClient.OperationOptions {
-  /** The entity state (ETag) version of the immutability policy to update. A value of "*" can be used to apply the operation only if the immutability policy already exists. If omitted, this operation will always be applied. */
+  /** The entity state (ETag) version of the immutability policy to update must be returned to the server for all update operations. The ETag value must include the leading and trailing double quotes as returned by the service. */
   ifMatch?: string;
 }
 
