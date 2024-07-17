@@ -20,7 +20,7 @@ import {
   NetworkInterfacesDeleteResponse,
   NetworkInterfacesUpdateRequest,
   NetworkInterfacesUpdateOptionalParams,
-  NetworkInterfacesUpdateResponse
+  NetworkInterfacesUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,7 +34,7 @@ export interface NetworkInterfacesOperations {
    */
   list(
     resourceGroupName: string,
-    options?: NetworkInterfacesListOptionalParams
+    options?: NetworkInterfacesListOptionalParams,
   ): PagedAsyncIterableIterator<NetworkInterfaces>;
   /**
    * Lists all of the network interfaces in the specified subscription. Use the nextLink property in the
@@ -42,7 +42,7 @@ export interface NetworkInterfacesOperations {
    * @param options The options parameters.
    */
   listAll(
-    options?: NetworkInterfacesListAllOptionalParams
+    options?: NetworkInterfacesListAllOptionalParams,
   ): PagedAsyncIterableIterator<NetworkInterfaces>;
   /**
    * Gets a network interface
@@ -53,7 +53,7 @@ export interface NetworkInterfacesOperations {
   get(
     resourceGroupName: string,
     networkInterfaceName: string,
-    options?: NetworkInterfacesGetOptionalParams
+    options?: NetworkInterfacesGetOptionalParams,
   ): Promise<NetworkInterfacesGetResponse>;
   /**
    * The operation to create or update a network interface. Please note some properties can be set only
@@ -67,7 +67,7 @@ export interface NetworkInterfacesOperations {
     resourceGroupName: string,
     networkInterfaceName: string,
     networkInterfaces: NetworkInterfaces,
-    options?: NetworkInterfacesCreateOrUpdateOptionalParams
+    options?: NetworkInterfacesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkInterfacesCreateOrUpdateResponse>,
@@ -86,7 +86,7 @@ export interface NetworkInterfacesOperations {
     resourceGroupName: string,
     networkInterfaceName: string,
     networkInterfaces: NetworkInterfaces,
-    options?: NetworkInterfacesCreateOrUpdateOptionalParams
+    options?: NetworkInterfacesCreateOrUpdateOptionalParams,
   ): Promise<NetworkInterfacesCreateOrUpdateResponse>;
   /**
    * The operation to delete a network interface.
@@ -97,7 +97,7 @@ export interface NetworkInterfacesOperations {
   beginDelete(
     resourceGroupName: string,
     networkInterfaceName: string,
-    options?: NetworkInterfacesDeleteOptionalParams
+    options?: NetworkInterfacesDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkInterfacesDeleteResponse>,
@@ -113,7 +113,7 @@ export interface NetworkInterfacesOperations {
   beginDeleteAndWait(
     resourceGroupName: string,
     networkInterfaceName: string,
-    options?: NetworkInterfacesDeleteOptionalParams
+    options?: NetworkInterfacesDeleteOptionalParams,
   ): Promise<NetworkInterfacesDeleteResponse>;
   /**
    * The operation to update a network interface.
@@ -126,7 +126,7 @@ export interface NetworkInterfacesOperations {
     resourceGroupName: string,
     networkInterfaceName: string,
     networkInterfaces: NetworkInterfacesUpdateRequest,
-    options?: NetworkInterfacesUpdateOptionalParams
+    options?: NetworkInterfacesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkInterfacesUpdateResponse>,
@@ -144,6 +144,6 @@ export interface NetworkInterfacesOperations {
     resourceGroupName: string,
     networkInterfaceName: string,
     networkInterfaces: NetworkInterfacesUpdateRequest,
-    options?: NetworkInterfacesUpdateOptionalParams
+    options?: NetworkInterfacesUpdateOptionalParams,
   ): Promise<NetworkInterfacesUpdateResponse>;
 }
