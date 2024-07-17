@@ -1003,7 +1003,7 @@ export interface AutonomousDatabaseCharacterSetProperties {
    * The Oracle Autonomous Database supported character sets.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly characterSet: string;
+  readonly characterSet?: string;
 }
 
 /** The response of a AutonomousDatabaseNationalCharacterSet list operation. */
@@ -1020,7 +1020,7 @@ export interface AutonomousDatabaseNationalCharacterSetProperties {
    * The Oracle Autonomous Database supported national character sets.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly characterSet: string;
+  readonly characterSet?: string;
 }
 
 /** The response of a AutonomousDbVersion list operation. */
@@ -1037,7 +1037,7 @@ export interface AutonomousDbVersionProperties {
    * Supported Autonomous Db versions.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly version: string;
+  readonly version?: string;
   /**
    * The Autonomous Database workload type
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1084,7 +1084,7 @@ export interface DbSystemShapeProperties {
    * The maximum number of CPU cores that can be enabled on the DB system for this shape.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly availableCoreCount: number;
+  readonly availableCoreCount?: number;
   /**
    * The minimum number of CPU cores that can be enabled on the DB system for this shape.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1191,7 +1191,7 @@ export interface DnsPrivateViewProperties {
    * The OCID of the view
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly ocid: string;
+  readonly ocid?: string;
   /**
    * The display name of the view resource
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1201,7 +1201,7 @@ export interface DnsPrivateViewProperties {
    * A Boolean flag indicating whether or not parts of the resource are unable to be explicitly managed.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly isProtected: boolean;
+  readonly isProtected?: boolean;
   /**
    * Views lifecycleState
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1211,17 +1211,17 @@ export interface DnsPrivateViewProperties {
    * The canonical absolute URL of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly self: string;
+  readonly self?: string;
   /**
    * views timeCreated
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly timeCreated: Date;
+  readonly timeCreated?: Date;
   /**
    * views timeCreated
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly timeUpdated: Date;
+  readonly timeUpdated?: Date;
   /**
    * Azure resource provisioning state.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1243,12 +1243,12 @@ export interface DnsPrivateZoneProperties {
    * The OCID of the Zone
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly ocid: string;
+  readonly ocid?: string;
   /**
    * A Boolean flag indicating whether or not parts of the resource are unable to be explicitly managed.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly isProtected: boolean;
+  readonly isProtected?: boolean;
   /**
    * Zones lifecycleState
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1258,17 +1258,17 @@ export interface DnsPrivateZoneProperties {
    * The canonical absolute URL of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly self: string;
+  readonly self?: string;
   /**
    * The current serial of the zone. As seen in the zone's SOA record.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly serial: number;
+  readonly serial?: number;
   /**
    * Version is the never-repeating, totally-orderable, version of the zone, from which the serial field of the zone's SOA record is derived.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly version: string;
+  readonly version?: string;
   /**
    * The OCID of the private view containing the zone. This value will be null for zones in the global DNS, which are publicly resolvable and not part of a private view.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1278,12 +1278,12 @@ export interface DnsPrivateZoneProperties {
    * The type of the zone. Must be either PRIMARY or SECONDARY. SECONDARY is only supported for GLOBAL zones.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly zoneType: ZoneType;
+  readonly zoneType?: ZoneType;
   /**
    * Zones timeCreated
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly timeCreated: Date;
+  readonly timeCreated?: Date;
   /**
    * Azure resource provisioning state.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1305,7 +1305,7 @@ export interface GiVersionProperties {
    * A valid Oracle Grid Infrastructure (GI) software version.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly version: string;
+  readonly version?: string;
 }
 
 /** The response of a SystemVersion list operation. */
@@ -1322,7 +1322,7 @@ export interface SystemVersionProperties {
    * A valid Oracle System Version
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly systemVersion: string;
+  readonly systemVersion?: string;
 }
 
 /** The response of a OracleSubscription list operation. */
@@ -1361,6 +1361,21 @@ export interface OracleSubscriptionProperties {
   productCode?: string;
   /** Intent for the update operation */
   intent?: Intent;
+  /**
+   * Azure subscriptions associated with this OracleSubscription
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly azureSubscriptionIds?: string[];
+  /**
+   * State of the add Azure subscription operation on Oracle subscription
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly addSubscriptionOperationState?: AddSubscriptionOperationState;
+  /**
+   * Status details of the last operation on Oracle subscription
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastOperationStatusDetail?: string;
 }
 
 /** Plan for the resource. */
@@ -1381,7 +1396,7 @@ export interface Plan {
 export interface OracleSubscriptionUpdate {
   /** Details of the resource plan. */
   plan?: PlanUpdate;
-  /** The updatable properties of the OracleSubscription. */
+  /** The resource-specific properties for this resource. */
   properties?: OracleSubscriptionUpdateProperties;
 }
 
@@ -1405,6 +1420,12 @@ export interface OracleSubscriptionUpdateProperties {
   productCode?: string;
   /** Intent for the update operation */
   intent?: Intent;
+}
+
+/** Azure Subscriptions model */
+export interface AzureSubscriptions {
+  /** Azure Subscription Ids to be updated */
+  azureSubscriptionIds: string[];
 }
 
 /** Activation Links model */
@@ -1503,7 +1524,7 @@ export interface SaasSubscriptionDetails {
 export interface AutonomousDatabaseUpdate {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
-  /** The updatable properties of the AutonomousDatabase. */
+  /** The resource-specific properties for this resource. */
   properties?: AutonomousDatabaseUpdateProperties;
 }
 
@@ -1664,7 +1685,7 @@ export interface AutonomousDatabaseBackupProperties {
 
 /** The type used for update operations of the AutonomousDatabaseBackup. */
 export interface AutonomousDatabaseBackupUpdate {
-  /** The updatable properties of the AutonomousDatabaseBackup. */
+  /** The resource-specific properties for this resource. */
   properties?: AutonomousDatabaseBackupUpdateProperties;
 }
 
@@ -1711,7 +1732,7 @@ export interface CloudExadataInfrastructureUpdate {
   zones?: string[];
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
-  /** The updatable properties of the CloudExadataInfrastructure. */
+  /** The resource-specific properties for this resource. */
   properties?: CloudExadataInfrastructureUpdateProperties;
 }
 
@@ -1869,7 +1890,7 @@ export interface DbServerPatchingDetails {
 export interface CloudVmClusterUpdate {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
-  /** The updatable properties of the CloudVmCluster. */
+  /** The resource-specific properties for this resource. */
   properties?: CloudVmClusterUpdateProperties;
 }
 
@@ -1919,7 +1940,7 @@ export interface DbNodeProperties {
    * DbNode OCID
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly ocid: string;
+  readonly ocid?: string;
   /**
    * Additional information about the planned maintenance.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1959,7 +1980,7 @@ export interface DbNodeProperties {
    * The OCID of the DB system.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly dbSystemId: string;
+  readonly dbSystemId?: string;
   /**
    * The name of the Fault Domain the instance is contained in.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2423,6 +2444,14 @@ export interface OracleSubscriptionsUpdateHeaders {
 
 /** Defines headers for OracleSubscriptions_delete operation. */
 export interface OracleSubscriptionsDeleteHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for OracleSubscriptions_addAzureSubscriptions operation. */
+export interface OracleSubscriptionsAddAzureSubscriptionsHeaders {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
@@ -3457,6 +3486,27 @@ export enum KnownIntent {
  */
 export type Intent = string;
 
+/** Known values of {@link AddSubscriptionOperationState} that the service accepts. */
+export enum KnownAddSubscriptionOperationState {
+  /** Succeeded - State when Add Subscription operation succeeded */
+  Succeeded = "Succeeded",
+  /** Updating - State when Add Subscription operation is being Updated */
+  Updating = "Updating",
+  /** Failed - State when Add Subscription operation failed */
+  Failed = "Failed",
+}
+
+/**
+ * Defines values for AddSubscriptionOperationState. \
+ * {@link KnownAddSubscriptionOperationState} can be used interchangeably with AddSubscriptionOperationState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded**: Succeeded - State when Add Subscription operation succeeded \
+ * **Updating**: Updating - State when Add Subscription operation is being Updated \
+ * **Failed**: Failed - State when Add Subscription operation failed
+ */
+export type AddSubscriptionOperationState = string;
+
 /** Known values of {@link AutonomousDatabaseBackupLifecycleState} that the service accepts. */
 export enum KnownAutonomousDatabaseBackupLifecycleState {
   /** AutonomousDatabase backup is creating */
@@ -4384,6 +4434,19 @@ export interface OracleSubscriptionsDeleteOptionalParams
 /** Contains response data for the delete operation. */
 export type OracleSubscriptionsDeleteResponse =
   OracleSubscriptionsDeleteHeaders;
+
+/** Optional parameters. */
+export interface OracleSubscriptionsAddAzureSubscriptionsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the addAzureSubscriptions operation. */
+export type OracleSubscriptionsAddAzureSubscriptionsResponse =
+  OracleSubscriptionsAddAzureSubscriptionsHeaders;
 
 /** Optional parameters. */
 export interface OracleSubscriptionsListActivationLinksOptionalParams
