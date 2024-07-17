@@ -1,15 +1,24 @@
 # Release History
+    
+## 16.1.0 (2024-07-17)
+    
+**Features**
 
-## 16.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface ContinuationSettingsReference
+  - Interface CommonDataServiceForAppsLinkedService has a new optional parameter domain
+  - Interface DynamicsCrmLinkedService has a new optional parameter domain
+  - Interface DynamicsLinkedService has a new optional parameter domain
+  - Interface ExecuteDataFlowActivity has a new optional parameter continuationSettings
+  - Interface ExecuteDataFlowActivityTypeProperties has a new optional parameter continuationSettings
+  - Interface ExecuteWranglingDataflowActivity has a new optional parameter continuationSettings
+  - Interface SnowflakeExportCopyCommand has a new optional parameter storageIntegration
+  - Interface SnowflakeImportCopyCommand has a new optional parameter storageIntegration
+  - Interface SqlServerLinkedService has a new optional parameter credential
+  - Interface SqlServerLinkedServiceTypeProperties has a new optional parameter credential
+  - Enum KnownDynamicsAuthenticationType has a new value ActiveDirectory
+  - Enum KnownSqlServerAuthenticationType has a new value UserAssignedManagedIdentity
+    
+    
 ## 16.0.0 (2024-06-11)
     
 **Features**

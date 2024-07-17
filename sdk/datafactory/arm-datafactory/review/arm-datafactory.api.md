@@ -1483,6 +1483,7 @@ export interface CommonDataServiceForAppsEntityDataset extends Dataset {
 export interface CommonDataServiceForAppsLinkedService extends LinkedService {
     authenticationType: any;
     deploymentType: any;
+    domain?: any;
     encryptedCredential?: string;
     hostName?: any;
     organizationName?: any;
@@ -1567,6 +1568,13 @@ export interface ConnectionStateProperties {
 
 // @public
 export type ConnectionType = string;
+
+// @public
+export interface ContinuationSettingsReference {
+    continuationTtlInMinutes?: any;
+    customizedCheckpointKey?: any;
+    idleCondition?: any;
+}
 
 // @public
 export interface ControlActivity extends Activity {
@@ -2606,6 +2614,7 @@ export interface DynamicsCrmLinkedService extends LinkedService {
     authenticationType: any;
     credential?: CredentialReference;
     deploymentType: any;
+    domain?: any;
     encryptedCredential?: string;
     hostName?: any;
     organizationName?: any;
@@ -2648,6 +2657,7 @@ export interface DynamicsLinkedService extends LinkedService {
     authenticationType: any;
     credential?: CredentialReference;
     deploymentType: any;
+    domain?: any;
     encryptedCredential?: string;
     hostName?: any;
     organizationName?: any;
@@ -2749,6 +2759,7 @@ export interface ExcelSource extends CopySource {
 // @public
 export interface ExecuteDataFlowActivity extends ExecutionActivity {
     compute?: ExecuteDataFlowActivityTypePropertiesCompute;
+    continuationSettings?: ContinuationSettingsReference;
     continueOnError?: any;
     dataFlow: DataFlowReference;
     integrationRuntime?: IntegrationRuntimeReference;
@@ -2762,6 +2773,7 @@ export interface ExecuteDataFlowActivity extends ExecutionActivity {
 // @public
 export interface ExecuteDataFlowActivityTypeProperties {
     compute?: ExecuteDataFlowActivityTypePropertiesCompute;
+    continuationSettings?: ContinuationSettingsReference;
     continueOnError?: any;
     dataFlow: DataFlowReference;
     integrationRuntime?: IntegrationRuntimeReference;
@@ -2836,6 +2848,7 @@ export interface ExecuteSsisPackageActivity extends ExecutionActivity {
 // @public
 export interface ExecuteWranglingDataflowActivity extends Activity {
     compute?: ExecuteDataFlowActivityTypePropertiesCompute;
+    continuationSettings?: ContinuationSettingsReference;
     continueOnError?: any;
     dataFlow: DataFlowReference;
     integrationRuntime?: IntegrationRuntimeReference;
@@ -4622,6 +4635,7 @@ export enum KnownDependencyCondition {
 // @public
 export enum KnownDynamicsAuthenticationType {
     AADServicePrincipal = "AADServicePrincipal",
+    ActiveDirectory = "Active Directory",
     Ifd = "Ifd",
     Office365 = "Office365"
 }
@@ -5200,6 +5214,7 @@ export enum KnownSqlPartitionOption {
 // @public
 export enum KnownSqlServerAuthenticationType {
     SQL = "SQL",
+    UserAssignedManagedIdentity = "UserAssignedManagedIdentity",
     Windows = "Windows"
 }
 
@@ -7952,6 +7967,7 @@ export interface SnowflakeExportCopyCommand extends ExportSettings {
     additionalFormatOptions?: {
         [propertyName: string]: any;
     };
+    storageIntegration?: any;
     type: "SnowflakeExportCopyCommand";
 }
 
@@ -7963,6 +7979,7 @@ export interface SnowflakeImportCopyCommand extends ImportSettings {
     additionalFormatOptions?: {
         [propertyName: string]: any;
     };
+    storageIntegration?: any;
     type: "SnowflakeImportCopyCommand";
 }
 
@@ -8198,6 +8215,7 @@ export interface SqlServerLinkedService extends LinkedService {
     connectRetryCount?: any;
     connectRetryInterval?: any;
     connectTimeout?: any;
+    credential?: CredentialReference;
     database?: any;
     encrypt?: any;
     encryptedCredential?: string;
@@ -8223,6 +8241,7 @@ export interface SqlServerLinkedServiceTypeProperties extends SqlServerBaseLinke
     alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties;
     authenticationType?: SqlServerAuthenticationType;
     connectionString?: any;
+    credential?: CredentialReference;
     encryptedCredential?: string;
     password?: SecretBaseUnion;
     userName?: any;
