@@ -1,15 +1,12 @@
 # Release History
+    
+## 10.0.0 (2024-07-18)
+    
+**Breaking Changes**
 
-## 9.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation Profiles.list
+    
+    
 ## 9.1.0 (2024-04-08)
     
 **Features**
