@@ -1,15 +1,24 @@
 # Release History
+    
+## 17.0.0 (2024-07-18)
+    
+**Features**
 
-## 16.0.1 (Unreleased)
+  - Added Interface ContinuationSettingsReference
+  - Interface ExecuteDataFlowActivity has a new optional parameter continuationSettings
+  - Interface ExecuteDataFlowActivityTypeProperties has a new optional parameter continuationSettings
+  - Interface ExecuteWranglingDataflowActivity has a new optional parameter continuationSettings
+  - Interface SnowflakeExportCopyCommand has a new optional parameter storageIntegration
+  - Interface SnowflakeImportCopyCommand has a new optional parameter storageIntegration
+  - Interface SqlServerLinkedService has a new optional parameter credential
+  - Interface SqlServerLinkedServiceTypeProperties has a new optional parameter credential
+  - Enum KnownSqlServerAuthenticationType has a new value UserAssignedManagedIdentity
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation Factories.listByResourceGroup
+    
+    
 ## 16.0.0 (2024-06-11)
     
 **Features**
