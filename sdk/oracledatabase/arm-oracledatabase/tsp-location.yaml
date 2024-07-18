@@ -1,0 +1,6 @@
+commit: 854d1022a57584d284ec12b8ac9979f254ec063c
+repo: test-repo-billy/azure-rest-api-specs
+directory: specification/oracle/Oracle.Database
+additionalDirectories:
+- specification/oracle/models
+
