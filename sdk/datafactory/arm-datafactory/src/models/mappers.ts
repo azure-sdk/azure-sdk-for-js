@@ -5606,6 +5606,48 @@ export const SsisVariable: coreClient.CompositeMapper = {
   },
 };
 
+export const AzureStorageLinkedServiceTypeProperties: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "AzureStorageLinkedServiceTypeProperties",
+      modelProperties: {
+        connectionString: {
+          serializedName: "connectionString",
+          type: {
+            name: "any",
+          },
+        },
+        accountKey: {
+          serializedName: "accountKey",
+          type: {
+            name: "Composite",
+            className: "AzureKeyVaultSecretReference",
+          },
+        },
+        sasUri: {
+          serializedName: "sasUri",
+          type: {
+            name: "any",
+          },
+        },
+        sasToken: {
+          serializedName: "sasToken",
+          type: {
+            name: "Composite",
+            className: "AzureKeyVaultSecretReference",
+          },
+        },
+        encryptedCredential: {
+          serializedName: "encryptedCredential",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
 export const SqlServerBaseLinkedServiceTypeProperties: coreClient.CompositeMapper =
   {
     type: {
@@ -7369,6 +7411,13 @@ export const ExecuteDataFlowActivityTypeProperties: coreClient.CompositeMapper =
             className: "IntegrationRuntimeReference",
           },
         },
+        continuationSettings: {
+          serializedName: "continuationSettings",
+          type: {
+            name: "Composite",
+            className: "ContinuationSettingsReference",
+          },
+        },
         compute: {
           serializedName: "compute",
           type: {
@@ -7403,6 +7452,33 @@ export const ExecuteDataFlowActivityTypeProperties: coreClient.CompositeMapper =
       },
     },
   };
+
+export const ContinuationSettingsReference: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContinuationSettingsReference",
+    modelProperties: {
+      continuationTtlInMinutes: {
+        serializedName: "continuationTtlInMinutes",
+        type: {
+          name: "any",
+        },
+      },
+      idleCondition: {
+        serializedName: "idleCondition",
+        type: {
+          name: "any",
+        },
+      },
+      customizedCheckpointKey: {
+        serializedName: "customizedCheckpointKey",
+        type: {
+          name: "any",
+        },
+      },
+    },
+  },
+};
 
 export const ExecuteDataFlowActivityTypePropertiesCompute: coreClient.CompositeMapper =
   {
@@ -9047,6 +9123,19 @@ export const AzureTableStorageLinkedService: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      serviceEndpoint: {
+        serializedName: "typeProperties.serviceEndpoint",
+        type: {
+          name: "any",
+        },
+      },
+      credential: {
+        serializedName: "typeProperties.credential",
+        type: {
+          name: "Composite",
+          className: "CredentialReference",
+        },
+      },
     },
   },
 };
@@ -9415,6 +9504,13 @@ export const SqlServerLinkedService: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "SqlAlwaysEncryptedProperties",
+        },
+      },
+      credential: {
+        serializedName: "typeProperties.credential",
+        type: {
+          name: "Composite",
+          className: "CredentialReference",
         },
       },
     },
@@ -19931,6 +20027,13 @@ export const ExecuteWranglingDataflowActivity: coreClient.CompositeMapper = {
           className: "IntegrationRuntimeReference",
         },
       },
+      continuationSettings: {
+        serializedName: "typeProperties.continuationSettings",
+        type: {
+          name: "Composite",
+          className: "ContinuationSettingsReference",
+        },
+      },
       compute: {
         serializedName: "typeProperties.compute",
         type: {
@@ -21149,6 +21252,30 @@ export const LinkedIntegrationRuntimeRbacAuthorization: coreClient.CompositeMapp
     },
   };
 
+export const AzureTableStorageLinkedServiceTypeProperties: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "AzureTableStorageLinkedServiceTypeProperties",
+      modelProperties: {
+        ...AzureStorageLinkedServiceTypeProperties.type.modelProperties,
+        serviceEndpoint: {
+          serializedName: "serviceEndpoint",
+          type: {
+            name: "any",
+          },
+        },
+        credential: {
+          serializedName: "credential",
+          type: {
+            name: "Composite",
+            className: "CredentialReference",
+          },
+        },
+      },
+    },
+  };
+
 export const AzureSqlDWLinkedServiceTypeProperties: coreClient.CompositeMapper =
   {
     type: {
@@ -21279,6 +21406,13 @@ export const SqlServerLinkedServiceTypeProperties: coreClient.CompositeMapper =
           type: {
             name: "Composite",
             className: "SqlAlwaysEncryptedProperties",
+          },
+        },
+        credential: {
+          serializedName: "credential",
+          type: {
+            name: "Composite",
+            className: "CredentialReference",
           },
         },
       },
@@ -25807,6 +25941,12 @@ export const SnowflakeExportCopyCommand: coreClient.CompositeMapper = {
           value: { type: { name: "any" } },
         },
       },
+      storageIntegration: {
+        serializedName: "storageIntegration",
+        type: {
+          name: "any",
+        },
+      },
     },
   },
 };
@@ -25887,6 +26027,12 @@ export const SnowflakeImportCopyCommand: coreClient.CompositeMapper = {
         type: {
           name: "Dictionary",
           value: { type: { name: "any" } },
+        },
+      },
+      storageIntegration: {
+        serializedName: "storageIntegration",
+        type: {
+          name: "any",
         },
       },
     },
@@ -27926,6 +28072,13 @@ export const ExecuteDataFlowActivity: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "IntegrationRuntimeReference",
+        },
+      },
+      continuationSettings: {
+        serializedName: "typeProperties.continuationSettings",
+        type: {
+          name: "Composite",
+          className: "ContinuationSettingsReference",
         },
       },
       compute: {
