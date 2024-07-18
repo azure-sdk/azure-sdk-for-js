@@ -21,6 +21,9 @@ export interface CloudErrorBody {
 }
 
 // @public
+export type CreatedByType = string;
+
+// @public
 export interface DisableConsoleOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -29,6 +32,12 @@ export type DisableConsoleResponse = DisableSerialConsoleResult;
 
 // @public
 export interface DisableSerialConsoleResult {
+    // (undocumented)
+    properties?: DisableSerialConsoleResultProperties;
+}
+
+// @public (undocumented)
+export interface DisableSerialConsoleResultProperties {
     disabled?: boolean;
 }
 
@@ -41,6 +50,12 @@ export type EnableConsoleResponse = EnableSerialConsoleResult;
 
 // @public
 export interface EnableSerialConsoleResult {
+    // (undocumented)
+    properties?: EnableSerialConsoleResultProperties;
+}
+
+// @public (undocumented)
+export interface EnableSerialConsoleResultProperties {
     disabled?: boolean;
 }
 
@@ -58,6 +73,14 @@ export interface GetSerialConsoleSubscriptionNotFound {
 }
 
 // @public
+export enum KnownCreatedByType {
+    Application = "Application",
+    Key = "Key",
+    ManagedIdentity = "ManagedIdentity",
+    User = "User"
+}
+
+// @public
 export interface ListOperationsOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -69,6 +92,7 @@ export class MicrosoftSerialConsoleClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: MicrosoftSerialConsoleClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, options?: MicrosoftSerialConsoleClientOptionalParams);
     // (undocumented)
     apiVersion: string;
     disableConsole(defaultParam: string, options?: DisableConsoleOptionalParams): Promise<DisableConsoleResponse>;
@@ -78,7 +102,7 @@ export class MicrosoftSerialConsoleClient extends coreClient.ServiceClient {
     // (undocumented)
     serialPorts: SerialPorts;
     // (undocumented)
-    subscriptionId: string;
+    subscriptionId?: string;
 }
 
 // @public
@@ -96,6 +120,7 @@ export interface ProxyResource extends Resource {
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
@@ -128,13 +153,23 @@ export interface SerialConsoleOperationsValueItemDisplay {
 
 // @public
 export interface SerialConsoleStatus {
+    // (undocumented)
+    properties?: SerialConsoleStatusProperties;
+}
+
+// @public (undocumented)
+export interface SerialConsoleStatusProperties {
     disabled?: boolean;
 }
 
 // @public
 export interface SerialPort extends ProxyResource {
+    connectionState?: SerialPortConnectionState;
     state?: SerialPortState;
 }
+
+// @public
+export type SerialPortConnectionState = "active" | "inactive";
 
 // @public
 export interface SerialPortConnectResult {
@@ -150,7 +185,6 @@ export interface SerialPortListResult {
 export interface SerialPorts {
     connect(resourceGroupName: string, resourceProviderNamespace: string, parentResourceType: string, parentResource: string, serialPort: string, options?: SerialPortsConnectOptionalParams): Promise<SerialPortsConnectResponse>;
     create(resourceGroupName: string, resourceProviderNamespace: string, parentResourceType: string, parentResource: string, serialPort: string, parameters: SerialPort, options?: SerialPortsCreateOptionalParams): Promise<SerialPortsCreateResponse>;
-    delete(resourceGroupName: string, resourceProviderNamespace: string, parentResourceType: string, parentResource: string, serialPort: string, options?: SerialPortsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, resourceProviderNamespace: string, parentResourceType: string, parentResource: string, serialPort: string, options?: SerialPortsGetOptionalParams): Promise<SerialPortsGetResponse>;
     list(resourceGroupName: string, resourceProviderNamespace: string, parentResourceType: string, parentResource: string, options?: SerialPortsListOptionalParams): Promise<SerialPortsListResponse>;
     listBySubscriptions(options?: SerialPortsListBySubscriptionsOptionalParams): Promise<SerialPortsListBySubscriptionsResponse>;
@@ -169,10 +203,6 @@ export interface SerialPortsCreateOptionalParams extends coreClient.OperationOpt
 
 // @public
 export type SerialPortsCreateResponse = SerialPort;
-
-// @public
-export interface SerialPortsDeleteOptionalParams extends coreClient.OperationOptions {
-}
 
 // @public
 export interface SerialPortsGetOptionalParams extends coreClient.OperationOptions {
@@ -197,6 +227,16 @@ export type SerialPortsListResponse = SerialPortListResult;
 
 // @public
 export type SerialPortState = "enabled" | "disabled";
+
+// @public
+export interface SystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
+}
 
 // (No @packageDocumentation comment for this package)
 

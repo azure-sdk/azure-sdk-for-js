@@ -14,11 +14,10 @@ import {
   SerialPort,
   SerialPortsCreateOptionalParams,
   SerialPortsCreateResponse,
-  SerialPortsDeleteOptionalParams,
   SerialPortsListBySubscriptionsOptionalParams,
   SerialPortsListBySubscriptionsResponse,
   SerialPortsConnectOptionalParams,
-  SerialPortsConnectResponse
+  SerialPortsConnectResponse,
 } from "../models";
 
 /** Interface representing a SerialPorts. */
@@ -38,7 +37,7 @@ export interface SerialPorts {
     resourceProviderNamespace: string,
     parentResourceType: string,
     parentResource: string,
-    options?: SerialPortsListOptionalParams
+    options?: SerialPortsListOptionalParams,
   ): Promise<SerialPortsListResponse>;
   /**
    * Gets the configured settings for a serial port
@@ -57,7 +56,7 @@ export interface SerialPorts {
     parentResourceType: string,
     parentResource: string,
     serialPort: string,
-    options?: SerialPortsGetOptionalParams
+    options?: SerialPortsGetOptionalParams,
   ): Promise<SerialPortsGetResponse>;
   /**
    * Creates or updates a serial port
@@ -78,33 +77,14 @@ export interface SerialPorts {
     parentResource: string,
     serialPort: string,
     parameters: SerialPort,
-    options?: SerialPortsCreateOptionalParams
+    options?: SerialPortsCreateOptionalParams,
   ): Promise<SerialPortsCreateResponse>;
-  /**
-   * Deletes a serial port
-   * @param resourceGroupName The name of the resource group.
-   * @param resourceProviderNamespace The namespace of the resource provider.
-   * @param parentResourceType The resource type of the parent resource.  For example: 'virtualMachines'
-   *                           or 'virtualMachineScaleSets'
-   * @param parentResource The resource name, or subordinate path, for the parent of the serial port. For
-   *                       example: the name of the virtual machine.
-   * @param serialPort The name of the serial port to delete.
-   * @param options The options parameters.
-   */
-  delete(
-    resourceGroupName: string,
-    resourceProviderNamespace: string,
-    parentResourceType: string,
-    parentResource: string,
-    serialPort: string,
-    options?: SerialPortsDeleteOptionalParams
-  ): Promise<void>;
   /**
    * Handles requests to list all SerialPort resources in a subscription.
    * @param options The options parameters.
    */
   listBySubscriptions(
-    options?: SerialPortsListBySubscriptionsOptionalParams
+    options?: SerialPortsListBySubscriptionsOptionalParams,
   ): Promise<SerialPortsListBySubscriptionsResponse>;
   /**
    * Connect to serial port of the target resource
@@ -123,6 +103,6 @@ export interface SerialPorts {
     parentResourceType: string,
     parentResource: string,
     serialPort: string,
-    options?: SerialPortsConnectOptionalParams
+    options?: SerialPortsConnectOptionalParams,
   ): Promise<SerialPortsConnectResponse>;
 }
