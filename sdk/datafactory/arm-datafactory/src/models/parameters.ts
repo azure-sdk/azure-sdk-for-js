@@ -132,6 +132,11 @@ export const locationId: OperationURLParameter = {
   },
 };
 
+export const factory: OperationParameter = {
+  parameterPath: "factory",
+  mapper: FactoryMapper,
+};
+
 export const resourceGroupName: OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
@@ -146,11 +151,6 @@ export const resourceGroupName: OperationURLParameter = {
       name: "String",
     },
   },
-};
-
-export const factory: OperationParameter = {
-  parameterPath: "factory",
-  mapper: FactoryMapper,
 };
 
 export const factoryName: OperationURLParameter = {
