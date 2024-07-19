@@ -288,6 +288,24 @@ export interface OSProfileWindowsConfiguration {
   assessmentMode?: AssessmentModeTypes;
   /** Specifies the patch mode. */
   patchMode?: PatchModeTypes;
+  /** Captures the hotpatch capability enrollment intent of the customers, which enables customers to patch their Windows machines without requiring a reboot. */
+  enableHotpatching?: boolean;
+  /**
+   * Status of the hotpatch capability enrollment or disenrollment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: PatchSettingsStatus;
+}
+
+/** Status of the hotpatch capability enrollment or disenrollment. */
+export interface PatchSettingsStatus {
+  /** Indicates the current status of the hotpatch being enabled or disabled. */
+  hotpatchEnablementStatus?: HotpatchEnablementStatus;
+  /**
+   * The errors that were encountered during the hotpatch capability enrollment or disenrollment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly error?: ErrorDetail;
 }
 
 /** Specifies the linux configuration for update management. */
@@ -296,6 +314,13 @@ export interface OSProfileLinuxConfiguration {
   assessmentMode?: AssessmentModeTypes;
   /** Specifies the patch mode. */
   patchMode?: PatchModeTypes;
+  /** Captures the hotpatch capability enrollment intent of the customers, which enables customers to patch their Windows machines without requiring a reboot. */
+  enableHotpatching?: boolean;
+  /**
+   * Status of the hotpatch capability enrollment or disenrollment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: PatchSettingsStatus;
 }
 
 /** License Profile Instance View in Machine Properties. */
@@ -317,20 +342,30 @@ export interface LicenseProfileMachineInstanceView {
   /** Indicates the product type of the license. */
   productType?: LicenseProfileProductType;
   /**
-   * The timestamp in UTC when the billing starts.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly billingStartDate?: Date;
-  /**
    * The timestamp in UTC when the user enrolls the feature.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly enrollmentDate?: Date;
   /**
+   * The timestamp in UTC when the billing starts.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingStartDate?: Date;
+  /**
    * The timestamp in UTC when the user disenrolled the feature.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly disenrollmentDate?: Date;
+  /**
+   * The timestamp in UTC when the billing ends.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingEndDate?: Date;
+  /**
+   * The errors that were encountered during the feature enrollment or disenrollment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly error?: ErrorDetail;
   /** The list of product features. */
   productFeatures?: ProductFeature[];
   /** Specifies if this machine is licensed as part of a Software Assurance agreement. */
@@ -366,20 +401,30 @@ export interface ProductFeature {
   /** Indicates the current status of the product features. */
   subscriptionStatus?: LicenseProfileSubscriptionStatus;
   /**
-   * The timestamp in UTC when the billing starts.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly billingStartDate?: Date;
-  /**
    * The timestamp in UTC when the user enrolls the feature.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly enrollmentDate?: Date;
   /**
+   * The timestamp in UTC when the billing starts.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingStartDate?: Date;
+  /**
    * The timestamp in UTC when the user disenrolled the feature.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly disenrollmentDate?: Date;
+  /**
+   * The timestamp in UTC when the billing ends.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingEndDate?: Date;
+  /**
+   * The errors that were encountered during the feature enrollment or disenrollment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly error?: ErrorDetail;
 }
 
 /** Describes the Machine Extension Instance View. */
@@ -480,6 +525,22 @@ export interface Identity {
   readonly tenantId?: string;
   /** The identity type. */
   type?: "SystemAssigned";
+}
+
+/** Product Feature */
+export interface ProductFeatureUpdate {
+  /** Product feature name. */
+  name?: string;
+  /** Indicates the new status of the product feature. */
+  subscriptionStatus?: LicenseProfileSubscriptionStatusUpdate;
+}
+
+/** The List hybrid machine license profile operation response. */
+export interface LicenseProfilesListResult {
+  /** The list of license profiles. */
+  value: LicenseProfile[];
+  /** The URI to fetch the next page of Machines. Call ListNext() with this URI to fetch the next page of license profile. */
+  nextLink?: string;
 }
 
 /** Describes the properties of an AssessPatches result. */
@@ -1292,22 +1353,6 @@ export interface NetworkSecurityPerimeterConfigurationListResult {
   readonly nextLink?: string;
 }
 
-/** Product Feature */
-export interface ProductFeatureUpdate {
-  /** Product feature name. */
-  name?: string;
-  /** Indicates the new status of the product feature. */
-  subscriptionStatus?: LicenseProfileSubscriptionStatusUpdate;
-}
-
-/** The List hybrid machine license profile operation response. */
-export interface LicenseProfilesListResult {
-  /** The list of license profiles. */
-  value: LicenseProfile[];
-  /** The URI to fetch the next page of Machines. Call ListNext() with this URI to fetch the next page of license profile. */
-  nextLink?: string;
-}
-
 /** List of HybridIdentityMetadata. */
 export interface HybridIdentityMetadataList {
   /** Url to follow for getting next page of HybridIdentityMetadata. */
@@ -1394,6 +1439,20 @@ export interface LicenseUpdate extends ResourceUpdate {
   processors?: number;
 }
 
+/** Describes a License Profile Update. */
+export interface LicenseProfileUpdate extends ResourceUpdate {
+  /** Indicates the subscription status of the product. */
+  subscriptionStatus?: LicenseProfileSubscriptionStatusUpdate;
+  /** Indicates the product type of the license. */
+  productType?: LicenseProfileProductType;
+  /** The list of product feature updates. */
+  productFeatures?: ProductFeatureUpdate[];
+  /** The resource id of the license. */
+  assignedLicense?: string;
+  /** Specifies if this machine is licensed as part of a Software Assurance agreement. */
+  softwareAssuranceCustomer?: boolean;
+}
+
 /** Describes a Machine Extension Update. */
 export interface MachineExtensionUpdate extends ResourceUpdate {
   /** How the extension handler should be forced to update even if the extension configuration has not changed. */
@@ -1413,9 +1472,6 @@ export interface MachineExtensionUpdate extends ResourceUpdate {
   /** The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all. */
   protectedSettings?: { [propertyName: string]: any };
 }
-
-/** Describes a Machine Extension Update. */
-export interface MachineRunCommandUpdate extends ResourceUpdate {}
 
 /** Describes a License Update. */
 export interface GatewayUpdate extends ResourceUpdate {
@@ -1443,19 +1499,8 @@ export interface MachineUpdate extends ResourceUpdate {
   privateLinkScopeResourceId?: string;
 }
 
-/** Describes a License Profile Update. */
-export interface LicenseProfileUpdate extends ResourceUpdate {
-  /** Indicates the subscription status of the product. */
-  subscriptionStatus?: LicenseProfileSubscriptionStatusUpdate;
-  /** Indicates the product type of the license. */
-  productType?: LicenseProfileProductType;
-  /** The list of product feature updates. */
-  productFeatures?: ProductFeatureUpdate[];
-  /** The resource id of the license. */
-  assignedLicense?: string;
-  /** Specifies if this machine is licensed as part of a Software Assurance agreement. */
-  softwareAssuranceCustomer?: boolean;
-}
+/** Describes a Machine Extension Update. */
+export interface MachineRunCommandUpdate extends ResourceUpdate {}
 
 /** Describes the properties of a License Profile ARM model. */
 export interface LicenseProfileArmEsuPropertiesWithoutAssignedLicense
@@ -1650,6 +1695,75 @@ export interface Machine extends TrackedResource {
   readonly networkProfile?: NetworkProfile;
 }
 
+/** Describes a license profile in a hybrid machine. */
+export interface LicenseProfile extends TrackedResource {
+  /**
+   * The provisioning state, which only appears in the response.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** Indicates the subscription status of the product. */
+  subscriptionStatus?: LicenseProfileSubscriptionStatus;
+  /** Indicates the product type of the license. */
+  productType?: LicenseProfileProductType;
+  /**
+   * The timestamp in UTC when the user enrolls the feature.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly enrollmentDate?: Date;
+  /**
+   * The timestamp in UTC when the billing starts.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingStartDate?: Date;
+  /**
+   * The timestamp in UTC when the user disenrolled the feature.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly disenrollmentDate?: Date;
+  /**
+   * The timestamp in UTC when the billing ends.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingEndDate?: Date;
+  /**
+   * The errors that were encountered during the feature enrollment or disenrollment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly error?: ErrorDetail;
+  /** The list of product features. */
+  productFeatures?: ProductFeature[];
+  /**
+   * The guid id of the license.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly assignedLicenseImmutableId?: string;
+  /**
+   * The list of ESU keys.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly esuKeys?: EsuKey[];
+  /**
+   * The type of the Esu servers.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serverType?: EsuServerType;
+  /**
+   * Indicates the eligibility state of Esu.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly esuEligibility?: EsuEligibility;
+  /**
+   * Indicates whether there is an ESU Key currently active for the machine.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly esuKeyState?: EsuKeyState;
+  /** The resource id of the license. */
+  assignedLicense?: string;
+  /** Specifies if this machine is licensed as part of a Software Assurance agreement. */
+  softwareAssuranceCustomer?: boolean;
+}
+
 /** Describes a Run Command */
 export interface MachineRunCommand extends TrackedResource {
   /** The source of the run command script. */
@@ -1684,65 +1798,6 @@ export interface MachineRunCommand extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly instanceView?: MachineRunCommandInstanceView;
-}
-
-/** Describes a license profile in a hybrid machine. */
-export interface LicenseProfile extends TrackedResource {
-  /**
-   * The provisioning state, which only appears in the response.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /** Indicates the subscription status of the product. */
-  subscriptionStatus?: LicenseProfileSubscriptionStatus;
-  /** Indicates the product type of the license. */
-  productType?: LicenseProfileProductType;
-  /**
-   * The timestamp in UTC when the billing starts.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly billingStartDate?: Date;
-  /**
-   * The timestamp in UTC when the user enrolls the feature.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly enrollmentDate?: Date;
-  /**
-   * The timestamp in UTC when the user disenrolled the feature.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly disenrollmentDate?: Date;
-  /** The list of product features. */
-  productFeatures?: ProductFeature[];
-  /**
-   * The guid id of the license.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly assignedLicenseImmutableId?: string;
-  /**
-   * The list of ESU keys.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly esuKeys?: EsuKey[];
-  /**
-   * The type of the Esu servers.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly serverType?: EsuServerType;
-  /**
-   * Indicates the eligibility state of Esu.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly esuEligibility?: EsuEligibility;
-  /**
-   * Indicates whether there is an ESU Key currently active for the machine.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly esuKeyState?: EsuKeyState;
-  /** The resource id of the license. */
-  assignedLicense?: string;
-  /** Specifies if this machine is licensed as part of a Software Assurance agreement. */
-  softwareAssuranceCustomer?: boolean;
 }
 
 export interface Settings extends ProxyResourceAutoGenerated {
@@ -1869,6 +1924,36 @@ export interface MachinesInstallPatchesHeaders {
   location?: string;
 }
 
+/** Defines headers for LicenseProfiles_createOrUpdate operation. */
+export interface LicenseProfilesCreateOrUpdateHeaders {
+  /** The URL of the resource used to check the status of the asynchronous operation. */
+  location?: string;
+  /** The recommended number of seconds to wait before calling the URI specified in Azure-AsyncOperation. */
+  retryAfter?: number;
+  /** The URI to poll for completion status. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for LicenseProfiles_update operation. */
+export interface LicenseProfilesUpdateHeaders {
+  /** The URL of the resource used to check the status of the asynchronous operation. */
+  location?: string;
+  /** The recommended number of seconds to wait before calling the URI specified in Azure-AsyncOperation. */
+  retryAfter?: number;
+  /** The URI to poll for completion status. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for LicenseProfiles_delete operation. */
+export interface LicenseProfilesDeleteHeaders {
+  /** The URL of the resource used to check the status of the asynchronous operation. */
+  location?: string;
+  /** The recommended number of seconds to wait before calling the URI specified in Azure-AsyncOperation. */
+  retryAfter?: number;
+  /** The URI to poll for completion status. */
+  azureAsyncOperation?: string;
+}
+
 /** Defines headers for MachineExtensions_update operation. */
 export interface MachineExtensionsUpdateHeaders {
   /** The URL of the resource used to check the status of the asynchronous operation. */
@@ -1901,16 +1986,6 @@ export interface HybridComputeManagementClientUpgradeExtensionsHeaders {
 
 /** Defines headers for MachineRunCommands_createOrUpdate operation. */
 export interface MachineRunCommandsCreateOrUpdateHeaders {
-  /** The URL of the resource used to check the status of the asynchronous operation. */
-  location?: string;
-  /** The recommended number of seconds to wait before calling the URI specified in Azure-AsyncOperation. */
-  retryAfter?: number;
-  /** The URI to poll for completion status. */
-  azureAsyncOperation?: string;
-}
-
-/** Defines headers for MachineRunCommands_update operation. */
-export interface MachineRunCommandsUpdateHeaders {
   /** The URL of the resource used to check the status of the asynchronous operation. */
   location?: string;
   /** The recommended number of seconds to wait before calling the URI specified in Azure-AsyncOperation. */
@@ -1961,6 +2036,16 @@ export interface PrivateLinkScopesDeleteHeaders {
 
 /** Defines headers for PrivateEndpointConnections_delete operation. */
 export interface PrivateEndpointConnectionsDeleteHeaders {
+  /** The URL of the resource used to check the status of the asynchronous operation. */
+  location?: string;
+  /** The recommended number of seconds to wait before calling the URI specified in Azure-AsyncOperation. */
+  retryAfter?: number;
+  /** The URI to poll for completion status. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for NetworkSecurityPerimeterConfigurations_reconcileForPrivateLinkScope operation. */
+export interface NetworkSecurityPerimeterConfigurationsReconcileForPrivateLinkScopeHeaders {
   /** The URL of the resource used to check the status of the asynchronous operation. */
   location?: string;
   /** The recommended number of seconds to wait before calling the URI specified in Azure-AsyncOperation. */
@@ -2215,6 +2300,33 @@ export enum KnownPatchModeTypes {
  */
 export type PatchModeTypes = string;
 
+/** Known values of {@link HotpatchEnablementStatus} that the service accepts. */
+export enum KnownHotpatchEnablementStatus {
+  /** Unknown */
+  Unknown = "Unknown",
+  /** PendingEvaluation */
+  PendingEvaluation = "PendingEvaluation",
+  /** Disabled */
+  Disabled = "Disabled",
+  /** ActionRequired */
+  ActionRequired = "ActionRequired",
+  /** Enabled */
+  Enabled = "Enabled",
+}
+
+/**
+ * Defines values for HotpatchEnablementStatus. \
+ * {@link KnownHotpatchEnablementStatus} can be used interchangeably with HotpatchEnablementStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown** \
+ * **PendingEvaluation** \
+ * **Disabled** \
+ * **ActionRequired** \
+ * **Enabled**
+ */
+export type HotpatchEnablementStatus = string;
+
 /** Known values of {@link LicenseStatus} that the service accepts. */
 export enum KnownLicenseStatus {
   /** Unlicensed */
@@ -2333,6 +2445,10 @@ export enum KnownLicenseProfileSubscriptionStatus {
   Enabled = "Enabled",
   /** Disabled */
   Disabled = "Disabled",
+  /** Disabling */
+  Disabling = "Disabling",
+  /** Failed */
+  Failed = "Failed",
 }
 
 /**
@@ -2343,7 +2459,9 @@ export enum KnownLicenseProfileSubscriptionStatus {
  * **Unknown** \
  * **Enabling** \
  * **Enabled** \
- * **Disabled**
+ * **Disabled** \
+ * **Disabling** \
+ * **Failed**
  */
 export type LicenseProfileSubscriptionStatus = string;
 
@@ -2439,6 +2557,24 @@ export enum KnownArcKindEnum {
  * **AWS**
  */
 export type ArcKindEnum = string;
+
+/** Known values of {@link LicenseProfileSubscriptionStatusUpdate} that the service accepts. */
+export enum KnownLicenseProfileSubscriptionStatusUpdate {
+  /** Enable */
+  Enable = "Enable",
+  /** Disable */
+  Disable = "Disable",
+}
+
+/**
+ * Defines values for LicenseProfileSubscriptionStatusUpdate. \
+ * {@link KnownLicenseProfileSubscriptionStatusUpdate} can be used interchangeably with LicenseProfileSubscriptionStatusUpdate,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enable** \
+ * **Disable**
+ */
+export type LicenseProfileSubscriptionStatusUpdate = string;
 
 /** Known values of {@link PatchOperationStatus} that the service accepts. */
 export enum KnownPatchOperationStatus {
@@ -2790,26 +2926,20 @@ export enum KnownAccessMode {
  * **learning**: Enables traffic evaluation to fall back to resource-specific firewall configurations.
  */
 export type AccessMode = string;
-
-/** Known values of {@link LicenseProfileSubscriptionStatusUpdate} that the service accepts. */
-export enum KnownLicenseProfileSubscriptionStatusUpdate {
-  /** Enable */
-  Enable = "Enable",
-  /** Disable */
-  Disable = "Disable",
-}
-
-/**
- * Defines values for LicenseProfileSubscriptionStatusUpdate. \
- * {@link KnownLicenseProfileSubscriptionStatusUpdate} can be used interchangeably with LicenseProfileSubscriptionStatusUpdate,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Enable** \
- * **Disable**
- */
-export type LicenseProfileSubscriptionStatusUpdate = string;
 /** Defines values for ExtensionsStatusLevelTypes. */
 export type ExtensionsStatusLevelTypes = "Info" | "Warning" | "Error";
+
+/** Optional parameters. */
+export interface LicensesValidateLicenseOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the validateLicense operation. */
+export type LicensesValidateLicenseResponse = License;
 
 /** Optional parameters. */
 export interface LicensesCreateOrUpdateOptionalParams
@@ -2948,6 +3078,63 @@ export interface MachinesListBySubscriptionNextOptionalParams
 export type MachinesListBySubscriptionNextResponse = MachineListResult;
 
 /** Optional parameters. */
+export interface LicenseProfilesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type LicenseProfilesCreateOrUpdateResponse = LicenseProfile;
+
+/** Optional parameters. */
+export interface LicenseProfilesUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type LicenseProfilesUpdateResponse = LicenseProfile;
+
+/** Optional parameters. */
+export interface LicenseProfilesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type LicenseProfilesGetResponse = LicenseProfile;
+
+/** Optional parameters. */
+export interface LicenseProfilesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type LicenseProfilesDeleteResponse = LicenseProfilesDeleteHeaders;
+
+/** Optional parameters. */
+export interface LicenseProfilesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type LicenseProfilesListResponse = LicenseProfilesListResult;
+
+/** Optional parameters. */
+export interface LicenseProfilesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type LicenseProfilesListNextResponse = LicenseProfilesListResult;
+
+/** Optional parameters. */
 export interface MachineExtensionsCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -3052,18 +3239,6 @@ export interface MachineRunCommandsCreateOrUpdateOptionalParams
 
 /** Contains response data for the createOrUpdate operation. */
 export type MachineRunCommandsCreateOrUpdateResponse = MachineRunCommand;
-
-/** Optional parameters. */
-export interface MachineRunCommandsUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the update operation. */
-export type MachineRunCommandsUpdateResponse = MachineRunCommand;
 
 /** Optional parameters. */
 export interface MachineRunCommandsDeleteOptionalParams
@@ -3347,6 +3522,15 @@ export interface NetworkSecurityPerimeterConfigurationsListByPrivateLinkScopeOpt
 /** Contains response data for the listByPrivateLinkScope operation. */
 export type NetworkSecurityPerimeterConfigurationsListByPrivateLinkScopeResponse =
   NetworkSecurityPerimeterConfigurationListResult;
+
+/** Optional parameters. */
+export interface NetworkSecurityPerimeterConfigurationsReconcileForPrivateLinkScopeOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Optional parameters. */
 export interface NetworkSecurityPerimeterConfigurationsListByPrivateLinkScopeNextOptionalParams

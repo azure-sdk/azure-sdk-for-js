@@ -625,6 +625,41 @@ export const OSProfileWindowsConfiguration: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      enableHotpatching: {
+        serializedName: "patchSettings.enableHotpatching",
+        type: {
+          name: "Boolean",
+        },
+      },
+      status: {
+        serializedName: "patchSettings.status",
+        type: {
+          name: "Composite",
+          className: "PatchSettingsStatus",
+        },
+      },
+    },
+  },
+};
+
+export const PatchSettingsStatus: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PatchSettingsStatus",
+    modelProperties: {
+      hotpatchEnablementStatus: {
+        serializedName: "hotpatchEnablementStatus",
+        type: {
+          name: "String",
+        },
+      },
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorDetail",
+        },
+      },
     },
   },
 };
@@ -644,6 +679,19 @@ export const OSProfileLinuxConfiguration: coreClient.CompositeMapper = {
         serializedName: "patchSettings.patchMode",
         type: {
           name: "String",
+        },
+      },
+      enableHotpatching: {
+        serializedName: "patchSettings.enableHotpatching",
+        type: {
+          name: "Boolean",
+        },
+      },
+      status: {
+        serializedName: "patchSettings.status",
+        type: {
+          name: "Composite",
+          className: "PatchSettingsStatus",
         },
       },
     },
@@ -688,15 +736,15 @@ export const LicenseProfileMachineInstanceView: coreClient.CompositeMapper = {
           name: "String",
         },
       },
-      billingStartDate: {
-        serializedName: "productProfile.billingStartDate",
+      enrollmentDate: {
+        serializedName: "productProfile.enrollmentDate",
         readOnly: true,
         type: {
           name: "DateTime",
         },
       },
-      enrollmentDate: {
-        serializedName: "productProfile.enrollmentDate",
+      billingStartDate: {
+        serializedName: "productProfile.billingStartDate",
         readOnly: true,
         type: {
           name: "DateTime",
@@ -707,6 +755,20 @@ export const LicenseProfileMachineInstanceView: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "DateTime",
+        },
+      },
+      billingEndDate: {
+        serializedName: "productProfile.billingEndDate",
+        readOnly: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+      error: {
+        serializedName: "productProfile.error",
+        type: {
+          name: "Composite",
+          className: "ErrorDetail",
         },
       },
       productFeatures: {
@@ -799,15 +861,15 @@ export const ProductFeature: coreClient.CompositeMapper = {
           name: "String",
         },
       },
-      billingStartDate: {
-        serializedName: "billingStartDate",
+      enrollmentDate: {
+        serializedName: "enrollmentDate",
         readOnly: true,
         type: {
           name: "DateTime",
         },
       },
-      enrollmentDate: {
-        serializedName: "enrollmentDate",
+      billingStartDate: {
+        serializedName: "billingStartDate",
         readOnly: true,
         type: {
           name: "DateTime",
@@ -818,6 +880,20 @@ export const ProductFeature: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "DateTime",
+        },
+      },
+      billingEndDate: {
+        serializedName: "billingEndDate",
+        readOnly: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorDetail",
         },
       },
     },
@@ -1078,6 +1154,55 @@ export const Identity: coreClient.CompositeMapper = {
         defaultValue: "SystemAssigned",
         isConstant: true,
         serializedName: "type",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ProductFeatureUpdate: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ProductFeatureUpdate",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String",
+        },
+      },
+      subscriptionStatus: {
+        serializedName: "subscriptionStatus",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const LicenseProfilesListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LicenseProfilesListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "LicenseProfile",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
         type: {
           name: "String",
         },
@@ -2777,55 +2902,6 @@ export const NetworkSecurityPerimeterConfigurationListResult: coreClient.Composi
     },
   };
 
-export const ProductFeatureUpdate: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ProductFeatureUpdate",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String",
-        },
-      },
-      subscriptionStatus: {
-        serializedName: "subscriptionStatus",
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const LicenseProfilesListResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "LicenseProfilesListResult",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        required: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "LicenseProfile",
-            },
-          },
-        },
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
 export const HybridIdentityMetadataList: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3041,6 +3117,53 @@ export const LicenseUpdate: coreClient.CompositeMapper = {
   },
 };
 
+export const LicenseProfileUpdate: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LicenseProfileUpdate",
+    modelProperties: {
+      ...ResourceUpdate.type.modelProperties,
+      subscriptionStatus: {
+        serializedName: "properties.productProfile.subscriptionStatus",
+        type: {
+          name: "String",
+        },
+      },
+      productType: {
+        serializedName: "properties.productProfile.productType",
+        type: {
+          name: "String",
+        },
+      },
+      productFeatures: {
+        serializedName: "properties.productProfile.productFeatures",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ProductFeatureUpdate",
+            },
+          },
+        },
+      },
+      assignedLicense: {
+        serializedName: "properties.esuProfile.assignedLicense",
+        type: {
+          name: "String",
+        },
+      },
+      softwareAssuranceCustomer: {
+        serializedName:
+          "properties.softwareAssurance.softwareAssuranceCustomer",
+        type: {
+          name: "Boolean",
+        },
+      },
+    },
+  },
+};
+
 export const MachineExtensionUpdate: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3097,16 +3220,6 @@ export const MachineExtensionUpdate: coreClient.CompositeMapper = {
           value: { type: { name: "any" } },
         },
       },
-    },
-  },
-};
-
-export const MachineRunCommandUpdate: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "MachineRunCommandUpdate",
-    modelProperties: {
-      ...ResourceUpdate.type.modelProperties,
     },
   },
 };
@@ -3195,49 +3308,12 @@ export const MachineUpdate: coreClient.CompositeMapper = {
   },
 };
 
-export const LicenseProfileUpdate: coreClient.CompositeMapper = {
+export const MachineRunCommandUpdate: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "LicenseProfileUpdate",
+    className: "MachineRunCommandUpdate",
     modelProperties: {
       ...ResourceUpdate.type.modelProperties,
-      subscriptionStatus: {
-        serializedName: "properties.productProfile.subscriptionStatus",
-        type: {
-          name: "String",
-        },
-      },
-      productType: {
-        serializedName: "properties.productProfile.productType",
-        type: {
-          name: "String",
-        },
-      },
-      productFeatures: {
-        serializedName: "properties.productProfile.productFeatures",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ProductFeatureUpdate",
-            },
-          },
-        },
-      },
-      assignedLicense: {
-        serializedName: "properties.esuProfile.assignedLicense",
-        type: {
-          name: "String",
-        },
-      },
-      softwareAssuranceCustomer: {
-        serializedName:
-          "properties.softwareAssurance.softwareAssuranceCustomer",
-        type: {
-          name: "Boolean",
-        },
-      },
     },
   },
 };
@@ -3644,6 +3720,136 @@ export const Machine: coreClient.CompositeMapper = {
   },
 };
 
+export const LicenseProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LicenseProfile",
+    modelProperties: {
+      ...TrackedResource.type.modelProperties,
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      subscriptionStatus: {
+        serializedName: "properties.productProfile.subscriptionStatus",
+        type: {
+          name: "String",
+        },
+      },
+      productType: {
+        serializedName: "properties.productProfile.productType",
+        type: {
+          name: "String",
+        },
+      },
+      enrollmentDate: {
+        serializedName: "properties.productProfile.enrollmentDate",
+        readOnly: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+      billingStartDate: {
+        serializedName: "properties.productProfile.billingStartDate",
+        readOnly: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+      disenrollmentDate: {
+        serializedName: "properties.productProfile.disenrollmentDate",
+        readOnly: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+      billingEndDate: {
+        serializedName: "properties.productProfile.billingEndDate",
+        readOnly: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+      error: {
+        serializedName: "properties.productProfile.error",
+        type: {
+          name: "Composite",
+          className: "ErrorDetail",
+        },
+      },
+      productFeatures: {
+        serializedName: "properties.productProfile.productFeatures",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ProductFeature",
+            },
+          },
+        },
+      },
+      assignedLicenseImmutableId: {
+        serializedName: "properties.esuProfile.assignedLicenseImmutableId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      esuKeys: {
+        serializedName: "properties.esuProfile.esuKeys",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "EsuKey",
+            },
+          },
+        },
+      },
+      serverType: {
+        serializedName: "properties.esuProfile.serverType",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      esuEligibility: {
+        serializedName: "properties.esuProfile.esuEligibility",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      esuKeyState: {
+        serializedName: "properties.esuProfile.esuKeyState",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      assignedLicense: {
+        serializedName: "properties.esuProfile.assignedLicense",
+        type: {
+          name: "String",
+        },
+      },
+      softwareAssuranceCustomer: {
+        serializedName:
+          "properties.softwareAssurance.softwareAssuranceCustomer",
+        type: {
+          name: "Boolean",
+        },
+      },
+    },
+  },
+};
+
 export const MachineRunCommand: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3744,122 +3950,6 @@ export const MachineRunCommand: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "MachineRunCommandInstanceView",
-        },
-      },
-    },
-  },
-};
-
-export const LicenseProfile: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "LicenseProfile",
-    modelProperties: {
-      ...TrackedResource.type.modelProperties,
-      provisioningState: {
-        serializedName: "properties.provisioningState",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      subscriptionStatus: {
-        serializedName: "properties.productProfile.subscriptionStatus",
-        type: {
-          name: "String",
-        },
-      },
-      productType: {
-        serializedName: "properties.productProfile.productType",
-        type: {
-          name: "String",
-        },
-      },
-      billingStartDate: {
-        serializedName: "properties.productProfile.billingStartDate",
-        readOnly: true,
-        type: {
-          name: "DateTime",
-        },
-      },
-      enrollmentDate: {
-        serializedName: "properties.productProfile.enrollmentDate",
-        readOnly: true,
-        type: {
-          name: "DateTime",
-        },
-      },
-      disenrollmentDate: {
-        serializedName: "properties.productProfile.disenrollmentDate",
-        readOnly: true,
-        type: {
-          name: "DateTime",
-        },
-      },
-      productFeatures: {
-        serializedName: "properties.productProfile.productFeatures",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ProductFeature",
-            },
-          },
-        },
-      },
-      assignedLicenseImmutableId: {
-        serializedName: "properties.esuProfile.assignedLicenseImmutableId",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      esuKeys: {
-        serializedName: "properties.esuProfile.esuKeys",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "EsuKey",
-            },
-          },
-        },
-      },
-      serverType: {
-        serializedName: "properties.esuProfile.serverType",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      esuEligibility: {
-        serializedName: "properties.esuProfile.esuEligibility",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      esuKeyState: {
-        serializedName: "properties.esuProfile.esuKeyState",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      assignedLicense: {
-        serializedName: "properties.esuProfile.assignedLicense",
-        type: {
-          name: "String",
-        },
-      },
-      softwareAssuranceCustomer: {
-        serializedName:
-          "properties.softwareAssurance.softwareAssuranceCustomer",
-        type: {
-          name: "Boolean",
         },
       },
     },
@@ -4145,6 +4235,88 @@ export const MachinesInstallPatchesHeaders: coreClient.CompositeMapper = {
   },
 };
 
+export const LicenseProfilesCreateOrUpdateHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "LicenseProfilesCreateOrUpdateHeaders",
+      modelProperties: {
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
+        },
+        retryAfter: {
+          serializedName: "retry-after",
+          type: {
+            name: "Number",
+          },
+        },
+        azureAsyncOperation: {
+          serializedName: "azure-asyncoperation",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const LicenseProfilesUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LicenseProfilesUpdateHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
+        },
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const LicenseProfilesDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LicenseProfilesDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
+        },
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const MachineExtensionsUpdateHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -4254,33 +4426,6 @@ export const MachineRunCommandsCreateOrUpdateHeaders: coreClient.CompositeMapper
       },
     },
   };
-
-export const MachineRunCommandsUpdateHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "MachineRunCommandsUpdateHeaders",
-    modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String",
-        },
-      },
-      retryAfter: {
-        serializedName: "retry-after",
-        type: {
-          name: "Number",
-        },
-      },
-      azureAsyncOperation: {
-        serializedName: "azure-asyncoperation",
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
 
 export const MachineRunCommandsDeleteHeaders: coreClient.CompositeMapper = {
   type: {
@@ -4395,6 +4540,35 @@ export const PrivateEndpointConnectionsDeleteHeaders: coreClient.CompositeMapper
     type: {
       name: "Composite",
       className: "PrivateEndpointConnectionsDeleteHeaders",
+      modelProperties: {
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
+        },
+        retryAfter: {
+          serializedName: "retry-after",
+          type: {
+            name: "Number",
+          },
+        },
+        azureAsyncOperation: {
+          serializedName: "azure-asyncoperation",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const NetworkSecurityPerimeterConfigurationsReconcileForPrivateLinkScopeHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className:
+        "NetworkSecurityPerimeterConfigurationsReconcileForPrivateLinkScopeHeaders",
       modelProperties: {
         location: {
           serializedName: "location",

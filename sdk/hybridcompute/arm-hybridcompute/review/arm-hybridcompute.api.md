@@ -317,6 +317,9 @@ export interface GatewayUpdate extends ResourceUpdate {
 // @public
 export function getContinuationToken(page: unknown): string | undefined;
 
+// @public
+export type HotpatchEnablementStatus = string;
+
 // @public (undocumented)
 export class HybridComputeManagementClient extends coreClient.ServiceClient {
     // (undocumented)
@@ -330,6 +333,8 @@ export class HybridComputeManagementClient extends coreClient.ServiceClient {
     extensionMetadata: ExtensionMetadata;
     // (undocumented)
     gateways: Gateways;
+    // (undocumented)
+    licenseProfiles: LicenseProfiles;
     // (undocumented)
     licenses: Licenses;
     // (undocumented)
@@ -510,6 +515,15 @@ export enum KnownGatewayType {
 }
 
 // @public
+export enum KnownHotpatchEnablementStatus {
+    ActionRequired = "ActionRequired",
+    Disabled = "Disabled",
+    Enabled = "Enabled",
+    PendingEvaluation = "PendingEvaluation",
+    Unknown = "Unknown"
+}
+
+// @public
 export enum KnownLastAttemptStatusEnum {
     Failed = "Failed",
     Success = "Success"
@@ -542,8 +556,10 @@ export enum KnownLicenseProfileProductType {
 // @public
 export enum KnownLicenseProfileSubscriptionStatus {
     Disabled = "Disabled",
+    Disabling = "Disabling",
     Enabled = "Enabled",
     Enabling = "Enabling",
+    Failed = "Failed",
     Unknown = "Unknown"
 }
 
@@ -746,9 +762,11 @@ export type LicenseEdition = string;
 export interface LicenseProfile extends TrackedResource {
     assignedLicense?: string;
     readonly assignedLicenseImmutableId?: string;
+    readonly billingEndDate?: Date;
     readonly billingStartDate?: Date;
     readonly disenrollmentDate?: Date;
     readonly enrollmentDate?: Date;
+    readonly error?: ErrorDetail;
     readonly esuEligibility?: EsuEligibility;
     readonly esuKeys?: EsuKey[];
     readonly esuKeyState?: EsuKeyState;
@@ -774,9 +792,11 @@ export interface LicenseProfileArmEsuPropertiesWithoutAssignedLicense extends Li
 
 // @public
 export interface LicenseProfileMachineInstanceView {
+    readonly billingEndDate?: Date;
     readonly billingStartDate?: Date;
     readonly disenrollmentDate?: Date;
     readonly enrollmentDate?: Date;
+    readonly error?: ErrorDetail;
     esuProfile?: LicenseProfileMachineInstanceViewEsuProperties;
     readonly licenseChannel?: string;
     readonly licenseStatus?: LicenseStatus;
@@ -794,6 +814,71 @@ export interface LicenseProfileMachineInstanceViewEsuProperties extends LicenseP
 
 // @public
 export type LicenseProfileProductType = string;
+
+// @public
+export interface LicenseProfiles {
+    beginCreateOrUpdate(resourceGroupName: string, machineName: string, parameters: LicenseProfile, options?: LicenseProfilesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<LicenseProfilesCreateOrUpdateResponse>, LicenseProfilesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, machineName: string, parameters: LicenseProfile, options?: LicenseProfilesCreateOrUpdateOptionalParams): Promise<LicenseProfilesCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, machineName: string, options?: LicenseProfilesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<LicenseProfilesDeleteResponse>, LicenseProfilesDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, machineName: string, options?: LicenseProfilesDeleteOptionalParams): Promise<LicenseProfilesDeleteResponse>;
+    beginUpdate(resourceGroupName: string, machineName: string, parameters: LicenseProfileUpdate, options?: LicenseProfilesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<LicenseProfilesUpdateResponse>, LicenseProfilesUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, machineName: string, parameters: LicenseProfileUpdate, options?: LicenseProfilesUpdateOptionalParams): Promise<LicenseProfilesUpdateResponse>;
+    get(resourceGroupName: string, machineName: string, options?: LicenseProfilesGetOptionalParams): Promise<LicenseProfilesGetResponse>;
+    list(resourceGroupName: string, machineName: string, options?: LicenseProfilesListOptionalParams): PagedAsyncIterableIterator<LicenseProfile>;
+}
+
+// @public
+export interface LicenseProfilesCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface LicenseProfilesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type LicenseProfilesCreateOrUpdateResponse = LicenseProfile;
+
+// @public
+export interface LicenseProfilesDeleteHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface LicenseProfilesDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type LicenseProfilesDeleteResponse = LicenseProfilesDeleteHeaders;
+
+// @public
+export interface LicenseProfilesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type LicenseProfilesGetResponse = LicenseProfile;
+
+// @public
+export interface LicenseProfilesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type LicenseProfilesListNextResponse = LicenseProfilesListResult;
+
+// @public
+export interface LicenseProfilesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type LicenseProfilesListResponse = LicenseProfilesListResult;
 
 // @public
 export interface LicenseProfilesListResult {
@@ -814,6 +899,22 @@ export type LicenseProfileSubscriptionStatus = string;
 export type LicenseProfileSubscriptionStatusUpdate = string;
 
 // @public
+export interface LicenseProfilesUpdateHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface LicenseProfilesUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type LicenseProfilesUpdateResponse = LicenseProfile;
+
+// @public
 export interface LicenseProfileUpdate extends ResourceUpdate {
     assignedLicense?: string;
     productFeatures?: ProductFeatureUpdate[];
@@ -830,6 +931,8 @@ export interface Licenses {
     beginDeleteAndWait(resourceGroupName: string, licenseName: string, options?: LicensesDeleteOptionalParams): Promise<void>;
     beginUpdate(resourceGroupName: string, licenseName: string, parameters: LicenseUpdate, options?: LicensesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<LicensesUpdateResponse>, LicensesUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, licenseName: string, parameters: LicenseUpdate, options?: LicensesUpdateOptionalParams): Promise<LicensesUpdateResponse>;
+    beginValidateLicense(parameters: License, options?: LicensesValidateLicenseOptionalParams): Promise<SimplePollerLike<OperationState<LicensesValidateLicenseResponse>, LicensesValidateLicenseResponse>>;
+    beginValidateLicenseAndWait(parameters: License, options?: LicensesValidateLicenseOptionalParams): Promise<LicensesValidateLicenseResponse>;
     get(resourceGroupName: string, licenseName: string, options?: LicensesGetOptionalParams): Promise<LicensesGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: LicensesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<License>;
     listBySubscription(options?: LicensesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<License>;
@@ -905,6 +1008,15 @@ export interface LicensesUpdateOptionalParams extends coreClient.OperationOption
 
 // @public
 export type LicensesUpdateResponse = License;
+
+// @public
+export interface LicensesValidateLicenseOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type LicensesValidateLicenseResponse = License;
 
 // @public
 export type LicenseTarget = string;
@@ -1200,8 +1312,6 @@ export interface MachineRunCommands {
     beginCreateOrUpdateAndWait(resourceGroupName: string, machineName: string, runCommandName: string, runCommandProperties: MachineRunCommand, options?: MachineRunCommandsCreateOrUpdateOptionalParams): Promise<MachineRunCommandsCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, machineName: string, runCommandName: string, options?: MachineRunCommandsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, machineName: string, runCommandName: string, options?: MachineRunCommandsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, machineName: string, runCommandName: string, runCommandProperties: MachineRunCommandUpdate, options?: MachineRunCommandsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<MachineRunCommandsUpdateResponse>, MachineRunCommandsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, machineName: string, runCommandName: string, runCommandProperties: MachineRunCommandUpdate, options?: MachineRunCommandsUpdateOptionalParams): Promise<MachineRunCommandsUpdateResponse>;
     get(resourceGroupName: string, machineName: string, runCommandName: string, options?: MachineRunCommandsGetOptionalParams): Promise<MachineRunCommandsGetResponse>;
     list(resourceGroupName: string, machineName: string, options?: MachineRunCommandsListOptionalParams): PagedAsyncIterableIterator<MachineRunCommand>;
 }
@@ -1270,22 +1380,6 @@ export interface MachineRunCommandsListResult {
     nextLink?: string;
     value?: MachineRunCommand[];
 }
-
-// @public
-export interface MachineRunCommandsUpdateHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface MachineRunCommandsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type MachineRunCommandsUpdateResponse = MachineRunCommand;
 
 // @public
 export interface MachineRunCommandUpdate extends ResourceUpdate {
@@ -1442,6 +1536,8 @@ export interface NetworkSecurityPerimeterConfigurationListResult {
 
 // @public
 export interface NetworkSecurityPerimeterConfigurations {
+    beginReconcileForPrivateLinkScope(resourceGroupName: string, scopeName: string, perimeterName: string, options?: NetworkSecurityPerimeterConfigurationsReconcileForPrivateLinkScopeOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginReconcileForPrivateLinkScopeAndWait(resourceGroupName: string, scopeName: string, perimeterName: string, options?: NetworkSecurityPerimeterConfigurationsReconcileForPrivateLinkScopeOptionalParams): Promise<void>;
     getByPrivateLinkScope(resourceGroupName: string, scopeName: string, perimeterName: string, options?: NetworkSecurityPerimeterConfigurationsGetByPrivateLinkScopeOptionalParams): Promise<NetworkSecurityPerimeterConfigurationsGetByPrivateLinkScopeResponse>;
     listByPrivateLinkScope(resourceGroupName: string, scopeName: string, options?: NetworkSecurityPerimeterConfigurationsListByPrivateLinkScopeOptionalParams): PagedAsyncIterableIterator<NetworkSecurityPerimeterConfiguration>;
 }
@@ -1466,6 +1562,19 @@ export interface NetworkSecurityPerimeterConfigurationsListByPrivateLinkScopeOpt
 
 // @public
 export type NetworkSecurityPerimeterConfigurationsListByPrivateLinkScopeResponse = NetworkSecurityPerimeterConfigurationListResult;
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationsReconcileForPrivateLinkScopeHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationsReconcileForPrivateLinkScopeOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
 
 // @public
 export interface NetworkSecurityPerimeterProfile {
@@ -1519,13 +1628,17 @@ export interface OSProfile {
 // @public
 export interface OSProfileLinuxConfiguration {
     assessmentMode?: AssessmentModeTypes;
+    enableHotpatching?: boolean;
     patchMode?: PatchModeTypes;
+    readonly status?: PatchSettingsStatus;
 }
 
 // @public
 export interface OSProfileWindowsConfiguration {
     assessmentMode?: AssessmentModeTypes;
+    enableHotpatching?: boolean;
     patchMode?: PatchModeTypes;
+    readonly status?: PatchSettingsStatus;
 }
 
 // @public
@@ -1542,6 +1655,12 @@ export type PatchOperationStatus = string;
 
 // @public
 export type PatchServiceUsed = string;
+
+// @public
+export interface PatchSettingsStatus {
+    readonly error?: ErrorDetail;
+    hotpatchEnablementStatus?: HotpatchEnablementStatus;
+}
 
 // @public
 export interface PrivateEndpointConnection extends ProxyResourceAutoGenerated {
@@ -1789,9 +1908,11 @@ export interface PrivateLinkServiceConnectionStateProperty {
 
 // @public
 export interface ProductFeature {
+    readonly billingEndDate?: Date;
     readonly billingStartDate?: Date;
     readonly disenrollmentDate?: Date;
     readonly enrollmentDate?: Date;
+    readonly error?: ErrorDetail;
     name?: string;
     subscriptionStatus?: LicenseProfileSubscriptionStatus;
 }
