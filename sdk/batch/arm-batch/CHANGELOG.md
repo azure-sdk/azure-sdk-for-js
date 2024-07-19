@@ -1,18 +1,33 @@
 # Release History
+    
+## 10.0.0 (2024-07-19)
+    
+**Features**
 
-## 9.2.1 (Unreleased)
+  - Added Interface AzureProxyResource
+  - Added Interface AzureResource
+  - Added Interface ContainerHostBatchBindMountEntry
+  - Added Interface VMDiskSecurityProfile
+  - Added Type Alias ContainerHostDataPath
+  - Added Type Alias SecurityEncryptionTypes
+  - Added Type Alias SecurityTypes
+  - Interface ImageReference has a new optional parameter communityGalleryImageId
+  - Interface ImageReference has a new optional parameter sharedGalleryImageId
+  - Interface ManagedDisk has a new optional parameter securityProfile
+  - Interface TaskContainerSettings has a new optional parameter containerHostBatchBindMounts
+  - Added Enum KnownContainerHostDataPath
+  - Added Enum KnownSecurityEncryptionTypes
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation Location_2.listSupportedCloudServiceSkus
+  - Interface DeploymentConfiguration no longer has parameter cloudServiceConfiguration
+  - Type of parameter securityType of interface SecurityProfile is changed from "trustedLaunch" to SecurityTypes
+    
+    
 ## 9.2.0 (2024-03-13)
     
-### Features Added
+**Features**
 
   - Added Interface AutomaticOSUpgradePolicy
   - Added Interface RollingUpgradePolicy
@@ -24,7 +39,7 @@
     
 ## 9.1.0 (2023-12-08)
     
-### Features Added
+**Features**
 
   - Added Interface ManagedDisk
   - Added Interface SecurityProfile
@@ -41,7 +56,7 @@
     
 ## 9.0.0 (2023-06-30)
     
-### Features Added
+**Features**
 
   - Added Type Alias ContainerType
   - Interface NetworkConfiguration has a new optional parameter enableAcceleratedNetworking
@@ -62,14 +77,14 @@
   - Interface PrivateEndpointConnectionListByBatchAccountNextOptionalParams no longer has parameter maxresults
   - Interface PrivateLinkResourceListByBatchAccountNextOptionalParams no longer has parameter maxresults
 
-### Breaking Changes
+**Breaking Changes**
 
   - Type of parameter type of interface ContainerConfiguration is changed from "DockerCompatible" to ContainerType
 
    
 ## 8.0.0 (2022-11-10)
     
-### Features Added
+**Features**
 
   - Added Type Alias NodeCommunicationMode
   - Interface NetworkConfiguration has a new optional parameter dynamicVnetAssignmentScope
@@ -77,7 +92,7 @@
   - Interface Pool has a new optional parameter targetNodeCommunicationMode
   - Interface PrivateLinkServiceConnectionState has a new optional parameter actionsRequired
 
-### Breaking Changes
+**Breaking Changes**
 
   - Interface CifsMountConfiguration no longer has parameter username
   - Interface NetworkConfiguration no longer has parameter dynamicVNetAssignmentScope
@@ -87,7 +102,7 @@
     
 ## 7.2.0 (2022-07-19)
     
-### Features Added
+**Features**
 
   - Added operation PrivateEndpointConnectionOperations.beginDelete
   - Added operation PrivateEndpointConnectionOperations.beginDeleteAndWait
@@ -116,13 +131,13 @@
     
 ## 7.1.1 (2022-04-11)
 
-### Features Added
+**features**
 
   - Bug fix
     
 ## 7.1.0 (2022-03-02)
     
-### Features Added
+**Features**
 
   - Added operation BatchAccountOperations.getDetector
   - Added operation BatchAccountOperations.listDetectors

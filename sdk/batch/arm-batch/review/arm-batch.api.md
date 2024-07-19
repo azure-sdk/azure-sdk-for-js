@@ -22,7 +22,7 @@ export interface ActivateApplicationPackageParameters {
 export type AllocationState = "Steady" | "Resizing" | "Stopping";
 
 // @public
-export interface Application extends ProxyResource {
+export interface Application extends AzureProxyResource {
     allowUpdates?: boolean;
     defaultVersion?: string;
     displayName?: string;
@@ -72,7 +72,7 @@ export interface ApplicationOperations {
 }
 
 // @public
-export interface ApplicationPackage extends ProxyResource {
+export interface ApplicationPackage extends AzureProxyResource {
     readonly format?: string;
     readonly lastActivationTime?: Date;
     readonly state?: PackageState;
@@ -219,7 +219,29 @@ export interface AzureFileShareConfiguration {
 }
 
 // @public
-export interface BatchAccount extends Resource {
+export interface AzureProxyResource {
+    readonly etag?: string;
+    readonly id?: string;
+    readonly name?: string;
+    tags?: {
+        [propertyName: string]: string;
+    };
+    readonly type?: string;
+}
+
+// @public
+export interface AzureResource {
+    readonly id?: string;
+    readonly location?: string;
+    readonly name?: string;
+    readonly tags?: {
+        [propertyName: string]: string;
+    };
+    readonly type?: string;
+}
+
+// @public
+export interface BatchAccount extends AzureResource {
     readonly accountEndpoint?: string;
     readonly activeJobAndJobScheduleQuota?: number;
     readonly allowedAuthenticationModes?: AuthenticationMode[];
@@ -490,7 +512,7 @@ export interface BatchPoolIdentity {
 export type CachingType = "None" | "ReadOnly" | "ReadWrite";
 
 // @public
-export interface Certificate extends ProxyResource {
+export interface Certificate extends AzureProxyResource {
     readonly deleteCertificateError?: DeleteCertificateError;
     format?: CertificateFormat;
     readonly previousProvisioningState?: CertificateProvisioningState;
@@ -533,7 +555,7 @@ export interface CertificateCreateOptionalParams extends coreClient.OperationOpt
 }
 
 // @public
-export interface CertificateCreateOrUpdateParameters extends ProxyResource {
+export interface CertificateCreateOrUpdateParameters extends AzureProxyResource {
     data?: string;
     format?: CertificateFormat;
     password?: string;
@@ -681,12 +703,6 @@ export interface CloudErrorBody {
 }
 
 // @public
-export interface CloudServiceConfiguration {
-    osFamily: string;
-    osVersion?: string;
-}
-
-// @public
 export type ComputeNodeDeallocationOption = "Requeue" | "Terminate" | "TaskCompletion" | "RetainedData";
 
 // @public
@@ -703,6 +719,15 @@ export interface ContainerConfiguration {
     containerRegistries?: ContainerRegistry[];
     type: ContainerType;
 }
+
+// @public
+export interface ContainerHostBatchBindMountEntry {
+    isReadOnly?: boolean;
+    source?: ContainerHostDataPath;
+}
+
+// @public
+export type ContainerHostDataPath = string;
 
 // @public
 export interface ContainerRegistry {
@@ -736,7 +761,6 @@ export interface DeleteCertificateError {
 
 // @public
 export interface DeploymentConfiguration {
-    cloudServiceConfiguration?: CloudServiceConfiguration;
     virtualMachineConfiguration?: VirtualMachineConfiguration;
 }
 
@@ -747,7 +771,7 @@ export interface DetectorListResult {
 }
 
 // @public
-export interface DetectorResponse extends ProxyResource {
+export interface DetectorResponse extends AzureProxyResource {
     value?: string;
 }
 
@@ -816,9 +840,11 @@ export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export interface ImageReference {
+    communityGalleryImageId?: string;
     id?: string;
     offer?: string;
     publisher?: string;
+    sharedGalleryImageId?: string;
     sku?: string;
     version?: string;
 }
@@ -863,9 +889,25 @@ export interface KeyVaultReference {
 }
 
 // @public
+export enum KnownContainerHostDataPath {
+    Applications = "Applications",
+    JobPrep = "JobPrep",
+    Shared = "Shared",
+    Startup = "Startup",
+    Task = "Task",
+    VfsMounts = "VfsMounts"
+}
+
+// @public
 export enum KnownContainerType {
     CriCompatible = "CriCompatible",
     DockerCompatible = "DockerCompatible"
+}
+
+// @public
+export enum KnownSecurityEncryptionTypes {
+    NonPersistedTPM = "NonPersistedTPM",
+    VMGuestStateOnly = "VMGuestStateOnly"
 }
 
 // @public
@@ -915,7 +957,6 @@ export interface ListPrivateLinkResourcesResult {
 interface Location_2 {
     checkNameAvailability(locationName: string, parameters: CheckNameAvailabilityParameters, options?: LocationCheckNameAvailabilityOptionalParams): Promise<LocationCheckNameAvailabilityResponse>;
     getQuotas(locationName: string, options?: LocationGetQuotasOptionalParams): Promise<LocationGetQuotasResponse>;
-    listSupportedCloudServiceSkus(locationName: string, options?: LocationListSupportedCloudServiceSkusOptionalParams): PagedAsyncIterableIterator<SupportedSku>;
     listSupportedVirtualMachineSkus(locationName: string, options?: LocationListSupportedVirtualMachineSkusOptionalParams): PagedAsyncIterableIterator<SupportedSku>;
 }
 export { Location_2 as Location }
@@ -933,22 +974,6 @@ export interface LocationGetQuotasOptionalParams extends coreClient.OperationOpt
 
 // @public
 export type LocationGetQuotasResponse = BatchLocationQuota;
-
-// @public
-export interface LocationListSupportedCloudServiceSkusNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type LocationListSupportedCloudServiceSkusNextResponse = SupportedSkusResult;
-
-// @public
-export interface LocationListSupportedCloudServiceSkusOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    maxresults?: number;
-}
-
-// @public
-export type LocationListSupportedCloudServiceSkusResponse = SupportedSkusResult;
 
 // @public
 export interface LocationListSupportedVirtualMachineSkusNextOptionalParams extends coreClient.OperationOptions {
@@ -971,6 +996,7 @@ export type LoginMode = "Batch" | "Interactive";
 
 // @public (undocumented)
 export interface ManagedDisk {
+    securityProfile?: VMDiskSecurityProfile;
     storageAccountType?: StorageAccountType;
 }
 
@@ -1103,7 +1129,7 @@ export interface OutboundEnvironmentEndpointCollection {
 export type PackageState = "Pending" | "Active";
 
 // @public
-export interface Pool extends ProxyResource {
+export interface Pool extends AzureProxyResource {
     readonly allocationState?: AllocationState;
     readonly allocationStateTransitionTime?: Date;
     applicationLicenses?: string[];
@@ -1262,7 +1288,7 @@ export interface PrivateEndpoint {
 }
 
 // @public
-export interface PrivateEndpointConnection extends ProxyResource {
+export interface PrivateEndpointConnection extends AzureProxyResource {
     readonly groupIds?: string[];
     readonly privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
@@ -1336,7 +1362,7 @@ export interface PrivateEndpointConnectionUpdateOptionalParams extends coreClien
 export type PrivateEndpointConnectionUpdateResponse = PrivateEndpointConnection;
 
 // @public
-export interface PrivateLinkResource extends ProxyResource {
+export interface PrivateLinkResource extends AzureProxyResource {
     readonly groupId?: string;
     readonly requiredMembers?: string[];
     readonly requiredZoneNames?: string[];
@@ -1384,21 +1410,13 @@ export type PrivateLinkServiceConnectionStatus = "Approved" | "Pending" | "Rejec
 export type ProvisioningState = "Invalid" | "Creating" | "Deleting" | "Succeeded" | "Failed" | "Cancelled";
 
 // @public
-export interface ProxyResource {
-    readonly etag?: string;
-    readonly id?: string;
-    readonly name?: string;
-    readonly type?: string;
-}
-
-// @public
 export interface PublicIPAddressConfiguration {
     ipAddressIds?: string[];
     provision?: IPAddressProvisioningType;
 }
 
 // @public
-export type PublicNetworkAccessType = "Enabled" | "Disabled";
+export type PublicNetworkAccessType = "Enabled" | "Disabled" | "SecuredByPerimeter";
 
 // @public
 export interface ResizeError {
@@ -1415,17 +1433,6 @@ export interface ResizeOperationStatus {
     startTime?: Date;
     targetDedicatedNodes?: number;
     targetLowPriorityNodes?: number;
-}
-
-// @public
-export interface Resource {
-    readonly id?: string;
-    readonly location?: string;
-    readonly name?: string;
-    readonly tags?: {
-        [propertyName: string]: string;
-    };
-    readonly type?: string;
 }
 
 // @public
@@ -1460,11 +1467,17 @@ export interface ScaleSettings {
 }
 
 // @public
+export type SecurityEncryptionTypes = string;
+
+// @public
 export interface SecurityProfile {
     encryptionAtHost?: boolean;
-    securityType?: "trustedLaunch";
+    securityType?: SecurityTypes;
     uefiSettings?: UefiSettings;
 }
+
+// @public
+export type SecurityTypes = "trustedLaunch" | "confidentialVM";
 
 // @public
 export interface ServiceArtifactReference {
@@ -1507,6 +1520,7 @@ export interface SupportedSkusResult {
 
 // @public
 export interface TaskContainerSettings {
+    containerHostBatchBindMounts?: ContainerHostBatchBindMountEntry[];
     containerRunOptions?: string;
     imageName: string;
     registry?: ContainerRegistry;
@@ -1575,6 +1589,11 @@ export interface VirtualMachineConfiguration {
 export interface VirtualMachineFamilyCoreQuota {
     readonly coreQuota?: number;
     readonly name?: string;
+}
+
+// @public
+export interface VMDiskSecurityProfile {
+    securityEncryptionType?: SecurityEncryptionTypes;
 }
 
 // @public

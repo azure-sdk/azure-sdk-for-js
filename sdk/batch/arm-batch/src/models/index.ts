@@ -155,7 +155,7 @@ export interface PrivateLinkServiceConnectionState {
 }
 
 /** A definition of an Azure resource. */
-export interface ProxyResource {
+export interface AzureProxyResource {
   /**
    * The ID of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -176,6 +176,8 @@ export interface ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly etag?: string;
+  /** The tags of the resource. */
+  tags?: { [propertyName: string]: string };
 }
 
 /** A VM Family and its associated core quota for the Batch account. */
@@ -193,7 +195,7 @@ export interface VirtualMachineFamilyCoreQuota {
 }
 
 /** A definition of an Azure resource. */
-export interface Resource {
+export interface AzureResource {
   /**
    * The ID of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -495,18 +497,8 @@ export interface ListPoolsResult {
 
 /** Deployment configuration properties. */
 export interface DeploymentConfiguration {
-  /** This property and virtualMachineConfiguration are mutually exclusive and one of the properties must be specified. This property cannot be specified if the Batch account was created with its poolAllocationMode property set to 'UserSubscription'. */
-  cloudServiceConfiguration?: CloudServiceConfiguration;
-  /** This property and cloudServiceConfiguration are mutually exclusive and one of the properties must be specified. */
+  /** The configuration for compute nodes in a pool based on the Azure Virtual Machines infrastructure. */
   virtualMachineConfiguration?: VirtualMachineConfiguration;
-}
-
-/** The configuration for nodes in a pool based on the Azure Cloud Services platform. */
-export interface CloudServiceConfiguration {
-  /** Possible values are: 2 - OS Family 2, equivalent to Windows Server 2008 R2 SP1. 3 - OS Family 3, equivalent to Windows Server 2012. 4 - OS Family 4, equivalent to Windows Server 2012 R2. 5 - OS Family 5, equivalent to Windows Server 2016. 6 - OS Family 6, equivalent to Windows Server 2019. For more information, see Azure Guest OS Releases (https://azure.microsoft.com/documentation/articles/cloud-services-guestos-update-matrix/#releases). */
-  osFamily: string;
-  /** The default value is * which specifies the latest operating system version for the specified OS family. */
-  osVersion?: string;
 }
 
 /** The configuration for compute nodes in a pool based on the Azure Virtual Machines infrastructure. */
@@ -555,6 +547,10 @@ export interface ImageReference {
   version?: string;
   /** This property is mutually exclusive with other properties. The Azure Compute Gallery Image must have replicas in the same region as the Azure Batch account. For information about the firewall settings for the Batch node agent to communicate with the Batch service see https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration. */
   id?: string;
+  /** This property is mutually exclusive with other properties and can be fetched from shared gallery image GET call. */
+  sharedGalleryImageId?: string;
+  /** This property is mutually exclusive with other properties and can be fetched from community gallery image GET call. */
+  communityGalleryImageId?: string;
 }
 
 /** Windows operating system settings to apply to the virtual machine. */
@@ -666,12 +662,20 @@ export interface DiffDiskSettings {
 export interface ManagedDisk {
   /** The storage account type for use in creating data disks or OS disk. */
   storageAccountType?: StorageAccountType;
+  /** Specifies the security profile settings for the managed disk. **Note**: It can only be set for Confidential VMs and is required when using Confidential VMs. */
+  securityProfile?: VMDiskSecurityProfile;
+}
+
+/** Specifies the security profile settings for the managed disk. **Note**: It can only be set for Confidential VMs and is required when using Confidential VMs. */
+export interface VMDiskSecurityProfile {
+  /** Specifies the EncryptionType of the managed disk. It is set to VMGuestStateOnly for encryption of just the VMGuestState blob, and NonPersistedTPM for not persisting firmware state in the VMGuestState blob. **Note**: It can be set for only Confidential VMs and required when using Confidential VMs. */
+  securityEncryptionType?: SecurityEncryptionTypes;
 }
 
 /** Specifies the security profile settings for the virtual machine or virtual machine scale set. */
 export interface SecurityProfile {
   /** Specifies the SecurityType of the virtual machine. It has to be set to any specified value to enable UefiSettings. */
-  securityType?: "trustedLaunch";
+  securityType?: SecurityTypes;
   /** This property can be used by user in the request to enable or disable the Host Encryption for the virtual machine or virtual machine scale set. This will enable the encryption for all the disks including Resource/Temp disk at host itself. */
   encryptionAtHost?: boolean;
   /** Specifies the security settings like secure boot and vTPM used while creating the virtual machine. */
@@ -742,13 +746,13 @@ export interface AutoScaleRunError {
 
 /** The network configuration for a pool. */
 export interface NetworkConfiguration {
-  /** The virtual network must be in the same region and subscription as the Azure Batch account. The specified subnet should have enough free IP addresses to accommodate the number of nodes in the pool. If the subnet doesn't have enough free IP addresses, the pool will partially allocate compute nodes and a resize error will occur. The 'MicrosoftAzureBatch' service principal must have the 'Classic Virtual Machine Contributor' Role-Based Access Control (RBAC) role for the specified VNet. The specified subnet must allow communication from the Azure Batch service to be able to schedule tasks on the compute nodes. This can be verified by checking if the specified VNet has any associated Network Security Groups (NSG). If communication to the compute nodes in the specified subnet is denied by an NSG, then the Batch service will set the state of the compute nodes to unusable. If the specified VNet has any associated Network Security Groups (NSG), then a few reserved system ports must be enabled for inbound communication. For pools created with a virtual machine configuration, enable ports 29876 and 29877, as well as port 22 for Linux and port 3389 for Windows. For pools created with a cloud service configuration, enable ports 10100, 20100, and 30100. Also enable outbound connections to Azure Storage on port 443. For cloudServiceConfiguration pools, only 'classic' VNETs are supported. For more details see: https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration */
+  /** The virtual network must be in the same region and subscription as the Azure Batch account. The specified subnet should have enough free IP addresses to accommodate the number of nodes in the pool. If the subnet doesn't have enough free IP addresses, the pool will partially allocate compute nodes and a resize error will occur. The 'MicrosoftAzureBatch' service principal must have the 'Classic Virtual Machine Contributor' Role-Based Access Control (RBAC) role for the specified VNet. The specified subnet must allow communication from the Azure Batch service to be able to schedule tasks on the compute nodes. This can be verified by checking if the specified VNet has any associated Network Security Groups (NSG). If communication to the compute nodes in the specified subnet is denied by an NSG, then the Batch service will set the state of the compute nodes to unusable. If the specified VNet has any associated Network Security Groups (NSG), then a few reserved system ports must be enabled for inbound communication. Enable ports 29876 and 29877, as well as port 22 for Linux and port 3389 for Windows. Also enable outbound connections to Azure Storage on port 443. For more details see: https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration */
   subnetId?: string;
   /** The scope of dynamic vnet assignment. */
   dynamicVnetAssignmentScope?: DynamicVNetAssignmentScope;
-  /** Pool endpoint configuration is only supported on pools with the virtualMachineConfiguration property. */
+  /** The endpoint configuration for a pool. */
   endpointConfiguration?: PoolEndpointConfiguration;
-  /** This property is only supported on Pools with the virtualMachineConfiguration property. */
+  /** The public IP Address configuration of the networking configuration of a Pool. */
   publicIPAddressConfiguration?: PublicIPAddressConfiguration;
   /** Accelerated networking enables single root I/O virtualization (SR-IOV) to a VM, which may lead to improved networking performance. For more details, see: https://learn.microsoft.com/azure/virtual-network/accelerated-networking-overview. */
   enableAcceleratedNetworking?: boolean;
@@ -828,7 +832,7 @@ export interface LinuxUserConfiguration {
 
 /** Properties used to create a user account on a Windows node. */
 export interface WindowsUserConfiguration {
-  /** Specifies login mode for the user. The default value for VirtualMachineConfiguration pools is interactive mode and for CloudServiceConfiguration pools is batch mode. */
+  /** Specifies login mode for the user. The default value is Interactive. */
   loginMode?: LoginMode;
 }
 
@@ -910,15 +914,25 @@ export interface TaskContainerSettings {
   registry?: ContainerRegistry;
   /** A flag to indicate where the container task working directory is. The default is 'taskWorkingDirectory'. */
   workingDirectory?: ContainerWorkingDirectory;
+  /** If this array is null or be not present, container task will mount entire temporary disk drive in windows (or AZ_BATCH_NODE_ROOT_DIR in Linux). It won't' mount any data paths into container if this array is set as empty. */
+  containerHostBatchBindMounts?: ContainerHostBatchBindMountEntry[];
+}
+
+/** The entry of path and mount mode you want to mount into task container. */
+export interface ContainerHostBatchBindMountEntry {
+  /** The paths which will be mounted to container task's container. */
+  source?: ContainerHostDataPath;
+  /** For Linux, if you mount this path as a read/write mode, this does not mean that all users in container have the read/write access for the path, it depends on the access in host VM. If this path is mounted read-only, all users within the container will not be able to modify the path. */
+  isReadOnly?: boolean;
 }
 
 /** Warning: This object is deprecated and will be removed after February, 2024. Please use the [Azure KeyVault Extension](https://learn.microsoft.com/azure/batch/batch-certificate-migration-guide) instead. */
 export interface CertificateReference {
   /** The fully qualified ID of the certificate to install on the pool. This must be inside the same batch account as the pool. */
   id: string;
-  /** The default value is currentUser. This property is applicable only for pools configured with Windows nodes (that is, created with cloudServiceConfiguration, or with virtualMachineConfiguration using a Windows image reference). For Linux compute nodes, the certificates are stored in a directory inside the task working directory and an environment variable AZ_BATCH_CERTIFICATES_DIR is supplied to the task to query for this location. For certificates with visibility of 'remoteUser', a 'certs' directory is created in the user's home directory (e.g., /home/{user-name}/certs) and certificates are placed in that directory. */
+  /** The default value is currentUser. This property is applicable only for pools configured with Windows compute nodes. For Linux compute nodes, the certificates are stored in a directory inside the task working directory and an environment variable AZ_BATCH_CERTIFICATES_DIR is supplied to the task to query for this location. For certificates with visibility of 'remoteUser', a 'certs' directory is created in the user's home directory (e.g., /home/{user-name}/certs) and certificates are placed in that directory. */
   storeLocation?: CertificateStoreLocation;
-  /** This property is applicable only for pools configured with Windows nodes (that is, created with cloudServiceConfiguration, or with virtualMachineConfiguration using a Windows image reference). Common store names include: My, Root, CA, Trust, Disallowed, TrustedPeople, TrustedPublisher, AuthRoot, AddressBook, but any custom store name can also be used. The default value is My. */
+  /** This property is applicable only for pools configured with Windows compute nodes. Common store names include: My, Root, CA, Trust, Disallowed, TrustedPeople, TrustedPublisher, AuthRoot, AddressBook, but any custom store name can also be used. The default value is My. */
   storeName?: string;
   /** Which user accounts on the compute node should have access to the private data of the certificate. */
   visibility?: CertificateVisibility[];
@@ -1032,7 +1046,7 @@ export interface UpgradePolicy {
   mode: UpgradeMode;
   /** The configuration parameters used for performing automatic OS upgrade. */
   automaticOSUpgradePolicy?: AutomaticOSUpgradePolicy;
-  /** This property is only supported on Pools with the virtualMachineConfiguration property. */
+  /** The configuration parameters used while performing a rolling upgrade. */
   rollingUpgradePolicy?: RollingUpgradePolicy;
 }
 
@@ -1134,7 +1148,7 @@ export interface AutoStorageProperties extends AutoStorageBaseProperties {
 }
 
 /** Contains information about a private link resource. */
-export interface PrivateEndpointConnection extends ProxyResource {
+export interface PrivateEndpointConnection extends AzureProxyResource {
   /**
    * The provisioning state of the private endpoint connection.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1155,7 +1169,7 @@ export interface PrivateEndpointConnection extends ProxyResource {
 }
 
 /** An application package which represents a particular version of an application. */
-export interface ApplicationPackage extends ProxyResource {
+export interface ApplicationPackage extends AzureProxyResource {
   /**
    * The current state of the application package.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1184,7 +1198,7 @@ export interface ApplicationPackage extends ProxyResource {
 }
 
 /** Contains information about an application in a Batch account. */
-export interface Application extends ProxyResource {
+export interface Application extends AzureProxyResource {
   /** The display name for the application. */
   displayName?: string;
   /** A value indicating whether packages within the application may be overwritten using the same version string. */
@@ -1194,7 +1208,7 @@ export interface Application extends ProxyResource {
 }
 
 /** Contains information about a certificate. */
-export interface Certificate extends ProxyResource {
+export interface Certificate extends AzureProxyResource {
   /** This must match the first portion of the certificate name. Currently required to be 'SHA1'. */
   thumbprintAlgorithm?: string;
   /** This must match the thumbprint from the name. */
@@ -1231,7 +1245,8 @@ export interface Certificate extends ProxyResource {
 }
 
 /** Contains information about a certificate. */
-export interface CertificateCreateOrUpdateParameters extends ProxyResource {
+export interface CertificateCreateOrUpdateParameters
+  extends AzureProxyResource {
   /** This must match the first portion of the certificate name. Currently required to be 'SHA1'. */
   thumbprintAlgorithm?: string;
   /** This must match the thumbprint from the name. */
@@ -1245,13 +1260,13 @@ export interface CertificateCreateOrUpdateParameters extends ProxyResource {
 }
 
 /** Contains the information for a detector. */
-export interface DetectorResponse extends ProxyResource {
+export interface DetectorResponse extends AzureProxyResource {
   /** A base64 encoded string that represents the content of a detector. */
   value?: string;
 }
 
 /** Contains information about a private link resource. */
-export interface PrivateLinkResource extends ProxyResource {
+export interface PrivateLinkResource extends AzureProxyResource {
   /**
    * The group id is used to establish the private link connection.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1270,7 +1285,7 @@ export interface PrivateLinkResource extends ProxyResource {
 }
 
 /** Contains information about a pool. */
-export interface Pool extends ProxyResource {
+export interface Pool extends AzureProxyResource {
   /** The type of identity used for the Batch Pool. */
   identity?: BatchPoolIdentity;
   /** The display name need not be unique and can contain any Unicode characters up to a maximum length of 1024. */
@@ -1305,9 +1320,9 @@ export interface Pool extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly allocationStateTransitionTime?: Date;
-  /** For information about available sizes of virtual machines for Cloud Services pools (pools created with cloudServiceConfiguration), see Sizes for Cloud Services (https://azure.microsoft.com/documentation/articles/cloud-services-sizes-specs/). Batch supports all Cloud Services VM sizes except ExtraSmall. For information about available VM sizes for pools using images from the Virtual Machines Marketplace (pools created with virtualMachineConfiguration) see Sizes for Virtual Machines (Linux) (https://azure.microsoft.com/documentation/articles/virtual-machines-linux-sizes/) or Sizes for Virtual Machines (Windows) (https://azure.microsoft.com/documentation/articles/virtual-machines-windows-sizes/). Batch supports all Azure VM sizes except STANDARD_A0 and those with premium storage (STANDARD_GS, STANDARD_DS, and STANDARD_DSV2 series). */
+  /** For information about available VM sizes, see Sizes for Virtual Machines (Linux) (https://azure.microsoft.com/documentation/articles/virtual-machines-linux-sizes/) or Sizes for Virtual Machines (Windows) (https://azure.microsoft.com/documentation/articles/virtual-machines-windows-sizes/). Batch supports all Azure VM sizes except STANDARD_A0 and those with premium storage (STANDARD_GS, STANDARD_DS, and STANDARD_DSV2 series). */
   vmSize?: string;
-  /** Using CloudServiceConfiguration specifies that the nodes should be creating using Azure Cloud Services (PaaS), while VirtualMachineConfiguration uses Azure Virtual Machines (IaaS). */
+  /** Deployment configuration properties. */
   deploymentConfiguration?: DeploymentConfiguration;
   /**
    * The number of dedicated compute nodes currently in the pool.
@@ -1371,7 +1386,7 @@ export interface Pool extends ProxyResource {
 }
 
 /** Contains information about an Azure Batch account. */
-export interface BatchAccount extends Resource {
+export interface BatchAccount extends AzureResource {
   /** The identity of the Batch account. */
   identity?: BatchAccountIdentity;
   /**
@@ -1614,6 +1629,54 @@ export enum KnownContainerType {
  * **CriCompatible**: A CRI based technology will be used to launch the containers.
  */
 export type ContainerType = string;
+
+/** Known values of {@link SecurityEncryptionTypes} that the service accepts. */
+export enum KnownSecurityEncryptionTypes {
+  /** NonPersistedTPM */
+  NonPersistedTPM = "NonPersistedTPM",
+  /** VMGuestStateOnly */
+  VMGuestStateOnly = "VMGuestStateOnly",
+}
+
+/**
+ * Defines values for SecurityEncryptionTypes. \
+ * {@link KnownSecurityEncryptionTypes} can be used interchangeably with SecurityEncryptionTypes,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NonPersistedTPM** \
+ * **VMGuestStateOnly**
+ */
+export type SecurityEncryptionTypes = string;
+
+/** Known values of {@link ContainerHostDataPath} that the service accepts. */
+export enum KnownContainerHostDataPath {
+  /** The path for multi-instances task to shared their files. */
+  Shared = "Shared",
+  /** The path for start task. */
+  Startup = "Startup",
+  /** The path contains all virtual file systems are mounted on this node. */
+  VfsMounts = "VfsMounts",
+  /** The task path. */
+  Task = "Task",
+  /** The job-prep task path. */
+  JobPrep = "JobPrep",
+  /** The applications path. */
+  Applications = "Applications",
+}
+
+/**
+ * Defines values for ContainerHostDataPath. \
+ * {@link KnownContainerHostDataPath} can be used interchangeably with ContainerHostDataPath,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Shared**: The path for multi-instances task to shared their files. \
+ * **Startup**: The path for start task. \
+ * **VfsMounts**: The path contains all virtual file systems are mounted on this node. \
+ * **Task**: The task path. \
+ * **JobPrep**: The job-prep task path. \
+ * **Applications**: The applications path.
+ */
+export type ContainerHostDataPath = string;
 /** Defines values for AutoStorageAuthenticationMode. */
 export type AutoStorageAuthenticationMode =
   | "StorageKeys"
@@ -1621,7 +1684,10 @@ export type AutoStorageAuthenticationMode =
 /** Defines values for PoolAllocationMode. */
 export type PoolAllocationMode = "BatchService" | "UserSubscription";
 /** Defines values for PublicNetworkAccessType. */
-export type PublicNetworkAccessType = "Enabled" | "Disabled";
+export type PublicNetworkAccessType =
+  | "Enabled"
+  | "Disabled"
+  | "SecuredByPerimeter";
 /** Defines values for EndpointAccessDefaultAction. */
 export type EndpointAccessDefaultAction = "Allow" | "Deny";
 /** Defines values for KeySource. */
@@ -1680,6 +1746,8 @@ export type StorageAccountType =
 export type DiskEncryptionTarget = "OsDisk" | "TemporaryDisk";
 /** Defines values for NodePlacementPolicyType. */
 export type NodePlacementPolicyType = "Regional" | "Zonal";
+/** Defines values for SecurityTypes. */
+export type SecurityTypes = "trustedLaunch" | "confidentialVM";
 /** Defines values for ComputeNodeDeallocationOption. */
 export type ComputeNodeDeallocationOption =
   | "Requeue"
@@ -1952,18 +2020,6 @@ export type LocationListSupportedVirtualMachineSkusResponse =
   SupportedSkusResult;
 
 /** Optional parameters. */
-export interface LocationListSupportedCloudServiceSkusOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of items to return in the response. */
-  maxresults?: number;
-  /** OData filter expression. Valid properties for filtering are "familyName". */
-  filter?: string;
-}
-
-/** Contains response data for the listSupportedCloudServiceSkus operation. */
-export type LocationListSupportedCloudServiceSkusResponse = SupportedSkusResult;
-
-/** Optional parameters. */
 export interface LocationCheckNameAvailabilityOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -1976,14 +2032,6 @@ export interface LocationListSupportedVirtualMachineSkusNextOptionalParams
 
 /** Contains response data for the listSupportedVirtualMachineSkusNext operation. */
 export type LocationListSupportedVirtualMachineSkusNextResponse =
-  SupportedSkusResult;
-
-/** Optional parameters. */
-export interface LocationListSupportedCloudServiceSkusNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listSupportedCloudServiceSkusNext operation. */
-export type LocationListSupportedCloudServiceSkusNextResponse =
   SupportedSkusResult;
 
 /** Optional parameters. */

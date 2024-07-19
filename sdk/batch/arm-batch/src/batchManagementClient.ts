@@ -71,7 +71,7 @@ export class BatchManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-batch/9.2.1`;
+    const packageDetails = `azsdk-js-arm-batch/10.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -125,7 +125,7 @@ export class BatchManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-02-01";
+    this.apiVersion = options.apiVersion || "2024-07-01";
     this.batchAccountOperations = new BatchAccountOperationsImpl(this);
     this.applicationPackageOperations = new ApplicationPackageOperationsImpl(
       this,
