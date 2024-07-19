@@ -346,6 +346,7 @@ export interface GuestAgentProperties {
     credentials?: GuestCredential;
     readonly customResourceName?: string;
     httpProxyConfig?: HttpProxyConfiguration;
+    privateLinkScopeResourceId?: string;
     provisioningAction?: ProvisioningAction;
     readonly provisioningState?: ProvisioningState;
     readonly status?: string;
@@ -727,9 +728,16 @@ export type Origin = string;
 export interface OsProfileForVmInstance {
     adminPassword?: string;
     computerName?: string;
+    domainName?: string;
+    domainPassword?: string;
+    domainUsername?: string;
     readonly osSku?: string;
     readonly osType?: OsType;
     readonly osVersion?: string;
+    productKey?: string;
+    runOnceCommands?: string;
+    timezone?: number;
+    workgroup?: string;
 }
 
 // @public

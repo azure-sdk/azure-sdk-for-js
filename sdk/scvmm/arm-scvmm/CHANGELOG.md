@@ -1,5 +1,19 @@
 # Release History
     
+## 1.1.0 (2024-07-19)
+    
+**Features**
+
+  - Interface GuestAgentProperties has a new optional parameter privateLinkScopeResourceId
+  - Interface OsProfileForVmInstance has a new optional parameter domainName
+  - Interface OsProfileForVmInstance has a new optional parameter domainPassword
+  - Interface OsProfileForVmInstance has a new optional parameter domainUsername
+  - Interface OsProfileForVmInstance has a new optional parameter productKey
+  - Interface OsProfileForVmInstance has a new optional parameter runOnceCommands
+  - Interface OsProfileForVmInstance has a new optional parameter timezone
+  - Interface OsProfileForVmInstance has a new optional parameter workgroup
+    
+    
 ## 1.0.0 (2024-06-25)
 
 ### Features Added
