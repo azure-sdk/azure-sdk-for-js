@@ -15,7 +15,7 @@ import { MicrosoftDatadogClient } from "../microsoftDatadogClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -28,7 +28,7 @@ import {
   MonitoredSubscriptionsCreateorUpdateResponse,
   MonitoredSubscriptionsUpdateOptionalParams,
   MonitoredSubscriptionsUpdateResponse,
-  MonitoredSubscriptionsDeleteOptionalParams
+  MonitoredSubscriptionsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -53,7 +53,7 @@ export class MonitoredSubscriptionsImpl implements MonitoredSubscriptions {
   public list(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitoredSubscriptionsListOptionalParams
+    options?: MonitoredSubscriptionsListOptionalParams,
   ): PagedAsyncIterableIterator<MonitoredSubscriptionProperties> {
     const iter = this.listPagingAll(resourceGroupName, monitorName, options);
     return {
@@ -71,9 +71,9 @@ export class MonitoredSubscriptionsImpl implements MonitoredSubscriptions {
           resourceGroupName,
           monitorName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -81,7 +81,7 @@ export class MonitoredSubscriptionsImpl implements MonitoredSubscriptions {
     resourceGroupName: string,
     monitorName: string,
     options?: MonitoredSubscriptionsListOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<MonitoredSubscriptionProperties[]> {
     let result: MonitoredSubscriptionsListResponse;
     result = await this._list(resourceGroupName, monitorName, options);
@@ -91,12 +91,12 @@ export class MonitoredSubscriptionsImpl implements MonitoredSubscriptions {
   private async *listPagingAll(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitoredSubscriptionsListOptionalParams
+    options?: MonitoredSubscriptionsListOptionalParams,
   ): AsyncIterableIterator<MonitoredSubscriptionProperties> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       monitorName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -111,11 +111,11 @@ export class MonitoredSubscriptionsImpl implements MonitoredSubscriptions {
   private _list(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitoredSubscriptionsListOptionalParams
+    options?: MonitoredSubscriptionsListOptionalParams,
   ): Promise<MonitoredSubscriptionsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -130,11 +130,11 @@ export class MonitoredSubscriptionsImpl implements MonitoredSubscriptions {
     resourceGroupName: string,
     monitorName: string,
     configurationName: string,
-    options?: MonitoredSubscriptionsGetOptionalParams
+    options?: MonitoredSubscriptionsGetOptionalParams,
   ): Promise<MonitoredSubscriptionsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, configurationName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -149,7 +149,7 @@ export class MonitoredSubscriptionsImpl implements MonitoredSubscriptions {
     resourceGroupName: string,
     monitorName: string,
     configurationName: string,
-    options?: MonitoredSubscriptionsCreateorUpdateOptionalParams
+    options?: MonitoredSubscriptionsCreateorUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MonitoredSubscriptionsCreateorUpdateResponse>,
@@ -158,21 +158,20 @@ export class MonitoredSubscriptionsImpl implements MonitoredSubscriptions {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<MonitoredSubscriptionsCreateorUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -181,8 +180,8 @@ export class MonitoredSubscriptionsImpl implements MonitoredSubscriptions {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -190,22 +189,22 @@ export class MonitoredSubscriptionsImpl implements MonitoredSubscriptions {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, monitorName, configurationName, options },
-      spec: createorUpdateOperationSpec
+      spec: createorUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       MonitoredSubscriptionsCreateorUpdateResponse,
       OperationState<MonitoredSubscriptionsCreateorUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -222,13 +221,13 @@ export class MonitoredSubscriptionsImpl implements MonitoredSubscriptions {
     resourceGroupName: string,
     monitorName: string,
     configurationName: string,
-    options?: MonitoredSubscriptionsCreateorUpdateOptionalParams
+    options?: MonitoredSubscriptionsCreateorUpdateOptionalParams,
   ): Promise<MonitoredSubscriptionsCreateorUpdateResponse> {
     const poller = await this.beginCreateorUpdate(
       resourceGroupName,
       monitorName,
       configurationName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -244,7 +243,7 @@ export class MonitoredSubscriptionsImpl implements MonitoredSubscriptions {
     resourceGroupName: string,
     monitorName: string,
     configurationName: string,
-    options?: MonitoredSubscriptionsUpdateOptionalParams
+    options?: MonitoredSubscriptionsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MonitoredSubscriptionsUpdateResponse>,
@@ -253,21 +252,20 @@ export class MonitoredSubscriptionsImpl implements MonitoredSubscriptions {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<MonitoredSubscriptionsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -276,8 +274,8 @@ export class MonitoredSubscriptionsImpl implements MonitoredSubscriptions {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -285,22 +283,22 @@ export class MonitoredSubscriptionsImpl implements MonitoredSubscriptions {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, monitorName, configurationName, options },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       MonitoredSubscriptionsUpdateResponse,
       OperationState<MonitoredSubscriptionsUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -317,13 +315,13 @@ export class MonitoredSubscriptionsImpl implements MonitoredSubscriptions {
     resourceGroupName: string,
     monitorName: string,
     configurationName: string,
-    options?: MonitoredSubscriptionsUpdateOptionalParams
+    options?: MonitoredSubscriptionsUpdateOptionalParams,
   ): Promise<MonitoredSubscriptionsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       monitorName,
       configurationName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -339,25 +337,24 @@ export class MonitoredSubscriptionsImpl implements MonitoredSubscriptions {
     resourceGroupName: string,
     monitorName: string,
     configurationName: string,
-    options?: MonitoredSubscriptionsDeleteOptionalParams
+    options?: MonitoredSubscriptionsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -366,8 +363,8 @@ export class MonitoredSubscriptionsImpl implements MonitoredSubscriptions {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -375,19 +372,19 @@ export class MonitoredSubscriptionsImpl implements MonitoredSubscriptions {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, monitorName, configurationName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -404,13 +401,13 @@ export class MonitoredSubscriptionsImpl implements MonitoredSubscriptions {
     resourceGroupName: string,
     monitorName: string,
     configurationName: string,
-    options?: MonitoredSubscriptionsDeleteOptionalParams
+    options?: MonitoredSubscriptionsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       monitorName,
       configurationName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -419,38 +416,15 @@ export class MonitoredSubscriptionsImpl implements MonitoredSubscriptions {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}/monitoredSubscriptions",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}/monitoredSubscriptions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MonitoredSubscriptionPropertiesList
+      bodyMapper: Mappers.MonitoredSubscriptionPropertiesList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.monitorName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}/monitoredSubscriptions/{configurationName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.MonitoredSubscriptionProperties
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -458,31 +432,51 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.monitorName,
-    Parameters.configurationName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}/monitoredSubscriptions/{configurationName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.MonitoredSubscriptionProperties,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.monitorName,
+    Parameters.configurationName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createorUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}/monitoredSubscriptions/{configurationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}/monitoredSubscriptions/{configurationName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.MonitoredSubscriptionProperties
+      bodyMapper: Mappers.MonitoredSubscriptionProperties,
     },
     201: {
-      bodyMapper: Mappers.MonitoredSubscriptionProperties
+      bodyMapper: Mappers.MonitoredSubscriptionProperties,
     },
     202: {
-      bodyMapper: Mappers.MonitoredSubscriptionProperties
+      bodyMapper: Mappers.MonitoredSubscriptionProperties,
     },
     204: {
-      bodyMapper: Mappers.MonitoredSubscriptionProperties
+      bodyMapper: Mappers.MonitoredSubscriptionProperties,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body6,
   queryParameters: [Parameters.apiVersion],
@@ -491,32 +485,31 @@ const createorUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.monitorName,
-    Parameters.configurationName
+    Parameters.configurationName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}/monitoredSubscriptions/{configurationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}/monitoredSubscriptions/{configurationName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.MonitoredSubscriptionProperties
+      bodyMapper: Mappers.MonitoredSubscriptionProperties,
     },
     201: {
-      bodyMapper: Mappers.MonitoredSubscriptionProperties
+      bodyMapper: Mappers.MonitoredSubscriptionProperties,
     },
     202: {
-      bodyMapper: Mappers.MonitoredSubscriptionProperties
+      bodyMapper: Mappers.MonitoredSubscriptionProperties,
     },
     204: {
-      bodyMapper: Mappers.MonitoredSubscriptionProperties
+      bodyMapper: Mappers.MonitoredSubscriptionProperties,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body6,
   queryParameters: [Parameters.apiVersion],
@@ -525,15 +518,14 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.monitorName,
-    Parameters.configurationName
+    Parameters.configurationName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}/monitoredSubscriptions/{configurationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}/monitoredSubscriptions/{configurationName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -541,8 +533,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -550,8 +542,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.monitorName,
-    Parameters.configurationName
+    Parameters.configurationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

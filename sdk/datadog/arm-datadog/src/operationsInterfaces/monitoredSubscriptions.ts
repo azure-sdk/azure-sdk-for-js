@@ -17,7 +17,7 @@ import {
   MonitoredSubscriptionsCreateorUpdateResponse,
   MonitoredSubscriptionsUpdateOptionalParams,
   MonitoredSubscriptionsUpdateResponse,
-  MonitoredSubscriptionsDeleteOptionalParams
+  MonitoredSubscriptionsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface MonitoredSubscriptions {
   list(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitoredSubscriptionsListOptionalParams
+    options?: MonitoredSubscriptionsListOptionalParams,
   ): PagedAsyncIterableIterator<MonitoredSubscriptionProperties>;
   /**
    * List the subscriptions currently being monitored by the Datadog monitor resource.
@@ -45,7 +45,7 @@ export interface MonitoredSubscriptions {
     resourceGroupName: string,
     monitorName: string,
     configurationName: string,
-    options?: MonitoredSubscriptionsGetOptionalParams
+    options?: MonitoredSubscriptionsGetOptionalParams,
   ): Promise<MonitoredSubscriptionsGetResponse>;
   /**
    * Add the subscriptions that should be monitored by the Datadog monitor resource.
@@ -58,7 +58,7 @@ export interface MonitoredSubscriptions {
     resourceGroupName: string,
     monitorName: string,
     configurationName: string,
-    options?: MonitoredSubscriptionsCreateorUpdateOptionalParams
+    options?: MonitoredSubscriptionsCreateorUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MonitoredSubscriptionsCreateorUpdateResponse>,
@@ -76,7 +76,7 @@ export interface MonitoredSubscriptions {
     resourceGroupName: string,
     monitorName: string,
     configurationName: string,
-    options?: MonitoredSubscriptionsCreateorUpdateOptionalParams
+    options?: MonitoredSubscriptionsCreateorUpdateOptionalParams,
   ): Promise<MonitoredSubscriptionsCreateorUpdateResponse>;
   /**
    * Updates the subscriptions that are being monitored by the Datadog monitor resource
@@ -89,7 +89,7 @@ export interface MonitoredSubscriptions {
     resourceGroupName: string,
     monitorName: string,
     configurationName: string,
-    options?: MonitoredSubscriptionsUpdateOptionalParams
+    options?: MonitoredSubscriptionsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MonitoredSubscriptionsUpdateResponse>,
@@ -107,7 +107,7 @@ export interface MonitoredSubscriptions {
     resourceGroupName: string,
     monitorName: string,
     configurationName: string,
-    options?: MonitoredSubscriptionsUpdateOptionalParams
+    options?: MonitoredSubscriptionsUpdateOptionalParams,
   ): Promise<MonitoredSubscriptionsUpdateResponse>;
   /**
    * Updates the subscriptions that are being monitored by the Datadog monitor resource
@@ -120,7 +120,7 @@ export interface MonitoredSubscriptions {
     resourceGroupName: string,
     monitorName: string,
     configurationName: string,
-    options?: MonitoredSubscriptionsDeleteOptionalParams
+    options?: MonitoredSubscriptionsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Updates the subscriptions that are being monitored by the Datadog monitor resource
@@ -133,6 +133,6 @@ export interface MonitoredSubscriptions {
     resourceGroupName: string,
     monitorName: string,
     configurationName: string,
-    options?: MonitoredSubscriptionsDeleteOptionalParams
+    options?: MonitoredSubscriptionsDeleteOptionalParams,
   ): Promise<void>;
 }

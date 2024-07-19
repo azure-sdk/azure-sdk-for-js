@@ -20,7 +20,7 @@ import {
   MarketplaceAgreementsListResponse,
   MarketplaceAgreementsCreateOrUpdateOptionalParams,
   MarketplaceAgreementsCreateOrUpdateResponse,
-  MarketplaceAgreementsListNextResponse
+  MarketplaceAgreementsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -41,7 +41,7 @@ export class MarketplaceAgreementsImpl implements MarketplaceAgreements {
    * @param options The options parameters.
    */
   public list(
-    options?: MarketplaceAgreementsListOptionalParams
+    options?: MarketplaceAgreementsListOptionalParams,
   ): PagedAsyncIterableIterator<DatadogAgreementResource> {
     const iter = this.listPagingAll(options);
     return {
@@ -56,13 +56,13 @@ export class MarketplaceAgreementsImpl implements MarketplaceAgreements {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: MarketplaceAgreementsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DatadogAgreementResource[]> {
     let result: MarketplaceAgreementsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -83,7 +83,7 @@ export class MarketplaceAgreementsImpl implements MarketplaceAgreements {
   }
 
   private async *listPagingAll(
-    options?: MarketplaceAgreementsListOptionalParams
+    options?: MarketplaceAgreementsListOptionalParams,
   ): AsyncIterableIterator<DatadogAgreementResource> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -95,7 +95,7 @@ export class MarketplaceAgreementsImpl implements MarketplaceAgreements {
    * @param options The options parameters.
    */
   private _list(
-    options?: MarketplaceAgreementsListOptionalParams
+    options?: MarketplaceAgreementsListOptionalParams,
   ): Promise<MarketplaceAgreementsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -105,11 +105,11 @@ export class MarketplaceAgreementsImpl implements MarketplaceAgreements {
    * @param options The options parameters.
    */
   createOrUpdate(
-    options?: MarketplaceAgreementsCreateOrUpdateOptionalParams
+    options?: MarketplaceAgreementsCreateOrUpdateOptionalParams,
   ): Promise<MarketplaceAgreementsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -120,11 +120,11 @@ export class MarketplaceAgreementsImpl implements MarketplaceAgreements {
    */
   private _listNext(
     nextLink: string,
-    options?: MarketplaceAgreementsListNextOptionalParams
+    options?: MarketplaceAgreementsListNextOptionalParams,
   ): Promise<MarketplaceAgreementsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -132,57 +132,55 @@ export class MarketplaceAgreementsImpl implements MarketplaceAgreements {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Datadog/agreements",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Datadog/agreements",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DatadogAgreementResourceListResponse
+      bodyMapper: Mappers.DatadogAgreementResourceListResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Datadog/agreements/default",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Datadog/agreements/default",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.DatadogAgreementResource
+      bodyMapper: Mappers.DatadogAgreementResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DatadogAgreementResourceListResponse
+      bodyMapper: Mappers.DatadogAgreementResourceListResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
