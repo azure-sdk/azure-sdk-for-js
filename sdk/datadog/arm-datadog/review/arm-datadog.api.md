@@ -33,7 +33,6 @@ export interface CreateResourceSupportedResponseList {
 // @public
 export interface CreationSupported {
     get(datadogOrganizationId: string, options?: CreationSupportedGetOptionalParams): Promise<CreationSupportedGetResponse>;
-    list(datadogOrganizationId: string, options?: CreationSupportedListOptionalParams): PagedAsyncIterableIterator<CreateResourceSupportedResponse>;
 }
 
 // @public
@@ -42,13 +41,6 @@ export interface CreationSupportedGetOptionalParams extends coreClient.Operation
 
 // @public
 export type CreationSupportedGetResponse = CreateResourceSupportedResponse;
-
-// @public
-export interface CreationSupportedListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CreationSupportedListResponse = CreateResourceSupportedResponseList;
 
 // @public
 export interface DatadogAgreementProperties {
