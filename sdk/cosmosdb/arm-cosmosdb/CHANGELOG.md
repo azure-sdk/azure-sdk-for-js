@@ -1,5 +1,12 @@
 # Release History
     
+## 16.1.0 (2024-07-22)
+    
+**Features**
+
+  - Interface RestoreParametersBase has a new optional parameter restoreWithTtlDisabled
+    
+    
 ## 16.0.0 (2024-06-24)
     
 ### Features Added

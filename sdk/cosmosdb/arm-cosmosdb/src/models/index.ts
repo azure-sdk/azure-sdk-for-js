@@ -199,6 +199,8 @@ export interface RestoreParametersBase {
   restoreSource?: string;
   /** Time to which the account has to be restored (ISO-8601 format). */
   restoreTimestampInUtc?: Date;
+  /** Specifies whether the restored account will have Time-To-Live disabled upon the successful restore. */
+  restoreWithTtlDisabled?: boolean;
 }
 
 /** The object representing the policy for taking backups on an account. */

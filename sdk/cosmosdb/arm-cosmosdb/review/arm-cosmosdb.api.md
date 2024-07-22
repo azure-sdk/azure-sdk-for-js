@@ -3701,6 +3701,7 @@ export interface RestoreParameters extends RestoreParametersBase {
 export interface RestoreParametersBase {
     restoreSource?: string;
     restoreTimestampInUtc?: Date;
+    restoreWithTtlDisabled?: boolean;
 }
 
 // @public

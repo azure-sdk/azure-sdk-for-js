@@ -430,6 +430,12 @@ export const RestoreParametersBase: coreClient.CompositeMapper = {
           name: "DateTime",
         },
       },
+      restoreWithTtlDisabled: {
+        serializedName: "restoreWithTtlDisabled",
+        type: {
+          name: "Boolean",
+        },
+      },
     },
   },
 };
