@@ -10599,6 +10599,12 @@ packages:
     hasBin: true
     dev: false
 
+  /typescript@5.5.4:
+    resolution: {integrity: sha512-Mtq29sKDAEYP7aljRgtPOpTvOfbwRWlS6dPRzwjdE+C0R4brX/GUyhHSecbHMFLNBLcJIPt9nl9yG5TZ1weH+Q==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+    dev: false
+
   /ua-parser-js@0.7.38:
     resolution: {integrity: sha512-fYmIy7fKTSFAhG3fuPlubeGaMoAd6r0rSnfEsO5nEY55i26KSLt9EH7PLQiiqPUhNqYIJvSkTy1oArIcXAbPbA==}
     dev: false
@@ -18685,7 +18691,7 @@ packages:
     dev: false
 
   file:projects/arm-streamanalytics.tgz:
-    resolution: {integrity: sha512-mMgEakc8HukU0aZNHCjH4JtfdnAjluphyODqWpzS3haO6hwglmw9qTkRFD9OdeTQaNYX9G7tmlnj6KkL9+zJ6A==, tarball: file:projects/arm-streamanalytics.tgz}
+    resolution: {integrity: sha512-epLCDBl6fdkgVaCVIMlnrywIi1LLljeaMKiuiJ9LN8mSSNstmegbaDszSlpvqH+c+ABl985Lg/hqkXyV99WTtw==, tarball: file:projects/arm-streamanalytics.tgz}
     name: '@rush-temp/arm-streamanalytics'
     version: 0.0.0
     dependencies:
@@ -18704,9 +18710,10 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.6.0
       rimraf: 5.0.9
-      ts-node: 10.9.2(@types/node@18.19.40)(typescript@5.5.3)
+      ts-node: 10.9.2(@types/node@18.19.40)(typescript@5.4.5)
       tslib: 2.6.3
-      typescript: 5.5.3
+      tsx: 4.16.2
+      typescript: 5.4.5
       uglify-js: 3.18.0
     transitivePeerDependencies:
       - '@swc/core'
@@ -20542,7 +20549,7 @@ packages:
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
-      '@_ts/max': /typescript@5.5.3
+      '@_ts/max': /typescript@5.5.4
       '@_ts/min': /typescript@4.2.4
       '@azure/identity': 4.4.0
       '@microsoft/api-extractor': 7.47.1(@types/node@18.19.40)
@@ -22303,7 +22310,7 @@ packages:
     dev: false
 
   file:projects/openai.tgz:
-    resolution: {integrity: sha512-3WCcCkqs7ypCVcgWWp40JAf4wh7d5xzfKKKZHrgshKvPWTdQBNlvaNVm41WPCZJmOJf3pHHfjBZaya34SnWXVQ==, tarball: file:projects/openai.tgz}
+    resolution: {integrity: sha512-UJtybaV+/dtctUPy0hbAZgJ6qPvP+GnCk2MxaFD7iRPoXC28fMCLeNdOxaecbKMJ4llENlYbsZrTFH40b72FUA==, tarball: file:projects/openai.tgz}
     name: '@rush-temp/openai'
     version: 0.0.0
     dependencies:

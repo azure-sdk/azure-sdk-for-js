@@ -1,15 +1,36 @@
 # Release History
+    
+## 5.0.0 (2024-07-23)
+    
+**Features**
 
-## 5.0.0-beta.2 (Unreleased)
+  - Added Interface AggregateFunctionProperties
+  - Added Interface AzureFunctionOutputDataSource
+  - Added Interface FileReferenceInputDataSource
+  - Added Interface GatewayMessageBusOutputDataSource
+  - Added Interface GatewayMessageBusOutputDataSourceProperties
+  - Added Interface GatewayMessageBusSourceProperties
+  - Added Interface GatewayMessageBusStreamInputDataSource
+  - Added Interface GatewayMessageBusStreamInputDataSourceProperties
+  - Interface BlobDataSourceProperties has a new optional parameter authenticationMode
+  - Interface BlobOutputDataSource has a new optional parameter blobPathPrefix
+  - Interface BlobOutputDataSourceProperties has a new optional parameter blobPathPrefix
+  - Interface BlobReferenceInputDataSource has a new optional parameter authenticationMode
+  - Interface BlobStreamInputDataSource has a new optional parameter authenticationMode
+  - Interface FunctionProperties has a new optional parameter binding
+  - Interface FunctionProperties has a new optional parameter inputs
+  - Interface FunctionProperties has a new optional parameter output
+  - Interface FunctionsTestOptionalParams has a new optional parameter function
+  - Type of parameter type of interface FunctionProperties is changed from "Scalar" to "Scalar" | "Aggregate"
+  - Type of parameter type of interface OutputDataSource is changed from "Microsoft.Storage/Blob" | "Microsoft.Storage/Table" | "Microsoft.ServiceBus/EventHub" | "Microsoft.EventHub/EventHub" | "Microsoft.Sql/Server/Database" | "Microsoft.Sql/Server/DataWarehouse" | "Microsoft.Storage/DocumentDB" | "Microsoft.ServiceBus/Queue" | "Microsoft.ServiceBus/Topic" | "PowerBI" | "Microsoft.DataLake/Accounts" to "Microsoft.Storage/Blob" | "Microsoft.Storage/Table" | "Microsoft.ServiceBus/EventHub" | "Microsoft.EventHub/EventHub" | "Microsoft.Sql/Server/Database" | "Microsoft.Sql/Server/DataWarehouse" | "Microsoft.Storage/DocumentDB" | "Microsoft.AzureFunction" | "Microsoft.ServiceBus/Queue" | "Microsoft.ServiceBus/Topic" | "PowerBI" | "Microsoft.DataLake/Accounts" | "GatewayMessageBus"
+  - Type of parameter type of interface ReferenceInputDataSource is changed from "Microsoft.Storage/Blob" | "Microsoft.Sql/Server/Database" to "File" | "Microsoft.Storage/Blob" | "Microsoft.Sql/Server/Database"
+  - Type of parameter type of interface StreamInputDataSource is changed from "Microsoft.Storage/Blob" | "Microsoft.ServiceBus/EventHub" | "Microsoft.EventHub/EventHub" | "Microsoft.Devices/IotHubs" to "Microsoft.Storage/Blob" | "Microsoft.ServiceBus/EventHub" | "Microsoft.EventHub/EventHub" | "Microsoft.Devices/IotHubs" | "GatewayMessageBus"
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface FunctionsTestOptionalParams no longer has parameter functionParam
+    
+    
 ## 5.0.0-beta.1 (2024-02-07)
     
 **Features**
