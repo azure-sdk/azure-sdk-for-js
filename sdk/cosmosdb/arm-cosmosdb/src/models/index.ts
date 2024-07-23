@@ -376,7 +376,7 @@ export interface DatabaseAccountUpdateParameters {
   enablePartitionMerge?: boolean;
   /** Indicates the minimum allowed Tls version. The default value is Tls 1.2. Cassandra and Mongo APIs only work with Tls 1.2. */
   minimalTlsVersion?: MinimalTlsVersion;
-  /** Flag to indicate enabling/disabling of Burst Capacity Preview feature on the account */
+  /** Flag to indicate enabling/disabling of Burst Capacity feature on the account */
   enableBurstCapacity?: boolean;
   /** Indicates the status of the Customer Managed Key feature on the account. In case there are errors, the property provides troubleshooting guidance. */
   customerManagedKeyStatus?: string;
@@ -2766,7 +2766,7 @@ export interface DatabaseAccountGetResults extends ARMResourceProperties {
   enablePartitionMerge?: boolean;
   /** Indicates the minimum allowed Tls version. The default value is Tls 1.2. Cassandra and Mongo APIs only work with Tls 1.2. */
   minimalTlsVersion?: MinimalTlsVersion;
-  /** Flag to indicate enabling/disabling of Burst Capacity Preview feature on the account */
+  /** Flag to indicate enabling/disabling of Burst Capacity feature on the account */
   enableBurstCapacity?: boolean;
   /** Indicates the status of the Customer Managed Key feature on the account. In case there are errors, the property provides troubleshooting guidance. */
   customerManagedKeyStatus?: string;
@@ -2842,7 +2842,7 @@ export interface DatabaseAccountCreateUpdateParameters
   enablePartitionMerge?: boolean;
   /** Indicates the minimum allowed Tls version. The default value is Tls 1.2. Cassandra and Mongo APIs only work with Tls 1.2. */
   minimalTlsVersion?: MinimalTlsVersion;
-  /** Flag to indicate enabling/disabling of Burst Capacity Preview feature on the account */
+  /** Flag to indicate enabling/disabling of Burst Capacity feature on the account */
   enableBurstCapacity?: boolean;
   /** Indicates the status of the Customer Managed Key feature on the account. In case there are errors, the property provides troubleshooting guidance. */
   customerManagedKeyStatus?: string;
