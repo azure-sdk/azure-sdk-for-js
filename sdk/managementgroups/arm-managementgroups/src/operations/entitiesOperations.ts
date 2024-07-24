@@ -8,26 +8,26 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { Entities } from "../operationsInterfaces";
+import { EntitiesOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ManagementGroupsAPI } from "../managementGroupsAPI";
 import {
   EntityInfo,
-  EntitiesListNextOptionalParams,
-  EntitiesListOptionalParams,
-  EntitiesListResponse,
-  EntitiesListNextResponse
+  EntitiesOperationsListNextOptionalParams,
+  EntitiesOperationsListOptionalParams,
+  EntitiesOperationsListResponse,
+  EntitiesOperationsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Entities operations. */
-export class EntitiesImpl implements Entities {
+/** Class containing EntitiesOperations operations. */
+export class EntitiesOperationsImpl implements EntitiesOperations {
   private readonly client: ManagementGroupsAPI;
 
   /**
-   * Initialize a new instance of the class Entities class.
+   * Initialize a new instance of the class EntitiesOperations class.
    * @param client Reference to the service client
    */
   constructor(client: ManagementGroupsAPI) {
@@ -36,11 +36,10 @@ export class EntitiesImpl implements Entities {
 
   /**
    * List all entities (Management Groups, Subscriptions, etc.) for the authenticated user.
-   *
    * @param options The options parameters.
    */
   public list(
-    options?: EntitiesListOptionalParams
+    options?: EntitiesOperationsListOptionalParams,
   ): PagedAsyncIterableIterator<EntityInfo> {
     const iter = this.listPagingAll(options);
     return {
@@ -55,15 +54,15 @@ export class EntitiesImpl implements Entities {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
-    options?: EntitiesListOptionalParams,
-    settings?: PageSettings
+    options?: EntitiesOperationsListOptionalParams,
+    settings?: PageSettings,
   ): AsyncIterableIterator<EntityInfo[]> {
-    let result: EntitiesListResponse;
+    let result: EntitiesOperationsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(options);
@@ -82,7 +81,7 @@ export class EntitiesImpl implements Entities {
   }
 
   private async *listPagingAll(
-    options?: EntitiesListOptionalParams
+    options?: EntitiesOperationsListOptionalParams,
   ): AsyncIterableIterator<EntityInfo> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -91,12 +90,11 @@ export class EntitiesImpl implements Entities {
 
   /**
    * List all entities (Management Groups, Subscriptions, etc.) for the authenticated user.
-   *
    * @param options The options parameters.
    */
   private _list(
-    options?: EntitiesListOptionalParams
-  ): Promise<EntitiesListResponse> {
+    options?: EntitiesOperationsListOptionalParams,
+  ): Promise<EntitiesOperationsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -107,11 +105,11 @@ export class EntitiesImpl implements Entities {
    */
   private _listNext(
     nextLink: string,
-    options?: EntitiesListNextOptionalParams
-  ): Promise<EntitiesListNextResponse> {
+    options?: EntitiesOperationsListNextOptionalParams,
+  ): Promise<EntitiesOperationsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -123,50 +121,39 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.EntityListResult
+      bodyMapper: Mappers.EntityListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.skiptoken,
-    Parameters.filter,
-    Parameters.top,
     Parameters.skip,
+    Parameters.top,
     Parameters.select,
     Parameters.search,
+    Parameters.filter,
     Parameters.view,
-    Parameters.groupName
+    Parameters.groupName,
   ],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept, Parameters.cacheControl],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EntityListResult
+      bodyMapper: Mappers.EntityListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skiptoken,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.skip,
-    Parameters.select,
-    Parameters.search,
-    Parameters.view,
-    Parameters.groupName
-  ],
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept, Parameters.cacheControl],
-  serializer
+  serializer,
 };

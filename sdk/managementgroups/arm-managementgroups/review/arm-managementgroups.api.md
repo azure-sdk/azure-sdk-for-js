@@ -6,19 +6,12 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
-export interface AzureAsyncOperationResults {
-    displayName?: string;
-    readonly id?: string;
-    readonly name?: string;
-    readonly status?: string;
-    tenantId?: string;
-    readonly type?: string;
-}
+export type ActionType = string;
 
 // @public
 export interface CheckNameAvailabilityOptionalParams extends coreClient.OperationOptions {
@@ -41,59 +34,37 @@ export interface CheckNameAvailabilityResult {
 }
 
 // @public
-export interface CreateManagementGroupChildInfo {
-    readonly children?: CreateManagementGroupChildInfo[];
-    readonly displayName?: string;
-    readonly id?: string;
-    readonly name?: string;
-    readonly type?: ManagementGroupChildType;
-}
+export type CreatedByType = string;
 
 // @public
-export interface CreateManagementGroupDetails {
-    parent?: CreateParentGroupInfo;
-    readonly updatedBy?: string;
-    readonly updatedTime?: Date;
-    readonly version?: number;
-}
-
-// @public
-export interface CreateManagementGroupRequest {
-    readonly children?: CreateManagementGroupChildInfo[];
-    details?: CreateManagementGroupDetails;
-    displayName?: string;
-    readonly id?: string;
-    name?: string;
-    readonly tenantId?: string;
-    readonly type?: string;
-}
-
-// @public
-export interface CreateOrUpdateSettingsRequest {
+export interface CreateOrUpdateSettingsProperties {
     defaultManagementGroup?: string;
     requireAuthorizationForGroupCreation?: boolean;
 }
 
 // @public
-export interface CreateParentGroupInfo {
-    readonly displayName?: string;
-    id?: string;
-    readonly name?: string;
+export interface CreateOrUpdateSettingsRequest {
+    properties?: CreateOrUpdateSettingsProperties;
 }
 
 // @public
 export interface DescendantInfo {
-    displayName?: string;
     readonly id?: string;
     readonly name?: string;
-    parent?: DescendantParentGroupInfo;
+    properties?: DescendantInfoProperties;
     readonly type?: string;
 }
 
 // @public
+export interface DescendantInfoProperties {
+    displayName?: string;
+    parent?: DescendantParentGroupInfo;
+}
+
+// @public
 export interface DescendantListResult {
-    readonly nextLink?: string;
-    value?: DescendantInfo[];
+    nextLink?: string;
+    value: DescendantInfo[];
 }
 
 // @public
@@ -102,58 +73,46 @@ export interface DescendantParentGroupInfo {
 }
 
 // @public
-export interface Entities {
-    list(options?: EntitiesListOptionalParams): PagedAsyncIterableIterator<EntityInfo>;
+export interface EntitiesOperations {
+    list(options?: EntitiesOperationsListOptionalParams): PagedAsyncIterableIterator<EntityInfo>;
 }
 
 // @public
-export interface EntitiesListNextOptionalParams extends coreClient.OperationOptions {
+export interface EntitiesOperationsListNextOptionalParams extends coreClient.OperationOptions {
+    cacheControl?: string;
+}
+
+// @public
+export type EntitiesOperationsListNextResponse = EntityListResult;
+
+// @public
+export interface EntitiesOperationsListOptionalParams extends coreClient.OperationOptions {
     cacheControl?: string;
     filter?: string;
     groupName?: string;
-    search?: Enum2;
+    search?: EntitySearchType;
     select?: string;
     skip?: number;
     skiptoken?: string;
     top?: number;
-    view?: Enum3;
+    view?: EntityViewParameterType;
 }
 
 // @public
-export type EntitiesListNextResponse = EntityListResult;
+export type EntitiesOperationsListResponse = EntityListResult;
 
 // @public
-export interface EntitiesListOptionalParams extends coreClient.OperationOptions {
-    cacheControl?: string;
-    filter?: string;
-    groupName?: string;
-    search?: Enum2;
-    select?: string;
-    skip?: number;
-    skiptoken?: string;
-    top?: number;
-    view?: Enum3;
-}
-
-// @public
-export type EntitiesListResponse = EntityListResult;
-
-// @public
-export interface EntityHierarchyItem {
-    children?: EntityHierarchyItem[];
-    displayName?: string;
+export interface EntityInfo {
     readonly id?: string;
     readonly name?: string;
-    permissions?: Permissions_2;
+    properties?: EntityInfoProperties;
     readonly type?: string;
 }
 
 // @public
-export interface EntityInfo {
+export interface EntityInfoProperties {
     displayName?: string;
-    readonly id?: string;
     inheritedPermissions?: Permissions_2;
-    readonly name?: string;
     numberOfChildGroups?: number;
     numberOfChildren?: number;
     numberOfDescendants?: number;
@@ -162,14 +121,13 @@ export interface EntityInfo {
     parentNameChain?: string[];
     permissions?: Permissions_2;
     tenantId?: string;
-    readonly type?: string;
 }
 
 // @public
 export interface EntityListResult {
     readonly count?: number;
-    readonly nextLink?: string;
-    value?: EntityInfo[];
+    nextLink?: string;
+    value: EntityInfo[];
 }
 
 // @public
@@ -178,105 +136,115 @@ export interface EntityParentGroupInfo {
 }
 
 // @public
-export type Enum0 = string;
+export type EntitySearchType = string;
 
 // @public
-export type Enum2 = string;
+export type EntityViewParameterType = string;
 
 // @public
-export type Enum3 = string;
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
+}
 
 // @public
-export interface ErrorDetails {
-    code?: string;
-    details?: string;
-    message?: string;
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
 }
 
 // @public
 export interface ErrorResponse {
-    error?: ErrorDetails;
+    error?: ErrorDetail;
 }
 
 // @public
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
-export interface HierarchySettings {
+export interface HierarchySettings extends ProxyResource {
+    properties?: HierarchySettingsProperties;
+}
+
+// @public
+export interface HierarchySettingsListResult {
+    nextLink?: string;
+    value: HierarchySettings[];
+}
+
+// @public
+export interface HierarchySettingsOperationGroup {
+    createOrUpdate(groupId: string, resource: HierarchySettings, options?: HierarchySettingsOperationGroupCreateOrUpdateOptionalParams): Promise<HierarchySettingsOperationGroupCreateOrUpdateResponse>;
+    delete(groupId: string, options?: HierarchySettingsOperationGroupDeleteOptionalParams): Promise<void>;
+    get(groupId: string, options?: HierarchySettingsOperationGroupGetOptionalParams): Promise<HierarchySettingsOperationGroupGetResponse>;
+    list(groupId: string, options?: HierarchySettingsOperationGroupListOptionalParams): PagedAsyncIterableIterator<HierarchySettings>;
+    update(groupId: string, properties: CreateOrUpdateSettingsRequest, options?: HierarchySettingsOperationGroupUpdateOptionalParams): Promise<HierarchySettingsOperationGroupUpdateResponse>;
+}
+
+// @public
+export interface HierarchySettingsOperationGroupCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type HierarchySettingsOperationGroupCreateOrUpdateResponse = HierarchySettings;
+
+// @public
+export interface HierarchySettingsOperationGroupDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface HierarchySettingsOperationGroupGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type HierarchySettingsOperationGroupGetResponse = HierarchySettings;
+
+// @public
+export interface HierarchySettingsOperationGroupListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type HierarchySettingsOperationGroupListNextResponse = HierarchySettingsListResult;
+
+// @public
+export interface HierarchySettingsOperationGroupListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type HierarchySettingsOperationGroupListResponse = HierarchySettingsListResult;
+
+// @public
+export interface HierarchySettingsOperationGroupUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type HierarchySettingsOperationGroupUpdateResponse = HierarchySettings;
+
+// @public
+export interface HierarchySettingsProperties {
     defaultManagementGroup?: string;
-    readonly id?: string;
-    readonly name?: string;
     requireAuthorizationForGroupCreation?: boolean;
     tenantId?: string;
-    readonly type?: string;
 }
 
 // @public
-export interface HierarchySettingsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export enum KnownActionType {
+    Internal = "Internal"
 }
 
 // @public
-export type HierarchySettingsCreateOrUpdateResponse = HierarchySettings;
-
-// @public
-export interface HierarchySettingsDeleteOptionalParams extends coreClient.OperationOptions {
+export enum KnownCreatedByType {
+    Application = "Application",
+    Key = "Key",
+    ManagedIdentity = "ManagedIdentity",
+    User = "User"
 }
 
 // @public
-export interface HierarchySettingsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type HierarchySettingsGetResponse = HierarchySettings;
-
-// @public
-export interface HierarchySettingsInfo {
-    defaultManagementGroup?: string;
-    readonly id?: string;
-    readonly name?: string;
-    requireAuthorizationForGroupCreation?: boolean;
-    tenantId?: string;
-    readonly type?: string;
-}
-
-// @public
-export interface HierarchySettingsList {
-    readonly nextLink?: string;
-    value?: HierarchySettingsInfo[];
-}
-
-// @public
-export interface HierarchySettingsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type HierarchySettingsListResponse = HierarchySettingsList;
-
-// @public
-export interface HierarchySettingsOperations {
-    createOrUpdate(groupId: string, createTenantSettingsRequest: CreateOrUpdateSettingsRequest, options?: HierarchySettingsCreateOrUpdateOptionalParams): Promise<HierarchySettingsCreateOrUpdateResponse>;
-    delete(groupId: string, options?: HierarchySettingsDeleteOptionalParams): Promise<void>;
-    get(groupId: string, options?: HierarchySettingsGetOptionalParams): Promise<HierarchySettingsGetResponse>;
-    list(groupId: string, options?: HierarchySettingsListOptionalParams): Promise<HierarchySettingsListResponse>;
-    update(groupId: string, createTenantSettingsRequest: CreateOrUpdateSettingsRequest, options?: HierarchySettingsUpdateOptionalParams): Promise<HierarchySettingsUpdateResponse>;
-}
-
-// @public
-export interface HierarchySettingsUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type HierarchySettingsUpdateResponse = HierarchySettings;
-
-// @public
-export enum KnownEnum0 {
-    Ancestors = "ancestors",
-    Children = "children",
-    Path = "path"
-}
-
-// @public
-export enum KnownEnum2 {
+export enum KnownEntitySearchType {
     AllowedChildren = "AllowedChildren",
     AllowedParents = "AllowedParents",
     ChildrenOnly = "ChildrenOnly",
@@ -285,7 +253,7 @@ export enum KnownEnum2 {
 }
 
 // @public
-export enum KnownEnum3 {
+export enum KnownEntityViewParameterType {
     Audit = "Audit",
     FullHierarchy = "FullHierarchy",
     GroupsOnly = "GroupsOnly",
@@ -293,34 +261,22 @@ export enum KnownEnum3 {
 }
 
 // @public
-export enum KnownManagementGroupChildType {
-    MicrosoftManagementManagementGroups = "Microsoft.Management/managementGroups",
-    Subscriptions = "/subscriptions"
+export enum KnownManagementGroupExpandType {
+    Ancestors = "ancestors",
+    Children = "children",
+    Path = "path"
 }
 
 // @public
-export enum KnownPermissions {
-    Delete = "delete",
-    Edit = "edit",
-    Noaccess = "noaccess",
-    View = "view"
+export enum KnownOrigin {
+    System = "system",
+    User = "user",
+    UserSystem = "user,system"
 }
 
 // @public
-export interface ListSubscriptionUnderManagementGroup {
-    readonly nextLink?: string;
-    value?: SubscriptionUnderManagementGroup[];
-}
-
-// @public
-export interface ManagementGroup {
-    children?: ManagementGroupChildInfo[];
-    details?: ManagementGroupDetails;
-    displayName?: string;
-    readonly id?: string;
-    readonly name?: string;
-    tenantId?: string;
-    readonly type?: string;
+export interface ManagementGroup extends ProxyResource {
+    properties?: ManagementGroupProperties;
 }
 
 // @public
@@ -333,7 +289,7 @@ export interface ManagementGroupChildInfo {
 }
 
 // @public
-export type ManagementGroupChildType = string;
+export type ManagementGroupChildType = "Microsoft.Management/managementGroups" | "/subscriptions";
 
 // @public
 export interface ManagementGroupDetails {
@@ -347,18 +303,20 @@ export interface ManagementGroupDetails {
 }
 
 // @public
-export interface ManagementGroupInfo {
-    displayName?: string;
-    readonly id?: string;
-    readonly name?: string;
-    tenantId?: string;
-    readonly type?: string;
-}
+export type ManagementGroupExpandType = string;
 
 // @public
 export interface ManagementGroupListResult {
-    readonly nextLink?: string;
-    value?: ManagementGroupInfo[];
+    nextLink?: string;
+    value: ManagementGroup[];
+}
+
+// @public
+export interface ManagementGroupOperationAcceptance {
+    readonly id?: string;
+    readonly name?: string;
+    readonly status?: string;
+    readonly type?: string;
 }
 
 // @public
@@ -368,15 +326,23 @@ export interface ManagementGroupPathElement {
 }
 
 // @public
+export interface ManagementGroupProperties {
+    children?: ManagementGroupChildInfo[];
+    details?: ManagementGroupDetails;
+    displayName?: string;
+    tenantId?: string;
+}
+
+// @public
 export interface ManagementGroups {
-    beginCreateOrUpdate(groupId: string, createManagementGroupRequest: CreateManagementGroupRequest, options?: ManagementGroupsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ManagementGroupsCreateOrUpdateResponse>, ManagementGroupsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(groupId: string, createManagementGroupRequest: CreateManagementGroupRequest, options?: ManagementGroupsCreateOrUpdateOptionalParams): Promise<ManagementGroupsCreateOrUpdateResponse>;
-    beginDelete(groupId: string, options?: ManagementGroupsDeleteOptionalParams): Promise<PollerLike<PollOperationState<ManagementGroupsDeleteResponse>, ManagementGroupsDeleteResponse>>;
+    beginCreateOrUpdate(groupId: string, resource: ManagementGroup, options?: ManagementGroupsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ManagementGroupsCreateOrUpdateResponse>, ManagementGroupsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(groupId: string, resource: ManagementGroup, options?: ManagementGroupsCreateOrUpdateOptionalParams): Promise<ManagementGroupsCreateOrUpdateResponse>;
+    beginDelete(groupId: string, options?: ManagementGroupsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ManagementGroupsDeleteResponse>, ManagementGroupsDeleteResponse>>;
     beginDeleteAndWait(groupId: string, options?: ManagementGroupsDeleteOptionalParams): Promise<ManagementGroupsDeleteResponse>;
     get(groupId: string, options?: ManagementGroupsGetOptionalParams): Promise<ManagementGroupsGetResponse>;
-    list(options?: ManagementGroupsListOptionalParams): PagedAsyncIterableIterator<ManagementGroupInfo>;
     listDescendants(groupId: string, options?: ManagementGroupsGetDescendantsOptionalParams): PagedAsyncIterableIterator<DescendantInfo>;
-    update(groupId: string, patchGroupRequest: PatchManagementGroupRequest, options?: ManagementGroupsUpdateOptionalParams): Promise<ManagementGroupsUpdateResponse>;
+    listSettings(groupId: string, options?: ManagementGroupsListSettingsOptionalParams): PagedAsyncIterableIterator<HierarchySettings>;
+    update(groupId: string, properties: PatchManagementGroupRequest, options?: ManagementGroupsUpdateOptionalParams): Promise<ManagementGroupsUpdateResponse>;
 }
 
 // @public (undocumented)
@@ -386,18 +352,18 @@ export class ManagementGroupsAPI extends coreClient.ServiceClient {
     constructor(credentials: coreAuth.TokenCredential, options?: ManagementGroupsAPIOptionalParams);
     // (undocumented)
     apiVersion: string;
-    checkNameAvailability(checkNameAvailabilityRequest: CheckNameAvailabilityRequest, options?: CheckNameAvailabilityOptionalParams): Promise<CheckNameAvailabilityResponse>;
+    checkNameAvailability(body: PathsItdwrvProvidersMicrosoftManagementChecknameavailabilityPostRequestbodyContentApplicationJsonSchema, options?: CheckNameAvailabilityOptionalParams): Promise<CheckNameAvailabilityResponse>;
     // (undocumented)
-    entities: Entities;
+    entitiesOperations: EntitiesOperations;
     // (undocumented)
-    hierarchySettingsOperations: HierarchySettingsOperations;
+    hierarchySettingsOperationGroup: HierarchySettingsOperationGroup;
     // (undocumented)
     managementGroups: ManagementGroups;
     // (undocumented)
-    managementGroupSubscriptions: ManagementGroupSubscriptions;
-    // (undocumented)
     operations: Operations;
     startTenantBackfill(options?: StartTenantBackfillOptionalParams): Promise<StartTenantBackfillResponse>;
+    // (undocumented)
+    subscriptionUnderManagementGroups: SubscriptionUnderManagementGroups;
     tenantBackfillStatus(options?: TenantBackfillStatusOptionalParams): Promise<TenantBackfillStatusResponse>;
 }
 
@@ -411,7 +377,7 @@ export interface ManagementGroupsAPIOptionalParams extends coreClient.ServiceCli
 // @public
 export interface ManagementGroupsCreateOrUpdateHeaders {
     azureAsyncOperation?: string;
-    location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -426,8 +392,8 @@ export type ManagementGroupsCreateOrUpdateResponse = ManagementGroup;
 
 // @public
 export interface ManagementGroupsDeleteHeaders {
-    azureAsyncOperation?: string;
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -438,12 +404,10 @@ export interface ManagementGroupsDeleteOptionalParams extends coreClient.Operati
 }
 
 // @public
-export type ManagementGroupsDeleteResponse = ManagementGroupsDeleteHeaders & AzureAsyncOperationResults;
+export type ManagementGroupsDeleteResponse = ManagementGroupsDeleteHeaders & ManagementGroupOperationAcceptance;
 
 // @public
 export interface ManagementGroupsGetDescendantsNextOptionalParams extends coreClient.OperationOptions {
-    skiptoken?: string;
-    top?: number;
 }
 
 // @public
@@ -461,7 +425,7 @@ export type ManagementGroupsGetDescendantsResponse = DescendantListResult;
 // @public
 export interface ManagementGroupsGetOptionalParams extends coreClient.OperationOptions {
     cacheControl?: string;
-    expand?: Enum0;
+    expand?: ManagementGroupExpandType;
     filter?: string;
     recurse?: boolean;
 }
@@ -470,67 +434,18 @@ export interface ManagementGroupsGetOptionalParams extends coreClient.OperationO
 export type ManagementGroupsGetResponse = ManagementGroup;
 
 // @public
-export interface ManagementGroupsListNextOptionalParams extends coreClient.OperationOptions {
-    cacheControl?: string;
-    skiptoken?: string;
+export interface ManagementGroupsListSettingsNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type ManagementGroupsListNextResponse = ManagementGroupListResult;
+export type ManagementGroupsListSettingsNextResponse = HierarchySettingsListResult;
 
 // @public
-export interface ManagementGroupsListOptionalParams extends coreClient.OperationOptions {
-    cacheControl?: string;
-    skiptoken?: string;
+export interface ManagementGroupsListSettingsOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type ManagementGroupsListResponse = ManagementGroupListResult;
-
-// @public
-export interface ManagementGroupSubscriptions {
-    create(groupId: string, subscriptionId: string, options?: ManagementGroupSubscriptionsCreateOptionalParams): Promise<ManagementGroupSubscriptionsCreateResponse>;
-    delete(groupId: string, subscriptionId: string, options?: ManagementGroupSubscriptionsDeleteOptionalParams): Promise<void>;
-    getSubscription(groupId: string, subscriptionId: string, options?: ManagementGroupSubscriptionsGetSubscriptionOptionalParams): Promise<ManagementGroupSubscriptionsGetSubscriptionResponse>;
-    listSubscriptionsUnderManagementGroup(groupId: string, options?: ManagementGroupSubscriptionsGetSubscriptionsUnderManagementGroupOptionalParams): PagedAsyncIterableIterator<SubscriptionUnderManagementGroup>;
-}
-
-// @public
-export interface ManagementGroupSubscriptionsCreateOptionalParams extends coreClient.OperationOptions {
-    cacheControl?: string;
-}
-
-// @public
-export type ManagementGroupSubscriptionsCreateResponse = SubscriptionUnderManagementGroup;
-
-// @public
-export interface ManagementGroupSubscriptionsDeleteOptionalParams extends coreClient.OperationOptions {
-    cacheControl?: string;
-}
-
-// @public
-export interface ManagementGroupSubscriptionsGetSubscriptionOptionalParams extends coreClient.OperationOptions {
-    cacheControl?: string;
-}
-
-// @public
-export type ManagementGroupSubscriptionsGetSubscriptionResponse = SubscriptionUnderManagementGroup;
-
-// @public
-export interface ManagementGroupSubscriptionsGetSubscriptionsUnderManagementGroupNextOptionalParams extends coreClient.OperationOptions {
-    skiptoken?: string;
-}
-
-// @public
-export type ManagementGroupSubscriptionsGetSubscriptionsUnderManagementGroupNextResponse = ListSubscriptionUnderManagementGroup;
-
-// @public
-export interface ManagementGroupSubscriptionsGetSubscriptionsUnderManagementGroupOptionalParams extends coreClient.OperationOptions {
-    skiptoken?: string;
-}
-
-// @public
-export type ManagementGroupSubscriptionsGetSubscriptionsUnderManagementGroupResponse = ListSubscriptionUnderManagementGroup;
+export type ManagementGroupsListSettingsResponse = HierarchySettingsListResult;
 
 // @public
 export interface ManagementGroupsUpdateOptionalParams extends coreClient.OperationOptions {
@@ -542,12 +457,15 @@ export type ManagementGroupsUpdateResponse = ManagementGroup;
 
 // @public
 export interface Operation {
-    display?: OperationDisplayProperties;
+    readonly actionType?: ActionType;
+    display?: OperationDisplay;
+    readonly isDataAction?: boolean;
     readonly name?: string;
+    readonly origin?: Origin;
 }
 
 // @public
-export interface OperationDisplayProperties {
+export interface OperationDisplay {
     readonly description?: string;
     readonly operation?: string;
     readonly provider?: string;
@@ -558,15 +476,6 @@ export interface OperationDisplayProperties {
 export interface OperationListResult {
     readonly nextLink?: string;
     readonly value?: Operation[];
-}
-
-// @public
-export interface OperationResults {
-    displayName?: string;
-    readonly id?: string;
-    readonly name?: string;
-    tenantId?: string;
-    readonly type?: string;
 }
 
 // @public
@@ -589,6 +498,9 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 export type OperationsListResponse = OperationListResult;
 
 // @public
+export type Origin = string;
+
+// @public
 export interface ParentGroupInfo {
     displayName?: string;
     id?: string;
@@ -601,12 +513,29 @@ export interface PatchManagementGroupRequest {
     parentGroupId?: string;
 }
 
+// @public (undocumented)
+export interface PathsItdwrvProvidersMicrosoftManagementChecknameavailabilityPostRequestbodyContentApplicationJsonSchema {
+    checkNameAvailabilityRequest: CheckNameAvailabilityRequest;
+}
+
 // @public
-type Permissions_2 = string;
+type Permissions_2 = "noaccess" | "view" | "edit" | "delete";
 export { Permissions_2 as Permissions }
 
 // @public
+export interface ProxyResource extends Resource {
+}
+
+// @public
 export type Reason = "Invalid" | "AlreadyExists";
+
+// @public
+export interface Resource {
+    readonly id?: string;
+    readonly name?: string;
+    readonly systemData?: SystemData;
+    readonly type?: string;
+}
 
 // @public
 export interface StartTenantBackfillOptionalParams extends coreClient.OperationOptions {
@@ -619,14 +548,77 @@ export type StartTenantBackfillResponse = TenantBackfillStatusResult;
 export type Status = "NotStarted" | "NotStartedButGroupsExist" | "Started" | "Failed" | "Cancelled" | "Completed";
 
 // @public
-export interface SubscriptionUnderManagementGroup {
+export interface SubscriptionUnderManagementGroup extends ProxyResource {
+    properties?: SubscriptionUnderManagementGroupProperties;
+}
+
+// @public
+export interface SubscriptionUnderManagementGroupListResult {
+    nextLink?: string;
+    value: SubscriptionUnderManagementGroup[];
+}
+
+// @public
+export interface SubscriptionUnderManagementGroupProperties {
     displayName?: string;
-    readonly id?: string;
-    readonly name?: string;
     parent?: DescendantParentGroupInfo;
     state?: string;
     tenant?: string;
-    readonly type?: string;
+}
+
+// @public
+export interface SubscriptionUnderManagementGroups {
+    create(groupId: string, subscriptionId: string, options?: SubscriptionUnderManagementGroupsCreateOptionalParams): Promise<SubscriptionUnderManagementGroupsCreateResponse>;
+    delete(groupId: string, subscriptionId: string, options?: SubscriptionUnderManagementGroupsDeleteOptionalParams): Promise<void>;
+    getSubscription(groupId: string, subscriptionId: string, options?: SubscriptionUnderManagementGroupsGetSubscriptionOptionalParams): Promise<SubscriptionUnderManagementGroupsGetSubscriptionResponse>;
+    listSubscriptionsUnderManagementGroup(groupId: string, options?: SubscriptionUnderManagementGroupsGetSubscriptionsUnderManagementGroupOptionalParams): PagedAsyncIterableIterator<SubscriptionUnderManagementGroup>;
+}
+
+// @public
+export interface SubscriptionUnderManagementGroupsCreateOptionalParams extends coreClient.OperationOptions {
+    cacheControl?: string;
+    resource?: SubscriptionUnderManagementGroup;
+}
+
+// @public
+export type SubscriptionUnderManagementGroupsCreateResponse = SubscriptionUnderManagementGroup;
+
+// @public
+export interface SubscriptionUnderManagementGroupsDeleteOptionalParams extends coreClient.OperationOptions {
+    cacheControl?: string;
+}
+
+// @public
+export interface SubscriptionUnderManagementGroupsGetSubscriptionOptionalParams extends coreClient.OperationOptions {
+    cacheControl?: string;
+}
+
+// @public
+export type SubscriptionUnderManagementGroupsGetSubscriptionResponse = SubscriptionUnderManagementGroup;
+
+// @public
+export interface SubscriptionUnderManagementGroupsGetSubscriptionsUnderManagementGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SubscriptionUnderManagementGroupsGetSubscriptionsUnderManagementGroupNextResponse = SubscriptionUnderManagementGroupListResult;
+
+// @public
+export interface SubscriptionUnderManagementGroupsGetSubscriptionsUnderManagementGroupOptionalParams extends coreClient.OperationOptions {
+    skiptoken?: string;
+}
+
+// @public
+export type SubscriptionUnderManagementGroupsGetSubscriptionsUnderManagementGroupResponse = SubscriptionUnderManagementGroupListResult;
+
+// @public
+export interface SystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
 }
 
 // @public

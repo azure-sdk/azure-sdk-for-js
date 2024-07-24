@@ -2,10 +2,9 @@
 
 This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure ManagementGroupsApi client.
 
-The Azure Management Groups API enables consolidation of multiple 
-subscriptions/resources into an organizational hierarchy and centrally 
+The Azure Management Groups API enables consolidation of multiple
+subscriptions/resources into an organizational hierarchy and centrally
 manage access control, policies, alerting and reporting for those resources.
-
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/managementgroups/arm-managementgroups) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-managementgroups) |

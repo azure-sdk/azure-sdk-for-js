@@ -11,34 +11,34 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
+  EntitiesOperationsImpl,
   ManagementGroupsImpl,
-  ManagementGroupSubscriptionsImpl,
-  HierarchySettingsOperationsImpl,
+  HierarchySettingsOperationGroupImpl,
+  SubscriptionUnderManagementGroupsImpl,
   OperationsImpl,
-  EntitiesImpl
 } from "./operations";
 import {
+  EntitiesOperations,
   ManagementGroups,
-  ManagementGroupSubscriptions,
-  HierarchySettingsOperations,
+  HierarchySettingsOperationGroup,
+  SubscriptionUnderManagementGroups,
   Operations,
-  Entities
 } from "./operationsInterfaces";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
 import {
   ManagementGroupsAPIOptionalParams,
-  CheckNameAvailabilityRequest,
+  PathsItdwrvProvidersMicrosoftManagementChecknameavailabilityPostRequestbodyContentApplicationJsonSchema,
   CheckNameAvailabilityOptionalParams,
   CheckNameAvailabilityResponse,
   StartTenantBackfillOptionalParams,
   StartTenantBackfillResponse,
   TenantBackfillStatusOptionalParams,
-  TenantBackfillStatusResponse
+  TenantBackfillStatusResponse,
 } from "./models";
 
 export class ManagementGroupsAPI extends coreClient.ServiceClient {
@@ -52,7 +52,7 @@ export class ManagementGroupsAPI extends coreClient.ServiceClient {
    */
   constructor(
     credentials: coreAuth.TokenCredential,
-    options?: ManagementGroupsAPIOptionalParams
+    options?: ManagementGroupsAPIOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -64,10 +64,10 @@ export class ManagementGroupsAPI extends coreClient.ServiceClient {
     }
     const defaults: ManagementGroupsAPIOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-managementgroups/2.0.3`;
+    const packageDetails = `azsdk-js-arm-managementgroups/3.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -77,20 +77,21 @@ export class ManagementGroupsAPI extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -100,7 +101,7 @@ export class ManagementGroupsAPI extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -110,24 +111,22 @@ export class ManagementGroupsAPI extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-04-01";
+    this.apiVersion = options.apiVersion || "2023-04-01";
+    this.entitiesOperations = new EntitiesOperationsImpl(this);
     this.managementGroups = new ManagementGroupsImpl(this);
-    this.managementGroupSubscriptions = new ManagementGroupSubscriptionsImpl(
-      this
-    );
-    this.hierarchySettingsOperations = new HierarchySettingsOperationsImpl(
-      this
-    );
+    this.hierarchySettingsOperationGroup =
+      new HierarchySettingsOperationGroupImpl(this);
+    this.subscriptionUnderManagementGroups =
+      new SubscriptionUnderManagementGroupsImpl(this);
     this.operations = new OperationsImpl(this);
-    this.entities = new EntitiesImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -140,7 +139,7 @@ export class ManagementGroupsAPI extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -154,23 +153,23 @@ export class ManagementGroupsAPI extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
   /**
    * Checks if the specified management group name is valid and unique
-   * @param checkNameAvailabilityRequest Management group name availability check parameters.
+   * @param body
    * @param options The options parameters.
    */
   checkNameAvailability(
-    checkNameAvailabilityRequest: CheckNameAvailabilityRequest,
-    options?: CheckNameAvailabilityOptionalParams
+    body: PathsItdwrvProvidersMicrosoftManagementChecknameavailabilityPostRequestbodyContentApplicationJsonSchema,
+    options?: CheckNameAvailabilityOptionalParams,
   ): Promise<CheckNameAvailabilityResponse> {
     return this.sendOperationRequest(
-      { checkNameAvailabilityRequest, options },
-      checkNameAvailabilityOperationSpec
+      { body, options },
+      checkNameAvailabilityOperationSpec,
     );
   }
 
@@ -179,11 +178,11 @@ export class ManagementGroupsAPI extends coreClient.ServiceClient {
    * @param options The options parameters.
    */
   startTenantBackfill(
-    options?: StartTenantBackfillOptionalParams
+    options?: StartTenantBackfillOptionalParams,
   ): Promise<StartTenantBackfillResponse> {
     return this.sendOperationRequest(
       { options },
-      startTenantBackfillOperationSpec
+      startTenantBackfillOperationSpec,
     );
   }
 
@@ -192,19 +191,19 @@ export class ManagementGroupsAPI extends coreClient.ServiceClient {
    * @param options The options parameters.
    */
   tenantBackfillStatus(
-    options?: TenantBackfillStatusOptionalParams
+    options?: TenantBackfillStatusOptionalParams,
   ): Promise<TenantBackfillStatusResponse> {
     return this.sendOperationRequest(
       { options },
-      tenantBackfillStatusOperationSpec
+      tenantBackfillStatusOperationSpec,
     );
   }
 
+  entitiesOperations: EntitiesOperations;
   managementGroups: ManagementGroups;
-  managementGroupSubscriptions: ManagementGroupSubscriptions;
-  hierarchySettingsOperations: HierarchySettingsOperations;
+  hierarchySettingsOperationGroup: HierarchySettingsOperationGroup;
+  subscriptionUnderManagementGroups: SubscriptionUnderManagementGroups;
   operations: Operations;
-  entities: Entities;
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -214,48 +213,48 @@ const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CheckNameAvailabilityResult
+      bodyMapper: Mappers.CheckNameAvailabilityResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.checkNameAvailabilityRequest,
+  requestBody: Parameters.body,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const startTenantBackfillOperationSpec: coreClient.OperationSpec = {
   path: "/providers/Microsoft.Management/startTenantBackfill",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.TenantBackfillStatusResult
+      bodyMapper: Mappers.TenantBackfillStatusResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const tenantBackfillStatusOperationSpec: coreClient.OperationSpec = {
   path: "/providers/Microsoft.Management/tenantBackfillStatus",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.TenantBackfillStatusResult
+      bodyMapper: Mappers.TenantBackfillStatusResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

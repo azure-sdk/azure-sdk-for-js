@@ -8,21 +8,104 @@
 
 import * as coreClient from "@azure/core-client";
 
-/** Describes the result of the request to list management groups. */
-export interface ManagementGroupListResult {
-  /** The list of management groups. */
-  value?: ManagementGroupInfo[];
-  /**
-   * The URL to use for getting the next set of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
+export interface PathsItdwrvProvidersMicrosoftManagementChecknameavailabilityPostRequestbodyContentApplicationJsonSchema {
+  /** Management group name availability check parameters. */
+  checkNameAvailabilityRequest: CheckNameAvailabilityRequest;
 }
 
-/** The management group resource. */
-export interface ManagementGroupInfo {
+/** Management group name availability check parameters. */
+export interface CheckNameAvailabilityRequest {
+  /** the name to check for availability */
+  name?: string;
+  /** fully qualified resource type which includes provider namespace */
+  type?: "Microsoft.Management/managementGroups";
+}
+
+/** Describes the result of the request to check management group name availability. */
+export interface CheckNameAvailabilityResult {
   /**
-   * The fully qualified ID for the management group.  For example, /providers/Microsoft.Management/managementGroups/0000000-0000-0000-0000-000000000000
+   * Required. True indicates name is valid and available. False indicates the name is invalid, unavailable, or both.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nameAvailable?: boolean;
+  /**
+   * Required if nameAvailable == false. Invalid indicates the name provided does not match the resource provider's naming requirements (incorrect length, unsupported characters, etc.) AlreadyExists indicates that the name is already in use and is therefore unavailable.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly reason?: Reason;
+  /**
+   * Required if nameAvailable == false. Localized. If reason == invalid, provide the user with the reason why the given name is invalid, and provide the resource naming requirements so that the user can select a valid name. If reason == AlreadyExists, explain that is already in use, and direct them to select a different name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
+}
+
+/** Describes the result of the request to view entities. */
+export interface EntityListResult {
+  /** The EntityInfo items on this page */
+  value: EntityInfo[];
+  /** The link to the next page of items */
+  nextLink?: string;
+  /**
+   * Total count of records that match the filter
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly count?: number;
+}
+
+/** The entity. */
+export interface EntityInfo {
+  /**
+   * The fully qualified ID for the entity.  For example, /providers/Microsoft.Management/managementGroups/0000000-0000-0000-0000-000000000000
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
@@ -32,49 +115,46 @@ export interface ManagementGroupInfo {
    */
   readonly type?: string;
   /**
-   * The name of the management group. For example, 00000000-0000-0000-0000-000000000000
+   * The name of the entity. For example, 00000000-0000-0000-0000-000000000000
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
-  /** The AAD Tenant ID associated with the management group. For example, 00000000-0000-0000-0000-000000000000 */
+  /** The generic properties of an entity. */
+  properties?: EntityInfoProperties;
+}
+
+/** The generic properties of an entity. */
+export interface EntityInfoProperties {
+  /** The AAD Tenant ID associated with the entity. For example, 00000000-0000-0000-0000-000000000000 */
   tenantId?: string;
   /** The friendly name of the management group. */
   displayName?: string;
+  /** (Optional) The ID of the parent management group. */
+  parent?: EntityParentGroupInfo;
+  /** The users specific permissions to this item. */
+  permissions?: Permissions;
+  /** The users specific permissions to this item. */
+  inheritedPermissions?: Permissions;
+  /** Number of Descendants */
+  numberOfDescendants?: number;
+  /** Number of children is the number of Groups and Subscriptions that are exactly one level underneath the current Group. */
+  numberOfChildren?: number;
+  /** Number of children is the number of Groups that are exactly one level underneath the current Group. */
+  numberOfChildGroups?: number;
+  /** The parent display name chain from the root group to the immediate parent */
+  parentDisplayNameChain?: string[];
+  /** The parent name chain from the root group to the immediate parent */
+  parentNameChain?: string[];
 }
 
-/** The error object. */
-export interface ErrorResponse {
-  /** The details of the error. */
-  error?: ErrorDetails;
+/** (Optional) The ID of the parent management group. */
+export interface EntityParentGroupInfo {
+  /** The fully qualified ID for the parent management group.  For example, /providers/Microsoft.Management/managementGroups/0000000-0000-0000-0000-000000000000 */
+  id?: string;
 }
 
-/** The details of the error. */
-export interface ErrorDetails {
-  /** One of a server-defined set of error codes. */
-  code?: string;
-  /** A human-readable representation of the error. */
-  message?: string;
-  /** A human-readable representation of the error's details. */
-  details?: string;
-}
-
-/** The management group details. */
-export interface ManagementGroup {
-  /**
-   * The fully qualified ID for the management group.  For example, /providers/Microsoft.Management/managementGroups/0000000-0000-0000-0000-000000000000
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The type of the resource.  For example, Microsoft.Management/managementGroups
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * The name of the management group. For example, 00000000-0000-0000-0000-000000000000
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
+/** The generic properties of a management group. */
+export interface ManagementGroupProperties {
   /** The AAD Tenant ID associated with the management group. For example, 00000000-0000-0000-0000-000000000000 */
   tenantId?: string;
   /** The friendly name of the management group. */
@@ -135,106 +215,50 @@ export interface ManagementGroupChildInfo {
   children?: ManagementGroupChildInfo[];
 }
 
-/** Management group creation parameters. */
-export interface CreateManagementGroupRequest {
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
   /**
-   * The fully qualified ID for the management group.  For example, /providers/Microsoft.Management/managementGroups/0000000-0000-0000-0000-000000000000
+   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
   /**
-   * The type of the resource.  For example, Microsoft.Management/managementGroups
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
-  /** The name of the management group. For example, 00000000-0000-0000-0000-000000000000 */
-  name?: string;
   /**
-   * The AAD Tenant ID associated with the management group. For example, 00000000-0000-0000-0000-000000000000
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly tenantId?: string;
-  /** The friendly name of the management group. If no value is passed then this  field will be set to the groupId. */
-  displayName?: string;
-  /** The details of a management group used during creation. */
-  details?: CreateManagementGroupDetails;
-  /**
-   * The list of children.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly children?: CreateManagementGroupChildInfo[];
+  readonly systemData?: SystemData;
 }
 
-/** The details of a management group used during creation. */
-export interface CreateManagementGroupDetails {
-  /**
-   * The version number of the object.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly version?: number;
-  /**
-   * The date and time when this object was last updated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly updatedTime?: Date;
-  /**
-   * The identity of the principal or process that updated the object.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly updatedBy?: string;
-  /** (Optional) The ID of the parent management group used during creation. */
-  parent?: CreateParentGroupInfo;
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
 }
 
-/** (Optional) The ID of the parent management group used during creation. */
-export interface CreateParentGroupInfo {
-  /** The fully qualified ID for the parent management group.  For example, /providers/Microsoft.Management/managementGroups/0000000-0000-0000-0000-000000000000 */
-  id?: string;
+/** The management group operation acceptance details. */
+export interface ManagementGroupOperationAcceptance {
   /**
-   * The name of the parent management group
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The friendly name of the parent management group.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly displayName?: string;
-}
-
-/** The child information of a management group used during creation. */
-export interface CreateManagementGroupChildInfo {
-  /**
-   * The fully qualified resource type which includes provider namespace (e.g. Microsoft.Management/managementGroups)
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: ManagementGroupChildType;
-  /**
-   * The fully qualified ID for the child resource (management group or subscription).  For example, /providers/Microsoft.Management/managementGroups/0000000-0000-0000-0000-000000000000
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The name of the child entity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The friendly name of the child resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly displayName?: string;
-  /**
-   * The list of children.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly children?: CreateManagementGroupChildInfo[];
-}
-
-/** The results of Azure-AsyncOperation. */
-export interface AzureAsyncOperationResults {
-  /**
-   * The fully qualified ID for the management group.  For example, /providers/Microsoft.Management/managementGroups/0000000-0000-0000-0000-000000000000
+   * The id of the resource.  For example, /providers/Microsoft.Management/managementGroups/Group1
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
@@ -244,19 +268,15 @@ export interface AzureAsyncOperationResults {
    */
   readonly type?: string;
   /**
-   * The name of the management group. For example, 00000000-0000-0000-0000-000000000000
+   * The name of the resource.  For example, Group1
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
   /**
-   * The current status of the asynchronous operation performed . For example, Running, Succeeded, Failed
+   * The operation status. For example, NotStarted
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly status?: string;
-  /** The AAD Tenant ID associated with the management group. For example, 00000000-0000-0000-0000-000000000000 */
-  tenantId?: string;
-  /** The friendly name of the management group. */
-  displayName?: string;
 }
 
 /** Management group patch parameters. */
@@ -269,13 +289,10 @@ export interface PatchManagementGroupRequest {
 
 /** Describes the result of the request to view descendants. */
 export interface DescendantListResult {
-  /** The list of descendants. */
-  value?: DescendantInfo[];
-  /**
-   * The URL to use for getting the next set of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
+  /** The DescendantInfo items on this page */
+  value: DescendantInfo[];
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
 /** The descendant. */
@@ -295,6 +312,12 @@ export interface DescendantInfo {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
+  /** The generic properties of an descendant. */
+  properties?: DescendantInfoProperties;
+}
+
+/** The generic properties of an descendant. */
+export interface DescendantInfoProperties {
   /** The friendly name of the management group. */
   displayName?: string;
   /** The ID of the parent management group. */
@@ -307,97 +330,16 @@ export interface DescendantParentGroupInfo {
   id?: string;
 }
 
-/** The details of subscription under management group. */
-export interface SubscriptionUnderManagementGroup {
-  /**
-   * The fully qualified ID for the subscription.  For example, /providers/Microsoft.Management/managementGroups/0000000-0000-0000-0000-000000000000/subscriptions/0000000-0000-0000-0000-000000000001
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The type of the resource.  For example, Microsoft.Management/managementGroups/subscriptions
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * The stringified id of the subscription. For example, 00000000-0000-0000-0000-000000000000
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /** The AAD Tenant ID associated with the subscription. For example, 00000000-0000-0000-0000-000000000000 */
-  tenant?: string;
-  /** The friendly name of the subscription. */
-  displayName?: string;
-  /** The ID of the parent management group. */
-  parent?: DescendantParentGroupInfo;
-  /** The state of the subscription. */
-  state?: string;
+/** The response of a HierarchySettings list operation. */
+export interface HierarchySettingsListResult {
+  /** The HierarchySettings items on this page */
+  value: HierarchySettings[];
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
-/** The details of all subscriptions under management group. */
-export interface ListSubscriptionUnderManagementGroup {
-  /** The list of subscriptions. */
-  value?: SubscriptionUnderManagementGroup[];
-  /**
-   * The URL to use for getting the next set of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** Lists all hierarchy settings. */
-export interface HierarchySettingsList {
-  /** The list of hierarchy settings. */
-  value?: HierarchySettingsInfo[];
-  /**
-   * The URL to use for getting the next set of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** The hierarchy settings resource. */
-export interface HierarchySettingsInfo {
-  /**
-   * The fully qualified ID for the settings object.  For example, /providers/Microsoft.Management/managementGroups/0000000-0000-0000-0000-000000000000/settings/default.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The type of the resource.  For example, Microsoft.Management/managementGroups/settings.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * The name of the object. In this case, default.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /** The AAD Tenant ID associated with the hierarchy settings. For example, 00000000-0000-0000-0000-000000000000 */
-  tenantId?: string;
-  /** Indicates whether RBAC access is required upon group creation under the root Management Group. If set to true, user will require Microsoft.Management/managementGroups/write action on the root Management Group scope in order to create new Groups directly under the root. This will prevent new users from creating new Management Groups, unless they are given access. */
-  requireAuthorizationForGroupCreation?: boolean;
-  /** Settings that sets the default Management Group under which new subscriptions get added in this tenant. For example, /providers/Microsoft.Management/managementGroups/defaultGroup */
-  defaultManagementGroup?: string;
-}
-
-/** Settings defined at the Management Group scope. */
-export interface HierarchySettings {
-  /**
-   * The fully qualified ID for the settings object.  For example, /providers/Microsoft.Management/managementGroups/0000000-0000-0000-0000-000000000000/settings/default.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The type of the resource.  For example, Microsoft.Management/managementGroups/settings.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * The name of the object. In this case, default.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
+/** The generic properties of hierarchy settings. */
+export interface HierarchySettingsProperties {
   /** The AAD Tenant ID associated with the hierarchy settings. For example, 00000000-0000-0000-0000-000000000000 */
   tenantId?: string;
   /** Indicates whether RBAC access is required upon group creation under the root Management Group. If set to true, user will require Microsoft.Management/managementGroups/write action on the root Management Group scope in order to create new Groups directly under the root. This will prevent new users from creating new Management Groups, unless they are given access. */
@@ -408,147 +350,100 @@ export interface HierarchySettings {
 
 /** Parameters for creating or updating Management Group settings */
 export interface CreateOrUpdateSettingsRequest {
+  /** The properties of the request to create or update Management Group settings */
+  properties?: CreateOrUpdateSettingsProperties;
+}
+
+/** The properties of the request to create or update Management Group settings */
+export interface CreateOrUpdateSettingsProperties {
   /** Indicates whether RBAC access is required upon group creation under the root Management Group. If set to true, user will require Microsoft.Management/managementGroups/write action on the root Management Group scope in order to create new Groups directly under the root. This will prevent new users from creating new Management Groups, unless they are given access. */
   requireAuthorizationForGroupCreation?: boolean;
   /** Settings that sets the default Management Group under which new subscriptions get added in this tenant. For example, /providers/Microsoft.Management/managementGroups/defaultGroup */
   defaultManagementGroup?: string;
 }
 
-/** Describes the result of the request to list Microsoft.Management operations. */
+/** The response of a SubscriptionUnderManagementGroup list operation. */
+export interface SubscriptionUnderManagementGroupListResult {
+  /** The SubscriptionUnderManagementGroup items on this page */
+  value: SubscriptionUnderManagementGroup[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** The generic properties of subscription under a management group. */
+export interface SubscriptionUnderManagementGroupProperties {
+  /** The AAD Tenant ID associated with the subscription. For example, 00000000-0000-0000-0000-000000000000 */
+  tenant?: string;
+  /** The friendly name of the subscription. */
+  displayName?: string;
+  /** The ID of the parent management group. */
+  parent?: DescendantParentGroupInfo;
+  /** The state of the subscription. */
+  state?: string;
+}
+
+/** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface OperationListResult {
   /**
-   * List of operations supported by the Microsoft.Management resource provider.
+   * List of operations supported by the resource provider
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly value?: Operation[];
   /**
-   * URL to get the next set of operation list results if there are any.
+   * URL to get the next set of operation list results (if there are any).
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
 }
 
-/** Operation supported by the Microsoft.Management resource provider. */
+/** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /**
-   * Operation name: {provider}/{resource}/{operation}.
+   * The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action"
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
-  /** The object that represents the operation. */
-  display?: OperationDisplayProperties;
+  /**
+   * Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isDataAction?: boolean;
+  /** Localized display information for this particular operation. */
+  display?: OperationDisplay;
+  /**
+   * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly origin?: Origin;
+  /**
+   * Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly actionType?: ActionType;
 }
 
-/** The object that represents the operation. */
-export interface OperationDisplayProperties {
+/** Localized display information for this particular operation. */
+export interface OperationDisplay {
   /**
-   * The name of the provider.
+   * The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute".
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provider?: string;
   /**
-   * The resource on which the operation is performed.
+   * The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections".
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resource?: string;
   /**
-   * The operation that can be performed.
+   * The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine".
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly operation?: string;
   /**
-   * Operation description.
+   * The short, localized friendly description of the operation; suitable for tool tips and detailed views.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly description?: string;
-}
-
-/** Management group name availability check parameters. */
-export interface CheckNameAvailabilityRequest {
-  /** the name to check for availability */
-  name?: string;
-  /** fully qualified resource type which includes provider namespace */
-  type?: "Microsoft.Management/managementGroups";
-}
-
-/** Describes the result of the request to check management group name availability. */
-export interface CheckNameAvailabilityResult {
-  /**
-   * Required. True indicates name is valid and available. False indicates the name is invalid, unavailable, or both.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nameAvailable?: boolean;
-  /**
-   * Required if nameAvailable == false. Invalid indicates the name provided does not match the resource provider's naming requirements (incorrect length, unsupported characters, etc.) AlreadyExists indicates that the name is already in use and is therefore unavailable.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly reason?: Reason;
-  /**
-   * Required if nameAvailable == false. Localized. If reason == invalid, provide the user with the reason why the given name is invalid, and provide the resource naming requirements so that the user can select a valid name. If reason == AlreadyExists, explain that is already in use, and direct them to select a different name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-}
-
-/** Describes the result of the request to view entities. */
-export interface EntityListResult {
-  /** The list of entities. */
-  value?: EntityInfo[];
-  /**
-   * Total count of records that match the filter
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly count?: number;
-  /**
-   * The URL to use for getting the next set of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** The entity. */
-export interface EntityInfo {
-  /**
-   * The fully qualified ID for the entity.  For example, /providers/Microsoft.Management/managementGroups/0000000-0000-0000-0000-000000000000
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The type of the resource. For example, Microsoft.Management/managementGroups
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * The name of the entity. For example, 00000000-0000-0000-0000-000000000000
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /** The AAD Tenant ID associated with the entity. For example, 00000000-0000-0000-0000-000000000000 */
-  tenantId?: string;
-  /** The friendly name of the management group. */
-  displayName?: string;
-  /** (Optional) The ID of the parent management group. */
-  parent?: EntityParentGroupInfo;
-  /** The users specific permissions to this item. */
-  permissions?: Permissions;
-  /** The users specific permissions to this item. */
-  inheritedPermissions?: Permissions;
-  /** Number of Descendants */
-  numberOfDescendants?: number;
-  /** Number of children is the number of Groups and Subscriptions that are exactly one level underneath the current Group. */
-  numberOfChildren?: number;
-  /** Number of children is the number of Groups that are exactly one level underneath the current Group. */
-  numberOfChildGroups?: number;
-  /** The parent display name chain from the root group to the immediate parent */
-  parentDisplayNameChain?: string[];
-  /** The parent name chain from the root group to the immediate parent */
-  parentNameChain?: string[];
-}
-
-/** (Optional) The ID of the parent management group. */
-export interface EntityParentGroupInfo {
-  /** The fully qualified ID for the parent management group.  For example, /providers/Microsoft.Management/managementGroups/0000000-0000-0000-0000-000000000000 */
-  id?: string;
 }
 
 /** The tenant backfill status */
@@ -565,131 +460,53 @@ export interface TenantBackfillStatusResult {
   readonly status?: Status;
 }
 
-/** The results of an asynchronous operation. */
-export interface OperationResults {
-  /**
-   * The fully qualified ID for the management group.  For example, /providers/Microsoft.Management/managementGroups/0000000-0000-0000-0000-000000000000
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The type of the resource.  For example, Microsoft.Management/managementGroups
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * The name of the management group. For example, 00000000-0000-0000-0000-000000000000
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /** The AAD Tenant ID associated with the management group. For example, 00000000-0000-0000-0000-000000000000 */
-  tenantId?: string;
-  /** The friendly name of the management group. */
-  displayName?: string;
+/** The response of a ManagementGroup list operation. */
+export interface ManagementGroupListResult {
+  /** The ManagementGroup items on this page */
+  value: ManagementGroup[];
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
-/** The management group details for the hierarchy view. */
-export interface EntityHierarchyItem {
-  /**
-   * The fully qualified ID for the management group.  For example, /providers/Microsoft.Management/managementGroups/0000000-0000-0000-0000-000000000000
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The type of the resource.  For example, Microsoft.Management/managementGroups
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * The name of the management group. For example, 00000000-0000-0000-0000-000000000000
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /** The friendly name of the management group. */
-  displayName?: string;
-  /** The users specific permissions to this item. */
-  permissions?: Permissions;
-  /** The list of children. */
-  children?: EntityHierarchyItem[];
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
+
+/** The management group details. */
+export interface ManagementGroup extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: ManagementGroupProperties;
+}
+
+/** Settings defined at the Management Group scope. */
+export interface HierarchySettings extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: HierarchySettingsProperties;
+}
+
+/** The details of subscription under management group. */
+export interface SubscriptionUnderManagementGroup extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: SubscriptionUnderManagementGroupProperties;
 }
 
 /** Defines headers for ManagementGroups_createOrUpdate operation. */
 export interface ManagementGroupsCreateOrUpdateHeaders {
-  /**
-   * URL for determining when an operation has completed. Send a GET request to the URL in Location header.
-   * The URI should return a 202 until the operation reaches a terminal state and 200 once it reaches a terminal state.
-   *
-   * For more info: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#202-accepted-and-location-headers
-   */
-  location?: string;
-  /**
-   * URL for checking the ongoing status of the operation.
-   * To get the status of the asynchronous operation, send a GET request to the URL in Azure-AsyncOperation header value.
-   *
-   * For more info: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#asynchronous-operations
-   */
+  /** A link to the status monitor */
   azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for ManagementGroups_delete operation. */
 export interface ManagementGroupsDeleteHeaders {
-  /**
-   * URL for determining when an operation has completed. Send a GET request to the URL in Location header.
-   * The URI should return a 202 until the operation reaches a terminal state and 200 once it reaches a terminal state.
-   *
-   * For more info: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#202-accepted-and-location-headers
-   */
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
-  /**
-   * URL for checking the ongoing status of the operation.
-   * To get the status of the asynchronous operation, send a GET request to the URL in Azure-AsyncOperation header value.
-   *
-   * For more info: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#asynchronous-operations
-   */
-  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
-/** Known values of {@link Enum0} that the service accepts. */
-export enum KnownEnum0 {
-  /** Children */
-  Children = "children",
-  /** Path */
-  Path = "path",
-  /** Ancestors */
-  Ancestors = "ancestors"
-}
-
-/**
- * Defines values for Enum0. \
- * {@link KnownEnum0} can be used interchangeably with Enum0,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **children** \
- * **path** \
- * **ancestors**
- */
-export type Enum0 = string;
-
-/** Known values of {@link ManagementGroupChildType} that the service accepts. */
-export enum KnownManagementGroupChildType {
-  /** MicrosoftManagementManagementGroups */
-  MicrosoftManagementManagementGroups = "Microsoft.Management/managementGroups",
-  /** Subscriptions */
-  Subscriptions = "/subscriptions"
-}
-
-/**
- * Defines values for ManagementGroupChildType. \
- * {@link KnownManagementGroupChildType} can be used interchangeably with ManagementGroupChildType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Microsoft.Management\/managementGroups** \
- * **\/subscriptions**
- */
-export type ManagementGroupChildType = string;
-
-/** Known values of {@link Enum2} that the service accepts. */
-export enum KnownEnum2 {
+/** Known values of {@link EntitySearchType} that the service accepts. */
+export enum KnownEntitySearchType {
   /** AllowedParents */
   AllowedParents = "AllowedParents",
   /** AllowedChildren */
@@ -699,12 +516,12 @@ export enum KnownEnum2 {
   /** ParentOnly */
   ParentOnly = "ParentOnly",
   /** ChildrenOnly */
-  ChildrenOnly = "ChildrenOnly"
+  ChildrenOnly = "ChildrenOnly",
 }
 
 /**
- * Defines values for Enum2. \
- * {@link KnownEnum2} can be used interchangeably with Enum2,
+ * Defines values for EntitySearchType. \
+ * {@link KnownEntitySearchType} can be used interchangeably with EntitySearchType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **AllowedParents** \
@@ -713,10 +530,10 @@ export enum KnownEnum2 {
  * **ParentOnly** \
  * **ChildrenOnly**
  */
-export type Enum2 = string;
+export type EntitySearchType = string;
 
-/** Known values of {@link Enum3} that the service accepts. */
-export enum KnownEnum3 {
+/** Known values of {@link EntityViewParameterType} that the service accepts. */
+export enum KnownEntityViewParameterType {
   /** FullHierarchy */
   FullHierarchy = "FullHierarchy",
   /** GroupsOnly */
@@ -724,12 +541,12 @@ export enum KnownEnum3 {
   /** SubscriptionsOnly */
   SubscriptionsOnly = "SubscriptionsOnly",
   /** Audit */
-  Audit = "Audit"
+  Audit = "Audit",
 }
 
 /**
- * Defines values for Enum3. \
- * {@link KnownEnum3} can be used interchangeably with Enum3,
+ * Defines values for EntityViewParameterType. \
+ * {@link KnownEntityViewParameterType} can be used interchangeably with EntityViewParameterType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **FullHierarchy** \
@@ -737,33 +554,96 @@ export enum KnownEnum3 {
  * **SubscriptionsOnly** \
  * **Audit**
  */
-export type Enum3 = string;
+export type EntityViewParameterType = string;
 
-/** Known values of {@link Permissions} that the service accepts. */
-export enum KnownPermissions {
-  /** Noaccess */
-  Noaccess = "noaccess",
-  /** View */
-  View = "view",
-  /** Edit */
-  Edit = "edit",
-  /** Delete */
-  Delete = "delete"
+/** Known values of {@link ManagementGroupExpandType} that the service accepts. */
+export enum KnownManagementGroupExpandType {
+  /** Children */
+  Children = "children",
+  /** Path */
+  Path = "path",
+  /** Ancestors */
+  Ancestors = "ancestors",
 }
 
 /**
- * Defines values for Permissions. \
- * {@link KnownPermissions} can be used interchangeably with Permissions,
+ * Defines values for ManagementGroupExpandType. \
+ * {@link KnownManagementGroupExpandType} can be used interchangeably with ManagementGroupExpandType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **noaccess** \
- * **view** \
- * **edit** \
- * **delete**
+ * **children** \
+ * **path** \
+ * **ancestors**
  */
-export type Permissions = string;
+export type ManagementGroupExpandType = string;
+
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  /** User */
+  User = "User",
+  /** Application */
+  Application = "Application",
+  /** ManagedIdentity */
+  ManagedIdentity = "ManagedIdentity",
+  /** Key */
+  Key = "Key",
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
+
+/** Known values of {@link Origin} that the service accepts. */
+export enum KnownOrigin {
+  /** User */
+  User = "user",
+  /** System */
+  System = "system",
+  /** UserSystem */
+  UserSystem = "user,system",
+}
+
+/**
+ * Defines values for Origin. \
+ * {@link KnownOrigin} can be used interchangeably with Origin,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **user** \
+ * **system** \
+ * **user,system**
+ */
+export type Origin = string;
+
+/** Known values of {@link ActionType} that the service accepts. */
+export enum KnownActionType {
+  /** Internal */
+  Internal = "Internal",
+}
+
+/**
+ * Defines values for ActionType. \
+ * {@link KnownActionType} can be used interchangeably with ActionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Internal**
+ */
+export type ActionType = string;
 /** Defines values for Reason. */
 export type Reason = "Invalid" | "AlreadyExists";
+/** Defines values for Permissions. */
+export type Permissions = "noaccess" | "view" | "edit" | "delete";
+/** Defines values for ManagementGroupChildType. */
+export type ManagementGroupChildType =
+  | "Microsoft.Management/managementGroups"
+  | "/subscriptions";
 /** Defines values for Status. */
 export type Status =
   | "NotStarted"
@@ -774,32 +654,83 @@ export type Status =
   | "Completed";
 
 /** Optional parameters. */
-export interface ManagementGroupsListOptionalParams
+export interface CheckNameAvailabilityOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the checkNameAvailability operation. */
+export type CheckNameAvailabilityResponse = CheckNameAvailabilityResult;
+
+/** Optional parameters. */
+export interface StartTenantBackfillOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the startTenantBackfill operation. */
+export type StartTenantBackfillResponse = TenantBackfillStatusResult;
+
+/** Optional parameters. */
+export interface TenantBackfillStatusOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the tenantBackfillStatus operation. */
+export type TenantBackfillStatusResponse = TenantBackfillStatusResult;
+
+/** Optional parameters. */
+export interface EntitiesOperationsListOptionalParams
   extends coreClient.OperationOptions {
-  /** Indicates whether the request should utilize any caches. Populate the header with 'no-cache' value to bypass existing caches. */
-  cacheControl?: string;
   /**
    * Page continuation token is only used if a previous operation returned a partial result.
    * If a previous response contains a nextLink element, the value of the nextLink element will include a token parameter that specifies a starting point to use for subsequent calls.
-   *
    */
   skiptoken?: string;
+  /** Number of entities to skip over when retrieving results. Passing this in will override $skipToken. */
+  skip?: number;
+  /** Number of elements to return when retrieving results. Passing this in will override $skipToken. */
+  top?: number;
+  /** This parameter specifies the fields to include in the response. Can include any combination of Name,DisplayName,Type,ParentDisplayNameChain,ParentChain, e.g. '$select=Name,DisplayName,Type,ParentDisplayNameChain,ParentNameChain'. When specified the $select parameter can override select in $skipToken. */
+  select?: string;
+  /**
+   * The $search parameter is used in conjunction with the $filter parameter to return three different outputs depending on the parameter passed in.
+   * With $search=AllowedParents the API will return the entity info of all groups that the requested entity will be able to reparent to as determined by the user's permissions.
+   * With $search=AllowedChildren the API will return the entity info of all entities that can be added as children of the requested entity.
+   * With $search=ParentAndFirstLevelChildren the API will return the parent and  first level of children that the user has either direct access to or indirect access via one of their descendants.
+   * With $search=ParentOnly the API will return only the group if the user has access to at least one of the descendants of the group.
+   * With $search=ChildrenOnly the API will return only the first level of children of the group entity info specified in $filter.  The user must have direct access to the children entities or one of it's descendants for it to show up in the results.
+   */
+  search?: EntitySearchType;
+  /** The filter parameter allows you to filter on the the name or display name fields. You can check for equality on the name field (e.g. name eq '{entityName}')  and you can check for substrings on either the name or display name fields(e.g. contains(name, '{substringToSearch}'), contains(displayName, '{substringToSearch')). Note that the '{entityName}' and '{substringToSearch}' fields are checked case insensitively. */
+  filter?: string;
+  /** The view parameter allows clients to filter the type of data that is returned by the getEntities call. */
+  view?: EntityViewParameterType;
+  /** A filter which allows the get entities call to focus on a particular group (i.e. "$filter=name eq 'groupName'") */
+  groupName?: string;
+  /** Indicates whether the request should utilize any caches. Populate the header with 'no-cache' value to bypass existing caches. */
+  cacheControl?: string;
 }
 
 /** Contains response data for the list operation. */
-export type ManagementGroupsListResponse = ManagementGroupListResult;
+export type EntitiesOperationsListResponse = EntityListResult;
+
+/** Optional parameters. */
+export interface EntitiesOperationsListNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** Indicates whether the request should utilize any caches. Populate the header with 'no-cache' value to bypass existing caches. */
+  cacheControl?: string;
+}
+
+/** Contains response data for the listNext operation. */
+export type EntitiesOperationsListNextResponse = EntityListResult;
 
 /** Optional parameters. */
 export interface ManagementGroupsGetOptionalParams
   extends coreClient.OperationOptions {
+  /** A filter which allows the exclusion of subscriptions from results (i.e. '$filter=children.childType ne Subscription') */
+  filter?: string;
   /** Indicates whether the request should utilize any caches. Populate the header with 'no-cache' value to bypass existing caches. */
   cacheControl?: string;
   /** The $expand=children query string parameter allows clients to request inclusion of children in the response payload.  $expand=path includes the path from the root group to the current group.  $expand=ancestors includes the ancestor Ids of the current group. */
-  expand?: Enum0;
+  expand?: ManagementGroupExpandType;
   /** The $recurse=true query string parameter allows clients to request inclusion of entire hierarchy in the response payload. Note that  $expand=children must be passed up if $recurse is set to true. */
   recurse?: boolean;
-  /** A filter which allows the exclusion of subscriptions from results (i.e. '$filter=children.childType ne Subscription') */
-  filter?: string;
 }
 
 /** Contains response data for the get operation. */
@@ -842,7 +773,7 @@ export interface ManagementGroupsDeleteOptionalParams
 
 /** Contains response data for the delete operation. */
 export type ManagementGroupsDeleteResponse = ManagementGroupsDeleteHeaders &
-  AzureAsyncOperationResults;
+  ManagementGroupOperationAcceptance;
 
 /** Optional parameters. */
 export interface ManagementGroupsGetDescendantsOptionalParams
@@ -850,7 +781,6 @@ export interface ManagementGroupsGetDescendantsOptionalParams
   /**
    * Page continuation token is only used if a previous operation returned a partial result.
    * If a previous response contains a nextLink element, the value of the nextLink element will include a token parameter that specifies a starting point to use for subsequent calls.
-   *
    */
   skiptoken?: string;
   /** Number of elements to return when retrieving results. Passing this in will override $skipToken. */
@@ -861,123 +791,121 @@ export interface ManagementGroupsGetDescendantsOptionalParams
 export type ManagementGroupsGetDescendantsResponse = DescendantListResult;
 
 /** Optional parameters. */
-export interface ManagementGroupsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Indicates whether the request should utilize any caches. Populate the header with 'no-cache' value to bypass existing caches. */
-  cacheControl?: string;
-  /**
-   * Page continuation token is only used if a previous operation returned a partial result.
-   * If a previous response contains a nextLink element, the value of the nextLink element will include a token parameter that specifies a starting point to use for subsequent calls.
-   *
-   */
-  skiptoken?: string;
-}
+export interface ManagementGroupsListSettingsOptionalParams
+  extends coreClient.OperationOptions {}
 
-/** Contains response data for the listNext operation. */
-export type ManagementGroupsListNextResponse = ManagementGroupListResult;
+/** Contains response data for the listSettings operation. */
+export type ManagementGroupsListSettingsResponse = HierarchySettingsListResult;
 
 /** Optional parameters. */
 export interface ManagementGroupsGetDescendantsNextOptionalParams
-  extends coreClient.OperationOptions {
-  /**
-   * Page continuation token is only used if a previous operation returned a partial result.
-   * If a previous response contains a nextLink element, the value of the nextLink element will include a token parameter that specifies a starting point to use for subsequent calls.
-   *
-   */
-  skiptoken?: string;
-  /** Number of elements to return when retrieving results. Passing this in will override $skipToken. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getDescendantsNext operation. */
 export type ManagementGroupsGetDescendantsNextResponse = DescendantListResult;
 
 /** Optional parameters. */
-export interface ManagementGroupSubscriptionsCreateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Indicates whether the request should utilize any caches. Populate the header with 'no-cache' value to bypass existing caches. */
-  cacheControl?: string;
-}
+export interface ManagementGroupsListSettingsNextOptionalParams
+  extends coreClient.OperationOptions {}
 
-/** Contains response data for the create operation. */
-export type ManagementGroupSubscriptionsCreateResponse = SubscriptionUnderManagementGroup;
+/** Contains response data for the listSettingsNext operation. */
+export type ManagementGroupsListSettingsNextResponse =
+  HierarchySettingsListResult;
 
 /** Optional parameters. */
-export interface ManagementGroupSubscriptionsDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Indicates whether the request should utilize any caches. Populate the header with 'no-cache' value to bypass existing caches. */
-  cacheControl?: string;
-}
+export interface HierarchySettingsOperationGroupListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type HierarchySettingsOperationGroupListResponse =
+  HierarchySettingsListResult;
 
 /** Optional parameters. */
-export interface ManagementGroupSubscriptionsGetSubscriptionOptionalParams
+export interface HierarchySettingsOperationGroupGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type HierarchySettingsOperationGroupGetResponse = HierarchySettings;
+
+/** Optional parameters. */
+export interface HierarchySettingsOperationGroupCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type HierarchySettingsOperationGroupCreateOrUpdateResponse =
+  HierarchySettings;
+
+/** Optional parameters. */
+export interface HierarchySettingsOperationGroupUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type HierarchySettingsOperationGroupUpdateResponse = HierarchySettings;
+
+/** Optional parameters. */
+export interface HierarchySettingsOperationGroupDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface HierarchySettingsOperationGroupListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type HierarchySettingsOperationGroupListNextResponse =
+  HierarchySettingsListResult;
+
+/** Optional parameters. */
+export interface SubscriptionUnderManagementGroupsGetSubscriptionsUnderManagementGroupOptionalParams
+  extends coreClient.OperationOptions {
+  /**
+   * Page continuation token is only used if a previous operation returned a partial result.
+   * If a previous response contains a nextLink element, the value of the nextLink element will include a token parameter that specifies a starting point to use for subsequent calls.
+   */
+  skiptoken?: string;
+}
+
+/** Contains response data for the getSubscriptionsUnderManagementGroup operation. */
+export type SubscriptionUnderManagementGroupsGetSubscriptionsUnderManagementGroupResponse =
+  SubscriptionUnderManagementGroupListResult;
+
+/** Optional parameters. */
+export interface SubscriptionUnderManagementGroupsGetSubscriptionOptionalParams
   extends coreClient.OperationOptions {
   /** Indicates whether the request should utilize any caches. Populate the header with 'no-cache' value to bypass existing caches. */
   cacheControl?: string;
 }
 
 /** Contains response data for the getSubscription operation. */
-export type ManagementGroupSubscriptionsGetSubscriptionResponse = SubscriptionUnderManagementGroup;
+export type SubscriptionUnderManagementGroupsGetSubscriptionResponse =
+  SubscriptionUnderManagementGroup;
 
 /** Optional parameters. */
-export interface ManagementGroupSubscriptionsGetSubscriptionsUnderManagementGroupOptionalParams
+export interface SubscriptionUnderManagementGroupsCreateOptionalParams
   extends coreClient.OperationOptions {
-  /**
-   * Page continuation token is only used if a previous operation returned a partial result.
-   * If a previous response contains a nextLink element, the value of the nextLink element will include a token parameter that specifies a starting point to use for subsequent calls.
-   *
-   */
-  skiptoken?: string;
+  /** Indicates whether the request should utilize any caches. Populate the header with 'no-cache' value to bypass existing caches. */
+  cacheControl?: string;
+  /** Resource create parameters. */
+  resource?: SubscriptionUnderManagementGroup;
 }
 
-/** Contains response data for the getSubscriptionsUnderManagementGroup operation. */
-export type ManagementGroupSubscriptionsGetSubscriptionsUnderManagementGroupResponse = ListSubscriptionUnderManagementGroup;
+/** Contains response data for the create operation. */
+export type SubscriptionUnderManagementGroupsCreateResponse =
+  SubscriptionUnderManagementGroup;
 
 /** Optional parameters. */
-export interface ManagementGroupSubscriptionsGetSubscriptionsUnderManagementGroupNextOptionalParams
+export interface SubscriptionUnderManagementGroupsDeleteOptionalParams
   extends coreClient.OperationOptions {
-  /**
-   * Page continuation token is only used if a previous operation returned a partial result.
-   * If a previous response contains a nextLink element, the value of the nextLink element will include a token parameter that specifies a starting point to use for subsequent calls.
-   *
-   */
-  skiptoken?: string;
+  /** Indicates whether the request should utilize any caches. Populate the header with 'no-cache' value to bypass existing caches. */
+  cacheControl?: string;
 }
+
+/** Optional parameters. */
+export interface SubscriptionUnderManagementGroupsGetSubscriptionsUnderManagementGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getSubscriptionsUnderManagementGroupNext operation. */
-export type ManagementGroupSubscriptionsGetSubscriptionsUnderManagementGroupNextResponse = ListSubscriptionUnderManagementGroup;
-
-/** Optional parameters. */
-export interface HierarchySettingsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type HierarchySettingsListResponse = HierarchySettingsList;
-
-/** Optional parameters. */
-export interface HierarchySettingsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type HierarchySettingsGetResponse = HierarchySettings;
-
-/** Optional parameters. */
-export interface HierarchySettingsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdate operation. */
-export type HierarchySettingsCreateOrUpdateResponse = HierarchySettings;
-
-/** Optional parameters. */
-export interface HierarchySettingsUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the update operation. */
-export type HierarchySettingsUpdateResponse = HierarchySettings;
-
-/** Optional parameters. */
-export interface HierarchySettingsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export type SubscriptionUnderManagementGroupsGetSubscriptionsUnderManagementGroupNextResponse =
+  SubscriptionUnderManagementGroupListResult;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
@@ -992,101 +920,6 @@ export interface OperationsListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type OperationsListNextResponse = OperationListResult;
-
-/** Optional parameters. */
-export interface CheckNameAvailabilityOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the checkNameAvailability operation. */
-export type CheckNameAvailabilityResponse = CheckNameAvailabilityResult;
-
-/** Optional parameters. */
-export interface StartTenantBackfillOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the startTenantBackfill operation. */
-export type StartTenantBackfillResponse = TenantBackfillStatusResult;
-
-/** Optional parameters. */
-export interface TenantBackfillStatusOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the tenantBackfillStatus operation. */
-export type TenantBackfillStatusResponse = TenantBackfillStatusResult;
-
-/** Optional parameters. */
-export interface EntitiesListOptionalParams
-  extends coreClient.OperationOptions {
-  /** Indicates whether the request should utilize any caches. Populate the header with 'no-cache' value to bypass existing caches. */
-  cacheControl?: string;
-  /**
-   * Page continuation token is only used if a previous operation returned a partial result.
-   * If a previous response contains a nextLink element, the value of the nextLink element will include a token parameter that specifies a starting point to use for subsequent calls.
-   *
-   */
-  skiptoken?: string;
-  /** The filter parameter allows you to filter on the the name or display name fields. You can check for equality on the name field (e.g. name eq '{entityName}')  and you can check for substrings on either the name or display name fields(e.g. contains(name, '{substringToSearch}'), contains(displayName, '{substringToSearch')). Note that the '{entityName}' and '{substringToSearch}' fields are checked case insensitively. */
-  filter?: string;
-  /** Number of elements to return when retrieving results. Passing this in will override $skipToken. */
-  top?: number;
-  /** Number of entities to skip over when retrieving results. Passing this in will override $skipToken. */
-  skip?: number;
-  /** This parameter specifies the fields to include in the response. Can include any combination of Name,DisplayName,Type,ParentDisplayNameChain,ParentChain, e.g. '$select=Name,DisplayName,Type,ParentDisplayNameChain,ParentNameChain'. When specified the $select parameter can override select in $skipToken. */
-  select?: string;
-  /**
-   * The $search parameter is used in conjunction with the $filter parameter to return three different outputs depending on the parameter passed in.
-   * With $search=AllowedParents the API will return the entity info of all groups that the requested entity will be able to reparent to as determined by the user's permissions.
-   * With $search=AllowedChildren the API will return the entity info of all entities that can be added as children of the requested entity.
-   * With $search=ParentAndFirstLevelChildren the API will return the parent and  first level of children that the user has either direct access to or indirect access via one of their descendants.
-   * With $search=ParentOnly the API will return only the group if the user has access to at least one of the descendants of the group.
-   * With $search=ChildrenOnly the API will return only the first level of children of the group entity info specified in $filter.  The user must have direct access to the children entities or one of it's descendants for it to show up in the results.
-   */
-  search?: Enum2;
-  /** The view parameter allows clients to filter the type of data that is returned by the getEntities call. */
-  view?: Enum3;
-  /** A filter which allows the get entities call to focus on a particular group (i.e. "$filter=name eq 'groupName'") */
-  groupName?: string;
-}
-
-/** Contains response data for the list operation. */
-export type EntitiesListResponse = EntityListResult;
-
-/** Optional parameters. */
-export interface EntitiesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Indicates whether the request should utilize any caches. Populate the header with 'no-cache' value to bypass existing caches. */
-  cacheControl?: string;
-  /**
-   * Page continuation token is only used if a previous operation returned a partial result.
-   * If a previous response contains a nextLink element, the value of the nextLink element will include a token parameter that specifies a starting point to use for subsequent calls.
-   *
-   */
-  skiptoken?: string;
-  /** The filter parameter allows you to filter on the the name or display name fields. You can check for equality on the name field (e.g. name eq '{entityName}')  and you can check for substrings on either the name or display name fields(e.g. contains(name, '{substringToSearch}'), contains(displayName, '{substringToSearch')). Note that the '{entityName}' and '{substringToSearch}' fields are checked case insensitively. */
-  filter?: string;
-  /** Number of elements to return when retrieving results. Passing this in will override $skipToken. */
-  top?: number;
-  /** Number of entities to skip over when retrieving results. Passing this in will override $skipToken. */
-  skip?: number;
-  /** This parameter specifies the fields to include in the response. Can include any combination of Name,DisplayName,Type,ParentDisplayNameChain,ParentChain, e.g. '$select=Name,DisplayName,Type,ParentDisplayNameChain,ParentNameChain'. When specified the $select parameter can override select in $skipToken. */
-  select?: string;
-  /**
-   * The $search parameter is used in conjunction with the $filter parameter to return three different outputs depending on the parameter passed in.
-   * With $search=AllowedParents the API will return the entity info of all groups that the requested entity will be able to reparent to as determined by the user's permissions.
-   * With $search=AllowedChildren the API will return the entity info of all entities that can be added as children of the requested entity.
-   * With $search=ParentAndFirstLevelChildren the API will return the parent and  first level of children that the user has either direct access to or indirect access via one of their descendants.
-   * With $search=ParentOnly the API will return only the group if the user has access to at least one of the descendants of the group.
-   * With $search=ChildrenOnly the API will return only the first level of children of the group entity info specified in $filter.  The user must have direct access to the children entities or one of it's descendants for it to show up in the results.
-   */
-  search?: Enum2;
-  /** The view parameter allows clients to filter the type of data that is returned by the getEntities call. */
-  view?: Enum3;
-  /** A filter which allows the get entities call to focus on a particular group (i.e. "$filter=name eq 'groupName'") */
-  groupName?: string;
-}
-
-/** Contains response data for the listNext operation. */
-export type EntitiesListNextResponse = EntityListResult;
 
 /** Optional parameters. */
 export interface ManagementGroupsAPIOptionalParams

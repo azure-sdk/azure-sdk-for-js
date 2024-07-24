@@ -9,112 +9,16 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
-  CreateManagementGroupRequest as CreateManagementGroupRequestMapper,
+  PathsItdwrvProvidersMicrosoftManagementChecknameavailabilityPostRequestbodyContentApplicationJsonSchema as PathsItdwrvProvidersMicrosoftManagementChecknameavailabilityPostRequestbodyContentApplicationJsonSchemaMapper,
+  ManagementGroup as ManagementGroupMapper,
   PatchManagementGroupRequest as PatchManagementGroupRequestMapper,
+  HierarchySettings as HierarchySettingsMapper,
   CreateOrUpdateSettingsRequest as CreateOrUpdateSettingsRequestMapper,
-  CheckNameAvailabilityRequest as CheckNameAvailabilityRequestMapper
+  SubscriptionUnderManagementGroup as SubscriptionUnderManagementGroupMapper,
 } from "../models/mappers";
-
-export const accept: OperationParameter = {
-  parameterPath: "accept",
-  mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Accept",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const $host: OperationURLParameter = {
-  parameterPath: "$host",
-  mapper: {
-    serializedName: "$host",
-    required: true,
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
-};
-
-export const apiVersion: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2021-04-01",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const cacheControl: OperationParameter = {
-  parameterPath: ["options", "cacheControl"],
-  mapper: {
-    defaultValue: "no-cache",
-    serializedName: "Cache-Control",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const skiptoken: OperationQueryParameter = {
-  parameterPath: ["options", "skiptoken"],
-  mapper: {
-    serializedName: "$skiptoken",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const groupId: OperationURLParameter = {
-  parameterPath: "groupId",
-  mapper: {
-    serializedName: "groupId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const expand: OperationQueryParameter = {
-  parameterPath: ["options", "expand"],
-  mapper: {
-    serializedName: "$expand",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const recurse: OperationQueryParameter = {
-  parameterPath: ["options", "recurse"],
-  mapper: {
-    serializedName: "$recurse",
-    type: {
-      name: "Boolean"
-    }
-  }
-};
-
-export const filter: OperationQueryParameter = {
-  parameterPath: ["options", "filter"],
-  mapper: {
-    serializedName: "$filter",
-    type: {
-      name: "String"
-    }
-  }
-};
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],
@@ -123,19 +27,71 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const createManagementGroupRequest: OperationParameter = {
-  parameterPath: "createManagementGroupRequest",
-  mapper: CreateManagementGroupRequestMapper
+export const body: OperationParameter = {
+  parameterPath: "body",
+  mapper:
+    PathsItdwrvProvidersMicrosoftManagementChecknameavailabilityPostRequestbodyContentApplicationJsonSchemaMapper,
 };
 
-export const patchGroupRequest: OperationParameter = {
-  parameterPath: "patchGroupRequest",
-  mapper: PatchManagementGroupRequestMapper
+export const accept: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Accept",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const $host: OperationURLParameter = {
+  parameterPath: "$host",
+  mapper: {
+    serializedName: "$host",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+  skipEncoding: true,
+};
+
+export const apiVersion: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2023-04-01",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const skiptoken: OperationQueryParameter = {
+  parameterPath: ["options", "skiptoken"],
+  mapper: {
+    serializedName: "$skiptoken",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const skip: OperationQueryParameter = {
+  parameterPath: ["options", "skip"],
+  mapper: {
+    serializedName: "$skip",
+    type: {
+      name: "Number",
+    },
+  },
 };
 
 export const top: OperationQueryParameter = {
@@ -143,9 +99,70 @@ export const top: OperationQueryParameter = {
   mapper: {
     serializedName: "$top",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
+};
+
+export const select: OperationQueryParameter = {
+  parameterPath: ["options", "select"],
+  mapper: {
+    serializedName: "$select",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const search: OperationQueryParameter = {
+  parameterPath: ["options", "search"],
+  mapper: {
+    serializedName: "$search",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const filter: OperationQueryParameter = {
+  parameterPath: ["options", "filter"],
+  mapper: {
+    serializedName: "$filter",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const view: OperationQueryParameter = {
+  parameterPath: ["options", "view"],
+  mapper: {
+    serializedName: "$view",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const groupName: OperationQueryParameter = {
+  parameterPath: ["options", "groupName"],
+  mapper: {
+    serializedName: "groupName",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const cacheControl: OperationParameter = {
+  parameterPath: ["options", "cacheControl"],
+  mapper: {
+    defaultValue: "no-cache",
+    serializedName: "cache-control",
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const nextLink: OperationURLParameter = {
@@ -154,10 +171,61 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
+};
+
+export const expand: OperationQueryParameter = {
+  parameterPath: ["options", "expand"],
+  mapper: {
+    serializedName: "$expand",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const recurse: OperationQueryParameter = {
+  parameterPath: ["options", "recurse"],
+  mapper: {
+    serializedName: "$recurse",
+    type: {
+      name: "Boolean",
+    },
+  },
+};
+
+export const groupId: OperationURLParameter = {
+  parameterPath: "groupId",
+  mapper: {
+    serializedName: "groupId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const resource: OperationParameter = {
+  parameterPath: "resource",
+  mapper: ManagementGroupMapper,
+};
+
+export const properties: OperationParameter = {
+  parameterPath: "properties",
+  mapper: PatchManagementGroupRequestMapper,
+};
+
+export const resource1: OperationParameter = {
+  parameterPath: "resource",
+  mapper: HierarchySettingsMapper,
+};
+
+export const properties1: OperationParameter = {
+  parameterPath: "properties",
+  mapper: CreateOrUpdateSettingsRequestMapper,
 };
 
 export const subscriptionId: OperationURLParameter = {
@@ -166,67 +234,12 @@ export const subscriptionId: OperationURLParameter = {
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const createTenantSettingsRequest: OperationParameter = {
-  parameterPath: "createTenantSettingsRequest",
-  mapper: CreateOrUpdateSettingsRequestMapper
-};
-
-export const checkNameAvailabilityRequest: OperationParameter = {
-  parameterPath: "checkNameAvailabilityRequest",
-  mapper: CheckNameAvailabilityRequestMapper
-};
-
-export const skip: OperationQueryParameter = {
-  parameterPath: ["options", "skip"],
-  mapper: {
-    serializedName: "$skip",
-    type: {
-      name: "Number"
-    }
-  }
-};
-
-export const select: OperationQueryParameter = {
-  parameterPath: ["options", "select"],
-  mapper: {
-    serializedName: "$select",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const search: OperationQueryParameter = {
-  parameterPath: ["options", "search"],
-  mapper: {
-    serializedName: "$search",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const view: OperationQueryParameter = {
-  parameterPath: ["options", "view"],
-  mapper: {
-    serializedName: "$view",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const groupName: OperationQueryParameter = {
-  parameterPath: ["options", "groupName"],
-  mapper: {
-    serializedName: "groupName",
-    type: {
-      name: "String"
-    }
-  }
+export const resource2: OperationParameter = {
+  parameterPath: ["options", "resource"],
+  mapper: SubscriptionUnderManagementGroupMapper,
 };
