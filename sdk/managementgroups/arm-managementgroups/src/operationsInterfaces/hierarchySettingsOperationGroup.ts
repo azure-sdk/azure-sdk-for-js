@@ -6,75 +6,72 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  HierarchySettingsListOptionalParams,
-  HierarchySettingsListResponse,
-  HierarchySettingsGetOptionalParams,
-  HierarchySettingsGetResponse,
+  HierarchySettings,
+  HierarchySettingsOperationGroupListOptionalParams,
+  HierarchySettingsOperationGroupGetOptionalParams,
+  HierarchySettingsOperationGroupGetResponse,
+  HierarchySettingsOperationGroupCreateOrUpdateOptionalParams,
+  HierarchySettingsOperationGroupCreateOrUpdateResponse,
   CreateOrUpdateSettingsRequest,
-  HierarchySettingsCreateOrUpdateOptionalParams,
-  HierarchySettingsCreateOrUpdateResponse,
-  HierarchySettingsUpdateOptionalParams,
-  HierarchySettingsUpdateResponse,
-  HierarchySettingsDeleteOptionalParams
+  HierarchySettingsOperationGroupUpdateOptionalParams,
+  HierarchySettingsOperationGroupUpdateResponse,
+  HierarchySettingsOperationGroupDeleteOptionalParams,
 } from "../models";
 
-/** Interface representing a HierarchySettingsOperations. */
-export interface HierarchySettingsOperations {
+/// <reference lib="esnext.asynciterable" />
+/** Interface representing a HierarchySettingsOperationGroup. */
+export interface HierarchySettingsOperationGroup {
   /**
    * Gets all the hierarchy settings defined at the Management Group level. Settings can only be set on
    * the root Management Group of the hierarchy.
-   *
    * @param groupId Management Group ID.
    * @param options The options parameters.
    */
   list(
     groupId: string,
-    options?: HierarchySettingsListOptionalParams
-  ): Promise<HierarchySettingsListResponse>;
+    options?: HierarchySettingsOperationGroupListOptionalParams,
+  ): PagedAsyncIterableIterator<HierarchySettings>;
   /**
    * Gets the hierarchy settings defined at the Management Group level. Settings can only be set on the
    * root Management Group of the hierarchy.
-   *
    * @param groupId Management Group ID.
    * @param options The options parameters.
    */
   get(
     groupId: string,
-    options?: HierarchySettingsGetOptionalParams
-  ): Promise<HierarchySettingsGetResponse>;
+    options?: HierarchySettingsOperationGroupGetOptionalParams,
+  ): Promise<HierarchySettingsOperationGroupGetResponse>;
   /**
    * Creates or updates the hierarchy settings defined at the Management Group level.
-   *
    * @param groupId Management Group ID.
-   * @param createTenantSettingsRequest Tenant level settings request parameter.
+   * @param resource Tenant level settings request parameter.
    * @param options The options parameters.
    */
   createOrUpdate(
     groupId: string,
-    createTenantSettingsRequest: CreateOrUpdateSettingsRequest,
-    options?: HierarchySettingsCreateOrUpdateOptionalParams
-  ): Promise<HierarchySettingsCreateOrUpdateResponse>;
+    resource: HierarchySettings,
+    options?: HierarchySettingsOperationGroupCreateOrUpdateOptionalParams,
+  ): Promise<HierarchySettingsOperationGroupCreateOrUpdateResponse>;
   /**
    * Updates the hierarchy settings defined at the Management Group level.
-   *
    * @param groupId Management Group ID.
-   * @param createTenantSettingsRequest Tenant level settings request parameter.
+   * @param properties Tenant level settings request parameter.
    * @param options The options parameters.
    */
   update(
     groupId: string,
-    createTenantSettingsRequest: CreateOrUpdateSettingsRequest,
-    options?: HierarchySettingsUpdateOptionalParams
-  ): Promise<HierarchySettingsUpdateResponse>;
+    properties: CreateOrUpdateSettingsRequest,
+    options?: HierarchySettingsOperationGroupUpdateOptionalParams,
+  ): Promise<HierarchySettingsOperationGroupUpdateResponse>;
   /**
    * Deletes the hierarchy settings defined at the Management Group level.
-   *
    * @param groupId Management Group ID.
    * @param options The options parameters.
    */
   delete(
     groupId: string,
-    options?: HierarchySettingsDeleteOptionalParams
+    options?: HierarchySettingsOperationGroupDeleteOptionalParams,
   ): Promise<void>;
 }

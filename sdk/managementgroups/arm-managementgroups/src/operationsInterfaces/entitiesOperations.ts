@@ -7,17 +7,16 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { EntityInfo, EntitiesListOptionalParams } from "../models";
+import { EntityInfo, EntitiesOperationsListOptionalParams } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a Entities. */
-export interface Entities {
+/** Interface representing a EntitiesOperations. */
+export interface EntitiesOperations {
   /**
    * List all entities (Management Groups, Subscriptions, etc.) for the authenticated user.
-   *
    * @param options The options parameters.
    */
   list(
-    options?: EntitiesListOptionalParams
+    options?: EntitiesOperationsListOptionalParams,
   ): PagedAsyncIterableIterator<EntityInfo>;
 }

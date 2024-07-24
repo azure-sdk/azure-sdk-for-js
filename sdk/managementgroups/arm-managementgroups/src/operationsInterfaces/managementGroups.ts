@@ -7,71 +7,70 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
-  ManagementGroupInfo,
-  ManagementGroupsListOptionalParams,
   DescendantInfo,
   ManagementGroupsGetDescendantsOptionalParams,
+  HierarchySettings,
+  ManagementGroupsListSettingsOptionalParams,
   ManagementGroupsGetOptionalParams,
   ManagementGroupsGetResponse,
-  CreateManagementGroupRequest,
+  ManagementGroup,
   ManagementGroupsCreateOrUpdateOptionalParams,
   ManagementGroupsCreateOrUpdateResponse,
   PatchManagementGroupRequest,
   ManagementGroupsUpdateOptionalParams,
   ManagementGroupsUpdateResponse,
   ManagementGroupsDeleteOptionalParams,
-  ManagementGroupsDeleteResponse
+  ManagementGroupsDeleteResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ManagementGroups. */
 export interface ManagementGroups {
   /**
-   * List management groups for the authenticated user.
-   *
-   * @param options The options parameters.
-   */
-  list(
-    options?: ManagementGroupsListOptionalParams
-  ): PagedAsyncIterableIterator<ManagementGroupInfo>;
-  /**
    * List all entities that descend from a management group.
-   *
    * @param groupId Management Group ID.
    * @param options The options parameters.
    */
   listDescendants(
     groupId: string,
-    options?: ManagementGroupsGetDescendantsOptionalParams
+    options?: ManagementGroupsGetDescendantsOptionalParams,
   ): PagedAsyncIterableIterator<DescendantInfo>;
   /**
+   * Gets all the hierarchy settings defined at the Management Group level. Settings can only be set on
+   * the root Management Group of the hierarchy.
+   * @param groupId Management Group ID.
+   * @param options The options parameters.
+   */
+  listSettings(
+    groupId: string,
+    options?: ManagementGroupsListSettingsOptionalParams,
+  ): PagedAsyncIterableIterator<HierarchySettings>;
+  /**
    * Get the details of the management group.
-   *
    * @param groupId Management Group ID.
    * @param options The options parameters.
    */
   get(
     groupId: string,
-    options?: ManagementGroupsGetOptionalParams
+    options?: ManagementGroupsGetOptionalParams,
   ): Promise<ManagementGroupsGetResponse>;
   /**
    * Create or update a management group.
    * If a management group is already created and a subsequent create request is issued with different
    * properties, the management group properties will be updated.
-   *
    * @param groupId Management Group ID.
-   * @param createManagementGroupRequest Management group creation parameters.
+   * @param resource Management group creation parameters.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     groupId: string,
-    createManagementGroupRequest: CreateManagementGroupRequest,
-    options?: ManagementGroupsCreateOrUpdateOptionalParams
+    resource: ManagementGroup,
+    options?: ManagementGroupsCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ManagementGroupsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ManagementGroupsCreateOrUpdateResponse>,
       ManagementGroupsCreateOrUpdateResponse
     >
   >;
@@ -79,53 +78,49 @@ export interface ManagementGroups {
    * Create or update a management group.
    * If a management group is already created and a subsequent create request is issued with different
    * properties, the management group properties will be updated.
-   *
    * @param groupId Management Group ID.
-   * @param createManagementGroupRequest Management group creation parameters.
+   * @param resource Management group creation parameters.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     groupId: string,
-    createManagementGroupRequest: CreateManagementGroupRequest,
-    options?: ManagementGroupsCreateOrUpdateOptionalParams
+    resource: ManagementGroup,
+    options?: ManagementGroupsCreateOrUpdateOptionalParams,
   ): Promise<ManagementGroupsCreateOrUpdateResponse>;
   /**
    * Update a management group.
-   *
    * @param groupId Management Group ID.
-   * @param patchGroupRequest Management group patch parameters.
+   * @param properties Management group patch parameters.
    * @param options The options parameters.
    */
   update(
     groupId: string,
-    patchGroupRequest: PatchManagementGroupRequest,
-    options?: ManagementGroupsUpdateOptionalParams
+    properties: PatchManagementGroupRequest,
+    options?: ManagementGroupsUpdateOptionalParams,
   ): Promise<ManagementGroupsUpdateResponse>;
   /**
    * Delete management group.
    * If a management group contains child resources, the request will fail.
-   *
    * @param groupId Management Group ID.
    * @param options The options parameters.
    */
   beginDelete(
     groupId: string,
-    options?: ManagementGroupsDeleteOptionalParams
+    options?: ManagementGroupsDeleteOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ManagementGroupsDeleteResponse>,
+    SimplePollerLike<
+      OperationState<ManagementGroupsDeleteResponse>,
       ManagementGroupsDeleteResponse
     >
   >;
   /**
    * Delete management group.
    * If a management group contains child resources, the request will fail.
-   *
    * @param groupId Management Group ID.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
     groupId: string,
-    options?: ManagementGroupsDeleteOptionalParams
+    options?: ManagementGroupsDeleteOptionalParams,
   ): Promise<ManagementGroupsDeleteResponse>;
 }

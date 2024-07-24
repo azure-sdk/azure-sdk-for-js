@@ -13,20 +13,24 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ManagementGroupsAPI } from "../managementGroupsAPI";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
 import {
-  ManagementGroupInfo,
-  ManagementGroupsListNextOptionalParams,
-  ManagementGroupsListOptionalParams,
-  ManagementGroupsListResponse,
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
+import {
   DescendantInfo,
   ManagementGroupsGetDescendantsNextOptionalParams,
   ManagementGroupsGetDescendantsOptionalParams,
   ManagementGroupsGetDescendantsResponse,
+  HierarchySettings,
+  ManagementGroupsListSettingsNextOptionalParams,
+  ManagementGroupsListSettingsOptionalParams,
+  ManagementGroupsListSettingsResponse,
   ManagementGroupsGetOptionalParams,
   ManagementGroupsGetResponse,
-  CreateManagementGroupRequest,
+  ManagementGroup,
   ManagementGroupsCreateOrUpdateOptionalParams,
   ManagementGroupsCreateOrUpdateResponse,
   PatchManagementGroupRequest,
@@ -34,8 +38,8 @@ import {
   ManagementGroupsUpdateResponse,
   ManagementGroupsDeleteOptionalParams,
   ManagementGroupsDeleteResponse,
-  ManagementGroupsListNextResponse,
-  ManagementGroupsGetDescendantsNextResponse
+  ManagementGroupsGetDescendantsNextResponse,
+  ManagementGroupsListSettingsNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -52,69 +56,13 @@ export class ManagementGroupsImpl implements ManagementGroups {
   }
 
   /**
-   * List management groups for the authenticated user.
-   *
-   * @param options The options parameters.
-   */
-  public list(
-    options?: ManagementGroupsListOptionalParams
-  ): PagedAsyncIterableIterator<ManagementGroupInfo> {
-    const iter = this.listPagingAll(options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listPagingPage(options, settings);
-      }
-    };
-  }
-
-  private async *listPagingPage(
-    options?: ManagementGroupsListOptionalParams,
-    settings?: PageSettings
-  ): AsyncIterableIterator<ManagementGroupInfo[]> {
-    let result: ManagementGroupsListResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._list(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listNext(continuationToken, options);
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listPagingAll(
-    options?: ManagementGroupsListOptionalParams
-  ): AsyncIterableIterator<ManagementGroupInfo> {
-    for await (const page of this.listPagingPage(options)) {
-      yield* page;
-    }
-  }
-
-  /**
    * List all entities that descend from a management group.
-   *
    * @param groupId Management Group ID.
    * @param options The options parameters.
    */
   public listDescendants(
     groupId: string,
-    options?: ManagementGroupsGetDescendantsOptionalParams
+    options?: ManagementGroupsGetDescendantsOptionalParams,
   ): PagedAsyncIterableIterator<DescendantInfo> {
     const iter = this.getDescendantsPagingAll(groupId, options);
     return {
@@ -129,14 +77,14 @@ export class ManagementGroupsImpl implements ManagementGroups {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.getDescendantsPagingPage(groupId, options, settings);
-      }
+      },
     };
   }
 
   private async *getDescendantsPagingPage(
     groupId: string,
     options?: ManagementGroupsGetDescendantsOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DescendantInfo[]> {
     let result: ManagementGroupsGetDescendantsResponse;
     let continuationToken = settings?.continuationToken;
@@ -151,7 +99,7 @@ export class ManagementGroupsImpl implements ManagementGroups {
       result = await this._getDescendantsNext(
         groupId,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -162,7 +110,7 @@ export class ManagementGroupsImpl implements ManagementGroups {
 
   private async *getDescendantsPagingAll(
     groupId: string,
-    options?: ManagementGroupsGetDescendantsOptionalParams
+    options?: ManagementGroupsGetDescendantsOptionalParams,
   ): AsyncIterableIterator<DescendantInfo> {
     for await (const page of this.getDescendantsPagingPage(groupId, options)) {
       yield* page;
@@ -170,29 +118,80 @@ export class ManagementGroupsImpl implements ManagementGroups {
   }
 
   /**
-   * List management groups for the authenticated user.
-   *
+   * Gets all the hierarchy settings defined at the Management Group level. Settings can only be set on
+   * the root Management Group of the hierarchy.
+   * @param groupId Management Group ID.
    * @param options The options parameters.
    */
-  private _list(
-    options?: ManagementGroupsListOptionalParams
-  ): Promise<ManagementGroupsListResponse> {
-    return this.client.sendOperationRequest({ options }, listOperationSpec);
+  public listSettings(
+    groupId: string,
+    options?: ManagementGroupsListSettingsOptionalParams,
+  ): PagedAsyncIterableIterator<HierarchySettings> {
+    const iter = this.listSettingsPagingAll(groupId, options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listSettingsPagingPage(groupId, options, settings);
+      },
+    };
+  }
+
+  private async *listSettingsPagingPage(
+    groupId: string,
+    options?: ManagementGroupsListSettingsOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<HierarchySettings[]> {
+    let result: ManagementGroupsListSettingsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listSettings(groupId, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listSettingsNext(
+        groupId,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listSettingsPagingAll(
+    groupId: string,
+    options?: ManagementGroupsListSettingsOptionalParams,
+  ): AsyncIterableIterator<HierarchySettings> {
+    for await (const page of this.listSettingsPagingPage(groupId, options)) {
+      yield* page;
+    }
   }
 
   /**
    * Get the details of the management group.
-   *
    * @param groupId Management Group ID.
    * @param options The options parameters.
    */
   get(
     groupId: string,
-    options?: ManagementGroupsGetOptionalParams
+    options?: ManagementGroupsGetOptionalParams,
   ): Promise<ManagementGroupsGetResponse> {
     return this.client.sendOperationRequest(
       { groupId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -200,38 +199,36 @@ export class ManagementGroupsImpl implements ManagementGroups {
    * Create or update a management group.
    * If a management group is already created and a subsequent create request is issued with different
    * properties, the management group properties will be updated.
-   *
    * @param groupId Management Group ID.
-   * @param createManagementGroupRequest Management group creation parameters.
+   * @param resource Management group creation parameters.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     groupId: string,
-    createManagementGroupRequest: CreateManagementGroupRequest,
-    options?: ManagementGroupsCreateOrUpdateOptionalParams
+    resource: ManagementGroup,
+    options?: ManagementGroupsCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ManagementGroupsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ManagementGroupsCreateOrUpdateResponse>,
       ManagementGroupsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ManagementGroupsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -240,8 +237,8 @@ export class ManagementGroupsImpl implements ManagementGroups {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -249,20 +246,23 @@ export class ManagementGroupsImpl implements ManagementGroups {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { groupId, createManagementGroupRequest, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { groupId, resource, options },
+      spec: createOrUpdateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ManagementGroupsCreateOrUpdateResponse,
+      OperationState<ManagementGroupsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -272,75 +272,67 @@ export class ManagementGroupsImpl implements ManagementGroups {
    * Create or update a management group.
    * If a management group is already created and a subsequent create request is issued with different
    * properties, the management group properties will be updated.
-   *
    * @param groupId Management Group ID.
-   * @param createManagementGroupRequest Management group creation parameters.
+   * @param resource Management group creation parameters.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     groupId: string,
-    createManagementGroupRequest: CreateManagementGroupRequest,
-    options?: ManagementGroupsCreateOrUpdateOptionalParams
+    resource: ManagementGroup,
+    options?: ManagementGroupsCreateOrUpdateOptionalParams,
   ): Promise<ManagementGroupsCreateOrUpdateResponse> {
-    const poller = await this.beginCreateOrUpdate(
-      groupId,
-      createManagementGroupRequest,
-      options
-    );
+    const poller = await this.beginCreateOrUpdate(groupId, resource, options);
     return poller.pollUntilDone();
   }
 
   /**
    * Update a management group.
-   *
    * @param groupId Management Group ID.
-   * @param patchGroupRequest Management group patch parameters.
+   * @param properties Management group patch parameters.
    * @param options The options parameters.
    */
   update(
     groupId: string,
-    patchGroupRequest: PatchManagementGroupRequest,
-    options?: ManagementGroupsUpdateOptionalParams
+    properties: PatchManagementGroupRequest,
+    options?: ManagementGroupsUpdateOptionalParams,
   ): Promise<ManagementGroupsUpdateResponse> {
     return this.client.sendOperationRequest(
-      { groupId, patchGroupRequest, options },
-      updateOperationSpec
+      { groupId, properties, options },
+      updateOperationSpec,
     );
   }
 
   /**
    * Delete management group.
    * If a management group contains child resources, the request will fail.
-   *
    * @param groupId Management Group ID.
    * @param options The options parameters.
    */
   async beginDelete(
     groupId: string,
-    options?: ManagementGroupsDeleteOptionalParams
+    options?: ManagementGroupsDeleteOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ManagementGroupsDeleteResponse>,
+    SimplePollerLike<
+      OperationState<ManagementGroupsDeleteResponse>,
       ManagementGroupsDeleteResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ManagementGroupsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -349,8 +341,8 @@ export class ManagementGroupsImpl implements ManagementGroups {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -358,20 +350,23 @@ export class ManagementGroupsImpl implements ManagementGroups {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { groupId, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { groupId, options },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ManagementGroupsDeleteResponse,
+      OperationState<ManagementGroupsDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -380,13 +375,12 @@ export class ManagementGroupsImpl implements ManagementGroups {
   /**
    * Delete management group.
    * If a management group contains child resources, the request will fail.
-   *
    * @param groupId Management Group ID.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     groupId: string,
-    options?: ManagementGroupsDeleteOptionalParams
+    options?: ManagementGroupsDeleteOptionalParams,
   ): Promise<ManagementGroupsDeleteResponse> {
     const poller = await this.beginDelete(groupId, options);
     return poller.pollUntilDone();
@@ -394,32 +388,32 @@ export class ManagementGroupsImpl implements ManagementGroups {
 
   /**
    * List all entities that descend from a management group.
-   *
    * @param groupId Management Group ID.
    * @param options The options parameters.
    */
   private _getDescendants(
     groupId: string,
-    options?: ManagementGroupsGetDescendantsOptionalParams
+    options?: ManagementGroupsGetDescendantsOptionalParams,
   ): Promise<ManagementGroupsGetDescendantsResponse> {
     return this.client.sendOperationRequest(
       { groupId, options },
-      getDescendantsOperationSpec
+      getDescendantsOperationSpec,
     );
   }
 
   /**
-   * ListNext
-   * @param nextLink The nextLink from the previous successful call to the List method.
+   * Gets all the hierarchy settings defined at the Management Group level. Settings can only be set on
+   * the root Management Group of the hierarchy.
+   * @param groupId Management Group ID.
    * @param options The options parameters.
    */
-  private _listNext(
-    nextLink: string,
-    options?: ManagementGroupsListNextOptionalParams
-  ): Promise<ManagementGroupsListNextResponse> {
+  private _listSettings(
+    groupId: string,
+    options?: ManagementGroupsListSettingsOptionalParams,
+  ): Promise<ManagementGroupsListSettingsResponse> {
     return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec
+      { groupId, options },
+      listSettingsOperationSpec,
     );
   }
 
@@ -432,190 +426,200 @@ export class ManagementGroupsImpl implements ManagementGroups {
   private _getDescendantsNext(
     groupId: string,
     nextLink: string,
-    options?: ManagementGroupsGetDescendantsNextOptionalParams
+    options?: ManagementGroupsGetDescendantsNextOptionalParams,
   ): Promise<ManagementGroupsGetDescendantsNextResponse> {
     return this.client.sendOperationRequest(
       { groupId, nextLink, options },
-      getDescendantsNextOperationSpec
+      getDescendantsNextOperationSpec,
+    );
+  }
+
+  /**
+   * ListSettingsNext
+   * @param groupId Management Group ID.
+   * @param nextLink The nextLink from the previous successful call to the ListSettings method.
+   * @param options The options parameters.
+   */
+  private _listSettingsNext(
+    groupId: string,
+    nextLink: string,
+    options?: ManagementGroupsListSettingsNextOptionalParams,
+  ): Promise<ManagementGroupsListSettingsNextResponse> {
+    return this.client.sendOperationRequest(
+      { groupId, nextLink, options },
+      listSettingsNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/providers/Microsoft.Management/managementGroups",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ManagementGroupListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.skiptoken],
-  urlParameters: [Parameters.$host],
-  headerParameters: [Parameters.accept, Parameters.cacheControl],
-  serializer
-};
 const getOperationSpec: coreClient.OperationSpec = {
   path: "/providers/Microsoft.Management/managementGroups/{groupId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagementGroup
+      bodyMapper: Mappers.ManagementGroup,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
+    Parameters.filter,
     Parameters.expand,
     Parameters.recurse,
-    Parameters.filter
   ],
   urlParameters: [Parameters.$host, Parameters.groupId],
   headerParameters: [Parameters.accept, Parameters.cacheControl],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path: "/providers/Microsoft.Management/managementGroups/{groupId}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagementGroup
+      bodyMapper: Mappers.ManagementGroup,
     },
     201: {
-      bodyMapper: Mappers.ManagementGroup
+      bodyMapper: Mappers.ManagementGroup,
     },
     202: {
-      bodyMapper: Mappers.ManagementGroup
+      bodyMapper: Mappers.ManagementGroup,
     },
     204: {
-      bodyMapper: Mappers.ManagementGroup
+      bodyMapper: Mappers.ManagementGroup,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.createManagementGroupRequest,
+  requestBody: Parameters.resource,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.groupId],
   headerParameters: [
+    Parameters.contentType,
     Parameters.accept,
     Parameters.cacheControl,
-    Parameters.contentType
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
   path: "/providers/Microsoft.Management/managementGroups/{groupId}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagementGroup
+      bodyMapper: Mappers.ManagementGroup,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.patchGroupRequest,
+  requestBody: Parameters.properties,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.groupId],
   headerParameters: [
+    Parameters.contentType,
     Parameters.accept,
     Parameters.cacheControl,
-    Parameters.contentType
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/providers/Microsoft.Management/managementGroups/{groupId}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      bodyMapper: Mappers.AzureAsyncOperationResults,
-      headersMapper: Mappers.ManagementGroupsDeleteHeaders
+      bodyMapper: Mappers.ManagementGroupOperationAcceptance,
+      headersMapper: Mappers.ManagementGroupsDeleteHeaders,
     },
     201: {
-      bodyMapper: Mappers.AzureAsyncOperationResults,
-      headersMapper: Mappers.ManagementGroupsDeleteHeaders
+      bodyMapper: Mappers.ManagementGroupOperationAcceptance,
+      headersMapper: Mappers.ManagementGroupsDeleteHeaders,
     },
     202: {
-      bodyMapper: Mappers.AzureAsyncOperationResults,
-      headersMapper: Mappers.ManagementGroupsDeleteHeaders
+      bodyMapper: Mappers.ManagementGroupOperationAcceptance,
+      headersMapper: Mappers.ManagementGroupsDeleteHeaders,
     },
     204: {
-      bodyMapper: Mappers.AzureAsyncOperationResults,
-      headersMapper: Mappers.ManagementGroupsDeleteHeaders
+      bodyMapper: Mappers.ManagementGroupOperationAcceptance,
+      headersMapper: Mappers.ManagementGroupsDeleteHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.groupId],
   headerParameters: [Parameters.accept, Parameters.cacheControl],
-  serializer
+  serializer,
 };
 const getDescendantsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Management/managementGroups/{groupId}/descendants",
+  path: "/providers/Microsoft.Management/managementGroups/{groupId}/descendants/{groupId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DescendantListResult
+      bodyMapper: Mappers.DescendantListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.skiptoken,
-    Parameters.top
+    Parameters.top,
   ],
   urlParameters: [Parameters.$host, Parameters.groupId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
+const listSettingsOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Management/managementGroups/{groupId}/settings/{groupId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagementGroupListResult
+      bodyMapper: Mappers.HierarchySettingsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.skiptoken],
-  urlParameters: [Parameters.$host, Parameters.nextLink],
-  headerParameters: [Parameters.accept, Parameters.cacheControl],
-  serializer
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.groupId],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const getDescendantsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DescendantListResult
+      bodyMapper: Mappers.DescendantListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skiptoken,
-    Parameters.top
-  ],
-  urlParameters: [Parameters.$host, Parameters.groupId, Parameters.nextLink],
+  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.groupId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const listSettingsNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.HierarchySettingsListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.groupId],
+  headerParameters: [Parameters.accept],
+  serializer,
 };

@@ -9,54 +9,28 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   SubscriptionUnderManagementGroup,
-  ManagementGroupSubscriptionsGetSubscriptionsUnderManagementGroupOptionalParams,
-  ManagementGroupSubscriptionsCreateOptionalParams,
-  ManagementGroupSubscriptionsCreateResponse,
-  ManagementGroupSubscriptionsDeleteOptionalParams,
-  ManagementGroupSubscriptionsGetSubscriptionOptionalParams,
-  ManagementGroupSubscriptionsGetSubscriptionResponse
+  SubscriptionUnderManagementGroupsGetSubscriptionsUnderManagementGroupOptionalParams,
+  SubscriptionUnderManagementGroupsGetSubscriptionOptionalParams,
+  SubscriptionUnderManagementGroupsGetSubscriptionResponse,
+  SubscriptionUnderManagementGroupsCreateOptionalParams,
+  SubscriptionUnderManagementGroupsCreateResponse,
+  SubscriptionUnderManagementGroupsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a ManagementGroupSubscriptions. */
-export interface ManagementGroupSubscriptions {
+/** Interface representing a SubscriptionUnderManagementGroups. */
+export interface SubscriptionUnderManagementGroups {
   /**
    * Retrieves details about all subscriptions which are associated with the management group.
-   *
    * @param groupId Management Group ID.
    * @param options The options parameters.
    */
   listSubscriptionsUnderManagementGroup(
     groupId: string,
-    options?: ManagementGroupSubscriptionsGetSubscriptionsUnderManagementGroupOptionalParams
+    options?: SubscriptionUnderManagementGroupsGetSubscriptionsUnderManagementGroupOptionalParams,
   ): PagedAsyncIterableIterator<SubscriptionUnderManagementGroup>;
   /**
-   * Associates existing subscription with the management group.
-   *
-   * @param groupId Management Group ID.
-   * @param subscriptionId Subscription ID.
-   * @param options The options parameters.
-   */
-  create(
-    groupId: string,
-    subscriptionId: string,
-    options?: ManagementGroupSubscriptionsCreateOptionalParams
-  ): Promise<ManagementGroupSubscriptionsCreateResponse>;
-  /**
-   * De-associates subscription from the management group.
-   *
-   * @param groupId Management Group ID.
-   * @param subscriptionId Subscription ID.
-   * @param options The options parameters.
-   */
-  delete(
-    groupId: string,
-    subscriptionId: string,
-    options?: ManagementGroupSubscriptionsDeleteOptionalParams
-  ): Promise<void>;
-  /**
    * Retrieves details about given subscription which is associated with the management group.
-   *
    * @param groupId Management Group ID.
    * @param subscriptionId Subscription ID.
    * @param options The options parameters.
@@ -64,6 +38,28 @@ export interface ManagementGroupSubscriptions {
   getSubscription(
     groupId: string,
     subscriptionId: string,
-    options?: ManagementGroupSubscriptionsGetSubscriptionOptionalParams
-  ): Promise<ManagementGroupSubscriptionsGetSubscriptionResponse>;
+    options?: SubscriptionUnderManagementGroupsGetSubscriptionOptionalParams,
+  ): Promise<SubscriptionUnderManagementGroupsGetSubscriptionResponse>;
+  /**
+   * Associates existing subscription with the management group.
+   * @param groupId Management Group ID.
+   * @param subscriptionId Subscription ID.
+   * @param options The options parameters.
+   */
+  create(
+    groupId: string,
+    subscriptionId: string,
+    options?: SubscriptionUnderManagementGroupsCreateOptionalParams,
+  ): Promise<SubscriptionUnderManagementGroupsCreateResponse>;
+  /**
+   * De-associates subscription from the management group.
+   * @param groupId Management Group ID.
+   * @param subscriptionId Subscription ID.
+   * @param options The options parameters.
+   */
+  delete(
+    groupId: string,
+    subscriptionId: string,
+    options?: SubscriptionUnderManagementGroupsDeleteOptionalParams,
+  ): Promise<void>;
 }

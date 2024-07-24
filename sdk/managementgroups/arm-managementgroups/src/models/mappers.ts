@@ -8,74 +8,76 @@
 
 import * as coreClient from "@azure/core-client";
 
-export const ManagementGroupListResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManagementGroupListResult",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ManagementGroupInfo"
-            }
-          }
-        }
+export const PathsItdwrvProvidersMicrosoftManagementChecknameavailabilityPostRequestbodyContentApplicationJsonSchema: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className:
+        "PathsItdwrvProvidersMicrosoftManagementChecknameavailabilityPostRequestbodyContentApplicationJsonSchema",
+      modelProperties: {
+        checkNameAvailabilityRequest: {
+          serializedName: "CheckNameAvailabilityRequest",
+          type: {
+            name: "Composite",
+            className: "CheckNameAvailabilityRequest",
+          },
+        },
       },
-      nextLink: {
-        serializedName: "nextLink",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
-export const ManagementGroupInfo: coreClient.CompositeMapper = {
+export const CheckNameAvailabilityRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ManagementGroupInfo",
+    className: "CheckNameAvailabilityRequest",
     modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        serializedName: "type",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
       name: {
         serializedName: "name",
+        type: {
+          name: "String",
+        },
+      },
+      type: {
+        defaultValue: "Microsoft.Management/managementGroups",
+        isConstant: true,
+        serializedName: "type",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const CheckNameAvailabilityResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CheckNameAvailabilityResult",
+    modelProperties: {
+      nameAvailable: {
+        serializedName: "nameAvailable",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "Boolean",
+        },
       },
-      tenantId: {
-        serializedName: "properties.tenantId",
+      reason: {
+        serializedName: "reason",
+        readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "Enum",
+          allowedValues: ["Invalid", "AlreadyExists"],
+        },
       },
-      displayName: {
-        serializedName: "properties.displayName",
+      message: {
+        serializedName: "message",
+        readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ErrorResponse: coreClient.CompositeMapper = {
@@ -87,100 +89,300 @@ export const ErrorResponse: coreClient.CompositeMapper = {
         serializedName: "error",
         type: {
           name: "Composite",
-          className: "ErrorDetails"
-        }
-      }
-    }
-  }
+          className: "ErrorDetail",
+        },
+      },
+    },
+  },
 };
 
-export const ErrorDetails: coreClient.CompositeMapper = {
+export const ErrorDetail: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ErrorDetails",
+    className: "ErrorDetail",
     modelProperties: {
       code: {
         serializedName: "code",
+        readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       message: {
         serializedName: "message",
+        readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
+      },
+      target: {
+        serializedName: "target",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
       },
       details: {
         serializedName: "details",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ManagementGroup: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManagementGroup",
-    modelProperties: {
-      id: {
-        serializedName: "id",
         readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        serializedName: "type",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      tenantId: {
-        serializedName: "properties.tenantId",
-        type: {
-          name: "String"
-        }
-      },
-      displayName: {
-        serializedName: "properties.displayName",
-        type: {
-          name: "String"
-        }
-      },
-      details: {
-        serializedName: "properties.details",
-        type: {
-          name: "Composite",
-          className: "ManagementGroupDetails"
-        }
-      },
-      children: {
-        serializedName: "properties.children",
-        nullable: true,
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "ManagementGroupChildInfo"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "ErrorDetail",
+            },
+          },
+        },
+      },
+      additionalInfo: {
+        serializedName: "additionalInfo",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorAdditionalInfo",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorAdditionalInfo",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      info: {
+        serializedName: "info",
+        readOnly: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } },
+        },
+      },
+    },
+  },
+};
+
+export const EntityListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EntityListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "EntityInfo",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
+      count: {
+        serializedName: "count",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const EntityInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EntityInfo",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "EntityInfoProperties",
+        },
+      },
+    },
+  },
+};
+
+export const EntityInfoProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EntityInfoProperties",
+    modelProperties: {
+      tenantId: {
+        serializedName: "tenantId",
+        type: {
+          name: "String",
+        },
+      },
+      displayName: {
+        serializedName: "displayName",
+        type: {
+          name: "String",
+        },
+      },
+      parent: {
+        serializedName: "parent",
+        type: {
+          name: "Composite",
+          className: "EntityParentGroupInfo",
+        },
+      },
+      permissions: {
+        serializedName: "permissions",
+        type: {
+          name: "Enum",
+          allowedValues: ["noaccess", "view", "edit", "delete"],
+        },
+      },
+      inheritedPermissions: {
+        serializedName: "inheritedPermissions",
+        type: {
+          name: "Enum",
+          allowedValues: ["noaccess", "view", "edit", "delete"],
+        },
+      },
+      numberOfDescendants: {
+        serializedName: "numberOfDescendants",
+        type: {
+          name: "Number",
+        },
+      },
+      numberOfChildren: {
+        serializedName: "numberOfChildren",
+        type: {
+          name: "Number",
+        },
+      },
+      numberOfChildGroups: {
+        serializedName: "numberOfChildGroups",
+        type: {
+          name: "Number",
+        },
+      },
+      parentDisplayNameChain: {
+        serializedName: "parentDisplayNameChain",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+      parentNameChain: {
+        serializedName: "parentNameChain",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const EntityParentGroupInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EntityParentGroupInfo",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ManagementGroupProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagementGroupProperties",
+    modelProperties: {
+      tenantId: {
+        serializedName: "tenantId",
+        type: {
+          name: "String",
+        },
+      },
+      displayName: {
+        serializedName: "displayName",
+        type: {
+          name: "String",
+        },
+      },
+      details: {
+        serializedName: "details",
+        type: {
+          name: "Composite",
+          className: "ManagementGroupDetails",
+        },
+      },
+      children: {
+        serializedName: "children",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ManagementGroupChildInfo",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const ManagementGroupDetails: coreClient.CompositeMapper = {
@@ -191,68 +393,65 @@ export const ManagementGroupDetails: coreClient.CompositeMapper = {
       version: {
         serializedName: "version",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       updatedTime: {
         serializedName: "updatedTime",
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       updatedBy: {
         serializedName: "updatedBy",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       parent: {
         serializedName: "parent",
         type: {
           name: "Composite",
-          className: "ParentGroupInfo"
-        }
+          className: "ParentGroupInfo",
+        },
       },
       path: {
         serializedName: "path",
-        nullable: true,
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "ManagementGroupPathElement"
-            }
-          }
-        }
+              className: "ManagementGroupPathElement",
+            },
+          },
+        },
       },
       managementGroupAncestors: {
         serializedName: "managementGroupAncestors",
-        nullable: true,
         type: {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       managementGroupAncestorsChain: {
         serializedName: "managementGroupAncestorsChain",
-        nullable: true,
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "ManagementGroupPathElement"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "ManagementGroupPathElement",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const ParentGroupInfo: coreClient.CompositeMapper = {
@@ -263,23 +462,23 @@ export const ParentGroupInfo: coreClient.CompositeMapper = {
       id: {
         serializedName: "id",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       displayName: {
         serializedName: "displayName",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ManagementGroupPathElement: coreClient.CompositeMapper = {
@@ -290,17 +489,17 @@ export const ManagementGroupPathElement: coreClient.CompositeMapper = {
       name: {
         serializedName: "name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       displayName: {
         serializedName: "displayName",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ManagementGroupChildInfo: coreClient.CompositeMapper = {
@@ -311,26 +510,30 @@ export const ManagementGroupChildInfo: coreClient.CompositeMapper = {
       type: {
         serializedName: "type",
         type: {
-          name: "String"
-        }
+          name: "Enum",
+          allowedValues: [
+            "Microsoft.Management/managementGroups",
+            "/subscriptions",
+          ],
+        },
       },
       id: {
         serializedName: "id",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       displayName: {
         serializedName: "displayName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       children: {
         serializedName: "children",
@@ -339,242 +542,132 @@ export const ManagementGroupChildInfo: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ManagementGroupChildInfo"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "ManagementGroupChildInfo",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
-export const CreateManagementGroupRequest: coreClient.CompositeMapper = {
+export const Resource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "CreateManagementGroupRequest",
+    className: "Resource",
     modelProperties: {
       id: {
         serializedName: "id",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
       },
       type: {
         serializedName: "type",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      tenantId: {
-        serializedName: "properties.tenantId",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      displayName: {
-        serializedName: "properties.displayName",
-        nullable: true,
-        type: {
-          name: "String"
-        }
-      },
-      details: {
-        serializedName: "properties.details",
+      systemData: {
+        serializedName: "systemData",
         type: {
           name: "Composite",
-          className: "CreateManagementGroupDetails"
-        }
+          className: "SystemData",
+        },
       },
-      children: {
-        serializedName: "properties.children",
-        readOnly: true,
-        nullable: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "CreateManagementGroupChildInfo"
-            }
-          }
-        }
-      }
-    }
-  }
+    },
+  },
 };
 
-export const CreateManagementGroupDetails: coreClient.CompositeMapper = {
+export const SystemData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "CreateManagementGroupDetails",
+    className: "SystemData",
     modelProperties: {
-      version: {
-        serializedName: "version",
-        readOnly: true,
+      createdBy: {
+        serializedName: "createdBy",
         type: {
-          name: "Number"
-        }
+          name: "String",
+        },
       },
-      updatedTime: {
-        serializedName: "updatedTime",
-        readOnly: true,
+      createdByType: {
+        serializedName: "createdByType",
         type: {
-          name: "DateTime"
-        }
+          name: "String",
+        },
       },
-      updatedBy: {
-        serializedName: "updatedBy",
-        readOnly: true,
+      createdAt: {
+        serializedName: "createdAt",
         type: {
-          name: "String"
-        }
+          name: "DateTime",
+        },
       },
-      parent: {
-        serializedName: "parent",
+      lastModifiedBy: {
+        serializedName: "lastModifiedBy",
         type: {
-          name: "Composite",
-          className: "CreateParentGroupInfo"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+      lastModifiedByType: {
+        serializedName: "lastModifiedByType",
+        type: {
+          name: "String",
+        },
+      },
+      lastModifiedAt: {
+        serializedName: "lastModifiedAt",
+        type: {
+          name: "DateTime",
+        },
+      },
+    },
+  },
 };
 
-export const CreateParentGroupInfo: coreClient.CompositeMapper = {
+export const ManagementGroupOperationAcceptance: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "CreateParentGroupInfo",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      displayName: {
-        serializedName: "displayName",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const CreateManagementGroupChildInfo: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CreateManagementGroupChildInfo",
-    modelProperties: {
-      type: {
-        serializedName: "type",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      displayName: {
-        serializedName: "displayName",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      children: {
-        serializedName: "children",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "CreateManagementGroupChildInfo"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const AzureAsyncOperationResults: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "AzureAsyncOperationResults",
+    className: "ManagementGroupOperationAcceptance",
     modelProperties: {
       id: {
         serializedName: "id",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       type: {
         serializedName: "type",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       status: {
         serializedName: "status",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
-      tenantId: {
-        serializedName: "properties.tenantId",
-        type: {
-          name: "String"
-        }
-      },
-      displayName: {
-        serializedName: "properties.displayName",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
+    },
+  },
 };
 
 export const PatchManagementGroupRequest: coreClient.CompositeMapper = {
@@ -584,20 +677,18 @@ export const PatchManagementGroupRequest: coreClient.CompositeMapper = {
     modelProperties: {
       displayName: {
         serializedName: "displayName",
-        nullable: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       parentGroupId: {
         serializedName: "parentGroupId",
-        nullable: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const DescendantListResult: coreClient.CompositeMapper = {
@@ -607,25 +698,25 @@ export const DescendantListResult: coreClient.CompositeMapper = {
     modelProperties: {
       value: {
         serializedName: "value",
+        required: true,
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "DescendantInfo"
-            }
-          }
-        }
+              className: "DescendantInfo",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
-        readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const DescendantInfo: coreClient.CompositeMapper = {
@@ -636,42 +727,55 @@ export const DescendantInfo: coreClient.CompositeMapper = {
       id: {
         serializedName: "id",
         readOnly: true,
-        nullable: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       type: {
         serializedName: "type",
         readOnly: true,
-        nullable: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
-      displayName: {
-        serializedName: "properties.displayName",
-        nullable: true,
-        type: {
-          name: "String"
-        }
-      },
-      parent: {
-        serializedName: "properties.parent",
+      properties: {
+        serializedName: "properties",
         type: {
           name: "Composite",
-          className: "DescendantParentGroupInfo"
-        }
-      }
-    }
-  }
+          className: "DescendantInfoProperties",
+        },
+      },
+    },
+  },
+};
+
+export const DescendantInfoProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DescendantInfoProperties",
+    modelProperties: {
+      displayName: {
+        serializedName: "displayName",
+        type: {
+          name: "String",
+        },
+      },
+      parent: {
+        serializedName: "parent",
+        type: {
+          name: "Composite",
+          className: "DescendantParentGroupInfo",
+        },
+      },
+    },
+  },
 };
 
 export const DescendantParentGroupInfo: coreClient.CompositeMapper = {
@@ -682,218 +786,66 @@ export const DescendantParentGroupInfo: coreClient.CompositeMapper = {
       id: {
         serializedName: "id",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
-export const SubscriptionUnderManagementGroup: coreClient.CompositeMapper = {
+export const HierarchySettingsListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "SubscriptionUnderManagementGroup",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        serializedName: "type",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      tenant: {
-        serializedName: "properties.tenant",
-        type: {
-          name: "String"
-        }
-      },
-      displayName: {
-        serializedName: "properties.displayName",
-        type: {
-          name: "String"
-        }
-      },
-      parent: {
-        serializedName: "properties.parent",
-        type: {
-          name: "Composite",
-          className: "DescendantParentGroupInfo"
-        }
-      },
-      state: {
-        serializedName: "properties.state",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ListSubscriptionUnderManagementGroup: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ListSubscriptionUnderManagementGroup",
+    className: "HierarchySettingsListResult",
     modelProperties: {
       value: {
         serializedName: "value",
+        required: true,
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "SubscriptionUnderManagementGroup"
-            }
-          }
-        }
+              className: "HierarchySettings",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
-        readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
-export const HierarchySettingsList: coreClient.CompositeMapper = {
+export const HierarchySettingsProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "HierarchySettingsList",
+    className: "HierarchySettingsProperties",
     modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "HierarchySettingsInfo"
-            }
-          }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const HierarchySettingsInfo: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "HierarchySettingsInfo",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        serializedName: "type",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
       tenantId: {
-        serializedName: "properties.tenantId",
+        serializedName: "tenantId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       requireAuthorizationForGroupCreation: {
-        serializedName: "properties.requireAuthorizationForGroupCreation",
+        serializedName: "requireAuthorizationForGroupCreation",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       defaultManagementGroup: {
-        serializedName: "properties.defaultManagementGroup",
+        serializedName: "defaultManagementGroup",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const HierarchySettings: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "HierarchySettings",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
-      type: {
-        serializedName: "type",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      tenantId: {
-        serializedName: "properties.tenantId",
-        type: {
-          name: "String"
-        }
-      },
-      requireAuthorizationForGroupCreation: {
-        serializedName: "properties.requireAuthorizationForGroupCreation",
-        type: {
-          name: "Boolean"
-        }
-      },
-      defaultManagementGroup: {
-        serializedName: "properties.defaultManagementGroup",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
+    },
+  },
 };
 
 export const CreateOrUpdateSettingsRequest: coreClient.CompositeMapper = {
@@ -901,21 +853,101 @@ export const CreateOrUpdateSettingsRequest: coreClient.CompositeMapper = {
     name: "Composite",
     className: "CreateOrUpdateSettingsRequest",
     modelProperties: {
-      requireAuthorizationForGroupCreation: {
-        serializedName: "properties.requireAuthorizationForGroupCreation",
+      properties: {
+        serializedName: "properties",
         type: {
-          name: "Boolean"
-        }
+          name: "Composite",
+          className: "CreateOrUpdateSettingsProperties",
+        },
+      },
+    },
+  },
+};
+
+export const CreateOrUpdateSettingsProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CreateOrUpdateSettingsProperties",
+    modelProperties: {
+      requireAuthorizationForGroupCreation: {
+        serializedName: "requireAuthorizationForGroupCreation",
+        type: {
+          name: "Boolean",
+        },
       },
       defaultManagementGroup: {
-        serializedName: "properties.defaultManagementGroup",
+        serializedName: "defaultManagementGroup",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
+
+export const SubscriptionUnderManagementGroupListResult: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "SubscriptionUnderManagementGroupListResult",
+      modelProperties: {
+        value: {
+          serializedName: "value",
+          required: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "SubscriptionUnderManagementGroup",
+              },
+            },
+          },
+        },
+        nextLink: {
+          serializedName: "nextLink",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const SubscriptionUnderManagementGroupProperties: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "SubscriptionUnderManagementGroupProperties",
+      modelProperties: {
+        tenant: {
+          serializedName: "tenant",
+          type: {
+            name: "String",
+          },
+        },
+        displayName: {
+          serializedName: "displayName",
+          type: {
+            name: "String",
+          },
+        },
+        parent: {
+          serializedName: "parent",
+          type: {
+            name: "Composite",
+            className: "DescendantParentGroupInfo",
+          },
+        },
+        state: {
+          serializedName: "state",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
 
 export const OperationListResult: coreClient.CompositeMapper = {
   type: {
@@ -930,20 +962,20 @@ export const OperationListResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "Operation"
-            }
-          }
-        }
+              className: "Operation",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const Operation: coreClient.CompositeMapper = {
@@ -955,271 +987,76 @@ export const Operation: coreClient.CompositeMapper = {
         serializedName: "name",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
+      },
+      isDataAction: {
+        serializedName: "isDataAction",
+        readOnly: true,
+        type: {
+          name: "Boolean",
+        },
       },
       display: {
         serializedName: "display",
         type: {
           name: "Composite",
-          className: "OperationDisplayProperties"
-        }
-      }
-    }
-  }
+          className: "OperationDisplay",
+        },
+      },
+      origin: {
+        serializedName: "origin",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      actionType: {
+        serializedName: "actionType",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
-export const OperationDisplayProperties: coreClient.CompositeMapper = {
+export const OperationDisplay: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "OperationDisplayProperties",
+    className: "OperationDisplay",
     modelProperties: {
       provider: {
         serializedName: "provider",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       resource: {
         serializedName: "resource",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       operation: {
         serializedName: "operation",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       description: {
         serializedName: "description",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const CheckNameAvailabilityRequest: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CheckNameAvailabilityRequest",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
-      type: {
-        defaultValue: "Microsoft.Management/managementGroups",
-        isConstant: true,
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const CheckNameAvailabilityResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CheckNameAvailabilityResult",
-    modelProperties: {
-      nameAvailable: {
-        serializedName: "nameAvailable",
-        readOnly: true,
-        type: {
-          name: "Boolean"
-        }
-      },
-      reason: {
-        serializedName: "reason",
-        readOnly: true,
-        type: {
-          name: "Enum",
-          allowedValues: ["Invalid", "AlreadyExists"]
-        }
-      },
-      message: {
-        serializedName: "message",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const EntityListResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "EntityListResult",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "EntityInfo"
-            }
-          }
-        }
-      },
-      count: {
-        serializedName: "count",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const EntityInfo: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "EntityInfo",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        nullable: true,
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        serializedName: "type",
-        readOnly: true,
-        nullable: true,
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      tenantId: {
-        serializedName: "properties.tenantId",
-        nullable: true,
-        type: {
-          name: "String"
-        }
-      },
-      displayName: {
-        serializedName: "properties.displayName",
-        nullable: true,
-        type: {
-          name: "String"
-        }
-      },
-      parent: {
-        serializedName: "properties.parent",
-        type: {
-          name: "Composite",
-          className: "EntityParentGroupInfo"
-        }
-      },
-      permissions: {
-        serializedName: "properties.permissions",
-        nullable: true,
-        type: {
-          name: "String"
-        }
-      },
-      inheritedPermissions: {
-        serializedName: "properties.inheritedPermissions",
-        nullable: true,
-        type: {
-          name: "String"
-        }
-      },
-      numberOfDescendants: {
-        serializedName: "properties.numberOfDescendants",
-        nullable: true,
-        type: {
-          name: "Number"
-        }
-      },
-      numberOfChildren: {
-        serializedName: "properties.numberOfChildren",
-        nullable: true,
-        type: {
-          name: "Number"
-        }
-      },
-      numberOfChildGroups: {
-        serializedName: "properties.numberOfChildGroups",
-        nullable: true,
-        type: {
-          name: "Number"
-        }
-      },
-      parentDisplayNameChain: {
-        serializedName: "properties.parentDisplayNameChain",
-        nullable: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      parentNameChain: {
-        serializedName: "properties.parentNameChain",
-        nullable: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const EntityParentGroupInfo: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "EntityParentGroupInfo",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
+    },
+  },
 };
 
 export const TenantBackfillStatusResult: coreClient.CompositeMapper = {
@@ -1231,8 +1068,8 @@ export const TenantBackfillStatusResult: coreClient.CompositeMapper = {
         serializedName: "tenantId",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       status: {
         serializedName: "status",
@@ -1245,131 +1082,124 @@ export const TenantBackfillStatusResult: coreClient.CompositeMapper = {
             "Started",
             "Failed",
             "Cancelled",
-            "Completed"
-          ]
-        }
-      }
-    }
-  }
+            "Completed",
+          ],
+        },
+      },
+    },
+  },
 };
 
-export const OperationResults: coreClient.CompositeMapper = {
+export const ManagementGroupListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "OperationResults",
+    className: "ManagementGroupListResult",
     modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        serializedName: "type",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      tenantId: {
-        serializedName: "properties.tenantId",
-        type: {
-          name: "String"
-        }
-      },
-      displayName: {
-        serializedName: "properties.displayName",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const EntityHierarchyItem: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "EntityHierarchyItem",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        serializedName: "type",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      displayName: {
-        serializedName: "properties.displayName",
-        type: {
-          name: "String"
-        }
-      },
-      permissions: {
-        serializedName: "properties.permissions",
-        type: {
-          name: "String"
-        }
-      },
-      children: {
-        serializedName: "properties.children",
-        nullable: true,
+      value: {
+        serializedName: "value",
+        required: true,
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "EntityHierarchyItem"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "ManagementGroup",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
-export const ManagementGroupsCreateOrUpdateHeaders: coreClient.CompositeMapper = {
+export const ProxyResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ManagementGroupsCreateOrUpdateHeaders",
+    className: "ProxyResource",
     modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String"
-        }
-      },
-      azureAsyncOperation: {
-        serializedName: "azure-asyncoperation",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
+      ...Resource.type.modelProperties,
+    },
+  },
 };
+
+export const ManagementGroup: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagementGroup",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "ManagementGroupProperties",
+        },
+      },
+    },
+  },
+};
+
+export const HierarchySettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "HierarchySettings",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "HierarchySettingsProperties",
+        },
+      },
+    },
+  },
+};
+
+export const SubscriptionUnderManagementGroup: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SubscriptionUnderManagementGroup",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "SubscriptionUnderManagementGroupProperties",
+        },
+      },
+    },
+  },
+};
+
+export const ManagementGroupsCreateOrUpdateHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ManagementGroupsCreateOrUpdateHeaders",
+      modelProperties: {
+        azureAsyncOperation: {
+          serializedName: "azure-asyncoperation",
+          type: {
+            name: "String",
+          },
+        },
+        retryAfter: {
+          serializedName: "retry-after",
+          type: {
+            name: "Number",
+          },
+        },
+      },
+    },
+  };
 
 export const ManagementGroupsDeleteHeaders: coreClient.CompositeMapper = {
   type: {
@@ -1379,15 +1209,15 @@ export const ManagementGroupsDeleteHeaders: coreClient.CompositeMapper = {
       location: {
         serializedName: "location",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
-      azureAsyncOperation: {
-        serializedName: "azure-asyncoperation",
+      retryAfter: {
+        serializedName: "retry-after",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "Number",
+        },
+      },
+    },
+  },
 };
