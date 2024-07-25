@@ -1,5 +1,12 @@
 # Release History
     
+## 16.1.0 (2024-07-25)
+    
+**Features**
+
+  - Enum KnownServerVersion has a new value Seven0
+    
+    
 ## 16.0.0 (2024-06-24)
     
 ### Features Added
