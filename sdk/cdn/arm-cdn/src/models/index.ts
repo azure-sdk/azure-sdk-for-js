@@ -7012,13 +7012,6 @@ export type LogAnalyticsGetWafLogAnalyticsRankingsResponse =
   WafRankingsResponse;
 
 /** Optional parameters. */
-export interface ProfilesListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type ProfilesListResponse = ProfileListResult;
-
-/** Optional parameters. */
 export interface ProfilesListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -7119,13 +7112,6 @@ export interface ProfilesListResourceUsageOptionalParams
 
 /** Contains response data for the listResourceUsage operation. */
 export type ProfilesListResourceUsageResponse = ResourceUsageListResult;
-
-/** Optional parameters. */
-export interface ProfilesListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type ProfilesListNextResponse = ProfileListResult;
 
 /** Optional parameters. */
 export interface ProfilesListByResourceGroupNextOptionalParams
