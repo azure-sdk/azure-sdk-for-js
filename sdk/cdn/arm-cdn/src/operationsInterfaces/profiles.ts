@@ -10,7 +10,6 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Profile,
-  ProfilesListOptionalParams,
   ProfilesListByResourceGroupOptionalParams,
   ResourceUsage,
   ProfilesListResourceUsageOptionalParams,
@@ -38,14 +37,6 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Profiles. */
 export interface Profiles {
-  /**
-   * Lists all of the Azure Front Door Standard, Azure Front Door Premium, and CDN profiles within an
-   * Azure subscription.
-   * @param options The options parameters.
-   */
-  list(
-    options?: ProfilesListOptionalParams,
-  ): PagedAsyncIterableIterator<Profile>;
   /**
    * Lists all of the Azure Front Door Standard, Azure Front Door Premium, and CDN profiles within a
    * resource group.

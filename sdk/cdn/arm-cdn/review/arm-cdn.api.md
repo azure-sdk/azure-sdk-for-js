@@ -3553,7 +3553,6 @@ export interface Profiles {
     beginUpdateAndWait(resourceGroupName: string, profileName: string, profileUpdateParameters: ProfileUpdateParameters, options?: ProfilesUpdateOptionalParams): Promise<ProfilesUpdateResponse>;
     generateSsoUri(resourceGroupName: string, profileName: string, options?: ProfilesGenerateSsoUriOptionalParams): Promise<ProfilesGenerateSsoUriResponse>;
     get(resourceGroupName: string, profileName: string, options?: ProfilesGetOptionalParams): Promise<ProfilesGetResponse>;
-    list(options?: ProfilesListOptionalParams): PagedAsyncIterableIterator<Profile>;
     listByResourceGroup(resourceGroupName: string, options?: ProfilesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Profile>;
     listResourceUsage(resourceGroupName: string, profileName: string, options?: ProfilesListResourceUsageOptionalParams): PagedAsyncIterableIterator<ResourceUsage>;
     listSupportedOptimizationTypes(resourceGroupName: string, profileName: string, options?: ProfilesListSupportedOptimizationTypesOptionalParams): Promise<ProfilesListSupportedOptimizationTypesResponse>;
@@ -3641,17 +3640,6 @@ export interface ProfilesListByResourceGroupOptionalParams extends coreClient.Op
 export type ProfilesListByResourceGroupResponse = ProfileListResult;
 
 // @public
-export interface ProfilesListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ProfilesListNextResponse = ProfileListResult;
-
-// @public
-export interface ProfilesListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
 export interface ProfilesListResourceUsageNextOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -3664,9 +3652,6 @@ export interface ProfilesListResourceUsageOptionalParams extends coreClient.Oper
 
 // @public
 export type ProfilesListResourceUsageResponse = ResourceUsageListResult;
-
-// @public
-export type ProfilesListResponse = ProfileListResult;
 
 // @public
 export interface ProfilesListSupportedOptimizationTypesOptionalParams extends coreClient.OperationOptions {
