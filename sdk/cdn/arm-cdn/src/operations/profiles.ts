@@ -21,9 +21,6 @@ import {
 import { createLroSpec } from "../lroImpl";
 import {
   Profile,
-  ProfilesListNextOptionalParams,
-  ProfilesListOptionalParams,
-  ProfilesListResponse,
   ProfilesListByResourceGroupNextOptionalParams,
   ProfilesListByResourceGroupOptionalParams,
   ProfilesListByResourceGroupResponse,
@@ -50,7 +47,6 @@ import {
   ProfilesGenerateSsoUriResponse,
   ProfilesListSupportedOptimizationTypesOptionalParams,
   ProfilesListSupportedOptimizationTypesResponse,
-  ProfilesListNextResponse,
   ProfilesListByResourceGroupNextResponse,
   ProfilesListResourceUsageNextResponse,
 } from "../models";
@@ -66,61 +62,6 @@ export class ProfilesImpl implements Profiles {
    */
   constructor(client: CdnManagementClient) {
     this.client = client;
-  }
-
-  /**
-   * Lists all of the Azure Front Door Standard, Azure Front Door Premium, and CDN profiles within an
-   * Azure subscription.
-   * @param options The options parameters.
-   */
-  public list(
-    options?: ProfilesListOptionalParams,
-  ): PagedAsyncIterableIterator<Profile> {
-    const iter = this.listPagingAll(options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listPagingPage(options, settings);
-      },
-    };
-  }
-
-  private async *listPagingPage(
-    options?: ProfilesListOptionalParams,
-    settings?: PageSettings,
-  ): AsyncIterableIterator<Profile[]> {
-    let result: ProfilesListResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._list(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listNext(continuationToken, options);
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listPagingAll(
-    options?: ProfilesListOptionalParams,
-  ): AsyncIterableIterator<Profile> {
-    for await (const page of this.listPagingPage(options)) {
-      yield* page;
-    }
   }
 
   /**
@@ -277,17 +218,6 @@ export class ProfilesImpl implements Profiles {
     )) {
       yield* page;
     }
-  }
-
-  /**
-   * Lists all of the Azure Front Door Standard, Azure Front Door Premium, and CDN profiles within an
-   * Azure subscription.
-   * @param options The options parameters.
-   */
-  private _list(
-    options?: ProfilesListOptionalParams,
-  ): Promise<ProfilesListResponse> {
-    return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
   /**
@@ -938,21 +868,6 @@ export class ProfilesImpl implements Profiles {
   }
 
   /**
-   * ListNext
-   * @param nextLink The nextLink from the previous successful call to the List method.
-   * @param options The options parameters.
-   */
-  private _listNext(
-    nextLink: string,
-    options?: ProfilesListNextOptionalParams,
-  ): Promise<ProfilesListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
-  }
-
-  /**
    * ListByResourceGroupNext
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
@@ -992,22 +907,6 @@ export class ProfilesImpl implements Profiles {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Cdn/profiles",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ProfileListResult,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles",
   httpMethod: "GET",
@@ -1278,25 +1177,6 @@ const listResourceUsageOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName1,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ProfileListResult,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
   serializer,
