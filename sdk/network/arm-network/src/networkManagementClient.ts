@@ -388,7 +388,7 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-network/33.2.1`;
+    const packageDetails = `azsdk-js-arm-network/34.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -905,13 +905,13 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
   }
 
   /**
-   * Returns the list of currently active sessions on the Bastion.
+   * Returns the list of session state after disconnecting the specified active sessions.
    * @param resourceGroupName The name of the resource group.
    * @param bastionHostName The name of the Bastion Host.
    * @param sessionIds The list of sessionids to disconnect.
    * @param options The options parameters.
    */
-  public listDisconnectActiveSessions(
+  public beginListDisconnectActiveSessionsAndWait(
     resourceGroupName: string,
     bastionHostName: string,
     sessionIds: SessionIds,
@@ -955,12 +955,13 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
     let result: DisconnectActiveSessionsResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._disconnectActiveSessions(
+      const poller = await this._disconnectActiveSessions(
         resourceGroupName,
         bastionHostName,
         sessionIds,
         options,
       );
+      result = await poller.pollUntilDone();
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -1343,22 +1344,76 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
   }
 
   /**
-   * Returns the list of currently active sessions on the Bastion.
+   * Returns the list of session state after disconnecting the specified active sessions.
    * @param resourceGroupName The name of the resource group.
    * @param bastionHostName The name of the Bastion Host.
    * @param sessionIds The list of sessionids to disconnect.
    * @param options The options parameters.
    */
-  private _disconnectActiveSessions(
+  private async _disconnectActiveSessions(
     resourceGroupName: string,
     bastionHostName: string,
     sessionIds: SessionIds,
     options?: DisconnectActiveSessionsOptionalParams,
-  ): Promise<DisconnectActiveSessionsResponse> {
-    return this.sendOperationRequest(
-      { resourceGroupName, bastionHostName, sessionIds, options },
-      disconnectActiveSessionsOperationSpec,
-    );
+  ): Promise<
+    SimplePollerLike<
+      OperationState<DisconnectActiveSessionsResponse>,
+      DisconnectActiveSessionsResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<DisconnectActiveSessionsResponse> => {
+      return this.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, bastionHostName, sessionIds, options },
+      spec: disconnectActiveSessionsOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      DisconnectActiveSessionsResponse,
+      OperationState<DisconnectActiveSessionsResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1964,6 +2019,15 @@ const disconnectActiveSessionsOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.BastionSessionDeleteResult,
     },
+    201: {
+      bodyMapper: Mappers.BastionSessionDeleteResult,
+    },
+    202: {
+      bodyMapper: Mappers.BastionSessionDeleteResult,
+    },
+    204: {
+      bodyMapper: Mappers.BastionSessionDeleteResult,
+    },
     default: {
       bodyMapper: Mappers.CloudError,
     },
@@ -2222,7 +2286,10 @@ const getActiveSessionsNextOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.BastionActiveSessionListResult,
     },
-    202: {},
+    202: {
+      headersMapper:
+        Mappers.NetworkManagementClientGetActiveSessionsNextHeaders,
+    },
     default: {
       bodyMapper: Mappers.CloudError,
     },
@@ -2243,6 +2310,10 @@ const disconnectActiveSessionsNextOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.BastionSessionDeleteResult,
+    },
+    202: {
+      headersMapper:
+        Mappers.NetworkManagementClientDisconnectActiveSessionsNextHeaders,
     },
     default: {
       bodyMapper: Mappers.CloudError,

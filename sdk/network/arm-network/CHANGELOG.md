@@ -1,15 +1,66 @@
 # Release History
+    
+## 34.0.0 (2024-07-25)
+    
+**Features**
 
-## 33.2.1 (Unreleased)
+  - Added operation InboundSecurityRuleOperations.get
+  - Added Interface ApplicationGatewayForContainersReferenceDefinition
+  - Added Interface AzureFirewallAutoscaleConfiguration
+  - Added Interface ExceptionEntry
+  - Added Interface ExpressRoutePortAuthorizationsDeleteHeaders
+  - Added Interface ExpressRoutePortsDeleteHeaders
+  - Added Interface InboundSecurityRuleGetOptionalParams
+  - Added Interface NetworkManagementClientDisconnectActiveSessionsHeaders
+  - Added Interface NetworkManagementClientDisconnectActiveSessionsNextHeaders
+  - Added Interface NetworkManagementClientGetActiveSessionsHeaders
+  - Added Interface NetworkManagementClientGetActiveSessionsNextHeaders
+  - Added Interface RouteFilterRulesDeleteHeaders
+  - Added Interface RouteFiltersDeleteHeaders
+  - Added Type Alias ApplicationGatewayWafRuleSensitivityTypes
+  - Added Type Alias ExceptionEntryMatchVariable
+  - Added Type Alias ExceptionEntrySelectorMatchOperator
+  - Added Type Alias ExceptionEntryValueMatchOperator
+  - Added Type Alias InboundSecurityRuleGetResponse
+  - Added Type Alias PrivateEndpointVNetPolicies
+  - Added Type Alias ProbeNoHealthyBackendsBehavior
+  - Added Type Alias ResiliencyModel
+  - Added Type Alias SensitivityType
+  - Interface ApplicationGatewayFirewallRule has a new optional parameter sensitivity
+  - Interface AzureFirewall has a new optional parameter autoscaleConfiguration
+  - Interface BastionHost has a new optional parameter enableSessionRecording
+  - Interface DisconnectActiveSessionsOptionalParams has a new optional parameter resumeFrom
+  - Interface DisconnectActiveSessionsOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface ExpressRouteCircuitAuthorization has a new optional parameter connectionResourceUri
+  - Interface ExpressRouteCrossConnectionsListOptionalParams has a new optional parameter filter
+  - Interface FlowLog has a new optional parameter enabledFilteringCriteria
+  - Interface FlowLog has a new optional parameter identity
+  - Interface FlowLogInformation has a new optional parameter enabledFilteringCriteria
+  - Interface FlowLogInformation has a new optional parameter identity
+  - Interface ManagedRuleOverride has a new optional parameter sensitivity
+  - Interface ManagedRulesDefinition has a new optional parameter exceptions
+  - Interface PrivateLinkService has a new optional parameter destinationIPAddress
+  - Interface Probe has a new optional parameter noHealthyBackendsBehavior
+  - Interface ServiceEndpointPropertiesFormat has a new optional parameter networkIdentifier
+  - Interface VirtualNetwork has a new optional parameter privateEndpointVNetPolicies
+  - Interface VirtualNetworkGateway has a new optional parameter identity
+  - Interface VirtualNetworkGateway has a new optional parameter resiliencyModel
+  - Interface WebApplicationFirewallPolicy has a new optional parameter applicationGatewayForContainers
+  - Added Enum KnownApplicationGatewayWafRuleSensitivityTypes
+  - Added Enum KnownExceptionEntryMatchVariable
+  - Added Enum KnownExceptionEntrySelectorMatchOperator
+  - Added Enum KnownExceptionEntryValueMatchOperator
+  - Added Enum KnownPrivateEndpointVNetPolicies
+  - Added Enum KnownProbeNoHealthyBackendsBehavior
+  - Added Enum KnownResiliencyModel
+  - Added Enum KnownSensitivityType
+  - Enum KnownBastionHostSkuName has a new value Premium
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Type of parameter startTime of interface BastionActiveSession is changed from Record<string, unknown> to string
+    
+    
 ## 33.2.0 (2024-06-07)
     
 ### Features Added
