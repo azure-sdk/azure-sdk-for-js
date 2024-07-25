@@ -218,10 +218,47 @@ export interface TrafficAnalyticsConfigurationProperties {
   trafficAnalyticsInterval?: number;
 }
 
+/** Identity for the resource. */
+export interface ManagedServiceIdentity {
+  /**
+   * The principal id of the system assigned identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant id of the system assigned identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /** The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine. */
+  type?: ResourceIdentityType;
+  /** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
+  userAssignedIdentities?: {
+    [
+      propertyName: string
+    ]: Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties;
+  };
+}
+
+export interface Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties {
+  /**
+   * The principal id of user assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The client id of user assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientId?: string;
+}
+
 /** The service endpoint properties. */
 export interface ServiceEndpointPropertiesFormat {
   /** The type of the endpoint service. */
   service?: string;
+  /** SubResource as network identifier. */
+  networkIdentifier?: SubResource;
   /** A list of locations. */
   locations?: string[];
   /**
@@ -494,41 +531,6 @@ export interface ApplicationGatewayGlobalConfiguration {
   enableResponseBuffering?: boolean;
 }
 
-/** Identity for the resource. */
-export interface ManagedServiceIdentity {
-  /**
-   * The principal id of the system assigned identity. This property will only be provided for a system assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalId?: string;
-  /**
-   * The tenant id of the system assigned identity. This property will only be provided for a system assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly tenantId?: string;
-  /** The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine. */
-  type?: ResourceIdentityType;
-  /** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: {
-    [
-      propertyName: string
-    ]: Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties;
-  };
-}
-
-export interface Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties {
-  /**
-   * The principal id of user assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalId?: string;
-  /**
-   * The client id of user assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly clientId?: string;
-}
-
 /** Tags object for patch operations. */
 export interface TagsObject {
   /** Resource tags. */
@@ -671,6 +673,8 @@ export interface ApplicationGatewayFirewallRule {
   state?: ApplicationGatewayWafRuleStateTypes;
   /** The string representation of the web application firewall rule action. */
   action?: ApplicationGatewayWafRuleActionTypes;
+  /** The string representation of the web application firewall rule sensitivity. */
+  sensitivity?: ApplicationGatewayWafRuleSensitivityTypes;
   /** The description of the web application firewall rule. */
   description?: string;
 }
@@ -914,6 +918,14 @@ export interface AzureFirewallSku {
   tier?: AzureFirewallSkuTier;
 }
 
+/** Azure Firewall Autoscale Configuration parameters. */
+export interface AzureFirewallAutoscaleConfiguration {
+  /** The minimum number of capacity units for this azure firewall. Use null to reset the value to the service default. */
+  minCapacity?: number;
+  /** The maximum number of capacity units for this azure firewall. Use null to reset the value to the service default. */
+  maxCapacity?: number;
+}
+
 /** Response for ListAzureFirewalls API service call. */
 export interface AzureFirewallListResult {
   /** List of Azure Firewalls in a resource group. */
@@ -926,6 +938,24 @@ export interface AzureFirewallListResult {
 export interface IPPrefixesList {
   /** IP Prefix value. */
   ipPrefixes?: string[];
+}
+
+/** Azure Firewall Packet Capture Parameters. */
+export interface FirewallPacketCaptureParameters {
+  /** Duration of packet capture in seconds. */
+  durationInSeconds?: number;
+  /** Number of packets to be captured. */
+  numberOfPacketsToCapture?: number;
+  /** Upload capture location */
+  sasUrl?: string;
+  /** Name of file to be uploaded to sasURL */
+  fileName?: string;
+  /** The protocol of packets to capture */
+  protocol?: AzureFirewallNetworkRuleProtocol;
+  /** The tcp-flag type to be captured. Used with protocol TCP */
+  flags?: AzureFirewallPacketCaptureFlags[];
+  /** Rules to filter packet captures. */
+  filters?: AzureFirewallPacketCaptureRule[];
 }
 
 /** Properties of the AzureFirewallRCAction. */
@@ -998,7 +1028,7 @@ export interface IPRule {
 
 /** The sku of this Bastion Host. */
 export interface Sku {
-  /** The name of this Bastion Host. */
+  /** The name of the sku of this Bastion Host. */
   name?: BastionHostSkuName;
 }
 
@@ -3212,8 +3242,12 @@ export interface FlowLogInformation {
   targetResourceId: string;
   /** Parameters that define the configuration of traffic analytics. */
   flowAnalyticsConfiguration?: TrafficAnalyticsProperties;
+  /** FlowLog resource Managed Identity */
+  identity?: ManagedServiceIdentity;
   /** ID of the storage account which is used to store the flow log. */
   storageId: string;
+  /** Optional field to filter network traffic logs based on SrcIP, SrcPort, DstIP, DstPort, Protocol, Encryption, Direction and Action. If not specified, all network traffic will be logged. */
+  enabledFilteringCriteria?: string;
   /** Flag to enable/disable flow logging. */
   enabled: boolean;
   /** Parameters that define the retention policy for flow log. */
@@ -5892,22 +5926,28 @@ export interface GroupByVariable {
 
 /** Allow to exclude some variable satisfy the condition for the WAF check. */
 export interface ManagedRulesDefinition {
+  /** The exceptions that are applied on the policy. */
+  exceptions?: ExceptionEntry[];
   /** The Exclusions that are applied on the policy. */
   exclusions?: OwaspCrsExclusionEntry[];
   /** The managed rule sets that are associated with the policy. */
   managedRuleSets: ManagedRuleSet[];
 }
 
-/** Allow to exclude some variable satisfy the condition for the WAF check. */
-export interface OwaspCrsExclusionEntry {
-  /** The variable to be excluded. */
-  matchVariable: OwaspCrsExclusionEntryMatchVariable;
-  /** When matchVariable is a collection, operate on the selector to specify which elements in the collection this exclusion applies to. */
-  selectorMatchOperator: OwaspCrsExclusionEntrySelectorMatchOperator;
-  /** When matchVariable is a collection, operator used to specify which elements in the collection this exclusion applies to. */
-  selector: string;
-  /** The managed rule sets that are associated with the exclusion. */
-  exclusionManagedRuleSets?: ExclusionManagedRuleSet[];
+/** Adds exception to allow a request when the condition is satisfied. */
+export interface ExceptionEntry {
+  /** The variable on which we evaluate the exception condition */
+  matchVariable: ExceptionEntryMatchVariable;
+  /** Allowed values for the matchVariable */
+  values?: string[];
+  /** Operates on the allowed values for the matchVariable */
+  valueMatchOperator: ExceptionEntryValueMatchOperator;
+  /** When the matchVariable points to a key-value pair (e.g, RequestHeader), this operates on the selector */
+  selectorMatchOperator?: ExceptionEntrySelectorMatchOperator;
+  /** When the matchVariable points to a key-value pair (e.g, RequestHeader), this identifies the key. */
+  selector?: string;
+  /** The managed rule sets that are associated with the exception. */
+  exceptionManagedRuleSets?: ExclusionManagedRuleSet[];
 }
 
 /** Defines a managed rule set for Exclusions. */
@@ -5932,6 +5972,18 @@ export interface ExclusionManagedRuleGroup {
 export interface ExclusionManagedRule {
   /** Identifier for the managed rule. */
   ruleId: string;
+}
+
+/** Allow to exclude some variable satisfy the condition for the WAF check. */
+export interface OwaspCrsExclusionEntry {
+  /** The variable to be excluded. */
+  matchVariable: OwaspCrsExclusionEntryMatchVariable;
+  /** When matchVariable is a collection, operate on the selector to specify which elements in the collection this exclusion applies to. */
+  selectorMatchOperator: OwaspCrsExclusionEntrySelectorMatchOperator;
+  /** When matchVariable is a collection, operator used to specify which elements in the collection this exclusion applies to. */
+  selector: string;
+  /** The managed rule sets that are associated with the exclusion. */
+  exclusionManagedRuleSets?: ExclusionManagedRuleSet[];
 }
 
 /** Defines a managed rule set. */
@@ -5960,6 +6012,14 @@ export interface ManagedRuleOverride {
   state?: ManagedRuleEnabledState;
   /** Describes the override action to be applied when rule matches. */
   action?: ActionType;
+  /** Describes the override sensitivity to be applied when rule matches. */
+  sensitivity?: SensitivityType;
+}
+
+/** Defines an application gateway for containers reference. */
+export interface ApplicationGatewayForContainersReferenceDefinition {
+  /** Resource Id of the application gateway for containers. */
+  id: string;
 }
 
 /** Properties of the FirewallPolicyNatRuleCollectionAction. */
@@ -7557,24 +7617,6 @@ export interface AzureFirewallIPConfiguration extends SubResource {
   readonly provisioningState?: ProvisioningState;
 }
 
-/** Azure Firewall Packet Capture Parameters resource. */
-export interface FirewallPacketCaptureParameters extends SubResource {
-  /** Duration of packet capture in seconds. */
-  durationInSeconds?: number;
-  /** Number of packets to be captured. */
-  numberOfPacketsToCapture?: number;
-  /** Upload capture location */
-  sasUrl?: string;
-  /** Name of file to be uploaded to sasURL */
-  fileName?: string;
-  /** The protocol of packets to capture */
-  protocol?: AzureFirewallNetworkRuleProtocol;
-  /** The tcp-flag type to be captured. Used with protocol TCP */
-  flags?: AzureFirewallPacketCaptureFlags[];
-  /** Rules to filter packet captures. */
-  filters?: AzureFirewallPacketCaptureRule[];
-}
-
 /** IP configuration of an Bastion Host. */
 export interface BastionHostIPConfiguration extends SubResource {
   /** Name of the resource that is unique within a resource group. This name can be used to access the resource. */
@@ -7634,6 +7676,11 @@ export interface ExpressRouteCircuitAuthorization extends SubResource {
   authorizationKey?: string;
   /** The authorization use status. */
   authorizationUseStatus?: AuthorizationUseStatus;
+  /**
+   * The reference to the ExpressRoute connection resource using the authorization.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly connectionResourceUri?: string;
   /**
    * The provisioning state of the authorization resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -8040,6 +8087,8 @@ export interface Probe extends SubResource {
   port?: number;
   /** The interval, in seconds, for how frequently to probe the endpoint for health status. Typically, the interval is slightly less than half the allocated timeout period (in seconds) which allows two full probes before taking the instance out of rotation. The default value is 15, the minimum value is 5. */
   intervalInSeconds?: number;
+  /** Determines how new connections are handled by the load balancer when all backend instances are probed down. */
+  noHealthyBackendsBehavior?: ProbeNoHealthyBackendsBehavior;
   /** The number of probes where if no response, will result in stopping further traffic from being delivered to the endpoint. This values allows endpoints to be taken out of rotation faster or slower than the typical times used in Azure. */
   numberOfProbes?: number;
   /** The number of consecutive successful or failed probes in order to allow or deny traffic from being delivered to this endpoint. After failing the number of consecutive probes equal to this value, the endpoint will be taken out of rotation and require the same number of successful consecutive probes to be placed back in rotation. */
@@ -9144,6 +9193,8 @@ export interface PrivateLinkService extends Resource {
   loadBalancerFrontendIpConfigurations?: FrontendIPConfiguration[];
   /** An array of private link service IP configurations. */
   ipConfigurations?: PrivateLinkServiceIpConfiguration[];
+  /** The destination IP address of the private link service. */
+  destinationIPAddress?: string;
   /**
    * An array of references to the network interfaces created for this private link service.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -9266,6 +9317,8 @@ export interface FlowLog extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly etag?: string;
+  /** FlowLog resource Managed Identity */
+  identity?: ManagedServiceIdentity;
   /** ID of network security group to which flow log will be applied. */
   targetResourceId?: string;
   /**
@@ -9275,6 +9328,8 @@ export interface FlowLog extends Resource {
   readonly targetResourceGuid?: string;
   /** ID of the storage account which is used to store the flow log. */
   storageId?: string;
+  /** Optional field to filter network traffic logs based on SrcIP, SrcPort, DstIP, DstPort, Protocol, Encryption, Direction and Action. If not specified, all network traffic will be logged. */
+  enabledFilteringCriteria?: string;
   /** Flag to enable/disable flow logging. */
   enabled?: boolean;
   /** Parameters that define the retention policy for flow log. */
@@ -9686,6 +9741,8 @@ export interface AzureFirewall extends Resource {
   sku?: AzureFirewallSku;
   /** The additional properties used to further config this azure firewall. */
   additionalProperties?: { [propertyName: string]: string };
+  /** Properties to provide a custom autoscale configuration to this azure firewall. */
+  autoscaleConfiguration?: AzureFirewallAutoscaleConfiguration;
 }
 
 /** Azure Firewall FQDN Tag Resource. */
@@ -9744,6 +9801,8 @@ export interface BastionHost extends Resource {
   enableTunneling?: boolean;
   /** Enable/Disable Kerberos feature of the Bastion Host resource. */
   enableKerberos?: boolean;
+  /** Enable/Disable Session Recording feature of the Bastion Host resource. */
+  enableSessionRecording?: boolean;
 }
 
 /** Describes a Virtual Machine. */
@@ -10582,6 +10641,8 @@ export interface VirtualNetwork extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly flowLogs?: FlowLog[];
+  /** Private Endpoint VNet Policies. */
+  privateEndpointVNetPolicies?: PrivateEndpointVNetPolicies;
 }
 
 /** Network Intent Policy resource. */
@@ -10602,6 +10663,8 @@ export interface VirtualNetworkGateway extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly etag?: string;
+  /** The identity of the virtual network gateway, if configured. */
+  identity?: ManagedServiceIdentity;
   /** Autoscale configuration for virutal network gateway */
   autoScaleConfiguration?: VirtualNetworkGatewayAutoScaleConfiguration;
   /** IP configurations for virtual network gateway. */
@@ -10661,6 +10724,8 @@ export interface VirtualNetworkGateway extends Resource {
   allowRemoteVnetTraffic?: boolean;
   /** Property to indicate if the Express Route Gateway serves traffic when there are multiple Express Route Gateways in the vnet */
   adminState?: AdminState;
+  /** Property to indicate if the Express Route Gateway has resiliency model of MultiHomed or SingleHomed */
+  resiliencyModel?: ResiliencyModel;
 }
 
 /** A common class for general resource information. */
@@ -11187,6 +11252,11 @@ export interface WebApplicationFirewallPolicy extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly pathBasedRules?: SubResource[];
+  /**
+   * A collection of references to application gateway for containers.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly applicationGatewayForContainers?: ApplicationGatewayForContainersReferenceDefinition[];
 }
 
 /** The visibility list of the private link service. */
@@ -11824,6 +11894,42 @@ export interface DdosProtectionPlansDeleteHeaders {
   location?: string;
 }
 
+/** Defines headers for ExpressRoutePorts_delete operation. */
+export interface ExpressRoutePortsDeleteHeaders {
+  /**
+   * URL for determining when an operation has completed. Send a GET request to the URL in Location header.
+   * The URI should return a 202 until the operation reaches a terminal state and 200 once it reaches a terminal state.
+   *
+   * For more info: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#202-accepted-and-location-headers
+   */
+  location?: string;
+  /**
+   * URL for checking the ongoing status of the operation.
+   * To get the status of the asynchronous operation, send a GET request to the URL in Azure-AsyncOperation header value.
+   *
+   * For more info: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#asynchronous-operations
+   */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for ExpressRoutePortAuthorizations_delete operation. */
+export interface ExpressRoutePortAuthorizationsDeleteHeaders {
+  /**
+   * URL for determining when an operation has completed. Send a GET request to the URL in Location header.
+   * The URI should return a 202 until the operation reaches a terminal state and 200 once it reaches a terminal state.
+   *
+   * For more info: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#202-accepted-and-location-headers
+   */
+  location?: string;
+  /**
+   * URL for checking the ongoing status of the operation.
+   * To get the status of the asynchronous operation, send a GET request to the URL in Azure-AsyncOperation header value.
+   *
+   * For more info: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#asynchronous-operations
+   */
+  azureAsyncOperation?: string;
+}
+
 /** Defines headers for FirewallPolicyDeployments_deploy operation. */
 export interface FirewallPolicyDeploymentsDeployHeaders {
   /** URL to get the status of the operation. */
@@ -11896,6 +12002,42 @@ export interface NetworkVirtualAppliancesCreateOrUpdateHeaders {
 export interface NetworkVirtualAppliancesRestartHeaders {
   /** The URL of the resource used to check the status of the asynchronous operation. */
   location?: string;
+}
+
+/** Defines headers for RouteFilters_delete operation. */
+export interface RouteFiltersDeleteHeaders {
+  /**
+   * URL for determining when an operation has completed. Send a GET request to the URL in Location header.
+   * The URI should return a 202 until the operation reaches a terminal state and 200 once it reaches a terminal state.
+   *
+   * For more info: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#202-accepted-and-location-headers
+   */
+  location?: string;
+  /**
+   * URL for checking the ongoing status of the operation.
+   * To get the status of the asynchronous operation, send a GET request to the URL in Azure-AsyncOperation header value.
+   *
+   * For more info: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#asynchronous-operations
+   */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for RouteFilterRules_delete operation. */
+export interface RouteFilterRulesDeleteHeaders {
+  /**
+   * URL for determining when an operation has completed. Send a GET request to the URL in Location header.
+   * The URI should return a 202 until the operation reaches a terminal state and 200 once it reaches a terminal state.
+   *
+   * For more info: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#202-accepted-and-location-headers
+   */
+  location?: string;
+  /**
+   * URL for checking the ongoing status of the operation.
+   * To get the status of the asynchronous operation, send a GET request to the URL in Azure-AsyncOperation header value.
+   *
+   * For more info: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#asynchronous-operations
+   */
+  azureAsyncOperation?: string;
 }
 
 /** Defines headers for NetworkVirtualApplianceConnections_delete operation. */
@@ -12987,6 +13129,30 @@ export enum KnownApplicationGatewayWafRuleActionTypes {
  */
 export type ApplicationGatewayWafRuleActionTypes = string;
 
+/** Known values of {@link ApplicationGatewayWafRuleSensitivityTypes} that the service accepts. */
+export enum KnownApplicationGatewayWafRuleSensitivityTypes {
+  /** None */
+  None = "None",
+  /** Low */
+  Low = "Low",
+  /** Medium */
+  Medium = "Medium",
+  /** High */
+  High = "High",
+}
+
+/**
+ * Defines values for ApplicationGatewayWafRuleSensitivityTypes. \
+ * {@link KnownApplicationGatewayWafRuleSensitivityTypes} can be used interchangeably with ApplicationGatewayWafRuleSensitivityTypes,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **Low** \
+ * **Medium** \
+ * **High**
+ */
+export type ApplicationGatewayWafRuleSensitivityTypes = string;
+
 /** Known values of {@link ApplicationGatewayTierTypes} that the service accepts. */
 export enum KnownApplicationGatewayTierTypes {
   /** Standard */
@@ -13214,6 +13380,8 @@ export enum KnownBastionHostSkuName {
   Standard = "Standard",
   /** Developer */
   Developer = "Developer",
+  /** Premium */
+  Premium = "Premium",
 }
 
 /**
@@ -13223,7 +13391,8 @@ export enum KnownBastionHostSkuName {
  * ### Known values supported by the service
  * **Basic** \
  * **Standard** \
- * **Developer**
+ * **Developer** \
+ * **Premium**
  */
 export type BastionHostSkuName = string;
 
@@ -13940,6 +14109,24 @@ export enum KnownProbeProtocol {
  * **Https**
  */
 export type ProbeProtocol = string;
+
+/** Known values of {@link ProbeNoHealthyBackendsBehavior} that the service accepts. */
+export enum KnownProbeNoHealthyBackendsBehavior {
+  /** No new flows will be sent to the backend pool. */
+  AllProbedDown = "AllProbedDown",
+  /** When all backend instances are probed down, incoming packets will be sent to all instances. */
+  AllProbedUp = "AllProbedUp",
+}
+
+/**
+ * Defines values for ProbeNoHealthyBackendsBehavior. \
+ * {@link KnownProbeNoHealthyBackendsBehavior} can be used interchangeably with ProbeNoHealthyBackendsBehavior,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AllProbedDown**: No new flows will be sent to the backend pool. \
+ * **AllProbedUp**: When all backend instances are probed down, incoming packets will be sent to all instances.
+ */
+export type ProbeNoHealthyBackendsBehavior = string;
 
 /** Known values of {@link LoadBalancerOutboundRuleProtocol} that the service accepts. */
 export enum KnownLoadBalancerOutboundRuleProtocol {
@@ -15138,6 +15325,24 @@ export enum KnownVirtualNetworkPeeringLevel {
  */
 export type VirtualNetworkPeeringLevel = string;
 
+/** Known values of {@link PrivateEndpointVNetPolicies} that the service accepts. */
+export enum KnownPrivateEndpointVNetPolicies {
+  /** Disabled */
+  Disabled = "Disabled",
+  /** Basic */
+  Basic = "Basic",
+}
+
+/**
+ * Defines values for PrivateEndpointVNetPolicies. \
+ * {@link KnownPrivateEndpointVNetPolicies} can be used interchangeably with PrivateEndpointVNetPolicies,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Disabled** \
+ * **Basic**
+ */
+export type PrivateEndpointVNetPolicies = string;
+
 /** Known values of {@link SyncRemoteAddressSpace} that the service accepts. */
 export enum KnownSyncRemoteAddressSpace {
   /** True */
@@ -15668,6 +15873,24 @@ export enum KnownAdminState {
  * **Disabled**
  */
 export type AdminState = string;
+
+/** Known values of {@link ResiliencyModel} that the service accepts. */
+export enum KnownResiliencyModel {
+  /** SingleHomed */
+  SingleHomed = "SingleHomed",
+  /** MultiHomed */
+  MultiHomed = "MultiHomed",
+}
+
+/**
+ * Defines values for ResiliencyModel. \
+ * {@link KnownResiliencyModel} can be used interchangeably with ResiliencyModel,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SingleHomed** \
+ * **MultiHomed**
+ */
+export type ResiliencyModel = string;
 
 /** Known values of {@link VirtualNetworkGatewayConnectionType} that the service accepts. */
 export enum KnownVirtualNetworkGatewayConnectionType {
@@ -16476,6 +16699,78 @@ export enum KnownWebApplicationFirewallPolicyResourceState {
  */
 export type WebApplicationFirewallPolicyResourceState = string;
 
+/** Known values of {@link ExceptionEntryMatchVariable} that the service accepts. */
+export enum KnownExceptionEntryMatchVariable {
+  /** RequestURI */
+  RequestURI = "RequestURI",
+  /** RemoteAddr */
+  RemoteAddr = "RemoteAddr",
+  /** RequestHeader */
+  RequestHeader = "RequestHeader",
+}
+
+/**
+ * Defines values for ExceptionEntryMatchVariable. \
+ * {@link KnownExceptionEntryMatchVariable} can be used interchangeably with ExceptionEntryMatchVariable,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **RequestURI** \
+ * **RemoteAddr** \
+ * **RequestHeader**
+ */
+export type ExceptionEntryMatchVariable = string;
+
+/** Known values of {@link ExceptionEntryValueMatchOperator} that the service accepts. */
+export enum KnownExceptionEntryValueMatchOperator {
+  /** Equals */
+  Equals = "Equals",
+  /** Contains */
+  Contains = "Contains",
+  /** StartsWith */
+  StartsWith = "StartsWith",
+  /** EndsWith */
+  EndsWith = "EndsWith",
+  /** IPMatch */
+  IPMatch = "IPMatch",
+}
+
+/**
+ * Defines values for ExceptionEntryValueMatchOperator. \
+ * {@link KnownExceptionEntryValueMatchOperator} can be used interchangeably with ExceptionEntryValueMatchOperator,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Equals** \
+ * **Contains** \
+ * **StartsWith** \
+ * **EndsWith** \
+ * **IPMatch**
+ */
+export type ExceptionEntryValueMatchOperator = string;
+
+/** Known values of {@link ExceptionEntrySelectorMatchOperator} that the service accepts. */
+export enum KnownExceptionEntrySelectorMatchOperator {
+  /** Equals */
+  Equals = "Equals",
+  /** Contains */
+  Contains = "Contains",
+  /** StartsWith */
+  StartsWith = "StartsWith",
+  /** EndsWith */
+  EndsWith = "EndsWith",
+}
+
+/**
+ * Defines values for ExceptionEntrySelectorMatchOperator. \
+ * {@link KnownExceptionEntrySelectorMatchOperator} can be used interchangeably with ExceptionEntrySelectorMatchOperator,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Equals** \
+ * **Contains** \
+ * **StartsWith** \
+ * **EndsWith**
+ */
+export type ExceptionEntrySelectorMatchOperator = string;
+
 /** Known values of {@link OwaspCrsExclusionEntryMatchVariable} that the service accepts. */
 export enum KnownOwaspCrsExclusionEntryMatchVariable {
   /** RequestHeaderNames */
@@ -16586,6 +16881,30 @@ export enum KnownActionType {
  * **JSChallenge**
  */
 export type ActionType = string;
+
+/** Known values of {@link SensitivityType} that the service accepts. */
+export enum KnownSensitivityType {
+  /** None */
+  None = "None",
+  /** Low */
+  Low = "Low",
+  /** Medium */
+  Medium = "Medium",
+  /** High */
+  High = "High",
+}
+
+/**
+ * Defines values for SensitivityType. \
+ * {@link KnownSensitivityType} can be used interchangeably with SensitivityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **Low** \
+ * **Medium** \
+ * **High**
+ */
+export type SensitivityType = string;
 
 /** Known values of {@link FirewallPolicyNatRuleCollectionActionType} that the service accepts. */
 export enum KnownFirewallPolicyNatRuleCollectionActionType {
@@ -16838,18 +17157,18 @@ export enum KnownHubVirtualNetworkConnectionStatus {
  * **NotConnected**
  */
 export type HubVirtualNetworkConnectionStatus = string;
-/** Defines values for PublicIpAddressDnsSettingsDomainNameLabelScope. */
-export type PublicIpAddressDnsSettingsDomainNameLabelScope =
-  | "TenantReuse"
-  | "SubscriptionReuse"
-  | "ResourceGroupReuse"
-  | "NoReuse";
 /** Defines values for ResourceIdentityType. */
 export type ResourceIdentityType =
   | "SystemAssigned"
   | "UserAssigned"
   | "SystemAssigned, UserAssigned"
   | "None";
+/** Defines values for PublicIpAddressDnsSettingsDomainNameLabelScope. */
+export type PublicIpAddressDnsSettingsDomainNameLabelScope =
+  | "TenantReuse"
+  | "SubscriptionReuse"
+  | "ResourceGroupReuse"
+  | "NoReuse";
 /** Defines values for SlotType. */
 export type SlotType = "Production" | "Staging";
 /** Defines values for FirewallPolicyIdpsSignatureMode. */
@@ -18560,7 +18879,10 @@ export type ExpressRouteServiceProvidersListNextResponse =
 
 /** Optional parameters. */
 export interface ExpressRouteCrossConnectionsListOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** The filter to apply on the operation. For example, you can use $filter=name eq '{circuitServiceKey}'. */
+  filter?: string;
+}
 
 /** Contains response data for the list operation. */
 export type ExpressRouteCrossConnectionsListResponse =
@@ -20507,6 +20829,13 @@ export interface InboundSecurityRuleCreateOrUpdateOptionalParams
 
 /** Contains response data for the createOrUpdate operation. */
 export type InboundSecurityRuleCreateOrUpdateResponse = InboundSecurityRule;
+
+/** Optional parameters. */
+export interface InboundSecurityRuleGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type InboundSecurityRuleGetResponse = InboundSecurityRule;
 
 /** Optional parameters. */
 export interface NetworkWatchersCreateOrUpdateOptionalParams
