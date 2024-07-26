@@ -322,6 +322,12 @@ export const ClusterProfile: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      oidcIssuer: {
+        serializedName: "oidcIssuer",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -355,6 +361,68 @@ export const ServicePrincipalProfile: coreClient.CompositeMapper = {
       },
       clientSecret: {
         serializedName: "clientSecret",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const PlatformWorkloadIdentityProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PlatformWorkloadIdentityProfile",
+    modelProperties: {
+      upgradeableTo: {
+        serializedName: "upgradeableTo",
+        type: {
+          name: "String",
+        },
+      },
+      platformWorkloadIdentities: {
+        serializedName: "platformWorkloadIdentities",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PlatformWorkloadIdentity",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const PlatformWorkloadIdentity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PlatformWorkloadIdentity",
+    modelProperties: {
+      operatorName: {
+        serializedName: "operatorName",
+        type: {
+          name: "String",
+        },
+      },
+      resourceId: {
+        serializedName: "resourceId",
+        type: {
+          name: "String",
+        },
+      },
+      clientId: {
+        serializedName: "clientId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      objectId: {
+        serializedName: "objectId",
+        readOnly: true,
         type: {
           name: "String",
         },
@@ -603,6 +671,69 @@ export const IngressProfile: coreClient.CompositeMapper = {
   },
 };
 
+export const Identity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Identity",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        type: {
+          name: "Enum",
+          allowedValues: ["SystemAssigned", "UserAssigned"],
+        },
+      },
+      principalId: {
+        serializedName: "principalId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      tenantId: {
+        serializedName: "tenantId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      userAssignedIdentities: {
+        serializedName: "userAssignedIdentities",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "ClusterUserAssignedIdentity",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const ClusterUserAssignedIdentity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ClusterUserAssignedIdentity",
+    modelProperties: {
+      clientId: {
+        serializedName: "clientId",
+        type: {
+          name: "String",
+        },
+      },
+      principalId: {
+        serializedName: "principalId",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const MachinePoolList: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -723,6 +854,13 @@ export const OpenShiftClusterUpdate: coreClient.CompositeMapper = {
           value: { type: { name: "String" } },
         },
       },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "Identity",
+        },
+      },
       systemData: {
         serializedName: "systemData",
         type: {
@@ -755,6 +893,13 @@ export const OpenShiftClusterUpdate: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ServicePrincipalProfile",
+        },
+      },
+      platformWorkloadIdentityProfile: {
+        serializedName: "properties.platformWorkloadIdentityProfile",
+        type: {
+          name: "Composite",
+          className: "PlatformWorkloadIdentityProfile",
         },
       },
       networkProfile: {
@@ -1063,6 +1208,13 @@ export const OpenShiftCluster: coreClient.CompositeMapper = {
     className: "OpenShiftCluster",
     modelProperties: {
       ...TrackedResource.type.modelProperties,
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "Identity",
+        },
+      },
       provisioningState: {
         serializedName: "properties.provisioningState",
         type: {
@@ -1088,6 +1240,13 @@ export const OpenShiftCluster: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ServicePrincipalProfile",
+        },
+      },
+      platformWorkloadIdentityProfile: {
+        serializedName: "properties.platformWorkloadIdentityProfile",
+        type: {
+          name: "Composite",
+          className: "PlatformWorkloadIdentityProfile",
         },
       },
       networkProfile: {

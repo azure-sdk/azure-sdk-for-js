@@ -124,6 +124,8 @@ export interface ClusterProfile {
   resourceGroupId?: string;
   /** If FIPS validated crypto modules are used */
   fipsValidatedModules?: FipsValidatedModules;
+  /** The URL of the managed OIDC issuer in a workload identity cluster. */
+  oidcIssuer?: string;
 }
 
 /** ConsoleProfile represents a console profile. */
@@ -141,6 +143,23 @@ export interface ServicePrincipalProfile {
   clientId?: string;
   /** The client secret used for the cluster. */
   clientSecret?: string;
+}
+
+/** PlatformWorkloadIdentityProfile encapsulates all information that is specific to workload identity clusters. */
+export interface PlatformWorkloadIdentityProfile {
+  /** UpgradeableTo stores a single OpenShift version a workload identity cluster can be upgraded to */
+  upgradeableTo?: string;
+  platformWorkloadIdentities?: PlatformWorkloadIdentity[];
+}
+
+/** PlatformWorkloadIdentity stores information representing a single workload identity. */
+export interface PlatformWorkloadIdentity {
+  operatorName?: string;
+  resourceId?: string;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly clientId?: string;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly objectId?: string;
 }
 
 /** NetworkProfile represents a network profile. */
@@ -239,6 +258,26 @@ export interface IngressProfile {
   readonly ip?: string;
 }
 
+/** Identity stores information about the cluster MSI(s) in a workload identity cluster. */
+export interface Identity {
+  /** The identity type. */
+  type?: ResourceIdentityType;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly principalId?: string;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly tenantId?: string;
+  /** Dictionary of <ClusterUserAssignedIdentity> */
+  userAssignedIdentities?: {
+    [propertyName: string]: ClusterUserAssignedIdentity;
+  };
+}
+
+/** ClusterUserAssignedIdentity stores information about a user-assigned managed identity in a predefined format required by Microsoft's Managed Identity team. */
+export interface ClusterUserAssignedIdentity {
+  clientId?: string;
+  principalId?: string;
+}
+
 /** MachinePoolList represents a list of MachinePools */
 export interface MachinePoolList {
   /** The list of Machine Pools. */
@@ -275,6 +314,8 @@ export interface SyncSetList {
 export interface OpenShiftClusterUpdate {
   /** The resource tags. */
   tags?: { [propertyName: string]: string };
+  /** Identity stores information about the cluster MSI(s) in a workload identity cluster. */
+  identity?: Identity;
   /**
    * The system meta data relating to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -288,6 +329,8 @@ export interface OpenShiftClusterUpdate {
   consoleProfile?: ConsoleProfile;
   /** The cluster service principal profile. */
   servicePrincipalProfile?: ServicePrincipalProfile;
+  /** The workload identity profile. */
+  platformWorkloadIdentityProfile?: PlatformWorkloadIdentityProfile;
   /** The cluster network profile. */
   networkProfile?: NetworkProfile;
   /** The cluster master profile. */
@@ -402,6 +445,8 @@ export interface SyncSet extends ProxyResource {
 
 /** OpenShiftCluster represents an Azure Red Hat OpenShift cluster. */
 export interface OpenShiftCluster extends TrackedResource {
+  /** Identity stores information about the cluster MSI(s) in a workload identity cluster. */
+  identity?: Identity;
   /** The cluster provisioning state. */
   provisioningState?: ProvisioningState;
   /** The cluster profile. */
@@ -410,6 +455,8 @@ export interface OpenShiftCluster extends TrackedResource {
   consoleProfile?: ConsoleProfile;
   /** The cluster service principal profile. */
   servicePrincipalProfile?: ServicePrincipalProfile;
+  /** The workload identity profile. */
+  platformWorkloadIdentityProfile?: PlatformWorkloadIdentityProfile;
   /** The cluster network profile. */
   networkProfile?: NetworkProfile;
   /** The cluster master profile. */
@@ -573,6 +620,8 @@ export enum KnownVisibility {
  * **Public**
  */
 export type Visibility = string;
+/** Defines values for ResourceIdentityType. */
+export type ResourceIdentityType = "SystemAssigned" | "UserAssigned";
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams

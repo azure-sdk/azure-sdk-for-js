@@ -1,15 +1,22 @@
 # Release History
+    
+## 1.0.0-beta.2 (2024-07-26)
+Compared with version 1.0.0-beta.1
+    
+**Features**
 
-## 1.0.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface ClusterUserAssignedIdentity
+  - Added Interface Identity
+  - Added Interface PlatformWorkloadIdentity
+  - Added Interface PlatformWorkloadIdentityProfile
+  - Added Type Alias ResourceIdentityType
+  - Interface ClusterProfile has a new optional parameter oidcIssuer
+  - Interface OpenShiftCluster has a new optional parameter identity
+  - Interface OpenShiftCluster has a new optional parameter platformWorkloadIdentityProfile
+  - Interface OpenShiftClusterUpdate has a new optional parameter identity
+  - Interface OpenShiftClusterUpdate has a new optional parameter platformWorkloadIdentityProfile
+    
+    
 ## 1.0.0-beta.1 (2024-07-26)
 
 ### Features Added

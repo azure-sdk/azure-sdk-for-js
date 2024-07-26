@@ -66,9 +66,18 @@ export interface CloudErrorBody {
 export interface ClusterProfile {
     domain?: string;
     fipsValidatedModules?: FipsValidatedModules;
+    oidcIssuer?: string;
     pullSecret?: string;
     resourceGroupId?: string;
     version?: string;
+}
+
+// @public
+export interface ClusterUserAssignedIdentity {
+    // (undocumented)
+    clientId?: string;
+    // (undocumented)
+    principalId?: string;
 }
 
 // @public
@@ -100,6 +109,16 @@ export type FipsValidatedModules = string;
 
 // @public
 export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
+export interface Identity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type?: ResourceIdentityType;
+    userAssignedIdentities?: {
+        [propertyName: string]: ClusterUserAssignedIdentity;
+    };
+}
 
 // @public
 export interface IngressProfile {
@@ -257,9 +276,11 @@ export interface OpenShiftCluster extends TrackedResource {
     apiserverProfile?: APIServerProfile;
     clusterProfile?: ClusterProfile;
     consoleProfile?: ConsoleProfile;
+    identity?: Identity;
     ingressProfiles?: IngressProfile[];
     masterProfile?: MasterProfile;
     networkProfile?: NetworkProfile;
+    platformWorkloadIdentityProfile?: PlatformWorkloadIdentityProfile;
     provisioningState?: ProvisioningState;
     servicePrincipalProfile?: ServicePrincipalProfile;
     workerProfiles?: WorkerProfile[];
@@ -376,9 +397,11 @@ export interface OpenShiftClusterUpdate {
     apiserverProfile?: APIServerProfile;
     clusterProfile?: ClusterProfile;
     consoleProfile?: ConsoleProfile;
+    identity?: Identity;
     ingressProfiles?: IngressProfile[];
     masterProfile?: MasterProfile;
     networkProfile?: NetworkProfile;
+    platformWorkloadIdentityProfile?: PlatformWorkloadIdentityProfile;
     provisioningState?: ProvisioningState;
     servicePrincipalProfile?: ServicePrincipalProfile;
     readonly systemData?: SystemData;
@@ -455,6 +478,23 @@ export type OperationsListResponse = OperationList;
 export type OutboundType = string;
 
 // @public
+export interface PlatformWorkloadIdentity {
+    readonly clientId?: string;
+    readonly objectId?: string;
+    // (undocumented)
+    operatorName?: string;
+    // (undocumented)
+    resourceId?: string;
+}
+
+// @public
+export interface PlatformWorkloadIdentityProfile {
+    // (undocumented)
+    platformWorkloadIdentities?: PlatformWorkloadIdentity[];
+    upgradeableTo?: string;
+}
+
+// @public
 export type PreconfiguredNSG = string;
 
 // @public
@@ -471,6 +511,9 @@ export interface Resource {
     readonly systemData?: SystemData;
     readonly type?: string;
 }
+
+// @public
+export type ResourceIdentityType = "SystemAssigned" | "UserAssigned";
 
 // @public
 export interface Secret extends ProxyResource {
