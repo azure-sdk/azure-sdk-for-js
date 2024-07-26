@@ -1,5 +1,13 @@
 # Release History
     
+## 21.1.0 (2024-07-26)
+    
+**Features**
+
+  - Interface Replication has a new optional parameter replicationId
+  - Interface VolumePatch has a new optional parameter protocolTypes
+    
+    
 ## 21.0.0 (2024-05-14)
     
 **Features**
