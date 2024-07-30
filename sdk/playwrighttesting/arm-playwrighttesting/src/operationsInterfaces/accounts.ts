@@ -12,6 +12,9 @@ import {
   Account,
   AccountsListBySubscriptionOptionalParams,
   AccountsListByResourceGroupOptionalParams,
+  CheckNameAvailabilityRequest,
+  AccountsCheckNameAvailabilityOptionalParams,
+  AccountsCheckNameAvailabilityResponse,
   AccountsGetOptionalParams,
   AccountsGetResponse,
   AccountsCreateOrUpdateOptionalParams,
@@ -19,7 +22,7 @@ import {
   AccountUpdate,
   AccountsUpdateOptionalParams,
   AccountsUpdateResponse,
-  AccountsDeleteOptionalParams
+  AccountsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +33,7 @@ export interface Accounts {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: AccountsListBySubscriptionOptionalParams
+    options?: AccountsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<Account>;
   /**
    * List Account resources by resource group
@@ -39,31 +42,41 @@ export interface Accounts {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: AccountsListByResourceGroupOptionalParams
+    options?: AccountsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Account>;
   /**
-   * Get a Account
+   * Adds check global name availability operation, normally used if a resource name must be globally
+   * unique.
+   * @param body The CheckAvailability request
+   * @param options The options parameters.
+   */
+  checkNameAvailability(
+    body: CheckNameAvailabilityRequest,
+    options?: AccountsCheckNameAvailabilityOptionalParams,
+  ): Promise<AccountsCheckNameAvailabilityResponse>;
+  /**
+   * Get a Accoaaaaaunt
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param name Name of account
+   * @param accountName Name of account.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    name: string,
-    options?: AccountsGetOptionalParams
+    accountName: string,
+    options?: AccountsGetOptionalParams,
   ): Promise<AccountsGetResponse>;
   /**
    * Create a Account
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param name Name of account
+   * @param accountName Name of account.
    * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
-    name: string,
+    accountName: string,
     resource: Account,
-    options?: AccountsCreateOrUpdateOptionalParams
+    options?: AccountsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AccountsCreateOrUpdateResponse>,
@@ -73,49 +86,49 @@ export interface Accounts {
   /**
    * Create a Account
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param name Name of account
+   * @param accountName Name of account.
    * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
-    name: string,
+    accountName: string,
     resource: Account,
-    options?: AccountsCreateOrUpdateOptionalParams
+    options?: AccountsCreateOrUpdateOptionalParams,
   ): Promise<AccountsCreateOrUpdateResponse>;
   /**
    * Update a Account
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param name Name of account
+   * @param accountName Name of account.
    * @param properties The resource properties to be updated.
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
-    name: string,
+    accountName: string,
     properties: AccountUpdate,
-    options?: AccountsUpdateOptionalParams
+    options?: AccountsUpdateOptionalParams,
   ): Promise<AccountsUpdateResponse>;
   /**
    * Delete a Account
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param name Name of account
+   * @param accountName Name of account.
    * @param options The options parameters.
    */
   beginDelete(
     resourceGroupName: string,
-    name: string,
-    options?: AccountsDeleteOptionalParams
+    accountName: string,
+    options?: AccountsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a Account
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param name Name of account
+   * @param accountName Name of account.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
     resourceGroupName: string,
-    name: string,
-    options?: AccountsDeleteOptionalParams
+    accountName: string,
+    options?: AccountsDeleteOptionalParams,
   ): Promise<void>;
 }
