@@ -12,7 +12,7 @@ import {
   AlertIncidentsListForScopeOptionalParams,
   AlertIncidentsGetOptionalParams,
   AlertIncidentsGetResponse,
-  AlertIncidentsRemediateOptionalParams
+  AlertIncidentsRemediateOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -27,7 +27,7 @@ export interface AlertIncidents {
   listForScope(
     scope: string,
     alertId: string,
-    options?: AlertIncidentsListForScopeOptionalParams
+    options?: AlertIncidentsListForScopeOptionalParams,
   ): PagedAsyncIterableIterator<AlertIncident>;
   /**
    * Get the specified alert incident.
@@ -46,7 +46,7 @@ export interface AlertIncidents {
     scope: string,
     alertId: string,
     alertIncidentId: string,
-    options?: AlertIncidentsGetOptionalParams
+    options?: AlertIncidentsGetOptionalParams,
   ): Promise<AlertIncidentsGetResponse>;
   /**
    * Remediate an alert incident.
@@ -59,6 +59,6 @@ export interface AlertIncidents {
     scope: string,
     alertId: string,
     alertIncidentId: string,
-    options?: AlertIncidentsRemediateOptionalParams
+    options?: AlertIncidentsRemediateOptionalParams,
   ): Promise<void>;
 }

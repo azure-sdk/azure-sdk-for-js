@@ -14,7 +14,7 @@ import {
   RoleManagementPolicyAssignmentsGetResponse,
   RoleManagementPolicyAssignmentsCreateOptionalParams,
   RoleManagementPolicyAssignmentsCreateResponse,
-  RoleManagementPolicyAssignmentsDeleteOptionalParams
+  RoleManagementPolicyAssignmentsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -27,7 +27,7 @@ export interface RoleManagementPolicyAssignments {
    */
   listForScope(
     scope: string,
-    options?: RoleManagementPolicyAssignmentsListForScopeOptionalParams
+    options?: RoleManagementPolicyAssignmentsListForScopeOptionalParams,
   ): PagedAsyncIterableIterator<RoleManagementPolicyAssignment>;
   /**
    * Get the specified role management policy assignment for a resource scope
@@ -39,7 +39,7 @@ export interface RoleManagementPolicyAssignments {
   get(
     scope: string,
     roleManagementPolicyAssignmentName: string,
-    options?: RoleManagementPolicyAssignmentsGetOptionalParams
+    options?: RoleManagementPolicyAssignmentsGetOptionalParams,
   ): Promise<RoleManagementPolicyAssignmentsGetResponse>;
   /**
    * Create a role management policy assignment
@@ -53,7 +53,7 @@ export interface RoleManagementPolicyAssignments {
     scope: string,
     roleManagementPolicyAssignmentName: string,
     parameters: RoleManagementPolicyAssignment,
-    options?: RoleManagementPolicyAssignmentsCreateOptionalParams
+    options?: RoleManagementPolicyAssignmentsCreateOptionalParams,
   ): Promise<RoleManagementPolicyAssignmentsCreateResponse>;
   /**
    * Delete a role management policy assignment
@@ -65,6 +65,6 @@ export interface RoleManagementPolicyAssignments {
   delete(
     scope: string,
     roleManagementPolicyAssignmentName: string,
-    options?: RoleManagementPolicyAssignmentsDeleteOptionalParams
+    options?: RoleManagementPolicyAssignmentsDeleteOptionalParams,
   ): Promise<void>;
 }
