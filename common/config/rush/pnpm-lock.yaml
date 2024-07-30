@@ -13828,7 +13828,7 @@ packages:
     dev: false
 
   file:projects/arm-compute-1.tgz:
-    resolution: {integrity: sha512-htTzU/qeMbztclayDaALb69likrxG5yfqsxktJ13IrT2EfCQT0inWi5E74C+k9nztbPUvj7111EL4w5Pxi9OaQ==, tarball: file:projects/arm-compute-1.tgz}
+    resolution: {integrity: sha512-FYz+LWMVj85nZEDD0l3zNy6eDGfP23d3Llp0Dsee97595oPDkCTGRxwRjMAt9VBZnJeD6UCBCVag2Zzg4dNy4A==, tarball: file:projects/arm-compute-1.tgz}
     name: '@rush-temp/arm-compute-1'
     version: 0.0.0
     dependencies:
@@ -13848,10 +13848,10 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.7.0
       rimraf: 5.0.9
-      ts-node: 10.9.2(@types/node@18.19.42)(typescript@5.4.5)
+      ts-node: 10.9.2(@types/node@18.19.42)(typescript@5.5.4)
       tslib: 2.6.3
       tsx: 4.16.2
-      typescript: 5.4.5
+      typescript: 5.5.4
       uglify-js: 3.19.1
     transitivePeerDependencies:
       - '@swc/core'
