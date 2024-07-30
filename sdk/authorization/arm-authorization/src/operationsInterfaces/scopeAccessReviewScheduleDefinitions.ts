@@ -16,7 +16,7 @@ import {
   AccessReviewScheduleDefinitionProperties,
   ScopeAccessReviewScheduleDefinitionsCreateOrUpdateByIdOptionalParams,
   ScopeAccessReviewScheduleDefinitionsCreateOrUpdateByIdResponse,
-  ScopeAccessReviewScheduleDefinitionsStopOptionalParams
+  ScopeAccessReviewScheduleDefinitionsStopOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface ScopeAccessReviewScheduleDefinitions {
    */
   list(
     scope: string,
-    options?: ScopeAccessReviewScheduleDefinitionsListOptionalParams
+    options?: ScopeAccessReviewScheduleDefinitionsListOptionalParams,
   ): PagedAsyncIterableIterator<AccessReviewScheduleDefinition>;
   /**
    * Get single access review definition
@@ -40,7 +40,7 @@ export interface ScopeAccessReviewScheduleDefinitions {
   getById(
     scope: string,
     scheduleDefinitionId: string,
-    options?: ScopeAccessReviewScheduleDefinitionsGetByIdOptionalParams
+    options?: ScopeAccessReviewScheduleDefinitionsGetByIdOptionalParams,
   ): Promise<ScopeAccessReviewScheduleDefinitionsGetByIdResponse>;
   /**
    * Delete access review schedule definition
@@ -51,7 +51,7 @@ export interface ScopeAccessReviewScheduleDefinitions {
   deleteById(
     scope: string,
     scheduleDefinitionId: string,
-    options?: ScopeAccessReviewScheduleDefinitionsDeleteByIdOptionalParams
+    options?: ScopeAccessReviewScheduleDefinitionsDeleteByIdOptionalParams,
   ): Promise<void>;
   /**
    * Create or Update access review schedule definition.
@@ -64,7 +64,7 @@ export interface ScopeAccessReviewScheduleDefinitions {
     scope: string,
     scheduleDefinitionId: string,
     properties: AccessReviewScheduleDefinitionProperties,
-    options?: ScopeAccessReviewScheduleDefinitionsCreateOrUpdateByIdOptionalParams
+    options?: ScopeAccessReviewScheduleDefinitionsCreateOrUpdateByIdOptionalParams,
   ): Promise<ScopeAccessReviewScheduleDefinitionsCreateOrUpdateByIdResponse>;
   /**
    * Stop access review definition
@@ -75,6 +75,6 @@ export interface ScopeAccessReviewScheduleDefinitions {
   stop(
     scope: string,
     scheduleDefinitionId: string,
-    options?: ScopeAccessReviewScheduleDefinitionsStopOptionalParams
+    options?: ScopeAccessReviewScheduleDefinitionsStopOptionalParams,
   ): Promise<void>;
 }
