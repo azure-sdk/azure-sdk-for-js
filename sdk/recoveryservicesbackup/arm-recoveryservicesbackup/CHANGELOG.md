@@ -1,15 +1,22 @@
 # Release History
+    
+## 13.2.0-beta.1 (2024-07-30)
+Compared with version 13.1.0
+    
+**Features**
 
-## 13.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation RecoveryPoints.update
+  - Added Interface AzureVmWorkloadSAPHanaScaleoutProtectableItem
+  - Added Interface PatchRecoveryPointInput
+  - Added Interface PatchRecoveryPointPropertiesInput
+  - Added Interface RecoveryPointsUpdateOptionalParams
+  - Added Interface UpdateRecoveryPointRequest
+  - Added Type Alias RecoveryPointsUpdateResponse
+  - Type of parameter protectableItemType of interface AzureVmWorkloadProtectableItem is changed from "AzureVmWorkloadProtectableItem" | "SAPAseSystem" | "SAPHanaDatabase" | "SAPHanaSystem" | "SAPHanaDBInstance" | "HanaHSRContainer" | "SQLAvailabilityGroupContainer" | "SQLDataBase" | "SQLInstance" to "AzureVmWorkloadProtectableItem" | "SAPAseSystem" | "SAPHanaDatabase" | "SAPHanaSystem" | "SAPHanaDBInstance" | "HanaHSRContainer" | "HanaScaleoutContainer" | "SQLAvailabilityGroupContainer" | "SQLDataBase" | "SQLInstance"
+  - Type of parameter protectableItemType of interface WorkloadProtectableItem is changed from "AzureFileShare" | "IaaSVMProtectableItem" | "Microsoft.ClassicCompute/virtualMachines" | "Microsoft.Compute/virtualMachines" | "AzureVmWorkloadProtectableItem" | "SAPAseSystem" | "SAPHanaDatabase" | "SAPHanaSystem" | "SAPHanaDBInstance" | "HanaHSRContainer" | "SQLAvailabilityGroupContainer" | "SQLDataBase" | "SQLInstance" to "AzureFileShare" | "IaaSVMProtectableItem" | "Microsoft.ClassicCompute/virtualMachines" | "Microsoft.Compute/virtualMachines" | "AzureVmWorkloadProtectableItem" | "SAPAseSystem" | "SAPHanaDatabase" | "SAPHanaSystem" | "SAPHanaDBInstance" | "HanaHSRContainer" | "HanaScaleoutContainer" | "SQLAvailabilityGroupContainer" | "SQLDataBase" | "SQLInstance"
+  - Enum KnownContainerType has a new value HanaScaleoutContainer
+    
+    
 ## 13.1.0 (2024-05-08)
     
 **Features**

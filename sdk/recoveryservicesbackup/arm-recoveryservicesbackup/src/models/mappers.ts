@@ -1360,6 +1360,53 @@ export const RecoveryPoint: coreClient.CompositeMapper = {
   },
 };
 
+export const UpdateRecoveryPointRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UpdateRecoveryPointRequest",
+    modelProperties: {
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "PatchRecoveryPointInput",
+        },
+      },
+    },
+  },
+};
+
+export const PatchRecoveryPointInput: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PatchRecoveryPointInput",
+    modelProperties: {
+      recoveryPointProperties: {
+        serializedName: "recoveryPointProperties",
+        type: {
+          name: "Composite",
+          className: "PatchRecoveryPointPropertiesInput",
+        },
+      },
+    },
+  },
+};
+
+export const PatchRecoveryPointPropertiesInput: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PatchRecoveryPointPropertiesInput",
+    modelProperties: {
+      expiryTime: {
+        serializedName: "expiryTime",
+        type: {
+          name: "DateTime",
+        },
+      },
+    },
+  },
+};
+
 export const RestoreRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -9744,6 +9791,21 @@ export const AzureVmWorkloadSAPHanaHSRProtectableItem: coreClient.CompositeMappe
     },
   };
 
+export const AzureVmWorkloadSAPHanaScaleoutProtectableItem: coreClient.CompositeMapper =
+  {
+    serializedName: "HanaScaleoutContainer",
+    type: {
+      name: "Composite",
+      className: "AzureVmWorkloadSAPHanaScaleoutProtectableItem",
+      uberParent: "AzureVmWorkloadProtectableItem",
+      polymorphicDiscriminator:
+        AzureVmWorkloadProtectableItem.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...AzureVmWorkloadProtectableItem.type.modelProperties,
+      },
+    },
+  };
+
 export const AzureVmWorkloadSQLAvailabilityGroupProtectableItem: coreClient.CompositeMapper =
   {
     serializedName: "SQLAvailabilityGroupContainer",
@@ -10190,6 +10252,8 @@ export let discriminators = {
     AzureVmWorkloadSAPHanaDBInstance,
   "AzureVmWorkloadProtectableItem.HanaHSRContainer":
     AzureVmWorkloadSAPHanaHSRProtectableItem,
+  "AzureVmWorkloadProtectableItem.HanaScaleoutContainer":
+    AzureVmWorkloadSAPHanaScaleoutProtectableItem,
   "AzureVmWorkloadProtectableItem.SQLAvailabilityGroupContainer":
     AzureVmWorkloadSQLAvailabilityGroupProtectableItem,
   "AzureVmWorkloadProtectableItem.SQLDataBase":

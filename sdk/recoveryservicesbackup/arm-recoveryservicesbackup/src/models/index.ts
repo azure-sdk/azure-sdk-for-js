@@ -179,6 +179,7 @@ export type AzureVmWorkloadProtectableItemUnion =
   | AzureVmWorkloadSAPHanaSystemProtectableItem
   | AzureVmWorkloadSAPHanaDBInstance
   | AzureVmWorkloadSAPHanaHSRProtectableItem
+  | AzureVmWorkloadSAPHanaScaleoutProtectableItem
   | AzureVmWorkloadSQLAvailabilityGroupProtectableItem
   | AzureVmWorkloadSQLDatabaseProtectableItem
   | AzureVmWorkloadSQLInstanceProtectableItem;
@@ -740,6 +741,24 @@ export interface RecoveryPoint {
     | "IaasVMRecoveryPoint";
 }
 
+/** Patch Request content to update recovery point for given RecoveryPointId */
+export interface UpdateRecoveryPointRequest {
+  /** Resource properties. */
+  properties?: PatchRecoveryPointInput;
+}
+
+/** Recovery Point Contract for Update Recovery Point API. */
+export interface PatchRecoveryPointInput {
+  /** Properties of Recovery Point */
+  recoveryPointProperties?: PatchRecoveryPointPropertiesInput;
+}
+
+/** Recovery Point Properties Contract for Update Recovery Point API. */
+export interface PatchRecoveryPointPropertiesInput {
+  /** Expiry time of Recovery Point in UTC. */
+  expiryTime?: Date;
+}
+
 /** Base class for restore request. Workload-specific restore requests are derived from this class. */
 export interface RestoreRequest {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -1008,6 +1027,7 @@ export interface WorkloadProtectableItem {
     | "SAPHanaSystem"
     | "SAPHanaDBInstance"
     | "HanaHSRContainer"
+    | "HanaScaleoutContainer"
     | "SQLAvailabilityGroupContainer"
     | "SQLDataBase"
     | "SQLInstance";
@@ -3407,6 +3427,7 @@ export interface AzureVmWorkloadProtectableItem
     | "SAPHanaSystem"
     | "SAPHanaDBInstance"
     | "HanaHSRContainer"
+    | "HanaScaleoutContainer"
     | "SQLAvailabilityGroupContainer"
     | "SQLDataBase"
     | "SQLInstance";
@@ -3832,6 +3853,13 @@ export interface AzureVmWorkloadSAPHanaHSRProtectableItem
   extends AzureVmWorkloadProtectableItem {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   protectableItemType: "HanaHSRContainer";
+}
+
+/** Azure VM workload-specific protectable item representing HANA scale out. */
+export interface AzureVmWorkloadSAPHanaScaleoutProtectableItem
+  extends AzureVmWorkloadProtectableItem {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  protectableItemType: "HanaScaleoutContainer";
 }
 
 /** Azure VM workload-specific protectable item representing SQL Availability Group. */
@@ -5575,6 +5603,8 @@ export enum KnownContainerType {
   GenericContainer = "GenericContainer",
   /** HanaHSRContainer */
   HanaHSRContainer = "HanaHSRContainer",
+  /** HanaScaleoutContainer */
+  HanaScaleoutContainer = "HanaScaleoutContainer",
 }
 
 /**
@@ -5597,7 +5627,8 @@ export enum KnownContainerType {
  * **SQLAGWorkLoadContainer** \
  * **StorageContainer** \
  * **GenericContainer** \
- * **HanaHSRContainer**
+ * **HanaHSRContainer** \
+ * **HanaScaleoutContainer**
  */
 export type ContainerType = string;
 
@@ -6071,6 +6102,13 @@ export interface RecoveryPointsGetOptionalParams
 
 /** Contains response data for the get operation. */
 export type RecoveryPointsGetResponse = RecoveryPointResource;
+
+/** Optional parameters. */
+export interface RecoveryPointsUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type RecoveryPointsUpdateResponse = RecoveryPointResource;
 
 /** Optional parameters. */
 export interface RecoveryPointsListNextOptionalParams

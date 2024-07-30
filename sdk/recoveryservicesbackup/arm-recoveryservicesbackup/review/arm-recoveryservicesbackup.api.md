@@ -384,14 +384,14 @@ export interface AzureVmWorkloadProtectableItem extends WorkloadProtectableItem 
     parentName?: string;
     parentUniqueName?: string;
     prebackupvalidation?: PreBackupValidation;
-    protectableItemType: "AzureVmWorkloadProtectableItem" | "SAPAseSystem" | "SAPHanaDatabase" | "SAPHanaSystem" | "SAPHanaDBInstance" | "HanaHSRContainer" | "SQLAvailabilityGroupContainer" | "SQLDataBase" | "SQLInstance";
+    protectableItemType: "AzureVmWorkloadProtectableItem" | "SAPAseSystem" | "SAPHanaDatabase" | "SAPHanaSystem" | "SAPHanaDBInstance" | "HanaHSRContainer" | "HanaScaleoutContainer" | "SQLAvailabilityGroupContainer" | "SQLDataBase" | "SQLInstance";
     serverName?: string;
     subinquireditemcount?: number;
     subprotectableitemcount?: number;
 }
 
 // @public (undocumented)
-export type AzureVmWorkloadProtectableItemUnion = AzureVmWorkloadProtectableItem | AzureVmWorkloadSAPAseSystemProtectableItem | AzureVmWorkloadSAPHanaDatabaseProtectableItem | AzureVmWorkloadSAPHanaSystemProtectableItem | AzureVmWorkloadSAPHanaDBInstance | AzureVmWorkloadSAPHanaHSRProtectableItem | AzureVmWorkloadSQLAvailabilityGroupProtectableItem | AzureVmWorkloadSQLDatabaseProtectableItem | AzureVmWorkloadSQLInstanceProtectableItem;
+export type AzureVmWorkloadProtectableItemUnion = AzureVmWorkloadProtectableItem | AzureVmWorkloadSAPAseSystemProtectableItem | AzureVmWorkloadSAPHanaDatabaseProtectableItem | AzureVmWorkloadSAPHanaSystemProtectableItem | AzureVmWorkloadSAPHanaDBInstance | AzureVmWorkloadSAPHanaHSRProtectableItem | AzureVmWorkloadSAPHanaScaleoutProtectableItem | AzureVmWorkloadSQLAvailabilityGroupProtectableItem | AzureVmWorkloadSQLDatabaseProtectableItem | AzureVmWorkloadSQLInstanceProtectableItem;
 
 // @public
 export interface AzureVmWorkloadProtectedItem extends ProtectedItem {
@@ -485,6 +485,11 @@ export interface AzureVmWorkloadSAPHanaDBInstanceProtectedItem extends AzureVmWo
 // @public
 export interface AzureVmWorkloadSAPHanaHSRProtectableItem extends AzureVmWorkloadProtectableItem {
     protectableItemType: "HanaHSRContainer";
+}
+
+// @public
+export interface AzureVmWorkloadSAPHanaScaleoutProtectableItem extends AzureVmWorkloadProtectableItem {
+    protectableItemType: "HanaScaleoutContainer";
 }
 
 // @public
@@ -2148,6 +2153,7 @@ export enum KnownContainerType {
     DPMContainer = "DPMContainer",
     GenericContainer = "GenericContainer",
     HanaHSRContainer = "HanaHSRContainer",
+    HanaScaleoutContainer = "HanaScaleoutContainer",
     IaasVMContainer = "IaasVMContainer",
     IaasVMServiceContainer = "IaasVMServiceContainer",
     Invalid = "Invalid",
@@ -2950,6 +2956,16 @@ export interface OperationWorkerResponse {
 export type OverwriteOptions = string;
 
 // @public
+export interface PatchRecoveryPointInput {
+    recoveryPointProperties?: PatchRecoveryPointPropertiesInput;
+}
+
+// @public
+export interface PatchRecoveryPointPropertiesInput {
+    expiryTime?: Date;
+}
+
+// @public
 export interface PointInTimeRange {
     endTime?: Date;
     startTime?: Date;
@@ -3516,6 +3532,7 @@ export interface RecoveryPointResourceList extends ResourceList {
 export interface RecoveryPoints {
     get(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, recoveryPointId: string, options?: RecoveryPointsGetOptionalParams): Promise<RecoveryPointsGetResponse>;
     list(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, options?: RecoveryPointsListOptionalParams): PagedAsyncIterableIterator<RecoveryPointResource>;
+    update(resourceGroupName: string, vaultName: string, fabricName: string, containerName: string, protectedItemName: string, recoveryPointId: string, parameters: UpdateRecoveryPointRequest, options?: RecoveryPointsUpdateOptionalParams): Promise<RecoveryPointsUpdateResponse>;
 }
 
 // @public
@@ -3558,6 +3575,13 @@ export interface RecoveryPointsRecommendedForMoveListOptionalParams extends core
 
 // @public
 export type RecoveryPointsRecommendedForMoveListResponse = RecoveryPointResourceList;
+
+// @public
+export interface RecoveryPointsUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RecoveryPointsUpdateResponse = RecoveryPointResource;
 
 // @public
 export interface RecoveryPointTierInformation {
@@ -4119,6 +4143,11 @@ export interface UnlockDeleteResponse {
 }
 
 // @public
+export interface UpdateRecoveryPointRequest {
+    properties?: PatchRecoveryPointInput;
+}
+
+// @public
 export type UsagesUnit = string;
 
 // @public
@@ -4311,7 +4340,7 @@ export type WorkloadItemUnion = WorkloadItem | AzureVmWorkloadItemUnion;
 export interface WorkloadProtectableItem {
     backupManagementType?: string;
     friendlyName?: string;
-    protectableItemType: "AzureFileShare" | "IaaSVMProtectableItem" | "Microsoft.ClassicCompute/virtualMachines" | "Microsoft.Compute/virtualMachines" | "AzureVmWorkloadProtectableItem" | "SAPAseSystem" | "SAPHanaDatabase" | "SAPHanaSystem" | "SAPHanaDBInstance" | "HanaHSRContainer" | "SQLAvailabilityGroupContainer" | "SQLDataBase" | "SQLInstance";
+    protectableItemType: "AzureFileShare" | "IaaSVMProtectableItem" | "Microsoft.ClassicCompute/virtualMachines" | "Microsoft.Compute/virtualMachines" | "AzureVmWorkloadProtectableItem" | "SAPAseSystem" | "SAPHanaDatabase" | "SAPHanaSystem" | "SAPHanaDBInstance" | "HanaHSRContainer" | "HanaScaleoutContainer" | "SQLAvailabilityGroupContainer" | "SQLDataBase" | "SQLInstance";
     protectionState?: ProtectionStatus;
     workloadType?: string;
 }
