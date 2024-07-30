@@ -14,7 +14,7 @@ import { AutomationClient } from "../automationClient";
 import {
   CountType,
   NodeCountInformationGetOptionalParams,
-  NodeCountInformationGetResponse
+  NodeCountInformationGetResponse,
 } from "../models";
 
 /** Class containing NodeCountInformation operations. */
@@ -40,11 +40,11 @@ export class NodeCountInformationImpl implements NodeCountInformation {
     resourceGroupName: string,
     automationAccountName: string,
     countType: CountType,
-    options?: NodeCountInformationGetOptionalParams
+    options?: NodeCountInformationGetOptionalParams,
   ): Promise<NodeCountInformationGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, countType, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -52,16 +52,15 @@ export class NodeCountInformationImpl implements NodeCountInformation {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/nodecounts/{countType}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/nodecounts/{countType}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NodeCounts
+      bodyMapper: Mappers.NodeCounts,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -69,8 +68,8 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
-    Parameters.countType
+    Parameters.countType,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

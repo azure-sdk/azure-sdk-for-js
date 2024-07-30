@@ -11,7 +11,7 @@ import {
   Activity,
   ActivityListByModuleOptionalParams,
   ActivityGetOptionalParams,
-  ActivityGetResponse
+  ActivityGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -28,7 +28,7 @@ export interface ActivityOperations {
     resourceGroupName: string,
     automationAccountName: string,
     moduleName: string,
-    options?: ActivityListByModuleOptionalParams
+    options?: ActivityListByModuleOptionalParams,
   ): PagedAsyncIterableIterator<Activity>;
   /**
    * Retrieve the activity in the module identified by module name and activity name.
@@ -43,6 +43,6 @@ export interface ActivityOperations {
     automationAccountName: string,
     moduleName: string,
     activityName: string,
-    options?: ActivityGetOptionalParams
+    options?: ActivityGetOptionalParams,
   ): Promise<ActivityGetResponse>;
 }
