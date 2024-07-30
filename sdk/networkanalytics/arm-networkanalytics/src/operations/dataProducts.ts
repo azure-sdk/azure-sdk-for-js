@@ -16,7 +16,7 @@ import { MicrosoftNetworkAnalytics } from "../microsoftNetworkAnalytics";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -49,7 +49,7 @@ import {
   KeyVaultInfo,
   DataProductsRotateKeyOptionalParams,
   DataProductsListBySubscriptionNextResponse,
-  DataProductsListByResourceGroupNextResponse
+  DataProductsListByResourceGroupNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -66,11 +66,11 @@ export class DataProductsImpl implements DataProducts {
   }
 
   /**
-   * List data products by subscription.
+   * List data products by aasdsubscription.
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: DataProductsListBySubscriptionOptionalParams
+    options?: DataProductsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<DataProduct> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -85,13 +85,13 @@ export class DataProductsImpl implements DataProducts {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: DataProductsListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DataProduct[]> {
     let result: DataProductsListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -112,7 +112,7 @@ export class DataProductsImpl implements DataProducts {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: DataProductsListBySubscriptionOptionalParams
+    options?: DataProductsListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<DataProduct> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -126,7 +126,7 @@ export class DataProductsImpl implements DataProducts {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: DataProductsListByResourceGroupOptionalParams
+    options?: DataProductsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<DataProduct> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -143,16 +143,16 @@ export class DataProductsImpl implements DataProducts {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: DataProductsListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DataProduct[]> {
     let result: DataProductsListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -167,7 +167,7 @@ export class DataProductsImpl implements DataProducts {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -178,26 +178,26 @@ export class DataProductsImpl implements DataProducts {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: DataProductsListByResourceGroupOptionalParams
+    options?: DataProductsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<DataProduct> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
   }
 
   /**
-   * List data products by subscription.
+   * List data products by aasdsubscription.
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: DataProductsListBySubscriptionOptionalParams
+    options?: DataProductsListBySubscriptionOptionalParams,
   ): Promise<DataProductsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -208,11 +208,11 @@ export class DataProductsImpl implements DataProducts {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: DataProductsListByResourceGroupOptionalParams
+    options?: DataProductsListByResourceGroupOptionalParams,
   ): Promise<DataProductsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -225,11 +225,11 @@ export class DataProductsImpl implements DataProducts {
   get(
     resourceGroupName: string,
     dataProductName: string,
-    options?: DataProductsGetOptionalParams
+    options?: DataProductsGetOptionalParams,
   ): Promise<DataProductsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, dataProductName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -244,7 +244,7 @@ export class DataProductsImpl implements DataProducts {
     resourceGroupName: string,
     dataProductName: string,
     resource: DataProduct,
-    options?: DataProductsCreateOptionalParams
+    options?: DataProductsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DataProductsCreateResponse>,
@@ -253,21 +253,20 @@ export class DataProductsImpl implements DataProducts {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<DataProductsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -276,8 +275,8 @@ export class DataProductsImpl implements DataProducts {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -285,15 +284,15 @@ export class DataProductsImpl implements DataProducts {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, dataProductName, resource, options },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       DataProductsCreateResponse,
@@ -301,7 +300,7 @@ export class DataProductsImpl implements DataProducts {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -318,13 +317,13 @@ export class DataProductsImpl implements DataProducts {
     resourceGroupName: string,
     dataProductName: string,
     resource: DataProduct,
-    options?: DataProductsCreateOptionalParams
+    options?: DataProductsCreateOptionalParams,
   ): Promise<DataProductsCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       dataProductName,
       resource,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -340,7 +339,7 @@ export class DataProductsImpl implements DataProducts {
     resourceGroupName: string,
     dataProductName: string,
     properties: DataProductUpdate,
-    options?: DataProductsUpdateOptionalParams
+    options?: DataProductsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DataProductsUpdateResponse>,
@@ -349,21 +348,20 @@ export class DataProductsImpl implements DataProducts {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<DataProductsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -372,8 +370,8 @@ export class DataProductsImpl implements DataProducts {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -381,15 +379,15 @@ export class DataProductsImpl implements DataProducts {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, dataProductName, properties, options },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       DataProductsUpdateResponse,
@@ -397,7 +395,7 @@ export class DataProductsImpl implements DataProducts {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -414,13 +412,13 @@ export class DataProductsImpl implements DataProducts {
     resourceGroupName: string,
     dataProductName: string,
     properties: DataProductUpdate,
-    options?: DataProductsUpdateOptionalParams
+    options?: DataProductsUpdateOptionalParams,
   ): Promise<DataProductsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       dataProductName,
       properties,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -434,7 +432,7 @@ export class DataProductsImpl implements DataProducts {
   async beginDelete(
     resourceGroupName: string,
     dataProductName: string,
-    options?: DataProductsDeleteOptionalParams
+    options?: DataProductsDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DataProductsDeleteResponse>,
@@ -443,21 +441,20 @@ export class DataProductsImpl implements DataProducts {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<DataProductsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -466,8 +463,8 @@ export class DataProductsImpl implements DataProducts {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -475,15 +472,15 @@ export class DataProductsImpl implements DataProducts {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, dataProductName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
       DataProductsDeleteResponse,
@@ -491,7 +488,7 @@ export class DataProductsImpl implements DataProducts {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -506,12 +503,12 @@ export class DataProductsImpl implements DataProducts {
   async beginDeleteAndWait(
     resourceGroupName: string,
     dataProductName: string,
-    options?: DataProductsDeleteOptionalParams
+    options?: DataProductsDeleteOptionalParams,
   ): Promise<DataProductsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       dataProductName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -527,11 +524,11 @@ export class DataProductsImpl implements DataProducts {
     resourceGroupName: string,
     dataProductName: string,
     body: RoleAssignmentCommonProperties,
-    options?: DataProductsAddUserRoleOptionalParams
+    options?: DataProductsAddUserRoleOptionalParams,
   ): Promise<DataProductsAddUserRoleResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, dataProductName, body, options },
-      addUserRoleOperationSpec
+      addUserRoleOperationSpec,
     );
   }
 
@@ -546,11 +543,11 @@ export class DataProductsImpl implements DataProducts {
     resourceGroupName: string,
     dataProductName: string,
     body: AccountSas,
-    options?: DataProductsGenerateStorageAccountSasTokenOptionalParams
+    options?: DataProductsGenerateStorageAccountSasTokenOptionalParams,
   ): Promise<DataProductsGenerateStorageAccountSasTokenResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, dataProductName, body, options },
-      generateStorageAccountSasTokenOperationSpec
+      generateStorageAccountSasTokenOperationSpec,
     );
   }
 
@@ -565,11 +562,11 @@ export class DataProductsImpl implements DataProducts {
     resourceGroupName: string,
     dataProductName: string,
     body: Record<string, unknown>,
-    options?: DataProductsListRolesAssignmentsOptionalParams
+    options?: DataProductsListRolesAssignmentsOptionalParams,
   ): Promise<DataProductsListRolesAssignmentsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, dataProductName, body, options },
-      listRolesAssignmentsOperationSpec
+      listRolesAssignmentsOperationSpec,
     );
   }
 
@@ -584,11 +581,11 @@ export class DataProductsImpl implements DataProducts {
     resourceGroupName: string,
     dataProductName: string,
     body: RoleAssignmentDetail,
-    options?: DataProductsRemoveUserRoleOptionalParams
+    options?: DataProductsRemoveUserRoleOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, dataProductName, body, options },
-      removeUserRoleOperationSpec
+      removeUserRoleOperationSpec,
     );
   }
 
@@ -603,11 +600,11 @@ export class DataProductsImpl implements DataProducts {
     resourceGroupName: string,
     dataProductName: string,
     body: KeyVaultInfo,
-    options?: DataProductsRotateKeyOptionalParams
+    options?: DataProductsRotateKeyOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, dataProductName, body, options },
-      rotateKeyOperationSpec
+      rotateKeyOperationSpec,
     );
   }
 
@@ -618,11 +615,11 @@ export class DataProductsImpl implements DataProducts {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: DataProductsListBySubscriptionNextOptionalParams
+    options?: DataProductsListBySubscriptionNextOptionalParams,
   ): Promise<DataProductsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 
@@ -635,11 +632,11 @@ export class DataProductsImpl implements DataProducts {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: DataProductsListByResourceGroupNextOptionalParams
+    options?: DataProductsListByResourceGroupNextOptionalParams,
   ): Promise<DataProductsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 }
@@ -647,85 +644,81 @@ export class DataProductsImpl implements DataProducts {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.NetworkAnalytics/dataProducts",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.NetworkAnalytics/dataProducts",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataProductListResult
+      bodyMapper: Mappers.DataProductListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkAnalytics/dataProducts",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkAnalytics/dataProducts",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataProductListResult
+      bodyMapper: Mappers.DataProductListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkAnalytics/dataProducts/{dataProductName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DataProduct
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.dataProductName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkAnalytics/dataProducts/{dataProductName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DataProduct,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.dataProductName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkAnalytics/dataProducts/{dataProductName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkAnalytics/dataProducts/{dataProductName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.DataProduct
+      bodyMapper: Mappers.DataProduct,
     },
     201: {
-      bodyMapper: Mappers.DataProduct
+      bodyMapper: Mappers.DataProduct,
     },
     202: {
-      bodyMapper: Mappers.DataProduct
+      bodyMapper: Mappers.DataProduct,
     },
     204: {
-      bodyMapper: Mappers.DataProduct
+      bodyMapper: Mappers.DataProduct,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.resource,
   queryParameters: [Parameters.apiVersion],
@@ -733,32 +726,31 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.dataProductName
+    Parameters.dataProductName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkAnalytics/dataProducts/{dataProductName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkAnalytics/dataProducts/{dataProductName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.DataProduct
+      bodyMapper: Mappers.DataProduct,
     },
     201: {
-      bodyMapper: Mappers.DataProduct
+      bodyMapper: Mappers.DataProduct,
     },
     202: {
-      bodyMapper: Mappers.DataProduct
+      bodyMapper: Mappers.DataProduct,
     },
     204: {
-      bodyMapper: Mappers.DataProduct
+      bodyMapper: Mappers.DataProduct,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.properties,
   queryParameters: [Parameters.apiVersion],
@@ -766,54 +758,52 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.dataProductName
+    Parameters.dataProductName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkAnalytics/dataProducts/{dataProductName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkAnalytics/dataProducts/{dataProductName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.DataProductsDeleteHeaders
+      headersMapper: Mappers.DataProductsDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.DataProductsDeleteHeaders
+      headersMapper: Mappers.DataProductsDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.DataProductsDeleteHeaders
+      headersMapper: Mappers.DataProductsDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.DataProductsDeleteHeaders
+      headersMapper: Mappers.DataProductsDeleteHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.dataProductName
+    Parameters.dataProductName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const addUserRoleOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkAnalytics/dataProducts/{dataProductName}/addUserRole",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkAnalytics/dataProducts/{dataProductName}/addUserRole",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.RoleAssignmentDetail
+      bodyMapper: Mappers.RoleAssignmentDetail,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body,
   queryParameters: [Parameters.apiVersion],
@@ -821,23 +811,22 @@ const addUserRoleOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.dataProductName
+    Parameters.dataProductName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const generateStorageAccountSasTokenOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkAnalytics/dataProducts/{dataProductName}/generateStorageAccountSasToken",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkAnalytics/dataProducts/{dataProductName}/generateStorageAccountSasToken",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.AccountSasToken
+      bodyMapper: Mappers.AccountSasToken,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body1,
   queryParameters: [Parameters.apiVersion],
@@ -845,23 +834,22 @@ const generateStorageAccountSasTokenOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.dataProductName
+    Parameters.dataProductName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listRolesAssignmentsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkAnalytics/dataProducts/{dataProductName}/listRolesAssignments",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkAnalytics/dataProducts/{dataProductName}/listRolesAssignments",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ListRoleAssignments
+      bodyMapper: Mappers.ListRoleAssignments,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body2,
   queryParameters: [Parameters.apiVersion],
@@ -869,21 +857,20 @@ const listRolesAssignmentsOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.dataProductName
+    Parameters.dataProductName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const removeUserRoleOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkAnalytics/dataProducts/{dataProductName}/removeUserRole",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkAnalytics/dataProducts/{dataProductName}/removeUserRole",
   httpMethod: "POST",
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body3,
   queryParameters: [Parameters.apiVersion],
@@ -891,21 +878,20 @@ const removeUserRoleOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.dataProductName
+    Parameters.dataProductName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const rotateKeyOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkAnalytics/dataProducts/{dataProductName}/rotateKey",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkAnalytics/dataProducts/{dataProductName}/rotateKey",
   httpMethod: "POST",
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body4,
   queryParameters: [Parameters.apiVersion],
@@ -913,48 +899,48 @@ const rotateKeyOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.dataProductName
+    Parameters.dataProductName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataProductListResult
+      bodyMapper: Mappers.DataProductListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataProductListResult
+      bodyMapper: Mappers.DataProductListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
