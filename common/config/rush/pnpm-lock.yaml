@@ -176,6 +176,9 @@ dependencies:
   '@rush-temp/arm-communication':
     specifier: file:./projects/arm-communication.tgz
     version: file:projects/arm-communication.tgz
+  '@rush-temp/arm-communitytraining':
+    specifier: file:./projects/arm-communitytraining.tgz
+    version: file:projects/arm-communitytraining.tgz
   '@rush-temp/arm-compute':
     specifier: file:./projects/arm-compute.tgz
     version: file:projects/arm-compute.tgz
@@ -3486,7 +3489,7 @@ packages:
     resolution: {integrity: sha512-fB3Zu92ucau0iQ0JMCFQE7b/dv8Ot07NI3KaZIkIUNXq82k4eBAqUaneXfleGY9JWskeS9y+u0nXMyspcuQrCg==}
     dependencies:
       '@types/connect': 3.4.38
-      '@types/node': 18.19.42
+      '@types/node': 22.0.0
     dev: false
 
   /@types/bunyan@1.8.9:
@@ -3514,7 +3517,7 @@ packages:
   /@types/connect@3.4.38:
     resolution: {integrity: sha512-K6uROf1LD88uDQqJCktA4yzL1YYAK6NgfsI0v/mTgyPKWsX1CnJ0XPSDhViejru1GcRkLWb8RlzFYJRqGUbaug==}
     dependencies:
-      '@types/node': 18.19.42
+      '@types/node': 22.0.0
     dev: false
 
   /@types/cookie@0.4.1:
@@ -3567,7 +3570,7 @@ packages:
   /@types/express-serve-static-core@4.19.0:
     resolution: {integrity: sha512-bGyep3JqPCRry1wq+O5n7oiBgGWmeIJXPjXXCo8EK0u8duZGSYar7cGqd3ML2JUsLGeB7fmc06KYo9fLGWqPvQ==}
     dependencies:
-      '@types/node': 18.19.42
+      '@types/node': 22.0.0
       '@types/qs': 6.9.15
       '@types/range-parser': 1.2.7
       '@types/send': 0.17.4
@@ -3595,7 +3598,7 @@ packages:
     resolution: {integrity: sha512-yTbItCNreRooED33qjunPthRcSjERP1r4MqCZc7wv0u2sUkzTFp45tgUfS5+r7FrZPdmCCNflLhVSP/o+SemsQ==}
     dependencies:
       '@types/jsonfile': 6.1.4
-      '@types/node': 18.19.42
+      '@types/node': 22.0.0
     dev: false
 
   /@types/fs-extra@8.1.5:
@@ -3638,7 +3641,7 @@ packages:
   /@types/jsonfile@6.1.4:
     resolution: {integrity: sha512-D5qGUYwjvnNNextdU59/+fI+spnwtTFmyQP0h+PfIOSkNfpU6AOICUOkm4i0OnSk+NyjdPJrxCDro0sJsWlRpQ==}
     dependencies:
-      '@types/node': 18.19.42
+      '@types/node': 22.0.0
     dev: false
 
   /@types/jsonwebtoken@9.0.6:
@@ -3764,7 +3767,7 @@ packages:
   /@types/readdir-glob@1.1.5:
     resolution: {integrity: sha512-raiuEPUYqXu+nvtY2Pe8s8FEmZ3x5yAH4VkLdihcPdalvsHltomrRC9BzuStrJ9yk06470hS0Crw0f1pXqD+Hg==}
     dependencies:
-      '@types/node': 18.19.42
+      '@types/node': 22.0.0
     dev: false
 
   /@types/resolve@1.20.2:
@@ -3790,7 +3793,7 @@ packages:
     resolution: {integrity: sha512-W8Ym+h8nhuRwaKPaDw34QUkwsGi6Rc4yYqvKFo5rm2FUEhCFbzVWrxXUxuKK8TASjWsysJY0nsmNCGhCOIsrOw==}
     dependencies:
       '@types/http-errors': 2.0.4
-      '@types/node': 18.19.42
+      '@types/node': 22.0.0
       '@types/send': 0.17.4
     dev: false
 
@@ -13819,6 +13822,36 @@ packages:
       rimraf: 5.0.9
       ts-node: 10.9.2(@types/node@18.19.42)(typescript@5.5.4)
       tslib: 2.6.3
+      typescript: 5.5.4
+      uglify-js: 3.19.1
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - supports-color
+    dev: false
+
+  file:projects/arm-communitytraining.tgz:
+    resolution: {integrity: sha512-l63jRgwZA1molZeot4UHnVs//+gqmASLSTv/cwvKa+/Yj+mek1qUmxUBKK/+xxFI4H/O8FFZgamMTFo7wgfqcA==, tarball: file:projects/arm-communitytraining.tgz}
+    name: '@rush-temp/arm-communitytraining'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-credential': 1.2.0
+      '@azure-tools/test-recorder': 3.5.2
+      '@azure/core-lro': 2.7.2
+      '@azure/identity': 4.4.0
+      '@microsoft/api-extractor': 7.47.4(@types/node@18.19.42)
+      '@types/chai': 4.3.16
+      '@types/mocha': 10.0.7
+      '@types/node': 18.19.42
+      chai: 4.3.10
+      cross-env: 7.0.3
+      dotenv: 16.4.5
+      mkdirp: 3.0.1
+      mocha: 10.7.0
+      rimraf: 5.0.9
+      ts-node: 10.9.2(@types/node@18.19.42)(typescript@5.5.4)
+      tslib: 2.6.3
+      tsx: 4.16.2
       typescript: 5.5.4
       uglify-js: 3.19.1
     transitivePeerDependencies:
