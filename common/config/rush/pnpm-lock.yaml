@@ -185,6 +185,9 @@ dependencies:
   '@rush-temp/arm-compute-profile-2020-09-01-hybrid':
     specifier: file:./projects/arm-compute-profile-2020-09-01-hybrid.tgz
     version: file:projects/arm-compute-profile-2020-09-01-hybrid.tgz
+  '@rush-temp/arm-computefleet':
+    specifier: file:./projects/arm-computefleet.tgz
+    version: file:projects/arm-computefleet.tgz
   '@rush-temp/arm-confidentialledger':
     specifier: file:./projects/arm-confidentialledger.tgz
     version: file:projects/arm-confidentialledger.tgz
@@ -3489,7 +3492,7 @@ packages:
     resolution: {integrity: sha512-fB3Zu92ucau0iQ0JMCFQE7b/dv8Ot07NI3KaZIkIUNXq82k4eBAqUaneXfleGY9JWskeS9y+u0nXMyspcuQrCg==}
     dependencies:
       '@types/connect': 3.4.38
-      '@types/node': 18.19.42
+      '@types/node': 22.0.0
     dev: false
 
   /@types/bunyan@1.8.9:
@@ -3517,7 +3520,7 @@ packages:
   /@types/connect@3.4.38:
     resolution: {integrity: sha512-K6uROf1LD88uDQqJCktA4yzL1YYAK6NgfsI0v/mTgyPKWsX1CnJ0XPSDhViejru1GcRkLWb8RlzFYJRqGUbaug==}
     dependencies:
-      '@types/node': 18.19.42
+      '@types/node': 22.0.0
     dev: false
 
   /@types/cookie@0.4.1:
@@ -3570,7 +3573,7 @@ packages:
   /@types/express-serve-static-core@4.19.0:
     resolution: {integrity: sha512-bGyep3JqPCRry1wq+O5n7oiBgGWmeIJXPjXXCo8EK0u8duZGSYar7cGqd3ML2JUsLGeB7fmc06KYo9fLGWqPvQ==}
     dependencies:
-      '@types/node': 18.19.42
+      '@types/node': 22.0.0
       '@types/qs': 6.9.15
       '@types/range-parser': 1.2.7
       '@types/send': 0.17.4
@@ -3598,7 +3601,7 @@ packages:
     resolution: {integrity: sha512-yTbItCNreRooED33qjunPthRcSjERP1r4MqCZc7wv0u2sUkzTFp45tgUfS5+r7FrZPdmCCNflLhVSP/o+SemsQ==}
     dependencies:
       '@types/jsonfile': 6.1.4
-      '@types/node': 18.19.42
+      '@types/node': 22.0.0
     dev: false
 
   /@types/fs-extra@8.1.5:
@@ -3641,7 +3644,7 @@ packages:
   /@types/jsonfile@6.1.4:
     resolution: {integrity: sha512-D5qGUYwjvnNNextdU59/+fI+spnwtTFmyQP0h+PfIOSkNfpU6AOICUOkm4i0OnSk+NyjdPJrxCDro0sJsWlRpQ==}
     dependencies:
-      '@types/node': 18.19.42
+      '@types/node': 22.0.0
     dev: false
 
   /@types/jsonwebtoken@9.0.6:
@@ -3767,7 +3770,7 @@ packages:
   /@types/readdir-glob@1.1.5:
     resolution: {integrity: sha512-raiuEPUYqXu+nvtY2Pe8s8FEmZ3x5yAH4VkLdihcPdalvsHltomrRC9BzuStrJ9yk06470hS0Crw0f1pXqD+Hg==}
     dependencies:
-      '@types/node': 18.19.42
+      '@types/node': 22.0.0
     dev: false
 
   /@types/resolve@1.20.2:
@@ -3793,7 +3796,7 @@ packages:
     resolution: {integrity: sha512-W8Ym+h8nhuRwaKPaDw34QUkwsGi6Rc4yYqvKFo5rm2FUEhCFbzVWrxXUxuKK8TASjWsysJY0nsmNCGhCOIsrOw==}
     dependencies:
       '@types/http-errors': 2.0.4
-      '@types/node': 18.19.42
+      '@types/node': 22.0.0
       '@types/send': 0.17.4
     dev: false
 
@@ -13939,6 +13942,36 @@ packages:
       - utf-8-validate
     dev: false
 
+  file:projects/arm-computefleet.tgz:
+    resolution: {integrity: sha512-sd+UPimLdPDhIW2cpkMHhUmwMGGpLPtonCUMudy+Ukf4jLm+Kkt2bgBeKuhuvN7iSvnm8jUrBqDly+Bf4XqDog==, tarball: file:projects/arm-computefleet.tgz}
+    name: '@rush-temp/arm-computefleet'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-credential': 1.2.0
+      '@azure-tools/test-recorder': 3.5.2
+      '@azure/core-lro': 2.7.2
+      '@azure/identity': 4.4.0
+      '@microsoft/api-extractor': 7.47.4(@types/node@18.19.42)
+      '@types/chai': 4.3.16
+      '@types/mocha': 10.0.7
+      '@types/node': 18.19.42
+      chai: 4.3.10
+      cross-env: 7.0.3
+      dotenv: 16.4.5
+      mkdirp: 3.0.1
+      mocha: 10.7.0
+      rimraf: 5.0.9
+      ts-node: 10.9.2(@types/node@18.19.42)(typescript@5.5.4)
+      tslib: 2.6.3
+      tsx: 4.16.2
+      typescript: 5.5.4
+      uglify-js: 3.19.1
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - supports-color
+    dev: false
+
   file:projects/arm-confidentialledger.tgz:
     resolution: {integrity: sha512-YiL8AaxkgP74LPtjxpFac4G/4jAgT7mRzogI1ZWf6QNoL+6itqxDjOLs7gUsdvY4rNeADrnbt3xu775GPTWZxw==, tarball: file:projects/arm-confidentialledger.tgz}
     name: '@rush-temp/arm-confidentialledger'
@@ -16861,25 +16894,25 @@ packages:
     dev: false
 
   file:projects/arm-mongocluster.tgz:
-    resolution: {integrity: sha512-5FzyO/e1o/c2iH+ED7PTk7qTkY0NQJ1G3yNKuRa1w7nC8vYki0njT4UI3rZsKKEDs071k6lvP/FsOjxS3uhMRw==, tarball: file:projects/arm-mongocluster.tgz}
+    resolution: {integrity: sha512-yLfc/d1JCf7OviPc/PBlQjg3LMBBL9/RBrwF9zQrImm4bO6sunLSMjtfLYr8votWjYtcSWToLZVTwoywB0Sk3A==, tarball: file:projects/arm-mongocluster.tgz}
     name: '@rush-temp/arm-mongocluster'
     version: 0.0.0
     dependencies:
       '@azure/identity': 4.4.0
-      '@microsoft/api-extractor': 7.47.1(@types/node@18.19.40)
-      '@types/node': 18.19.40
-      '@vitest/browser': 1.6.0(playwright@1.45.2)(vitest@1.6.0)
+      '@microsoft/api-extractor': 7.47.4(@types/node@18.19.42)
+      '@types/node': 18.19.42
+      '@vitest/browser': 1.6.0(playwright@1.45.3)(vitest@1.6.0)
       '@vitest/coverage-istanbul': 1.6.0(vitest@1.6.0)
       dotenv: 16.4.5
       eslint: 8.57.0
       mkdirp: 3.0.1
-      playwright: 1.45.2
+      playwright: 1.45.3
       prettier: 3.3.3
       rimraf: 5.0.9
       tshy: 1.18.0
       tslib: 2.6.3
       typescript: 5.5.4
-      vitest: 1.6.0(@types/node@18.19.40)(@vitest/browser@1.6.0)
+      vitest: 1.6.0(@types/node@18.19.42)(@vitest/browser@1.6.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
