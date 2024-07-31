@@ -18767,7 +18767,7 @@ packages:
     dev: false
 
   file:projects/arm-servicefabricmanagedclusters.tgz:
-    resolution: {integrity: sha512-TCi0jp2pkdiaCDttYrLe2lOgb2BLNKzfqy8sCBizSGqbapwU1zr2k1dsdlVPFaBmoPG6T3+MqqBukQ55Qde9NQ==, tarball: file:projects/arm-servicefabricmanagedclusters.tgz}
+    resolution: {integrity: sha512-rRNIWOwfM5L229xsaIDLavxQ4CVrqXgmrtF7CYKxLvysycHHslrc3EpOp3l78DpP94mhAPy2ozk5+NlG3puDIw==, tarball: file:projects/arm-servicefabricmanagedclusters.tgz}
     name: '@rush-temp/arm-servicefabricmanagedclusters'
     version: 0.0.0
     dependencies:
@@ -18786,10 +18786,10 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.7.0
       rimraf: 5.0.9
-      ts-node: 10.9.2(@types/node@18.19.42)(typescript@5.4.5)
+      ts-node: 10.9.2(@types/node@18.19.42)(typescript@5.5.4)
       tslib: 2.6.3
       tsx: 4.16.2
-      typescript: 5.4.5
+      typescript: 5.5.4
       uglify-js: 3.19.1
     transitivePeerDependencies:
       - '@swc/core'
