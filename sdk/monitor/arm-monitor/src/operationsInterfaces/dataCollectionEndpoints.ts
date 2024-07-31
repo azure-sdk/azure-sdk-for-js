@@ -7,10 +7,17 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
+  NetworkSecurityPerimeterConfiguration,
+  DataCollectionEndpointsListNSPOptionalParams,
   DataCollectionEndpointResource,
   DataCollectionEndpointsListByResourceGroupOptionalParams,
   DataCollectionEndpointsListBySubscriptionOptionalParams,
+  DataCollectionEndpointsGetNSPOptionalParams,
+  DataCollectionEndpointsGetNSPResponse,
+  DataCollectionEndpointsReconcileNSPOptionalParams,
+  DataCollectionEndpointsReconcileNSPResponse,
   DataCollectionEndpointsGetOptionalParams,
   DataCollectionEndpointsGetResponse,
   DataCollectionEndpointsCreateOptionalParams,
@@ -23,6 +30,18 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a DataCollectionEndpoints. */
 export interface DataCollectionEndpoints {
+  /**
+   * Gets a list of NSP configurations for the specified data collection endpoint.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param dataCollectionEndpointName The name of the data collection endpoint. The name is case
+   *                                   insensitive.
+   * @param options The options parameters.
+   */
+  listNSP(
+    resourceGroupName: string,
+    dataCollectionEndpointName: string,
+    options?: DataCollectionEndpointsListNSPOptionalParams,
+  ): PagedAsyncIterableIterator<NetworkSecurityPerimeterConfiguration>;
   /**
    * Lists all data collection endpoints in the specified resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -39,6 +58,56 @@ export interface DataCollectionEndpoints {
   listBySubscription(
     options?: DataCollectionEndpointsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<DataCollectionEndpointResource>;
+  /**
+   * Gets the specified NSP configuration for the specified data collection endpoint.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param dataCollectionEndpointName The name of the data collection endpoint. The name is case
+   *                                   insensitive.
+   * @param networkSecurityPerimeterConfigurationName The name for a network security perimeter
+   *                                                  configuration
+   * @param options The options parameters.
+   */
+  getNSP(
+    resourceGroupName: string,
+    dataCollectionEndpointName: string,
+    networkSecurityPerimeterConfigurationName: string,
+    options?: DataCollectionEndpointsGetNSPOptionalParams,
+  ): Promise<DataCollectionEndpointsGetNSPResponse>;
+  /**
+   * Reconciles the specified NSP configuration for the specified data collection endpoint.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param dataCollectionEndpointName The name of the data collection endpoint. The name is case
+   *                                   insensitive.
+   * @param networkSecurityPerimeterConfigurationName The name for a network security perimeter
+   *                                                  configuration
+   * @param options The options parameters.
+   */
+  beginReconcileNSP(
+    resourceGroupName: string,
+    dataCollectionEndpointName: string,
+    networkSecurityPerimeterConfigurationName: string,
+    options?: DataCollectionEndpointsReconcileNSPOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<DataCollectionEndpointsReconcileNSPResponse>,
+      DataCollectionEndpointsReconcileNSPResponse
+    >
+  >;
+  /**
+   * Reconciles the specified NSP configuration for the specified data collection endpoint.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param dataCollectionEndpointName The name of the data collection endpoint. The name is case
+   *                                   insensitive.
+   * @param networkSecurityPerimeterConfigurationName The name for a network security perimeter
+   *                                                  configuration
+   * @param options The options parameters.
+   */
+  beginReconcileNSPAndWait(
+    resourceGroupName: string,
+    dataCollectionEndpointName: string,
+    networkSecurityPerimeterConfigurationName: string,
+    options?: DataCollectionEndpointsReconcileNSPOptionalParams,
+  ): Promise<DataCollectionEndpointsReconcileNSPResponse>;
   /**
    * Returns the specified data collection endpoint.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

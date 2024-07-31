@@ -16886,7 +16886,7 @@ packages:
     dev: false
 
   file:projects/arm-monitor.tgz:
-    resolution: {integrity: sha512-iupFHZAXQ0A7LWOq0XZnS9HZiUXCm+vlkkmkv2q45NG9p0mC0VZKRjy/WUHw8b/M5S737+v43wNfFmCuSDb3pA==, tarball: file:projects/arm-monitor.tgz}
+    resolution: {integrity: sha512-2moHAhEwL+g+LlsIxf4CaYQFzn7t3PltsPftzLDDv3gPN5aPFIrljYhG+Dbr0KFYyNXERLSQ7tEB3N6Yg5f+pQ==, tarball: file:projects/arm-monitor.tgz}
     name: '@rush-temp/arm-monitor'
     version: 0.0.0
     dependencies:
@@ -16907,6 +16907,7 @@ packages:
       rimraf: 5.0.9
       ts-node: 10.9.2(@types/node@18.19.42)(typescript@5.5.4)
       tslib: 2.6.3
+      tsx: 4.16.2
       typescript: 5.5.4
       uglify-js: 3.19.1
     transitivePeerDependencies:
