@@ -21284,7 +21284,7 @@ packages:
     dev: false
 
   file:projects/developer-devcenter.tgz:
-    resolution: {integrity: sha512-jdmEUgEnU8EhQYwv7fcdq49kf844QtjHOyGffXxgT4x+Xx9wyv85dsOsrAPWpRiw1cU08iPa/NFRTHWNrlDSbw==, tarball: file:projects/developer-devcenter.tgz}
+    resolution: {integrity: sha512-JHU0IgcErtaqgqLeVbZcwGHS55A37rYZzmrs3udp2DNxKmxkz9ezsUlSrSHhw0BYijcPI7c+5uWg6KDGVMdvyw==, tarball: file:projects/developer-devcenter.tgz}
     name: '@rush-temp/developer-devcenter'
     version: 0.0.0
     dependencies:
@@ -21298,6 +21298,7 @@ packages:
       eslint: 8.57.0
       mkdirp: 3.0.1
       playwright: 1.45.3
+      prettier: 3.3.3
       rimraf: 5.0.9
       tshy: 1.18.0
       tslib: 2.6.3
