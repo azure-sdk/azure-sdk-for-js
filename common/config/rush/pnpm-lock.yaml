@@ -13133,7 +13133,7 @@ packages:
     dev: false
 
   file:projects/arm-astro.tgz:
-    resolution: {integrity: sha512-BkU280DnWj0UmhHVAVaoIwi7NfOWsuyp+nV49cWTcyuTK75RfVqsy1o5ctw0ASyFqZ7w8R42W8IK0OFwwGEMHA==, tarball: file:projects/arm-astro.tgz}
+    resolution: {integrity: sha512-yl/H1ftxuRFUdgMCwGr8w1485BnKclTd7vDO4KawqfhAJdk36a/m2dBP1KZd8vCCOiDdkpsyttGtbLXHP1Ap7Q==, tarball: file:projects/arm-astro.tgz}
     name: '@rush-temp/arm-astro'
     version: 0.0.0
     dependencies:
@@ -13154,6 +13154,7 @@ packages:
       rimraf: 5.0.9
       ts-node: 10.9.2(@types/node@18.19.42)(typescript@5.5.4)
       tslib: 2.6.3
+      tsx: 4.16.2
       typescript: 5.5.4
       uglify-js: 3.19.1
     transitivePeerDependencies:
