@@ -129,7 +129,7 @@ export interface AccountListResult {
   nextLink?: string;
 }
 
-/** Account properties */
+/** Account resource properties. */
 export interface AccountProperties {
   /**
    * The Playwright testing dashboard URI for the account resource.
@@ -152,7 +152,7 @@ export interface AccountProperties {
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
   /**
-   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
@@ -189,6 +189,24 @@ export interface SystemData {
   lastModifiedAt?: Date;
 }
 
+/** The check availability request body. */
+export interface CheckNameAvailabilityRequest {
+  /** The name of the resource for which availability needs to be checked. */
+  name?: string;
+  /** The resource type. */
+  type?: string;
+}
+
+/** The check availability result. */
+export interface CheckNameAvailabilityResponse {
+  /** Indicates if the resource name is available. */
+  nameAvailable?: boolean;
+  /** The reason why the given name is not available. */
+  reason?: CheckNameAvailabilityReason;
+  /** Detailed reason why the given name is available. */
+  message?: string;
+}
+
 /** The response of a Quota list operation. */
 export interface QuotaListResult {
   /** The Quota items on this page */
@@ -197,9 +215,9 @@ export interface QuotaListResult {
   nextLink?: string;
 }
 
-/** Quota properties */
+/** The subscription quota resource properties. */
 export interface QuotaProperties {
-  /** The free-trial quota. */
+  /** The subscription quota resource free-trial properties. */
   freeTrial?: FreeTrialProperties;
   /**
    * The status of the last operation.
@@ -208,13 +226,59 @@ export interface QuotaProperties {
   readonly provisioningState?: ProvisioningState;
 }
 
-/** The free-trial properties */
+/** The subscription quota resource free-trial properties. */
 export interface FreeTrialProperties {
   /**
-   * The playwright account id.
+   * The Playwright service account id.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly accountId: string;
+  /**
+   * The free-trial state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly state: FreeTrialState;
+}
+
+/** The type used for update operations of the Account. */
+export interface AccountUpdate {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** The resource-specific properties for this resource. */
+  properties?: AccountUpdateProperties;
+}
+
+/** The updatable properties of the Account. */
+export interface AccountUpdateProperties {
+  /** This property sets the connection region for Playwright client workers to cloud-hosted browsers. If enabled, workers connect to browsers in the closest Azure region, ensuring lower latency. If disabled, workers connect to browsers in the Azure region in which the workspace was initially created. */
+  regionalAffinity?: EnablementStatus;
+  /** When enabled, Playwright client workers can connect to cloud-hosted browsers. This can increase the number of parallel workers for a test run, significantly minimizing test completion durations. */
+  scalableExecution?: EnablementStatus;
+  /** When enabled, this feature allows the workspace to upload and display test results, including artifacts like traces and screenshots, in the Playwright portal. This enables faster and more efficient troubleshooting. */
+  reporting?: EnablementStatus;
+}
+
+/** The response of a AccountQuota list operation. */
+export interface AccountQuotaListResult {
+  /** The AccountQuota items on this page */
+  value: AccountQuota[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** The Playwright service account quota resource properties. */
+export interface AccountQuotaProperties {
+  /** The Playwright service account quota resource free-trial properties. */
+  freeTrial?: AccountFreeTrialProperties;
+  /**
+   * The status of the last operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
+/** The Playwright service account quota resource free-trial properties. */
+export interface AccountFreeTrialProperties {
   /**
    * The free-trial createdAt utcDateTime.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -240,29 +304,6 @@ export interface FreeTrialProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly percentageUsed: number;
-  /**
-   * The free-trial state.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly state: FreeTrialState;
-}
-
-/** The type used for update operations of the Account. */
-export interface AccountUpdate {
-  /** Resource tags. */
-  tags?: { [propertyName: string]: string };
-  /** The updatable properties of the Account. */
-  properties?: AccountUpdateProperties;
-}
-
-/** The updatable properties of the Account. */
-export interface AccountUpdateProperties {
-  /** This property sets the connection region for Playwright client workers to cloud-hosted browsers. If enabled, workers connect to browsers in the closest Azure region, ensuring lower latency. If disabled, workers connect to browsers in the Azure region in which the workspace was initially created. */
-  regionalAffinity?: EnablementStatus;
-  /** When enabled, Playwright client workers can connect to cloud-hosted browsers. This can increase the number of parallel workers for a test run, significantly minimizing test completion durations. */
-  scalableExecution?: EnablementStatus;
-  /** When enabled, this feature allows the workspace to upload and display test results, including artifacts like traces and screenshots, in the Playwright portal. This enables faster and more efficient troubleshooting. */
-  reporting?: EnablementStatus;
 }
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
@@ -276,16 +317,22 @@ export interface TrackedResource extends Resource {
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-/** An account resource */
+/** A Playwright service account resource. */
 export interface Account extends TrackedResource {
   /** The resource-specific properties for this resource. */
   properties?: AccountProperties;
 }
 
-/** A quota resource */
+/** A subscription quota resource. */
 export interface Quota extends ProxyResource {
   /** The resource-specific properties for this resource. */
   properties?: QuotaProperties;
+}
+
+/** A quota resource for a Playwright service account. */
+export interface AccountQuota extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: AccountQuotaProperties;
 }
 
 /** Defines headers for Accounts_createOrUpdate operation. */
@@ -296,10 +343,10 @@ export interface AccountsCreateOrUpdateHeaders {
 
 /** Defines headers for Accounts_delete operation. */
 export interface AccountsDeleteHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Known values of {@link Origin} that the service accepts. */
@@ -309,7 +356,7 @@ export enum KnownOrigin {
   /** System */
   System = "system",
   /** UserSystem */
-  UserSystem = "user,system"
+  UserSystem = "user,system",
 }
 
 /**
@@ -326,7 +373,7 @@ export type Origin = string;
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
   /** Internal */
-  Internal = "Internal"
+  Internal = "Internal",
 }
 
 /**
@@ -343,7 +390,7 @@ export enum KnownEnablementStatus {
   /** The feature is Enabled. */
   Enabled = "Enabled",
   /** The feature is Disabled. */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -364,10 +411,12 @@ export enum KnownProvisioningState {
   Failed = "Failed",
   /** Resource creation was canceled. */
   Canceled = "Canceled",
-  /** Deletion in progress */
+  /** Creation in progress.. */
+  Creating = "Creating",
+  /** Deletion in progress.. */
   Deleting = "Deleting",
-  /** Change accepted for processing */
-  Accepted = "Accepted"
+  /** Change accepted for processing.. */
+  Accepted = "Accepted",
 }
 
 /**
@@ -378,8 +427,9 @@ export enum KnownProvisioningState {
  * **Succeeded**: Resource has been created. \
  * **Failed**: Resource creation failed. \
  * **Canceled**: Resource creation was canceled. \
- * **Deleting**: Deletion in progress \
- * **Accepted**: Change accepted for processing
+ * **Creating**: Creation in progress.. \
+ * **Deleting**: Deletion in progress.. \
+ * **Accepted**: Change accepted for processing..
  */
 export type ProvisioningState = string;
 
@@ -392,7 +442,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -407,12 +457,34 @@ export enum KnownCreatedByType {
  */
 export type CreatedByType = string;
 
+/** Known values of {@link CheckNameAvailabilityReason} that the service accepts. */
+export enum KnownCheckNameAvailabilityReason {
+  /** Invalid */
+  Invalid = "Invalid",
+  /** AlreadyExists */
+  AlreadyExists = "AlreadyExists",
+}
+
+/**
+ * Defines values for CheckNameAvailabilityReason. \
+ * {@link KnownCheckNameAvailabilityReason} can be used interchangeably with CheckNameAvailabilityReason,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Invalid** \
+ * **AlreadyExists**
+ */
+export type CheckNameAvailabilityReason = string;
+
 /** Known values of {@link FreeTrialState} that the service accepts. */
 export enum KnownFreeTrialState {
   /** The free-trial is Active. */
   Active = "Active",
   /** The free-trial is Expired. */
-  Expired = "Expired"
+  Expired = "Expired",
+  /** The free-trial is Not Eligible. */
+  NotEligible = "NotEligible",
+  /** The free-trial is Not Registered. */
+  NotRegistered = "NotRegistered",
 }
 
 /**
@@ -421,14 +493,16 @@ export enum KnownFreeTrialState {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Active**: The free-trial is Active. \
- * **Expired**: The free-trial is Expired.
+ * **Expired**: The free-trial is Expired. \
+ * **NotEligible**: The free-trial is Not Eligible. \
+ * **NotRegistered**: The free-trial is Not Registered.
  */
 export type FreeTrialState = string;
 
 /** Known values of {@link QuotaNames} that the service accepts. */
 export enum KnownQuotaNames {
   /** The quota details for scalable execution feature. When enabled, Playwright client workers can connect to cloud-hosted browsers. This can increase the number of parallel workers for a test run, significantly minimizing test completion durations. */
-  ScalableExecution = "ScalableExecution"
+  ScalableExecution = "ScalableExecution",
 }
 
 /**
@@ -460,6 +534,14 @@ export interface AccountsListBySubscriptionOptionalParams
 
 /** Contains response data for the listBySubscription operation. */
 export type AccountsListBySubscriptionResponse = AccountListResult;
+
+/** Optional parameters. */
+export interface AccountsCheckNameAvailabilityOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the checkNameAvailability operation. */
+export type AccountsCheckNameAvailabilityResponse =
+  CheckNameAvailabilityResponse;
 
 /** Optional parameters. */
 export interface AccountsListByResourceGroupOptionalParams
@@ -536,6 +618,27 @@ export interface QuotasListBySubscriptionNextOptionalParams
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type QuotasListBySubscriptionNextResponse = QuotaListResult;
+
+/** Optional parameters. */
+export interface AccountQuotasListByAccountOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByAccount operation. */
+export type AccountQuotasListByAccountResponse = AccountQuotaListResult;
+
+/** Optional parameters. */
+export interface AccountQuotasGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type AccountQuotasGetResponse = AccountQuota;
+
+/** Optional parameters. */
+export interface AccountQuotasListByAccountNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByAccountNext operation. */
+export type AccountQuotasListByAccountNextResponse = AccountQuotaListResult;
 
 /** Optional parameters. */
 export interface PlaywrightTestingClientOptionalParams
