@@ -12531,7 +12531,7 @@ packages:
     dev: false
 
   file:projects/ai-vision-face.tgz:
-    resolution: {integrity: sha512-yrz9WamFIlutlxlZk8+4KpDQZnLox+FQo/VW3IzDeOjl0hLve6LqbqmF8aAPzK8TwYnqj1dCM27VzEP8JV29Qw==, tarball: file:projects/ai-vision-face.tgz}
+    resolution: {integrity: sha512-rWyc3PZrezuEyupQBv0hyVqSwQaS8SOKl/OBqMeS9pTO9wrq7N5cyVKOk3Kwkue99MCarRycQgYh4YoqFUM/Ig==, tarball: file:projects/ai-vision-face.tgz}
     name: '@rush-temp/ai-vision-face'
     version: 0.0.0
     dependencies:
@@ -12546,6 +12546,7 @@ packages:
       eslint: 8.57.0
       mkdirp: 3.0.1
       playwright: 1.45.3
+      prettier: 3.3.3
       rimraf: 5.0.9
       tshy: 1.18.0
       tslib: 2.6.3
