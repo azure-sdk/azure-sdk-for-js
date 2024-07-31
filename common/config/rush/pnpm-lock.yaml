@@ -17142,7 +17142,7 @@ packages:
     dev: false
 
   file:projects/arm-networkanalytics.tgz:
-    resolution: {integrity: sha512-UPRUpiaEKXGW7S8eAmOKTKtPfYweSbDteJndujiMXe7Ykd9Q65OsbG5kRL5xVPLFW92nrdxCf98wskCfF7Ed0Q==, tarball: file:projects/arm-networkanalytics.tgz}
+    resolution: {integrity: sha512-ORx6e1Dr0KF8uD1wY3+HZDi+UF1jJaxvESzpl8rxAEtWwpPYroqt8GDf387Dic/S0H9WSqqSz5XBGy92ZjvU1w==, tarball: file:projects/arm-networkanalytics.tgz}
     name: '@rush-temp/arm-networkanalytics'
     version: 0.0.0
     dependencies:
@@ -17163,6 +17163,7 @@ packages:
       rimraf: 5.0.9
       ts-node: 10.9.2(@types/node@18.19.42)(typescript@5.5.4)
       tslib: 2.6.3
+      tsx: 4.16.2
       typescript: 5.5.4
       uglify-js: 3.19.1
     transitivePeerDependencies:
