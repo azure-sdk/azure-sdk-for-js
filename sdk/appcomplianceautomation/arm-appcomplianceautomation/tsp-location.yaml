@@ -1,0 +1,5 @@
+additionalDirectories: []
+repo: test-repo-billy/azure-rest-api-specs
+commit: bb02faefdc9a12692a3ae9cec4954018c7f6256a
+directory: specification/appcomplianceautomation/AppComplianceAutomation.Management
+
