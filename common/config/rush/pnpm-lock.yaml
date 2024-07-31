@@ -17261,7 +17261,7 @@ packages:
     dev: false
 
   file:projects/arm-nginx.tgz:
-    resolution: {integrity: sha512-qVAjIstMnCDeC16WVu+q386pI/S3bFtobFjuP6YxWFRWUiczGYGRZQiEXIPRctVEptDwLMJs7hRGznIevzwpVA==, tarball: file:projects/arm-nginx.tgz}
+    resolution: {integrity: sha512-LKz17F5Q3MsKhK5toaiyrr/KzpOlIQvMTILwX2H3vviX33+RYmf6C8oPh+WvPsG0u/45enl6vCls46w8I2gFmg==, tarball: file:projects/arm-nginx.tgz}
     name: '@rush-temp/arm-nginx'
     version: 0.0.0
     dependencies:
@@ -17282,6 +17282,7 @@ packages:
       rimraf: 5.0.9
       ts-node: 10.9.2(@types/node@18.19.42)(typescript@5.5.4)
       tslib: 2.6.3
+      tsx: 4.16.2
       typescript: 5.5.4
       uglify-js: 3.19.1
     transitivePeerDependencies:

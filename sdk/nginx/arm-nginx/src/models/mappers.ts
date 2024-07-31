@@ -855,6 +855,13 @@ export const NginxDeploymentProperties: coreClient.CompositeMapper = {
           className: "NginxDeploymentUserProfile",
         },
       },
+      nginxAppProtect: {
+        serializedName: "nginxAppProtect",
+        type: {
+          name: "Composite",
+          className: "NginxDeploymentPropertiesNginxAppProtect",
+        },
+      },
     },
   },
 };
@@ -1124,6 +1131,129 @@ export const NginxDeploymentUserProfile: coreClient.CompositeMapper = {
   },
 };
 
+export const NginxDeploymentPropertiesNginxAppProtect: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "NginxDeploymentPropertiesNginxAppProtect",
+      modelProperties: {
+        webApplicationFirewallSettings: {
+          serializedName: "webApplicationFirewallSettings",
+          type: {
+            name: "Composite",
+            className: "WebApplicationFirewallSettings",
+          },
+        },
+        webApplicationFirewallStatus: {
+          serializedName: "webApplicationFirewallStatus",
+          type: {
+            name: "Composite",
+            className: "WebApplicationFirewallStatus",
+          },
+        },
+      },
+    },
+  };
+
+export const WebApplicationFirewallSettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "WebApplicationFirewallSettings",
+    modelProperties: {
+      activationState: {
+        serializedName: "activationState",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const WebApplicationFirewallStatus: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "WebApplicationFirewallStatus",
+    modelProperties: {
+      attackSignaturesPackage: {
+        serializedName: "attackSignaturesPackage",
+        type: {
+          name: "Composite",
+          className: "WebApplicationFirewallPackage",
+        },
+      },
+      botSignaturesPackage: {
+        serializedName: "botSignaturesPackage",
+        type: {
+          name: "Composite",
+          className: "WebApplicationFirewallPackage",
+        },
+      },
+      threatCampaignsPackage: {
+        serializedName: "threatCampaignsPackage",
+        type: {
+          name: "Composite",
+          className: "WebApplicationFirewallPackage",
+        },
+      },
+      componentVersions: {
+        serializedName: "componentVersions",
+        type: {
+          name: "Composite",
+          className: "WebApplicationFirewallComponentVersions",
+        },
+      },
+    },
+  },
+};
+
+export const WebApplicationFirewallPackage: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "WebApplicationFirewallPackage",
+    modelProperties: {
+      version: {
+        serializedName: "version",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      revisionDatetime: {
+        serializedName: "revisionDatetime",
+        required: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+    },
+  },
+};
+
+export const WebApplicationFirewallComponentVersions: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "WebApplicationFirewallComponentVersions",
+      modelProperties: {
+        wafEngineVersion: {
+          serializedName: "wafEngineVersion",
+          required: true,
+          type: {
+            name: "String",
+          },
+        },
+        wafNginxVersion: {
+          serializedName: "wafNginxVersion",
+          required: true,
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
 export const ResourceSku: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1222,9 +1352,33 @@ export const NginxDeploymentUpdateProperties: coreClient.CompositeMapper = {
           className: "AutoUpgradeProfile",
         },
       },
+      nginxAppProtect: {
+        serializedName: "nginxAppProtect",
+        type: {
+          name: "Composite",
+          className: "NginxDeploymentUpdatePropertiesNginxAppProtect",
+        },
+      },
     },
   },
 };
+
+export const NginxDeploymentUpdatePropertiesNginxAppProtect: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "NginxDeploymentUpdatePropertiesNginxAppProtect",
+      modelProperties: {
+        webApplicationFirewallSettings: {
+          serializedName: "webApplicationFirewallSettings",
+          type: {
+            name: "Composite",
+            className: "WebApplicationFirewallSettings",
+          },
+        },
+      },
+    },
+  };
 
 export const NginxDeploymentListResponse: coreClient.CompositeMapper = {
   type: {

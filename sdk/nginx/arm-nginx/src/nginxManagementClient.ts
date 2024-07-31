@@ -114,7 +114,7 @@ export class NginxManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-01-01-preview";
+    this.apiVersion = options.apiVersion || "2024-06-01-preview";
     this.certificates = new CertificatesImpl(this);
     this.configurations = new ConfigurationsImpl(this);
     this.deployments = new DeploymentsImpl(this);
