@@ -17043,7 +17043,7 @@ packages:
     dev: false
 
   file:projects/arm-netapp.tgz:
-    resolution: {integrity: sha512-IEGA8a8gWKVvL693jv3yzXGR2X7G0nl+y1PfJ4jBEPtc9zdIiH1Pj0b7Bq19Z6xCOW/lJPPJ6G8fI9XKIneZJg==, tarball: file:projects/arm-netapp.tgz}
+    resolution: {integrity: sha512-mbxP+KH50KsswmEWMeC6cQWXOhf9QZsV4kvvPw04xz5u0o4qWpvO8NVPCKcdb0mXOAG3GfDVb/vv8XZgzP5Nog==, tarball: file:projects/arm-netapp.tgz}
     name: '@rush-temp/arm-netapp'
     version: 0.0.0
     dependencies:
@@ -17062,10 +17062,10 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.7.0
       rimraf: 5.0.9
-      ts-node: 10.9.2(@types/node@18.19.42)(typescript@5.4.5)
+      ts-node: 10.9.2(@types/node@18.19.42)(typescript@5.5.4)
       tslib: 2.6.3
       tsx: 4.16.2
-      typescript: 5.4.5
+      typescript: 5.5.4
       uglify-js: 3.19.1
     transitivePeerDependencies:
       - '@swc/core'
@@ -23438,7 +23438,7 @@ packages:
     dev: false
 
   file:projects/perf-monitor-query.tgz:
-    resolution: {integrity: sha512-+ujmYrxmvnSdP10/aIbx2pl2ZYeeHdncd+voVypRwXIALyraKD4uk+Ya6iDqmIJtZLlLJmjxe7HxAhYfFdMX3A==, tarball: file:projects/perf-monitor-query.tgz}
+    resolution: {integrity: sha512-qY1mM94xTgkK2yRC5tMXLQ80JKYB4goqAd23p4jQ8/XSRLQ6sfu27GnjN25wlJHuo0XZ6gLzlZ2vHYbmMb3yIA==, tarball: file:projects/perf-monitor-query.tgz}
     name: '@rush-temp/perf-monitor-query'
     version: 0.0.0
     dependencies:
