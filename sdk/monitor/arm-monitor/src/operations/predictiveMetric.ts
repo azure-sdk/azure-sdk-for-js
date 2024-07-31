@@ -82,7 +82,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [
-    Parameters.apiVersion2,
+    Parameters.apiVersion5,
     Parameters.timespan1,
     Parameters.interval1,
     Parameters.metricNamespace,
@@ -91,8 +91,8 @@ const getOperationSpec: coreClient.OperationSpec = {
   ],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.autoscaleSettingName,
   ],
   headerParameters: [Parameters.accept],
