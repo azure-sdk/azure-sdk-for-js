@@ -484,6 +484,7 @@ export interface ApplicationGatewayFirewallRule {
     description?: string;
     ruleId: number;
     ruleIdString?: string;
+    sensitivity?: ApplicationGatewayWafRuleSensitivityTypes;
     state?: ApplicationGatewayWafRuleStateTypes;
 }
 
@@ -505,6 +506,11 @@ export interface ApplicationGatewayFirewallRuleSet extends Resource {
 
 // @public
 export type ApplicationGatewayFirewallUserSessionVariable = string;
+
+// @public
+export interface ApplicationGatewayForContainersReferenceDefinition {
+    id: string;
+}
 
 // @public
 export interface ApplicationGatewayFrontendIPConfiguration extends SubResource {
@@ -1214,6 +1220,9 @@ export type ApplicationGatewayWafDynamicManifestsGetResponse = ApplicationGatewa
 export type ApplicationGatewayWafRuleActionTypes = string;
 
 // @public
+export type ApplicationGatewayWafRuleSensitivityTypes = string;
+
+// @public
 export type ApplicationGatewayWafRuleStateTypes = string;
 
 // @public
@@ -1577,6 +1586,7 @@ export interface AzureFirewall extends Resource {
         [propertyName: string]: string;
     };
     applicationRuleCollections?: AzureFirewallApplicationRuleCollection[];
+    autoscaleConfiguration?: AzureFirewallAutoscaleConfiguration;
     readonly etag?: string;
     firewallPolicy?: SubResource;
     hubIPAddresses?: HubIPAddresses;
@@ -1621,6 +1631,12 @@ export interface AzureFirewallApplicationRuleProtocol {
 
 // @public
 export type AzureFirewallApplicationRuleProtocolType = string;
+
+// @public
+export interface AzureFirewallAutoscaleConfiguration {
+    maxCapacity?: number;
+    minCapacity?: number;
+}
 
 // @public
 export interface AzureFirewallFqdnTag extends Resource {
@@ -3509,6 +3525,25 @@ export interface EvaluatedNetworkSecurityGroup {
 export type EvaluationState = string;
 
 // @public
+export interface ExceptionEntry {
+    exceptionManagedRuleSets?: ExclusionManagedRuleSet[];
+    matchVariable: ExceptionEntryMatchVariable;
+    selector?: string;
+    selectorMatchOperator?: ExceptionEntrySelectorMatchOperator;
+    valueMatchOperator: ExceptionEntryValueMatchOperator;
+    values?: string[];
+}
+
+// @public
+export type ExceptionEntryMatchVariable = string;
+
+// @public
+export type ExceptionEntrySelectorMatchOperator = string;
+
+// @public
+export type ExceptionEntryValueMatchOperator = string;
+
+// @public
 export interface ExclusionManagedRule {
     ruleId: string;
 }
@@ -5240,6 +5275,7 @@ export interface FirewallPolicyTransportSecurity {
 // @public
 export interface FlowLog extends Resource {
     enabled?: boolean;
+    enabledFilteringCriteria?: string;
     readonly etag?: string;
     flowAnalyticsConfiguration?: TrafficAnalyticsProperties;
     format?: FlowLogFormatParameters;
@@ -5263,6 +5299,7 @@ export type FlowLogFormatType = string;
 // @public
 export interface FlowLogInformation {
     enabled: boolean;
+    enabledFilteringCriteria?: string;
     flowAnalyticsConfiguration?: TrafficAnalyticsProperties;
     format?: FlowLogFormatParameters;
     identity?: ManagedServiceIdentity;
@@ -6360,6 +6397,14 @@ export enum KnownApplicationGatewayWafRuleActionTypes {
 }
 
 // @public
+export enum KnownApplicationGatewayWafRuleSensitivityTypes {
+    High = "High",
+    Low = "Low",
+    Medium = "Medium",
+    None = "None"
+}
+
+// @public
 export enum KnownApplicationGatewayWafRuleStateTypes {
     Disabled = "Disabled",
     Enabled = "Enabled"
@@ -6666,6 +6711,30 @@ export enum KnownEvaluationState {
     Completed = "Completed",
     InProgress = "InProgress",
     NotStarted = "NotStarted"
+}
+
+// @public
+export enum KnownExceptionEntryMatchVariable {
+    RemoteAddr = "RemoteAddr",
+    RequestHeader = "RequestHeader",
+    RequestURI = "RequestURI"
+}
+
+// @public
+export enum KnownExceptionEntrySelectorMatchOperator {
+    Contains = "Contains",
+    EndsWith = "EndsWith",
+    Equals = "Equals",
+    StartsWith = "StartsWith"
+}
+
+// @public
+export enum KnownExceptionEntryValueMatchOperator {
+    Contains = "Contains",
+    EndsWith = "EndsWith",
+    Equals = "Equals",
+    IPMatch = "IPMatch",
+    StartsWith = "StartsWith"
 }
 
 // @public
@@ -7224,6 +7293,12 @@ export enum KnownPreferredRoutingGateway {
 }
 
 // @public
+export enum KnownPrivateEndpointVNetPolicies {
+    Basic = "Basic",
+    Disabled = "Disabled"
+}
+
+// @public
 export enum KnownProbeNoHealthyBackendsBehavior {
     AllProbedDown = "AllProbedDown",
     AllProbedUp = "AllProbedUp"
@@ -7301,6 +7376,12 @@ export enum KnownPublicIPPrefixSkuName {
 export enum KnownPublicIPPrefixSkuTier {
     Global = "Global",
     Regional = "Regional"
+}
+
+// @public
+export enum KnownResiliencyModel {
+    MultiHomed = "MultiHomed",
+    SingleHomed = "SingleHomed"
 }
 
 // @public
@@ -7432,6 +7513,14 @@ export enum KnownSecurityRuleProtocol {
     Icmp = "Icmp",
     Tcp = "Tcp",
     Udp = "Udp"
+}
+
+// @public
+export enum KnownSensitivityType {
+    High = "High",
+    Low = "Low",
+    Medium = "Medium",
+    None = "None"
 }
 
 // @public
@@ -8404,11 +8493,13 @@ export interface ManagedRuleGroupOverride {
 export interface ManagedRuleOverride {
     action?: ActionType;
     ruleId: string;
+    sensitivity?: SensitivityType;
     state?: ManagedRuleEnabledState;
 }
 
 // @public
 export interface ManagedRulesDefinition {
+    exceptions?: ExceptionEntry[];
     exclusions?: OwaspCrsExclusionEntry[];
     managedRuleSets: ManagedRuleSet[];
 }
@@ -11121,9 +11212,13 @@ export interface PrivateEndpointsListOptionalParams extends coreClient.Operation
 export type PrivateEndpointsListResponse = PrivateEndpointListResult;
 
 // @public
+export type PrivateEndpointVNetPolicies = string;
+
+// @public
 export interface PrivateLinkService extends Resource {
     readonly alias?: string;
     autoApproval?: PrivateLinkServicePropertiesAutoApproval;
+    destinationIPAddress?: string;
     enableProxyProtocol?: boolean;
     readonly etag?: string;
     extendedLocation?: ExtendedLocation;
@@ -11808,6 +11903,9 @@ export interface ReferencedPublicIpAddress {
 }
 
 // @public
+export type ResiliencyModel = string;
+
+// @public
 export interface Resource {
     id?: string;
     location?: string;
@@ -11864,7 +11962,7 @@ export interface RetentionPolicyParameters {
 export interface Route extends SubResource {
     addressPrefix?: string;
     readonly etag?: string;
-    hasBgpOverride?: boolean;
+    readonly hasBgpOverride?: boolean;
     name?: string;
     nextHopIpAddress?: string;
     nextHopType?: RouteNextHopType;
@@ -12662,6 +12760,9 @@ export interface SecurityRulesListOptionalParams extends coreClient.OperationOpt
 
 // @public
 export type SecurityRulesListResponse = SecurityRuleListResult;
+
+// @public
+export type SensitivityType = string;
 
 // @public
 export interface ServiceAssociationLink extends SubResource {
@@ -13939,6 +14040,7 @@ export interface VirtualNetwork extends Resource {
     readonly flowLogs?: FlowLog[];
     flowTimeoutInMinutes?: number;
     ipAllocations?: SubResource[];
+    privateEndpointVNetPolicies?: PrivateEndpointVNetPolicies;
     readonly provisioningState?: ProvisioningState;
     readonly resourceGuid?: string;
     subnets?: Subnet[];
@@ -13994,6 +14096,7 @@ export interface VirtualNetworkGateway extends Resource {
     ipConfigurations?: VirtualNetworkGatewayIPConfiguration[];
     natRules?: VirtualNetworkGatewayNatRule[];
     readonly provisioningState?: ProvisioningState;
+    resiliencyModel?: ResiliencyModel;
     readonly resourceGuid?: string;
     sku?: VirtualNetworkGatewaySku;
     virtualNetworkGatewayPolicyGroups?: VirtualNetworkGatewayPolicyGroup[];
@@ -16066,6 +16169,7 @@ export type WebApplicationFirewallPoliciesListResponse = WebApplicationFirewallP
 
 // @public
 export interface WebApplicationFirewallPolicy extends Resource {
+    readonly applicationGatewayForContainers?: ApplicationGatewayForContainersReferenceDefinition[];
     readonly applicationGateways?: ApplicationGateway[];
     customRules?: WebApplicationFirewallCustomRule[];
     readonly etag?: string;
