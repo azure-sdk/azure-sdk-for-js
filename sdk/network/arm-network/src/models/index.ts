@@ -673,6 +673,8 @@ export interface ApplicationGatewayFirewallRule {
   state?: ApplicationGatewayWafRuleStateTypes;
   /** The string representation of the web application firewall rule action. */
   action?: ApplicationGatewayWafRuleActionTypes;
+  /** The string representation of the web application firewall rule sensitivity. */
+  sensitivity?: ApplicationGatewayWafRuleSensitivityTypes;
   /** The description of the web application firewall rule. */
   description?: string;
 }
@@ -914,6 +916,14 @@ export interface AzureFirewallSku {
   name?: AzureFirewallSkuName;
   /** Tier of an Azure Firewall. */
   tier?: AzureFirewallSkuTier;
+}
+
+/** Azure Firewall Autoscale Configuration parameters. */
+export interface AzureFirewallAutoscaleConfiguration {
+  /** The minimum number of capacity units for this azure firewall. Use null to reset the value to the service default. */
+  minCapacity?: number;
+  /** The maximum number of capacity units for this azure firewall. Use null to reset the value to the service default. */
+  maxCapacity?: number;
 }
 
 /** Response for ListAzureFirewalls API service call. */
@@ -3236,6 +3246,8 @@ export interface FlowLogInformation {
   identity?: ManagedServiceIdentity;
   /** ID of the storage account which is used to store the flow log. */
   storageId: string;
+  /** Optional field to filter network traffic logs based on SrcIP, SrcPort, DstIP, DstPort, Protocol, Encryption, Direction and Action. If not specified, all network traffic will be logged. */
+  enabledFilteringCriteria?: string;
   /** Flag to enable/disable flow logging. */
   enabled: boolean;
   /** Parameters that define the retention policy for flow log. */
@@ -5914,22 +5926,28 @@ export interface GroupByVariable {
 
 /** Allow to exclude some variable satisfy the condition for the WAF check. */
 export interface ManagedRulesDefinition {
+  /** The exceptions that are applied on the policy. */
+  exceptions?: ExceptionEntry[];
   /** The Exclusions that are applied on the policy. */
   exclusions?: OwaspCrsExclusionEntry[];
   /** The managed rule sets that are associated with the policy. */
   managedRuleSets: ManagedRuleSet[];
 }
 
-/** Allow to exclude some variable satisfy the condition for the WAF check. */
-export interface OwaspCrsExclusionEntry {
-  /** The variable to be excluded. */
-  matchVariable: OwaspCrsExclusionEntryMatchVariable;
-  /** When matchVariable is a collection, operate on the selector to specify which elements in the collection this exclusion applies to. */
-  selectorMatchOperator: OwaspCrsExclusionEntrySelectorMatchOperator;
-  /** When matchVariable is a collection, operator used to specify which elements in the collection this exclusion applies to. */
-  selector: string;
-  /** The managed rule sets that are associated with the exclusion. */
-  exclusionManagedRuleSets?: ExclusionManagedRuleSet[];
+/** Adds exception to allow a request when the condition is satisfied. */
+export interface ExceptionEntry {
+  /** The variable on which we evaluate the exception condition */
+  matchVariable: ExceptionEntryMatchVariable;
+  /** Allowed values for the matchVariable */
+  values?: string[];
+  /** Operates on the allowed values for the matchVariable */
+  valueMatchOperator: ExceptionEntryValueMatchOperator;
+  /** When the matchVariable points to a key-value pair (e.g, RequestHeader), this operates on the selector */
+  selectorMatchOperator?: ExceptionEntrySelectorMatchOperator;
+  /** When the matchVariable points to a key-value pair (e.g, RequestHeader), this identifies the key. */
+  selector?: string;
+  /** The managed rule sets that are associated with the exception. */
+  exceptionManagedRuleSets?: ExclusionManagedRuleSet[];
 }
 
 /** Defines a managed rule set for Exclusions. */
@@ -5954,6 +5972,18 @@ export interface ExclusionManagedRuleGroup {
 export interface ExclusionManagedRule {
   /** Identifier for the managed rule. */
   ruleId: string;
+}
+
+/** Allow to exclude some variable satisfy the condition for the WAF check. */
+export interface OwaspCrsExclusionEntry {
+  /** The variable to be excluded. */
+  matchVariable: OwaspCrsExclusionEntryMatchVariable;
+  /** When matchVariable is a collection, operate on the selector to specify which elements in the collection this exclusion applies to. */
+  selectorMatchOperator: OwaspCrsExclusionEntrySelectorMatchOperator;
+  /** When matchVariable is a collection, operator used to specify which elements in the collection this exclusion applies to. */
+  selector: string;
+  /** The managed rule sets that are associated with the exclusion. */
+  exclusionManagedRuleSets?: ExclusionManagedRuleSet[];
 }
 
 /** Defines a managed rule set. */
@@ -5982,6 +6012,14 @@ export interface ManagedRuleOverride {
   state?: ManagedRuleEnabledState;
   /** Describes the override action to be applied when rule matches. */
   action?: ActionType;
+  /** Describes the override sensitivity to be applied when rule matches. */
+  sensitivity?: SensitivityType;
+}
+
+/** Defines an application gateway for containers reference. */
+export interface ApplicationGatewayForContainersReferenceDefinition {
+  /** Resource Id of the application gateway for containers. */
+  id: string;
 }
 
 /** Properties of the FirewallPolicyNatRuleCollectionAction. */
@@ -6473,8 +6511,11 @@ export interface Route extends SubResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
-  /** A value indicating whether this route overrides overlapping BGP routes regardless of LPM. */
-  hasBgpOverride?: boolean;
+  /**
+   * A value indicating whether this route overrides overlapping BGP routes regardless of LPM.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hasBgpOverride?: boolean;
 }
 
 /** Service Endpoint policy definitions. */
@@ -9155,6 +9196,8 @@ export interface PrivateLinkService extends Resource {
   loadBalancerFrontendIpConfigurations?: FrontendIPConfiguration[];
   /** An array of private link service IP configurations. */
   ipConfigurations?: PrivateLinkServiceIpConfiguration[];
+  /** The destination IP address of the private link service. */
+  destinationIPAddress?: string;
   /**
    * An array of references to the network interfaces created for this private link service.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -9288,6 +9331,8 @@ export interface FlowLog extends Resource {
   readonly targetResourceGuid?: string;
   /** ID of the storage account which is used to store the flow log. */
   storageId?: string;
+  /** Optional field to filter network traffic logs based on SrcIP, SrcPort, DstIP, DstPort, Protocol, Encryption, Direction and Action. If not specified, all network traffic will be logged. */
+  enabledFilteringCriteria?: string;
   /** Flag to enable/disable flow logging. */
   enabled?: boolean;
   /** Parameters that define the retention policy for flow log. */
@@ -9699,6 +9744,8 @@ export interface AzureFirewall extends Resource {
   sku?: AzureFirewallSku;
   /** The additional properties used to further config this azure firewall. */
   additionalProperties?: { [propertyName: string]: string };
+  /** Properties to provide a custom autoscale configuration to this azure firewall. */
+  autoscaleConfiguration?: AzureFirewallAutoscaleConfiguration;
 }
 
 /** Azure Firewall FQDN Tag Resource. */
@@ -10597,6 +10644,8 @@ export interface VirtualNetwork extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly flowLogs?: FlowLog[];
+  /** Private Endpoint VNet Policies. */
+  privateEndpointVNetPolicies?: PrivateEndpointVNetPolicies;
 }
 
 /** Network Intent Policy resource. */
@@ -10678,6 +10727,8 @@ export interface VirtualNetworkGateway extends Resource {
   allowRemoteVnetTraffic?: boolean;
   /** Property to indicate if the Express Route Gateway serves traffic when there are multiple Express Route Gateways in the vnet */
   adminState?: AdminState;
+  /** Property to indicate if the Express Route Gateway has resiliency model of MultiHomed or SingleHomed */
+  resiliencyModel?: ResiliencyModel;
 }
 
 /** A common class for general resource information. */
@@ -11204,6 +11255,11 @@ export interface WebApplicationFirewallPolicy extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly pathBasedRules?: SubResource[];
+  /**
+   * A collection of references to application gateway for containers.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly applicationGatewayForContainers?: ApplicationGatewayForContainersReferenceDefinition[];
 }
 
 /** The visibility list of the private link service. */
@@ -13075,6 +13131,30 @@ export enum KnownApplicationGatewayWafRuleActionTypes {
  * **Log**
  */
 export type ApplicationGatewayWafRuleActionTypes = string;
+
+/** Known values of {@link ApplicationGatewayWafRuleSensitivityTypes} that the service accepts. */
+export enum KnownApplicationGatewayWafRuleSensitivityTypes {
+  /** None */
+  None = "None",
+  /** Low */
+  Low = "Low",
+  /** Medium */
+  Medium = "Medium",
+  /** High */
+  High = "High",
+}
+
+/**
+ * Defines values for ApplicationGatewayWafRuleSensitivityTypes. \
+ * {@link KnownApplicationGatewayWafRuleSensitivityTypes} can be used interchangeably with ApplicationGatewayWafRuleSensitivityTypes,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **Low** \
+ * **Medium** \
+ * **High**
+ */
+export type ApplicationGatewayWafRuleSensitivityTypes = string;
 
 /** Known values of {@link ApplicationGatewayTierTypes} that the service accepts. */
 export enum KnownApplicationGatewayTierTypes {
@@ -15248,6 +15328,24 @@ export enum KnownVirtualNetworkPeeringLevel {
  */
 export type VirtualNetworkPeeringLevel = string;
 
+/** Known values of {@link PrivateEndpointVNetPolicies} that the service accepts. */
+export enum KnownPrivateEndpointVNetPolicies {
+  /** Disabled */
+  Disabled = "Disabled",
+  /** Basic */
+  Basic = "Basic",
+}
+
+/**
+ * Defines values for PrivateEndpointVNetPolicies. \
+ * {@link KnownPrivateEndpointVNetPolicies} can be used interchangeably with PrivateEndpointVNetPolicies,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Disabled** \
+ * **Basic**
+ */
+export type PrivateEndpointVNetPolicies = string;
+
 /** Known values of {@link SyncRemoteAddressSpace} that the service accepts. */
 export enum KnownSyncRemoteAddressSpace {
   /** True */
@@ -15778,6 +15876,24 @@ export enum KnownAdminState {
  * **Disabled**
  */
 export type AdminState = string;
+
+/** Known values of {@link ResiliencyModel} that the service accepts. */
+export enum KnownResiliencyModel {
+  /** SingleHomed */
+  SingleHomed = "SingleHomed",
+  /** MultiHomed */
+  MultiHomed = "MultiHomed",
+}
+
+/**
+ * Defines values for ResiliencyModel. \
+ * {@link KnownResiliencyModel} can be used interchangeably with ResiliencyModel,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SingleHomed** \
+ * **MultiHomed**
+ */
+export type ResiliencyModel = string;
 
 /** Known values of {@link VirtualNetworkGatewayConnectionType} that the service accepts. */
 export enum KnownVirtualNetworkGatewayConnectionType {
@@ -16586,6 +16702,78 @@ export enum KnownWebApplicationFirewallPolicyResourceState {
  */
 export type WebApplicationFirewallPolicyResourceState = string;
 
+/** Known values of {@link ExceptionEntryMatchVariable} that the service accepts. */
+export enum KnownExceptionEntryMatchVariable {
+  /** RequestURI */
+  RequestURI = "RequestURI",
+  /** RemoteAddr */
+  RemoteAddr = "RemoteAddr",
+  /** RequestHeader */
+  RequestHeader = "RequestHeader",
+}
+
+/**
+ * Defines values for ExceptionEntryMatchVariable. \
+ * {@link KnownExceptionEntryMatchVariable} can be used interchangeably with ExceptionEntryMatchVariable,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **RequestURI** \
+ * **RemoteAddr** \
+ * **RequestHeader**
+ */
+export type ExceptionEntryMatchVariable = string;
+
+/** Known values of {@link ExceptionEntryValueMatchOperator} that the service accepts. */
+export enum KnownExceptionEntryValueMatchOperator {
+  /** Equals */
+  Equals = "Equals",
+  /** Contains */
+  Contains = "Contains",
+  /** StartsWith */
+  StartsWith = "StartsWith",
+  /** EndsWith */
+  EndsWith = "EndsWith",
+  /** IPMatch */
+  IPMatch = "IPMatch",
+}
+
+/**
+ * Defines values for ExceptionEntryValueMatchOperator. \
+ * {@link KnownExceptionEntryValueMatchOperator} can be used interchangeably with ExceptionEntryValueMatchOperator,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Equals** \
+ * **Contains** \
+ * **StartsWith** \
+ * **EndsWith** \
+ * **IPMatch**
+ */
+export type ExceptionEntryValueMatchOperator = string;
+
+/** Known values of {@link ExceptionEntrySelectorMatchOperator} that the service accepts. */
+export enum KnownExceptionEntrySelectorMatchOperator {
+  /** Equals */
+  Equals = "Equals",
+  /** Contains */
+  Contains = "Contains",
+  /** StartsWith */
+  StartsWith = "StartsWith",
+  /** EndsWith */
+  EndsWith = "EndsWith",
+}
+
+/**
+ * Defines values for ExceptionEntrySelectorMatchOperator. \
+ * {@link KnownExceptionEntrySelectorMatchOperator} can be used interchangeably with ExceptionEntrySelectorMatchOperator,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Equals** \
+ * **Contains** \
+ * **StartsWith** \
+ * **EndsWith**
+ */
+export type ExceptionEntrySelectorMatchOperator = string;
+
 /** Known values of {@link OwaspCrsExclusionEntryMatchVariable} that the service accepts. */
 export enum KnownOwaspCrsExclusionEntryMatchVariable {
   /** RequestHeaderNames */
@@ -16696,6 +16884,30 @@ export enum KnownActionType {
  * **JSChallenge**
  */
 export type ActionType = string;
+
+/** Known values of {@link SensitivityType} that the service accepts. */
+export enum KnownSensitivityType {
+  /** None */
+  None = "None",
+  /** Low */
+  Low = "Low",
+  /** Medium */
+  Medium = "Medium",
+  /** High */
+  High = "High",
+}
+
+/**
+ * Defines values for SensitivityType. \
+ * {@link KnownSensitivityType} can be used interchangeably with SensitivityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **Low** \
+ * **Medium** \
+ * **High**
+ */
+export type SensitivityType = string;
 
 /** Known values of {@link FirewallPolicyNatRuleCollectionActionType} that the service accepts. */
 export enum KnownFirewallPolicyNatRuleCollectionActionType {
