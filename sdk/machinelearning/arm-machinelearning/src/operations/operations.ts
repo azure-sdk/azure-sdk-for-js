@@ -11,9 +11,9 @@ import { Operations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AzureMachineLearningWorkspaces } from "../azureMachineLearningWorkspaces";
+import { AzureMachineLearningServicesMgmtClient } from "../azureMachineLearningServicesMgmtClient";
 import {
-  AmlOperation,
+  Operation,
   OperationsListOptionalParams,
   OperationsListResponse,
 } from "../models";
@@ -21,23 +21,23 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Operations operations. */
 export class OperationsImpl implements Operations {
-  private readonly client: AzureMachineLearningWorkspaces;
+  private readonly client: AzureMachineLearningServicesMgmtClient;
 
   /**
    * Initialize a new instance of the class Operations class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureMachineLearningWorkspaces) {
+  constructor(client: AzureMachineLearningServicesMgmtClient) {
     this.client = client;
   }
 
   /**
-   * Lists all of the available Azure Machine Learning Workspaces REST API operations.
+   * Lists all of the available Azure Machine Learning Workspaces REST API operations
    * @param options The options parameters.
    */
   public list(
     options?: OperationsListOptionalParams,
-  ): PagedAsyncIterableIterator<AmlOperation> {
+  ): PagedAsyncIterableIterator<Operation> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -58,7 +58,7 @@ export class OperationsImpl implements Operations {
   private async *listPagingPage(
     options?: OperationsListOptionalParams,
     _settings?: PageSettings,
-  ): AsyncIterableIterator<AmlOperation[]> {
+  ): AsyncIterableIterator<Operation[]> {
     let result: OperationsListResponse;
     result = await this._list(options);
     yield result.value || [];
@@ -66,14 +66,14 @@ export class OperationsImpl implements Operations {
 
   private async *listPagingAll(
     options?: OperationsListOptionalParams,
-  ): AsyncIterableIterator<AmlOperation> {
+  ): AsyncIterableIterator<Operation> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * Lists all of the available Azure Machine Learning Workspaces REST API operations.
+   * Lists all of the available Azure Machine Learning Workspaces REST API operations
    * @param options The options parameters.
    */
   private _list(
@@ -90,7 +90,7 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AmlOperationListResult,
+      bodyMapper: Mappers.OperationListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
