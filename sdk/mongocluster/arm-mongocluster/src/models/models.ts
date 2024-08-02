@@ -176,9 +176,10 @@ export function privateEndpointConnectionPropertiesSerializer(
     privateEndpoint: !item.privateEndpoint
       ? item.privateEndpoint
       : privateEndpointSerializer(item.privateEndpoint),
-    privateLinkServiceConnectionState: privateLinkServiceConnectionStateSerializer(
-      item.privateLinkServiceConnectionState,
-    ),
+    privateLinkServiceConnectionState:
+      privateLinkServiceConnectionStateSerializer(
+        item.privateLinkServiceConnectionState,
+      ),
   };
 }
 
@@ -327,7 +328,9 @@ export interface TrackedResource extends Resource {
   location: string;
 }
 
-export function trackedResourceSerializer(item: TrackedResource): TrackedResourceRest {
+export function trackedResourceSerializer(
+  item: TrackedResource,
+): TrackedResourceRest {
   return {
     tags: !item.tags ? item.tags : (serializeRecord(item.tags as any) as any),
     location: item["location"],
@@ -497,7 +500,9 @@ export interface NodeGroupSpec {
   nodeCount?: number;
 }
 
-export function nodeGroupSpecSerializer(item: NodeGroupSpec): NodeGroupSpecRest {
+export function nodeGroupSpecSerializer(
+  item: NodeGroupSpec,
+): NodeGroupSpecRest {
   return {
     sku: item["sku"],
     diskSizeGB: item["diskSizeGB"],
@@ -536,7 +541,9 @@ export interface MongoClusterUpdate {
   properties?: MongoClusterUpdateProperties;
 }
 
-export function mongoClusterUpdateSerializer(item: MongoClusterUpdate): MongoClusterUpdateRest {
+export function mongoClusterUpdateSerializer(
+  item: MongoClusterUpdate,
+): MongoClusterUpdateRest {
   return {
     tags: !item.tags ? item.tags : (serializeRecord(item.tags as any) as any),
     properties: !item.properties

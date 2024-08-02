@@ -64,7 +64,9 @@ export function _mongoClustersGetSend(
   resourceGroupName: string,
   mongoClusterName: string,
   options: MongoClustersGetOptionalParams = { requestOptions: {} },
-): StreamableMethod<MongoClustersGet200Response | MongoClustersGetDefaultResponse> {
+): StreamableMethod<
+  MongoClustersGet200Response | MongoClustersGetDefaultResponse
+> {
   return context
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}",
@@ -112,13 +114,23 @@ export async function _mongoClustersGetDeserialize(
             ? undefined
             : {
                 pointInTimeUTC:
-                  result.body.properties?.restoreParameters?.["pointInTimeUTC"] !== undefined
-                    ? new Date(result.body.properties?.restoreParameters?.["pointInTimeUTC"])
+                  result.body.properties?.restoreParameters?.[
+                    "pointInTimeUTC"
+                  ] !== undefined
+                    ? new Date(
+                        result.body.properties?.restoreParameters?.[
+                          "pointInTimeUTC"
+                        ],
+                      )
                     : undefined,
-                sourceResourceId: result.body.properties?.restoreParameters?.["sourceResourceId"],
+                sourceResourceId:
+                  result.body.properties?.restoreParameters?.[
+                    "sourceResourceId"
+                  ],
               },
           administratorLogin: result.body.properties?.["administratorLogin"],
-          administratorLoginPassword: result.body.properties?.["administratorLoginPassword"],
+          administratorLoginPassword:
+            result.body.properties?.["administratorLoginPassword"],
           serverVersion: result.body.properties?.["serverVersion"],
           connectionString: result.body.properties?.["connectionString"],
           earliestRestoreTime: result.body.properties?.["earliestRestoreTime"],
@@ -140,45 +152,56 @@ export async function _mongoClustersGetDeserialize(
           privateEndpointConnections:
             result.body.properties?.["privateEndpointConnections"] === undefined
               ? result.body.properties?.["privateEndpointConnections"]
-              : result.body.properties?.["privateEndpointConnections"].map((p) => {
-                  return {
-                    id: p["id"],
-                    name: p["name"],
-                    type: p["type"],
-                    systemData: !p.systemData
-                      ? undefined
-                      : {
-                          createdBy: p.systemData?.["createdBy"],
-                          createdByType: p.systemData?.["createdByType"],
-                          createdAt:
-                            p.systemData?.["createdAt"] !== undefined
-                              ? new Date(p.systemData?.["createdAt"])
-                              : undefined,
-                          lastModifiedBy: p.systemData?.["lastModifiedBy"],
-                          lastModifiedByType: p.systemData?.["lastModifiedByType"],
-                          lastModifiedAt:
-                            p.systemData?.["lastModifiedAt"] !== undefined
-                              ? new Date(p.systemData?.["lastModifiedAt"])
-                              : undefined,
-                        },
-                    properties: !p.properties
-                      ? undefined
-                      : {
-                          groupIds: p.properties?.["groupIds"],
-                          privateEndpoint: !p.properties?.privateEndpoint
-                            ? undefined
-                            : { id: p.properties?.privateEndpoint?.["id"] },
-                          privateLinkServiceConnectionState: {
-                            status: p.properties?.privateLinkServiceConnectionState["status"],
-                            description:
-                              p.properties?.privateLinkServiceConnectionState["description"],
-                            actionsRequired:
-                              p.properties?.privateLinkServiceConnectionState["actionsRequired"],
+              : result.body.properties?.["privateEndpointConnections"].map(
+                  (p) => {
+                    return {
+                      id: p["id"],
+                      name: p["name"],
+                      type: p["type"],
+                      systemData: !p.systemData
+                        ? undefined
+                        : {
+                            createdBy: p.systemData?.["createdBy"],
+                            createdByType: p.systemData?.["createdByType"],
+                            createdAt:
+                              p.systemData?.["createdAt"] !== undefined
+                                ? new Date(p.systemData?.["createdAt"])
+                                : undefined,
+                            lastModifiedBy: p.systemData?.["lastModifiedBy"],
+                            lastModifiedByType:
+                              p.systemData?.["lastModifiedByType"],
+                            lastModifiedAt:
+                              p.systemData?.["lastModifiedAt"] !== undefined
+                                ? new Date(p.systemData?.["lastModifiedAt"])
+                                : undefined,
                           },
-                          provisioningState: p.properties?.["provisioningState"],
-                        },
-                  };
-                }),
+                      properties: !p.properties
+                        ? undefined
+                        : {
+                            groupIds: p.properties?.["groupIds"],
+                            privateEndpoint: !p.properties?.privateEndpoint
+                              ? undefined
+                              : { id: p.properties?.privateEndpoint?.["id"] },
+                            privateLinkServiceConnectionState: {
+                              status:
+                                p.properties?.privateLinkServiceConnectionState[
+                                  "status"
+                                ],
+                              description:
+                                p.properties?.privateLinkServiceConnectionState[
+                                  "description"
+                                ],
+                              actionsRequired:
+                                p.properties?.privateLinkServiceConnectionState[
+                                  "actionsRequired"
+                                ],
+                            },
+                            provisioningState:
+                              p.properties?.["provisioningState"],
+                          },
+                    };
+                  },
+                ),
         },
   };
 }
@@ -224,7 +247,9 @@ export function _mongoClustersCreateOrUpdateSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       body: {
-        tags: !resource.tags ? resource.tags : (serializeRecord(resource.tags as any) as any),
+        tags: !resource.tags
+          ? resource.tags
+          : (serializeRecord(resource.tags as any) as any),
         location: resource["location"],
         properties: !resource.properties
           ? resource.properties
@@ -275,13 +300,20 @@ export async function _mongoClustersCreateOrUpdateDeserialize(
             ? undefined
             : {
                 pointInTimeUTC:
-                  res.body.properties?.restoreParameters?.["pointInTimeUTC"] !== undefined
-                    ? new Date(res.body.properties?.restoreParameters?.["pointInTimeUTC"])
+                  res.body.properties?.restoreParameters?.["pointInTimeUTC"] !==
+                  undefined
+                    ? new Date(
+                        res.body.properties?.restoreParameters?.[
+                          "pointInTimeUTC"
+                        ],
+                      )
                     : undefined,
-                sourceResourceId: res.body.properties?.restoreParameters?.["sourceResourceId"],
+                sourceResourceId:
+                  res.body.properties?.restoreParameters?.["sourceResourceId"],
               },
           administratorLogin: res.body.properties?.["administratorLogin"],
-          administratorLoginPassword: res.body.properties?.["administratorLoginPassword"],
+          administratorLoginPassword:
+            res.body.properties?.["administratorLoginPassword"],
           serverVersion: res.body.properties?.["serverVersion"],
           connectionString: res.body.properties?.["connectionString"],
           earliestRestoreTime: res.body.properties?.["earliestRestoreTime"],
@@ -318,7 +350,8 @@ export async function _mongoClustersCreateOrUpdateDeserialize(
                               ? new Date(p.systemData?.["createdAt"])
                               : undefined,
                           lastModifiedBy: p.systemData?.["lastModifiedBy"],
-                          lastModifiedByType: p.systemData?.["lastModifiedByType"],
+                          lastModifiedByType:
+                            p.systemData?.["lastModifiedByType"],
                           lastModifiedAt:
                             p.systemData?.["lastModifiedAt"] !== undefined
                               ? new Date(p.systemData?.["lastModifiedAt"])
@@ -332,13 +365,21 @@ export async function _mongoClustersCreateOrUpdateDeserialize(
                             ? undefined
                             : { id: p.properties?.privateEndpoint?.["id"] },
                           privateLinkServiceConnectionState: {
-                            status: p.properties?.privateLinkServiceConnectionState["status"],
+                            status:
+                              p.properties?.privateLinkServiceConnectionState[
+                                "status"
+                              ],
                             description:
-                              p.properties?.privateLinkServiceConnectionState["description"],
+                              p.properties?.privateLinkServiceConnectionState[
+                                "description"
+                              ],
                             actionsRequired:
-                              p.properties?.privateLinkServiceConnectionState["actionsRequired"],
+                              p.properties?.privateLinkServiceConnectionState[
+                                "actionsRequired"
+                              ],
                           },
-                          provisioningState: p.properties?.["provisioningState"],
+                          provisioningState:
+                            p.properties?.["provisioningState"],
                         },
                   };
                 }),
@@ -355,19 +396,23 @@ export function mongoClustersCreateOrUpdate(
   resource: MongoCluster,
   options: MongoClustersCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<MongoCluster>, MongoCluster> {
-  return getLongRunningPoller(context, _mongoClustersCreateOrUpdateDeserialize, {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _mongoClustersCreateOrUpdateSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        mongoClusterName,
-        resource,
-        options,
-      ),
-  }) as PollerLike<OperationState<MongoCluster>, MongoCluster>;
+  return getLongRunningPoller(
+    context,
+    _mongoClustersCreateOrUpdateDeserialize,
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _mongoClustersCreateOrUpdateSend(
+          context,
+          subscriptionId,
+          resourceGroupName,
+          mongoClusterName,
+          resource,
+          options,
+        ),
+    },
+  ) as PollerLike<OperationState<MongoCluster>, MongoCluster>;
 }
 
 export function _mongoClustersUpdateSend(
@@ -393,7 +438,9 @@ export function _mongoClustersUpdateSend(
     .patch({
       ...operationOptionsToRequestParameters(options),
       body: {
-        tags: !properties.tags ? properties.tags : (serializeRecord(properties.tags as any) as any),
+        tags: !properties.tags
+          ? properties.tags
+          : (serializeRecord(properties.tags as any) as any),
         properties: !properties.properties
           ? properties.properties
           : mongoClusterUpdatePropertiesSerializer(properties.properties),
@@ -443,13 +490,20 @@ export async function _mongoClustersUpdateDeserialize(
             ? undefined
             : {
                 pointInTimeUTC:
-                  res.body.properties?.restoreParameters?.["pointInTimeUTC"] !== undefined
-                    ? new Date(res.body.properties?.restoreParameters?.["pointInTimeUTC"])
+                  res.body.properties?.restoreParameters?.["pointInTimeUTC"] !==
+                  undefined
+                    ? new Date(
+                        res.body.properties?.restoreParameters?.[
+                          "pointInTimeUTC"
+                        ],
+                      )
                     : undefined,
-                sourceResourceId: res.body.properties?.restoreParameters?.["sourceResourceId"],
+                sourceResourceId:
+                  res.body.properties?.restoreParameters?.["sourceResourceId"],
               },
           administratorLogin: res.body.properties?.["administratorLogin"],
-          administratorLoginPassword: res.body.properties?.["administratorLoginPassword"],
+          administratorLoginPassword:
+            res.body.properties?.["administratorLoginPassword"],
           serverVersion: res.body.properties?.["serverVersion"],
           connectionString: res.body.properties?.["connectionString"],
           earliestRestoreTime: res.body.properties?.["earliestRestoreTime"],
@@ -486,7 +540,8 @@ export async function _mongoClustersUpdateDeserialize(
                               ? new Date(p.systemData?.["createdAt"])
                               : undefined,
                           lastModifiedBy: p.systemData?.["lastModifiedBy"],
-                          lastModifiedByType: p.systemData?.["lastModifiedByType"],
+                          lastModifiedByType:
+                            p.systemData?.["lastModifiedByType"],
                           lastModifiedAt:
                             p.systemData?.["lastModifiedAt"] !== undefined
                               ? new Date(p.systemData?.["lastModifiedAt"])
@@ -500,13 +555,21 @@ export async function _mongoClustersUpdateDeserialize(
                             ? undefined
                             : { id: p.properties?.privateEndpoint?.["id"] },
                           privateLinkServiceConnectionState: {
-                            status: p.properties?.privateLinkServiceConnectionState["status"],
+                            status:
+                              p.properties?.privateLinkServiceConnectionState[
+                                "status"
+                              ],
                             description:
-                              p.properties?.privateLinkServiceConnectionState["description"],
+                              p.properties?.privateLinkServiceConnectionState[
+                                "description"
+                              ],
                             actionsRequired:
-                              p.properties?.privateLinkServiceConnectionState["actionsRequired"],
+                              p.properties?.privateLinkServiceConnectionState[
+                                "actionsRequired"
+                              ],
                           },
-                          provisioningState: p.properties?.["provisioningState"],
+                          provisioningState:
+                            p.properties?.["provisioningState"],
                         },
                   };
                 }),
@@ -604,7 +667,8 @@ export function _mongoClustersListByResourceGroupSend(
     requestOptions: {},
   },
 ): StreamableMethod<
-  MongoClustersListByResourceGroup200Response | MongoClustersListByResourceGroupDefaultResponse
+  | MongoClustersListByResourceGroup200Response
+  | MongoClustersListByResourceGroupDefaultResponse
 > {
   return context
     .path(
@@ -656,13 +720,18 @@ export async function _mongoClustersListByResourceGroupDeserialize(
                 ? undefined
                 : {
                     pointInTimeUTC:
-                      p.properties?.restoreParameters?.["pointInTimeUTC"] !== undefined
-                        ? new Date(p.properties?.restoreParameters?.["pointInTimeUTC"])
+                      p.properties?.restoreParameters?.["pointInTimeUTC"] !==
+                      undefined
+                        ? new Date(
+                            p.properties?.restoreParameters?.["pointInTimeUTC"],
+                          )
                         : undefined,
-                    sourceResourceId: p.properties?.restoreParameters?.["sourceResourceId"],
+                    sourceResourceId:
+                      p.properties?.restoreParameters?.["sourceResourceId"],
                   },
               administratorLogin: p.properties?.["administratorLogin"],
-              administratorLoginPassword: p.properties?.["administratorLoginPassword"],
+              administratorLoginPassword:
+                p.properties?.["administratorLoginPassword"],
               serverVersion: p.properties?.["serverVersion"],
               connectionString: p.properties?.["connectionString"],
               earliestRestoreTime: p.properties?.["earliestRestoreTime"],
@@ -699,7 +768,8 @@ export async function _mongoClustersListByResourceGroupDeserialize(
                                   ? new Date(p.systemData?.["createdAt"])
                                   : undefined,
                               lastModifiedBy: p.systemData?.["lastModifiedBy"],
-                              lastModifiedByType: p.systemData?.["lastModifiedByType"],
+                              lastModifiedByType:
+                                p.systemData?.["lastModifiedByType"],
                               lastModifiedAt:
                                 p.systemData?.["lastModifiedAt"] !== undefined
                                   ? new Date(p.systemData?.["lastModifiedAt"])
@@ -713,15 +783,24 @@ export async function _mongoClustersListByResourceGroupDeserialize(
                                 ? undefined
                                 : { id: p.properties?.privateEndpoint?.["id"] },
                               privateLinkServiceConnectionState: {
-                                status: p.properties?.privateLinkServiceConnectionState["status"],
+                                status:
+                                  p.properties
+                                    ?.privateLinkServiceConnectionState[
+                                    "status"
+                                  ],
                                 description:
-                                  p.properties?.privateLinkServiceConnectionState["description"],
+                                  p.properties
+                                    ?.privateLinkServiceConnectionState[
+                                    "description"
+                                  ],
                                 actionsRequired:
-                                  p.properties?.privateLinkServiceConnectionState[
+                                  p.properties
+                                    ?.privateLinkServiceConnectionState[
                                     "actionsRequired"
                                   ],
                               },
-                              provisioningState: p.properties?.["provisioningState"],
+                              provisioningState:
+                                p.properties?.["provisioningState"],
                             },
                       };
                     }),
@@ -744,7 +823,12 @@ export function mongoClustersListByResourceGroup(
   return buildPagedAsyncIterator(
     context,
     () =>
-      _mongoClustersListByResourceGroupSend(context, subscriptionId, resourceGroupName, options),
+      _mongoClustersListByResourceGroupSend(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        options,
+      ),
     _mongoClustersListByResourceGroupDeserialize,
     { itemName: "value", nextLinkName: "nextLink" },
   );
@@ -754,7 +838,9 @@ export function _mongoClustersListSend(
   context: Client,
   subscriptionId: string,
   options: MongoClustersListOptionalParams = { requestOptions: {} },
-): StreamableMethod<MongoClustersList200Response | MongoClustersListDefaultResponse> {
+): StreamableMethod<
+  MongoClustersList200Response | MongoClustersListDefaultResponse
+> {
   return context
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/mongoClusters",
@@ -802,13 +888,18 @@ export async function _mongoClustersListDeserialize(
                 ? undefined
                 : {
                     pointInTimeUTC:
-                      p.properties?.restoreParameters?.["pointInTimeUTC"] !== undefined
-                        ? new Date(p.properties?.restoreParameters?.["pointInTimeUTC"])
+                      p.properties?.restoreParameters?.["pointInTimeUTC"] !==
+                      undefined
+                        ? new Date(
+                            p.properties?.restoreParameters?.["pointInTimeUTC"],
+                          )
                         : undefined,
-                    sourceResourceId: p.properties?.restoreParameters?.["sourceResourceId"],
+                    sourceResourceId:
+                      p.properties?.restoreParameters?.["sourceResourceId"],
                   },
               administratorLogin: p.properties?.["administratorLogin"],
-              administratorLoginPassword: p.properties?.["administratorLoginPassword"],
+              administratorLoginPassword:
+                p.properties?.["administratorLoginPassword"],
               serverVersion: p.properties?.["serverVersion"],
               connectionString: p.properties?.["connectionString"],
               earliestRestoreTime: p.properties?.["earliestRestoreTime"],
@@ -845,7 +936,8 @@ export async function _mongoClustersListDeserialize(
                                   ? new Date(p.systemData?.["createdAt"])
                                   : undefined,
                               lastModifiedBy: p.systemData?.["lastModifiedBy"],
-                              lastModifiedByType: p.systemData?.["lastModifiedByType"],
+                              lastModifiedByType:
+                                p.systemData?.["lastModifiedByType"],
                               lastModifiedAt:
                                 p.systemData?.["lastModifiedAt"] !== undefined
                                   ? new Date(p.systemData?.["lastModifiedAt"])
@@ -859,15 +951,24 @@ export async function _mongoClustersListDeserialize(
                                 ? undefined
                                 : { id: p.properties?.privateEndpoint?.["id"] },
                               privateLinkServiceConnectionState: {
-                                status: p.properties?.privateLinkServiceConnectionState["status"],
+                                status:
+                                  p.properties
+                                    ?.privateLinkServiceConnectionState[
+                                    "status"
+                                  ],
                                 description:
-                                  p.properties?.privateLinkServiceConnectionState["description"],
+                                  p.properties
+                                    ?.privateLinkServiceConnectionState[
+                                    "description"
+                                  ],
                                 actionsRequired:
-                                  p.properties?.privateLinkServiceConnectionState[
+                                  p.properties
+                                    ?.privateLinkServiceConnectionState[
                                     "actionsRequired"
                                   ],
                               },
-                              provisioningState: p.properties?.["provisioningState"],
+                              provisioningState:
+                                p.properties?.["provisioningState"],
                             },
                       };
                     }),
@@ -901,7 +1002,8 @@ export function _mongoClustersListConnectionStringsSend(
     requestOptions: {},
   },
 ): StreamableMethod<
-  MongoClustersListConnectionStrings200Response | MongoClustersListConnectionStringsDefaultResponse
+  | MongoClustersListConnectionStrings200Response
+  | MongoClustersListConnectionStringsDefaultResponse
 > {
   return context
     .path(
@@ -964,7 +1066,8 @@ export function _mongoClustersCheckNameAvailabilitySend(
     requestOptions: {},
   },
 ): StreamableMethod<
-  MongoClustersCheckNameAvailability200Response | MongoClustersCheckNameAvailabilityDefaultResponse
+  | MongoClustersCheckNameAvailability200Response
+  | MongoClustersCheckNameAvailabilityDefaultResponse
 > {
   return context
     .path(
