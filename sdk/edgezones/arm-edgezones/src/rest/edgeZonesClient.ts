@@ -19,10 +19,14 @@ export interface EdgeZonesContextOptions extends ClientOptions {
  */
 export default function createClient(
   credentials: TokenCredential,
-  { apiVersion = "2024-04-01-preview", ...options }: EdgeZonesContextOptions = {},
+  {
+    apiVersion = "2024-04-01-preview",
+    ...options
+  }: EdgeZonesContextOptions = {},
 ): EdgeZonesContext {
-  const endpointUrl = options.endpoint ?? options.baseUrl ?? `https://management.azure.com`;
-  const userAgentInfo = `azsdk-js-arm-edgezones/1.0.0-beta.2`;
+  const endpointUrl =
+    options.endpoint ?? options.baseUrl ?? `https://management.azure.com`;
+  const userAgentInfo = `azsdk-js-arm-edgezones/1.0.0-beta.1`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
@@ -39,7 +43,11 @@ export default function createClient(
       scopes: options.credentials?.scopes ?? [`${endpointUrl}/.default`],
     },
   };
-  const client = getClient(endpointUrl, credentials, options) as EdgeZonesContext;
+  const client = getClient(
+    endpointUrl,
+    credentials,
+    options,
+  ) as EdgeZonesContext;
 
   client.pipeline.removePolicy({ name: "ApiVersionPolicy" });
   client.pipeline.addPolicy({
