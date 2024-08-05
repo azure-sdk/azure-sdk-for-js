@@ -9,13 +9,13 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   WorkspaceResource as WorkspaceResourceMapper,
   WorkspacePatchResource as WorkspacePatchResourceMapper,
   LabelResource as LabelResourceMapper,
-  LabelPatchResource as LabelPatchResourceMapper
+  LabelPatchResource as LabelPatchResourceMapper,
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -25,9 +25,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -36,10 +36,25 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
+};
+
+export const resourceGroupName: OperationURLParameter = {
+  parameterPath: "resourceGroupName",
+  mapper: {
+    constraints: {
+      MaxLength: 90,
+      MinLength: 1,
+    },
+    serializedName: "resourceGroupName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const apiVersion: OperationQueryParameter = {
@@ -49,38 +64,23 @@ export const apiVersion: OperationQueryParameter = {
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
     constraints: {
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
-};
-
-export const resourceGroupName: OperationURLParameter = {
-  parameterPath: "resourceGroupName",
-  mapper: {
-    constraints: {
-      MaxLength: 90,
-      MinLength: 1
+      name: "String",
     },
-    serializedName: "resourceGroupName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
+  },
 };
 
 export const workspaceName: OperationURLParameter = {
@@ -89,9 +89,9 @@ export const workspaceName: OperationURLParameter = {
     serializedName: "workspaceName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -101,19 +101,19 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const workspaceResource: OperationParameter = {
   parameterPath: ["options", "workspaceResource"],
-  mapper: WorkspaceResourceMapper
+  mapper: WorkspaceResourceMapper,
 };
 
 export const workspacePatchResource: OperationParameter = {
   parameterPath: ["options", "workspacePatchResource"],
-  mapper: WorkspacePatchResourceMapper
+  mapper: WorkspacePatchResourceMapper,
 };
 
 export const nextLink: OperationURLParameter = {
@@ -122,10 +122,10 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const labelName: OperationURLParameter = {
@@ -134,19 +134,19 @@ export const labelName: OperationURLParameter = {
     serializedName: "labelName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const labelResource: OperationParameter = {
   parameterPath: ["options", "labelResource"],
-  mapper: LabelResourceMapper
+  mapper: LabelResourceMapper,
 };
 
 export const labelPatchResource: OperationParameter = {
   parameterPath: ["options", "labelPatchResource"],
-  mapper: LabelPatchResourceMapper
+  mapper: LabelPatchResourceMapper,
 };
 
 export const taskId: OperationURLParameter = {
@@ -155,7 +155,7 @@ export const taskId: OperationURLParameter = {
     serializedName: "taskId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };

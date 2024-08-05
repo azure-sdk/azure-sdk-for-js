@@ -17,7 +17,7 @@ import {
   LabelsCreateAndUpdateResponse,
   LabelsUpdateOptionalParams,
   LabelsUpdateResponse,
-  LabelsDeleteOptionalParams
+  LabelsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface Labels {
   listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: LabelsListByWorkspaceOptionalParams
+    options?: LabelsListByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<LabelResource>;
   /**
    * Returns a label in the given workspace.
@@ -45,7 +45,7 @@ export interface Labels {
     resourceGroupName: string,
     workspaceName: string,
     labelName: string,
-    options?: LabelsGetByWorkspaceOptionalParams
+    options?: LabelsGetByWorkspaceOptionalParams,
   ): Promise<LabelsGetByWorkspaceResponse>;
   /**
    * Create or update a Label.
@@ -58,7 +58,7 @@ export interface Labels {
     resourceGroupName: string,
     workspaceName: string,
     labelName: string,
-    options?: LabelsCreateAndUpdateOptionalParams
+    options?: LabelsCreateAndUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<LabelsCreateAndUpdateResponse>,
@@ -76,7 +76,7 @@ export interface Labels {
     resourceGroupName: string,
     workspaceName: string,
     labelName: string,
-    options?: LabelsCreateAndUpdateOptionalParams
+    options?: LabelsCreateAndUpdateOptionalParams,
   ): Promise<LabelsCreateAndUpdateResponse>;
   /**
    * Update a Label.
@@ -89,7 +89,7 @@ export interface Labels {
     resourceGroupName: string,
     workspaceName: string,
     labelName: string,
-    options?: LabelsUpdateOptionalParams
+    options?: LabelsUpdateOptionalParams,
   ): Promise<LabelsUpdateResponse>;
   /**
    * Delete a Label.
@@ -102,7 +102,7 @@ export interface Labels {
     resourceGroupName: string,
     workspaceName: string,
     labelName: string,
-    options?: LabelsDeleteOptionalParams
+    options?: LabelsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a Label.
@@ -115,6 +115,6 @@ export interface Labels {
     resourceGroupName: string,
     workspaceName: string,
     labelName: string,
-    options?: LabelsDeleteOptionalParams
+    options?: LabelsDeleteOptionalParams,
   ): Promise<void>;
 }

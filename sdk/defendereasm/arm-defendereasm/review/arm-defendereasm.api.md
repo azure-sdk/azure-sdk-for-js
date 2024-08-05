@@ -332,7 +332,6 @@ export interface Workspaces {
     beginDeleteAndWait(resourceGroupName: string, workspaceName: string, options?: WorkspacesDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, workspaceName: string, options?: WorkspacesGetOptionalParams): Promise<WorkspacesGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: WorkspacesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<WorkspaceResource>;
-    listBySubscription(options?: WorkspacesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<WorkspaceResource>;
     update(resourceGroupName: string, workspaceName: string, options?: WorkspacesUpdateOptionalParams): Promise<WorkspacesUpdateResponse>;
 }
 
@@ -372,20 +371,6 @@ export interface WorkspacesListByResourceGroupOptionalParams extends coreClient.
 
 // @public
 export type WorkspacesListByResourceGroupResponse = WorkspaceResourceList;
-
-// @public
-export interface WorkspacesListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WorkspacesListBySubscriptionNextResponse = WorkspaceResourceList;
-
-// @public
-export interface WorkspacesListBySubscriptionOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WorkspacesListBySubscriptionResponse = WorkspaceResourceList;
 
 // @public
 export interface WorkspacesUpdateOptionalParams extends coreClient.OperationOptions {
