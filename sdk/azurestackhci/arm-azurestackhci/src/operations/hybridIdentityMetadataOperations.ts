@@ -20,13 +20,14 @@ import {
   HybridIdentityMetadataListResponse,
   HybridIdentityMetadataGetOptionalParams,
   HybridIdentityMetadataGetResponse,
-  HybridIdentityMetadataListNextResponse
+  HybridIdentityMetadataListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing HybridIdentityMetadataOperations operations. */
 export class HybridIdentityMetadataOperationsImpl
-  implements HybridIdentityMetadataOperations {
+  implements HybridIdentityMetadataOperations
+{
   private readonly client: AzureStackHCIClient;
 
   /**
@@ -45,7 +46,7 @@ export class HybridIdentityMetadataOperationsImpl
    */
   public list(
     resourceUri: string,
-    options?: HybridIdentityMetadataListOptionalParams
+    options?: HybridIdentityMetadataListOptionalParams,
   ): PagedAsyncIterableIterator<HybridIdentityMetadata> {
     const iter = this.listPagingAll(resourceUri, options);
     return {
@@ -60,14 +61,14 @@ export class HybridIdentityMetadataOperationsImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(resourceUri, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     resourceUri: string,
     options?: HybridIdentityMetadataListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<HybridIdentityMetadata[]> {
     let result: HybridIdentityMetadataListResponse;
     let continuationToken = settings?.continuationToken;
@@ -89,7 +90,7 @@ export class HybridIdentityMetadataOperationsImpl
 
   private async *listPagingAll(
     resourceUri: string,
-    options?: HybridIdentityMetadataListOptionalParams
+    options?: HybridIdentityMetadataListOptionalParams,
   ): AsyncIterableIterator<HybridIdentityMetadata> {
     for await (const page of this.listPagingPage(resourceUri, options)) {
       yield* page;
@@ -104,11 +105,11 @@ export class HybridIdentityMetadataOperationsImpl
    */
   get(
     resourceUri: string,
-    options?: HybridIdentityMetadataGetOptionalParams
+    options?: HybridIdentityMetadataGetOptionalParams,
   ): Promise<HybridIdentityMetadataGetResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -120,11 +121,11 @@ export class HybridIdentityMetadataOperationsImpl
    */
   private _list(
     resourceUri: string,
-    options?: HybridIdentityMetadataListOptionalParams
+    options?: HybridIdentityMetadataListOptionalParams,
   ): Promise<HybridIdentityMetadataListResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -138,11 +139,11 @@ export class HybridIdentityMetadataOperationsImpl
   private _listNext(
     resourceUri: string,
     nextLink: string,
-    options?: HybridIdentityMetadataListNextOptionalParams
+    options?: HybridIdentityMetadataListNextOptionalParams,
   ): Promise<HybridIdentityMetadataListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -150,55 +151,53 @@ export class HybridIdentityMetadataOperationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/hybridIdentityMetadata/default",
+  path: "/{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/hybridIdentityMetadata/default",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.HybridIdentityMetadata
+      bodyMapper: Mappers.HybridIdentityMetadata,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.resourceUri],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/hybridIdentityMetadata",
+  path: "/{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/hybridIdentityMetadata",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.HybridIdentityMetadataList
+      bodyMapper: Mappers.HybridIdentityMetadataList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.resourceUri],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.HybridIdentityMetadataList
+      bodyMapper: Mappers.HybridIdentityMetadataList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
-    Parameters.resourceUri
+    Parameters.resourceUri,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
