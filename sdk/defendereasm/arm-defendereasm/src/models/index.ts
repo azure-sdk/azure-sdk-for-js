@@ -323,7 +323,7 @@ export enum KnownResourceState {
   /** CreatingArtifacts */
   CreatingArtifacts = "CreatingArtifacts",
   /** DeletingArtifacts */
-  DeletingArtifacts = "DeletingArtifacts"
+  DeletingArtifacts = "DeletingArtifacts",
 }
 
 /**
@@ -356,7 +356,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -378,7 +378,7 @@ export enum KnownOrigin {
   /** System */
   System = "system",
   /** UserSystem */
-  UserSystem = "user,system"
+  UserSystem = "user,system",
 }
 
 /**
@@ -395,7 +395,7 @@ export type Origin = string;
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
   /** Internal */
-  Internal = "Internal"
+  Internal = "Internal",
 }
 
 /**
@@ -406,13 +406,6 @@ export enum KnownActionType {
  * **Internal**
  */
 export type ActionType = string;
-
-/** Optional parameters. */
-export interface WorkspacesListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySubscription operation. */
-export type WorkspacesListBySubscriptionResponse = WorkspaceResourceList;
 
 /** Optional parameters. */
 export interface WorkspacesListByResourceGroupOptionalParams
@@ -460,13 +453,6 @@ export interface WorkspacesDeleteOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
-
-/** Optional parameters. */
-export interface WorkspacesListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySubscriptionNext operation. */
-export type WorkspacesListBySubscriptionNextResponse = WorkspaceResourceList;
 
 /** Optional parameters. */
 export interface WorkspacesListByResourceGroupNextOptionalParams

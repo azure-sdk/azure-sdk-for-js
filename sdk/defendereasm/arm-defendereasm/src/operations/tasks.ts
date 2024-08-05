@@ -13,7 +13,7 @@ import * as Parameters from "../models/parameters";
 import { EasmMgmtClient } from "../easmMgmtClient";
 import {
   TasksGetByWorkspaceOptionalParams,
-  TasksGetByWorkspaceResponse
+  TasksGetByWorkspaceResponse,
 } from "../models";
 
 /** Class containing Tasks operations. */
@@ -39,11 +39,11 @@ export class TasksImpl implements Tasks {
     resourceGroupName: string,
     workspaceName: string,
     taskId: string,
-    options?: TasksGetByWorkspaceOptionalParams
+    options?: TasksGetByWorkspaceOptionalParams,
   ): Promise<TasksGetByWorkspaceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, taskId, options },
-      getByWorkspaceOperationSpec
+      getByWorkspaceOperationSpec,
     );
   }
 }
@@ -51,25 +51,24 @@ export class TasksImpl implements Tasks {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getByWorkspaceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Easm/workspaces/{workspaceName}/tasks/{taskId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Easm/workspaces/{workspaceName}/tasks/{taskId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TaskResource
+      bodyMapper: Mappers.TaskResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.workspaceName,
-    Parameters.taskId
+    Parameters.taskId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

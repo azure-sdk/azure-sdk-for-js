@@ -8,7 +8,7 @@
 
 import {
   TasksGetByWorkspaceOptionalParams,
-  TasksGetByWorkspaceResponse
+  TasksGetByWorkspaceResponse,
 } from "../models";
 
 /** Interface representing a Tasks. */
@@ -24,6 +24,6 @@ export interface Tasks {
     resourceGroupName: string,
     workspaceName: string,
     taskId: string,
-    options?: TasksGetByWorkspaceOptionalParams
+    options?: TasksGetByWorkspaceOptionalParams,
   ): Promise<TasksGetByWorkspaceResponse>;
 }

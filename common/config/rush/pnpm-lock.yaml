@@ -14652,7 +14652,7 @@ packages:
     dev: false
 
   file:projects/arm-defendereasm.tgz:
-    resolution: {integrity: sha512-98fr3fMGLC57z4fOkxQpGGkppirHPusHmoYQqJJ1FJxmacoAygaezvyR7QJ0P/2dYd9MQAVVshAItBnRCX55+w==, tarball: file:projects/arm-defendereasm.tgz}
+    resolution: {integrity: sha512-Mjk5aswa6MJUweig5bk1NEqSAZJHCzBavC9b/Mbba5qIVtpYnVdLabovmZUpij4smbEPkXdeG4mttVIgH7a6zg==, tarball: file:projects/arm-defendereasm.tgz}
     name: '@rush-temp/arm-defendereasm'
     version: 0.0.0
     dependencies:
@@ -14673,6 +14673,7 @@ packages:
       rimraf: 5.0.10
       ts-node: 10.9.2(@types/node@18.19.42)(typescript@5.5.4)
       tslib: 2.6.3
+      tsx: 4.16.3
       typescript: 5.5.4
       uglify-js: 3.19.1
     transitivePeerDependencies:
