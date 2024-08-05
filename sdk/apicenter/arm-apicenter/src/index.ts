@@ -9,5 +9,5 @@
 /// <reference lib="esnext.asynciterable" />
 export { getContinuationToken } from "./pagingHelper";
 export * from "./models";
-export { AzureAPICenter } from "./azureAPICenter";
+export { AzureAPICenterTesttest } from "./azureAPICenterTesttest";
 export * from "./operationsInterfaces";
