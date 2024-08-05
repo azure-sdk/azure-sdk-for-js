@@ -16,7 +16,7 @@ import { PlaywrightTestingClient } from "../playwrightTestingClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -27,6 +27,9 @@ import {
   AccountsListByResourceGroupNextOptionalParams,
   AccountsListByResourceGroupOptionalParams,
   AccountsListByResourceGroupResponse,
+  CheckNameAvailabilityRequest,
+  AccountsCheckNameAvailabilityOptionalParams,
+  AccountsCheckNameAvailabilityResponse,
   AccountsGetOptionalParams,
   AccountsGetResponse,
   AccountsCreateOrUpdateOptionalParams,
@@ -36,7 +39,7 @@ import {
   AccountsUpdateResponse,
   AccountsDeleteOptionalParams,
   AccountsListBySubscriptionNextResponse,
-  AccountsListByResourceGroupNextResponse
+  AccountsListByResourceGroupNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -57,7 +60,7 @@ export class AccountsImpl implements Accounts {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: AccountsListBySubscriptionOptionalParams
+    options?: AccountsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<Account> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -72,13 +75,13 @@ export class AccountsImpl implements Accounts {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: AccountsListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Account[]> {
     let result: AccountsListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -99,7 +102,7 @@ export class AccountsImpl implements Accounts {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: AccountsListBySubscriptionOptionalParams
+    options?: AccountsListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<Account> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -113,7 +116,7 @@ export class AccountsImpl implements Accounts {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: AccountsListByResourceGroupOptionalParams
+    options?: AccountsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Account> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -130,16 +133,16 @@ export class AccountsImpl implements Accounts {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: AccountsListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Account[]> {
     let result: AccountsListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -154,7 +157,7 @@ export class AccountsImpl implements Accounts {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -165,11 +168,11 @@ export class AccountsImpl implements Accounts {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: AccountsListByResourceGroupOptionalParams
+    options?: AccountsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<Account> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -180,11 +183,27 @@ export class AccountsImpl implements Accounts {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: AccountsListBySubscriptionOptionalParams
+    options?: AccountsListBySubscriptionOptionalParams,
   ): Promise<AccountsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
+    );
+  }
+
+  /**
+   * Adds check global name availability operation, normally used if a resource name must be globally
+   * unique.
+   * @param body The CheckAvailability request
+   * @param options The options parameters.
+   */
+  checkNameAvailability(
+    body: CheckNameAvailabilityRequest,
+    options?: AccountsCheckNameAvailabilityOptionalParams,
+  ): Promise<AccountsCheckNameAvailabilityResponse> {
+    return this.client.sendOperationRequest(
+      { body, options },
+      checkNameAvailabilityOperationSpec,
     );
   }
 
@@ -195,43 +214,43 @@ export class AccountsImpl implements Accounts {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: AccountsListByResourceGroupOptionalParams
+    options?: AccountsListByResourceGroupOptionalParams,
   ): Promise<AccountsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
   /**
    * Get a Account
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param name Name of account
+   * @param accountName Name of account.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    name: string,
-    options?: AccountsGetOptionalParams
+    accountName: string,
+    options?: AccountsGetOptionalParams,
   ): Promise<AccountsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, name, options },
-      getOperationSpec
+      { resourceGroupName, accountName, options },
+      getOperationSpec,
     );
   }
 
   /**
    * Create a Account
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param name Name of account
+   * @param accountName Name of account.
    * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
-    name: string,
+    accountName: string,
     resource: Account,
-    options?: AccountsCreateOrUpdateOptionalParams
+    options?: AccountsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AccountsCreateOrUpdateResponse>,
@@ -240,21 +259,20 @@ export class AccountsImpl implements Accounts {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<AccountsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -263,8 +281,8 @@ export class AccountsImpl implements Accounts {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -272,15 +290,15 @@ export class AccountsImpl implements Accounts {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, name, resource, options },
-      spec: createOrUpdateOperationSpec
+      args: { resourceGroupName, accountName, resource, options },
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       AccountsCreateOrUpdateResponse,
@@ -288,7 +306,7 @@ export class AccountsImpl implements Accounts {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -297,21 +315,21 @@ export class AccountsImpl implements Accounts {
   /**
    * Create a Account
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param name Name of account
+   * @param accountName Name of account.
    * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
-    name: string,
+    accountName: string,
     resource: Account,
-    options?: AccountsCreateOrUpdateOptionalParams
+    options?: AccountsCreateOrUpdateOptionalParams,
   ): Promise<AccountsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
-      name,
+      accountName,
       resource,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -319,50 +337,49 @@ export class AccountsImpl implements Accounts {
   /**
    * Update a Account
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param name Name of account
+   * @param accountName Name of account.
    * @param properties The resource properties to be updated.
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
-    name: string,
+    accountName: string,
     properties: AccountUpdate,
-    options?: AccountsUpdateOptionalParams
+    options?: AccountsUpdateOptionalParams,
   ): Promise<AccountsUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, name, properties, options },
-      updateOperationSpec
+      { resourceGroupName, accountName, properties, options },
+      updateOperationSpec,
     );
   }
 
   /**
    * Delete a Account
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param name Name of account
+   * @param accountName Name of account.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
-    name: string,
-    options?: AccountsDeleteOptionalParams
+    accountName: string,
+    options?: AccountsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -371,8 +388,8 @@ export class AccountsImpl implements Accounts {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -380,20 +397,20 @@ export class AccountsImpl implements Accounts {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, name, options },
-      spec: deleteOperationSpec
+      args: { resourceGroupName, accountName, options },
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -402,15 +419,19 @@ export class AccountsImpl implements Accounts {
   /**
    * Delete a Account
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param name Name of account
+   * @param accountName Name of account.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
-    name: string,
-    options?: AccountsDeleteOptionalParams
+    accountName: string,
+    options?: AccountsDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(resourceGroupName, name, options);
+    const poller = await this.beginDelete(
+      resourceGroupName,
+      accountName,
+      options,
+    );
     return poller.pollUntilDone();
   }
 
@@ -421,11 +442,11 @@ export class AccountsImpl implements Accounts {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: AccountsListBySubscriptionNextOptionalParams
+    options?: AccountsListBySubscriptionNextOptionalParams,
   ): Promise<AccountsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 
@@ -438,11 +459,11 @@ export class AccountsImpl implements Accounts {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: AccountsListByResourceGroupNextOptionalParams
+    options?: AccountsListByResourceGroupNextOptionalParams,
   ): Promise<AccountsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 }
@@ -450,85 +471,99 @@ export class AccountsImpl implements Accounts {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.AzurePlaywrightService/accounts",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.AzurePlaywrightService/accounts",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AccountListResult
+      bodyMapper: Mappers.AccountListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.AzurePlaywrightService/checkNameAvailability",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CheckNameAvailabilityResponse,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.body,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzurePlaywrightService/accounts",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzurePlaywrightService/accounts",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AccountListResult
+      bodyMapper: Mappers.AccountListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzurePlaywrightService/accounts/{name}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Account
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.name
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzurePlaywrightService/accounts/{accountName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Account,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzurePlaywrightService/accounts/{name}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzurePlaywrightService/accounts/{accountName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Account
+      bodyMapper: Mappers.Account,
     },
     201: {
-      bodyMapper: Mappers.Account
+      bodyMapper: Mappers.Account,
     },
     202: {
-      bodyMapper: Mappers.Account
+      bodyMapper: Mappers.Account,
     },
     204: {
-      bodyMapper: Mappers.Account
+      bodyMapper: Mappers.Account,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.resource,
   queryParameters: [Parameters.apiVersion],
@@ -536,23 +571,22 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.name
+    Parameters.accountName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzurePlaywrightService/accounts/{name}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzurePlaywrightService/accounts/{accountName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Account
+      bodyMapper: Mappers.Account,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.properties,
   queryParameters: [Parameters.apiVersion],
@@ -560,15 +594,14 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.name
+    Parameters.accountName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzurePlaywrightService/accounts/{name}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzurePlaywrightService/accounts/{accountName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -576,55 +609,55 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.name
+    Parameters.accountName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AccountListResult
+      bodyMapper: Mappers.AccountListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AccountListResult
+      bodyMapper: Mappers.AccountListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

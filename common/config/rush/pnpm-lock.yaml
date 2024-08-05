@@ -17543,7 +17543,7 @@ packages:
     dev: false
 
   file:projects/arm-playwrighttesting.tgz:
-    resolution: {integrity: sha512-1Cu2srWIlqMw2Qphnt8E3hstcdasUVvDtbaXH1PPN54jhQUViw1AiUM10W0gxeMzLnvKdUVnxUsCIn/NUynQVw==, tarball: file:projects/arm-playwrighttesting.tgz}
+    resolution: {integrity: sha512-Pl/rFiZJKc1ZSycGA01m5jbgx0HBDqtCD3U2HiO1DRxOZ+T5JWeg4V8tBToLUvkZlZQxq6Zw6BqPKL8FmfkmqA==, tarball: file:projects/arm-playwrighttesting.tgz}
     name: '@rush-temp/arm-playwrighttesting'
     version: 0.0.0
     dependencies:
@@ -17564,6 +17564,7 @@ packages:
       rimraf: 5.0.10
       ts-node: 10.9.2(@types/node@18.19.42)(typescript@5.5.4)
       tslib: 2.6.3
+      tsx: 4.16.3
       typescript: 5.5.4
       uglify-js: 3.19.1
     transitivePeerDependencies:
