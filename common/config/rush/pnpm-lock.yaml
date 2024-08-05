@@ -884,6 +884,9 @@ dependencies:
   '@rush-temp/defender-easm':
     specifier: file:./projects/defender-easm.tgz
     version: file:projects/defender-easm.tgz
+  '@rush-temp/defender-easm-rest':
+    specifier: file:./projects/defender-easm-rest.tgz
+    version: file:projects/defender-easm-rest.tgz
   '@rush-temp/dev-tool':
     specifier: file:./projects/dev-tool.tgz
     version: file:projects/dev-tool.tgz
@@ -21180,6 +21183,42 @@ packages:
       - debug
       - supports-color
       - utf-8-validate
+    dev: false
+
+  file:projects/defender-easm-rest.tgz:
+    resolution: {integrity: sha512-RAV8lMSHObdgtgax/9x8f6ucSU3PLhoFJBSIk/ctTUneijsm1dvMzSwQIdK45eqVH1iNeJ5x0E6DuloAhUBk1w==, tarball: file:projects/defender-easm-rest.tgz}
+    name: '@rush-temp/defender-easm-rest'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 4.4.1
+      '@microsoft/api-extractor': 7.47.4(@types/node@18.19.42)
+      '@types/node': 18.19.42
+      '@vitest/browser': 1.6.0(playwright@1.45.3)(vitest@1.6.0)
+      '@vitest/coverage-istanbul': 1.6.0(vitest@1.6.0)
+      dotenv: 16.4.5
+      eslint: 8.57.0
+      mkdirp: 3.0.1
+      playwright: 1.45.3
+      prettier: 3.3.3
+      rimraf: 5.0.10
+      tshy: 1.18.0
+      tslib: 2.6.3
+      typescript: 5.5.4
+      vitest: 1.6.0(@types/node@18.19.42)(@vitest/browser@1.6.0)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - safaridriver
+      - sass
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - webdriverio
     dev: false
 
   file:projects/defender-easm.tgz:
