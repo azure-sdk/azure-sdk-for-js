@@ -785,6 +785,9 @@ dependencies:
   '@rush-temp/attestation':
     specifier: file:./projects/attestation.tgz
     version: file:projects/attestation.tgz
+  '@rush-temp/azure-apicenter-rest':
+    specifier: file:./projects/azure-apicenter-rest.tgz
+    version: file:projects/azure-apicenter-rest.tgz
   '@rush-temp/communication-alpha-ids':
     specifier: file:./projects/communication-alpha-ids.tgz
     version: file:projects/communication-alpha-ids.tgz
@@ -3465,7 +3468,7 @@ packages:
   /@types/bunyan@1.8.9:
     resolution: {integrity: sha512-ZqS9JGpBxVOvsawzmVt30sP++gSQMTejCkIAQ3VdadOcRE8izTyW66hufvwLeH+YEGP6Js2AW7Gz+RMyvrEbmw==}
     dependencies:
-      '@types/node': 18.19.42
+      '@types/node': 22.0.2
     dev: false
 
   /@types/chai-as-promised@7.1.8:
@@ -3534,7 +3537,7 @@ packages:
   /@types/express-serve-static-core@4.19.0:
     resolution: {integrity: sha512-bGyep3JqPCRry1wq+O5n7oiBgGWmeIJXPjXXCo8EK0u8duZGSYar7cGqd3ML2JUsLGeB7fmc06KYo9fLGWqPvQ==}
     dependencies:
-      '@types/node': 18.19.42
+      '@types/node': 22.0.2
       '@types/qs': 6.9.15
       '@types/range-parser': 1.2.7
       '@types/send': 0.17.4
@@ -3562,7 +3565,7 @@ packages:
     resolution: {integrity: sha512-yTbItCNreRooED33qjunPthRcSjERP1r4MqCZc7wv0u2sUkzTFp45tgUfS5+r7FrZPdmCCNflLhVSP/o+SemsQ==}
     dependencies:
       '@types/jsonfile': 6.1.4
-      '@types/node': 18.19.42
+      '@types/node': 22.0.2
     dev: false
 
   /@types/fs-extra@8.1.5:
@@ -3670,13 +3673,13 @@ packages:
   /@types/mysql@2.15.22:
     resolution: {integrity: sha512-wK1pzsJVVAjYCSZWQoWHziQZbNggXFDUEIGf54g4ZM/ERuP86uGdWeKZWMYlqTPMZfHJJvLPyogXGvCOg87yLQ==}
     dependencies:
-      '@types/node': 18.19.42
+      '@types/node': 22.0.2
     dev: false
 
   /@types/node-fetch@2.6.11:
     resolution: {integrity: sha512-24xFj9R5+rfQJLRyM56qh+wnVSYhyXC2tkoBndtY0U+vubqNsYXGjufB2nn8Q6gt0LrARwL6UBtMCSVCwl4B1g==}
     dependencies:
-      '@types/node': 18.19.42
+      '@types/node': 22.0.2
       form-data: 4.0.0
     dev: false
 
@@ -3711,7 +3714,7 @@ packages:
   /@types/pg@8.6.1:
     resolution: {integrity: sha512-1Kc4oAGzAl7uqUStZCDvaLFqZrW9qWSjXOmBfdgyBP5La7Us6Mg4GBvRlSoaZMhQF/zSj1C8CtKMBkoiT8eL8w==}
     dependencies:
-      '@types/node': 18.19.42
+      '@types/node': 22.0.2
       pg-protocol: 1.6.1
       pg-types: 2.2.0
     dev: false
@@ -3750,7 +3753,7 @@ packages:
     resolution: {integrity: sha512-x2EM6TJOybec7c52BX0ZspPodMsQUd5L6PRwOunVyVUhXiBSKf3AezDL8Dgvgt5o0UfKNfuA0eMLr2wLT4AiBA==}
     dependencies:
       '@types/mime': 1.3.5
-      '@types/node': 18.19.42
+      '@types/node': 22.0.2
     dev: false
 
   /@types/serve-static@1.15.7:
@@ -3788,7 +3791,7 @@ packages:
   /@types/through@0.0.33:
     resolution: {integrity: sha512-HsJ+z3QuETzP3cswwtzt2vEIiHBk/dCcHGhbmG5X3ecnwFD/lPrMpliGXxSCg03L9AhrdwA4Oz/qfspkDW+xGQ==}
     dependencies:
-      '@types/node': 18.19.42
+      '@types/node': 22.0.2
     dev: false
 
   /@types/tough-cookie@4.0.5:
@@ -3822,7 +3825,7 @@ packages:
   /@types/ws@7.4.7:
     resolution: {integrity: sha512-JQbbmxZTZehdc2iszGKs5oC3NFnjeay7mtAWrdt7qNtAVK0g19muApzAy4bm9byz79xa2ZnO/BOBC2R8RC5Lww==}
     dependencies:
-      '@types/node': 18.19.42
+      '@types/node': 22.0.2
     dev: false
 
   /@types/ws@8.5.12:
@@ -19893,6 +19896,42 @@ packages:
       - debug
       - supports-color
       - utf-8-validate
+    dev: false
+
+  file:projects/azure-apicenter-rest.tgz:
+    resolution: {integrity: sha512-yCfgwJ0dEqpPl3Y45/DDVUiSffaOEzCQR3KH5skGCUBvMWxjyxEqa2+8vNubARyOdZOY3Sa2aG+uVFwHlosMDQ==, tarball: file:projects/azure-apicenter-rest.tgz}
+    name: '@rush-temp/azure-apicenter-rest'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 4.4.1
+      '@microsoft/api-extractor': 7.47.4(@types/node@18.19.42)
+      '@types/node': 18.19.42
+      '@vitest/browser': 1.6.0(playwright@1.45.3)(vitest@1.6.0)
+      '@vitest/coverage-istanbul': 1.6.0(vitest@1.6.0)
+      dotenv: 16.4.5
+      eslint: 8.57.0
+      mkdirp: 3.0.1
+      playwright: 1.45.3
+      prettier: 3.3.3
+      rimraf: 5.0.10
+      tshy: 1.18.0
+      tslib: 2.6.3
+      typescript: 5.5.4
+      vitest: 1.6.0(@types/node@18.19.42)(@vitest/browser@1.6.0)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - safaridriver
+      - sass
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - webdriverio
     dev: false
 
   file:projects/communication-alpha-ids.tgz:
