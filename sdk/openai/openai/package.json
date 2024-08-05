@@ -1,144 +1,103 @@
 {
   "name": "@azure/openai",
-  "version": "2.0.0-beta.2",
-  "description": "A companion library to openai for Azure OpenAI.",
-  "sdk-type": "client",
-  "main": "./dist/commonjs/index.js",
-  "browser": "./dist/browser/index.js",
-  "types": "./dist/commonjs/index.d.ts",
-  "exports": {
-    "./package.json": "./package.json",
-    ".": {
-      "browser": {
-        "source": "./src/index.ts",
-        "types": "./dist/browser/index.d.ts",
-        "default": "./dist/browser/index.js"
-      },
-      "import": {
-        "source": "./src/index.ts",
-        "types": "./dist/esm/index.d.ts",
-        "default": "./dist/esm/index.js"
-      },
-      "require": {
-        "source": "./src/index.ts",
-        "types": "./dist/commonjs/index.d.ts",
-        "default": "./dist/commonjs/index.js"
-      }
-    },
-    "./types": {
-      "browser": {
-        "source": "./src/types/index.ts",
-        "types": "./dist/browser/types/index.d.ts",
-        "default": "./dist/browser/types/index.js"
-      },
-      "import": {
-        "source": "./src/types/index.ts",
-        "types": "./dist/esm/types/index.d.ts",
-        "default": "./dist/esm/types/index.js"
-      },
-      "require": {
-        "source": "./src/types/index.ts",
-        "types": "./dist/commonjs/types/index.d.ts",
-        "default": "./dist/commonjs/types/index.js"
-      }
-    }
+  "version": "1.0.0-beta.1",
+  "description": "A generated SDK for OpenAIClient.",
+  "engines": {
+    "node": ">=18.0.0"
   },
-  "files": [
-    "dist/",
-    "CHANGELOG.md",
-    "LICENSE",
-    "MIGRATION.md",
-    "README.md"
-  ],
+  "sideEffects": false,
+  "autoPublish": false,
   "tshy": {
     "exports": {
       "./package.json": "./package.json",
       ".": "./src/index.ts",
-      "./types": "./src/types/index.ts"
+      "./api": "./src/api/index.ts",
+      "./models": "./src/models/index.ts"
     },
     "dialects": [
       "esm",
       "commonjs"
     ],
     "esmDialects": [
-      "browser"
+      "browser",
+      "react-native"
     ],
     "selfLink": false
   },
-  "scripts": {
-    "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build:samples": "echo Obsolete",
-    "build": "npm run clean && tshy && dev-tool run extract-api",
-    "build:test": "tshy && dev-tool run build-test",
-    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\"  \"samples-dev/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf --glob dist dist-* temp types *.tgz *.log",
-    "execute:samples": "dev-tool samples run samples-dev",
-    "extract-api": "tshy && dev-tool run extract-api",
-    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
-    "integration-test:browser": "npm run unit-test:browser",
-    "integration-test:node": "echo skipped",
-    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "lint:fix": "eslint README.md package.json api-extractor.json src --ext .ts,.javascript,.js --fix --fix-type [problem,suggestion]",
-    "lint": "eslint README.md package.json api-extractor.json src --ext .ts,.javascript,.js",
-    "pack": "npm pack 2>&1",
-    "test:browser": "npm run clean && npm run build && npm run integration-test:browser",
-    "test:node": "npm run clean && tshy && npm run unit-test:node && npm run integration-test:node",
-    "test": "npm run clean && tshy && npm run unit-test:node && dev-tool run build-test && npm run unit-test:browser && npm run integration-test",
-    "unit-test:browser": "echo skipped",
-    "unit-test:node": "echo skipped",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
-  },
-  "repository": "github:Azure/azure-sdk-for-js",
-  "engines": {
-    "node": ">=18.0.0"
-  },
+  "type": "module",
   "keywords": [
     "node",
     "azure",
     "cloud",
     "typescript",
     "browser",
-    "isomorphic",
-    "openai",
-    "ai"
+    "isomorphic"
   ],
   "author": "Microsoft Corporation",
   "license": "MIT",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "review/*",
+    "CHANGELOG.md"
+  ],
+  "sdk-type": "client",
+  "repository": "github:Azure/azure-sdk-for-js",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/README.md",
-  "sideEffects": false,
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/openai/openai/README.md",
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
-  "devDependencies": {
-    "@azure-rest/core-client": "^1.0.0",
-    "@azure/dev-tool": "^1.0.0",
-    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure/identity": "^4.2.0",
-    "@microsoft/api-extractor": "^7.31.1",
-    "@types/node": "^18.0.0",
-    "cross-env": "^7.0.3",
-    "dotenv": "^16.0.0",
-    "eslint": "^8.16.0",
-    "openai": "^4.47.2",
-    "rimraf": "^3.0.2",
-    "tshy": "^1.13.0",
-    "typescript": "~5.4.5"
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/rest/openAIClient.ts",
+        "prefix": "userAgentInfo"
+      }
+    ]
   },
   "dependencies": {
-    "tslib": "^2.6.3"
+    "@azure-rest/core-client": "^2.1.0",
+    "@azure/core-auth": "^1.6.0",
+    "@azure/core-rest-pipeline": "^1.5.0",
+    "@azure/logger": "^1.0.0",
+    "tslib": "^2.6.2"
   },
-  "//sampleConfiguration": {
-    "productName": "Azure OpenAI",
-    "productSlugs": [
-      "azure",
-      "azure-cognitive-services",
-      "azure-openai"
-    ],
-    "requiredResources": {
-      "Azure Cognitive Services instance": "https://learn.microsoft.com/azure/cognitive-services/openai/how-to/create-resource"
-    }
+  "devDependencies": {
+    "dotenv": "^16.0.0",
+    "@microsoft/api-extractor": "^7.40.3",
+    "@types/node": "^18.0.0",
+    "eslint": "^8.55.0",
+    "prettier": "^3.2.5",
+    "rimraf": "^5.0.5",
+    "mkdirp": "^3.0.1",
+    "typescript": "~5.5.3",
+    "tshy": "^1.11.1",
+    "@azure/dev-tool": "^1.0.0",
+    "@azure/eslint-plugin-azure-sdk": "^3.0.0"
   },
-  "type": "module",
-  "module": "./dist/esm/index.js"
+  "scripts": {
+    "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
+    "extract-api": "rimraf review && mkdirp ./review && dev-tool run extract-api",
+    "pack": "npm pack 2>&1",
+    "lint": "eslint package.json api-extractor.json src test --ext .ts --ext .cts --ext .mts",
+    "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --ext .cts --ext .mts --fix --fix-type [problem,suggestion]",
+    "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
+    "build:samples": "echo skipped",
+    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\"",
+    "execute:samples": "echo skipped",
+    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\"",
+    "integration-test:browser": "echo skipped",
+    "integration-test:node": "echo skipped",
+    "generate:client": "echo skipped",
+    "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
+    "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js",
+    "build:test": "npm run clean && tshy && dev-tool run build-test",
+    "build": "npm run clean && tshy && mkdirp ./review && dev-tool run extract-api",
+    "test:node": "npm run clean && tshy && npm run unit-test:node && npm run integration-test:node",
+    "test": "npm run clean && tshy && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test",
+    "unit-test:browser": "npm run build:test && dev-tool run test:vitest --browser",
+    "unit-test:node": "dev-tool run test:vitest"
+  }
 }
