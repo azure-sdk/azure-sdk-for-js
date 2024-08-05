@@ -11,6 +11,9 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
+export type ActivationState = string;
+
+// @public
 export interface AnalysisCreate {
     // (undocumented)
     config: AnalysisCreateConfig;
@@ -276,6 +279,12 @@ export interface IdentityProperties {
 export type IdentityType = string;
 
 // @public
+export enum KnownActivationState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownCreatedByType {
     Application = "Application",
     Key = "Key",
@@ -439,11 +448,18 @@ export interface NginxDeploymentProperties {
     managedResourceGroup?: string;
     // (undocumented)
     networkProfile?: NginxNetworkProfile;
+    nginxAppProtect?: NginxDeploymentPropertiesNginxAppProtect;
     readonly nginxVersion?: string;
     readonly provisioningState?: ProvisioningState;
     scalingProperties?: NginxDeploymentScalingProperties;
     // (undocumented)
     userProfile?: NginxDeploymentUserProfile;
+}
+
+// @public
+export interface NginxDeploymentPropertiesNginxAppProtect {
+    webApplicationFirewallSettings: WebApplicationFirewallSettings;
+    readonly webApplicationFirewallStatus?: WebApplicationFirewallStatus;
 }
 
 // @public
@@ -476,9 +492,15 @@ export interface NginxDeploymentUpdateProperties {
     enableDiagnosticsSupport?: boolean;
     // (undocumented)
     logging?: NginxLogging;
+    nginxAppProtect?: NginxDeploymentUpdatePropertiesNginxAppProtect;
     scalingProperties?: NginxDeploymentScalingProperties;
     // (undocumented)
     userProfile?: NginxDeploymentUserProfile;
+}
+
+// @public
+export interface NginxDeploymentUpdatePropertiesNginxAppProtect {
+    webApplicationFirewallSettings?: WebApplicationFirewallSettings;
 }
 
 // @public (undocumented)
@@ -647,6 +669,31 @@ export interface SystemData {
 export interface UserIdentityProperties {
     readonly clientId?: string;
     readonly principalId?: string;
+}
+
+// @public
+export interface WebApplicationFirewallComponentVersions {
+    wafEngineVersion: string;
+    wafNginxVersion: string;
+}
+
+// @public
+export interface WebApplicationFirewallPackage {
+    revisionDatetime: Date;
+    version: string;
+}
+
+// @public
+export interface WebApplicationFirewallSettings {
+    activationState?: ActivationState;
+}
+
+// @public
+export interface WebApplicationFirewallStatus {
+    readonly attackSignaturesPackage?: WebApplicationFirewallPackage;
+    readonly botSignaturesPackage?: WebApplicationFirewallPackage;
+    readonly componentVersions?: WebApplicationFirewallComponentVersions;
+    readonly threatCampaignsPackage?: WebApplicationFirewallPackage;
 }
 
 // (No @packageDocumentation comment for this package)
