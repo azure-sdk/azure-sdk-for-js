@@ -22,6 +22,7 @@ export {
   Origin,
   KnownActionType,
   ActionType,
+  Versions,
   ProvisioningState,
 } from "./models.js";
 export {
@@ -31,4 +32,8 @@ export {
   ExtendedZonesRegisterOptionalParams,
   ExtendedZonesUnregisterOptionalParams,
 } from "./options.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator } from "./pagingTypes.js";
+export {
+  PageSettings,
+  ContinuablePage,
+  PagedAsyncIterableIterator,
+} from "./pagingTypes.js";

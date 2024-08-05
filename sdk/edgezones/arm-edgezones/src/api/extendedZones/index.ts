@@ -28,12 +28,14 @@ import {
   ExtendedZonesUnregisterOptionalParams,
 } from "../../models/options.js";
 
-export function _extendedZonesGetSend(
+export function _getSend(
   context: Client,
   subscriptionId: string,
   extendedZoneName: string,
   options: ExtendedZonesGetOptionalParams = { requestOptions: {} },
-): StreamableMethod<ExtendedZonesGet200Response | ExtendedZonesGetDefaultResponse> {
+): StreamableMethod<
+  ExtendedZonesGet200Response | ExtendedZonesGetDefaultResponse
+> {
   return context
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.EdgeZones/extendedZones/{extendedZoneName}",
@@ -43,7 +45,7 @@ export function _extendedZonesGetSend(
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _extendedZonesGetDeserialize(
+export async function _getDeserialize(
   result: ExtendedZonesGet200Response | ExtendedZonesGetDefaultResponse,
 ): Promise<ExtendedZone> {
   if (isUnexpected(result)) {
@@ -89,24 +91,30 @@ export async function _extendedZonesGetDeserialize(
 }
 
 /** Gets an Azure Extended Zone for a subscription */
-export async function extendedZonesGet(
+export async function get(
   context: Client,
   subscriptionId: string,
   extendedZoneName: string,
   options: ExtendedZonesGetOptionalParams = { requestOptions: {} },
 ): Promise<ExtendedZone> {
-  const result = await _extendedZonesGetSend(context, subscriptionId, extendedZoneName, options);
-  return _extendedZonesGetDeserialize(result);
+  const result = await _getSend(
+    context,
+    subscriptionId,
+    extendedZoneName,
+    options,
+  );
+  return _getDeserialize(result);
 }
 
-export function _extendedZonesListBySubscriptionSend(
+export function _listBySubscriptionSend(
   context: Client,
   subscriptionId: string,
   options: ExtendedZonesListBySubscriptionOptionalParams = {
     requestOptions: {},
   },
 ): StreamableMethod<
-  ExtendedZonesListBySubscription200Response | ExtendedZonesListBySubscriptionDefaultResponse
+  | ExtendedZonesListBySubscription200Response
+  | ExtendedZonesListBySubscriptionDefaultResponse
 > {
   return context
     .path(
@@ -116,7 +124,7 @@ export function _extendedZonesListBySubscriptionSend(
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _extendedZonesListBySubscriptionDeserialize(
+export async function _listBySubscriptionDeserialize(
   result:
     | ExtendedZonesListBySubscription200Response
     | ExtendedZonesListBySubscriptionDefaultResponse,
@@ -169,7 +177,7 @@ export async function _extendedZonesListBySubscriptionDeserialize(
 }
 
 /** Lists the Azure Extended Zones available to a subscription */
-export function extendedZonesListBySubscription(
+export function listBySubscription(
   context: Client,
   subscriptionId: string,
   options: ExtendedZonesListBySubscriptionOptionalParams = {
@@ -178,18 +186,20 @@ export function extendedZonesListBySubscription(
 ): PagedAsyncIterableIterator<ExtendedZone> {
   return buildPagedAsyncIterator(
     context,
-    () => _extendedZonesListBySubscriptionSend(context, subscriptionId, options),
-    _extendedZonesListBySubscriptionDeserialize,
+    () => _listBySubscriptionSend(context, subscriptionId, options),
+    _listBySubscriptionDeserialize,
     { itemName: "value", nextLinkName: "nextLink" },
   );
 }
 
-export function _extendedZonesRegisterSend(
+export function _registerSend(
   context: Client,
   subscriptionId: string,
   extendedZoneName: string,
   options: ExtendedZonesRegisterOptionalParams = { requestOptions: {} },
-): StreamableMethod<ExtendedZonesRegister200Response | ExtendedZonesRegisterDefaultResponse> {
+): StreamableMethod<
+  ExtendedZonesRegister200Response | ExtendedZonesRegisterDefaultResponse
+> {
   return context
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.EdgeZones/extendedZones/{extendedZoneName}/register",
@@ -199,8 +209,10 @@ export function _extendedZonesRegisterSend(
     .post({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _extendedZonesRegisterDeserialize(
-  result: ExtendedZonesRegister200Response | ExtendedZonesRegisterDefaultResponse,
+export async function _registerDeserialize(
+  result:
+    | ExtendedZonesRegister200Response
+    | ExtendedZonesRegisterDefaultResponse,
 ): Promise<ExtendedZone> {
   if (isUnexpected(result)) {
     throw createRestError(result);
@@ -245,27 +257,29 @@ export async function _extendedZonesRegisterDeserialize(
 }
 
 /** Registers a subscription for an Extended Zone */
-export async function extendedZonesRegister(
+export async function register(
   context: Client,
   subscriptionId: string,
   extendedZoneName: string,
   options: ExtendedZonesRegisterOptionalParams = { requestOptions: {} },
 ): Promise<ExtendedZone> {
-  const result = await _extendedZonesRegisterSend(
+  const result = await _registerSend(
     context,
     subscriptionId,
     extendedZoneName,
     options,
   );
-  return _extendedZonesRegisterDeserialize(result);
+  return _registerDeserialize(result);
 }
 
-export function _extendedZonesUnregisterSend(
+export function _unregisterSend(
   context: Client,
   subscriptionId: string,
   extendedZoneName: string,
   options: ExtendedZonesUnregisterOptionalParams = { requestOptions: {} },
-): StreamableMethod<ExtendedZonesUnregister200Response | ExtendedZonesUnregisterDefaultResponse> {
+): StreamableMethod<
+  ExtendedZonesUnregister200Response | ExtendedZonesUnregisterDefaultResponse
+> {
   return context
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.EdgeZones/extendedZones/{extendedZoneName}/unregister",
@@ -275,8 +289,10 @@ export function _extendedZonesUnregisterSend(
     .post({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _extendedZonesUnregisterDeserialize(
-  result: ExtendedZonesUnregister200Response | ExtendedZonesUnregisterDefaultResponse,
+export async function _unregisterDeserialize(
+  result:
+    | ExtendedZonesUnregister200Response
+    | ExtendedZonesUnregisterDefaultResponse,
 ): Promise<ExtendedZone> {
   if (isUnexpected(result)) {
     throw createRestError(result);
@@ -321,17 +337,17 @@ export async function _extendedZonesUnregisterDeserialize(
 }
 
 /** Unregisters a subscription for an Extended Zone */
-export async function extendedZonesUnregister(
+export async function unregister(
   context: Client,
   subscriptionId: string,
   extendedZoneName: string,
   options: ExtendedZonesUnregisterOptionalParams = { requestOptions: {} },
 ): Promise<ExtendedZone> {
-  const result = await _extendedZonesUnregisterSend(
+  const result = await _unregisterSend(
     context,
     subscriptionId,
     extendedZoneName,
     options,
   );
-  return _extendedZonesUnregisterDeserialize(result);
+  return _unregisterDeserialize(result);
 }
