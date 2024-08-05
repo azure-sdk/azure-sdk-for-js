@@ -46,7 +46,9 @@ export function _firewallRulesGetSend(
   mongoClusterName: string,
   firewallRuleName: string,
   options: FirewallRulesGetOptionalParams = { requestOptions: {} },
-): StreamableMethod<FirewallRulesGet200Response | FirewallRulesGetDefaultResponse> {
+): StreamableMethod<
+  FirewallRulesGet200Response | FirewallRulesGetDefaultResponse
+> {
   return context
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/firewallRules/{firewallRuleName}",
@@ -201,20 +203,24 @@ export function firewallRulesCreateOrUpdate(
   resource: FirewallRule,
   options: FirewallRulesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<FirewallRule>, FirewallRule> {
-  return getLongRunningPoller(context, _firewallRulesCreateOrUpdateDeserialize, {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _firewallRulesCreateOrUpdateSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        mongoClusterName,
-        firewallRuleName,
-        resource,
-        options,
-      ),
-  }) as PollerLike<OperationState<FirewallRule>, FirewallRule>;
+  return getLongRunningPoller(
+    context,
+    _firewallRulesCreateOrUpdateDeserialize,
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _firewallRulesCreateOrUpdateSend(
+          context,
+          subscriptionId,
+          resourceGroupName,
+          mongoClusterName,
+          firewallRuleName,
+          resource,
+          options,
+        ),
+    },
+  ) as PollerLike<OperationState<FirewallRule>, FirewallRule>;
 }
 
 export function _firewallRulesDeleteSend(
@@ -288,7 +294,8 @@ export function _firewallRulesListByMongoClusterSend(
     requestOptions: {},
   },
 ): StreamableMethod<
-  FirewallRulesListByMongoCluster200Response | FirewallRulesListByMongoClusterDefaultResponse
+  | FirewallRulesListByMongoCluster200Response
+  | FirewallRulesListByMongoClusterDefaultResponse
 > {
   return context
     .path(
