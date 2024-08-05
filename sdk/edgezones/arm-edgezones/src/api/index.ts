@@ -7,9 +7,9 @@ export {
   EdgeZonesContext,
 } from "./edgeZonesContext.js";
 export {
-  extendedZonesGet,
-  extendedZonesListBySubscription,
-  extendedZonesRegister,
-  extendedZonesUnregister,
+  get,
+  listBySubscription,
+  register,
+  unregister,
 } from "./extendedZones/index.js";
-export { operationsList } from "./operations/index.js";
+export { list } from "./operations/index.js";

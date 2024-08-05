@@ -26,14 +26,18 @@ export interface OperationsList {
   /** List the operations for the provider */
   get(
     options?: OperationsListParameters,
-  ): StreamableMethod<OperationsList200Response | OperationsListDefaultResponse>;
+  ): StreamableMethod<
+    OperationsList200Response | OperationsListDefaultResponse
+  >;
 }
 
 export interface ExtendedZonesGet {
   /** Gets an Azure Extended Zone for a subscription */
   get(
     options?: ExtendedZonesGetParameters,
-  ): StreamableMethod<ExtendedZonesGet200Response | ExtendedZonesGetDefaultResponse>;
+  ): StreamableMethod<
+    ExtendedZonesGet200Response | ExtendedZonesGetDefaultResponse
+  >;
 }
 
 export interface ExtendedZonesListBySubscription {
@@ -41,7 +45,8 @@ export interface ExtendedZonesListBySubscription {
   get(
     options?: ExtendedZonesListBySubscriptionParameters,
   ): StreamableMethod<
-    ExtendedZonesListBySubscription200Response | ExtendedZonesListBySubscriptionDefaultResponse
+    | ExtendedZonesListBySubscription200Response
+    | ExtendedZonesListBySubscriptionDefaultResponse
   >;
 }
 
@@ -49,14 +54,18 @@ export interface ExtendedZonesRegister {
   /** Registers a subscription for an Extended Zone */
   post(
     options: ExtendedZonesRegisterParameters,
-  ): StreamableMethod<ExtendedZonesRegister200Response | ExtendedZonesRegisterDefaultResponse>;
+  ): StreamableMethod<
+    ExtendedZonesRegister200Response | ExtendedZonesRegisterDefaultResponse
+  >;
 }
 
 export interface ExtendedZonesUnregister {
   /** Unregisters a subscription for an Extended Zone */
   post(
     options: ExtendedZonesUnregisterParameters,
-  ): StreamableMethod<ExtendedZonesUnregister200Response | ExtendedZonesUnregisterDefaultResponse>;
+  ): StreamableMethod<
+    ExtendedZonesUnregister200Response | ExtendedZonesUnregisterDefaultResponse
+  >;
 }
 
 export interface Routes {

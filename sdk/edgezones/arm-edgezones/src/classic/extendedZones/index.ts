@@ -4,10 +4,10 @@
 import { EdgeZonesContext } from "../../api/edgeZonesContext.js";
 import { ExtendedZone } from "../../models/models.js";
 import {
-  extendedZonesGet,
-  extendedZonesListBySubscription,
-  extendedZonesRegister,
-  extendedZonesUnregister,
+  get,
+  listBySubscription,
+  register,
+  unregister,
 } from "../../api/extendedZones/index.js";
 import { PagedAsyncIterableIterator } from "../../models/pagingTypes.js";
 import {
@@ -40,16 +40,24 @@ export interface ExtendedZonesOperations {
   ) => Promise<ExtendedZone>;
 }
 
-export function getExtendedZones(context: EdgeZonesContext, subscriptionId: string) {
+export function getExtendedZones(
+  context: EdgeZonesContext,
+  subscriptionId: string,
+) {
   return {
     get: (extendedZoneName: string, options?: ExtendedZonesGetOptionalParams) =>
-      extendedZonesGet(context, subscriptionId, extendedZoneName, options),
-    listBySubscription: (options?: ExtendedZonesListBySubscriptionOptionalParams) =>
-      extendedZonesListBySubscription(context, subscriptionId, options),
-    register: (extendedZoneName: string, options?: ExtendedZonesRegisterOptionalParams) =>
-      extendedZonesRegister(context, subscriptionId, extendedZoneName, options),
-    unregister: (extendedZoneName: string, options?: ExtendedZonesUnregisterOptionalParams) =>
-      extendedZonesUnregister(context, subscriptionId, extendedZoneName, options),
+      get(context, subscriptionId, extendedZoneName, options),
+    listBySubscription: (
+      options?: ExtendedZonesListBySubscriptionOptionalParams,
+    ) => listBySubscription(context, subscriptionId, options),
+    register: (
+      extendedZoneName: string,
+      options?: ExtendedZonesRegisterOptionalParams,
+    ) => register(context, subscriptionId, extendedZoneName, options),
+    unregister: (
+      extendedZoneName: string,
+      options?: ExtendedZonesUnregisterOptionalParams,
+    ) => unregister(context, subscriptionId, extendedZoneName, options),
   };
 }
 
