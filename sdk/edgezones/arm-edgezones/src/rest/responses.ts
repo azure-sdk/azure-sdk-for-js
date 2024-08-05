@@ -32,12 +32,14 @@ export interface ExtendedZonesGetDefaultResponse extends HttpResponse {
 }
 
 /** Azure operation completed successfully. */
-export interface ExtendedZonesListBySubscription200Response extends HttpResponse {
+export interface ExtendedZonesListBySubscription200Response
+  extends HttpResponse {
   status: "200";
   body: ExtendedZoneListResultOutput;
 }
 
-export interface ExtendedZonesListBySubscriptionDefaultResponse extends HttpResponse {
+export interface ExtendedZonesListBySubscriptionDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
