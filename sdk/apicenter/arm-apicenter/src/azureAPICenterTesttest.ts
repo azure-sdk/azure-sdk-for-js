@@ -16,6 +16,7 @@ import {
 import * as coreAuth from "@azure/core-auth";
 import {
   OperationsImpl,
+  DeletedServicesImpl,
   ServicesImpl,
   MetadataSchemasImpl,
   WorkspacesImpl,
@@ -27,6 +28,7 @@ import {
 } from "./operations";
 import {
   Operations,
+  DeletedServices,
   Services,
   MetadataSchemas,
   Workspaces,
@@ -36,15 +38,15 @@ import {
   ApiDefinitions,
   Environments,
 } from "./operationsInterfaces";
-import { AzureAPICenterOptionalParams } from "./models";
+import { AzureAPICenterTesttestOptionalParams } from "./models";
 
-export class AzureAPICenter extends coreClient.ServiceClient {
+export class AzureAPICenterTesttest extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
   subscriptionId: string;
 
   /**
-   * Initializes a new instance of the AzureAPICenter class.
+   * Initializes a new instance of the AzureAPICenterTesttest class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param options The parameter options
@@ -52,7 +54,7 @@ export class AzureAPICenter extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: AzureAPICenterOptionalParams,
+    options?: AzureAPICenterTesttestOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -65,12 +67,12 @@ export class AzureAPICenter extends coreClient.ServiceClient {
     if (!options) {
       options = {};
     }
-    const defaults: AzureAPICenterOptionalParams = {
+    const defaults: AzureAPICenterTesttestOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-apicenter/1.0.1`;
+    const packageDetails = `azsdk-js-arm-apicenter/2.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -124,8 +126,9 @@ export class AzureAPICenter extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-03-01";
+    this.apiVersion = options.apiVersion || "2024-03-15-preview";
     this.operations = new OperationsImpl(this);
+    this.deletedServices = new DeletedServicesImpl(this);
     this.services = new ServicesImpl(this);
     this.metadataSchemas = new MetadataSchemasImpl(this);
     this.workspaces = new WorkspacesImpl(this);
@@ -166,6 +169,7 @@ export class AzureAPICenter extends coreClient.ServiceClient {
   }
 
   operations: Operations;
+  deletedServices: DeletedServices;
   services: Services;
   metadataSchemas: MetadataSchemas;
   workspaces: Workspaces;
