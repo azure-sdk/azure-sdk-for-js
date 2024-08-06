@@ -98,17 +98,13 @@ export interface AnalyzeImageDefaultResponse extends HttpResponse {
 
 // @public
 export interface AnalyzeImageOptions {
-    categories?: string[];
+    categories?: ImageCategory[];
     image: ImageData_2;
-    outputType?: string;
+    outputType?: AnalyzeImageOutputType;
 }
 
 // @public
-export interface AnalyzeImageOptionsOutput {
-    categories?: string[];
-    image: ImageDataOutput;
-    outputType?: string;
-}
+export type AnalyzeImageOutputType = string;
 
 // @public (undocumented)
 export type AnalyzeImageParameters = AnalyzeImageBodyParam & RequestParameters;
@@ -152,25 +148,69 @@ export interface AnalyzeTextDefaultResponse extends HttpResponse {
 }
 
 // @public
-export interface AnalyzeTextOptions {
-    blocklistNames?: string[];
-    categories?: string[];
-    haltOnBlocklistHit?: boolean;
-    outputType?: string;
+export interface AnalyzeTextGroundednessOptions {
+    domain?: GroundednessDomain;
+    groundingSources: string[];
+    llmResource?: LLMResource;
+    qna?: QnAOptions;
+    reasoning?: boolean;
+    task?: GroundednessTask;
     text: string;
 }
 
 // @public
-export interface AnalyzeTextOptionsOutput {
-    blocklistNames?: string[];
-    categories?: string[];
-    haltOnBlocklistHit?: boolean;
-    outputType?: string;
+export interface AnalyzeTextGroundednessResultOutput {
+    ungroundedDetails: Array<UngroundednessDetailsOutput>;
+    ungroundedDetected: boolean;
+    ungroundedPercentage: number;
+}
+
+// @public
+export interface AnalyzeTextJailbreakOptions {
     text: string;
 }
 
+// @public
+export interface AnalyzeTextJailbreakResultOutput {
+    jailbreakAnalysis: JailbreakAnalysisResultOutput;
+}
+
+// @public
+export interface AnalyzeTextOptions {
+    blocklistNames?: string[];
+    categories?: TextCategory[];
+    haltOnBlocklistHit?: boolean;
+    outputType?: AnalyzeTextOutputType;
+    text: string;
+}
+
+// @public
+export type AnalyzeTextOutputType = string;
+
 // @public (undocumented)
 export type AnalyzeTextParameters = AnalyzeTextBodyParam & RequestParameters;
+
+// @public
+export interface AnalyzeTextPromptInjectionOptions {
+    documents?: string[];
+    userPrompt?: string;
+}
+
+// @public
+export interface AnalyzeTextPromptInjectionResultOutput {
+    documentsAnalysis?: Array<TextPromptInjectionResultOutput>;
+    userPromptAnalysis?: TextPromptInjectionResultOutput;
+}
+
+// @public
+export interface AnalyzeTextProtectedMaterialOptions {
+    text: string;
+}
+
+// @public
+export interface AnalyzeTextProtectedMaterialResultOutput {
+    protectedMaterialAnalysis: ProtectedMaterialAnalysisResultOutput;
+}
 
 // @public
 export interface AnalyzeTextResultOutput {
@@ -184,7 +224,12 @@ export type ContentSafetyClient = Client & {
 };
 
 // @public
-function createClient(endpoint: string, credentials: TokenCredential | KeyCredential, options?: ClientOptions): ContentSafetyClient;
+export interface ContentSafetyClientOptions extends ClientOptions {
+    apiVersion?: string;
+}
+
+// @public
+function createClient(endpointParam: string, credentials: TokenCredential | KeyCredential, { apiVersion, ...options }?: ContentSafetyClientOptions): ContentSafetyClient;
 export default createClient;
 
 // @public
@@ -254,6 +299,150 @@ export interface DeleteTextBlocklistDefaultResponse extends HttpResponse {
 
 // @public (undocumented)
 export type DeleteTextBlocklistParameters = RequestParameters;
+
+// @public (undocumented)
+export interface DetectGroundednessOptions {
+    post(options: DetectGroundednessOptionsParameters): StreamableMethod<DetectGroundednessOptions200Response | DetectGroundednessOptionsDefaultResponse>;
+}
+
+// @public
+export interface DetectGroundednessOptions200Response extends HttpResponse {
+    // (undocumented)
+    body: AnalyzeTextGroundednessResultOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface DetectGroundednessOptionsBodyParam {
+    body: AnalyzeTextGroundednessOptions;
+}
+
+// @public (undocumented)
+export interface DetectGroundednessOptionsDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface DetectGroundednessOptionsDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & DetectGroundednessOptionsDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type DetectGroundednessOptionsParameters = DetectGroundednessOptionsBodyParam & RequestParameters;
+
+// @public (undocumented)
+export interface DetectTextJailbreak {
+    post(options: DetectTextJailbreakParameters): StreamableMethod<DetectTextJailbreak200Response | DetectTextJailbreakDefaultResponse>;
+}
+
+// @public
+export interface DetectTextJailbreak200Response extends HttpResponse {
+    // (undocumented)
+    body: AnalyzeTextJailbreakResultOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface DetectTextJailbreakBodyParam {
+    body: AnalyzeTextJailbreakOptions;
+}
+
+// @public (undocumented)
+export interface DetectTextJailbreakDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface DetectTextJailbreakDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & DetectTextJailbreakDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type DetectTextJailbreakParameters = DetectTextJailbreakBodyParam & RequestParameters;
+
+// @public (undocumented)
+export interface DetectTextPromptInjectionOptions {
+    post(options: DetectTextPromptInjectionOptionsParameters): StreamableMethod<DetectTextPromptInjectionOptions200Response | DetectTextPromptInjectionOptionsDefaultResponse>;
+}
+
+// @public
+export interface DetectTextPromptInjectionOptions200Response extends HttpResponse {
+    // (undocumented)
+    body: AnalyzeTextPromptInjectionResultOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface DetectTextPromptInjectionOptionsBodyParam {
+    body: AnalyzeTextPromptInjectionOptions;
+}
+
+// @public (undocumented)
+export interface DetectTextPromptInjectionOptionsDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface DetectTextPromptInjectionOptionsDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & DetectTextPromptInjectionOptionsDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type DetectTextPromptInjectionOptionsParameters = DetectTextPromptInjectionOptionsBodyParam & RequestParameters;
+
+// @public (undocumented)
+export interface DetectTextProtectedMaterial {
+    post(options: DetectTextProtectedMaterialParameters): StreamableMethod<DetectTextProtectedMaterial200Response | DetectTextProtectedMaterialDefaultResponse>;
+}
+
+// @public
+export interface DetectTextProtectedMaterial200Response extends HttpResponse {
+    // (undocumented)
+    body: AnalyzeTextProtectedMaterialResultOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface DetectTextProtectedMaterialBodyParam {
+    body: AnalyzeTextProtectedMaterialOptions;
+}
+
+// @public (undocumented)
+export interface DetectTextProtectedMaterialDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface DetectTextProtectedMaterialDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & DetectTextProtectedMaterialDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type DetectTextProtectedMaterialParameters = DetectTextProtectedMaterialBodyParam & RequestParameters;
 
 // @public
 export type GetArrayType<T> = T extends Array<infer TData> ? TData : never;
@@ -329,10 +518,22 @@ export type GetTextBlocklistItemParameters = RequestParameters;
 export type GetTextBlocklistParameters = RequestParameters;
 
 // @public
+export type GroundednessDomain = string;
+
+// @public
+export type GroundednessTask = string;
+
+// @public
 export interface ImageCategoriesAnalysisOutput {
-    category: string;
+    category: ImageCategoryOutput;
     severity?: number;
 }
+
+// @public
+export type ImageCategory = string;
+
+// @public
+export type ImageCategoryOutput = string;
 
 // @public
 interface ImageData_2 {
@@ -342,13 +543,23 @@ interface ImageData_2 {
 export { ImageData_2 as ImageData }
 
 // @public
-export interface ImageDataOutput {
-    blobUrl?: string;
-    content?: string;
+export interface IndexDetailsOutput {
+    codePoint: number;
+    utf16: number;
+    utf8: number;
 }
 
 // @public (undocumented)
 export function isUnexpected(response: AnalyzeText200Response | AnalyzeTextDefaultResponse): response is AnalyzeTextDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: DetectTextJailbreak200Response | DetectTextJailbreakDefaultResponse): response is DetectTextJailbreakDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: DetectTextProtectedMaterial200Response | DetectTextProtectedMaterialDefaultResponse): response is DetectTextProtectedMaterialDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: DetectTextPromptInjectionOptions200Response | DetectTextPromptInjectionOptionsDefaultResponse): response is DetectTextPromptInjectionOptionsDefaultResponse;
 
 // @public (undocumented)
 export function isUnexpected(response: AnalyzeImage200Response | AnalyzeImageDefaultResponse): response is AnalyzeImageDefaultResponse;
@@ -376,6 +587,14 @@ export function isUnexpected(response: GetTextBlocklistItem200Response | GetText
 
 // @public (undocumented)
 export function isUnexpected(response: ListTextBlocklistItems200Response | ListTextBlocklistItemsDefaultResponse): response is ListTextBlocklistItemsDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: DetectGroundednessOptions200Response | DetectGroundednessOptionsDefaultResponse): response is DetectGroundednessOptionsDefaultResponse;
+
+// @public
+export interface JailbreakAnalysisResultOutput {
+    detected: boolean;
+}
 
 // @public (undocumented)
 export interface ListTextBlocklistItems {
@@ -453,6 +672,16 @@ export interface ListTextBlocklistsDefaultResponse extends HttpResponse {
 export type ListTextBlocklistsParameters = RequestParameters;
 
 // @public
+export interface LLMResource {
+    azureOpenAIDeploymentName: string;
+    azureOpenAIEndpoint: string;
+    resourceType?: LLMResourceType;
+}
+
+// @public
+export type LLMResourceType = string;
+
+// @public
 export type PagedTextBlocklistItemOutput = Paged<TextBlocklistItemOutput>;
 
 // @public
@@ -471,6 +700,16 @@ export type PaginateReturn<TResult> = TResult extends {
 // @public
 export interface PagingOptions<TResponse> {
     customGetPage?: GetPage<PaginateReturn<TResponse>[]>;
+}
+
+// @public
+export interface ProtectedMaterialAnalysisResultOutput {
+    detected: boolean;
+}
+
+// @public
+export interface QnAOptions {
+    query: string;
 }
 
 // @public (undocumented)
@@ -515,6 +754,9 @@ export interface RemoveTextBlocklistItemsOptions {
 // @public (undocumented)
 export interface Routes {
     (path: "/text:analyze"): AnalyzeText;
+    (path: "/text:detectJailbreak"): DetectTextJailbreak;
+    (path: "/text:detectProtectedMaterial"): DetectTextProtectedMaterial;
+    (path: "/text:shieldPrompt"): DetectTextPromptInjectionOptions;
     (path: "/image:analyze"): AnalyzeImage;
     (path: "/text/blocklists/{blocklistName}", blocklistName: string): GetTextBlocklist;
     (path: "/text/blocklists"): ListTextBlocklists;
@@ -522,6 +764,7 @@ export interface Routes {
     (path: "/text/blocklists/{blocklistName}:removeBlocklistItems", blocklistName: string): RemoveBlocklistItems;
     (path: "/text/blocklists/{blocklistName}/blocklistItems/{blocklistItemId}", blocklistName: string, blocklistItemId: string): GetTextBlocklistItem;
     (path: "/text/blocklists/{blocklistName}/blocklistItems", blocklistName: string): ListTextBlocklistItems;
+    (path: "/text:detectGroundedness"): DetectGroundednessOptions;
 }
 
 // @public
@@ -561,8 +804,27 @@ export type TextBlocklistResourceMergeAndPatch = Partial<TextBlocklist>;
 
 // @public
 export interface TextCategoriesAnalysisOutput {
-    category: string;
+    category: TextCategoryOutput;
     severity?: number;
+}
+
+// @public
+export type TextCategory = string;
+
+// @public
+export type TextCategoryOutput = string;
+
+// @public
+export interface TextPromptInjectionResultOutput {
+    attackDetected: boolean;
+}
+
+// @public
+export interface UngroundednessDetailsOutput {
+    length: IndexDetailsOutput;
+    offset: IndexDetailsOutput;
+    reason?: string;
+    text: string;
 }
 
 // (No @packageDocumentation comment for this package)
