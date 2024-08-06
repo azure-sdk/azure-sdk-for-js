@@ -15,7 +15,9 @@ import { AutomationClient } from "../automationClient";
 import {
   Usage,
   UsagesListByAutomationAccountOptionalParams,
-  UsagesListByAutomationAccountResponse
+  UsagesListByAutomationAccountResponse,
+  UsagesListByLocationOptionalParams,
+  UsagesListByLocationResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -40,12 +42,12 @@ export class UsagesImpl implements Usages {
   public listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: UsagesListByAutomationAccountOptionalParams
+    options?: UsagesListByAutomationAccountOptionalParams,
   ): PagedAsyncIterableIterator<Usage> {
     const iter = this.listByAutomationAccountPagingAll(
       resourceGroupName,
       automationAccountName,
-      options
+      options,
     );
     return {
       next() {
@@ -62,9 +64,9 @@ export class UsagesImpl implements Usages {
           resourceGroupName,
           automationAccountName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -72,13 +74,13 @@ export class UsagesImpl implements Usages {
     resourceGroupName: string,
     automationAccountName: string,
     options?: UsagesListByAutomationAccountOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<Usage[]> {
     let result: UsagesListByAutomationAccountResponse;
     result = await this._listByAutomationAccount(
       resourceGroupName,
       automationAccountName,
-      options
+      options,
     );
     yield result.value || [];
   }
@@ -86,13 +88,58 @@ export class UsagesImpl implements Usages {
   private async *listByAutomationAccountPagingAll(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: UsagesListByAutomationAccountOptionalParams
+    options?: UsagesListByAutomationAccountOptionalParams,
   ): AsyncIterableIterator<Usage> {
     for await (const page of this.listByAutomationAccountPagingPage(
       resourceGroupName,
       automationAccountName,
-      options
+      options,
     )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Retrieve the usage for the location.
+   * @param location The name of the Azure region.
+   * @param options The options parameters.
+   */
+  public listByLocation(
+    location: string,
+    options?: UsagesListByLocationOptionalParams,
+  ): PagedAsyncIterableIterator<Usage> {
+    const iter = this.listByLocationPagingAll(location, options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByLocationPagingPage(location, options, settings);
+      },
+    };
+  }
+
+  private async *listByLocationPagingPage(
+    location: string,
+    options?: UsagesListByLocationOptionalParams,
+    _settings?: PageSettings,
+  ): AsyncIterableIterator<Usage[]> {
+    let result: UsagesListByLocationResponse;
+    result = await this._listByLocation(location, options);
+    yield result.value || [];
+  }
+
+  private async *listByLocationPagingAll(
+    location: string,
+    options?: UsagesListByLocationOptionalParams,
+  ): AsyncIterableIterator<Usage> {
+    for await (const page of this.listByLocationPagingPage(location, options)) {
       yield* page;
     }
   }
@@ -106,11 +153,26 @@ export class UsagesImpl implements Usages {
   private _listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: UsagesListByAutomationAccountOptionalParams
+    options?: UsagesListByAutomationAccountOptionalParams,
   ): Promise<UsagesListByAutomationAccountResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, options },
-      listByAutomationAccountOperationSpec
+      listByAutomationAccountOperationSpec,
+    );
+  }
+
+  /**
+   * Retrieve the usage for the location.
+   * @param location The name of the Azure region.
+   * @param options The options parameters.
+   */
+  private _listByLocation(
+    location: string,
+    options?: UsagesListByLocationOptionalParams,
+  ): Promise<UsagesListByLocationResponse> {
+    return this.client.sendOperationRequest(
+      { location, options },
+      listByLocationOperationSpec,
     );
   }
 }
@@ -118,24 +180,43 @@ export class UsagesImpl implements Usages {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByAutomationAccountOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/usages",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/usages",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.UsageListResult
+      bodyMapper: Mappers.UsageListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.automationAccountName
+    Parameters.automationAccountName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const listByLocationOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Automation/locations/{location}/usages",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.UsageList,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponseAutoGenerated,
+    },
+  },
+  queryParameters: [Parameters.apiVersion4],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.location,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };

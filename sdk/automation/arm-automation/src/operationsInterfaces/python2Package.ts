@@ -18,7 +18,7 @@ import {
   Python2PackageCreateOrUpdateResponse,
   PythonPackageUpdateParameters,
   Python2PackageUpdateOptionalParams,
-  Python2PackageUpdateResponse
+  Python2PackageUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface Python2Package {
   listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: Python2PackageListByAutomationAccountOptionalParams
+    options?: Python2PackageListByAutomationAccountOptionalParams,
   ): PagedAsyncIterableIterator<Module>;
   /**
    * Delete the python 2 package by name.
@@ -46,7 +46,7 @@ export interface Python2Package {
     resourceGroupName: string,
     automationAccountName: string,
     packageName: string,
-    options?: Python2PackageDeleteOptionalParams
+    options?: Python2PackageDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Retrieve the python 2 package identified by package name.
@@ -59,7 +59,7 @@ export interface Python2Package {
     resourceGroupName: string,
     automationAccountName: string,
     packageName: string,
-    options?: Python2PackageGetOptionalParams
+    options?: Python2PackageGetOptionalParams,
   ): Promise<Python2PackageGetResponse>;
   /**
    * Create or Update the python 2 package identified by package name.
@@ -74,7 +74,7 @@ export interface Python2Package {
     automationAccountName: string,
     packageName: string,
     parameters: PythonPackageCreateParameters,
-    options?: Python2PackageCreateOrUpdateOptionalParams
+    options?: Python2PackageCreateOrUpdateOptionalParams,
   ): Promise<Python2PackageCreateOrUpdateResponse>;
   /**
    * Update the python 2 package identified by package name.
@@ -89,6 +89,6 @@ export interface Python2Package {
     automationAccountName: string,
     packageName: string,
     parameters: PythonPackageUpdateParameters,
-    options?: Python2PackageUpdateOptionalParams
+    options?: Python2PackageUpdateOptionalParams,
   ): Promise<Python2PackageUpdateResponse>;
 }

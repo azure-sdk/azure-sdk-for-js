@@ -7,7 +7,11 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { Usage, UsagesListByAutomationAccountOptionalParams } from "../models";
+import {
+  Usage,
+  UsagesListByAutomationAccountOptionalParams,
+  UsagesListByLocationOptionalParams,
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Usages. */
@@ -21,6 +25,15 @@ export interface Usages {
   listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: UsagesListByAutomationAccountOptionalParams
+    options?: UsagesListByAutomationAccountOptionalParams,
+  ): PagedAsyncIterableIterator<Usage>;
+  /**
+   * Retrieve the usage for the location.
+   * @param location The name of the Azure region.
+   * @param options The options parameters.
+   */
+  listByLocation(
+    location: string,
+    options?: UsagesListByLocationOptionalParams,
   ): PagedAsyncIterableIterator<Usage>;
 }
