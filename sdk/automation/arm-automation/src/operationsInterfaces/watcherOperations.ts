@@ -19,7 +19,7 @@ import {
   WatcherUpdateResponse,
   WatcherDeleteOptionalParams,
   WatcherStartOptionalParams,
-  WatcherStopOptionalParams
+  WatcherStopOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,7 +34,7 @@ export interface WatcherOperations {
   listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: WatcherListByAutomationAccountOptionalParams
+    options?: WatcherListByAutomationAccountOptionalParams,
   ): PagedAsyncIterableIterator<Watcher>;
   /**
    * Create the watcher identified by watcher name.
@@ -49,7 +49,7 @@ export interface WatcherOperations {
     automationAccountName: string,
     watcherName: string,
     parameters: Watcher,
-    options?: WatcherCreateOrUpdateOptionalParams
+    options?: WatcherCreateOrUpdateOptionalParams,
   ): Promise<WatcherCreateOrUpdateResponse>;
   /**
    * Retrieve the watcher identified by watcher name.
@@ -62,7 +62,7 @@ export interface WatcherOperations {
     resourceGroupName: string,
     automationAccountName: string,
     watcherName: string,
-    options?: WatcherGetOptionalParams
+    options?: WatcherGetOptionalParams,
   ): Promise<WatcherGetResponse>;
   /**
    * Update the watcher identified by watcher name.
@@ -77,7 +77,7 @@ export interface WatcherOperations {
     automationAccountName: string,
     watcherName: string,
     parameters: WatcherUpdateParameters,
-    options?: WatcherUpdateOptionalParams
+    options?: WatcherUpdateOptionalParams,
   ): Promise<WatcherUpdateResponse>;
   /**
    * Delete the watcher by name.
@@ -90,7 +90,7 @@ export interface WatcherOperations {
     resourceGroupName: string,
     automationAccountName: string,
     watcherName: string,
-    options?: WatcherDeleteOptionalParams
+    options?: WatcherDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Resume the watcher identified by watcher name.
@@ -103,7 +103,7 @@ export interface WatcherOperations {
     resourceGroupName: string,
     automationAccountName: string,
     watcherName: string,
-    options?: WatcherStartOptionalParams
+    options?: WatcherStartOptionalParams,
   ): Promise<void>;
   /**
    * Resume the watcher identified by watcher name.
@@ -116,6 +116,6 @@ export interface WatcherOperations {
     resourceGroupName: string,
     automationAccountName: string,
     watcherName: string,
-    options?: WatcherStopOptionalParams
+    options?: WatcherStopOptionalParams,
   ): Promise<void>;
 }

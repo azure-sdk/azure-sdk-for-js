@@ -19,7 +19,7 @@ import {
   TestJobGetResponse,
   TestJobResumeOptionalParams,
   TestJobStopOptionalParams,
-  TestJobSuspendOptionalParams
+  TestJobSuspendOptionalParams,
 } from "../models";
 
 /** Class containing TestJobOperations operations. */
@@ -47,7 +47,7 @@ export class TestJobOperationsImpl implements TestJobOperations {
     automationAccountName: string,
     runbookName: string,
     parameters: TestJobCreateParameters,
-    options?: TestJobCreateOptionalParams
+    options?: TestJobCreateOptionalParams,
   ): Promise<TestJobCreateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -55,9 +55,9 @@ export class TestJobOperationsImpl implements TestJobOperations {
         automationAccountName,
         runbookName,
         parameters,
-        options
+        options,
       },
-      createOperationSpec
+      createOperationSpec,
     );
   }
 
@@ -72,11 +72,11 @@ export class TestJobOperationsImpl implements TestJobOperations {
     resourceGroupName: string,
     automationAccountName: string,
     runbookName: string,
-    options?: TestJobGetOptionalParams
+    options?: TestJobGetOptionalParams,
   ): Promise<TestJobGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, runbookName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -91,11 +91,11 @@ export class TestJobOperationsImpl implements TestJobOperations {
     resourceGroupName: string,
     automationAccountName: string,
     runbookName: string,
-    options?: TestJobResumeOptionalParams
+    options?: TestJobResumeOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, runbookName, options },
-      resumeOperationSpec
+      resumeOperationSpec,
     );
   }
 
@@ -110,11 +110,11 @@ export class TestJobOperationsImpl implements TestJobOperations {
     resourceGroupName: string,
     automationAccountName: string,
     runbookName: string,
-    options?: TestJobStopOptionalParams
+    options?: TestJobStopOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, runbookName, options },
-      stopOperationSpec
+      stopOperationSpec,
     );
   }
 
@@ -129,11 +129,11 @@ export class TestJobOperationsImpl implements TestJobOperations {
     resourceGroupName: string,
     automationAccountName: string,
     runbookName: string,
-    options?: TestJobSuspendOptionalParams
+    options?: TestJobSuspendOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, runbookName, options },
-      suspendOperationSpec
+      suspendOperationSpec,
     );
   }
 }
@@ -141,113 +141,108 @@ export class TestJobOperationsImpl implements TestJobOperations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}/draft/testJob",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}/draft/testJob",
   httpMethod: "PUT",
   responses: {
     201: {
-      bodyMapper: Mappers.TestJob
+      bodyMapper: Mappers.TestJob,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters36,
-  queryParameters: [Parameters.apiVersion3],
+  requestBody: Parameters.parameters31,
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
-    Parameters.runbookName
+    Parameters.runbookName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}/draft/testJob",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}/draft/testJob",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TestJob
+      bodyMapper: Mappers.TestJob,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
-    Parameters.runbookName
+    Parameters.runbookName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const resumeOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}/draft/testJob/resume",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}/draft/testJob/resume",
   httpMethod: "POST",
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
-    Parameters.runbookName
+    Parameters.runbookName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const stopOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}/draft/testJob/stop",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}/draft/testJob/stop",
   httpMethod: "POST",
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
-    Parameters.runbookName
+    Parameters.runbookName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const suspendOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}/draft/testJob/suspend",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}/draft/testJob/suspend",
   httpMethod: "POST",
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
-    Parameters.runbookName
+    Parameters.runbookName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

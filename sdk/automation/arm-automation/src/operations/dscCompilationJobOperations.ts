@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AutomationClient } from "../automationClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   DscCompilationJob,
   DscCompilationJobListByAutomationAccountNextOptionalParams,
@@ -27,13 +31,14 @@ import {
   DscCompilationJobGetResponse,
   DscCompilationJobGetStreamOptionalParams,
   DscCompilationJobGetStreamResponse,
-  DscCompilationJobListByAutomationAccountNextResponse
+  DscCompilationJobListByAutomationAccountNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing DscCompilationJobOperations operations. */
 export class DscCompilationJobOperationsImpl
-  implements DscCompilationJobOperations {
+  implements DscCompilationJobOperations
+{
   private readonly client: AutomationClient;
 
   /**
@@ -53,12 +58,12 @@ export class DscCompilationJobOperationsImpl
   public listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: DscCompilationJobListByAutomationAccountOptionalParams
+    options?: DscCompilationJobListByAutomationAccountOptionalParams,
   ): PagedAsyncIterableIterator<DscCompilationJob> {
     const iter = this.listByAutomationAccountPagingAll(
       resourceGroupName,
       automationAccountName,
-      options
+      options,
     );
     return {
       next() {
@@ -75,9 +80,9 @@ export class DscCompilationJobOperationsImpl
           resourceGroupName,
           automationAccountName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -85,7 +90,7 @@ export class DscCompilationJobOperationsImpl
     resourceGroupName: string,
     automationAccountName: string,
     options?: DscCompilationJobListByAutomationAccountOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DscCompilationJob[]> {
     let result: DscCompilationJobListByAutomationAccountResponse;
     let continuationToken = settings?.continuationToken;
@@ -93,7 +98,7 @@ export class DscCompilationJobOperationsImpl
       result = await this._listByAutomationAccount(
         resourceGroupName,
         automationAccountName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -105,7 +110,7 @@ export class DscCompilationJobOperationsImpl
         resourceGroupName,
         automationAccountName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -117,12 +122,12 @@ export class DscCompilationJobOperationsImpl
   private async *listByAutomationAccountPagingAll(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: DscCompilationJobListByAutomationAccountOptionalParams
+    options?: DscCompilationJobListByAutomationAccountOptionalParams,
   ): AsyncIterableIterator<DscCompilationJob> {
     for await (const page of this.listByAutomationAccountPagingPage(
       resourceGroupName,
       automationAccountName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -141,30 +146,29 @@ export class DscCompilationJobOperationsImpl
     automationAccountName: string,
     compilationJobName: string,
     parameters: DscCompilationJobCreateParameters,
-    options?: DscCompilationJobCreateOptionalParams
+    options?: DscCompilationJobCreateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<DscCompilationJobCreateResponse>,
+    SimplePollerLike<
+      OperationState<DscCompilationJobCreateResponse>,
       DscCompilationJobCreateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<DscCompilationJobCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -173,8 +177,8 @@ export class DscCompilationJobOperationsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -182,25 +186,28 @@ export class DscCompilationJobOperationsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         automationAccountName,
         compilationJobName,
         parameters,
-        options
+        options,
       },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: createOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      DscCompilationJobCreateResponse,
+      OperationState<DscCompilationJobCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -219,14 +226,14 @@ export class DscCompilationJobOperationsImpl
     automationAccountName: string,
     compilationJobName: string,
     parameters: DscCompilationJobCreateParameters,
-    options?: DscCompilationJobCreateOptionalParams
+    options?: DscCompilationJobCreateOptionalParams,
   ): Promise<DscCompilationJobCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       automationAccountName,
       compilationJobName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -242,11 +249,11 @@ export class DscCompilationJobOperationsImpl
     resourceGroupName: string,
     automationAccountName: string,
     compilationJobName: string,
-    options?: DscCompilationJobGetOptionalParams
+    options?: DscCompilationJobGetOptionalParams,
   ): Promise<DscCompilationJobGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, compilationJobName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -259,11 +266,11 @@ export class DscCompilationJobOperationsImpl
   private _listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: DscCompilationJobListByAutomationAccountOptionalParams
+    options?: DscCompilationJobListByAutomationAccountOptionalParams,
   ): Promise<DscCompilationJobListByAutomationAccountResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, options },
-      listByAutomationAccountOperationSpec
+      listByAutomationAccountOperationSpec,
     );
   }
 
@@ -280,11 +287,11 @@ export class DscCompilationJobOperationsImpl
     automationAccountName: string,
     jobId: string,
     jobStreamId: string,
-    options?: DscCompilationJobGetStreamOptionalParams
+    options?: DscCompilationJobGetStreamOptionalParams,
   ): Promise<DscCompilationJobGetStreamResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, jobId, jobStreamId, options },
-      getStreamOperationSpec
+      getStreamOperationSpec,
     );
   }
 
@@ -300,11 +307,11 @@ export class DscCompilationJobOperationsImpl
     resourceGroupName: string,
     automationAccountName: string,
     nextLink: string,
-    options?: DscCompilationJobListByAutomationAccountNextOptionalParams
+    options?: DscCompilationJobListByAutomationAccountNextOptionalParams,
   ): Promise<DscCompilationJobListByAutomationAccountNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, nextLink, options },
-      listByAutomationAccountNextOperationSpec
+      listByAutomationAccountNextOperationSpec,
     );
   }
 }
@@ -312,50 +319,48 @@ export class DscCompilationJobOperationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/compilationjobs/{compilationJobName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/compilationjobs/{compilationJobName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.DscCompilationJob
+      bodyMapper: Mappers.DscCompilationJob,
     },
     201: {
-      bodyMapper: Mappers.DscCompilationJob
+      bodyMapper: Mappers.DscCompilationJob,
     },
     202: {
-      bodyMapper: Mappers.DscCompilationJob
+      bodyMapper: Mappers.DscCompilationJob,
     },
     204: {
-      bodyMapper: Mappers.DscCompilationJob
+      bodyMapper: Mappers.DscCompilationJob,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters5,
+  requestBody: Parameters.parameters2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
-    Parameters.compilationJobName
+    Parameters.compilationJobName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/compilationjobs/{compilationJobName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/compilationjobs/{compilationJobName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DscCompilationJob
+      bodyMapper: Mappers.DscCompilationJob,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -363,44 +368,42 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
-    Parameters.compilationJobName
+    Parameters.compilationJobName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByAutomationAccountOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/compilationjobs",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/compilationjobs",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DscCompilationJobListResult
+      bodyMapper: Mappers.DscCompilationJobListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.automationAccountName
+    Parameters.automationAccountName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getStreamOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/compilationjobs/{jobId}/streams/{jobStreamId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/compilationjobs/{jobId}/streams/{jobStreamId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.JobStream
+      bodyMapper: Mappers.JobStream,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -409,29 +412,29 @@ const getStreamOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.jobId,
-    Parameters.jobStreamId
+    Parameters.jobStreamId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByAutomationAccountNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DscCompilationJobListResult
+      bodyMapper: Mappers.DscCompilationJobListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

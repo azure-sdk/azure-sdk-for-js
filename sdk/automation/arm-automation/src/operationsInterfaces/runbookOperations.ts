@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Runbook,
   RunbookListByAutomationAccountOptionalParams,
@@ -23,7 +23,7 @@ import {
   RunbookUpdateParameters,
   RunbookUpdateOptionalParams,
   RunbookUpdateResponse,
-  RunbookDeleteOptionalParams
+  RunbookDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -38,7 +38,7 @@ export interface RunbookOperations {
   listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: RunbookListByAutomationAccountOptionalParams
+    options?: RunbookListByAutomationAccountOptionalParams,
   ): PagedAsyncIterableIterator<Runbook>;
   /**
    * Publish runbook draft.
@@ -51,10 +51,10 @@ export interface RunbookOperations {
     resourceGroupName: string,
     automationAccountName: string,
     runbookName: string,
-    options?: RunbookPublishOptionalParams
+    options?: RunbookPublishOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<RunbookPublishResponse>,
+    SimplePollerLike<
+      OperationState<RunbookPublishResponse>,
       RunbookPublishResponse
     >
   >;
@@ -69,7 +69,7 @@ export interface RunbookOperations {
     resourceGroupName: string,
     automationAccountName: string,
     runbookName: string,
-    options?: RunbookPublishOptionalParams
+    options?: RunbookPublishOptionalParams,
   ): Promise<RunbookPublishResponse>;
   /**
    * Retrieve the content of runbook identified by runbook name.
@@ -82,7 +82,7 @@ export interface RunbookOperations {
     resourceGroupName: string,
     automationAccountName: string,
     runbookName: string,
-    options?: RunbookGetContentOptionalParams
+    options?: RunbookGetContentOptionalParams,
   ): Promise<RunbookGetContentResponse>;
   /**
    * Retrieve the runbook identified by runbook name.
@@ -95,7 +95,7 @@ export interface RunbookOperations {
     resourceGroupName: string,
     automationAccountName: string,
     runbookName: string,
-    options?: RunbookGetOptionalParams
+    options?: RunbookGetOptionalParams,
   ): Promise<RunbookGetResponse>;
   /**
    * Create the runbook identified by runbook name.
@@ -111,7 +111,7 @@ export interface RunbookOperations {
     automationAccountName: string,
     runbookName: string,
     parameters: RunbookCreateOrUpdateParameters,
-    options?: RunbookCreateOrUpdateOptionalParams
+    options?: RunbookCreateOrUpdateOptionalParams,
   ): Promise<RunbookCreateOrUpdateResponse>;
   /**
    * Update the runbook identified by runbook name.
@@ -126,7 +126,7 @@ export interface RunbookOperations {
     automationAccountName: string,
     runbookName: string,
     parameters: RunbookUpdateParameters,
-    options?: RunbookUpdateOptionalParams
+    options?: RunbookUpdateOptionalParams,
   ): Promise<RunbookUpdateResponse>;
   /**
    * Delete the runbook by name.
@@ -139,6 +139,6 @@ export interface RunbookOperations {
     resourceGroupName: string,
     automationAccountName: string,
     runbookName: string,
-    options?: RunbookDeleteOptionalParams
+    options?: RunbookDeleteOptionalParams,
   ): Promise<void>;
 }
