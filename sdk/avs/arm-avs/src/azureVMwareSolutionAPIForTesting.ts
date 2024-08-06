@@ -52,15 +52,15 @@ import {
   ScriptCmdlets,
   WorkloadNetworks,
 } from "./operationsInterfaces";
-import { AzureVMwareSolutionAPIOptionalParams } from "./models";
+import { AzureVMwareSolutionAPIForTestingOptionalParams } from "./models";
 
-export class AzureVMwareSolutionAPI extends coreClient.ServiceClient {
+export class AzureVMwareSolutionAPIForTesting extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
   subscriptionId: string;
 
   /**
-   * Initializes a new instance of the AzureVMwareSolutionAPI class.
+   * Initializes a new instance of the AzureVMwareSolutionAPIForTesting class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param options The parameter options
@@ -68,7 +68,7 @@ export class AzureVMwareSolutionAPI extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: AzureVMwareSolutionAPIOptionalParams,
+    options?: AzureVMwareSolutionAPIForTestingOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -81,12 +81,12 @@ export class AzureVMwareSolutionAPI extends coreClient.ServiceClient {
     if (!options) {
       options = {};
     }
-    const defaults: AzureVMwareSolutionAPIOptionalParams = {
+    const defaults: AzureVMwareSolutionAPIForTestingOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-avs/5.0.1`;
+    const packageDetails = `azsdk-js-arm-avs/6.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
