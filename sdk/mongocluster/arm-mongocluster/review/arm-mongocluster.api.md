@@ -49,6 +49,22 @@ export type CreatedByType = string;
 // @public
 export type CreateMode = string;
 
+// @public (undocumented)
+export class DocumentDBClient {
+    constructor(credential: TokenCredential, subscriptionId: string, options?: DocumentDBClientOptionalParams);
+    readonly firewallRules: FirewallRulesOperations;
+    readonly mongoClusters: MongoClustersOperations;
+    readonly operations: OperationsOperations;
+    readonly pipeline: Pipeline;
+    readonly privateEndpointConnections: PrivateEndpointConnectionsOperations;
+    readonly privateLinks: PrivateLinksOperations;
+}
+
+// @public
+export interface DocumentDBClientOptionalParams extends ClientOptions {
+    apiVersion?: string;
+}
+
 // @public
 export interface ErrorAdditionalInfo {
     readonly info?: Record<string, any>;
@@ -191,22 +207,6 @@ export interface ListConnectionStringsResult {
 // @public
 export interface MongoCluster extends TrackedResource {
     properties?: MongoClusterProperties;
-}
-
-// @public (undocumented)
-export class MongoClusterManagementClient {
-    constructor(credential: TokenCredential, subscriptionId: string, options?: MongoClusterManagementClientOptionalParams);
-    readonly firewallRules: FirewallRulesOperations;
-    readonly mongoClusters: MongoClustersOperations;
-    readonly operations: OperationsOperations;
-    readonly pipeline: Pipeline;
-    readonly privateEndpointConnections: PrivateEndpointConnectionsOperations;
-    readonly privateLinks: PrivateLinksOperations;
-}
-
-// @public
-export interface MongoClusterManagementClientOptionalParams extends ClientOptions {
-    apiVersion?: string;
 }
 
 // @public
@@ -454,7 +454,7 @@ export interface Resource {
 export type ResourceProvisioningState = string;
 
 // @public
-export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: MongoClusterManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: DocumentDBClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
 
 // @public (undocumented)
 export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {

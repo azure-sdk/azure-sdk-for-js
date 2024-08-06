@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 export {
-  MongoClusterManagementClient,
-  MongoClusterManagementClientOptionalParams,
-} from "./mongoClusterManagementClient.js";
+  DocumentDBClient,
+  DocumentDBClientOptionalParams,
+} from "./documentDBClient.js";
 export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
   Resource,
