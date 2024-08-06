@@ -24,7 +24,7 @@ export interface SecurityAdminConfigurations {
   /**
    * Lists all the network manager security admin configurations in a network manager, in a paginated
    * format.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkManagerName The name of the network manager.
    * @param options The options parameters.
    */
@@ -35,7 +35,7 @@ export interface SecurityAdminConfigurations {
   ): PagedAsyncIterableIterator<SecurityAdminConfiguration>;
   /**
    * Retrieves a network manager security admin configuration.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkManagerName The name of the network manager.
    * @param configurationName The name of the network manager Security Configuration.
    * @param options The options parameters.
@@ -48,7 +48,7 @@ export interface SecurityAdminConfigurations {
   ): Promise<SecurityAdminConfigurationsGetResponse>;
   /**
    * Creates or updates a network manager security admin configuration.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkManagerName The name of the network manager.
    * @param configurationName The name of the network manager Security Configuration.
    * @param securityAdminConfiguration The security admin configuration to create or update
@@ -63,7 +63,7 @@ export interface SecurityAdminConfigurations {
   ): Promise<SecurityAdminConfigurationsCreateOrUpdateResponse>;
   /**
    * Deletes a network manager security admin configuration.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkManagerName The name of the network manager.
    * @param configurationName The name of the network manager Security Configuration.
    * @param options The options parameters.
@@ -76,7 +76,7 @@ export interface SecurityAdminConfigurations {
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a network manager security admin configuration.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkManagerName The name of the network manager.
    * @param configurationName The name of the network manager Security Configuration.
    * @param options The options parameters.

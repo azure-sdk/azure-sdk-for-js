@@ -47,7 +47,7 @@ export class AdminRuleCollectionsImpl implements AdminRuleCollections {
 
   /**
    * Lists all the rule collections in a security admin configuration, in a paginated format.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkManagerName The name of the network manager.
    * @param configurationName The name of the network manager Security Configuration.
    * @param options The options parameters.
@@ -140,7 +140,7 @@ export class AdminRuleCollectionsImpl implements AdminRuleCollections {
 
   /**
    * Lists all the rule collections in a security admin configuration, in a paginated format.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkManagerName The name of the network manager.
    * @param configurationName The name of the network manager Security Configuration.
    * @param options The options parameters.
@@ -159,7 +159,7 @@ export class AdminRuleCollectionsImpl implements AdminRuleCollections {
 
   /**
    * Gets a network manager security admin configuration rule collection.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkManagerName The name of the network manager.
    * @param configurationName The name of the network manager Security Configuration.
    * @param ruleCollectionName The name of the network manager security Configuration rule collection.
@@ -186,7 +186,7 @@ export class AdminRuleCollectionsImpl implements AdminRuleCollections {
 
   /**
    * Creates or updates an admin rule collection.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkManagerName The name of the network manager.
    * @param configurationName The name of the network manager Security Configuration.
    * @param ruleCollectionName The name of the network manager security Configuration rule collection.
@@ -216,7 +216,7 @@ export class AdminRuleCollectionsImpl implements AdminRuleCollections {
 
   /**
    * Deletes an admin rule collection.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkManagerName The name of the network manager.
    * @param configurationName The name of the network manager Security Configuration.
    * @param ruleCollectionName The name of the network manager security Configuration rule collection.
@@ -289,7 +289,7 @@ export class AdminRuleCollectionsImpl implements AdminRuleCollections {
 
   /**
    * Deletes an admin rule collection.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkManagerName The name of the network manager.
    * @param configurationName The name of the network manager Security Configuration.
    * @param ruleCollectionName The name of the network manager security Configuration rule collection.
@@ -314,7 +314,7 @@ export class AdminRuleCollectionsImpl implements AdminRuleCollections {
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkManagerName The name of the network manager.
    * @param configurationName The name of the network manager Security Configuration.
    * @param nextLink The nextLink from the previous successful call to the List method.
@@ -350,7 +350,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AdminRuleCollectionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [
@@ -360,8 +360,8 @@ const listOperationSpec: coreClient.OperationSpec = {
   ],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.networkManagerName,
     Parameters.configurationName,
   ],
@@ -376,14 +376,14 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AdminRuleCollection,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.networkManagerName,
     Parameters.configurationName,
     Parameters.ruleCollectionName,
@@ -402,15 +402,15 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AdminRuleCollection,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.ruleCollection,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.networkManagerName,
     Parameters.configurationName,
     Parameters.ruleCollectionName,
@@ -428,14 +428,14 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion, Parameters.force],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.networkManagerName,
     Parameters.configurationName,
     Parameters.ruleCollectionName,
@@ -451,16 +451,16 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AdminRuleCollectionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.nextLink,
+    Parameters.resourceGroupName,
     Parameters.networkManagerName,
     Parameters.configurationName,
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
   serializer,

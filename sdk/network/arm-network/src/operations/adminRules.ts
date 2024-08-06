@@ -47,7 +47,7 @@ export class AdminRulesImpl implements AdminRules {
 
   /**
    * List all network manager security configuration admin rules.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkManagerName The name of the network manager.
    * @param configurationName The name of the network manager Security Configuration.
    * @param ruleCollectionName The name of the network manager security Configuration rule collection.
@@ -149,7 +149,7 @@ export class AdminRulesImpl implements AdminRules {
 
   /**
    * List all network manager security configuration admin rules.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkManagerName The name of the network manager.
    * @param configurationName The name of the network manager Security Configuration.
    * @param ruleCollectionName The name of the network manager security Configuration rule collection.
@@ -176,7 +176,7 @@ export class AdminRulesImpl implements AdminRules {
 
   /**
    * Gets a network manager security configuration admin rule.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkManagerName The name of the network manager.
    * @param configurationName The name of the network manager Security Configuration.
    * @param ruleCollectionName The name of the network manager security Configuration rule collection.
@@ -206,7 +206,7 @@ export class AdminRulesImpl implements AdminRules {
 
   /**
    * Creates or updates an admin rule.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkManagerName The name of the network manager.
    * @param configurationName The name of the network manager Security Configuration.
    * @param ruleCollectionName The name of the network manager security Configuration rule collection.
@@ -239,7 +239,7 @@ export class AdminRulesImpl implements AdminRules {
 
   /**
    * Deletes an admin rule.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkManagerName The name of the network manager.
    * @param configurationName The name of the network manager Security Configuration.
    * @param ruleCollectionName The name of the network manager security Configuration rule collection.
@@ -315,7 +315,7 @@ export class AdminRulesImpl implements AdminRules {
 
   /**
    * Deletes an admin rule.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkManagerName The name of the network manager.
    * @param configurationName The name of the network manager Security Configuration.
    * @param ruleCollectionName The name of the network manager security Configuration rule collection.
@@ -343,7 +343,7 @@ export class AdminRulesImpl implements AdminRules {
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkManagerName The name of the network manager.
    * @param configurationName The name of the network manager Security Configuration.
    * @param ruleCollectionName The name of the network manager security Configuration rule collection.
@@ -382,7 +382,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AdminRuleListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [
@@ -392,8 +392,8 @@ const listOperationSpec: coreClient.OperationSpec = {
   ],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.networkManagerName,
     Parameters.configurationName,
     Parameters.ruleCollectionName,
@@ -409,14 +409,14 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.BaseAdminRule,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.networkManagerName,
     Parameters.configurationName,
     Parameters.ruleCollectionName,
@@ -436,15 +436,15 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.BaseAdminRule,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.adminRule,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.networkManagerName,
     Parameters.configurationName,
     Parameters.ruleCollectionName,
@@ -463,14 +463,14 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion, Parameters.force],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.networkManagerName,
     Parameters.configurationName,
     Parameters.ruleCollectionName,
@@ -487,16 +487,16 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AdminRuleListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.nextLink,
+    Parameters.resourceGroupName,
     Parameters.networkManagerName,
     Parameters.configurationName,
+    Parameters.nextLink,
     Parameters.ruleCollectionName,
   ],
   headerParameters: [Parameters.accept],

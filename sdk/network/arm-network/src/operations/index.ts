@@ -6,6 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+export * from "./securityAdminConfigurations";
+export * from "./adminRuleCollections";
+export * from "./adminRules";
+export * from "./reachabilityAnalysisIntents";
+export * from "./reachabilityAnalysisRuns";
+export * from "./verifierWorkspaces";
+export * from "./ipamPools";
+export * from "./staticCidrs";
+export * from "./networkManagers";
+export * from "./networkManagerCommits";
+export * from "./networkManagerDeploymentStatusOperations";
 export * from "./applicationGateways";
 export * from "./applicationGatewayPrivateLinkResources";
 export * from "./applicationGatewayPrivateEndpointConnections";
@@ -62,18 +73,12 @@ export * from "./natGateways";
 export * from "./networkInterfaceIPConfigurations";
 export * from "./networkInterfaceLoadBalancers";
 export * from "./networkInterfaceTapConfigurations";
-export * from "./networkManagers";
-export * from "./networkManagerCommits";
-export * from "./networkManagerDeploymentStatusOperations";
 export * from "./subscriptionNetworkManagerConnections";
 export * from "./managementGroupNetworkManagerConnections";
 export * from "./connectivityConfigurations";
 export * from "./networkGroups";
 export * from "./staticMembers";
 export * from "./scopeConnections";
-export * from "./securityAdminConfigurations";
-export * from "./adminRuleCollections";
-export * from "./adminRules";
 export * from "./networkProfiles";
 export * from "./networkSecurityGroups";
 export * from "./securityRules";

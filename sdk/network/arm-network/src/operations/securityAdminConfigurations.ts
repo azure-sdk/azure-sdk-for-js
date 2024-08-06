@@ -50,7 +50,7 @@ export class SecurityAdminConfigurationsImpl
   /**
    * Lists all the network manager security admin configurations in a network manager, in a paginated
    * format.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkManagerName The name of the network manager.
    * @param options The options parameters.
    */
@@ -131,7 +131,7 @@ export class SecurityAdminConfigurationsImpl
   /**
    * Lists all the network manager security admin configurations in a network manager, in a paginated
    * format.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkManagerName The name of the network manager.
    * @param options The options parameters.
    */
@@ -148,7 +148,7 @@ export class SecurityAdminConfigurationsImpl
 
   /**
    * Retrieves a network manager security admin configuration.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkManagerName The name of the network manager.
    * @param configurationName The name of the network manager Security Configuration.
    * @param options The options parameters.
@@ -167,7 +167,7 @@ export class SecurityAdminConfigurationsImpl
 
   /**
    * Creates or updates a network manager security admin configuration.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkManagerName The name of the network manager.
    * @param configurationName The name of the network manager Security Configuration.
    * @param securityAdminConfiguration The security admin configuration to create or update
@@ -194,7 +194,7 @@ export class SecurityAdminConfigurationsImpl
 
   /**
    * Deletes a network manager security admin configuration.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkManagerName The name of the network manager.
    * @param configurationName The name of the network manager Security Configuration.
    * @param options The options parameters.
@@ -264,7 +264,7 @@ export class SecurityAdminConfigurationsImpl
 
   /**
    * Deletes a network manager security admin configuration.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkManagerName The name of the network manager.
    * @param configurationName The name of the network manager Security Configuration.
    * @param options The options parameters.
@@ -286,7 +286,7 @@ export class SecurityAdminConfigurationsImpl
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkManagerName The name of the network manager.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -314,7 +314,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SecurityAdminConfigurationListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [
@@ -324,8 +324,8 @@ const listOperationSpec: coreClient.OperationSpec = {
   ],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.networkManagerName,
   ],
   headerParameters: [Parameters.accept],
@@ -339,14 +339,14 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SecurityAdminConfiguration,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.networkManagerName,
     Parameters.configurationName,
   ],
@@ -364,15 +364,15 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SecurityAdminConfiguration,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.securityAdminConfiguration,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.networkManagerName,
     Parameters.configurationName,
   ],
@@ -389,14 +389,14 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion, Parameters.force],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.networkManagerName,
     Parameters.configurationName,
   ],
@@ -411,15 +411,15 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SecurityAdminConfigurationListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.nextLink,
+    Parameters.resourceGroupName,
     Parameters.networkManagerName,
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
   serializer,
