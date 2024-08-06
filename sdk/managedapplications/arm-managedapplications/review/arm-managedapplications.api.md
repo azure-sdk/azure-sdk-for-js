@@ -11,58 +11,25 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
-export type ActionType = string;
-
-// @public
-export interface AllowedUpgradePlansResult {
-    value?: Plan[];
-}
-
-// @public
 export interface Application extends GenericResource {
     applicationDefinitionId?: string;
-    readonly artifacts?: ApplicationArtifact[];
-    readonly authorizations?: ApplicationAuthorization[];
-    readonly billingDetails?: ApplicationBillingDetailsDefinition;
-    readonly createdBy?: ApplicationClientDetails;
-    readonly customerSupport?: ApplicationPackageContact;
-    identity?: Identity;
-    jitAccessPolicy?: ApplicationJitAccessPolicy;
     kind: string;
-    managedResourceGroupId?: string;
-    readonly managementMode?: ApplicationManagementMode;
+    managedResourceGroupId: string;
     readonly outputs?: Record<string, unknown>;
     parameters?: Record<string, unknown>;
     plan?: Plan;
     readonly provisioningState?: ProvisioningState;
-    readonly publisherTenantId?: string;
-    readonly supportUrls?: ApplicationPackageSupportUrls;
-    readonly updatedBy?: ApplicationClientDetails;
 }
 
 // @public
 export interface ApplicationArtifact {
-    name: ApplicationArtifactName;
-    type: ApplicationArtifactType;
-    uri: string;
+    name?: string;
+    type?: ApplicationArtifactType;
+    uri?: string;
 }
 
 // @public
-export type ApplicationArtifactName = string;
-
-// @public
-export type ApplicationArtifactType = "NotSpecified" | "Template" | "Custom";
-
-// @public
-export interface ApplicationAuthorization {
-    principalId: string;
-    roleDefinitionId: string;
-}
-
-// @public
-export interface ApplicationBillingDetailsDefinition {
-    resourceUsageId?: string;
-}
+export type ApplicationArtifactType = "Template" | "Custom";
 
 // @public (undocumented)
 export class ApplicationClient extends coreClient.ServiceClient {
@@ -76,18 +43,9 @@ export class ApplicationClient extends coreClient.ServiceClient {
     applicationDefinitions: ApplicationDefinitions;
     // (undocumented)
     applications: Applications;
-    // (undocumented)
-    jitRequests: JitRequests;
     listOperations(options?: ListOperationsOptionalParams): PagedAsyncIterableIterator<Operation>;
     // (undocumented)
     subscriptionId?: string;
-}
-
-// @public
-export interface ApplicationClientDetails {
-    applicationId?: string;
-    oid?: string;
-    puid?: string;
 }
 
 // @public
@@ -99,32 +57,16 @@ export interface ApplicationClientOptionalParams extends coreClient.ServiceClien
 
 // @public
 export interface ApplicationDefinition extends GenericResource {
-    artifacts?: ApplicationDefinitionArtifact[];
-    authorizations?: ApplicationAuthorization[];
+    artifacts?: ApplicationArtifact[];
+    authorizations: ApplicationProviderAuthorization[];
     createUiDefinition?: Record<string, unknown>;
-    deploymentPolicy?: ApplicationDeploymentPolicy;
     description?: string;
     displayName?: string;
-    isEnabled?: boolean;
-    lockingPolicy?: ApplicationPackageLockingPolicyDefinition;
+    isEnabled?: string;
     lockLevel: ApplicationLockLevel;
     mainTemplate?: Record<string, unknown>;
-    managementPolicy?: ApplicationManagementPolicy;
-    notificationPolicy?: ApplicationNotificationPolicy;
     packageFileUri?: string;
-    policies?: ApplicationPolicy[];
-    storageAccountId?: string;
 }
-
-// @public
-export interface ApplicationDefinitionArtifact {
-    name: ApplicationDefinitionArtifactName;
-    type: ApplicationArtifactType;
-    uri: string;
-}
-
-// @public
-export type ApplicationDefinitionArtifactName = string;
 
 // @public
 export interface ApplicationDefinitionListResult {
@@ -133,28 +75,24 @@ export interface ApplicationDefinitionListResult {
 }
 
 // @public
-export interface ApplicationDefinitionPatchable {
-    tags?: {
-        [propertyName: string]: string;
-    };
-}
-
-// @public
 export interface ApplicationDefinitions {
-    createOrUpdate(resourceGroupName: string, applicationDefinitionName: string, parameters: ApplicationDefinition, options?: ApplicationDefinitionsCreateOrUpdateOptionalParams): Promise<ApplicationDefinitionsCreateOrUpdateResponse>;
-    createOrUpdateById(resourceGroupName: string, applicationDefinitionName: string, parameters: ApplicationDefinition, options?: ApplicationDefinitionsCreateOrUpdateByIdOptionalParams): Promise<ApplicationDefinitionsCreateOrUpdateByIdResponse>;
-    delete(resourceGroupName: string, applicationDefinitionName: string, options?: ApplicationDefinitionsDeleteOptionalParams): Promise<void>;
-    deleteById(resourceGroupName: string, applicationDefinitionName: string, options?: ApplicationDefinitionsDeleteByIdOptionalParams): Promise<void>;
+    beginCreateOrUpdate(resourceGroupName: string, applicationDefinitionName: string, parameters: ApplicationDefinition, options?: ApplicationDefinitionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ApplicationDefinitionsCreateOrUpdateResponse>, ApplicationDefinitionsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, applicationDefinitionName: string, parameters: ApplicationDefinition, options?: ApplicationDefinitionsCreateOrUpdateOptionalParams): Promise<ApplicationDefinitionsCreateOrUpdateResponse>;
+    beginCreateOrUpdateById(resourceGroupName: string, applicationDefinitionName: string, parameters: ApplicationDefinition, options?: ApplicationDefinitionsCreateOrUpdateByIdOptionalParams): Promise<SimplePollerLike<OperationState<ApplicationDefinitionsCreateOrUpdateByIdResponse>, ApplicationDefinitionsCreateOrUpdateByIdResponse>>;
+    beginCreateOrUpdateByIdAndWait(resourceGroupName: string, applicationDefinitionName: string, parameters: ApplicationDefinition, options?: ApplicationDefinitionsCreateOrUpdateByIdOptionalParams): Promise<ApplicationDefinitionsCreateOrUpdateByIdResponse>;
+    beginDelete(resourceGroupName: string, applicationDefinitionName: string, options?: ApplicationDefinitionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, applicationDefinitionName: string, options?: ApplicationDefinitionsDeleteOptionalParams): Promise<void>;
+    beginDeleteById(resourceGroupName: string, applicationDefinitionName: string, options?: ApplicationDefinitionsDeleteByIdOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteByIdAndWait(resourceGroupName: string, applicationDefinitionName: string, options?: ApplicationDefinitionsDeleteByIdOptionalParams): Promise<void>;
     get(resourceGroupName: string, applicationDefinitionName: string, options?: ApplicationDefinitionsGetOptionalParams): Promise<ApplicationDefinitionsGetResponse>;
     getById(resourceGroupName: string, applicationDefinitionName: string, options?: ApplicationDefinitionsGetByIdOptionalParams): Promise<ApplicationDefinitionsGetByIdResponse>;
     listByResourceGroup(resourceGroupName: string, options?: ApplicationDefinitionsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ApplicationDefinition>;
-    listBySubscription(options?: ApplicationDefinitionsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<ApplicationDefinition>;
-    update(resourceGroupName: string, applicationDefinitionName: string, parameters: ApplicationDefinitionPatchable, options?: ApplicationDefinitionsUpdateOptionalParams): Promise<ApplicationDefinitionsUpdateResponse>;
-    updateById(resourceGroupName: string, applicationDefinitionName: string, parameters: ApplicationDefinitionPatchable, options?: ApplicationDefinitionsUpdateByIdOptionalParams): Promise<ApplicationDefinitionsUpdateByIdResponse>;
 }
 
 // @public
 export interface ApplicationDefinitionsCreateOrUpdateByIdOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -162,6 +100,8 @@ export type ApplicationDefinitionsCreateOrUpdateByIdResponse = ApplicationDefini
 
 // @public
 export interface ApplicationDefinitionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -169,10 +109,14 @@ export type ApplicationDefinitionsCreateOrUpdateResponse = ApplicationDefinition
 
 // @public
 export interface ApplicationDefinitionsDeleteByIdOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
 export interface ApplicationDefinitionsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -204,47 +148,6 @@ export interface ApplicationDefinitionsListByResourceGroupOptionalParams extends
 export type ApplicationDefinitionsListByResourceGroupResponse = ApplicationDefinitionListResult;
 
 // @public
-export interface ApplicationDefinitionsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ApplicationDefinitionsListBySubscriptionNextResponse = ApplicationDefinitionListResult;
-
-// @public
-export interface ApplicationDefinitionsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ApplicationDefinitionsListBySubscriptionResponse = ApplicationDefinitionListResult;
-
-// @public
-export interface ApplicationDefinitionsUpdateByIdOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ApplicationDefinitionsUpdateByIdResponse = ApplicationDefinition;
-
-// @public
-export interface ApplicationDefinitionsUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ApplicationDefinitionsUpdateResponse = ApplicationDefinition;
-
-// @public
-export interface ApplicationDeploymentPolicy {
-    deploymentMode: DeploymentMode;
-}
-
-// @public
-export interface ApplicationJitAccessPolicy {
-    jitAccessEnabled: boolean;
-    jitApprovalMode?: JitApprovalMode;
-    jitApprovers?: JitApproverDefinition[];
-    maximumJitAccessDuration?: string;
-}
-
-// @public
 export interface ApplicationListResult {
     nextLink?: string;
     value?: Application[];
@@ -254,69 +157,20 @@ export interface ApplicationListResult {
 export type ApplicationLockLevel = "CanNotDelete" | "ReadOnly" | "None";
 
 // @public
-export type ApplicationManagementMode = string;
-
-// @public
-export interface ApplicationManagementPolicy {
-    mode?: ApplicationManagementMode;
-}
-
-// @public
-export interface ApplicationNotificationEndpoint {
-    uri: string;
-}
-
-// @public
-export interface ApplicationNotificationPolicy {
-    notificationEndpoints: ApplicationNotificationEndpoint[];
-}
-
-// @public
-export interface ApplicationPackageContact {
-    contactName?: string;
-    email: string;
-    phone: string;
-}
-
-// @public
-export interface ApplicationPackageLockingPolicyDefinition {
-    allowedActions?: string[];
-    allowedDataActions?: string[];
-}
-
-// @public
-export interface ApplicationPackageSupportUrls {
-    governmentCloud?: string;
-    publicAzure?: string;
-}
-
-// @public
 export interface ApplicationPatchable extends GenericResource {
     applicationDefinitionId?: string;
-    readonly artifacts?: ApplicationArtifact[];
-    readonly authorizations?: ApplicationAuthorization[];
-    readonly billingDetails?: ApplicationBillingDetailsDefinition;
-    readonly createdBy?: ApplicationClientDetails;
-    readonly customerSupport?: ApplicationPackageContact;
-    identity?: Identity;
-    jitAccessPolicy?: ApplicationJitAccessPolicy;
     kind?: string;
     managedResourceGroupId?: string;
-    readonly managementMode?: ApplicationManagementMode;
     readonly outputs?: Record<string, unknown>;
     parameters?: Record<string, unknown>;
     plan?: PlanPatchable;
     readonly provisioningState?: ProvisioningState;
-    readonly publisherTenantId?: string;
-    readonly supportUrls?: ApplicationPackageSupportUrls;
-    readonly updatedBy?: ApplicationClientDetails;
 }
 
 // @public
-export interface ApplicationPolicy {
-    name?: string;
-    parameters?: string;
-    policyDefinitionId?: string;
+export interface ApplicationProviderAuthorization {
+    principalId: string;
+    roleDefinitionId: string;
 }
 
 // @public
@@ -329,20 +183,12 @@ export interface Applications {
     beginDeleteAndWait(resourceGroupName: string, applicationName: string, options?: ApplicationsDeleteOptionalParams): Promise<void>;
     beginDeleteById(applicationId: string, options?: ApplicationsDeleteByIdOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteByIdAndWait(applicationId: string, options?: ApplicationsDeleteByIdOptionalParams): Promise<void>;
-    beginRefreshPermissions(resourceGroupName: string, applicationName: string, options?: ApplicationsRefreshPermissionsOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginRefreshPermissionsAndWait(resourceGroupName: string, applicationName: string, options?: ApplicationsRefreshPermissionsOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, applicationName: string, options?: ApplicationsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ApplicationsUpdateResponse>, ApplicationsUpdateResponse>>;
-    beginUpdateAccess(resourceGroupName: string, applicationName: string, parameters: UpdateAccessDefinition, options?: ApplicationsUpdateAccessOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginUpdateAccessAndWait(resourceGroupName: string, applicationName: string, parameters: UpdateAccessDefinition, options?: ApplicationsUpdateAccessOptionalParams): Promise<void>;
-    beginUpdateAndWait(resourceGroupName: string, applicationName: string, options?: ApplicationsUpdateOptionalParams): Promise<ApplicationsUpdateResponse>;
-    beginUpdateById(applicationId: string, options?: ApplicationsUpdateByIdOptionalParams): Promise<SimplePollerLike<OperationState<ApplicationsUpdateByIdResponse>, ApplicationsUpdateByIdResponse>>;
-    beginUpdateByIdAndWait(applicationId: string, options?: ApplicationsUpdateByIdOptionalParams): Promise<ApplicationsUpdateByIdResponse>;
     get(resourceGroupName: string, applicationName: string, options?: ApplicationsGetOptionalParams): Promise<ApplicationsGetResponse>;
     getById(applicationId: string, options?: ApplicationsGetByIdOptionalParams): Promise<ApplicationsGetByIdResponse>;
-    listAllowedUpgradePlans(resourceGroupName: string, applicationName: string, options?: ApplicationsListAllowedUpgradePlansOptionalParams): Promise<ApplicationsListAllowedUpgradePlansResponse>;
     listByResourceGroup(resourceGroupName: string, options?: ApplicationsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Application>;
     listBySubscription(options?: ApplicationsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Application>;
-    listTokens(resourceGroupName: string, applicationName: string, parameters: ListTokenRequest, options?: ApplicationsListTokensOptionalParams): Promise<ApplicationsListTokensResponse>;
+    update(resourceGroupName: string, applicationName: string, options?: ApplicationsUpdateOptionalParams): Promise<ApplicationsUpdateResponse>;
+    updateById(applicationId: string, options?: ApplicationsUpdateByIdOptionalParams): Promise<ApplicationsUpdateByIdResponse>;
 }
 
 // @public
@@ -390,13 +236,6 @@ export interface ApplicationsGetOptionalParams extends coreClient.OperationOptio
 export type ApplicationsGetResponse = Application;
 
 // @public
-export interface ApplicationsListAllowedUpgradePlansOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ApplicationsListAllowedUpgradePlansResponse = AllowedUpgradePlansResult;
-
-// @public
 export interface ApplicationsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -425,72 +264,31 @@ export interface ApplicationsListBySubscriptionOptionalParams extends coreClient
 export type ApplicationsListBySubscriptionResponse = ApplicationListResult;
 
 // @public
-export interface ApplicationsListTokensOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ApplicationsListTokensResponse = ManagedIdentityTokenResult;
-
-// @public
-export interface ApplicationsRefreshPermissionsOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ApplicationsUpdateAccessOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
 export interface ApplicationsUpdateByIdOptionalParams extends coreClient.OperationOptions {
-    parameters?: ApplicationPatchable;
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
+    parameters?: Application;
 }
 
 // @public
-export type ApplicationsUpdateByIdResponse = ApplicationPatchable;
+export type ApplicationsUpdateByIdResponse = Application;
 
 // @public
 export interface ApplicationsUpdateOptionalParams extends coreClient.OperationOptions {
     parameters?: ApplicationPatchable;
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
 }
 
 // @public
-export type ApplicationsUpdateResponse = ApplicationPatchable;
-
-// @public
-export type CreatedByType = string;
-
-// @public
-export type DeploymentMode = string;
-
-// @public
-export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, unknown>;
-    readonly type?: string;
-}
-
-// @public
-export interface ErrorDetail {
-    readonly additionalInfo?: ErrorAdditionalInfo[];
-    readonly code?: string;
-    readonly details?: ErrorDetail[];
-    readonly message?: string;
-    readonly target?: string;
-}
+export type ApplicationsUpdateResponse = Application;
 
 // @public
 export interface ErrorResponse {
-    error?: ErrorDetail;
+    errorCode?: string;
+    errorMessage?: string;
+    httpStatus?: string;
 }
 
 // @public
 export interface GenericResource extends Resource {
+    identity?: Identity;
     managedBy?: string;
     sku?: Sku;
 }
@@ -502,239 +300,22 @@ export function getContinuationToken(page: unknown): string | undefined;
 export interface Identity {
     readonly principalId?: string;
     readonly tenantId?: string;
-    type?: ResourceIdentityType;
-    userAssignedIdentities?: {
-        [propertyName: string]: UserAssignedResourceIdentity;
-    };
-}
-
-// @public
-export type JitApprovalMode = string;
-
-// @public
-export interface JitApproverDefinition {
-    displayName?: string;
-    id: string;
-    type?: JitApproverType;
-}
-
-// @public
-export type JitApproverType = string;
-
-// @public
-export interface JitAuthorizationPolicies {
-    principalId: string;
-    roleDefinitionId: string;
-}
-
-// @public
-export interface JitRequestDefinition extends Resource {
-    applicationResourceId?: string;
-    readonly createdBy?: ApplicationClientDetails;
-    jitAuthorizationPolicies?: JitAuthorizationPolicies[];
-    readonly jitRequestState?: JitRequestState;
-    jitSchedulingPolicy?: JitSchedulingPolicy;
-    readonly provisioningState?: ProvisioningState;
-    readonly publisherTenantId?: string;
-    readonly updatedBy?: ApplicationClientDetails;
-}
-
-// @public
-export interface JitRequestDefinitionListResult {
-    nextLink?: string;
-    value?: JitRequestDefinition[];
-}
-
-// @public
-export interface JitRequestMetadata {
-    originRequestId?: string;
-    requestorId?: string;
-    subjectDisplayName?: string;
-    tenantDisplayName?: string;
-}
-
-// @public
-export interface JitRequestPatchable {
-    tags?: {
-        [propertyName: string]: string;
-    };
-}
-
-// @public
-export interface JitRequests {
-    beginCreateOrUpdate(resourceGroupName: string, jitRequestName: string, parameters: JitRequestDefinition, options?: JitRequestsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<JitRequestsCreateOrUpdateResponse>, JitRequestsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, jitRequestName: string, parameters: JitRequestDefinition, options?: JitRequestsCreateOrUpdateOptionalParams): Promise<JitRequestsCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, jitRequestName: string, options?: JitRequestsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, jitRequestName: string, options?: JitRequestsGetOptionalParams): Promise<JitRequestsGetResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: JitRequestsListByResourceGroupOptionalParams): Promise<JitRequestsListByResourceGroupResponse>;
-    listBySubscription(options?: JitRequestsListBySubscriptionOptionalParams): Promise<JitRequestsListBySubscriptionResponse>;
-    update(resourceGroupName: string, jitRequestName: string, parameters: JitRequestPatchable, options?: JitRequestsUpdateOptionalParams): Promise<JitRequestsUpdateResponse>;
-}
-
-// @public
-export interface JitRequestsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type JitRequestsCreateOrUpdateResponse = JitRequestDefinition;
-
-// @public
-export interface JitRequestsDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface JitRequestsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type JitRequestsGetResponse = JitRequestDefinition;
-
-// @public
-export interface JitRequestsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type JitRequestsListByResourceGroupResponse = JitRequestDefinitionListResult;
-
-// @public
-export interface JitRequestsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type JitRequestsListBySubscriptionResponse = JitRequestDefinitionListResult;
-
-// @public
-export type JitRequestState = string;
-
-// @public
-export interface JitRequestsUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type JitRequestsUpdateResponse = JitRequestDefinition;
-
-// @public
-export interface JitSchedulingPolicy {
-    duration: string;
-    startTime: Date;
-    type: JitSchedulingType;
-}
-
-// @public
-export type JitSchedulingType = string;
-
-// @public
-export enum KnownActionType {
-    Internal = "Internal"
-}
-
-// @public
-export enum KnownApplicationArtifactName {
-    Authorizations = "Authorizations",
-    CustomRoleDefinition = "CustomRoleDefinition",
-    NotSpecified = "NotSpecified",
-    ViewDefinition = "ViewDefinition"
-}
-
-// @public
-export enum KnownApplicationDefinitionArtifactName {
-    ApplicationResourceTemplate = "ApplicationResourceTemplate",
-    CreateUiDefinition = "CreateUiDefinition",
-    MainTemplateParameters = "MainTemplateParameters",
-    NotSpecified = "NotSpecified"
-}
-
-// @public
-export enum KnownApplicationManagementMode {
-    Managed = "Managed",
-    NotSpecified = "NotSpecified",
-    Unmanaged = "Unmanaged"
-}
-
-// @public
-export enum KnownCreatedByType {
-    Application = "Application",
-    Key = "Key",
-    ManagedIdentity = "ManagedIdentity",
-    User = "User"
-}
-
-// @public
-export enum KnownDeploymentMode {
-    Complete = "Complete",
-    Incremental = "Incremental",
-    NotSpecified = "NotSpecified"
-}
-
-// @public
-export enum KnownJitApprovalMode {
-    AutoApprove = "AutoApprove",
-    ManualApprove = "ManualApprove",
-    NotSpecified = "NotSpecified"
-}
-
-// @public
-export enum KnownJitApproverType {
-    Group = "group",
-    User = "user"
-}
-
-// @public
-export enum KnownJitRequestState {
-    Approved = "Approved",
-    Canceled = "Canceled",
-    Denied = "Denied",
-    Expired = "Expired",
-    Failed = "Failed",
-    NotSpecified = "NotSpecified",
-    Pending = "Pending",
-    Timeout = "Timeout"
-}
-
-// @public
-export enum KnownJitSchedulingType {
-    NotSpecified = "NotSpecified",
-    Once = "Once",
-    Recurring = "Recurring"
-}
-
-// @public
-export enum KnownOrigin {
-    System = "system",
-    User = "user",
-    UserSystem = "user,system"
+    type?: "SystemAssigned";
 }
 
 // @public
 export enum KnownProvisioningState {
     Accepted = "Accepted",
     Canceled = "Canceled",
+    Created = "Created",
+    Creating = "Creating",
     Deleted = "Deleted",
     Deleting = "Deleting",
     Failed = "Failed",
-    NotSpecified = "NotSpecified",
+    Ready = "Ready",
     Running = "Running",
     Succeeded = "Succeeded",
     Updating = "Updating"
-}
-
-// @public
-export enum KnownStatus {
-    Elevate = "Elevate",
-    NotSpecified = "NotSpecified",
-    Remove = "Remove"
-}
-
-// @public
-export enum KnownSubstatus {
-    Approved = "Approved",
-    Denied = "Denied",
-    Expired = "Expired",
-    Failed = "Failed",
-    NotSpecified = "NotSpecified",
-    Timeout = "Timeout"
 }
 
 // @public
@@ -752,52 +333,23 @@ export interface ListOperationsOptionalParams extends coreClient.OperationOption
 export type ListOperationsResponse = OperationListResult;
 
 // @public
-export interface ListTokenRequest {
-    authorizationAudience?: string;
-    userAssignedIdentities?: string[];
-}
-
-// @public
-export interface ManagedIdentityToken {
-    accessToken?: string;
-    authorizationAudience?: string;
-    expiresIn?: string;
-    expiresOn?: string;
-    notBefore?: string;
-    resourceId?: string;
-    tokenType?: string;
-}
-
-// @public
-export interface ManagedIdentityTokenResult {
-    value?: ManagedIdentityToken[];
-}
-
-// @public
 export interface Operation {
-    readonly actionType?: ActionType;
     display?: OperationDisplay;
-    readonly isDataAction?: boolean;
-    readonly name?: string;
-    readonly origin?: Origin;
+    name?: string;
 }
 
 // @public
 export interface OperationDisplay {
-    readonly description?: string;
-    readonly operation?: string;
-    readonly provider?: string;
-    readonly resource?: string;
+    operation?: string;
+    provider?: string;
+    resource?: string;
 }
 
 // @public
 export interface OperationListResult {
-    readonly nextLink?: string;
-    readonly value?: Operation[];
+    nextLink?: string;
+    value?: Operation[];
 }
-
-// @public
-export type Origin = string;
 
 // @public
 export interface Plan {
@@ -825,15 +377,11 @@ export interface Resource {
     readonly id?: string;
     location?: string;
     readonly name?: string;
-    readonly systemData?: SystemData;
     tags?: {
         [propertyName: string]: string;
     };
     readonly type?: string;
 }
-
-// @public
-export type ResourceIdentityType = "SystemAssigned" | "UserAssigned" | "SystemAssigned, UserAssigned" | "None";
 
 // @public
 export interface Sku {
@@ -843,36 +391,6 @@ export interface Sku {
     name: string;
     size?: string;
     tier?: string;
-}
-
-// @public
-export type Status = string;
-
-// @public
-export type Substatus = string;
-
-// @public
-export interface SystemData {
-    createdAt?: Date;
-    createdBy?: string;
-    createdByType?: CreatedByType;
-    lastModifiedAt?: Date;
-    lastModifiedBy?: string;
-    lastModifiedByType?: CreatedByType;
-}
-
-// @public
-export interface UpdateAccessDefinition {
-    approver?: string;
-    metadata: JitRequestMetadata;
-    status: Status;
-    subStatus: Substatus;
-}
-
-// @public
-export interface UserAssignedResourceIdentity {
-    readonly principalId?: string;
-    readonly tenantId?: string;
 }
 
 // (No @packageDocumentation comment for this package)
