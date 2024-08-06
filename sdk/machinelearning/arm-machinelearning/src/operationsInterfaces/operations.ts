@@ -7,16 +7,16 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { AmlOperation, OperationsListOptionalParams } from "../models";
+import { Operation, OperationsListOptionalParams } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Operations. */
 export interface Operations {
   /**
-   * Lists all of the available Azure Machine Learning Workspaces REST API operations.
+   * Lists all of the available Azure Machine Learning Workspaces REST API operations
    * @param options The options parameters.
    */
   list(
     options?: OperationsListOptionalParams,
-  ): PagedAsyncIterableIterator<AmlOperation>;
+  ): PagedAsyncIterableIterator<Operation>;
 }
