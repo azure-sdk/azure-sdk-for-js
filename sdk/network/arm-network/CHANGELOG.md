@@ -1,15 +1,38 @@
 # Release History
-
-## 33.3.1 (Unreleased)
-
+    
+## 33.4.0 (2024-08-06)
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface ApplicationGatewayForContainersReferenceDefinition
+  - Added Interface AzureFirewallAutoscaleConfiguration
+  - Added Interface ExceptionEntry
+  - Added Type Alias ApplicationGatewayWafRuleSensitivityTypes
+  - Added Type Alias ExceptionEntryMatchVariable
+  - Added Type Alias ExceptionEntrySelectorMatchOperator
+  - Added Type Alias ExceptionEntryValueMatchOperator
+  - Added Type Alias PrivateEndpointVNetPolicies
+  - Added Type Alias ResiliencyModel
+  - Added Type Alias SensitivityType
+  - Interface ApplicationGatewayFirewallRule has a new optional parameter sensitivity
+  - Interface AzureFirewall has a new optional parameter autoscaleConfiguration
+  - Interface FlowLog has a new optional parameter enabledFilteringCriteria
+  - Interface FlowLogInformation has a new optional parameter enabledFilteringCriteria
+  - Interface ManagedRuleOverride has a new optional parameter sensitivity
+  - Interface ManagedRulesDefinition has a new optional parameter exceptions
+  - Interface PrivateLinkService has a new optional parameter destinationIPAddress
+  - Interface VirtualNetwork has a new optional parameter privateEndpointVNetPolicies
+  - Interface VirtualNetworkGateway has a new optional parameter resiliencyModel
+  - Interface WebApplicationFirewallPolicy has a new optional parameter applicationGatewayForContainers
+  - Added Enum KnownApplicationGatewayWafRuleSensitivityTypes
+  - Added Enum KnownExceptionEntryMatchVariable
+  - Added Enum KnownExceptionEntrySelectorMatchOperator
+  - Added Enum KnownExceptionEntryValueMatchOperator
+  - Added Enum KnownPrivateEndpointVNetPolicies
+  - Added Enum KnownResiliencyModel
+  - Added Enum KnownSensitivityType
+    
+    
 ## 33.3.0 (2024-07-17)
     
 ### Features Added
