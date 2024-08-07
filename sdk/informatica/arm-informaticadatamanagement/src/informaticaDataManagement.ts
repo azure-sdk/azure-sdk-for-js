@@ -58,7 +58,7 @@ export class InformaticaDataManagement extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-informaticadatamanagement/1.0.1`;
+    const packageDetails = `azsdk-js-arm-informaticadatamanagement/1.1.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -112,7 +112,7 @@ export class InformaticaDataManagement extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-05-08";
+    this.apiVersion = options.apiVersion || "2024-07-22";
     this.operations = new OperationsImpl(this);
     this.organizations = new OrganizationsImpl(this);
     this.serverlessRuntimes = new ServerlessRuntimesImpl(this);
