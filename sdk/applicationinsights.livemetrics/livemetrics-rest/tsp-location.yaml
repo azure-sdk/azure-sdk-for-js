@@ -1,0 +1,5 @@
+additionalDirectories: []
+repo: test-repo-billy/azure-rest-api-specs
+commit: b03a406fdaf21a088427ec367fe53e858b814bbe
+directory: specification/applicationinsights/ApplicationInsights.LiveMetrics
+
