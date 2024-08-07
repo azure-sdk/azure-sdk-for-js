@@ -4,35 +4,10 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { ClientOptions } from '@azure-rest/core-client';
 import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
-
-// @public (undocumented)
-export class AppComplianceAutomationClient {
-    constructor(credential: TokenCredential, options?: AppComplianceAutomationClientOptions);
-    readonly evidence: EvidenceOperations;
-    readonly operations: OperationsOperations;
-    readonly pipeline: Pipeline;
-    readonly providerActions: ProviderActionsOperations;
-    readonly report: ReportOperations;
-    readonly scopingConfiguration: ScopingConfigurationOperations;
-    readonly snapshot: SnapshotOperations;
-    readonly webhook: WebhookOperations;
-}
-
-// @public
-export interface AppComplianceAutomationClientOptions extends ClientOptions {
-    apiVersion?: string;
-}
 
 // @public
 export interface Category {
@@ -221,15 +196,6 @@ export interface EvidenceListByReportResourceOptionalParams extends OperationOpt
     select?: string;
     skipToken?: string;
     top?: number;
-}
-
-// @public
-export interface EvidenceOperations {
-    createOrUpdate: (reportName: string, evidenceName: string, parameters: EvidenceResource, options?: EvidenceCreateOrUpdateOptionalParams) => Promise<EvidenceResource>;
-    delete: (reportName: string, evidenceName: string, options?: EvidenceDeleteOptionalParams) => Promise<void>;
-    download: (reportName: string, evidenceName: string, body: EvidenceFileDownloadRequest, options?: EvidenceDownloadOptionalParams) => Promise<EvidenceFileDownloadResponse>;
-    get: (reportName: string, evidenceName: string, options?: EvidenceGetOptionalParams) => Promise<EvidenceResource>;
-    listByReportResource: (reportName: string, options?: EvidenceListByReportResourceOptionalParams) => PagedAsyncIterableIterator<EvidenceResource>;
 }
 
 // @public
@@ -552,11 +518,6 @@ export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface OperationsOperations {
-    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
-}
-
-// @public
 export type Origin = string;
 
 // @public
@@ -599,16 +560,6 @@ export interface ProviderActionsListInUseStorageAccountsOptionalParams extends O
 // @public
 export interface ProviderActionsOnboardOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
-}
-
-// @public
-export interface ProviderActionsOperations {
-    checkNameAvailability: (body: CheckNameAvailabilityRequest, options?: ProviderActionsCheckNameAvailabilityOptionalParams) => Promise<CheckNameAvailabilityResponse>;
-    getCollectionCount: (body: GetCollectionCountRequest, options?: ProviderActionsGetCollectionCountOptionalParams) => Promise<GetCollectionCountResponse>;
-    getOverviewStatus: (body: GetOverviewStatusRequest, options?: ProviderActionsGetOverviewStatusOptionalParams) => Promise<GetOverviewStatusResponse>;
-    listInUseStorageAccounts: (body: ListInUseStorageAccountsRequest, options?: ProviderActionsListInUseStorageAccountsOptionalParams) => Promise<ListInUseStorageAccountsResponse>;
-    onboard: (body: OnboardRequest, options?: ProviderActionsOnboardOptionalParams) => PollerLike<OperationState<void>, void>;
-    triggerEvaluation: (body: TriggerEvaluationRequest, options?: ProviderActionsTriggerEvaluationOptionalParams) => PollerLike<OperationState<void>, void>;
 }
 
 // @public
@@ -695,20 +646,6 @@ export interface ReportListByTenantOptionalParams extends OperationOptions {
     select?: string;
     skipToken?: string;
     top?: number;
-}
-
-// @public
-export interface ReportOperations {
-    checkNameAvailability: (reportName: string, body: CheckNameAvailabilityRequest, options?: ReportCheckNameAvailabilityOptionalParams) => Promise<CheckNameAvailabilityResponse>;
-    createOrUpdate: (reportName: string, parameters: ReportResource, options?: ReportCreateOrUpdateOptionalParams) => PollerLike<OperationState<ReportResource>, ReportResource>;
-    delete: (reportName: string, options?: ReportDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    fix: (reportName: string, options?: ReportFixOptionalParams) => PollerLike<OperationState<ReportFixResult>, ReportFixResult>;
-    get: (reportName: string, options?: ReportGetOptionalParams) => Promise<ReportResource>;
-    getScopingQuestions: (reportName: string, options?: ReportGetScopingQuestionsOptionalParams) => Promise<ScopingQuestions>;
-    listByTenant: (options?: ReportListByTenantOptionalParams) => PagedAsyncIterableIterator<ReportResource>;
-    syncCertRecord: (reportName: string, body: SyncCertRecordRequest, options?: ReportSyncCertRecordOptionalParams) => PollerLike<OperationState<SyncCertRecordResponse>, SyncCertRecordResponse>;
-    update: (reportName: string, properties: ReportResourcePatch, options?: ReportUpdateOptionalParams) => PollerLike<OperationState<ReportResource>, ReportResource>;
-    verify: (reportName: string, options?: ReportVerifyOptionalParams) => PollerLike<OperationState<ReportVerificationResult>, ReportVerificationResult>;
 }
 
 // @public
@@ -854,16 +791,6 @@ export type ResponsibilityStatus = string;
 export type ResponsibilityType = string;
 
 // @public
-export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: AppComplianceAutomationClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
-
-// @public (undocumented)
-export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
-    abortSignal?: AbortSignalLike;
-    processResponseBody?: (result: TResponse) => Promise<TResult>;
-    updateIntervalInMs?: number;
-}
-
-// @public
 export type Result = string;
 
 // @public
@@ -889,14 +816,6 @@ export interface ScopingConfigurationGetOptionalParams extends OperationOptions 
 
 // @public
 export interface ScopingConfigurationListByReportResourceOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ScopingConfigurationOperations {
-    createOrUpdate: (reportName: string, scopingConfigurationName: string, parameters: ScopingConfigurationResource, options?: ScopingConfigurationCreateOrUpdateOptionalParams) => Promise<ScopingConfigurationResource>;
-    delete: (reportName: string, scopingConfigurationName: string, options?: ScopingConfigurationDeleteOptionalParams) => Promise<void>;
-    get: (reportName: string, scopingConfigurationName: string, options?: ScopingConfigurationGetOptionalParams) => Promise<ScopingConfigurationResource>;
-    listByReportResource: (reportName: string, options?: ScopingConfigurationListByReportResourceOptionalParams) => PagedAsyncIterableIterator<ScopingConfigurationResource>;
 }
 
 // @public
@@ -953,13 +872,6 @@ export interface SnapshotListByReportResourceOptionalParams extends OperationOpt
     select?: string;
     skipToken?: string;
     top?: number;
-}
-
-// @public
-export interface SnapshotOperations {
-    download: (reportName: string, snapshotName: string, body: SnapshotDownloadRequest, options?: SnapshotDownloadOptionalParams) => PollerLike<OperationState<DownloadResponse>, DownloadResponse>;
-    get: (reportName: string, snapshotName: string, options?: SnapshotGetOptionalParams) => Promise<SnapshotResource>;
-    listByReportResource: (reportName: string, options?: SnapshotListByReportResourceOptionalParams) => PagedAsyncIterableIterator<SnapshotResource>;
 }
 
 // @public
@@ -1059,15 +971,6 @@ export interface WebhookListByReportResourceOptionalParams extends OperationOpti
     select?: string;
     skipToken?: string;
     top?: number;
-}
-
-// @public
-export interface WebhookOperations {
-    createOrUpdate: (reportName: string, webhookName: string, parameters: WebhookResource, options?: WebhookCreateOrUpdateOptionalParams) => Promise<WebhookResource>;
-    delete: (reportName: string, webhookName: string, options?: WebhookDeleteOptionalParams) => Promise<void>;
-    get: (reportName: string, webhookName: string, options?: WebhookGetOptionalParams) => Promise<WebhookResource>;
-    listByReportResource: (reportName: string, options?: WebhookListByReportResourceOptionalParams) => PagedAsyncIterableIterator<WebhookResource>;
-    update: (reportName: string, webhookName: string, properties: WebhookResourcePatch, options?: WebhookUpdateOptionalParams) => Promise<WebhookResource>;
 }
 
 // @public
