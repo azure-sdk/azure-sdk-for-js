@@ -26,7 +26,7 @@ export interface AccessoryItemOutput {
 }
 
 // @public
-export type AccessoryTypeOutput = string | "headwear" | "glasses" | "mask";
+export type AccessoryTypeOutput = string;
 
 // @public
 export interface AddFaceListFace200Response extends HttpResponse {
@@ -598,7 +598,7 @@ export interface AuditRequestInfoOutput {
 }
 
 // @public
-export type BlurLevelOutput = string | "low" | "medium" | "high";
+export type BlurLevelOutput = string;
 
 // @public
 export interface BlurPropertiesOutput {
@@ -607,7 +607,7 @@ export interface BlurPropertiesOutput {
 }
 
 // @public
-function createClient(endpointParam: string, credentials: TokenCredential | KeyCredential, options?: FaceClientOptions): FaceClient;
+function createClient(endpointParam: string, credentials: TokenCredential | KeyCredential, { apiVersion, ...options }?: FaceClientOptions): FaceClient;
 export default createClient;
 
 // @public
@@ -871,7 +871,7 @@ export type CreateLargePersonGroupPersonParameters = CreateLargePersonGroupPerso
 // @public (undocumented)
 export interface CreateLivenessSession {
     get(options?: GetLivenessSessionsParameters): StreamableMethod<GetLivenessSessions200Response | GetLivenessSessionsDefaultResponse>;
-    post(options?: CreateLivenessSessionParameters): StreamableMethod<CreateLivenessSession200Response | CreateLivenessSessionDefaultResponse>;
+    post(options: CreateLivenessSessionParameters): StreamableMethod<CreateLivenessSession200Response | CreateLivenessSessionDefaultResponse>;
 }
 
 // @public
@@ -884,8 +884,7 @@ export interface CreateLivenessSession200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface CreateLivenessSessionBodyParam {
-    // (undocumented)
-    body?: CreateLivenessSessionContent;
+    body: CreateLivenessSessionContent;
 }
 
 // @public
@@ -893,7 +892,9 @@ export interface CreateLivenessSessionContent {
     authTokenTimeToLiveInSeconds?: number;
     deviceCorrelationId?: string;
     deviceCorrelationIdSetInClient?: boolean;
+    enableSessionImage?: boolean;
     livenessOperationMode: LivenessOperationMode;
+    livenessSingleModalModel?: LivenessModel;
     sendResultsToClient?: boolean;
 }
 
@@ -931,31 +932,7 @@ export interface CreateLivenessWithVerifySession200Response extends HttpResponse
 
 // @public (undocumented)
 export interface CreateLivenessWithVerifySessionBodyParam {
-    // (undocumented)
-    body?: CreateLivenessSessionContent;
-}
-
-// @public
-export type CreateLivenessWithVerifySessionContent = FormData | Array<CreateLivenessWithVerifySessionContentParametersPartDescriptor | CreateLivenessWithVerifySessionContentVerifyImagePartDescriptor>;
-
-// @public (undocumented)
-export interface CreateLivenessWithVerifySessionContentParametersPartDescriptor {
-    // (undocumented)
-    body: CreateLivenessSessionContent;
-    // (undocumented)
-    name: "Parameters";
-}
-
-// @public (undocumented)
-export interface CreateLivenessWithVerifySessionContentVerifyImagePartDescriptor {
-    // (undocumented)
-    body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream | File;
-    // (undocumented)
-    contentType?: string;
-    // (undocumented)
-    filename?: string;
-    // (undocumented)
-    name: "VerifyImage";
+    body: CreateLivenessWithVerifySessionJsonContent;
 }
 
 // @public (undocumented)
@@ -973,6 +950,42 @@ export interface CreateLivenessWithVerifySessionDefaultResponse extends HttpResp
     status: string;
 }
 
+// @public
+export interface CreateLivenessWithVerifySessionJsonContent {
+    authTokenTimeToLiveInSeconds?: number;
+    deviceCorrelationId?: string;
+    deviceCorrelationIdSetInClient?: boolean;
+    enableSessionImage?: boolean;
+    livenessOperationMode: LivenessOperationMode;
+    livenessSingleModalModel?: LivenessModel;
+    returnVerifyImageHash?: boolean;
+    sendResultsToClient?: boolean;
+    verifyConfidenceThreshold?: number;
+}
+
+// @public
+export type CreateLivenessWithVerifySessionMultipartContent = FormData | Array<CreateLivenessWithVerifySessionMultipartContentParametersPartDescriptor | CreateLivenessWithVerifySessionMultipartContentVerifyImagePartDescriptor>;
+
+// @public (undocumented)
+export interface CreateLivenessWithVerifySessionMultipartContentParametersPartDescriptor {
+    // (undocumented)
+    body: CreateLivenessWithVerifySessionJsonContent;
+    // (undocumented)
+    name: "Parameters";
+}
+
+// @public (undocumented)
+export interface CreateLivenessWithVerifySessionMultipartContentVerifyImagePartDescriptor {
+    // (undocumented)
+    body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream | File;
+    // (undocumented)
+    contentType?: string;
+    // (undocumented)
+    filename?: string;
+    // (undocumented)
+    name: "VerifyImage";
+}
+
 // @public (undocumented)
 export type CreateLivenessWithVerifySessionParameters = CreateLivenessWithVerifySessionBodyParam & RequestParameters;
 
@@ -987,7 +1000,7 @@ export interface CreateLivenessWithVerifySessionResultOutput {
 export interface CreateLivenessWithVerifySessionWithVerifyImage {
     get(options?: GetLivenessWithVerifySessionsParameters): StreamableMethod<GetLivenessWithVerifySessions200Response | GetLivenessWithVerifySessionsDefaultResponse>;
     post(options: CreateLivenessWithVerifySessionWithVerifyImageParameters): StreamableMethod<CreateLivenessWithVerifySessionWithVerifyImage200Response | CreateLivenessWithVerifySessionWithVerifyImageDefaultResponse>;
-    post(options?: CreateLivenessWithVerifySessionParameters): StreamableMethod<CreateLivenessWithVerifySession200Response | CreateLivenessWithVerifySessionDefaultResponse>;
+    post(options: CreateLivenessWithVerifySessionParameters): StreamableMethod<CreateLivenessWithVerifySession200Response | CreateLivenessWithVerifySessionDefaultResponse>;
 }
 
 // @public
@@ -1000,8 +1013,7 @@ export interface CreateLivenessWithVerifySessionWithVerifyImage200Response exten
 
 // @public (undocumented)
 export interface CreateLivenessWithVerifySessionWithVerifyImageBodyParam {
-    // (undocumented)
-    body?: CreateLivenessWithVerifySessionContent;
+    body: CreateLivenessWithVerifySessionMultipartContent;
 }
 
 // @public (undocumented)
@@ -1670,10 +1682,67 @@ export interface DetectDefaultResponse extends HttpResponse {
     status: string;
 }
 
+// @public
+export interface DetectFromSessionImageId200Response extends HttpResponse {
+    // (undocumented)
+    body: Array<FaceDetectionResultOutput>;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface DetectFromSessionImageIdBodyParam {
+    // (undocumented)
+    body?: {
+        sessionImageId: string;
+    };
+}
+
+// @public (undocumented)
+export interface DetectFromSessionImageIdDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface DetectFromSessionImageIdDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: FaceErrorResponseOutput;
+    // (undocumented)
+    headers: RawHttpHeaders & DetectFromSessionImageIdDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface DetectFromSessionImageIdMediaTypesParam {
+    contentType: "application/json";
+}
+
+// @public (undocumented)
+export type DetectFromSessionImageIdParameters = DetectFromSessionImageIdQueryParam & DetectFromSessionImageIdMediaTypesParam & DetectFromSessionImageIdBodyParam & RequestParameters;
+
+// @public (undocumented)
+export interface DetectFromSessionImageIdQueryParam {
+    // (undocumented)
+    queryParameters?: DetectFromSessionImageIdQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface DetectFromSessionImageIdQueryParamProperties {
+    detectionModel?: DetectionModel;
+    faceIdTimeToLive?: number;
+    recognitionModel?: RecognitionModel;
+    returnFaceAttributes?: FaceAttributeType[];
+    returnFaceId?: boolean;
+    returnFaceLandmarks?: boolean;
+    returnRecognitionModel?: boolean;
+}
+
 // @public (undocumented)
 export interface DetectFromUrl {
     post(options: DetectFromUrlParameters): StreamableMethod<DetectFromUrl200Response | DetectFromUrlDefaultResponse>;
     post(options: DetectParameters): StreamableMethod<Detect200Response | DetectDefaultResponse>;
+    post(options: DetectFromSessionImageIdParameters): StreamableMethod<DetectFromSessionImageId200Response | DetectFromSessionImageIdDefaultResponse>;
 }
 
 // @public
@@ -1733,7 +1802,7 @@ export interface DetectFromUrlQueryParamProperties {
 }
 
 // @public
-export type DetectionModel = string | "detection_01" | "detection_02" | "detection_03";
+export type DetectionModel = string;
 
 // @public (undocumented)
 export interface DetectMediaTypesParam {
@@ -1768,7 +1837,7 @@ export interface DynamicPersonGroupOutput {
 }
 
 // @public
-export type ExposureLevelOutput = string | "underExposure" | "goodExposure" | "overExposure";
+export type ExposureLevelOutput = string;
 
 // @public
 export interface ExposurePropertiesOutput {
@@ -1794,16 +1863,15 @@ export interface FaceAttributesOutput {
 }
 
 // @public
-export type FaceAttributeType = string | "headPose" | "glasses" | "occlusion" | "accessories" | "blur" | "exposure" | "noise" | "mask" | "qualityForRecognition" | "age" | "smile" | "facialHair" | "hair";
+export type FaceAttributeType = string;
 
 // @public (undocumented)
 export type FaceClient = Client & {
     path: Routes;
 };
 
-// @public (undocumented)
+// @public
 export interface FaceClientOptions extends ClientOptions {
-    // (undocumented)
     apiVersion?: Versions;
 }
 
@@ -1890,7 +1958,7 @@ export interface FaceRectangleOutput {
 }
 
 // @public
-export type FaceSessionStatusOutput = string | "NotStarted" | "Started" | "ResultAvailable";
+export type FaceSessionStatusOutput = string;
 
 // @public
 export interface FacialHairOutput {
@@ -2015,7 +2083,7 @@ export interface FindSimilarFromLargeFaceListDefaultResponse extends HttpRespons
 export type FindSimilarFromLargeFaceListParameters = FindSimilarFromLargeFaceListBodyParam & RequestParameters;
 
 // @public
-export type FindSimilarMatchMode = string | "matchPerson" | "matchFace";
+export type FindSimilarMatchMode = string;
 
 // @public (undocumented)
 export type FindSimilarParameters = FindSimilarBodyParam & RequestParameters;
@@ -2857,12 +2925,6 @@ export interface GetLivenessWithVerifySessionsQueryParamProperties {
 export function getLongRunningPoller<TResult extends TrainLargeFaceListLogicalResponse | TrainLargeFaceListDefaultResponse>(client: Client, initialResponse: TrainLargeFaceList202Response | TrainLargeFaceListDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 
 // @public (undocumented)
-export function getLongRunningPoller<TResult extends TrainPersonGroupLogicalResponse | TrainPersonGroupDefaultResponse>(client: Client, initialResponse: TrainPersonGroup202Response | TrainPersonGroupDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
-
-// @public (undocumented)
-export function getLongRunningPoller<TResult extends TrainLargePersonGroupLogicalResponse | TrainLargePersonGroupDefaultResponse>(client: Client, initialResponse: TrainLargePersonGroup202Response | TrainLargePersonGroupDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
-
-// @public (undocumented)
 export function getLongRunningPoller<TResult extends CreatePersonLogicalResponse | CreatePersonDefaultResponse>(client: Client, initialResponse: CreatePerson202Response | CreatePersonDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 
 // @public (undocumented)
@@ -2882,6 +2944,12 @@ export function getLongRunningPoller<TResult extends DeleteDynamicPersonGroupLog
 
 // @public (undocumented)
 export function getLongRunningPoller<TResult extends UpdateDynamicPersonGroupWithPersonChangesLogicalResponse | UpdateDynamicPersonGroupWithPersonChangesDefaultResponse>(client: Client, initialResponse: UpdateDynamicPersonGroupWithPersonChanges202Response | UpdateDynamicPersonGroupWithPersonChangesDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
+
+// @public (undocumented)
+export function getLongRunningPoller<TResult extends TrainPersonGroupLogicalResponse | TrainPersonGroupDefaultResponse>(client: Client, initialResponse: TrainPersonGroup202Response | TrainPersonGroupDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
+
+// @public (undocumented)
+export function getLongRunningPoller<TResult extends TrainLargePersonGroupLogicalResponse | TrainLargePersonGroupDefaultResponse>(client: Client, initialResponse: TrainLargePersonGroup202Response | TrainLargePersonGroupDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 
 // @public (undocumented)
 export interface GetOperationResult {
@@ -3232,8 +3300,45 @@ export interface GetPersonsQueryParamProperties {
     top?: number;
 }
 
+// @public (undocumented)
+export interface GetSessionImage {
+    get(options?: GetSessionImageParameters): StreamableMethod<GetSessionImage200Response | GetSessionImageDefaultResponse>;
+}
+
+// @public (undocumented)
+export interface GetSessionImage200Headers {
+    "content-type": "application/octet-stream";
+}
+
 // @public
-export type GlassesTypeOutput = string | "noGlasses" | "readingGlasses" | "sunglasses" | "swimmingGoggles";
+export interface GetSessionImage200Response extends HttpResponse {
+    body: Uint8Array;
+    // (undocumented)
+    headers: RawHttpHeaders & GetSessionImage200Headers;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface GetSessionImageDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface GetSessionImageDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: FaceErrorResponseOutput;
+    // (undocumented)
+    headers: RawHttpHeaders & GetSessionImageDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type GetSessionImageParameters = RequestParameters;
+
+// @public
+export type GlassesTypeOutput = string;
 
 // @public (undocumented)
 export interface Group {
@@ -3287,7 +3392,7 @@ export interface HairColorOutput {
 }
 
 // @public
-export type HairColorTypeOutput = string | "unknown" | "white" | "gray" | "blond" | "brown" | "red" | "black" | "other";
+export type HairColorTypeOutput = string;
 
 // @public
 export interface HairPropertiesOutput {
@@ -3472,7 +3577,7 @@ export interface IdentifyFromPersonGroupDefaultResponse extends HttpResponse {
 export type IdentifyFromPersonGroupParameters = IdentifyFromPersonGroupBodyParam & RequestParameters;
 
 // @public
-export type ImageTypeOutput = string | "Color" | "Infrared" | "Depth";
+export type ImageTypeOutput = string;
 
 // @public (undocumented)
 export function isUnexpected(response: GetOperationResult200Response | GetOperationResultDefaultResponse): response is GetOperationResultDefaultResponse;
@@ -3482,6 +3587,9 @@ export function isUnexpected(response: DetectFromUrl200Response | DetectFromUrlD
 
 // @public (undocumented)
 export function isUnexpected(response: Detect200Response | DetectDefaultResponse): response is DetectDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: DetectFromSessionImageId200Response | DetectFromSessionImageIdDefaultResponse): response is DetectFromSessionImageIdDefaultResponse;
 
 // @public (undocumented)
 export function isUnexpected(response: FindSimilar200Response | FindSimilarDefaultResponse): response is FindSimilarDefaultResponse;
@@ -3551,6 +3659,9 @@ export function isUnexpected(response: GetLivenessWithVerifySessionResult200Resp
 
 // @public (undocumented)
 export function isUnexpected(response: GetLivenessWithVerifySessionAuditEntries200Response | GetLivenessWithVerifySessionAuditEntriesDefaultResponse): response is GetLivenessWithVerifySessionAuditEntriesDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GetSessionImage200Response | GetSessionImageDefaultResponse): response is GetSessionImageDefaultResponse;
 
 // @public (undocumented)
 export function isUnexpected(response: CreateFaceList200Response | CreateFaceListDefaultResponse): response is CreateFaceListDefaultResponse;
@@ -3836,13 +3947,16 @@ export interface ListPersonResultOutput {
 }
 
 // @public
-export type LivenessDecisionOutput = string | "uncertain" | "realface" | "spoofface";
+export type LivenessDecisionOutput = string;
 
 // @public
-export type LivenessModelOutput = string | "2020-02-15-preview.01" | "2021-11-12-preview.03" | "2022-10-15-preview.04" | "2023-03-02-preview.05";
+export type LivenessModel = string;
 
 // @public
-export type LivenessOperationMode = string | "Passive" | "PassiveActive";
+export type LivenessModelOutput = string;
+
+// @public
+export type LivenessOperationMode = string;
 
 // @public
 export interface LivenessOutputsTargetOutput {
@@ -3870,6 +3984,8 @@ export interface LivenessSessionAuditEntryOutput {
     requestId: string;
     response: AuditLivenessResponseInfoOutput;
     sessionId: string;
+    sessionImageId?: string;
+    verifyImageHash?: string;
 }
 
 // @public
@@ -3926,10 +4042,10 @@ export interface MaskPropertiesOutput {
 }
 
 // @public
-export type MaskTypeOutput = string | "faceMask" | "noMask" | "otherMaskOrOcclusion" | "uncertain";
+export type MaskTypeOutput = string;
 
 // @public
-export type NoiseLevelOutput = string | "low" | "medium" | "high";
+export type NoiseLevelOutput = string;
 
 // @public
 export interface NoisePropertiesOutput {
@@ -3955,7 +4071,7 @@ export interface OperationResultOutput {
 }
 
 // @public
-export type OperationStatusOutput = string | "notStarted" | "running" | "succeeded" | "failed";
+export type OperationStatusOutput = string;
 
 // @public
 export interface PersonDirectoryFaceOutput {
@@ -3993,13 +4109,13 @@ export interface PersonGroupPersonOutput {
 }
 
 // @public
-export type QualityForRecognitionOutput = string | "low" | "medium" | "high";
+export type QualityForRecognitionOutput = string;
 
 // @public
-export type RecognitionModel = string | "recognition_01" | "recognition_02" | "recognition_03" | "recognition_04";
+export type RecognitionModel = string;
 
 // @public
-export type RecognitionModelOutput = string | "recognition_01" | "recognition_02" | "recognition_03" | "recognition_04";
+export type RecognitionModelOutput = string;
 
 // @public (undocumented)
 export interface Routes {
@@ -4015,6 +4131,7 @@ export interface Routes {
     (path: "/detectLivenessWithVerify/singleModal/sessions"): CreateLivenessWithVerifySessionWithVerifyImage;
     (path: "/detectLivenessWithVerify/singleModal/sessions/{sessionId}", sessionId: string): DeleteLivenessWithVerifySession;
     (path: "/detectLivenessWithVerify/singleModal/sessions/{sessionId}/audit", sessionId: string): GetLivenessWithVerifySessionAuditEntries;
+    (path: "/session/sessionImages/{sessionImageId}", sessionImageId: string): GetSessionImage;
     (path: "/facelists/{faceListId}", faceListId: string): CreateFaceList;
     (path: "/facelists"): GetFaceLists;
     (path: "/facelists/{faceListId}/persistedfaces", faceListId: string): AddFaceListFaceFromUrl;
@@ -4056,6 +4173,7 @@ export interface SimplePollerLike<TState extends OperationState<TResult>, TResul
     getOperationState(): TState;
     getResult(): TResult | undefined;
     isDone(): boolean;
+    // @deprecated
     isStopped(): boolean;
     onProgress(callback: (state: TState) => void): CancelOnProgress;
     poll(options?: {
@@ -4808,7 +4926,7 @@ export interface VerifyFromPersonGroupDefaultResponse extends HttpResponse {
 export type VerifyFromPersonGroupParameters = VerifyFromPersonGroupBodyParam & RequestParameters;
 
 // @public
-export type Versions = "v1.1-preview.1";
+export type Versions = "v1.1-preview.1" | "v1.2-preview.1";
 
 // (No @packageDocumentation comment for this package)
 
