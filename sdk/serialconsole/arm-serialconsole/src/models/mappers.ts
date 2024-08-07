@@ -20,13 +20,13 @@ export const SerialConsoleOperations: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "SerialConsoleOperationsValueItem"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "SerialConsoleOperationsValueItem",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const SerialConsoleOperationsValueItem: coreClient.CompositeMapper = {
@@ -37,57 +37,113 @@ export const SerialConsoleOperationsValueItem: coreClient.CompositeMapper = {
       name: {
         serializedName: "name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       isDataAction: {
         serializedName: "isDataAction",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       display: {
         serializedName: "display",
         type: {
           name: "Composite",
-          className: "SerialConsoleOperationsValueItemDisplay"
-        }
-      }
-    }
-  }
+          className: "SerialConsoleOperationsValueItemDisplay",
+        },
+      },
+    },
+  },
 };
 
-export const SerialConsoleOperationsValueItemDisplay: coreClient.CompositeMapper = {
+export const SerialConsoleOperationsValueItemDisplay: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "SerialConsoleOperationsValueItemDisplay",
+      modelProperties: {
+        provider: {
+          serializedName: "provider",
+          type: {
+            name: "String",
+          },
+        },
+        resource: {
+          serializedName: "resource",
+          type: {
+            name: "String",
+          },
+        },
+        operation: {
+          serializedName: "operation",
+          type: {
+            name: "String",
+          },
+        },
+        description: {
+          serializedName: "description",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const CloudError: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "SerialConsoleOperationsValueItemDisplay",
+    className: "CloudError",
     modelProperties: {
-      provider: {
-        serializedName: "provider",
+      error: {
+        serializedName: "error",
         type: {
-          name: "String"
-        }
+          name: "Composite",
+          className: "CloudErrorBody",
+        },
       },
-      resource: {
-        serializedName: "resource",
+    },
+  },
+};
+
+export const CloudErrorBody: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CloudErrorBody",
+    modelProperties: {
+      code: {
+        serializedName: "code",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
-      operation: {
-        serializedName: "operation",
+      message: {
+        serializedName: "message",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
-      description: {
-        serializedName: "description",
+      target: {
+        serializedName: "target",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+      details: {
+        serializedName: "details",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CloudErrorBody",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const SerialConsoleStatus: coreClient.CompositeMapper = {
@@ -95,65 +151,115 @@ export const SerialConsoleStatus: coreClient.CompositeMapper = {
     name: "Composite",
     className: "SerialConsoleStatus",
     modelProperties: {
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "SerialConsoleStatusProperties",
+        },
+      },
+    },
+  },
+};
+
+export const SerialConsoleStatusProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SerialConsoleStatusProperties",
+    modelProperties: {
       disabled: {
         serializedName: "disabled",
         type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
+          name: "Boolean",
+        },
+      },
+    },
+  },
 };
 
-export const GetSerialConsoleSubscriptionNotFound: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "GetSerialConsoleSubscriptionNotFound",
-    modelProperties: {
-      code: {
-        serializedName: "code",
-        type: {
-          name: "String"
-        }
+export const GetSerialConsoleSubscriptionNotFound: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "GetSerialConsoleSubscriptionNotFound",
+      modelProperties: {
+        code: {
+          serializedName: "code",
+          type: {
+            name: "String",
+          },
+        },
+        message: {
+          serializedName: "message",
+          type: {
+            name: "String",
+          },
+        },
       },
-      message: {
-        serializedName: "message",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
 export const DisableSerialConsoleResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DisableSerialConsoleResult",
     modelProperties: {
-      disabled: {
-        serializedName: "disabled",
+      properties: {
+        serializedName: "properties",
         type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
+          name: "Composite",
+          className: "DisableSerialConsoleResultProperties",
+        },
+      },
+    },
+  },
 };
+
+export const DisableSerialConsoleResultProperties: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "DisableSerialConsoleResultProperties",
+      modelProperties: {
+        disabled: {
+          serializedName: "disabled",
+          type: {
+            name: "Boolean",
+          },
+        },
+      },
+    },
+  };
 
 export const EnableSerialConsoleResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "EnableSerialConsoleResult",
     modelProperties: {
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "EnableSerialConsoleResultProperties",
+        },
+      },
+    },
+  },
+};
+
+export const EnableSerialConsoleResultProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EnableSerialConsoleResultProperties",
+    modelProperties: {
       disabled: {
         serializedName: "disabled",
         type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
+          name: "Boolean",
+        },
+      },
+    },
+  },
 };
 
 export const SerialPortListResult: coreClient.CompositeMapper = {
@@ -168,13 +274,13 @@ export const SerialPortListResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "SerialPort"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "SerialPort",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const Resource: coreClient.CompositeMapper = {
@@ -186,80 +292,77 @@ export const Resource: coreClient.CompositeMapper = {
         serializedName: "id",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       type: {
         serializedName: "type",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const CloudError: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CloudError",
-    modelProperties: {
-      error: {
-        serializedName: "error",
+          name: "String",
+        },
+      },
+      systemData: {
+        serializedName: "systemData",
         type: {
           name: "Composite",
-          className: "CloudErrorBody"
-        }
-      }
-    }
-  }
+          className: "SystemData",
+        },
+      },
+    },
+  },
 };
 
-export const CloudErrorBody: coreClient.CompositeMapper = {
+export const SystemData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "CloudErrorBody",
+    className: "SystemData",
     modelProperties: {
-      code: {
-        serializedName: "code",
+      createdBy: {
+        serializedName: "createdBy",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
-      message: {
-        serializedName: "message",
+      createdByType: {
+        serializedName: "createdByType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
-      target: {
-        serializedName: "target",
+      createdAt: {
+        serializedName: "createdAt",
         type: {
-          name: "String"
-        }
+          name: "DateTime",
+        },
       },
-      details: {
-        serializedName: "details",
+      lastModifiedBy: {
+        serializedName: "lastModifiedBy",
         type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "CloudErrorBody"
-            }
-          }
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+      lastModifiedByType: {
+        serializedName: "lastModifiedByType",
+        type: {
+          name: "String",
+        },
+      },
+      lastModifiedAt: {
+        serializedName: "lastModifiedAt",
+        type: {
+          name: "DateTime",
+        },
+      },
+    },
+  },
 };
 
 export const SerialPortConnectResult: coreClient.CompositeMapper = {
@@ -270,11 +373,11 @@ export const SerialPortConnectResult: coreClient.CompositeMapper = {
       connectionString: {
         serializedName: "connectionString",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ProxyResource: coreClient.CompositeMapper = {
@@ -282,9 +385,9 @@ export const ProxyResource: coreClient.CompositeMapper = {
     name: "Composite",
     className: "ProxyResource",
     modelProperties: {
-      ...Resource.type.modelProperties
-    }
-  }
+      ...Resource.type.modelProperties,
+    },
+  },
 };
 
 export const SerialPort: coreClient.CompositeMapper = {
@@ -297,9 +400,16 @@ export const SerialPort: coreClient.CompositeMapper = {
         serializedName: "properties.state",
         type: {
           name: "Enum",
-          allowedValues: ["enabled", "disabled"]
-        }
-      }
-    }
-  }
+          allowedValues: ["enabled", "disabled"],
+        },
+      },
+      connectionState: {
+        serializedName: "properties.connectionState",
+        type: {
+          name: "Enum",
+          allowedValues: ["active", "inactive"],
+        },
+      },
+    },
+  },
 };
