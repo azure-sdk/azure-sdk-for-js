@@ -295,7 +295,7 @@ export interface EnvironmentDefinitionParameterOutput {
 /** Properties of an environment type. */
 export interface EnvironmentTypeOutput {
   /** Name of the environment type. */
-  name: string;
+  readonly name: string;
   /**
    * Id of a subscription or management group that the environment type will be
    * mapped to. The environment's resources will be deployed into this subscription
@@ -308,122 +308,55 @@ export interface EnvironmentTypeOutput {
 
 /** Paged collection of Project items */
 export type PagedProjectOutput = Paged<ProjectOutput>;
-/** Enum describing allowed operation states. */
-export type OperationStateOutput = "NotStarted" | "Running" | "Succeeded" | "Failed" | "Canceled";
+/** Alias for OperationStateOutput */
+export type OperationStateOutput = string;
 /** Paged collection of Pool items */
 export type PagedPoolOutput = Paged<PoolOutput>;
 /** Alias for OsTypeOutput */
-export type OsTypeOutput = "Windows" | string;
+export type OsTypeOutput = string;
 /** Alias for SkuNameOutput */
-export type SkuNameOutput =
-  | "general_i_8c32gb256ssd_v2"
-  | "general_i_8c32gb512ssd_v2"
-  | "general_i_8c32gb1024ssd_v2"
-  | "general_i_8c32gb2048ssd_v2"
-  | "general_i_16c64gb256ssd_v2"
-  | "general_i_16c64gb512ssd_v2"
-  | "general_i_16c64gb1024ssd_v2"
-  | "general_i_16c64gb2048ssd_v2"
-  | "general_i_32c128gb512ssd_v2"
-  | "general_i_32c128gb1024ssd_v2"
-  | "general_i_32c128gb2048ssd_v2"
-  | "general_a_8c32gb256ssd_v2"
-  | "general_a_8c32gb512ssd_v2"
-  | "general_a_8c32gb1024ssd_v2"
-  | "general_a_8c32gb2048ssd_v2"
-  | "general_a_16c64gb256ssd_v2"
-  | "general_a_16c64gb512ssd_v2"
-  | "general_a_16c64gb1024ssd_v2"
-  | "general_a_16c64gb2048ssd_v2"
-  | "general_a_32c128gb512ssd_v2"
-  | "general_a_32c128gb1024ssd_v2"
-  | "general_a_32c128gb2048ssd_v2"
-  | string;
+export type SkuNameOutput = string;
 /** Alias for HibernateSupportOutput */
-export type HibernateSupportOutput = "Enabled" | "Disabled" | "OsUnsupported" | string;
+export type HibernateSupportOutput = string;
 /** Alias for LocalAdminStatusOutput */
-export type LocalAdminStatusOutput = "Enabled" | "Disabled" | string;
+export type LocalAdminStatusOutput = string;
 /** Alias for StopOnDisconnectEnableStatusOutput */
-export type StopOnDisconnectEnableStatusOutput = "Enabled" | "Disabled" | string;
+export type StopOnDisconnectEnableStatusOutput = string;
 /** Alias for PoolHealthStatusOutput */
-export type PoolHealthStatusOutput =
-  | "Unknown"
-  | "Pending"
-  | "Healthy"
-  | "Warning"
-  | "Unhealthy"
-  | string;
+export type PoolHealthStatusOutput = string;
 /** Paged collection of DevBox items */
 export type PagedDevBoxOutput = Paged<DevBoxOutput>;
 /** Alias for DevBoxProvisioningStateOutput */
-export type DevBoxProvisioningStateOutput =
-  | "Succeeded"
-  | "Failed"
-  | "Canceled"
-  | "Creating"
-  | "Deleting"
-  | "Updating"
-  | "Starting"
-  | "Stopping"
-  | "Provisioning"
-  | "ProvisionedWithWarning"
-  | "InGracePeriod"
-  | "NotProvisioned"
-  | string;
+export type DevBoxProvisioningStateOutput = string;
 /** Alias for PowerStateOutput */
-export type PowerStateOutput =
-  | "Unknown"
-  | "Running"
-  | "Deallocated"
-  | "PoweredOff"
-  | "Hibernated"
-  | string;
+export type PowerStateOutput = string;
 /** Paged collection of Schedule items */
 export type PagedScheduleOutput = Paged<ScheduleOutput>;
 /** Alias for ScheduledTypeOutput */
-export type ScheduledTypeOutput = "StopDevBox" | string;
+export type ScheduledTypeOutput = string;
 /** Alias for ScheduledFrequencyOutput */
-export type ScheduledFrequencyOutput = "Daily" | string;
+export type ScheduledFrequencyOutput = string;
 /** Paged collection of DevBoxAction items */
 export type PagedDevBoxActionOutput = Paged<DevBoxActionOutput>;
 /** Alias for DevBoxActionTypeOutput */
-export type DevBoxActionTypeOutput = "Stop" | string;
+export type DevBoxActionTypeOutput = string;
 /** Paged collection of DevBoxActionDelayResult items */
-export type PagedDevBoxActionDelayResultOutput = Paged<DevBoxActionDelayResultOutput>;
+export type PagedDevBoxActionDelayResultOutput =
+  Paged<DevBoxActionDelayResultOutput>;
 /** Alias for DevBoxActionDelayResultStatusOutput */
-export type DevBoxActionDelayResultStatusOutput = "Succeeded" | "Failed" | string;
+export type DevBoxActionDelayResultStatusOutput = string;
 /** Paged collection of Environment items */
 export type PagedEnvironmentOutput = Paged<EnvironmentOutput>;
 /** Alias for EnvironmentProvisioningStateOutput */
-export type EnvironmentProvisioningStateOutput =
-  | "Succeeded"
-  | "Failed"
-  | "Canceled"
-  | "Creating"
-  | "Accepted"
-  | "Deleting"
-  | "Updating"
-  | "Preparing"
-  | "Running"
-  | "Syncing"
-  | "MovingResources"
-  | "TransientFailure"
-  | "StorageProvisioningFailed"
-  | string;
+export type EnvironmentProvisioningStateOutput = string;
 /** Paged collection of Catalog items */
 export type PagedCatalogOutput = Paged<CatalogOutput>;
 /** Paged collection of EnvironmentDefinition items */
-export type PagedEnvironmentDefinitionOutput = Paged<EnvironmentDefinitionOutput>;
+export type PagedEnvironmentDefinitionOutput =
+  Paged<EnvironmentDefinitionOutput>;
 /** Alias for ParameterTypeOutput */
-export type ParameterTypeOutput =
-  | "array"
-  | "boolean"
-  | "integer"
-  | "number"
-  | "object"
-  | "string"
-  | string;
+export type ParameterTypeOutput = string;
 /** Paged collection of EnvironmentType items */
 export type PagedEnvironmentTypeOutput = Paged<EnvironmentTypeOutput>;
 /** Alias for EnvironmentTypeEnableStatusOutput */
-export type EnvironmentTypeEnableStatusOutput = "Enabled" | "Disabled" | string;
+export type EnvironmentTypeEnableStatusOutput = string;
