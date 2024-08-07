@@ -290,14 +290,18 @@ export type LedgerListBySubscriptionResponse = ConfidentialLedgerList;
 export interface LedgerProperties {
     aadBasedSecurityPrincipals?: AADBasedSecurityPrincipal[];
     certBasedSecurityPrincipals?: CertBasedSecurityPrincipal[];
+    hostLevel?: string;
     readonly identityServiceUri?: string;
     readonly ledgerInternalNamespace?: string;
     readonly ledgerName?: string;
     ledgerSku?: LedgerSku;
     ledgerType?: LedgerType;
     readonly ledgerUri?: string;
+    maxBodySizeInMb?: number;
+    nodeCount?: number;
     readonly provisioningState?: ProvisioningState;
     runningState?: RunningState;
+    subjectName?: string;
 }
 
 // @public
