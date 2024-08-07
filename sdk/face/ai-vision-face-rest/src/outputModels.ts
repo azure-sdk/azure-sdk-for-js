@@ -329,6 +329,10 @@ export interface LivenessSessionAuditEntryOutput {
   response: AuditLivenessResponseInfoOutput;
   /** The server calculated digest for this request. If the client reported digest differs from the server calculated digest, then the message integrity between the client and service has been compromised and the result should not be trusted. For more information, see how to guides on how to leverage this value to secure your end-to-end solution. */
   digest: string;
+  /** The image ID of the session request. */
+  sessionImageId?: string;
+  /** The sha256 hash of the verify-image in the request. */
+  verifyImageHash?: string;
 }
 
 /** Audit entry for a request in the session. */
@@ -636,54 +640,30 @@ export interface LargePersonGroupPersonFaceOutput {
 }
 
 /** Alias for OperationStatusOutput */
-export type OperationStatusOutput = string | "notStarted" | "running" | "succeeded" | "failed";
+export type OperationStatusOutput = string;
 /** Alias for RecognitionModelOutput */
-export type RecognitionModelOutput =
-  | string
-  | "recognition_01"
-  | "recognition_02"
-  | "recognition_03"
-  | "recognition_04";
+export type RecognitionModelOutput = string;
 /** Alias for GlassesTypeOutput */
-export type GlassesTypeOutput =
-  | string
-  | "noGlasses"
-  | "readingGlasses"
-  | "sunglasses"
-  | "swimmingGoggles";
+export type GlassesTypeOutput = string;
 /** Alias for HairColorTypeOutput */
-export type HairColorTypeOutput =
-  | string
-  | "unknown"
-  | "white"
-  | "gray"
-  | "blond"
-  | "brown"
-  | "red"
-  | "black"
-  | "other";
+export type HairColorTypeOutput = string;
 /** Alias for AccessoryTypeOutput */
-export type AccessoryTypeOutput = string | "headwear" | "glasses" | "mask";
+export type AccessoryTypeOutput = string;
 /** Alias for BlurLevelOutput */
-export type BlurLevelOutput = string | "low" | "medium" | "high";
+export type BlurLevelOutput = string;
 /** Alias for ExposureLevelOutput */
-export type ExposureLevelOutput = string | "underExposure" | "goodExposure" | "overExposure";
+export type ExposureLevelOutput = string;
 /** Alias for NoiseLevelOutput */
-export type NoiseLevelOutput = string | "low" | "medium" | "high";
+export type NoiseLevelOutput = string;
 /** Alias for MaskTypeOutput */
-export type MaskTypeOutput = string | "faceMask" | "noMask" | "otherMaskOrOcclusion" | "uncertain";
+export type MaskTypeOutput = string;
 /** Alias for QualityForRecognitionOutput */
-export type QualityForRecognitionOutput = string | "low" | "medium" | "high";
-/** Alias for FaceSessionStatusOutput */
-export type FaceSessionStatusOutput = string | "NotStarted" | "Started" | "ResultAvailable";
-/** Alias for LivenessDecisionOutput */
-export type LivenessDecisionOutput = string | "uncertain" | "realface" | "spoofface";
-/** Alias for ImageTypeOutput */
-export type ImageTypeOutput = string | "Color" | "Infrared" | "Depth";
+export type QualityForRecognitionOutput = string;
 /** Alias for LivenessModelOutput */
-export type LivenessModelOutput =
-  | string
-  | "2020-02-15-preview.01"
-  | "2021-11-12-preview.03"
-  | "2022-10-15-preview.04"
-  | "2023-03-02-preview.05";
+export type LivenessModelOutput = string;
+/** Alias for FaceSessionStatusOutput */
+export type FaceSessionStatusOutput = string;
+/** Alias for LivenessDecisionOutput */
+export type LivenessDecisionOutput = string;
+/** Alias for ImageTypeOutput */
+export type ImageTypeOutput = string;
