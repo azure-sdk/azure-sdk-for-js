@@ -1,18 +1,23 @@
 # Release History
-
-## 3.1.1 (Unreleased)
-
+    
+## 4.0.0-beta.1 (2024-08-07)
+Compared with version 3.1.0
+    
 ### Features Added
+
+  - Added Interface LocationsItem
+  - Interface MapsAccountProperties has a new optional parameter locations
+  - Interface MapsAccountUpdateParameters has a new optional parameter locations
 
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
-
+  - Enum KnownKind no longer has value Gen1
+  - Enum KnownName no longer has value S0
+  - Enum KnownName no longer has value S1
+    
 ## 3.1.0 (2023-08-08)
 
-**Features**
+### Features Added
 
 - Added operation Accounts.listSas
 - Added Interface AccountSasParameters
@@ -61,4 +66,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).

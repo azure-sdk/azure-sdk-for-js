@@ -87,6 +87,8 @@ export interface MapsAccountProperties {
   cors?: CorsRules;
   /** (Optional) Discouraged to include in resource definition. Only needed where it is possible to disable platform (AKA infrastructure) encryption. Azure SQL TDE is an example of this. Values are enabled and disabled. */
   encryption?: Encryption;
+  /** List of enabled data processing locations for the Maps Account. If no locations are set, Azure REST APIs will only enable features available in the Maps Account's location. */
+  locations?: LocationsItem[];
 }
 
 /** Linked resource is reference to a resource deployed in an Azure subscription, add the linked resource `uniqueName` value as an optional parameter for operations on Azure Maps Geospatial REST APIs. */
@@ -133,6 +135,12 @@ export interface CustomerManagedKeyEncryptionKeyIdentity {
   userAssignedIdentityResourceId?: string;
   /** delegated identity to use for accessing key encryption key Url. Ex: /subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/<resource group>/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myId. Mutually exclusive with identityType systemAssignedIdentity and userAssignedIdentity - internal use only. */
   delegatedIdentityClientId?: string;
+}
+
+/** Data processing location. */
+export interface LocationsItem {
+  /** The location name. */
+  locationName: string;
 }
 
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
@@ -231,6 +239,8 @@ export interface MapsAccountUpdateParameters {
   cors?: CorsRules;
   /** (Optional) Discouraged to include in resource definition. Only needed where it is possible to disable platform (AKA infrastructure) encryption. Azure SQL TDE is an example of this. Values are enabled and disabled. */
   encryption?: Encryption;
+  /** List of enabled data processing locations for the Maps Account. If no locations are set, Azure REST APIs will only enable features available in the Maps Account's location. */
+  locations?: LocationsItem[];
 }
 
 /** A list of Maps Accounts. */
@@ -472,12 +482,8 @@ export interface Creator extends TrackedResource {
 
 /** Known values of {@link Name} that the service accepts. */
 export enum KnownName {
-  /** S0 */
-  S0 = "S0",
-  /** S1 */
-  S1 = "S1",
   /** G2 */
-  G2 = "G2"
+  G2 = "G2",
 }
 
 /**
@@ -485,18 +491,14 @@ export enum KnownName {
  * {@link KnownName} can be used interchangeably with Name,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **S0** \
- * **S1** \
  * **G2**
  */
 export type Name = string;
 
 /** Known values of {@link Kind} that the service accepts. */
 export enum KnownKind {
-  /** Gen1 */
-  Gen1 = "Gen1",
   /** Gen2 */
-  Gen2 = "Gen2"
+  Gen2 = "Gen2",
 }
 
 /**
@@ -504,7 +506,6 @@ export enum KnownKind {
  * {@link KnownKind} can be used interchangeably with Kind,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Gen1** \
  * **Gen2**
  */
 export type Kind = string;
@@ -518,7 +519,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -542,7 +543,7 @@ export enum KnownManagedServiceIdentityType {
   /** UserAssigned */
   UserAssigned = "UserAssigned",
   /** SystemAssignedUserAssigned */
-  SystemAssignedUserAssigned = "SystemAssigned, UserAssigned"
+  SystemAssignedUserAssigned = "SystemAssigned, UserAssigned",
 }
 
 /**
@@ -562,7 +563,7 @@ export enum KnownInfrastructureEncryption {
   /** Enabled */
   Enabled = "enabled",
   /** Disabled */
-  Disabled = "disabled"
+  Disabled = "disabled",
 }
 
 /**
@@ -582,7 +583,7 @@ export enum KnownIdentityType {
   /** UserAssignedIdentity */
   UserAssignedIdentity = "userAssignedIdentity",
   /** DelegatedResourceIdentity */
-  DelegatedResourceIdentity = "delegatedResourceIdentity"
+  DelegatedResourceIdentity = "delegatedResourceIdentity",
 }
 
 /**
@@ -603,7 +604,7 @@ export enum KnownSigningKey {
   /** SecondaryKey */
   SecondaryKey = "secondaryKey",
   /** ManagedIdentity */
-  ManagedIdentity = "managedIdentity"
+  ManagedIdentity = "managedIdentity",
 }
 
 /**
@@ -622,7 +623,7 @@ export enum KnownKeyType {
   /** Primary */
   Primary = "primary",
   /** Secondary */
-  Secondary = "secondary"
+  Secondary = "secondary",
 }
 
 /**

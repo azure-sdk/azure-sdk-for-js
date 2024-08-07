@@ -312,7 +312,6 @@ export enum KnownKeyType {
 
 // @public
 export enum KnownKind {
-    Gen1 = "Gen1",
     Gen2 = "Gen2"
 }
 
@@ -326,9 +325,7 @@ export enum KnownManagedServiceIdentityType {
 
 // @public
 export enum KnownName {
-    G2 = "G2",
-    S0 = "S0",
-    S1 = "S1"
+    G2 = "G2"
 }
 
 // @public
@@ -342,6 +339,11 @@ export enum KnownSigningKey {
 export interface LinkedResource {
     id: string;
     uniqueName: string;
+}
+
+// @public
+export interface LocationsItem {
+    locationName: string;
 }
 
 // @public
@@ -386,6 +388,7 @@ export interface MapsAccountProperties {
     disableLocalAuth?: boolean;
     encryption?: Encryption;
     linkedResources?: LinkedResource[];
+    locations?: LocationsItem[];
     readonly provisioningState?: string;
     readonly uniqueId?: string;
 }
@@ -409,6 +412,7 @@ export interface MapsAccountUpdateParameters {
     identity?: ManagedServiceIdentity;
     kind?: Kind;
     linkedResources?: LinkedResource[];
+    locations?: LocationsItem[];
     readonly provisioningState?: string;
     sku?: Sku;
     tags?: {
