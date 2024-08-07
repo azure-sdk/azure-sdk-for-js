@@ -382,6 +382,8 @@ export interface InfaServerlessFetchConfigProperties {
   advancedCustomProperties?: string;
   /** Supplementary File location */
   supplementaryFileLocation?: string;
+  /** Serverless runtime data disks */
+  serverlessRuntimeDataDisks?: ServerlessRuntimeDataDisk[];
   /** Serverless Account Platform */
   platform?: string;
   /** Tags for the resource */
@@ -400,6 +402,20 @@ export interface InfaServerlessFetchConfigProperties {
   region?: string;
   /** Serverless Arm Resource ID */
   serverlessArmResourceId?: string;
+}
+
+/** Serverless Runtime Data Disk */
+export interface ServerlessRuntimeDataDisk {
+  /** Type of the data disk */
+  type?: string;
+  /** Server Host or IP Address */
+  serverHostOrIpAddress?: string;
+  /** Source mount point */
+  sourceMount?: string;
+  /** Target mount point */
+  targetMount?: string;
+  /** Mount options */
+  mountOptions?: string;
 }
 
 /** Serverless Runtime environment Metadata response. */
@@ -517,6 +533,8 @@ export interface InformaticaServerlessRuntimeProperties {
   advancedCustomProperties?: AdvancedCustomProperties[];
   /** Supplementary file location. */
   supplementaryFileLocation?: string;
+  /** Serverless runtime data disks */
+  serverlessRuntimeDataDisks?: ServerlessRuntimeDataDisk[];
   /** Serverless config properties */
   serverlessRuntimeConfig?: ServerlessRuntimeConfigProperties;
   /** Serverless Runtime Tags */
@@ -589,6 +607,8 @@ export interface ServerlessRuntimePropertiesCustomUpdate {
   advancedCustomProperties?: AdvancedCustomProperties[];
   /** Supplementary file location. */
   supplementaryFileLocation?: string;
+  /** Serverless runtime data disks */
+  serverlessRuntimeDataDisks?: ServerlessRuntimeDataDisk[];
   /** Serverless config properties */
   serverlessRuntimeConfig?: ServerlessRuntimeConfigPropertiesUpdate;
   /** Serverless Runtime Tags */
