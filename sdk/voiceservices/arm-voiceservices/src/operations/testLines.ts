@@ -14,25 +14,11 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { MicrosoftVoiceServices } from "../microsoftVoiceServices";
 import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller
-} from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
-import {
   TestLine,
   TestLinesListByCommunicationsGatewayNextOptionalParams,
   TestLinesListByCommunicationsGatewayOptionalParams,
   TestLinesListByCommunicationsGatewayResponse,
-  TestLinesGetOptionalParams,
-  TestLinesGetResponse,
-  TestLinesCreateOrUpdateOptionalParams,
-  TestLinesCreateOrUpdateResponse,
-  TestLinesDeleteOptionalParams,
-  TestLineUpdate,
-  TestLinesUpdateOptionalParams,
-  TestLinesUpdateResponse,
-  TestLinesListByCommunicationsGatewayNextResponse
+  TestLinesListByCommunicationsGatewayNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -57,12 +43,12 @@ export class TestLinesImpl implements TestLines {
   public listByCommunicationsGateway(
     resourceGroupName: string,
     communicationsGatewayName: string,
-    options?: TestLinesListByCommunicationsGatewayOptionalParams
+    options?: TestLinesListByCommunicationsGatewayOptionalParams,
   ): PagedAsyncIterableIterator<TestLine> {
     const iter = this.listByCommunicationsGatewayPagingAll(
       resourceGroupName,
       communicationsGatewayName,
-      options
+      options,
     );
     return {
       next() {
@@ -79,9 +65,9 @@ export class TestLinesImpl implements TestLines {
           resourceGroupName,
           communicationsGatewayName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -89,7 +75,7 @@ export class TestLinesImpl implements TestLines {
     resourceGroupName: string,
     communicationsGatewayName: string,
     options?: TestLinesListByCommunicationsGatewayOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<TestLine[]> {
     let result: TestLinesListByCommunicationsGatewayResponse;
     let continuationToken = settings?.continuationToken;
@@ -97,7 +83,7 @@ export class TestLinesImpl implements TestLines {
       result = await this._listByCommunicationsGateway(
         resourceGroupName,
         communicationsGatewayName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -109,7 +95,7 @@ export class TestLinesImpl implements TestLines {
         resourceGroupName,
         communicationsGatewayName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -121,12 +107,12 @@ export class TestLinesImpl implements TestLines {
   private async *listByCommunicationsGatewayPagingAll(
     resourceGroupName: string,
     communicationsGatewayName: string,
-    options?: TestLinesListByCommunicationsGatewayOptionalParams
+    options?: TestLinesListByCommunicationsGatewayOptionalParams,
   ): AsyncIterableIterator<TestLine> {
     for await (const page of this.listByCommunicationsGatewayPagingPage(
       resourceGroupName,
       communicationsGatewayName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -141,257 +127,11 @@ export class TestLinesImpl implements TestLines {
   private _listByCommunicationsGateway(
     resourceGroupName: string,
     communicationsGatewayName: string,
-    options?: TestLinesListByCommunicationsGatewayOptionalParams
+    options?: TestLinesListByCommunicationsGatewayOptionalParams,
   ): Promise<TestLinesListByCommunicationsGatewayResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, communicationsGatewayName, options },
-      listByCommunicationsGatewayOperationSpec
-    );
-  }
-
-  /**
-   * Get a TestLine
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param communicationsGatewayName Unique identifier for this deployment
-   * @param testLineName Unique identifier for this test line
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    communicationsGatewayName: string,
-    testLineName: string,
-    options?: TestLinesGetOptionalParams
-  ): Promise<TestLinesGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, communicationsGatewayName, testLineName, options },
-      getOperationSpec
-    );
-  }
-
-  /**
-   * Create a TestLine
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param communicationsGatewayName Unique identifier for this deployment
-   * @param testLineName Unique identifier for this test line
-   * @param resource Resource create parameters.
-   * @param options The options parameters.
-   */
-  async beginCreateOrUpdate(
-    resourceGroupName: string,
-    communicationsGatewayName: string,
-    testLineName: string,
-    resource: TestLine,
-    options?: TestLinesCreateOrUpdateOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<TestLinesCreateOrUpdateResponse>,
-      TestLinesCreateOrUpdateResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<TestLinesCreateOrUpdateResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
-        resourceGroupName,
-        communicationsGatewayName,
-        testLineName,
-        resource,
-        options
-      },
-      spec: createOrUpdateOperationSpec
-    });
-    const poller = await createHttpPoller<
-      TestLinesCreateOrUpdateResponse,
-      OperationState<TestLinesCreateOrUpdateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Create a TestLine
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param communicationsGatewayName Unique identifier for this deployment
-   * @param testLineName Unique identifier for this test line
-   * @param resource Resource create parameters.
-   * @param options The options parameters.
-   */
-  async beginCreateOrUpdateAndWait(
-    resourceGroupName: string,
-    communicationsGatewayName: string,
-    testLineName: string,
-    resource: TestLine,
-    options?: TestLinesCreateOrUpdateOptionalParams
-  ): Promise<TestLinesCreateOrUpdateResponse> {
-    const poller = await this.beginCreateOrUpdate(
-      resourceGroupName,
-      communicationsGatewayName,
-      testLineName,
-      resource,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Delete a TestLine
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param communicationsGatewayName Unique identifier for this deployment
-   * @param testLineName Unique identifier for this test line
-   * @param options The options parameters.
-   */
-  async beginDelete(
-    resourceGroupName: string,
-    communicationsGatewayName: string,
-    testLineName: string,
-    options?: TestLinesDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
-        resourceGroupName,
-        communicationsGatewayName,
-        testLineName,
-        options
-      },
-      spec: deleteOperationSpec
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Delete a TestLine
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param communicationsGatewayName Unique identifier for this deployment
-   * @param testLineName Unique identifier for this test line
-   * @param options The options parameters.
-   */
-  async beginDeleteAndWait(
-    resourceGroupName: string,
-    communicationsGatewayName: string,
-    testLineName: string,
-    options?: TestLinesDeleteOptionalParams
-  ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      communicationsGatewayName,
-      testLineName,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Update a TestLine
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param communicationsGatewayName Unique identifier for this deployment
-   * @param testLineName Unique identifier for this test line
-   * @param properties The resource properties to be updated.
-   * @param options The options parameters.
-   */
-  update(
-    resourceGroupName: string,
-    communicationsGatewayName: string,
-    testLineName: string,
-    properties: TestLineUpdate,
-    options?: TestLinesUpdateOptionalParams
-  ): Promise<TestLinesUpdateResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        communicationsGatewayName,
-        testLineName,
-        properties,
-        options
-      },
-      updateOperationSpec
+      listByCommunicationsGatewayOperationSpec,
     );
   }
 
@@ -407,11 +147,11 @@ export class TestLinesImpl implements TestLines {
     resourceGroupName: string,
     communicationsGatewayName: string,
     nextLink: string,
-    options?: TestLinesListByCommunicationsGatewayNextOptionalParams
+    options?: TestLinesListByCommunicationsGatewayNextOptionalParams,
   ): Promise<TestLinesListByCommunicationsGatewayNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, communicationsGatewayName, nextLink, options },
-      listByCommunicationsGatewayNextOperationSpec
+      listByCommunicationsGatewayNextOperationSpec,
     );
   }
 }
@@ -419,151 +159,44 @@ export class TestLinesImpl implements TestLines {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByCommunicationsGatewayOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VoiceServices/communicationsGateways/{communicationsGatewayName}/testLines",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VoiceServices/communicationsGateways/{communicationsGatewayName}/testLines",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TestLineListResult
+      bodyMapper: Mappers.TestLineListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.communicationsGatewayName
+    Parameters.communicationsGatewayName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VoiceServices/communicationsGateways/{communicationsGatewayName}/testLines/{testLineName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.TestLine
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.communicationsGatewayName,
-    Parameters.testLineName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VoiceServices/communicationsGateways/{communicationsGatewayName}/testLines/{testLineName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.TestLine
-    },
-    201: {
-      bodyMapper: Mappers.TestLine
-    },
-    202: {
-      bodyMapper: Mappers.TestLine
-    },
-    204: {
-      bodyMapper: Mappers.TestLine
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.resource1,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.communicationsGatewayName,
-    Parameters.testLineName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VoiceServices/communicationsGateways/{communicationsGatewayName}/testLines/{testLineName}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.communicationsGatewayName,
-    Parameters.testLineName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VoiceServices/communicationsGateways/{communicationsGatewayName}/testLines/{testLineName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.TestLine
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.properties1,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.communicationsGatewayName,
-    Parameters.testLineName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
+  serializer,
 };
 const listByCommunicationsGatewayNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TestLineListResult
+      bodyMapper: Mappers.TestLineListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.communicationsGatewayName
+    Parameters.communicationsGatewayName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

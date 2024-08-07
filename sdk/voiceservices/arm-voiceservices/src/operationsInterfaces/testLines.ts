@@ -7,18 +7,9 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   TestLine,
   TestLinesListByCommunicationsGatewayOptionalParams,
-  TestLinesGetOptionalParams,
-  TestLinesGetResponse,
-  TestLinesCreateOrUpdateOptionalParams,
-  TestLinesCreateOrUpdateResponse,
-  TestLinesDeleteOptionalParams,
-  TestLineUpdate,
-  TestLinesUpdateOptionalParams,
-  TestLinesUpdateResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,95 +24,6 @@ export interface TestLines {
   listByCommunicationsGateway(
     resourceGroupName: string,
     communicationsGatewayName: string,
-    options?: TestLinesListByCommunicationsGatewayOptionalParams
+    options?: TestLinesListByCommunicationsGatewayOptionalParams,
   ): PagedAsyncIterableIterator<TestLine>;
-  /**
-   * Get a TestLine
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param communicationsGatewayName Unique identifier for this deployment
-   * @param testLineName Unique identifier for this test line
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    communicationsGatewayName: string,
-    testLineName: string,
-    options?: TestLinesGetOptionalParams
-  ): Promise<TestLinesGetResponse>;
-  /**
-   * Create a TestLine
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param communicationsGatewayName Unique identifier for this deployment
-   * @param testLineName Unique identifier for this test line
-   * @param resource Resource create parameters.
-   * @param options The options parameters.
-   */
-  beginCreateOrUpdate(
-    resourceGroupName: string,
-    communicationsGatewayName: string,
-    testLineName: string,
-    resource: TestLine,
-    options?: TestLinesCreateOrUpdateOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<TestLinesCreateOrUpdateResponse>,
-      TestLinesCreateOrUpdateResponse
-    >
-  >;
-  /**
-   * Create a TestLine
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param communicationsGatewayName Unique identifier for this deployment
-   * @param testLineName Unique identifier for this test line
-   * @param resource Resource create parameters.
-   * @param options The options parameters.
-   */
-  beginCreateOrUpdateAndWait(
-    resourceGroupName: string,
-    communicationsGatewayName: string,
-    testLineName: string,
-    resource: TestLine,
-    options?: TestLinesCreateOrUpdateOptionalParams
-  ): Promise<TestLinesCreateOrUpdateResponse>;
-  /**
-   * Delete a TestLine
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param communicationsGatewayName Unique identifier for this deployment
-   * @param testLineName Unique identifier for this test line
-   * @param options The options parameters.
-   */
-  beginDelete(
-    resourceGroupName: string,
-    communicationsGatewayName: string,
-    testLineName: string,
-    options?: TestLinesDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
-  /**
-   * Delete a TestLine
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param communicationsGatewayName Unique identifier for this deployment
-   * @param testLineName Unique identifier for this test line
-   * @param options The options parameters.
-   */
-  beginDeleteAndWait(
-    resourceGroupName: string,
-    communicationsGatewayName: string,
-    testLineName: string,
-    options?: TestLinesDeleteOptionalParams
-  ): Promise<void>;
-  /**
-   * Update a TestLine
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param communicationsGatewayName Unique identifier for this deployment
-   * @param testLineName Unique identifier for this test line
-   * @param properties The resource properties to be updated.
-   * @param options The options parameters.
-   */
-  update(
-    resourceGroupName: string,
-    communicationsGatewayName: string,
-    testLineName: string,
-    properties: TestLineUpdate,
-    options?: TestLinesUpdateOptionalParams
-  ): Promise<TestLinesUpdateResponse>;
 }
