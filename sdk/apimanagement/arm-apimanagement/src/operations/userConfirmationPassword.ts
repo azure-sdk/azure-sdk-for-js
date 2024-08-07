@@ -36,11 +36,11 @@ export class UserConfirmationPasswordImpl implements UserConfirmationPassword {
     resourceGroupName: string,
     serviceName: string,
     userId: string,
-    options?: UserConfirmationPasswordSendOptionalParams
+    options?: UserConfirmationPasswordSendOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, userId, options },
-      sendOperationSpec
+      sendOperationSpec,
     );
   }
 }
@@ -48,14 +48,13 @@ export class UserConfirmationPasswordImpl implements UserConfirmationPassword {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const sendOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{userId}/confirmations/password/send",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{userId}/confirmations/password/send",
   httpMethod: "POST",
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.appType],
   urlParameters: [
@@ -63,8 +62,8 @@ const sendOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.userId
+    Parameters.userId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
