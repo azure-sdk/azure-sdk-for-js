@@ -8,7 +8,8 @@ import {
   FaceAttributeType,
   FindSimilarMatchMode,
   CreateLivenessSessionContent,
-  CreateLivenessWithVerifySessionContent,
+  CreateLivenessWithVerifySessionMultipartContent,
+  CreateLivenessWithVerifySessionJsonContent,
 } from "./models.js";
 
 export type GetOperationResultParameters = RequestParameters;
@@ -54,7 +55,11 @@ export interface DetectBodyParam {
    *
    * Value may contain any sequence of octets
    */
-  body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
+  body:
+    | string
+    | Uint8Array
+    | ReadableStream<Uint8Array>
+    | NodeJS.ReadableStream;
 }
 
 export interface DetectQueryParamProperties {
@@ -88,6 +93,42 @@ export type DetectParameters = DetectQueryParam &
   DetectBodyParam &
   RequestParameters;
 
+export interface DetectFromSessionImageIdBodyParam {
+  body?: { sessionImageId: string };
+}
+
+export interface DetectFromSessionImageIdQueryParamProperties {
+  /** The 'detectionModel' associated with the detected faceIds. Supported 'detectionModel' values include 'detection_01', 'detection_02' and 'detection_03'. The default value is 'detection_01'. */
+  detectionModel?: DetectionModel;
+  /** The 'recognitionModel' associated with the detected faceIds. Supported 'recognitionModel' values include 'recognition_01', 'recognition_02', 'recognition_03' or 'recognition_04'. The default value is 'recognition_01'. 'recognition_04' is recommended since its accuracy is improved on faces wearing masks compared with 'recognition_03', and its overall accuracy is improved compared with 'recognition_01' and 'recognition_02'. */
+  recognitionModel?: RecognitionModel;
+  /** Return faceIds of the detected faces or not. The default value is true. */
+  returnFaceId?: boolean;
+  /** Analyze and return the one or more specified face attributes in the comma-separated string like 'returnFaceAttributes=headPose,glasses'. Face attribute analysis has additional computational and time cost. */
+  returnFaceAttributes?: FaceAttributeType[];
+  /** Return face landmarks of the detected faces or not. The default value is false. */
+  returnFaceLandmarks?: boolean;
+  /** Return 'recognitionModel' or not. The default value is false. This is only applicable when returnFaceId = true. */
+  returnRecognitionModel?: boolean;
+  /** The number of seconds for the face ID being cached. Supported range from 60 seconds up to 86400 seconds. The default value is 86400 (24 hours). */
+  faceIdTimeToLive?: number;
+}
+
+export interface DetectFromSessionImageIdQueryParam {
+  queryParameters?: DetectFromSessionImageIdQueryParamProperties;
+}
+
+export interface DetectFromSessionImageIdMediaTypesParam {
+  /** The format of the HTTP payload. */
+  contentType: "application/json";
+}
+
+export type DetectFromSessionImageIdParameters =
+  DetectFromSessionImageIdQueryParam &
+    DetectFromSessionImageIdMediaTypesParam &
+    DetectFromSessionImageIdBodyParam &
+    RequestParameters;
+
 export interface FindSimilarBodyParam {
   body?: {
     faceId: string;
@@ -108,8 +149,8 @@ export interface FindSimilarFromFaceListBodyParam {
   };
 }
 
-export type FindSimilarFromFaceListParameters = FindSimilarFromFaceListBodyParam &
-  RequestParameters;
+export type FindSimilarFromFaceListParameters =
+  FindSimilarFromFaceListBodyParam & RequestParameters;
 
 export interface FindSimilarFromLargeFaceListBodyParam {
   body?: {
@@ -120,8 +161,8 @@ export interface FindSimilarFromLargeFaceListBodyParam {
   };
 }
 
-export type FindSimilarFromLargeFaceListParameters = FindSimilarFromLargeFaceListBodyParam &
-  RequestParameters;
+export type FindSimilarFromLargeFaceListParameters =
+  FindSimilarFromLargeFaceListBodyParam & RequestParameters;
 
 export interface IdentifyFromPersonGroupBodyParam {
   body?: {
@@ -132,8 +173,8 @@ export interface IdentifyFromPersonGroupBodyParam {
   };
 }
 
-export type IdentifyFromPersonGroupParameters = IdentifyFromPersonGroupBodyParam &
-  RequestParameters;
+export type IdentifyFromPersonGroupParameters =
+  IdentifyFromPersonGroupBodyParam & RequestParameters;
 
 export interface IdentifyFromLargePersonGroupBodyParam {
   body?: {
@@ -144,8 +185,8 @@ export interface IdentifyFromLargePersonGroupBodyParam {
   };
 }
 
-export type IdentifyFromLargePersonGroupParameters = IdentifyFromLargePersonGroupBodyParam &
-  RequestParameters;
+export type IdentifyFromLargePersonGroupParameters =
+  IdentifyFromLargePersonGroupBodyParam & RequestParameters;
 
 export interface IdentifyFromPersonDirectoryBodyParam {
   body?: {
@@ -156,8 +197,8 @@ export interface IdentifyFromPersonDirectoryBodyParam {
   };
 }
 
-export type IdentifyFromPersonDirectoryParameters = IdentifyFromPersonDirectoryBodyParam &
-  RequestParameters;
+export type IdentifyFromPersonDirectoryParameters =
+  IdentifyFromPersonDirectoryBodyParam & RequestParameters;
 
 export interface IdentifyFromDynamicPersonGroupBodyParam {
   body?: {
@@ -168,34 +209,36 @@ export interface IdentifyFromDynamicPersonGroupBodyParam {
   };
 }
 
-export type IdentifyFromDynamicPersonGroupParameters = IdentifyFromDynamicPersonGroupBodyParam &
-  RequestParameters;
+export type IdentifyFromDynamicPersonGroupParameters =
+  IdentifyFromDynamicPersonGroupBodyParam & RequestParameters;
 
 export interface VerifyFaceToFaceBodyParam {
   body?: { faceId1: string; faceId2: string };
 }
 
-export type VerifyFaceToFaceParameters = VerifyFaceToFaceBodyParam & RequestParameters;
+export type VerifyFaceToFaceParameters = VerifyFaceToFaceBodyParam &
+  RequestParameters;
 
 export interface VerifyFromPersonGroupBodyParam {
   body?: { faceId: string; personGroupId: string; personId: string };
 }
 
-export type VerifyFromPersonGroupParameters = VerifyFromPersonGroupBodyParam & RequestParameters;
+export type VerifyFromPersonGroupParameters = VerifyFromPersonGroupBodyParam &
+  RequestParameters;
 
 export interface VerifyFromLargePersonGroupBodyParam {
   body?: { faceId: string; largePersonGroupId: string; personId: string };
 }
 
-export type VerifyFromLargePersonGroupParameters = VerifyFromLargePersonGroupBodyParam &
-  RequestParameters;
+export type VerifyFromLargePersonGroupParameters =
+  VerifyFromLargePersonGroupBodyParam & RequestParameters;
 
 export interface VerifyFromPersonDirectoryBodyParam {
   body?: { faceId: string; personId: string };
 }
 
-export type VerifyFromPersonDirectoryParameters = VerifyFromPersonDirectoryBodyParam &
-  RequestParameters;
+export type VerifyFromPersonDirectoryParameters =
+  VerifyFromPersonDirectoryBodyParam & RequestParameters;
 
 export interface GroupBodyParam {
   body?: { faceIds: string[] };
@@ -204,10 +247,12 @@ export interface GroupBodyParam {
 export type GroupParameters = GroupBodyParam & RequestParameters;
 
 export interface CreateLivenessSessionBodyParam {
-  body?: CreateLivenessSessionContent;
+  /** Body parameter. */
+  body: CreateLivenessSessionContent;
 }
 
-export type CreateLivenessSessionParameters = CreateLivenessSessionBodyParam & RequestParameters;
+export type CreateLivenessSessionParameters = CreateLivenessSessionBodyParam &
+  RequestParameters;
 export type DeleteLivenessSessionParameters = RequestParameters;
 export type GetLivenessSessionResultParameters = RequestParameters;
 
@@ -222,7 +267,8 @@ export interface GetLivenessSessionsQueryParam {
   queryParameters?: GetLivenessSessionsQueryParamProperties;
 }
 
-export type GetLivenessSessionsParameters = GetLivenessSessionsQueryParam & RequestParameters;
+export type GetLivenessSessionsParameters = GetLivenessSessionsQueryParam &
+  RequestParameters;
 
 export interface GetLivenessSessionAuditEntriesQueryParamProperties {
   /** List resources greater than the "start". It contains no more than 64 characters. Default is empty. */
@@ -235,11 +281,12 @@ export interface GetLivenessSessionAuditEntriesQueryParam {
   queryParameters?: GetLivenessSessionAuditEntriesQueryParamProperties;
 }
 
-export type GetLivenessSessionAuditEntriesParameters = GetLivenessSessionAuditEntriesQueryParam &
-  RequestParameters;
+export type GetLivenessSessionAuditEntriesParameters =
+  GetLivenessSessionAuditEntriesQueryParam & RequestParameters;
 
 export interface CreateLivenessWithVerifySessionWithVerifyImageBodyParam {
-  body?: CreateLivenessWithVerifySessionContent;
+  /** Request content of liveness with verify session creation. */
+  body: CreateLivenessWithVerifySessionMultipartContent;
 }
 
 export interface CreateLivenessWithVerifySessionWithVerifyImageMediaTypesParam {
@@ -253,11 +300,12 @@ export type CreateLivenessWithVerifySessionWithVerifyImageParameters =
     RequestParameters;
 
 export interface CreateLivenessWithVerifySessionBodyParam {
-  body?: CreateLivenessSessionContent;
+  /** Body parameter. */
+  body: CreateLivenessWithVerifySessionJsonContent;
 }
 
-export type CreateLivenessWithVerifySessionParameters = CreateLivenessWithVerifySessionBodyParam &
-  RequestParameters;
+export type CreateLivenessWithVerifySessionParameters =
+  CreateLivenessWithVerifySessionBodyParam & RequestParameters;
 export type DeleteLivenessWithVerifySessionParameters = RequestParameters;
 export type GetLivenessWithVerifySessionResultParameters = RequestParameters;
 
@@ -272,8 +320,8 @@ export interface GetLivenessWithVerifySessionsQueryParam {
   queryParameters?: GetLivenessWithVerifySessionsQueryParamProperties;
 }
 
-export type GetLivenessWithVerifySessionsParameters = GetLivenessWithVerifySessionsQueryParam &
-  RequestParameters;
+export type GetLivenessWithVerifySessionsParameters =
+  GetLivenessWithVerifySessionsQueryParam & RequestParameters;
 
 export interface GetLivenessWithVerifySessionAuditEntriesQueryParamProperties {
   /** List resources greater than the "start". It contains no more than 64 characters. Default is empty. */
@@ -288,6 +336,7 @@ export interface GetLivenessWithVerifySessionAuditEntriesQueryParam {
 
 export type GetLivenessWithVerifySessionAuditEntriesParameters =
   GetLivenessWithVerifySessionAuditEntriesQueryParam & RequestParameters;
+export type GetSessionImageParameters = RequestParameters;
 
 export interface CreateFaceListBodyParam {
   body?: {
@@ -297,7 +346,8 @@ export interface CreateFaceListBodyParam {
   };
 }
 
-export type CreateFaceListParameters = CreateFaceListBodyParam & RequestParameters;
+export type CreateFaceListParameters = CreateFaceListBodyParam &
+  RequestParameters;
 export type DeleteFaceListParameters = RequestParameters;
 
 export interface GetFaceListQueryParamProperties {
@@ -315,7 +365,8 @@ export interface UpdateFaceListBodyParam {
   body?: { name?: string; userData?: string };
 }
 
-export type UpdateFaceListParameters = UpdateFaceListBodyParam & RequestParameters;
+export type UpdateFaceListParameters = UpdateFaceListBodyParam &
+  RequestParameters;
 
 export interface GetFaceListsQueryParamProperties {
   /** Return 'recognitionModel' or not. The default value is false. */
@@ -345,9 +396,10 @@ export interface AddFaceListFaceFromUrlQueryParam {
   queryParameters?: AddFaceListFaceFromUrlQueryParamProperties;
 }
 
-export type AddFaceListFaceFromUrlParameters = AddFaceListFaceFromUrlQueryParam &
-  AddFaceListFaceFromUrlBodyParam &
-  RequestParameters;
+export type AddFaceListFaceFromUrlParameters =
+  AddFaceListFaceFromUrlQueryParam &
+    AddFaceListFaceFromUrlBodyParam &
+    RequestParameters;
 
 export interface AddFaceListFaceBodyParam {
   /**
@@ -355,7 +407,11 @@ export interface AddFaceListFaceBodyParam {
    *
    * Value may contain any sequence of octets
    */
-  body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
+  body:
+    | string
+    | Uint8Array
+    | ReadableStream<Uint8Array>
+    | NodeJS.ReadableStream;
 }
 
 export interface AddFaceListFaceQueryParamProperties {
@@ -390,7 +446,8 @@ export interface CreateLargeFaceListBodyParam {
   };
 }
 
-export type CreateLargeFaceListParameters = CreateLargeFaceListBodyParam & RequestParameters;
+export type CreateLargeFaceListParameters = CreateLargeFaceListBodyParam &
+  RequestParameters;
 export type DeleteLargeFaceListParameters = RequestParameters;
 
 export interface GetLargeFaceListQueryParamProperties {
@@ -402,13 +459,15 @@ export interface GetLargeFaceListQueryParam {
   queryParameters?: GetLargeFaceListQueryParamProperties;
 }
 
-export type GetLargeFaceListParameters = GetLargeFaceListQueryParam & RequestParameters;
+export type GetLargeFaceListParameters = GetLargeFaceListQueryParam &
+  RequestParameters;
 
 export interface UpdateLargeFaceListBodyParam {
   body?: { name?: string; userData?: string };
 }
 
-export type UpdateLargeFaceListParameters = UpdateLargeFaceListBodyParam & RequestParameters;
+export type UpdateLargeFaceListParameters = UpdateLargeFaceListBodyParam &
+  RequestParameters;
 
 export interface GetLargeFaceListsQueryParamProperties {
   /** List resources greater than the "start". It contains no more than 64 characters. Default is empty. */
@@ -423,7 +482,8 @@ export interface GetLargeFaceListsQueryParam {
   queryParameters?: GetLargeFaceListsQueryParamProperties;
 }
 
-export type GetLargeFaceListsParameters = GetLargeFaceListsQueryParam & RequestParameters;
+export type GetLargeFaceListsParameters = GetLargeFaceListsQueryParam &
+  RequestParameters;
 export type GetLargeFaceListTrainingStatusParameters = RequestParameters;
 export type TrainLargeFaceListParameters = RequestParameters;
 
@@ -444,9 +504,10 @@ export interface AddLargeFaceListFaceFromUrlQueryParam {
   queryParameters?: AddLargeFaceListFaceFromUrlQueryParamProperties;
 }
 
-export type AddLargeFaceListFaceFromUrlParameters = AddLargeFaceListFaceFromUrlQueryParam &
-  AddLargeFaceListFaceFromUrlBodyParam &
-  RequestParameters;
+export type AddLargeFaceListFaceFromUrlParameters =
+  AddLargeFaceListFaceFromUrlQueryParam &
+    AddLargeFaceListFaceFromUrlBodyParam &
+    RequestParameters;
 
 export interface AddLargeFaceListFaceBodyParam {
   /**
@@ -454,7 +515,11 @@ export interface AddLargeFaceListFaceBodyParam {
    *
    * Value may contain any sequence of octets
    */
-  body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
+  body:
+    | string
+    | Uint8Array
+    | ReadableStream<Uint8Array>
+    | NodeJS.ReadableStream;
 }
 
 export interface AddLargeFaceListFaceQueryParamProperties {
@@ -486,8 +551,8 @@ export interface UpdateLargeFaceListFaceBodyParam {
   body?: { userData?: string };
 }
 
-export type UpdateLargeFaceListFaceParameters = UpdateLargeFaceListFaceBodyParam &
-  RequestParameters;
+export type UpdateLargeFaceListFaceParameters =
+  UpdateLargeFaceListFaceBodyParam & RequestParameters;
 
 export interface GetLargeFaceListFacesQueryParamProperties {
   /** List resources greater than the "start". It contains no more than 64 characters. Default is empty. */
@@ -500,7 +565,8 @@ export interface GetLargeFaceListFacesQueryParam {
   queryParameters?: GetLargeFaceListFacesQueryParamProperties;
 }
 
-export type GetLargeFaceListFacesParameters = GetLargeFaceListFacesQueryParam & RequestParameters;
+export type GetLargeFaceListFacesParameters = GetLargeFaceListFacesQueryParam &
+  RequestParameters;
 
 export interface CreatePersonBodyParam {
   body?: { name: string; userData?: string };
@@ -540,8 +606,8 @@ export interface GetDynamicPersonGroupReferencesQueryParam {
   queryParameters?: GetDynamicPersonGroupReferencesQueryParamProperties;
 }
 
-export type GetDynamicPersonGroupReferencesParameters = GetDynamicPersonGroupReferencesQueryParam &
-  RequestParameters;
+export type GetDynamicPersonGroupReferencesParameters =
+  GetDynamicPersonGroupReferencesQueryParam & RequestParameters;
 
 export interface AddPersonFaceBodyParam {
   /**
@@ -549,7 +615,11 @@ export interface AddPersonFaceBodyParam {
    *
    * Value may contain any sequence of octets
    */
-  body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
+  body:
+    | string
+    | Uint8Array
+    | ReadableStream<Uint8Array>
+    | NodeJS.ReadableStream;
 }
 
 export interface AddPersonFaceQueryParamProperties {
@@ -602,7 +672,8 @@ export interface UpdatePersonFaceBodyParam {
   body?: { userData?: string };
 }
 
-export type UpdatePersonFaceParameters = UpdatePersonFaceBodyParam & RequestParameters;
+export type UpdatePersonFaceParameters = UpdatePersonFaceBodyParam &
+  RequestParameters;
 export type GetPersonFacesParameters = RequestParameters;
 
 export interface CreateDynamicPersonGroupWithPersonBodyParam {
@@ -616,8 +687,8 @@ export interface CreateDynamicPersonGroupBodyParam {
   body?: { name: string; userData?: string };
 }
 
-export type CreateDynamicPersonGroupParameters = CreateDynamicPersonGroupBodyParam &
-  RequestParameters;
+export type CreateDynamicPersonGroupParameters =
+  CreateDynamicPersonGroupBodyParam & RequestParameters;
 export type DeleteDynamicPersonGroupParameters = RequestParameters;
 export type GetDynamicPersonGroupParameters = RequestParameters;
 
@@ -637,8 +708,8 @@ export interface UpdateDynamicPersonGroupBodyParam {
   body?: { name?: string; userData?: string };
 }
 
-export type UpdateDynamicPersonGroupParameters = UpdateDynamicPersonGroupBodyParam &
-  RequestParameters;
+export type UpdateDynamicPersonGroupParameters =
+  UpdateDynamicPersonGroupBodyParam & RequestParameters;
 
 export interface GetDynamicPersonGroupsQueryParamProperties {
   /** List resources greater than the "start". It contains no more than 64 characters. Default is empty. */
@@ -651,7 +722,8 @@ export interface GetDynamicPersonGroupsQueryParam {
   queryParameters?: GetDynamicPersonGroupsQueryParamProperties;
 }
 
-export type GetDynamicPersonGroupsParameters = GetDynamicPersonGroupsQueryParam & RequestParameters;
+export type GetDynamicPersonGroupsParameters =
+  GetDynamicPersonGroupsQueryParam & RequestParameters;
 
 export interface GetDynamicPersonGroupPersonsQueryParamProperties {
   /** List resources greater than the "start". It contains no more than 64 characters. Default is empty. */
@@ -664,8 +736,8 @@ export interface GetDynamicPersonGroupPersonsQueryParam {
   queryParameters?: GetDynamicPersonGroupPersonsQueryParamProperties;
 }
 
-export type GetDynamicPersonGroupPersonsParameters = GetDynamicPersonGroupPersonsQueryParam &
-  RequestParameters;
+export type GetDynamicPersonGroupPersonsParameters =
+  GetDynamicPersonGroupPersonsQueryParam & RequestParameters;
 
 export interface CreatePersonGroupBodyParam {
   body?: {
@@ -675,7 +747,8 @@ export interface CreatePersonGroupBodyParam {
   };
 }
 
-export type CreatePersonGroupParameters = CreatePersonGroupBodyParam & RequestParameters;
+export type CreatePersonGroupParameters = CreatePersonGroupBodyParam &
+  RequestParameters;
 export type DeletePersonGroupParameters = RequestParameters;
 
 export interface GetPersonGroupQueryParamProperties {
@@ -687,13 +760,15 @@ export interface GetPersonGroupQueryParam {
   queryParameters?: GetPersonGroupQueryParamProperties;
 }
 
-export type GetPersonGroupParameters = GetPersonGroupQueryParam & RequestParameters;
+export type GetPersonGroupParameters = GetPersonGroupQueryParam &
+  RequestParameters;
 
 export interface UpdatePersonGroupBodyParam {
   body?: { name?: string; userData?: string };
 }
 
-export type UpdatePersonGroupParameters = UpdatePersonGroupBodyParam & RequestParameters;
+export type UpdatePersonGroupParameters = UpdatePersonGroupBodyParam &
+  RequestParameters;
 
 export interface GetPersonGroupsQueryParamProperties {
   /** List resources greater than the "start". It contains no more than 64 characters. Default is empty. */
@@ -708,7 +783,8 @@ export interface GetPersonGroupsQueryParam {
   queryParameters?: GetPersonGroupsQueryParamProperties;
 }
 
-export type GetPersonGroupsParameters = GetPersonGroupsQueryParam & RequestParameters;
+export type GetPersonGroupsParameters = GetPersonGroupsQueryParam &
+  RequestParameters;
 export type GetPersonGroupTrainingStatusParameters = RequestParameters;
 export type TrainPersonGroupParameters = RequestParameters;
 
@@ -716,8 +792,8 @@ export interface CreatePersonGroupPersonBodyParam {
   body?: { name: string; userData?: string };
 }
 
-export type CreatePersonGroupPersonParameters = CreatePersonGroupPersonBodyParam &
-  RequestParameters;
+export type CreatePersonGroupPersonParameters =
+  CreatePersonGroupPersonBodyParam & RequestParameters;
 export type DeletePersonGroupPersonParameters = RequestParameters;
 export type GetPersonGroupPersonParameters = RequestParameters;
 
@@ -725,8 +801,8 @@ export interface UpdatePersonGroupPersonBodyParam {
   body?: { name?: string; userData?: string };
 }
 
-export type UpdatePersonGroupPersonParameters = UpdatePersonGroupPersonBodyParam &
-  RequestParameters;
+export type UpdatePersonGroupPersonParameters =
+  UpdatePersonGroupPersonBodyParam & RequestParameters;
 
 export interface GetPersonGroupPersonsQueryParamProperties {
   /** List resources greater than the "start". It contains no more than 64 characters. Default is empty. */
@@ -739,7 +815,8 @@ export interface GetPersonGroupPersonsQueryParam {
   queryParameters?: GetPersonGroupPersonsQueryParamProperties;
 }
 
-export type GetPersonGroupPersonsParameters = GetPersonGroupPersonsQueryParam & RequestParameters;
+export type GetPersonGroupPersonsParameters = GetPersonGroupPersonsQueryParam &
+  RequestParameters;
 
 export interface AddPersonGroupPersonFaceFromUrlBodyParam {
   body?: { url: string };
@@ -758,9 +835,10 @@ export interface AddPersonGroupPersonFaceFromUrlQueryParam {
   queryParameters?: AddPersonGroupPersonFaceFromUrlQueryParamProperties;
 }
 
-export type AddPersonGroupPersonFaceFromUrlParameters = AddPersonGroupPersonFaceFromUrlQueryParam &
-  AddPersonGroupPersonFaceFromUrlBodyParam &
-  RequestParameters;
+export type AddPersonGroupPersonFaceFromUrlParameters =
+  AddPersonGroupPersonFaceFromUrlQueryParam &
+    AddPersonGroupPersonFaceFromUrlBodyParam &
+    RequestParameters;
 
 export interface AddPersonGroupPersonFaceBodyParam {
   /**
@@ -768,7 +846,11 @@ export interface AddPersonGroupPersonFaceBodyParam {
    *
    * Value may contain any sequence of octets
    */
-  body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
+  body:
+    | string
+    | Uint8Array
+    | ReadableStream<Uint8Array>
+    | NodeJS.ReadableStream;
 }
 
 export interface AddPersonGroupPersonFaceQueryParamProperties {
@@ -789,10 +871,11 @@ export interface AddPersonGroupPersonFaceMediaTypesParam {
   contentType: "application/octet-stream";
 }
 
-export type AddPersonGroupPersonFaceParameters = AddPersonGroupPersonFaceQueryParam &
-  AddPersonGroupPersonFaceMediaTypesParam &
-  AddPersonGroupPersonFaceBodyParam &
-  RequestParameters;
+export type AddPersonGroupPersonFaceParameters =
+  AddPersonGroupPersonFaceQueryParam &
+    AddPersonGroupPersonFaceMediaTypesParam &
+    AddPersonGroupPersonFaceBodyParam &
+    RequestParameters;
 export type DeletePersonGroupPersonFaceParameters = RequestParameters;
 export type GetPersonGroupPersonFaceParameters = RequestParameters;
 
@@ -800,8 +883,8 @@ export interface UpdatePersonGroupPersonFaceBodyParam {
   body?: { userData?: string };
 }
 
-export type UpdatePersonGroupPersonFaceParameters = UpdatePersonGroupPersonFaceBodyParam &
-  RequestParameters;
+export type UpdatePersonGroupPersonFaceParameters =
+  UpdatePersonGroupPersonFaceBodyParam & RequestParameters;
 
 export interface CreateLargePersonGroupBodyParam {
   body?: {
@@ -811,7 +894,8 @@ export interface CreateLargePersonGroupBodyParam {
   };
 }
 
-export type CreateLargePersonGroupParameters = CreateLargePersonGroupBodyParam & RequestParameters;
+export type CreateLargePersonGroupParameters = CreateLargePersonGroupBodyParam &
+  RequestParameters;
 export type DeleteLargePersonGroupParameters = RequestParameters;
 
 export interface GetLargePersonGroupQueryParamProperties {
@@ -823,13 +907,15 @@ export interface GetLargePersonGroupQueryParam {
   queryParameters?: GetLargePersonGroupQueryParamProperties;
 }
 
-export type GetLargePersonGroupParameters = GetLargePersonGroupQueryParam & RequestParameters;
+export type GetLargePersonGroupParameters = GetLargePersonGroupQueryParam &
+  RequestParameters;
 
 export interface UpdateLargePersonGroupBodyParam {
   body?: { name?: string; userData?: string };
 }
 
-export type UpdateLargePersonGroupParameters = UpdateLargePersonGroupBodyParam & RequestParameters;
+export type UpdateLargePersonGroupParameters = UpdateLargePersonGroupBodyParam &
+  RequestParameters;
 
 export interface GetLargePersonGroupsQueryParamProperties {
   /** List resources greater than the "start". It contains no more than 64 characters. Default is empty. */
@@ -844,7 +930,8 @@ export interface GetLargePersonGroupsQueryParam {
   queryParameters?: GetLargePersonGroupsQueryParamProperties;
 }
 
-export type GetLargePersonGroupsParameters = GetLargePersonGroupsQueryParam & RequestParameters;
+export type GetLargePersonGroupsParameters = GetLargePersonGroupsQueryParam &
+  RequestParameters;
 export type GetLargePersonGroupTrainingStatusParameters = RequestParameters;
 export type TrainLargePersonGroupParameters = RequestParameters;
 
@@ -852,8 +939,8 @@ export interface CreateLargePersonGroupPersonBodyParam {
   body?: { name: string; userData?: string };
 }
 
-export type CreateLargePersonGroupPersonParameters = CreateLargePersonGroupPersonBodyParam &
-  RequestParameters;
+export type CreateLargePersonGroupPersonParameters =
+  CreateLargePersonGroupPersonBodyParam & RequestParameters;
 export type DeleteLargePersonGroupPersonParameters = RequestParameters;
 export type GetLargePersonGroupPersonParameters = RequestParameters;
 
@@ -861,8 +948,8 @@ export interface UpdateLargePersonGroupPersonBodyParam {
   body?: { name?: string; userData?: string };
 }
 
-export type UpdateLargePersonGroupPersonParameters = UpdateLargePersonGroupPersonBodyParam &
-  RequestParameters;
+export type UpdateLargePersonGroupPersonParameters =
+  UpdateLargePersonGroupPersonBodyParam & RequestParameters;
 
 export interface GetLargePersonGroupPersonsQueryParamProperties {
   /** List resources greater than the "start". It contains no more than 64 characters. Default is empty. */
@@ -875,8 +962,8 @@ export interface GetLargePersonGroupPersonsQueryParam {
   queryParameters?: GetLargePersonGroupPersonsQueryParamProperties;
 }
 
-export type GetLargePersonGroupPersonsParameters = GetLargePersonGroupPersonsQueryParam &
-  RequestParameters;
+export type GetLargePersonGroupPersonsParameters =
+  GetLargePersonGroupPersonsQueryParam & RequestParameters;
 
 export interface AddLargePersonGroupPersonFaceFromUrlBodyParam {
   body?: { url: string };
@@ -906,7 +993,11 @@ export interface AddLargePersonGroupPersonFaceBodyParam {
    *
    * Value may contain any sequence of octets
    */
-  body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
+  body:
+    | string
+    | Uint8Array
+    | ReadableStream<Uint8Array>
+    | NodeJS.ReadableStream;
 }
 
 export interface AddLargePersonGroupPersonFaceQueryParamProperties {
@@ -927,10 +1018,11 @@ export interface AddLargePersonGroupPersonFaceMediaTypesParam {
   contentType: "application/octet-stream";
 }
 
-export type AddLargePersonGroupPersonFaceParameters = AddLargePersonGroupPersonFaceQueryParam &
-  AddLargePersonGroupPersonFaceMediaTypesParam &
-  AddLargePersonGroupPersonFaceBodyParam &
-  RequestParameters;
+export type AddLargePersonGroupPersonFaceParameters =
+  AddLargePersonGroupPersonFaceQueryParam &
+    AddLargePersonGroupPersonFaceMediaTypesParam &
+    AddLargePersonGroupPersonFaceBodyParam &
+    RequestParameters;
 export type DeleteLargePersonGroupPersonFaceParameters = RequestParameters;
 export type GetLargePersonGroupPersonFaceParameters = RequestParameters;
 
@@ -938,5 +1030,5 @@ export interface UpdateLargePersonGroupPersonFaceBodyParam {
   body?: { userData?: string };
 }
 
-export type UpdateLargePersonGroupPersonFaceParameters = UpdateLargePersonGroupPersonFaceBodyParam &
-  RequestParameters;
+export type UpdateLargePersonGroupPersonFaceParameters =
+  UpdateLargePersonGroupPersonFaceBodyParam & RequestParameters;
