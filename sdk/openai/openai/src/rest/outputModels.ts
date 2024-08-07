@@ -3,12 +3,6 @@
 
 import { ErrorModel } from "@azure-rest/core-client";
 
-/** A specific deployment */
-export interface DeploymentOutput {
-  /** Specifies either the model deployment name (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request. */
-  readonly deploymentId: string;
-}
-
 /** Result information for an operation that transcribed spoken audio into written text. */
 export interface AudioTranscriptionOutput {
   /** The transcribed text for the provided audio data. */
@@ -24,6 +18,8 @@ export interface AudioTranscriptionOutput {
   duration?: number;
   /** A collection of information about the timing, probabilities, and other detail of each processed audio segment. */
   segments?: Array<AudioTranscriptionSegmentOutput>;
+  /** A collection of information about the timing of each processed word. */
+  words?: Array<AudioTranscriptionWordOutput>;
 }
 
 /**
@@ -58,6 +54,16 @@ export interface AudioTranscriptionSegmentOutput {
    * segment's associated seek position.
    */
   seek: number;
+}
+
+/** Extended information about a single transcribed word, as provided on responses when the 'word' timestamp granularity is provided. */
+export interface AudioTranscriptionWordOutput {
+  /** The textual content of the word. */
+  word: string;
+  /** The start time of the word relative to the beginning of the audio, expressed in seconds. */
+  start: number;
+  /** The end time of the word relative to the beginning of the audio, expressed in seconds. */
+  end: number;
 }
 
 /** Result information for an operation that translated spoken audio into written text. */
@@ -177,7 +183,7 @@ export interface ContentFilterResultDetailsForPromptOutput {
   /** Describes whether profanity was detected. */
   profanity?: ContentFilterDetectionResultOutput;
   /** Describes detection results against configured custom blocklists. */
-  custom_blocklists?: Array<ContentFilterBlocklistIdResultOutput>;
+  custom_blocklists?: ContentFilterDetailedResultsOutput;
   /**
    * Describes an error returned if the content filtering system is
    * down or otherwise unable to complete the operation in time.
@@ -185,14 +191,16 @@ export interface ContentFilterResultDetailsForPromptOutput {
   error?: ErrorModel;
   /** Whether a jailbreak attempt was detected in the prompt. */
   jailbreak?: ContentFilterDetectionResultOutput;
+  /** Whether an indirect attack was detected in the prompt. */
+  indirect_attack?: ContentFilterDetectionResultOutput;
 }
 
 /** Information about filtered content severity level and if it has been filtered or not. */
 export interface ContentFilterResultOutput {
-  /** Ratings for the intensity and risk level of filtered content. */
-  severity: ContentFilterSeverityOutput;
   /** A value indicating whether or not the content has been filtered. */
   filtered: boolean;
+  /** Ratings for the intensity and risk level of filtered content. */
+  severity: ContentFilterSeverityOutput;
 }
 
 /** Represents the outcome of a detection operation performed by content filtering. */
@@ -203,12 +211,20 @@ export interface ContentFilterDetectionResultOutput {
   detected: boolean;
 }
 
-/** Represents the outcome of an evaluation against a custom blocklist as performed by content filtering. */
-export interface ContentFilterBlocklistIdResultOutput {
-  /** The ID of the custom blocklist evaluated. */
-  id: string;
+/** Represents a structured collection of result details for content filtering. */
+export interface ContentFilterDetailedResultsOutput {
   /** A value indicating whether or not the content has been filtered. */
   filtered: boolean;
+  /** The collection of detailed blocklist result information. */
+  details: Array<ContentFilterBlocklistIdResultOutput>;
+}
+
+/** Represents the outcome of an evaluation against a custom blocklist as performed by content filtering. */
+export interface ContentFilterBlocklistIdResultOutput {
+  /** A value indicating whether or not the content has been filtered. */
+  filtered: boolean;
+  /** The ID of the custom blocklist evaluated. */
+  id: string;
 }
 
 /**
@@ -230,7 +246,7 @@ export interface ChoiceOutput {
   /** The log probabilities model for tokens associated with this completions choice. */
   logprobs: CompletionsLogProbabilityModelOutput | null;
   /** Reason for finishing */
-  finish_reason: CompletionsFinishReasonOutput | null;
+  finish_reason;
 }
 
 /** Information about content filtering evaluated against generated model output. */
@@ -263,7 +279,7 @@ export interface ContentFilterResultsForChoiceOutput {
   /** Describes whether profanity was detected. */
   profanity?: ContentFilterDetectionResultOutput;
   /** Describes detection results against configured custom blocklists. */
-  custom_blocklists?: Array<ContentFilterBlocklistIdResultOutput>;
+  custom_blocklists?: ContentFilterDetailedResultsOutput;
   /**
    * Describes an error returned if the content filtering system is
    * down or otherwise unable to complete the operation in time.
@@ -327,7 +343,8 @@ export interface ChatCompletionsToolCallOutputParent {
  * A tool call to a function tool, issued by the model in evaluation of a configured function tool, that represents
  * a function invocation needed for a subsequent chat completions request to resolve.
  */
-export interface ChatCompletionsFunctionToolCallOutput extends ChatCompletionsToolCallOutputParent {
+export interface ChatCompletionsFunctionToolCallOutput
+  extends ChatCompletionsToolCallOutputParent {
   /** The type of tool call, in this case always 'function'. */
   type: "function";
   /** The details of the function invocation requested by the tool call. */
@@ -355,8 +372,6 @@ export interface FunctionCallOutput {
 export interface ChatCompletionsOutput {
   /** A unique identifier associated with this chat completions response. */
   id: string;
-  /** The current model used for the chat completions request. */
-  model: string;
   /**
    * The first timestamp associated with generation activity for this completions response,
    * represented as seconds since the beginning of the Unix epoch of 00:00 on 1 Jan 1970.
@@ -368,6 +383,8 @@ export interface ChatCompletionsOutput {
    * Token limits and other settings may limit the number of choices generated.
    */
   choices: Array<ChatChoiceOutput>;
+  /** The model name used for this completions request. */
+  model?: string;
   /**
    * Content filtering results for zero or more prompts in the request. In a streaming request,
    * results for different prompts may arrive at different times or in different orders.
@@ -395,7 +412,7 @@ export interface ChatChoiceOutput {
   /** The ordered index associated with this chat completions choice. */
   index: number;
   /** The reason that this chat completions choice completed its generated. */
-  finish_reason: CompletionsFinishReasonOutput | null;
+  finish_reason;
   /**
    * The reason the model stopped generating tokens, together with any applicable details.
    * This structured representation replaces 'finish_reason' for some models.
@@ -455,6 +472,8 @@ export interface AzureChatExtensionsMessageContextOutput {
   citations?: Array<AzureChatExtensionDataSourceResponseCitationOutput>;
   /** The detected intent from the chat history, used to pass to the next turn to carry over the context. */
   intent?: string;
+  /** All the retrieved documents. */
+  all_retrieved_documents?: Array<AzureChatExtensionRetrievedDocumentOutput>;
 }
 
 /**
@@ -473,6 +492,33 @@ export interface AzureChatExtensionDataSourceResponseCitationOutput {
   filepath?: string;
   /** The chunk ID of the citation. */
   chunk_id?: string;
+}
+
+/** The retrieved document. */
+export interface AzureChatExtensionRetrievedDocumentOutput {
+  /** The content of the citation. */
+  content: string;
+  /** The title of the citation. */
+  title?: string;
+  /** The URL of the citation. */
+  url?: string;
+  /** The file path of the citation. */
+  filepath?: string;
+  /** The chunk ID of the citation. */
+  chunk_id?: string;
+  /** The search queries used to retrieve the document. */
+  search_queries: string[];
+  /** The index of the data source. */
+  data_source_index: number;
+  /** The original search score of the retrieved document. */
+  original_search_score?: number;
+  /** The rerank score of the retrieved document. */
+  rerank_score?: number;
+  /**
+   * Represents the rationale for filtering the document. If the document does not undergo filtering,
+   * this field will remain unset.
+   */
+  filter_reason?: AzureChatExtensionRetrieveDocumentFilterReasonOutput;
 }
 
 /** Log probability information for a choice, as requested via 'logprobs' and 'top_logprobs'. */
@@ -520,7 +566,8 @@ export interface StopFinishDetailsOutput extends ChatFinishDetailsOutputParent {
  * A structured representation of a stop reason that signifies a token limit was reached before the model could naturally
  * complete.
  */
-export interface MaxTokensFinishDetailsOutput extends ChatFinishDetailsOutputParent {
+export interface MaxTokensFinishDetailsOutput
+  extends ChatFinishDetailsOutputParent {
   /** The object type, which is always 'max_tokens' for this object. */
   type: "max_tokens";
 }
@@ -569,43 +616,6 @@ export interface AzureGroundingEnhancementCoordinatePointOutput {
   x: number;
   /** The y-coordinate (vertical axis) of the point. */
   y: number;
-}
-
-/** Represents the request data used to generate images. */
-export interface ImageGenerationOptionsOutput {
-  /**
-   * The model name or Azure OpenAI model deployment name to use for image generation. If not specified, dall-e-2 will be
-   * inferred as a default.
-   */
-  model?: string;
-  /** A description of the desired images. */
-  prompt: string;
-  /**
-   * The number of images to generate.
-   * Dall-e-2 models support values between 1 and 10.
-   * Dall-e-3 models only support a value of 1.
-   */
-  n?: number;
-  /**
-   * The desired dimensions for generated images.
-   * Dall-e-2 models support 256x256, 512x512, or 1024x1024.
-   * Dall-e-3 models support 1024x1024, 1792x1024, or 1024x1792.
-   */
-  size?: ImageSizeOutput;
-  /** The format in which image generation response items should be presented. */
-  response_format?: ImageGenerationResponseFormatOutput;
-  /**
-   * The desired image generation quality level to use.
-   * Only configurable with dall-e-3 models.
-   */
-  quality?: ImageGenerationQualityOutput;
-  /**
-   * The desired image generation style to use.
-   * Only configurable with dall-e-3 models.
-   */
-  style?: ImageGenerationStyleOutput;
-  /** A unique identifier representing your end-user, which can help to monitor and detect abuse. */
-  user?: string;
 }
 
 /** The result of a successful image generation operation. */
@@ -706,6 +716,8 @@ export interface ImageGenerationPromptFilterResultsOutput {
   profanity?: ContentFilterDetectionResultOutput;
   /** Whether a jailbreak attempt was detected in the prompt. */
   jailbreak?: ContentFilterDetectionResultOutput;
+  /** Information about customer block lists and if something was detected the associated list ID. */
+  custom_blocklists?: ContentFilterDetailedResultsOutput;
 }
 
 /**
@@ -752,38 +764,14 @@ export type ChatFinishDetailsOutput =
   | StopFinishDetailsOutput
   | MaxTokensFinishDetailsOutput;
 /** Alias for AudioTaskLabelOutput */
-export type AudioTaskLabelOutput = string | "transcribe" | "translate";
+export type AudioTaskLabelOutput = string;
 /** Alias for ContentFilterSeverityOutput */
-export type ContentFilterSeverityOutput = string | "safe" | "low" | "medium" | "high";
+export type ContentFilterSeverityOutput = string;
 /** Alias for CompletionsFinishReasonOutput */
-export type CompletionsFinishReasonOutput =
-  | string
-  | "stop"
-  | "length"
-  | "content_filter"
-  | "function_call"
-  | "tool_calls";
+export type CompletionsFinishReasonOutput = string;
 /** Alias for ChatRoleOutput */
-export type ChatRoleOutput = string | "system" | "assistant" | "user" | "function" | "tool";
-/** Alias for ImageSizeOutput */
-export type ImageSizeOutput =
-  | string
-  | "256x256"
-  | "512x512"
-  | "1024x1024"
-  | "1792x1024"
-  | "1024x1792";
-/** Alias for ImageGenerationResponseFormatOutput */
-export type ImageGenerationResponseFormatOutput = string | "url" | "b64_json";
-/** Alias for ImageGenerationQualityOutput */
-export type ImageGenerationQualityOutput = string | "standard" | "hd";
-/** Alias for ImageGenerationStyleOutput */
-export type ImageGenerationStyleOutput = string | "natural" | "vivid";
-/** Alias for AzureOpenAIOperationStateOutput */
-export type AzureOpenAIOperationStateOutput =
-  | string
-  | "notRunning"
-  | "running"
-  | "succeeded"
-  | "canceled"
-  | "failed";
+export type ChatRoleOutput = string;
+/** Alias for AzureChatExtensionRetrieveDocumentFilterReasonOutput */
+export type AzureChatExtensionRetrieveDocumentFilterReasonOutput =
+  | "score"
+  | "rerank";

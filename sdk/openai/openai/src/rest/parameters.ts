@@ -8,11 +8,13 @@ import {
   CompletionsOptions,
   ChatCompletionsOptions,
   ImageGenerationOptions,
+  SpeechGenerationOptions,
   EmbeddingsOptions,
 } from "./models.js";
 
 export interface GetAudioTranscriptionAsPlainTextBodyParam {
-  body?: AudioTranscriptionOptions;
+  /** The configuration information for an audio transcription request. */
+  body: AudioTranscriptionOptions;
 }
 
 export interface GetAudioTranscriptionAsPlainTextMediaTypesParam {
@@ -26,7 +28,8 @@ export type GetAudioTranscriptionAsPlainTextParameters =
     RequestParameters;
 
 export interface GetAudioTranscriptionAsResponseObjectBodyParam {
-  body?: AudioTranscriptionOptions;
+  /** The configuration information for an audio transcription request. */
+  body: AudioTranscriptionOptions;
 }
 
 export interface GetAudioTranscriptionAsResponseObjectMediaTypesParam {
@@ -40,7 +43,8 @@ export type GetAudioTranscriptionAsResponseObjectParameters =
     RequestParameters;
 
 export interface GetAudioTranslationAsPlainTextBodyParam {
-  body?: AudioTranslationOptions;
+  /** The configuration information for an audio translation request. */
+  body: AudioTranslationOptions;
 }
 
 export interface GetAudioTranslationAsPlainTextMediaTypesParam {
@@ -54,7 +58,8 @@ export type GetAudioTranslationAsPlainTextParameters =
     RequestParameters;
 
 export interface GetAudioTranslationAsResponseObjectBodyParam {
-  body?: AudioTranslationOptions;
+  /** The configuration information for an audio translation request. */
+  body: AudioTranslationOptions;
 }
 
 export interface GetAudioTranslationAsResponseObjectMediaTypesParam {
@@ -68,25 +73,53 @@ export type GetAudioTranslationAsResponseObjectParameters =
     RequestParameters;
 
 export interface GetCompletionsBodyParam {
-  body?: CompletionsOptions;
+  /**
+   * The configuration information for a completions request.
+   * Completions support a wide variety of tasks and generate text that continues from or "completes"
+   * provided prompt data.
+   */
+  body: CompletionsOptions;
 }
 
-export type GetCompletionsParameters = GetCompletionsBodyParam & RequestParameters;
+export type GetCompletionsParameters = GetCompletionsBodyParam &
+  RequestParameters;
 
 export interface GetChatCompletionsBodyParam {
-  body?: ChatCompletionsOptions;
+  /**
+   * The configuration information for a chat completions request.
+   * Completions support a wide variety of tasks and generate text that continues from or "completes"
+   * provided prompt data.
+   */
+  body: ChatCompletionsOptions;
 }
 
-export type GetChatCompletionsParameters = GetChatCompletionsBodyParam & RequestParameters;
+export type GetChatCompletionsParameters = GetChatCompletionsBodyParam &
+  RequestParameters;
 
 export interface GetImageGenerationsBodyParam {
-  body?: ImageGenerationOptions;
+  /** Represents the request data used to generate images. */
+  body: ImageGenerationOptions;
 }
 
-export type GetImageGenerationsParameters = GetImageGenerationsBodyParam & RequestParameters;
+export type GetImageGenerationsParameters = GetImageGenerationsBodyParam &
+  RequestParameters;
+
+export interface GenerateSpeechFromTextBodyParam {
+  /** A representation of the request options that control the behavior of a text-to-speech operation. */
+  body: SpeechGenerationOptions;
+}
+
+export type GenerateSpeechFromTextParameters = GenerateSpeechFromTextBodyParam &
+  RequestParameters;
 
 export interface GetEmbeddingsBodyParam {
-  body?: EmbeddingsOptions;
+  /**
+   * The configuration information for an embeddings request.
+   * Embeddings measure the relatedness of text strings and are commonly used for search, clustering,
+   * recommendations, and other similar scenarios.
+   */
+  body: EmbeddingsOptions;
 }
 
-export type GetEmbeddingsParameters = GetEmbeddingsBodyParam & RequestParameters;
+export type GetEmbeddingsParameters = GetEmbeddingsBodyParam &
+  RequestParameters;
