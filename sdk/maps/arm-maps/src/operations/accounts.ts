@@ -38,7 +38,7 @@ import {
   AccountsRegenerateKeysOptionalParams,
   AccountsRegenerateKeysResponse,
   AccountsListByResourceGroupNextResponse,
-  AccountsListBySubscriptionNextResponse
+  AccountsListBySubscriptionNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -61,7 +61,7 @@ export class AccountsImpl implements Accounts {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: AccountsListByResourceGroupOptionalParams
+    options?: AccountsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<MapsAccount> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -78,16 +78,16 @@ export class AccountsImpl implements Accounts {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: AccountsListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<MapsAccount[]> {
     let result: AccountsListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -102,7 +102,7 @@ export class AccountsImpl implements Accounts {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -113,11 +113,11 @@ export class AccountsImpl implements Accounts {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: AccountsListByResourceGroupOptionalParams
+    options?: AccountsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<MapsAccount> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -128,7 +128,7 @@ export class AccountsImpl implements Accounts {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: AccountsListBySubscriptionOptionalParams
+    options?: AccountsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<MapsAccount> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -143,13 +143,13 @@ export class AccountsImpl implements Accounts {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: AccountsListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<MapsAccount[]> {
     let result: AccountsListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -170,7 +170,7 @@ export class AccountsImpl implements Accounts {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: AccountsListBySubscriptionOptionalParams
+    options?: AccountsListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<MapsAccount> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -189,11 +189,11 @@ export class AccountsImpl implements Accounts {
     resourceGroupName: string,
     accountName: string,
     mapsAccount: MapsAccount,
-    options?: AccountsCreateOrUpdateOptionalParams
+    options?: AccountsCreateOrUpdateOptionalParams,
   ): Promise<AccountsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, mapsAccount, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -209,11 +209,11 @@ export class AccountsImpl implements Accounts {
     resourceGroupName: string,
     accountName: string,
     mapsAccountUpdateParameters: MapsAccountUpdateParameters,
-    options?: AccountsUpdateOptionalParams
+    options?: AccountsUpdateOptionalParams,
   ): Promise<AccountsUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, mapsAccountUpdateParameters, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -226,11 +226,11 @@ export class AccountsImpl implements Accounts {
   delete(
     resourceGroupName: string,
     accountName: string,
-    options?: AccountsDeleteOptionalParams
+    options?: AccountsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -243,11 +243,11 @@ export class AccountsImpl implements Accounts {
   get(
     resourceGroupName: string,
     accountName: string,
-    options?: AccountsGetOptionalParams
+    options?: AccountsGetOptionalParams,
   ): Promise<AccountsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -258,11 +258,11 @@ export class AccountsImpl implements Accounts {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: AccountsListByResourceGroupOptionalParams
+    options?: AccountsListByResourceGroupOptionalParams,
   ): Promise<AccountsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -271,11 +271,11 @@ export class AccountsImpl implements Accounts {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: AccountsListBySubscriptionOptionalParams
+    options?: AccountsListBySubscriptionOptionalParams,
   ): Promise<AccountsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -297,11 +297,11 @@ export class AccountsImpl implements Accounts {
     resourceGroupName: string,
     accountName: string,
     mapsAccountSasParameters: AccountSasParameters,
-    options?: AccountsListSasOptionalParams
+    options?: AccountsListSasOptionalParams,
   ): Promise<AccountsListSasResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, mapsAccountSasParameters, options },
-      listSasOperationSpec
+      listSasOperationSpec,
     );
   }
 
@@ -316,11 +316,11 @@ export class AccountsImpl implements Accounts {
   listKeys(
     resourceGroupName: string,
     accountName: string,
-    options?: AccountsListKeysOptionalParams
+    options?: AccountsListKeysOptionalParams,
   ): Promise<AccountsListKeysResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
-      listKeysOperationSpec
+      listKeysOperationSpec,
     );
   }
 
@@ -336,11 +336,11 @@ export class AccountsImpl implements Accounts {
     resourceGroupName: string,
     accountName: string,
     keySpecification: MapsKeySpecification,
-    options?: AccountsRegenerateKeysOptionalParams
+    options?: AccountsRegenerateKeysOptionalParams,
   ): Promise<AccountsRegenerateKeysResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, keySpecification, options },
-      regenerateKeysOperationSpec
+      regenerateKeysOperationSpec,
     );
   }
 
@@ -353,11 +353,11 @@ export class AccountsImpl implements Accounts {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: AccountsListByResourceGroupNextOptionalParams
+    options?: AccountsListByResourceGroupNextOptionalParams,
   ): Promise<AccountsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 
@@ -368,11 +368,11 @@ export class AccountsImpl implements Accounts {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: AccountsListBySubscriptionNextOptionalParams
+    options?: AccountsListBySubscriptionNextOptionalParams,
   ): Promise<AccountsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 }
@@ -380,19 +380,18 @@ export class AccountsImpl implements Accounts {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.MapsAccount
+      bodyMapper: Mappers.MapsAccount,
     },
     201: {
-      bodyMapper: Mappers.MapsAccount
+      bodyMapper: Mappers.MapsAccount,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.mapsAccount,
   queryParameters: [Parameters.apiVersion],
@@ -400,23 +399,22 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName
+    Parameters.accountName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.MapsAccount
+      bodyMapper: Mappers.MapsAccount,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.mapsAccountUpdateParameters,
   queryParameters: [Parameters.apiVersion],
@@ -424,103 +422,99 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName
+    Parameters.accountName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName
+    Parameters.accountName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MapsAccount
+      bodyMapper: Mappers.MapsAccount,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName
+    Parameters.accountName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MapsAccounts
+      bodyMapper: Mappers.MapsAccounts,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/providers/Microsoft.Maps/accounts",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MapsAccounts
+      bodyMapper: Mappers.MapsAccounts,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listSasOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}/listSas",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}/listSas",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.MapsAccountSasToken
+      bodyMapper: Mappers.MapsAccountSasToken,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.mapsAccountSasParameters,
   queryParameters: [Parameters.apiVersion],
@@ -528,45 +522,43 @@ const listSasOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName
+    Parameters.accountName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listKeysOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}/listKeys",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}/listKeys",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.MapsAccountKeys
+      bodyMapper: Mappers.MapsAccountKeys,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName
+    Parameters.accountName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const regenerateKeysOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}/regenerateKey",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}/regenerateKey",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.MapsAccountKeys
+      bodyMapper: Mappers.MapsAccountKeys,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.keySpecification,
   queryParameters: [Parameters.apiVersion],
@@ -574,48 +566,48 @@ const regenerateKeysOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName
+    Parameters.accountName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MapsAccounts
+      bodyMapper: Mappers.MapsAccounts,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MapsAccounts
+      bodyMapper: Mappers.MapsAccounts,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
