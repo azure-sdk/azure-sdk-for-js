@@ -20,7 +20,7 @@ import {
   VirtualHardDisksDeleteResponse,
   VirtualHardDisksUpdateRequest,
   VirtualHardDisksUpdateOptionalParams,
-  VirtualHardDisksUpdateResponse
+  VirtualHardDisksUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,7 +34,7 @@ export interface VirtualHardDisksOperations {
    */
   list(
     resourceGroupName: string,
-    options?: VirtualHardDisksListOptionalParams
+    options?: VirtualHardDisksListOptionalParams,
   ): PagedAsyncIterableIterator<VirtualHardDisks>;
   /**
    * Lists all of the virtual hard disks in the specified subscription. Use the nextLink property in the
@@ -42,7 +42,7 @@ export interface VirtualHardDisksOperations {
    * @param options The options parameters.
    */
   listAll(
-    options?: VirtualHardDisksListAllOptionalParams
+    options?: VirtualHardDisksListAllOptionalParams,
   ): PagedAsyncIterableIterator<VirtualHardDisks>;
   /**
    * Gets a virtual hard disk
@@ -53,7 +53,7 @@ export interface VirtualHardDisksOperations {
   get(
     resourceGroupName: string,
     virtualHardDiskName: string,
-    options?: VirtualHardDisksGetOptionalParams
+    options?: VirtualHardDisksGetOptionalParams,
   ): Promise<VirtualHardDisksGetResponse>;
   /**
    * The operation to create or update a virtual hard disk. Please note some properties can be set only
@@ -67,7 +67,7 @@ export interface VirtualHardDisksOperations {
     resourceGroupName: string,
     virtualHardDiskName: string,
     virtualHardDisks: VirtualHardDisks,
-    options?: VirtualHardDisksCreateOrUpdateOptionalParams
+    options?: VirtualHardDisksCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VirtualHardDisksCreateOrUpdateResponse>,
@@ -86,7 +86,7 @@ export interface VirtualHardDisksOperations {
     resourceGroupName: string,
     virtualHardDiskName: string,
     virtualHardDisks: VirtualHardDisks,
-    options?: VirtualHardDisksCreateOrUpdateOptionalParams
+    options?: VirtualHardDisksCreateOrUpdateOptionalParams,
   ): Promise<VirtualHardDisksCreateOrUpdateResponse>;
   /**
    * The operation to delete a virtual hard disk.
@@ -97,7 +97,7 @@ export interface VirtualHardDisksOperations {
   beginDelete(
     resourceGroupName: string,
     virtualHardDiskName: string,
-    options?: VirtualHardDisksDeleteOptionalParams
+    options?: VirtualHardDisksDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VirtualHardDisksDeleteResponse>,
@@ -113,7 +113,7 @@ export interface VirtualHardDisksOperations {
   beginDeleteAndWait(
     resourceGroupName: string,
     virtualHardDiskName: string,
-    options?: VirtualHardDisksDeleteOptionalParams
+    options?: VirtualHardDisksDeleteOptionalParams,
   ): Promise<VirtualHardDisksDeleteResponse>;
   /**
    * The operation to update a virtual hard disk.
@@ -126,7 +126,7 @@ export interface VirtualHardDisksOperations {
     resourceGroupName: string,
     virtualHardDiskName: string,
     virtualHardDisks: VirtualHardDisksUpdateRequest,
-    options?: VirtualHardDisksUpdateOptionalParams
+    options?: VirtualHardDisksUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VirtualHardDisksUpdateResponse>,
@@ -144,6 +144,6 @@ export interface VirtualHardDisksOperations {
     resourceGroupName: string,
     virtualHardDiskName: string,
     virtualHardDisks: VirtualHardDisksUpdateRequest,
-    options?: VirtualHardDisksUpdateOptionalParams
+    options?: VirtualHardDisksUpdateOptionalParams,
   ): Promise<VirtualHardDisksUpdateResponse>;
 }
