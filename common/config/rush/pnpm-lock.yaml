@@ -827,6 +827,9 @@ dependencies:
   '@rush-temp/container-registry':
     specifier: file:./projects/container-registry.tgz
     version: file:projects/container-registry.tgz
+  '@rush-temp/contoso-widgetmanager-rest':
+    specifier: file:./projects/contoso-widgetmanager-rest.tgz
+    version: file:projects/contoso-widgetmanager-rest.tgz
   '@rush-temp/core-amqp':
     specifier: file:./projects/core-amqp.tgz
     version: file:projects/core-amqp.tgz
@@ -1463,6 +1466,16 @@ packages:
 
   /@azure/core-lro@2.7.2:
     resolution: {integrity: sha512-0YIpccoX8m/k00O7mDDMdJpbr6mf1yWo2dfmxt5A8XVZVVMz2SSKaEbMCeJRvgQ0IaSlqhjT47p4hVIRRy90xw==}
+    engines: {node: '>=18.0.0'}
+    dependencies:
+      '@azure/abort-controller': 2.1.2
+      '@azure/core-util': 1.9.0
+      '@azure/logger': 1.1.2
+      tslib: 2.6.3
+    dev: false
+
+  /@azure/core-lro@3.0.0:
+    resolution: {integrity: sha512-t46lsD0jDJ1o71hIGzoUfT9jH+rIkNJAJLhhPqW8XLbPueHBnP4x5PNJ2szXlLoztH/00OcUUH3FbFnAntOSWA==}
     engines: {node: '>=18.0.0'}
     dependencies:
       '@azure/abort-controller': 2.1.2
@@ -10486,8 +10499,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.5.3:
-    resolution: {integrity: sha512-/hreyEujaB0w76zKo6717l3L0o/qEUtRgdvUBvlkhoWeOVMjMuHNHk0BRBzikzuGDqNmPQbg5ifMEqsHLiIUcQ==}
+  /typescript@5.5.4:
+    resolution: {integrity: sha512-Mtq29sKDAEYP7aljRgtPOpTvOfbwRWlS6dPRzwjdE+C0R4brX/GUyhHSecbHMFLNBLcJIPt9nl9yG5TZ1weH+Q==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -19574,6 +19587,42 @@ packages:
       - utf-8-validate
     dev: false
 
+  file:projects/contoso-widgetmanager-rest.tgz:
+    resolution: {integrity: sha512-Z89V64BsoPHBtBDq5ZMSl6Rf2gb8p+veRvqTQVKU3BSTadImFxAIHNHqR31HeIKho6k5b182LYIzZMt01pAVjQ==, tarball: file:projects/contoso-widgetmanager-rest.tgz}
+    name: '@rush-temp/contoso-widgetmanager-rest'
+    version: 0.0.0
+    dependencies:
+      '@azure/core-lro': 3.0.0
+      '@microsoft/api-extractor': 7.47.0(@types/node@18.19.39)
+      '@types/node': 18.19.39
+      '@vitest/browser': 1.6.0(playwright@1.45.0)(vitest@1.6.0)
+      '@vitest/coverage-istanbul': 1.6.0(vitest@1.6.0)
+      dotenv: 16.4.5
+      eslint: 8.57.0
+      mkdirp: 3.0.1
+      playwright: 1.45.0
+      prettier: 3.3.2
+      rimraf: 5.0.7
+      tshy: 1.16.2
+      tslib: 2.6.3
+      typescript: 5.4.5
+      vitest: 1.6.0(@types/node@18.19.39)(@vitest/browser@1.6.0)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - safaridriver
+      - sass
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - webdriverio
+    dev: false
+
   file:projects/core-amqp.tgz:
     resolution: {integrity: sha512-6zOn7oCE3NYk9+sT/DFda1fdSa4OzmN6XaJF2zZb2L+3WQ+huO+cN1B8goQwJKVm99jc7E9Kjl4SfBJ7qUBWKg==, tarball: file:projects/core-amqp.tgz}
     name: '@rush-temp/core-amqp'
@@ -20110,7 +20159,7 @@ packages:
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
-      '@_ts/max': /typescript@5.5.3
+      '@_ts/max': /typescript@5.5.4
       '@_ts/min': /typescript@4.2.4
       '@azure/identity': 4.3.0
       '@microsoft/api-extractor': 7.47.0(@types/node@18.19.39)
@@ -20333,7 +20382,7 @@ packages:
     dev: false
 
   file:projects/event-hubs.tgz:
-    resolution: {integrity: sha512-xYQLYBO4TGESs2pRrCvymd+Dcwxt1XrIGFCh2uh/W4ZV88Ylenqoq0ORPvdMUECqnGbXTsacyWMe93l1FFkq6A==, tarball: file:projects/event-hubs.tgz}
+    resolution: {integrity: sha512-w2QQKZjOUsNAB8h+fiYZGb3HwLMPxmrgL5k810k2KH/QjUufjwoRvrCpD860O2rBTcwSTg1IUx26Yn09p9a+eA==, tarball: file:projects/event-hubs.tgz}
     name: '@rush-temp/event-hubs'
     version: 0.0.0
     dependencies:
