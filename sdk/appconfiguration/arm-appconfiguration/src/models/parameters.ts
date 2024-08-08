@@ -9,16 +9,19 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   ConfigurationStore as ConfigurationStoreMapper,
   ConfigurationStoreUpdateParameters as ConfigurationStoreUpdateParametersMapper,
   RegenerateKeyParameters as RegenerateKeyParametersMapper,
+  SasTokenGenerationParameters as SasTokenGenerationParametersMapper,
+  ResetSasTokensParameters as ResetSasTokensParametersMapper,
   CheckNameAvailabilityParameters as CheckNameAvailabilityParametersMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
   KeyValue as KeyValueMapper,
-  Replica as ReplicaMapper
+  Replica as ReplicaMapper,
+  Snapshot as SnapshotMapper,
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -28,9 +31,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -39,10 +42,10 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const subscriptionId: OperationURLParameter = {
@@ -51,21 +54,21 @@ export const subscriptionId: OperationURLParameter = {
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-03-01",
+    defaultValue: "2024-09-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const skipToken: OperationQueryParameter = {
@@ -73,9 +76,9 @@ export const skipToken: OperationQueryParameter = {
   mapper: {
     serializedName: "$skipToken",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -84,9 +87,9 @@ export const resourceGroupName: OperationURLParameter = {
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const configStoreName: OperationURLParameter = {
@@ -95,14 +98,14 @@ export const configStoreName: OperationURLParameter = {
     constraints: {
       Pattern: new RegExp("^[a-zA-Z0-9_-]*$"),
       MaxLength: 50,
-      MinLength: 5
+      MinLength: 5,
     },
     serializedName: "configStoreName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -112,24 +115,34 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const configStoreCreationParameters: OperationParameter = {
   parameterPath: "configStoreCreationParameters",
-  mapper: ConfigurationStoreMapper
+  mapper: ConfigurationStoreMapper,
 };
 
 export const configStoreUpdateParameters: OperationParameter = {
   parameterPath: "configStoreUpdateParameters",
-  mapper: ConfigurationStoreUpdateParametersMapper
+  mapper: ConfigurationStoreUpdateParametersMapper,
 };
 
 export const regenerateKeyParameters: OperationParameter = {
   parameterPath: "regenerateKeyParameters",
-  mapper: RegenerateKeyParametersMapper
+  mapper: RegenerateKeyParametersMapper,
+};
+
+export const sasTokenGenerationParameters: OperationParameter = {
+  parameterPath: "sasTokenGenerationParameters",
+  mapper: SasTokenGenerationParametersMapper,
+};
+
+export const resetSasTokensParameters: OperationParameter = {
+  parameterPath: "resetSasTokensParameters",
+  mapper: ResetSasTokensParametersMapper,
 };
 
 export const location: OperationURLParameter = {
@@ -138,9 +151,9 @@ export const location: OperationURLParameter = {
     serializedName: "location",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const nextLink: OperationURLParameter = {
@@ -149,15 +162,15 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const checkNameAvailabilityParameters: OperationParameter = {
   parameterPath: "checkNameAvailabilityParameters",
-  mapper: CheckNameAvailabilityParametersMapper
+  mapper: CheckNameAvailabilityParametersMapper,
 };
 
 export const privateEndpointConnectionName: OperationURLParameter = {
@@ -166,14 +179,14 @@ export const privateEndpointConnectionName: OperationURLParameter = {
     serializedName: "privateEndpointConnectionName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const privateEndpointConnection: OperationParameter = {
   parameterPath: "privateEndpointConnection",
-  mapper: PrivateEndpointConnectionMapper
+  mapper: PrivateEndpointConnectionMapper,
 };
 
 export const groupName: OperationURLParameter = {
@@ -182,9 +195,9 @@ export const groupName: OperationURLParameter = {
     serializedName: "groupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const keyValueName: OperationURLParameter = {
@@ -193,33 +206,33 @@ export const keyValueName: OperationURLParameter = {
     serializedName: "keyValueName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const keyValueParameters: OperationParameter = {
   parameterPath: ["options", "keyValueParameters"],
-  mapper: KeyValueMapper
+  mapper: KeyValueMapper,
 };
 
 export const replicaName: OperationURLParameter = {
   parameterPath: "replicaName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^[a-zA-Z0-9]*$")
+      Pattern: new RegExp("^[a-zA-Z0-9]*$"),
     },
     serializedName: "replicaName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const replicaCreationParameters: OperationParameter = {
   parameterPath: "replicaCreationParameters",
-  mapper: ReplicaMapper
+  mapper: ReplicaMapper,
 };
 
 export const replicaName1: OperationURLParameter = {
@@ -228,7 +241,41 @@ export const replicaName1: OperationURLParameter = {
     serializedName: "replicaName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const resourceGroupName1: OperationURLParameter = {
+  parameterPath: "resourceGroupName",
+  mapper: {
+    constraints: {
+      MaxLength: 90,
+      MinLength: 1,
+    },
+    serializedName: "resourceGroupName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const snapshotName: OperationURLParameter = {
+  parameterPath: "snapshotName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[^\\x00-\\x1F\\x7F]+$"),
+    },
+    serializedName: "snapshotName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const body: OperationParameter = {
+  parameterPath: "body",
+  mapper: SnapshotMapper,
 };
