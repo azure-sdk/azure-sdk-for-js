@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { DocumentDBContext } from "../../api/mongoClusterManagementContext.js";
+import { DocumentDBContext } from "../../api/documentDBContext.js";
 import {
   MongoCluster,
   MongoClusterUpdate,
@@ -66,7 +66,9 @@ export interface MongoClustersOperations {
     options?: MongoClustersListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<MongoCluster>;
   /** List all the mongo clusters in a given subscription. */
-  list: (options?: MongoClustersListOptionalParams) => PagedAsyncIterableIterator<MongoCluster>;
+  list: (
+    options?: MongoClustersListOptionalParams,
+  ) => PagedAsyncIterableIterator<MongoCluster>;
   /** List mongo cluster connection strings. This includes the default connection string using SCRAM-SHA-256, as well as other connection strings supported by the cluster. */
   listConnectionStrings: (
     resourceGroupName: string,
@@ -81,13 +83,23 @@ export interface MongoClustersOperations {
   ) => Promise<CheckNameAvailabilityResponse>;
 }
 
-export function getMongoClusters(context: DocumentDBContext, subscriptionId: string) {
+export function getMongoClusters(
+  context: DocumentDBContext,
+  subscriptionId: string,
+) {
   return {
     get: (
       resourceGroupName: string,
       mongoClusterName: string,
       options?: MongoClustersGetOptionalParams,
-    ) => mongoClustersGet(context, subscriptionId, resourceGroupName, mongoClusterName, options),
+    ) =>
+      mongoClustersGet(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        mongoClusterName,
+        options,
+      ),
     createOrUpdate: (
       resourceGroupName: string,
       mongoClusterName: string,
@@ -120,11 +132,24 @@ export function getMongoClusters(context: DocumentDBContext, subscriptionId: str
       resourceGroupName: string,
       mongoClusterName: string,
       options?: MongoClustersDeleteOptionalParams,
-    ) => mongoClustersDelete(context, subscriptionId, resourceGroupName, mongoClusterName, options),
+    ) =>
+      mongoClustersDelete(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        mongoClusterName,
+        options,
+      ),
     listByResourceGroup: (
       resourceGroupName: string,
       options?: MongoClustersListByResourceGroupOptionalParams,
-    ) => mongoClustersListByResourceGroup(context, subscriptionId, resourceGroupName, options),
+    ) =>
+      mongoClustersListByResourceGroup(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        options,
+      ),
     list: (options?: MongoClustersListOptionalParams) =>
       mongoClustersList(context, subscriptionId, options),
     listConnectionStrings: (
@@ -143,7 +168,14 @@ export function getMongoClusters(context: DocumentDBContext, subscriptionId: str
       location: string,
       body: CheckNameAvailabilityRequest,
       options?: MongoClustersCheckNameAvailabilityOptionalParams,
-    ) => mongoClustersCheckNameAvailability(context, subscriptionId, location, body, options),
+    ) =>
+      mongoClustersCheckNameAvailability(
+        context,
+        subscriptionId,
+        location,
+        body,
+        options,
+      ),
   };
 }
 

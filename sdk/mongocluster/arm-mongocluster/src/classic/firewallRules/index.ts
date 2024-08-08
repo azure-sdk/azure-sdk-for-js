@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { DocumentDBContext } from "../../api/mongoClusterManagementContext.js";
+import { DocumentDBContext } from "../../api/documentDBContext.js";
 import { FirewallRule } from "../../models/models.js";
 import {
   firewallRulesGet,
@@ -50,7 +50,10 @@ export interface FirewallRulesOperations {
   ) => PagedAsyncIterableIterator<FirewallRule>;
 }
 
-export function getFirewallRules(context: DocumentDBContext, subscriptionId: string) {
+export function getFirewallRules(
+  context: DocumentDBContext,
+  subscriptionId: string,
+) {
   return {
     get: (
       resourceGroupName: string,

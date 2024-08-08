@@ -3,7 +3,10 @@
 
 import { TokenCredential } from "@azure/core-auth";
 import { Pipeline } from "@azure/core-rest-pipeline";
-import { getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
+import {
+  getOperationsOperations,
+  OperationsOperations,
+} from "./classic/operations/index.js";
 import {
   getMongoClustersOperations,
   MongoClustersOperations,
@@ -16,16 +19,19 @@ import {
   getPrivateEndpointConnectionsOperations,
   PrivateEndpointConnectionsOperations,
 } from "./classic/privateEndpointConnections/index.js";
-import { getPrivateLinksOperations, PrivateLinksOperations } from "./classic/privateLinks/index.js";
 import {
-  createMongoClusterManagement,
-  MongoClusterManagementClientOptionalParams,
+  getPrivateLinksOperations,
+  PrivateLinksOperations,
+} from "./classic/privateLinks/index.js";
+import {
+  createDocumentDB,
+  DocumentDBClientOptionalParams,
   DocumentDBContext,
 } from "./api/index.js";
 
-export { MongoClusterManagementClientOptionalParams } from "./api/mongoClusterManagementContext.js";
+export { DocumentDBClientOptionalParams } from "./api/documentDBContext.js";
 
-export class MongoClusterManagementClient {
+export class DocumentDBClient {
   private _client: DocumentDBContext;
   /** The pipeline used by this client to make requests */
   public readonly pipeline: Pipeline;
@@ -34,21 +40,27 @@ export class MongoClusterManagementClient {
   constructor(
     credential: TokenCredential,
     subscriptionId: string,
-    options: MongoClusterManagementClientOptionalParams = {},
+    options: DocumentDBClientOptionalParams = {},
   ) {
     const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
       : "azsdk-js-client";
 
-    this._client = createMongoClusterManagement(credential, {
+    this._client = createDocumentDB(credential, {
       ...options,
       userAgentOptions: { userAgentPrefix },
     });
     this.pipeline = this._client.pipeline;
     this.operations = getOperationsOperations(this._client);
-    this.mongoClusters = getMongoClustersOperations(this._client, subscriptionId);
-    this.firewallRules = getFirewallRulesOperations(this._client, subscriptionId);
+    this.mongoClusters = getMongoClustersOperations(
+      this._client,
+      subscriptionId,
+    );
+    this.firewallRules = getFirewallRulesOperations(
+      this._client,
+      subscriptionId,
+    );
     this.privateEndpointConnections = getPrivateEndpointConnectionsOperations(
       this._client,
       subscriptionId,

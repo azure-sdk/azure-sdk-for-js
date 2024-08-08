@@ -17,7 +17,12 @@ import { StreamableMethod } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export function createMongoClusterManagement(credential: TokenCredential, options?: MongoClusterManagementClientOptionalParams): DocumentDBContext;
+export function createDocumentDB(credential: TokenCredential, options?: DocumentDBClientOptionalParams): DocumentDBContext;
+
+// @public
+export interface DocumentDBClientOptionalParams extends ClientOptions {
+    apiVersion?: string;
+}
 
 // @public (undocumented)
 export type DocumentDBContext = Client & {
@@ -35,11 +40,6 @@ export function firewallRulesGet(context: DocumentDBContext, subscriptionId: str
 
 // @public
 export function firewallRulesListByMongoCluster(context: DocumentDBContext, subscriptionId: string, resourceGroupName: string, mongoClusterName: string, options?: FirewallRulesListByMongoClusterOptionalParams): PagedAsyncIterableIterator<FirewallRule_2>;
-
-// @public
-export interface MongoClusterManagementClientOptionalParams extends ClientOptions {
-    apiVersion?: string;
-}
 
 // @public
 export function mongoClustersCheckNameAvailability(context: DocumentDBContext, subscriptionId: string, location: string, body: CheckNameAvailabilityRequest_2, options?: MongoClustersCheckNameAvailabilityOptionalParams): Promise<CheckNameAvailabilityResponse>;

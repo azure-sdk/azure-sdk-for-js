@@ -1,3 +1,14 @@
+## 1.0.0-beta.1 (2024-08-06)
+    
+### Features Added
+
+  - Added Interface DocumentDBClientOptionalParams
+  - Added Class DocumentDBClient
+
+### Breaking Changes
+
+  - Deleted Class MongoClusterManagementClient
+    
 # Release History
 
 ## 1.0.0-beta.2 (2024-07-30)
