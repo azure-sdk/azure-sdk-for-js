@@ -4,65 +4,78 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
+import { AbortSignalLike } from '@azure/abort-controller';
+import { CancelOnProgress } from '@azure/core-lro';
+import { Client } from '@azure-rest/core-client';
+import { ClientOptions } from '@azure-rest/core-client';
+import { CreateHttpPollerOptions } from '@azure/core-lro';
+import { HttpResponse } from '@azure-rest/core-client';
 import { OperationState } from '@azure/core-lro';
+import { Paged } from '@azure/core-paging';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
+import { RawHttpHeaders } from '@azure/core-rest-pipeline';
+import { RequestParameters } from '@azure-rest/core-client';
+import { StreamableMethod } from '@azure-rest/core-client';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export type ActionType = string;
+export type ActionTypeOutput = string;
 
 // @public (undocumented)
-export class AppComplianceAutomationToolForMicrosoft365 extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, options?: AppComplianceAutomationToolForMicrosoft365OptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    evidence: Evidence;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    providerActions: ProviderActions;
-    // (undocumented)
-    report: Report_2;
-    // (undocumented)
-    scopingConfiguration: ScopingConfiguration;
-    // (undocumented)
-    snapshot: Snapshot;
-    // (undocumented)
-    webhook: Webhook;
+export type AppComplianceAutomationClient = Client & {
+    path: Routes;
+};
+
+// @public
+export interface AppComplianceAutomationClientOptions extends ClientOptions {
+    apiVersion?: string;
 }
 
 // @public
-export interface AppComplianceAutomationToolForMicrosoft365OptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
-    apiVersion?: string;
-    endpoint?: string;
+export interface AzureEntityResource extends Resource {
+}
+
+// @public
+export interface AzureEntityResourceOutput extends ResourceOutput {
+    readonly etag?: string;
 }
 
 // @public
 export interface Category {
+}
+
+// @public
+export interface CategoryOutput {
     readonly categoryName?: string;
-    readonly categoryStatus?: CategoryStatus;
-    readonly controlFamilies?: ControlFamily[];
+    readonly categoryStatus?: CategoryStatusOutput;
+    readonly controlFamilies?: Array<ControlFamilyOutput>;
 }
 
 // @public
 export type CategoryStatus = string;
 
 // @public
+export type CategoryStatusOutput = string;
+
+// @public
 export interface CertSyncRecord {
     certificationStatus?: string;
-    controls?: ControlSyncRecord[];
+    controls?: Array<ControlSyncRecord>;
     ingestionStatus?: string;
     offerGuid?: string;
 }
 
 // @public
-export type CheckNameAvailabilityReason = string;
+export interface CertSyncRecordOutput {
+    certificationStatus?: string;
+    controls?: Array<ControlSyncRecordOutput>;
+    ingestionStatus?: string;
+    offerGuid?: string;
+}
+
+// @public
+export type CheckNameAvailabilityReasonOutput = string;
 
 // @public
 export interface CheckNameAvailabilityRequest {
@@ -71,23 +84,23 @@ export interface CheckNameAvailabilityRequest {
 }
 
 // @public
-export interface CheckNameAvailabilityResponse {
+export interface CheckNameAvailabilityResponseOutput {
     message?: string;
     nameAvailable?: boolean;
-    reason?: CheckNameAvailabilityReason;
+    reason?: CheckNameAvailabilityReasonOutput;
 }
 
 // @public
-export interface ComplianceReportItem {
+export interface ComplianceReportItemOutput {
     readonly categoryName?: string;
     readonly controlFamilyName?: string;
     readonly controlId?: string;
     readonly controlName?: string;
-    readonly controlStatus?: ControlStatus;
+    readonly controlStatus?: ControlStatusOutput;
     readonly resourceId?: string;
-    readonly resourceOrigin?: ResourceOrigin;
-    readonly resourceStatus?: ResourceStatus;
-    readonly resourceStatusChangeDate?: Date;
+    readonly resourceOrigin?: ResourceOriginOutput;
+    readonly resourceStatus?: ResourceStatusOutput;
+    readonly resourceStatusChangeDate?: string;
     readonly resourceType?: string;
     readonly responsibilityDescription?: string;
     readonly responsibilityTitle?: string;
@@ -95,7 +108,11 @@ export interface ComplianceReportItem {
 
 // @public
 export interface ComplianceResult {
-    readonly categories?: Category[];
+}
+
+// @public
+export interface ComplianceResultOutput {
+    readonly categories?: Array<CategoryOutput>;
     readonly complianceName?: string;
 }
 
@@ -103,28 +120,45 @@ export interface ComplianceResult {
 export type ContentType = string;
 
 // @public
+export type ContentTypeOutput = string;
+
+// @public
 export interface Control {
-    readonly controlDescription?: string;
-    readonly controlDescriptionHyperLink?: string;
-    readonly controlFullName?: string;
-    readonly controlId?: string;
-    readonly controlName?: string;
-    readonly controlStatus?: ControlStatus;
-    readonly responsibilities?: Responsibility[];
 }
 
 // @public
 export interface ControlFamily {
+}
+
+// @public
+export interface ControlFamilyOutput {
     readonly controlFamilyName?: string;
-    readonly controlFamilyStatus?: ControlFamilyStatus;
-    readonly controls?: Control[];
+    readonly controlFamilyStatus?: ControlFamilyStatusOutput;
+    readonly controls?: Array<ControlOutput>;
 }
 
 // @public
 export type ControlFamilyStatus = string;
 
 // @public
+export type ControlFamilyStatusOutput = string;
+
+// @public
+export interface ControlOutput {
+    readonly controlDescription?: string;
+    readonly controlDescriptionHyperLink?: string;
+    readonly controlFullName?: string;
+    readonly controlId?: string;
+    readonly controlName?: string;
+    readonly controlStatus?: ControlStatusOutput;
+    readonly responsibilities?: Array<ResponsibilityOutput>;
+}
+
+// @public
 export type ControlStatus = string;
+
+// @public
+export type ControlStatusOutput = string;
 
 // @public
 export interface ControlSyncRecord {
@@ -133,27 +167,43 @@ export interface ControlSyncRecord {
 }
 
 // @public
+export interface ControlSyncRecordOutput {
+    controlId?: string;
+    controlStatus?: string;
+}
+
+// @public
+function createClient(credentials: TokenCredential, { apiVersion, ...options }?: AppComplianceAutomationClientOptions): AppComplianceAutomationClient;
+export default createClient;
+
+// @public
 export type CreatedByType = string;
+
+// @public
+export type CreatedByTypeOutput = string;
 
 // @public
 export type DeliveryStatus = string;
 
 // @public
-export interface DownloadResponse {
-    readonly complianceDetailedPdfReport?: DownloadResponseComplianceDetailedPdfReport;
-    readonly compliancePdfReport?: DownloadResponseCompliancePdfReport;
-    readonly complianceReport?: ComplianceReportItem[];
-    readonly resourceList?: ResourceItem[];
-}
+export type DeliveryStatusOutput = string;
 
 // @public
-export interface DownloadResponseComplianceDetailedPdfReport {
+export interface DownloadResponseComplianceDetailedPdfReportOutput {
     readonly sasUri?: string;
 }
 
 // @public
-export interface DownloadResponseCompliancePdfReport {
+export interface DownloadResponseCompliancePdfReportOutput {
     readonly sasUri?: string;
+}
+
+// @public
+export interface DownloadResponseOutput {
+    readonly complianceDetailedPdfReport?: DownloadResponseComplianceDetailedPdfReportOutput;
+    readonly compliancePdfReport?: DownloadResponseCompliancePdfReportOutput;
+    readonly complianceReport?: Array<ComplianceReportItemOutput>;
+    readonly resourceList?: Array<ResourceItemOutput>;
 }
 
 // @public
@@ -163,53 +213,123 @@ export type DownloadType = string;
 export type EnableSslVerification = string;
 
 // @public
-export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, unknown>;
+export type EnableSslVerificationOutput = string;
+
+// @public
+export interface ErrorAdditionalInfoOutput {
+    readonly info?: Record<string, any>;
     readonly type?: string;
 }
 
 // @public
-export interface ErrorDetail {
-    readonly additionalInfo?: ErrorAdditionalInfo[];
+export interface ErrorDetailOutput {
+    readonly additionalInfo?: Array<ErrorAdditionalInfoOutput>;
     readonly code?: string;
-    readonly details?: ErrorDetail[];
+    readonly details?: Array<ErrorDetailOutput>;
     readonly message?: string;
     readonly target?: string;
 }
 
 // @public
-export interface ErrorResponse {
-    error?: ErrorDetail;
+export interface ErrorResponseOutput {
+    error?: ErrorDetailOutput;
 }
 
 // @public
-export interface Evidence {
-    createOrUpdate(reportName: string, evidenceName: string, properties: EvidenceResource, options?: EvidenceCreateOrUpdateOptionalParams): Promise<EvidenceCreateOrUpdateResponse>;
-    delete(reportName: string, evidenceName: string, options?: EvidenceDeleteOptionalParams): Promise<void>;
-    download(reportName: string, evidenceName: string, body: EvidenceFileDownloadRequest, options?: EvidenceDownloadOptionalParams): Promise<EvidenceDownloadResponse>;
-    get(reportName: string, evidenceName: string, options?: EvidenceGetOptionalParams): Promise<EvidenceGetResponse>;
-    listByReport(reportName: string, options?: EvidenceListByReportOptionalParams): PagedAsyncIterableIterator<EvidenceResource>;
+export interface EvidenceCreateOrUpdate200Response extends HttpResponse {
+    // (undocumented)
+    body: EvidenceResourceOutput;
+    // (undocumented)
+    status: "200";
 }
 
 // @public
-export interface EvidenceCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface EvidenceCreateOrUpdate201Response extends HttpResponse {
+    // (undocumented)
+    body: EvidenceResourceOutput;
+    // (undocumented)
+    status: "201";
+}
+
+// @public (undocumented)
+export interface EvidenceCreateOrUpdateBodyParam {
+    body: EvidenceResource;
+}
+
+// @public (undocumented)
+export interface EvidenceCreateOrUpdateDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type EvidenceCreateOrUpdateParameters = EvidenceCreateOrUpdateQueryParam & EvidenceCreateOrUpdateBodyParam & RequestParameters;
+
+// @public (undocumented)
+export interface EvidenceCreateOrUpdateQueryParam {
+    // (undocumented)
+    queryParameters?: EvidenceCreateOrUpdateQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface EvidenceCreateOrUpdateQueryParamProperties {
     offerGuid?: string;
     reportCreatorTenantId?: string;
 }
 
 // @public
-export type EvidenceCreateOrUpdateResponse = EvidenceResource;
-
-// @public
-export interface EvidenceDeleteOptionalParams extends coreClient.OperationOptions {
+export interface EvidenceDelete200Response extends HttpResponse {
+    // (undocumented)
+    status: "200";
 }
 
 // @public
-export interface EvidenceDownloadOptionalParams extends coreClient.OperationOptions {
+export interface EvidenceDelete204Response extends HttpResponse {
+    // (undocumented)
+    status: "204";
+}
+
+// @public (undocumented)
+export interface EvidenceDeleteDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type EvidenceDeleteParameters = RequestParameters;
+
+// @public (undocumented)
+export interface EvidenceDownload {
+    post(options: EvidenceDownloadParameters): StreamableMethod<EvidenceDownload200Response | EvidenceDownloadDefaultResponse>;
 }
 
 // @public
-export type EvidenceDownloadResponse = EvidenceFileDownloadResponse;
+export interface EvidenceDownload200Response extends HttpResponse {
+    // (undocumented)
+    body: EvidenceFileDownloadResponseOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface EvidenceDownloadBodyParam {
+    body: EvidenceFileDownloadRequest;
+}
+
+// @public (undocumented)
+export interface EvidenceDownloadDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type EvidenceDownloadParameters = EvidenceDownloadBodyParam & RequestParameters;
 
 // @public
 export interface EvidenceFileDownloadRequest {
@@ -218,42 +338,81 @@ export interface EvidenceFileDownloadRequest {
 }
 
 // @public
-export interface EvidenceFileDownloadResponse {
-    readonly evidenceFile?: EvidenceFileDownloadResponseEvidenceFile;
-}
-
-// @public
-export interface EvidenceFileDownloadResponseEvidenceFile {
+export interface EvidenceFileDownloadResponseEvidenceFileOutput {
     readonly url?: string;
 }
 
 // @public
-export interface EvidenceGetOptionalParams extends coreClient.OperationOptions {
+export interface EvidenceFileDownloadResponseOutput {
+    readonly evidenceFile?: EvidenceFileDownloadResponseEvidenceFileOutput;
+}
+
+// @public (undocumented)
+export interface EvidenceGet {
+    delete(options?: EvidenceDeleteParameters): StreamableMethod<EvidenceDelete200Response | EvidenceDelete204Response | EvidenceDeleteDefaultResponse>;
+    get(options?: EvidenceGetParameters): StreamableMethod<EvidenceGet200Response | EvidenceGetDefaultResponse>;
+    put(options: EvidenceCreateOrUpdateParameters): StreamableMethod<EvidenceCreateOrUpdate200Response | EvidenceCreateOrUpdate201Response | EvidenceCreateOrUpdateDefaultResponse>;
 }
 
 // @public
-export type EvidenceGetResponse = EvidenceResource;
+export interface EvidenceGet200Response extends HttpResponse {
+    // (undocumented)
+    body: EvidenceResourceOutput;
+    // (undocumented)
+    status: "200";
+}
 
-// @public
-export interface EvidenceListByReportNextOptionalParams extends coreClient.OperationOptions {
+// @public (undocumented)
+export interface EvidenceGetDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type EvidenceGetParameters = RequestParameters;
+
+// @public (undocumented)
+export interface EvidenceListByReport {
+    get(options?: EvidenceListByReportParameters): StreamableMethod<EvidenceListByReport200Response | EvidenceListByReportDefaultResponse>;
 }
 
 // @public
-export type EvidenceListByReportNextResponse = EvidenceResourceListResult;
+export interface EvidenceListByReport200Response extends HttpResponse {
+    // (undocumented)
+    body: EvidenceResourceListResultOutput;
+    // (undocumented)
+    status: "200";
+}
 
-// @public
-export interface EvidenceListByReportOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
+// @public (undocumented)
+export interface EvidenceListByReportDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type EvidenceListByReportParameters = EvidenceListByReportQueryParam & RequestParameters;
+
+// @public (undocumented)
+export interface EvidenceListByReportQueryParam {
+    // (undocumented)
+    queryParameters?: EvidenceListByReportQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface EvidenceListByReportQueryParamProperties {
+    $filter?: string;
+    $orderby?: string;
+    $select?: string;
+    $skipToken?: string;
+    $top?: number;
     offerGuid?: string;
-    orderby?: string;
     reportCreatorTenantId?: string;
-    select?: string;
-    skipToken?: string;
-    top?: number;
 }
-
-// @public
-export type EvidenceListByReportResponse = EvidenceResourceListResult;
 
 // @public
 export interface EvidenceProperties {
@@ -261,7 +420,16 @@ export interface EvidenceProperties {
     evidenceType?: EvidenceType;
     extraData?: string;
     filePath: string;
-    readonly provisioningState?: ProvisioningState;
+    responsibilityId?: string;
+}
+
+// @public
+export interface EvidencePropertiesOutput {
+    controlId?: string;
+    evidenceType?: EvidenceTypeOutput;
+    extraData?: string;
+    filePath: string;
+    readonly provisioningState?: ProvisioningStateOutput;
     responsibilityId?: string;
 }
 
@@ -271,13 +439,29 @@ export interface EvidenceResource extends ProxyResource {
 }
 
 // @public
-export interface EvidenceResourceListResult {
-    nextLink?: string;
-    value: EvidenceResource[];
+export type EvidenceResourceListResultOutput = Paged<EvidenceResourceOutput>;
+
+// @public
+export interface EvidenceResourceOutput extends ProxyResourceOutput {
+    properties: EvidencePropertiesOutput;
 }
 
 // @public
 export type EvidenceType = string;
+
+// @public
+export type EvidenceTypeOutput = string;
+
+// @public
+export interface ExtensionResource extends Resource {
+}
+
+// @public
+export interface ExtensionResourceOutput extends ResourceOutput {
+}
+
+// @public
+export type GetArrayType<T> = T extends Array<infer TData> ? TData : never;
 
 // @public
 export interface GetCollectionCountRequest {
@@ -285,12 +469,36 @@ export interface GetCollectionCountRequest {
 }
 
 // @public
-export interface GetCollectionCountResponse {
+export interface GetCollectionCountResponseOutput {
     count?: number;
 }
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
+export function getLongRunningPoller<TResult extends ReportCreateOrUpdateLogicalResponse | ReportCreateOrUpdateDefaultResponse>(client: Client, initialResponse: ReportCreateOrUpdate200Response | ReportCreateOrUpdate201Response | ReportCreateOrUpdateDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
+
+// @public (undocumented)
+export function getLongRunningPoller<TResult extends ReportUpdateLogicalResponse | ReportUpdateDefaultResponse>(client: Client, initialResponse: ReportUpdate200Response | ReportUpdate202Response | ReportUpdateDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
+
+// @public (undocumented)
+export function getLongRunningPoller<TResult extends ReportDeleteLogicalResponse | ReportDeleteDefaultResponse>(client: Client, initialResponse: ReportDelete202Response | ReportDelete204Response | ReportDeleteDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
+
+// @public (undocumented)
+export function getLongRunningPoller<TResult extends ReportSyncCertRecordLogicalResponse | ReportSyncCertRecordDefaultResponse>(client: Client, initialResponse: ReportSyncCertRecord200Response | ReportSyncCertRecord202Response | ReportSyncCertRecordDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
+
+// @public (undocumented)
+export function getLongRunningPoller<TResult extends ReportFixLogicalResponse | ReportFixDefaultResponse>(client: Client, initialResponse: ReportFix200Response | ReportFix202Response | ReportFixDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
+
+// @public (undocumented)
+export function getLongRunningPoller<TResult extends ReportVerifyLogicalResponse | ReportVerifyDefaultResponse>(client: Client, initialResponse: ReportVerify200Response | ReportVerify202Response | ReportVerifyDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
+
+// @public (undocumented)
+export function getLongRunningPoller<TResult extends SnapshotDownloadLogicalResponse | SnapshotDownloadDefaultResponse>(client: Client, initialResponse: SnapshotDownload200Response | SnapshotDownload202Response | SnapshotDownloadDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
+
+// @public (undocumented)
+export function getLongRunningPoller<TResult extends ProviderActionsOnboardLogicalResponse | ProviderActionsOnboardDefaultResponse>(client: Client, initialResponse: ProviderActionsOnboard200Response | ProviderActionsOnboard202Response | ProviderActionsOnboardDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
+
+// @public (undocumented)
+export function getLongRunningPoller<TResult extends ProviderActionsTriggerEvaluationLogicalResponse | ProviderActionsTriggerEvaluationDefaultResponse>(client: Client, initialResponse: ProviderActionsTriggerEvaluation200Response | ProviderActionsTriggerEvaluation202Response | ProviderActionsTriggerEvaluationDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 
 // @public
 export interface GetOverviewStatusRequest {
@@ -298,246 +506,138 @@ export interface GetOverviewStatusRequest {
 }
 
 // @public
-export interface GetOverviewStatusResponse {
-    statusList?: StatusItem[];
+export interface GetOverviewStatusResponseOutput {
+    statusList?: Array<StatusItemOutput>;
 }
 
 // @public
-export type InputType = string;
+export type GetPage<TPage> = (pageLink: string, maxPageSize?: number) => Promise<{
+    page: TPage;
+    nextPageLink?: string;
+}>;
+
+// @public
+export interface Identity {
+    type?: ResourceIdentityType;
+}
+
+// @public
+export interface IdentityOutput {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type?: ResourceIdentityTypeOutput;
+}
+
+// @public
+export type InputTypeOutput = string;
 
 // @public
 export type IsRecommendSolution = string;
 
 // @public
-export enum KnownActionType {
-    Internal = "Internal"
-}
+export type IsRecommendSolutionOutput = string;
 
-// @public
-export enum KnownCategoryStatus {
-    Failed = "Failed",
-    NotApplicable = "NotApplicable",
-    Passed = "Passed",
-    PendingApproval = "PendingApproval"
-}
+// @public (undocumented)
+export function isUnexpected(response: ReportGet200Response | ReportGetDefaultResponse): response is ReportGetDefaultResponse;
 
-// @public
-export enum KnownCheckNameAvailabilityReason {
-    AlreadyExists = "AlreadyExists",
-    Invalid = "Invalid"
-}
+// @public (undocumented)
+export function isUnexpected(response: ReportCreateOrUpdate200Response | ReportCreateOrUpdate201Response | ReportCreateOrUpdateLogicalResponse | ReportCreateOrUpdateDefaultResponse): response is ReportCreateOrUpdateDefaultResponse;
 
-// @public
-export enum KnownContentType {
-    ApplicationJson = "application/json"
-}
+// @public (undocumented)
+export function isUnexpected(response: ReportUpdate200Response | ReportUpdate202Response | ReportUpdateLogicalResponse | ReportUpdateDefaultResponse): response is ReportUpdateDefaultResponse;
 
-// @public
-export enum KnownControlFamilyStatus {
-    Failed = "Failed",
-    NotApplicable = "NotApplicable",
-    Passed = "Passed",
-    PendingApproval = "PendingApproval"
-}
+// @public (undocumented)
+export function isUnexpected(response: ReportDelete202Response | ReportDelete204Response | ReportDeleteLogicalResponse | ReportDeleteDefaultResponse): response is ReportDeleteDefaultResponse;
 
-// @public
-export enum KnownControlStatus {
-    Failed = "Failed",
-    NotApplicable = "NotApplicable",
-    Passed = "Passed",
-    PendingApproval = "PendingApproval"
-}
+// @public (undocumented)
+export function isUnexpected(response: ReportList200Response | ReportListDefaultResponse): response is ReportListDefaultResponse;
 
-// @public
-export enum KnownCreatedByType {
-    Application = "Application",
-    Key = "Key",
-    ManagedIdentity = "ManagedIdentity",
-    User = "User"
-}
+// @public (undocumented)
+export function isUnexpected(response: ReportSyncCertRecord200Response | ReportSyncCertRecord202Response | ReportSyncCertRecordLogicalResponse | ReportSyncCertRecordDefaultResponse): response is ReportSyncCertRecordDefaultResponse;
 
-// @public
-export enum KnownDeliveryStatus {
-    Failed = "Failed",
-    NotStarted = "NotStarted",
-    Succeeded = "Succeeded"
-}
+// @public (undocumented)
+export function isUnexpected(response: ReportCheckNameAvailability200Response | ReportCheckNameAvailabilityDefaultResponse): response is ReportCheckNameAvailabilityDefaultResponse;
 
-// @public
-export enum KnownDownloadType {
-    ComplianceDetailedPdfReport = "ComplianceDetailedPdfReport",
-    CompliancePdfReport = "CompliancePdfReport",
-    ComplianceReport = "ComplianceReport",
-    ResourceList = "ResourceList"
-}
+// @public (undocumented)
+export function isUnexpected(response: ReportFix200Response | ReportFix202Response | ReportFixLogicalResponse | ReportFixDefaultResponse): response is ReportFixDefaultResponse;
 
-// @public
-export enum KnownEnableSslVerification {
-    False = "false",
-    True = "true"
-}
+// @public (undocumented)
+export function isUnexpected(response: ReportGetScopingQuestions200Response | ReportGetScopingQuestionsDefaultResponse): response is ReportGetScopingQuestionsDefaultResponse;
 
-// @public
-export enum KnownEvidenceType {
-    AutoCollectedEvidence = "AutoCollectedEvidence",
-    Data = "Data",
-    File = "File"
-}
+// @public (undocumented)
+export function isUnexpected(response: ReportVerify200Response | ReportVerify202Response | ReportVerifyLogicalResponse | ReportVerifyDefaultResponse): response is ReportVerifyDefaultResponse;
 
-// @public
-export enum KnownInputType {
-    Boolean = "Boolean",
-    Date = "Date",
-    Email = "Email",
-    Group = "Group",
-    MultilineText = "MultilineText",
-    MultiSelectCheckbox = "MultiSelectCheckbox",
-    MultiSelectDropdown = "MultiSelectDropdown",
-    MultiSelectDropdownCustom = "MultiSelectDropdownCustom",
-    None = "None",
-    Number = "Number",
-    SingleSelectDropdown = "SingleSelectDropdown",
-    SingleSelection = "SingleSelection",
-    Telephone = "Telephone",
-    Text = "Text",
-    Upload = "Upload",
-    Url = "Url",
-    YearPicker = "YearPicker",
-    YesNoNa = "YesNoNa"
-}
+// @public (undocumented)
+export function isUnexpected(response: WebhookGet200Response | WebhookGetDefaultResponse): response is WebhookGetDefaultResponse;
 
-// @public
-export enum KnownIsRecommendSolution {
-    False = "false",
-    True = "true"
-}
+// @public (undocumented)
+export function isUnexpected(response: WebhookCreateOrUpdate200Response | WebhookCreateOrUpdate201Response | WebhookCreateOrUpdateDefaultResponse): response is WebhookCreateOrUpdateDefaultResponse;
 
-// @public
-export enum KnownNotificationEvent {
-    AssessmentFailure = "assessment_failure",
-    GenerateSnapshotFailed = "generate_snapshot_failed",
-    GenerateSnapshotSuccess = "generate_snapshot_success",
-    ReportConfigurationChanges = "report_configuration_changes",
-    ReportDeletion = "report_deletion"
-}
+// @public (undocumented)
+export function isUnexpected(response: WebhookUpdate200Response | WebhookUpdateDefaultResponse): response is WebhookUpdateDefaultResponse;
 
-// @public
-export enum KnownOrigin {
-    System = "system",
-    User = "user",
-    UserSystem = "user,system"
-}
+// @public (undocumented)
+export function isUnexpected(response: WebhookDelete200Response | WebhookDelete204Response | WebhookDeleteDefaultResponse): response is WebhookDeleteDefaultResponse;
 
-// @public
-export enum KnownProvisioningState {
-    Canceled = "Canceled",
-    Creating = "Creating",
-    Deleting = "Deleting",
-    Failed = "Failed",
-    Fixing = "Fixing",
-    Succeeded = "Succeeded",
-    Updating = "Updating",
-    Verifying = "Verifying"
-}
+// @public (undocumented)
+export function isUnexpected(response: WebhookList200Response | WebhookListDefaultResponse): response is WebhookListDefaultResponse;
 
-// @public
-export enum KnownReportStatus {
-    Active = "Active",
-    Disabled = "Disabled",
-    Failed = "Failed",
-    Reviewing = "Reviewing"
-}
+// @public (undocumented)
+export function isUnexpected(response: SnapshotGet200Response | SnapshotGetDefaultResponse): response is SnapshotGetDefaultResponse;
 
-// @public
-export enum KnownResourceOrigin {
-    AWS = "AWS",
-    Azure = "Azure",
-    GCP = "GCP"
-}
+// @public (undocumented)
+export function isUnexpected(response: SnapshotList200Response | SnapshotListDefaultResponse): response is SnapshotListDefaultResponse;
 
-// @public
-export enum KnownResourceStatus {
-    Healthy = "Healthy",
-    Unhealthy = "Unhealthy"
-}
+// @public (undocumented)
+export function isUnexpected(response: SnapshotDownload200Response | SnapshotDownload202Response | SnapshotDownloadLogicalResponse | SnapshotDownloadDefaultResponse): response is SnapshotDownloadDefaultResponse;
 
-// @public
-export enum KnownResponsibilityEnvironment {
-    AWS = "AWS",
-    Azure = "Azure",
-    GCP = "GCP",
-    General = "General"
-}
+// @public (undocumented)
+export function isUnexpected(response: ScopingConfigurationGet200Response | ScopingConfigurationGetDefaultResponse): response is ScopingConfigurationGetDefaultResponse;
 
-// @public
-export enum KnownResponsibilitySeverity {
-    High = "High",
-    Low = "Low",
-    Medium = "Medium"
-}
+// @public (undocumented)
+export function isUnexpected(response: ScopingConfigurationCreateOrUpdate200Response | ScopingConfigurationCreateOrUpdate201Response | ScopingConfigurationCreateOrUpdateDefaultResponse): response is ScopingConfigurationCreateOrUpdateDefaultResponse;
 
-// @public
-export enum KnownResponsibilityStatus {
-    Failed = "Failed",
-    NotApplicable = "NotApplicable",
-    Passed = "Passed",
-    PendingApproval = "PendingApproval"
-}
+// @public (undocumented)
+export function isUnexpected(response: ScopingConfigurationDelete200Response | ScopingConfigurationDelete204Response | ScopingConfigurationDeleteDefaultResponse): response is ScopingConfigurationDeleteDefaultResponse;
 
-// @public
-export enum KnownResponsibilityType {
-    Automated = "Automated",
-    Manual = "Manual",
-    ScopedManual = "ScopedManual"
-}
+// @public (undocumented)
+export function isUnexpected(response: ScopingConfigurationList200Response | ScopingConfigurationListDefaultResponse): response is ScopingConfigurationListDefaultResponse;
 
-// @public
-export enum KnownResult {
-    Failed = "Failed",
-    Succeeded = "Succeeded"
-}
+// @public (undocumented)
+export function isUnexpected(response: EvidenceGet200Response | EvidenceGetDefaultResponse): response is EvidenceGetDefaultResponse;
 
-// @public
-export enum KnownRule {
-    AzureApplication = "AzureApplication",
-    CharLength = "CharLength",
-    CreditCardPCI = "CreditCardPCI",
-    Domains = "Domains",
-    DynamicDropdown = "DynamicDropdown",
-    PreventNonEnglishChar = "PreventNonEnglishChar",
-    PublicSOX = "PublicSOX",
-    PublisherVerification = "PublisherVerification",
-    Required = "Required",
-    Url = "Url",
-    Urls = "Urls",
-    USPrivacyShield = "USPrivacyShield",
-    ValidEmail = "ValidEmail",
-    ValidGuid = "ValidGuid"
-}
+// @public (undocumented)
+export function isUnexpected(response: EvidenceCreateOrUpdate200Response | EvidenceCreateOrUpdate201Response | EvidenceCreateOrUpdateDefaultResponse): response is EvidenceCreateOrUpdateDefaultResponse;
 
-// @public
-export enum KnownSendAllEvents {
-    False = "false",
-    True = "true"
-}
+// @public (undocumented)
+export function isUnexpected(response: EvidenceDelete200Response | EvidenceDelete204Response | EvidenceDeleteDefaultResponse): response is EvidenceDeleteDefaultResponse;
 
-// @public
-export enum KnownUpdateWebhookKey {
-    False = "false",
-    True = "true"
-}
+// @public (undocumented)
+export function isUnexpected(response: EvidenceListByReport200Response | EvidenceListByReportDefaultResponse): response is EvidenceListByReportDefaultResponse;
 
-// @public
-export enum KnownWebhookKeyEnabled {
-    False = "false",
-    True = "true"
-}
+// @public (undocumented)
+export function isUnexpected(response: EvidenceDownload200Response | EvidenceDownloadDefaultResponse): response is EvidenceDownloadDefaultResponse;
 
-// @public
-export enum KnownWebhookStatus {
-    Disabled = "Disabled",
-    Enabled = "Enabled"
-}
+// @public (undocumented)
+export function isUnexpected(response: OperationsList200Response | OperationsListDefaultResponse): response is OperationsListDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: ProviderActionsCheckNameAvailability200Response | ProviderActionsCheckNameAvailabilityDefaultResponse): response is ProviderActionsCheckNameAvailabilityDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: ProviderActionsGetCollectionCount200Response | ProviderActionsGetCollectionCountDefaultResponse): response is ProviderActionsGetCollectionCountDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: ProviderActionsGetOverviewStatus200Response | ProviderActionsGetOverviewStatusDefaultResponse): response is ProviderActionsGetOverviewStatusDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: ProviderActionsOnboard200Response | ProviderActionsOnboard202Response | ProviderActionsOnboardLogicalResponse | ProviderActionsOnboardDefaultResponse): response is ProviderActionsOnboardDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: ProviderActionsTriggerEvaluation200Response | ProviderActionsTriggerEvaluation202Response | ProviderActionsTriggerEvaluationLogicalResponse | ProviderActionsTriggerEvaluationDefaultResponse): response is ProviderActionsTriggerEvaluationDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: ProviderActionsListInUseStorageAccounts200Response | ProviderActionsListInUseStorageAccountsDefaultResponse): response is ProviderActionsListInUseStorageAccountsDefaultResponse;
 
 // @public
 export interface ListInUseStorageAccountsRequest {
@@ -545,12 +645,15 @@ export interface ListInUseStorageAccountsRequest {
 }
 
 // @public
-export interface ListInUseStorageAccountsResponse {
-    storageAccountList?: StorageInfo[];
+export interface ListInUseStorageAccountsResponseOutput {
+    storageAccountList?: Array<StorageInfoOutput>;
 }
 
 // @public
 export type NotificationEvent = string;
+
+// @public
+export type NotificationEventOutput = string;
 
 // @public
 export interface OnboardRequest {
@@ -558,21 +661,12 @@ export interface OnboardRequest {
 }
 
 // @public
-export interface OnboardResponse {
+export interface OnboardResponseOutput {
     subscriptionIds?: string[];
 }
 
 // @public
-export interface Operation {
-    readonly actionType?: ActionType;
-    display?: OperationDisplay;
-    readonly isDataAction?: boolean;
-    readonly name?: string;
-    readonly origin?: Origin;
-}
-
-// @public
-export interface OperationDisplay {
+export interface OperationDisplayOutput {
     readonly description?: string;
     readonly operation?: string;
     readonly provider?: string;
@@ -580,35 +674,50 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationListResult {
-    readonly nextLink?: string;
-    readonly value?: Operation[];
+export type OperationListResultOutput = Paged<OperationOutput>;
+
+// @public
+export interface OperationOutput {
+    actionType?: ActionTypeOutput;
+    readonly display?: OperationDisplayOutput;
+    readonly isDataAction?: boolean;
+    readonly name?: string;
+    readonly origin?: OriginOutput;
+}
+
+// @public (undocumented)
+export interface OperationsList {
+    get(options?: OperationsListParameters): StreamableMethod<OperationsList200Response | OperationsListDefaultResponse>;
 }
 
 // @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
+export interface OperationsList200Response extends HttpResponse {
+    // (undocumented)
+    body: OperationListResultOutput;
+    // (undocumented)
+    status: "200";
 }
 
-// @public
-export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
+// @public (undocumented)
+export interface OperationsListDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: string;
 }
 
-// @public
-export type OperationsListNextResponse = OperationListResult;
+// @public (undocumented)
+export type OperationsListParameters = RequestParameters;
 
 // @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListResponse = OperationListResult;
-
-// @public
-export type Origin = string;
+export type OriginOutput = string;
 
 // @public
 export interface OverviewStatus {
+}
+
+// @public
+export interface OverviewStatusOutput {
     readonly failedCount?: number;
     readonly manualCount?: number;
     readonly notApplicableCount?: number;
@@ -617,259 +726,683 @@ export interface OverviewStatus {
 }
 
 // @public
-export interface ProviderActions {
-    beginOnboard(body: OnboardRequest, options?: ProviderActionsOnboardOptionalParams): Promise<SimplePollerLike<OperationState<ProviderActionsOnboardResponse>, ProviderActionsOnboardResponse>>;
-    beginOnboardAndWait(body: OnboardRequest, options?: ProviderActionsOnboardOptionalParams): Promise<ProviderActionsOnboardResponse>;
-    beginTriggerEvaluation(body: TriggerEvaluationRequest, options?: ProviderActionsTriggerEvaluationOptionalParams): Promise<SimplePollerLike<OperationState<ProviderActionsTriggerEvaluationResponse>, ProviderActionsTriggerEvaluationResponse>>;
-    beginTriggerEvaluationAndWait(body: TriggerEvaluationRequest, options?: ProviderActionsTriggerEvaluationOptionalParams): Promise<ProviderActionsTriggerEvaluationResponse>;
-    checkNameAvailability(body: CheckNameAvailabilityRequest, options?: ProviderActionsCheckNameAvailabilityOptionalParams): Promise<ProviderActionsCheckNameAvailabilityResponse>;
-    getCollectionCount(body: GetCollectionCountRequest, options?: ProviderActionsGetCollectionCountOptionalParams): Promise<ProviderActionsGetCollectionCountResponse>;
-    getOverviewStatus(body: GetOverviewStatusRequest, options?: ProviderActionsGetOverviewStatusOptionalParams): Promise<ProviderActionsGetOverviewStatusResponse>;
-    listInUseStorageAccounts(body: ListInUseStorageAccountsRequest, options?: ProviderActionsListInUseStorageAccountsOptionalParams): Promise<ProviderActionsListInUseStorageAccountsResponse>;
+export function paginate<TResponse extends PathUncheckedResponse>(client: Client, initialResponse: TResponse, options?: PagingOptions<TResponse>): PagedAsyncIterableIterator<PaginateReturn<TResponse>>;
+
+// @public
+export type PaginateReturn<TResult> = TResult extends {
+    body: {
+        value?: infer TPage;
+    };
+} ? GetArrayType<TPage> : Array<unknown>;
+
+// @public
+export interface PagingOptions<TResponse> {
+    customGetPage?: GetPage<PaginateReturn<TResponse>[]>;
 }
 
 // @public
-export interface ProviderActionsCheckNameAvailabilityOptionalParams extends coreClient.OperationOptions {
+export interface Plan {
+    name: string;
+    product: string;
+    promotionCode?: string;
+    publisher: string;
+    version?: string;
 }
 
 // @public
-export type ProviderActionsCheckNameAvailabilityResponse = CheckNameAvailabilityResponse;
-
-// @public
-export interface ProviderActionsGetCollectionCountOptionalParams extends coreClient.OperationOptions {
+export interface PlanOutput {
+    name: string;
+    product: string;
+    promotionCode?: string;
+    publisher: string;
+    version?: string;
 }
 
 // @public
-export type ProviderActionsGetCollectionCountResponse = GetCollectionCountResponse;
-
-// @public
-export interface ProviderActionsGetOverviewStatusOptionalParams extends coreClient.OperationOptions {
+export interface PrivateEndpoint {
 }
 
 // @public
-export type ProviderActionsGetOverviewStatusResponse = GetOverviewStatusResponse;
-
-// @public
-export interface ProviderActionsListInUseStorageAccountsOptionalParams extends coreClient.OperationOptions {
+export interface PrivateEndpointConnection extends Resource {
+    properties?: PrivateEndpointConnectionProperties;
 }
 
 // @public
-export type ProviderActionsListInUseStorageAccountsResponse = ListInUseStorageAccountsResponse;
+export interface PrivateEndpointConnectionOutput extends ResourceOutput {
+    properties?: PrivateEndpointConnectionPropertiesOutput;
+}
 
 // @public
-export interface ProviderActionsOnboardHeaders {
+export interface PrivateEndpointConnectionProperties {
+    privateEndpoint?: PrivateEndpoint;
+    privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
+}
+
+// @public
+export interface PrivateEndpointConnectionPropertiesOutput {
+    privateEndpoint?: PrivateEndpointOutput;
+    privateLinkServiceConnectionState: PrivateLinkServiceConnectionStateOutput;
+    readonly provisioningState?: PrivateEndpointConnectionProvisioningStateOutput;
+}
+
+// @public
+export type PrivateEndpointConnectionProvisioningState = string;
+
+// @public
+export type PrivateEndpointConnectionProvisioningStateOutput = string;
+
+// @public
+export interface PrivateEndpointOutput {
+    readonly id?: string;
+}
+
+// @public
+export type PrivateEndpointServiceConnectionStatus = string;
+
+// @public
+export type PrivateEndpointServiceConnectionStatusOutput = string;
+
+// @public
+export interface PrivateLinkResource extends Resource {
+    properties?: PrivateLinkResourceProperties;
+}
+
+// @public
+export interface PrivateLinkResourceOutput extends ResourceOutput {
+    properties?: PrivateLinkResourcePropertiesOutput;
+}
+
+// @public
+export interface PrivateLinkResourceProperties {
+    requiredZoneNames?: string[];
+}
+
+// @public
+export interface PrivateLinkResourcePropertiesOutput {
+    readonly groupId?: string;
+    readonly requiredMembers?: string[];
+    requiredZoneNames?: string[];
+}
+
+// @public
+export interface PrivateLinkServiceConnectionState {
+    actionsRequired?: string;
+    description?: string;
+    status?: PrivateEndpointServiceConnectionStatus;
+}
+
+// @public
+export interface PrivateLinkServiceConnectionStateOutput {
+    actionsRequired?: string;
+    description?: string;
+    status?: PrivateEndpointServiceConnectionStatusOutput;
+}
+
+// @public (undocumented)
+export interface ProviderActionsCheckNameAvailability {
+    post(options: ProviderActionsCheckNameAvailabilityParameters): StreamableMethod<ProviderActionsCheckNameAvailability200Response | ProviderActionsCheckNameAvailabilityDefaultResponse>;
+}
+
+// @public
+export interface ProviderActionsCheckNameAvailability200Response extends HttpResponse {
+    // (undocumented)
+    body: CheckNameAvailabilityResponseOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface ProviderActionsCheckNameAvailabilityBodyParam {
+    body: CheckNameAvailabilityRequest;
+}
+
+// @public (undocumented)
+export interface ProviderActionsCheckNameAvailabilityDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type ProviderActionsCheckNameAvailabilityParameters = ProviderActionsCheckNameAvailabilityBodyParam & RequestParameters;
+
+// @public (undocumented)
+export interface ProviderActionsGetCollectionCount {
+    post(options: ProviderActionsGetCollectionCountParameters): StreamableMethod<ProviderActionsGetCollectionCount200Response | ProviderActionsGetCollectionCountDefaultResponse>;
+}
+
+// @public
+export interface ProviderActionsGetCollectionCount200Response extends HttpResponse {
+    // (undocumented)
+    body: GetCollectionCountResponseOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface ProviderActionsGetCollectionCountBodyParam {
+    body: GetCollectionCountRequest;
+}
+
+// @public (undocumented)
+export interface ProviderActionsGetCollectionCountDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type ProviderActionsGetCollectionCountParameters = ProviderActionsGetCollectionCountBodyParam & RequestParameters;
+
+// @public (undocumented)
+export interface ProviderActionsGetOverviewStatus {
+    post(options: ProviderActionsGetOverviewStatusParameters): StreamableMethod<ProviderActionsGetOverviewStatus200Response | ProviderActionsGetOverviewStatusDefaultResponse>;
+}
+
+// @public
+export interface ProviderActionsGetOverviewStatus200Response extends HttpResponse {
+    // (undocumented)
+    body: GetOverviewStatusResponseOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface ProviderActionsGetOverviewStatusBodyParam {
+    body: GetOverviewStatusRequest;
+}
+
+// @public (undocumented)
+export interface ProviderActionsGetOverviewStatusDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type ProviderActionsGetOverviewStatusParameters = ProviderActionsGetOverviewStatusBodyParam & RequestParameters;
+
+// @public (undocumented)
+export interface ProviderActionsListInUseStorageAccounts {
+    post(options: ProviderActionsListInUseStorageAccountsParameters): StreamableMethod<ProviderActionsListInUseStorageAccounts200Response | ProviderActionsListInUseStorageAccountsDefaultResponse>;
+}
+
+// @public
+export interface ProviderActionsListInUseStorageAccounts200Response extends HttpResponse {
+    // (undocumented)
+    body: ListInUseStorageAccountsResponseOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface ProviderActionsListInUseStorageAccountsBodyParam {
+    body: ListInUseStorageAccountsRequest;
+}
+
+// @public (undocumented)
+export interface ProviderActionsListInUseStorageAccountsDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type ProviderActionsListInUseStorageAccountsParameters = ProviderActionsListInUseStorageAccountsBodyParam & RequestParameters;
+
+// @public (undocumented)
+export interface ProviderActionsOnboard {
+    post(options: ProviderActionsOnboardParameters): StreamableMethod<ProviderActionsOnboard200Response | ProviderActionsOnboard202Response | ProviderActionsOnboardDefaultResponse>;
+}
+
+// @public
+export interface ProviderActionsOnboard200Response extends HttpResponse {
+    // (undocumented)
+    body: OnboardResponseOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface ProviderActionsOnboard202Headers {
+    "retry-after"?: number;
     location?: string;
-    retryAfter?: number;
 }
 
 // @public
-export interface ProviderActionsOnboardOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
+export interface ProviderActionsOnboard202Response extends HttpResponse {
+    // (undocumented)
+    headers: RawHttpHeaders & ProviderActionsOnboard202Headers;
+    // (undocumented)
+    status: "202";
+}
+
+// @public (undocumented)
+export interface ProviderActionsOnboardBodyParam {
+    body: OnboardRequest;
+}
+
+// @public (undocumented)
+export interface ProviderActionsOnboardDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: string;
 }
 
 // @public
-export type ProviderActionsOnboardResponse = OnboardResponse;
+export interface ProviderActionsOnboardLogicalResponse extends HttpResponse {
+    // (undocumented)
+    body: OnboardResponseOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export type ProviderActionsOnboardParameters = ProviderActionsOnboardBodyParam & RequestParameters;
+
+// @public (undocumented)
+export interface ProviderActionsTriggerEvaluation {
+    post(options: ProviderActionsTriggerEvaluationParameters): StreamableMethod<ProviderActionsTriggerEvaluation200Response | ProviderActionsTriggerEvaluation202Response | ProviderActionsTriggerEvaluationDefaultResponse>;
+}
 
 // @public
-export interface ProviderActionsTriggerEvaluationHeaders {
+export interface ProviderActionsTriggerEvaluation200Response extends HttpResponse {
+    // (undocumented)
+    body: TriggerEvaluationResponseOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface ProviderActionsTriggerEvaluation202Headers {
+    "retry-after"?: number;
     location?: string;
-    retryAfter?: number;
 }
 
 // @public
-export interface ProviderActionsTriggerEvaluationOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
+export interface ProviderActionsTriggerEvaluation202Response extends HttpResponse {
+    // (undocumented)
+    headers: RawHttpHeaders & ProviderActionsTriggerEvaluation202Headers;
+    // (undocumented)
+    status: "202";
+}
+
+// @public (undocumented)
+export interface ProviderActionsTriggerEvaluationBodyParam {
+    body: TriggerEvaluationRequest;
+}
+
+// @public (undocumented)
+export interface ProviderActionsTriggerEvaluationDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: string;
 }
 
 // @public
-export type ProviderActionsTriggerEvaluationResponse = TriggerEvaluationResponse;
+export interface ProviderActionsTriggerEvaluationLogicalResponse extends HttpResponse {
+    // (undocumented)
+    body: TriggerEvaluationResponseOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export type ProviderActionsTriggerEvaluationParameters = ProviderActionsTriggerEvaluationBodyParam & RequestParameters;
 
 // @public
 export type ProvisioningState = string;
+
+// @public
+export type ProvisioningStateOutput = string;
 
 // @public
 export interface ProxyResource extends Resource {
 }
 
 // @public
-export interface QuickAssessment {
+export interface ProxyResourceOutput extends ResourceOutput {
+}
+
+// @public
+export interface QuickAssessmentOutput {
     readonly description?: string;
     readonly displayName?: string;
     readonly remediationLink?: string;
     readonly resourceId?: string;
-    readonly resourceStatus?: ResourceStatus;
+    readonly resourceStatus?: ResourceStatusOutput;
     readonly responsibilityId?: string;
-    readonly timestamp?: Date;
+    readonly timestamp?: string;
 }
 
 // @public
 export interface Recommendation {
+}
+
+// @public
+export interface RecommendationOutput {
     readonly recommendationId?: string;
     readonly recommendationShortName?: string;
-    readonly recommendationSolutions?: RecommendationSolution[];
+    readonly recommendationSolutions?: Array<RecommendationSolutionOutput>;
 }
 
 // @public
 export interface RecommendationSolution {
-    readonly isRecommendSolution?: IsRecommendSolution;
+}
+
+// @public
+export interface RecommendationSolutionOutput {
+    readonly isRecommendSolution?: IsRecommendSolutionOutput;
     readonly recommendationSolutionContent?: string;
     readonly recommendationSolutionIndex?: string;
 }
 
-// @public
-interface Report_2 {
-    beginCreateOrUpdate(reportName: string, properties: ReportResource, options?: ReportCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ReportCreateOrUpdateResponse>, ReportCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(reportName: string, properties: ReportResource, options?: ReportCreateOrUpdateOptionalParams): Promise<ReportCreateOrUpdateResponse>;
-    beginDelete(reportName: string, options?: ReportDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ReportDeleteResponse>, ReportDeleteResponse>>;
-    beginDeleteAndWait(reportName: string, options?: ReportDeleteOptionalParams): Promise<ReportDeleteResponse>;
-    beginFix(reportName: string, options?: ReportFixOptionalParams): Promise<SimplePollerLike<OperationState<ReportFixResponse>, ReportFixResponse>>;
-    beginFixAndWait(reportName: string, options?: ReportFixOptionalParams): Promise<ReportFixResponse>;
-    beginSyncCertRecord(reportName: string, body: SyncCertRecordRequest, options?: ReportSyncCertRecordOptionalParams): Promise<SimplePollerLike<OperationState<ReportSyncCertRecordResponse>, ReportSyncCertRecordResponse>>;
-    beginSyncCertRecordAndWait(reportName: string, body: SyncCertRecordRequest, options?: ReportSyncCertRecordOptionalParams): Promise<ReportSyncCertRecordResponse>;
-    beginUpdate(reportName: string, properties: ReportResourcePatch, options?: ReportUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ReportUpdateResponse>, ReportUpdateResponse>>;
-    beginUpdateAndWait(reportName: string, properties: ReportResourcePatch, options?: ReportUpdateOptionalParams): Promise<ReportUpdateResponse>;
-    beginVerify(reportName: string, options?: ReportVerifyOptionalParams): Promise<SimplePollerLike<OperationState<ReportVerifyResponse>, ReportVerifyResponse>>;
-    beginVerifyAndWait(reportName: string, options?: ReportVerifyOptionalParams): Promise<ReportVerifyResponse>;
-    get(reportName: string, options?: ReportGetOptionalParams): Promise<ReportGetResponse>;
-    getScopingQuestions(reportName: string, options?: ReportGetScopingQuestionsOptionalParams): Promise<ReportGetScopingQuestionsResponse>;
-    list(options?: ReportListOptionalParams): PagedAsyncIterableIterator<ReportResource>;
-    nestedResourceCheckNameAvailability(reportName: string, body: CheckNameAvailabilityRequest, options?: ReportNestedResourceCheckNameAvailabilityOptionalParams): Promise<ReportNestedResourceCheckNameAvailabilityResponse>;
+// @public (undocumented)
+export interface ReportCheckNameAvailability {
+    post(options: ReportCheckNameAvailabilityParameters): StreamableMethod<ReportCheckNameAvailability200Response | ReportCheckNameAvailabilityDefaultResponse>;
 }
-export { Report_2 as Report }
+
+// @public
+export interface ReportCheckNameAvailability200Response extends HttpResponse {
+    // (undocumented)
+    body: CheckNameAvailabilityResponseOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface ReportCheckNameAvailabilityBodyParam {
+    body: CheckNameAvailabilityRequest;
+}
+
+// @public (undocumented)
+export interface ReportCheckNameAvailabilityDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type ReportCheckNameAvailabilityParameters = ReportCheckNameAvailabilityBodyParam & RequestParameters;
 
 // @public
 export interface ReportComplianceStatus {
-    readonly m365?: OverviewStatus;
 }
 
 // @public
-export interface ReportCreateOrUpdateHeaders {
-    retryAfter?: number;
+export interface ReportComplianceStatusOutput {
+    readonly m365?: OverviewStatusOutput;
 }
 
 // @public
-export interface ReportCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
+export interface ReportCreateOrUpdate200Response extends HttpResponse {
+    // (undocumented)
+    body: ReportResourceOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface ReportCreateOrUpdate201Headers {
+    "retry-after"?: number;
 }
 
 // @public
-export type ReportCreateOrUpdateResponse = ReportResource;
+export interface ReportCreateOrUpdate201Response extends HttpResponse {
+    // (undocumented)
+    body: ReportResourceOutput;
+    // (undocumented)
+    headers: RawHttpHeaders & ReportCreateOrUpdate201Headers;
+    // (undocumented)
+    status: "201";
+}
+
+// @public (undocumented)
+export interface ReportCreateOrUpdateBodyParam {
+    body: ReportResource;
+}
+
+// @public (undocumented)
+export interface ReportCreateOrUpdateDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: string;
+}
 
 // @public
-export interface ReportDeleteHeaders {
+export interface ReportCreateOrUpdateLogicalResponse extends HttpResponse {
+    // (undocumented)
+    body: ReportResourceOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export type ReportCreateOrUpdateParameters = ReportCreateOrUpdateBodyParam & RequestParameters;
+
+// @public (undocumented)
+export interface ReportDelete202Headers {
+    "retry-after"?: number;
     location?: string;
-    retryAfter?: number;
 }
 
 // @public
-export interface ReportDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
+export interface ReportDelete202Response extends HttpResponse {
+    // (undocumented)
+    headers: RawHttpHeaders & ReportDelete202Headers;
+    // (undocumented)
+    status: "202";
 }
 
 // @public
-export type ReportDeleteResponse = ReportDeleteHeaders;
+export interface ReportDelete204Response extends HttpResponse {
+    // (undocumented)
+    status: "204";
+}
+
+// @public (undocumented)
+export interface ReportDeleteDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: string;
+}
 
 // @public
-export interface ReportFixHeaders {
+export interface ReportDeleteLogicalResponse extends HttpResponse {
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export type ReportDeleteParameters = RequestParameters;
+
+// @public (undocumented)
+export interface ReportFix {
+    post(options: ReportFixParameters): StreamableMethod<ReportFix200Response | ReportFix202Response | ReportFixDefaultResponse>;
+}
+
+// @public
+export interface ReportFix200Response extends HttpResponse {
+    // (undocumented)
+    body: ReportFixResultOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface ReportFix202Headers {
+    "retry-after"?: number;
     location?: string;
-    retryAfter?: number;
 }
 
 // @public
-export interface ReportFixOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
+export interface ReportFix202Response extends HttpResponse {
+    // (undocumented)
+    headers: RawHttpHeaders & ReportFix202Headers;
+    // (undocumented)
+    status: "202";
+}
+
+// @public (undocumented)
+export interface ReportFixDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: string;
 }
 
 // @public
-export type ReportFixResponse = ReportFixResult;
+export interface ReportFixLogicalResponse extends HttpResponse {
+    // (undocumented)
+    body: ReportFixResultOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export type ReportFixParameters = RequestParameters;
 
 // @public
-export interface ReportFixResult {
+export interface ReportFixResultOutput {
     readonly reason?: string;
-    readonly result?: Result;
+    readonly result?: ResultOutput;
+}
+
+// @public (undocumented)
+export interface ReportGet {
+    delete(options?: ReportDeleteParameters): StreamableMethod<ReportDelete202Response | ReportDelete204Response | ReportDeleteDefaultResponse>;
+    get(options?: ReportGetParameters): StreamableMethod<ReportGet200Response | ReportGetDefaultResponse>;
+    patch(options: ReportUpdateParameters): StreamableMethod<ReportUpdate200Response | ReportUpdate202Response | ReportUpdateDefaultResponse>;
+    put(options: ReportCreateOrUpdateParameters): StreamableMethod<ReportCreateOrUpdate200Response | ReportCreateOrUpdate201Response | ReportCreateOrUpdateDefaultResponse>;
 }
 
 // @public
-export interface ReportGetOptionalParams extends coreClient.OperationOptions {
+export interface ReportGet200Response extends HttpResponse {
+    // (undocumented)
+    body: ReportResourceOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface ReportGetDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type ReportGetParameters = RequestParameters;
+
+// @public (undocumented)
+export interface ReportGetScopingQuestions {
+    post(options: ReportGetScopingQuestionsParameters): StreamableMethod<ReportGetScopingQuestions200Response | ReportGetScopingQuestionsDefaultResponse>;
 }
 
 // @public
-export type ReportGetResponse = ReportResource;
+export interface ReportGetScopingQuestions200Response extends HttpResponse {
+    // (undocumented)
+    body: ScopingQuestionsOutput;
+    // (undocumented)
+    status: "200";
+}
 
-// @public
-export interface ReportGetScopingQuestionsOptionalParams extends coreClient.OperationOptions {
+// @public (undocumented)
+export interface ReportGetScopingQuestionsDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type ReportGetScopingQuestionsParameters = RequestParameters;
+
+// @public (undocumented)
+export interface ReportList {
+    get(options?: ReportListParameters): StreamableMethod<ReportList200Response | ReportListDefaultResponse>;
 }
 
 // @public
-export type ReportGetScopingQuestionsResponse = ScopingQuestions;
-
-// @public
-export interface ReportListNextOptionalParams extends coreClient.OperationOptions {
+export interface ReportList200Response extends HttpResponse {
+    // (undocumented)
+    body: ReportResourceListResultOutput;
+    // (undocumented)
+    status: "200";
 }
 
-// @public
-export type ReportListNextResponse = ReportResourceListResult;
+// @public (undocumented)
+export interface ReportListDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: string;
+}
 
-// @public
-export interface ReportListOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
+// @public (undocumented)
+export type ReportListParameters = ReportListQueryParam & RequestParameters;
+
+// @public (undocumented)
+export interface ReportListQueryParam {
+    // (undocumented)
+    queryParameters?: ReportListQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface ReportListQueryParamProperties {
+    $filter?: string;
+    $orderby?: string;
+    $select?: string;
+    $skipToken?: string;
+    $top?: number;
     offerGuid?: string;
-    orderby?: string;
     reportCreatorTenantId?: string;
-    select?: string;
-    skipToken?: string;
-    top?: number;
 }
-
-// @public
-export type ReportListResponse = ReportResourceListResult;
-
-// @public
-export interface ReportNestedResourceCheckNameAvailabilityOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ReportNestedResourceCheckNameAvailabilityResponse = CheckNameAvailabilityResponse;
 
 // @public
 export interface ReportPatchProperties {
-    readonly certRecords?: CertSyncRecord[];
-    readonly complianceStatus?: ReportComplianceStatus;
-    readonly errors?: string[];
-    readonly lastTriggerTime?: Date;
-    readonly nextTriggerTime?: Date;
     offerGuid?: string;
-    readonly provisioningState?: ProvisioningState;
-    resources?: ResourceMetadata[];
-    readonly status?: ReportStatus;
+    resources?: Array<ResourceMetadata>;
     storageInfo?: StorageInfo;
-    readonly subscriptions?: string[];
-    readonly tenantId?: string;
     timeZone?: string;
-    triggerTime?: Date;
+    triggerTime?: Date | string;
 }
 
 // @public
 export interface ReportProperties {
-    readonly certRecords?: CertSyncRecord[];
-    readonly complianceStatus?: ReportComplianceStatus;
-    readonly errors?: string[];
-    readonly lastTriggerTime?: Date;
-    readonly nextTriggerTime?: Date;
     offerGuid?: string;
-    readonly provisioningState?: ProvisioningState;
-    resources: ResourceMetadata[];
-    readonly status?: ReportStatus;
+    resources: Array<ResourceMetadata>;
     storageInfo?: StorageInfo;
+    timeZone: string;
+    triggerTime: Date | string;
+}
+
+// @public
+export interface ReportPropertiesOutput {
+    readonly certRecords?: Array<CertSyncRecordOutput>;
+    readonly complianceStatus?: ReportComplianceStatusOutput;
+    readonly errors?: string[];
+    readonly lastTriggerTime?: string;
+    readonly nextTriggerTime?: string;
+    offerGuid?: string;
+    readonly provisioningState?: ProvisioningStateOutput;
+    resources: Array<ResourceMetadataOutput>;
+    readonly status?: ReportStatusOutput;
+    storageInfo?: StorageInfoOutput;
     readonly subscriptions?: string[];
     readonly tenantId?: string;
     timeZone: string;
-    triggerTime: Date;
+    triggerTime: string;
 }
 
 // @public
@@ -878,9 +1411,11 @@ export interface ReportResource extends ProxyResource {
 }
 
 // @public
-export interface ReportResourceListResult {
-    nextLink?: string;
-    value: ReportResource[];
+export type ReportResourceListResultOutput = Paged<ReportResourceOutput>;
+
+// @public
+export interface ReportResourceOutput extends ProxyResourceOutput {
+    properties: ReportPropertiesOutput;
 }
 
 // @public
@@ -892,66 +1427,169 @@ export interface ReportResourcePatch {
 export type ReportStatus = string;
 
 // @public
-export interface ReportSyncCertRecordHeaders {
+export type ReportStatusOutput = string;
+
+// @public (undocumented)
+export interface ReportSyncCertRecord {
+    post(options: ReportSyncCertRecordParameters): StreamableMethod<ReportSyncCertRecord200Response | ReportSyncCertRecord202Response | ReportSyncCertRecordDefaultResponse>;
+}
+
+// @public
+export interface ReportSyncCertRecord200Response extends HttpResponse {
+    // (undocumented)
+    body: SyncCertRecordResponseOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface ReportSyncCertRecord202Headers {
+    "retry-after"?: number;
     location?: string;
-    retryAfter?: number;
 }
 
 // @public
-export interface ReportSyncCertRecordOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
+export interface ReportSyncCertRecord202Response extends HttpResponse {
+    // (undocumented)
+    headers: RawHttpHeaders & ReportSyncCertRecord202Headers;
+    // (undocumented)
+    status: "202";
+}
+
+// @public (undocumented)
+export interface ReportSyncCertRecordBodyParam {
+    body: SyncCertRecordRequest;
+}
+
+// @public (undocumented)
+export interface ReportSyncCertRecordDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: string;
 }
 
 // @public
-export type ReportSyncCertRecordResponse = SyncCertRecordResponse;
+export interface ReportSyncCertRecordLogicalResponse extends HttpResponse {
+    // (undocumented)
+    body: SyncCertRecordResponseOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export type ReportSyncCertRecordParameters = ReportSyncCertRecordBodyParam & RequestParameters;
 
 // @public
-export interface ReportUpdateHeaders {
+export interface ReportUpdate200Response extends HttpResponse {
+    // (undocumented)
+    body: ReportResourceOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface ReportUpdate202Headers {
+    "retry-after"?: number;
     location?: string;
-    retryAfter?: number;
 }
 
 // @public
-export interface ReportUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
+export interface ReportUpdate202Response extends HttpResponse {
+    // (undocumented)
+    headers: RawHttpHeaders & ReportUpdate202Headers;
+    // (undocumented)
+    status: "202";
+}
+
+// @public (undocumented)
+export interface ReportUpdateBodyParam {
+    body: ReportResourcePatch;
+}
+
+// @public (undocumented)
+export interface ReportUpdateDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: string;
 }
 
 // @public
-export type ReportUpdateResponse = ReportResource;
+export interface ReportUpdateLogicalResponse extends HttpResponse {
+    // (undocumented)
+    body: ReportResourceOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export type ReportUpdateParameters = ReportUpdateBodyParam & RequestParameters;
 
 // @public
-export interface ReportVerificationResult {
+export interface ReportVerificationResultOutput {
     readonly reason?: string;
-    readonly result?: Result;
+    readonly result?: ResultOutput;
+}
+
+// @public (undocumented)
+export interface ReportVerify {
+    post(options: ReportVerifyParameters): StreamableMethod<ReportVerify200Response | ReportVerify202Response | ReportVerifyDefaultResponse>;
 }
 
 // @public
-export interface ReportVerifyHeaders {
+export interface ReportVerify200Response extends HttpResponse {
+    // (undocumented)
+    body: ReportVerificationResultOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface ReportVerify202Headers {
+    "retry-after"?: number;
     location?: string;
-    retryAfter?: number;
 }
 
 // @public
-export interface ReportVerifyOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
+export interface ReportVerify202Response extends HttpResponse {
+    // (undocumented)
+    headers: RawHttpHeaders & ReportVerify202Headers;
+    // (undocumented)
+    status: "202";
+}
+
+// @public (undocumented)
+export interface ReportVerifyDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: string;
 }
 
 // @public
-export type ReportVerifyResponse = ReportVerificationResult;
+export interface ReportVerifyLogicalResponse extends HttpResponse {
+    // (undocumented)
+    body: ReportVerificationResultOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export type ReportVerifyParameters = RequestParameters;
 
 // @public
 export interface Resource {
-    readonly id?: string;
-    readonly name?: string;
-    readonly systemData?: SystemData;
-    readonly type?: string;
 }
 
 // @public
-export interface ResourceItem {
+export type ResourceIdentityType = "SystemAssigned";
+
+// @public
+export type ResourceIdentityTypeOutput = "SystemAssigned";
+
+// @public
+export interface ResourceItemOutput {
     readonly resourceGroup?: string;
     readonly resourceId?: string;
     readonly resourceType?: string;
@@ -968,26 +1606,64 @@ export interface ResourceMetadata {
 }
 
 // @public
+export interface ResourceMetadataOutput {
+    accountId?: string;
+    resourceId: string;
+    resourceKind?: string;
+    resourceOrigin?: ResourceOriginOutput;
+    resourceType?: string;
+}
+
+// @public
+export interface ResourceModelWithAllowedPropertySet extends TrackedResource {
+    eTag?: string;
+    // (undocumented)
+    identity?: Identity;
+    kind?: string;
+    managedBy?: string;
+    // (undocumented)
+    plan?: Plan;
+    // (undocumented)
+    sku?: Sku;
+}
+
+// @public
+export interface ResourceModelWithAllowedPropertySetOutput extends TrackedResourceOutput {
+    eTag?: string;
+    // (undocumented)
+    identity?: IdentityOutput;
+    kind?: string;
+    managedBy?: string;
+    // (undocumented)
+    plan?: PlanOutput;
+    // (undocumented)
+    sku?: SkuOutput;
+}
+
+// @public
 export type ResourceOrigin = string;
+
+// @public
+export type ResourceOriginOutput = string;
+
+// @public
+export interface ResourceOutput {
+    readonly id?: string;
+    readonly name?: string;
+    readonly systemData?: SystemDataOutput;
+    readonly type?: string;
+}
 
 // @public
 export type ResourceStatus = string;
 
 // @public
+export type ResourceStatusOutput = string;
+
+// @public
 export interface Responsibility {
     evidenceFiles?: string[];
     failedResourceCount?: number;
-    readonly guidance?: string;
-    readonly justification?: string;
-    readonly recommendationList?: Recommendation[];
-    readonly resourceList?: ResponsibilityResource[];
-    readonly responsibilityDescription?: string;
-    readonly responsibilityEnvironment?: ResponsibilityEnvironment;
-    readonly responsibilityId?: string;
-    readonly responsibilitySeverity?: ResponsibilitySeverity;
-    readonly responsibilityStatus?: ResponsibilityStatus;
-    readonly responsibilityTitle?: string;
-    readonly responsibilityType?: ResponsibilityType;
     totalResourceCount?: number;
 }
 
@@ -995,13 +1671,39 @@ export interface Responsibility {
 export type ResponsibilityEnvironment = string;
 
 // @public
+export type ResponsibilityEnvironmentOutput = string;
+
+// @public
+export interface ResponsibilityOutput {
+    evidenceFiles?: string[];
+    failedResourceCount?: number;
+    readonly guidance?: string;
+    readonly justification?: string;
+    readonly recommendationList?: Array<RecommendationOutput>;
+    readonly resourceList?: Array<ResponsibilityResourceOutput>;
+    readonly responsibilityDescription?: string;
+    readonly responsibilityEnvironment?: ResponsibilityEnvironmentOutput;
+    readonly responsibilityId?: string;
+    readonly responsibilitySeverity?: ResponsibilitySeverityOutput;
+    readonly responsibilityStatus?: ResponsibilityStatusOutput;
+    readonly responsibilityTitle?: string;
+    readonly responsibilityType?: ResponsibilityTypeOutput;
+    totalResourceCount?: number;
+}
+
+// @public
 export interface ResponsibilityResource {
+    recommendationIds?: string[];
+}
+
+// @public
+export interface ResponsibilityResourceOutput {
     readonly accountId?: string;
     recommendationIds?: string[];
     readonly resourceId?: string;
-    readonly resourceOrigin?: ResourceOrigin;
-    readonly resourceStatus?: ResourceStatus;
-    readonly resourceStatusChangeDate?: Date;
+    readonly resourceOrigin?: ResourceOriginOutput;
+    readonly resourceStatus?: ResourceStatusOutput;
+    readonly resourceStatusChangeDate?: string;
     readonly resourceType?: string;
 }
 
@@ -1009,16 +1711,53 @@ export interface ResponsibilityResource {
 export type ResponsibilitySeverity = string;
 
 // @public
+export type ResponsibilitySeverityOutput = string;
+
+// @public
 export type ResponsibilityStatus = string;
+
+// @public
+export type ResponsibilityStatusOutput = string;
 
 // @public
 export type ResponsibilityType = string;
 
 // @public
-export type Result = string;
+export type ResponsibilityTypeOutput = string;
 
 // @public
-export type Rule = string;
+export type ResultOutput = string;
+
+// @public (undocumented)
+export interface Routes {
+    (path: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}", reportName: string): ReportGet;
+    (path: "/providers/Microsoft.AppComplianceAutomation/reports"): ReportList;
+    (path: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/syncCertRecord", reportName: string): ReportSyncCertRecord;
+    (path: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/checkNameAvailability", reportName: string): ReportCheckNameAvailability;
+    (path: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/fix", reportName: string): ReportFix;
+    (path: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/getScopingQuestions", reportName: string): ReportGetScopingQuestions;
+    (path: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/verify", reportName: string): ReportVerify;
+    (path: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/webhooks/{webhookName}", reportName: string, webhookName: string): WebhookGet;
+    (path: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/webhooks", reportName: string): WebhookList;
+    (path: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/snapshots/{snapshotName}", reportName: string, snapshotName: string): SnapshotGet;
+    (path: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/snapshots", reportName: string): SnapshotList;
+    (path: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/snapshots/{snapshotName}/download", reportName: string, snapshotName: string): SnapshotDownload;
+    (path: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/scopingConfigurations/{scopingConfigurationName}", reportName: string, scopingConfigurationName: string): ScopingConfigurationGet;
+    (path: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/scopingConfigurations", reportName: string): ScopingConfigurationList;
+    (path: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/evidences/{evidenceName}", reportName: string, evidenceName: string): EvidenceGet;
+    (path: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/evidences", reportName: string): EvidenceListByReport;
+    (path: "/providers/Microsoft.AppComplianceAutomation/reports/{reportName}/evidences/{evidenceName}/download", reportName: string, evidenceName: string): EvidenceDownload;
+    (path: "/providers/Microsoft.AppComplianceAutomation/operations"): OperationsList;
+    (path: "/providers/Microsoft.AppComplianceAutomation/checkNameAvailability"): ProviderActionsCheckNameAvailability;
+    (path: "/providers/Microsoft.AppComplianceAutomation/getCollectionCount"): ProviderActionsGetCollectionCount;
+    (path: "/providers/Microsoft.AppComplianceAutomation/getOverviewStatus"): ProviderActionsGetOverviewStatus;
+    (path: "/providers/Microsoft.AppComplianceAutomation/onboard"): ProviderActionsOnboard;
+    (path: "/providers/Microsoft.AppComplianceAutomation/triggerEvaluation"): ProviderActionsTriggerEvaluation;
+    (path: "/providers/Microsoft.AppComplianceAutomation/listInUseStorageAccounts"): ProviderActionsListInUseStorageAccounts;
+}
+
+// @public
+export type RuleOutput = string;
 
 // @public
 export interface ScopingAnswer {
@@ -1027,49 +1766,125 @@ export interface ScopingAnswer {
 }
 
 // @public
-export interface ScopingConfiguration {
-    createOrUpdate(reportName: string, scopingConfigurationName: string, properties: ScopingConfigurationResource, options?: ScopingConfigurationCreateOrUpdateOptionalParams): Promise<ScopingConfigurationCreateOrUpdateResponse>;
-    delete(reportName: string, scopingConfigurationName: string, options?: ScopingConfigurationDeleteOptionalParams): Promise<void>;
-    get(reportName: string, scopingConfigurationName: string, options?: ScopingConfigurationGetOptionalParams): Promise<ScopingConfigurationGetResponse>;
-    list(reportName: string, options?: ScopingConfigurationListOptionalParams): PagedAsyncIterableIterator<ScopingConfigurationResource>;
+export interface ScopingAnswerOutput {
+    answers: string[];
+    questionId: string;
 }
 
 // @public
-export interface ScopingConfigurationCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface ScopingConfigurationCreateOrUpdate200Response extends HttpResponse {
+    // (undocumented)
+    body: ScopingConfigurationResourceOutput;
+    // (undocumented)
+    status: "200";
 }
 
 // @public
-export type ScopingConfigurationCreateOrUpdateResponse = ScopingConfigurationResource;
+export interface ScopingConfigurationCreateOrUpdate201Response extends HttpResponse {
+    // (undocumented)
+    body: ScopingConfigurationResourceOutput;
+    // (undocumented)
+    status: "201";
+}
+
+// @public (undocumented)
+export interface ScopingConfigurationCreateOrUpdateBodyParam {
+    body: ScopingConfigurationResource;
+}
+
+// @public (undocumented)
+export interface ScopingConfigurationCreateOrUpdateDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type ScopingConfigurationCreateOrUpdateParameters = ScopingConfigurationCreateOrUpdateBodyParam & RequestParameters;
 
 // @public
-export interface ScopingConfigurationDeleteOptionalParams extends coreClient.OperationOptions {
+export interface ScopingConfigurationDelete200Response extends HttpResponse {
+    // (undocumented)
+    status: "200";
 }
 
 // @public
-export interface ScopingConfigurationGetOptionalParams extends coreClient.OperationOptions {
+export interface ScopingConfigurationDelete204Response extends HttpResponse {
+    // (undocumented)
+    status: "204";
+}
+
+// @public (undocumented)
+export interface ScopingConfigurationDeleteDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type ScopingConfigurationDeleteParameters = RequestParameters;
+
+// @public (undocumented)
+export interface ScopingConfigurationGet {
+    delete(options?: ScopingConfigurationDeleteParameters): StreamableMethod<ScopingConfigurationDelete200Response | ScopingConfigurationDelete204Response | ScopingConfigurationDeleteDefaultResponse>;
+    get(options?: ScopingConfigurationGetParameters): StreamableMethod<ScopingConfigurationGet200Response | ScopingConfigurationGetDefaultResponse>;
+    put(options: ScopingConfigurationCreateOrUpdateParameters): StreamableMethod<ScopingConfigurationCreateOrUpdate200Response | ScopingConfigurationCreateOrUpdate201Response | ScopingConfigurationCreateOrUpdateDefaultResponse>;
 }
 
 // @public
-export type ScopingConfigurationGetResponse = ScopingConfigurationResource;
+export interface ScopingConfigurationGet200Response extends HttpResponse {
+    // (undocumented)
+    body: ScopingConfigurationResourceOutput;
+    // (undocumented)
+    status: "200";
+}
 
-// @public
-export interface ScopingConfigurationListNextOptionalParams extends coreClient.OperationOptions {
+// @public (undocumented)
+export interface ScopingConfigurationGetDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type ScopingConfigurationGetParameters = RequestParameters;
+
+// @public (undocumented)
+export interface ScopingConfigurationList {
+    get(options?: ScopingConfigurationListParameters): StreamableMethod<ScopingConfigurationList200Response | ScopingConfigurationListDefaultResponse>;
 }
 
 // @public
-export type ScopingConfigurationListNextResponse = ScopingConfigurationResourceListResult;
-
-// @public
-export interface ScopingConfigurationListOptionalParams extends coreClient.OperationOptions {
+export interface ScopingConfigurationList200Response extends HttpResponse {
+    // (undocumented)
+    body: ScopingConfigurationResourceListResultOutput;
+    // (undocumented)
+    status: "200";
 }
 
-// @public
-export type ScopingConfigurationListResponse = ScopingConfigurationResourceListResult;
+// @public (undocumented)
+export interface ScopingConfigurationListDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type ScopingConfigurationListParameters = RequestParameters;
 
 // @public
 export interface ScopingConfigurationProperties {
-    answers?: ScopingAnswer[];
-    readonly provisioningState?: ProvisioningState;
+    answers?: Array<ScopingAnswer>;
+}
+
+// @public
+export interface ScopingConfigurationPropertiesOutput {
+    answers?: Array<ScopingAnswerOutput>;
+    readonly provisioningState?: ProvisioningStateOutput;
 }
 
 // @public
@@ -1078,48 +1893,130 @@ export interface ScopingConfigurationResource extends ProxyResource {
 }
 
 // @public
-export interface ScopingConfigurationResourceListResult {
-    nextLink?: string;
-    value: ScopingConfigurationResource[];
+export type ScopingConfigurationResourceListResultOutput = Paged<ScopingConfigurationResourceOutput>;
+
+// @public
+export interface ScopingConfigurationResourceOutput extends ProxyResourceOutput {
+    properties: ScopingConfigurationPropertiesOutput;
 }
 
 // @public
-export interface ScopingQuestion {
-    readonly inputType: InputType;
+export interface ScopingQuestionOutput {
+    readonly inputType: InputTypeOutput;
     readonly optionIds: string[];
     readonly questionId: string;
-    readonly rules: Rule[];
+    readonly rules: RuleOutput[];
     readonly showSubQuestionsValue?: string;
     readonly superiorQuestionId?: string;
 }
 
 // @public
-export interface ScopingQuestions {
-    questions?: ScopingQuestion[];
+export interface ScopingQuestionsOutput {
+    questions?: Array<ScopingQuestionOutput>;
 }
 
 // @public
 export type SendAllEvents = string;
 
 // @public
-export interface Snapshot {
-    beginDownload(reportName: string, snapshotName: string, body: SnapshotDownloadRequest, options?: SnapshotDownloadOptionalParams): Promise<SimplePollerLike<OperationState<SnapshotDownloadResponse>, SnapshotDownloadResponse>>;
-    beginDownloadAndWait(reportName: string, snapshotName: string, body: SnapshotDownloadRequest, options?: SnapshotDownloadOptionalParams): Promise<SnapshotDownloadResponse>;
-    get(reportName: string, snapshotName: string, options?: SnapshotGetOptionalParams): Promise<SnapshotGetResponse>;
-    list(reportName: string, options?: SnapshotListOptionalParams): PagedAsyncIterableIterator<SnapshotResource>;
+export type SendAllEventsOutput = string;
+
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
 }
 
 // @public
-export interface SnapshotDownloadHeaders {
+export interface Sku {
+    capacity?: number;
+    family?: string;
+    name: string;
+    size?: string;
+    tier?: SkuTier;
+}
+
+// @public
+export interface SkuOutput {
+    capacity?: number;
+    family?: string;
+    name: string;
+    size?: string;
+    tier?: SkuTierOutput;
+}
+
+// @public
+export type SkuTier = "Free" | "Basic" | "Standard" | "Premium";
+
+// @public
+export type SkuTierOutput = "Free" | "Basic" | "Standard" | "Premium";
+
+// @public (undocumented)
+export interface SnapshotDownload {
+    post(options: SnapshotDownloadParameters): StreamableMethod<SnapshotDownload200Response | SnapshotDownload202Response | SnapshotDownloadDefaultResponse>;
+}
+
+// @public
+export interface SnapshotDownload200Response extends HttpResponse {
+    // (undocumented)
+    body: DownloadResponseOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface SnapshotDownload202Headers {
+    "retry-after"?: number;
     location?: string;
-    retryAfter?: number;
 }
 
 // @public
-export interface SnapshotDownloadOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
+export interface SnapshotDownload202Response extends HttpResponse {
+    // (undocumented)
+    headers: RawHttpHeaders & SnapshotDownload202Headers;
+    // (undocumented)
+    status: "202";
 }
+
+// @public (undocumented)
+export interface SnapshotDownloadBodyParam {
+    body: SnapshotDownloadRequest;
+}
+
+// @public (undocumented)
+export interface SnapshotDownloadDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public
+export interface SnapshotDownloadLogicalResponse extends HttpResponse {
+    // (undocumented)
+    body: DownloadResponseOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export type SnapshotDownloadParameters = SnapshotDownloadBodyParam & RequestParameters;
 
 // @public
 export interface SnapshotDownloadRequest {
@@ -1128,44 +2025,82 @@ export interface SnapshotDownloadRequest {
     reportCreatorTenantId?: string;
 }
 
-// @public
-export type SnapshotDownloadResponse = DownloadResponse;
-
-// @public
-export interface SnapshotGetOptionalParams extends coreClient.OperationOptions {
+// @public (undocumented)
+export interface SnapshotGet {
+    get(options?: SnapshotGetParameters): StreamableMethod<SnapshotGet200Response | SnapshotGetDefaultResponse>;
 }
 
 // @public
-export type SnapshotGetResponse = SnapshotResource;
+export interface SnapshotGet200Response extends HttpResponse {
+    // (undocumented)
+    body: SnapshotResourceOutput;
+    // (undocumented)
+    status: "200";
+}
 
-// @public
-export interface SnapshotListNextOptionalParams extends coreClient.OperationOptions {
+// @public (undocumented)
+export interface SnapshotGetDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type SnapshotGetParameters = RequestParameters;
+
+// @public (undocumented)
+export interface SnapshotList {
+    get(options?: SnapshotListParameters): StreamableMethod<SnapshotList200Response | SnapshotListDefaultResponse>;
 }
 
 // @public
-export type SnapshotListNextResponse = SnapshotResourceListResult;
+export interface SnapshotList200Response extends HttpResponse {
+    // (undocumented)
+    body: SnapshotResourceListResultOutput;
+    // (undocumented)
+    status: "200";
+}
 
-// @public
-export interface SnapshotListOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
+// @public (undocumented)
+export interface SnapshotListDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type SnapshotListParameters = SnapshotListQueryParam & RequestParameters;
+
+// @public (undocumented)
+export interface SnapshotListQueryParam {
+    // (undocumented)
+    queryParameters?: SnapshotListQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface SnapshotListQueryParamProperties {
+    $filter?: string;
+    $orderby?: string;
+    $select?: string;
+    $skipToken?: string;
+    $top?: number;
     offerGuid?: string;
-    orderby?: string;
     reportCreatorTenantId?: string;
-    select?: string;
-    skipToken?: string;
-    top?: number;
 }
-
-// @public
-export type SnapshotListResponse = SnapshotResourceListResult;
 
 // @public
 export interface SnapshotProperties {
-    readonly complianceResults?: ComplianceResult[];
-    readonly createdAt?: Date;
-    readonly provisioningState?: ProvisioningState;
-    readonly reportProperties?: ReportProperties;
-    readonly reportSystemData?: SystemData;
+}
+
+// @public
+export interface SnapshotPropertiesOutput {
+    readonly complianceResults?: Array<ComplianceResultOutput>;
+    readonly createdAt?: string;
+    readonly provisioningState?: ProvisioningStateOutput;
+    readonly reportProperties?: ReportPropertiesOutput;
+    readonly reportSystemData?: SystemDataOutput;
     readonly snapshotName?: string;
 }
 
@@ -1175,13 +2110,15 @@ export interface SnapshotResource extends ProxyResource {
 }
 
 // @public
-export interface SnapshotResourceListResult {
-    nextLink?: string;
-    value: SnapshotResource[];
+export type SnapshotResourceListResultOutput = Paged<SnapshotResourceOutput>;
+
+// @public
+export interface SnapshotResourceOutput extends ProxyResourceOutput {
+    properties?: SnapshotPropertiesOutput;
 }
 
 // @public
-export interface StatusItem {
+export interface StatusItemOutput {
     statusName?: string;
     statusValue?: string;
 }
@@ -1195,31 +2132,61 @@ export interface StorageInfo {
 }
 
 // @public
+export interface StorageInfoOutput {
+    accountName?: string;
+    location?: string;
+    resourceGroup?: string;
+    subscriptionId?: string;
+}
+
+// @public
 export interface SyncCertRecordRequest {
     certRecord: CertSyncRecord;
 }
 
 // @public
-export interface SyncCertRecordResponse {
-    certRecord?: CertSyncRecord;
+export interface SyncCertRecordResponseOutput {
+    certRecord?: CertSyncRecordOutput;
 }
 
 // @public
 export interface SystemData {
-    createdAt?: Date;
+    createdAt?: Date | string;
     createdBy?: string;
     createdByType?: CreatedByType;
-    lastModifiedAt?: Date;
+    lastModifiedAt?: Date | string;
     lastModifiedBy?: string;
     lastModifiedByType?: CreatedByType;
 }
 
 // @public
-export interface TriggerEvaluationProperty {
-    readonly evaluationEndTime?: Date;
-    quickAssessments?: QuickAssessment[];
+export interface SystemDataOutput {
+    createdAt?: string;
+    createdBy?: string;
+    createdByType?: CreatedByTypeOutput;
+    lastModifiedAt?: string;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByTypeOutput;
+}
+
+// @public
+export interface TrackedResource extends Resource {
+    location: string;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface TrackedResourceOutput extends ResourceOutput {
+    location: string;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface TriggerEvaluationPropertyOutput {
+    readonly evaluationEndTime?: string;
+    quickAssessments?: Array<QuickAssessmentOutput>;
     resourceIds?: string[];
-    readonly triggerTime?: Date;
+    readonly triggerTime?: string;
 }
 
 // @public
@@ -1228,79 +2195,172 @@ export interface TriggerEvaluationRequest {
 }
 
 // @public
-export interface TriggerEvaluationResponse {
-    properties?: TriggerEvaluationProperty;
+export interface TriggerEvaluationResponseOutput {
+    properties?: TriggerEvaluationPropertyOutput;
 }
 
 // @public
 export type UpdateWebhookKey = string;
 
 // @public
-export interface Webhook {
-    createOrUpdate(reportName: string, webhookName: string, properties: WebhookResource, options?: WebhookCreateOrUpdateOptionalParams): Promise<WebhookCreateOrUpdateResponse>;
-    delete(reportName: string, webhookName: string, options?: WebhookDeleteOptionalParams): Promise<void>;
-    get(reportName: string, webhookName: string, options?: WebhookGetOptionalParams): Promise<WebhookGetResponse>;
-    list(reportName: string, options?: WebhookListOptionalParams): PagedAsyncIterableIterator<WebhookResource>;
-    update(reportName: string, webhookName: string, properties: WebhookResourcePatch, options?: WebhookUpdateOptionalParams): Promise<WebhookUpdateResponse>;
+export type UpdateWebhookKeyOutput = string;
+
+// @public
+export interface WebhookCreateOrUpdate200Response extends HttpResponse {
+    // (undocumented)
+    body: WebhookResourceOutput;
+    // (undocumented)
+    status: "200";
 }
 
 // @public
-export interface WebhookCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface WebhookCreateOrUpdate201Response extends HttpResponse {
+    // (undocumented)
+    body: WebhookResourceOutput;
+    // (undocumented)
+    status: "201";
+}
+
+// @public (undocumented)
+export interface WebhookCreateOrUpdateBodyParam {
+    body: WebhookResource;
+}
+
+// @public (undocumented)
+export interface WebhookCreateOrUpdateDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type WebhookCreateOrUpdateParameters = WebhookCreateOrUpdateBodyParam & RequestParameters;
+
+// @public
+export interface WebhookDelete200Response extends HttpResponse {
+    // (undocumented)
+    status: "200";
 }
 
 // @public
-export type WebhookCreateOrUpdateResponse = WebhookResource;
+export interface WebhookDelete204Response extends HttpResponse {
+    // (undocumented)
+    status: "204";
+}
 
-// @public
-export interface WebhookDeleteOptionalParams extends coreClient.OperationOptions {
+// @public (undocumented)
+export interface WebhookDeleteDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type WebhookDeleteParameters = RequestParameters;
+
+// @public (undocumented)
+export interface WebhookGet {
+    delete(options?: WebhookDeleteParameters): StreamableMethod<WebhookDelete200Response | WebhookDelete204Response | WebhookDeleteDefaultResponse>;
+    get(options?: WebhookGetParameters): StreamableMethod<WebhookGet200Response | WebhookGetDefaultResponse>;
+    patch(options: WebhookUpdateParameters): StreamableMethod<WebhookUpdate200Response | WebhookUpdateDefaultResponse>;
+    put(options: WebhookCreateOrUpdateParameters): StreamableMethod<WebhookCreateOrUpdate200Response | WebhookCreateOrUpdate201Response | WebhookCreateOrUpdateDefaultResponse>;
 }
 
 // @public
-export interface WebhookGetOptionalParams extends coreClient.OperationOptions {
+export interface WebhookGet200Response extends HttpResponse {
+    // (undocumented)
+    body: WebhookResourceOutput;
+    // (undocumented)
+    status: "200";
 }
 
-// @public
-export type WebhookGetResponse = WebhookResource;
+// @public (undocumented)
+export interface WebhookGetDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type WebhookGetParameters = RequestParameters;
 
 // @public
 export type WebhookKeyEnabled = string;
 
 // @public
-export interface WebhookListNextOptionalParams extends coreClient.OperationOptions {
+export type WebhookKeyEnabledOutput = string;
+
+// @public (undocumented)
+export interface WebhookList {
+    get(options?: WebhookListParameters): StreamableMethod<WebhookList200Response | WebhookListDefaultResponse>;
 }
 
 // @public
-export type WebhookListNextResponse = WebhookResourceListResult;
+export interface WebhookList200Response extends HttpResponse {
+    // (undocumented)
+    body: WebhookResourceListResultOutput;
+    // (undocumented)
+    status: "200";
+}
 
-// @public
-export interface WebhookListOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
+// @public (undocumented)
+export interface WebhookListDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type WebhookListParameters = WebhookListQueryParam & RequestParameters;
+
+// @public (undocumented)
+export interface WebhookListQueryParam {
+    // (undocumented)
+    queryParameters?: WebhookListQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface WebhookListQueryParamProperties {
+    $filter?: string;
+    $orderby?: string;
+    $select?: string;
+    $skipToken?: string;
+    $top?: number;
     offerGuid?: string;
-    orderby?: string;
     reportCreatorTenantId?: string;
-    select?: string;
-    skipToken?: string;
-    top?: number;
 }
-
-// @public
-export type WebhookListResponse = WebhookResourceListResult;
 
 // @public
 export interface WebhookProperties {
     contentType?: ContentType;
-    readonly deliveryStatus?: DeliveryStatus;
     enableSslVerification?: EnableSslVerification;
     events?: NotificationEvent[];
     payloadUrl?: string;
-    readonly provisioningState?: ProvisioningState;
     sendAllEvents?: SendAllEvents;
     status?: WebhookStatus;
-    readonly tenantId?: string;
     updateWebhookKey?: UpdateWebhookKey;
+    webhookKey?: string;
+}
+
+// @public
+export interface WebhookPropertiesOutput {
+    contentType?: ContentTypeOutput;
+    readonly deliveryStatus?: DeliveryStatusOutput;
+    enableSslVerification?: EnableSslVerificationOutput;
+    events?: NotificationEventOutput[];
+    payloadUrl?: string;
+    readonly provisioningState?: ProvisioningStateOutput;
+    sendAllEvents?: SendAllEventsOutput;
+    status?: WebhookStatusOutput;
+    readonly tenantId?: string;
+    updateWebhookKey?: UpdateWebhookKeyOutput;
     readonly webhookId?: string;
     webhookKey?: string;
-    readonly webhookKeyEnabled?: WebhookKeyEnabled;
+    readonly webhookKeyEnabled?: WebhookKeyEnabledOutput;
 }
 
 // @public
@@ -1309,9 +2369,11 @@ export interface WebhookResource extends ProxyResource {
 }
 
 // @public
-export interface WebhookResourceListResult {
-    nextLink?: string;
-    value: WebhookResource[];
+export type WebhookResourceListResultOutput = Paged<WebhookResourceOutput>;
+
+// @public
+export interface WebhookResourceOutput extends ProxyResourceOutput {
+    properties: WebhookPropertiesOutput;
 }
 
 // @public
@@ -1323,11 +2385,31 @@ export interface WebhookResourcePatch {
 export type WebhookStatus = string;
 
 // @public
-export interface WebhookUpdateOptionalParams extends coreClient.OperationOptions {
-}
+export type WebhookStatusOutput = string;
 
 // @public
-export type WebhookUpdateResponse = WebhookResource;
+export interface WebhookUpdate200Response extends HttpResponse {
+    // (undocumented)
+    body: WebhookResourceOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface WebhookUpdateBodyParam {
+    body: WebhookResourcePatch;
+}
+
+// @public (undocumented)
+export interface WebhookUpdateDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type WebhookUpdateParameters = WebhookUpdateBodyParam & RequestParameters;
 
 // (No @packageDocumentation comment for this package)
 
