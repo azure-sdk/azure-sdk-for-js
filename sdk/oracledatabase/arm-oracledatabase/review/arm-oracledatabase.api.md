@@ -25,6 +25,9 @@ export interface AddRemoveDbNode {
 }
 
 // @public
+export type AddSubscriptionOperationState = string;
+
+// @public
 export interface AllConnectionStringType {
     high?: string;
     low?: string;
@@ -261,7 +264,7 @@ export interface AutonomousDatabaseCharacterSetListResult {
 
 // @public
 export interface AutonomousDatabaseCharacterSetProperties {
-    readonly characterSet: string;
+    readonly characterSet?: string;
 }
 
 // @public
@@ -326,7 +329,7 @@ export interface AutonomousDatabaseNationalCharacterSetListResult {
 
 // @public
 export interface AutonomousDatabaseNationalCharacterSetProperties {
-    readonly characterSet: string;
+    readonly characterSet?: string;
 }
 
 // @public
@@ -623,7 +626,7 @@ export interface AutonomousDbVersionProperties {
     readonly isDefaultForPaid?: boolean;
     readonly isFreeTierEnabled?: boolean;
     readonly isPaidEnabled?: boolean;
-    readonly version: string;
+    readonly version?: string;
 }
 
 // @public
@@ -631,6 +634,11 @@ export type AutonomousMaintenanceScheduleType = string;
 
 // @public
 export type AzureResourceProvisioningState = string;
+
+// @public
+export interface AzureSubscriptions {
+    azureSubscriptionIds: string[];
+}
 
 // @public
 export type CloneType = string;
@@ -1146,7 +1154,7 @@ export interface DbNodeProperties {
     readonly cpuCoreCount?: number;
     readonly dbNodeStorageSizeInGbs?: number;
     readonly dbServerId?: string;
-    readonly dbSystemId: string;
+    readonly dbSystemId?: string;
     readonly faultDomain?: string;
     readonly hostIpId?: string;
     readonly hostname?: string;
@@ -1154,7 +1162,7 @@ export interface DbNodeProperties {
     readonly lifecycleState?: DbNodeProvisioningState;
     readonly maintenanceType?: DbNodeMaintenanceType;
     readonly memorySizeInGbs?: number;
-    readonly ocid: string;
+    readonly ocid?: string;
     readonly provisioningState?: ResourceProvisioningState;
     readonly softwareStorageSizeInGb?: number;
     readonly timeCreated?: Date;
@@ -1300,7 +1308,7 @@ export interface DbSystemShapeListResult {
 
 // @public
 export interface DbSystemShapeProperties {
-    readonly availableCoreCount: number;
+    readonly availableCoreCount?: number;
     readonly availableCoreCountPerNode?: number;
     readonly availableDataStorageInTbs?: number;
     readonly availableDataStoragePerServerInTbs?: number;
@@ -1369,13 +1377,13 @@ export interface DnsPrivateViewListResult {
 // @public
 export interface DnsPrivateViewProperties {
     readonly displayName?: string;
-    readonly isProtected: boolean;
+    readonly isProtected?: boolean;
     readonly lifecycleState?: DnsPrivateViewsLifecycleState;
-    readonly ocid: string;
+    readonly ocid?: string;
     readonly provisioningState?: ResourceProvisioningState;
-    readonly self: string;
-    readonly timeCreated: Date;
-    readonly timeUpdated: Date;
+    readonly self?: string;
+    readonly timeCreated?: Date;
+    readonly timeUpdated?: Date;
 }
 
 // @public
@@ -1421,16 +1429,16 @@ export interface DnsPrivateZoneListResult {
 
 // @public
 export interface DnsPrivateZoneProperties {
-    readonly isProtected: boolean;
+    readonly isProtected?: boolean;
     readonly lifecycleState?: DnsPrivateZonesLifecycleState;
-    readonly ocid: string;
+    readonly ocid?: string;
     readonly provisioningState?: ResourceProvisioningState;
-    readonly self: string;
-    readonly serial: number;
-    readonly timeCreated: Date;
-    readonly version: string;
+    readonly self?: string;
+    readonly serial?: number;
+    readonly timeCreated?: Date;
+    readonly version?: string;
     readonly viewId?: string;
-    readonly zoneType: ZoneType;
+    readonly zoneType?: ZoneType;
 }
 
 // @public
@@ -1525,7 +1533,7 @@ export interface GiVersionListResult {
 
 // @public
 export interface GiVersionProperties {
-    readonly version: string;
+    readonly version?: string;
 }
 
 // @public
@@ -1567,6 +1575,13 @@ export type IormLifecycleState = string;
 // @public
 export enum KnownActionType {
     Internal = "Internal"
+}
+
+// @public
+export enum KnownAddSubscriptionOperationState {
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
 }
 
 // @public
@@ -2158,9 +2173,12 @@ export interface OracleSubscriptionListResult {
 
 // @public
 export interface OracleSubscriptionProperties {
+    readonly addSubscriptionOperationState?: AddSubscriptionOperationState;
+    readonly azureSubscriptionIds?: string[];
     readonly cloudAccountId?: string;
     readonly cloudAccountState?: CloudAccountProvisioningState;
     intent?: Intent;
+    readonly lastOperationStatusDetail?: string;
     productCode?: string;
     readonly provisioningState?: OracleSubscriptionProvisioningState;
     readonly saasSubscriptionId?: string;
@@ -2172,6 +2190,8 @@ export type OracleSubscriptionProvisioningState = string;
 
 // @public
 export interface OracleSubscriptions {
+    beginAddAzureSubscriptions(body: AzureSubscriptions, options?: OracleSubscriptionsAddAzureSubscriptionsOptionalParams): Promise<SimplePollerLike<OperationState<OracleSubscriptionsAddAzureSubscriptionsResponse>, OracleSubscriptionsAddAzureSubscriptionsResponse>>;
+    beginAddAzureSubscriptionsAndWait(body: AzureSubscriptions, options?: OracleSubscriptionsAddAzureSubscriptionsOptionalParams): Promise<OracleSubscriptionsAddAzureSubscriptionsResponse>;
     beginCreateOrUpdate(resource: OracleSubscription, options?: OracleSubscriptionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<OracleSubscriptionsCreateOrUpdateResponse>, OracleSubscriptionsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resource: OracleSubscription, options?: OracleSubscriptionsCreateOrUpdateOptionalParams): Promise<OracleSubscriptionsCreateOrUpdateResponse>;
     beginDelete(options?: OracleSubscriptionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<OracleSubscriptionsDeleteResponse>, OracleSubscriptionsDeleteResponse>>;
@@ -2187,6 +2207,21 @@ export interface OracleSubscriptions {
     get(options?: OracleSubscriptionsGetOptionalParams): Promise<OracleSubscriptionsGetResponse>;
     listBySubscription(options?: OracleSubscriptionsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<OracleSubscription>;
 }
+
+// @public
+export interface OracleSubscriptionsAddAzureSubscriptionsHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface OracleSubscriptionsAddAzureSubscriptionsOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type OracleSubscriptionsAddAzureSubscriptionsResponse = OracleSubscriptionsAddAzureSubscriptionsHeaders;
 
 // @public
 export interface OracleSubscriptionsCreateOrUpdateHeaders {
@@ -2476,7 +2511,7 @@ export interface SystemVersionListResult {
 
 // @public
 export interface SystemVersionProperties {
-    readonly systemVersion: string;
+    readonly systemVersion?: string;
 }
 
 // @public

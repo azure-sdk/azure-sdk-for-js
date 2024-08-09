@@ -25,6 +25,7 @@ import {
   PrivateIpAddressesFilter as PrivateIpAddressesFilterMapper,
   OracleSubscription as OracleSubscriptionMapper,
   OracleSubscriptionUpdate as OracleSubscriptionUpdateMapper,
+  AzureSubscriptions as AzureSubscriptionsMapper,
   AutonomousDatabaseBackup as AutonomousDatabaseBackupMapper,
   AutonomousDatabaseBackupUpdate as AutonomousDatabaseBackupUpdateMapper,
   DbNodeAction as DbNodeActionMapper,
@@ -58,7 +59,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-09-01",
+    defaultValue: "2024-06-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -354,6 +355,11 @@ export const properties3: OperationParameter = {
   mapper: OracleSubscriptionUpdateMapper,
 };
 
+export const body5: OperationParameter = {
+  parameterPath: "body",
+  mapper: AzureSubscriptionsMapper,
+};
+
 export const adbbackupid: OperationURLParameter = {
   parameterPath: "adbbackupid",
   mapper: {
@@ -410,7 +416,7 @@ export const dbnodeocid: OperationURLParameter = {
   },
 };
 
-export const body5: OperationParameter = {
+export const body6: OperationParameter = {
   parameterPath: "body",
   mapper: DbNodeActionMapper,
 };
