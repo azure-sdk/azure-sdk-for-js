@@ -1,7 +1,5 @@
-repo:
-  Azure/azure-rest-api-specs
+commit: 310cec43e0f3ad365ae56c8a0d89aaff7433b222
 additionalDirectories: []
-directory:
-  specification/communication/Communication.JobRouter
-commit:
-  1c04f51cbfa195fe177239cf63d00d3539006800
+directory: specification/communication/Communication.JobRouter
+repo: test-repo-billy/azure-rest-api-specs
+
