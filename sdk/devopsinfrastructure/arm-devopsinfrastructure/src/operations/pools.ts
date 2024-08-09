@@ -12,7 +12,7 @@ import { Pools } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ManagedDevOpsInfrastructure } from "../managedDevOpsInfrastructure";
+import { ManagedDevOpsInfrastructureTest } from "../managedDevOpsInfrastructureTest";
 import {
   SimplePollerLike,
   OperationState,
@@ -43,13 +43,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Pools operations. */
 export class PoolsImpl implements Pools {
-  private readonly client: ManagedDevOpsInfrastructure;
+  private readonly client: ManagedDevOpsInfrastructureTest;
 
   /**
    * Initialize a new instance of the class Pools class.
    * @param client Reference to the service client
    */
-  constructor(client: ManagedDevOpsInfrastructure) {
+  constructor(client: ManagedDevOpsInfrastructureTest) {
     this.client = client;
   }
 

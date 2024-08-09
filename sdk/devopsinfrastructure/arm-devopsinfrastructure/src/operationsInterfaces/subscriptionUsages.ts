@@ -7,21 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import {
-  Quota,
-  SubscriptionUsagesListByLocationOptionalParams,
-} from "../models";
+import { Quota, SubscriptionUsagesUsagesOptionalParams } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a SubscriptionUsages. */
 export interface SubscriptionUsages {
   /**
    * List Quota resources by subscription ID
-   * @param locationName Name of the location.
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
-  listByLocation(
-    locationName: string,
-    options?: SubscriptionUsagesListByLocationOptionalParams,
+  listUsages(
+    location: string,
+    options?: SubscriptionUsagesUsagesOptionalParams,
   ): PagedAsyncIterableIterator<Quota>;
 }

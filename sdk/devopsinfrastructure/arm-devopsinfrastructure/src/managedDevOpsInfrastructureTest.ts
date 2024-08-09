@@ -30,15 +30,15 @@ import {
   ImageVersions,
   ResourceDetails,
 } from "./operationsInterfaces";
-import { ManagedDevOpsInfrastructureOptionalParams } from "./models";
+import { ManagedDevOpsInfrastructureTestOptionalParams } from "./models";
 
-export class ManagedDevOpsInfrastructure extends coreClient.ServiceClient {
+export class ManagedDevOpsInfrastructureTest extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
   subscriptionId: string;
 
   /**
-   * Initializes a new instance of the ManagedDevOpsInfrastructure class.
+   * Initializes a new instance of the ManagedDevOpsInfrastructureTest class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param options The parameter options
@@ -46,7 +46,7 @@ export class ManagedDevOpsInfrastructure extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: ManagedDevOpsInfrastructureOptionalParams,
+    options?: ManagedDevOpsInfrastructureTestOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -59,7 +59,7 @@ export class ManagedDevOpsInfrastructure extends coreClient.ServiceClient {
     if (!options) {
       options = {};
     }
-    const defaults: ManagedDevOpsInfrastructureOptionalParams = {
+    const defaults: ManagedDevOpsInfrastructureTestOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
       credential: credentials,
     };
