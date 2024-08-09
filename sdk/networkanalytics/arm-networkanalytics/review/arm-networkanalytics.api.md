@@ -574,11 +574,6 @@ export enum KnownProvisioningState {
 }
 
 // @public
-export enum KnownVersions {
-    V20231115 = "2023-11-15"
-}
-
-// @public
 export interface ListRoleAssignments {
     count: number;
     roleAssignmentResponse: RoleAssignmentDetail[];
@@ -604,10 +599,10 @@ export interface ManagedServiceIdentity {
 export type ManagedServiceIdentityType = string;
 
 // @public (undocumented)
-export class MicrosoftNetworkAnalytics extends coreClient.ServiceClient {
+export class MicrosoftNetworkAnalyticsForTesting extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: MicrosoftNetworkAnalyticsOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: MicrosoftNetworkAnalyticsForTestingOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -623,7 +618,7 @@ export class MicrosoftNetworkAnalytics extends coreClient.ServiceClient {
 }
 
 // @public
-export interface MicrosoftNetworkAnalyticsOptionalParams extends coreClient.ServiceClientOptions {
+export interface MicrosoftNetworkAnalyticsForTestingOptionalParams extends coreClient.ServiceClientOptions {
     $host?: string;
     apiVersion?: string;
     endpoint?: string;
@@ -745,9 +740,6 @@ export interface UserAssignedIdentity {
     readonly clientId?: string;
     readonly principalId?: string;
 }
-
-// @public
-export type Versions = string;
 
 // @public
 export interface VirtualNetworkRule {
