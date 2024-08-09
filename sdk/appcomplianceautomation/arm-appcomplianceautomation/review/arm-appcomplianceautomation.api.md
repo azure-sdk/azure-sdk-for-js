@@ -14,10 +14,10 @@ import { SimplePollerLike } from '@azure/core-lro';
 export type ActionType = string;
 
 // @public (undocumented)
-export class AppComplianceAutomationToolForMicrosoft365 extends coreClient.ServiceClient {
+export class AppComplianceAutomationToolForMicrosoft365Test extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
-    constructor(credentials: coreAuth.TokenCredential, options?: AppComplianceAutomationToolForMicrosoft365OptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, options?: AppComplianceAutomationToolForMicrosoft365TestOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -37,7 +37,7 @@ export class AppComplianceAutomationToolForMicrosoft365 extends coreClient.Servi
 }
 
 // @public
-export interface AppComplianceAutomationToolForMicrosoft365OptionalParams extends coreClient.ServiceClientOptions {
+export interface AppComplianceAutomationToolForMicrosoft365TestOptionalParams extends coreClient.ServiceClientOptions {
     $host?: string;
     apiVersion?: string;
     endpoint?: string;

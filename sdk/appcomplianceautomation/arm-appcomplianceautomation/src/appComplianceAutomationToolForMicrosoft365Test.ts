@@ -32,20 +32,20 @@ import {
   Snapshot,
   Webhook,
 } from "./operationsInterfaces";
-import { AppComplianceAutomationToolForMicrosoft365OptionalParams } from "./models";
+import { AppComplianceAutomationToolForMicrosoft365TestOptionalParams } from "./models";
 
-export class AppComplianceAutomationToolForMicrosoft365 extends coreClient.ServiceClient {
+export class AppComplianceAutomationToolForMicrosoft365Test extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
 
   /**
-   * Initializes a new instance of the AppComplianceAutomationToolForMicrosoft365 class.
+   * Initializes a new instance of the AppComplianceAutomationToolForMicrosoft365Test class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
-    options?: AppComplianceAutomationToolForMicrosoft365OptionalParams,
+    options?: AppComplianceAutomationToolForMicrosoft365TestOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -55,12 +55,13 @@ export class AppComplianceAutomationToolForMicrosoft365 extends coreClient.Servi
     if (!options) {
       options = {};
     }
-    const defaults: AppComplianceAutomationToolForMicrosoft365OptionalParams = {
-      requestContentType: "application/json; charset=utf-8",
-      credential: credentials,
-    };
+    const defaults: AppComplianceAutomationToolForMicrosoft365TestOptionalParams =
+      {
+        requestContentType: "application/json; charset=utf-8",
+        credential: credentials,
+      };
 
-    const packageDetails = `azsdk-js-arm-appcomplianceautomation/1.0.1`;
+    const packageDetails = `azsdk-js-arm-appcomplianceautomation/2.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

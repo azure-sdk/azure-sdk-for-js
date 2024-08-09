@@ -2339,7 +2339,7 @@ export interface WebhookListNextOptionalParams
 export type WebhookListNextResponse = WebhookResourceListResult;
 
 /** Optional parameters. */
-export interface AppComplianceAutomationToolForMicrosoft365OptionalParams
+export interface AppComplianceAutomationToolForMicrosoft365TestOptionalParams
   extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;

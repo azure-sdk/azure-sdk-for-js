@@ -10,7 +10,7 @@ import { ProviderActions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AppComplianceAutomationToolForMicrosoft365 } from "../appComplianceAutomationToolForMicrosoft365";
+import { AppComplianceAutomationToolForMicrosoft365Test } from "../appComplianceAutomationToolForMicrosoft365Test";
 import {
   SimplePollerLike,
   OperationState,
@@ -40,13 +40,13 @@ import {
 
 /** Class containing ProviderActions operations. */
 export class ProviderActionsImpl implements ProviderActions {
-  private readonly client: AppComplianceAutomationToolForMicrosoft365;
+  private readonly client: AppComplianceAutomationToolForMicrosoft365Test;
 
   /**
    * Initialize a new instance of the class ProviderActions class.
    * @param client Reference to the service client
    */
-  constructor(client: AppComplianceAutomationToolForMicrosoft365) {
+  constructor(client: AppComplianceAutomationToolForMicrosoft365Test) {
     this.client = client;
   }
 
