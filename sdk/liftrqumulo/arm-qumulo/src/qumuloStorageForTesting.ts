@@ -16,15 +16,15 @@ import {
 import * as coreAuth from "@azure/core-auth";
 import { OperationsImpl, FileSystemsImpl } from "./operations";
 import { Operations, FileSystems } from "./operationsInterfaces";
-import { QumuloStorageOptionalParams } from "./models";
+import { QumuloStorageForTestingOptionalParams } from "./models";
 
-export class QumuloStorage extends coreClient.ServiceClient {
+export class QumuloStorageForTesting extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
   subscriptionId: string;
 
   /**
-   * Initializes a new instance of the QumuloStorage class.
+   * Initializes a new instance of the QumuloStorageForTesting class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param subscriptionId The ID of the target subscription.
    * @param options The parameter options
@@ -32,7 +32,7 @@ export class QumuloStorage extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: QumuloStorageOptionalParams,
+    options?: QumuloStorageForTestingOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -45,12 +45,12 @@ export class QumuloStorage extends coreClient.ServiceClient {
     if (!options) {
       options = {};
     }
-    const defaults: QumuloStorageOptionalParams = {
+    const defaults: QumuloStorageForTestingOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-qumulo/2.0.1`;
+    const packageDetails = `azsdk-js-arm-qumulo/3.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
