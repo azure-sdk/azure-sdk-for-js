@@ -25,10 +25,10 @@ export interface APIServerAccessProfile {
 }
 
 // @public (undocumented)
-export class ContainerServiceFleetClient extends coreClient.ServiceClient {
+export class ContainerServiceFleetClientTest extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ContainerServiceFleetClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ContainerServiceFleetClientTestOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -46,7 +46,7 @@ export class ContainerServiceFleetClient extends coreClient.ServiceClient {
 }
 
 // @public
-export interface ContainerServiceFleetClientOptionalParams extends coreClient.ServiceClientOptions {
+export interface ContainerServiceFleetClientTestOptionalParams extends coreClient.ServiceClientOptions {
     $host?: string;
     apiVersion?: string;
     endpoint?: string;

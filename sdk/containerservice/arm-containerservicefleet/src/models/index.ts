@@ -1303,7 +1303,7 @@ export type FleetUpdateStrategiesListByFleetNextResponse =
   FleetUpdateStrategyListResult;
 
 /** Optional parameters. */
-export interface ContainerServiceFleetClientOptionalParams
+export interface ContainerServiceFleetClientTestOptionalParams
   extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
