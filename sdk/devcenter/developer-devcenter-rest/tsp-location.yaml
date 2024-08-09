@@ -1,3 +1,5 @@
+additionalDirectories: []
 directory: specification/devcenter/DevCenter
-commit: 3dbffd014194b1985f6498b259fe8d91461c898c
-repo: Azure/azure-rest-api-specs
+commit: 748b20b884014edb8a0177fac940738055450290
+repo: test-repo-billy/azure-rest-api-specs
+
