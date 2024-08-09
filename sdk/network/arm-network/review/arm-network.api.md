@@ -2620,6 +2620,19 @@ export interface ConnectionSharedKey extends SubResource {
 }
 
 // @public
+export interface ConnectionSharedKeyResult extends SubResource {
+    name?: string;
+    properties?: SharedKeyProperties;
+    readonly type?: string;
+}
+
+// @public
+export interface ConnectionSharedKeyResultList {
+    nextLink?: string;
+    value?: ConnectionSharedKeyResult[];
+}
+
+// @public
 export type ConnectionState = string;
 
 // @public
@@ -12931,6 +12944,13 @@ export interface SessionIds {
 export type Severity = string;
 
 // @public
+export interface SharedKeyProperties {
+    readonly provisioningState?: ProvisioningState;
+    sharedKey?: string;
+    sharedKeyLength?: number;
+}
+
+// @public
 export type SharingScope = string;
 
 // @public
@@ -15573,8 +15593,34 @@ export interface VpnLinkConnections {
     beginGetIkeSasAndWait(resourceGroupName: string, gatewayName: string, connectionName: string, linkConnectionName: string, options?: VpnLinkConnectionsGetIkeSasOptionalParams): Promise<VpnLinkConnectionsGetIkeSasResponse>;
     beginResetConnection(resourceGroupName: string, gatewayName: string, connectionName: string, linkConnectionName: string, options?: VpnLinkConnectionsResetConnectionOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginResetConnectionAndWait(resourceGroupName: string, gatewayName: string, connectionName: string, linkConnectionName: string, options?: VpnLinkConnectionsResetConnectionOptionalParams): Promise<void>;
+    beginSetOrInitDefaultSharedKey(resourceGroupName: string, gatewayName: string, connectionName: string, linkConnectionName: string, connectionSharedKeyParameters: ConnectionSharedKeyResult, options?: VpnLinkConnectionsSetOrInitDefaultSharedKeyOptionalParams): Promise<SimplePollerLike<OperationState<VpnLinkConnectionsSetOrInitDefaultSharedKeyResponse>, VpnLinkConnectionsSetOrInitDefaultSharedKeyResponse>>;
+    beginSetOrInitDefaultSharedKeyAndWait(resourceGroupName: string, gatewayName: string, connectionName: string, linkConnectionName: string, connectionSharedKeyParameters: ConnectionSharedKeyResult, options?: VpnLinkConnectionsSetOrInitDefaultSharedKeyOptionalParams): Promise<VpnLinkConnectionsSetOrInitDefaultSharedKeyResponse>;
+    getDefaultSharedKey(resourceGroupName: string, gatewayName: string, connectionName: string, linkConnectionName: string, options?: VpnLinkConnectionsGetDefaultSharedKeyOptionalParams): Promise<VpnLinkConnectionsGetDefaultSharedKeyResponse>;
+    listAllSharedKeys(resourceGroupName: string, gatewayName: string, connectionName: string, linkConnectionName: string, options?: VpnLinkConnectionsGetAllSharedKeysOptionalParams): PagedAsyncIterableIterator<ConnectionSharedKeyResult>;
     listByVpnConnection(resourceGroupName: string, gatewayName: string, connectionName: string, options?: VpnLinkConnectionsListByVpnConnectionOptionalParams): PagedAsyncIterableIterator<VpnSiteLinkConnection>;
+    listDefaultSharedKey(resourceGroupName: string, gatewayName: string, connectionName: string, linkConnectionName: string, options?: VpnLinkConnectionsListDefaultSharedKeyOptionalParams): Promise<VpnLinkConnectionsListDefaultSharedKeyResponse>;
 }
+
+// @public
+export interface VpnLinkConnectionsGetAllSharedKeysNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type VpnLinkConnectionsGetAllSharedKeysNextResponse = ConnectionSharedKeyResultList;
+
+// @public
+export interface VpnLinkConnectionsGetAllSharedKeysOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type VpnLinkConnectionsGetAllSharedKeysResponse = ConnectionSharedKeyResultList;
+
+// @public
+export interface VpnLinkConnectionsGetDefaultSharedKeyOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type VpnLinkConnectionsGetDefaultSharedKeyResponse = ConnectionSharedKeyResult;
 
 // @public
 export interface VpnLinkConnectionsGetIkeSasOptionalParams extends coreClient.OperationOptions {
@@ -15602,10 +15648,26 @@ export interface VpnLinkConnectionsListByVpnConnectionOptionalParams extends cor
 export type VpnLinkConnectionsListByVpnConnectionResponse = ListVpnSiteLinkConnectionsResult;
 
 // @public
+export interface VpnLinkConnectionsListDefaultSharedKeyOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type VpnLinkConnectionsListDefaultSharedKeyResponse = ConnectionSharedKeyResult;
+
+// @public
 export interface VpnLinkConnectionsResetConnectionOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export interface VpnLinkConnectionsSetOrInitDefaultSharedKeyOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type VpnLinkConnectionsSetOrInitDefaultSharedKeyResponse = ConnectionSharedKeyResult;
 
 // @public
 export interface VpnLinkProviderProperties {

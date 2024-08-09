@@ -15609,6 +15609,65 @@ export const VpnGatewayPacketCaptureStopParameters: coreClient.CompositeMapper =
     },
   };
 
+export const ConnectionSharedKeyResultList: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ConnectionSharedKeyResultList",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ConnectionSharedKeyResult",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const SharedKeyProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SharedKeyProperties",
+    modelProperties: {
+      sharedKey: {
+        serializedName: "sharedKey",
+        type: {
+          name: "String",
+        },
+      },
+      sharedKeyLength: {
+        constraints: {
+          InclusiveMaximum: 128,
+          InclusiveMinimum: 1,
+        },
+        serializedName: "sharedKeyLength",
+        type: {
+          name: "Number",
+        },
+      },
+      provisioningState: {
+        serializedName: "provisioningState",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const ListVpnGatewaysResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -23989,6 +24048,36 @@ export const VpnGatewayNatRule: coreClient.CompositeMapper = {
               className: "SubResource",
             },
           },
+        },
+      },
+    },
+  },
+};
+
+export const ConnectionSharedKeyResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ConnectionSharedKeyResult",
+    modelProperties: {
+      ...SubResource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "SharedKeyProperties",
+        },
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String",
+        },
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String",
         },
       },
     },

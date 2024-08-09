@@ -1,15 +1,29 @@
 # Release History
-
-## 33.3.1 (Unreleased)
-
+    
+## 33.4.0 (2024-08-09)
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation VpnLinkConnections.beginSetOrInitDefaultSharedKey
+  - Added operation VpnLinkConnections.beginSetOrInitDefaultSharedKeyAndWait
+  - Added operation VpnLinkConnections.getDefaultSharedKey
+  - Added operation VpnLinkConnections.listAllSharedKeys
+  - Added operation VpnLinkConnections.listDefaultSharedKey
+  - Added Interface ConnectionSharedKeyResult
+  - Added Interface ConnectionSharedKeyResultList
+  - Added Interface SharedKeyProperties
+  - Added Interface VpnLinkConnectionsGetAllSharedKeysNextOptionalParams
+  - Added Interface VpnLinkConnectionsGetAllSharedKeysOptionalParams
+  - Added Interface VpnLinkConnectionsGetDefaultSharedKeyOptionalParams
+  - Added Interface VpnLinkConnectionsListDefaultSharedKeyOptionalParams
+  - Added Interface VpnLinkConnectionsSetOrInitDefaultSharedKeyOptionalParams
+  - Added Type Alias VpnLinkConnectionsGetAllSharedKeysNextResponse
+  - Added Type Alias VpnLinkConnectionsGetAllSharedKeysResponse
+  - Added Type Alias VpnLinkConnectionsGetDefaultSharedKeyResponse
+  - Added Type Alias VpnLinkConnectionsListDefaultSharedKeyResponse
+  - Added Type Alias VpnLinkConnectionsSetOrInitDefaultSharedKeyResponse
+    
+    
 ## 33.3.0 (2024-07-17)
     
 ### Features Added
