@@ -24,7 +24,7 @@ export interface ClassifierDocumentTypeDetails {
    *
    * Possible values: "url", "base64", "azureBlob", "azureBlobFileList"
    */
-  sourceKind?: string;
+  sourceKind?: ContentSourceKind;
   /**
    * Azure Blob Storage location containing the training data for a classifier
    * document type.  Either azureBlobSource or azureBlobFileListSource must be
@@ -61,7 +61,7 @@ export interface BuildDocumentModelRequest {
    *
    * Possible values: "template", "neural"
    */
-  buildMode: string;
+  buildMode: DocumentBuildMode;
   /**
    * Azure Blob Storage location containing the training data.  Either
    * azureBlobSource or azureBlobFileListSource must be specified.
@@ -148,3 +148,16 @@ export interface ClassifyDocumentRequest {
    */
   base64Source?: string;
 }
+
+/** Alias for DocumentBuildMode */
+export type DocumentBuildMode = string;
+/** Alias for ContentSourceKind */
+export type ContentSourceKind = string;
+/** Alias for StringIndexType */
+export type StringIndexType = string;
+/** Alias for ContentFormat */
+export type ContentFormat = string;
+/** Alias for DocumentAnalysisFeature */
+export type DocumentAnalysisFeature = string;
+/** Alias for SplitMode */
+export type SplitMode = string;
