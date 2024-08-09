@@ -5,4 +5,4 @@ export NVM_DIR="$HOME/.nvm"
 nvm install v18.15.0 
 nvm alias default node
 npm install -g @microsoft/rush@5.92.0
-npm install -g js-sdk-release-tools@2.7.18-beta
+npm install -g js-sdk-release-tools@2.7.19-beta
