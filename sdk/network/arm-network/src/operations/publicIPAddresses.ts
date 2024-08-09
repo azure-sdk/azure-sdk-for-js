@@ -1463,7 +1463,7 @@ const listVirtualMachineScaleSetPublicIPAddressesOperationSpec: coreClient.Opera
         bodyMapper: Mappers.CloudError,
       },
     },
-    queryParameters: [Parameters.apiVersion1],
+    queryParameters: [Parameters.apiVersion2],
     urlParameters: [
       Parameters.$host,
       Parameters.resourceGroupName,
@@ -1485,7 +1485,7 @@ const listVirtualMachineScaleSetVMPublicIPAddressesOperationSpec: coreClient.Ope
         bodyMapper: Mappers.CloudError,
       },
     },
-    queryParameters: [Parameters.apiVersion1],
+    queryParameters: [Parameters.apiVersion2],
     urlParameters: [
       Parameters.$host,
       Parameters.resourceGroupName,
@@ -1510,7 +1510,7 @@ const getVirtualMachineScaleSetPublicIPAddressOperationSpec: coreClient.Operatio
         bodyMapper: Mappers.CloudError,
       },
     },
-    queryParameters: [Parameters.expand, Parameters.apiVersion1],
+    queryParameters: [Parameters.expand, Parameters.apiVersion2],
     urlParameters: [
       Parameters.$host,
       Parameters.resourceGroupName,

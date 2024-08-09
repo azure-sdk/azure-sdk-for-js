@@ -141,6 +141,7 @@ import {
   VpnGateway as VpnGatewayMapper,
   VpnGatewayPacketCaptureStartParameters as VpnGatewayPacketCaptureStartParametersMapper,
   VpnGatewayPacketCaptureStopParameters as VpnGatewayPacketCaptureStopParametersMapper,
+  ConnectionSharedKeyResult as ConnectionSharedKeyResultMapper,
   VpnConnection as VpnConnectionMapper,
   VpnConnectionPacketCaptureStartParameters as VpnConnectionPacketCaptureStartParametersMapper,
   VpnConnectionPacketCaptureStopParameters as VpnConnectionPacketCaptureStopParametersMapper,
@@ -504,6 +505,18 @@ export const virtualWANName: OperationURLParameter = {
   },
 };
 
+export const apiVersion1: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2024-03-01",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String",
+    },
+  },
+};
+
 export const vpnClientParams: OperationParameter = {
   parameterPath: "vpnClientParams",
   mapper: VirtualWanVpnProfileParametersMapper,
@@ -569,7 +582,7 @@ export const virtualmachineIndex: OperationURLParameter = {
   },
 };
 
-export const apiVersion1: OperationQueryParameter = {
+export const apiVersion2: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2018-10-01",
@@ -2268,6 +2281,11 @@ export const linkConnectionName: OperationURLParameter = {
       name: "String",
     },
   },
+};
+
+export const connectionSharedKeyParameters: OperationParameter = {
+  parameterPath: "connectionSharedKeyParameters",
+  mapper: ConnectionSharedKeyResultMapper,
 };
 
 export const vpnConnectionParameters: OperationParameter = {

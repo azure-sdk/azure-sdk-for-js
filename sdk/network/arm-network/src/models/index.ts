@@ -5484,6 +5484,27 @@ export interface VpnGatewayPacketCaptureStopParameters {
   sasUrl?: string;
 }
 
+/** The list of shared keys for the vpn link connection. It should only contain one shared key for each vpn link connection. */
+export interface ConnectionSharedKeyResultList {
+  /** List of SharedKeys. */
+  value?: ConnectionSharedKeyResult[];
+  /** URL to get the next set of operation list results if there are any. */
+  nextLink?: string;
+}
+
+/** Parameters for SharedKey. */
+export interface SharedKeyProperties {
+  /** The value of the shared key for the vpn link connection. */
+  sharedKey?: string;
+  /** The length of the shared key for the vpn link connection. */
+  sharedKeyLength?: number;
+  /**
+   * The provisioning state of the SharedKey resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
 /** Result of the request to list VpnGateways. It contains a list of VpnGateways and a URL nextLink to get the next set of results. */
 export interface ListVpnGatewaysResult {
   /** List of VpnGateways. */
@@ -8856,6 +8877,19 @@ export interface VpnGatewayNatRule extends SubResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly ingressVpnSiteLinkConnections?: SubResource[];
+}
+
+/** SharedKey Resource . */
+export interface ConnectionSharedKeyResult extends SubResource {
+  /** Properties of the shared key. */
+  properties?: SharedKeyProperties;
+  /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
+  name?: string;
+  /**
+   * Resource type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
 }
 
 /** ExpressRouteConnection resource. */
@@ -23350,6 +23384,43 @@ export interface VpnLinkConnectionsResetConnectionOptionalParams
 }
 
 /** Optional parameters. */
+export interface VpnLinkConnectionsGetAllSharedKeysOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getAllSharedKeys operation. */
+export type VpnLinkConnectionsGetAllSharedKeysResponse =
+  ConnectionSharedKeyResultList;
+
+/** Optional parameters. */
+export interface VpnLinkConnectionsGetDefaultSharedKeyOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getDefaultSharedKey operation. */
+export type VpnLinkConnectionsGetDefaultSharedKeyResponse =
+  ConnectionSharedKeyResult;
+
+/** Optional parameters. */
+export interface VpnLinkConnectionsSetOrInitDefaultSharedKeyOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the setOrInitDefaultSharedKey operation. */
+export type VpnLinkConnectionsSetOrInitDefaultSharedKeyResponse =
+  ConnectionSharedKeyResult;
+
+/** Optional parameters. */
+export interface VpnLinkConnectionsListDefaultSharedKeyOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listDefaultSharedKey operation. */
+export type VpnLinkConnectionsListDefaultSharedKeyResponse =
+  ConnectionSharedKeyResult;
+
+/** Optional parameters. */
 export interface VpnLinkConnectionsGetIkeSasOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -23371,6 +23442,14 @@ export interface VpnLinkConnectionsListByVpnConnectionOptionalParams
 /** Contains response data for the listByVpnConnection operation. */
 export type VpnLinkConnectionsListByVpnConnectionResponse =
   ListVpnSiteLinkConnectionsResult;
+
+/** Optional parameters. */
+export interface VpnLinkConnectionsGetAllSharedKeysNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getAllSharedKeysNext operation. */
+export type VpnLinkConnectionsGetAllSharedKeysNextResponse =
+  ConnectionSharedKeyResultList;
 
 /** Optional parameters. */
 export interface VpnLinkConnectionsListByVpnConnectionNextOptionalParams

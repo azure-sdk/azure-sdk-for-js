@@ -137,7 +137,7 @@ const downloadOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.request2,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
