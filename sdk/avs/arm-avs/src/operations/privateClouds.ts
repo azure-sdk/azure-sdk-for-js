@@ -12,7 +12,7 @@ import { PrivateClouds } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AzureVMwareSolutionAPI } from "../azureVMwareSolutionAPI";
+import { AzureVMwareSolutionAPIForTesting } from "../azureVMwareSolutionAPIForTesting";
 import {
   SimplePollerLike,
   OperationState,
@@ -48,13 +48,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing PrivateClouds operations. */
 export class PrivateCloudsImpl implements PrivateClouds {
-  private readonly client: AzureVMwareSolutionAPI;
+  private readonly client: AzureVMwareSolutionAPIForTesting;
 
   /**
    * Initialize a new instance of the class PrivateClouds class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureVMwareSolutionAPI) {
+  constructor(client: AzureVMwareSolutionAPIForTesting) {
     this.client = client;
   }
 
@@ -733,7 +733,7 @@ const listInSubscriptionOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateCloudListResult,
+      bodyMapper: Mappers.PrivateCloudList,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -749,7 +749,7 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateCloudListResult,
+      bodyMapper: Mappers.PrivateCloudList,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -957,7 +957,7 @@ const listInSubscriptionNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateCloudListResult,
+      bodyMapper: Mappers.PrivateCloudList,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -976,7 +976,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateCloudListResult,
+      bodyMapper: Mappers.PrivateCloudList,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
