@@ -1,15 +1,17 @@
 # Release History
-
-## 1.0.1 (Unreleased)
-
+    
+## 2.0.0 (2024-08-09)
+    
 ### Features Added
+
+  - Added Interface AppComplianceAutomationToolForMicrosoft365TestOptionalParams
+  - Added Class AppComplianceAutomationToolForMicrosoft365Test
 
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
-
+  - Deleted Class AppComplianceAutomationToolForMicrosoft365
+    
+    
 ## 1.0.0 (2024-06-25)
 
 ### Features Added
