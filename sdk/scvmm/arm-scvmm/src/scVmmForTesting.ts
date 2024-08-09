@@ -38,15 +38,15 @@ import {
   VmmServers,
   InventoryItems,
 } from "./operationsInterfaces";
-import { ScVmmOptionalParams } from "./models";
+import { ScVmmForTestingOptionalParams } from "./models";
 
-export class ScVmm extends coreClient.ServiceClient {
+export class ScVmmForTesting extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
   subscriptionId?: string;
 
   /**
-   * Initializes a new instance of the ScVmm class.
+   * Initializes a new instance of the ScVmmForTesting class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param options The parameter options
@@ -54,16 +54,16 @@ export class ScVmm extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: ScVmmOptionalParams,
+    options?: ScVmmForTestingOptionalParams,
   );
   constructor(
     credentials: coreAuth.TokenCredential,
-    options?: ScVmmOptionalParams,
+    options?: ScVmmForTestingOptionalParams,
   );
   constructor(
     credentials: coreAuth.TokenCredential,
-    subscriptionIdOrOptions?: ScVmmOptionalParams | string,
-    options?: ScVmmOptionalParams,
+    subscriptionIdOrOptions?: ScVmmForTestingOptionalParams | string,
+    options?: ScVmmForTestingOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -81,12 +81,12 @@ export class ScVmm extends coreClient.ServiceClient {
     if (!options) {
       options = {};
     }
-    const defaults: ScVmmOptionalParams = {
+    const defaults: ScVmmForTestingOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-scvmm/1.0.1`;
+    const packageDetails = `azsdk-js-arm-scvmm/2.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -140,7 +140,7 @@ export class ScVmm extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-10-07";
+    this.apiVersion = options.apiVersion || "2024-06-01";
     this.virtualMachineInstances = new VirtualMachineInstancesImpl(this);
     this.guestAgents = new GuestAgentsImpl(this);
     this.vmInstanceHybridIdentityMetadatas =
