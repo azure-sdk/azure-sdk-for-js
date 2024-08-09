@@ -12,38 +12,38 @@ import { SubscriptionUsages } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ManagedDevOpsInfrastructure } from "../managedDevOpsInfrastructure";
+import { ManagedDevOpsInfrastructureForTesting } from "../managedDevOpsInfrastructureForTesting";
 import {
   Quota,
-  SubscriptionUsagesListByLocationNextOptionalParams,
-  SubscriptionUsagesListByLocationOptionalParams,
-  SubscriptionUsagesListByLocationResponse,
-  SubscriptionUsagesListByLocationNextResponse,
+  SubscriptionUsagesUsagesNextOptionalParams,
+  SubscriptionUsagesUsagesOptionalParams,
+  SubscriptionUsagesUsagesResponse,
+  SubscriptionUsagesUsagesNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing SubscriptionUsages operations. */
 export class SubscriptionUsagesImpl implements SubscriptionUsages {
-  private readonly client: ManagedDevOpsInfrastructure;
+  private readonly client: ManagedDevOpsInfrastructureForTesting;
 
   /**
    * Initialize a new instance of the class SubscriptionUsages class.
    * @param client Reference to the service client
    */
-  constructor(client: ManagedDevOpsInfrastructure) {
+  constructor(client: ManagedDevOpsInfrastructureForTesting) {
     this.client = client;
   }
 
   /**
    * List Quota resources by subscription ID
-   * @param locationName Name of the location.
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
-  public listByLocation(
-    locationName: string,
-    options?: SubscriptionUsagesListByLocationOptionalParams,
+  public listUsages(
+    location: string,
+    options?: SubscriptionUsagesUsagesOptionalParams,
   ): PagedAsyncIterableIterator<Quota> {
-    const iter = this.listByLocationPagingAll(locationName, options);
+    const iter = this.usagesPagingAll(location, options);
     return {
       next() {
         return iter.next();
@@ -55,31 +55,27 @@ export class SubscriptionUsagesImpl implements SubscriptionUsages {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByLocationPagingPage(locationName, options, settings);
+        return this.usagesPagingPage(location, options, settings);
       },
     };
   }
 
-  private async *listByLocationPagingPage(
-    locationName: string,
-    options?: SubscriptionUsagesListByLocationOptionalParams,
+  private async *usagesPagingPage(
+    location: string,
+    options?: SubscriptionUsagesUsagesOptionalParams,
     settings?: PageSettings,
   ): AsyncIterableIterator<Quota[]> {
-    let result: SubscriptionUsagesListByLocationResponse;
+    let result: SubscriptionUsagesUsagesResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByLocation(locationName, options);
+      result = await this._usages(location, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByLocationNext(
-        locationName,
-        continuationToken,
-        options,
-      );
+      result = await this._usagesNext(location, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -87,59 +83,56 @@ export class SubscriptionUsagesImpl implements SubscriptionUsages {
     }
   }
 
-  private async *listByLocationPagingAll(
-    locationName: string,
-    options?: SubscriptionUsagesListByLocationOptionalParams,
+  private async *usagesPagingAll(
+    location: string,
+    options?: SubscriptionUsagesUsagesOptionalParams,
   ): AsyncIterableIterator<Quota> {
-    for await (const page of this.listByLocationPagingPage(
-      locationName,
-      options,
-    )) {
+    for await (const page of this.usagesPagingPage(location, options)) {
       yield* page;
     }
   }
 
   /**
    * List Quota resources by subscription ID
-   * @param locationName Name of the location.
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
-  private _listByLocation(
-    locationName: string,
-    options?: SubscriptionUsagesListByLocationOptionalParams,
-  ): Promise<SubscriptionUsagesListByLocationResponse> {
+  private _usages(
+    location: string,
+    options?: SubscriptionUsagesUsagesOptionalParams,
+  ): Promise<SubscriptionUsagesUsagesResponse> {
     return this.client.sendOperationRequest(
-      { locationName, options },
-      listByLocationOperationSpec,
+      { location, options },
+      usagesOperationSpec,
     );
   }
 
   /**
-   * ListByLocationNext
-   * @param locationName Name of the location.
-   * @param nextLink The nextLink from the previous successful call to the ListByLocation method.
+   * UsagesNext
+   * @param location The name of the Azure region.
+   * @param nextLink The nextLink from the previous successful call to the Usages method.
    * @param options The options parameters.
    */
-  private _listByLocationNext(
-    locationName: string,
+  private _usagesNext(
+    location: string,
     nextLink: string,
-    options?: SubscriptionUsagesListByLocationNextOptionalParams,
-  ): Promise<SubscriptionUsagesListByLocationNextResponse> {
+    options?: SubscriptionUsagesUsagesNextOptionalParams,
+  ): Promise<SubscriptionUsagesUsagesNextResponse> {
     return this.client.sendOperationRequest(
-      { locationName, nextLink, options },
-      listByLocationNextOperationSpec,
+      { location, nextLink, options },
+      usagesNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listByLocationOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DevOpsInfrastructure/locations/{locationName}/usages",
+const usagesOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DevOpsInfrastructure/locations/{location}/usages",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.QuotaListResult,
+      bodyMapper: Mappers.PagedQuota,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -149,17 +142,17 @@ const listByLocationOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.locationName,
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listByLocationNextOperationSpec: coreClient.OperationSpec = {
+const usagesNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.QuotaListResult,
+      bodyMapper: Mappers.PagedQuota,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -169,7 +162,7 @@ const listByLocationNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
-    Parameters.locationName,
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
   serializer,

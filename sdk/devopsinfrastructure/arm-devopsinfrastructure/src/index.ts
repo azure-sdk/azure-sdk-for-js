@@ -9,5 +9,5 @@
 /// <reference lib="esnext.asynciterable" />
 export { getContinuationToken } from "./pagingHelper";
 export * from "./models";
-export { ManagedDevOpsInfrastructure } from "./managedDevOpsInfrastructure";
+export { ManagedDevOpsInfrastructureForTesting } from "./managedDevOpsInfrastructureForTesting";
 export * from "./operationsInterfaces";
