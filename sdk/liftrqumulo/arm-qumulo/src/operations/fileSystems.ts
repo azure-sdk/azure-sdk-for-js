@@ -12,7 +12,7 @@ import { FileSystems } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { QumuloStorage } from "../qumuloStorage";
+import { QumuloStorageForTesting } from "../qumuloStorageForTesting";
 import {
   SimplePollerLike,
   OperationState,
@@ -43,13 +43,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing FileSystems operations. */
 export class FileSystemsImpl implements FileSystems {
-  private readonly client: QumuloStorage;
+  private readonly client: QumuloStorageForTesting;
 
   /**
    * Initialize a new instance of the class FileSystems class.
    * @param client Reference to the service client
    */
-  constructor(client: QumuloStorage) {
+  constructor(client: QumuloStorageForTesting) {
     this.client = client;
   }
 

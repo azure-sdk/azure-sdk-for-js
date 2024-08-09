@@ -9,5 +9,5 @@
 /// <reference lib="esnext.asynciterable" />
 export { getContinuationToken } from "./pagingHelper";
 export * from "./models";
-export { QumuloStorage } from "./qumuloStorage";
+export { QumuloStorageForTesting } from "./qumuloStorageForTesting";
 export * from "./operationsInterfaces";

@@ -283,10 +283,10 @@ export type Origin = string;
 export type ProvisioningState = string;
 
 // @public (undocumented)
-export class QumuloStorage extends coreClient.ServiceClient {
+export class QumuloStorageForTesting extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: QumuloStorageOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: QumuloStorageForTestingOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -298,7 +298,7 @@ export class QumuloStorage extends coreClient.ServiceClient {
 }
 
 // @public
-export interface QumuloStorageOptionalParams extends coreClient.ServiceClientOptions {
+export interface QumuloStorageForTestingOptionalParams extends coreClient.ServiceClientOptions {
     $host?: string;
     apiVersion?: string;
     endpoint?: string;
