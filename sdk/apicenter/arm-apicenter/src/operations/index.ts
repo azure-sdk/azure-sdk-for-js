@@ -7,6 +7,7 @@
  */
 
 export * from "./operations";
+export * from "./deletedServices";
 export * from "./services";
 export * from "./metadataSchemas";
 export * from "./workspaces";

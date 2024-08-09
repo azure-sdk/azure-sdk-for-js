@@ -12,7 +12,7 @@ import { ApiDefinitions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AzureAPICenter } from "../azureAPICenter";
+import { AzureAPICenterForTesting } from "../azureAPICenterForTesting";
 import {
   SimplePollerLike,
   OperationState,
@@ -41,13 +41,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ApiDefinitions operations. */
 export class ApiDefinitionsImpl implements ApiDefinitions {
-  private readonly client: AzureAPICenter;
+  private readonly client: AzureAPICenterForTesting;
 
   /**
    * Initialize a new instance of the class ApiDefinitions class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureAPICenter) {
+  constructor(client: AzureAPICenterForTesting) {
     this.client = client;
   }
 

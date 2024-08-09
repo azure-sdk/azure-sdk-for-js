@@ -12,7 +12,7 @@ import { Environments } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AzureAPICenter } from "../azureAPICenter";
+import { AzureAPICenterForTesting } from "../azureAPICenterForTesting";
 import {
   Environment,
   EnvironmentsListNextOptionalParams,
@@ -31,13 +31,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Environments operations. */
 export class EnvironmentsImpl implements Environments {
-  private readonly client: AzureAPICenter;
+  private readonly client: AzureAPICenterForTesting;
 
   /**
    * Initialize a new instance of the class Environments class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureAPICenter) {
+  constructor(client: AzureAPICenterForTesting) {
     this.client = client;
   }
 
