@@ -1,19 +1,15 @@
 {
-  "extends": "../../../tsconfig.json",
+  "extends": "../../../tsconfig",
   "compilerOptions": {
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "rootDir": ".",
-    "paths": {
-      "@azure/health-deidentification": ["./src/index"]
-    }
+    "rootDir": "."
   },
   "include": [
     "./src/**/*.ts",
     "./src/**/*.mts",
     "./src/**/*.cts",
     "test/**/*.ts",
-    "./test/**/*.ts",
-    "./samples-dev/**/*.ts"
+    "./test/**/*.ts"
   ]
 }
