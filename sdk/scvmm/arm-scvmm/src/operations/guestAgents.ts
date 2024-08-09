@@ -12,7 +12,7 @@ import { GuestAgents } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ScVmm } from "../scVmm";
+import { ScVmmForTesting } from "../scVmmForTesting";
 import {
   SimplePollerLike,
   OperationState,
@@ -35,13 +35,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing GuestAgents operations. */
 export class GuestAgentsImpl implements GuestAgents {
-  private readonly client: ScVmm;
+  private readonly client: ScVmmForTesting;
 
   /**
    * Initialize a new instance of the class GuestAgents class.
    * @param client Reference to the service client
    */
-  constructor(client: ScVmm) {
+  constructor(client: ScVmmForTesting) {
     this.client = client;
   }
 
@@ -344,22 +344,22 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const listByVirtualMachineInstanceNextOperationSpec: coreClient.OperationSpec =
-{
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.GuestAgentListResult,
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.GuestAgentListResult,
+      },
+      default: {
+        bodyMapper: Mappers.ErrorResponse,
+      },
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceUri,
-    Parameters.nextLink,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
+    urlParameters: [
+      Parameters.$host,
+      Parameters.resourceUri,
+      Parameters.nextLink,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };

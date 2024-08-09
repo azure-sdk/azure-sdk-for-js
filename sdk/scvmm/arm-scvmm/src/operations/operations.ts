@@ -12,7 +12,7 @@ import { Operations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ScVmm } from "../scVmm";
+import { ScVmmForTesting } from "../scVmmForTesting";
 import {
   Operation,
   OperationsListNextOptionalParams,
@@ -24,13 +24,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Operations operations. */
 export class OperationsImpl implements Operations {
-  private readonly client: ScVmm;
+  private readonly client: ScVmmForTesting;
 
   /**
    * Initialize a new instance of the class Operations class.
    * @param client Reference to the service client
    */
-  constructor(client: ScVmm) {
+  constructor(client: ScVmmForTesting) {
     this.client = client;
   }
 
