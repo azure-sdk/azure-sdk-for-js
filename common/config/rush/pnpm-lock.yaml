@@ -13944,7 +13944,7 @@ packages:
     dev: false
 
   file:projects/arm-cdn.tgz:
-    resolution: {integrity: sha512-3gYIjQuSTOLvxf3QjgF48JT+dEZbJYdk4jF098AkeSmYwrXvOLSGghpldwRpjVuVJlqiwNZRwR3o7R5FXHb/sQ==, tarball: file:projects/arm-cdn.tgz}
+    resolution: {integrity: sha512-lt+1qY9h55ro0uEJb2ZgOz75guoksF3ndWwjA38LzJy8phzbiHRJZo+EbN/VaHxnWkH/GJVbEEraRrhW3HUnLA==, tarball: file:projects/arm-cdn.tgz}
     name: '@rush-temp/arm-cdn'
     version: 0.0.0
     dependencies:
@@ -13965,6 +13965,7 @@ packages:
       rimraf: 5.0.10
       ts-node: 10.9.2(@types/node@18.19.43)(typescript@5.5.4)
       tslib: 2.6.3
+      tsx: 4.17.0
       typescript: 5.5.4
       uglify-js: 3.19.1
     transitivePeerDependencies:
