@@ -4,6 +4,8 @@
 
 ```ts
 
+import { AbortSignalLike } from '@azure/abort-controller';
+import { CancelOnProgress } from '@azure/core-lro';
 import { Client } from '@azure-rest/core-client';
 import { ClientOptions } from '@azure-rest/core-client';
 import { CreateHttpPollerOptions } from '@azure/core-lro';
@@ -16,7 +18,6 @@ import { PathUncheckedResponse } from '@azure-rest/core-client';
 import { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
 import { RequestParameters } from '@azure-rest/core-client';
-import { SimplePollerLike } from '@azure/core-lro';
 import { StreamableMethod } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
@@ -122,12 +123,12 @@ export interface AnalyzeDocumentFromStreamQueryParam {
 
 // @public (undocumented)
 export interface AnalyzeDocumentFromStreamQueryParamProperties {
-    features?: string[];
+    features?: DocumentAnalysisFeature[];
     locale?: string;
-    outputContentFormat?: string;
+    outputContentFormat?: ContentFormat;
     pages?: string;
     queryFields?: string[];
-    stringIndexType?: string;
+    stringIndexType?: StringIndexType;
 }
 
 // @public
@@ -152,12 +153,12 @@ export interface AnalyzeDocumentQueryParam {
 
 // @public (undocumented)
 export interface AnalyzeDocumentQueryParamProperties {
-    features?: string[];
+    features?: DocumentAnalysisFeature[];
     locale?: string;
-    outputContentFormat?: string;
+    outputContentFormat?: ContentFormat;
     pages?: string;
     queryFields?: string[];
-    stringIndexType?: string;
+    stringIndexType?: StringIndexType;
 }
 
 // @public
@@ -172,14 +173,14 @@ export interface AnalyzeResultOperationOutput {
     createdDateTime: string;
     error?: ErrorModelOutput;
     lastUpdatedDateTime: string;
-    status: string;
+    status: OperationStatusOutput;
 }
 
 // @public
 export interface AnalyzeResultOutput {
     apiVersion: string;
     content: string;
-    contentFormat?: string;
+    contentFormat?: ContentFormatOutput;
     documents?: Array<DocumentOutput>;
     figures?: Array<DocumentFigureOutput>;
     keyValuePairs?: Array<DocumentKeyValuePairOutput>;
@@ -189,7 +190,7 @@ export interface AnalyzeResultOutput {
     pages: Array<DocumentPageOutput>;
     paragraphs?: Array<DocumentParagraphOutput>;
     sections?: Array<DocumentSectionOutput>;
-    stringIndexType: string;
+    stringIndexType: StringIndexTypeOutput;
     styles?: Array<DocumentStyleOutput>;
     tables?: Array<DocumentTableOutput>;
 }
@@ -314,7 +315,7 @@ export interface BuildDocumentClassifierRequest {
 export interface BuildDocumentModelRequest {
     azureBlobFileListSource?: AzureBlobFileListContentSource;
     azureBlobSource?: AzureBlobContentSource;
-    buildMode: string;
+    buildMode: DocumentBuildMode;
     description?: string;
     modelId: string;
     tags?: Record<string, string>;
@@ -366,14 +367,14 @@ export type BuildModelParameters = BuildModelBodyParam & RequestParameters;
 export interface ClassifierDocumentTypeDetails {
     azureBlobFileListSource?: AzureBlobFileListContentSource;
     azureBlobSource?: AzureBlobContentSource;
-    sourceKind?: string;
+    sourceKind?: ContentSourceKind;
 }
 
 // @public
 export interface ClassifierDocumentTypeDetailsOutput {
     azureBlobFileListSource?: AzureBlobFileListContentSourceOutput;
     azureBlobSource?: AzureBlobContentSourceOutput;
-    sourceKind?: string;
+    sourceKind?: ContentSourceKindOutput;
 }
 
 // @public (undocumented)
@@ -460,8 +461,8 @@ export interface ClassifyDocumentFromStreamQueryParam {
 
 // @public (undocumented)
 export interface ClassifyDocumentFromStreamQueryParamProperties {
-    split?: string;
-    stringIndexType?: string;
+    split?: SplitMode;
+    stringIndexType?: StringIndexType;
 }
 
 // @public
@@ -486,18 +487,14 @@ export interface ClassifyDocumentQueryParam {
 
 // @public (undocumented)
 export interface ClassifyDocumentQueryParamProperties {
-    split?: string;
-    stringIndexType?: string;
+    split?: SplitMode;
+    stringIndexType?: StringIndexType;
 }
 
 // @public
 export interface ClassifyDocumentRequest {
     base64Source?: string;
     urlSource?: string;
-}
-
-// @public
-export interface ClientRequestIdHeaderOutput {
 }
 
 // @public
@@ -554,6 +551,18 @@ export interface ComposeModelLogicalResponse extends HttpResponse {
 
 // @public (undocumented)
 export type ComposeModelParameters = ComposeModelBodyParam & RequestParameters;
+
+// @public
+export type ContentFormat = string;
+
+// @public
+export type ContentFormatOutput = string;
+
+// @public
+export type ContentSourceKind = string;
+
+// @public
+export type ContentSourceKindOutput = string;
 
 // @public
 export interface CopyAuthorization {
@@ -618,7 +627,7 @@ export interface CopyModelToLogicalResponse extends HttpResponse {
 export type CopyModelToParameters = CopyModelToBodyParam & RequestParameters;
 
 // @public
-function createClient(endpoint: string, credentials: TokenCredential | KeyCredential, options?: ClientOptions): DocumentIntelligenceClient;
+function createClient(endpointParam: string, credentials: TokenCredential | KeyCredential, { apiVersion, ...options }?: DocumentIntelligenceClientOptions): DocumentIntelligenceClient;
 export default createClient;
 
 // @public
@@ -705,13 +714,25 @@ export interface DeleteModelHeaders {
 export type DeleteModelParameters = DeleteModelHeaderParam & RequestParameters;
 
 // @public
+export type DocumentAnalysisFeature = string;
+
+// @public
+export type DocumentBarcodeKindOutput = string;
+
+// @public
 export interface DocumentBarcodeOutput {
     confidence: number;
-    kind: string;
+    kind: DocumentBarcodeKindOutput;
     polygon?: number[];
     span: DocumentSpanOutput;
     value: string;
 }
+
+// @public
+export type DocumentBuildMode = string;
+
+// @public
+export type DocumentBuildModeOutput = string;
 
 // @public
 export interface DocumentCaptionOutput {
@@ -745,7 +766,7 @@ export interface DocumentFieldOutput {
     confidence?: number;
     content?: string;
     spans?: Array<DocumentSpanOutput>;
-    type: string;
+    type: DocumentFieldTypeOutput;
     valueAddress?: AddressValueOutput;
     valueArray?: Array<DocumentFieldOutput>;
     valueBoolean?: boolean;
@@ -757,8 +778,8 @@ export interface DocumentFieldOutput {
     valueObject?: Record<string, DocumentFieldOutput>;
     valuePhoneNumber?: string;
     valueSelectionGroup?: string[];
-    valueSelectionMark?: string;
-    valueSignature?: string;
+    valueSelectionMark?: DocumentSelectionMarkStateOutput;
+    valueSignature?: DocumentSignatureTypeOutput;
     valueString?: string;
     valueTime?: string;
 }
@@ -769,8 +790,11 @@ export interface DocumentFieldSchemaOutput {
     example?: string;
     items?: DocumentFieldSchemaOutput;
     properties?: Record<string, DocumentFieldSchemaOutput>;
-    type: string;
+    type: DocumentFieldTypeOutput;
 }
+
+// @public
+export type DocumentFieldTypeOutput = string;
 
 // @public
 export interface DocumentFigureOutput {
@@ -790,9 +814,12 @@ export interface DocumentFootnoteOutput {
 }
 
 // @public
+export type DocumentFormulaKindOutput = string;
+
+// @public
 export interface DocumentFormulaOutput {
     confidence: number;
-    kind: string;
+    kind: DocumentFormulaKindOutput;
     polygon?: number[];
     span: DocumentSpanOutput;
     value: string;
@@ -802,6 +829,11 @@ export interface DocumentFormulaOutput {
 export type DocumentIntelligenceClient = Client & {
     path: Routes;
 };
+
+// @public
+export interface DocumentIntelligenceClientOptions extends ClientOptions {
+    apiVersion?: string;
+}
 
 // @public
 export interface DocumentKeyValueElementOutput {
@@ -869,7 +901,7 @@ export interface DocumentModelDetailsOutput {
     apiVersion?: string;
     azureBlobFileListSource?: AzureBlobFileListContentSourceOutput;
     azureBlobSource?: AzureBlobContentSourceOutput;
-    buildMode?: string;
+    buildMode?: DocumentBuildModeOutput;
     createdDateTime: string;
     description?: string;
     docTypes?: Record<string, DocumentTypeDetailsOutput>;
@@ -898,7 +930,7 @@ export interface DocumentPageOutput {
     pageNumber: number;
     selectionMarks?: Array<DocumentSelectionMarkOutput>;
     spans: Array<DocumentSpanOutput>;
-    unit?: string;
+    unit?: LengthUnitOutput;
     width?: number;
     words?: Array<DocumentWordOutput>;
 }
@@ -907,7 +939,7 @@ export interface DocumentPageOutput {
 export interface DocumentParagraphOutput {
     boundingRegions?: Array<BoundingRegionOutput>;
     content: string;
-    role?: string;
+    role?: ParagraphRoleOutput;
     spans: Array<DocumentSpanOutput>;
 }
 
@@ -922,8 +954,14 @@ export interface DocumentSelectionMarkOutput {
     confidence: number;
     polygon?: number[];
     span: DocumentSpanOutput;
-    state: string;
+    state: DocumentSelectionMarkStateOutput;
 }
+
+// @public
+export type DocumentSelectionMarkStateOutput = string;
+
+// @public
+export type DocumentSignatureTypeOutput = string;
 
 // @public
 export interface DocumentSpanOutput {
@@ -936,12 +974,15 @@ export interface DocumentStyleOutput {
     backgroundColor?: string;
     color?: string;
     confidence: number;
-    fontStyle?: string;
-    fontWeight?: string;
+    fontStyle?: FontStyleOutput;
+    fontWeight?: FontWeightOutput;
     isHandwritten?: boolean;
     similarFontFamily?: string;
     spans: Array<DocumentSpanOutput>;
 }
+
+// @public
+export type DocumentTableCellKindOutput = string;
 
 // @public
 export interface DocumentTableCellOutput {
@@ -950,7 +991,7 @@ export interface DocumentTableCellOutput {
     columnSpan?: number;
     content: string;
     elements?: string[];
-    kind?: string;
+    kind?: DocumentTableCellKindOutput;
     rowIndex: number;
     rowSpan?: number;
     spans: Array<DocumentSpanOutput>;
@@ -969,7 +1010,7 @@ export interface DocumentTableOutput {
 
 // @public
 export interface DocumentTypeDetailsOutput {
-    buildMode?: string;
+    buildMode?: DocumentBuildModeOutput;
     description?: string;
     fieldConfidence?: Record<string, number>;
     fieldSchema: Record<string, DocumentFieldSchemaOutput>;
@@ -996,6 +1037,12 @@ export interface ErrorModelOutput {
 export interface ErrorResponseOutput {
     error: ErrorModelOutput;
 }
+
+// @public
+export type FontStyleOutput = string;
+
+// @public
+export type FontWeightOutput = string;
 
 // @public (undocumented)
 export interface GetAnalyzeResult {
@@ -1387,7 +1434,19 @@ export interface InnerErrorOutput {
 export function isUnexpected(response: ListOperations200Response | ListOperationsDefaultResponse): response is ListOperationsDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: GetDocumentModelBuildOperation200Response | GetDocumentModelComposeOperation200Response | GetDocumentModelCopyToOperation200Response | GetDocumentClassifierBuildOperation200Response | GetOperation200Response | GetDocumentModelBuildOperationDefaultResponse): response is GetDocumentModelBuildOperationDefaultResponse;
+export function isUnexpected(response: GetDocumentModelBuildOperation200Response | GetDocumentModelBuildOperationDefaultResponse): response is GetDocumentModelBuildOperationDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GetDocumentModelComposeOperation200Response | GetDocumentModelComposeOperationDefaultResponse): response is GetDocumentModelComposeOperationDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GetDocumentModelCopyToOperation200Response | GetDocumentModelCopyToOperationDefaultResponse): response is GetDocumentModelCopyToOperationDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GetDocumentClassifierBuildOperation200Response | GetDocumentClassifierBuildOperationDefaultResponse): response is GetDocumentClassifierBuildOperationDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GetOperation200Response | GetOperationDefaultResponse): response is GetOperationDefaultResponse;
 
 // @public (undocumented)
 export function isUnexpected(response: GetResourceInfo200Response | GetResourceInfoDefaultResponse): response is GetResourceInfoDefaultResponse;
@@ -1396,7 +1455,10 @@ export function isUnexpected(response: GetResourceInfo200Response | GetResourceI
 export function isUnexpected(response: GetAnalyzeResult200Response | GetAnalyzeResultDefaultResponse): response is GetAnalyzeResultDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: AnalyzeDocumentFromStream202Response | AnalyzeDocument202Response | AnalyzeDocumentFromStreamLogicalResponse | AnalyzeDocumentLogicalResponse | AnalyzeDocumentFromStreamDefaultResponse): response is AnalyzeDocumentFromStreamDefaultResponse;
+export function isUnexpected(response: AnalyzeDocumentFromStream202Response | AnalyzeDocumentFromStreamLogicalResponse | AnalyzeDocumentFromStreamDefaultResponse): response is AnalyzeDocumentFromStreamDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: AnalyzeDocument202Response | AnalyzeDocumentLogicalResponse | AnalyzeDocumentDefaultResponse): response is AnalyzeDocumentDefaultResponse;
 
 // @public (undocumented)
 export function isUnexpected(response: GetModel200Response | GetModelDefaultResponse): response is GetModelDefaultResponse;
@@ -1432,10 +1494,16 @@ export function isUnexpected(response: GetClassifier200Response | GetClassifierD
 export function isUnexpected(response: DeleteClassifier204Response | DeleteClassifierDefaultResponse): response is DeleteClassifierDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ClassifyDocumentFromStream202Response | ClassifyDocument202Response | ClassifyDocumentFromStreamLogicalResponse | ClassifyDocumentLogicalResponse | ClassifyDocumentFromStreamDefaultResponse): response is ClassifyDocumentFromStreamDefaultResponse;
+export function isUnexpected(response: ClassifyDocumentFromStream202Response | ClassifyDocumentFromStreamLogicalResponse | ClassifyDocumentFromStreamDefaultResponse): response is ClassifyDocumentFromStreamDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: ClassifyDocument202Response | ClassifyDocumentLogicalResponse | ClassifyDocumentDefaultResponse): response is ClassifyDocumentDefaultResponse;
 
 // @public (undocumented)
 export function isUnexpected(response: GetClassifyResult200Response | GetClassifyResultDefaultResponse): response is GetClassifyResultDefaultResponse;
+
+// @public
+export type LengthUnitOutput = string;
 
 // @public (undocumented)
 export interface ListClassifiers {
@@ -1572,14 +1640,20 @@ export interface OperationDetailsOutputParent {
     createdDateTime: string;
     error?: ErrorModelOutput;
     // (undocumented)
-    kind: string;
+    kind: OperationKindOutput;
     lastUpdatedDateTime: string;
     operationId: string;
     percentCompleted?: number;
     resourceLocation: string;
-    status: string;
+    status: OperationStatusOutput;
     tags?: Record<string, string>;
 }
+
+// @public
+export type OperationKindOutput = string;
+
+// @public
+export type OperationStatusOutput = string;
 
 // @public
 export type PagedDocumentClassifierDetailsOutput = Paged<DocumentClassifierDetailsOutput>;
@@ -1604,6 +1678,9 @@ export type PaginateReturn<TResult> = TResult extends {
 export interface PagingOptions<TResponse> {
     customGetPage?: GetPage<PaginateReturn<TResponse>[]>;
 }
+
+// @public
+export type ParagraphRoleOutput = string;
 
 // @public
 export interface QuotaDetailsOutput {
@@ -1637,6 +1714,37 @@ export interface Routes {
     (path: "/documentClassifiers/{classifierId}:analyze", classifierId: string): ClassifyDocumentFromStream;
     (path: "/documentClassifiers/{classifierId}/analyzeResults/{resultId}", classifierId: string, resultId: string): GetClassifyResult;
 }
+
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
+}
+
+// @public
+export type SplitMode = string;
+
+// @public
+export type StringIndexType = string;
+
+// @public
+export type StringIndexTypeOutput = string;
 
 // @public
 export interface WarningOutput {
