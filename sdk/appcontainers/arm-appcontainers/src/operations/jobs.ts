@@ -46,6 +46,7 @@ import {
   JobsStartOptionalParams,
   JobsStartResponse,
   JobsStopExecutionOptionalParams,
+  JobsStopExecutionResponse,
   JobsStopMultipleExecutionsOptionalParams,
   JobsStopMultipleExecutionsResponse,
   JobsListSecretsOptionalParams,
@@ -311,17 +312,15 @@ export class JobsImpl implements Jobs {
    * Get the properties of a Container App Job.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param jobName Job Name
-   * @param apiName Proxy API Name for Container App Job.
    * @param options The options parameters.
    */
   proxyGet(
     resourceGroupName: string,
     jobName: string,
-    apiName: string,
     options?: JobsProxyGetOptionalParams,
   ): Promise<JobsProxyGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, jobName, apiName, options },
+      { resourceGroupName, jobName, options },
       proxyGetOperationSpec,
     );
   }
@@ -730,11 +729,16 @@ export class JobsImpl implements Jobs {
     jobName: string,
     jobExecutionName: string,
     options?: JobsStopExecutionOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<JobsStopExecutionResponse>,
+      JobsStopExecutionResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<void> => {
+    ): Promise<JobsStopExecutionResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -774,7 +778,10 @@ export class JobsImpl implements Jobs {
       args: { resourceGroupName, jobName, jobExecutionName, options },
       spec: stopExecutionOperationSpec,
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      JobsStopExecutionResponse,
+      OperationState<JobsStopExecutionResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       resourceLocationConfig: "location",
@@ -795,7 +802,7 @@ export class JobsImpl implements Jobs {
     jobName: string,
     jobExecutionName: string,
     options?: JobsStopExecutionOptionalParams,
-  ): Promise<void> {
+  ): Promise<JobsStopExecutionResponse> {
     const poller = await this.beginStopExecution(
       resourceGroupName,
       jobName,
@@ -1116,7 +1123,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.jobName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
@@ -1170,7 +1177,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.jobName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
@@ -1202,7 +1209,7 @@ const startOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.jobName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
@@ -1210,10 +1217,18 @@ const stopExecutionOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/jobs/{jobName}/executions/{jobExecutionName}/stop",
   httpMethod: "POST",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      bodyMapper: { type: { name: "String" } },
+    },
+    201: {
+      bodyMapper: { type: { name: "String" } },
+    },
+    202: {
+      bodyMapper: { type: { name: "String" } },
+    },
+    204: {
+      bodyMapper: { type: { name: "String" } },
+    },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
