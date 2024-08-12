@@ -57,4 +57,8 @@ export {
   PrivateEndpointConnectionsListByDeidServiceOptionalParams,
   PrivateLinksListByDeidServiceOptionalParams,
 } from "./options.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator } from "./pagingTypes.js";
+export {
+  PageSettings,
+  ContinuablePage,
+  PagedAsyncIterableIterator,
+} from "./pagingTypes.js";

@@ -1,7 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PrivateLinkResource, _PrivateLinkResourceListResult } from "../../models/models.js";
+import {
+  PrivateLinkResource,
+  _PrivateLinkResourceListResult,
+} from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../models/pagingTypes.js";
 import { buildPagedAsyncIterator } from "../pagingHelpers.js";
 import {
@@ -24,7 +27,8 @@ export function _privateLinksListByDeidServiceSend(
   deidServiceName: string,
   options: PrivateLinksListByDeidServiceOptionalParams = { requestOptions: {} },
 ): StreamableMethod<
-  PrivateLinksListByDeidService200Response | PrivateLinksListByDeidServiceDefaultResponse
+  | PrivateLinksListByDeidService200Response
+  | PrivateLinksListByDeidServiceDefaultResponse
 > {
   return context
     .path(
@@ -37,7 +41,9 @@ export function _privateLinksListByDeidServiceSend(
 }
 
 export async function _privateLinksListByDeidServiceDeserialize(
-  result: PrivateLinksListByDeidService200Response | PrivateLinksListByDeidServiceDefaultResponse,
+  result:
+    | PrivateLinksListByDeidService200Response
+    | PrivateLinksListByDeidServiceDefaultResponse,
 ): Promise<_PrivateLinkResourceListResult> {
   if (isUnexpected(result)) {
     throw createRestError(result);

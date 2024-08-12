@@ -19,9 +19,13 @@ export interface HealthDataAIServicesContextOptions extends ClientOptions {
  */
 export default function createClient(
   credentials: TokenCredential,
-  { apiVersion = "2024-02-28-preview", ...options }: HealthDataAIServicesContextOptions = {},
+  {
+    apiVersion = "2024-02-28-preview",
+    ...options
+  }: HealthDataAIServicesContextOptions = {},
 ): HealthDataAIServicesContext {
-  const endpointUrl = options.endpoint ?? options.baseUrl ?? `https://management.azure.com`;
+  const endpointUrl =
+    options.endpoint ?? options.baseUrl ?? `https://management.azure.com`;
   const userAgentInfo = `azsdk-js-arm-healthdataaiservices/1.0.0-beta.1`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
@@ -39,7 +43,11 @@ export default function createClient(
       scopes: options.credentials?.scopes ?? [`${endpointUrl}/.default`],
     },
   };
-  const client = getClient(endpointUrl, credentials, options) as HealthDataAIServicesContext;
+  const client = getClient(
+    endpointUrl,
+    credentials,
+    options,
+  ) as HealthDataAIServicesContext;
 
   client.pipeline.removePolicy({ name: "ApiVersionPolicy" });
   client.pipeline.addPolicy({

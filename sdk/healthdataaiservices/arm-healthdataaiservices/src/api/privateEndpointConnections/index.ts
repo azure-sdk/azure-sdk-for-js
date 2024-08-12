@@ -46,7 +46,8 @@ export function _privateEndpointConnectionsGetSend(
   privateEndpointConnectionName: string,
   options: PrivateEndpointConnectionsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod<
-  PrivateEndpointConnectionsGet200Response | PrivateEndpointConnectionsGetDefaultResponse
+  | PrivateEndpointConnectionsGet200Response
+  | PrivateEndpointConnectionsGetDefaultResponse
 > {
   return context
     .path(
@@ -60,7 +61,9 @@ export function _privateEndpointConnectionsGetSend(
 }
 
 export async function _privateEndpointConnectionsGetDeserialize(
-  result: PrivateEndpointConnectionsGet200Response | PrivateEndpointConnectionsGetDefaultResponse,
+  result:
+    | PrivateEndpointConnectionsGet200Response
+    | PrivateEndpointConnectionsGetDefaultResponse,
 ): Promise<PrivateEndpointConnectionResource> {
   if (isUnexpected(result)) {
     throw createRestError(result);
@@ -94,10 +97,18 @@ export async function _privateEndpointConnectionsGetDeserialize(
             ? undefined
             : { id: result.body.properties?.privateEndpoint?.["id"] },
           privateLinkServiceConnectionState: {
-            status: result.body.properties?.privateLinkServiceConnectionState["status"],
-            description: result.body.properties?.privateLinkServiceConnectionState["description"],
+            status:
+              result.body.properties?.privateLinkServiceConnectionState[
+                "status"
+              ],
+            description:
+              result.body.properties?.privateLinkServiceConnectionState[
+                "description"
+              ],
             actionsRequired:
-              result.body.properties?.privateLinkServiceConnectionState["actionsRequired"],
+              result.body.properties?.privateLinkServiceConnectionState[
+                "actionsRequired"
+              ],
           },
           provisioningState: result.body.properties?.["provisioningState"],
         },
@@ -169,7 +180,8 @@ export async function _privateEndpointConnectionsCreateDeserialize(
     throw createRestError(result);
   }
 
-  const res = result as unknown as PrivateEndpointConnectionsCreateLogicalResponse;
+  const res =
+    result as unknown as PrivateEndpointConnectionsCreateLogicalResponse;
   return {
     id: res.body["id"],
     name: res.body["name"],
@@ -198,10 +210,16 @@ export async function _privateEndpointConnectionsCreateDeserialize(
             ? undefined
             : { id: res.body.properties?.privateEndpoint?.["id"] },
           privateLinkServiceConnectionState: {
-            status: res.body.properties?.privateLinkServiceConnectionState["status"],
-            description: res.body.properties?.privateLinkServiceConnectionState["description"],
+            status:
+              res.body.properties?.privateLinkServiceConnectionState["status"],
+            description:
+              res.body.properties?.privateLinkServiceConnectionState[
+                "description"
+              ],
             actionsRequired:
-              res.body.properties?.privateLinkServiceConnectionState["actionsRequired"],
+              res.body.properties?.privateLinkServiceConnectionState[
+                "actionsRequired"
+              ],
           },
           provisioningState: res.body.properties?.["provisioningState"],
         },
@@ -223,20 +241,24 @@ export function privateEndpointConnectionsCreate(
   OperationState<PrivateEndpointConnectionResource>,
   PrivateEndpointConnectionResource
 > {
-  return getLongRunningPoller(context, _privateEndpointConnectionsCreateDeserialize, {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _privateEndpointConnectionsCreateSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        deidServiceName,
-        privateEndpointConnectionName,
-        resource,
-        options,
-      ),
-  }) as PollerLike<
+  return getLongRunningPoller(
+    context,
+    _privateEndpointConnectionsCreateDeserialize,
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _privateEndpointConnectionsCreateSend(
+          context,
+          subscriptionId,
+          resourceGroupName,
+          deidServiceName,
+          privateEndpointConnectionName,
+          resource,
+          options,
+        ),
+    },
+  ) as PollerLike<
     OperationState<PrivateEndpointConnectionResource>,
     PrivateEndpointConnectionResource
   >;
@@ -293,19 +315,23 @@ export function privateEndpointConnectionsDelete(
     requestOptions: {},
   },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _privateEndpointConnectionsDeleteDeserialize, {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _privateEndpointConnectionsDeleteSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        deidServiceName,
-        privateEndpointConnectionName,
-        options,
-      ),
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _privateEndpointConnectionsDeleteDeserialize,
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _privateEndpointConnectionsDeleteSend(
+          context,
+          subscriptionId,
+          resourceGroupName,
+          deidServiceName,
+          privateEndpointConnectionName,
+          options,
+        ),
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _privateEndpointConnectionsListByDeidServiceSend(
@@ -369,9 +395,16 @@ export async function _privateEndpointConnectionsListByDeidServiceDeserialize(
                 ? undefined
                 : { id: p.properties?.privateEndpoint?.["id"] },
               privateLinkServiceConnectionState: {
-                status: p.properties?.privateLinkServiceConnectionState["status"],
-                description: p.properties?.privateLinkServiceConnectionState["description"],
-                actionsRequired: p.properties?.privateLinkServiceConnectionState["actionsRequired"],
+                status:
+                  p.properties?.privateLinkServiceConnectionState["status"],
+                description:
+                  p.properties?.privateLinkServiceConnectionState[
+                    "description"
+                  ],
+                actionsRequired:
+                  p.properties?.privateLinkServiceConnectionState[
+                    "actionsRequired"
+                  ],
               },
               provisioningState: p.properties?.["provisioningState"],
             },

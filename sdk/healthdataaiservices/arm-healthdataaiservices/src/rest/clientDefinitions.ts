@@ -52,14 +52,18 @@ export interface OperationsList {
   /** List the operations for the provider */
   get(
     options?: OperationsListParameters,
-  ): StreamableMethod<OperationsList200Response | OperationsListDefaultResponse>;
+  ): StreamableMethod<
+    OperationsList200Response | OperationsListDefaultResponse
+  >;
 }
 
 export interface DeidServicesGet {
   /** Get a DeidService */
   get(
     options?: DeidServicesGetParameters,
-  ): StreamableMethod<DeidServicesGet200Response | DeidServicesGetDefaultResponse>;
+  ): StreamableMethod<
+    DeidServicesGet200Response | DeidServicesGetDefaultResponse
+  >;
   /** Create a DeidService */
   put(
     options: DeidServicesCreateParameters,
@@ -91,7 +95,8 @@ export interface DeidServicesListByResourceGroup {
   get(
     options?: DeidServicesListByResourceGroupParameters,
   ): StreamableMethod<
-    DeidServicesListByResourceGroup200Response | DeidServicesListByResourceGroupDefaultResponse
+    | DeidServicesListByResourceGroup200Response
+    | DeidServicesListByResourceGroupDefaultResponse
   >;
 }
 
@@ -100,7 +105,8 @@ export interface DeidServicesListBySubscription {
   get(
     options?: DeidServicesListBySubscriptionParameters,
   ): StreamableMethod<
-    DeidServicesListBySubscription200Response | DeidServicesListBySubscriptionDefaultResponse
+    | DeidServicesListBySubscription200Response
+    | DeidServicesListBySubscriptionDefaultResponse
   >;
 }
 
@@ -109,7 +115,8 @@ export interface PrivateEndpointConnectionsGet {
   get(
     options?: PrivateEndpointConnectionsGetParameters,
   ): StreamableMethod<
-    PrivateEndpointConnectionsGet200Response | PrivateEndpointConnectionsGetDefaultResponse
+    | PrivateEndpointConnectionsGet200Response
+    | PrivateEndpointConnectionsGetDefaultResponse
   >;
   /** Create a Private endpoint connection */
   put(
@@ -144,13 +151,16 @@ export interface PrivateLinksListByDeidService {
   get(
     options?: PrivateLinksListByDeidServiceParameters,
   ): StreamableMethod<
-    PrivateLinksListByDeidService200Response | PrivateLinksListByDeidServiceDefaultResponse
+    | PrivateLinksListByDeidService200Response
+    | PrivateLinksListByDeidServiceDefaultResponse
   >;
 }
 
 export interface Routes {
   /** Resource for '/providers/Microsoft.HealthDataAIServices/operations' has methods for the following verbs: get */
-  (path: "/providers/Microsoft.HealthDataAIServices/operations"): OperationsList;
+  (
+    path: "/providers/Microsoft.HealthDataAIServices/operations",
+  ): OperationsList;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.HealthDataAIServices/deidServices/\{deidServiceName\}' has methods for the following verbs: get, put, patch, delete */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthDataAIServices/deidServices/{deidServiceName}",

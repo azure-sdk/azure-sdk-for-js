@@ -36,23 +36,27 @@ export interface DeidServicesGetDefaultResponse extends HttpResponse {
 }
 
 /** Azure operation completed successfully. */
-export interface DeidServicesListByResourceGroup200Response extends HttpResponse {
+export interface DeidServicesListByResourceGroup200Response
+  extends HttpResponse {
   status: "200";
   body: DeidServiceListResultOutput;
 }
 
-export interface DeidServicesListByResourceGroupDefaultResponse extends HttpResponse {
+export interface DeidServicesListByResourceGroupDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
 /** Azure operation completed successfully. */
-export interface DeidServicesListBySubscription200Response extends HttpResponse {
+export interface DeidServicesListBySubscription200Response
+  extends HttpResponse {
   status: "200";
   body: DeidServiceListResultOutput;
 }
 
-export interface DeidServicesListBySubscriptionDefaultResponse extends HttpResponse {
+export interface DeidServicesListBySubscriptionDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
@@ -152,13 +156,15 @@ export interface PrivateEndpointConnectionsGet200Response extends HttpResponse {
   body: PrivateEndpointConnectionResourceOutput;
 }
 
-export interface PrivateEndpointConnectionsGetDefaultResponse extends HttpResponse {
+export interface PrivateEndpointConnectionsGetDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
 /** Resource 'PrivateEndpointConnectionResource' update operation succeeded */
-export interface PrivateEndpointConnectionsCreate200Response extends HttpResponse {
+export interface PrivateEndpointConnectionsCreate200Response
+  extends HttpResponse {
   status: "200";
   body: PrivateEndpointConnectionResourceOutput;
 }
@@ -171,19 +177,22 @@ export interface PrivateEndpointConnectionsCreate201Headers {
 }
 
 /** Resource 'PrivateEndpointConnectionResource' create operation succeeded */
-export interface PrivateEndpointConnectionsCreate201Response extends HttpResponse {
+export interface PrivateEndpointConnectionsCreate201Response
+  extends HttpResponse {
   status: "201";
   body: PrivateEndpointConnectionResourceOutput;
   headers: RawHttpHeaders & PrivateEndpointConnectionsCreate201Headers;
 }
 
-export interface PrivateEndpointConnectionsCreateDefaultResponse extends HttpResponse {
+export interface PrivateEndpointConnectionsCreateDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
 /** The final response for long-running create operation */
-export interface PrivateEndpointConnectionsCreateLogicalResponse extends HttpResponse {
+export interface PrivateEndpointConnectionsCreateLogicalResponse
+  extends HttpResponse {
   status: "200";
   body: PrivateEndpointConnectionResourceOutput;
 }
@@ -196,33 +205,39 @@ export interface PrivateEndpointConnectionsDelete202Headers {
 }
 
 /** Resource deletion accepted. */
-export interface PrivateEndpointConnectionsDelete202Response extends HttpResponse {
+export interface PrivateEndpointConnectionsDelete202Response
+  extends HttpResponse {
   status: "202";
   headers: RawHttpHeaders & PrivateEndpointConnectionsDelete202Headers;
 }
 
 /** Resource does not exist. */
-export interface PrivateEndpointConnectionsDelete204Response extends HttpResponse {
+export interface PrivateEndpointConnectionsDelete204Response
+  extends HttpResponse {
   status: "204";
 }
 
-export interface PrivateEndpointConnectionsDeleteDefaultResponse extends HttpResponse {
+export interface PrivateEndpointConnectionsDeleteDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
 /** The final response for long-running delete operation */
-export interface PrivateEndpointConnectionsDeleteLogicalResponse extends HttpResponse {
+export interface PrivateEndpointConnectionsDeleteLogicalResponse
+  extends HttpResponse {
   status: "200";
 }
 
 /** Azure operation completed successfully. */
-export interface PrivateEndpointConnectionsListByDeidService200Response extends HttpResponse {
+export interface PrivateEndpointConnectionsListByDeidService200Response
+  extends HttpResponse {
   status: "200";
   body: PrivateEndpointConnectionResourceListResultOutput;
 }
 
-export interface PrivateEndpointConnectionsListByDeidServiceDefaultResponse extends HttpResponse {
+export interface PrivateEndpointConnectionsListByDeidServiceDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
@@ -233,7 +248,8 @@ export interface PrivateLinksListByDeidService200Response extends HttpResponse {
   body: PrivateLinkResourceListResultOutput;
 }
 
-export interface PrivateLinksListByDeidServiceDefaultResponse extends HttpResponse {
+export interface PrivateLinksListByDeidServiceDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }

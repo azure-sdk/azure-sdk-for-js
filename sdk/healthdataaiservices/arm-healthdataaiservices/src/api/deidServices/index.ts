@@ -57,7 +57,9 @@ export function _deidServicesGetSend(
   resourceGroupName: string,
   deidServiceName: string,
   options: DeidServicesGetOptionalParams = { requestOptions: {} },
-): StreamableMethod<DeidServicesGet200Response | DeidServicesGetDefaultResponse> {
+): StreamableMethod<
+  DeidServicesGet200Response | DeidServicesGetDefaultResponse
+> {
   return context
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthDataAIServices/deidServices/{deidServiceName}",
@@ -105,45 +107,56 @@ export async function _deidServicesGetDeserialize(
           privateEndpointConnections:
             result.body.properties?.["privateEndpointConnections"] === undefined
               ? result.body.properties?.["privateEndpointConnections"]
-              : result.body.properties?.["privateEndpointConnections"].map((p) => {
-                  return {
-                    id: p["id"],
-                    name: p["name"],
-                    type: p["type"],
-                    systemData: !p.systemData
-                      ? undefined
-                      : {
-                          createdBy: p.systemData?.["createdBy"],
-                          createdByType: p.systemData?.["createdByType"],
-                          createdAt:
-                            p.systemData?.["createdAt"] !== undefined
-                              ? new Date(p.systemData?.["createdAt"])
-                              : undefined,
-                          lastModifiedBy: p.systemData?.["lastModifiedBy"],
-                          lastModifiedByType: p.systemData?.["lastModifiedByType"],
-                          lastModifiedAt:
-                            p.systemData?.["lastModifiedAt"] !== undefined
-                              ? new Date(p.systemData?.["lastModifiedAt"])
-                              : undefined,
-                        },
-                    properties: !p.properties
-                      ? undefined
-                      : {
-                          groupIds: p.properties?.["groupIds"],
-                          privateEndpoint: !p.properties?.privateEndpoint
-                            ? undefined
-                            : { id: p.properties?.privateEndpoint?.["id"] },
-                          privateLinkServiceConnectionState: {
-                            status: p.properties?.privateLinkServiceConnectionState["status"],
-                            description:
-                              p.properties?.privateLinkServiceConnectionState["description"],
-                            actionsRequired:
-                              p.properties?.privateLinkServiceConnectionState["actionsRequired"],
+              : result.body.properties?.["privateEndpointConnections"].map(
+                  (p) => {
+                    return {
+                      id: p["id"],
+                      name: p["name"],
+                      type: p["type"],
+                      systemData: !p.systemData
+                        ? undefined
+                        : {
+                            createdBy: p.systemData?.["createdBy"],
+                            createdByType: p.systemData?.["createdByType"],
+                            createdAt:
+                              p.systemData?.["createdAt"] !== undefined
+                                ? new Date(p.systemData?.["createdAt"])
+                                : undefined,
+                            lastModifiedBy: p.systemData?.["lastModifiedBy"],
+                            lastModifiedByType:
+                              p.systemData?.["lastModifiedByType"],
+                            lastModifiedAt:
+                              p.systemData?.["lastModifiedAt"] !== undefined
+                                ? new Date(p.systemData?.["lastModifiedAt"])
+                                : undefined,
                           },
-                          provisioningState: p.properties?.["provisioningState"],
-                        },
-                  };
-                }),
+                      properties: !p.properties
+                        ? undefined
+                        : {
+                            groupIds: p.properties?.["groupIds"],
+                            privateEndpoint: !p.properties?.privateEndpoint
+                              ? undefined
+                              : { id: p.properties?.privateEndpoint?.["id"] },
+                            privateLinkServiceConnectionState: {
+                              status:
+                                p.properties?.privateLinkServiceConnectionState[
+                                  "status"
+                                ],
+                              description:
+                                p.properties?.privateLinkServiceConnectionState[
+                                  "description"
+                                ],
+                              actionsRequired:
+                                p.properties?.privateLinkServiceConnectionState[
+                                  "actionsRequired"
+                                ],
+                            },
+                            provisioningState:
+                              p.properties?.["provisioningState"],
+                          },
+                    };
+                  },
+                ),
           publicNetworkAccess: result.body.properties?.["publicNetworkAccess"],
         },
     identity: !result.body.identity
@@ -152,7 +165,8 @@ export async function _deidServicesGetDeserialize(
           principalId: result.body.identity?.["principalId"],
           tenantId: result.body.identity?.["tenantId"],
           type: result.body.identity?.["type"],
-          userAssignedIdentities: result.body.identity?.["userAssignedIdentities"],
+          userAssignedIdentities:
+            result.body.identity?.["userAssignedIdentities"],
         },
   };
 }
@@ -183,7 +197,8 @@ export function _deidServicesListByResourceGroupSend(
     requestOptions: {},
   },
 ): StreamableMethod<
-  DeidServicesListByResourceGroup200Response | DeidServicesListByResourceGroupDefaultResponse
+  | DeidServicesListByResourceGroup200Response
+  | DeidServicesListByResourceGroupDefaultResponse
 > {
   return context
     .path(
@@ -250,7 +265,8 @@ export async function _deidServicesListByResourceGroupDeserialize(
                                   ? new Date(p.systemData?.["createdAt"])
                                   : undefined,
                               lastModifiedBy: p.systemData?.["lastModifiedBy"],
-                              lastModifiedByType: p.systemData?.["lastModifiedByType"],
+                              lastModifiedByType:
+                                p.systemData?.["lastModifiedByType"],
                               lastModifiedAt:
                                 p.systemData?.["lastModifiedAt"] !== undefined
                                   ? new Date(p.systemData?.["lastModifiedAt"])
@@ -264,15 +280,24 @@ export async function _deidServicesListByResourceGroupDeserialize(
                                 ? undefined
                                 : { id: p.properties?.privateEndpoint?.["id"] },
                               privateLinkServiceConnectionState: {
-                                status: p.properties?.privateLinkServiceConnectionState["status"],
+                                status:
+                                  p.properties
+                                    ?.privateLinkServiceConnectionState[
+                                    "status"
+                                  ],
                                 description:
-                                  p.properties?.privateLinkServiceConnectionState["description"],
+                                  p.properties
+                                    ?.privateLinkServiceConnectionState[
+                                    "description"
+                                  ],
                                 actionsRequired:
-                                  p.properties?.privateLinkServiceConnectionState[
+                                  p.properties
+                                    ?.privateLinkServiceConnectionState[
                                     "actionsRequired"
                                   ],
                               },
-                              provisioningState: p.properties?.["provisioningState"],
+                              provisioningState:
+                                p.properties?.["provisioningState"],
                             },
                       };
                     }),
@@ -303,7 +328,13 @@ export function deidServicesListByResourceGroup(
 ): PagedAsyncIterableIterator<DeidService> {
   return buildPagedAsyncIterator(
     context,
-    () => _deidServicesListByResourceGroupSend(context, subscriptionId, resourceGroupName, options),
+    () =>
+      _deidServicesListByResourceGroupSend(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        options,
+      ),
     _deidServicesListByResourceGroupDeserialize,
     { itemName: "value", nextLinkName: "nextLink" },
   );
@@ -316,7 +347,8 @@ export function _deidServicesListBySubscriptionSend(
     requestOptions: {},
   },
 ): StreamableMethod<
-  DeidServicesListBySubscription200Response | DeidServicesListBySubscriptionDefaultResponse
+  | DeidServicesListBySubscription200Response
+  | DeidServicesListBySubscriptionDefaultResponse
 > {
   return context
     .path(
@@ -327,7 +359,9 @@ export function _deidServicesListBySubscriptionSend(
 }
 
 export async function _deidServicesListBySubscriptionDeserialize(
-  result: DeidServicesListBySubscription200Response | DeidServicesListBySubscriptionDefaultResponse,
+  result:
+    | DeidServicesListBySubscription200Response
+    | DeidServicesListBySubscriptionDefaultResponse,
 ): Promise<_DeidServiceListResult> {
   if (isUnexpected(result)) {
     throw createRestError(result);
@@ -380,7 +414,8 @@ export async function _deidServicesListBySubscriptionDeserialize(
                                   ? new Date(p.systemData?.["createdAt"])
                                   : undefined,
                               lastModifiedBy: p.systemData?.["lastModifiedBy"],
-                              lastModifiedByType: p.systemData?.["lastModifiedByType"],
+                              lastModifiedByType:
+                                p.systemData?.["lastModifiedByType"],
                               lastModifiedAt:
                                 p.systemData?.["lastModifiedAt"] !== undefined
                                   ? new Date(p.systemData?.["lastModifiedAt"])
@@ -394,15 +429,24 @@ export async function _deidServicesListBySubscriptionDeserialize(
                                 ? undefined
                                 : { id: p.properties?.privateEndpoint?.["id"] },
                               privateLinkServiceConnectionState: {
-                                status: p.properties?.privateLinkServiceConnectionState["status"],
+                                status:
+                                  p.properties
+                                    ?.privateLinkServiceConnectionState[
+                                    "status"
+                                  ],
                                 description:
-                                  p.properties?.privateLinkServiceConnectionState["description"],
+                                  p.properties
+                                    ?.privateLinkServiceConnectionState[
+                                    "description"
+                                  ],
                                 actionsRequired:
-                                  p.properties?.privateLinkServiceConnectionState[
+                                  p.properties
+                                    ?.privateLinkServiceConnectionState[
                                     "actionsRequired"
                                   ],
                               },
-                              provisioningState: p.properties?.["provisioningState"],
+                              provisioningState:
+                                p.properties?.["provisioningState"],
                             },
                       };
                     }),
@@ -461,7 +505,9 @@ export function _deidServicesCreateSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       body: {
-        tags: !resource.tags ? resource.tags : (serializeRecord(resource.tags as any) as any),
+        tags: !resource.tags
+          ? resource.tags
+          : (serializeRecord(resource.tags as any) as any),
         location: resource["location"],
         properties: !resource.properties
           ? resource.properties
@@ -530,7 +576,8 @@ export async function _deidServicesCreateDeserialize(
                               ? new Date(p.systemData?.["createdAt"])
                               : undefined,
                           lastModifiedBy: p.systemData?.["lastModifiedBy"],
-                          lastModifiedByType: p.systemData?.["lastModifiedByType"],
+                          lastModifiedByType:
+                            p.systemData?.["lastModifiedByType"],
                           lastModifiedAt:
                             p.systemData?.["lastModifiedAt"] !== undefined
                               ? new Date(p.systemData?.["lastModifiedAt"])
@@ -544,13 +591,21 @@ export async function _deidServicesCreateDeserialize(
                             ? undefined
                             : { id: p.properties?.privateEndpoint?.["id"] },
                           privateLinkServiceConnectionState: {
-                            status: p.properties?.privateLinkServiceConnectionState["status"],
+                            status:
+                              p.properties?.privateLinkServiceConnectionState[
+                                "status"
+                              ],
                             description:
-                              p.properties?.privateLinkServiceConnectionState["description"],
+                              p.properties?.privateLinkServiceConnectionState[
+                                "description"
+                              ],
                             actionsRequired:
-                              p.properties?.privateLinkServiceConnectionState["actionsRequired"],
+                              p.properties?.privateLinkServiceConnectionState[
+                                "actionsRequired"
+                              ],
                           },
-                          provisioningState: p.properties?.["provisioningState"],
+                          provisioningState:
+                            p.properties?.["provisioningState"],
                         },
                   };
                 }),
@@ -614,7 +669,9 @@ export function _deidServicesUpdateSend(
     .patch({
       ...operationOptionsToRequestParameters(options),
       body: {
-        tags: !properties.tags ? properties.tags : (serializeRecord(properties.tags as any) as any),
+        tags: !properties.tags
+          ? properties.tags
+          : (serializeRecord(properties.tags as any) as any),
         identity: !properties.identity
           ? properties.identity
           : managedServiceIdentityUpdateSerializer(properties.identity),
@@ -682,7 +739,8 @@ export async function _deidServicesUpdateDeserialize(
                               ? new Date(p.systemData?.["createdAt"])
                               : undefined,
                           lastModifiedBy: p.systemData?.["lastModifiedBy"],
-                          lastModifiedByType: p.systemData?.["lastModifiedByType"],
+                          lastModifiedByType:
+                            p.systemData?.["lastModifiedByType"],
                           lastModifiedAt:
                             p.systemData?.["lastModifiedAt"] !== undefined
                               ? new Date(p.systemData?.["lastModifiedAt"])
@@ -696,13 +754,21 @@ export async function _deidServicesUpdateDeserialize(
                             ? undefined
                             : { id: p.properties?.privateEndpoint?.["id"] },
                           privateLinkServiceConnectionState: {
-                            status: p.properties?.privateLinkServiceConnectionState["status"],
+                            status:
+                              p.properties?.privateLinkServiceConnectionState[
+                                "status"
+                              ],
                             description:
-                              p.properties?.privateLinkServiceConnectionState["description"],
+                              p.properties?.privateLinkServiceConnectionState[
+                                "description"
+                              ],
                             actionsRequired:
-                              p.properties?.privateLinkServiceConnectionState["actionsRequired"],
+                              p.properties?.privateLinkServiceConnectionState[
+                                "actionsRequired"
+                              ],
                           },
-                          provisioningState: p.properties?.["provisioningState"],
+                          provisioningState:
+                            p.properties?.["provisioningState"],
                         },
                   };
                 }),
@@ -791,6 +857,12 @@ export function deidServicesDelete(
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _deidServicesDeleteSend(context, subscriptionId, resourceGroupName, deidServiceName, options),
+      _deidServicesDeleteSend(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        deidServiceName,
+        options,
+      ),
   }) as PollerLike<OperationState<void>, void>;
 }

@@ -1,7 +1,3 @@
-# Release History
-    
-## 1.0.0-beta.1 (2024-08-06)
+## 1.0.0-beta.1 (2024-08-12)
 
-### Features Added
-
-Initial release of the Azure HealthDataAIServices Package.
+  - Initial Release
