@@ -29,6 +29,7 @@ import {
   JobsStartOptionalParams,
   JobsStartResponse,
   JobsStopExecutionOptionalParams,
+  JobsStopExecutionResponse,
   JobsStopMultipleExecutionsOptionalParams,
   JobsStopMultipleExecutionsResponse,
   JobsListSecretsOptionalParams,
@@ -82,13 +83,11 @@ export interface Jobs {
    * Get the properties of a Container App Job.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param jobName Job Name
-   * @param apiName Proxy API Name for Container App Job.
    * @param options The options parameters.
    */
   proxyGet(
     resourceGroupName: string,
     jobName: string,
-    apiName: string,
     options?: JobsProxyGetOptionalParams,
   ): Promise<JobsProxyGetResponse>;
   /**
@@ -219,7 +218,12 @@ export interface Jobs {
     jobName: string,
     jobExecutionName: string,
     options?: JobsStopExecutionOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<JobsStopExecutionResponse>,
+      JobsStopExecutionResponse
+    >
+  >;
   /**
    * Terminates execution of a running container apps job
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -232,7 +236,7 @@ export interface Jobs {
     jobName: string,
     jobExecutionName: string,
     options?: JobsStopExecutionOptionalParams,
-  ): Promise<void>;
+  ): Promise<JobsStopExecutionResponse>;
   /**
    * Terminates execution of a running container apps job
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
