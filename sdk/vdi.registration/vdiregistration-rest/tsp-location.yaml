@@ -1,0 +1,5 @@
+directory: specification/cognitiveservices/VDI.BatchRegistration
+repo: Azure/azure-rest-api-specs
+commit: 7c72706a6b67a2c29453d02bd8d2b589cea0adf2
+additionalDirectories: []
+
