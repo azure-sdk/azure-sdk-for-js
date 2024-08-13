@@ -8,28 +8,26 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { EntityQueryTemplates } from "../operationsInterfaces";
+import { ProductTemplates } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SecurityInsights } from "../securityInsights";
 import {
-  EntityQueryTemplateUnion,
-  EntityQueryTemplatesListNextOptionalParams,
-  EntityQueryTemplatesListOptionalParams,
-  EntityQueryTemplatesListResponse,
-  EntityQueryTemplatesGetOptionalParams,
-  EntityQueryTemplatesGetResponse,
-  EntityQueryTemplatesListNextResponse
+  ProductTemplateModel,
+  ProductTemplatesListNextOptionalParams,
+  ProductTemplatesListOptionalParams,
+  ProductTemplatesListResponse,
+  ProductTemplatesListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing EntityQueryTemplates operations. */
-export class EntityQueryTemplatesImpl implements EntityQueryTemplates {
+/** Class containing ProductTemplates operations. */
+export class ProductTemplatesImpl implements ProductTemplates {
   private readonly client: SecurityInsights;
 
   /**
-   * Initialize a new instance of the class EntityQueryTemplates class.
+   * Initialize a new instance of the class ProductTemplates class.
    * @param client Reference to the service client
    */
   constructor(client: SecurityInsights) {
@@ -37,7 +35,7 @@ export class EntityQueryTemplatesImpl implements EntityQueryTemplates {
   }
 
   /**
-   * Gets all entity query templates.
+   * Gets all templates in the catalog.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param options The options parameters.
@@ -45,8 +43,8 @@ export class EntityQueryTemplatesImpl implements EntityQueryTemplates {
   public list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: EntityQueryTemplatesListOptionalParams
-  ): PagedAsyncIterableIterator<EntityQueryTemplateUnion> {
+    options?: ProductTemplatesListOptionalParams,
+  ): PagedAsyncIterableIterator<ProductTemplateModel> {
     const iter = this.listPagingAll(resourceGroupName, workspaceName, options);
     return {
       next() {
@@ -63,19 +61,19 @@ export class EntityQueryTemplatesImpl implements EntityQueryTemplates {
           resourceGroupName,
           workspaceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     resourceGroupName: string,
     workspaceName: string,
-    options?: EntityQueryTemplatesListOptionalParams,
-    settings?: PageSettings
-  ): AsyncIterableIterator<EntityQueryTemplateUnion[]> {
-    let result: EntityQueryTemplatesListResponse;
+    options?: ProductTemplatesListOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<ProductTemplateModel[]> {
+    let result: ProductTemplatesListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(resourceGroupName, workspaceName, options);
@@ -89,7 +87,7 @@ export class EntityQueryTemplatesImpl implements EntityQueryTemplates {
         resourceGroupName,
         workspaceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -101,19 +99,19 @@ export class EntityQueryTemplatesImpl implements EntityQueryTemplates {
   private async *listPagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: EntityQueryTemplatesListOptionalParams
-  ): AsyncIterableIterator<EntityQueryTemplateUnion> {
+    options?: ProductTemplatesListOptionalParams,
+  ): AsyncIterableIterator<ProductTemplateModel> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     )) {
       yield* page;
     }
   }
 
   /**
-   * Gets all entity query templates.
+   * Gets all templates in the catalog.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param options The options parameters.
@@ -121,30 +119,11 @@ export class EntityQueryTemplatesImpl implements EntityQueryTemplates {
   private _list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: EntityQueryTemplatesListOptionalParams
-  ): Promise<EntityQueryTemplatesListResponse> {
+    options?: ProductTemplatesListOptionalParams,
+  ): Promise<ProductTemplatesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
-      listOperationSpec
-    );
-  }
-
-  /**
-   * Gets an entity query.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
-   * @param entityQueryTemplateId entity query template ID
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    workspaceName: string,
-    entityQueryTemplateId: string,
-    options?: EntityQueryTemplatesGetOptionalParams
-  ): Promise<EntityQueryTemplatesGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, entityQueryTemplateId, options },
-      getOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -159,11 +138,11 @@ export class EntityQueryTemplatesImpl implements EntityQueryTemplates {
     resourceGroupName: string,
     workspaceName: string,
     nextLink: string,
-    options?: EntityQueryTemplatesListNextOptionalParams
-  ): Promise<EntityQueryTemplatesListNextResponse> {
+    options?: ProductTemplatesListNextOptionalParams,
+  ): Promise<ProductTemplatesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -171,68 +150,53 @@ export class EntityQueryTemplatesImpl implements EntityQueryTemplates {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/entityQueryTemplates",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/contentProductTemplates",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EntityQueryTemplateList
+      bodyMapper: Mappers.ProductTemplateList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.kind2],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.filter,
+    Parameters.orderby,
+    Parameters.skipToken,
+    Parameters.search,
+    Parameters.count,
+    Parameters.top1,
+    Parameters.skip,
   ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/entityQueryTemplates/{entityQueryTemplateId}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.EntityQueryTemplate
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.entityQueryTemplateId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EntityQueryTemplateList
+      bodyMapper: Mappers.ProductTemplateList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

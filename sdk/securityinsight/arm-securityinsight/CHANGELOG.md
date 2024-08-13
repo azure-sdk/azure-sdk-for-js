@@ -1,18 +1,382 @@
 # Release History
-
-## 1.0.0-beta.7 (Unreleased)
-
+    
+## 1.0.0-beta.7 (2024-08-13)
+Compared with version 1.0.0-beta.6
+    
 ### Features Added
+
+  - Added operation group ContentPackage
+  - Added operation group ContentPackages
+  - Added operation group ContentTemplate
+  - Added operation group ContentTemplates
+  - Added operation group IncidentTasks
+  - Added operation group ProductPackage
+  - Added operation group ProductPackages
+  - Added operation group ProductTemplate
+  - Added operation group ProductTemplates
+  - Added operation Entities.runPlaybook
+  - Added Interface AddIncidentTaskActionProperties
+  - Added Interface AlertPropertyMapping
+  - Added Interface AutomationRuleAddIncidentTaskAction
+  - Added Interface ContentPackageInstallOptionalParams
+  - Added Interface ContentPackagesGetOptionalParams
+  - Added Interface ContentPackagesListNextOptionalParams
+  - Added Interface ContentPackagesListOptionalParams
+  - Added Interface ContentPackageUninstallOptionalParams
+  - Added Interface ContentTemplateDeleteOptionalParams
+  - Added Interface ContentTemplateGetOptionalParams
+  - Added Interface ContentTemplateInstallOptionalParams
+  - Added Interface ContentTemplatesListNextOptionalParams
+  - Added Interface ContentTemplatesListOptionalParams
+  - Added Interface EntitiesRunPlaybookOptionalParams
+  - Added Interface EntityManualTriggerRequestBody
+  - Added Interface IncidentTask
+  - Added Interface IncidentTaskList
+  - Added Interface IncidentTasksCreateOrUpdateOptionalParams
+  - Added Interface IncidentTasksDeleteOptionalParams
+  - Added Interface IncidentTasksGetOptionalParams
+  - Added Interface IncidentTasksListNextOptionalParams
+  - Added Interface IncidentTasksListOptionalParams
+  - Added Interface PackageBaseProperties
+  - Added Interface PackageList
+  - Added Interface PackageModel
+  - Added Interface PackageProperties
+  - Added Interface ProductPackageAdditionalProperties
+  - Added Interface ProductPackageGetOptionalParams
+  - Added Interface ProductPackageList
+  - Added Interface ProductPackageModel
+  - Added Interface ProductPackageProperties
+  - Added Interface ProductPackagesListNextOptionalParams
+  - Added Interface ProductPackagesListOptionalParams
+  - Added Interface ProductTemplateAdditionalProperties
+  - Added Interface ProductTemplateGetOptionalParams
+  - Added Interface ProductTemplateList
+  - Added Interface ProductTemplateModel
+  - Added Interface ProductTemplateProperties
+  - Added Interface ProductTemplatesListNextOptionalParams
+  - Added Interface ProductTemplatesListOptionalParams
+  - Added Interface PullRequest
+  - Added Interface RepositoryAccess
+  - Added Interface RepositoryAccessProperties
+  - Added Interface ServicePrincipal
+  - Added Interface TemplateAdditionalProperties
+  - Added Interface TemplateBaseProperties
+  - Added Interface TemplateList
+  - Added Interface TemplateModel
+  - Added Interface TemplateProperties
+  - Added Interface Warning
+  - Added Interface WarningBody
+  - Added Type Alias AlertProperty
+  - Added Type Alias ContentPackageInstallResponse
+  - Added Type Alias ContentPackagesGetResponse
+  - Added Type Alias ContentPackagesListNextResponse
+  - Added Type Alias ContentPackagesListResponse
+  - Added Type Alias ContentTemplateGetResponse
+  - Added Type Alias ContentTemplateInstallResponse
+  - Added Type Alias ContentTemplatesListNextResponse
+  - Added Type Alias ContentTemplatesListResponse
+  - Added Type Alias EntityKindEnum
+  - Added Type Alias Flag
+  - Added Type Alias IncidentTasksCreateOrUpdateResponse
+  - Added Type Alias IncidentTasksGetResponse
+  - Added Type Alias IncidentTasksListNextResponse
+  - Added Type Alias IncidentTasksListResponse
+  - Added Type Alias IncidentTaskStatus
+  - Added Type Alias PackageKind
+  - Added Type Alias ProductPackageGetResponse
+  - Added Type Alias ProductPackagesListNextResponse
+  - Added Type Alias ProductPackagesListResponse
+  - Added Type Alias ProductTemplateGetResponse
+  - Added Type Alias ProductTemplatesListNextResponse
+  - Added Type Alias ProductTemplatesListResponse
+  - Added Type Alias RepositoryAccessKind
+  - Added Type Alias SourceControlsDeleteResponse
+  - Added Type Alias State
+  - Added Type Alias ThreatIntelligenceResourceInnerKind
+  - Added Type Alias ThreatIntelligenceSortingOrder
+  - Added Type Alias WarningCode
+  - Interface ActionResponse has a new optional parameter etag
+  - Interface AlertDetailsOverride has a new optional parameter alertDynamicProperties
+  - Interface Repo has a new optional parameter installationId
+  - Interface SourceControl has a new optional parameter pullRequest
+  - Interface SourceControl has a new optional parameter repositoryAccess
+  - Interface SourceControl has a new optional parameter servicePrincipal
+  - Type of parameter actionType of interface AutomationRuleAction is changed from "ModifyProperties" | "RunPlaybook" to "AddIncidentTask" | "ModifyProperties" | "RunPlaybook"
+  - Added Enum KnownAlertProperty
+  - Added Enum KnownEntityKindEnum
+  - Added Enum KnownFlag
+  - Added Enum KnownIncidentTaskStatus
+  - Added Enum KnownPackageKind
+  - Added Enum KnownRepositoryAccessKind
+  - Added Enum KnownState
+  - Added Enum KnownThreatIntelligenceResourceInnerKind
+  - Added Enum KnownThreatIntelligenceSortingOrder
+  - Added Enum KnownWarningCode
+  - Enum KnownActionType has a new value AddIncidentTask
+  - Enum KnownContentType has a new value AutomationRule
+  - Enum KnownContentType has a new value HuntingQuery
+  - Enum KnownContentType has a new value Parser
+  - Enum KnownContentType has a new value Playbook
+  - Enum KnownRepoType has a new value AzureDevOps
 
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation group BookmarkOperations
+  - Removed operation group BookmarkRelations
+  - Removed operation group DataConnectorsCheckRequirementsOperations
+  - Removed operation group DomainWhois
+  - Removed operation group EntitiesGetTimeline
+  - Removed operation group EntitiesRelations
+  - Removed operation group EntityQueries
+  - Removed operation group EntityQueryTemplates
+  - Removed operation group EntityRelations
+  - Removed operation group FileImports
+  - Removed operation group IPGeodata
+  - Removed operation group OfficeConsents
+  - Removed operation group ProductSettings
+  - Removed operation DataConnectors.connect
+  - Removed operation DataConnectors.disconnect
+  - Removed operation Entities.expand
+  - Removed operation Entities.get
+  - Removed operation Entities.getInsights
+  - Removed operation Entities.list
+  - Removed operation Entities.queries
+  - Removed operation Incidents.createTeam
+  - Operation SourceControlOperations.listRepositories has a new signature
+  - Operation SourceControls.delete has a new signature
+  - Interface Bookmark no longer has parameter entityMappings
+  - Interface Bookmark no longer has parameter tactics
+  - Interface Bookmark no longer has parameter techniques
+  - Interface FusionAlertRule no longer has parameter scenarioExclusionPatterns
+  - Interface FusionAlertRule no longer has parameter sourceSettings
+  - Interface FusionAlertRuleTemplate no longer has parameter sourceSettings
+  - Interface Incident no longer has parameter teamInformation
+  - Interface IncidentAdditionalData no longer has parameter techniques
+  - Interface IoTDeviceEntity no longer has parameter deviceSubType
+  - Interface IoTDeviceEntity no longer has parameter importance
+  - Interface IoTDeviceEntity no longer has parameter isAuthorized
+  - Interface IoTDeviceEntity no longer has parameter isProgramming
+  - Interface IoTDeviceEntity no longer has parameter isScanner
+  - Interface IoTDeviceEntity no longer has parameter nicEntityIds
+  - Interface IoTDeviceEntity no longer has parameter owners
+  - Interface IoTDeviceEntity no longer has parameter purdueLayer
+  - Interface IoTDeviceEntity no longer has parameter sensor
+  - Interface IoTDeviceEntity no longer has parameter site
+  - Interface IoTDeviceEntity no longer has parameter zone
+  - Interface IoTDeviceEntityProperties no longer has parameter deviceSubType
+  - Interface IoTDeviceEntityProperties no longer has parameter importance
+  - Interface IoTDeviceEntityProperties no longer has parameter isAuthorized
+  - Interface IoTDeviceEntityProperties no longer has parameter isProgramming
+  - Interface IoTDeviceEntityProperties no longer has parameter isScanner
+  - Interface IoTDeviceEntityProperties no longer has parameter nicEntityIds
+  - Interface IoTDeviceEntityProperties no longer has parameter owners
+  - Interface IoTDeviceEntityProperties no longer has parameter purdueLayer
+  - Interface IoTDeviceEntityProperties no longer has parameter sensor
+  - Interface IoTDeviceEntityProperties no longer has parameter site
+  - Interface IoTDeviceEntityProperties no longer has parameter zone
+  - Interface Repository no longer has parameter pathMapping
+  - Interface Watchlist no longer has parameter sourceType
+  - Parameter logicAppResourceId of interface PlaybookActionProperties is now required
+  - Parameter branch of interface Repository is now required
+  - Parameter url of interface Repository is now required
+  - Parameter contentTypes of interface SourceControl is now required
+  - Parameter displayName of interface SourceControl is now required
+  - Parameter repository of interface SourceControl is now required
+  - Parameter repoType of interface SourceControl is now required
+  - Type of parameter additionalData of interface AccountEntity is changed from {
+        [propertyName: string]: Record<string, unknown>;
+    } to {
+        [propertyName: string]: any;
+    }
+  - Type of parameter additionalData of interface AzureResourceEntity is changed from {
+        [propertyName: string]: Record<string, unknown>;
+    } to {
+        [propertyName: string]: any;
+    }
+  - Type of parameter additionalData of interface CloudApplicationEntity is changed from {
+        [propertyName: string]: Record<string, unknown>;
+    } to {
+        [propertyName: string]: any;
+    }
+  - Type of parameter additionalData of interface DnsEntity is changed from {
+        [propertyName: string]: Record<string, unknown>;
+    } to {
+        [propertyName: string]: any;
+    }
+  - Type of parameter kind of interface Entity is changed from EntityKind to EntityKindEnum
+  - Type of parameter additionalData of interface EntityCommonProperties is changed from {
+        [propertyName: string]: Record<string, unknown>;
+    } to {
+        [propertyName: string]: any;
+    }
+  - Type of parameter additionalData of interface FileEntity is changed from {
+        [propertyName: string]: Record<string, unknown>;
+    } to {
+        [propertyName: string]: any;
+    }
+  - Type of parameter additionalData of interface FileHashEntity is changed from {
+        [propertyName: string]: Record<string, unknown>;
+    } to {
+        [propertyName: string]: any;
+    }
+  - Type of parameter additionalData of interface HostEntity is changed from {
+        [propertyName: string]: Record<string, unknown>;
+    } to {
+        [propertyName: string]: any;
+    }
+  - Type of parameter additionalData of interface HuntingBookmark is changed from {
+        [propertyName: string]: Record<string, unknown>;
+    } to {
+        [propertyName: string]: any;
+    }
+  - Type of parameter entityKind of interface IncidentEntitiesResultsMetadata is changed from EntityKind to EntityKindEnum
+  - Type of parameter additionalData of interface IoTDeviceEntity is changed from {
+        [propertyName: string]: Record<string, unknown>;
+    } to {
+        [propertyName: string]: any;
+    }
+  - Type of parameter additionalData of interface IpEntity is changed from {
+        [propertyName: string]: Record<string, unknown>;
+    } to {
+        [propertyName: string]: any;
+    }
+  - Type of parameter additionalData of interface MailboxEntity is changed from {
+        [propertyName: string]: Record<string, unknown>;
+    } to {
+        [propertyName: string]: any;
+    }
+  - Type of parameter additionalData of interface MailClusterEntity is changed from {
+        [propertyName: string]: Record<string, unknown>;
+    } to {
+        [propertyName: string]: any;
+    }
+  - Type of parameter additionalData of interface MailMessageEntity is changed from {
+        [propertyName: string]: Record<string, unknown>;
+    } to {
+        [propertyName: string]: any;
+    }
+  - Type of parameter additionalData of interface MalwareEntity is changed from {
+        [propertyName: string]: Record<string, unknown>;
+    } to {
+        [propertyName: string]: any;
+    }
+  - Type of parameter kind of interface MetadataModel is changed from Kind to string
+  - Type of parameter kind of interface MetadataPatch is changed from Kind to string
+  - Type of parameter additionalData of interface ProcessEntity is changed from {
+        [propertyName: string]: Record<string, unknown>;
+    } to {
+        [propertyName: string]: any;
+    }
+  - Type of parameter additionalData of interface RegistryKeyEntity is changed from {
+        [propertyName: string]: Record<string, unknown>;
+    } to {
+        [propertyName: string]: any;
+    }
+  - Type of parameter additionalData of interface RegistryValueEntity is changed from {
+        [propertyName: string]: Record<string, unknown>;
+    } to {
+        [propertyName: string]: any;
+    }
+  - Type of parameter additionalData of interface SecurityAlert is changed from {
+        [propertyName: string]: Record<string, unknown>;
+    } to {
+        [propertyName: string]: any;
+    }
+  - Type of parameter additionalData of interface SecurityGroupEntity is changed from {
+        [propertyName: string]: Record<string, unknown>;
+    } to {
+        [propertyName: string]: any;
+    }
+  - Type of parameter additionalData of interface SubmissionMailEntity is changed from {
+        [propertyName: string]: Record<string, unknown>;
+    } to {
+        [propertyName: string]: any;
+    }
+  - Type of parameter additionalData of interface ThreatIntelligenceIndicatorModel is changed from {
+        [propertyName: string]: Record<string, unknown>;
+    } to {
+        [propertyName: string]: any;
+    }
+  - Type of parameter kind of interface ThreatIntelligenceInformation is changed from ThreatIntelligenceResourceKindEnum to ThreatIntelligenceResourceInnerKind
+  - Type of parameter sortOrder of interface ThreatIntelligenceSortingCriteria is changed from ThreatIntelligenceSortingCriteriaEnum to ThreatIntelligenceSortingOrder
+  - Type of parameter additionalData of interface UrlEntity is changed from {
+        [propertyName: string]: Record<string, unknown>;
+    } to {
+        [propertyName: string]: any;
+    }
+  - Type of parameter entityMapping of interface WatchlistItem is changed from {
+        [propertyName: string]: any;
+    } to Record<string, unknown>
+  - Type of parameter itemsKeyValue of interface WatchlistItem is changed from {
+        [propertyName: string]: any;
+    } to Record<string, unknown>
+  - Type of parameter webhookSecretUpdateTime of interface Webhook is changed from string to Date
+  - Class SecurityInsights no longer has parameter bookmarkOperations
+  - Class SecurityInsights no longer has parameter bookmarkRelations
+  - Class SecurityInsights no longer has parameter dataConnectorsCheckRequirementsOperations
+  - Class SecurityInsights no longer has parameter domainWhois
+  - Class SecurityInsights no longer has parameter entitiesGetTimeline
+  - Class SecurityInsights no longer has parameter entitiesRelations
+  - Class SecurityInsights no longer has parameter entityQueries
+  - Class SecurityInsights no longer has parameter entityQueryTemplates
+  - Class SecurityInsights no longer has parameter entityRelations
+  - Class SecurityInsights no longer has parameter fileImports
+  - Class SecurityInsights no longer has parameter iPGeodata
+  - Class SecurityInsights no longer has parameter officeConsents
+  - Class SecurityInsights no longer has parameter productSettings
+  - Removed Enum KnownConnectAuthKind
+  - Removed Enum KnownConnectivityType
+  - Removed Enum KnownCustomEntityQueryKind
+  - Removed Enum KnownDataConnectorAuthorizationState
+  - Removed Enum KnownDataConnectorLicenseState
+  - Removed Enum KnownDeleteStatus
+  - Removed Enum KnownDeviceImportance
+  - Removed Enum KnownEntityItemQueryKind
+  - Removed Enum KnownEntityKind
+  - Removed Enum KnownEntityProviders
+  - Removed Enum KnownEntityQueryKind
+  - Removed Enum KnownEntityQueryTemplateKind
+  - Removed Enum KnownEntityTimelineKind
+  - Removed Enum KnownEntityType
+  - Removed Enum KnownEnum13
+  - Removed Enum KnownFileFormat
+  - Removed Enum KnownFileImportContentType
+  - Removed Enum KnownFileImportState
+  - Removed Enum KnownGetInsightsError
+  - Removed Enum KnownIngestionMode
+  - Removed Enum KnownOutputType
+  - Removed Enum KnownPermissionProviderScope
+  - Removed Enum KnownPollingFrequency
+  - Removed Enum KnownProviderName
+  - Removed Enum KnownSettingKind
+  - Removed Enum KnownSettingType
+  - Removed Enum KnownSourceType
+  - Removed Enum KnownThreatIntelligenceResourceKindEnum
+  - Removed Enum KnownThreatIntelligenceSortingCriteriaEnum
+  - Removed Enum KnownUebaDataSources
+  - Enum KnownAlertRuleKind no longer has value MLBehaviorAnalytics
+  - Enum KnownAlertRuleKind no longer has value NRT
+  - Enum KnownAlertRuleKind no longer has value ThreatIntelligence
+  - Enum KnownDataConnectorKind no longer has value AmazonWebServicesS3
+  - Enum KnownDataConnectorKind no longer has value APIPolling
+  - Enum KnownDataConnectorKind no longer has value Dynamics365
+  - Enum KnownDataConnectorKind no longer has value GenericUI
+  - Enum KnownDataConnectorKind no longer has value IOT
+  - Enum KnownDataConnectorKind no longer has value MicrosoftThreatIntelligence
+  - Enum KnownDataConnectorKind no longer has value MicrosoftThreatProtection
+  - Enum KnownDataConnectorKind no longer has value Office365Project
+  - Enum KnownDataConnectorKind no longer has value OfficeATP
+  - Enum KnownDataConnectorKind no longer has value OfficeIRM
+  - Enum KnownDataConnectorKind no longer has value OfficePowerBI
+  - Enum KnownDataConnectorKind no longer has value ThreatIntelligenceTaxii
+  - Enum KnownMicrosoftSecurityProductName no longer has value MicrosoftDefenderAdvancedThreatProtection
+  - Enum KnownMicrosoftSecurityProductName no longer has value Office365AdvancedThreatProtection
+  - Enum KnownRepoType no longer has value DevOps
+    
+    
 ## 1.0.0-beta.6 (2023-02-03)
     
-**Features**
+### Features Added
 
   - Interface BookmarkRelationsListNextOptionalParams no longer has parameter filter
   - Interface BookmarkRelationsListNextOptionalParams no longer has parameter orderby
@@ -53,7 +417,7 @@
     
 ## 1.0.0-beta.5 (2022-09-27)
     
-**Features**
+### Features Added
 
   - Added operation group FileImports
   - Added Interface AutomationRuleBooleanCondition
@@ -100,7 +464,7 @@
   - Enum KnownConditionType has a new value Boolean
   - Enum KnownConditionType has a new value PropertyArray
 
-**Breaking Changes**
+### Breaking Changes
 
   - Interface AADDataConnector has a new required parameter kind
   - Interface AatpDataConnector has a new required parameter kind
@@ -171,7 +535,7 @@
     
 ## 1.0.0-beta.4 (2022-07-11)
     
-**Features**
+### Features Added
 
   - Added operation group SecurityMLAnalyticsSettings
   - Added Interface AADCheckRequirements
@@ -423,7 +787,7 @@
   - Enum KnownTriggersOn has a new value Alerts
   - Enum KnownTriggersWhen has a new value Updated
 
-**Breaking Changes**
+### Breaking Changes
 
   - Removed Enum KnownEnum12
   - Removed Enum KnownProvisioningState
@@ -432,14 +796,14 @@
     
 ## 1.0.0-beta.3 (2022-05-16)
     
-**Features**
+### Features Added
 
   - Added Type Alias ProvisioningState
   - Type Alias Watchlist has a new parameter sasUri
   - Type Alias Watchlist has a new parameter provisioningState
   - Added Enum KnownProvisioningState
 
-**Breaking Changes**
+### Breaking Changes
 
   - Type Alias WatchlistItem no longer has parameter itemsKeyValue
   - Type Alias WatchlistItem no longer has parameter entityMapping
@@ -447,7 +811,7 @@
     
 ## 1.0.0-beta.2 (2022-03-17)
     
-**Features**
+### Features Added
 
   - Added operation Incidents.runPlaybook
   - Added Interface AutomationRulePropertyValuesCondition
@@ -583,7 +947,7 @@
   - Enum KnownKind has a new value AzureFunction
   - Enum KnownKind has a new value LogicAppsCustomConnector
 
-**Breaking Changes**
+### Breaking Changes
 
   - Operation AutomationRules.createOrUpdate has a new signature
   - Operation ThreatIntelligenceIndicator.create has a new signature
@@ -617,4 +981,4 @@
     
 ## 1.0.0-beta.1 (2022-01-19)
 
-The package of @azure/arm-securityinsight is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+The package of @azure/arm-securityinsight is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).
