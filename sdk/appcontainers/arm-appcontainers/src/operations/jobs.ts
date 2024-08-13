@@ -311,17 +311,15 @@ export class JobsImpl implements Jobs {
    * Get the properties of a Container App Job.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param jobName Job Name
-   * @param apiName Proxy API Name for Container App Job.
    * @param options The options parameters.
    */
   proxyGet(
     resourceGroupName: string,
     jobName: string,
-    apiName: string,
     options?: JobsProxyGetOptionalParams,
   ): Promise<JobsProxyGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, jobName, apiName, options },
+      { resourceGroupName, jobName, options },
       proxyGetOperationSpec,
     );
   }
@@ -1116,7 +1114,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.jobName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
@@ -1170,7 +1168,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.jobName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
@@ -1202,7 +1200,7 @@ const startOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.jobName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };

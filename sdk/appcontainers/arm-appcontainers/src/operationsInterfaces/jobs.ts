@@ -82,13 +82,11 @@ export interface Jobs {
    * Get the properties of a Container App Job.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param jobName Job Name
-   * @param apiName Proxy API Name for Container App Job.
    * @param options The options parameters.
    */
   proxyGet(
     resourceGroupName: string,
     jobName: string,
-    apiName: string,
     options?: JobsProxyGetOptionalParams,
   ): Promise<JobsProxyGetResponse>;
   /**
