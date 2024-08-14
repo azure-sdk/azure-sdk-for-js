@@ -2,10 +2,6 @@
 // Licensed under the MIT license.
 
 export {
-  AssistantsClient,
-  AssistantsClientOptionalParams,
-} from "./assistantsClient.js";
-export {
   AssistantCreationOptions,
   ToolDefinition,
   CodeInterpreterToolDefinition,
@@ -166,6 +162,8 @@ export {
   RunStepDeltaDetailUnion,
   RunStepDeltaToolCallUnion,
   RunStepDeltaCodeInterpreterOutputUnion,
+} from "./models.js";
+export {
   CreateAssistantOptionalParams,
   ListAssistantsOptionalParams,
   GetAssistantOptionalParams,
@@ -206,4 +204,4 @@ export {
   GetVectorStoreFileBatchOptionalParams,
   CancelVectorStoreFileBatchOptionalParams,
   ListVectorStoreFileBatchFilesOptionalParams,
-} from "./models/index.js";
+} from "./options.js";
