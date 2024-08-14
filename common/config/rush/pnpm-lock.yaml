@@ -13750,7 +13750,7 @@ packages:
     dev: false
 
   file:projects/arm-communication.tgz:
-    resolution: {integrity: sha512-Rq0A6A/jA9bGHTJ8xX8n5QCJb2zKiZQINXv/oF1LEiNsCpmULW38CHvpcCzYzFevY7ZX/RCAp78d7ybuqqg1yw==, tarball: file:projects/arm-communication.tgz}
+    resolution: {integrity: sha512-YZetgnOInxMJGIPG5tjUfzFdxggvR92tDjOc3wYllUTavitQa+1ZN4IwC/1Rg6CTDQbuDe3FxqqLhsN4fMQbkw==, tarball: file:projects/arm-communication.tgz}
     name: '@rush-temp/arm-communication'
     version: 0.0.0
     dependencies:
@@ -13771,6 +13771,7 @@ packages:
       rimraf: 5.0.10
       ts-node: 10.9.2(@types/node@18.19.44)(typescript@5.5.4)
       tslib: 2.6.3
+      tsx: 4.17.0
       typescript: 5.5.4
       uglify-js: 3.19.2
     transitivePeerDependencies:

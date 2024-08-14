@@ -1,18 +1,39 @@
 # Release History
-
-## 4.1.1 (Unreleased)
-
+    
+## 4.2.0-beta.1 (2024-08-14)
+Compared with version 4.1.0
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group SuppressionListAddresses
+  - Added operation group SuppressionLists
+  - Added Interface SuppressionListAddressesCreateOrUpdateOptionalParams
+  - Added Interface SuppressionListAddressesDeleteOptionalParams
+  - Added Interface SuppressionListAddressesGetOptionalParams
+  - Added Interface SuppressionListAddressesListNextOptionalParams
+  - Added Interface SuppressionListAddressesListOptionalParams
+  - Added Interface SuppressionListAddressResource
+  - Added Interface SuppressionListAddressResourceCollection
+  - Added Interface SuppressionListResource
+  - Added Interface SuppressionListResourceCollection
+  - Added Interface SuppressionListsCreateOrUpdateOptionalParams
+  - Added Interface SuppressionListsDeleteOptionalParams
+  - Added Interface SuppressionListsGetOptionalParams
+  - Added Interface SuppressionListsListByDomainNextOptionalParams
+  - Added Interface SuppressionListsListByDomainOptionalParams
+  - Added Type Alias SuppressionListAddressesCreateOrUpdateResponse
+  - Added Type Alias SuppressionListAddressesGetResponse
+  - Added Type Alias SuppressionListAddressesListNextResponse
+  - Added Type Alias SuppressionListAddressesListResponse
+  - Added Type Alias SuppressionListsCreateOrUpdateResponse
+  - Added Type Alias SuppressionListsGetResponse
+  - Added Type Alias SuppressionListsListByDomainNextResponse
+  - Added Type Alias SuppressionListsListByDomainResponse
+    
+    
 ## 4.1.0 (2024-03-08)
     
-**Features**
+### Features Added
 
   - Added Interface ManagedServiceIdentity
   - Added Interface UserAssignedIdentity
@@ -24,7 +45,7 @@
     
 ## 4.1.0-beta.2 (2023-11-10)
     
-**Features**
+### Features Added
 
   - Added operation group SuppressionListAddresses
   - Added operation group SuppressionLists
@@ -60,7 +81,7 @@
   
 ## 4.1.0-beta.1 (2023-09-20)
     
-**Features**
+### Features Added
 
   - Added Interface ManagedServiceIdentity
   - Added Interface UserAssignedIdentity
@@ -70,7 +91,7 @@
   - Added Enum KnownManagedServiceIdentityType
 ## 4.0.0 (2023-03-27)
     
-**Features**
+### Features Added
 
   - Added operation group CommunicationServices
   - Added operation group Domains
@@ -188,7 +209,7 @@
   - Added Enum KnownVerificationType
   - Added function getContinuationToken
 
-**Breaking Changes**
+### Breaking Changes
 
   - Removed operation group CommunicationService
   - Class CommunicationServiceManagementClient no longer has parameter communicationService
