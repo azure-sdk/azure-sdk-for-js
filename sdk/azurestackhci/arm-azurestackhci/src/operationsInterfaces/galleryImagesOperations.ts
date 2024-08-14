@@ -10,7 +10,6 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   GalleryImages,
-  GalleryImagesListOptionalParams,
   GalleryImagesListAllOptionalParams,
   GalleryImagesGetOptionalParams,
   GalleryImagesGetResponse,
@@ -20,29 +19,19 @@ import {
   GalleryImagesDeleteResponse,
   GalleryImagesUpdateRequest,
   GalleryImagesUpdateOptionalParams,
-  GalleryImagesUpdateResponse
+  GalleryImagesUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a GalleryImagesOperations. */
 export interface GalleryImagesOperations {
   /**
-   * Lists all of the gallery images in the specified resource group. Use the nextLink property in the
-   * response to get the next page of gallery images.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param options The options parameters.
-   */
-  list(
-    resourceGroupName: string,
-    options?: GalleryImagesListOptionalParams
-  ): PagedAsyncIterableIterator<GalleryImages>;
-  /**
    * Lists all of the gallery images in the specified subscription. Use the nextLink property in the
    * response to get the next page of gallery images.
    * @param options The options parameters.
    */
   listAll(
-    options?: GalleryImagesListAllOptionalParams
+    options?: GalleryImagesListAllOptionalParams,
   ): PagedAsyncIterableIterator<GalleryImages>;
   /**
    * Gets a gallery image
@@ -53,7 +42,7 @@ export interface GalleryImagesOperations {
   get(
     resourceGroupName: string,
     galleryImageName: string,
-    options?: GalleryImagesGetOptionalParams
+    options?: GalleryImagesGetOptionalParams,
   ): Promise<GalleryImagesGetResponse>;
   /**
    * The operation to create or update a gallery image. Please note some properties can be set only
@@ -67,7 +56,7 @@ export interface GalleryImagesOperations {
     resourceGroupName: string,
     galleryImageName: string,
     galleryImages: GalleryImages,
-    options?: GalleryImagesCreateOrUpdateOptionalParams
+    options?: GalleryImagesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<GalleryImagesCreateOrUpdateResponse>,
@@ -86,7 +75,7 @@ export interface GalleryImagesOperations {
     resourceGroupName: string,
     galleryImageName: string,
     galleryImages: GalleryImages,
-    options?: GalleryImagesCreateOrUpdateOptionalParams
+    options?: GalleryImagesCreateOrUpdateOptionalParams,
   ): Promise<GalleryImagesCreateOrUpdateResponse>;
   /**
    * The operation to delete a gallery image.
@@ -97,7 +86,7 @@ export interface GalleryImagesOperations {
   beginDelete(
     resourceGroupName: string,
     galleryImageName: string,
-    options?: GalleryImagesDeleteOptionalParams
+    options?: GalleryImagesDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<GalleryImagesDeleteResponse>,
@@ -113,7 +102,7 @@ export interface GalleryImagesOperations {
   beginDeleteAndWait(
     resourceGroupName: string,
     galleryImageName: string,
-    options?: GalleryImagesDeleteOptionalParams
+    options?: GalleryImagesDeleteOptionalParams,
   ): Promise<GalleryImagesDeleteResponse>;
   /**
    * The operation to update a gallery image.
@@ -126,7 +115,7 @@ export interface GalleryImagesOperations {
     resourceGroupName: string,
     galleryImageName: string,
     galleryImages: GalleryImagesUpdateRequest,
-    options?: GalleryImagesUpdateOptionalParams
+    options?: GalleryImagesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<GalleryImagesUpdateResponse>,
@@ -144,6 +133,6 @@ export interface GalleryImagesOperations {
     resourceGroupName: string,
     galleryImageName: string,
     galleryImages: GalleryImagesUpdateRequest,
-    options?: GalleryImagesUpdateOptionalParams
+    options?: GalleryImagesUpdateOptionalParams,
   ): Promise<GalleryImagesUpdateResponse>;
 }
