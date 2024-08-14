@@ -12383,7 +12383,7 @@ packages:
     dev: false
 
   file:projects/ai-vision-image-analysis.tgz:
-    resolution: {integrity: sha512-zTS3hFS7O8OPYXm4uENfz0YR20bpyVt9q0RelECnrcvwpbx9i4wIU7JbOYwF2VCH+w/Qqyz5Cn6I+sB7HHcb/g==, tarball: file:projects/ai-vision-image-analysis.tgz}
+    resolution: {integrity: sha512-QfHG2jBEfs0+PK0aTSGABk2KzFAsXxMeIhh2holZ5g8odJR316/mei4xFHXTIY01L69SZPb9aSiWu+gMAv8LDw==, tarball: file:projects/ai-vision-image-analysis.tgz}
     name: '@rush-temp/ai-vision-image-analysis'
     version: 0.0.0
     dependencies:
@@ -18451,7 +18451,7 @@ packages:
     dev: false
 
   file:projects/arm-security.tgz:
-    resolution: {integrity: sha512-B70NAL/cD6aCD6ZFWPaQ2fCRsoA4j8ZnFsGa/y9vDILw/37omK/X06fg1L3eItXDa85rnxAKEyVISb4/CmSlMQ==, tarball: file:projects/arm-security.tgz}
+    resolution: {integrity: sha512-OY99Vo6BRV0FW7OYRiZs3Bl0VyaA5vFJVMeG3d0S8vQWQR5mecwa4g24N6RhyUc4lF2Z/GdsqyWydco69qF8Xw==, tarball: file:projects/arm-security.tgz}
     name: '@rush-temp/arm-security'
     version: 0.0.0
     dependencies:
@@ -18473,6 +18473,7 @@ packages:
       rimraf: 5.0.10
       ts-node: 10.9.2(@types/node@18.19.44)(typescript@5.5.4)
       tslib: 2.6.3
+      tsx: 4.17.0
       typescript: 5.5.4
       uglify-js: 3.19.2
     transitivePeerDependencies:
