@@ -12383,7 +12383,7 @@ packages:
     dev: false
 
   file:projects/ai-vision-image-analysis.tgz:
-    resolution: {integrity: sha512-zTS3hFS7O8OPYXm4uENfz0YR20bpyVt9q0RelECnrcvwpbx9i4wIU7JbOYwF2VCH+w/Qqyz5Cn6I+sB7HHcb/g==, tarball: file:projects/ai-vision-image-analysis.tgz}
+    resolution: {integrity: sha512-QfHG2jBEfs0+PK0aTSGABk2KzFAsXxMeIhh2holZ5g8odJR316/mei4xFHXTIY01L69SZPb9aSiWu+gMAv8LDw==, tarball: file:projects/ai-vision-image-analysis.tgz}
     name: '@rush-temp/ai-vision-image-analysis'
     version: 0.0.0
     dependencies:
@@ -12789,7 +12789,7 @@ packages:
     dev: false
 
   file:projects/arm-appinsights.tgz:
-    resolution: {integrity: sha512-cnk29PDE3tFVEYSD/sPzYfBzjIL5KOnIxycYJlvMs2sBSfbeN/THEe34sNLOOVQTDyyZQwNyy0M2cwBm0PLbkg==, tarball: file:projects/arm-appinsights.tgz}
+    resolution: {integrity: sha512-NBCMGeIF+OV/Ye6/hxLLm7ysX/QZxOWoxIyEY92eW8qJgt94cNIRwFVMiYEo2Q97wyPHFtu5XpQ+0OCIgmLoZA==, tarball: file:projects/arm-appinsights.tgz}
     name: '@rush-temp/arm-appinsights'
     version: 0.0.0
     dependencies:
@@ -12802,11 +12802,13 @@ packages:
       '@types/node': 18.19.44
       chai: 4.3.10
       cross-env: 7.0.3
+      dotenv: 16.4.5
       mkdirp: 3.0.1
       mocha: 10.7.3
       rimraf: 5.0.10
       ts-node: 10.9.2(@types/node@18.19.44)(typescript@5.5.4)
       tslib: 2.6.3
+      tsx: 4.17.0
       typescript: 5.5.4
       uglify-js: 3.19.2
     transitivePeerDependencies:
@@ -21453,7 +21455,7 @@ packages:
     dev: false
 
   file:projects/event-hubs.tgz:
-    resolution: {integrity: sha512-TPrnO5Gxjcr2M/N+/VcKpDYnlqj1FfWM5DIDLnxgAZq3nKeXBMQi9bwolSVVy7uYF5Tqd28SuEE0hgx6UvHL5g==, tarball: file:projects/event-hubs.tgz}
+    resolution: {integrity: sha512-xLnyilBbbHQfmzOAAd5SjygGVv4ge2nrp4WzLc8ifOjRhBLsWdDXsg11j4nGj0/z5/qC1mM6tDtAdoKEF4moiA==, tarball: file:projects/event-hubs.tgz}
     name: '@rush-temp/event-hubs'
     version: 0.0.0
     dependencies:
