@@ -50,6 +50,7 @@ export interface ContainerAppsSourceControls {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param containerAppName Name of the Container App.
    * @param sourceControlName Name of the Container App SourceControl.
+   * @param xMsGithubAuxiliary Github personal access token used for SourceControl.
    * @param sourceControlEnvelope Properties used to create a Container App SourceControl
    * @param options The options parameters.
    */
@@ -57,6 +58,7 @@ export interface ContainerAppsSourceControls {
     resourceGroupName: string,
     containerAppName: string,
     sourceControlName: string,
+    xMsGithubAuxiliary: string,
     sourceControlEnvelope: SourceControl,
     options?: ContainerAppsSourceControlsCreateOrUpdateOptionalParams,
   ): Promise<
@@ -70,6 +72,7 @@ export interface ContainerAppsSourceControls {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param containerAppName Name of the Container App.
    * @param sourceControlName Name of the Container App SourceControl.
+   * @param xMsGithubAuxiliary Github personal access token used for SourceControl.
    * @param sourceControlEnvelope Properties used to create a Container App SourceControl
    * @param options The options parameters.
    */
@@ -77,6 +80,7 @@ export interface ContainerAppsSourceControls {
     resourceGroupName: string,
     containerAppName: string,
     sourceControlName: string,
+    xMsGithubAuxiliary: string,
     sourceControlEnvelope: SourceControl,
     options?: ContainerAppsSourceControlsCreateOrUpdateOptionalParams,
   ): Promise<ContainerAppsSourceControlsCreateOrUpdateResponse>;
@@ -85,12 +89,14 @@ export interface ContainerAppsSourceControls {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param containerAppName Name of the Container App.
    * @param sourceControlName Name of the Container App SourceControl.
+   * @param xMsGithubAuxiliary Github personal access token used for SourceControl.
    * @param options The options parameters.
    */
   beginDelete(
     resourceGroupName: string,
     containerAppName: string,
     sourceControlName: string,
+    xMsGithubAuxiliary: string,
     options?: ContainerAppsSourceControlsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
@@ -98,12 +104,14 @@ export interface ContainerAppsSourceControls {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param containerAppName Name of the Container App.
    * @param sourceControlName Name of the Container App SourceControl.
+   * @param xMsGithubAuxiliary Github personal access token used for SourceControl.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
     resourceGroupName: string,
     containerAppName: string,
     sourceControlName: string,
+    xMsGithubAuxiliary: string,
     options?: ContainerAppsSourceControlsDeleteOptionalParams,
   ): Promise<void>;
 }
