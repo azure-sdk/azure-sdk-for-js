@@ -488,6 +488,9 @@ dependencies:
   '@rush-temp/arm-mongocluster':
     specifier: file:./projects/arm-mongocluster.tgz
     version: file:projects/arm-mongocluster.tgz
+  '@rush-temp/arm-mongoclustertest':
+    specifier: file:./projects/arm-mongoclustertest.tgz
+    version: file:projects/arm-mongoclustertest.tgz
   '@rush-temp/arm-monitor':
     specifier: file:./projects/arm-monitor.tgz
     version: file:projects/arm-monitor.tgz
@@ -3815,7 +3818,7 @@ packages:
   /@types/express-serve-static-core@4.19.0:
     resolution: {integrity: sha512-bGyep3JqPCRry1wq+O5n7oiBgGWmeIJXPjXXCo8EK0u8duZGSYar7cGqd3ML2JUsLGeB7fmc06KYo9fLGWqPvQ==}
     dependencies:
-      '@types/node': 18.19.43
+      '@types/node': 22.1.0
       '@types/qs': 6.9.15
       '@types/range-parser': 1.2.7
       '@types/send': 0.17.4
@@ -3843,7 +3846,7 @@ packages:
     resolution: {integrity: sha512-yTbItCNreRooED33qjunPthRcSjERP1r4MqCZc7wv0u2sUkzTFp45tgUfS5+r7FrZPdmCCNflLhVSP/o+SemsQ==}
     dependencies:
       '@types/jsonfile': 6.1.4
-      '@types/node': 18.19.43
+      '@types/node': 22.1.0
     dev: false
 
   /@types/fs-extra@8.1.5:
@@ -3886,7 +3889,7 @@ packages:
   /@types/jsonfile@6.1.4:
     resolution: {integrity: sha512-D5qGUYwjvnNNextdU59/+fI+spnwtTFmyQP0h+PfIOSkNfpU6AOICUOkm4i0OnSk+NyjdPJrxCDro0sJsWlRpQ==}
     dependencies:
-      '@types/node': 18.19.43
+      '@types/node': 22.1.0
     dev: false
 
   /@types/jsonwebtoken@9.0.6:
@@ -4012,7 +4015,7 @@ packages:
   /@types/readdir-glob@1.1.5:
     resolution: {integrity: sha512-raiuEPUYqXu+nvtY2Pe8s8FEmZ3x5yAH4VkLdihcPdalvsHltomrRC9BzuStrJ9yk06470hS0Crw0f1pXqD+Hg==}
     dependencies:
-      '@types/node': 18.19.43
+      '@types/node': 22.1.0
     dev: false
 
   /@types/resolve@1.20.2:
@@ -4299,6 +4302,28 @@ packages:
       '@vitest/utils': 1.6.0
       magic-string: 0.30.11
       playwright: 1.45.3
+      sirv: 2.0.4
+      vitest: 1.6.0(@types/node@18.19.43)(@vitest/browser@1.6.0)
+    dev: false
+
+  /@vitest/browser@1.6.0(playwright@1.46.0)(vitest@1.6.0):
+    resolution: {integrity: sha512-3Wpp9h1hf++rRVPvoXevkdHybLhJVn7MwIMKMIh08tVaoDMmT6fnNhbP222Z48V9PptpYeA5zvH9Ct/ZcaAzmQ==}
+    peerDependencies:
+      playwright: '*'
+      safaridriver: '*'
+      vitest: 1.6.0
+      webdriverio: '*'
+    peerDependenciesMeta:
+      playwright:
+        optional: true
+      safaridriver:
+        optional: true
+      webdriverio:
+        optional: true
+    dependencies:
+      '@vitest/utils': 1.6.0
+      magic-string: 0.30.11
+      playwright: 1.46.0
       sirv: 2.0.4
       vitest: 1.6.0(@types/node@18.19.43)(@vitest/browser@1.6.0)
     dev: false
@@ -17337,6 +17362,42 @@ packages:
       - webdriverio
     dev: false
 
+  file:projects/arm-mongoclustertest.tgz:
+    resolution: {integrity: sha512-qx2sA6etEotgEANaakaQULevuRaWHc7WBg1f+IVg7utvItdKtqh4xXb3lRnFjgZpJqGXpwvS0Iq7NYZe+DYY1g==, tarball: file:projects/arm-mongoclustertest.tgz}
+    name: '@rush-temp/arm-mongoclustertest'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 4.4.1
+      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.43)
+      '@types/node': 18.19.43
+      '@vitest/browser': 1.6.0(playwright@1.46.0)(vitest@1.6.0)
+      '@vitest/coverage-istanbul': 1.6.0(vitest@1.6.0)
+      dotenv: 16.4.5
+      eslint: 8.57.0
+      mkdirp: 3.0.1
+      playwright: 1.46.0
+      prettier: 3.3.3
+      rimraf: 5.0.10
+      tshy: 1.18.0
+      tslib: 2.6.3
+      typescript: 5.5.4
+      vitest: 1.6.0(@types/node@18.19.43)(@vitest/browser@1.6.0)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - safaridriver
+      - sass
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - webdriverio
+    dev: false
+
   file:projects/arm-monitor-profile-2020-09-01-hybrid.tgz:
     resolution: {integrity: sha512-iIVKSMObhPtllgldBh5d9PvGgh+4/0POUj8UdtW1VsK6bUAx+UtzTjsv2FjIMZ/0nuKBA0NQ678rKS5dppppbw==, tarball: file:projects/arm-monitor-profile-2020-09-01-hybrid.tgz}
     name: '@rush-temp/arm-monitor-profile-2020-09-01-hybrid'
@@ -25516,7 +25577,7 @@ packages:
       '@types/express-serve-static-core': 4.19.5
       '@types/jsonwebtoken': 9.0.6
       '@types/node': 18.19.43
-      '@vitest/browser': 1.6.0(playwright@1.45.3)(vitest@1.6.0)
+      '@vitest/browser': 1.6.0(playwright@1.46.0)(vitest@1.6.0)
       '@vitest/coverage-istanbul': 1.6.0(vitest@1.6.0)
       dotenv: 16.4.5
       eslint: 8.57.0
