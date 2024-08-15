@@ -18,14 +18,6 @@ export type ResourcePredictionsProfileUnion =
   | AutomaticResourcePredictionsProfile
   | ManualResourcePredictionsProfile;
 export type FabricProfileUnion = FabricProfile | VmssFabricProfile;
-export type AgentProfileUpdateUnion =
-  | AgentProfileUpdate
-  | StatefulUpdate
-  | StatelessAgentProfileUpdate;
-export type ResourcePredictionsProfileUpdateUnion =
-  | ResourcePredictionsProfileUpdate
-  | AutomaticResourcePredictionsProfileUpdate
-  | ManualResourcePredictionsProfileUpdate;
 
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface OperationListResult {
@@ -254,24 +246,29 @@ export interface SystemData {
   lastModifiedAt?: Date;
 }
 
-/** The response of a Quota list operation. */
-export interface QuotaListResult {
+/** Paged collection of Quota items */
+export interface PagedQuota {
   /** The Quota items on this page */
   value: Quota[];
   /** The link to the next page of items */
   nextLink?: string;
 }
 
-/** Describes Resource Quota properties */
-export interface QuotaProperties {
+/** Describes Resource Quota */
+export interface Quota {
+  /**
+   * The name of the quota.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: QuotaName;
+  /** Fully qualified ARM resource id */
+  id: string;
   /** The unit of usage measurement. */
   unit: string;
   /** The current usage of the resource. */
   currentValue: number;
   /** The maximum permitted usage of the resource. */
   limit: number;
-  /** The details of the quota. */
-  name: QuotaName;
 }
 
 /** The Quota Names */
@@ -388,7 +385,7 @@ export interface PoolUpdate {
   identity?: ManagedServiceIdentity;
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
-  /** The updatable properties of the Pool. */
+  /** The resource-specific properties for this resource. */
   properties?: PoolUpdateProperties;
 }
 
@@ -401,27 +398,11 @@ export interface PoolUpdateProperties {
   /** Defines the organization in which the pool will be used. */
   organizationProfile?: OrganizationProfileUnion;
   /** Defines how the machine will be handled once it executed a job. */
-  agentProfile?: AgentProfileUpdateUnion;
+  agentProfile?: AgentProfileUnion;
   /** Defines the type of fabric the agent will run on. */
   fabricProfile?: FabricProfileUnion;
   /** The resource id of the DevCenter Project the pool belongs to. */
   devCenterProjectResourceId?: string;
-}
-
-/** The agent profile of the machines in the pool. */
-export interface AgentProfileUpdate {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "Stateful" | "Stateless";
-  /** Defines pool buffer/stand-by agents. */
-  resourcePredictions?: Record<string, unknown>;
-  /** Defines how the pool buffer/stand-by agents is provided. */
-  resourcePredictionsProfile?: ResourcePredictionsProfileUpdateUnion;
-}
-
-/** Determines how the stand-by scheme should be provided. */
-export interface ResourcePredictionsProfileUpdate {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "Automatic" | "Manual";
 }
 
 /** The response of a ResourceDetailsObject list operation. */
@@ -609,48 +590,10 @@ export interface VmssFabricProfile extends FabricProfile {
   networkProfile?: NetworkProfile;
 }
 
-/** Stateful profile meaning that the machines will be returned to the pool after running a job. */
-export interface StatefulUpdate extends AgentProfileUpdate {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "Stateful";
-  /** How long should stateful machines be kept around. The maximum is one week. */
-  maxAgentLifetime?: string;
-  /** How long should the machine be kept around after it ran a workload when there are no stand-by agents. The maximum is one week. */
-  gracePeriodTimeSpan?: string;
-}
-
-/** Stateless profile meaning that the machines will be cleaned up after running a job. */
-export interface StatelessAgentProfileUpdate extends AgentProfileUpdate {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "Stateless";
-}
-
-/** The stand-by agent scheme is determined based on historical demand. */
-export interface AutomaticResourcePredictionsProfileUpdate
-  extends ResourcePredictionsProfileUpdate {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "Automatic";
-  /** Determines the balance between cost and performance. */
-  predictionPreference?: PredictionPreference;
-}
-
-/** Customer provides the stand-by agent scheme. */
-export interface ManualResourcePredictionsProfileUpdate
-  extends ResourcePredictionsProfileUpdate {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "Manual";
-}
-
 /** A ResourceSku */
 export interface ResourceSku extends ProxyResource {
   /** The resource-specific properties for this resource. */
   properties?: ResourceSkuProperties;
-}
-
-/** Describes Resource Quota */
-export interface Quota extends ProxyResource {
-  /** The resource-specific properties for this resource. */
-  properties?: QuotaProperties;
 }
 
 /** An image version object */
@@ -733,9 +676,9 @@ export type ActionType = string;
 
 /** Known values of {@link ResourceSkuRestrictionsType} that the service accepts. */
 export enum KnownResourceSkuRestrictionsType {
-  /** Location */
+  /** SKU restricted by location. */
   Location = "Location",
-  /** Zone */
+  /** SKU restricted by availability zone. */
   Zone = "Zone",
 }
 
@@ -744,16 +687,16 @@ export enum KnownResourceSkuRestrictionsType {
  * {@link KnownResourceSkuRestrictionsType} can be used interchangeably with ResourceSkuRestrictionsType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Location** \
- * **Zone**
+ * **Location**: SKU restricted by location. \
+ * **Zone**: SKU restricted by availability zone.
  */
 export type ResourceSkuRestrictionsType = string;
 
 /** Known values of {@link ResourceSkuRestrictionsReasonCode} that the service accepts. */
 export enum KnownResourceSkuRestrictionsReasonCode {
-  /** QuotaId */
+  /** The restriction is due to exceeding a quota limitation. */
   QuotaId = "QuotaId",
-  /** NotAvailableForSubscription */
+  /** The restriction is not available for this subscription. */
   NotAvailableForSubscription = "NotAvailableForSubscription",
 }
 
@@ -762,8 +705,8 @@ export enum KnownResourceSkuRestrictionsReasonCode {
  * {@link KnownResourceSkuRestrictionsReasonCode} can be used interchangeably with ResourceSkuRestrictionsReasonCode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **QuotaId** \
- * **NotAvailableForSubscription**
+ * **QuotaId**: The restriction is due to exceeding a quota limitation. \
+ * **NotAvailableForSubscription**: The restriction is not available for this subscription.
  */
 export type ResourceSkuRestrictionsReasonCode = string;
 
@@ -1075,18 +1018,18 @@ export interface SkuListByLocationNextOptionalParams
 export type SkuListByLocationNextResponse = ResourceSkuListResult;
 
 /** Optional parameters. */
-export interface SubscriptionUsagesListByLocationOptionalParams
+export interface SubscriptionUsagesUsagesOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listByLocation operation. */
-export type SubscriptionUsagesListByLocationResponse = QuotaListResult;
+/** Contains response data for the usages operation. */
+export type SubscriptionUsagesUsagesResponse = PagedQuota;
 
 /** Optional parameters. */
-export interface SubscriptionUsagesListByLocationNextOptionalParams
+export interface SubscriptionUsagesUsagesNextOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listByLocationNext operation. */
-export type SubscriptionUsagesListByLocationNextResponse = QuotaListResult;
+/** Contains response data for the usagesNext operation. */
+export type SubscriptionUsagesUsagesNextResponse = PagedQuota;
 
 /** Optional parameters. */
 export interface PoolsListBySubscriptionOptionalParams
