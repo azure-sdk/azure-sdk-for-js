@@ -4,14 +4,7 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { ClientOptions } from '@azure-rest/core-client';
 import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
@@ -59,16 +52,6 @@ export interface AvailabilitySetsListByResourceGroupOptionalParams extends Opera
 
 // @public
 export interface AvailabilitySetsListBySubscriptionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface AvailabilitySetsOperations {
-    createOrUpdate: (resourceGroupName: string, availabilitySetResourceName: string, resource: AvailabilitySet, options?: AvailabilitySetsCreateOrUpdateOptionalParams) => PollerLike<OperationState<AvailabilitySet>, AvailabilitySet>;
-    delete: (resourceGroupName: string, availabilitySetResourceName: string, options?: AvailabilitySetsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, availabilitySetResourceName: string, options?: AvailabilitySetsGetOptionalParams) => Promise<AvailabilitySet>;
-    listByResourceGroup: (resourceGroupName: string, options?: AvailabilitySetsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<AvailabilitySet>;
-    listBySubscription: (options?: AvailabilitySetsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<AvailabilitySet>;
-    update: (resourceGroupName: string, availabilitySetResourceName: string, properties: AvailabilitySetTagsUpdate, options?: AvailabilitySetsUpdateOptionalParams) => PollerLike<OperationState<AvailabilitySet>, AvailabilitySet>;
 }
 
 // @public
@@ -139,16 +122,6 @@ export interface CloudsListByResourceGroupOptionalParams extends OperationOption
 
 // @public
 export interface CloudsListBySubscriptionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface CloudsOperations {
-    createOrUpdate: (resourceGroupName: string, cloudResourceName: string, resource: Cloud, options?: CloudsCreateOrUpdateOptionalParams) => PollerLike<OperationState<Cloud>, Cloud>;
-    delete: (resourceGroupName: string, cloudResourceName: string, options?: CloudsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, cloudResourceName: string, options?: CloudsGetOptionalParams) => Promise<Cloud>;
-    listByResourceGroup: (resourceGroupName: string, options?: CloudsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Cloud>;
-    listBySubscription: (options?: CloudsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<Cloud>;
-    update: (resourceGroupName: string, cloudResourceName: string, properties: CloudTagsUpdate, options?: CloudsUpdateOptionalParams) => PollerLike<OperationState<Cloud>, Cloud>;
 }
 
 // @public
@@ -246,14 +219,6 @@ export interface GuestAgentsListByVirtualMachineInstanceOptionalParams extends O
 }
 
 // @public
-export interface GuestAgentsOperations {
-    create: (resourceUri: string, resource: GuestAgent, options?: GuestAgentsCreateOptionalParams) => PollerLike<OperationState<GuestAgent>, GuestAgent>;
-    delete: (resourceUri: string, options?: GuestAgentsDeleteOptionalParams) => Promise<void>;
-    get: (resourceUri: string, options?: GuestAgentsGetOptionalParams) => Promise<GuestAgent>;
-    listByVirtualMachineInstance: (resourceUri: string, options?: GuestAgentsListByVirtualMachineInstanceOptionalParams) => PagedAsyncIterableIterator<GuestAgent>;
-}
-
-// @public
 export interface GuestCredential {
     password: string;
     username: string;
@@ -343,14 +308,6 @@ export interface InventoryItemsGetOptionalParams extends OperationOptions {
 
 // @public
 export interface InventoryItemsListByVmmServerOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface InventoryItemsOperations {
-    create: (resourceGroupName: string, vmmServerName: string, inventoryItemResourceName: string, resource: InventoryItem, options?: InventoryItemsCreateOptionalParams) => Promise<InventoryItem>;
-    delete: (resourceGroupName: string, vmmServerName: string, inventoryItemResourceName: string, options?: InventoryItemsDeleteOptionalParams) => Promise<void>;
-    get: (resourceGroupName: string, vmmServerName: string, inventoryItemResourceName: string, options?: InventoryItemsGetOptionalParams) => Promise<InventoryItem>;
-    listByVmmServer: (resourceGroupName: string, vmmServerName: string, options?: InventoryItemsListByVmmServerOptionalParams) => PagedAsyncIterableIterator<InventoryItem>;
 }
 
 // @public
@@ -526,11 +483,6 @@ export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface OperationsOperations {
-    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
-}
-
-// @public
 export type Origin = string;
 
 // @public
@@ -584,37 +536,6 @@ export interface Resource {
 
 // @public
 export type ResourceProvisioningState = string;
-
-// @public
-export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: ScVmmClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
-
-// @public (undocumented)
-export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
-    abortSignal?: AbortSignalLike;
-    processResponseBody?: (result: TResponse) => Promise<TResult>;
-    updateIntervalInMs?: number;
-}
-
-// @public (undocumented)
-export class ScVmmClient {
-    constructor(credential: TokenCredential, subscriptionId: string, options?: ScVmmClientOptionalParams);
-    readonly availabilitySets: AvailabilitySetsOperations;
-    readonly clouds: CloudsOperations;
-    readonly guestAgents: GuestAgentsOperations;
-    readonly inventoryItems: InventoryItemsOperations;
-    readonly operations: OperationsOperations;
-    readonly pipeline: Pipeline;
-    readonly virtualMachineInstances: VirtualMachineInstancesOperations;
-    readonly virtualMachineTemplates: VirtualMachineTemplatesOperations;
-    readonly virtualNetworks: VirtualNetworksOperations;
-    readonly vmInstanceHybridIdentityMetadatas: VmInstanceHybridIdentityMetadatasOperations;
-    readonly vmmServers: VmmServersOperations;
-}
-
-// @public
-export interface ScVmmClientOptionalParams extends ClientOptions {
-    apiVersion?: string;
-}
 
 // @public
 export type SkipShutdown = string;
@@ -759,21 +680,6 @@ export interface VirtualMachineInstancesListOptionalParams extends OperationOpti
 }
 
 // @public
-export interface VirtualMachineInstancesOperations {
-    createCheckpoint: (resourceUri: string, body: VirtualMachineCreateCheckpoint, options?: VirtualMachineInstancesCreateCheckpointOptionalParams) => PollerLike<OperationState<void>, void>;
-    createOrUpdate: (resourceUri: string, resource: VirtualMachineInstance, options?: VirtualMachineInstancesCreateOrUpdateOptionalParams) => PollerLike<OperationState<VirtualMachineInstance>, VirtualMachineInstance>;
-    delete: (resourceUri: string, options?: VirtualMachineInstancesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    deleteCheckpoint: (resourceUri: string, body: VirtualMachineDeleteCheckpoint, options?: VirtualMachineInstancesDeleteCheckpointOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceUri: string, options?: VirtualMachineInstancesGetOptionalParams) => Promise<VirtualMachineInstance>;
-    list: (resourceUri: string, options?: VirtualMachineInstancesListOptionalParams) => PagedAsyncIterableIterator<VirtualMachineInstance>;
-    restart: (resourceUri: string, options?: VirtualMachineInstancesRestartOptionalParams) => PollerLike<OperationState<void>, void>;
-    restoreCheckpoint: (resourceUri: string, body: VirtualMachineRestoreCheckpoint, options?: VirtualMachineInstancesRestoreCheckpointOptionalParams) => PollerLike<OperationState<void>, void>;
-    start: (resourceUri: string, options?: VirtualMachineInstancesStartOptionalParams) => PollerLike<OperationState<void>, void>;
-    stop: (resourceUri: string, body: StopVirtualMachineOptions, options?: VirtualMachineInstancesStopOptionalParams) => PollerLike<OperationState<void>, void>;
-    update: (resourceUri: string, properties: VirtualMachineInstanceUpdate, options?: VirtualMachineInstancesUpdateOptionalParams) => PollerLike<OperationState<VirtualMachineInstance>, VirtualMachineInstance>;
-}
-
-// @public
 export interface VirtualMachineInstancesRestartOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
@@ -891,16 +797,6 @@ export interface VirtualMachineTemplatesListBySubscriptionOptionalParams extends
 }
 
 // @public
-export interface VirtualMachineTemplatesOperations {
-    createOrUpdate: (resourceGroupName: string, virtualMachineTemplateName: string, resource: VirtualMachineTemplate, options?: VirtualMachineTemplatesCreateOrUpdateOptionalParams) => PollerLike<OperationState<VirtualMachineTemplate>, VirtualMachineTemplate>;
-    delete: (resourceGroupName: string, virtualMachineTemplateName: string, options?: VirtualMachineTemplatesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, virtualMachineTemplateName: string, options?: VirtualMachineTemplatesGetOptionalParams) => Promise<VirtualMachineTemplate>;
-    listByResourceGroup: (resourceGroupName: string, options?: VirtualMachineTemplatesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<VirtualMachineTemplate>;
-    listBySubscription: (options?: VirtualMachineTemplatesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<VirtualMachineTemplate>;
-    update: (resourceGroupName: string, virtualMachineTemplateName: string, properties: VirtualMachineTemplateTagsUpdate, options?: VirtualMachineTemplatesUpdateOptionalParams) => PollerLike<OperationState<VirtualMachineTemplate>, VirtualMachineTemplate>;
-}
-
-// @public
 export interface VirtualMachineTemplatesUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
@@ -954,16 +850,6 @@ export interface VirtualNetworksListBySubscriptionOptionalParams extends Operati
 }
 
 // @public
-export interface VirtualNetworksOperations {
-    createOrUpdate: (resourceGroupName: string, virtualNetworkName: string, resource: VirtualNetwork, options?: VirtualNetworksCreateOrUpdateOptionalParams) => PollerLike<OperationState<VirtualNetwork>, VirtualNetwork>;
-    delete: (resourceGroupName: string, virtualNetworkName: string, options?: VirtualNetworksDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, virtualNetworkName: string, options?: VirtualNetworksGetOptionalParams) => Promise<VirtualNetwork>;
-    listByResourceGroup: (resourceGroupName: string, options?: VirtualNetworksListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<VirtualNetwork>;
-    listBySubscription: (options?: VirtualNetworksListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<VirtualNetwork>;
-    update: (resourceGroupName: string, virtualNetworkName: string, properties: VirtualNetworkTagsUpdate, options?: VirtualNetworksUpdateOptionalParams) => PollerLike<OperationState<VirtualNetwork>, VirtualNetwork>;
-}
-
-// @public
 export interface VirtualNetworksUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
@@ -991,12 +877,6 @@ export interface VmInstanceHybridIdentityMetadatasGetOptionalParams extends Oper
 
 // @public
 export interface VmInstanceHybridIdentityMetadatasListByVirtualMachineInstanceOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface VmInstanceHybridIdentityMetadatasOperations {
-    get: (resourceUri: string, options?: VmInstanceHybridIdentityMetadatasGetOptionalParams) => Promise<VmInstanceHybridIdentityMetadata>;
-    listByVirtualMachineInstance: (resourceUri: string, options?: VmInstanceHybridIdentityMetadatasListByVirtualMachineInstanceOptionalParams) => PagedAsyncIterableIterator<VmInstanceHybridIdentityMetadata>;
 }
 
 // @public
@@ -1044,16 +924,6 @@ export interface VmmServersListByResourceGroupOptionalParams extends OperationOp
 
 // @public
 export interface VmmServersListBySubscriptionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface VmmServersOperations {
-    createOrUpdate: (resourceGroupName: string, vmmServerName: string, resource: VmmServer, options?: VmmServersCreateOrUpdateOptionalParams) => PollerLike<OperationState<VmmServer>, VmmServer>;
-    delete: (resourceGroupName: string, vmmServerName: string, options?: VmmServersDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, vmmServerName: string, options?: VmmServersGetOptionalParams) => Promise<VmmServer>;
-    listByResourceGroup: (resourceGroupName: string, options?: VmmServersListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<VmmServer>;
-    listBySubscription: (options?: VmmServersListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<VmmServer>;
-    update: (resourceGroupName: string, vmmServerName: string, properties: VmmServerTagsUpdate, options?: VmmServersUpdateOptionalParams) => PollerLike<OperationState<VmmServer>, VmmServer>;
 }
 
 // @public
