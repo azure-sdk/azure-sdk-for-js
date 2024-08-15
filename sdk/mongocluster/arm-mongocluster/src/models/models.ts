@@ -3,25 +3,27 @@
 
 import { serializeRecord } from "../helpers/serializerHelpers.js";
 import {
-  PrivateEndpointConnectionResource as PrivateEndpointConnectionResourceRest,
+  MongoClusterProperties as MongoClusterPropertiesRest,
+  MongoClusterRestoreParameters as MongoClusterRestoreParametersRest,
+  MongoClusterReplicaParameters as MongoClusterReplicaParametersRest,
+  NodeGroupSpec as NodeGroupSpecRest,
   PrivateEndpointConnectionProperties as PrivateEndpointConnectionPropertiesRest,
   PrivateLinkServiceConnectionState as PrivateLinkServiceConnectionStateRest,
+  PrivateEndpointConnectionResource as PrivateEndpointConnectionResourceRest,
   FirewallRule as FirewallRuleRest,
   FirewallRuleProperties as FirewallRulePropertiesRest,
   TrackedResource as TrackedResourceRest,
   MongoCluster as MongoClusterRest,
-  MongoClusterProperties as MongoClusterPropertiesRest,
-  MongoClusterRestoreParameters as MongoClusterRestoreParametersRest,
-  NodeGroupSpec as NodeGroupSpecRest,
   MongoClusterUpdate as MongoClusterUpdateRest,
   MongoClusterUpdateProperties as MongoClusterUpdatePropertiesRest,
   CheckNameAvailabilityRequest as CheckNameAvailabilityRequestRest,
+  PromoteReplicaRequest as PromoteReplicaRequestRest,
 } from "../rest/index.js";
 
-/** The response of a PrivateLinkResource list operation. */
-export interface _PrivateLinkResourceListResult {
-  /** The PrivateLinkResource items on this page */
-  value: PrivateLinkResource[];
+/** The response of a Replica list operation. */
+export interface _ReplicaListResult {
+  /** The Replica items on this page */
+  value: Replica[];
   /** The link to the next page of items */
   nextLink?: string;
 }
@@ -89,72 +91,246 @@ export function proxyResourceSerializer(item: ProxyResource) {
   return item as any;
 }
 
-/** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
-export interface PrivateLinkResource extends ProxyResource {
+/** Represents a mongo cluster replica. */
+export interface Replica extends ProxyResource {
   /** The resource-specific properties for this resource. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: MongoClusterProperties;
 }
 
-/** Properties of a private link resource. */
-export interface PrivateLinkResourceProperties {
-  /** The private link resource group id. */
-  readonly groupId?: string;
-  /** The private link resource required member names. */
-  readonly requiredMembers?: string[];
-  /** The private link resource private link DNS zone name. */
-  requiredZoneNames?: string[];
+/** The properties of a mongo cluster. */
+export interface MongoClusterProperties {
+  /** The mode to create a mongo cluster. */
+  createMode?: CreateMode;
+  /** The parameters to create a point-in-time restore mongo cluster. */
+  restoreParameters?: MongoClusterRestoreParameters;
+  /** The parameters to create a replica mongo cluster. */
+  replicaParameters?: MongoClusterReplicaParameters;
+  /** The administrator's login for the mongo cluster. */
+  administratorLogin?: string;
+  /** The password of the administrator login. */
+  administratorLoginPassword?: string;
+  /** The Mongo DB server version. Defaults to the latest available version if not specified. */
+  serverVersion?: string;
+  /** The default mongo connection string for the cluster. */
+  readonly connectionString?: string;
+  /** Earliest restore timestamp in UTC ISO8601 format. */
+  readonly earliestRestoreTime?: string;
+  /** The provisioning state of the mongo cluster. */
+  readonly provisioningState?: ProvisioningState;
+  /** The status of the mongo cluster. */
+  readonly clusterStatus?: MongoClusterStatus;
+  /** Whether or not public endpoint access is allowed for this mongo cluster. */
+  publicNetworkAccess?: PublicNetworkAccess;
+  /** The list of node group specs in the cluster. */
+  nodeGroupSpecs?: NodeGroupSpec[];
+  /** List of private endpoint connections. */
+  readonly privateEndpointConnections?: PrivateEndpointConnection[];
+  /** List of private endpoint connections. */
+  previewFeatures?: PreviewFeature[];
+  /** The replication properties for the mongo cluster */
+  readonly replica?: ReplicationProperties;
+  /** The infrastructure version the cluster is provisioned on. */
+  readonly infrastructureVersion?: string;
 }
 
-/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. */
-export interface ErrorResponse {
-  /** The error object. */
-  error?: ErrorDetail;
-}
-
-/** The error detail. */
-export interface ErrorDetail {
-  /** The error code. */
-  readonly code?: string;
-  /** The error message. */
-  readonly message?: string;
-  /** The error target. */
-  readonly target?: string;
-  /** The error details. */
-  readonly details?: ErrorDetail[];
-  /** The error additional info. */
-  readonly additionalInfo?: ErrorAdditionalInfo[];
-}
-
-/** The resource management error additional info. */
-export interface ErrorAdditionalInfo {
-  /** The additional info type. */
-  readonly type?: string;
-  /** The additional info. */
-  readonly info?: Record<string, any>;
-}
-
-/** The response of a PrivateEndpointConnectionResource list operation. */
-export interface _PrivateEndpointConnectionResourceListResult {
-  /** The PrivateEndpointConnectionResource items on this page */
-  value: PrivateEndpointConnectionResource[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-/** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
-export interface PrivateEndpointConnectionResource extends ProxyResource {
-  /** The resource-specific properties for this resource. */
-  properties?: PrivateEndpointConnectionProperties;
-}
-
-export function privateEndpointConnectionResourceSerializer(
-  item: PrivateEndpointConnectionResource,
-): PrivateEndpointConnectionResourceRest {
+export function mongoClusterPropertiesSerializer(
+  item: MongoClusterProperties,
+): MongoClusterPropertiesRest {
   return {
-    properties: !item.properties
-      ? item.properties
-      : privateEndpointConnectionPropertiesSerializer(item.properties),
+    createMode: item["createMode"],
+    restoreParameters: !item.restoreParameters
+      ? item.restoreParameters
+      : mongoClusterRestoreParametersSerializer(item.restoreParameters),
+    replicaParameters: !item.replicaParameters
+      ? item.replicaParameters
+      : mongoClusterReplicaParametersSerializer(item.replicaParameters),
+    administratorLogin: item["administratorLogin"],
+    administratorLoginPassword: item["administratorLoginPassword"],
+    serverVersion: item["serverVersion"],
+    publicNetworkAccess: item["publicNetworkAccess"],
+    nodeGroupSpecs:
+      item["nodeGroupSpecs"] === undefined
+        ? item["nodeGroupSpecs"]
+        : item["nodeGroupSpecs"].map(nodeGroupSpecSerializer),
+    previewFeatures: item["previewFeatures"],
   };
+}
+
+/** Known values of {@link CreateMode} that the service accepts. */
+export enum KnownCreateMode {
+  /** Default */
+  Default = "Default",
+  /** PointInTimeRestore */
+  PointInTimeRestore = "PointInTimeRestore",
+  /** GeoReplica */
+  GeoReplica = "GeoReplica",
+  /** Replica */
+  Replica = "Replica",
+}
+
+/**
+ * The mode that the Mongo Cluster is created with. \
+ * {@link KnownCreateMode} can be used interchangeably with CreateMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Default** \
+ * **PointInTimeRestore** \
+ * **GeoReplica** \
+ * **Replica**
+ */
+export type CreateMode = string;
+
+/** Parameters used for restore operations */
+export interface MongoClusterRestoreParameters {
+  /** UTC point in time to restore a mongo cluster */
+  pointInTimeUTC?: Date;
+  /** Resource ID to locate the source cluster to restore */
+  sourceResourceId?: string;
+}
+
+export function mongoClusterRestoreParametersSerializer(
+  item: MongoClusterRestoreParameters,
+): MongoClusterRestoreParametersRest {
+  return {
+    pointInTimeUTC: item["pointInTimeUTC"]?.toISOString(),
+    sourceResourceId: item["sourceResourceId"],
+  };
+}
+
+/** Parameters used for replica operations. */
+export interface MongoClusterReplicaParameters {
+  /** The id of the replication source cluster. */
+  sourceResourceId: string;
+  /** The location of the source cluster */
+  sourceLocation: string;
+}
+
+export function mongoClusterReplicaParametersSerializer(
+  item: MongoClusterReplicaParameters,
+): MongoClusterReplicaParametersRest {
+  return {
+    sourceResourceId: item["sourceResourceId"],
+    sourceLocation: item["sourceLocation"],
+  };
+}
+
+/** Known values of {@link ResourceProvisioningState} that the service accepts. */
+export enum KnownResourceProvisioningState {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled",
+}
+
+/**
+ * The provisioning state of a resource type. \
+ * {@link KnownResourceProvisioningState} can be used interchangeably with ResourceProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled**
+ */
+export type ResourceProvisioningState = string;
+
+/** Known values of {@link MongoClusterStatus} that the service accepts. */
+export enum KnownMongoClusterStatus {
+  /** Ready */
+  Ready = "Ready",
+  /** Provisioning */
+  Provisioning = "Provisioning",
+  /** Updating */
+  Updating = "Updating",
+  /** Starting */
+  Starting = "Starting",
+  /** Stopping */
+  Stopping = "Stopping",
+  /** Stopped */
+  Stopped = "Stopped",
+  /** Dropping */
+  Dropping = "Dropping",
+}
+
+/**
+ * The status of the Mongo cluster resource. \
+ * {@link KnownMongoClusterStatus} can be used interchangeably with MongoClusterStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Ready** \
+ * **Provisioning** \
+ * **Updating** \
+ * **Starting** \
+ * **Stopping** \
+ * **Stopped** \
+ * **Dropping**
+ */
+export type MongoClusterStatus = string;
+
+/** Known values of {@link PublicNetworkAccess} that the service accepts. */
+export enum KnownPublicNetworkAccess {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled",
+}
+
+/**
+ * Whether or not public endpoint access is allowed for this Mongo cluster.  Value is optional and default value is 'Enabled' \
+ * {@link KnownPublicNetworkAccess} can be used interchangeably with PublicNetworkAccess,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type PublicNetworkAccess = string;
+
+/** Specification for a node group. */
+export interface NodeGroupSpec {
+  /** The resource sku for the node group. This defines the size of CPU and memory that is provisioned for each node. Example values: 'M30', 'M40'. */
+  sku?: string;
+  /** The disk storage size for the node group in GB. Example values: 128, 256, 512, 1024. */
+  diskSizeGB?: number;
+  /** Whether high availability is enabled on the node group. */
+  enableHa?: boolean;
+  /** The node type deployed in the node group. */
+  kind?: NodeKind;
+  /** The number of nodes in the node group. */
+  nodeCount?: number;
+}
+
+export function nodeGroupSpecSerializer(
+  item: NodeGroupSpec,
+): NodeGroupSpecRest {
+  return {
+    sku: item["sku"],
+    diskSizeGB: item["diskSizeGB"],
+    enableHa: item["enableHa"],
+    kind: item["kind"],
+    nodeCount: item["nodeCount"],
+  };
+}
+
+/** Known values of {@link NodeKind} that the service accepts. */
+export enum KnownNodeKind {
+  /** Shard */
+  Shard = "Shard",
+}
+
+/**
+ * The kind of the node on the cluster. \
+ * {@link KnownNodeKind} can be used interchangeably with NodeKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Shard**
+ */
+export type NodeKind = string;
+
+/** The private endpoint connection resource */
+export interface PrivateEndpointConnection extends Resource {
+  /** The private endpoint connection properties */
+  properties?: PrivateEndpointConnectionProperties;
 }
 
 /** Properties of the private endpoint connection. */
@@ -176,9 +352,10 @@ export function privateEndpointConnectionPropertiesSerializer(
     privateEndpoint: !item.privateEndpoint
       ? item.privateEndpoint
       : privateEndpointSerializer(item.privateEndpoint),
-    privateLinkServiceConnectionState: privateLinkServiceConnectionStateSerializer(
-      item.privateLinkServiceConnectionState,
-    ),
+    privateLinkServiceConnectionState:
+      privateLinkServiceConnectionStateSerializer(
+        item.privateLinkServiceConnectionState,
+      ),
   };
 }
 
@@ -257,6 +434,158 @@ export enum KnownPrivateEndpointConnectionProvisioningState {
  */
 export type PrivateEndpointConnectionProvisioningState = string;
 
+/** Known values of {@link PreviewFeature} that the service accepts. */
+export enum KnownPreviewFeature {
+  /** GeoReplicas */
+  GeoReplicas = "GeoReplicas",
+}
+
+/**
+ * Preview features that can be enabled on a mongo cluster. \
+ * {@link KnownPreviewFeature} can be used interchangeably with PreviewFeature,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **GeoReplicas**
+ */
+export type PreviewFeature = string;
+
+/** Replica properties of the mongo cluster. */
+export interface ReplicationProperties {
+  /** The resource id the source cluster for the replica cluster. */
+  readonly sourceResourceId?: string;
+  /** The replication role of the cluster */
+  readonly role?: ReplicationRole;
+  /** The replication link state of the replica cluster. */
+  readonly replicationState?: ReplicationState;
+}
+
+/** Known values of {@link ReplicationRole} that the service accepts. */
+export enum KnownReplicationRole {
+  /** Primary */
+  Primary = "Primary",
+  /** AsyncReplica */
+  AsyncReplica = "AsyncReplica",
+  /** GeoAsyncReplica */
+  GeoAsyncReplica = "GeoAsyncReplica",
+}
+
+/**
+ * Replication role of the mongo cluster. \
+ * {@link KnownReplicationRole} can be used interchangeably with ReplicationRole,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Primary** \
+ * **AsyncReplica** \
+ * **GeoAsyncReplica**
+ */
+export type ReplicationRole = string;
+
+/** Known values of {@link ReplicationState} that the service accepts. */
+export enum KnownReplicationState {
+  /** Active */
+  Active = "Active",
+  /** Catchup */
+  Catchup = "Catchup",
+  /** Provisioning */
+  Provisioning = "Provisioning",
+  /** Updating */
+  Updating = "Updating",
+  /** Broken */
+  Broken = "Broken",
+  /** Reconfiguring */
+  Reconfiguring = "Reconfiguring",
+}
+
+/**
+ * The state of the replication link between the replica and source cluster. \
+ * {@link KnownReplicationState} can be used interchangeably with ReplicationState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Active** \
+ * **Catchup** \
+ * **Provisioning** \
+ * **Updating** \
+ * **Broken** \
+ * **Reconfiguring**
+ */
+export type ReplicationState = string;
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /** The error code. */
+  readonly code?: string;
+  /** The error message. */
+  readonly message?: string;
+  /** The error target. */
+  readonly target?: string;
+  /** The error details. */
+  readonly details?: ErrorDetail[];
+  /** The error additional info. */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /** The additional info type. */
+  readonly type?: string;
+  /** The additional info. */
+  readonly info?: Record<string, any>;
+}
+
+/** The response of a PrivateLinkResource list operation. */
+export interface _PrivateLinkResourceListResult {
+  /** The PrivateLinkResource items on this page */
+  value: PrivateLinkResource[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
+export interface PrivateLinkResource extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: PrivateLinkResourceProperties;
+}
+
+/** Properties of a private link resource. */
+export interface PrivateLinkResourceProperties {
+  /** The private link resource group id. */
+  readonly groupId?: string;
+  /** The private link resource required member names. */
+  readonly requiredMembers?: string[];
+  /** The private link resource private link DNS zone name. */
+  requiredZoneNames?: string[];
+}
+
+/** The response of a PrivateEndpointConnectionResource list operation. */
+export interface _PrivateEndpointConnectionResourceListResult {
+  /** The PrivateEndpointConnectionResource items on this page */
+  value: PrivateEndpointConnectionResource[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
+export interface PrivateEndpointConnectionResource extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: PrivateEndpointConnectionProperties;
+}
+
+export function privateEndpointConnectionResourceSerializer(
+  item: PrivateEndpointConnectionResource,
+): PrivateEndpointConnectionResourceRest {
+  return {
+    properties: !item.properties
+      ? item.properties
+      : privateEndpointConnectionPropertiesSerializer(item.properties),
+  };
+}
+
 /** Represents a mongo cluster firewall rule. */
 export interface FirewallRule extends ProxyResource {
   /** The resource-specific properties for this resource. */
@@ -290,27 +619,6 @@ export function firewallRulePropertiesSerializer(
   };
 }
 
-/** Known values of {@link ResourceProvisioningState} that the service accepts. */
-export enum KnownResourceProvisioningState {
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Failed */
-  Failed = "Failed",
-  /** Canceled */
-  Canceled = "Canceled",
-}
-
-/**
- * The provisioning state of a resource type. \
- * {@link KnownResourceProvisioningState} can be used interchangeably with ResourceProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Succeeded** \
- * **Failed** \
- * **Canceled**
- */
-export type ResourceProvisioningState = string;
-
 /** The response of a FirewallRule list operation. */
 export interface _FirewallRuleListResult {
   /** The FirewallRule items on this page */
@@ -327,7 +635,9 @@ export interface TrackedResource extends Resource {
   location: string;
 }
 
-export function trackedResourceSerializer(item: TrackedResource): TrackedResourceRest {
+export function trackedResourceSerializer(
+  item: TrackedResource,
+): TrackedResourceRest {
   return {
     tags: !item.tags ? item.tags : (serializeRecord(item.tags as any) as any),
     location: item["location"],
@@ -350,184 +660,6 @@ export function mongoClusterSerializer(item: MongoCluster): MongoClusterRest {
   };
 }
 
-/** The properties of a mongo cluster. */
-export interface MongoClusterProperties {
-  /** The mode to create a mongo cluster. */
-  createMode?: CreateMode;
-  /** The parameters to create a point-in-time restore mongo cluster. */
-  restoreParameters?: MongoClusterRestoreParameters;
-  /** The administrator's login for the mongo cluster. */
-  administratorLogin?: string;
-  /** The password of the administrator login. */
-  administratorLoginPassword?: string;
-  /** The Mongo DB server version. Defaults to the latest available version if not specified. */
-  serverVersion?: string;
-  /** The default mongo connection string for the cluster. */
-  readonly connectionString?: string;
-  /** Earliest restore timestamp in UTC ISO8601 format. */
-  readonly earliestRestoreTime?: string;
-  /** The provisioning state of the mongo cluster. */
-  readonly provisioningState?: ProvisioningState;
-  /** The status of the mongo cluster. */
-  readonly clusterStatus?: MongoClusterStatus;
-  /** Whether or not public endpoint access is allowed for this mongo cluster. */
-  publicNetworkAccess?: PublicNetworkAccess;
-  /** The list of node group specs in the cluster. */
-  nodeGroupSpecs?: NodeGroupSpec[];
-  /** List of private endpoint connections. */
-  readonly privateEndpointConnections?: PrivateEndpointConnection[];
-}
-
-export function mongoClusterPropertiesSerializer(
-  item: MongoClusterProperties,
-): MongoClusterPropertiesRest {
-  return {
-    createMode: item["createMode"],
-    restoreParameters: !item.restoreParameters
-      ? item.restoreParameters
-      : mongoClusterRestoreParametersSerializer(item.restoreParameters),
-    administratorLogin: item["administratorLogin"],
-    administratorLoginPassword: item["administratorLoginPassword"],
-    serverVersion: item["serverVersion"],
-    publicNetworkAccess: item["publicNetworkAccess"],
-    nodeGroupSpecs:
-      item["nodeGroupSpecs"] === undefined
-        ? item["nodeGroupSpecs"]
-        : item["nodeGroupSpecs"].map(nodeGroupSpecSerializer),
-  };
-}
-
-/** Known values of {@link CreateMode} that the service accepts. */
-export enum KnownCreateMode {
-  /** Default */
-  Default = "Default",
-  /** PointInTimeRestore */
-  PointInTimeRestore = "PointInTimeRestore",
-}
-
-/**
- * The mode that the Mongo Cluster is created with. \
- * {@link KnownCreateMode} can be used interchangeably with CreateMode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Default** \
- * **PointInTimeRestore**
- */
-export type CreateMode = string;
-
-/** Parameters used for restore operations */
-export interface MongoClusterRestoreParameters {
-  /** UTC point in time to restore a mongo cluster */
-  pointInTimeUTC?: Date;
-  /** Resource ID to locate the source cluster to restore */
-  sourceResourceId?: string;
-}
-
-export function mongoClusterRestoreParametersSerializer(
-  item: MongoClusterRestoreParameters,
-): MongoClusterRestoreParametersRest {
-  return {
-    pointInTimeUTC: item["pointInTimeUTC"]?.toISOString(),
-    sourceResourceId: item["sourceResourceId"],
-  };
-}
-
-/** Known values of {@link MongoClusterStatus} that the service accepts. */
-export enum KnownMongoClusterStatus {
-  /** Ready */
-  Ready = "Ready",
-  /** Provisioning */
-  Provisioning = "Provisioning",
-  /** Updating */
-  Updating = "Updating",
-  /** Starting */
-  Starting = "Starting",
-  /** Stopping */
-  Stopping = "Stopping",
-  /** Stopped */
-  Stopped = "Stopped",
-  /** Dropping */
-  Dropping = "Dropping",
-}
-
-/**
- * The status of the Mongo cluster resource. \
- * {@link KnownMongoClusterStatus} can be used interchangeably with MongoClusterStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Ready** \
- * **Provisioning** \
- * **Updating** \
- * **Starting** \
- * **Stopping** \
- * **Stopped** \
- * **Dropping**
- */
-export type MongoClusterStatus = string;
-
-/** Known values of {@link PublicNetworkAccess} that the service accepts. */
-export enum KnownPublicNetworkAccess {
-  /** Enabled */
-  Enabled = "Enabled",
-  /** Disabled */
-  Disabled = "Disabled",
-}
-
-/**
- * Whether or not public endpoint access is allowed for this Mongo cluster.  Value is optional and default value is 'Enabled' \
- * {@link KnownPublicNetworkAccess} can be used interchangeably with PublicNetworkAccess,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Enabled** \
- * **Disabled**
- */
-export type PublicNetworkAccess = string;
-
-/** Specification for a node group. */
-export interface NodeGroupSpec {
-  /** The resource sku for the node group. This defines the size of CPU and memory that is provisioned for each node. Example values: 'M30', 'M40'. */
-  sku?: string;
-  /** The disk storage size for the node group in GB. Example values: 128, 256, 512, 1024. */
-  diskSizeGB?: number;
-  /** Whether high availability is enabled on the node group. */
-  enableHa?: boolean;
-  /** The node type deployed in the node group. */
-  kind?: NodeKind;
-  /** The number of nodes in the node group. */
-  nodeCount?: number;
-}
-
-export function nodeGroupSpecSerializer(item: NodeGroupSpec): NodeGroupSpecRest {
-  return {
-    sku: item["sku"],
-    diskSizeGB: item["diskSizeGB"],
-    enableHa: item["enableHa"],
-    kind: item["kind"],
-    nodeCount: item["nodeCount"],
-  };
-}
-
-/** Known values of {@link NodeKind} that the service accepts. */
-export enum KnownNodeKind {
-  /** Shard */
-  Shard = "Shard",
-}
-
-/**
- * The kind of the node on the cluster. \
- * {@link KnownNodeKind} can be used interchangeably with NodeKind,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Shard**
- */
-export type NodeKind = string;
-
-/** The private endpoint connection resource */
-export interface PrivateEndpointConnection extends Resource {
-  /** The private endpoint connection properties */
-  properties?: PrivateEndpointConnectionProperties;
-}
-
 /** The type used for update operations of the MongoCluster. */
 export interface MongoClusterUpdate {
   /** Resource tags. */
@@ -536,7 +668,9 @@ export interface MongoClusterUpdate {
   properties?: MongoClusterUpdateProperties;
 }
 
-export function mongoClusterUpdateSerializer(item: MongoClusterUpdate): MongoClusterUpdateRest {
+export function mongoClusterUpdateSerializer(
+  item: MongoClusterUpdate,
+): MongoClusterUpdateRest {
   return {
     tags: !item.tags ? item.tags : (serializeRecord(item.tags as any) as any),
     properties: !item.properties
@@ -557,6 +691,8 @@ export interface MongoClusterUpdateProperties {
   publicNetworkAccess?: PublicNetworkAccess;
   /** The list of node group specs in the cluster. */
   nodeGroupSpecs?: NodeGroupSpec[];
+  /** List of private endpoint connections. */
+  previewFeatures?: PreviewFeature[];
 }
 
 export function mongoClusterUpdatePropertiesSerializer(
@@ -571,6 +707,7 @@ export function mongoClusterUpdatePropertiesSerializer(
       item["nodeGroupSpecs"] === undefined
         ? item["nodeGroupSpecs"]
         : item["nodeGroupSpecs"].map(nodeGroupSpecSerializer),
+    previewFeatures: item["previewFeatures"],
   };
 }
 
@@ -640,6 +777,53 @@ export enum KnownCheckNameAvailabilityReason {
  * **AlreadyExists**
  */
 export type CheckNameAvailabilityReason = string;
+
+/** Promote replica request properties. */
+export interface PromoteReplicaRequest {
+  /** The promote option to apply to the operation. */
+  promoteOption: PromoteOption;
+  /** The mode to apply to the promote operation. Value is optional and default value is 'Switchover'. */
+  mode?: PromoteMode;
+}
+
+export function promoteReplicaRequestSerializer(
+  item: PromoteReplicaRequest,
+): PromoteReplicaRequestRest {
+  return {
+    promoteOption: item["promoteOption"],
+    mode: item["mode"],
+  };
+}
+
+/** Known values of {@link PromoteOption} that the service accepts. */
+export enum KnownPromoteOption {
+  /** Forced */
+  Forced = "Forced",
+}
+
+/**
+ * The option to apply to a promote operation. \
+ * {@link KnownPromoteOption} can be used interchangeably with PromoteOption,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Forced**
+ */
+export type PromoteOption = string;
+
+/** Known values of {@link PromoteMode} that the service accepts. */
+export enum KnownPromoteMode {
+  /** Switchover */
+  Switchover = "Switchover",
+}
+
+/**
+ * The mode to apply to a promote operation. \
+ * {@link KnownPromoteMode} can be used interchangeably with PromoteMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Switchover**
+ */
+export type PromoteMode = string;
 
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
@@ -711,7 +895,7 @@ export enum KnownActionType {
  */
 export type ActionType = string;
 /** The available API versions. */
-export type Versions = "2024-03-01-preview";
+export type Versions = "2024-03-01-preview" | "2024-06-01-preview";
 /** Alias for ProvisioningState */
 export type ProvisioningState =
   | string

@@ -1,7 +1,7 @@
 {
   "name": "@azure/arm-mongocluster",
-  "version": "1.0.0-beta.2",
-  "description": "DocumentDB MongoCluster Service",
+  "version": "1.0.0-beta.1",
+  "description": "A generated SDK for DocumentDBClient.",
   "engines": {
     "node": ">=18.0.0"
   },
@@ -47,6 +47,7 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/mongocluster/arm-mongocluster/README.md",
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "//metadata": {
     "constantPaths": [
@@ -85,15 +86,14 @@
     "@azure-tools/test-credential": "^2.0.0",
     "@azure-tools/test-recorder": "^4.0.0",
     "@azure/dev-tool": "^1.0.0",
-    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure/arm-network": "^33.2.0"
+    "@azure/eslint-plugin-azure-sdk": "^3.0.0"
   },
   "scripts": {
     "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
     "extract-api": "rimraf review && mkdirp ./review && dev-tool run extract-api",
     "pack": "npm pack 2>&1",
-    "lint": "echo skipped",
-    "lint:fix": "echo skipped",
+    "lint": "eslint package.json api-extractor.json src test --ext .ts --ext .cts --ext .mts",
+    "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --ext .cts --ext .mts --fix --fix-type [problem,suggestion]",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "unit-test:browser": "npm run build:test && dev-tool run test:vitest --browser",
     "unit-test:node": "dev-tool run test:vitest",
@@ -183,6 +183,5 @@
     }
   },
   "main": "./dist/commonjs/index.js",
-  "types": "./dist/commonjs/index.d.ts",
-  "module": "./dist/esm/index.js"
+  "types": "./dist/commonjs/index.d.ts"
 }

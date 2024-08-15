@@ -21,6 +21,7 @@ export {
   mongoClustersList,
   mongoClustersListConnectionStrings,
   mongoClustersCheckNameAvailability,
+  mongoClustersPromote,
 } from "./mongoClusters/index.js";
 export { operationsList } from "./operations/index.js";
 export {
@@ -30,3 +31,4 @@ export {
   privateEndpointConnectionsDelete,
 } from "./privateEndpointConnections/index.js";
 export { privateLinksListByMongoCluster } from "./privateLinks/index.js";
+export { replicasListByParent } from "./replicas/index.js";

@@ -63,6 +63,9 @@ export function mongoClustersListByResourceGroup(context: DocumentDBContext, sub
 export function mongoClustersListConnectionStrings(context: DocumentDBContext, subscriptionId: string, resourceGroupName: string, mongoClusterName: string, options?: MongoClustersListConnectionStringsOptionalParams): Promise<ListConnectionStringsResult>;
 
 // @public
+export function mongoClustersPromote(context: DocumentDBContext, subscriptionId: string, resourceGroupName: string, mongoClusterName: string, body: PromoteReplicaRequest_2, options?: MongoClustersPromoteOptionalParams): PollerLike<OperationState<void>, void>;
+
+// @public
 export function mongoClustersUpdate(context: DocumentDBContext, subscriptionId: string, resourceGroupName: string, mongoClusterName: string, properties: MongoClusterUpdate_2, options?: MongoClustersUpdateOptionalParams): PollerLike<OperationState<MongoCluster_2>, MongoCluster_2>;
 
 // @public
@@ -82,6 +85,9 @@ export function privateEndpointConnectionsListByMongoCluster(context: DocumentDB
 
 // @public
 export function privateLinksListByMongoCluster(context: DocumentDBContext, subscriptionId: string, resourceGroupName: string, mongoClusterName: string, options?: PrivateLinksListByMongoClusterOptionalParams): PagedAsyncIterableIterator<PrivateLinkResource>;
+
+// @public
+export function replicasListByParent(context: DocumentDBContext, subscriptionId: string, resourceGroupName: string, mongoClusterName: string, options?: ReplicasListByParentOptionalParams): PagedAsyncIterableIterator<Replica>;
 
 // (No @packageDocumentation comment for this package)
 

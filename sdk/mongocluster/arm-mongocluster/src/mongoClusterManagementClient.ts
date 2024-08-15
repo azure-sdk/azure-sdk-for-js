@@ -3,7 +3,10 @@
 
 import { TokenCredential } from "@azure/core-auth";
 import { Pipeline } from "@azure/core-rest-pipeline";
-import { getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
+import {
+  getOperationsOperations,
+  OperationsOperations,
+} from "./classic/operations/index.js";
 import {
   getMongoClustersOperations,
   MongoClustersOperations,
@@ -16,7 +19,14 @@ import {
   getPrivateEndpointConnectionsOperations,
   PrivateEndpointConnectionsOperations,
 } from "./classic/privateEndpointConnections/index.js";
-import { getPrivateLinksOperations, PrivateLinksOperations } from "./classic/privateLinks/index.js";
+import {
+  getPrivateLinksOperations,
+  PrivateLinksOperations,
+} from "./classic/privateLinks/index.js";
+import {
+  getReplicasOperations,
+  ReplicasOperations,
+} from "./classic/replicas/index.js";
 import {
   createMongoClusterManagement,
   MongoClusterManagementClientOptionalParams,
@@ -47,13 +57,20 @@ export class MongoClusterManagementClient {
     });
     this.pipeline = this._client.pipeline;
     this.operations = getOperationsOperations(this._client);
-    this.mongoClusters = getMongoClustersOperations(this._client, subscriptionId);
-    this.firewallRules = getFirewallRulesOperations(this._client, subscriptionId);
+    this.mongoClusters = getMongoClustersOperations(
+      this._client,
+      subscriptionId,
+    );
+    this.firewallRules = getFirewallRulesOperations(
+      this._client,
+      subscriptionId,
+    );
     this.privateEndpointConnections = getPrivateEndpointConnectionsOperations(
       this._client,
       subscriptionId,
     );
     this.privateLinks = getPrivateLinksOperations(this._client, subscriptionId);
+    this.replicas = getReplicasOperations(this._client, subscriptionId);
   }
 
   /** The operation groups for Operations */
@@ -66,4 +83,6 @@ export class MongoClusterManagementClient {
   public readonly privateEndpointConnections: PrivateEndpointConnectionsOperations;
   /** The operation groups for PrivateLinks */
   public readonly privateLinks: PrivateLinksOperations;
+  /** The operation groups for Replicas */
+  public readonly replicas: ReplicasOperations;
 }

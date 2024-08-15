@@ -76,11 +76,13 @@ export interface MongoClusterPropertiesOutput {
   /**
    * The mode to create a mongo cluster.
    *
-   * Possible values: "Default", "PointInTimeRestore"
+   * Possible values: "Default", "PointInTimeRestore", "GeoReplica", "Replica"
    */
   createMode?: CreateModeOutput;
   /** The parameters to create a point-in-time restore mongo cluster. */
   restoreParameters?: MongoClusterRestoreParametersOutput;
+  /** The parameters to create a replica mongo cluster. */
+  replicaParameters?: MongoClusterReplicaParametersOutput;
   /** The administrator's login for the mongo cluster. */
   administratorLogin?: string;
   /** The password of the administrator login. */
@@ -113,6 +115,12 @@ export interface MongoClusterPropertiesOutput {
   nodeGroupSpecs?: Array<NodeGroupSpecOutput>;
   /** List of private endpoint connections. */
   readonly privateEndpointConnections?: Array<PrivateEndpointConnectionOutput>;
+  /** List of private endpoint connections. */
+  previewFeatures?: PreviewFeatureOutput[];
+  /** The replication properties for the mongo cluster */
+  readonly replica?: ReplicationPropertiesOutput;
+  /** The infrastructure version the cluster is provisioned on. */
+  readonly infrastructureVersion?: string;
 }
 
 /** Parameters used for restore operations */
@@ -121,6 +129,14 @@ export interface MongoClusterRestoreParametersOutput {
   pointInTimeUTC?: string;
   /** Resource ID to locate the source cluster to restore */
   sourceResourceId?: string;
+}
+
+/** Parameters used for replica operations. */
+export interface MongoClusterReplicaParametersOutput {
+  /** The id of the replication source cluster. */
+  sourceResourceId: string;
+  /** The location of the source cluster */
+  sourceLocation: string;
 }
 
 /** Specification for a node group. */
@@ -228,7 +244,8 @@ export interface TrackedResourceOutput extends ResourceOutput {
 }
 
 /** The resource model definition containing the full set of allowed properties for a resource. Except properties bag, there cannot be a top level property outside of this set. */
-export interface ResourceModelWithAllowedPropertySetOutput extends TrackedResourceOutput {
+export interface ResourceModelWithAllowedPropertySetOutput
+  extends TrackedResourceOutput {
   /**
    * The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource.
    * If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource.
@@ -312,7 +329,8 @@ export interface FirewallRulePropertiesOutput {
 }
 
 /** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
-export interface PrivateEndpointConnectionResourceOutput extends ProxyResourceOutput {
+export interface PrivateEndpointConnectionResourceOutput
+  extends ProxyResourceOutput {
   /** The resource-specific properties for this resource. */
   properties?: PrivateEndpointConnectionPropertiesOutput;
 }
@@ -333,6 +351,12 @@ export interface PrivateLinkResourcePropertiesOutput {
   requiredZoneNames?: string[];
 }
 
+/** Represents a mongo cluster replica. */
+export interface ReplicaOutput extends ProxyResourceOutput {
+  /** The resource-specific properties for this resource. */
+  properties?: MongoClusterPropertiesOutput;
+}
+
 /** The base extension resource. */
 export interface ExtensionResourceOutput extends ResourceOutput {}
 
@@ -346,6 +370,24 @@ export interface AzureEntityResourceOutput extends ResourceOutput {
 export interface PrivateLinkResourceOutput extends ResourceOutput {
   /** Resource properties. */
   properties?: PrivateLinkResourcePropertiesOutput;
+}
+
+/** Replica properties of the mongo cluster. */
+export interface ReplicationPropertiesOutput {
+  /** The resource id the source cluster for the replica cluster. */
+  readonly sourceResourceId?: string;
+  /**
+   * The replication role of the cluster
+   *
+   * Possible values: "Primary", "AsyncReplica", "GeoAsyncReplica"
+   */
+  readonly role?: ReplicationRoleOutput;
+  /**
+   * The replication link state of the replica cluster.
+   *
+   * Possible values: "Active", "Catchup", "Provisioning", "Updating", "Broken", "Reconfiguring"
+   */
+  readonly replicationState?: ReplicationStateOutput;
 }
 
 /** The connection strings for the given mongo cluster. */
@@ -404,6 +446,12 @@ export type CreatedByTypeOutput = string;
 export type ResourceIdentityTypeOutput = "SystemAssigned";
 /** Alias for SkuTierOutput */
 export type SkuTierOutput = "Free" | "Basic" | "Standard" | "Premium";
+/** Alias for PreviewFeatureOutput */
+export type PreviewFeatureOutput = string;
+/** Alias for ReplicationRoleOutput */
+export type ReplicationRoleOutput = string;
+/** Alias for ReplicationStateOutput */
+export type ReplicationStateOutput = string;
 /** The response of a MongoCluster list operation. */
 export type MongoClusterListResultOutput = Paged<MongoClusterOutput>;
 /** Alias for CheckNameAvailabilityReasonOutput */
@@ -414,4 +462,7 @@ export type FirewallRuleListResultOutput = Paged<FirewallRuleOutput>;
 export type PrivateEndpointConnectionResourceListResultOutput =
   Paged<PrivateEndpointConnectionResourceOutput>;
 /** The response of a PrivateLinkResource list operation. */
-export type PrivateLinkResourceListResultOutput = Paged<PrivateLinkResourceOutput>;
+export type PrivateLinkResourceListResultOutput =
+  Paged<PrivateLinkResourceOutput>;
+/** The response of a Replica list operation. */
+export type ReplicaListResultOutput = Paged<ReplicaOutput>;
