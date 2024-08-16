@@ -12,7 +12,7 @@ import { ResourceDetails } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ManagedDevOpsInfrastructure } from "../managedDevOpsInfrastructure";
+import { ManagedDevOpsInfrastructureTest } from "../managedDevOpsInfrastructureTest";
 import {
   ResourceDetailsObject,
   ResourceDetailsListByPoolNextOptionalParams,
@@ -24,13 +24,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ResourceDetails operations. */
 export class ResourceDetailsImpl implements ResourceDetails {
-  private readonly client: ManagedDevOpsInfrastructure;
+  private readonly client: ManagedDevOpsInfrastructureTest;
 
   /**
    * Initialize a new instance of the class ResourceDetails class.
    * @param client Reference to the service client
    */
-  constructor(client: ManagedDevOpsInfrastructure) {
+  constructor(client: ManagedDevOpsInfrastructureTest) {
     this.client = client;
   }
 
