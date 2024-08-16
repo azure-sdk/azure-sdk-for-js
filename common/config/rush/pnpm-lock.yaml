@@ -19424,7 +19424,7 @@ packages:
     dev: false
 
   file:projects/arm-sphere.tgz:
-    resolution: {integrity: sha512-zu2ViWjA8Q+zH59tu1TFghRMTpx/o59Njik5kxjhJimusHi2WdVA2tFXy+43JOGZn2y/EOKTx8ByPe3QXXPgJg==, tarball: file:projects/arm-sphere.tgz}
+    resolution: {integrity: sha512-R7+fN3sxyLBSBeBf1kNsPmJ2+mQALN9ne/9kIwTg7mSdAHyX4xVAi9VIHI5r3VpgwEHjjCMTMMvylzXafnQh+A==, tarball: file:projects/arm-sphere.tgz}
     name: '@rush-temp/arm-sphere'
     version: 0.0.0
     dependencies:
@@ -19445,6 +19445,7 @@ packages:
       rimraf: 5.0.10
       ts-node: 10.9.2(@types/node@18.19.43)(typescript@5.5.4)
       tslib: 2.6.3
+      tsx: 4.17.0
       typescript: 5.5.4
       uglify-js: 3.19.1
     transitivePeerDependencies:
