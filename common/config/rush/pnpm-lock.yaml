@@ -16758,42 +16758,40 @@ packages:
     dev: false
 
   file:projects/arm-mongocluster.tgz:
-    resolution: {integrity: sha512-ax+gaiEayEpP3OYAQNpTSDxMe3RfgZ71Q+9sY0nH7d0uadLHgbkTVDa2omSG7C7KqYx/E1JbObxiHf/K0cE5hQ==, tarball: file:projects/arm-mongocluster.tgz}
+    resolution: {integrity: sha512-GufdwSWdz6ZJtEuee0LZhAQfHtHJvaxxvu8lzdlEJTTv5DoHD24GfvvTcLaOkkHMdfi5hTaDFer6RqfHqEwZzw==, tarball: file:projects/arm-mongocluster.tgz}
     name: '@rush-temp/arm-mongocluster'
     version: 0.0.0
     dependencies:
+      '@azure-tools/test-credential': 1.2.0
+      '@azure-tools/test-recorder': 3.5.2
+      '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
       '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
+      '@types/chai': 4.3.17
+      '@types/mocha': 10.0.7
       '@types/node': 18.19.44
       '@vitest/browser': 2.0.5(playwright@1.46.0)(typescript@5.5.4)(vitest@2.0.5)
       '@vitest/coverage-istanbul': 2.0.5(vitest@2.0.5)
+      chai: 4.3.10
+      cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
       mkdirp: 3.0.1
+      mocha: 10.7.3
       playwright: 1.46.0
       prettier: 3.3.3
       rimraf: 5.0.10
+      ts-node: 10.9.2(@types/node@18.19.44)(typescript@5.5.4)
       tshy: 2.0.1
       tslib: 2.6.3
+      tsx: 4.17.0
       typescript: 5.5.4
+      uglify-js: 3.19.2
       vitest: 2.0.5(@types/node@18.19.44)(@vitest/browser@2.0.5)
     transitivePeerDependencies:
-      - '@edge-runtime/vm'
-      - '@vitest/ui'
-      - bufferutil
-      - happy-dom
-      - jsdom
-      - less
-      - lightningcss
-      - safaridriver
-      - sass
-      - sass-embedded
-      - stylus
-      - sugarss
+      - '@swc/core'
+      - '@swc/wasm'
       - supports-color
-      - terser
-      - utf-8-validate
-      - webdriverio
     dev: false
 
   file:projects/arm-monitor-profile-2020-09-01-hybrid.tgz:
@@ -22927,7 +22925,7 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry.tgz:
-    resolution: {integrity: sha512-5Gl35CDEuoqfATvL1SM2nAgJx8BY0l19+YfQxqq/+kwmgI2PRDPmJBynU3ydy7O+QQoVgQ/03F6E3Vu0dExI9Q==, tarball: file:projects/monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-thwsoEaOyjBXBsnArTgvp+jJD5RGkA60bQxm9M5FINEikCj1ExvOfKuz92mlczAz9ucFDoUtoqlrRRRsRykkkg==, tarball: file:projects/monitor-opentelemetry.tgz}
     name: '@rush-temp/monitor-opentelemetry'
     version: 0.0.0
     dependencies:
@@ -22975,7 +22973,7 @@ packages:
     dev: false
 
   file:projects/monitor-query.tgz:
-    resolution: {integrity: sha512-K0oIAXSqWEec33diTPRBZU+N7V2ZIf+US37Z2Dj6HGlCH1BW2UgVNiCtzIiSjfn1rO8H/KRUJya0sjQaZDbVAQ==, tarball: file:projects/monitor-query.tgz}
+    resolution: {integrity: sha512-ihLsubKVYU9jaXZo1mmKS5vpC+COwujWvF+iXDj85MmJFDsFzZ+XdoQxqqCFIToFJdjJr7P34Bx6vesPFMOzJw==, tarball: file:projects/monitor-query.tgz}
     name: '@rush-temp/monitor-query'
     version: 0.0.0
     dependencies:
@@ -23433,7 +23431,7 @@ packages:
     dev: false
 
   file:projects/perf-monitor-opentelemetry.tgz:
-    resolution: {integrity: sha512-+ureLfSo89j9vT/REFNzJOdox+U/aPOZPC7/IR5bdfpG6x3ZUa0A6SeBufgiAtGQubWxHukubggPsfxVqkqflw==, tarball: file:projects/perf-monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-q2N9qSHI4hcuh4nZA37gc1hs3zPj5tiVIEmce6b53y6kaqiXYvCWIHXnZU5WovIFuXshvyznZlMd3EEjNUjAPA==, tarball: file:projects/perf-monitor-opentelemetry.tgz}
     name: '@rush-temp/perf-monitor-opentelemetry'
     version: 0.0.0
     dependencies:
