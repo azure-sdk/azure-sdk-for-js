@@ -165,9 +165,10 @@ export function privateEndpointConnectionPropertiesSerializer(
     privateEndpoint: !item.privateEndpoint
       ? item.privateEndpoint
       : privateEndpointSerializer(item.privateEndpoint),
-    privateLinkServiceConnectionState: privateLinkServiceConnectionStateSerializer(
-      item.privateLinkServiceConnectionState,
-    ),
+    privateLinkServiceConnectionState:
+      privateLinkServiceConnectionStateSerializer(
+        item.privateLinkServiceConnectionState,
+      ),
   };
 }
 
@@ -262,7 +263,9 @@ export interface TrackedResource extends Resource {
   location: string;
 }
 
-export function trackedResourceSerializer(item: TrackedResource): TrackedResourceRest {
+export function trackedResourceSerializer(
+  item: TrackedResource,
+): TrackedResourceRest {
   return {
     tags: !item.tags ? item.tags : (serializeRecord(item.tags as any) as any),
     location: item["location"],
@@ -284,7 +287,9 @@ export function deidServiceSerializer(item: DeidService): DeidServiceRest {
     properties: !item.properties
       ? item.properties
       : deidServicePropertiesSerializer(item.properties),
-    identity: !item.identity ? item.identity : managedServiceIdentitySerializer(item.identity),
+    identity: !item.identity
+      ? item.identity
+      : managedServiceIdentitySerializer(item.identity),
   };
 }
 
