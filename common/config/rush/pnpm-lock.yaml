@@ -15132,7 +15132,7 @@ packages:
     dev: false
 
   file:projects/arm-elasticsan.tgz:
-    resolution: {integrity: sha512-Dq0oe3mUlmgcZODwRVKN6dmH57NPB2jSsbeoFVORgq7fUSpvOatHlJ6rlD7bARKiPY1z0sSKw4zT1FGP6XgsBA==, tarball: file:projects/arm-elasticsan.tgz}
+    resolution: {integrity: sha512-5yFXbD35o2EIaQrQr4tNhlS2tBWqpaQJ5yzy+Z2c1u/1cKR9vH7GbU6LGurMEZLS24a1nzmx4F3MODNF+vO2NQ==, tarball: file:projects/arm-elasticsan.tgz}
     name: '@rush-temp/arm-elasticsan'
     version: 0.0.0
     dependencies:
@@ -15153,6 +15153,7 @@ packages:
       rimraf: 5.0.10
       ts-node: 10.9.2(@types/node@18.19.44)(typescript@5.5.4)
       tslib: 2.6.3
+      tsx: 4.17.0
       typescript: 5.5.4
       uglify-js: 3.19.2
     transitivePeerDependencies:
@@ -22927,7 +22928,7 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry.tgz:
-    resolution: {integrity: sha512-5Gl35CDEuoqfATvL1SM2nAgJx8BY0l19+YfQxqq/+kwmgI2PRDPmJBynU3ydy7O+QQoVgQ/03F6E3Vu0dExI9Q==, tarball: file:projects/monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-thwsoEaOyjBXBsnArTgvp+jJD5RGkA60bQxm9M5FINEikCj1ExvOfKuz92mlczAz9ucFDoUtoqlrRRRsRykkkg==, tarball: file:projects/monitor-opentelemetry.tgz}
     name: '@rush-temp/monitor-opentelemetry'
     version: 0.0.0
     dependencies:
@@ -22975,7 +22976,7 @@ packages:
     dev: false
 
   file:projects/monitor-query.tgz:
-    resolution: {integrity: sha512-K0oIAXSqWEec33diTPRBZU+N7V2ZIf+US37Z2Dj6HGlCH1BW2UgVNiCtzIiSjfn1rO8H/KRUJya0sjQaZDbVAQ==, tarball: file:projects/monitor-query.tgz}
+    resolution: {integrity: sha512-ihLsubKVYU9jaXZo1mmKS5vpC+COwujWvF+iXDj85MmJFDsFzZ+XdoQxqqCFIToFJdjJr7P34Bx6vesPFMOzJw==, tarball: file:projects/monitor-query.tgz}
     name: '@rush-temp/monitor-query'
     version: 0.0.0
     dependencies:
@@ -23433,7 +23434,7 @@ packages:
     dev: false
 
   file:projects/perf-monitor-opentelemetry.tgz:
-    resolution: {integrity: sha512-+ureLfSo89j9vT/REFNzJOdox+U/aPOZPC7/IR5bdfpG6x3ZUa0A6SeBufgiAtGQubWxHukubggPsfxVqkqflw==, tarball: file:projects/perf-monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-q2N9qSHI4hcuh4nZA37gc1hs3zPj5tiVIEmce6b53y6kaqiXYvCWIHXnZU5WovIFuXshvyznZlMd3EEjNUjAPA==, tarball: file:projects/perf-monitor-opentelemetry.tgz}
     name: '@rush-temp/perf-monitor-opentelemetry'
     version: 0.0.0
     dependencies:
