@@ -15585,39 +15585,39 @@ packages:
     dev: false
 
   file:projects/arm-edgezones.tgz:
-    resolution: {integrity: sha512-3NBroBpf0z4Jm7ISLqTIrbJvfCA9YSK1prqA9Ydiqwvyl5nQFbH0iA8Sr88JizNQmPtkL0TfOb05aruifG6b4Q==, tarball: file:projects/arm-edgezones.tgz}
+    resolution: {integrity: sha512-ObAQeX0thxIN0kFbXkQ7kkj0V2L15ZGJqWY/dUm4CmYgg/6oNCt6JeNmet24zwvE3OOaCYtQTRgz/pclD8IZmg==, tarball: file:projects/arm-edgezones.tgz}
     name: '@rush-temp/arm-edgezones'
     version: 0.0.0
     dependencies:
+      '@azure-tools/test-credential': 1.2.0
+      '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
       '@microsoft/api-extractor': 7.47.5(@types/node@18.19.43)
+      '@types/chai': 4.3.17
+      '@types/mocha': 10.0.7
       '@types/node': 18.19.43
       '@vitest/browser': 1.6.0(playwright@1.45.3)(vitest@1.6.0)
       '@vitest/coverage-istanbul': 1.6.0(vitest@1.6.0)
+      chai: 4.3.10
+      cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
       mkdirp: 3.0.1
+      mocha: 10.7.0
       playwright: 1.45.3
       prettier: 3.3.3
       rimraf: 5.0.10
+      ts-node: 10.9.2(@types/node@18.19.43)(typescript@5.5.4)
       tshy: 1.18.0
       tslib: 2.6.3
+      tsx: 4.17.0
       typescript: 5.5.4
+      uglify-js: 3.19.1
       vitest: 1.6.0(@types/node@18.19.43)(@vitest/browser@1.6.0)
     transitivePeerDependencies:
-      - '@edge-runtime/vm'
-      - '@vitest/ui'
-      - happy-dom
-      - jsdom
-      - less
-      - lightningcss
-      - safaridriver
-      - sass
-      - stylus
-      - sugarss
+      - '@swc/core'
+      - '@swc/wasm'
       - supports-color
-      - terser
-      - webdriverio
     dev: false
 
   file:projects/arm-education.tgz:
