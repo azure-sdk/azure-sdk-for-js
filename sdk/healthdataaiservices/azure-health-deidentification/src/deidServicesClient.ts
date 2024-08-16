@@ -4,16 +4,16 @@
 import { getClient, ClientOptions } from "@azure-rest/core-client";
 import { logger } from "./logger.js";
 import { TokenCredential } from "@azure/core-auth";
-import { DeidentificationClient } from "./clientDefinitions.js";
+import { DeidServicesClient } from "./clientDefinitions.js";
 
 /** The optional parameters for the client */
-export interface DeidentificationClientOptions extends ClientOptions {
+export interface DeidServicesClientOptions extends ClientOptions {
   /** The api version option of the client */
   apiVersion?: string;
 }
 
 /**
- * Initialize a new instance of `DeidentificationClient`
+ * Initialize a new instance of `DeidServicesClient`
  * @param endpointParam - Url of your De-identification Service.
  * @param credentials - uniquely identify client credential
  * @param options - the parameter for all optional parameters
@@ -21,9 +21,13 @@ export interface DeidentificationClientOptions extends ClientOptions {
 export default function createClient(
   endpointParam: string,
   credentials: TokenCredential,
-  { apiVersion = "2024-07-12-preview", ...options }: DeidentificationClientOptions = {},
-): DeidentificationClient {
-  const endpointUrl = options.endpoint ?? options.baseUrl ?? `https://${endpointParam}`;
+  {
+    apiVersion = "2024-07-12-preview",
+    ...options
+  }: DeidServicesClientOptions = {},
+): DeidServicesClient {
+  const endpointUrl =
+    options.endpoint ?? options.baseUrl ?? `https://${endpointParam}`;
   const userAgentInfo = `azsdk-js-health-deidentification-rest/1.0.0-beta.1`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
@@ -38,10 +42,16 @@ export default function createClient(
       logger: options.loggingOptions?.logger ?? logger.info,
     },
     credentials: {
-      scopes: options.credentials?.scopes ?? ["https://deid.azure.com/.default"],
+      scopes: options.credentials?.scopes ?? [
+        "https://deid.azure.com/.default",
+      ],
     },
   };
-  const client = getClient(endpointUrl, credentials, options) as DeidentificationClient;
+  const client = getClient(
+    endpointUrl,
+    credentials,
+    options,
+  ) as DeidServicesClient;
 
   client.pipeline.removePolicy({ name: "ApiVersionPolicy" });
   client.pipeline.addPolicy({

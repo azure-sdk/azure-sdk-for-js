@@ -22260,7 +22260,7 @@ packages:
     dev: false
 
   file:projects/health-deidentification.tgz:
-    resolution: {integrity: sha512-Oq0jsnfYpet5FzCy28OoBfDRTtnEfYN31tYqGenIItoHjikGAgt0hu/FEZWNxcSnYNuIW9T7WRSBVmheeLr7ng==, tarball: file:projects/health-deidentification.tgz}
+    resolution: {integrity: sha512-/9gqSI5J7aoTnHhD1HaCvfsVXRn/v76TLZs+Ff80L6D6Qq1xhWLRT4mA2y3Xl08JZyfPO+1+wiuRaY8LNCmbsQ==, tarball: file:projects/health-deidentification.tgz}
     name: '@rush-temp/health-deidentification'
     version: 0.0.0
     dependencies:
@@ -22274,10 +22274,11 @@ packages:
       loupe: 3.1.1
       mkdirp: 3.0.1
       playwright: 1.45.3
+      prettier: 3.3.3
       rimraf: 5.0.10
       tshy: 1.18.0
       tslib: 2.6.3
-      typescript: 5.4.5
+      typescript: 5.5.4
       vitest: 1.6.0(@types/node@18.19.43)(@vitest/browser@1.6.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
