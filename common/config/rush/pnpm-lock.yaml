@@ -4303,6 +4303,28 @@ packages:
       vitest: 1.6.0(@types/node@18.19.43)(@vitest/browser@1.6.0)
     dev: false
 
+  /@vitest/browser@1.6.0(playwright@1.46.0)(vitest@1.6.0):
+    resolution: {integrity: sha512-3Wpp9h1hf++rRVPvoXevkdHybLhJVn7MwIMKMIh08tVaoDMmT6fnNhbP222Z48V9PptpYeA5zvH9Ct/ZcaAzmQ==}
+    peerDependencies:
+      playwright: '*'
+      safaridriver: '*'
+      vitest: 1.6.0
+      webdriverio: '*'
+    peerDependenciesMeta:
+      playwright:
+        optional: true
+      safaridriver:
+        optional: true
+      webdriverio:
+        optional: true
+    dependencies:
+      '@vitest/utils': 1.6.0
+      magic-string: 0.30.11
+      playwright: 1.46.0
+      sirv: 2.0.4
+      vitest: 1.6.0(@types/node@18.19.43)(@vitest/browser@1.6.0)
+    dev: false
+
   /@vitest/browser@2.0.5(playwright@1.45.3)(typescript@5.5.4)(vitest@2.0.5):
     resolution: {integrity: sha512-VbOYtu/6R3d7ASZREcrJmRY/sQuRFO9wMVsEDqfYbWiJRh2fDNi8CL1Csn7Ux31pOcPmmM5QvzFCMpiojvVh8g==}
     peerDependencies:
@@ -20723,7 +20745,7 @@ packages:
     dev: false
 
   file:projects/communication-messages.tgz:
-    resolution: {integrity: sha512-cJ+fNIlvMa0D7PzceBoIW4vxkLKrEWB5KyuhwtLRIljU/B08vmrBV9VrsqNgQelE2bnZfeVWZyIDRxwNCsfMBA==, tarball: file:projects/communication-messages.tgz}
+    resolution: {integrity: sha512-HLkqr5zVRLaJu8aPZvcbnMdOGCO3b0ymssacQ+j6wBpui5zGReygJ0P0l1hx1HI+3BlwiRFG64PHTIy4+uqRAA==, tarball: file:projects/communication-messages.tgz}
     name: '@rush-temp/communication-messages'
     version: 0.0.0
     dependencies:
@@ -20735,6 +20757,8 @@ packages:
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.43
+      '@vitest/browser': 1.6.0(playwright@1.46.0)(vitest@1.6.0)
+      '@vitest/coverage-istanbul': 1.6.0(vitest@1.6.0)
       autorest: 3.7.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -20753,18 +20777,29 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.7.0
       nyc: 17.0.0
+      playwright: 1.46.0
+      prettier: 3.3.3
       rimraf: 5.0.10
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.43)(typescript@5.5.4)
+      tshy: 1.18.0
       tslib: 2.6.3
       typescript: 5.5.4
+      vitest: 1.6.0(@types/node@18.19.43)(@vitest/browser@1.6.0)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
-      - bufferutil
-      - debug
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - safaridriver
+      - sass
+      - stylus
+      - sugarss
       - supports-color
-      - utf-8-validate
+      - terser
+      - webdriverio
     dev: false
 
   file:projects/communication-phone-numbers.tgz:
@@ -25516,7 +25551,7 @@ packages:
       '@types/express-serve-static-core': 4.19.5
       '@types/jsonwebtoken': 9.0.6
       '@types/node': 18.19.43
-      '@vitest/browser': 1.6.0(playwright@1.45.3)(vitest@1.6.0)
+      '@vitest/browser': 1.6.0(playwright@1.46.0)(vitest@1.6.0)
       '@vitest/coverage-istanbul': 1.6.0(vitest@1.6.0)
       dotenv: 16.4.5
       eslint: 8.57.0
