@@ -16368,7 +16368,7 @@ packages:
     dev: false
 
   file:projects/arm-informaticadatamanagement.tgz:
-    resolution: {integrity: sha512-4ZoBX8l7MMUojMK0UPDFYD+WekFgLiDDH1gXAxCxbiQK7DsI6slk4e1jA92nZVKhcOeKjQlvxUazv3npWw/7aA==, tarball: file:projects/arm-informaticadatamanagement.tgz}
+    resolution: {integrity: sha512-FknBSmKQyyaDWLF9bKr4P5BWfL1u+nKej8pns2KyujzIAUo3WThIve2ntaySa4G4C595P7vmp3Kgtq/LBGSH0g==, tarball: file:projects/arm-informaticadatamanagement.tgz}
     name: '@rush-temp/arm-informaticadatamanagement'
     version: 0.0.0
     dependencies:
@@ -16387,10 +16387,10 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.7.0
       rimraf: 5.0.10
-      ts-node: 10.9.2(@types/node@18.19.43)(typescript@5.4.5)
+      ts-node: 10.9.2(@types/node@18.19.43)(typescript@5.5.4)
       tslib: 2.6.3
       tsx: 4.16.5
-      typescript: 5.4.5
+      typescript: 5.5.4
       uglify-js: 3.19.1
     transitivePeerDependencies:
       - '@swc/core'
