@@ -28,15 +28,15 @@ import {
   UpdateRuns,
   FleetUpdateStrategies,
 } from "./operationsInterfaces";
-import { ContainerServiceFleetClientOptionalParams } from "./models";
+import { ContainerServiceFleetClientTestOptionalParams } from "./models";
 
-export class ContainerServiceFleetClient extends coreClient.ServiceClient {
+export class ContainerServiceFleetClientTest extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
   subscriptionId: string;
 
   /**
-   * Initializes a new instance of the ContainerServiceFleetClient class.
+   * Initializes a new instance of the ContainerServiceFleetClientTest class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param subscriptionId The ID of the target subscription.
    * @param options The parameter options
@@ -44,7 +44,7 @@ export class ContainerServiceFleetClient extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: ContainerServiceFleetClientOptionalParams,
+    options?: ContainerServiceFleetClientTestOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -57,12 +57,12 @@ export class ContainerServiceFleetClient extends coreClient.ServiceClient {
     if (!options) {
       options = {};
     }
-    const defaults: ContainerServiceFleetClientOptionalParams = {
+    const defaults: ContainerServiceFleetClientTestOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-containerservicefleet/1.1.1`;
+    const packageDetails = `azsdk-js-arm-containerservicefleet/2.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

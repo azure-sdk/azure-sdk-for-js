@@ -1,18 +1,20 @@
 # Release History
-
-## 1.1.1 (Unreleased)
-
+    
+## 2.0.0 (2024-08-16)
+    
 ### Features Added
+
+  - Added Interface ContainerServiceFleetClientTestOptionalParams
+  - Added Class ContainerServiceFleetClientTest
 
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
-
+  - Deleted Class ContainerServiceFleetClient
+    
+    
 ## 1.1.0 (2024-05-15)
     
-**Features**
+### Features Added
 
   - Added operation UpdateRuns.beginSkip
   - Added operation UpdateRuns.beginSkipAndWait
@@ -32,7 +34,7 @@
     
 ## 1.1.0-beta.1 (2024-04-03)
     
-**Features**
+### Features Added
 
   - Added operation UpdateRuns.beginSkip
   - Added operation UpdateRuns.beginSkipAndWait
