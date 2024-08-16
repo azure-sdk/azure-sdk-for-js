@@ -12,7 +12,7 @@ import { HcxEnterpriseSites } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AzureVMwareSolutionAPI } from "../azureVMwareSolutionAPI";
+import { AzureVMwareSolutionAPIForTesting } from "../azureVMwareSolutionAPIForTesting";
 import {
   HcxEnterpriseSite,
   HcxEnterpriseSitesListNextOptionalParams,
@@ -29,13 +29,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing HcxEnterpriseSites operations. */
 export class HcxEnterpriseSitesImpl implements HcxEnterpriseSites {
-  private readonly client: AzureVMwareSolutionAPI;
+  private readonly client: AzureVMwareSolutionAPIForTesting;
 
   /**
    * Initialize a new instance of the class HcxEnterpriseSites class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureVMwareSolutionAPI) {
+  constructor(client: AzureVMwareSolutionAPIForTesting) {
     this.client = client;
   }
 
@@ -228,7 +228,7 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.HcxEnterpriseSiteListResult,
+      bodyMapper: Mappers.HcxEnterpriseSiteList,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -319,7 +319,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.HcxEnterpriseSiteListResult,
+      bodyMapper: Mappers.HcxEnterpriseSiteList,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
