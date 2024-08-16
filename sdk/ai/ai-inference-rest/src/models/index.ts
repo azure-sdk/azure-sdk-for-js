@@ -2,10 +2,6 @@
 // Licensed under the MIT license.
 
 export {
-  ChatCompletionsClient,
-  ChatCompletionsClientOptionalParams,
-} from "./chatCompletionsClient.js";
-export {
   ChatRequestMessage,
   ChatRequestSystemMessage,
   ChatRequestUserMessage,
@@ -43,6 +39,8 @@ export {
   ChatRequestMessageUnion,
   ChatMessageContentItemUnion,
   ChatCompletionsResponseFormatUnion,
+} from "./models.js";
+export {
   CompleteOptionalParams,
   GetModelInfoOptionalParams,
-} from "./models/index.js";
+} from "./options.js";
