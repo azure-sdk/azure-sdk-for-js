@@ -1510,7 +1510,7 @@ packages:
       '@azure/abort-controller': 2.1.2
       '@azure/core-auth': 1.7.2
       '@azure/core-tracing': 1.1.2
-      '@azure/core-util': 1.9.1
+      '@azure/core-util': 1.9.2
       '@azure/logger': 1.1.4
       http-proxy-agent: 7.0.2
       https-proxy-agent: 7.0.5
@@ -17302,39 +17302,40 @@ packages:
     dev: false
 
   file:projects/arm-mongocluster.tgz:
-    resolution: {integrity: sha512-aD1vsMcRmGI/i/Kia6sweBsLmSYbqTyqCVci909kIbpIFpAPPQRCqB44cjGYC8oiuHiKA1HJbzkio0LCCDw+Lg==, tarball: file:projects/arm-mongocluster.tgz}
+    resolution: {integrity: sha512-GufdwSWdz6ZJtEuee0LZhAQfHtHJvaxxvu8lzdlEJTTv5DoHD24GfvvTcLaOkkHMdfi5hTaDFer6RqfHqEwZzw==, tarball: file:projects/arm-mongocluster.tgz}
     name: '@rush-temp/arm-mongocluster'
     version: 0.0.0
     dependencies:
+      '@azure-tools/test-credential': 1.2.0
+      '@azure-tools/test-recorder': 3.5.2
+      '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
       '@microsoft/api-extractor': 7.47.5(@types/node@18.19.43)
+      '@types/chai': 4.3.17
+      '@types/mocha': 10.0.7
       '@types/node': 18.19.43
       '@vitest/browser': 1.6.0(playwright@1.45.3)(vitest@1.6.0)
       '@vitest/coverage-istanbul': 1.6.0(vitest@1.6.0)
+      chai: 4.3.10
+      cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
       mkdirp: 3.0.1
+      mocha: 10.7.0
       playwright: 1.45.3
       prettier: 3.3.3
       rimraf: 5.0.10
+      ts-node: 10.9.2(@types/node@18.19.43)(typescript@5.5.4)
       tshy: 1.18.0
       tslib: 2.6.3
+      tsx: 4.17.0
       typescript: 5.5.4
+      uglify-js: 3.19.1
       vitest: 1.6.0(@types/node@18.19.43)(@vitest/browser@1.6.0)
     transitivePeerDependencies:
-      - '@edge-runtime/vm'
-      - '@vitest/ui'
-      - happy-dom
-      - jsdom
-      - less
-      - lightningcss
-      - safaridriver
-      - sass
-      - stylus
-      - sugarss
+      - '@swc/core'
+      - '@swc/wasm'
       - supports-color
-      - terser
-      - webdriverio
     dev: false
 
   file:projects/arm-monitor-profile-2020-09-01-hybrid.tgz:
