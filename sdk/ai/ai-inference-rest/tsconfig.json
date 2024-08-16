@@ -1,11 +1,22 @@
 {
   "extends": "../../../tsconfig",
   "compilerOptions": {
-    "paths": { "@azure-rest/ai-inference": ["./src/index"] },
+    "paths": {
+      "@azure-rest/ai-inference": [
+        "./src/index"
+      ]
+    },
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "rootDir": "."
   },
-  "ts-node": { "esm": true },
-  "include": ["./src/**/*.ts", "test/**/*.ts", "./test/**/*.ts", "samples-dev/**/*.ts"]
+  "ts-node": {
+    "esm": true
+  },
+  "include": [
+    "./src/**/*.ts",
+    "test/**/*.ts",
+    "./test/**/*.ts",
+    "samples-dev/**/*.ts"
+  ]
 }
