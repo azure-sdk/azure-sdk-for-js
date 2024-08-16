@@ -1,23 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { DocumentDBContext } from "../../api/mongoClusterManagementContext.js";
+import { DocumentDBContext } from "../../api/mongoClusterMgmtContext.js";
 import {
   MongoCluster,
   MongoClusterUpdate,
   ListConnectionStringsResult,
   CheckNameAvailabilityRequest,
   CheckNameAvailabilityResponse,
+  PromoteReplicaRequest,
 } from "../../models/models.js";
 import {
-  mongoClustersGet,
-  mongoClustersCreateOrUpdate,
-  mongoClustersUpdate,
-  mongoClustersDelete,
-  mongoClustersListByResourceGroup,
-  mongoClustersList,
-  mongoClustersListConnectionStrings,
-  mongoClustersCheckNameAvailability,
+  get,
+  createOrUpdate,
+  update,
+  $delete,
+  listByResourceGroup,
+  list,
+  listConnectionStrings,
+  checkNameAvailability,
+  promote,
 } from "../../api/mongoClusters/index.js";
 import { PagedAsyncIterableIterator } from "../../models/pagingTypes.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
@@ -30,6 +32,7 @@ import {
   MongoClustersListOptionalParams,
   MongoClustersListConnectionStringsOptionalParams,
   MongoClustersCheckNameAvailabilityOptionalParams,
+  MongoClustersPromoteOptionalParams,
 } from "../../models/options.js";
 
 /** Interface representing a MongoClusters operations. */
@@ -55,6 +58,11 @@ export interface MongoClustersOperations {
     options?: MongoClustersUpdateOptionalParams,
   ) => PollerLike<OperationState<MongoCluster>, MongoCluster>;
   /** Deletes a mongo cluster. */
+  /**
+   *  @fixme delete is a reserved word that cannot be used as an operation name.
+   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
+   *         to the operation to override the generated name.
+   */
   delete: (
     resourceGroupName: string,
     mongoClusterName: string,
@@ -66,7 +74,9 @@ export interface MongoClustersOperations {
     options?: MongoClustersListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<MongoCluster>;
   /** List all the mongo clusters in a given subscription. */
-  list: (options?: MongoClustersListOptionalParams) => PagedAsyncIterableIterator<MongoCluster>;
+  list: (
+    options?: MongoClustersListOptionalParams,
+  ) => PagedAsyncIterableIterator<MongoCluster>;
   /** List mongo cluster connection strings. This includes the default connection string using SCRAM-SHA-256, as well as other connection strings supported by the cluster. */
   listConnectionStrings: (
     resourceGroupName: string,
@@ -79,22 +89,39 @@ export interface MongoClustersOperations {
     body: CheckNameAvailabilityRequest,
     options?: MongoClustersCheckNameAvailabilityOptionalParams,
   ) => Promise<CheckNameAvailabilityResponse>;
+  /** Promotes a replica mongo cluster to a primary role. */
+  promote: (
+    resourceGroupName: string,
+    mongoClusterName: string,
+    body: PromoteReplicaRequest,
+    options?: MongoClustersPromoteOptionalParams,
+  ) => PollerLike<OperationState<void>, void>;
 }
 
-export function getMongoClusters(context: DocumentDBContext, subscriptionId: string) {
+export function getMongoClusters(
+  context: DocumentDBContext,
+  subscriptionId: string,
+) {
   return {
     get: (
       resourceGroupName: string,
       mongoClusterName: string,
       options?: MongoClustersGetOptionalParams,
-    ) => mongoClustersGet(context, subscriptionId, resourceGroupName, mongoClusterName, options),
+    ) =>
+      get(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        mongoClusterName,
+        options,
+      ),
     createOrUpdate: (
       resourceGroupName: string,
       mongoClusterName: string,
       resource: MongoCluster,
       options?: MongoClustersCreateOrUpdateOptionalParams,
     ) =>
-      mongoClustersCreateOrUpdate(
+      createOrUpdate(
         context,
         subscriptionId,
         resourceGroupName,
@@ -108,7 +135,7 @@ export function getMongoClusters(context: DocumentDBContext, subscriptionId: str
       properties: MongoClusterUpdate,
       options?: MongoClustersUpdateOptionalParams,
     ) =>
-      mongoClustersUpdate(
+      update(
         context,
         subscriptionId,
         resourceGroupName,
@@ -120,19 +147,27 @@ export function getMongoClusters(context: DocumentDBContext, subscriptionId: str
       resourceGroupName: string,
       mongoClusterName: string,
       options?: MongoClustersDeleteOptionalParams,
-    ) => mongoClustersDelete(context, subscriptionId, resourceGroupName, mongoClusterName, options),
+    ) =>
+      $delete(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        mongoClusterName,
+        options,
+      ),
     listByResourceGroup: (
       resourceGroupName: string,
       options?: MongoClustersListByResourceGroupOptionalParams,
-    ) => mongoClustersListByResourceGroup(context, subscriptionId, resourceGroupName, options),
+    ) =>
+      listByResourceGroup(context, subscriptionId, resourceGroupName, options),
     list: (options?: MongoClustersListOptionalParams) =>
-      mongoClustersList(context, subscriptionId, options),
+      list(context, subscriptionId, options),
     listConnectionStrings: (
       resourceGroupName: string,
       mongoClusterName: string,
       options?: MongoClustersListConnectionStringsOptionalParams,
     ) =>
-      mongoClustersListConnectionStrings(
+      listConnectionStrings(
         context,
         subscriptionId,
         resourceGroupName,
@@ -143,7 +178,22 @@ export function getMongoClusters(context: DocumentDBContext, subscriptionId: str
       location: string,
       body: CheckNameAvailabilityRequest,
       options?: MongoClustersCheckNameAvailabilityOptionalParams,
-    ) => mongoClustersCheckNameAvailability(context, subscriptionId, location, body, options),
+    ) =>
+      checkNameAvailability(context, subscriptionId, location, body, options),
+    promote: (
+      resourceGroupName: string,
+      mongoClusterName: string,
+      body: PromoteReplicaRequest,
+      options?: MongoClustersPromoteOptionalParams,
+    ) =>
+      promote(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        mongoClusterName,
+        body,
+        options,
+      ),
   };
 }
 

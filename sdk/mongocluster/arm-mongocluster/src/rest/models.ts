@@ -12,11 +12,13 @@ export interface MongoClusterProperties {
   /**
    * The mode to create a mongo cluster.
    *
-   * Possible values: "Default", "PointInTimeRestore"
+   * Possible values: "Default", "PointInTimeRestore", "GeoReplica", "Replica"
    */
   createMode?: CreateMode;
   /** The parameters to create a point-in-time restore mongo cluster. */
   restoreParameters?: MongoClusterRestoreParameters;
+  /** The parameters to create a replica mongo cluster. */
+  replicaParameters?: MongoClusterReplicaParameters;
   /** The administrator's login for the mongo cluster. */
   administratorLogin?: string;
   /** The password of the administrator login. */
@@ -31,6 +33,8 @@ export interface MongoClusterProperties {
   publicNetworkAccess?: PublicNetworkAccess;
   /** The list of node group specs in the cluster. */
   nodeGroupSpecs?: Array<NodeGroupSpec>;
+  /** List of private endpoint connections. */
+  previewFeatures?: PreviewFeature[];
 }
 
 /** Parameters used for restore operations */
@@ -39,6 +43,14 @@ export interface MongoClusterRestoreParameters {
   pointInTimeUTC?: Date | string;
   /** Resource ID to locate the source cluster to restore */
   sourceResourceId?: string;
+}
+
+/** Parameters used for replica operations. */
+export interface MongoClusterReplicaParameters {
+  /** The id of the replication source cluster. */
+  sourceResourceId: string;
+  /** The location of the source cluster */
+  sourceLocation: string;
 }
 
 /** Specification for a node group. */
@@ -217,6 +229,12 @@ export interface PrivateLinkResourceProperties {
   requiredZoneNames?: string[];
 }
 
+/** Represents a mongo cluster replica. */
+export interface Replica extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: MongoClusterProperties;
+}
+
 /** The base extension resource. */
 export interface ExtensionResource extends Resource {}
 
@@ -228,6 +246,9 @@ export interface PrivateLinkResource extends Resource {
   /** Resource properties. */
   properties?: PrivateLinkResourceProperties;
 }
+
+/** Replica properties of the mongo cluster. */
+export interface ReplicationProperties {}
 
 /** The type used for update operations of the MongoCluster. */
 export interface MongoClusterUpdate {
@@ -253,6 +274,8 @@ export interface MongoClusterUpdateProperties {
   publicNetworkAccess?: PublicNetworkAccess;
   /** The list of node group specs in the cluster. */
   nodeGroupSpecs?: Array<NodeGroupSpec>;
+  /** List of private endpoint connections. */
+  previewFeatures?: PreviewFeature[];
 }
 
 /** The check availability request body. */
@@ -261,6 +284,22 @@ export interface CheckNameAvailabilityRequest {
   name?: string;
   /** The resource type. */
   type?: string;
+}
+
+/** Promote replica request properties. */
+export interface PromoteReplicaRequest {
+  /**
+   * The promote option to apply to the operation.
+   *
+   * Possible values: "Forced"
+   */
+  promoteOption: PromoteOption;
+  /**
+   * The mode to apply to the promote operation. Value is optional and default value is 'Switchover'.
+   *
+   * Possible values: "Switchover"
+   */
+  mode?: PromoteMode;
 }
 
 /** Alias for CreateMode */
@@ -285,3 +324,13 @@ export type CreatedByType = string;
 export type ResourceIdentityType = "SystemAssigned";
 /** Alias for SkuTier */
 export type SkuTier = "Free" | "Basic" | "Standard" | "Premium";
+/** Alias for PreviewFeature */
+export type PreviewFeature = string;
+/** Alias for ReplicationRole */
+export type ReplicationRole = string;
+/** Alias for ReplicationState */
+export type ReplicationState = string;
+/** Alias for PromoteOption */
+export type PromoteOption = string;
+/** Alias for PromoteMode */
+export type PromoteMode = string;

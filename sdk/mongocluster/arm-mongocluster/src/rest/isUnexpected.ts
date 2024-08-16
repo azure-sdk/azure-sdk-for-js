@@ -26,6 +26,9 @@ import {
   MongoClustersListConnectionStringsDefaultResponse,
   MongoClustersCheckNameAvailability200Response,
   MongoClustersCheckNameAvailabilityDefaultResponse,
+  MongoClustersPromote202Response,
+  MongoClustersPromoteLogicalResponse,
+  MongoClustersPromoteDefaultResponse,
   FirewallRulesGet200Response,
   FirewallRulesGetDefaultResponse,
   FirewallRulesCreateOrUpdate200Response,
@@ -54,6 +57,8 @@ import {
   PrivateEndpointConnectionsDeleteDefaultResponse,
   PrivateLinksListByMongoCluster200Response,
   PrivateLinksListByMongoClusterDefaultResponse,
+  ReplicasListByParent200Response,
+  ReplicasListByParentDefaultResponse,
 } from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
@@ -68,11 +73,16 @@ const responseMap: Record<string, string[]> = {
     ["202", "204"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters":
     ["200"],
-  "GET /subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/mongoClusters": ["200"],
+  "GET /subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/mongoClusters":
+    ["200"],
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/listConnectionStrings":
     ["200"],
   "POST /subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}/checkMongoClusterNameAvailability":
     ["200"],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/promote":
+    ["200", "202"],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/promote":
+    ["202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/firewallRules/{firewallRuleName}":
     ["200"],
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/firewallRules/{firewallRuleName}":
@@ -90,6 +100,8 @@ const responseMap: Record<string, string[]> = {
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/privateEndpointConnections/{privateEndpointConnectionName}":
     ["202", "204"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/privateLinkResources":
+    ["200"],
+  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/replicas":
     ["200"],
 };
 
@@ -139,6 +151,12 @@ export function isUnexpected(
     | MongoClustersCheckNameAvailabilityDefaultResponse,
 ): response is MongoClustersCheckNameAvailabilityDefaultResponse;
 export function isUnexpected(
+  response:
+    | MongoClustersPromote202Response
+    | MongoClustersPromoteLogicalResponse
+    | MongoClustersPromoteDefaultResponse,
+): response is MongoClustersPromoteDefaultResponse;
+export function isUnexpected(
   response: FirewallRulesGet200Response | FirewallRulesGetDefaultResponse,
 ): response is FirewallRulesGetDefaultResponse;
 export function isUnexpected(
@@ -167,7 +185,9 @@ export function isUnexpected(
     | PrivateEndpointConnectionsListByMongoClusterDefaultResponse,
 ): response is PrivateEndpointConnectionsListByMongoClusterDefaultResponse;
 export function isUnexpected(
-  response: PrivateEndpointConnectionsGet200Response | PrivateEndpointConnectionsGetDefaultResponse,
+  response:
+    | PrivateEndpointConnectionsGet200Response
+    | PrivateEndpointConnectionsGetDefaultResponse,
 ): response is PrivateEndpointConnectionsGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -189,6 +209,11 @@ export function isUnexpected(
     | PrivateLinksListByMongoCluster200Response
     | PrivateLinksListByMongoClusterDefaultResponse,
 ): response is PrivateLinksListByMongoClusterDefaultResponse;
+export function isUnexpected(
+  response:
+    | ReplicasListByParent200Response
+    | ReplicasListByParentDefaultResponse,
+): response is ReplicasListByParentDefaultResponse;
 export function isUnexpected(
   response:
     | OperationsList200Response
@@ -215,6 +240,9 @@ export function isUnexpected(
     | MongoClustersListConnectionStringsDefaultResponse
     | MongoClustersCheckNameAvailability200Response
     | MongoClustersCheckNameAvailabilityDefaultResponse
+    | MongoClustersPromote202Response
+    | MongoClustersPromoteLogicalResponse
+    | MongoClustersPromoteDefaultResponse
     | FirewallRulesGet200Response
     | FirewallRulesGetDefaultResponse
     | FirewallRulesCreateOrUpdate200Response
@@ -242,7 +270,9 @@ export function isUnexpected(
     | PrivateEndpointConnectionsDeleteLogicalResponse
     | PrivateEndpointConnectionsDeleteDefaultResponse
     | PrivateLinksListByMongoCluster200Response
-    | PrivateLinksListByMongoClusterDefaultResponse,
+    | PrivateLinksListByMongoClusterDefaultResponse
+    | ReplicasListByParent200Response
+    | ReplicasListByParentDefaultResponse,
 ): response is
   | OperationsListDefaultResponse
   | MongoClustersGetDefaultResponse
@@ -253,6 +283,7 @@ export function isUnexpected(
   | MongoClustersListDefaultResponse
   | MongoClustersListConnectionStringsDefaultResponse
   | MongoClustersCheckNameAvailabilityDefaultResponse
+  | MongoClustersPromoteDefaultResponse
   | FirewallRulesGetDefaultResponse
   | FirewallRulesCreateOrUpdateDefaultResponse
   | FirewallRulesDeleteDefaultResponse
@@ -261,7 +292,8 @@ export function isUnexpected(
   | PrivateEndpointConnectionsGetDefaultResponse
   | PrivateEndpointConnectionsCreateDefaultResponse
   | PrivateEndpointConnectionsDeleteDefaultResponse
-  | PrivateLinksListByMongoClusterDefaultResponse {
+  | PrivateLinksListByMongoClusterDefaultResponse
+  | ReplicasListByParentDefaultResponse {
   const lroOriginal = response.headers["x-ms-original-url"];
   const url = new URL(lroOriginal ?? response.request.url);
   const method = response.request.method;
@@ -294,17 +326,24 @@ function getParametrizedPathSuccess(method: string, path: string): string[] {
 
     // track if we have found a match to return the values found.
     let found = true;
-    for (let i = candidateParts.length - 1, j = pathParts.length - 1; i >= 1 && j >= 1; i--, j--) {
-      if (candidateParts[i]?.startsWith("{") && candidateParts[i]?.indexOf("}") !== -1) {
+    for (
+      let i = candidateParts.length - 1, j = pathParts.length - 1;
+      i >= 1 && j >= 1;
+      i--, j--
+    ) {
+      if (
+        candidateParts[i]?.startsWith("{") &&
+        candidateParts[i]?.indexOf("}") !== -1
+      ) {
         const start = candidateParts[i]!.indexOf("}") + 1,
           end = candidateParts[i]?.length;
         // If the current part of the candidate is a "template" part
         // Try to use the suffix of pattern to match the path
         // {guid} ==> $
         // {guid}:export ==> :export$
-        const isMatched = new RegExp(`${candidateParts[i]?.slice(start, end)}`).test(
-          pathParts[j] || "",
-        );
+        const isMatched = new RegExp(
+          `${candidateParts[i]?.slice(start, end)}`,
+        ).test(pathParts[j] || "");
 
         if (!isMatched) {
           found = false;
