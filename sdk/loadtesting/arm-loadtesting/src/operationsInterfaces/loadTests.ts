@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   LoadTestResource,
   LoadTestsListBySubscriptionOptionalParams,
@@ -18,135 +18,141 @@ import {
   LoadTestsGetResponse,
   LoadTestsCreateOrUpdateOptionalParams,
   LoadTestsCreateOrUpdateResponse,
-  LoadTestResourcePatchRequestBody,
+  LoadTestResourceUpdate,
   LoadTestsUpdateOptionalParams,
   LoadTestsUpdateResponse,
-  LoadTestsDeleteOptionalParams
+  LoadTestsDeleteOptionalParams,
+  LoadTestsDeleteResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a LoadTests. */
 export interface LoadTests {
   /**
-   * Lists loadtests resources in a subscription.
+   * List LoadTestResource resources by subscription ID
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: LoadTestsListBySubscriptionOptionalParams
+    options?: LoadTestsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<LoadTestResource>;
   /**
-   * Lists loadtest resources in a resource group.
+   * List LoadTestResource resources by resource group
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: LoadTestsListByResourceGroupOptionalParams
+    options?: LoadTestsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<LoadTestResource>;
   /**
    * Lists the endpoints that agents may call as part of load testing.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param loadTestName Load Test name.
+   * @param loadTestName Load Test name
    * @param options The options parameters.
    */
   listOutboundNetworkDependenciesEndpoints(
     resourceGroupName: string,
     loadTestName: string,
-    options?: LoadTestsListOutboundNetworkDependenciesEndpointsOptionalParams
+    options?: LoadTestsListOutboundNetworkDependenciesEndpointsOptionalParams,
   ): PagedAsyncIterableIterator<OutboundEnvironmentEndpoint>;
   /**
-   * Get a LoadTest resource.
+   * Get a LoadTestResource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param loadTestName Load Test name.
+   * @param loadTestName Load Test name
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     loadTestName: string,
-    options?: LoadTestsGetOptionalParams
+    options?: LoadTestsGetOptionalParams,
   ): Promise<LoadTestsGetResponse>;
   /**
-   * Create or update LoadTest resource.
+   * Create a LoadTestResource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param loadTestName Load Test name.
-   * @param loadTestResource LoadTest resource data
+   * @param loadTestName Load Test name
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
     loadTestName: string,
-    loadTestResource: LoadTestResource,
-    options?: LoadTestsCreateOrUpdateOptionalParams
+    resource: LoadTestResource,
+    options?: LoadTestsCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<LoadTestsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<LoadTestsCreateOrUpdateResponse>,
       LoadTestsCreateOrUpdateResponse
     >
   >;
   /**
-   * Create or update LoadTest resource.
+   * Create a LoadTestResource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param loadTestName Load Test name.
-   * @param loadTestResource LoadTest resource data
+   * @param loadTestName Load Test name
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     loadTestName: string,
-    loadTestResource: LoadTestResource,
-    options?: LoadTestsCreateOrUpdateOptionalParams
+    resource: LoadTestResource,
+    options?: LoadTestsCreateOrUpdateOptionalParams,
   ): Promise<LoadTestsCreateOrUpdateResponse>;
   /**
-   * Update a loadtest resource.
+   * Update a LoadTestResource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param loadTestName Load Test name.
-   * @param loadTestResourcePatchRequestBody LoadTest resource update data
+   * @param loadTestName Load Test name
+   * @param properties The resource properties to be updated.
    * @param options The options parameters.
    */
   beginUpdate(
     resourceGroupName: string,
     loadTestName: string,
-    loadTestResourcePatchRequestBody: LoadTestResourcePatchRequestBody,
-    options?: LoadTestsUpdateOptionalParams
+    properties: LoadTestResourceUpdate,
+    options?: LoadTestsUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<LoadTestsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<LoadTestsUpdateResponse>,
       LoadTestsUpdateResponse
     >
   >;
   /**
-   * Update a loadtest resource.
+   * Update a LoadTestResource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param loadTestName Load Test name.
-   * @param loadTestResourcePatchRequestBody LoadTest resource update data
+   * @param loadTestName Load Test name
+   * @param properties The resource properties to be updated.
    * @param options The options parameters.
    */
   beginUpdateAndWait(
     resourceGroupName: string,
     loadTestName: string,
-    loadTestResourcePatchRequestBody: LoadTestResourcePatchRequestBody,
-    options?: LoadTestsUpdateOptionalParams
+    properties: LoadTestResourceUpdate,
+    options?: LoadTestsUpdateOptionalParams,
   ): Promise<LoadTestsUpdateResponse>;
   /**
-   * Delete a LoadTest resource.
+   * Delete a LoadTestResource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param loadTestName Load Test name.
+   * @param loadTestName Load Test name
    * @param options The options parameters.
    */
   beginDelete(
     resourceGroupName: string,
     loadTestName: string,
-    options?: LoadTestsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: LoadTestsDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<LoadTestsDeleteResponse>,
+      LoadTestsDeleteResponse
+    >
+  >;
   /**
-   * Delete a LoadTest resource.
+   * Delete a LoadTestResource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param loadTestName Load Test name.
+   * @param loadTestName Load Test name
    * @param options The options parameters.
    */
   beginDeleteAndWait(
     resourceGroupName: string,
     loadTestName: string,
-    options?: LoadTestsDeleteOptionalParams
-  ): Promise<void>;
+    options?: LoadTestsDeleteOptionalParams,
+  ): Promise<LoadTestsDeleteResponse>;
 }

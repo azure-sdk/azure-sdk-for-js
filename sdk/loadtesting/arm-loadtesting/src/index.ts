@@ -9,5 +9,5 @@
 /// <reference lib="esnext.asynciterable" />
 export { getContinuationToken } from "./pagingHelper";
 export * from "./models";
-export { LoadTestClient } from "./loadTestClient";
+export { LoadTestClientForTesting } from "./loadTestClientForTesting";
 export * from "./operationsInterfaces";
