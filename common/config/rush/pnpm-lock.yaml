@@ -788,6 +788,9 @@ dependencies:
   '@rush-temp/attestation':
     specifier: file:./projects/attestation.tgz
     version: file:projects/attestation.tgz
+  '@rush-temp/azure-apicenter-rest':
+    specifier: file:./projects/azure-apicenter-rest.tgz
+    version: file:projects/azure-apicenter-rest.tgz
   '@rush-temp/communication-alpha-ids':
     specifier: file:./projects/communication-alpha-ids.tgz
     version: file:projects/communication-alpha-ids.tgz
@@ -4299,6 +4302,28 @@ packages:
       '@vitest/utils': 1.6.0
       magic-string: 0.30.11
       playwright: 1.45.3
+      sirv: 2.0.4
+      vitest: 1.6.0(@types/node@18.19.43)(@vitest/browser@1.6.0)
+    dev: false
+
+  /@vitest/browser@1.6.0(playwright@1.46.0)(vitest@1.6.0):
+    resolution: {integrity: sha512-3Wpp9h1hf++rRVPvoXevkdHybLhJVn7MwIMKMIh08tVaoDMmT6fnNhbP222Z48V9PptpYeA5zvH9Ct/ZcaAzmQ==}
+    peerDependencies:
+      playwright: '*'
+      safaridriver: '*'
+      vitest: 1.6.0
+      webdriverio: '*'
+    peerDependenciesMeta:
+      playwright:
+        optional: true
+      safaridriver:
+        optional: true
+      webdriverio:
+        optional: true
+    dependencies:
+      '@vitest/utils': 1.6.0
+      magic-string: 0.30.11
+      playwright: 1.46.0
       sirv: 2.0.4
       vitest: 1.6.0(@types/node@18.19.43)(@vitest/browser@1.6.0)
     dev: false
@@ -20359,6 +20384,42 @@ packages:
       - utf-8-validate
     dev: false
 
+  file:projects/azure-apicenter-rest.tgz:
+    resolution: {integrity: sha512-taCDtsB2GL3yFjvXJ7iDKs9k5l/kgEIjLLfZ0EXlCU8x2loXBFDOQ43aabUromcm2swGwDefLEYTzHDZhOzW9g==, tarball: file:projects/azure-apicenter-rest.tgz}
+    name: '@rush-temp/azure-apicenter-rest'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 4.4.1
+      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.43)
+      '@types/node': 18.19.43
+      '@vitest/browser': 1.6.0(playwright@1.46.0)(vitest@1.6.0)
+      '@vitest/coverage-istanbul': 1.6.0(vitest@1.6.0)
+      dotenv: 16.4.5
+      eslint: 8.57.0
+      mkdirp: 3.0.1
+      playwright: 1.46.0
+      prettier: 3.3.3
+      rimraf: 5.0.10
+      tshy: 1.18.0
+      tslib: 2.6.3
+      typescript: 5.5.4
+      vitest: 1.6.0(@types/node@18.19.43)(@vitest/browser@1.6.0)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - safaridriver
+      - sass
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - webdriverio
+    dev: false
+
   file:projects/communication-alpha-ids.tgz:
     resolution: {integrity: sha512-GxF9Mrz2Z52WGtnDFiI52dk1UfiaENxco2vJOMdk8rO6EBPSkNzXMpdRI4VNyxdYfTsU38l43fd2J0QVZ3E3dQ==, tarball: file:projects/communication-alpha-ids.tgz}
     name: '@rush-temp/communication-alpha-ids'
@@ -25516,7 +25577,7 @@ packages:
       '@types/express-serve-static-core': 4.19.5
       '@types/jsonwebtoken': 9.0.6
       '@types/node': 18.19.43
-      '@vitest/browser': 1.6.0(playwright@1.45.3)(vitest@1.6.0)
+      '@vitest/browser': 1.6.0(playwright@1.46.0)(vitest@1.6.0)
       '@vitest/coverage-istanbul': 1.6.0(vitest@1.6.0)
       dotenv: 16.4.5
       eslint: 8.57.0
