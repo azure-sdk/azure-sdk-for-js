@@ -112,11 +112,6 @@ export enum KnownSingleSignOnStates {
 }
 
 // @public
-export enum KnownVersions {
-    V1Preview = "2023-08-01"
-}
-
-// @public
 export interface LiftrBaseDataOrganizationProperties {
     marketplace: LiftrBaseMarketplaceDetails;
     partnerOrganizationProperties?: LiftrBaseDataPartnerOrganizationProperties;
@@ -145,7 +140,7 @@ export interface LiftrBaseDataPartnerOrganizationPropertiesUpdate {
 // @public
 export interface LiftrBaseMarketplaceDetails {
     offerDetails: LiftrBaseOfferDetails;
-    subscriptionId: string;
+    subscriptionId?: string;
     subscriptionStatus?: MarketplaceSubscriptionStatus;
 }
 
@@ -403,9 +398,6 @@ export interface UserAssignedIdentity {
     readonly clientId?: string;
     readonly principalId?: string;
 }
-
-// @public
-export type Versions = string;
 
 // (No @packageDocumentation comment for this package)
 
