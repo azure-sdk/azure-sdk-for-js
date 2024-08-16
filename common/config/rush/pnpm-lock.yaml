@@ -761,6 +761,9 @@ dependencies:
   '@rush-temp/arm-trafficmanager':
     specifier: file:./projects/arm-trafficmanager.tgz
     version: file:projects/arm-trafficmanager.tgz
+  '@rush-temp/arm-verifiedid':
+    specifier: file:./projects/arm-verifiedid.tgz
+    version: file:projects/arm-verifiedid.tgz
   '@rush-temp/arm-visualstudio':
     specifier: file:./projects/arm-visualstudio.tgz
     version: file:projects/arm-visualstudio.tgz
@@ -3815,7 +3818,7 @@ packages:
   /@types/express-serve-static-core@4.19.0:
     resolution: {integrity: sha512-bGyep3JqPCRry1wq+O5n7oiBgGWmeIJXPjXXCo8EK0u8duZGSYar7cGqd3ML2JUsLGeB7fmc06KYo9fLGWqPvQ==}
     dependencies:
-      '@types/node': 18.19.43
+      '@types/node': 22.1.0
       '@types/qs': 6.9.15
       '@types/range-parser': 1.2.7
       '@types/send': 0.17.4
@@ -3843,7 +3846,7 @@ packages:
     resolution: {integrity: sha512-yTbItCNreRooED33qjunPthRcSjERP1r4MqCZc7wv0u2sUkzTFp45tgUfS5+r7FrZPdmCCNflLhVSP/o+SemsQ==}
     dependencies:
       '@types/jsonfile': 6.1.4
-      '@types/node': 18.19.43
+      '@types/node': 22.1.0
     dev: false
 
   /@types/fs-extra@8.1.5:
@@ -3886,7 +3889,7 @@ packages:
   /@types/jsonfile@6.1.4:
     resolution: {integrity: sha512-D5qGUYwjvnNNextdU59/+fI+spnwtTFmyQP0h+PfIOSkNfpU6AOICUOkm4i0OnSk+NyjdPJrxCDro0sJsWlRpQ==}
     dependencies:
-      '@types/node': 18.19.43
+      '@types/node': 22.1.0
     dev: false
 
   /@types/jsonwebtoken@9.0.6:
@@ -4012,7 +4015,7 @@ packages:
   /@types/readdir-glob@1.1.5:
     resolution: {integrity: sha512-raiuEPUYqXu+nvtY2Pe8s8FEmZ3x5yAH4VkLdihcPdalvsHltomrRC9BzuStrJ9yk06470hS0Crw0f1pXqD+Hg==}
     dependencies:
-      '@types/node': 18.19.43
+      '@types/node': 22.1.0
     dev: false
 
   /@types/resolve@1.20.2:
@@ -20065,6 +20068,36 @@ packages:
       rimraf: 5.0.10
       ts-node: 10.9.2(@types/node@18.19.43)(typescript@5.5.4)
       tslib: 2.6.3
+      typescript: 5.5.4
+      uglify-js: 3.19.1
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - supports-color
+    dev: false
+
+  file:projects/arm-verifiedid.tgz:
+    resolution: {integrity: sha512-xhgJiHo5luETL9KObuLSgnqVTfENYZ7O4OGqI1PUGb3kC4cTfg6Ew48NzDOLWoJGFIfY1nk5omz/AT5CYtwWdw==, tarball: file:projects/arm-verifiedid.tgz}
+    name: '@rush-temp/arm-verifiedid'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-credential': 1.2.0
+      '@azure-tools/test-recorder': 3.5.2
+      '@azure/core-lro': 2.7.2
+      '@azure/identity': 4.4.1
+      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.43)
+      '@types/chai': 4.3.17
+      '@types/mocha': 10.0.7
+      '@types/node': 18.19.43
+      chai: 4.3.10
+      cross-env: 7.0.3
+      dotenv: 16.4.5
+      mkdirp: 3.0.1
+      mocha: 10.7.0
+      rimraf: 5.0.10
+      ts-node: 10.9.2(@types/node@18.19.43)(typescript@5.5.4)
+      tslib: 2.6.3
+      tsx: 4.17.0
       typescript: 5.5.4
       uglify-js: 3.19.1
     transitivePeerDependencies:
