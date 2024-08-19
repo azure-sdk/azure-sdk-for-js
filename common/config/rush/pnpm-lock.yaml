@@ -10761,6 +10761,24 @@ packages:
       strip-bom: 3.0.0
     dev: false
 
+  /tshy@1.18.0:
+    resolution: {integrity: sha512-FQudIujBazHRu7CVPHKQE9/Xq1Wc7lezxD/FCnTXx2PTcnoSN32DVpb/ZXvzV2NJBTDB3XKjqX8Cdm+2UK1DlQ==}
+    engines: {node: 16 >=16.17 || 18 >=18.15.0 || >=20.6.1}
+    hasBin: true
+    dependencies:
+      chalk: 5.3.0
+      chokidar: 3.6.0
+      foreground-child: 3.3.0
+      minimatch: 9.0.5
+      mkdirp: 3.0.1
+      polite-json: 5.0.0
+      resolve-import: 1.4.6
+      rimraf: 5.0.10
+      sync-content: 1.0.2
+      typescript: 5.5.4
+      walk-up-path: 3.0.1
+    dev: false
+
   /tshy@2.0.1:
     resolution: {integrity: sha512-U5fC+3pMaGfmULhPTVpxKMd62AcX13yfsFrjhAP/daTLG6LFRLIuxqYOmkejJ4MT/s5bEa29+1Jy/9mXkMiMfA==}
     engines: {node: 16 >=16.17 || 18 >=18.15.0 || >=20.6.1}
@@ -12343,7 +12361,7 @@ packages:
     dev: false
 
   file:projects/ai-vision-face.tgz:
-    resolution: {integrity: sha512-QJ30PW51/kj1Qy8M+vju6MQkiLfwVwDKUlvLieElC5vd8qPq5kZ7b1CVnLpH5hosCHC+RqZxRus5DVw+nrqVKg==, tarball: file:projects/ai-vision-face.tgz}
+    resolution: {integrity: sha512-DZ21BzNw0LF6LluYHjch220kpgyq57rvOl6GZwh4FqDYDSam1KRqYfxvFnfxu/gdUvDAX990Ihsbb235s81mWA==, tarball: file:projects/ai-vision-face.tgz}
     name: '@rush-temp/ai-vision-face'
     version: 0.0.0
     dependencies:
@@ -12358,8 +12376,9 @@ packages:
       eslint: 8.57.0
       mkdirp: 3.0.1
       playwright: 1.46.0
+      prettier: 3.3.3
       rimraf: 5.0.10
-      tshy: 2.0.1
+      tshy: 1.18.0
       tslib: 2.6.3
       typescript: 5.5.4
       vitest: 2.0.5(@types/node@18.19.44)(@vitest/browser@2.0.5)
@@ -22927,7 +22946,7 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry.tgz:
-    resolution: {integrity: sha512-5Gl35CDEuoqfATvL1SM2nAgJx8BY0l19+YfQxqq/+kwmgI2PRDPmJBynU3ydy7O+QQoVgQ/03F6E3Vu0dExI9Q==, tarball: file:projects/monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-thwsoEaOyjBXBsnArTgvp+jJD5RGkA60bQxm9M5FINEikCj1ExvOfKuz92mlczAz9ucFDoUtoqlrRRRsRykkkg==, tarball: file:projects/monitor-opentelemetry.tgz}
     name: '@rush-temp/monitor-opentelemetry'
     version: 0.0.0
     dependencies:
@@ -22975,7 +22994,7 @@ packages:
     dev: false
 
   file:projects/monitor-query.tgz:
-    resolution: {integrity: sha512-K0oIAXSqWEec33diTPRBZU+N7V2ZIf+US37Z2Dj6HGlCH1BW2UgVNiCtzIiSjfn1rO8H/KRUJya0sjQaZDbVAQ==, tarball: file:projects/monitor-query.tgz}
+    resolution: {integrity: sha512-ihLsubKVYU9jaXZo1mmKS5vpC+COwujWvF+iXDj85MmJFDsFzZ+XdoQxqqCFIToFJdjJr7P34Bx6vesPFMOzJw==, tarball: file:projects/monitor-query.tgz}
     name: '@rush-temp/monitor-query'
     version: 0.0.0
     dependencies:
@@ -23433,7 +23452,7 @@ packages:
     dev: false
 
   file:projects/perf-monitor-opentelemetry.tgz:
-    resolution: {integrity: sha512-+ureLfSo89j9vT/REFNzJOdox+U/aPOZPC7/IR5bdfpG6x3ZUa0A6SeBufgiAtGQubWxHukubggPsfxVqkqflw==, tarball: file:projects/perf-monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-q2N9qSHI4hcuh4nZA37gc1hs3zPj5tiVIEmce6b53y6kaqiXYvCWIHXnZU5WovIFuXshvyznZlMd3EEjNUjAPA==, tarball: file:projects/perf-monitor-opentelemetry.tgz}
     name: '@rush-temp/perf-monitor-opentelemetry'
     version: 0.0.0
     dependencies:
