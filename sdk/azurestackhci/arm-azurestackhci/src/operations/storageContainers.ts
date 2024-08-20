@@ -8,113 +8,49 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { StorageContainersOperations } from "../operationsInterfaces";
+import { StorageContainers } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AzureStackHCIClient } from "../azureStackHCIClient";
+import { MicrosoftAzureStackHCI } from "../microsoftAzureStackHCI";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  StorageContainers,
-  StorageContainersListNextOptionalParams,
-  StorageContainersListOptionalParams,
-  StorageContainersListResponse,
+  StorageContainer,
   StorageContainersListAllNextOptionalParams,
   StorageContainersListAllOptionalParams,
   StorageContainersListAllResponse,
+  StorageContainersListByResourceGroupNextOptionalParams,
+  StorageContainersListByResourceGroupOptionalParams,
+  StorageContainersListByResourceGroupResponse,
   StorageContainersGetOptionalParams,
   StorageContainersGetResponse,
   StorageContainersCreateOrUpdateOptionalParams,
   StorageContainersCreateOrUpdateResponse,
-  StorageContainersDeleteOptionalParams,
-  StorageContainersDeleteResponse,
-  StorageContainersUpdateRequest,
+  StorageContainerTagsUpdate,
   StorageContainersUpdateOptionalParams,
   StorageContainersUpdateResponse,
-  StorageContainersListNextResponse,
-  StorageContainersListAllNextResponse
+  StorageContainersDeleteOptionalParams,
+  StorageContainersDeleteResponse,
+  StorageContainersListAllNextResponse,
+  StorageContainersListByResourceGroupNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing StorageContainersOperations operations. */
-export class StorageContainersOperationsImpl
-  implements StorageContainersOperations {
-  private readonly client: AzureStackHCIClient;
+/** Class containing StorageContainers operations. */
+export class StorageContainersImpl implements StorageContainers {
+  private readonly client: MicrosoftAzureStackHCI;
 
   /**
-   * Initialize a new instance of the class StorageContainersOperations class.
+   * Initialize a new instance of the class StorageContainers class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureStackHCIClient) {
+  constructor(client: MicrosoftAzureStackHCI) {
     this.client = client;
-  }
-
-  /**
-   * Lists all of the storage containers in the specified resource group. Use the nextLink property in
-   * the response to get the next page of storage containers.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param options The options parameters.
-   */
-  public list(
-    resourceGroupName: string,
-    options?: StorageContainersListOptionalParams
-  ): PagedAsyncIterableIterator<StorageContainers> {
-    const iter = this.listPagingAll(resourceGroupName, options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listPagingPage(resourceGroupName, options, settings);
-      }
-    };
-  }
-
-  private async *listPagingPage(
-    resourceGroupName: string,
-    options?: StorageContainersListOptionalParams,
-    settings?: PageSettings
-  ): AsyncIterableIterator<StorageContainers[]> {
-    let result: StorageContainersListResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._list(resourceGroupName, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listPagingAll(
-    resourceGroupName: string,
-    options?: StorageContainersListOptionalParams
-  ): AsyncIterableIterator<StorageContainers> {
-    for await (const page of this.listPagingPage(resourceGroupName, options)) {
-      yield* page;
-    }
   }
 
   /**
@@ -123,8 +59,8 @@ export class StorageContainersOperationsImpl
    * @param options The options parameters.
    */
   public listAll(
-    options?: StorageContainersListAllOptionalParams
-  ): PagedAsyncIterableIterator<StorageContainers> {
+    options?: StorageContainersListAllOptionalParams,
+  ): PagedAsyncIterableIterator<StorageContainer> {
     const iter = this.listAllPagingAll(options);
     return {
       next() {
@@ -138,14 +74,14 @@ export class StorageContainersOperationsImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listAllPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listAllPagingPage(
     options?: StorageContainersListAllOptionalParams,
-    settings?: PageSettings
-  ): AsyncIterableIterator<StorageContainers[]> {
+    settings?: PageSettings,
+  ): AsyncIterableIterator<StorageContainer[]> {
     let result: StorageContainersListAllResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
@@ -165,11 +101,108 @@ export class StorageContainersOperationsImpl
   }
 
   private async *listAllPagingAll(
-    options?: StorageContainersListAllOptionalParams
-  ): AsyncIterableIterator<StorageContainers> {
+    options?: StorageContainersListAllOptionalParams,
+  ): AsyncIterableIterator<StorageContainer> {
     for await (const page of this.listAllPagingPage(options)) {
       yield* page;
     }
+  }
+
+  /**
+   * Lists all of the storage containers in the specified resource group. Use the nextLink property in
+   * the response to get the next page of storage containers.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param options The options parameters.
+   */
+  public listByResourceGroup(
+    resourceGroupName: string,
+    options?: StorageContainersListByResourceGroupOptionalParams,
+  ): PagedAsyncIterableIterator<StorageContainer> {
+    const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings,
+        );
+      },
+    };
+  }
+
+  private async *listByResourceGroupPagingPage(
+    resourceGroupName: string,
+    options?: StorageContainersListByResourceGroupOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<StorageContainer[]> {
+    let result: StorageContainersListByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByResourceGroupNext(
+        resourceGroupName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listByResourceGroupPagingAll(
+    resourceGroupName: string,
+    options?: StorageContainersListByResourceGroupOptionalParams,
+  ): AsyncIterableIterator<StorageContainer> {
+    for await (const page of this.listByResourceGroupPagingPage(
+      resourceGroupName,
+      options,
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Lists all of the storage containers in the specified subscription. Use the nextLink property in the
+   * response to get the next page of storage containers.
+   * @param options The options parameters.
+   */
+  private _listAll(
+    options?: StorageContainersListAllOptionalParams,
+  ): Promise<StorageContainersListAllResponse> {
+    return this.client.sendOperationRequest({ options }, listAllOperationSpec);
+  }
+
+  /**
+   * Lists all of the storage containers in the specified resource group. Use the nextLink property in
+   * the response to get the next page of storage containers.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param options The options parameters.
+   */
+  private _listByResourceGroup(
+    resourceGroupName: string,
+    options?: StorageContainersListByResourceGroupOptionalParams,
+  ): Promise<StorageContainersListByResourceGroupResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, options },
+      listByResourceGroupOperationSpec,
+    );
   }
 
   /**
@@ -181,11 +214,11 @@ export class StorageContainersOperationsImpl
   get(
     resourceGroupName: string,
     storageContainerName: string,
-    options?: StorageContainersGetOptionalParams
+    options?: StorageContainersGetOptionalParams,
   ): Promise<StorageContainersGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, storageContainerName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -194,14 +227,14 @@ export class StorageContainersOperationsImpl
    * during storage container creation.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param storageContainerName Name of the storage container
-   * @param storageContainers The storage container resource definition.
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     storageContainerName: string,
-    storageContainers: StorageContainers,
-    options?: StorageContainersCreateOrUpdateOptionalParams
+    resource: StorageContainer,
+    options?: StorageContainersCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<StorageContainersCreateOrUpdateResponse>,
@@ -210,21 +243,20 @@ export class StorageContainersOperationsImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<StorageContainersCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -233,8 +265,8 @@ export class StorageContainersOperationsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -242,20 +274,15 @@ export class StorageContainersOperationsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: {
-        resourceGroupName,
-        storageContainerName,
-        storageContainers,
-        options
-      },
-      spec: createOrUpdateOperationSpec
+      args: { resourceGroupName, storageContainerName, resource, options },
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       StorageContainersCreateOrUpdateResponse,
@@ -263,7 +290,7 @@ export class StorageContainersOperationsImpl
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -274,20 +301,115 @@ export class StorageContainersOperationsImpl
    * during storage container creation.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param storageContainerName Name of the storage container
-   * @param storageContainers The storage container resource definition.
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     storageContainerName: string,
-    storageContainers: StorageContainers,
-    options?: StorageContainersCreateOrUpdateOptionalParams
+    resource: StorageContainer,
+    options?: StorageContainersCreateOrUpdateOptionalParams,
   ): Promise<StorageContainersCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       storageContainerName,
-      storageContainers,
-      options
+      resource,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * The operation to update a storage container.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param storageContainerName Name of the storage container
+   * @param properties The resource properties to be updated.
+   * @param options The options parameters.
+   */
+  async beginUpdate(
+    resourceGroupName: string,
+    storageContainerName: string,
+    properties: StorageContainerTagsUpdate,
+    options?: StorageContainersUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<StorageContainersUpdateResponse>,
+      StorageContainersUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<StorageContainersUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, storageContainerName, properties, options },
+      spec: updateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      StorageContainersUpdateResponse,
+      OperationState<StorageContainersUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * The operation to update a storage container.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param storageContainerName Name of the storage container
+   * @param properties The resource properties to be updated.
+   * @param options The options parameters.
+   */
+  async beginUpdateAndWait(
+    resourceGroupName: string,
+    storageContainerName: string,
+    properties: StorageContainerTagsUpdate,
+    options?: StorageContainersUpdateOptionalParams,
+  ): Promise<StorageContainersUpdateResponse> {
+    const poller = await this.beginUpdate(
+      resourceGroupName,
+      storageContainerName,
+      properties,
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -301,7 +423,7 @@ export class StorageContainersOperationsImpl
   async beginDelete(
     resourceGroupName: string,
     storageContainerName: string,
-    options?: StorageContainersDeleteOptionalParams
+    options?: StorageContainersDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<StorageContainersDeleteResponse>,
@@ -310,21 +432,20 @@ export class StorageContainersOperationsImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<StorageContainersDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -333,8 +454,8 @@ export class StorageContainersOperationsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -342,15 +463,15 @@ export class StorageContainersOperationsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, storageContainerName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
       StorageContainersDeleteResponse,
@@ -358,7 +479,7 @@ export class StorageContainersOperationsImpl
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -373,159 +494,14 @@ export class StorageContainersOperationsImpl
   async beginDeleteAndWait(
     resourceGroupName: string,
     storageContainerName: string,
-    options?: StorageContainersDeleteOptionalParams
+    options?: StorageContainersDeleteOptionalParams,
   ): Promise<StorageContainersDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       storageContainerName,
-      options
+      options,
     );
     return poller.pollUntilDone();
-  }
-
-  /**
-   * The operation to update a storage container.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param storageContainerName Name of the storage container
-   * @param storageContainers The storage container resource patch definition.
-   * @param options The options parameters.
-   */
-  async beginUpdate(
-    resourceGroupName: string,
-    storageContainerName: string,
-    storageContainers: StorageContainersUpdateRequest,
-    options?: StorageContainersUpdateOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<StorageContainersUpdateResponse>,
-      StorageContainersUpdateResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<StorageContainersUpdateResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
-        resourceGroupName,
-        storageContainerName,
-        storageContainers,
-        options
-      },
-      spec: updateOperationSpec
-    });
-    const poller = await createHttpPoller<
-      StorageContainersUpdateResponse,
-      OperationState<StorageContainersUpdateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * The operation to update a storage container.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param storageContainerName Name of the storage container
-   * @param storageContainers The storage container resource patch definition.
-   * @param options The options parameters.
-   */
-  async beginUpdateAndWait(
-    resourceGroupName: string,
-    storageContainerName: string,
-    storageContainers: StorageContainersUpdateRequest,
-    options?: StorageContainersUpdateOptionalParams
-  ): Promise<StorageContainersUpdateResponse> {
-    const poller = await this.beginUpdate(
-      resourceGroupName,
-      storageContainerName,
-      storageContainers,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Lists all of the storage containers in the specified resource group. Use the nextLink property in
-   * the response to get the next page of storage containers.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param options The options parameters.
-   */
-  private _list(
-    resourceGroupName: string,
-    options?: StorageContainersListOptionalParams
-  ): Promise<StorageContainersListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listOperationSpec
-    );
-  }
-
-  /**
-   * Lists all of the storage containers in the specified subscription. Use the nextLink property in the
-   * response to get the next page of storage containers.
-   * @param options The options parameters.
-   */
-  private _listAll(
-    options?: StorageContainersListAllOptionalParams
-  ): Promise<StorageContainersListAllResponse> {
-    return this.client.sendOperationRequest({ options }, listAllOperationSpec);
-  }
-
-  /**
-   * ListNext
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param nextLink The nextLink from the previous successful call to the List method.
-   * @param options The options parameters.
-   */
-  private _listNext(
-    resourceGroupName: string,
-    nextLink: string,
-    options?: StorageContainersListNextOptionalParams
-  ): Promise<StorageContainersListNextResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, nextLink, options },
-      listNextOperationSpec
-    );
   }
 
   /**
@@ -535,210 +511,221 @@ export class StorageContainersOperationsImpl
    */
   private _listAllNext(
     nextLink: string,
-    options?: StorageContainersListAllNextOptionalParams
+    options?: StorageContainersListAllNextOptionalParams,
   ): Promise<StorageContainersListAllNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listAllNextOperationSpec
+      listAllNextOperationSpec,
+    );
+  }
+
+  /**
+   * ListByResourceGroupNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
+   * @param options The options parameters.
+   */
+  private _listByResourceGroupNext(
+    resourceGroupName: string,
+    nextLink: string,
+    options?: StorageContainersListByResourceGroupNextOptionalParams,
+  ): Promise<StorageContainersListByResourceGroupNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, nextLink, options },
+      listByResourceGroupNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/storageContainers/{storageContainerName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.StorageContainers
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.storageContainerName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/storageContainers/{storageContainerName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.StorageContainers
-    },
-    201: {
-      bodyMapper: Mappers.StorageContainers
-    },
-    202: {
-      bodyMapper: Mappers.StorageContainers
-    },
-    204: {
-      bodyMapper: Mappers.StorageContainers
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.storageContainers,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.storageContainerName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/storageContainers/{storageContainerName}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {
-      headersMapper: Mappers.StorageContainersDeleteHeaders
-    },
-    201: {
-      headersMapper: Mappers.StorageContainersDeleteHeaders
-    },
-    202: {
-      headersMapper: Mappers.StorageContainersDeleteHeaders
-    },
-    204: {
-      headersMapper: Mappers.StorageContainersDeleteHeaders
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.storageContainerName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/storageContainers/{storageContainerName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.StorageContainers
-    },
-    201: {
-      bodyMapper: Mappers.StorageContainers
-    },
-    202: {
-      bodyMapper: Mappers.StorageContainers
-    },
-    204: {
-      bodyMapper: Mappers.StorageContainers
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.storageContainers1,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.storageContainerName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/storageContainers",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.StorageContainersListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const listAllOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.AzureStackHCI/storageContainers",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.AzureStackHCI/storageContainers",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.StorageContainersListResult
+      bodyMapper: Mappers.StorageContainerListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
+const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/storageContainers",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.StorageContainersListResult
+      bodyMapper: Mappers.StorageContainerListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/storageContainers/{storageContainerName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.StorageContainer,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.storageContainerName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/storageContainers/{storageContainerName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.StorageContainer,
+    },
+    201: {
+      bodyMapper: Mappers.StorageContainer,
+    },
+    202: {
+      bodyMapper: Mappers.StorageContainer,
+    },
+    204: {
+      bodyMapper: Mappers.StorageContainer,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.resource7,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.storageContainerName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const updateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/storageContainers/{storageContainerName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.StorageContainer,
+    },
+    201: {
+      bodyMapper: Mappers.StorageContainer,
+    },
+    202: {
+      bodyMapper: Mappers.StorageContainer,
+    },
+    204: {
+      bodyMapper: Mappers.StorageContainer,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.properties6,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.storageContainerName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/storageContainers/{storageContainerName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {
+      headersMapper: Mappers.StorageContainersDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.StorageContainersDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.StorageContainersDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.StorageContainersDeleteHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.storageContainerName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listAllNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.StorageContainersListResult
+      bodyMapper: Mappers.StorageContainerListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.nextLink,
     Parameters.subscriptionId,
-    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.StorageContainerListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.nextLink,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };

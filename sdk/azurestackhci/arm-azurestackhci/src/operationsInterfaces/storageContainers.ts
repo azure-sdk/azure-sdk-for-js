@@ -9,41 +9,41 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
-  StorageContainers,
-  StorageContainersListOptionalParams,
+  StorageContainer,
   StorageContainersListAllOptionalParams,
+  StorageContainersListByResourceGroupOptionalParams,
   StorageContainersGetOptionalParams,
   StorageContainersGetResponse,
   StorageContainersCreateOrUpdateOptionalParams,
   StorageContainersCreateOrUpdateResponse,
+  StorageContainerTagsUpdate,
+  StorageContainersUpdateOptionalParams,
+  StorageContainersUpdateResponse,
   StorageContainersDeleteOptionalParams,
   StorageContainersDeleteResponse,
-  StorageContainersUpdateRequest,
-  StorageContainersUpdateOptionalParams,
-  StorageContainersUpdateResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a StorageContainersOperations. */
-export interface StorageContainersOperations {
-  /**
-   * Lists all of the storage containers in the specified resource group. Use the nextLink property in
-   * the response to get the next page of storage containers.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param options The options parameters.
-   */
-  list(
-    resourceGroupName: string,
-    options?: StorageContainersListOptionalParams
-  ): PagedAsyncIterableIterator<StorageContainers>;
+/** Interface representing a StorageContainers. */
+export interface StorageContainers {
   /**
    * Lists all of the storage containers in the specified subscription. Use the nextLink property in the
    * response to get the next page of storage containers.
    * @param options The options parameters.
    */
   listAll(
-    options?: StorageContainersListAllOptionalParams
-  ): PagedAsyncIterableIterator<StorageContainers>;
+    options?: StorageContainersListAllOptionalParams,
+  ): PagedAsyncIterableIterator<StorageContainer>;
+  /**
+   * Lists all of the storage containers in the specified resource group. Use the nextLink property in
+   * the response to get the next page of storage containers.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param options The options parameters.
+   */
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: StorageContainersListByResourceGroupOptionalParams,
+  ): PagedAsyncIterableIterator<StorageContainer>;
   /**
    * Gets a storage container
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -53,21 +53,21 @@ export interface StorageContainersOperations {
   get(
     resourceGroupName: string,
     storageContainerName: string,
-    options?: StorageContainersGetOptionalParams
+    options?: StorageContainersGetOptionalParams,
   ): Promise<StorageContainersGetResponse>;
   /**
    * The operation to create or update a storage container. Please note some properties can be set only
    * during storage container creation.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param storageContainerName Name of the storage container
-   * @param storageContainers The storage container resource definition.
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
     storageContainerName: string,
-    storageContainers: StorageContainers,
-    options?: StorageContainersCreateOrUpdateOptionalParams
+    resource: StorageContainer,
+    options?: StorageContainersCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<StorageContainersCreateOrUpdateResponse>,
@@ -79,15 +79,46 @@ export interface StorageContainersOperations {
    * during storage container creation.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param storageContainerName Name of the storage container
-   * @param storageContainers The storage container resource definition.
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     storageContainerName: string,
-    storageContainers: StorageContainers,
-    options?: StorageContainersCreateOrUpdateOptionalParams
+    resource: StorageContainer,
+    options?: StorageContainersCreateOrUpdateOptionalParams,
   ): Promise<StorageContainersCreateOrUpdateResponse>;
+  /**
+   * The operation to update a storage container.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param storageContainerName Name of the storage container
+   * @param properties The resource properties to be updated.
+   * @param options The options parameters.
+   */
+  beginUpdate(
+    resourceGroupName: string,
+    storageContainerName: string,
+    properties: StorageContainerTagsUpdate,
+    options?: StorageContainersUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<StorageContainersUpdateResponse>,
+      StorageContainersUpdateResponse
+    >
+  >;
+  /**
+   * The operation to update a storage container.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param storageContainerName Name of the storage container
+   * @param properties The resource properties to be updated.
+   * @param options The options parameters.
+   */
+  beginUpdateAndWait(
+    resourceGroupName: string,
+    storageContainerName: string,
+    properties: StorageContainerTagsUpdate,
+    options?: StorageContainersUpdateOptionalParams,
+  ): Promise<StorageContainersUpdateResponse>;
   /**
    * The operation to delete a storage container.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -97,7 +128,7 @@ export interface StorageContainersOperations {
   beginDelete(
     resourceGroupName: string,
     storageContainerName: string,
-    options?: StorageContainersDeleteOptionalParams
+    options?: StorageContainersDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<StorageContainersDeleteResponse>,
@@ -113,37 +144,6 @@ export interface StorageContainersOperations {
   beginDeleteAndWait(
     resourceGroupName: string,
     storageContainerName: string,
-    options?: StorageContainersDeleteOptionalParams
+    options?: StorageContainersDeleteOptionalParams,
   ): Promise<StorageContainersDeleteResponse>;
-  /**
-   * The operation to update a storage container.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param storageContainerName Name of the storage container
-   * @param storageContainers The storage container resource patch definition.
-   * @param options The options parameters.
-   */
-  beginUpdate(
-    resourceGroupName: string,
-    storageContainerName: string,
-    storageContainers: StorageContainersUpdateRequest,
-    options?: StorageContainersUpdateOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<StorageContainersUpdateResponse>,
-      StorageContainersUpdateResponse
-    >
-  >;
-  /**
-   * The operation to update a storage container.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param storageContainerName Name of the storage container
-   * @param storageContainers The storage container resource patch definition.
-   * @param options The options parameters.
-   */
-  beginUpdateAndWait(
-    resourceGroupName: string,
-    storageContainerName: string,
-    storageContainers: StorageContainersUpdateRequest,
-    options?: StorageContainersUpdateOptionalParams
-  ): Promise<StorageContainersUpdateResponse>;
 }

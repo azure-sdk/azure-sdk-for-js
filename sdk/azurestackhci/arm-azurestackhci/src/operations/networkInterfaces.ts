@@ -8,113 +8,49 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { NetworkInterfacesOperations } from "../operationsInterfaces";
+import { NetworkInterfaces } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AzureStackHCIClient } from "../azureStackHCIClient";
+import { MicrosoftAzureStackHCI } from "../microsoftAzureStackHCI";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  NetworkInterfaces,
-  NetworkInterfacesListNextOptionalParams,
-  NetworkInterfacesListOptionalParams,
-  NetworkInterfacesListResponse,
+  NetworkInterface,
   NetworkInterfacesListAllNextOptionalParams,
   NetworkInterfacesListAllOptionalParams,
   NetworkInterfacesListAllResponse,
+  NetworkInterfacesListByResourceGroupNextOptionalParams,
+  NetworkInterfacesListByResourceGroupOptionalParams,
+  NetworkInterfacesListByResourceGroupResponse,
   NetworkInterfacesGetOptionalParams,
   NetworkInterfacesGetResponse,
   NetworkInterfacesCreateOrUpdateOptionalParams,
   NetworkInterfacesCreateOrUpdateResponse,
-  NetworkInterfacesDeleteOptionalParams,
-  NetworkInterfacesDeleteResponse,
-  NetworkInterfacesUpdateRequest,
+  NetworkInterfaceTagsUpdate,
   NetworkInterfacesUpdateOptionalParams,
   NetworkInterfacesUpdateResponse,
-  NetworkInterfacesListNextResponse,
-  NetworkInterfacesListAllNextResponse
+  NetworkInterfacesDeleteOptionalParams,
+  NetworkInterfacesDeleteResponse,
+  NetworkInterfacesListAllNextResponse,
+  NetworkInterfacesListByResourceGroupNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing NetworkInterfacesOperations operations. */
-export class NetworkInterfacesOperationsImpl
-  implements NetworkInterfacesOperations {
-  private readonly client: AzureStackHCIClient;
+/** Class containing NetworkInterfaces operations. */
+export class NetworkInterfacesImpl implements NetworkInterfaces {
+  private readonly client: MicrosoftAzureStackHCI;
 
   /**
-   * Initialize a new instance of the class NetworkInterfacesOperations class.
+   * Initialize a new instance of the class NetworkInterfaces class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureStackHCIClient) {
+  constructor(client: MicrosoftAzureStackHCI) {
     this.client = client;
-  }
-
-  /**
-   * Lists all of the network interfaces in the specified resource group. Use the nextLink property in
-   * the response to get the next page of network interfaces.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param options The options parameters.
-   */
-  public list(
-    resourceGroupName: string,
-    options?: NetworkInterfacesListOptionalParams
-  ): PagedAsyncIterableIterator<NetworkInterfaces> {
-    const iter = this.listPagingAll(resourceGroupName, options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listPagingPage(resourceGroupName, options, settings);
-      }
-    };
-  }
-
-  private async *listPagingPage(
-    resourceGroupName: string,
-    options?: NetworkInterfacesListOptionalParams,
-    settings?: PageSettings
-  ): AsyncIterableIterator<NetworkInterfaces[]> {
-    let result: NetworkInterfacesListResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._list(resourceGroupName, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listPagingAll(
-    resourceGroupName: string,
-    options?: NetworkInterfacesListOptionalParams
-  ): AsyncIterableIterator<NetworkInterfaces> {
-    for await (const page of this.listPagingPage(resourceGroupName, options)) {
-      yield* page;
-    }
   }
 
   /**
@@ -123,8 +59,8 @@ export class NetworkInterfacesOperationsImpl
    * @param options The options parameters.
    */
   public listAll(
-    options?: NetworkInterfacesListAllOptionalParams
-  ): PagedAsyncIterableIterator<NetworkInterfaces> {
+    options?: NetworkInterfacesListAllOptionalParams,
+  ): PagedAsyncIterableIterator<NetworkInterface> {
     const iter = this.listAllPagingAll(options);
     return {
       next() {
@@ -138,14 +74,14 @@ export class NetworkInterfacesOperationsImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listAllPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listAllPagingPage(
     options?: NetworkInterfacesListAllOptionalParams,
-    settings?: PageSettings
-  ): AsyncIterableIterator<NetworkInterfaces[]> {
+    settings?: PageSettings,
+  ): AsyncIterableIterator<NetworkInterface[]> {
     let result: NetworkInterfacesListAllResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
@@ -165,11 +101,108 @@ export class NetworkInterfacesOperationsImpl
   }
 
   private async *listAllPagingAll(
-    options?: NetworkInterfacesListAllOptionalParams
-  ): AsyncIterableIterator<NetworkInterfaces> {
+    options?: NetworkInterfacesListAllOptionalParams,
+  ): AsyncIterableIterator<NetworkInterface> {
     for await (const page of this.listAllPagingPage(options)) {
       yield* page;
     }
+  }
+
+  /**
+   * Lists all of the network interfaces in the specified resource group. Use the nextLink property in
+   * the response to get the next page of network interfaces.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param options The options parameters.
+   */
+  public listByResourceGroup(
+    resourceGroupName: string,
+    options?: NetworkInterfacesListByResourceGroupOptionalParams,
+  ): PagedAsyncIterableIterator<NetworkInterface> {
+    const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings,
+        );
+      },
+    };
+  }
+
+  private async *listByResourceGroupPagingPage(
+    resourceGroupName: string,
+    options?: NetworkInterfacesListByResourceGroupOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<NetworkInterface[]> {
+    let result: NetworkInterfacesListByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByResourceGroupNext(
+        resourceGroupName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listByResourceGroupPagingAll(
+    resourceGroupName: string,
+    options?: NetworkInterfacesListByResourceGroupOptionalParams,
+  ): AsyncIterableIterator<NetworkInterface> {
+    for await (const page of this.listByResourceGroupPagingPage(
+      resourceGroupName,
+      options,
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Lists all of the network interfaces in the specified subscription. Use the nextLink property in the
+   * response to get the next page of network interfaces.
+   * @param options The options parameters.
+   */
+  private _listAll(
+    options?: NetworkInterfacesListAllOptionalParams,
+  ): Promise<NetworkInterfacesListAllResponse> {
+    return this.client.sendOperationRequest({ options }, listAllOperationSpec);
+  }
+
+  /**
+   * Lists all of the network interfaces in the specified resource group. Use the nextLink property in
+   * the response to get the next page of network interfaces.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param options The options parameters.
+   */
+  private _listByResourceGroup(
+    resourceGroupName: string,
+    options?: NetworkInterfacesListByResourceGroupOptionalParams,
+  ): Promise<NetworkInterfacesListByResourceGroupResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, options },
+      listByResourceGroupOperationSpec,
+    );
   }
 
   /**
@@ -181,11 +214,11 @@ export class NetworkInterfacesOperationsImpl
   get(
     resourceGroupName: string,
     networkInterfaceName: string,
-    options?: NetworkInterfacesGetOptionalParams
+    options?: NetworkInterfacesGetOptionalParams,
   ): Promise<NetworkInterfacesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, networkInterfaceName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -194,14 +227,14 @@ export class NetworkInterfacesOperationsImpl
    * during network interface creation.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkInterfaceName Name of the network interface
-   * @param networkInterfaces The network interface resource definition.
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     networkInterfaceName: string,
-    networkInterfaces: NetworkInterfaces,
-    options?: NetworkInterfacesCreateOrUpdateOptionalParams
+    resource: NetworkInterface,
+    options?: NetworkInterfacesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkInterfacesCreateOrUpdateResponse>,
@@ -210,21 +243,20 @@ export class NetworkInterfacesOperationsImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<NetworkInterfacesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -233,8 +265,8 @@ export class NetworkInterfacesOperationsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -242,20 +274,15 @@ export class NetworkInterfacesOperationsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: {
-        resourceGroupName,
-        networkInterfaceName,
-        networkInterfaces,
-        options
-      },
-      spec: createOrUpdateOperationSpec
+      args: { resourceGroupName, networkInterfaceName, resource, options },
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       NetworkInterfacesCreateOrUpdateResponse,
@@ -263,7 +290,7 @@ export class NetworkInterfacesOperationsImpl
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -274,20 +301,115 @@ export class NetworkInterfacesOperationsImpl
    * during network interface creation.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkInterfaceName Name of the network interface
-   * @param networkInterfaces The network interface resource definition.
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     networkInterfaceName: string,
-    networkInterfaces: NetworkInterfaces,
-    options?: NetworkInterfacesCreateOrUpdateOptionalParams
+    resource: NetworkInterface,
+    options?: NetworkInterfacesCreateOrUpdateOptionalParams,
   ): Promise<NetworkInterfacesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       networkInterfaceName,
-      networkInterfaces,
-      options
+      resource,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * The operation to update a network interface.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param networkInterfaceName Name of the network interface
+   * @param properties The resource properties to be updated.
+   * @param options The options parameters.
+   */
+  async beginUpdate(
+    resourceGroupName: string,
+    networkInterfaceName: string,
+    properties: NetworkInterfaceTagsUpdate,
+    options?: NetworkInterfacesUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<NetworkInterfacesUpdateResponse>,
+      NetworkInterfacesUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<NetworkInterfacesUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, networkInterfaceName, properties, options },
+      spec: updateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      NetworkInterfacesUpdateResponse,
+      OperationState<NetworkInterfacesUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * The operation to update a network interface.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param networkInterfaceName Name of the network interface
+   * @param properties The resource properties to be updated.
+   * @param options The options parameters.
+   */
+  async beginUpdateAndWait(
+    resourceGroupName: string,
+    networkInterfaceName: string,
+    properties: NetworkInterfaceTagsUpdate,
+    options?: NetworkInterfacesUpdateOptionalParams,
+  ): Promise<NetworkInterfacesUpdateResponse> {
+    const poller = await this.beginUpdate(
+      resourceGroupName,
+      networkInterfaceName,
+      properties,
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -301,7 +423,7 @@ export class NetworkInterfacesOperationsImpl
   async beginDelete(
     resourceGroupName: string,
     networkInterfaceName: string,
-    options?: NetworkInterfacesDeleteOptionalParams
+    options?: NetworkInterfacesDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkInterfacesDeleteResponse>,
@@ -310,21 +432,20 @@ export class NetworkInterfacesOperationsImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<NetworkInterfacesDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -333,8 +454,8 @@ export class NetworkInterfacesOperationsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -342,15 +463,15 @@ export class NetworkInterfacesOperationsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, networkInterfaceName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
       NetworkInterfacesDeleteResponse,
@@ -358,7 +479,7 @@ export class NetworkInterfacesOperationsImpl
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -373,159 +494,14 @@ export class NetworkInterfacesOperationsImpl
   async beginDeleteAndWait(
     resourceGroupName: string,
     networkInterfaceName: string,
-    options?: NetworkInterfacesDeleteOptionalParams
+    options?: NetworkInterfacesDeleteOptionalParams,
   ): Promise<NetworkInterfacesDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       networkInterfaceName,
-      options
+      options,
     );
     return poller.pollUntilDone();
-  }
-
-  /**
-   * The operation to update a network interface.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkInterfaceName Name of the network interface
-   * @param networkInterfaces The network interface resource patch definition.
-   * @param options The options parameters.
-   */
-  async beginUpdate(
-    resourceGroupName: string,
-    networkInterfaceName: string,
-    networkInterfaces: NetworkInterfacesUpdateRequest,
-    options?: NetworkInterfacesUpdateOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<NetworkInterfacesUpdateResponse>,
-      NetworkInterfacesUpdateResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<NetworkInterfacesUpdateResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
-        resourceGroupName,
-        networkInterfaceName,
-        networkInterfaces,
-        options
-      },
-      spec: updateOperationSpec
-    });
-    const poller = await createHttpPoller<
-      NetworkInterfacesUpdateResponse,
-      OperationState<NetworkInterfacesUpdateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * The operation to update a network interface.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkInterfaceName Name of the network interface
-   * @param networkInterfaces The network interface resource patch definition.
-   * @param options The options parameters.
-   */
-  async beginUpdateAndWait(
-    resourceGroupName: string,
-    networkInterfaceName: string,
-    networkInterfaces: NetworkInterfacesUpdateRequest,
-    options?: NetworkInterfacesUpdateOptionalParams
-  ): Promise<NetworkInterfacesUpdateResponse> {
-    const poller = await this.beginUpdate(
-      resourceGroupName,
-      networkInterfaceName,
-      networkInterfaces,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Lists all of the network interfaces in the specified resource group. Use the nextLink property in
-   * the response to get the next page of network interfaces.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param options The options parameters.
-   */
-  private _list(
-    resourceGroupName: string,
-    options?: NetworkInterfacesListOptionalParams
-  ): Promise<NetworkInterfacesListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listOperationSpec
-    );
-  }
-
-  /**
-   * Lists all of the network interfaces in the specified subscription. Use the nextLink property in the
-   * response to get the next page of network interfaces.
-   * @param options The options parameters.
-   */
-  private _listAll(
-    options?: NetworkInterfacesListAllOptionalParams
-  ): Promise<NetworkInterfacesListAllResponse> {
-    return this.client.sendOperationRequest({ options }, listAllOperationSpec);
-  }
-
-  /**
-   * ListNext
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param nextLink The nextLink from the previous successful call to the List method.
-   * @param options The options parameters.
-   */
-  private _listNext(
-    resourceGroupName: string,
-    nextLink: string,
-    options?: NetworkInterfacesListNextOptionalParams
-  ): Promise<NetworkInterfacesListNextResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, nextLink, options },
-      listNextOperationSpec
-    );
   }
 
   /**
@@ -535,210 +511,221 @@ export class NetworkInterfacesOperationsImpl
    */
   private _listAllNext(
     nextLink: string,
-    options?: NetworkInterfacesListAllNextOptionalParams
+    options?: NetworkInterfacesListAllNextOptionalParams,
   ): Promise<NetworkInterfacesListAllNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listAllNextOperationSpec
+      listAllNextOperationSpec,
+    );
+  }
+
+  /**
+   * ListByResourceGroupNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
+   * @param options The options parameters.
+   */
+  private _listByResourceGroupNext(
+    resourceGroupName: string,
+    nextLink: string,
+    options?: NetworkInterfacesListByResourceGroupNextOptionalParams,
+  ): Promise<NetworkInterfacesListByResourceGroupNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, nextLink, options },
+      listByResourceGroupNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/networkInterfaces/{networkInterfaceName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.NetworkInterfaces
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.networkInterfaceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/networkInterfaces/{networkInterfaceName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.NetworkInterfaces
-    },
-    201: {
-      bodyMapper: Mappers.NetworkInterfaces
-    },
-    202: {
-      bodyMapper: Mappers.NetworkInterfaces
-    },
-    204: {
-      bodyMapper: Mappers.NetworkInterfaces
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.networkInterfaces,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.networkInterfaceName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/networkInterfaces/{networkInterfaceName}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {
-      headersMapper: Mappers.NetworkInterfacesDeleteHeaders
-    },
-    201: {
-      headersMapper: Mappers.NetworkInterfacesDeleteHeaders
-    },
-    202: {
-      headersMapper: Mappers.NetworkInterfacesDeleteHeaders
-    },
-    204: {
-      headersMapper: Mappers.NetworkInterfacesDeleteHeaders
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.networkInterfaceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/networkInterfaces/{networkInterfaceName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.NetworkInterfaces
-    },
-    201: {
-      bodyMapper: Mappers.NetworkInterfaces
-    },
-    202: {
-      bodyMapper: Mappers.NetworkInterfaces
-    },
-    204: {
-      bodyMapper: Mappers.NetworkInterfaces
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.networkInterfaces1,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.networkInterfaceName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/networkInterfaces",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.NetworkInterfacesListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const listAllOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.AzureStackHCI/networkInterfaces",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.AzureStackHCI/networkInterfaces",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkInterfacesListResult
+      bodyMapper: Mappers.NetworkInterfaceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
+const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/networkInterfaces",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkInterfacesListResult
+      bodyMapper: Mappers.NetworkInterfaceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/networkInterfaces/{networkInterfaceName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.NetworkInterface,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.networkInterfaceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/networkInterfaces/{networkInterfaceName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.NetworkInterface,
+    },
+    201: {
+      bodyMapper: Mappers.NetworkInterface,
+    },
+    202: {
+      bodyMapper: Mappers.NetworkInterface,
+    },
+    204: {
+      bodyMapper: Mappers.NetworkInterface,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.resource5,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.networkInterfaceName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const updateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/networkInterfaces/{networkInterfaceName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.NetworkInterface,
+    },
+    201: {
+      bodyMapper: Mappers.NetworkInterface,
+    },
+    202: {
+      bodyMapper: Mappers.NetworkInterface,
+    },
+    204: {
+      bodyMapper: Mappers.NetworkInterface,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.properties4,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.networkInterfaceName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/networkInterfaces/{networkInterfaceName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {
+      headersMapper: Mappers.NetworkInterfacesDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.NetworkInterfacesDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.NetworkInterfacesDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.NetworkInterfacesDeleteHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.networkInterfaceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listAllNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkInterfacesListResult
+      bodyMapper: Mappers.NetworkInterfaceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.nextLink,
     Parameters.subscriptionId,
-    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.NetworkInterfaceListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.nextLink,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };

@@ -9,24 +9,27 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
-  GalleryImages as GalleryImagesMapper,
-  GalleryImagesUpdateRequest as GalleryImagesUpdateRequestMapper,
-  LogicalNetworks as LogicalNetworksMapper,
-  LogicalNetworksUpdateRequest as LogicalNetworksUpdateRequestMapper,
-  MarketplaceGalleryImages as MarketplaceGalleryImagesMapper,
-  MarketplaceGalleryImagesUpdateRequest as MarketplaceGalleryImagesUpdateRequestMapper,
-  NetworkInterfaces as NetworkInterfacesMapper,
-  NetworkInterfacesUpdateRequest as NetworkInterfacesUpdateRequestMapper,
-  StorageContainers as StorageContainersMapper,
-  StorageContainersUpdateRequest as StorageContainersUpdateRequestMapper,
-  VirtualHardDisks as VirtualHardDisksMapper,
-  VirtualHardDisksUpdateRequest as VirtualHardDisksUpdateRequestMapper,
   VirtualMachineInstance as VirtualMachineInstanceMapper,
   VirtualMachineInstanceUpdateRequest as VirtualMachineInstanceUpdateRequestMapper,
-  GuestAgent as GuestAgentMapper
+  GuestAgent as GuestAgentMapper,
+  GalleryImage as GalleryImageMapper,
+  GalleryImageTagsUpdate as GalleryImageTagsUpdateMapper,
+  LogicalNetwork as LogicalNetworkMapper,
+  LogicalNetworksUpdateRequest as LogicalNetworksUpdateRequestMapper,
+  MarketplaceGalleryImage as MarketplaceGalleryImageMapper,
+  MarketplaceGalleryImageTagsUpdate as MarketplaceGalleryImageTagsUpdateMapper,
+  NetworkInterface as NetworkInterfaceMapper,
+  NetworkInterfaceTagsUpdate as NetworkInterfaceTagsUpdateMapper,
+  NetworkSecurityGroup as NetworkSecurityGroupMapper,
+  NetworkSecurityGroupTagsUpdate as NetworkSecurityGroupTagsUpdateMapper,
+  StorageContainer as StorageContainerMapper,
+  StorageContainerTagsUpdate as StorageContainerTagsUpdateMapper,
+  VirtualHardDisk as VirtualHardDiskMapper,
+  VirtualHardDiskTagsUpdate as VirtualHardDiskTagsUpdateMapper,
+  SecurityRule as SecurityRuleMapper,
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -36,9 +39,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -47,69 +50,34 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
-};
-
-export const subscriptionId: OperationURLParameter = {
-  parameterPath: "subscriptionId",
-  mapper: {
-    constraints: {
-      MinLength: 1
-    },
-    serializedName: "subscriptionId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const resourceGroupName: OperationURLParameter = {
-  parameterPath: "resourceGroupName",
-  mapper: {
-    constraints: {
-      MaxLength: 90,
-      MinLength: 1
-    },
-    serializedName: "resourceGroupName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const galleryImageName: OperationURLParameter = {
-  parameterPath: "galleryImageName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp(
-        "^[a-zA-Z0-9]$|^[a-zA-Z0-9][-._a-zA-Z0-9]{0,78}[a-zA-Z0-9]$"
-      ),
-      MaxLength: 80,
-      MinLength: 1
-    },
-    serializedName: "galleryImageName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
+  skipEncoding: true,
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-09-01-preview",
+    defaultValue: "2024-02-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const resourceUri: OperationURLParameter = {
+  parameterPath: "resourceUri",
+  mapper: {
+    serializedName: "resourceUri",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+  skipEncoding: true,
 };
 
 export const contentType: OperationParameter = {
@@ -119,19 +87,19 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const galleryImages: OperationParameter = {
-  parameterPath: "galleryImages",
-  mapper: GalleryImagesMapper
+export const resource: OperationParameter = {
+  parameterPath: "resource",
+  mapper: VirtualMachineInstanceMapper,
 };
 
-export const galleryImages1: OperationParameter = {
-  parameterPath: "galleryImages",
-  mapper: GalleryImagesUpdateRequestMapper
+export const properties: OperationParameter = {
+  parameterPath: "properties",
+  mapper: VirtualMachineInstanceUpdateRequestMapper,
 };
 
 export const nextLink: OperationURLParameter = {
@@ -140,10 +108,67 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
+};
+
+export const resource1: OperationParameter = {
+  parameterPath: "resource",
+  mapper: GuestAgentMapper,
+};
+
+export const subscriptionId: OperationURLParameter = {
+  parameterPath: "subscriptionId",
+  mapper: {
+    serializedName: "subscriptionId",
+    required: true,
+    type: {
+      name: "Uuid",
+    },
+  },
+};
+
+export const resourceGroupName: OperationURLParameter = {
+  parameterPath: "resourceGroupName",
+  mapper: {
+    constraints: {
+      MaxLength: 90,
+      MinLength: 1,
+    },
+    serializedName: "resourceGroupName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const galleryImageName: OperationURLParameter = {
+  parameterPath: "galleryImageName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp(
+        "^[a-zA-Z0-9]$|^[a-zA-Z0-9][-._a-zA-Z0-9]{0,62}[a-zA-Z0-9]$",
+      ),
+    },
+    serializedName: "galleryImageName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const resource2: OperationParameter = {
+  parameterPath: "resource",
+  mapper: GalleryImageMapper,
+};
+
+export const properties1: OperationParameter = {
+  parameterPath: "properties",
+  mapper: GalleryImageTagsUpdateMapper,
 };
 
 export const logicalNetworkName: OperationURLParameter = {
@@ -151,27 +176,25 @@ export const logicalNetworkName: OperationURLParameter = {
   mapper: {
     constraints: {
       Pattern: new RegExp(
-        "^[a-zA-Z0-9]$|^[a-zA-Z0-9][-._a-zA-Z0-9]{0,62}[_a-zA-Z0-9]$"
+        "^[a-zA-Z0-9]$|^[a-zA-Z0-9][-._a-zA-Z0-9]{0,62}[a-zA-Z0-9]$",
       ),
-      MaxLength: 64,
-      MinLength: 2
     },
     serializedName: "logicalNetworkName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const logicalNetworks: OperationParameter = {
-  parameterPath: "logicalNetworks",
-  mapper: LogicalNetworksMapper
+export const resource3: OperationParameter = {
+  parameterPath: "resource",
+  mapper: LogicalNetworkMapper,
 };
 
-export const logicalNetworks1: OperationParameter = {
-  parameterPath: "logicalNetworks",
-  mapper: LogicalNetworksUpdateRequestMapper
+export const properties2: OperationParameter = {
+  parameterPath: "properties",
+  mapper: LogicalNetworksUpdateRequestMapper,
 };
 
 export const marketplaceGalleryImageName: OperationURLParameter = {
@@ -179,27 +202,25 @@ export const marketplaceGalleryImageName: OperationURLParameter = {
   mapper: {
     constraints: {
       Pattern: new RegExp(
-        "^[a-zA-Z0-9]$|^[a-zA-Z0-9][-._a-zA-Z0-9]{0,78}[a-zA-Z0-9]$"
+        "^[a-zA-Z0-9]$|^[a-zA-Z0-9][-._a-zA-Z0-9]{0,62}[a-zA-Z0-9]$",
       ),
-      MaxLength: 80,
-      MinLength: 1
     },
     serializedName: "marketplaceGalleryImageName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const marketplaceGalleryImages: OperationParameter = {
-  parameterPath: "marketplaceGalleryImages",
-  mapper: MarketplaceGalleryImagesMapper
+export const resource4: OperationParameter = {
+  parameterPath: "resource",
+  mapper: MarketplaceGalleryImageMapper,
 };
 
-export const marketplaceGalleryImages1: OperationParameter = {
-  parameterPath: "marketplaceGalleryImages",
-  mapper: MarketplaceGalleryImagesUpdateRequestMapper
+export const properties3: OperationParameter = {
+  parameterPath: "properties",
+  mapper: MarketplaceGalleryImageTagsUpdateMapper,
 };
 
 export const networkInterfaceName: OperationURLParameter = {
@@ -207,27 +228,51 @@ export const networkInterfaceName: OperationURLParameter = {
   mapper: {
     constraints: {
       Pattern: new RegExp(
-        "^[a-zA-Z0-9]$|^[a-zA-Z0-9][-._a-zA-Z0-9]{0,78}[_a-zA-Z0-9]$"
+        "^[a-zA-Z0-9]$|^[a-zA-Z0-9][-._a-zA-Z0-9]{0,62}[a-zA-Z0-9]$",
       ),
-      MaxLength: 80,
-      MinLength: 1
     },
     serializedName: "networkInterfaceName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const networkInterfaces: OperationParameter = {
-  parameterPath: "networkInterfaces",
-  mapper: NetworkInterfacesMapper
+export const resource5: OperationParameter = {
+  parameterPath: "resource",
+  mapper: NetworkInterfaceMapper,
 };
 
-export const networkInterfaces1: OperationParameter = {
-  parameterPath: "networkInterfaces",
-  mapper: NetworkInterfacesUpdateRequestMapper
+export const properties4: OperationParameter = {
+  parameterPath: "properties",
+  mapper: NetworkInterfaceTagsUpdateMapper,
+};
+
+export const networkSecurityGroupName: OperationURLParameter = {
+  parameterPath: "networkSecurityGroupName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp(
+        "^[a-zA-Z0-9]$|^[a-zA-Z0-9][-._a-zA-Z0-9]{0,62}[a-zA-Z0-9]$",
+      ),
+    },
+    serializedName: "networkSecurityGroupName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const resource6: OperationParameter = {
+  parameterPath: "resource",
+  mapper: NetworkSecurityGroupMapper,
+};
+
+export const properties5: OperationParameter = {
+  parameterPath: "properties",
+  mapper: NetworkSecurityGroupTagsUpdateMapper,
 };
 
 export const storageContainerName: OperationURLParameter = {
@@ -235,27 +280,25 @@ export const storageContainerName: OperationURLParameter = {
   mapper: {
     constraints: {
       Pattern: new RegExp(
-        "^[a-zA-Z0-9]$|^[a-zA-Z0-9][-._a-zA-Z0-9]{0,78}[_a-zA-Z0-9]$"
+        "^[a-zA-Z0-9]$|^[a-zA-Z0-9][-._a-zA-Z0-9]{0,62}[a-zA-Z0-9]$",
       ),
-      MaxLength: 80,
-      MinLength: 1
     },
     serializedName: "storageContainerName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const storageContainers: OperationParameter = {
-  parameterPath: "storageContainers",
-  mapper: StorageContainersMapper
+export const resource7: OperationParameter = {
+  parameterPath: "resource",
+  mapper: StorageContainerMapper,
 };
 
-export const storageContainers1: OperationParameter = {
-  parameterPath: "storageContainers",
-  mapper: StorageContainersUpdateRequestMapper
+export const properties6: OperationParameter = {
+  parameterPath: "properties",
+  mapper: StorageContainerTagsUpdateMapper,
 };
 
 export const virtualHardDiskName: OperationURLParameter = {
@@ -263,52 +306,44 @@ export const virtualHardDiskName: OperationURLParameter = {
   mapper: {
     constraints: {
       Pattern: new RegExp(
-        "^[a-zA-Z0-9]$|^[a-zA-Z0-9][-._a-zA-Z0-9]{0,62}[a-zA-Z0-9]$"
+        "^[a-zA-Z0-9]$|^[a-zA-Z0-9][-._a-zA-Z0-9]{0,62}[a-zA-Z0-9]$",
       ),
-      MaxLength: 80,
-      MinLength: 1
     },
     serializedName: "virtualHardDiskName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const virtualHardDisks: OperationParameter = {
-  parameterPath: "virtualHardDisks",
-  mapper: VirtualHardDisksMapper
+export const resource8: OperationParameter = {
+  parameterPath: "resource",
+  mapper: VirtualHardDiskMapper,
 };
 
-export const virtualHardDisks1: OperationParameter = {
-  parameterPath: "virtualHardDisks",
-  mapper: VirtualHardDisksUpdateRequestMapper
+export const properties7: OperationParameter = {
+  parameterPath: "properties",
+  mapper: VirtualHardDiskTagsUpdateMapper,
 };
 
-export const resourceUri: OperationURLParameter = {
-  parameterPath: "resourceUri",
+export const securityRuleName: OperationURLParameter = {
+  parameterPath: "securityRuleName",
   mapper: {
-    serializedName: "resourceUri",
+    constraints: {
+      Pattern: new RegExp(
+        "^[a-zA-Z0-9]$|^[a-zA-Z0-9][-._a-zA-Z0-9]{0,62}[a-zA-Z0-9]$",
+      ),
+    },
+    serializedName: "securityRuleName",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
 };
 
-export const virtualMachineInstance: OperationParameter = {
-  parameterPath: "virtualMachineInstance",
-  mapper: VirtualMachineInstanceMapper
-};
-
-export const virtualMachineInstance1: OperationParameter = {
-  parameterPath: "virtualMachineInstance",
-  mapper: VirtualMachineInstanceUpdateRequestMapper
-};
-
-export const body: OperationParameter = {
-  parameterPath: ["options", "body"],
-  mapper: GuestAgentMapper
+export const resource9: OperationParameter = {
+  parameterPath: "resource",
+  mapper: SecurityRuleMapper,
 };

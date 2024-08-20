@@ -8,113 +8,49 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { MarketplaceGalleryImagesOperations } from "../operationsInterfaces";
+import { MarketplaceGalleryImages } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AzureStackHCIClient } from "../azureStackHCIClient";
+import { MicrosoftAzureStackHCI } from "../microsoftAzureStackHCI";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  MarketplaceGalleryImages,
-  MarketplaceGalleryImagesListNextOptionalParams,
-  MarketplaceGalleryImagesListOptionalParams,
-  MarketplaceGalleryImagesListResponse,
+  MarketplaceGalleryImage,
   MarketplaceGalleryImagesListAllNextOptionalParams,
   MarketplaceGalleryImagesListAllOptionalParams,
   MarketplaceGalleryImagesListAllResponse,
+  MarketplaceGalleryImagesListByResourceGroupNextOptionalParams,
+  MarketplaceGalleryImagesListByResourceGroupOptionalParams,
+  MarketplaceGalleryImagesListByResourceGroupResponse,
   MarketplaceGalleryImagesGetOptionalParams,
   MarketplaceGalleryImagesGetResponse,
   MarketplaceGalleryImagesCreateOrUpdateOptionalParams,
   MarketplaceGalleryImagesCreateOrUpdateResponse,
-  MarketplaceGalleryImagesDeleteOptionalParams,
-  MarketplaceGalleryImagesDeleteResponse,
-  MarketplaceGalleryImagesUpdateRequest,
+  MarketplaceGalleryImageTagsUpdate,
   MarketplaceGalleryImagesUpdateOptionalParams,
   MarketplaceGalleryImagesUpdateResponse,
-  MarketplaceGalleryImagesListNextResponse,
-  MarketplaceGalleryImagesListAllNextResponse
+  MarketplaceGalleryImagesDeleteOptionalParams,
+  MarketplaceGalleryImagesDeleteResponse,
+  MarketplaceGalleryImagesListAllNextResponse,
+  MarketplaceGalleryImagesListByResourceGroupNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing MarketplaceGalleryImagesOperations operations. */
-export class MarketplaceGalleryImagesOperationsImpl
-  implements MarketplaceGalleryImagesOperations {
-  private readonly client: AzureStackHCIClient;
+/** Class containing MarketplaceGalleryImages operations. */
+export class MarketplaceGalleryImagesImpl implements MarketplaceGalleryImages {
+  private readonly client: MicrosoftAzureStackHCI;
 
   /**
-   * Initialize a new instance of the class MarketplaceGalleryImagesOperations class.
+   * Initialize a new instance of the class MarketplaceGalleryImages class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureStackHCIClient) {
+  constructor(client: MicrosoftAzureStackHCI) {
     this.client = client;
-  }
-
-  /**
-   * Lists all of the marketplace gallery images in the specified resource group. Use the nextLink
-   * property in the response to get the next page of marketplace gallery images.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param options The options parameters.
-   */
-  public list(
-    resourceGroupName: string,
-    options?: MarketplaceGalleryImagesListOptionalParams
-  ): PagedAsyncIterableIterator<MarketplaceGalleryImages> {
-    const iter = this.listPagingAll(resourceGroupName, options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listPagingPage(resourceGroupName, options, settings);
-      }
-    };
-  }
-
-  private async *listPagingPage(
-    resourceGroupName: string,
-    options?: MarketplaceGalleryImagesListOptionalParams,
-    settings?: PageSettings
-  ): AsyncIterableIterator<MarketplaceGalleryImages[]> {
-    let result: MarketplaceGalleryImagesListResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._list(resourceGroupName, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listPagingAll(
-    resourceGroupName: string,
-    options?: MarketplaceGalleryImagesListOptionalParams
-  ): AsyncIterableIterator<MarketplaceGalleryImages> {
-    for await (const page of this.listPagingPage(resourceGroupName, options)) {
-      yield* page;
-    }
   }
 
   /**
@@ -123,8 +59,8 @@ export class MarketplaceGalleryImagesOperationsImpl
    * @param options The options parameters.
    */
   public listAll(
-    options?: MarketplaceGalleryImagesListAllOptionalParams
-  ): PagedAsyncIterableIterator<MarketplaceGalleryImages> {
+    options?: MarketplaceGalleryImagesListAllOptionalParams,
+  ): PagedAsyncIterableIterator<MarketplaceGalleryImage> {
     const iter = this.listAllPagingAll(options);
     return {
       next() {
@@ -138,14 +74,14 @@ export class MarketplaceGalleryImagesOperationsImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listAllPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listAllPagingPage(
     options?: MarketplaceGalleryImagesListAllOptionalParams,
-    settings?: PageSettings
-  ): AsyncIterableIterator<MarketplaceGalleryImages[]> {
+    settings?: PageSettings,
+  ): AsyncIterableIterator<MarketplaceGalleryImage[]> {
     let result: MarketplaceGalleryImagesListAllResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
@@ -165,11 +101,108 @@ export class MarketplaceGalleryImagesOperationsImpl
   }
 
   private async *listAllPagingAll(
-    options?: MarketplaceGalleryImagesListAllOptionalParams
-  ): AsyncIterableIterator<MarketplaceGalleryImages> {
+    options?: MarketplaceGalleryImagesListAllOptionalParams,
+  ): AsyncIterableIterator<MarketplaceGalleryImage> {
     for await (const page of this.listAllPagingPage(options)) {
       yield* page;
     }
+  }
+
+  /**
+   * Lists all of the marketplace gallery images in the specified resource group. Use the nextLink
+   * property in the response to get the next page of marketplace gallery images.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param options The options parameters.
+   */
+  public listByResourceGroup(
+    resourceGroupName: string,
+    options?: MarketplaceGalleryImagesListByResourceGroupOptionalParams,
+  ): PagedAsyncIterableIterator<MarketplaceGalleryImage> {
+    const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings,
+        );
+      },
+    };
+  }
+
+  private async *listByResourceGroupPagingPage(
+    resourceGroupName: string,
+    options?: MarketplaceGalleryImagesListByResourceGroupOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<MarketplaceGalleryImage[]> {
+    let result: MarketplaceGalleryImagesListByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByResourceGroupNext(
+        resourceGroupName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listByResourceGroupPagingAll(
+    resourceGroupName: string,
+    options?: MarketplaceGalleryImagesListByResourceGroupOptionalParams,
+  ): AsyncIterableIterator<MarketplaceGalleryImage> {
+    for await (const page of this.listByResourceGroupPagingPage(
+      resourceGroupName,
+      options,
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Lists all of the marketplace gallery images in the specified subscription. Use the nextLink property
+   * in the response to get the next page of marketplace gallery images.
+   * @param options The options parameters.
+   */
+  private _listAll(
+    options?: MarketplaceGalleryImagesListAllOptionalParams,
+  ): Promise<MarketplaceGalleryImagesListAllResponse> {
+    return this.client.sendOperationRequest({ options }, listAllOperationSpec);
+  }
+
+  /**
+   * Lists all of the marketplace gallery images in the specified resource group. Use the nextLink
+   * property in the response to get the next page of marketplace gallery images.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param options The options parameters.
+   */
+  private _listByResourceGroup(
+    resourceGroupName: string,
+    options?: MarketplaceGalleryImagesListByResourceGroupOptionalParams,
+  ): Promise<MarketplaceGalleryImagesListByResourceGroupResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, options },
+      listByResourceGroupOperationSpec,
+    );
   }
 
   /**
@@ -181,11 +214,11 @@ export class MarketplaceGalleryImagesOperationsImpl
   get(
     resourceGroupName: string,
     marketplaceGalleryImageName: string,
-    options?: MarketplaceGalleryImagesGetOptionalParams
+    options?: MarketplaceGalleryImagesGetOptionalParams,
   ): Promise<MarketplaceGalleryImagesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, marketplaceGalleryImageName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -194,14 +227,14 @@ export class MarketplaceGalleryImagesOperationsImpl
    * set only during marketplace gallery image creation.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param marketplaceGalleryImageName Name of the marketplace gallery image
-   * @param marketplaceGalleryImages The marketplace gallery image resource definition.
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     marketplaceGalleryImageName: string,
-    marketplaceGalleryImages: MarketplaceGalleryImages,
-    options?: MarketplaceGalleryImagesCreateOrUpdateOptionalParams
+    resource: MarketplaceGalleryImage,
+    options?: MarketplaceGalleryImagesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MarketplaceGalleryImagesCreateOrUpdateResponse>,
@@ -210,21 +243,20 @@ export class MarketplaceGalleryImagesOperationsImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<MarketplaceGalleryImagesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -233,8 +265,8 @@ export class MarketplaceGalleryImagesOperationsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -242,8 +274,8 @@ export class MarketplaceGalleryImagesOperationsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -252,10 +284,10 @@ export class MarketplaceGalleryImagesOperationsImpl
       args: {
         resourceGroupName,
         marketplaceGalleryImageName,
-        marketplaceGalleryImages,
-        options
+        resource,
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       MarketplaceGalleryImagesCreateOrUpdateResponse,
@@ -263,7 +295,7 @@ export class MarketplaceGalleryImagesOperationsImpl
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -274,20 +306,120 @@ export class MarketplaceGalleryImagesOperationsImpl
    * set only during marketplace gallery image creation.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param marketplaceGalleryImageName Name of the marketplace gallery image
-   * @param marketplaceGalleryImages The marketplace gallery image resource definition.
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     marketplaceGalleryImageName: string,
-    marketplaceGalleryImages: MarketplaceGalleryImages,
-    options?: MarketplaceGalleryImagesCreateOrUpdateOptionalParams
+    resource: MarketplaceGalleryImage,
+    options?: MarketplaceGalleryImagesCreateOrUpdateOptionalParams,
   ): Promise<MarketplaceGalleryImagesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       marketplaceGalleryImageName,
-      marketplaceGalleryImages,
-      options
+      resource,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * The operation to update a marketplace gallery image.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param marketplaceGalleryImageName Name of the marketplace gallery image
+   * @param properties The resource properties to be updated.
+   * @param options The options parameters.
+   */
+  async beginUpdate(
+    resourceGroupName: string,
+    marketplaceGalleryImageName: string,
+    properties: MarketplaceGalleryImageTagsUpdate,
+    options?: MarketplaceGalleryImagesUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<MarketplaceGalleryImagesUpdateResponse>,
+      MarketplaceGalleryImagesUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<MarketplaceGalleryImagesUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        marketplaceGalleryImageName,
+        properties,
+        options,
+      },
+      spec: updateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      MarketplaceGalleryImagesUpdateResponse,
+      OperationState<MarketplaceGalleryImagesUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * The operation to update a marketplace gallery image.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param marketplaceGalleryImageName Name of the marketplace gallery image
+   * @param properties The resource properties to be updated.
+   * @param options The options parameters.
+   */
+  async beginUpdateAndWait(
+    resourceGroupName: string,
+    marketplaceGalleryImageName: string,
+    properties: MarketplaceGalleryImageTagsUpdate,
+    options?: MarketplaceGalleryImagesUpdateOptionalParams,
+  ): Promise<MarketplaceGalleryImagesUpdateResponse> {
+    const poller = await this.beginUpdate(
+      resourceGroupName,
+      marketplaceGalleryImageName,
+      properties,
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -301,7 +433,7 @@ export class MarketplaceGalleryImagesOperationsImpl
   async beginDelete(
     resourceGroupName: string,
     marketplaceGalleryImageName: string,
-    options?: MarketplaceGalleryImagesDeleteOptionalParams
+    options?: MarketplaceGalleryImagesDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MarketplaceGalleryImagesDeleteResponse>,
@@ -310,21 +442,20 @@ export class MarketplaceGalleryImagesOperationsImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<MarketplaceGalleryImagesDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -333,8 +464,8 @@ export class MarketplaceGalleryImagesOperationsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -342,15 +473,15 @@ export class MarketplaceGalleryImagesOperationsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, marketplaceGalleryImageName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
       MarketplaceGalleryImagesDeleteResponse,
@@ -358,7 +489,7 @@ export class MarketplaceGalleryImagesOperationsImpl
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -373,159 +504,14 @@ export class MarketplaceGalleryImagesOperationsImpl
   async beginDeleteAndWait(
     resourceGroupName: string,
     marketplaceGalleryImageName: string,
-    options?: MarketplaceGalleryImagesDeleteOptionalParams
+    options?: MarketplaceGalleryImagesDeleteOptionalParams,
   ): Promise<MarketplaceGalleryImagesDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       marketplaceGalleryImageName,
-      options
+      options,
     );
     return poller.pollUntilDone();
-  }
-
-  /**
-   * The operation to update a marketplace gallery image.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param marketplaceGalleryImageName Name of the marketplace gallery image
-   * @param marketplaceGalleryImages The marketplace gallery image resource patch definition.
-   * @param options The options parameters.
-   */
-  async beginUpdate(
-    resourceGroupName: string,
-    marketplaceGalleryImageName: string,
-    marketplaceGalleryImages: MarketplaceGalleryImagesUpdateRequest,
-    options?: MarketplaceGalleryImagesUpdateOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<MarketplaceGalleryImagesUpdateResponse>,
-      MarketplaceGalleryImagesUpdateResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<MarketplaceGalleryImagesUpdateResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
-        resourceGroupName,
-        marketplaceGalleryImageName,
-        marketplaceGalleryImages,
-        options
-      },
-      spec: updateOperationSpec
-    });
-    const poller = await createHttpPoller<
-      MarketplaceGalleryImagesUpdateResponse,
-      OperationState<MarketplaceGalleryImagesUpdateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * The operation to update a marketplace gallery image.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param marketplaceGalleryImageName Name of the marketplace gallery image
-   * @param marketplaceGalleryImages The marketplace gallery image resource patch definition.
-   * @param options The options parameters.
-   */
-  async beginUpdateAndWait(
-    resourceGroupName: string,
-    marketplaceGalleryImageName: string,
-    marketplaceGalleryImages: MarketplaceGalleryImagesUpdateRequest,
-    options?: MarketplaceGalleryImagesUpdateOptionalParams
-  ): Promise<MarketplaceGalleryImagesUpdateResponse> {
-    const poller = await this.beginUpdate(
-      resourceGroupName,
-      marketplaceGalleryImageName,
-      marketplaceGalleryImages,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Lists all of the marketplace gallery images in the specified resource group. Use the nextLink
-   * property in the response to get the next page of marketplace gallery images.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param options The options parameters.
-   */
-  private _list(
-    resourceGroupName: string,
-    options?: MarketplaceGalleryImagesListOptionalParams
-  ): Promise<MarketplaceGalleryImagesListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listOperationSpec
-    );
-  }
-
-  /**
-   * Lists all of the marketplace gallery images in the specified subscription. Use the nextLink property
-   * in the response to get the next page of marketplace gallery images.
-   * @param options The options parameters.
-   */
-  private _listAll(
-    options?: MarketplaceGalleryImagesListAllOptionalParams
-  ): Promise<MarketplaceGalleryImagesListAllResponse> {
-    return this.client.sendOperationRequest({ options }, listAllOperationSpec);
-  }
-
-  /**
-   * ListNext
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param nextLink The nextLink from the previous successful call to the List method.
-   * @param options The options parameters.
-   */
-  private _listNext(
-    resourceGroupName: string,
-    nextLink: string,
-    options?: MarketplaceGalleryImagesListNextOptionalParams
-  ): Promise<MarketplaceGalleryImagesListNextResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, nextLink, options },
-      listNextOperationSpec
-    );
   }
 
   /**
@@ -535,210 +521,221 @@ export class MarketplaceGalleryImagesOperationsImpl
    */
   private _listAllNext(
     nextLink: string,
-    options?: MarketplaceGalleryImagesListAllNextOptionalParams
+    options?: MarketplaceGalleryImagesListAllNextOptionalParams,
   ): Promise<MarketplaceGalleryImagesListAllNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listAllNextOperationSpec
+      listAllNextOperationSpec,
+    );
+  }
+
+  /**
+   * ListByResourceGroupNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
+   * @param options The options parameters.
+   */
+  private _listByResourceGroupNext(
+    resourceGroupName: string,
+    nextLink: string,
+    options?: MarketplaceGalleryImagesListByResourceGroupNextOptionalParams,
+  ): Promise<MarketplaceGalleryImagesListByResourceGroupNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, nextLink, options },
+      listByResourceGroupNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/marketplaceGalleryImages/{marketplaceGalleryImageName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.MarketplaceGalleryImages
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.marketplaceGalleryImageName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/marketplaceGalleryImages/{marketplaceGalleryImageName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.MarketplaceGalleryImages
-    },
-    201: {
-      bodyMapper: Mappers.MarketplaceGalleryImages
-    },
-    202: {
-      bodyMapper: Mappers.MarketplaceGalleryImages
-    },
-    204: {
-      bodyMapper: Mappers.MarketplaceGalleryImages
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.marketplaceGalleryImages,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.marketplaceGalleryImageName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/marketplaceGalleryImages/{marketplaceGalleryImageName}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {
-      headersMapper: Mappers.MarketplaceGalleryImagesDeleteHeaders
-    },
-    201: {
-      headersMapper: Mappers.MarketplaceGalleryImagesDeleteHeaders
-    },
-    202: {
-      headersMapper: Mappers.MarketplaceGalleryImagesDeleteHeaders
-    },
-    204: {
-      headersMapper: Mappers.MarketplaceGalleryImagesDeleteHeaders
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.marketplaceGalleryImageName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/marketplaceGalleryImages/{marketplaceGalleryImageName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.MarketplaceGalleryImages
-    },
-    201: {
-      bodyMapper: Mappers.MarketplaceGalleryImages
-    },
-    202: {
-      bodyMapper: Mappers.MarketplaceGalleryImages
-    },
-    204: {
-      bodyMapper: Mappers.MarketplaceGalleryImages
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.marketplaceGalleryImages1,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.marketplaceGalleryImageName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/marketplaceGalleryImages",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.MarketplaceGalleryImagesListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const listAllOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.AzureStackHCI/marketplaceGalleryImages",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.AzureStackHCI/marketplaceGalleryImages",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MarketplaceGalleryImagesListResult
+      bodyMapper: Mappers.MarketplaceGalleryImageListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
+const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/marketplaceGalleryImages",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MarketplaceGalleryImagesListResult
+      bodyMapper: Mappers.MarketplaceGalleryImageListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/marketplaceGalleryImages/{marketplaceGalleryImageName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.MarketplaceGalleryImage,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.marketplaceGalleryImageName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/marketplaceGalleryImages/{marketplaceGalleryImageName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.MarketplaceGalleryImage,
+    },
+    201: {
+      bodyMapper: Mappers.MarketplaceGalleryImage,
+    },
+    202: {
+      bodyMapper: Mappers.MarketplaceGalleryImage,
+    },
+    204: {
+      bodyMapper: Mappers.MarketplaceGalleryImage,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.resource4,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.marketplaceGalleryImageName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const updateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/marketplaceGalleryImages/{marketplaceGalleryImageName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.MarketplaceGalleryImage,
+    },
+    201: {
+      bodyMapper: Mappers.MarketplaceGalleryImage,
+    },
+    202: {
+      bodyMapper: Mappers.MarketplaceGalleryImage,
+    },
+    204: {
+      bodyMapper: Mappers.MarketplaceGalleryImage,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.properties3,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.marketplaceGalleryImageName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/marketplaceGalleryImages/{marketplaceGalleryImageName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {
+      headersMapper: Mappers.MarketplaceGalleryImagesDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.MarketplaceGalleryImagesDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.MarketplaceGalleryImagesDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.MarketplaceGalleryImagesDeleteHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.marketplaceGalleryImageName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listAllNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MarketplaceGalleryImagesListResult
+      bodyMapper: Mappers.MarketplaceGalleryImageListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.nextLink,
     Parameters.subscriptionId,
-    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.MarketplaceGalleryImageListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.nextLink,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };

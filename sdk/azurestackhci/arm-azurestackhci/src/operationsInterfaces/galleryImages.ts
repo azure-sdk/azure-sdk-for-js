@@ -9,41 +9,41 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
-  GalleryImages,
-  GalleryImagesListOptionalParams,
+  GalleryImage,
   GalleryImagesListAllOptionalParams,
+  GalleryImagesListByResourceGroupOptionalParams,
   GalleryImagesGetOptionalParams,
   GalleryImagesGetResponse,
   GalleryImagesCreateOrUpdateOptionalParams,
   GalleryImagesCreateOrUpdateResponse,
+  GalleryImageTagsUpdate,
+  GalleryImagesUpdateOptionalParams,
+  GalleryImagesUpdateResponse,
   GalleryImagesDeleteOptionalParams,
   GalleryImagesDeleteResponse,
-  GalleryImagesUpdateRequest,
-  GalleryImagesUpdateOptionalParams,
-  GalleryImagesUpdateResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a GalleryImagesOperations. */
-export interface GalleryImagesOperations {
-  /**
-   * Lists all of the gallery images in the specified resource group. Use the nextLink property in the
-   * response to get the next page of gallery images.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param options The options parameters.
-   */
-  list(
-    resourceGroupName: string,
-    options?: GalleryImagesListOptionalParams
-  ): PagedAsyncIterableIterator<GalleryImages>;
+/** Interface representing a GalleryImages. */
+export interface GalleryImages {
   /**
    * Lists all of the gallery images in the specified subscription. Use the nextLink property in the
    * response to get the next page of gallery images.
    * @param options The options parameters.
    */
   listAll(
-    options?: GalleryImagesListAllOptionalParams
-  ): PagedAsyncIterableIterator<GalleryImages>;
+    options?: GalleryImagesListAllOptionalParams,
+  ): PagedAsyncIterableIterator<GalleryImage>;
+  /**
+   * Lists all of the gallery images in the specified resource group. Use the nextLink property in the
+   * response to get the next page of gallery images.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param options The options parameters.
+   */
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: GalleryImagesListByResourceGroupOptionalParams,
+  ): PagedAsyncIterableIterator<GalleryImage>;
   /**
    * Gets a gallery image
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -53,21 +53,21 @@ export interface GalleryImagesOperations {
   get(
     resourceGroupName: string,
     galleryImageName: string,
-    options?: GalleryImagesGetOptionalParams
+    options?: GalleryImagesGetOptionalParams,
   ): Promise<GalleryImagesGetResponse>;
   /**
    * The operation to create or update a gallery image. Please note some properties can be set only
    * during gallery image creation.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param galleryImageName Name of the gallery image
-   * @param galleryImages The gallery images resource definition.
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
     galleryImageName: string,
-    galleryImages: GalleryImages,
-    options?: GalleryImagesCreateOrUpdateOptionalParams
+    resource: GalleryImage,
+    options?: GalleryImagesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<GalleryImagesCreateOrUpdateResponse>,
@@ -79,15 +79,46 @@ export interface GalleryImagesOperations {
    * during gallery image creation.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param galleryImageName Name of the gallery image
-   * @param galleryImages The gallery images resource definition.
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     galleryImageName: string,
-    galleryImages: GalleryImages,
-    options?: GalleryImagesCreateOrUpdateOptionalParams
+    resource: GalleryImage,
+    options?: GalleryImagesCreateOrUpdateOptionalParams,
   ): Promise<GalleryImagesCreateOrUpdateResponse>;
+  /**
+   * The operation to update a gallery image.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryImageName Name of the gallery image
+   * @param properties The resource properties to be updated.
+   * @param options The options parameters.
+   */
+  beginUpdate(
+    resourceGroupName: string,
+    galleryImageName: string,
+    properties: GalleryImageTagsUpdate,
+    options?: GalleryImagesUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<GalleryImagesUpdateResponse>,
+      GalleryImagesUpdateResponse
+    >
+  >;
+  /**
+   * The operation to update a gallery image.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryImageName Name of the gallery image
+   * @param properties The resource properties to be updated.
+   * @param options The options parameters.
+   */
+  beginUpdateAndWait(
+    resourceGroupName: string,
+    galleryImageName: string,
+    properties: GalleryImageTagsUpdate,
+    options?: GalleryImagesUpdateOptionalParams,
+  ): Promise<GalleryImagesUpdateResponse>;
   /**
    * The operation to delete a gallery image.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -97,7 +128,7 @@ export interface GalleryImagesOperations {
   beginDelete(
     resourceGroupName: string,
     galleryImageName: string,
-    options?: GalleryImagesDeleteOptionalParams
+    options?: GalleryImagesDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<GalleryImagesDeleteResponse>,
@@ -113,37 +144,6 @@ export interface GalleryImagesOperations {
   beginDeleteAndWait(
     resourceGroupName: string,
     galleryImageName: string,
-    options?: GalleryImagesDeleteOptionalParams
+    options?: GalleryImagesDeleteOptionalParams,
   ): Promise<GalleryImagesDeleteResponse>;
-  /**
-   * The operation to update a gallery image.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param galleryImageName Name of the gallery image
-   * @param galleryImages The gallery images resource patch definition.
-   * @param options The options parameters.
-   */
-  beginUpdate(
-    resourceGroupName: string,
-    galleryImageName: string,
-    galleryImages: GalleryImagesUpdateRequest,
-    options?: GalleryImagesUpdateOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<GalleryImagesUpdateResponse>,
-      GalleryImagesUpdateResponse
-    >
-  >;
-  /**
-   * The operation to update a gallery image.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param galleryImageName Name of the gallery image
-   * @param galleryImages The gallery images resource patch definition.
-   * @param options The options parameters.
-   */
-  beginUpdateAndWait(
-    resourceGroupName: string,
-    galleryImageName: string,
-    galleryImages: GalleryImagesUpdateRequest,
-    options?: GalleryImagesUpdateOptionalParams
-  ): Promise<GalleryImagesUpdateResponse>;
 }

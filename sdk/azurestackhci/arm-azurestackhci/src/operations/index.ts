@@ -6,14 +6,16 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./galleryImagesOperations";
-export * from "./operations";
-export * from "./logicalNetworksOperations";
-export * from "./marketplaceGalleryImagesOperations";
-export * from "./networkInterfacesOperations";
-export * from "./storageContainersOperations";
-export * from "./virtualHardDisksOperations";
 export * from "./virtualMachineInstances";
-export * from "./hybridIdentityMetadataOperations";
-export * from "./guestAgentOperations";
+export * from "./attestationStatuses";
 export * from "./guestAgents";
+export * from "./hybridIdentityMetadataOperations";
+export * from "./operations";
+export * from "./galleryImages";
+export * from "./logicalNetworks";
+export * from "./marketplaceGalleryImages";
+export * from "./networkInterfaces";
+export * from "./networkSecurityGroups";
+export * from "./storageContainers";
+export * from "./virtualHardDisks";
+export * from "./securityRules";

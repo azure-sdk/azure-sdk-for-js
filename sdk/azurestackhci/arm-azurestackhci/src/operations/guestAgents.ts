@@ -12,39 +12,53 @@ import { GuestAgents } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AzureStackHCIClient } from "../azureStackHCIClient";
+import { MicrosoftAzureStackHCI } from "../microsoftAzureStackHCI";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   GuestAgent,
-  GuestAgentsListNextOptionalParams,
-  GuestAgentsListOptionalParams,
-  GuestAgentsListResponse,
-  GuestAgentsListNextResponse
+  GuestAgentsListByVirtualMachineInstanceNextOptionalParams,
+  GuestAgentsListByVirtualMachineInstanceOptionalParams,
+  GuestAgentsListByVirtualMachineInstanceResponse,
+  GuestAgentsGetOptionalParams,
+  GuestAgentsGetResponse,
+  GuestAgentsCreateOptionalParams,
+  GuestAgentsCreateResponse,
+  GuestAgentsDeleteOptionalParams,
+  GuestAgentsDeleteResponse,
+  GuestAgentsListByVirtualMachineInstanceNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing GuestAgents operations. */
 export class GuestAgentsImpl implements GuestAgents {
-  private readonly client: AzureStackHCIClient;
+  private readonly client: MicrosoftAzureStackHCI;
 
   /**
    * Initialize a new instance of the class GuestAgents class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureStackHCIClient) {
+  constructor(client: MicrosoftAzureStackHCI) {
     this.client = client;
   }
 
   /**
    * Returns the list of GuestAgent of the given vm.
-   * @param resourceUri The fully qualified Azure Resource manager identifier of the Hybrid Compute
-   *                    machine resource to be extended.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
    * @param options The options parameters.
    */
-  public list(
+  public listByVirtualMachineInstance(
     resourceUri: string,
-    options?: GuestAgentsListOptionalParams
+    options?: GuestAgentsListByVirtualMachineInstanceOptionalParams,
   ): PagedAsyncIterableIterator<GuestAgent> {
-    const iter = this.listPagingAll(resourceUri, options);
+    const iter = this.listByVirtualMachineInstancePagingAll(
+      resourceUri,
+      options,
+    );
     return {
       next() {
         return iter.next();
@@ -56,27 +70,35 @@ export class GuestAgentsImpl implements GuestAgents {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(resourceUri, options, settings);
-      }
+        return this.listByVirtualMachineInstancePagingPage(
+          resourceUri,
+          options,
+          settings,
+        );
+      },
     };
   }
 
-  private async *listPagingPage(
+  private async *listByVirtualMachineInstancePagingPage(
     resourceUri: string,
-    options?: GuestAgentsListOptionalParams,
-    settings?: PageSettings
+    options?: GuestAgentsListByVirtualMachineInstanceOptionalParams,
+    settings?: PageSettings,
   ): AsyncIterableIterator<GuestAgent[]> {
-    let result: GuestAgentsListResponse;
+    let result: GuestAgentsListByVirtualMachineInstanceResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(resourceUri, options);
+      result = await this._listByVirtualMachineInstance(resourceUri, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(resourceUri, continuationToken, options);
+      result = await this._listByVirtualMachineInstanceNext(
+        resourceUri,
+        continuationToken,
+        options,
+      );
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -84,85 +106,338 @@ export class GuestAgentsImpl implements GuestAgents {
     }
   }
 
-  private async *listPagingAll(
+  private async *listByVirtualMachineInstancePagingAll(
     resourceUri: string,
-    options?: GuestAgentsListOptionalParams
+    options?: GuestAgentsListByVirtualMachineInstanceOptionalParams,
   ): AsyncIterableIterator<GuestAgent> {
-    for await (const page of this.listPagingPage(resourceUri, options)) {
+    for await (const page of this.listByVirtualMachineInstancePagingPage(
+      resourceUri,
+      options,
+    )) {
       yield* page;
     }
   }
 
   /**
    * Returns the list of GuestAgent of the given vm.
-   * @param resourceUri The fully qualified Azure Resource manager identifier of the Hybrid Compute
-   *                    machine resource to be extended.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
    * @param options The options parameters.
    */
-  private _list(
+  private _listByVirtualMachineInstance(
     resourceUri: string,
-    options?: GuestAgentsListOptionalParams
-  ): Promise<GuestAgentsListResponse> {
+    options?: GuestAgentsListByVirtualMachineInstanceOptionalParams,
+  ): Promise<GuestAgentsListByVirtualMachineInstanceResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, options },
-      listOperationSpec
+      listByVirtualMachineInstanceOperationSpec,
     );
   }
 
   /**
-   * ListNext
-   * @param resourceUri The fully qualified Azure Resource manager identifier of the Hybrid Compute
-   *                    machine resource to be extended.
-   * @param nextLink The nextLink from the previous successful call to the List method.
+   * Implements GuestAgent GET method.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
    * @param options The options parameters.
    */
-  private _listNext(
+  get(
+    resourceUri: string,
+    options?: GuestAgentsGetOptionalParams,
+  ): Promise<GuestAgentsGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceUri, options },
+      getOperationSpec,
+    );
+  }
+
+  /**
+   * Create Or Update GuestAgent.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
+   * @param resource Resource create parameters.
+   * @param options The options parameters.
+   */
+  async beginCreate(
+    resourceUri: string,
+    resource: GuestAgent,
+    options?: GuestAgentsCreateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<GuestAgentsCreateResponse>,
+      GuestAgentsCreateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<GuestAgentsCreateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceUri, resource, options },
+      spec: createOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      GuestAgentsCreateResponse,
+      OperationState<GuestAgentsCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Create Or Update GuestAgent.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
+   * @param resource Resource create parameters.
+   * @param options The options parameters.
+   */
+  async beginCreateAndWait(
+    resourceUri: string,
+    resource: GuestAgent,
+    options?: GuestAgentsCreateOptionalParams,
+  ): Promise<GuestAgentsCreateResponse> {
+    const poller = await this.beginCreate(resourceUri, resource, options);
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Implements GuestAgent DELETE method.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
+   * @param options The options parameters.
+   */
+  async beginDelete(
+    resourceUri: string,
+    options?: GuestAgentsDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<GuestAgentsDeleteResponse>,
+      GuestAgentsDeleteResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<GuestAgentsDeleteResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceUri, options },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      GuestAgentsDeleteResponse,
+      OperationState<GuestAgentsDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Implements GuestAgent DELETE method.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
+   * @param options The options parameters.
+   */
+  async beginDeleteAndWait(
+    resourceUri: string,
+    options?: GuestAgentsDeleteOptionalParams,
+  ): Promise<GuestAgentsDeleteResponse> {
+    const poller = await this.beginDelete(resourceUri, options);
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * ListByVirtualMachineInstanceNext
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
+   * @param nextLink The nextLink from the previous successful call to the ListByVirtualMachineInstance
+   *                 method.
+   * @param options The options parameters.
+   */
+  private _listByVirtualMachineInstanceNext(
     resourceUri: string,
     nextLink: string,
-    options?: GuestAgentsListNextOptionalParams
-  ): Promise<GuestAgentsListNextResponse> {
+    options?: GuestAgentsListByVirtualMachineInstanceNextOptionalParams,
+  ): Promise<GuestAgentsListByVirtualMachineInstanceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, nextLink, options },
-      listNextOperationSpec
+      listByVirtualMachineInstanceNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/guestAgents",
+const listByVirtualMachineInstanceOperationSpec: coreClient.OperationSpec = {
+  path: "/{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/guestAgents",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GuestAgentList
+      bodyMapper: Mappers.GuestAgentListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.resourceUri],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/guestAgents/default",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GuestAgentList
+      bodyMapper: Mappers.GuestAgent,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.resourceUri
-  ],
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.resourceUri],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
+const createOperationSpec: coreClient.OperationSpec = {
+  path: "/{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/guestAgents/default",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GuestAgent,
+    },
+    201: {
+      bodyMapper: Mappers.GuestAgent,
+    },
+    202: {
+      bodyMapper: Mappers.GuestAgent,
+    },
+    204: {
+      bodyMapper: Mappers.GuestAgent,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.resource1,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.resourceUri],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path: "/{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/guestAgents/default",
+  httpMethod: "DELETE",
+  responses: {
+    200: {
+      headersMapper: Mappers.GuestAgentsDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.GuestAgentsDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.GuestAgentsDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.GuestAgentsDeleteHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.resourceUri],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listByVirtualMachineInstanceNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.GuestAgentListResult,
+      },
+      default: {
+        bodyMapper: Mappers.ErrorResponse,
+      },
+    },
+    urlParameters: [
+      Parameters.$host,
+      Parameters.resourceUri,
+      Parameters.nextLink,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };

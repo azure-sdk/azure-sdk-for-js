@@ -9,9 +9,9 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   HybridIdentityMetadata,
-  HybridIdentityMetadataListOptionalParams,
+  HybridIdentityMetadataListByVirtualMachineInstanceOptionalParams,
   HybridIdentityMetadataGetOptionalParams,
-  HybridIdentityMetadataGetResponse
+  HybridIdentityMetadataGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -19,22 +19,20 @@ import {
 export interface HybridIdentityMetadataOperations {
   /**
    * Returns the list of HybridIdentityMetadata of the given vm.
-   * @param resourceUri The fully qualified Azure Resource manager identifier of the Hybrid Compute
-   *                    machine resource to be extended.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
    * @param options The options parameters.
    */
-  list(
+  listByVirtualMachineInstance(
     resourceUri: string,
-    options?: HybridIdentityMetadataListOptionalParams
+    options?: HybridIdentityMetadataListByVirtualMachineInstanceOptionalParams,
   ): PagedAsyncIterableIterator<HybridIdentityMetadata>;
   /**
    * Implements HybridIdentityMetadata GET method.
-   * @param resourceUri The fully qualified Azure Resource manager identifier of the Hybrid Compute
-   *                    machine resource to be extended.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
    * @param options The options parameters.
    */
   get(
     resourceUri: string,
-    options?: HybridIdentityMetadataGetOptionalParams
+    options?: HybridIdentityMetadataGetOptionalParams,
   ): Promise<HybridIdentityMetadataGetResponse>;
 }

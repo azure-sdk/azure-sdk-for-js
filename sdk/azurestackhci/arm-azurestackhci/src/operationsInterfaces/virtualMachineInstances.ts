@@ -15,17 +15,21 @@ import {
   VirtualMachineInstancesGetResponse,
   VirtualMachineInstancesCreateOrUpdateOptionalParams,
   VirtualMachineInstancesCreateOrUpdateResponse,
-  VirtualMachineInstancesDeleteOptionalParams,
-  VirtualMachineInstancesDeleteResponse,
   VirtualMachineInstanceUpdateRequest,
   VirtualMachineInstancesUpdateOptionalParams,
   VirtualMachineInstancesUpdateResponse,
+  VirtualMachineInstancesDeleteOptionalParams,
+  VirtualMachineInstancesDeleteResponse,
+  VirtualMachineInstancesPauseOptionalParams,
+  VirtualMachineInstancesPauseResponse,
+  VirtualMachineInstancesRestartOptionalParams,
+  VirtualMachineInstancesRestartResponse,
+  VirtualMachineInstancesSaveOptionalParams,
+  VirtualMachineInstancesSaveResponse,
   VirtualMachineInstancesStartOptionalParams,
   VirtualMachineInstancesStartResponse,
   VirtualMachineInstancesStopOptionalParams,
   VirtualMachineInstancesStopResponse,
-  VirtualMachineInstancesRestartOptionalParams,
-  VirtualMachineInstancesRestartResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,36 +37,33 @@ import {
 export interface VirtualMachineInstances {
   /**
    * Lists all of the virtual machine instances within the specified parent resource.
-   * @param resourceUri The fully qualified Azure Resource manager identifier of the Hybrid Compute
-   *                    machine resource to be extended.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
    * @param options The options parameters.
    */
   list(
     resourceUri: string,
-    options?: VirtualMachineInstancesListOptionalParams
+    options?: VirtualMachineInstancesListOptionalParams,
   ): PagedAsyncIterableIterator<VirtualMachineInstance>;
   /**
    * Gets a virtual machine instance
-   * @param resourceUri The fully qualified Azure Resource manager identifier of the Hybrid Compute
-   *                    machine resource to be extended.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
    * @param options The options parameters.
    */
   get(
     resourceUri: string,
-    options?: VirtualMachineInstancesGetOptionalParams
+    options?: VirtualMachineInstancesGetOptionalParams,
   ): Promise<VirtualMachineInstancesGetResponse>;
   /**
    * The operation to create or update a virtual machine instance. Please note some properties can be set
    * only during virtual machine instance creation.
-   * @param resourceUri The fully qualified Azure Resource manager identifier of the Hybrid Compute
-   *                    machine resource to be extended.
-   * @param virtualMachineInstance The virtual machine instance resource definition.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceUri: string,
-    virtualMachineInstance: VirtualMachineInstance,
-    options?: VirtualMachineInstancesCreateOrUpdateOptionalParams
+    resource: VirtualMachineInstance,
+    options?: VirtualMachineInstancesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VirtualMachineInstancesCreateOrUpdateResponse>,
@@ -72,52 +73,25 @@ export interface VirtualMachineInstances {
   /**
    * The operation to create or update a virtual machine instance. Please note some properties can be set
    * only during virtual machine instance creation.
-   * @param resourceUri The fully qualified Azure Resource manager identifier of the Hybrid Compute
-   *                    machine resource to be extended.
-   * @param virtualMachineInstance The virtual machine instance resource definition.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceUri: string,
-    virtualMachineInstance: VirtualMachineInstance,
-    options?: VirtualMachineInstancesCreateOrUpdateOptionalParams
+    resource: VirtualMachineInstance,
+    options?: VirtualMachineInstancesCreateOrUpdateOptionalParams,
   ): Promise<VirtualMachineInstancesCreateOrUpdateResponse>;
   /**
-   * The operation to delete a virtual machine instance.
-   * @param resourceUri The fully qualified Azure Resource manager identifier of the Hybrid Compute
-   *                    machine resource to be extended.
-   * @param options The options parameters.
-   */
-  beginDelete(
-    resourceUri: string,
-    options?: VirtualMachineInstancesDeleteOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<VirtualMachineInstancesDeleteResponse>,
-      VirtualMachineInstancesDeleteResponse
-    >
-  >;
-  /**
-   * The operation to delete a virtual machine instance.
-   * @param resourceUri The fully qualified Azure Resource manager identifier of the Hybrid Compute
-   *                    machine resource to be extended.
-   * @param options The options parameters.
-   */
-  beginDeleteAndWait(
-    resourceUri: string,
-    options?: VirtualMachineInstancesDeleteOptionalParams
-  ): Promise<VirtualMachineInstancesDeleteResponse>;
-  /**
    * The operation to update a virtual machine instance.
-   * @param resourceUri The fully qualified Azure Resource manager identifier of the Hybrid Compute
-   *                    machine resource to be extended.
-   * @param virtualMachineInstance The virtual machine instance resource patch definition.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
+   * @param properties The resource properties to be updated.
    * @param options The options parameters.
    */
   beginUpdate(
     resourceUri: string,
-    virtualMachineInstance: VirtualMachineInstanceUpdateRequest,
-    options?: VirtualMachineInstancesUpdateOptionalParams
+    properties: VirtualMachineInstanceUpdateRequest,
+    options?: VirtualMachineInstancesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VirtualMachineInstancesUpdateResponse>,
@@ -126,75 +100,69 @@ export interface VirtualMachineInstances {
   >;
   /**
    * The operation to update a virtual machine instance.
-   * @param resourceUri The fully qualified Azure Resource manager identifier of the Hybrid Compute
-   *                    machine resource to be extended.
-   * @param virtualMachineInstance The virtual machine instance resource patch definition.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
+   * @param properties The resource properties to be updated.
    * @param options The options parameters.
    */
   beginUpdateAndWait(
     resourceUri: string,
-    virtualMachineInstance: VirtualMachineInstanceUpdateRequest,
-    options?: VirtualMachineInstancesUpdateOptionalParams
+    properties: VirtualMachineInstanceUpdateRequest,
+    options?: VirtualMachineInstancesUpdateOptionalParams,
   ): Promise<VirtualMachineInstancesUpdateResponse>;
   /**
-   * The operation to start a virtual machine instance.
-   * @param resourceUri The fully qualified Azure Resource manager identifier of the Hybrid Compute
-   *                    machine resource to be extended.
+   * The operation to delete a virtual machine instance.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
    * @param options The options parameters.
    */
-  beginStart(
+  beginDelete(
     resourceUri: string,
-    options?: VirtualMachineInstancesStartOptionalParams
+    options?: VirtualMachineInstancesDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<VirtualMachineInstancesStartResponse>,
-      VirtualMachineInstancesStartResponse
+      OperationState<VirtualMachineInstancesDeleteResponse>,
+      VirtualMachineInstancesDeleteResponse
     >
   >;
   /**
-   * The operation to start a virtual machine instance.
-   * @param resourceUri The fully qualified Azure Resource manager identifier of the Hybrid Compute
-   *                    machine resource to be extended.
+   * The operation to delete a virtual machine instance.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
    * @param options The options parameters.
    */
-  beginStartAndWait(
+  beginDeleteAndWait(
     resourceUri: string,
-    options?: VirtualMachineInstancesStartOptionalParams
-  ): Promise<VirtualMachineInstancesStartResponse>;
+    options?: VirtualMachineInstancesDeleteOptionalParams,
+  ): Promise<VirtualMachineInstancesDeleteResponse>;
   /**
-   * The operation to stop a virtual machine instance.
-   * @param resourceUri The fully qualified Azure Resource manager identifier of the Hybrid Compute
-   *                    machine resource to be extended.
+   * The operation to pause a virtual machine instance.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
    * @param options The options parameters.
    */
-  beginStop(
+  beginPause(
     resourceUri: string,
-    options?: VirtualMachineInstancesStopOptionalParams
+    options?: VirtualMachineInstancesPauseOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<VirtualMachineInstancesStopResponse>,
-      VirtualMachineInstancesStopResponse
+      OperationState<VirtualMachineInstancesPauseResponse>,
+      VirtualMachineInstancesPauseResponse
     >
   >;
   /**
-   * The operation to stop a virtual machine instance.
-   * @param resourceUri The fully qualified Azure Resource manager identifier of the Hybrid Compute
-   *                    machine resource to be extended.
+   * The operation to pause a virtual machine instance.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
    * @param options The options parameters.
    */
-  beginStopAndWait(
+  beginPauseAndWait(
     resourceUri: string,
-    options?: VirtualMachineInstancesStopOptionalParams
-  ): Promise<VirtualMachineInstancesStopResponse>;
+    options?: VirtualMachineInstancesPauseOptionalParams,
+  ): Promise<VirtualMachineInstancesPauseResponse>;
   /**
    * The operation to restart a virtual machine instance.
-   * @param resourceUri The fully qualified Azure Resource manager identifier of the Hybrid Compute
-   *                    machine resource to be extended.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
    * @param options The options parameters.
    */
   beginRestart(
     resourceUri: string,
-    options?: VirtualMachineInstancesRestartOptionalParams
+    options?: VirtualMachineInstancesRestartOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VirtualMachineInstancesRestartResponse>,
@@ -203,12 +171,80 @@ export interface VirtualMachineInstances {
   >;
   /**
    * The operation to restart a virtual machine instance.
-   * @param resourceUri The fully qualified Azure Resource manager identifier of the Hybrid Compute
-   *                    machine resource to be extended.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
    * @param options The options parameters.
    */
   beginRestartAndWait(
     resourceUri: string,
-    options?: VirtualMachineInstancesRestartOptionalParams
+    options?: VirtualMachineInstancesRestartOptionalParams,
   ): Promise<VirtualMachineInstancesRestartResponse>;
+  /**
+   * The operation to save a virtual machine instance.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
+   * @param options The options parameters.
+   */
+  beginSave(
+    resourceUri: string,
+    options?: VirtualMachineInstancesSaveOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VirtualMachineInstancesSaveResponse>,
+      VirtualMachineInstancesSaveResponse
+    >
+  >;
+  /**
+   * The operation to save a virtual machine instance.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
+   * @param options The options parameters.
+   */
+  beginSaveAndWait(
+    resourceUri: string,
+    options?: VirtualMachineInstancesSaveOptionalParams,
+  ): Promise<VirtualMachineInstancesSaveResponse>;
+  /**
+   * The operation to start a virtual machine instance.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
+   * @param options The options parameters.
+   */
+  beginStart(
+    resourceUri: string,
+    options?: VirtualMachineInstancesStartOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VirtualMachineInstancesStartResponse>,
+      VirtualMachineInstancesStartResponse
+    >
+  >;
+  /**
+   * The operation to start a virtual machine instance.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
+   * @param options The options parameters.
+   */
+  beginStartAndWait(
+    resourceUri: string,
+    options?: VirtualMachineInstancesStartOptionalParams,
+  ): Promise<VirtualMachineInstancesStartResponse>;
+  /**
+   * The operation to stop a virtual machine instance.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
+   * @param options The options parameters.
+   */
+  beginStop(
+    resourceUri: string,
+    options?: VirtualMachineInstancesStopOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VirtualMachineInstancesStopResponse>,
+      VirtualMachineInstancesStopResponse
+    >
+  >;
+  /**
+   * The operation to stop a virtual machine instance.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
+   * @param options The options parameters.
+   */
+  beginStopAndWait(
+    resourceUri: string,
+    options?: VirtualMachineInstancesStopOptionalParams,
+  ): Promise<VirtualMachineInstancesStopResponse>;
 }

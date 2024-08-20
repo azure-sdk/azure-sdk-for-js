@@ -9,41 +9,41 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
-  VirtualHardDisks,
-  VirtualHardDisksListOptionalParams,
+  VirtualHardDisk,
   VirtualHardDisksListAllOptionalParams,
+  VirtualHardDisksListByResourceGroupOptionalParams,
   VirtualHardDisksGetOptionalParams,
   VirtualHardDisksGetResponse,
   VirtualHardDisksCreateOrUpdateOptionalParams,
   VirtualHardDisksCreateOrUpdateResponse,
+  VirtualHardDiskTagsUpdate,
+  VirtualHardDisksUpdateOptionalParams,
+  VirtualHardDisksUpdateResponse,
   VirtualHardDisksDeleteOptionalParams,
   VirtualHardDisksDeleteResponse,
-  VirtualHardDisksUpdateRequest,
-  VirtualHardDisksUpdateOptionalParams,
-  VirtualHardDisksUpdateResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a VirtualHardDisksOperations. */
-export interface VirtualHardDisksOperations {
-  /**
-   * Lists all of the virtual hard disks in the specified resource group. Use the nextLink property in
-   * the response to get the next page of virtual hard disks.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param options The options parameters.
-   */
-  list(
-    resourceGroupName: string,
-    options?: VirtualHardDisksListOptionalParams
-  ): PagedAsyncIterableIterator<VirtualHardDisks>;
+/** Interface representing a VirtualHardDisks. */
+export interface VirtualHardDisks {
   /**
    * Lists all of the virtual hard disks in the specified subscription. Use the nextLink property in the
    * response to get the next page of virtual hard disks.
    * @param options The options parameters.
    */
   listAll(
-    options?: VirtualHardDisksListAllOptionalParams
-  ): PagedAsyncIterableIterator<VirtualHardDisks>;
+    options?: VirtualHardDisksListAllOptionalParams,
+  ): PagedAsyncIterableIterator<VirtualHardDisk>;
+  /**
+   * Lists all of the virtual hard disks in the specified resource group. Use the nextLink property in
+   * the response to get the next page of virtual hard disks.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param options The options parameters.
+   */
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: VirtualHardDisksListByResourceGroupOptionalParams,
+  ): PagedAsyncIterableIterator<VirtualHardDisk>;
   /**
    * Gets a virtual hard disk
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -53,21 +53,21 @@ export interface VirtualHardDisksOperations {
   get(
     resourceGroupName: string,
     virtualHardDiskName: string,
-    options?: VirtualHardDisksGetOptionalParams
+    options?: VirtualHardDisksGetOptionalParams,
   ): Promise<VirtualHardDisksGetResponse>;
   /**
    * The operation to create or update a virtual hard disk. Please note some properties can be set only
    * during virtual hard disk creation.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param virtualHardDiskName Name of the virtual hard disk
-   * @param virtualHardDisks The virtual hard disk resource definition.
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
     virtualHardDiskName: string,
-    virtualHardDisks: VirtualHardDisks,
-    options?: VirtualHardDisksCreateOrUpdateOptionalParams
+    resource: VirtualHardDisk,
+    options?: VirtualHardDisksCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VirtualHardDisksCreateOrUpdateResponse>,
@@ -79,15 +79,46 @@ export interface VirtualHardDisksOperations {
    * during virtual hard disk creation.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param virtualHardDiskName Name of the virtual hard disk
-   * @param virtualHardDisks The virtual hard disk resource definition.
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     virtualHardDiskName: string,
-    virtualHardDisks: VirtualHardDisks,
-    options?: VirtualHardDisksCreateOrUpdateOptionalParams
+    resource: VirtualHardDisk,
+    options?: VirtualHardDisksCreateOrUpdateOptionalParams,
   ): Promise<VirtualHardDisksCreateOrUpdateResponse>;
+  /**
+   * The operation to update a virtual hard disk.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param virtualHardDiskName Name of the virtual hard disk
+   * @param properties The resource properties to be updated.
+   * @param options The options parameters.
+   */
+  beginUpdate(
+    resourceGroupName: string,
+    virtualHardDiskName: string,
+    properties: VirtualHardDiskTagsUpdate,
+    options?: VirtualHardDisksUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VirtualHardDisksUpdateResponse>,
+      VirtualHardDisksUpdateResponse
+    >
+  >;
+  /**
+   * The operation to update a virtual hard disk.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param virtualHardDiskName Name of the virtual hard disk
+   * @param properties The resource properties to be updated.
+   * @param options The options parameters.
+   */
+  beginUpdateAndWait(
+    resourceGroupName: string,
+    virtualHardDiskName: string,
+    properties: VirtualHardDiskTagsUpdate,
+    options?: VirtualHardDisksUpdateOptionalParams,
+  ): Promise<VirtualHardDisksUpdateResponse>;
   /**
    * The operation to delete a virtual hard disk.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -97,7 +128,7 @@ export interface VirtualHardDisksOperations {
   beginDelete(
     resourceGroupName: string,
     virtualHardDiskName: string,
-    options?: VirtualHardDisksDeleteOptionalParams
+    options?: VirtualHardDisksDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VirtualHardDisksDeleteResponse>,
@@ -113,37 +144,6 @@ export interface VirtualHardDisksOperations {
   beginDeleteAndWait(
     resourceGroupName: string,
     virtualHardDiskName: string,
-    options?: VirtualHardDisksDeleteOptionalParams
+    options?: VirtualHardDisksDeleteOptionalParams,
   ): Promise<VirtualHardDisksDeleteResponse>;
-  /**
-   * The operation to update a virtual hard disk.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param virtualHardDiskName Name of the virtual hard disk
-   * @param virtualHardDisks The virtual hard disk resource patch definition.
-   * @param options The options parameters.
-   */
-  beginUpdate(
-    resourceGroupName: string,
-    virtualHardDiskName: string,
-    virtualHardDisks: VirtualHardDisksUpdateRequest,
-    options?: VirtualHardDisksUpdateOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<VirtualHardDisksUpdateResponse>,
-      VirtualHardDisksUpdateResponse
-    >
-  >;
-  /**
-   * The operation to update a virtual hard disk.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param virtualHardDiskName Name of the virtual hard disk
-   * @param virtualHardDisks The virtual hard disk resource patch definition.
-   * @param options The options parameters.
-   */
-  beginUpdateAndWait(
-    resourceGroupName: string,
-    virtualHardDiskName: string,
-    virtualHardDisks: VirtualHardDisksUpdateRequest,
-    options?: VirtualHardDisksUpdateOptionalParams
-  ): Promise<VirtualHardDisksUpdateResponse>;
 }

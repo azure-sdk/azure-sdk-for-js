@@ -7,19 +7,87 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { GuestAgent, GuestAgentsListOptionalParams } from "../models";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
+import {
+  GuestAgent,
+  GuestAgentsListByVirtualMachineInstanceOptionalParams,
+  GuestAgentsGetOptionalParams,
+  GuestAgentsGetResponse,
+  GuestAgentsCreateOptionalParams,
+  GuestAgentsCreateResponse,
+  GuestAgentsDeleteOptionalParams,
+  GuestAgentsDeleteResponse,
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a GuestAgents. */
 export interface GuestAgents {
   /**
    * Returns the list of GuestAgent of the given vm.
-   * @param resourceUri The fully qualified Azure Resource manager identifier of the Hybrid Compute
-   *                    machine resource to be extended.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
    * @param options The options parameters.
    */
-  list(
+  listByVirtualMachineInstance(
     resourceUri: string,
-    options?: GuestAgentsListOptionalParams
+    options?: GuestAgentsListByVirtualMachineInstanceOptionalParams,
   ): PagedAsyncIterableIterator<GuestAgent>;
+  /**
+   * Implements GuestAgent GET method.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
+   * @param options The options parameters.
+   */
+  get(
+    resourceUri: string,
+    options?: GuestAgentsGetOptionalParams,
+  ): Promise<GuestAgentsGetResponse>;
+  /**
+   * Create Or Update GuestAgent.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
+   * @param resource Resource create parameters.
+   * @param options The options parameters.
+   */
+  beginCreate(
+    resourceUri: string,
+    resource: GuestAgent,
+    options?: GuestAgentsCreateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<GuestAgentsCreateResponse>,
+      GuestAgentsCreateResponse
+    >
+  >;
+  /**
+   * Create Or Update GuestAgent.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
+   * @param resource Resource create parameters.
+   * @param options The options parameters.
+   */
+  beginCreateAndWait(
+    resourceUri: string,
+    resource: GuestAgent,
+    options?: GuestAgentsCreateOptionalParams,
+  ): Promise<GuestAgentsCreateResponse>;
+  /**
+   * Implements GuestAgent DELETE method.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
+   * @param options The options parameters.
+   */
+  beginDelete(
+    resourceUri: string,
+    options?: GuestAgentsDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<GuestAgentsDeleteResponse>,
+      GuestAgentsDeleteResponse
+    >
+  >;
+  /**
+   * Implements GuestAgent DELETE method.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
+   * @param options The options parameters.
+   */
+  beginDeleteAndWait(
+    resourceUri: string,
+    options?: GuestAgentsDeleteOptionalParams,
+  ): Promise<GuestAgentsDeleteResponse>;
 }

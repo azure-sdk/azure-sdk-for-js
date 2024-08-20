@@ -9,41 +9,41 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
-  NetworkInterfaces,
-  NetworkInterfacesListOptionalParams,
+  NetworkInterface,
   NetworkInterfacesListAllOptionalParams,
+  NetworkInterfacesListByResourceGroupOptionalParams,
   NetworkInterfacesGetOptionalParams,
   NetworkInterfacesGetResponse,
   NetworkInterfacesCreateOrUpdateOptionalParams,
   NetworkInterfacesCreateOrUpdateResponse,
+  NetworkInterfaceTagsUpdate,
+  NetworkInterfacesUpdateOptionalParams,
+  NetworkInterfacesUpdateResponse,
   NetworkInterfacesDeleteOptionalParams,
   NetworkInterfacesDeleteResponse,
-  NetworkInterfacesUpdateRequest,
-  NetworkInterfacesUpdateOptionalParams,
-  NetworkInterfacesUpdateResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a NetworkInterfacesOperations. */
-export interface NetworkInterfacesOperations {
-  /**
-   * Lists all of the network interfaces in the specified resource group. Use the nextLink property in
-   * the response to get the next page of network interfaces.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param options The options parameters.
-   */
-  list(
-    resourceGroupName: string,
-    options?: NetworkInterfacesListOptionalParams
-  ): PagedAsyncIterableIterator<NetworkInterfaces>;
+/** Interface representing a NetworkInterfaces. */
+export interface NetworkInterfaces {
   /**
    * Lists all of the network interfaces in the specified subscription. Use the nextLink property in the
    * response to get the next page of network interfaces.
    * @param options The options parameters.
    */
   listAll(
-    options?: NetworkInterfacesListAllOptionalParams
-  ): PagedAsyncIterableIterator<NetworkInterfaces>;
+    options?: NetworkInterfacesListAllOptionalParams,
+  ): PagedAsyncIterableIterator<NetworkInterface>;
+  /**
+   * Lists all of the network interfaces in the specified resource group. Use the nextLink property in
+   * the response to get the next page of network interfaces.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param options The options parameters.
+   */
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: NetworkInterfacesListByResourceGroupOptionalParams,
+  ): PagedAsyncIterableIterator<NetworkInterface>;
   /**
    * Gets a network interface
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -53,21 +53,21 @@ export interface NetworkInterfacesOperations {
   get(
     resourceGroupName: string,
     networkInterfaceName: string,
-    options?: NetworkInterfacesGetOptionalParams
+    options?: NetworkInterfacesGetOptionalParams,
   ): Promise<NetworkInterfacesGetResponse>;
   /**
    * The operation to create or update a network interface. Please note some properties can be set only
    * during network interface creation.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkInterfaceName Name of the network interface
-   * @param networkInterfaces The network interface resource definition.
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
     networkInterfaceName: string,
-    networkInterfaces: NetworkInterfaces,
-    options?: NetworkInterfacesCreateOrUpdateOptionalParams
+    resource: NetworkInterface,
+    options?: NetworkInterfacesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkInterfacesCreateOrUpdateResponse>,
@@ -79,15 +79,46 @@ export interface NetworkInterfacesOperations {
    * during network interface creation.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkInterfaceName Name of the network interface
-   * @param networkInterfaces The network interface resource definition.
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     networkInterfaceName: string,
-    networkInterfaces: NetworkInterfaces,
-    options?: NetworkInterfacesCreateOrUpdateOptionalParams
+    resource: NetworkInterface,
+    options?: NetworkInterfacesCreateOrUpdateOptionalParams,
   ): Promise<NetworkInterfacesCreateOrUpdateResponse>;
+  /**
+   * The operation to update a network interface.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param networkInterfaceName Name of the network interface
+   * @param properties The resource properties to be updated.
+   * @param options The options parameters.
+   */
+  beginUpdate(
+    resourceGroupName: string,
+    networkInterfaceName: string,
+    properties: NetworkInterfaceTagsUpdate,
+    options?: NetworkInterfacesUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<NetworkInterfacesUpdateResponse>,
+      NetworkInterfacesUpdateResponse
+    >
+  >;
+  /**
+   * The operation to update a network interface.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param networkInterfaceName Name of the network interface
+   * @param properties The resource properties to be updated.
+   * @param options The options parameters.
+   */
+  beginUpdateAndWait(
+    resourceGroupName: string,
+    networkInterfaceName: string,
+    properties: NetworkInterfaceTagsUpdate,
+    options?: NetworkInterfacesUpdateOptionalParams,
+  ): Promise<NetworkInterfacesUpdateResponse>;
   /**
    * The operation to delete a network interface.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -97,7 +128,7 @@ export interface NetworkInterfacesOperations {
   beginDelete(
     resourceGroupName: string,
     networkInterfaceName: string,
-    options?: NetworkInterfacesDeleteOptionalParams
+    options?: NetworkInterfacesDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkInterfacesDeleteResponse>,
@@ -113,37 +144,6 @@ export interface NetworkInterfacesOperations {
   beginDeleteAndWait(
     resourceGroupName: string,
     networkInterfaceName: string,
-    options?: NetworkInterfacesDeleteOptionalParams
+    options?: NetworkInterfacesDeleteOptionalParams,
   ): Promise<NetworkInterfacesDeleteResponse>;
-  /**
-   * The operation to update a network interface.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkInterfaceName Name of the network interface
-   * @param networkInterfaces The network interface resource patch definition.
-   * @param options The options parameters.
-   */
-  beginUpdate(
-    resourceGroupName: string,
-    networkInterfaceName: string,
-    networkInterfaces: NetworkInterfacesUpdateRequest,
-    options?: NetworkInterfacesUpdateOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<NetworkInterfacesUpdateResponse>,
-      NetworkInterfacesUpdateResponse
-    >
-  >;
-  /**
-   * The operation to update a network interface.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkInterfaceName Name of the network interface
-   * @param networkInterfaces The network interface resource patch definition.
-   * @param options The options parameters.
-   */
-  beginUpdateAndWait(
-    resourceGroupName: string,
-    networkInterfaceName: string,
-    networkInterfaces: NetworkInterfacesUpdateRequest,
-    options?: NetworkInterfacesUpdateOptionalParams
-  ): Promise<NetworkInterfacesUpdateResponse>;
 }

@@ -12,42 +12,45 @@ import { HybridIdentityMetadataOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AzureStackHCIClient } from "../azureStackHCIClient";
+import { MicrosoftAzureStackHCI } from "../microsoftAzureStackHCI";
 import {
   HybridIdentityMetadata,
-  HybridIdentityMetadataListNextOptionalParams,
-  HybridIdentityMetadataListOptionalParams,
-  HybridIdentityMetadataListResponse,
+  HybridIdentityMetadataListByVirtualMachineInstanceNextOptionalParams,
+  HybridIdentityMetadataListByVirtualMachineInstanceOptionalParams,
+  HybridIdentityMetadataListByVirtualMachineInstanceResponse,
   HybridIdentityMetadataGetOptionalParams,
   HybridIdentityMetadataGetResponse,
-  HybridIdentityMetadataListNextResponse
+  HybridIdentityMetadataListByVirtualMachineInstanceNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing HybridIdentityMetadataOperations operations. */
 export class HybridIdentityMetadataOperationsImpl
-  implements HybridIdentityMetadataOperations {
-  private readonly client: AzureStackHCIClient;
+  implements HybridIdentityMetadataOperations
+{
+  private readonly client: MicrosoftAzureStackHCI;
 
   /**
    * Initialize a new instance of the class HybridIdentityMetadataOperations class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureStackHCIClient) {
+  constructor(client: MicrosoftAzureStackHCI) {
     this.client = client;
   }
 
   /**
    * Returns the list of HybridIdentityMetadata of the given vm.
-   * @param resourceUri The fully qualified Azure Resource manager identifier of the Hybrid Compute
-   *                    machine resource to be extended.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
    * @param options The options parameters.
    */
-  public list(
+  public listByVirtualMachineInstance(
     resourceUri: string,
-    options?: HybridIdentityMetadataListOptionalParams
+    options?: HybridIdentityMetadataListByVirtualMachineInstanceOptionalParams,
   ): PagedAsyncIterableIterator<HybridIdentityMetadata> {
-    const iter = this.listPagingAll(resourceUri, options);
+    const iter = this.listByVirtualMachineInstancePagingAll(
+      resourceUri,
+      options,
+    );
     return {
       next() {
         return iter.next();
@@ -59,27 +62,35 @@ export class HybridIdentityMetadataOperationsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(resourceUri, options, settings);
-      }
+        return this.listByVirtualMachineInstancePagingPage(
+          resourceUri,
+          options,
+          settings,
+        );
+      },
     };
   }
 
-  private async *listPagingPage(
+  private async *listByVirtualMachineInstancePagingPage(
     resourceUri: string,
-    options?: HybridIdentityMetadataListOptionalParams,
-    settings?: PageSettings
+    options?: HybridIdentityMetadataListByVirtualMachineInstanceOptionalParams,
+    settings?: PageSettings,
   ): AsyncIterableIterator<HybridIdentityMetadata[]> {
-    let result: HybridIdentityMetadataListResponse;
+    let result: HybridIdentityMetadataListByVirtualMachineInstanceResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(resourceUri, options);
+      result = await this._listByVirtualMachineInstance(resourceUri, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(resourceUri, continuationToken, options);
+      result = await this._listByVirtualMachineInstanceNext(
+        resourceUri,
+        continuationToken,
+        options,
+      );
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -87,118 +98,118 @@ export class HybridIdentityMetadataOperationsImpl
     }
   }
 
-  private async *listPagingAll(
+  private async *listByVirtualMachineInstancePagingAll(
     resourceUri: string,
-    options?: HybridIdentityMetadataListOptionalParams
+    options?: HybridIdentityMetadataListByVirtualMachineInstanceOptionalParams,
   ): AsyncIterableIterator<HybridIdentityMetadata> {
-    for await (const page of this.listPagingPage(resourceUri, options)) {
+    for await (const page of this.listByVirtualMachineInstancePagingPage(
+      resourceUri,
+      options,
+    )) {
       yield* page;
     }
   }
 
   /**
+   * Returns the list of HybridIdentityMetadata of the given vm.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
+   * @param options The options parameters.
+   */
+  private _listByVirtualMachineInstance(
+    resourceUri: string,
+    options?: HybridIdentityMetadataListByVirtualMachineInstanceOptionalParams,
+  ): Promise<HybridIdentityMetadataListByVirtualMachineInstanceResponse> {
+    return this.client.sendOperationRequest(
+      { resourceUri, options },
+      listByVirtualMachineInstanceOperationSpec,
+    );
+  }
+
+  /**
    * Implements HybridIdentityMetadata GET method.
-   * @param resourceUri The fully qualified Azure Resource manager identifier of the Hybrid Compute
-   *                    machine resource to be extended.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
    * @param options The options parameters.
    */
   get(
     resourceUri: string,
-    options?: HybridIdentityMetadataGetOptionalParams
+    options?: HybridIdentityMetadataGetOptionalParams,
   ): Promise<HybridIdentityMetadataGetResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
   /**
-   * Returns the list of HybridIdentityMetadata of the given vm.
-   * @param resourceUri The fully qualified Azure Resource manager identifier of the Hybrid Compute
-   *                    machine resource to be extended.
+   * ListByVirtualMachineInstanceNext
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
+   * @param nextLink The nextLink from the previous successful call to the ListByVirtualMachineInstance
+   *                 method.
    * @param options The options parameters.
    */
-  private _list(
-    resourceUri: string,
-    options?: HybridIdentityMetadataListOptionalParams
-  ): Promise<HybridIdentityMetadataListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceUri, options },
-      listOperationSpec
-    );
-  }
-
-  /**
-   * ListNext
-   * @param resourceUri The fully qualified Azure Resource manager identifier of the Hybrid Compute
-   *                    machine resource to be extended.
-   * @param nextLink The nextLink from the previous successful call to the List method.
-   * @param options The options parameters.
-   */
-  private _listNext(
+  private _listByVirtualMachineInstanceNext(
     resourceUri: string,
     nextLink: string,
-    options?: HybridIdentityMetadataListNextOptionalParams
-  ): Promise<HybridIdentityMetadataListNextResponse> {
+    options?: HybridIdentityMetadataListByVirtualMachineInstanceNextOptionalParams,
+  ): Promise<HybridIdentityMetadataListByVirtualMachineInstanceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, nextLink, options },
-      listNextOperationSpec
+      listByVirtualMachineInstanceNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listByVirtualMachineInstanceOperationSpec: coreClient.OperationSpec = {
+  path: "/{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/hybridIdentityMetadata",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.HybridIdentityMetadataListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.resourceUri],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/hybridIdentityMetadata/default",
+  path: "/{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/hybridIdentityMetadata/default",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.HybridIdentityMetadata
+      bodyMapper: Mappers.HybridIdentityMetadata,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.resourceUri],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/hybridIdentityMetadata",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.HybridIdentityMetadataList
+const listByVirtualMachineInstanceNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.HybridIdentityMetadataListResult,
+      },
+      default: {
+        bodyMapper: Mappers.ErrorResponse,
+      },
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.resourceUri],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.HybridIdentityMetadataList
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.resourceUri
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
+    urlParameters: [
+      Parameters.$host,
+      Parameters.resourceUri,
+      Parameters.nextLink,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };

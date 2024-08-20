@@ -9,41 +9,41 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
-  MarketplaceGalleryImages,
-  MarketplaceGalleryImagesListOptionalParams,
+  MarketplaceGalleryImage,
   MarketplaceGalleryImagesListAllOptionalParams,
+  MarketplaceGalleryImagesListByResourceGroupOptionalParams,
   MarketplaceGalleryImagesGetOptionalParams,
   MarketplaceGalleryImagesGetResponse,
   MarketplaceGalleryImagesCreateOrUpdateOptionalParams,
   MarketplaceGalleryImagesCreateOrUpdateResponse,
+  MarketplaceGalleryImageTagsUpdate,
+  MarketplaceGalleryImagesUpdateOptionalParams,
+  MarketplaceGalleryImagesUpdateResponse,
   MarketplaceGalleryImagesDeleteOptionalParams,
   MarketplaceGalleryImagesDeleteResponse,
-  MarketplaceGalleryImagesUpdateRequest,
-  MarketplaceGalleryImagesUpdateOptionalParams,
-  MarketplaceGalleryImagesUpdateResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a MarketplaceGalleryImagesOperations. */
-export interface MarketplaceGalleryImagesOperations {
-  /**
-   * Lists all of the marketplace gallery images in the specified resource group. Use the nextLink
-   * property in the response to get the next page of marketplace gallery images.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param options The options parameters.
-   */
-  list(
-    resourceGroupName: string,
-    options?: MarketplaceGalleryImagesListOptionalParams
-  ): PagedAsyncIterableIterator<MarketplaceGalleryImages>;
+/** Interface representing a MarketplaceGalleryImages. */
+export interface MarketplaceGalleryImages {
   /**
    * Lists all of the marketplace gallery images in the specified subscription. Use the nextLink property
    * in the response to get the next page of marketplace gallery images.
    * @param options The options parameters.
    */
   listAll(
-    options?: MarketplaceGalleryImagesListAllOptionalParams
-  ): PagedAsyncIterableIterator<MarketplaceGalleryImages>;
+    options?: MarketplaceGalleryImagesListAllOptionalParams,
+  ): PagedAsyncIterableIterator<MarketplaceGalleryImage>;
+  /**
+   * Lists all of the marketplace gallery images in the specified resource group. Use the nextLink
+   * property in the response to get the next page of marketplace gallery images.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param options The options parameters.
+   */
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: MarketplaceGalleryImagesListByResourceGroupOptionalParams,
+  ): PagedAsyncIterableIterator<MarketplaceGalleryImage>;
   /**
    * Gets a marketplace gallery image
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -53,21 +53,21 @@ export interface MarketplaceGalleryImagesOperations {
   get(
     resourceGroupName: string,
     marketplaceGalleryImageName: string,
-    options?: MarketplaceGalleryImagesGetOptionalParams
+    options?: MarketplaceGalleryImagesGetOptionalParams,
   ): Promise<MarketplaceGalleryImagesGetResponse>;
   /**
    * The operation to create or update a marketplace gallery image. Please note some properties can be
    * set only during marketplace gallery image creation.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param marketplaceGalleryImageName Name of the marketplace gallery image
-   * @param marketplaceGalleryImages The marketplace gallery image resource definition.
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
     marketplaceGalleryImageName: string,
-    marketplaceGalleryImages: MarketplaceGalleryImages,
-    options?: MarketplaceGalleryImagesCreateOrUpdateOptionalParams
+    resource: MarketplaceGalleryImage,
+    options?: MarketplaceGalleryImagesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MarketplaceGalleryImagesCreateOrUpdateResponse>,
@@ -79,15 +79,46 @@ export interface MarketplaceGalleryImagesOperations {
    * set only during marketplace gallery image creation.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param marketplaceGalleryImageName Name of the marketplace gallery image
-   * @param marketplaceGalleryImages The marketplace gallery image resource definition.
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     marketplaceGalleryImageName: string,
-    marketplaceGalleryImages: MarketplaceGalleryImages,
-    options?: MarketplaceGalleryImagesCreateOrUpdateOptionalParams
+    resource: MarketplaceGalleryImage,
+    options?: MarketplaceGalleryImagesCreateOrUpdateOptionalParams,
   ): Promise<MarketplaceGalleryImagesCreateOrUpdateResponse>;
+  /**
+   * The operation to update a marketplace gallery image.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param marketplaceGalleryImageName Name of the marketplace gallery image
+   * @param properties The resource properties to be updated.
+   * @param options The options parameters.
+   */
+  beginUpdate(
+    resourceGroupName: string,
+    marketplaceGalleryImageName: string,
+    properties: MarketplaceGalleryImageTagsUpdate,
+    options?: MarketplaceGalleryImagesUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<MarketplaceGalleryImagesUpdateResponse>,
+      MarketplaceGalleryImagesUpdateResponse
+    >
+  >;
+  /**
+   * The operation to update a marketplace gallery image.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param marketplaceGalleryImageName Name of the marketplace gallery image
+   * @param properties The resource properties to be updated.
+   * @param options The options parameters.
+   */
+  beginUpdateAndWait(
+    resourceGroupName: string,
+    marketplaceGalleryImageName: string,
+    properties: MarketplaceGalleryImageTagsUpdate,
+    options?: MarketplaceGalleryImagesUpdateOptionalParams,
+  ): Promise<MarketplaceGalleryImagesUpdateResponse>;
   /**
    * The operation to delete a marketplace gallery image.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -97,7 +128,7 @@ export interface MarketplaceGalleryImagesOperations {
   beginDelete(
     resourceGroupName: string,
     marketplaceGalleryImageName: string,
-    options?: MarketplaceGalleryImagesDeleteOptionalParams
+    options?: MarketplaceGalleryImagesDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MarketplaceGalleryImagesDeleteResponse>,
@@ -113,37 +144,6 @@ export interface MarketplaceGalleryImagesOperations {
   beginDeleteAndWait(
     resourceGroupName: string,
     marketplaceGalleryImageName: string,
-    options?: MarketplaceGalleryImagesDeleteOptionalParams
+    options?: MarketplaceGalleryImagesDeleteOptionalParams,
   ): Promise<MarketplaceGalleryImagesDeleteResponse>;
-  /**
-   * The operation to update a marketplace gallery image.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param marketplaceGalleryImageName Name of the marketplace gallery image
-   * @param marketplaceGalleryImages The marketplace gallery image resource patch definition.
-   * @param options The options parameters.
-   */
-  beginUpdate(
-    resourceGroupName: string,
-    marketplaceGalleryImageName: string,
-    marketplaceGalleryImages: MarketplaceGalleryImagesUpdateRequest,
-    options?: MarketplaceGalleryImagesUpdateOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<MarketplaceGalleryImagesUpdateResponse>,
-      MarketplaceGalleryImagesUpdateResponse
-    >
-  >;
-  /**
-   * The operation to update a marketplace gallery image.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param marketplaceGalleryImageName Name of the marketplace gallery image
-   * @param marketplaceGalleryImages The marketplace gallery image resource patch definition.
-   * @param options The options parameters.
-   */
-  beginUpdateAndWait(
-    resourceGroupName: string,
-    marketplaceGalleryImageName: string,
-    marketplaceGalleryImages: MarketplaceGalleryImagesUpdateRequest,
-    options?: MarketplaceGalleryImagesUpdateOptionalParams
-  ): Promise<MarketplaceGalleryImagesUpdateResponse>;
 }

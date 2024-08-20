@@ -9,42 +9,43 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
-  LogicalNetworks,
-  LogicalNetworksListOptionalParams,
+  LogicalNetwork,
   LogicalNetworksListAllOptionalParams,
+  LogicalNetworksListByResourceGroupOptionalParams,
   LogicalNetworksGetOptionalParams,
   LogicalNetworksGetResponse,
   LogicalNetworksCreateOrUpdateOptionalParams,
   LogicalNetworksCreateOrUpdateResponse,
-  LogicalNetworksDeleteOptionalParams,
-  LogicalNetworksDeleteResponse,
   LogicalNetworksUpdateRequest,
   LogicalNetworksUpdateOptionalParams,
-  LogicalNetworksUpdateResponse
+  LogicalNetworksUpdateResponse,
+  LogicalNetworksDeleteOptionalParams,
+  LogicalNetworksDeleteResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a LogicalNetworksOperations. */
-export interface LogicalNetworksOperations {
-  /**
-   * Lists all of the logical networks in the specified resource group. Use the nextLink property in the
-   * response to get the next page of logical networks.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param options The options parameters.
-   */
-  list(
-    resourceGroupName: string,
-    options?: LogicalNetworksListOptionalParams
-  ): PagedAsyncIterableIterator<LogicalNetworks>;
+/** Interface representing a LogicalNetworks. */
+export interface LogicalNetworks {
   /**
    * Lists all of the logical networks in the specified subscription. Use the nextLink property in the
    * response to get the next page of logical networks.
    * @param options The options parameters.
    */
   listAll(
-    options?: LogicalNetworksListAllOptionalParams
-  ): PagedAsyncIterableIterator<LogicalNetworks>;
+    options?: LogicalNetworksListAllOptionalParams,
+  ): PagedAsyncIterableIterator<LogicalNetwork>;
   /**
+   * Lists all of the logical networks in the specified resource group. Use the nextLink property in the
+   * response to get the next page of logical networks.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param options The options parameters.
+   */
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: LogicalNetworksListByResourceGroupOptionalParams,
+  ): PagedAsyncIterableIterator<LogicalNetwork>;
+  /**
+   * The operation to get a logical network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param logicalNetworkName Name of the logical network
    * @param options The options parameters.
@@ -52,21 +53,21 @@ export interface LogicalNetworksOperations {
   get(
     resourceGroupName: string,
     logicalNetworkName: string,
-    options?: LogicalNetworksGetOptionalParams
+    options?: LogicalNetworksGetOptionalParams,
   ): Promise<LogicalNetworksGetResponse>;
   /**
    * The operation to create or update a logical network. Please note some properties can be set only
    * during logical network creation.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param logicalNetworkName Name of the logical network
-   * @param logicalNetworks The logical network resource definition.
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
     logicalNetworkName: string,
-    logicalNetworks: LogicalNetworks,
-    options?: LogicalNetworksCreateOrUpdateOptionalParams
+    resource: LogicalNetwork,
+    options?: LogicalNetworksCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<LogicalNetworksCreateOrUpdateResponse>,
@@ -78,15 +79,46 @@ export interface LogicalNetworksOperations {
    * during logical network creation.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param logicalNetworkName Name of the logical network
-   * @param logicalNetworks The logical network resource definition.
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     logicalNetworkName: string,
-    logicalNetworks: LogicalNetworks,
-    options?: LogicalNetworksCreateOrUpdateOptionalParams
+    resource: LogicalNetwork,
+    options?: LogicalNetworksCreateOrUpdateOptionalParams,
   ): Promise<LogicalNetworksCreateOrUpdateResponse>;
+  /**
+   * The operation to update a logical network.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param logicalNetworkName Name of the logical network
+   * @param properties The resource properties to be updated.
+   * @param options The options parameters.
+   */
+  beginUpdate(
+    resourceGroupName: string,
+    logicalNetworkName: string,
+    properties: LogicalNetworksUpdateRequest,
+    options?: LogicalNetworksUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<LogicalNetworksUpdateResponse>,
+      LogicalNetworksUpdateResponse
+    >
+  >;
+  /**
+   * The operation to update a logical network.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param logicalNetworkName Name of the logical network
+   * @param properties The resource properties to be updated.
+   * @param options The options parameters.
+   */
+  beginUpdateAndWait(
+    resourceGroupName: string,
+    logicalNetworkName: string,
+    properties: LogicalNetworksUpdateRequest,
+    options?: LogicalNetworksUpdateOptionalParams,
+  ): Promise<LogicalNetworksUpdateResponse>;
   /**
    * The operation to delete a logical network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -96,7 +128,7 @@ export interface LogicalNetworksOperations {
   beginDelete(
     resourceGroupName: string,
     logicalNetworkName: string,
-    options?: LogicalNetworksDeleteOptionalParams
+    options?: LogicalNetworksDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<LogicalNetworksDeleteResponse>,
@@ -112,37 +144,6 @@ export interface LogicalNetworksOperations {
   beginDeleteAndWait(
     resourceGroupName: string,
     logicalNetworkName: string,
-    options?: LogicalNetworksDeleteOptionalParams
+    options?: LogicalNetworksDeleteOptionalParams,
   ): Promise<LogicalNetworksDeleteResponse>;
-  /**
-   * The operation to update a logical network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param logicalNetworkName Name of the logical network
-   * @param logicalNetworks The logical network resource patch definition.
-   * @param options The options parameters.
-   */
-  beginUpdate(
-    resourceGroupName: string,
-    logicalNetworkName: string,
-    logicalNetworks: LogicalNetworksUpdateRequest,
-    options?: LogicalNetworksUpdateOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<LogicalNetworksUpdateResponse>,
-      LogicalNetworksUpdateResponse
-    >
-  >;
-  /**
-   * The operation to update a logical network.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param logicalNetworkName Name of the logical network
-   * @param logicalNetworks The logical network resource patch definition.
-   * @param options The options parameters.
-   */
-  beginUpdateAndWait(
-    resourceGroupName: string,
-    logicalNetworkName: string,
-    logicalNetworks: LogicalNetworksUpdateRequest,
-    options?: LogicalNetworksUpdateOptionalParams
-  ): Promise<LogicalNetworksUpdateResponse>;
 }

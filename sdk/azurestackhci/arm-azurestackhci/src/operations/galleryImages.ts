@@ -8,112 +8,49 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { GalleryImagesOperations } from "../operationsInterfaces";
+import { GalleryImages } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AzureStackHCIClient } from "../azureStackHCIClient";
+import { MicrosoftAzureStackHCI } from "../microsoftAzureStackHCI";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  GalleryImages,
-  GalleryImagesListNextOptionalParams,
-  GalleryImagesListOptionalParams,
-  GalleryImagesListResponse,
+  GalleryImage,
   GalleryImagesListAllNextOptionalParams,
   GalleryImagesListAllOptionalParams,
   GalleryImagesListAllResponse,
+  GalleryImagesListByResourceGroupNextOptionalParams,
+  GalleryImagesListByResourceGroupOptionalParams,
+  GalleryImagesListByResourceGroupResponse,
   GalleryImagesGetOptionalParams,
   GalleryImagesGetResponse,
   GalleryImagesCreateOrUpdateOptionalParams,
   GalleryImagesCreateOrUpdateResponse,
-  GalleryImagesDeleteOptionalParams,
-  GalleryImagesDeleteResponse,
-  GalleryImagesUpdateRequest,
+  GalleryImageTagsUpdate,
   GalleryImagesUpdateOptionalParams,
   GalleryImagesUpdateResponse,
-  GalleryImagesListNextResponse,
-  GalleryImagesListAllNextResponse
+  GalleryImagesDeleteOptionalParams,
+  GalleryImagesDeleteResponse,
+  GalleryImagesListAllNextResponse,
+  GalleryImagesListByResourceGroupNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing GalleryImagesOperations operations. */
-export class GalleryImagesOperationsImpl implements GalleryImagesOperations {
-  private readonly client: AzureStackHCIClient;
+/** Class containing GalleryImages operations. */
+export class GalleryImagesImpl implements GalleryImages {
+  private readonly client: MicrosoftAzureStackHCI;
 
   /**
-   * Initialize a new instance of the class GalleryImagesOperations class.
+   * Initialize a new instance of the class GalleryImages class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureStackHCIClient) {
+  constructor(client: MicrosoftAzureStackHCI) {
     this.client = client;
-  }
-
-  /**
-   * Lists all of the gallery images in the specified resource group. Use the nextLink property in the
-   * response to get the next page of gallery images.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param options The options parameters.
-   */
-  public list(
-    resourceGroupName: string,
-    options?: GalleryImagesListOptionalParams
-  ): PagedAsyncIterableIterator<GalleryImages> {
-    const iter = this.listPagingAll(resourceGroupName, options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listPagingPage(resourceGroupName, options, settings);
-      }
-    };
-  }
-
-  private async *listPagingPage(
-    resourceGroupName: string,
-    options?: GalleryImagesListOptionalParams,
-    settings?: PageSettings
-  ): AsyncIterableIterator<GalleryImages[]> {
-    let result: GalleryImagesListResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._list(resourceGroupName, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listPagingAll(
-    resourceGroupName: string,
-    options?: GalleryImagesListOptionalParams
-  ): AsyncIterableIterator<GalleryImages> {
-    for await (const page of this.listPagingPage(resourceGroupName, options)) {
-      yield* page;
-    }
   }
 
   /**
@@ -122,8 +59,8 @@ export class GalleryImagesOperationsImpl implements GalleryImagesOperations {
    * @param options The options parameters.
    */
   public listAll(
-    options?: GalleryImagesListAllOptionalParams
-  ): PagedAsyncIterableIterator<GalleryImages> {
+    options?: GalleryImagesListAllOptionalParams,
+  ): PagedAsyncIterableIterator<GalleryImage> {
     const iter = this.listAllPagingAll(options);
     return {
       next() {
@@ -137,14 +74,14 @@ export class GalleryImagesOperationsImpl implements GalleryImagesOperations {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listAllPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listAllPagingPage(
     options?: GalleryImagesListAllOptionalParams,
-    settings?: PageSettings
-  ): AsyncIterableIterator<GalleryImages[]> {
+    settings?: PageSettings,
+  ): AsyncIterableIterator<GalleryImage[]> {
     let result: GalleryImagesListAllResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
@@ -164,11 +101,108 @@ export class GalleryImagesOperationsImpl implements GalleryImagesOperations {
   }
 
   private async *listAllPagingAll(
-    options?: GalleryImagesListAllOptionalParams
-  ): AsyncIterableIterator<GalleryImages> {
+    options?: GalleryImagesListAllOptionalParams,
+  ): AsyncIterableIterator<GalleryImage> {
     for await (const page of this.listAllPagingPage(options)) {
       yield* page;
     }
+  }
+
+  /**
+   * Lists all of the gallery images in the specified resource group. Use the nextLink property in the
+   * response to get the next page of gallery images.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param options The options parameters.
+   */
+  public listByResourceGroup(
+    resourceGroupName: string,
+    options?: GalleryImagesListByResourceGroupOptionalParams,
+  ): PagedAsyncIterableIterator<GalleryImage> {
+    const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings,
+        );
+      },
+    };
+  }
+
+  private async *listByResourceGroupPagingPage(
+    resourceGroupName: string,
+    options?: GalleryImagesListByResourceGroupOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<GalleryImage[]> {
+    let result: GalleryImagesListByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByResourceGroupNext(
+        resourceGroupName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listByResourceGroupPagingAll(
+    resourceGroupName: string,
+    options?: GalleryImagesListByResourceGroupOptionalParams,
+  ): AsyncIterableIterator<GalleryImage> {
+    for await (const page of this.listByResourceGroupPagingPage(
+      resourceGroupName,
+      options,
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Lists all of the gallery images in the specified subscription. Use the nextLink property in the
+   * response to get the next page of gallery images.
+   * @param options The options parameters.
+   */
+  private _listAll(
+    options?: GalleryImagesListAllOptionalParams,
+  ): Promise<GalleryImagesListAllResponse> {
+    return this.client.sendOperationRequest({ options }, listAllOperationSpec);
+  }
+
+  /**
+   * Lists all of the gallery images in the specified resource group. Use the nextLink property in the
+   * response to get the next page of gallery images.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param options The options parameters.
+   */
+  private _listByResourceGroup(
+    resourceGroupName: string,
+    options?: GalleryImagesListByResourceGroupOptionalParams,
+  ): Promise<GalleryImagesListByResourceGroupResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, options },
+      listByResourceGroupOperationSpec,
+    );
   }
 
   /**
@@ -180,11 +214,11 @@ export class GalleryImagesOperationsImpl implements GalleryImagesOperations {
   get(
     resourceGroupName: string,
     galleryImageName: string,
-    options?: GalleryImagesGetOptionalParams
+    options?: GalleryImagesGetOptionalParams,
   ): Promise<GalleryImagesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, galleryImageName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -193,14 +227,14 @@ export class GalleryImagesOperationsImpl implements GalleryImagesOperations {
    * during gallery image creation.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param galleryImageName Name of the gallery image
-   * @param galleryImages The gallery images resource definition.
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     galleryImageName: string,
-    galleryImages: GalleryImages,
-    options?: GalleryImagesCreateOrUpdateOptionalParams
+    resource: GalleryImage,
+    options?: GalleryImagesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<GalleryImagesCreateOrUpdateResponse>,
@@ -209,21 +243,20 @@ export class GalleryImagesOperationsImpl implements GalleryImagesOperations {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<GalleryImagesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -232,8 +265,8 @@ export class GalleryImagesOperationsImpl implements GalleryImagesOperations {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -241,15 +274,15 @@ export class GalleryImagesOperationsImpl implements GalleryImagesOperations {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, galleryImageName, galleryImages, options },
-      spec: createOrUpdateOperationSpec
+      args: { resourceGroupName, galleryImageName, resource, options },
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       GalleryImagesCreateOrUpdateResponse,
@@ -257,7 +290,7 @@ export class GalleryImagesOperationsImpl implements GalleryImagesOperations {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -268,20 +301,115 @@ export class GalleryImagesOperationsImpl implements GalleryImagesOperations {
    * during gallery image creation.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param galleryImageName Name of the gallery image
-   * @param galleryImages The gallery images resource definition.
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     galleryImageName: string,
-    galleryImages: GalleryImages,
-    options?: GalleryImagesCreateOrUpdateOptionalParams
+    resource: GalleryImage,
+    options?: GalleryImagesCreateOrUpdateOptionalParams,
   ): Promise<GalleryImagesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       galleryImageName,
-      galleryImages,
-      options
+      resource,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * The operation to update a gallery image.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryImageName Name of the gallery image
+   * @param properties The resource properties to be updated.
+   * @param options The options parameters.
+   */
+  async beginUpdate(
+    resourceGroupName: string,
+    galleryImageName: string,
+    properties: GalleryImageTagsUpdate,
+    options?: GalleryImagesUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<GalleryImagesUpdateResponse>,
+      GalleryImagesUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<GalleryImagesUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, galleryImageName, properties, options },
+      spec: updateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      GalleryImagesUpdateResponse,
+      OperationState<GalleryImagesUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * The operation to update a gallery image.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryImageName Name of the gallery image
+   * @param properties The resource properties to be updated.
+   * @param options The options parameters.
+   */
+  async beginUpdateAndWait(
+    resourceGroupName: string,
+    galleryImageName: string,
+    properties: GalleryImageTagsUpdate,
+    options?: GalleryImagesUpdateOptionalParams,
+  ): Promise<GalleryImagesUpdateResponse> {
+    const poller = await this.beginUpdate(
+      resourceGroupName,
+      galleryImageName,
+      properties,
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -295,7 +423,7 @@ export class GalleryImagesOperationsImpl implements GalleryImagesOperations {
   async beginDelete(
     resourceGroupName: string,
     galleryImageName: string,
-    options?: GalleryImagesDeleteOptionalParams
+    options?: GalleryImagesDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<GalleryImagesDeleteResponse>,
@@ -304,21 +432,20 @@ export class GalleryImagesOperationsImpl implements GalleryImagesOperations {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<GalleryImagesDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -327,8 +454,8 @@ export class GalleryImagesOperationsImpl implements GalleryImagesOperations {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -336,15 +463,15 @@ export class GalleryImagesOperationsImpl implements GalleryImagesOperations {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, galleryImageName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
       GalleryImagesDeleteResponse,
@@ -352,7 +479,7 @@ export class GalleryImagesOperationsImpl implements GalleryImagesOperations {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -367,154 +494,14 @@ export class GalleryImagesOperationsImpl implements GalleryImagesOperations {
   async beginDeleteAndWait(
     resourceGroupName: string,
     galleryImageName: string,
-    options?: GalleryImagesDeleteOptionalParams
+    options?: GalleryImagesDeleteOptionalParams,
   ): Promise<GalleryImagesDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       galleryImageName,
-      options
+      options,
     );
     return poller.pollUntilDone();
-  }
-
-  /**
-   * The operation to update a gallery image.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param galleryImageName Name of the gallery image
-   * @param galleryImages The gallery images resource patch definition.
-   * @param options The options parameters.
-   */
-  async beginUpdate(
-    resourceGroupName: string,
-    galleryImageName: string,
-    galleryImages: GalleryImagesUpdateRequest,
-    options?: GalleryImagesUpdateOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<GalleryImagesUpdateResponse>,
-      GalleryImagesUpdateResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<GalleryImagesUpdateResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, galleryImageName, galleryImages, options },
-      spec: updateOperationSpec
-    });
-    const poller = await createHttpPoller<
-      GalleryImagesUpdateResponse,
-      OperationState<GalleryImagesUpdateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * The operation to update a gallery image.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param galleryImageName Name of the gallery image
-   * @param galleryImages The gallery images resource patch definition.
-   * @param options The options parameters.
-   */
-  async beginUpdateAndWait(
-    resourceGroupName: string,
-    galleryImageName: string,
-    galleryImages: GalleryImagesUpdateRequest,
-    options?: GalleryImagesUpdateOptionalParams
-  ): Promise<GalleryImagesUpdateResponse> {
-    const poller = await this.beginUpdate(
-      resourceGroupName,
-      galleryImageName,
-      galleryImages,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Lists all of the gallery images in the specified resource group. Use the nextLink property in the
-   * response to get the next page of gallery images.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param options The options parameters.
-   */
-  private _list(
-    resourceGroupName: string,
-    options?: GalleryImagesListOptionalParams
-  ): Promise<GalleryImagesListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listOperationSpec
-    );
-  }
-
-  /**
-   * Lists all of the gallery images in the specified subscription. Use the nextLink property in the
-   * response to get the next page of gallery images.
-   * @param options The options parameters.
-   */
-  private _listAll(
-    options?: GalleryImagesListAllOptionalParams
-  ): Promise<GalleryImagesListAllResponse> {
-    return this.client.sendOperationRequest({ options }, listAllOperationSpec);
-  }
-
-  /**
-   * ListNext
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param nextLink The nextLink from the previous successful call to the List method.
-   * @param options The options parameters.
-   */
-  private _listNext(
-    resourceGroupName: string,
-    nextLink: string,
-    options?: GalleryImagesListNextOptionalParams
-  ): Promise<GalleryImagesListNextResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, nextLink, options },
-      listNextOperationSpec
-    );
   }
 
   /**
@@ -524,210 +511,221 @@ export class GalleryImagesOperationsImpl implements GalleryImagesOperations {
    */
   private _listAllNext(
     nextLink: string,
-    options?: GalleryImagesListAllNextOptionalParams
+    options?: GalleryImagesListAllNextOptionalParams,
   ): Promise<GalleryImagesListAllNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listAllNextOperationSpec
+      listAllNextOperationSpec,
+    );
+  }
+
+  /**
+   * ListByResourceGroupNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
+   * @param options The options parameters.
+   */
+  private _listByResourceGroupNext(
+    resourceGroupName: string,
+    nextLink: string,
+    options?: GalleryImagesListByResourceGroupNextOptionalParams,
+  ): Promise<GalleryImagesListByResourceGroupNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, nextLink, options },
+      listByResourceGroupNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/galleryImages/{galleryImageName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.GalleryImages
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.galleryImageName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/galleryImages/{galleryImageName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.GalleryImages
-    },
-    201: {
-      bodyMapper: Mappers.GalleryImages
-    },
-    202: {
-      bodyMapper: Mappers.GalleryImages
-    },
-    204: {
-      bodyMapper: Mappers.GalleryImages
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.galleryImages,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.galleryImageName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/galleryImages/{galleryImageName}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {
-      headersMapper: Mappers.GalleryImagesDeleteHeaders
-    },
-    201: {
-      headersMapper: Mappers.GalleryImagesDeleteHeaders
-    },
-    202: {
-      headersMapper: Mappers.GalleryImagesDeleteHeaders
-    },
-    204: {
-      headersMapper: Mappers.GalleryImagesDeleteHeaders
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.galleryImageName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/galleryImages/{galleryImageName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.GalleryImages
-    },
-    201: {
-      bodyMapper: Mappers.GalleryImages
-    },
-    202: {
-      bodyMapper: Mappers.GalleryImages
-    },
-    204: {
-      bodyMapper: Mappers.GalleryImages
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.galleryImages1,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.galleryImageName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/galleryImages",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.GalleryImagesListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const listAllOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.AzureStackHCI/galleryImages",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.AzureStackHCI/galleryImages",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GalleryImagesListResult
+      bodyMapper: Mappers.GalleryImageListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
+const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/galleryImages",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GalleryImagesListResult
+      bodyMapper: Mappers.GalleryImageListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/galleryImages/{galleryImageName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GalleryImage,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.galleryImageName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/galleryImages/{galleryImageName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GalleryImage,
+    },
+    201: {
+      bodyMapper: Mappers.GalleryImage,
+    },
+    202: {
+      bodyMapper: Mappers.GalleryImage,
+    },
+    204: {
+      bodyMapper: Mappers.GalleryImage,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.resource2,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.galleryImageName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const updateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/galleryImages/{galleryImageName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GalleryImage,
+    },
+    201: {
+      bodyMapper: Mappers.GalleryImage,
+    },
+    202: {
+      bodyMapper: Mappers.GalleryImage,
+    },
+    204: {
+      bodyMapper: Mappers.GalleryImage,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.properties1,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.galleryImageName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/galleryImages/{galleryImageName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {
+      headersMapper: Mappers.GalleryImagesDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.GalleryImagesDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.GalleryImagesDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.GalleryImagesDeleteHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.galleryImageName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listAllNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GalleryImagesListResult
+      bodyMapper: Mappers.GalleryImageListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.nextLink,
     Parameters.subscriptionId,
-    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GalleryImageListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.nextLink,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
