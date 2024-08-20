@@ -164,11 +164,6 @@ export enum KnownSapInstanceType {
 }
 
 // @public
-export enum KnownVersions {
-    V20231001Preview = "2023-10-01-preview"
-}
-
-// @public
 export interface NativePerformanceData extends PerformanceData {
     dataSource: "Native";
 }
@@ -264,7 +259,7 @@ export interface SAPDiscoverySite extends TrackedResource {
 
 // @public
 export interface SAPDiscoverySiteListResult {
-    readonly nextLink?: string;
+    nextLink?: string;
     value: SAPDiscoverySite[];
 }
 
@@ -390,7 +385,7 @@ export type SapInstanceEnvironment = string;
 
 // @public
 export interface SAPInstanceListResult {
-    readonly nextLink?: string;
+    nextLink?: string;
     value: SAPInstance[];
 }
 
@@ -491,7 +486,7 @@ export interface ServerInstance extends ProxyResource {
 
 // @public
 export interface ServerInstanceListResult {
-    readonly nextLink?: string;
+    nextLink?: string;
     value: ServerInstance[];
 }
 
@@ -596,9 +591,6 @@ export interface TrackedResource extends Resource {
 export interface UpdateServerInstanceRequest {
     properties?: ServerInstanceProperties;
 }
-
-// @public
-export type Versions = string;
 
 // @public (undocumented)
 export class WorkloadsClient extends coreClient.ServiceClient {
