@@ -15695,12 +15695,13 @@ packages:
     dev: false
 
   file:projects/arm-hybridconnectivity.tgz:
-    resolution: {integrity: sha512-1lBPG78GcJzp2UAt2MFD2eH614bbwxd5E+Mtrskcik1ud+X2afpPYCCEh+jpfY0RCQPlelzVeajjyIHVNYWBhg==, tarball: file:projects/arm-hybridconnectivity.tgz}
+    resolution: {integrity: sha512-elhIM2jwsjJWWcDLovbcDwFfCR/p/J2Vem3CA526TORWhdEcYHjOgZM1R7LPXaVZgUJsnfyhSxKiktPIEAa4ag==, tarball: file:projects/arm-hybridconnectivity.tgz}
     name: '@rush-temp/arm-hybridconnectivity'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
+      '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
       '@microsoft/api-extractor': 7.47.6(@types/node@18.19.45)
       '@types/chai': 4.3.17
@@ -15714,6 +15715,7 @@ packages:
       rimraf: 5.0.10
       ts-node: 10.9.2(@types/node@18.19.45)(typescript@5.5.4)
       tslib: 2.6.3
+      tsx: 4.17.0
       typescript: 5.5.4
       uglify-js: 3.19.2
     transitivePeerDependencies:
