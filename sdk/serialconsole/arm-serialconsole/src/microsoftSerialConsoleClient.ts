@@ -11,7 +11,7 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import { SerialPortsImpl } from "./operations";
@@ -27,13 +27,13 @@ import {
   DisableConsoleOptionalParams,
   DisableConsoleResponse,
   EnableConsoleOptionalParams,
-  EnableConsoleResponse
+  EnableConsoleResponse,
 } from "./models";
 
 export class MicrosoftSerialConsoleClient extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
-  subscriptionId: string;
+  subscriptionId?: string;
 
   /**
    * Initializes a new instance of the MicrosoftSerialConsoleClient class.
@@ -45,13 +45,29 @@ export class MicrosoftSerialConsoleClient extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: MicrosoftSerialConsoleClientOptionalParams
+    options?: MicrosoftSerialConsoleClientOptionalParams,
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    options?: MicrosoftSerialConsoleClientOptionalParams,
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    subscriptionIdOrOptions?:
+      | MicrosoftSerialConsoleClientOptionalParams
+      | string,
+    options?: MicrosoftSerialConsoleClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
     }
-    if (subscriptionId === undefined) {
-      throw new Error("'subscriptionId' cannot be null");
+
+    let subscriptionId: string | undefined;
+
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
     }
 
     // Initializing default values for options
@@ -60,10 +76,10 @@ export class MicrosoftSerialConsoleClient extends coreClient.ServiceClient {
     }
     const defaults: MicrosoftSerialConsoleClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-serialconsole/2.1.1`;
+    const packageDetails = `azsdk-js-arm-serialconsole/3.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -73,20 +89,21 @@ export class MicrosoftSerialConsoleClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -96,7 +113,7 @@ export class MicrosoftSerialConsoleClient extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -106,9 +123,9 @@ export class MicrosoftSerialConsoleClient extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -116,7 +133,7 @@ export class MicrosoftSerialConsoleClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2018-05-01";
+    this.apiVersion = options.apiVersion || "2024-07-01";
     this.serialPorts = new SerialPortsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
@@ -130,7 +147,7 @@ export class MicrosoftSerialConsoleClient extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -144,7 +161,7 @@ export class MicrosoftSerialConsoleClient extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
@@ -154,7 +171,7 @@ export class MicrosoftSerialConsoleClient extends coreClient.ServiceClient {
    * @param options The options parameters.
    */
   listOperations(
-    options?: ListOperationsOptionalParams
+    options?: ListOperationsOptionalParams,
   ): Promise<ListOperationsResponse> {
     return this.sendOperationRequest({ options }, listOperationsOperationSpec);
   }
@@ -166,11 +183,11 @@ export class MicrosoftSerialConsoleClient extends coreClient.ServiceClient {
    */
   getConsoleStatus(
     defaultParam: string,
-    options?: GetConsoleStatusOptionalParams
+    options?: GetConsoleStatusOptionalParams,
   ): Promise<GetConsoleStatusResponse> {
     return this.sendOperationRequest(
       { defaultParam, options },
-      getConsoleStatusOperationSpec
+      getConsoleStatusOperationSpec,
     );
   }
 
@@ -181,11 +198,11 @@ export class MicrosoftSerialConsoleClient extends coreClient.ServiceClient {
    */
   disableConsole(
     defaultParam: string,
-    options?: DisableConsoleOptionalParams
+    options?: DisableConsoleOptionalParams,
   ): Promise<DisableConsoleResponse> {
     return this.sendOperationRequest(
       { defaultParam, options },
-      disableConsoleOperationSpec
+      disableConsoleOperationSpec,
     );
   }
 
@@ -196,11 +213,11 @@ export class MicrosoftSerialConsoleClient extends coreClient.ServiceClient {
    */
   enableConsole(
     defaultParam: string,
-    options?: EnableConsoleOptionalParams
+    options?: EnableConsoleOptionalParams,
   ): Promise<EnableConsoleResponse> {
     return this.sendOperationRequest(
       { defaultParam, options },
-      enableConsoleOperationSpec
+      enableConsoleOperationSpec,
     );
   }
 
@@ -214,74 +231,86 @@ const listOperationsOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SerialConsoleOperations
-    }
+      bodyMapper: Mappers.SerialConsoleOperations,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getConsoleStatusOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.SerialConsole/consoleServices/{default}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.SerialConsole/consoleServices/{default}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SerialConsoleStatus
+      bodyMapper: Mappers.SerialConsoleStatus,
     },
     404: {
-      bodyMapper: Mappers.GetSerialConsoleSubscriptionNotFound
-    }
+      bodyMapper: Mappers.GetSerialConsoleSubscriptionNotFound,
+      isError: true,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.defaultParam
+    Parameters.defaultParam,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const disableConsoleOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.SerialConsole/consoleServices/{default}/disableConsole",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.SerialConsole/consoleServices/{default}/disableConsole",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.DisableSerialConsoleResult
+      bodyMapper: Mappers.DisableSerialConsoleResult,
     },
     404: {
-      bodyMapper: Mappers.GetSerialConsoleSubscriptionNotFound
-    }
+      bodyMapper: Mappers.GetSerialConsoleSubscriptionNotFound,
+      isError: true,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.defaultParam
+    Parameters.defaultParam,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const enableConsoleOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.SerialConsole/consoleServices/{default}/enableConsole",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.SerialConsole/consoleServices/{default}/enableConsole",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.EnableSerialConsoleResult
+      bodyMapper: Mappers.EnableSerialConsoleResult,
     },
     404: {
-      bodyMapper: Mappers.GetSerialConsoleSubscriptionNotFound
-    }
+      bodyMapper: Mappers.GetSerialConsoleSubscriptionNotFound,
+      isError: true,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.defaultParam
+    Parameters.defaultParam,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

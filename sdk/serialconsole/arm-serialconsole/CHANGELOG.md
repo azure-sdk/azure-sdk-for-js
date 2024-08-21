@@ -1,25 +1,41 @@
 # Release History
-
-## 2.1.1 (Unreleased)
-
+    
+## 3.0.0 (2024-08-21)
+    
 ### Features Added
+
+  - Added Interface DisableSerialConsoleResultProperties
+  - Added Interface EnableSerialConsoleResultProperties
+  - Added Interface SerialConsoleStatusProperties
+  - Added Interface SystemData
+  - Added Type Alias CreatedByType
+  - Added Type Alias SerialPortConnectionState
+  - Interface DisableSerialConsoleResult has a new optional parameter properties
+  - Interface EnableSerialConsoleResult has a new optional parameter properties
+  - Interface Resource has a new optional parameter systemData
+  - Interface SerialConsoleStatus has a new optional parameter properties
+  - Interface SerialPort has a new optional parameter connectionState
+  - Added Enum KnownCreatedByType
 
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation SerialPorts.delete
+  - Class MicrosoftSerialConsoleClient has a new signature
+  - Interface DisableSerialConsoleResult no longer has parameter disabled
+  - Interface EnableSerialConsoleResult no longer has parameter disabled
+  - Interface SerialConsoleStatus no longer has parameter disabled
+    
+    
 ## 2.1.0 (2022-12-09)
     
-**Features**
+### Features Added
 
   - Added Interface ProxyResource
   - Added Interface SerialPort
     
 ## 2.0.1 (2022-05-01)
 
-**Features**
+### Features Added
 
   - Bug fix
     
@@ -31,4 +47,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).
