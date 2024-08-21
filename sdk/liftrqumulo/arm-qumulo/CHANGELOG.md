@@ -1,15 +1,17 @@
 # Release History
-
-## 2.0.1 (Unreleased)
-
+    
+## 3.0.0 (2024-08-21)
+    
 ### Features Added
+
+  - Added Interface QumuloStorageForTestingOptionalParams
+  - Added Class QumuloStorageForTesting
 
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
-
+  - Deleted Class QumuloStorage
+    
+    
 ## 2.0.0 (2024-07-17)
     
 ### Features Added
