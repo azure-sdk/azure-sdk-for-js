@@ -67,7 +67,7 @@ export class DatabasesImpl implements Databases {
   }
 
   /**
-   * Gets all databases in the specified RedisEnterprise cluster.
+   * Gets all databases in the specified Redis Enterprise cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Redis Enterprise cluster.
    * @param options The options parameters.
@@ -151,7 +151,7 @@ export class DatabasesImpl implements Databases {
   }
 
   /**
-   * Gets all databases in the specified RedisEnterprise cluster.
+   * Gets all databases in the specified Redis Enterprise cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Redis Enterprise cluster.
    * @param options The options parameters.
@@ -380,7 +380,7 @@ export class DatabasesImpl implements Databases {
   }
 
   /**
-   * Gets information about a database in a RedisEnterprise cluster.
+   * Gets information about a database in a Redis Enterprise cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Redis Enterprise cluster.
    * @param databaseName The name of the Redis Enterprise database.
@@ -486,7 +486,7 @@ export class DatabasesImpl implements Databases {
   }
 
   /**
-   * Retrieves the access keys for the RedisEnterprise database.
+   * Retrieves the access keys for the Redis Enterprise database.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Redis Enterprise cluster.
    * @param databaseName The name of the Redis Enterprise database.
@@ -505,7 +505,7 @@ export class DatabasesImpl implements Databases {
   }
 
   /**
-   * Regenerates the RedisEnterprise database's access keys.
+   * Regenerates the Redis Enterprise database's access keys.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Redis Enterprise cluster.
    * @param databaseName The name of the Redis Enterprise database.
@@ -586,7 +586,7 @@ export class DatabasesImpl implements Databases {
   }
 
   /**
-   * Regenerates the RedisEnterprise database's access keys.
+   * Regenerates the Redis Enterprise database's access keys.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Redis Enterprise cluster.
    * @param databaseName The name of the Redis Enterprise database.
@@ -1270,7 +1270,7 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters2,
+  requestBody: Parameters.parameters3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1303,7 +1303,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters3,
+  requestBody: Parameters.parameters4,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1403,7 +1403,7 @@ const regenerateKeyOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters4,
+  requestBody: Parameters.parameters5,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1428,7 +1428,7 @@ const importOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters5,
+  requestBody: Parameters.parameters6,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1453,7 +1453,7 @@ const exportOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters6,
+  requestBody: Parameters.parameters7,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1478,7 +1478,7 @@ const forceUnlinkOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters7,
+  requestBody: Parameters.parameters8,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1511,7 +1511,7 @@ const forceLinkToReplicationGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters8,
+  requestBody: Parameters.parameters9,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1536,7 +1536,7 @@ const flushOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters9,
+  requestBody: Parameters.parameters10,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

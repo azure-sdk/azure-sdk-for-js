@@ -35,6 +35,8 @@ import {
   RedisEnterpriseDeleteOptionalParams,
   RedisEnterpriseGetOptionalParams,
   RedisEnterpriseGetResponse,
+  CheckNameAvailabilityParameters,
+  RedisEnterpriseCheckNameAvailabilityOptionalParams,
   RedisEnterpriseListByResourceGroupNextResponse,
   RedisEnterpriseListNextResponse,
 } from "../models";
@@ -53,7 +55,7 @@ export class RedisEnterpriseImpl implements RedisEnterprise {
   }
 
   /**
-   * Lists all RedisEnterprise clusters in a resource group.
+   * Lists all Redis Enterprise clusters in a resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
@@ -122,7 +124,7 @@ export class RedisEnterpriseImpl implements RedisEnterprise {
   }
 
   /**
-   * Gets all RedisEnterprise clusters in the specified subscription.
+   * Lists all Redis Enterprise clusters in the specified subscription.
    * @param options The options parameters.
    */
   public list(
@@ -179,7 +181,7 @@ export class RedisEnterpriseImpl implements RedisEnterprise {
    * Creates or updates an existing (overwrite/recreate, with potential downtime) cache cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Redis Enterprise cluster.
-   * @param parameters Parameters supplied to the Create RedisEnterprise operation.
+   * @param parameters Parameters supplied to the Create Redis Enterprise operation.
    * @param options The options parameters.
    */
   async beginCreate(
@@ -252,7 +254,7 @@ export class RedisEnterpriseImpl implements RedisEnterprise {
    * Creates or updates an existing (overwrite/recreate, with potential downtime) cache cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Redis Enterprise cluster.
-   * @param parameters Parameters supplied to the Create RedisEnterprise operation.
+   * @param parameters Parameters supplied to the Create Redis Enterprise operation.
    * @param options The options parameters.
    */
   async beginCreateAndWait(
@@ -271,10 +273,10 @@ export class RedisEnterpriseImpl implements RedisEnterprise {
   }
 
   /**
-   * Updates an existing RedisEnterprise cluster
+   * Updates an existing Redis Enterprise cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Redis Enterprise cluster.
-   * @param parameters Parameters supplied to the Update RedisEnterprise operation.
+   * @param parameters Parameters supplied to the Update Redis Enterprise operation.
    * @param options The options parameters.
    */
   async beginUpdate(
@@ -344,10 +346,10 @@ export class RedisEnterpriseImpl implements RedisEnterprise {
   }
 
   /**
-   * Updates an existing RedisEnterprise cluster
+   * Updates an existing Redis Enterprise cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Redis Enterprise cluster.
-   * @param parameters Parameters supplied to the Update RedisEnterprise operation.
+   * @param parameters Parameters supplied to the Update Redis Enterprise operation.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
@@ -366,7 +368,7 @@ export class RedisEnterpriseImpl implements RedisEnterprise {
   }
 
   /**
-   * Deletes a RedisEnterprise cache cluster.
+   * Deletes a Redis Enterprise cache cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Redis Enterprise cluster.
    * @param options The options parameters.
@@ -429,7 +431,7 @@ export class RedisEnterpriseImpl implements RedisEnterprise {
   }
 
   /**
-   * Deletes a RedisEnterprise cache cluster.
+   * Deletes a Redis Enterprise cache cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Redis Enterprise cluster.
    * @param options The options parameters.
@@ -448,7 +450,7 @@ export class RedisEnterpriseImpl implements RedisEnterprise {
   }
 
   /**
-   * Gets information about a RedisEnterprise cluster
+   * Gets information about a Redis Enterprise cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Redis Enterprise cluster.
    * @param options The options parameters.
@@ -465,7 +467,7 @@ export class RedisEnterpriseImpl implements RedisEnterprise {
   }
 
   /**
-   * Lists all RedisEnterprise clusters in a resource group.
+   * Lists all Redis Enterprise clusters in a resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
@@ -480,13 +482,31 @@ export class RedisEnterpriseImpl implements RedisEnterprise {
   }
 
   /**
-   * Gets all RedisEnterprise clusters in the specified subscription.
+   * Lists all Redis Enterprise clusters in the specified subscription.
    * @param options The options parameters.
    */
   private _list(
     options?: RedisEnterpriseListOptionalParams,
   ): Promise<RedisEnterpriseListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
+  }
+
+  /**
+   * Checks that the Redis Enterprise cache name is valid and is not already in use.
+   * @param location The name of the Azure region.
+   * @param parameters Parameters supplied to the CheckNameAvailability Redis operation. The only
+   *                   supported resource type is 'Microsoft.Cache/redisenterprise'
+   * @param options The options parameters.
+   */
+  checkNameAvailability(
+    location: string,
+    parameters: CheckNameAvailabilityParameters,
+    options?: RedisEnterpriseCheckNameAvailabilityOptionalParams,
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { location, parameters, options },
+      checkNameAvailabilityOperationSpec,
+    );
   }
 
   /**
@@ -665,6 +685,26 @@ const listOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
+  serializer,
+};
+const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Cache/locations/{location}/checkNameAvailability",
+  httpMethod: "POST",
+  responses: {
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters2,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.location,
+    Parameters.subscriptionId,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {

@@ -19,6 +19,8 @@ import {
   OperationsStatusImpl,
   RedisEnterpriseImpl,
   DatabasesImpl,
+  AccessPolicyAssignmentOperationsImpl,
+  AccessPolicyAssignmentsImpl,
   PrivateEndpointConnectionsImpl,
   PrivateLinkResourcesImpl,
 } from "./operations";
@@ -27,6 +29,8 @@ import {
   OperationsStatus,
   RedisEnterprise,
   Databases,
+  AccessPolicyAssignmentOperations,
+  AccessPolicyAssignments,
   PrivateEndpointConnections,
   PrivateLinkResources,
 } from "./operationsInterfaces";
@@ -40,7 +44,7 @@ export class RedisEnterpriseManagementClient extends coreClient.ServiceClient {
   /**
    * Initializes a new instance of the RedisEnterpriseManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId The ID of the target subscription.
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param options The parameter options
    */
   constructor(
@@ -64,7 +68,7 @@ export class RedisEnterpriseManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-redisenterprisecache/3.1.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-redisenterprisecache/4.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -118,11 +122,14 @@ export class RedisEnterpriseManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-03-01-preview";
+    this.apiVersion = options.apiVersion || "2024-09-01-preview";
     this.operations = new OperationsImpl(this);
     this.operationsStatus = new OperationsStatusImpl(this);
     this.redisEnterprise = new RedisEnterpriseImpl(this);
     this.databases = new DatabasesImpl(this);
+    this.accessPolicyAssignmentOperations =
+      new AccessPolicyAssignmentOperationsImpl(this);
+    this.accessPolicyAssignments = new AccessPolicyAssignmentsImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
@@ -160,6 +167,8 @@ export class RedisEnterpriseManagementClient extends coreClient.ServiceClient {
   operationsStatus: OperationsStatus;
   redisEnterprise: RedisEnterprise;
   databases: Databases;
+  accessPolicyAssignmentOperations: AccessPolicyAssignmentOperations;
+  accessPolicyAssignments: AccessPolicyAssignments;
   privateEndpointConnections: PrivateEndpointConnections;
   privateLinkResources: PrivateLinkResources;
 }

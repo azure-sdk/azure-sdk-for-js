@@ -8,22 +8,24 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  PrivateLinkResource,
-  PrivateLinkResourcesListByClusterOptionalParams,
+  AccessPolicyAssignment,
+  AccessPolicyAssignmentsListOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a PrivateLinkResources. */
-export interface PrivateLinkResources {
+/** Interface representing a AccessPolicyAssignments. */
+export interface AccessPolicyAssignments {
   /**
-   * Gets the private link resources that need to be created for a Redis Enterprise cluster.
+   * Gets all databases in the specified Redis Enterprise cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Redis Enterprise cluster.
+   * @param databaseName The name of the Redis Enterprise database.
    * @param options The options parameters.
    */
-  listByCluster(
+  list(
     resourceGroupName: string,
     clusterName: string,
-    options?: PrivateLinkResourcesListByClusterOptionalParams,
-  ): PagedAsyncIterableIterator<PrivateLinkResource>;
+    databaseName: string,
+    options?: AccessPolicyAssignmentsListOptionalParams,
+  ): PagedAsyncIterableIterator<AccessPolicyAssignment>;
 }

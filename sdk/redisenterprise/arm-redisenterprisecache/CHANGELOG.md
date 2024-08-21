@@ -1,38 +1,128 @@
 # Release History
-
-## 3.1.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 3.1.0-beta.1 (2024-05-13)
+    
+## 4.0.0-beta.1 (2024-08-21)
 Compared with version 3.0.0
     
 ### Features Added
 
+  - Added operation group AccessPolicyAssignmentOperations
+  - Added operation group AccessPolicyAssignments
   - Added operation Databases.beginForceLinkToReplicationGroup
   - Added operation Databases.beginForceLinkToReplicationGroupAndWait
   - Added operation Databases.beginUpgradeDBRedisVersion
   - Added operation Databases.beginUpgradeDBRedisVersionAndWait
+  - Added operation RedisEnterprise.checkNameAvailability
+  - Added Interface AccessPolicyAssignment
+  - Added Interface AccessPolicyAssignmentCreateOptionalParams
+  - Added Interface AccessPolicyAssignmentDeleteHeaders
+  - Added Interface AccessPolicyAssignmentDeleteOptionalParams
+  - Added Interface AccessPolicyAssignmentGetOptionalParams
+  - Added Interface AccessPolicyAssignmentList
+  - Added Interface AccessPolicyAssignmentPropertiesUser
+  - Added Interface AccessPolicyAssignmentsListNextOptionalParams
+  - Added Interface AccessPolicyAssignmentsListOptionalParams
+  - Added Interface CheckNameAvailabilityParameters
+  - Added Interface DatabasesDeleteHeaders
+  - Added Interface DatabasesExportHeaders
   - Added Interface DatabasesForceLinkToReplicationGroupHeaders
   - Added Interface DatabasesForceLinkToReplicationGroupOptionalParams
+  - Added Interface DatabasesForceUnlinkHeaders
+  - Added Interface DatabasesImportHeaders
+  - Added Interface DatabasesRegenerateKeyHeaders
+  - Added Interface DatabasesUpdateHeaders
   - Added Interface DatabasesUpgradeDBRedisVersionHeaders
   - Added Interface DatabasesUpgradeDBRedisVersionOptionalParams
   - Added Interface ForceLinkParameters
+  - Added Interface OperationStatusResult
+  - Added Interface RedisEnterpriseCheckNameAvailabilityOptionalParams
+  - Added Interface RedisEnterpriseDeleteHeaders
+  - Added Interface RedisEnterpriseUpdateHeaders
+  - Added Interface SystemData
+  - Added Type Alias AccessKeysAuthentication
+  - Added Type Alias AccessPolicyAssignmentCreateResponse
+  - Added Type Alias AccessPolicyAssignmentGetResponse
+  - Added Type Alias AccessPolicyAssignmentsListNextResponse
+  - Added Type Alias AccessPolicyAssignmentsListResponse
+  - Added Type Alias CreatedByType
   - Added Type Alias DatabasesForceLinkToReplicationGroupResponse
   - Added Type Alias DatabasesUpgradeDBRedisVersionResponse
   - Added Type Alias DeferUpgradeSetting
+  - Added Type Alias HighAvailability
+  - Added Type Alias RedundancyMode
+  - Interface Cluster has a new optional parameter highAvailability
+  - Interface Cluster has a new optional parameter redundancyMode
+  - Interface ClusterUpdate has a new optional parameter highAvailability
+  - Interface ClusterUpdate has a new optional parameter redundancyMode
+  - Interface Database has a new optional parameter accessKeysAuthentication
   - Interface Database has a new optional parameter deferUpgrade
   - Interface Database has a new optional parameter redisVersion
+  - Interface DatabaseUpdate has a new optional parameter accessKeysAuthentication
   - Interface DatabaseUpdate has a new optional parameter deferUpgrade
   - Interface DatabaseUpdate has a new optional parameter redisVersion
+  - Interface PrivateEndpointConnection has a new optional parameter groupIds
+  - Interface Resource has a new optional parameter systemData
+  - Added Enum KnownAccessKeysAuthentication
+  - Added Enum KnownCreatedByType
   - Added Enum KnownDeferUpgradeSetting
+  - Added Enum KnownHighAvailability
+  - Added Enum KnownRedundancyMode
+  - Enum KnownSkuName has a new value AutoTieringT1000
+  - Enum KnownSkuName has a new value AutoTieringT1500
+  - Enum KnownSkuName has a new value AutoTieringT2000
+  - Enum KnownSkuName has a new value AutoTieringT250
+  - Enum KnownSkuName has a new value AutoTieringT4500
+  - Enum KnownSkuName has a new value AutoTieringT500
+  - Enum KnownSkuName has a new value AutoTieringT700
+  - Enum KnownSkuName has a new value ComputeOptimizedX1
+  - Enum KnownSkuName has a new value ComputeOptimizedX10
+  - Enum KnownSkuName has a new value ComputeOptimizedX100
+  - Enum KnownSkuName has a new value ComputeOptimizedX150
+  - Enum KnownSkuName has a new value ComputeOptimizedX20
+  - Enum KnownSkuName has a new value ComputeOptimizedX250
+  - Enum KnownSkuName has a new value ComputeOptimizedX3
+  - Enum KnownSkuName has a new value ComputeOptimizedX350
+  - Enum KnownSkuName has a new value ComputeOptimizedX5
+  - Enum KnownSkuName has a new value ComputeOptimizedX50
+  - Enum KnownSkuName has a new value ComputeOptimizedX500
+  - Enum KnownSkuName has a new value ComputeOptimizedX700
+  - Enum KnownSkuName has a new value EnterpriseE1
+  - Enum KnownSkuName has a new value EnterpriseE200
+  - Enum KnownSkuName has a new value EnterpriseE400
   - Enum KnownSkuName has a new value EnterpriseE5
+  - Enum KnownSkuName has a new value GeneralPurposeG0
+  - Enum KnownSkuName has a new value GeneralPurposeG1
+  - Enum KnownSkuName has a new value GeneralPurposeG10
+  - Enum KnownSkuName has a new value GeneralPurposeG100
+  - Enum KnownSkuName has a new value GeneralPurposeG1000
+  - Enum KnownSkuName has a new value GeneralPurposeG150
+  - Enum KnownSkuName has a new value GeneralPurposeG20
+  - Enum KnownSkuName has a new value GeneralPurposeG250
+  - Enum KnownSkuName has a new value GeneralPurposeG3
+  - Enum KnownSkuName has a new value GeneralPurposeG350
+  - Enum KnownSkuName has a new value GeneralPurposeG5
+  - Enum KnownSkuName has a new value GeneralPurposeG50
+  - Enum KnownSkuName has a new value GeneralPurposeG500
+  - Enum KnownSkuName has a new value GeneralPurposeG700
+  - Enum KnownSkuName has a new value MemoryOptimizedM10
+  - Enum KnownSkuName has a new value MemoryOptimizedM100
+  - Enum KnownSkuName has a new value MemoryOptimizedM1000
+  - Enum KnownSkuName has a new value MemoryOptimizedM150
+  - Enum KnownSkuName has a new value MemoryOptimizedM1500
+  - Enum KnownSkuName has a new value MemoryOptimizedM20
+  - Enum KnownSkuName has a new value MemoryOptimizedM2000
+  - Enum KnownSkuName has a new value MemoryOptimizedM250
+  - Enum KnownSkuName has a new value MemoryOptimizedM350
+  - Enum KnownSkuName has a new value MemoryOptimizedM50
+  - Enum KnownSkuName has a new value MemoryOptimizedM500
+  - Enum KnownSkuName has a new value MemoryOptimizedM700
+
+### Breaking Changes
+
+  - Type of parameter userAssignedIdentities of interface ManagedServiceIdentity is changed from {
+        [propertyName: string]: UserAssignedIdentity;
+    } to {
+        [propertyName: string]: UserAssignedIdentity | null;
+    }
     
     
 ## 3.0.0 (2024-01-31)

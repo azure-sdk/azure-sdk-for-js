@@ -17,7 +17,83 @@ export interface AccessKeys {
 }
 
 // @public
+export type AccessKeysAuthentication = string;
+
+// @public
 export type AccessKeyType = "Primary" | "Secondary";
+
+// @public
+export interface AccessPolicyAssignment {
+    accessPolicyName?: string;
+    user?: AccessPolicyAssignmentPropertiesUser;
+}
+
+// @public
+export interface AccessPolicyAssignmentCreateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type AccessPolicyAssignmentCreateResponse = AccessPolicyAssignment;
+
+// @public
+export interface AccessPolicyAssignmentDeleteHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
+export interface AccessPolicyAssignmentDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface AccessPolicyAssignmentGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AccessPolicyAssignmentGetResponse = AccessPolicyAssignment;
+
+// @public
+export interface AccessPolicyAssignmentList {
+    readonly nextLink?: string;
+    value?: AccessPolicyAssignment[];
+}
+
+// @public
+export interface AccessPolicyAssignmentOperations {
+    beginCreate(resourceGroupName: string, clusterName: string, databaseName: string, accessPolicyAssignmentName: string, parameters: AccessPolicyAssignment, options?: AccessPolicyAssignmentCreateOptionalParams): Promise<SimplePollerLike<OperationState<AccessPolicyAssignmentCreateResponse>, AccessPolicyAssignmentCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, clusterName: string, databaseName: string, accessPolicyAssignmentName: string, parameters: AccessPolicyAssignment, options?: AccessPolicyAssignmentCreateOptionalParams): Promise<AccessPolicyAssignmentCreateResponse>;
+    beginDelete(resourceGroupName: string, clusterName: string, databaseName: string, accessPolicyAssignmentName: string, options?: AccessPolicyAssignmentDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, clusterName: string, databaseName: string, accessPolicyAssignmentName: string, options?: AccessPolicyAssignmentDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, clusterName: string, databaseName: string, accessPolicyAssignmentName: string, options?: AccessPolicyAssignmentGetOptionalParams): Promise<AccessPolicyAssignmentGetResponse>;
+}
+
+// @public
+export interface AccessPolicyAssignmentPropertiesUser {
+    objectId?: string;
+}
+
+// @public
+export interface AccessPolicyAssignments {
+    list(resourceGroupName: string, clusterName: string, databaseName: string, options?: AccessPolicyAssignmentsListOptionalParams): PagedAsyncIterableIterator<AccessPolicyAssignment>;
+}
+
+// @public
+export interface AccessPolicyAssignmentsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AccessPolicyAssignmentsListNextResponse = AccessPolicyAssignmentList;
+
+// @public
+export interface AccessPolicyAssignmentsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AccessPolicyAssignmentsListResponse = AccessPolicyAssignmentList;
 
 // @public
 export type ActionType = string;
@@ -26,14 +102,22 @@ export type ActionType = string;
 export type AofFrequency = string;
 
 // @public
+export interface CheckNameAvailabilityParameters {
+    name: string;
+    type: string;
+}
+
+// @public
 export interface Cluster extends TrackedResource {
     encryption?: ClusterPropertiesEncryption;
+    highAvailability?: HighAvailability;
     readonly hostName?: string;
     identity?: ManagedServiceIdentity;
     minimumTlsVersion?: TlsVersion;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: ProvisioningState;
     readonly redisVersion?: string;
+    readonly redundancyMode?: RedundancyMode;
     readonly resourceState?: ResourceState;
     sku: Sku;
     zones?: string[];
@@ -68,12 +152,14 @@ export interface ClusterPropertiesEncryptionCustomerManagedKeyEncryptionKeyIdent
 // @public
 export interface ClusterUpdate {
     encryption?: ClusterPropertiesEncryption;
+    highAvailability?: HighAvailability;
     readonly hostName?: string;
     identity?: ManagedServiceIdentity;
     minimumTlsVersion?: TlsVersion;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: ProvisioningState;
     readonly redisVersion?: string;
+    readonly redundancyMode?: RedundancyMode;
     readonly resourceState?: ResourceState;
     sku?: Sku;
     tags?: {
@@ -85,7 +171,11 @@ export interface ClusterUpdate {
 export type CmkIdentityType = string;
 
 // @public
+export type CreatedByType = string;
+
+// @public
 export interface Database extends ProxyResource {
+    accessKeysAuthentication?: AccessKeysAuthentication;
     clientProtocol?: Protocol;
     clusteringPolicy?: ClusteringPolicy;
     deferUpgrade?: DeferUpgradeSetting;
@@ -148,9 +238,21 @@ export interface DatabasesCreateOptionalParams extends coreClient.OperationOptio
 export type DatabasesCreateResponse = Database;
 
 // @public
+export interface DatabasesDeleteHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
 export interface DatabasesDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface DatabasesExportHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
 }
 
 // @public
@@ -187,6 +289,12 @@ export interface DatabasesForceLinkToReplicationGroupOptionalParams extends core
 export type DatabasesForceLinkToReplicationGroupResponse = DatabasesForceLinkToReplicationGroupHeaders;
 
 // @public
+export interface DatabasesForceUnlinkHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
 export interface DatabasesForceUnlinkOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -198,6 +306,12 @@ export interface DatabasesGetOptionalParams extends coreClient.OperationOptions 
 
 // @public
 export type DatabasesGetResponse = Database;
+
+// @public
+export interface DatabasesImportHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
 
 // @public
 export interface DatabasesImportOptionalParams extends coreClient.OperationOptions {
@@ -227,6 +341,12 @@ export interface DatabasesListKeysOptionalParams extends coreClient.OperationOpt
 export type DatabasesListKeysResponse = AccessKeys;
 
 // @public
+export interface DatabasesRegenerateKeyHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
 export interface DatabasesRegenerateKeyOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -234,6 +354,12 @@ export interface DatabasesRegenerateKeyOptionalParams extends coreClient.Operati
 
 // @public
 export type DatabasesRegenerateKeyResponse = AccessKeys;
+
+// @public
+export interface DatabasesUpdateHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
 
 // @public
 export interface DatabasesUpdateOptionalParams extends coreClient.OperationOptions {
@@ -261,6 +387,7 @@ export type DatabasesUpgradeDBRedisVersionResponse = DatabasesUpgradeDBRedisVers
 
 // @public
 export interface DatabaseUpdate {
+    accessKeysAuthentication?: AccessKeysAuthentication;
     clientProtocol?: Protocol;
     clusteringPolicy?: ClusteringPolicy;
     deferUpgrade?: DeferUpgradeSetting;
@@ -325,8 +452,17 @@ export interface ForceUnlinkParameters {
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
+export type HighAvailability = string;
+
+// @public
 export interface ImportClusterParameters {
     sasUris: string[];
+}
+
+// @public
+export enum KnownAccessKeysAuthentication {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
 }
 
 // @public
@@ -353,6 +489,14 @@ export enum KnownCmkIdentityType {
 }
 
 // @public
+export enum KnownCreatedByType {
+    Application = "Application",
+    Key = "Key",
+    ManagedIdentity = "ManagedIdentity",
+    User = "User"
+}
+
+// @public
 export enum KnownDeferUpgradeSetting {
     Deferred = "Deferred",
     NotDeferred = "NotDeferred"
@@ -371,6 +515,12 @@ export enum KnownEvictionPolicy {
 }
 
 // @public
+export enum KnownHighAvailability {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownLinkState {
     Linked = "Linked",
     LinkFailed = "LinkFailed",
@@ -383,7 +533,7 @@ export enum KnownLinkState {
 export enum KnownManagedServiceIdentityType {
     None = "None",
     SystemAssigned = "SystemAssigned",
-    SystemAssignedUserAssigned = "SystemAssigned, UserAssigned",
+    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
     UserAssigned = "UserAssigned"
 }
 
@@ -433,6 +583,13 @@ export enum KnownRdbFrequency {
 }
 
 // @public
+export enum KnownRedundancyMode {
+    LR = "LR",
+    None = "None",
+    ZR = "ZR"
+}
+
+// @public
 export enum KnownResourceState {
     CreateFailed = "CreateFailed",
     Creating = "Creating",
@@ -452,14 +609,62 @@ export enum KnownResourceState {
 
 // @public
 export enum KnownSkuName {
+    AutoTieringT1000 = "AutoTiering_T1000",
+    AutoTieringT1500 = "AutoTiering_T1500",
+    AutoTieringT2000 = "AutoTiering_T2000",
+    AutoTieringT250 = "AutoTiering_T250",
+    AutoTieringT4500 = "AutoTiering_T4500",
+    AutoTieringT500 = "AutoTiering_T500",
+    AutoTieringT700 = "AutoTiering_T700",
+    ComputeOptimizedX1 = "ComputeOptimized_X1",
+    ComputeOptimizedX10 = "ComputeOptimized_X10",
+    ComputeOptimizedX100 = "ComputeOptimized_X100",
+    ComputeOptimizedX150 = "ComputeOptimized_X150",
+    ComputeOptimizedX20 = "ComputeOptimized_X20",
+    ComputeOptimizedX250 = "ComputeOptimized_X250",
+    ComputeOptimizedX3 = "ComputeOptimized_X3",
+    ComputeOptimizedX350 = "ComputeOptimized_X350",
+    ComputeOptimizedX5 = "ComputeOptimized_X5",
+    ComputeOptimizedX50 = "ComputeOptimized_X50",
+    ComputeOptimizedX500 = "ComputeOptimized_X500",
+    ComputeOptimizedX700 = "ComputeOptimized_X700",
+    EnterpriseE1 = "Enterprise_E1",
     EnterpriseE10 = "Enterprise_E10",
     EnterpriseE100 = "Enterprise_E100",
     EnterpriseE20 = "Enterprise_E20",
+    EnterpriseE200 = "Enterprise_E200",
+    EnterpriseE400 = "Enterprise_E400",
     EnterpriseE5 = "Enterprise_E5",
     EnterpriseE50 = "Enterprise_E50",
     EnterpriseFlashF1500 = "EnterpriseFlash_F1500",
     EnterpriseFlashF300 = "EnterpriseFlash_F300",
-    EnterpriseFlashF700 = "EnterpriseFlash_F700"
+    EnterpriseFlashF700 = "EnterpriseFlash_F700",
+    GeneralPurposeG0 = "GeneralPurpose_G0",
+    GeneralPurposeG1 = "GeneralPurpose_G1",
+    GeneralPurposeG10 = "GeneralPurpose_G10",
+    GeneralPurposeG100 = "GeneralPurpose_G100",
+    GeneralPurposeG1000 = "GeneralPurpose_G1000",
+    GeneralPurposeG150 = "GeneralPurpose_G150",
+    GeneralPurposeG20 = "GeneralPurpose_G20",
+    GeneralPurposeG250 = "GeneralPurpose_G250",
+    GeneralPurposeG3 = "GeneralPurpose_G3",
+    GeneralPurposeG350 = "GeneralPurpose_G350",
+    GeneralPurposeG5 = "GeneralPurpose_G5",
+    GeneralPurposeG50 = "GeneralPurpose_G50",
+    GeneralPurposeG500 = "GeneralPurpose_G500",
+    GeneralPurposeG700 = "GeneralPurpose_G700",
+    MemoryOptimizedM10 = "MemoryOptimized_M10",
+    MemoryOptimizedM100 = "MemoryOptimized_M100",
+    MemoryOptimizedM1000 = "MemoryOptimized_M1000",
+    MemoryOptimizedM150 = "MemoryOptimized_M150",
+    MemoryOptimizedM1500 = "MemoryOptimized_M1500",
+    MemoryOptimizedM20 = "MemoryOptimized_M20",
+    MemoryOptimizedM2000 = "MemoryOptimized_M2000",
+    MemoryOptimizedM250 = "MemoryOptimized_M250",
+    MemoryOptimizedM350 = "MemoryOptimized_M350",
+    MemoryOptimizedM50 = "MemoryOptimized_M50",
+    MemoryOptimizedM500 = "MemoryOptimized_M500",
+    MemoryOptimizedM700 = "MemoryOptimized_M700"
 }
 
 // @public
@@ -484,7 +689,7 @@ export interface ManagedServiceIdentity {
     readonly tenantId?: string;
     type: ManagedServiceIdentityType;
     userAssignedIdentities?: {
-        [propertyName: string]: UserAssignedIdentity;
+        [propertyName: string]: UserAssignedIdentity | null;
     };
 }
 
@@ -550,16 +755,19 @@ export interface OperationsStatusGetOptionalParams extends coreClient.OperationO
 }
 
 // @public
-export type OperationsStatusGetResponse = OperationStatus;
+export type OperationsStatusGetResponse = OperationStatusResult;
 
 // @public
-export interface OperationStatus {
-    endTime?: string;
-    error?: ErrorResponse;
+export interface OperationStatusResult {
+    endTime?: Date;
+    error?: ErrorDetail;
     id?: string;
     name?: string;
-    startTime?: string;
-    status?: string;
+    operations?: OperationStatusResult[];
+    percentComplete?: number;
+    readonly resourceId?: string;
+    startTime?: Date;
+    status: string;
 }
 
 // @public
@@ -580,6 +788,7 @@ export interface PrivateEndpoint {
 
 // @public
 export interface PrivateEndpointConnection extends Resource {
+    readonly groupIds?: string[];
     privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
     readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
@@ -693,9 +902,14 @@ export interface RedisEnterprise {
     beginDeleteAndWait(resourceGroupName: string, clusterName: string, options?: RedisEnterpriseDeleteOptionalParams): Promise<void>;
     beginUpdate(resourceGroupName: string, clusterName: string, parameters: ClusterUpdate, options?: RedisEnterpriseUpdateOptionalParams): Promise<SimplePollerLike<OperationState<RedisEnterpriseUpdateResponse>, RedisEnterpriseUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, clusterName: string, parameters: ClusterUpdate, options?: RedisEnterpriseUpdateOptionalParams): Promise<RedisEnterpriseUpdateResponse>;
+    checkNameAvailability(location: string, parameters: CheckNameAvailabilityParameters, options?: RedisEnterpriseCheckNameAvailabilityOptionalParams): Promise<void>;
     get(resourceGroupName: string, clusterName: string, options?: RedisEnterpriseGetOptionalParams): Promise<RedisEnterpriseGetResponse>;
     list(options?: RedisEnterpriseListOptionalParams): PagedAsyncIterableIterator<Cluster>;
     listByResourceGroup(resourceGroupName: string, options?: RedisEnterpriseListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Cluster>;
+}
+
+// @public
+export interface RedisEnterpriseCheckNameAvailabilityOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
@@ -706,6 +920,12 @@ export interface RedisEnterpriseCreateOptionalParams extends coreClient.Operatio
 
 // @public
 export type RedisEnterpriseCreateResponse = Cluster;
+
+// @public
+export interface RedisEnterpriseDeleteHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
 
 // @public
 export interface RedisEnterpriseDeleteOptionalParams extends coreClient.OperationOptions {
@@ -754,6 +974,10 @@ export class RedisEnterpriseManagementClient extends coreClient.ServiceClient {
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: RedisEnterpriseManagementClientOptionalParams);
     // (undocumented)
+    accessPolicyAssignmentOperations: AccessPolicyAssignmentOperations;
+    // (undocumented)
+    accessPolicyAssignments: AccessPolicyAssignments;
+    // (undocumented)
     apiVersion: string;
     // (undocumented)
     databases: Databases;
@@ -779,6 +1003,12 @@ export interface RedisEnterpriseManagementClientOptionalParams extends coreClien
 }
 
 // @public
+export interface RedisEnterpriseUpdateHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
 export interface RedisEnterpriseUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -786,6 +1016,9 @@ export interface RedisEnterpriseUpdateOptionalParams extends coreClient.Operatio
 
 // @public
 export type RedisEnterpriseUpdateResponse = Cluster;
+
+// @public
+export type RedundancyMode = string;
 
 // @public
 export interface RegenerateKeyParameters {
@@ -796,6 +1029,7 @@ export interface RegenerateKeyParameters {
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
@@ -810,6 +1044,16 @@ export interface Sku {
 
 // @public
 export type SkuName = string;
+
+// @public
+export interface SystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
+}
 
 // @public
 export type TlsVersion = string;

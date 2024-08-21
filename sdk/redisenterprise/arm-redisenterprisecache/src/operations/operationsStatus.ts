@@ -30,7 +30,7 @@ export class OperationsStatusImpl implements OperationsStatus {
 
   /**
    * Gets the status of operation.
-   * @param location The name of Azure region.
+   * @param location The name of the Azure region.
    * @param operationId The ID of an ongoing async operation.
    * @param options The options parameters.
    */
@@ -53,7 +53,7 @@ const getOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationStatus,
+      bodyMapper: Mappers.OperationStatusResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,

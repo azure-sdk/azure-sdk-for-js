@@ -121,27 +121,36 @@ export interface ErrorAdditionalInfo {
   readonly info?: Record<string, unknown>;
 }
 
-/** The status of a long-running operation. */
-export interface OperationStatus {
-  /** The operation's unique id. */
+/** The current status of an async operation. */
+export interface OperationStatusResult {
+  /** Fully qualified ID for the async operation. */
   id?: string;
-  /** The operation's name. */
+  /**
+   * Fully qualified ID of the resource against which the original async operation was started.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceId?: string;
+  /** Name of the async operation. */
   name?: string;
+  /** Operation status. */
+  status: string;
+  /** Percent of the operation that is complete. */
+  percentComplete?: number;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: Date;
   /** The end time of the operation. */
-  endTime?: string;
-  /** The current status of the operation. */
-  status?: string;
-  /** Error response describing why the operation failed. */
-  error?: ErrorResponse;
+  endTime?: Date;
+  /** The operations list. */
+  operations?: OperationStatusResult[];
+  /** If present, details of the operation error. */
+  error?: ErrorDetail;
 }
 
-/** SKU parameters supplied to the create RedisEnterprise operation. */
+/** SKU parameters supplied to the create Redis Enterprise cluster operation. */
 export interface Sku {
-  /** The type of RedisEnterprise cluster to deploy. Possible values: (Enterprise_E10, EnterpriseFlash_F300 etc.) */
+  /** The level of Redis Enterprise cluster to deploy. Possible values: ('GeneralPurpose_G5', 'MemoryOptimized_M20', etc.). For more information on SKUs see the latest pricing documentation. Note that additional SKUs may become supported in the future. */
   name: SkuName;
-  /** The size of the RedisEnterprise cluster. Defaults to 2 or 3 depending on SKU. Valid values are (2, 4, 6, ...) for Enterprise SKUs and (3, 9, 15, ...) for Flash SKUs. */
+  /** The size of the Redis Enterprise cluster. Valid values depend upon the SKU, and are (2, 4, 6, ...) for Enterprise_E SKUs and (3, 9, 15, ...) for EnterpriseFlash_ SKUs. This parameter is not used with the other (GeneralPurpose, MemoryOptimized, ComputeOptimized) SKUs. They operate without any capacity value. */
   capacity?: number;
 }
 
@@ -160,7 +169,9 @@ export interface ManagedServiceIdentity {
   /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
+  userAssignedIdentities?: {
+    [propertyName: string]: UserAssignedIdentity | null;
+  };
 }
 
 /** User assigned identity properties */
@@ -199,10 +210,10 @@ export interface ClusterPropertiesEncryptionCustomerManagedKeyEncryptionKeyIdent
   identityType?: CmkIdentityType;
 }
 
-/** The Private Endpoint resource. */
+/** The private endpoint resource. */
 export interface PrivateEndpoint {
   /**
-   * The ARM identifier for Private Endpoint
+   * The ARM identifier for private endpoint.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
@@ -221,7 +232,7 @@ export interface PrivateLinkServiceConnectionState {
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
   /**
-   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
@@ -235,9 +246,30 @@ export interface Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
 }
 
-/** A partial update to the RedisEnterprise cluster */
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
+/** A partial update to the Redis Enterprise cluster */
 export interface ClusterUpdate {
   /** The SKU to create, which affects price, performance, and features. */
   sku?: Sku;
@@ -245,7 +277,9 @@ export interface ClusterUpdate {
   identity?: ManagedServiceIdentity;
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
-  /** The minimum TLS version for the cluster to support, e.g. '1.2' */
+  /** Enabled by default. If highAvailability is disabled, the data set is not replicated. This affects the availability SLA, and increases the risk of data loss. */
+  highAvailability?: HighAvailability;
+  /** The minimum TLS version for the cluster to support, e.g. '1.2'. Newer versions can be added in the future. Note that TLS 1.0 and TLS 1.1 are now completely obsolete -- you cannot use them. They are mentioned only for the sake of consistency with old API versions. */
   minimumTlsVersion?: TlsVersion;
   /** Encryption-at-rest configuration for the cluster. */
   encryption?: ClusterPropertiesEncryption;
@@ -260,6 +294,11 @@ export interface ClusterUpdate {
    */
   readonly provisioningState?: ProvisioningState;
   /**
+   * Explains the current redundancy strategy of the cluster, which affects the expected SLA.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly redundancyMode?: RedundancyMode;
+  /**
    * Current resource status of the cluster
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -270,7 +309,7 @@ export interface ClusterUpdate {
    */
   readonly redisVersion?: string;
   /**
-   * List of private endpoint connections associated with the specified RedisEnterprise cluster
+   * List of private endpoint connections associated with the specified Redis Enterprise cluster
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
@@ -298,13 +337,13 @@ export interface DatabaseList {
   readonly nextLink?: string;
 }
 
-/** Persistence-related configuration for the RedisEnterprise database */
+/** Persistence-related configuration for the Redis Enterprise database */
 export interface Persistence {
-  /** Sets whether AOF is enabled. */
+  /** Sets whether AOF is enabled. Note that at most one of AOF or RDB persistence may be enabled. */
   aofEnabled?: boolean;
-  /** Sets whether RDB is enabled. */
+  /** Sets whether RDB is enabled. Note that at most one of AOF or RDB persistence may be enabled. */
   rdbEnabled?: boolean;
-  /** Sets the frequency at which data is written to disk. */
+  /** Sets the frequency at which data is written to disk. Defaults to '1s', meaning 'every second'. Note that the 'always' setting is deprecated, because of its performance impact. */
   aofFrequency?: AofFrequency;
   /** Sets the frequency at which a snapshot of the database is created. */
   rdbFrequency?: RdbFrequency;
@@ -342,7 +381,7 @@ export interface LinkedDatabase {
   readonly state?: LinkState;
 }
 
-/** A partial update to the RedisEnterprise database */
+/** A partial update to the Redis Enterprise database */
 export interface DatabaseUpdate {
   /** Specifies whether redis clients can connect using TLS-encrypted or plaintext redis protocols. Default is TLS-encrypted. */
   clientProtocol?: Protocol;
@@ -358,7 +397,7 @@ export interface DatabaseUpdate {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resourceState?: ResourceState;
-  /** Clustering policy - default is OSSCluster. Specified at create time. */
+  /** Clustering policy - default is OSSCluster. This property must be chosen at create time, and cannot be changed without deleting the database. */
   clusteringPolicy?: ClusteringPolicy;
   /** Redis eviction policy - default is VolatileLRU */
   evictionPolicy?: EvictionPolicy;
@@ -373,8 +412,10 @@ export interface DatabaseUpdate {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly redisVersion?: string;
-  /** Option to defer upgrade when newest version is released - default is NotDeferred. Learn more:  https://aka.ms/redisversionupgrade */
+  /** Option to defer upgrade when newest version is released - default is NotDeferred. Learn more: https://aka.ms/redisversionupgrade */
   deferUpgrade?: DeferUpgradeSetting;
+  /** Access database using keys - default is enabled. This property can be Enabled/Disabled to allow or deny access with those. Can be updated even after database is created. */
+  accessKeysAuthentication?: AccessKeysAuthentication;
 }
 
 /** The secret access keys used for authenticating connections to redis */
@@ -409,19 +450,44 @@ export interface ExportClusterParameters {
   sasUri: string;
 }
 
-/** List of private endpoint connection associated with the specified storage account */
+/** Describes the access policy assignment of Redis Enterprise database */
+export interface AccessPolicyAssignment {
+  /** Name of access policy under specific access policy assignment. */
+  accessPolicyName?: string;
+  /** The user associated with the access policy. */
+  user?: AccessPolicyAssignmentPropertiesUser;
+}
+
+/** The user associated with the access policy. */
+export interface AccessPolicyAssignmentPropertiesUser {
+  /** The object ID of the user. */
+  objectId?: string;
+}
+
+/** The response of a list-all operation. */
+export interface AccessPolicyAssignmentList {
+  /** List of access policy assignment */
+  value?: AccessPolicyAssignment[];
+  /**
+   * The URI to fetch the next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** List of private endpoint connections associated with the specified resource. */
 export interface PrivateEndpointConnectionListResult {
-  /** Array of private endpoint connections */
+  /** Array of private endpoint connections. */
   value?: PrivateEndpointConnection[];
 }
 
-/** A list of private link resources */
+/** A list of private link resources. */
 export interface PrivateLinkResourceListResult {
   /** Array of private link resources */
   value?: PrivateLinkResource[];
 }
 
-/** Parameters for a Redis Enterprise Active Geo Replication Force Unlink operation. */
+/** Parameters for a redis enterprise active geo-replication force unlink operation. */
 export interface ForceUnlinkParameters {
   /** The resource IDs of the database resources to be unlinked. */
   ids: string[];
@@ -441,9 +507,22 @@ export interface FlushParameters {
   ids?: string[];
 }
 
-/** The Private Endpoint Connection resource. */
+/** Parameters body to pass for resource name availability check. */
+export interface CheckNameAvailabilityParameters {
+  /** Resource name. */
+  name: string;
+  /** Resource type. The only legal value of this property for checking redis enterprise cache name availability is 'Microsoft.Cache/redisenterprise'. */
+  type: string;
+}
+
+/** The private endpoint connection resource. */
 export interface PrivateEndpointConnection extends Resource {
-  /** The resource of private end point. */
+  /**
+   * The group ids for the private endpoint resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly groupIds?: string[];
+  /** The private endpoint resource. */
   privateEndpoint?: PrivateEndpoint;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
@@ -465,7 +544,7 @@ export interface TrackedResource extends Resource {
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-/** A private link resource */
+/** A private link resource. */
 export interface PrivateLinkResource extends Resource {
   /**
    * The private link resource group id.
@@ -477,11 +556,11 @@ export interface PrivateLinkResource extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly requiredMembers?: string[];
-  /** The private link resource Private link DNS zone name. */
+  /** The private link resource private link DNS zone name. */
   requiredZoneNames?: string[];
 }
 
-/** Describes the RedisEnterprise cluster */
+/** Describes the Redis Enterprise cluster */
 export interface Cluster extends TrackedResource {
   /** The SKU to create, which affects price, performance, and features. */
   sku: Sku;
@@ -489,7 +568,9 @@ export interface Cluster extends TrackedResource {
   zones?: string[];
   /** The identity of the resource. */
   identity?: ManagedServiceIdentity;
-  /** The minimum TLS version for the cluster to support, e.g. '1.2' */
+  /** Enabled by default. If highAvailability is disabled, the data set is not replicated. This affects the availability SLA, and increases the risk of data loss. */
+  highAvailability?: HighAvailability;
+  /** The minimum TLS version for the cluster to support, e.g. '1.2'. Newer versions can be added in the future. Note that TLS 1.0 and TLS 1.1 are now completely obsolete -- you cannot use them. They are mentioned only for the sake of consistency with old API versions. */
   minimumTlsVersion?: TlsVersion;
   /** Encryption-at-rest configuration for the cluster. */
   encryption?: ClusterPropertiesEncryption;
@@ -504,6 +585,11 @@ export interface Cluster extends TrackedResource {
    */
   readonly provisioningState?: ProvisioningState;
   /**
+   * Explains the current redundancy strategy of the cluster, which affects the expected SLA.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly redundancyMode?: RedundancyMode;
+  /**
    * Current resource status of the cluster
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -514,13 +600,13 @@ export interface Cluster extends TrackedResource {
    */
   readonly redisVersion?: string;
   /**
-   * List of private endpoint connections associated with the specified RedisEnterprise cluster
+   * List of private endpoint connections associated with the specified Redis Enterprise cluster
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
 }
 
-/** Describes a database on the RedisEnterprise cluster */
+/** Describes a database on the Redis Enterprise cluster */
 export interface Database extends ProxyResource {
   /** Specifies whether redis clients can connect using TLS-encrypted or plaintext redis protocols. Default is TLS-encrypted. */
   clientProtocol?: Protocol;
@@ -536,7 +622,7 @@ export interface Database extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resourceState?: ResourceState;
-  /** Clustering policy - default is OSSCluster. Specified at create time. */
+  /** Clustering policy - default is OSSCluster. This property must be chosen at create time, and cannot be changed without deleting the database. */
   clusteringPolicy?: ClusteringPolicy;
   /** Redis eviction policy - default is VolatileLRU */
   evictionPolicy?: EvictionPolicy;
@@ -551,8 +637,74 @@ export interface Database extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly redisVersion?: string;
-  /** Option to defer upgrade when newest version is released - default is NotDeferred. Learn more:  https://aka.ms/redisversionupgrade */
+  /** Option to defer upgrade when newest version is released - default is NotDeferred. Learn more: https://aka.ms/redisversionupgrade */
   deferUpgrade?: DeferUpgradeSetting;
+  /** Access database using keys - default is enabled. This property can be Enabled/Disabled to allow or deny access with those. Can be updated even after database is created. */
+  accessKeysAuthentication?: AccessKeysAuthentication;
+}
+
+/** Defines headers for RedisEnterprise_update operation. */
+export interface RedisEnterpriseUpdateHeaders {
+  /** Location URI to poll for result */
+  location?: string;
+  /** Azure-AsyncOperation URI to poll for result */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for RedisEnterprise_delete operation. */
+export interface RedisEnterpriseDeleteHeaders {
+  /** Location URI to poll for result */
+  location?: string;
+  /** Azure-AsyncOperation URI to poll for result */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Databases_update operation. */
+export interface DatabasesUpdateHeaders {
+  /** Location URI to poll for result */
+  location?: string;
+  /** Azure-AsyncOperation URI to poll for result */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Databases_delete operation. */
+export interface DatabasesDeleteHeaders {
+  /** Location URI to poll for result */
+  location?: string;
+  /** Azure-AsyncOperation URI to poll for result */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Databases_regenerateKey operation. */
+export interface DatabasesRegenerateKeyHeaders {
+  /** Location URI to poll for result */
+  location?: string;
+  /** Azure-AsyncOperation URI to poll for result */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Databases_import operation. */
+export interface DatabasesImportHeaders {
+  /** Location URI to poll for result */
+  location?: string;
+  /** Azure-AsyncOperation URI to poll for result */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Databases_export operation. */
+export interface DatabasesExportHeaders {
+  /** Location URI to poll for result */
+  location?: string;
+  /** Azure-AsyncOperation URI to poll for result */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Databases_forceUnlink operation. */
+export interface DatabasesForceUnlinkHeaders {
+  /** Location URI to poll for result */
+  location?: string;
+  /** Azure-AsyncOperation URI to poll for result */
+  azureAsyncOperation?: string;
 }
 
 /** Defines headers for Databases_forceLinkToReplicationGroup operation. */
@@ -576,6 +728,14 @@ export interface DatabasesUpgradeDBRedisVersionHeaders {
   /** Location URI to poll for result */
   location?: string;
   /** URI to poll for the operation status */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for AccessPolicyAssignment_delete operation. */
+export interface AccessPolicyAssignmentDeleteHeaders {
+  /** Location URI to poll for result */
+  location?: string;
+  /** Azure-AsyncOperation URI to poll for result */
   azureAsyncOperation?: string;
 }
 
@@ -625,6 +785,8 @@ export type ActionType = string;
 
 /** Known values of {@link SkuName} that the service accepts. */
 export enum KnownSkuName {
+  /** EnterpriseE1 */
+  EnterpriseE1 = "Enterprise_E1",
   /** EnterpriseE5 */
   EnterpriseE5 = "Enterprise_E5",
   /** EnterpriseE10 */
@@ -635,12 +797,106 @@ export enum KnownSkuName {
   EnterpriseE50 = "Enterprise_E50",
   /** EnterpriseE100 */
   EnterpriseE100 = "Enterprise_E100",
+  /** EnterpriseE200 */
+  EnterpriseE200 = "Enterprise_E200",
+  /** EnterpriseE400 */
+  EnterpriseE400 = "Enterprise_E400",
   /** EnterpriseFlashF300 */
   EnterpriseFlashF300 = "EnterpriseFlash_F300",
   /** EnterpriseFlashF700 */
   EnterpriseFlashF700 = "EnterpriseFlash_F700",
   /** EnterpriseFlashF1500 */
   EnterpriseFlashF1500 = "EnterpriseFlash_F1500",
+  /** GeneralPurposeG0 */
+  GeneralPurposeG0 = "GeneralPurpose_G0",
+  /** GeneralPurposeG1 */
+  GeneralPurposeG1 = "GeneralPurpose_G1",
+  /** GeneralPurposeG3 */
+  GeneralPurposeG3 = "GeneralPurpose_G3",
+  /** GeneralPurposeG5 */
+  GeneralPurposeG5 = "GeneralPurpose_G5",
+  /** GeneralPurposeG10 */
+  GeneralPurposeG10 = "GeneralPurpose_G10",
+  /** GeneralPurposeG20 */
+  GeneralPurposeG20 = "GeneralPurpose_G20",
+  /** GeneralPurposeG50 */
+  GeneralPurposeG50 = "GeneralPurpose_G50",
+  /** GeneralPurposeG100 */
+  GeneralPurposeG100 = "GeneralPurpose_G100",
+  /** GeneralPurposeG150 */
+  GeneralPurposeG150 = "GeneralPurpose_G150",
+  /** GeneralPurposeG250 */
+  GeneralPurposeG250 = "GeneralPurpose_G250",
+  /** GeneralPurposeG350 */
+  GeneralPurposeG350 = "GeneralPurpose_G350",
+  /** GeneralPurposeG500 */
+  GeneralPurposeG500 = "GeneralPurpose_G500",
+  /** GeneralPurposeG700 */
+  GeneralPurposeG700 = "GeneralPurpose_G700",
+  /** GeneralPurposeG1000 */
+  GeneralPurposeG1000 = "GeneralPurpose_G1000",
+  /** MemoryOptimizedM10 */
+  MemoryOptimizedM10 = "MemoryOptimized_M10",
+  /** MemoryOptimizedM20 */
+  MemoryOptimizedM20 = "MemoryOptimized_M20",
+  /** MemoryOptimizedM50 */
+  MemoryOptimizedM50 = "MemoryOptimized_M50",
+  /** MemoryOptimizedM100 */
+  MemoryOptimizedM100 = "MemoryOptimized_M100",
+  /** MemoryOptimizedM150 */
+  MemoryOptimizedM150 = "MemoryOptimized_M150",
+  /** MemoryOptimizedM250 */
+  MemoryOptimizedM250 = "MemoryOptimized_M250",
+  /** MemoryOptimizedM350 */
+  MemoryOptimizedM350 = "MemoryOptimized_M350",
+  /** MemoryOptimizedM500 */
+  MemoryOptimizedM500 = "MemoryOptimized_M500",
+  /** MemoryOptimizedM700 */
+  MemoryOptimizedM700 = "MemoryOptimized_M700",
+  /** MemoryOptimizedM1000 */
+  MemoryOptimizedM1000 = "MemoryOptimized_M1000",
+  /** MemoryOptimizedM1500 */
+  MemoryOptimizedM1500 = "MemoryOptimized_M1500",
+  /** MemoryOptimizedM2000 */
+  MemoryOptimizedM2000 = "MemoryOptimized_M2000",
+  /** ComputeOptimizedX1 */
+  ComputeOptimizedX1 = "ComputeOptimized_X1",
+  /** ComputeOptimizedX3 */
+  ComputeOptimizedX3 = "ComputeOptimized_X3",
+  /** ComputeOptimizedX5 */
+  ComputeOptimizedX5 = "ComputeOptimized_X5",
+  /** ComputeOptimizedX10 */
+  ComputeOptimizedX10 = "ComputeOptimized_X10",
+  /** ComputeOptimizedX20 */
+  ComputeOptimizedX20 = "ComputeOptimized_X20",
+  /** ComputeOptimizedX50 */
+  ComputeOptimizedX50 = "ComputeOptimized_X50",
+  /** ComputeOptimizedX100 */
+  ComputeOptimizedX100 = "ComputeOptimized_X100",
+  /** ComputeOptimizedX150 */
+  ComputeOptimizedX150 = "ComputeOptimized_X150",
+  /** ComputeOptimizedX250 */
+  ComputeOptimizedX250 = "ComputeOptimized_X250",
+  /** ComputeOptimizedX350 */
+  ComputeOptimizedX350 = "ComputeOptimized_X350",
+  /** ComputeOptimizedX500 */
+  ComputeOptimizedX500 = "ComputeOptimized_X500",
+  /** ComputeOptimizedX700 */
+  ComputeOptimizedX700 = "ComputeOptimized_X700",
+  /** AutoTieringT250 */
+  AutoTieringT250 = "AutoTiering_T250",
+  /** AutoTieringT500 */
+  AutoTieringT500 = "AutoTiering_T500",
+  /** AutoTieringT700 */
+  AutoTieringT700 = "AutoTiering_T700",
+  /** AutoTieringT1000 */
+  AutoTieringT1000 = "AutoTiering_T1000",
+  /** AutoTieringT1500 */
+  AutoTieringT1500 = "AutoTiering_T1500",
+  /** AutoTieringT2000 */
+  AutoTieringT2000 = "AutoTiering_T2000",
+  /** AutoTieringT4500 */
+  AutoTieringT4500 = "AutoTiering_T4500",
 }
 
 /**
@@ -648,14 +904,62 @@ export enum KnownSkuName {
  * {@link KnownSkuName} can be used interchangeably with SkuName,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
+ * **Enterprise_E1** \
  * **Enterprise_E5** \
  * **Enterprise_E10** \
  * **Enterprise_E20** \
  * **Enterprise_E50** \
  * **Enterprise_E100** \
+ * **Enterprise_E200** \
+ * **Enterprise_E400** \
  * **EnterpriseFlash_F300** \
  * **EnterpriseFlash_F700** \
- * **EnterpriseFlash_F1500**
+ * **EnterpriseFlash_F1500** \
+ * **GeneralPurpose_G0** \
+ * **GeneralPurpose_G1** \
+ * **GeneralPurpose_G3** \
+ * **GeneralPurpose_G5** \
+ * **GeneralPurpose_G10** \
+ * **GeneralPurpose_G20** \
+ * **GeneralPurpose_G50** \
+ * **GeneralPurpose_G100** \
+ * **GeneralPurpose_G150** \
+ * **GeneralPurpose_G250** \
+ * **GeneralPurpose_G350** \
+ * **GeneralPurpose_G500** \
+ * **GeneralPurpose_G700** \
+ * **GeneralPurpose_G1000** \
+ * **MemoryOptimized_M10** \
+ * **MemoryOptimized_M20** \
+ * **MemoryOptimized_M50** \
+ * **MemoryOptimized_M100** \
+ * **MemoryOptimized_M150** \
+ * **MemoryOptimized_M250** \
+ * **MemoryOptimized_M350** \
+ * **MemoryOptimized_M500** \
+ * **MemoryOptimized_M700** \
+ * **MemoryOptimized_M1000** \
+ * **MemoryOptimized_M1500** \
+ * **MemoryOptimized_M2000** \
+ * **ComputeOptimized_X1** \
+ * **ComputeOptimized_X3** \
+ * **ComputeOptimized_X5** \
+ * **ComputeOptimized_X10** \
+ * **ComputeOptimized_X20** \
+ * **ComputeOptimized_X50** \
+ * **ComputeOptimized_X100** \
+ * **ComputeOptimized_X150** \
+ * **ComputeOptimized_X250** \
+ * **ComputeOptimized_X350** \
+ * **ComputeOptimized_X500** \
+ * **ComputeOptimized_X700** \
+ * **AutoTiering_T250** \
+ * **AutoTiering_T500** \
+ * **AutoTiering_T700** \
+ * **AutoTiering_T1000** \
+ * **AutoTiering_T1500** \
+ * **AutoTiering_T2000** \
+ * **AutoTiering_T4500**
  */
 export type SkuName = string;
 
@@ -668,7 +972,7 @@ export enum KnownManagedServiceIdentityType {
   /** UserAssigned */
   UserAssigned = "UserAssigned",
   /** SystemAssignedUserAssigned */
-  SystemAssignedUserAssigned = "SystemAssigned, UserAssigned",
+  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
 }
 
 /**
@@ -679,9 +983,27 @@ export enum KnownManagedServiceIdentityType {
  * **None** \
  * **SystemAssigned** \
  * **UserAssigned** \
- * **SystemAssigned, UserAssigned**
+ * **SystemAssigned,UserAssigned**
  */
 export type ManagedServiceIdentityType = string;
+
+/** Known values of {@link HighAvailability} that the service accepts. */
+export enum KnownHighAvailability {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled",
+}
+
+/**
+ * Defines values for HighAvailability. \
+ * {@link KnownHighAvailability} can be used interchangeably with HighAvailability,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type HighAvailability = string;
 
 /** Known values of {@link TlsVersion} that the service accepts. */
 export enum KnownTlsVersion {
@@ -751,6 +1073,27 @@ export enum KnownProvisioningState {
  * **Deleting**
  */
 export type ProvisioningState = string;
+
+/** Known values of {@link RedundancyMode} that the service accepts. */
+export enum KnownRedundancyMode {
+  /** No redundancy. Availability loss will occur. */
+  None = "None",
+  /** Local redundancy with high availability. */
+  LR = "LR",
+  /** Zone redundant. Higher availability. */
+  ZR = "ZR",
+}
+
+/**
+ * Defines values for RedundancyMode. \
+ * {@link KnownRedundancyMode} can be used interchangeably with RedundancyMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None**: No redundancy. Availability loss will occur. \
+ * **LR**: Local redundancy with high availability. \
+ * **ZR**: Zone redundant. Higher availability.
+ */
+export type RedundancyMode = string;
 
 /** Known values of {@link ResourceState} that the service accepts. */
 export enum KnownResourceState {
@@ -851,6 +1194,30 @@ export enum KnownPrivateEndpointConnectionProvisioningState {
  */
 export type PrivateEndpointConnectionProvisioningState = string;
 
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  /** User */
+  User = "User",
+  /** Application */
+  Application = "Application",
+  /** ManagedIdentity */
+  ManagedIdentity = "ManagedIdentity",
+  /** Key */
+  Key = "Key",
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
+
 /** Known values of {@link Protocol} that the service accepts. */
 export enum KnownProtocol {
   /** Encrypted */
@@ -871,9 +1238,9 @@ export type Protocol = string;
 
 /** Known values of {@link ClusteringPolicy} that the service accepts. */
 export enum KnownClusteringPolicy {
-  /** EnterpriseCluster */
+  /** Enterprise clustering policy uses only the classic redis protocol, which does not support redis cluster commands. */
   EnterpriseCluster = "EnterpriseCluster",
-  /** OSSCluster */
+  /** OSS clustering policy follows the redis cluster specification, and requires all clients to support redis clustering. */
   OSSCluster = "OSSCluster",
 }
 
@@ -882,8 +1249,8 @@ export enum KnownClusteringPolicy {
  * {@link KnownClusteringPolicy} can be used interchangeably with ClusteringPolicy,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **EnterpriseCluster** \
- * **OSSCluster**
+ * **EnterpriseCluster**: Enterprise clustering policy uses only the classic redis protocol, which does not support redis cluster commands. \
+ * **OSSCluster**: OSS clustering policy follows the redis cluster specification, and requires all clients to support redis clustering.
  */
 export type ClusteringPolicy = string;
 
@@ -1006,6 +1373,24 @@ export enum KnownDeferUpgradeSetting {
  * **NotDeferred**
  */
 export type DeferUpgradeSetting = string;
+
+/** Known values of {@link AccessKeysAuthentication} that the service accepts. */
+export enum KnownAccessKeysAuthentication {
+  /** Disabled */
+  Disabled = "Disabled",
+  /** Enabled */
+  Enabled = "Enabled",
+}
+
+/**
+ * Defines values for AccessKeysAuthentication. \
+ * {@link KnownAccessKeysAuthentication} can be used interchangeably with AccessKeysAuthentication,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Disabled** \
+ * **Enabled**
+ */
+export type AccessKeysAuthentication = string;
 /** Defines values for AccessKeyType. */
 export type AccessKeyType = "Primary" | "Secondary";
 
@@ -1028,7 +1413,7 @@ export interface OperationsStatusGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type OperationsStatusGetResponse = OperationStatus;
+export type OperationsStatusGetResponse = OperationStatusResult;
 
 /** Optional parameters. */
 export interface RedisEnterpriseCreateOptionalParams
@@ -1083,6 +1468,10 @@ export interface RedisEnterpriseListOptionalParams
 
 /** Contains response data for the list operation. */
 export type RedisEnterpriseListResponse = ClusterList;
+
+/** Optional parameters. */
+export interface RedisEnterpriseCheckNameAvailabilityOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface RedisEnterpriseListByResourceGroupNextOptionalParams
@@ -1232,6 +1621,49 @@ export interface DatabasesListByClusterNextOptionalParams
 
 /** Contains response data for the listByClusterNext operation. */
 export type DatabasesListByClusterNextResponse = DatabaseList;
+
+/** Optional parameters. */
+export interface AccessPolicyAssignmentCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the create operation. */
+export type AccessPolicyAssignmentCreateResponse = AccessPolicyAssignment;
+
+/** Optional parameters. */
+export interface AccessPolicyAssignmentGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type AccessPolicyAssignmentGetResponse = AccessPolicyAssignment;
+
+/** Optional parameters. */
+export interface AccessPolicyAssignmentDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface AccessPolicyAssignmentsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type AccessPolicyAssignmentsListResponse = AccessPolicyAssignmentList;
+
+/** Optional parameters. */
+export interface AccessPolicyAssignmentsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type AccessPolicyAssignmentsListNextResponse =
+  AccessPolicyAssignmentList;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsListOptionalParams
