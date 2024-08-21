@@ -301,7 +301,7 @@ export enum KnownOrigin {
   /** System */
   System = "system",
   /** UserSystem */
-  UserSystem = "user,system"
+  UserSystem = "user,system",
 }
 
 /**
@@ -318,7 +318,7 @@ export type Origin = string;
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
   /** Internal */
-  Internal = "Internal"
+  Internal = "Internal",
 }
 
 /**
@@ -335,7 +335,7 @@ export enum KnownType {
   /** Default */
   Default = "default",
   /** Custom */
-  Custom = "custom"
+  Custom = "custom",
 }
 
 /**
@@ -357,7 +357,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -377,7 +377,7 @@ export enum KnownServiceName {
   /** SSH */
   SSH = "SSH",
   /** WAC */
-  WAC = "WAC"
+  WAC = "WAC",
 }
 
 /**
@@ -401,7 +401,7 @@ export enum KnownProvisioningState {
   /** Failed */
   Failed = "Failed",
   /** Canceled */
-  Canceled = "Canceled"
+  Canceled = "Canceled",
 }
 
 /**
@@ -485,7 +485,8 @@ export interface EndpointsListIngressGatewayCredentialsOptionalParams
 }
 
 /** Contains response data for the listIngressGatewayCredentials operation. */
-export type EndpointsListIngressGatewayCredentialsResponse = IngressGatewayResource;
+export type EndpointsListIngressGatewayCredentialsResponse =
+  IngressGatewayResource;
 
 /** Optional parameters. */
 export interface EndpointsListManagedProxyDetailsOptionalParams
@@ -506,7 +507,8 @@ export interface ServiceConfigurationsListByEndpointResourceOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByEndpointResource operation. */
-export type ServiceConfigurationsListByEndpointResourceResponse = ServiceConfigurationList;
+export type ServiceConfigurationsListByEndpointResourceResponse =
+  ServiceConfigurationList;
 
 /** Optional parameters. */
 export interface ServiceConfigurationsGetOptionalParams
@@ -520,7 +522,8 @@ export interface ServiceConfigurationsCreateOrupdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrupdate operation. */
-export type ServiceConfigurationsCreateOrupdateResponse = ServiceConfigurationResource;
+export type ServiceConfigurationsCreateOrupdateResponse =
+  ServiceConfigurationResource;
 
 /** Optional parameters. */
 export interface ServiceConfigurationsUpdateOptionalParams
@@ -538,7 +541,8 @@ export interface ServiceConfigurationsListByEndpointResourceNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByEndpointResourceNext operation. */
-export type ServiceConfigurationsListByEndpointResourceNextResponse = ServiceConfigurationList;
+export type ServiceConfigurationsListByEndpointResourceNextResponse =
+  ServiceConfigurationList;
 
 /** Optional parameters. */
 export interface HybridConnectivityManagementAPIOptionalParams

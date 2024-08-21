@@ -9,7 +9,7 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   EndpointResource as EndpointResourceMapper,
@@ -17,7 +17,7 @@ import {
   ListIngressGatewayCredentialsRequest as ListIngressGatewayCredentialsRequestMapper,
   ManagedProxyRequest as ManagedProxyRequestMapper,
   ServiceConfigurationResource as ServiceConfigurationResourceMapper,
-  ServiceConfigurationResourcePatch as ServiceConfigurationResourcePatchMapper
+  ServiceConfigurationResourcePatch as ServiceConfigurationResourcePatchMapper,
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -27,9 +27,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -38,22 +38,22 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-03-15",
+    defaultValue: "2024-12-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const nextLink: OperationURLParameter = {
@@ -62,10 +62,10 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const resourceUri: OperationURLParameter = {
@@ -74,10 +74,10 @@ export const resourceUri: OperationURLParameter = {
     serializedName: "resourceUri",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const endpointName: OperationURLParameter = {
@@ -86,10 +86,10 @@ export const endpointName: OperationURLParameter = {
     serializedName: "endpointName",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const contentType: OperationParameter = {
@@ -99,19 +99,19 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const endpointResource: OperationParameter = {
   parameterPath: "endpointResource",
-  mapper: EndpointResourceMapper
+  mapper: EndpointResourceMapper,
 };
 
 export const listCredentialsRequest: OperationParameter = {
   parameterPath: ["options", "listCredentialsRequest"],
-  mapper: ListCredentialsRequestMapper
+  mapper: ListCredentialsRequestMapper,
 };
 
 export const expiresin: OperationQueryParameter = {
@@ -120,23 +120,23 @@ export const expiresin: OperationQueryParameter = {
     defaultValue: 10800,
     constraints: {
       InclusiveMaximum: 10800,
-      InclusiveMinimum: 600
+      InclusiveMinimum: 600,
     },
     serializedName: "expiresin",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const listIngressGatewayCredentialsRequest: OperationParameter = {
   parameterPath: ["options", "listIngressGatewayCredentialsRequest"],
-  mapper: ListIngressGatewayCredentialsRequestMapper
+  mapper: ListIngressGatewayCredentialsRequestMapper,
 };
 
 export const managedProxyRequest: OperationParameter = {
   parameterPath: "managedProxyRequest",
-  mapper: ManagedProxyRequestMapper
+  mapper: ManagedProxyRequestMapper,
 };
 
 export const serviceConfigurationName: OperationURLParameter = {
@@ -145,18 +145,18 @@ export const serviceConfigurationName: OperationURLParameter = {
     serializedName: "serviceConfigurationName",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const serviceConfigurationResource: OperationParameter = {
   parameterPath: "serviceConfigurationResource",
-  mapper: ServiceConfigurationResourceMapper
+  mapper: ServiceConfigurationResourceMapper,
 };
 
 export const serviceConfigurationResource1: OperationParameter = {
   parameterPath: "serviceConfigurationResource",
-  mapper: ServiceConfigurationResourcePatchMapper
+  mapper: ServiceConfigurationResourcePatchMapper,
 };
