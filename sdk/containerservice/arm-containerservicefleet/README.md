@@ -30,7 +30,7 @@ Install the Azure ContainerServiceFleet client library for JavaScript with `npm`
 npm install @azure/arm-containerservicefleet
 ```
 
-### Create and authenticate a `ContainerServiceFleetClient`
+### Create and authenticate a `ContainerServiceFleetClientForTesting`
 
 To create a client object to access the Azure ContainerServiceFleet API, you will need the `endpoint` of your Azure ContainerServiceFleet resource and a `credential`. The Azure ContainerServiceFleet client can use Azure Active Directory credentials to authenticate.
 You can find the endpoint for your Azure ContainerServiceFleet resource in the [Azure Portal][azure_portal].
@@ -49,19 +49,19 @@ Set the values of the client ID, tenant ID, and client secret of the AAD applica
 For more information about how to create an Azure AD Application check out [this guide](https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal).
 
 ```javascript
-const { ContainerServiceFleetClient } = require("@azure/arm-containerservicefleet");
+const { ContainerServiceFleetClientForTesting } = require("@azure/arm-containerservicefleet");
 const { DefaultAzureCredential } = require("@azure/identity");
 // For client-side applications running in the browser, use InteractiveBrowserCredential instead of DefaultAzureCredential. See https://aka.ms/azsdk/js/identity/examples for more details.
 
 const subscriptionId = "00000000-0000-0000-0000-000000000000";
-const client = new ContainerServiceFleetClient(new DefaultAzureCredential(), subscriptionId);
+const client = new ContainerServiceFleetClientForTesting(new DefaultAzureCredential(), subscriptionId);
 
 // For client-side applications running in the browser, use this code instead:
 // const credential = new InteractiveBrowserCredential({
 //   tenantId: "<YOUR_TENANT_ID>",
 //   clientId: "<YOUR_CLIENT_ID>"
 // });
-// const client = new ContainerServiceFleetClient(credential, subscriptionId);
+// const client = new ContainerServiceFleetClientForTesting(credential, subscriptionId);
 ```
 
 
@@ -70,9 +70,9 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 ## Key concepts
 
-### ContainerServiceFleetClient
+### ContainerServiceFleetClientForTesting
 
-`ContainerServiceFleetClient` is the primary interface for developers using the Azure ContainerServiceFleet client library. Explore the methods on this client object to understand the different features of the Azure ContainerServiceFleet service that you can access.
+`ContainerServiceFleetClientForTesting` is the primary interface for developers using the Azure ContainerServiceFleet client library. Explore the methods on this client object to understand the different features of the Azure ContainerServiceFleet service that you can access.
 
 ## Troubleshooting
 
