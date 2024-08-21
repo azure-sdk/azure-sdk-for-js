@@ -1,15 +1,17 @@
 # Release History
-
-## 1.0.1 (Unreleased)
-
+    
+## 2.0.0 (2024-08-21)
+    
 ### Features Added
+
+  - Added Interface InformaticaDataManagementForTestingOptionalParams
+  - Added Class InformaticaDataManagementForTesting
 
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
-
+  - Deleted Class InformaticaDataManagement
+    
+    
 ## 1.0.0 (2024-07-15)
 
 ### Features Added
