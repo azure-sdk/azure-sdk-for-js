@@ -4,13 +4,11 @@
 
 ```ts
 
-import { AzureNamedKeyCredential } from '@azure/core-auth';
 import { Client } from '@azure-rest/core-client';
 import { ClientOptions } from '@azure-rest/core-client';
 import { HttpResponse } from '@azure-rest/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { PipelinePolicy } from '@azure/core-rest-pipeline';
 import { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
 import { RequestParameters } from '@azure-rest/core-client';
@@ -1583,11 +1581,8 @@ export type ContainerWorkingDirectory = string;
 // @public
 export type ContainerWorkingDirectoryOutput = string;
 
-// @public (undocumented)
-export function createBatchSharedKeyCredentialsPolicy(credentials: AzureNamedKeyCredential): PipelinePolicy;
-
 // @public
-function createClient(endpointParam: string, credentials: TokenCredential | AzureNamedKeyCredential, { apiVersion, ...options }?: BatchClientOptions): BatchClient;
+function createClient(endpointParam: string, credentials: TokenCredential, { apiVersion, ...options }?: BatchClientOptions): BatchClient;
 export default createClient;
 
 // @public (undocumented)
