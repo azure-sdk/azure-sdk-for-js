@@ -219,17 +219,19 @@ export interface ErrorDetail {
 }
 
 // @public
-export interface ErrorInnerError {
-    innerError?: ErrorModel;
+export interface ErrorDetails {
+    code?: string;
+    message?: string;
+    target?: string;
 }
 
 // @public
 export interface ErrorModel {
-    readonly code?: string;
-    readonly details?: ErrorModel[];
-    readonly innerError?: ErrorInnerError;
-    readonly message?: string;
-    readonly target?: string;
+    code?: string;
+    details?: ErrorDetails[];
+    innerError?: string;
+    message?: string;
+    target?: string;
 }
 
 // @public
