@@ -9,5 +9,5 @@
 /// <reference lib="esnext.asynciterable" />
 export { getContinuationToken } from "./pagingHelper";
 export * from "./models";
-export { InformaticaDataManagement } from "./informaticaDataManagement";
+export { InformaticaDataManagementForTesting } from "./informaticaDataManagementForTesting";
 export * from "./operationsInterfaces";
