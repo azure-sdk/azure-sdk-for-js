@@ -11,7 +11,7 @@ import {
   ChangeResourceResult,
   ChangesListOptionalParams,
   ChangesGetOptionalParams,
-  ChangesGetResponse
+  ChangesGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface Changes {
     resourceProviderNamespace: string,
     resourceType: string,
     resourceName: string,
-    options?: ChangesListOptionalParams
+    options?: ChangesListOptionalParams,
   ): PagedAsyncIterableIterator<ChangeResourceResult>;
   /**
    * Obtains the specified change resource for the target resource
@@ -47,6 +47,6 @@ export interface Changes {
     resourceType: string,
     resourceName: string,
     changeResourceId: string,
-    options?: ChangesGetOptionalParams
+    options?: ChangesGetOptionalParams,
   ): Promise<ChangesGetResponse>;
 }
