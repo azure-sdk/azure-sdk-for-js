@@ -707,6 +707,9 @@ dependencies:
   '@rush-temp/arm-sqlvirtualmachine':
     specifier: file:./projects/arm-sqlvirtualmachine.tgz
     version: file:projects/arm-sqlvirtualmachine.tgz
+  '@rush-temp/arm-stackhcivm':
+    specifier: file:./projects/arm-stackhcivm.tgz
+    version: file:projects/arm-stackhcivm.tgz
   '@rush-temp/arm-standbypool':
     specifier: file:./projects/arm-standbypool.tgz
     version: file:projects/arm-standbypool.tgz
@@ -3841,13 +3844,13 @@ packages:
     resolution: {integrity: sha512-fB3Zu92ucau0iQ0JMCFQE7b/dv8Ot07NI3KaZIkIUNXq82k4eBAqUaneXfleGY9JWskeS9y+u0nXMyspcuQrCg==}
     dependencies:
       '@types/connect': 3.4.38
-      '@types/node': 18.19.45
+      '@types/node': 22.4.1
     dev: false
 
   /@types/bunyan@1.8.9:
     resolution: {integrity: sha512-ZqS9JGpBxVOvsawzmVt30sP++gSQMTejCkIAQ3VdadOcRE8izTyW66hufvwLeH+YEGP6Js2AW7Gz+RMyvrEbmw==}
     dependencies:
-      '@types/node': 18.19.45
+      '@types/node': 22.4.1
     dev: false
 
   /@types/chai-as-promised@7.1.8:
@@ -3863,7 +3866,7 @@ packages:
   /@types/connect@3.4.38:
     resolution: {integrity: sha512-K6uROf1LD88uDQqJCktA4yzL1YYAK6NgfsI0v/mTgyPKWsX1CnJ0XPSDhViejru1GcRkLWb8RlzFYJRqGUbaug==}
     dependencies:
-      '@types/node': 18.19.45
+      '@types/node': 22.4.1
     dev: false
 
   /@types/cookie@0.4.1:
@@ -3877,7 +3880,7 @@ packages:
   /@types/cors@2.8.17:
     resolution: {integrity: sha512-8CGDvrBj1zgo2qE+oS3pOCyYNqCPryMWY2bGfwA0dcfopWGgxs+78df0Rs3rc9THP4JkOhLsAa+15VdpAqkcUA==}
     dependencies:
-      '@types/node': 18.19.45
+      '@types/node': 22.4.1
     dev: false
 
   /@types/debug@4.1.12:
@@ -3952,7 +3955,7 @@ packages:
   /@types/is-buffer@2.0.2:
     resolution: {integrity: sha512-G6OXy83Va+xEo8XgqAJYOuvOMxeey9xM5XKkvwJNmN8rVdcB+r15HvHsG86hl86JvU0y1aa7Z2ERkNFYWw9ySg==}
     dependencies:
-      '@types/node': 18.19.45
+      '@types/node': 22.4.1
     dev: false
 
   /@types/json-schema@7.0.15:
@@ -3972,13 +3975,13 @@ packages:
   /@types/jsonwebtoken@9.0.6:
     resolution: {integrity: sha512-/5hndP5dCjloafCXns6SZyESp3Ldq7YjH3zwzwczYnjxIT0Fqzk5ROSYVGfFyczIue7IUEj8hkvLbPoLQ18vQw==}
     dependencies:
-      '@types/node': 18.19.45
+      '@types/node': 22.4.1
     dev: false
 
   /@types/jws@3.2.10:
     resolution: {integrity: sha512-cOevhttJmssERB88/+XvZXvsq5m9JLKZNUiGfgjUb5lcPRdV2ZQciU6dU76D/qXXFYpSqkP3PrSg4hMTiafTZw==}
     dependencies:
-      '@types/node': 18.19.45
+      '@types/node': 22.4.1
     dev: false
 
   /@types/linkify-it@5.0.0:
@@ -4031,13 +4034,13 @@ packages:
   /@types/mysql@2.15.22:
     resolution: {integrity: sha512-wK1pzsJVVAjYCSZWQoWHziQZbNggXFDUEIGf54g4ZM/ERuP86uGdWeKZWMYlqTPMZfHJJvLPyogXGvCOg87yLQ==}
     dependencies:
-      '@types/node': 18.19.45
+      '@types/node': 22.4.1
     dev: false
 
   /@types/node-fetch@2.6.11:
     resolution: {integrity: sha512-24xFj9R5+rfQJLRyM56qh+wnVSYhyXC2tkoBndtY0U+vubqNsYXGjufB2nn8Q6gt0LrARwL6UBtMCSVCwl4B1g==}
     dependencies:
-      '@types/node': 18.19.45
+      '@types/node': 22.4.1
       form-data: 4.0.0
     dev: false
 
@@ -4078,7 +4081,7 @@ packages:
   /@types/pg@8.6.1:
     resolution: {integrity: sha512-1Kc4oAGzAl7uqUStZCDvaLFqZrW9qWSjXOmBfdgyBP5La7Us6Mg4GBvRlSoaZMhQF/zSj1C8CtKMBkoiT8eL8w==}
     dependencies:
-      '@types/node': 18.19.45
+      '@types/node': 22.4.1
       pg-protocol: 1.6.1
       pg-types: 2.2.0
     dev: false
@@ -4124,14 +4127,14 @@ packages:
     resolution: {integrity: sha512-x2EM6TJOybec7c52BX0ZspPodMsQUd5L6PRwOunVyVUhXiBSKf3AezDL8Dgvgt5o0UfKNfuA0eMLr2wLT4AiBA==}
     dependencies:
       '@types/mime': 1.3.5
-      '@types/node': 18.19.45
+      '@types/node': 22.4.1
     dev: false
 
   /@types/serve-static@1.15.7:
     resolution: {integrity: sha512-W8Ym+h8nhuRwaKPaDw34QUkwsGi6Rc4yYqvKFo5rm2FUEhCFbzVWrxXUxuKK8TASjWsysJY0nsmNCGhCOIsrOw==}
     dependencies:
       '@types/http-errors': 2.0.4
-      '@types/node': 18.19.45
+      '@types/node': 22.4.1
       '@types/send': 0.17.4
     dev: false
 
@@ -4156,13 +4159,13 @@ packages:
   /@types/stoppable@1.1.3:
     resolution: {integrity: sha512-7wGKIBJGE4ZxFjk9NkjAxZMLlIXroETqP1FJCdoSvKmEznwmBxQFmTB1dsCkAvVcNemuSZM5qkkd9HE/NL2JTw==}
     dependencies:
-      '@types/node': 18.19.45
+      '@types/node': 22.4.1
     dev: false
 
   /@types/through@0.0.33:
     resolution: {integrity: sha512-HsJ+z3QuETzP3cswwtzt2vEIiHBk/dCcHGhbmG5X3ecnwFD/lPrMpliGXxSCg03L9AhrdwA4Oz/qfspkDW+xGQ==}
     dependencies:
-      '@types/node': 18.19.45
+      '@types/node': 22.4.1
     dev: false
 
   /@types/tough-cookie@4.0.5:
@@ -4196,7 +4199,7 @@ packages:
   /@types/ws@7.4.7:
     resolution: {integrity: sha512-JQbbmxZTZehdc2iszGKs5oC3NFnjeay7mtAWrdt7qNtAVK0g19muApzAy4bm9byz79xa2ZnO/BOBC2R8RC5Lww==}
     dependencies:
-      '@types/node': 18.19.45
+      '@types/node': 22.4.1
     dev: false
 
   /@types/ws@8.5.12:
@@ -5976,7 +5979,7 @@ packages:
     dependencies:
       '@types/cookie': 0.4.1
       '@types/cors': 2.8.17
-      '@types/node': 18.19.45
+      '@types/node': 22.4.1
       accepts: 1.3.8
       base64id: 2.0.0
       cookie: 0.4.2
@@ -9516,7 +9519,7 @@ packages:
       '@protobufjs/path': 1.1.2
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.0
-      '@types/node': 18.19.45
+      '@types/node': 22.4.1
       long: 5.2.3
     dev: false
 
@@ -13385,7 +13388,7 @@ packages:
     dev: false
 
   file:projects/arm-azurestackhci.tgz:
-    resolution: {integrity: sha512-a4UNe79mpO2jAb3POBKjsNQ/1CmHvANcBRrVnkEtBajShGsbWWx0kQqVQ8v+liUSe0p3CA/aUN1Jjsa3GhhjXA==, tarball: file:projects/arm-azurestackhci.tgz}
+    resolution: {integrity: sha512-EEdhlSiGC6/wCxx9KSrcTpiDVScjb+Q0do3FjKZyXYlwMoVBfpIcvsS0S1+S+aV5fg7jbQk5ptIXcPOknmQqJw==, tarball: file:projects/arm-azurestackhci.tgz}
     name: '@rush-temp/arm-azurestackhci'
     version: 0.0.0
     dependencies:
@@ -19169,6 +19172,36 @@ packages:
       rimraf: 5.0.10
       ts-node: 10.9.2(@types/node@18.19.45)(typescript@5.5.4)
       tslib: 2.6.3
+      typescript: 5.5.4
+      uglify-js: 3.19.2
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - supports-color
+    dev: false
+
+  file:projects/arm-stackhcivm.tgz:
+    resolution: {integrity: sha512-ZqnlEQFEb/CTfxiJzB+HxVkdqpfZ1e/n7Na24bhlLUm3A2yyNV+3apLyAGGxGl+V/WkJUItvW0IChtOtph6Hdg==, tarball: file:projects/arm-stackhcivm.tgz}
+    name: '@rush-temp/arm-stackhcivm'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-credential': 1.2.0
+      '@azure-tools/test-recorder': 3.5.2
+      '@azure/core-lro': 2.7.2
+      '@azure/identity': 4.4.1
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.45)
+      '@types/chai': 4.3.17
+      '@types/mocha': 10.0.7
+      '@types/node': 18.19.45
+      chai: 4.3.10
+      cross-env: 7.0.3
+      dotenv: 16.4.5
+      mkdirp: 3.0.1
+      mocha: 10.7.3
+      rimraf: 5.0.10
+      ts-node: 10.9.2(@types/node@18.19.45)(typescript@5.5.4)
+      tslib: 2.6.3
+      tsx: 4.17.0
       typescript: 5.5.4
       uglify-js: 3.19.2
     transitivePeerDependencies:
