@@ -13929,42 +13929,40 @@ packages:
     dev: false
 
   file:projects/arm-computefleet.tgz:
-    resolution: {integrity: sha512-0cpA+/toEHnG0G1/Q+ywSJT7So1FT5GnGdVFS0fUVtedU6fALGp2UMQUYZYZUATeSe29r7q458SQdqyB5JeAww==, tarball: file:projects/arm-computefleet.tgz}
+    resolution: {integrity: sha512-l04m4/GS+RuP7PDHIt94OA1cSzdASgx1i+hsTLsZX3hiUS1sS+BFT4uxXRsapyAra6tl9z8zJJS8RovIdsZK1w==, tarball: file:projects/arm-computefleet.tgz}
     name: '@rush-temp/arm-computefleet'
     version: 0.0.0
     dependencies:
+      '@azure-tools/test-credential': 1.2.0
+      '@azure-tools/test-recorder': 3.5.2
+      '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
       '@microsoft/api-extractor': 7.47.6(@types/node@18.19.45)
+      '@types/chai': 4.3.17
+      '@types/mocha': 10.0.7
       '@types/node': 18.19.45
       '@vitest/browser': 2.0.5(playwright@1.46.1)(typescript@5.5.4)(vitest@2.0.5)
       '@vitest/coverage-istanbul': 2.0.5(vitest@2.0.5)
+      chai: 4.3.10
+      cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
       mkdirp: 3.0.1
+      mocha: 10.7.3
       playwright: 1.46.1
       prettier: 3.3.3
       rimraf: 5.0.10
+      ts-node: 10.9.2(@types/node@18.19.45)(typescript@5.5.4)
       tshy: 2.0.1
       tslib: 2.6.3
+      tsx: 4.17.0
       typescript: 5.5.4
+      uglify-js: 3.19.2
       vitest: 2.0.5(@types/node@18.19.45)(@vitest/browser@2.0.5)
     transitivePeerDependencies:
-      - '@edge-runtime/vm'
-      - '@vitest/ui'
-      - bufferutil
-      - happy-dom
-      - jsdom
-      - less
-      - lightningcss
-      - safaridriver
-      - sass
-      - sass-embedded
-      - stylus
-      - sugarss
+      - '@swc/core'
+      - '@swc/wasm'
       - supports-color
-      - terser
-      - utf-8-validate
-      - webdriverio
     dev: false
 
   file:projects/arm-confidentialledger.tgz:
