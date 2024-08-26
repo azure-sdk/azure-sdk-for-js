@@ -1,35 +1,461 @@
-# Release History
-
-## 1.0.1 (Unreleased)
-
+## 1.0.1 (2024-08-26)
+    
 ### Features Added
+
+  - Added operation group LoadTestAdministrationCreateOrUpdateAppComponents
+  - Added operation group LoadTestAdministrationCreateOrUpdateServerMetricsConfig
+  - Added operation group LoadTestAdministrationCreateOrUpdateTest
+  - Added operation group LoadTestAdministrationListTestFiles
+  - Added operation group LoadTestAdministrationListTests
+  - Added operation group LoadTestAdministrationUploadTestFile
+  - Added operation group LoadTestRunCreateOrUpdateAppComponents
+  - Added operation group LoadTestRunCreateOrUpdateServerMetricsConfig
+  - Added operation group LoadTestRunGetTestRun
+  - Added operation group LoadTestRunGetTestRunFile
+  - Added operation group LoadTestRunListMetricDefinitions
+  - Added operation group LoadTestRunListMetricDimensionValues
+  - Added operation group LoadTestRunListMetricNamespaces
+  - Added operation group LoadTestRunListMetrics
+  - Added operation group LoadTestRunListTestRuns
+  - Added operation group LoadTestRunStop
+  - Added operation group TestProfileAdministrationCreateOrUpdateTestProfile
+  - Added operation group TestProfileAdministrationListTestProfiles
+  - Added operation group TestProfileRunAdministrationGetTestProfileRun
+  - Added operation group TestProfileRunAdministrationListTestProfileRuns
+  - Added operation group TestProfileRunAdministrationStop
+  - Added Interface ArtifactsContainerInfo
+  - Added Interface ArtifactsContainerInfoOutput
+  - Added Interface AutoStopCriteria
+  - Added Interface AutoStopCriteriaOutput
+  - Added Interface AzureLoadTestingClientOptions
+  - Added Interface FunctionFlexConsumptionResourceConfiguration
+  - Added Interface FunctionFlexConsumptionResourceConfigurationOutput
+  - Added Interface FunctionFlexConsumptionTargetResourceConfigurations
+  - Added Interface FunctionFlexConsumptionTargetResourceConfigurationsOutput
+  - Added Interface LoadTestAdministrationCreateOrUpdateAppComponents200Response
+  - Added Interface LoadTestAdministrationCreateOrUpdateAppComponents201Response
+  - Added Interface LoadTestAdministrationCreateOrUpdateAppComponentsBodyParam
+  - Added Interface LoadTestAdministrationCreateOrUpdateAppComponentsDefaultHeaders
+  - Added Interface LoadTestAdministrationCreateOrUpdateAppComponentsDefaultResponse
+  - Added Interface LoadTestAdministrationCreateOrUpdateAppComponentsMediaTypesParam
+  - Added Interface LoadTestAdministrationCreateOrUpdateServerMetricsConfig200Response
+  - Added Interface LoadTestAdministrationCreateOrUpdateServerMetricsConfig201Response
+  - Added Interface LoadTestAdministrationCreateOrUpdateServerMetricsConfigBodyParam
+  - Added Interface LoadTestAdministrationCreateOrUpdateServerMetricsConfigDefaultHeaders
+  - Added Interface LoadTestAdministrationCreateOrUpdateServerMetricsConfigDefaultResponse
+  - Added Interface LoadTestAdministrationCreateOrUpdateServerMetricsConfigMediaTypesParam
+  - Added Interface LoadTestAdministrationCreateOrUpdateTest200Response
+  - Added Interface LoadTestAdministrationCreateOrUpdateTest201Response
+  - Added Interface LoadTestAdministrationCreateOrUpdateTestBodyParam
+  - Added Interface LoadTestAdministrationCreateOrUpdateTestDefaultHeaders
+  - Added Interface LoadTestAdministrationCreateOrUpdateTestDefaultResponse
+  - Added Interface LoadTestAdministrationCreateOrUpdateTestMediaTypesParam
+  - Added Interface LoadTestAdministrationDeleteTest204Response
+  - Added Interface LoadTestAdministrationDeleteTestDefaultHeaders
+  - Added Interface LoadTestAdministrationDeleteTestDefaultResponse
+  - Added Interface LoadTestAdministrationDeleteTestFile204Response
+  - Added Interface LoadTestAdministrationDeleteTestFileDefaultHeaders
+  - Added Interface LoadTestAdministrationDeleteTestFileDefaultResponse
+  - Added Interface LoadTestAdministrationGetAppComponents200Response
+  - Added Interface LoadTestAdministrationGetAppComponentsDefaultHeaders
+  - Added Interface LoadTestAdministrationGetAppComponentsDefaultResponse
+  - Added Interface LoadTestAdministrationGetServerMetricsConfig200Response
+  - Added Interface LoadTestAdministrationGetServerMetricsConfigDefaultHeaders
+  - Added Interface LoadTestAdministrationGetServerMetricsConfigDefaultResponse
+  - Added Interface LoadTestAdministrationGetTest200Response
+  - Added Interface LoadTestAdministrationGetTestDefaultHeaders
+  - Added Interface LoadTestAdministrationGetTestDefaultResponse
+  - Added Interface LoadTestAdministrationGetTestFile200Response
+  - Added Interface LoadTestAdministrationGetTestFileDefaultHeaders
+  - Added Interface LoadTestAdministrationGetTestFileDefaultResponse
+  - Added Interface LoadTestAdministrationListTestFiles200Response
+  - Added Interface LoadTestAdministrationListTestFilesDefaultHeaders
+  - Added Interface LoadTestAdministrationListTestFilesDefaultResponse
+  - Added Interface LoadTestAdministrationListTests200Response
+  - Added Interface LoadTestAdministrationListTestsDefaultHeaders
+  - Added Interface LoadTestAdministrationListTestsDefaultResponse
+  - Added Interface LoadTestAdministrationListTestsQueryParam
+  - Added Interface LoadTestAdministrationListTestsQueryParamProperties
+  - Added Interface LoadTestAdministrationUploadTestFile201Response
+  - Added Interface LoadTestAdministrationUploadTestFileBodyParam
+  - Added Interface LoadTestAdministrationUploadTestFileDefaultHeaders
+  - Added Interface LoadTestAdministrationUploadTestFileDefaultResponse
+  - Added Interface LoadTestAdministrationUploadTestFileMediaTypesParam
+  - Added Interface LoadTestAdministrationUploadTestFileQueryParam
+  - Added Interface LoadTestAdministrationUploadTestFileQueryParamProperties
+  - Added Interface LoadTestRunCreateOrUpdateAppComponents200Response
+  - Added Interface LoadTestRunCreateOrUpdateAppComponents201Response
+  - Added Interface LoadTestRunCreateOrUpdateAppComponentsBodyParam
+  - Added Interface LoadTestRunCreateOrUpdateAppComponentsDefaultHeaders
+  - Added Interface LoadTestRunCreateOrUpdateAppComponentsDefaultResponse
+  - Added Interface LoadTestRunCreateOrUpdateAppComponentsMediaTypesParam
+  - Added Interface LoadTestRunCreateOrUpdateServerMetricsConfig200Response
+  - Added Interface LoadTestRunCreateOrUpdateServerMetricsConfig201Response
+  - Added Interface LoadTestRunCreateOrUpdateServerMetricsConfigBodyParam
+  - Added Interface LoadTestRunCreateOrUpdateServerMetricsConfigDefaultHeaders
+  - Added Interface LoadTestRunCreateOrUpdateServerMetricsConfigDefaultResponse
+  - Added Interface LoadTestRunCreateOrUpdateServerMetricsConfigMediaTypesParam
+  - Added Interface LoadTestRunCreateOrUpdateTestRun200Response
+  - Added Interface LoadTestRunCreateOrUpdateTestRun201Response
+  - Added Interface LoadTestRunCreateOrUpdateTestRunBodyParam
+  - Added Interface LoadTestRunCreateOrUpdateTestRunDefaultHeaders
+  - Added Interface LoadTestRunCreateOrUpdateTestRunDefaultResponse
+  - Added Interface LoadTestRunCreateOrUpdateTestRunMediaTypesParam
+  - Added Interface LoadTestRunCreateOrUpdateTestRunQueryParam
+  - Added Interface LoadTestRunCreateOrUpdateTestRunQueryParamProperties
+  - Added Interface LoadTestRunDeleteTestRun204Response
+  - Added Interface LoadTestRunDeleteTestRunDefaultHeaders
+  - Added Interface LoadTestRunDeleteTestRunDefaultResponse
+  - Added Interface LoadTestRunGetAppComponents200Response
+  - Added Interface LoadTestRunGetAppComponentsDefaultHeaders
+  - Added Interface LoadTestRunGetAppComponentsDefaultResponse
+  - Added Interface LoadTestRunGetServerMetricsConfig200Response
+  - Added Interface LoadTestRunGetServerMetricsConfigDefaultHeaders
+  - Added Interface LoadTestRunGetServerMetricsConfigDefaultResponse
+  - Added Interface LoadTestRunGetTestRun200Response
+  - Added Interface LoadTestRunGetTestRunDefaultHeaders
+  - Added Interface LoadTestRunGetTestRunDefaultResponse
+  - Added Interface LoadTestRunGetTestRunFile200Response
+  - Added Interface LoadTestRunGetTestRunFileDefaultHeaders
+  - Added Interface LoadTestRunGetTestRunFileDefaultResponse
+  - Added Interface LoadTestRunListMetricDefinitions200Response
+  - Added Interface LoadTestRunListMetricDefinitionsDefaultHeaders
+  - Added Interface LoadTestRunListMetricDefinitionsDefaultResponse
+  - Added Interface LoadTestRunListMetricDefinitionsQueryParam
+  - Added Interface LoadTestRunListMetricDefinitionsQueryParamProperties
+  - Added Interface LoadTestRunListMetricDimensionValues200Response
+  - Added Interface LoadTestRunListMetricDimensionValuesDefaultHeaders
+  - Added Interface LoadTestRunListMetricDimensionValuesDefaultResponse
+  - Added Interface LoadTestRunListMetricDimensionValuesQueryParam
+  - Added Interface LoadTestRunListMetricDimensionValuesQueryParamProperties
+  - Added Interface LoadTestRunListMetricNamespaces200Response
+  - Added Interface LoadTestRunListMetricNamespacesDefaultHeaders
+  - Added Interface LoadTestRunListMetricNamespacesDefaultResponse
+  - Added Interface LoadTestRunListMetrics200Response
+  - Added Interface LoadTestRunListMetricsBodyParam
+  - Added Interface LoadTestRunListMetricsDefaultHeaders
+  - Added Interface LoadTestRunListMetricsDefaultResponse
+  - Added Interface LoadTestRunListMetricsQueryParam
+  - Added Interface LoadTestRunListMetricsQueryParamProperties
+  - Added Interface LoadTestRunListTestRuns200Response
+  - Added Interface LoadTestRunListTestRunsDefaultHeaders
+  - Added Interface LoadTestRunListTestRunsDefaultResponse
+  - Added Interface LoadTestRunListTestRunsQueryParam
+  - Added Interface LoadTestRunListTestRunsQueryParamProperties
+  - Added Interface LoadTestRunStop200Response
+  - Added Interface LoadTestRunStopDefaultHeaders
+  - Added Interface LoadTestRunStopDefaultResponse
+  - Added Interface RegionalConfiguration
+  - Added Interface RegionalConfigurationOutput
+  - Added Interface TargetResourceConfigurationsOutputParent
+  - Added Interface TargetResourceConfigurationsParent
+  - Added Interface TestFileInfo
+  - Added Interface TestFileInfoOutput
+  - Added Interface TestProfile
+  - Added Interface TestProfileAdministrationCreateOrUpdateTestProfile200Response
+  - Added Interface TestProfileAdministrationCreateOrUpdateTestProfile201Response
+  - Added Interface TestProfileAdministrationCreateOrUpdateTestProfileBodyParam
+  - Added Interface TestProfileAdministrationCreateOrUpdateTestProfileDefaultHeaders
+  - Added Interface TestProfileAdministrationCreateOrUpdateTestProfileDefaultResponse
+  - Added Interface TestProfileAdministrationCreateOrUpdateTestProfileMediaTypesParam
+  - Added Interface TestProfileAdministrationDeleteTestProfile204Response
+  - Added Interface TestProfileAdministrationDeleteTestProfileDefaultHeaders
+  - Added Interface TestProfileAdministrationDeleteTestProfileDefaultResponse
+  - Added Interface TestProfileAdministrationGetTestProfile200Response
+  - Added Interface TestProfileAdministrationGetTestProfileDefaultHeaders
+  - Added Interface TestProfileAdministrationGetTestProfileDefaultResponse
+  - Added Interface TestProfileAdministrationListTestProfiles200Response
+  - Added Interface TestProfileAdministrationListTestProfilesDefaultHeaders
+  - Added Interface TestProfileAdministrationListTestProfilesDefaultResponse
+  - Added Interface TestProfileAdministrationListTestProfilesQueryParam
+  - Added Interface TestProfileAdministrationListTestProfilesQueryParamProperties
+  - Added Interface TestProfileOutput
+  - Added Interface TestProfileRun
+  - Added Interface TestProfileRunAdministrationCreateOrUpdateTestProfileRun200Response
+  - Added Interface TestProfileRunAdministrationCreateOrUpdateTestProfileRun201Response
+  - Added Interface TestProfileRunAdministrationCreateOrUpdateTestProfileRunBodyParam
+  - Added Interface TestProfileRunAdministrationCreateOrUpdateTestProfileRunDefaultHeaders
+  - Added Interface TestProfileRunAdministrationCreateOrUpdateTestProfileRunDefaultResponse
+  - Added Interface TestProfileRunAdministrationCreateOrUpdateTestProfileRunMediaTypesParam
+  - Added Interface TestProfileRunAdministrationDeleteTestProfileRun204Response
+  - Added Interface TestProfileRunAdministrationDeleteTestProfileRunDefaultHeaders
+  - Added Interface TestProfileRunAdministrationDeleteTestProfileRunDefaultResponse
+  - Added Interface TestProfileRunAdministrationGetTestProfileRun200Response
+  - Added Interface TestProfileRunAdministrationGetTestProfileRunDefaultHeaders
+  - Added Interface TestProfileRunAdministrationGetTestProfileRunDefaultResponse
+  - Added Interface TestProfileRunAdministrationListTestProfileRuns200Response
+  - Added Interface TestProfileRunAdministrationListTestProfileRunsDefaultHeaders
+  - Added Interface TestProfileRunAdministrationListTestProfileRunsDefaultResponse
+  - Added Interface TestProfileRunAdministrationListTestProfileRunsQueryParam
+  - Added Interface TestProfileRunAdministrationListTestProfileRunsQueryParamProperties
+  - Added Interface TestProfileRunAdministrationStop200Response
+  - Added Interface TestProfileRunAdministrationStopDefaultHeaders
+  - Added Interface TestProfileRunAdministrationStopDefaultResponse
+  - Added Interface TestProfileRunOutput
+  - Added Interface TestProfileRunRecommendation
+  - Added Interface TestProfileRunRecommendationOutput
+  - Added Interface TestRunDetail
+  - Added Interface TestRunDetailOutput
+  - Added Interface TestRunFileInfo
+  - Added Interface TestRunFileInfoOutput
+  - Added Type Alias AggregationTypeOutput
+  - Added Type Alias CertificateType
+  - Added Type Alias CertificateTypeOutput
+  - Added Type Alias FileStatus
+  - Added Type Alias FileStatusOutput
+  - Added Type Alias FileType
+  - Added Type Alias FileTypeOutput
+  - Added Type Alias LoadTestAdministrationCreateOrUpdateAppComponentsParameters
+  - Added Type Alias LoadTestAdministrationCreateOrUpdateServerMetricsConfigParameters
+  - Added Type Alias LoadTestAdministrationCreateOrUpdateTestParameters
+  - Added Type Alias LoadTestAdministrationDeleteTestFileParameters
+  - Added Type Alias LoadTestAdministrationDeleteTestParameters
+  - Added Type Alias LoadTestAdministrationGetAppComponentsParameters
+  - Added Type Alias LoadTestAdministrationGetServerMetricsConfigParameters
+  - Added Type Alias LoadTestAdministrationGetTestFileParameters
+  - Added Type Alias LoadTestAdministrationGetTestParameters
+  - Added Type Alias LoadTestAdministrationListTestFilesParameters
+  - Added Type Alias LoadTestAdministrationListTestsParameters
+  - Added Type Alias LoadTestAdministrationUploadTestFileParameters
+  - Added Type Alias LoadTestRunCreateOrUpdateAppComponentsParameters
+  - Added Type Alias LoadTestRunCreateOrUpdateServerMetricsConfigParameters
+  - Added Type Alias LoadTestRunCreateOrUpdateTestRunParameters
+  - Added Type Alias LoadTestRunDeleteTestRunParameters
+  - Added Type Alias LoadTestRunGetAppComponentsParameters
+  - Added Type Alias LoadTestRunGetServerMetricsConfigParameters
+  - Added Type Alias LoadTestRunGetTestRunFileParameters
+  - Added Type Alias LoadTestRunGetTestRunParameters
+  - Added Type Alias LoadTestRunListMetricDefinitionsParameters
+  - Added Type Alias LoadTestRunListMetricDimensionValuesParameters
+  - Added Type Alias LoadTestRunListMetricNamespacesParameters
+  - Added Type Alias LoadTestRunListMetricsParameters
+  - Added Type Alias LoadTestRunListTestRunsParameters
+  - Added Type Alias LoadTestRunStopParameters
+  - Added Type Alias MetricsOutput
+  - Added Type Alias MetricUnitOutput
+  - Added Type Alias PagedTestFileInfoOutput
+  - Added Type Alias PagedTestOutput
+  - Added Type Alias PagedTestProfileOutput
+  - Added Type Alias PagedTestProfileRunOutput
+  - Added Type Alias PagedTestRunOutput
+  - Added Type Alias PFAction
+  - Added Type Alias PFActionOutput
+  - Added Type Alias PFAgFunc
+  - Added Type Alias PFAgFuncOutput
+  - Added Type Alias PFMetrics
+  - Added Type Alias PFMetricsOutput
+  - Added Type Alias PFResult
+  - Added Type Alias PFResultOutput
+  - Added Type Alias PFTestResult
+  - Added Type Alias PFTestResultOutput
+  - Added Type Alias RecommendationCategory
+  - Added Type Alias RecommendationCategoryOutput
+  - Added Type Alias RequestDataLevel
+  - Added Type Alias RequestDataLevelOutput
+  - Added Type Alias ResourceKind
+  - Added Type Alias ResourceKindOutput
+  - Added Type Alias SecretType
+  - Added Type Alias SecretTypeOutput
+  - Added Type Alias Status
+  - Added Type Alias StatusOutput
+  - Added Type Alias TargetResourceConfigurations
+  - Added Type Alias TargetResourceConfigurationsOutput
+  - Added Type Alias TestAppComponentsResourceMergeAndPatch
+  - Added Type Alias TestKind
+  - Added Type Alias TestKindOutput
+  - Added Type Alias TestProfileAdministrationCreateOrUpdateTestProfileParameters
+  - Added Type Alias TestProfileAdministrationDeleteTestProfileParameters
+  - Added Type Alias TestProfileAdministrationGetTestProfileParameters
+  - Added Type Alias TestProfileAdministrationListTestProfilesParameters
+  - Added Type Alias TestProfileResourceMergeAndPatch
+  - Added Type Alias TestProfileRunAdministrationCreateOrUpdateTestProfileRunParameters
+  - Added Type Alias TestProfileRunAdministrationDeleteTestProfileRunParameters
+  - Added Type Alias TestProfileRunAdministrationGetTestProfileRunParameters
+  - Added Type Alias TestProfileRunAdministrationListTestProfileRunsParameters
+  - Added Type Alias TestProfileRunAdministrationStopParameters
+  - Added Type Alias TestProfileRunResourceMergeAndPatch
+  - Added Type Alias TestProfileRunStatus
+  - Added Type Alias TestProfileRunStatusOutput
+  - Added Type Alias TestResourceMergeAndPatch
+  - Added Type Alias TestRunAppComponentsResourceMergeAndPatch
+  - Added Type Alias TestRunResourceMergeAndPatch
+  - Added Type Alias TestRunServerMetricConfigResourceMergeAndPatch
+  - Added Type Alias TestServerMetricConfigResourceMergeAndPatch
+  - Added Type Alias TimeGrain
+  - Added Type Alias TimeGrainOutput
+  - Interface DimensionValueListOutput has a new optional parameter name
+  - Interface LoadTestConfiguration has a new optional parameter regionalLoadTestConfig
+  - Interface LoadTestConfigurationOutput has a new optional parameter regionalLoadTestConfig
+  - Interface OptionalLoadTestConfig has a new optional parameter maxResponseTimeInMs
+  - Interface OptionalLoadTestConfig has a new optional parameter requestsPerSecond
+  - Interface OptionalLoadTestConfigOutput has a new optional parameter maxResponseTimeInMs
+  - Interface OptionalLoadTestConfigOutput has a new optional parameter requestsPerSecond
+  - Interface Test has a new optional parameter autoStopCriteria
+  - Interface Test has a new optional parameter baselineTestRunId
+  - Interface Test has a new optional parameter kind
+  - Interface Test has a new optional parameter publicIPDisabled
+  - Interface TestInputArtifacts has a new optional parameter urlTestConfigFileInfo
+  - Interface TestInputArtifactsOutput has a new optional parameter urlTestConfigFileInfo
+  - Interface TestOutput has a new optional parameter autoStopCriteria
+  - Interface TestOutput has a new optional parameter baselineTestRunId
+  - Interface TestOutput has a new optional parameter kind
+  - Interface TestOutput has a new optional parameter publicIPDisabled
+  - Interface TestRun has a new optional parameter autoStopCriteria
+  - Interface TestRun has a new optional parameter debugLogsEnabled
+  - Interface TestRun has a new optional parameter requestDataLevel
+  - Interface TestRunInputArtifacts has a new optional parameter urlTestConfigFileInfo
+  - Interface TestRunInputArtifactsOutput has a new optional parameter urlTestConfigFileInfo
+  - Interface TestRunOutput has a new optional parameter autoStopCriteria
+  - Interface TestRunOutput has a new optional parameter debugLogsEnabled
+  - Interface TestRunOutput has a new optional parameter kind
+  - Interface TestRunOutput has a new optional parameter publicIPDisabled
+  - Interface TestRunOutput has a new optional parameter regionalStatistics
+  - Interface TestRunOutput has a new optional parameter requestDataLevel
+  - Interface TestRunOutputArtifacts has a new optional parameter artifactsContainerInfo
+  - Interface TestRunOutputArtifacts has a new optional parameter reportFileInfo
+  - Interface TestRunOutputArtifactsOutput has a new optional parameter artifactsContainerInfo
+  - Interface TestRunOutputArtifactsOutput has a new optional parameter reportFileInfo
+  - Interface TestRunStatisticsOutput has a new optional parameter pct75ResTime
+  - Interface TestRunStatisticsOutput has a new optional parameter pct96ResTime
+  - Interface TestRunStatisticsOutput has a new optional parameter pct97ResTime
+  - Interface TestRunStatisticsOutput has a new optional parameter pct98ResTime
+  - Interface TestRunStatisticsOutput has a new optional parameter pct9999ResTime
+  - Interface TestRunStatisticsOutput has a new optional parameter pct999ResTime
 
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
-
-## 1.0.0 (2023-03-07)
-
-First stable release of Azure Load Testing client library for Javascript.
-
-## 1.0.0-beta.2 (2023-01-26)
-
-Second preview release of Azure Load Testing client library for Javascript.
-
-### Features Added
-
-- Added `LoadTestClient.getLongRunningPoller` Long-Running operation helper
-
-### Breaking Changes
-
-- Added metric namespaces and metric dimensions
-- File upload now uses `application/octet-stream` instead of `multipart/form-data`
-- File upload now uses file name as primary identifier instead of `fileId`
-
-## 1.0.0-beta.1 (2022-10-19)
-
-### Features Added
-
-Initial release of the Azure LoadTesting package
+  - Removed operation group TestCreateOrUpdate
+  - Removed operation group TestCreateOrUpdateAppComponents
+  - Removed operation group TestCreateOrUpdateServerMetricsConfig
+  - Removed operation group TestList
+  - Removed operation group TestListFiles
+  - Removed operation group TestRunCreateOrUpdateAppComponents
+  - Removed operation group TestRunCreateOrUpdateServerMetricsConfig
+  - Removed operation group TestRunDelete
+  - Removed operation group TestRunGetFile
+  - Removed operation group TestRunList
+  - Removed operation group TestRunListMetricDefinitions
+  - Removed operation group TestRunListMetricDimensionValues
+  - Removed operation group TestRunListMetricNamespaces
+  - Removed operation group TestRunListMetrics
+  - Removed operation group TestRunStop
+  - Removed operation group TestUploadFile
+  - Interface AppComponent no longer has parameter resourceGroup
+  - Interface AppComponent no longer has parameter resourceId
+  - Interface AppComponent no longer has parameter subscriptionId
+  - Interface ErrorDetails no longer has parameter message
+  - Interface PassFailMetric no longer has parameter actualValue
+  - Interface PassFailMetric no longer has parameter result
+  - Interface ResourceMetric no longer has parameter id
+  - Interface Test no longer has parameter createdBy
+  - Interface Test no longer has parameter createdDateTime
+  - Interface Test no longer has parameter inputArtifacts
+  - Interface Test no longer has parameter lastModifiedBy
+  - Interface Test no longer has parameter lastModifiedDateTime
+  - Interface Test no longer has parameter testId
+  - Interface TestAppComponents no longer has parameter createdBy
+  - Interface TestAppComponents no longer has parameter createdDateTime
+  - Interface TestAppComponents no longer has parameter lastModifiedBy
+  - Interface TestAppComponents no longer has parameter lastModifiedDateTime
+  - Interface TestAppComponents no longer has parameter testId
+  - Interface TestInputArtifacts no longer has parameter additionalFileInfo
+  - Interface TestRun no longer has parameter createdBy
+  - Interface TestRun no longer has parameter createdDateTime
+  - Interface TestRun no longer has parameter duration
+  - Interface TestRun no longer has parameter endDateTime
+  - Interface TestRun no longer has parameter errorDetails
+  - Interface TestRun no longer has parameter executedDateTime
+  - Interface TestRun no longer has parameter lastModifiedBy
+  - Interface TestRun no longer has parameter lastModifiedDateTime
+  - Interface TestRun no longer has parameter portalUrl
+  - Interface TestRun no longer has parameter startDateTime
+  - Interface TestRun no longer has parameter status
+  - Interface TestRun no longer has parameter subnetId
+  - Interface TestRun no longer has parameter testArtifacts
+  - Interface TestRun no longer has parameter testResult
+  - Interface TestRun no longer has parameter testRunId
+  - Interface TestRun no longer has parameter testRunStatistics
+  - Interface TestRun no longer has parameter virtualUsers
+  - Interface TestRunAppComponents no longer has parameter createdBy
+  - Interface TestRunAppComponents no longer has parameter createdDateTime
+  - Interface TestRunAppComponents no longer has parameter lastModifiedBy
+  - Interface TestRunAppComponents no longer has parameter lastModifiedDateTime
+  - Interface TestRunAppComponents no longer has parameter testRunId
+  - Interface TestRunArtifacts no longer has parameter inputArtifacts
+  - Interface TestRunInputArtifacts no longer has parameter additionalFileInfo
+  - Interface TestRunServerMetricConfig no longer has parameter createdBy
+  - Interface TestRunServerMetricConfig no longer has parameter createdDateTime
+  - Interface TestRunServerMetricConfig no longer has parameter lastModifiedBy
+  - Interface TestRunServerMetricConfig no longer has parameter lastModifiedDateTime
+  - Interface TestRunServerMetricConfig no longer has parameter testRunId
+  - Interface TestRunStatistics no longer has parameter errorCount
+  - Interface TestRunStatistics no longer has parameter errorPct
+  - Interface TestRunStatistics no longer has parameter maxResTime
+  - Interface TestRunStatistics no longer has parameter meanResTime
+  - Interface TestRunStatistics no longer has parameter medianResTime
+  - Interface TestRunStatistics no longer has parameter minResTime
+  - Interface TestRunStatistics no longer has parameter pct1ResTime
+  - Interface TestRunStatistics no longer has parameter pct2ResTime
+  - Interface TestRunStatistics no longer has parameter pct3ResTime
+  - Interface TestRunStatistics no longer has parameter receivedKBytesPerSec
+  - Interface TestRunStatistics no longer has parameter sampleCount
+  - Interface TestRunStatistics no longer has parameter sentKBytesPerSec
+  - Interface TestRunStatistics no longer has parameter throughput
+  - Interface TestRunStatistics no longer has parameter transaction
+  - Interface TestServerMetricConfig no longer has parameter createdBy
+  - Interface TestServerMetricConfig no longer has parameter createdDateTime
+  - Interface TestServerMetricConfig no longer has parameter lastModifiedBy
+  - Interface TestServerMetricConfig no longer has parameter lastModifiedDateTime
+  - Interface TestServerMetricConfig no longer has parameter testId
+  - Parameter resourceName of interface AppComponent is now required
+  - Parameter resourceType of interface AppComponent is now required
+  - Parameter resourceId of interface AppComponentOutput is now required
+  - Parameter resourceName of interface AppComponentOutput is now required
+  - Parameter resourceType of interface AppComponentOutput is now required
+  - Parameter testId of interface TestOutput is now required
+  - Parameter testRunId of interface TestRunOutput is now required
+  - Parameter metrics of interface TestServerMetricConfig is now required
+  - Parameter metrics of interface TestServerMetricConfigOutput is now required
+  - Type of parameter type of interface CertificateMetadata is changed from "AKV_CERT_URI" to CertificateType
+  - Type of parameter type of interface CertificateMetadataOutput is changed from "AKV_CERT_URI" to CertificateTypeOutput
+  - Type of parameter values of interface DimensionFilter is changed from Array<string> to string[]
+  - Type of parameter value of interface DimensionValueListOutput is changed from Array<string> to string[]
+  - Type of parameter timeGrain of interface MetricAvailabilityOutput is changed from "PT5S" | "PT10S" | "PT1M" | "PT5M" | "PT1H" to TimeGrainOutput
+  - Type of parameter primaryAggregationType of interface MetricDefinitionOutput is changed from "Average" | "Count" | "None" | "Total" | "Percentile90" | "Percentile95" | "Percentile99" to AggregationTypeOutput
+  - Type of parameter supportedAggregationTypes of interface MetricDefinitionOutput is changed from Array<string> to string[]
+  - Type of parameter unit of interface MetricDefinitionOutput is changed from "NotSpecified" | "Percent" | "Count" | "Seconds" | "Milliseconds" | "Bytes" | "BytesPerSecond" | "CountPerSecond" to MetricUnitOutput
+  - Type of parameter action of interface PassFailMetric is changed from "stop" | "continue" to PFAction
+  - Type of parameter aggregate of interface PassFailMetric is changed from "count" | "percentage" | "avg" | "p50" | "p90" | "p95" | "p99" | "min" | "max" to PFAgFunc
+  - Type of parameter clientMetric of interface PassFailMetric is changed from "response_time_ms" | "latency" | "error" | "requests" | "requests_per_sec" to PFMetrics
+  - Type of parameter action of interface PassFailMetricOutput is changed from "stop" | "continue" to PFActionOutput
+  - Type of parameter aggregate of interface PassFailMetricOutput is changed from "count" | "percentage" | "avg" | "p50" | "p90" | "p95" | "p99" | "min" | "max" to PFAgFuncOutput
+  - Type of parameter clientMetric of interface PassFailMetricOutput is changed from "response_time_ms" | "latency" | "error" | "requests" | "requests_per_sec" to PFMetricsOutput
+  - Type of parameter result of interface PassFailMetricOutput is changed from "passed" | "undetermined" | "failed" to PFResultOutput
+  - Type of parameter type of interface Secret is changed from "AKV_SECRET_URI" | "SECRET_VALUE" to SecretType
+  - Type of parameter type of interface SecretOutput is changed from "AKV_SECRET_URI" | "SECRET_VALUE" to SecretTypeOutput
+  - Type of parameter configFileInfo of interface TestInputArtifacts is changed from FileInfo to TestFileInfo
+  - Type of parameter inputArtifactsZipFileInfo of interface TestInputArtifacts is changed from FileInfo to TestFileInfo
+  - Type of parameter testScriptFileInfo of interface TestInputArtifacts is changed from FileInfo to TestFileInfo
+  - Type of parameter userPropFileInfo of interface TestInputArtifacts is changed from FileInfo to TestFileInfo
+  - Type of parameter additionalFileInfo of interface TestInputArtifactsOutput is changed from Array<FileInfoOutput> to Array<TestFileInfoOutput>
+  - Type of parameter configFileInfo of interface TestInputArtifactsOutput is changed from FileInfoOutput to TestFileInfoOutput
+  - Type of parameter inputArtifactsZipFileInfo of interface TestInputArtifactsOutput is changed from FileInfoOutput to TestFileInfoOutput
+  - Type of parameter testScriptFileInfo of interface TestInputArtifactsOutput is changed from FileInfoOutput to TestFileInfoOutput
+  - Type of parameter userPropFileInfo of interface TestInputArtifactsOutput is changed from FileInfoOutput to TestFileInfoOutput
+  - Type of parameter configFileInfo of interface TestRunInputArtifacts is changed from FileInfo to TestRunFileInfo
+  - Type of parameter inputArtifactsZipFileInfo of interface TestRunInputArtifacts is changed from FileInfo to TestRunFileInfo
+  - Type of parameter testScriptFileInfo of interface TestRunInputArtifacts is changed from FileInfo to TestRunFileInfo
+  - Type of parameter userPropFileInfo of interface TestRunInputArtifacts is changed from FileInfo to TestRunFileInfo
+  - Type of parameter additionalFileInfo of interface TestRunInputArtifactsOutput is changed from Array<FileInfoOutput> to Array<TestRunFileInfoOutput>
+  - Type of parameter configFileInfo of interface TestRunInputArtifactsOutput is changed from FileInfoOutput to TestRunFileInfoOutput
+  - Type of parameter inputArtifactsZipFileInfo of interface TestRunInputArtifactsOutput is changed from FileInfoOutput to TestRunFileInfoOutput
+  - Type of parameter testScriptFileInfo of interface TestRunInputArtifactsOutput is changed from FileInfoOutput to TestRunFileInfoOutput
+  - Type of parameter userPropFileInfo of interface TestRunInputArtifactsOutput is changed from FileInfoOutput to TestRunFileInfoOutput
+  - Type of parameter status of interface TestRunOutput is changed from "ACCEPTED" | "NOTSTARTED" | "PROVISIONING" | "PROVISIONED" | "CONFIGURING" | "CONFIGURED" | "EXECUTING" | "EXECUTED" | "DEPROVISIONING" | "DEPROVISIONED" | "DONE" | "CANCELLING" | "CANCELLED" | "FAILED" | "VALIDATION_SUCCESS" | "VALIDATION_FAILURE" to StatusOutput
+  - Type of parameter testResult of interface TestRunOutput is changed from "PASSED" | "NOT_APPLICABLE" | "FAILED" to PFTestResultOutput
+  - Type of parameter logsFileInfo of interface TestRunOutputArtifacts is changed from FileInfo to TestRunFileInfo
+  - Type of parameter resultFileInfo of interface TestRunOutputArtifacts is changed from FileInfo to TestRunFileInfo
+  - Type of parameter logsFileInfo of interface TestRunOutputArtifactsOutput is changed from FileInfoOutput to TestRunFileInfoOutput
+  - Type of parameter resultFileInfo of interface TestRunOutputArtifactsOutput is changed from FileInfoOutput to TestRunFileInfoOutput
+  - Removed function getLongRunningPoller
+    
