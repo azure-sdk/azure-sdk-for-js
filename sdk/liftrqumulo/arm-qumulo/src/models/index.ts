@@ -528,7 +528,7 @@ export type FileSystemsListByResourceGroupNextResponse =
   FileSystemResourceListResult;
 
 /** Optional parameters. */
-export interface QumuloStorageOptionalParams
+export interface QumuloStorageForTestingOptionalParams
   extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
