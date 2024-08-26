@@ -13330,12 +13330,13 @@ packages:
     dev: false
 
   file:projects/arm-consumption.tgz:
-    resolution: {integrity: sha512-Gcy5nXxsywa4b9F7LFIiS+QtQCf0L9YsdfqyYqLpY/2A/Ix0S34nyU1xhIH2dk2Qzyg93sbNFpOWzXMif2Vugw==, tarball: file:projects/arm-consumption.tgz}
+    resolution: {integrity: sha512-Ohf2ZSfdj6zPJx75ZLnV4IB7h9W3ZwmwrAY6LbBwm9GpSj8eWaEDMJdfbJioUra5NKMtvSgxiD0Ofm+ZUaFxzA==, tarball: file:projects/arm-consumption.tgz}
     name: '@rush-temp/arm-consumption'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
+      '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
       '@microsoft/api-extractor': 7.47.7(@types/node@18.19.46)
       '@types/chai': 4.3.18
@@ -13349,6 +13350,7 @@ packages:
       rimraf: 5.0.10
       ts-node: 10.9.2(@types/node@18.19.46)(typescript@5.5.4)
       tslib: 2.7.0
+      tsx: 4.18.0
       typescript: 5.5.4
       uglify-js: 3.19.2
     transitivePeerDependencies:

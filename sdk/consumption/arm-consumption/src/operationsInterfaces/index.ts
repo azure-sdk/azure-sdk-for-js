@@ -6,6 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+export * from "./priceSheet";
 export * from "./usageDetails";
 export * from "./marketplaces";
 export * from "./budgets";
@@ -17,7 +18,6 @@ export * from "./reservationsDetails";
 export * from "./reservationRecommendations";
 export * from "./reservationRecommendationDetails";
 export * from "./reservationTransactions";
-export * from "./priceSheet";
 export * from "./operations";
 export * from "./aggregatedCost";
 export * from "./eventsOperations";
