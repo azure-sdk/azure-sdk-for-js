@@ -9742,6 +9742,7 @@ packages:
 
   /queue-tick@1.0.1:
     resolution: {integrity: sha512-kJt5qhMxoszgU/62PLP1CJytzd2NKetjSRnyuj31fDd3Rlcz3fzlFdFLD1SItunPwyqEOkca6GbV612BWfaBag==}
+    requiresBuild: true
     dev: false
 
   /randombytes@2.1.0:
@@ -10738,6 +10739,7 @@ packages:
 
   /text-decoder@1.1.1:
     resolution: {integrity: sha512-8zll7REEv4GDD3x4/0pW+ppIxSNs7H1J10IKFZsuOMscumCdM2a+toDGLPA3T+1+fLBql4zbt5z83GEQGGV5VA==}
+    requiresBuild: true
     dependencies:
       b4a: 1.6.6
     dev: false
@@ -13771,7 +13773,7 @@ packages:
     dev: false
 
   file:projects/arm-chaos.tgz:
-    resolution: {integrity: sha512-QXFVLF2dA2LGC5B+0uw8mlQcjJKpkJ8TpRff22N4pros7Dflf6GdxnbYA5dM9I2yPiCkHmQHnHkkDVIuEggqzQ==, tarball: file:projects/arm-chaos.tgz}
+    resolution: {integrity: sha512-2ETfcc0MHmqIds2GHoiO7RjgDHw2vujGxQNwS7hQFdWDqEpGOgpuIxjS9d2wiKpCvbLnp9n9dB/lqEAVA+qnzg==, tarball: file:projects/arm-chaos.tgz}
     name: '@rush-temp/arm-chaos'
     version: 0.0.0
     dependencies:
@@ -13793,6 +13795,7 @@ packages:
       rimraf: 5.0.10
       ts-node: 10.9.2(@types/node@18.19.45)(typescript@5.5.4)
       tslib: 2.6.3
+      tsx: 4.17.0
       typescript: 5.5.4
       uglify-js: 3.19.2
     transitivePeerDependencies:
