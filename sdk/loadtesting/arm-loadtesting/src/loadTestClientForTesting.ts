@@ -11,28 +11,28 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import { OperationsImpl, QuotasImpl, LoadTestsImpl } from "./operations";
-import { Operations, Quotas, LoadTests } from "./operationsInterfaces";
-import { LoadTestClientOptionalParams } from "./models";
+import { OperationsImpl, LoadTestsImpl, QuotasImpl } from "./operations";
+import { Operations, LoadTests, Quotas } from "./operationsInterfaces";
+import { LoadTestClientForTestingOptionalParams } from "./models";
 
-export class LoadTestClient extends coreClient.ServiceClient {
+export class LoadTestClientForTesting extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
   subscriptionId: string;
 
   /**
-   * Initializes a new instance of the LoadTestClient class.
+   * Initializes a new instance of the LoadTestClientForTesting class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId The ID of the target subscription.
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: LoadTestClientOptionalParams
+    options?: LoadTestClientForTestingOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -45,12 +45,12 @@ export class LoadTestClient extends coreClient.ServiceClient {
     if (!options) {
       options = {};
     }
-    const defaults: LoadTestClientOptionalParams = {
+    const defaults: LoadTestClientForTestingOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-loadtesting/1.0.1`;
+    const packageDetails = `azsdk-js-arm-loadtesting/2.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -60,20 +60,21 @@ export class LoadTestClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -83,7 +84,7 @@ export class LoadTestClient extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -93,9 +94,9 @@ export class LoadTestClient extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -105,8 +106,8 @@ export class LoadTestClient extends coreClient.ServiceClient {
     this.$host = options.$host || "https://management.azure.com";
     this.apiVersion = options.apiVersion || "2022-12-01";
     this.operations = new OperationsImpl(this);
-    this.quotas = new QuotasImpl(this);
     this.loadTests = new LoadTestsImpl(this);
+    this.quotas = new QuotasImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -119,7 +120,7 @@ export class LoadTestClient extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -133,12 +134,12 @@ export class LoadTestClient extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
   operations: Operations;
-  quotas: Quotas;
   loadTests: LoadTests;
+  quotas: Quotas;
 }
