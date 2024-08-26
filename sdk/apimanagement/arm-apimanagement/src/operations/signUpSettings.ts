@@ -19,7 +19,7 @@ import {
   PortalSignupSettings,
   SignUpSettingsUpdateOptionalParams,
   SignUpSettingsCreateOrUpdateOptionalParams,
-  SignUpSettingsCreateOrUpdateResponse
+  SignUpSettingsCreateOrUpdateResponse,
 } from "../models";
 
 /** Class containing SignUpSettings operations. */
@@ -43,11 +43,11 @@ export class SignUpSettingsImpl implements SignUpSettings {
   getEntityTag(
     resourceGroupName: string,
     serviceName: string,
-    options?: SignUpSettingsGetEntityTagOptionalParams
+    options?: SignUpSettingsGetEntityTagOptionalParams,
   ): Promise<SignUpSettingsGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, options },
-      getEntityTagOperationSpec
+      getEntityTagOperationSpec,
     );
   }
 
@@ -60,11 +60,11 @@ export class SignUpSettingsImpl implements SignUpSettings {
   get(
     resourceGroupName: string,
     serviceName: string,
-    options?: SignUpSettingsGetOptionalParams
+    options?: SignUpSettingsGetOptionalParams,
   ): Promise<SignUpSettingsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -82,11 +82,11 @@ export class SignUpSettingsImpl implements SignUpSettings {
     serviceName: string,
     ifMatch: string,
     parameters: PortalSignupSettings,
-    options?: SignUpSettingsUpdateOptionalParams
+    options?: SignUpSettingsUpdateOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, ifMatch, parameters, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -101,11 +101,11 @@ export class SignUpSettingsImpl implements SignUpSettings {
     resourceGroupName: string,
     serviceName: string,
     parameters: PortalSignupSettings,
-    options?: SignUpSettingsCreateOrUpdateOptionalParams
+    options?: SignUpSettingsCreateOrUpdateOptionalParams,
   ): Promise<SignUpSettingsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, parameters, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 }
@@ -113,101 +113,97 @@ export class SignUpSettingsImpl implements SignUpSettings {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getEntityTagOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalsettings/signup",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalsettings/signup",
   httpMethod: "HEAD",
   responses: {
     200: {
-      headersMapper: Mappers.SignUpSettingsGetEntityTagHeaders
+      headersMapper: Mappers.SignUpSettingsGetEntityTagHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.serviceName,
-    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalsettings/signup",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalsettings/signup",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.PortalSignupSettings,
-      headersMapper: Mappers.SignUpSettingsGetHeaders
+      headersMapper: Mappers.SignUpSettingsGetHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.serviceName,
-    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalsettings/signup",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalsettings/signup",
   httpMethod: "PATCH",
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters61,
+  requestBody: Parameters.parameters71,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.serviceName,
-    Parameters.subscriptionId
   ],
   headerParameters: [
-    Parameters.accept,
     Parameters.contentType,
-    Parameters.ifMatch1
+    Parameters.accept,
+    Parameters.ifMatch1,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalsettings/signup",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalsettings/signup",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.PortalSignupSettings
+      bodyMapper: Mappers.PortalSignupSettings,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters61,
+  requestBody: Parameters.parameters71,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.serviceName,
-    Parameters.subscriptionId
   ],
   headerParameters: [
-    Parameters.accept,
     Parameters.contentType,
-    Parameters.ifMatch
+    Parameters.accept,
+    Parameters.ifMatch,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };

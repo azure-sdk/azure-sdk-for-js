@@ -12106,7 +12106,7 @@ packages:
     dev: false
 
   file:projects/arm-apimanagement.tgz:
-    resolution: {integrity: sha512-xef6Zjq6D7heDmdMuBaHpNBGbiD1pb5i1Moz4aF+t3BGK0ucDsGBYXME4DwbmgUb2uhsyR9yhS88MPq4X6Y/Nw==, tarball: file:projects/arm-apimanagement.tgz}
+    resolution: {integrity: sha512-uj7YtAMrNemrdD6szwGmt+U8Y2BvZzuCRUYjOZafjsE/wK69FLOtBCbEbWdvreHs7m2q+qC6GXbDAylVq/46FQ==, tarball: file:projects/arm-apimanagement.tgz}
     name: '@rush-temp/arm-apimanagement'
     version: 0.0.0
     dependencies:
@@ -12127,6 +12127,7 @@ packages:
       rimraf: 5.0.10
       ts-node: 10.9.2(@types/node@18.19.46)(typescript@5.5.4)
       tslib: 2.7.0
+      tsx: 4.18.0
       typescript: 5.5.4
       uglify-js: 3.19.2
     transitivePeerDependencies:

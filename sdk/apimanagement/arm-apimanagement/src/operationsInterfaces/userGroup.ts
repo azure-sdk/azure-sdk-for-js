@@ -23,6 +23,6 @@ export interface UserGroup {
     resourceGroupName: string,
     serviceName: string,
     userId: string,
-    options?: UserGroupListOptionalParams
+    options?: UserGroupListOptionalParams,
   ): PagedAsyncIterableIterator<GroupContract>;
 }
