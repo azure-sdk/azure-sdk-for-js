@@ -14621,7 +14621,7 @@ packages:
     dev: false
 
   file:projects/arm-databricks.tgz:
-    resolution: {integrity: sha512-ukffrFz9KXG84YZnYgyMVU2WxzeM+UafOjUKGXBQuPDRaRdr4fyH2WbE18S8KSzhgSM2uh9Bajon4PXnfYA5eA==, tarball: file:projects/arm-databricks.tgz}
+    resolution: {integrity: sha512-/bgfUVTvOfzPnp5sCzOqe7w1sFeDHv/EG/8uQC+FdeM7d5ChpPaHrkUoTaSEOfjKPx+DmP/kWYCAxaWJH9G6+g==, tarball: file:projects/arm-databricks.tgz}
     name: '@rush-temp/arm-databricks'
     version: 0.0.0
     dependencies:
@@ -14642,6 +14642,7 @@ packages:
       rimraf: 5.0.10
       ts-node: 10.9.2(@types/node@18.19.45)(typescript@5.5.4)
       tslib: 2.6.3
+      tsx: 4.17.0
       typescript: 5.5.4
       uglify-js: 3.19.2
     transitivePeerDependencies:
