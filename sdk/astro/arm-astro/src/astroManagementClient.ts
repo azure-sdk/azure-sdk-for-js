@@ -50,7 +50,7 @@ export class AstroManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-astro/1.0.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-astro/1.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -104,7 +104,7 @@ export class AstroManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-08-01";
+    this.apiVersion = options.apiVersion || "2024-08-23";
     this.operations = new OperationsImpl(this);
     this.organizations = new OrganizationsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);

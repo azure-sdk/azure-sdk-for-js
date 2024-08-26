@@ -147,7 +147,7 @@ export interface LiftrBaseDataOrganizationProperties {
 /** Marketplace details for an organization */
 export interface LiftrBaseMarketplaceDetails {
   /** Azure subscription id for the the marketplace offer is purchased from */
-  subscriptionId: string;
+  subscriptionId?: string;
   /** Marketplace subscription status */
   subscriptionStatus?: MarketplaceSubscriptionStatus;
   /** Offer details for the marketplace that is selected by the user */
@@ -168,6 +168,8 @@ export interface LiftrBaseOfferDetails {
   termUnit?: string;
   /** Plan Display Name for the marketplace offer */
   termId?: string;
+  /** Subscription auto renewal flag */
+  autoRenew?: boolean;
 }
 
 /** User details for an organization */
@@ -293,7 +295,7 @@ export interface OrganizationResourceUpdate {
   identity?: ManagedServiceIdentity;
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
-  /** The updatable properties of the OrganizationResource. */
+  /** The resource-specific properties for this resource. */
   properties?: OrganizationResourceUpdateProperties;
 }
 
@@ -357,18 +359,18 @@ export interface OrganizationsCreateOrUpdateHeaders {
 
 /** Defines headers for Organizations_update operation. */
 export interface OrganizationsUpdateHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for Organizations_delete operation. */
 export interface OrganizationsDeleteHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Known values of {@link Origin} that the service accepts. */
@@ -521,38 +523,23 @@ export enum KnownCreatedByType {
  */
 export type CreatedByType = string;
 
-/** Known values of {@link Versions} that the service accepts. */
-export enum KnownVersions {
-  /** Dependent on Azure.ResourceManager.Versions.v1_0_Preview_1, LiftrBase.Versions.v1_preview, LiftrBase.Data.Versions.v1_preview */
-  V1Preview = "2023-08-01",
-}
-
-/**
- * Defines values for Versions. \
- * {@link KnownVersions} can be used interchangeably with Versions,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **2023-08-01**: Dependent on Azure.ResourceManager.Versions.v1_0_Preview_1, LiftrBase.Versions.v1_preview, LiftrBase.Data.Versions.v1_preview
- */
-export type Versions = string;
-
 /** Optional parameters. */
 export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type OperationsListResponse = OperationListResult;
 
 /** Optional parameters. */
 export interface OperationsListNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type OperationsListNextResponse = OperationListResult;
 
 /** Optional parameters. */
 export interface OrganizationsListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
 export type OrganizationsListBySubscriptionResponse =
@@ -560,7 +547,7 @@ export type OrganizationsListBySubscriptionResponse =
 
 /** Optional parameters. */
 export interface OrganizationsListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
 export type OrganizationsListByResourceGroupResponse =
@@ -568,7 +555,7 @@ export type OrganizationsListByResourceGroupResponse =
 
 /** Optional parameters. */
 export interface OrganizationsGetOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type OrganizationsGetResponse = OrganizationResource;
@@ -611,7 +598,7 @@ export type OrganizationsDeleteResponse = OrganizationsDeleteHeaders;
 
 /** Optional parameters. */
 export interface OrganizationsListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type OrganizationsListBySubscriptionNextResponse =
@@ -619,7 +606,7 @@ export type OrganizationsListBySubscriptionNextResponse =
 
 /** Optional parameters. */
 export interface OrganizationsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type OrganizationsListByResourceGroupNextResponse =
