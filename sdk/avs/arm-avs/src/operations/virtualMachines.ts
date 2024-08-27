@@ -12,7 +12,7 @@ import { VirtualMachines } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AzureVMwareSolutionAPI } from "../azureVMwareSolutionAPI";
+import { AzureVMwareSolutionAPITest } from "../azureVMwareSolutionAPITest";
 import {
   SimplePollerLike,
   OperationState,
@@ -35,13 +35,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing VirtualMachines operations. */
 export class VirtualMachinesImpl implements VirtualMachines {
-  private readonly client: AzureVMwareSolutionAPI;
+  private readonly client: AzureVMwareSolutionAPITest;
 
   /**
    * Initialize a new instance of the class VirtualMachines class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureVMwareSolutionAPI) {
+  constructor(client: AzureVMwareSolutionAPITest) {
     this.client = client;
   }
 
@@ -262,6 +262,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -324,7 +325,7 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VirtualMachineListResult,
+      bodyMapper: Mappers.VirtualMachinesList,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -403,7 +404,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VirtualMachineListResult,
+      bodyMapper: Mappers.VirtualMachinesList,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
