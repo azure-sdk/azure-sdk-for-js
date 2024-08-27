@@ -164,11 +164,6 @@ export enum KnownSapInstanceType {
 }
 
 // @public
-export enum KnownVersions {
-    V20231001Preview = "2023-10-01-preview"
-}
-
-// @public
 export interface NativePerformanceData extends PerformanceData {
     dataSource: "Native";
 }
@@ -264,7 +259,7 @@ export interface SAPDiscoverySite extends TrackedResource {
 
 // @public
 export interface SAPDiscoverySiteListResult {
-    readonly nextLink?: string;
+    nextLink?: string;
     value: SAPDiscoverySite[];
 }
 
@@ -390,7 +385,7 @@ export type SapInstanceEnvironment = string;
 
 // @public
 export interface SAPInstanceListResult {
-    readonly nextLink?: string;
+    nextLink?: string;
     value: SAPInstance[];
 }
 
@@ -491,7 +486,7 @@ export interface ServerInstance extends ProxyResource {
 
 // @public
 export interface ServerInstanceListResult {
-    readonly nextLink?: string;
+    nextLink?: string;
     value: ServerInstance[];
 }
 
@@ -597,14 +592,11 @@ export interface UpdateServerInstanceRequest {
     properties?: ServerInstanceProperties;
 }
 
-// @public
-export type Versions = string;
-
 // @public (undocumented)
-export class WorkloadsClient extends coreClient.ServiceClient {
+export class WorkloadsClientTest extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: WorkloadsClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: WorkloadsClientTestOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -620,7 +612,7 @@ export class WorkloadsClient extends coreClient.ServiceClient {
 }
 
 // @public
-export interface WorkloadsClientOptionalParams extends coreClient.ServiceClientOptions {
+export interface WorkloadsClientTestOptionalParams extends coreClient.ServiceClientOptions {
     $host?: string;
     apiVersion?: string;
     endpoint?: string;

@@ -12,7 +12,7 @@ import { ServerInstances } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { WorkloadsClient } from "../workloadsClient";
+import { WorkloadsClientTest } from "../workloadsClientTest";
 import {
   SimplePollerLike,
   OperationState,
@@ -38,13 +38,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ServerInstances operations. */
 export class ServerInstancesImpl implements ServerInstances {
-  private readonly client: WorkloadsClient;
+  private readonly client: WorkloadsClientTest;
 
   /**
    * Initialize a new instance of the class ServerInstances class.
    * @param client Reference to the service client
    */
-  constructor(client: WorkloadsClient) {
+  constructor(client: WorkloadsClientTest) {
     this.client = client;
   }
 
