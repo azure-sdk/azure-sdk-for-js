@@ -1030,7 +1030,7 @@ export type ServerlessRuntimesListByInformaticaOrganizationResourceNextResponse 
   InformaticaServerlessRuntimeResourceListResult;
 
 /** Optional parameters. */
-export interface InformaticaDataManagementOptionalParams
+export interface InformaticaDataManagementForTestingOptionalParams
   extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;

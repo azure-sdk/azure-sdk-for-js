@@ -12,7 +12,7 @@ import { Organizations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { InformaticaDataManagement } from "../informaticaDataManagement";
+import { InformaticaDataManagementForTesting } from "../informaticaDataManagementForTesting";
 import {
   SimplePollerLike,
   OperationState,
@@ -47,13 +47,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Organizations operations. */
 export class OrganizationsImpl implements Organizations {
-  private readonly client: InformaticaDataManagement;
+  private readonly client: InformaticaDataManagementForTesting;
 
   /**
    * Initialize a new instance of the class Organizations class.
    * @param client Reference to the service client
    */
-  constructor(client: InformaticaDataManagement) {
+  constructor(client: InformaticaDataManagementForTesting) {
     this.client = client;
   }
 
