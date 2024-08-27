@@ -9,5 +9,5 @@
 /// <reference lib="esnext.asynciterable" />
 export { getContinuationToken } from "./pagingHelper";
 export * from "./models";
-export { MicrosoftNetworkAnalytics } from "./microsoftNetworkAnalytics";
+export { MicrosoftNetworkAnalyticsForTesting } from "./microsoftNetworkAnalyticsForTesting";
 export * from "./operationsInterfaces";
