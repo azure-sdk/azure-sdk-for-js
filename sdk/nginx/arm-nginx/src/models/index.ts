@@ -250,6 +250,8 @@ export interface NginxDeploymentProperties {
   /** Autoupgrade settings of a deployment. */
   autoUpgradeProfile?: AutoUpgradeProfile;
   userProfile?: NginxDeploymentUserProfile;
+  /** Settings for NGINX App Protect (NAP) */
+  nginxAppProtect?: NginxDeploymentPropertiesNginxAppProtect;
 }
 
 export interface NginxNetworkProfile {
@@ -317,6 +319,63 @@ export interface NginxDeploymentUserProfile {
   preferredEmail?: string;
 }
 
+/** Settings for NGINX App Protect (NAP) */
+export interface NginxDeploymentPropertiesNginxAppProtect {
+  /** Settings for the NGINX App Protect Web Application Firewall (WAF) */
+  webApplicationFirewallSettings: WebApplicationFirewallSettings;
+  /**
+   * The status of the NGINX App Protect Web Application Firewall
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly webApplicationFirewallStatus?: WebApplicationFirewallStatus;
+}
+
+/** Settings for the NGINX App Protect Web Application Firewall (WAF) */
+export interface WebApplicationFirewallSettings {
+  /** The activation state of the WAF. Use 'Enabled' to enable the WAF and 'Disabled' to disable it. */
+  activationState?: ActivationState;
+}
+
+/** The status of the NGINX App Protect Web Application Firewall */
+export interface WebApplicationFirewallStatus {
+  /**
+   * Package containing attack signatures for the NGINX App Protect Web Application Firewall (WAF).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly attackSignaturesPackage?: WebApplicationFirewallPackage;
+  /**
+   * Package containing bot signatures for the NGINX App Protect Web Application Firewall (WAF).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly botSignaturesPackage?: WebApplicationFirewallPackage;
+  /**
+   * Package containing threat campaigns for the NGINX App Protect Web Application Firewall (WAF).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly threatCampaignsPackage?: WebApplicationFirewallPackage;
+  /**
+   * Versions of the NGINX App Protect Web Application Firewall (WAF) components.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly componentVersions?: WebApplicationFirewallComponentVersions;
+}
+
+/** NGINX App Protect Web Application Firewall (WAF) Package. Contains the version and revision date of the package. */
+export interface WebApplicationFirewallPackage {
+  /** The version of the NGINX App Protect Web Application Firewall (WAF) package. */
+  version: string;
+  /** The date and time of the package revision. */
+  revisionDatetime: Date;
+}
+
+/** Versions of the NGINX App Protect Web Application Firewall (WAF) components. */
+export interface WebApplicationFirewallComponentVersions {
+  /** The version of the NGINX App Protect Web Application Firewall (WAF) engine. */
+  wafEngineVersion: string;
+  /** The version of the NGINX App Protect Web Application Firewall (WAF) module for NGINX. */
+  wafNginxVersion: string;
+}
+
 export interface ResourceSku {
   /** Name of the SKU. */
   name: string;
@@ -339,6 +398,14 @@ export interface NginxDeploymentUpdateProperties {
   userProfile?: NginxDeploymentUserProfile;
   /** Autoupgrade settings of a deployment. */
   autoUpgradeProfile?: AutoUpgradeProfile;
+  /** Update settings for NGINX App Protect (NAP) */
+  nginxAppProtect?: NginxDeploymentUpdatePropertiesNginxAppProtect;
+}
+
+/** Update settings for NGINX App Protect (NAP) */
+export interface NginxDeploymentUpdatePropertiesNginxAppProtect {
+  /** Settings for the NGINX App Protect Web Application Firewall (WAF) */
+  webApplicationFirewallSettings?: WebApplicationFirewallSettings;
 }
 
 export interface NginxDeploymentListResponse {
@@ -480,6 +547,24 @@ export enum KnownNginxPrivateIPAllocationMethod {
  * **Dynamic**
  */
 export type NginxPrivateIPAllocationMethod = string;
+
+/** Known values of {@link ActivationState} that the service accepts. */
+export enum KnownActivationState {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled",
+}
+
+/**
+ * Defines values for ActivationState. \
+ * {@link KnownActivationState} can be used interchangeably with ActivationState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type ActivationState = string;
 
 /** Optional parameters. */
 export interface CertificatesGetOptionalParams
