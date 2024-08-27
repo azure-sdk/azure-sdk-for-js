@@ -24,23 +24,7 @@ export interface AgentProfile {
 export type AgentProfileUnion = AgentProfile | Stateful | StatelessAgentProfile;
 
 // @public
-export interface AgentProfileUpdate {
-    kind: "Stateful" | "Stateless";
-    resourcePredictions?: Record<string, unknown>;
-    resourcePredictionsProfile?: ResourcePredictionsProfileUpdateUnion;
-}
-
-// @public (undocumented)
-export type AgentProfileUpdateUnion = AgentProfileUpdate | StatefulUpdate | StatelessAgentProfileUpdate;
-
-// @public
 export interface AutomaticResourcePredictionsProfile extends ResourcePredictionsProfile {
-    kind: "Automatic";
-    predictionPreference?: PredictionPreference;
-}
-
-// @public
-export interface AutomaticResourcePredictionsProfileUpdate extends ResourcePredictionsProfileUpdate {
     kind: "Automatic";
     predictionPreference?: PredictionPreference;
 }
@@ -280,10 +264,10 @@ export enum KnownStorageAccountType {
 export type LogonType = string;
 
 // @public (undocumented)
-export class ManagedDevOpsInfrastructure extends coreClient.ServiceClient {
+export class ManagedDevOpsInfrastructureForTesting extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ManagedDevOpsInfrastructureOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ManagedDevOpsInfrastructureForTestingOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -303,7 +287,7 @@ export class ManagedDevOpsInfrastructure extends coreClient.ServiceClient {
 }
 
 // @public
-export interface ManagedDevOpsInfrastructureOptionalParams extends coreClient.ServiceClientOptions {
+export interface ManagedDevOpsInfrastructureForTestingOptionalParams extends coreClient.ServiceClientOptions {
     $host?: string;
     apiVersion?: string;
     endpoint?: string;
@@ -324,11 +308,6 @@ export type ManagedServiceIdentityType = string;
 
 // @public
 export interface ManualResourcePredictionsProfile extends ResourcePredictionsProfile {
-    kind: "Manual";
-}
-
-// @public
-export interface ManualResourcePredictionsProfileUpdate extends ResourcePredictionsProfileUpdate {
     kind: "Manual";
 }
 
@@ -404,6 +383,12 @@ export type OsDiskStorageAccountType = string;
 export interface OsProfile {
     logonType?: LogonType;
     secretsManagementSettings?: SecretsManagementSettings;
+}
+
+// @public
+export interface PagedQuota {
+    nextLink?: string;
+    value: Quota[];
 }
 
 // @public
@@ -539,7 +524,7 @@ export interface PoolUpdate {
 
 // @public
 export interface PoolUpdateProperties {
-    agentProfile?: AgentProfileUpdateUnion;
+    agentProfile?: AgentProfileUnion;
     devCenterProjectResourceId?: string;
     fabricProfile?: FabricProfileUnion;
     maximumConcurrency?: number;
@@ -558,28 +543,18 @@ export interface ProxyResource extends Resource {
 }
 
 // @public
-export interface Quota extends ProxyResource {
-    properties?: QuotaProperties;
-}
-
-// @public
-export interface QuotaListResult {
-    nextLink?: string;
-    value: Quota[];
+export interface Quota {
+    currentValue: number;
+    id: string;
+    limit: number;
+    readonly name?: QuotaName;
+    unit: string;
 }
 
 // @public
 export interface QuotaName {
     localizedValue?: string;
     value?: string;
-}
-
-// @public
-export interface QuotaProperties {
-    currentValue: number;
-    limit: number;
-    name: QuotaName;
-    unit: string;
 }
 
 // @public
@@ -637,14 +612,6 @@ export type ResourcePredictionsProfileType = string;
 
 // @public (undocumented)
 export type ResourcePredictionsProfileUnion = ResourcePredictionsProfile | AutomaticResourcePredictionsProfile | ManualResourcePredictionsProfile;
-
-// @public
-export interface ResourcePredictionsProfileUpdate {
-    kind: "Automatic" | "Manual";
-}
-
-// @public (undocumented)
-export type ResourcePredictionsProfileUpdateUnion = ResourcePredictionsProfileUpdate | AutomaticResourcePredictionsProfileUpdate | ManualResourcePredictionsProfileUpdate;
 
 // @public
 export interface ResourceSku extends ProxyResource {
@@ -745,19 +712,7 @@ export interface Stateful extends AgentProfile {
 }
 
 // @public
-export interface StatefulUpdate extends AgentProfileUpdate {
-    gracePeriodTimeSpan?: string;
-    kind: "Stateful";
-    maxAgentLifetime?: string;
-}
-
-// @public
 export interface StatelessAgentProfile extends AgentProfile {
-    kind: "Stateless";
-}
-
-// @public
-export interface StatelessAgentProfileUpdate extends AgentProfileUpdate {
     kind: "Stateless";
 }
 
@@ -772,22 +727,22 @@ export interface StorageProfile {
 
 // @public
 export interface SubscriptionUsages {
-    listByLocation(locationName: string, options?: SubscriptionUsagesListByLocationOptionalParams): PagedAsyncIterableIterator<Quota>;
+    listUsages(location: string, options?: SubscriptionUsagesUsagesOptionalParams): PagedAsyncIterableIterator<Quota>;
 }
 
 // @public
-export interface SubscriptionUsagesListByLocationNextOptionalParams extends coreClient.OperationOptions {
+export interface SubscriptionUsagesUsagesNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type SubscriptionUsagesListByLocationNextResponse = QuotaListResult;
+export type SubscriptionUsagesUsagesNextResponse = PagedQuota;
 
 // @public
-export interface SubscriptionUsagesListByLocationOptionalParams extends coreClient.OperationOptions {
+export interface SubscriptionUsagesUsagesOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type SubscriptionUsagesListByLocationResponse = QuotaListResult;
+export type SubscriptionUsagesUsagesResponse = PagedQuota;
 
 // @public
 export interface SystemData {
