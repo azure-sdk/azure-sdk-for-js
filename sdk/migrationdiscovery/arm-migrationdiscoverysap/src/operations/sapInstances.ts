@@ -12,7 +12,7 @@ import { SapInstances } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { WorkloadsClient } from "../workloadsClient";
+import { WorkloadsClientForTesting } from "../workloadsClientForTesting";
 import {
   SimplePollerLike,
   OperationState,
@@ -38,13 +38,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing SapInstances operations. */
 export class SapInstancesImpl implements SapInstances {
-  private readonly client: WorkloadsClient;
+  private readonly client: WorkloadsClientForTesting;
 
   /**
    * Initialize a new instance of the class SapInstances class.
    * @param client Reference to the service client
    */
-  constructor(client: WorkloadsClient) {
+  constructor(client: WorkloadsClientForTesting) {
     this.client = client;
   }
 
