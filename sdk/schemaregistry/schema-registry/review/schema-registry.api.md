@@ -4,73 +4,82 @@
 
 ```ts
 
-import { CommonClientOptions } from '@azure/core-client';
-import { OperationOptions } from '@azure/core-client';
+import { ClientOptions } from '@azure-rest/core-client';
+import { OperationOptions } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export interface GetSchemaOptions extends OperationOptions {
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
+
+// @public
+export interface GetSchemaByIdOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface GetSchemaPropertiesOptions extends OperationOptions {
+export interface GetSchemaByVersionOptionalParams extends OperationOptions {
 }
 
 // @public
-export enum KnownSchemaFormats {
-    Avro = "Avro",
-    Custom = "Custom",
-    Json = "Json"
+export interface GetSchemaPropertiesByContentOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface RegisterSchemaOptions extends OperationOptions {
+export enum KnownSchemaContentTypeValues {
+    "application/json; serialization=Avro" = "application/json; serialization=Avro",
+    "application/json; serialization=Json" = "application/json; serialization=Json",
+    "text/plain; charset=utf-8" = "text/plain; charset=utf-8",
+    "text/vnd.ms.protobuf" = "text/vnd.ms.protobuf"
 }
 
 // @public
-export interface Schema {
-    definition: string;
-    properties: SchemaProperties;
+export interface ListSchemaGroupsOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface SchemaDescription {
-    definition: string;
-    format: string;
-    groupName: string;
-    name: string;
+export interface ListSchemaVersionsOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface SchemaProperties {
-    format: string;
-    groupName: string;
-    id: string;
-    name: string;
-    version: number;
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
 }
 
 // @public
-export interface SchemaRegistry {
-    getSchema(schemaId: string, options?: GetSchemaOptions): Promise<Schema>;
-    getSchemaProperties(schema: SchemaDescription, options?: GetSchemaPropertiesOptions): Promise<SchemaProperties>;
-    registerSchema(schema: SchemaDescription, options?: RegisterSchemaOptions): Promise<SchemaProperties>;
+export interface PageSettings {
+    continuationToken?: string;
 }
 
 // @public
-export class SchemaRegistryClient implements SchemaRegistry {
-    constructor(fullyQualifiedNamespace: string, credential: TokenCredential, options?: SchemaRegistryClientOptions);
-    readonly fullyQualifiedNamespace: string;
-    getSchema(schemaId: string, options?: GetSchemaOptions): Promise<Schema>;
-    getSchema(name: string, groupName: string, version: number, options?: GetSchemaOptions): Promise<Schema>;
-    getSchemaProperties(schema: SchemaDescription, options?: GetSchemaPropertiesOptions): Promise<SchemaProperties>;
-    registerSchema(schema: SchemaDescription, options?: RegisterSchemaOptions): Promise<SchemaProperties>;
+export interface RegisterSchemaOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface SchemaRegistryClientOptions extends CommonClientOptions {
+export type SchemaContentTypeValues = "application/json; serialization=Avro" | "application/json; serialization=Json" | "text/plain; charset=utf-8" | "text/vnd.ms.protobuf";
+
+// @public (undocumented)
+export class SchemaRegistryClient {
+    constructor(fullyQualifiedNamespace: string, credential: TokenCredential, options?: SchemaRegistryClientOptionalParams);
+    getSchemaById(id: string, options?: GetSchemaByIdOptionalParams): Promise<Uint8Array>;
+    getSchemaByVersion(groupName: string, schemaName: string, schemaVersion: number, options?: GetSchemaByVersionOptionalParams): Promise<Uint8Array>;
+    getSchemaPropertiesByContent(groupName: string, schemaName: string, contentType: SchemaContentTypeValues, schemaContent: Uint8Array, options?: GetSchemaPropertiesByContentOptionalParams): Promise<void>;
+    listSchemaGroups(options?: ListSchemaGroupsOptionalParams): PagedAsyncIterableIterator<string>;
+    listSchemaVersions(groupName: string, schemaName: string, options?: ListSchemaVersionsOptionalParams): PagedAsyncIterableIterator<number>;
+    readonly pipeline: Pipeline;
+    registerSchema(groupName: string, schemaName: string, contentType: SchemaContentTypeValues, schemaContent: Uint8Array, options?: RegisterSchemaOptionalParams): Promise<void>;
+}
+
+// @public
+export interface SchemaRegistryClientOptionalParams extends ClientOptions {
     apiVersion?: string;
 }
+
+// @public
+export type ServiceVersion = "2021-10" | "2022-10" | "2023-07-01";
 
 // (No @packageDocumentation comment for this package)
 
