@@ -19122,7 +19122,7 @@ packages:
     dev: false
 
   file:projects/arm-workloads.tgz:
-    resolution: {integrity: sha512-Hq5iuKGfYthKhLV3MwJJnKMBmMp+VWLMrjWtyqL/Hl1oX0I3H8k3/4awBercHCF+UwBQdLZWaJLci3tc5OboxQ==, tarball: file:projects/arm-workloads.tgz}
+    resolution: {integrity: sha512-RHJJuNWivYXRBEyzF6t7LHjRtAUMwkJcHVrsF6sgD4/stAhH7lmF7ndGZ3pR0eEyd+DcJ8YUz77GYS2rmEUdVg==, tarball: file:projects/arm-workloads.tgz}
     name: '@rush-temp/arm-workloads'
     version: 0.0.0
     dependencies:
@@ -19143,6 +19143,7 @@ packages:
       rimraf: 5.0.10
       ts-node: 10.9.2(@types/node@18.19.46)(typescript@5.5.4)
       tslib: 2.7.0
+      tsx: 4.18.0
       typescript: 5.5.4
       uglify-js: 3.19.2
     transitivePeerDependencies:
@@ -20715,7 +20716,7 @@ packages:
     dev: false
 
   file:projects/dev-tool.tgz:
-    resolution: {integrity: sha512-0l9usz9/Q5FamlW4fBEN036jwxJl+zf+sCVRe/qkwkUUdzh/NQMMACT58LpisjFXBZtxTSP3bB4yiyRWmrcf/A==, tarball: file:projects/dev-tool.tgz}
+    resolution: {integrity: sha512-nU8mxxzxOJkacyp1yLwCVijVnXIliMwqrcaDyf4k2kWJe867OAUrFgoN/b8E4kKO6nUUjMjVd4k8bbiFBAluxA==, tarball: file:projects/dev-tool.tgz}
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
@@ -20873,7 +20874,7 @@ packages:
     dev: false
 
   file:projects/eslint-plugin-azure-sdk.tgz:
-    resolution: {integrity: sha512-tWmorIiO3E5Cg/xpr9FEhVs/xadYlAKifOfXL5M9IS0W5RkDoQz5cG/j5wGdcesngZLORNeQnP2JzpD4IJSV1w==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
+    resolution: {integrity: sha512-oxV22dFOSjOwjy/JcuLGQ9vMSCADbwGTFPxixi4Yev3dZ62WdJK/5JPjnmcY0I9mT70h1AA8ywx0ji2YxO802w==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
     name: '@rush-temp/eslint-plugin-azure-sdk'
     version: 0.0.0
     dependencies:
@@ -24608,7 +24609,7 @@ packages:
     dev: false
 
   file:projects/vite-plugin-browser-test-map.tgz:
-    resolution: {integrity: sha512-FNjq7LG7H9fdv14ZyWuYrLmtKW5S2lDb3bo+CTFOAW42HiqFWP5sXlMnlfJ9bvS8zt3N172dnZ+ukpVeuaPCxQ==, tarball: file:projects/vite-plugin-browser-test-map.tgz}
+    resolution: {integrity: sha512-r2a0dEaadQ17iwZCDs+EOziWJLc/xOZLWpYWgW6bYH5Yi60jzvylsURCDYdJmW70Nb7QXbyKjS5Z8jAWEgZajA==, tarball: file:projects/vite-plugin-browser-test-map.tgz}
     name: '@rush-temp/vite-plugin-browser-test-map'
     version: 0.0.0
     dependencies:

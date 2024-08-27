@@ -1763,7 +1763,7 @@ export enum KnownSAPEnvironmentType {
   /** NonProd */
   NonProd = "NonProd",
   /** Prod */
-  Prod = "Prod"
+  Prod = "Prod",
 }
 
 /**
@@ -1783,7 +1783,7 @@ export enum KnownSAPProductType {
   /** S4Hana */
   S4Hana = "S4HANA",
   /** Other */
-  Other = "Other"
+  Other = "Other",
 }
 
 /**
@@ -1802,7 +1802,7 @@ export enum KnownSAPDeploymentType {
   /** SingleServer */
   SingleServer = "SingleServer",
   /** ThreeTier */
-  ThreeTier = "ThreeTier"
+  ThreeTier = "ThreeTier",
 }
 
 /**
@@ -1820,7 +1820,7 @@ export enum KnownSAPDatabaseType {
   /** Hana */
   Hana = "HANA",
   /** DB2 */
-  DB2 = "DB2"
+  DB2 = "DB2",
 }
 
 /**
@@ -1836,7 +1836,7 @@ export type SAPDatabaseType = string;
 /** Known values of {@link SAPDatabaseScaleMethod} that the service accepts. */
 export enum KnownSAPDatabaseScaleMethod {
   /** ScaleUp */
-  ScaleUp = "ScaleUp"
+  ScaleUp = "ScaleUp",
 }
 
 /**
@@ -1853,7 +1853,7 @@ export enum KnownSAPHighAvailabilityType {
   /** AvailabilitySet */
   AvailabilitySet = "AvailabilitySet",
   /** AvailabilityZone */
-  AvailabilityZone = "AvailabilityZone"
+  AvailabilityZone = "AvailabilityZone",
 }
 
 /**
@@ -1881,7 +1881,7 @@ export enum KnownDiskSkuName {
   /** StandardSSDZRS */
   StandardSSDZRS = "StandardSSD_ZRS",
   /** PremiumV2LRS */
-  PremiumV2LRS = "PremiumV2_LRS"
+  PremiumV2LRS = "PremiumV2_LRS",
 }
 
 /**
@@ -1904,7 +1904,7 @@ export enum KnownManagedServiceIdentityType {
   /** None */
   None = "None",
   /** UserAssigned */
-  UserAssigned = "UserAssigned"
+  UserAssigned = "UserAssigned",
 }
 
 /**
@@ -1924,7 +1924,7 @@ export enum KnownSAPConfigurationType {
   /** Discovery */
   Discovery = "Discovery",
   /** DeploymentWithOSConfig */
-  DeploymentWithOSConfig = "DeploymentWithOSConfig"
+  DeploymentWithOSConfig = "DeploymentWithOSConfig",
 }
 
 /**
@@ -1953,7 +1953,7 @@ export enum KnownSAPVirtualInstanceStatus {
   /** Unavailable */
   Unavailable = "Unavailable",
   /** SoftShutdown */
-  SoftShutdown = "SoftShutdown"
+  SoftShutdown = "SoftShutdown",
 }
 
 /**
@@ -1980,7 +1980,7 @@ export enum KnownSAPHealthState {
   /** Unhealthy */
   Unhealthy = "Unhealthy",
   /** Degraded */
-  Degraded = "Degraded"
+  Degraded = "Degraded",
 }
 
 /**
@@ -2020,7 +2020,7 @@ export enum KnownSAPVirtualInstanceState {
   /** DiscoveryFailed */
   DiscoveryFailed = "DiscoveryFailed",
   /** RegistrationComplete */
-  RegistrationComplete = "RegistrationComplete"
+  RegistrationComplete = "RegistrationComplete",
 }
 
 /**
@@ -2054,7 +2054,7 @@ export enum KnownSapVirtualInstanceProvisioningState {
   /** Failed */
   Failed = "Failed",
   /** Deleting */
-  Deleting = "Deleting"
+  Deleting = "Deleting",
 }
 
 /**
@@ -2079,7 +2079,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -2099,7 +2099,7 @@ export enum KnownEnqueueReplicationServerType {
   /** EnqueueReplicator1 */
   EnqueueReplicator1 = "EnqueueReplicator1",
   /** EnqueueReplicator2 */
-  EnqueueReplicator2 = "EnqueueReplicator2"
+  EnqueueReplicator2 = "EnqueueReplicator2",
 }
 
 /**
@@ -2127,7 +2127,7 @@ export enum KnownCentralServerVirtualMachineType {
   /** ERS */
   ERS = "ERS",
   /** Standby */
-  Standby = "Standby"
+  Standby = "Standby",
 }
 
 /**
@@ -2152,7 +2152,7 @@ export enum KnownApplicationServerVirtualMachineType {
   /** Standby */
   Standby = "Standby",
   /** Unknown */
-  Unknown = "Unknown"
+  Unknown = "Unknown",
 }
 
 /**
@@ -2181,7 +2181,7 @@ export enum KnownWorkloadMonitorProvisioningState {
   /** Deleting */
   Deleting = "Deleting",
   /** Migrating */
-  Migrating = "Migrating"
+  Migrating = "Migrating",
 }
 
 /**
@@ -2204,7 +2204,7 @@ export enum KnownRoutingPreference {
   /** Default */
   Default = "Default",
   /** RouteAll */
-  RouteAll = "RouteAll"
+  RouteAll = "RouteAll",
 }
 
 /**
@@ -2228,7 +2228,7 @@ export enum KnownSapLandscapeMonitorProvisioningState {
   /** Succeeded */
   Succeeded = "Succeeded",
   /** Canceled */
-  Canceled = "Canceled"
+  Canceled = "Canceled",
 }
 
 /**
@@ -2251,7 +2251,7 @@ export enum KnownOrigin {
   /** System */
   System = "system",
   /** UserSystem */
-  UserSystem = "user,system"
+  UserSystem = "user,system",
 }
 
 /**
@@ -2268,7 +2268,7 @@ export type Origin = string;
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
   /** Internal */
-  Internal = "Internal"
+  Internal = "Internal",
 }
 
 /**
@@ -2285,7 +2285,7 @@ export enum KnownOSType {
   /** Linux */
   Linux = "Linux",
   /** Windows */
-  Windows = "Windows"
+  Windows = "Windows",
 }
 
 /**
@@ -2301,7 +2301,7 @@ export type OSType = string;
 /** Known values of {@link NamingPatternType} that the service accepts. */
 export enum KnownNamingPatternType {
   /** FullResourceName */
-  FullResourceName = "FullResourceName"
+  FullResourceName = "FullResourceName",
 }
 
 /**
@@ -2320,7 +2320,7 @@ export enum KnownConfigurationType {
   /** CreateAndMount */
   CreateAndMount = "CreateAndMount",
   /** Mount */
-  Mount = "Mount"
+  Mount = "Mount",
 }
 
 /**
@@ -2341,7 +2341,7 @@ export enum KnownSAPSoftwareInstallationType {
   /** SAPInstallWithoutOSConfig */
   SAPInstallWithoutOSConfig = "SAPInstallWithoutOSConfig",
   /** External */
-  External = "External"
+  External = "External",
 }
 
 /**
@@ -2362,7 +2362,7 @@ export enum KnownOperationProperties {
   /** User */
   User = "User",
   /** System */
-  System = "System"
+  System = "System",
 }
 
 /**
@@ -2381,7 +2381,7 @@ export enum KnownWorkloadMonitorActionType {
   /** NotSpecified */
   NotSpecified = "NotSpecified",
   /** Internal */
-  Internal = "Internal"
+  Internal = "Internal",
 }
 
 /**
@@ -2401,7 +2401,7 @@ export enum KnownSslPreference {
   /** RootCertificate */
   RootCertificate = "RootCertificate",
   /** ServerCertificate */
-  ServerCertificate = "ServerCertificate"
+  ServerCertificate = "ServerCertificate",
 }
 
 /**
@@ -2423,7 +2423,8 @@ export interface SAPSizingRecommendationsOptionalParams
 }
 
 /** Contains response data for the sAPSizingRecommendations operation. */
-export type SAPSizingRecommendationsResponse = SAPSizingRecommendationResultUnion;
+export type SAPSizingRecommendationsResponse =
+  SAPSizingRecommendationResultUnion;
 
 /** Optional parameters. */
 export interface SAPSupportedSkuOptionalParams
@@ -2453,7 +2454,8 @@ export interface SAPAvailabilityZoneDetailsOptionalParams
 }
 
 /** Contains response data for the sAPAvailabilityZoneDetails operation. */
-export type SAPAvailabilityZoneDetailsResponse = SAPAvailabilityZoneDetailsResult;
+export type SAPAvailabilityZoneDetailsResponse =
+  SAPAvailabilityZoneDetailsResult;
 
 /** Optional parameters. */
 export interface SAPVirtualInstancesCreateOptionalParams
@@ -2503,14 +2505,16 @@ export interface SAPVirtualInstancesListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type SAPVirtualInstancesListByResourceGroupResponse = SAPVirtualInstanceList;
+export type SAPVirtualInstancesListByResourceGroupResponse =
+  SAPVirtualInstanceList;
 
 /** Optional parameters. */
 export interface SAPVirtualInstancesListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type SAPVirtualInstancesListBySubscriptionResponse = SAPVirtualInstanceList;
+export type SAPVirtualInstancesListBySubscriptionResponse =
+  SAPVirtualInstanceList;
 
 /** Optional parameters. */
 export interface SAPVirtualInstancesStartOptionalParams
@@ -2543,14 +2547,16 @@ export interface SAPVirtualInstancesListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type SAPVirtualInstancesListByResourceGroupNextResponse = SAPVirtualInstanceList;
+export type SAPVirtualInstancesListByResourceGroupNextResponse =
+  SAPVirtualInstanceList;
 
 /** Optional parameters. */
 export interface SAPVirtualInstancesListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type SAPVirtualInstancesListBySubscriptionNextResponse = SAPVirtualInstanceList;
+export type SAPVirtualInstancesListBySubscriptionNextResponse =
+  SAPVirtualInstanceList;
 
 /** Optional parameters. */
 export interface SAPCentralInstancesGetOptionalParams
@@ -2731,7 +2737,8 @@ export interface SAPApplicationServerInstancesGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type SAPApplicationServerInstancesGetResponse = SAPApplicationServerInstance;
+export type SAPApplicationServerInstancesGetResponse =
+  SAPApplicationServerInstance;
 
 /** Optional parameters. */
 export interface SAPApplicationServerInstancesCreateOptionalParams
@@ -2745,7 +2752,8 @@ export interface SAPApplicationServerInstancesCreateOptionalParams
 }
 
 /** Contains response data for the create operation. */
-export type SAPApplicationServerInstancesCreateResponse = SAPApplicationServerInstance;
+export type SAPApplicationServerInstancesCreateResponse =
+  SAPApplicationServerInstance;
 
 /** Optional parameters. */
 export interface SAPApplicationServerInstancesUpdateOptionalParams
@@ -2759,7 +2767,8 @@ export interface SAPApplicationServerInstancesUpdateOptionalParams
 }
 
 /** Contains response data for the update operation. */
-export type SAPApplicationServerInstancesUpdateResponse = SAPApplicationServerInstance;
+export type SAPApplicationServerInstancesUpdateResponse =
+  SAPApplicationServerInstance;
 
 /** Optional parameters. */
 export interface SAPApplicationServerInstancesDeleteOptionalParams
@@ -2778,7 +2787,8 @@ export interface SAPApplicationServerInstancesListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type SAPApplicationServerInstancesListResponse = SAPApplicationServerInstanceList;
+export type SAPApplicationServerInstancesListResponse =
+  SAPApplicationServerInstanceList;
 
 /** Optional parameters. */
 export interface SAPApplicationServerInstancesStartInstanceOptionalParams
@@ -2790,7 +2800,8 @@ export interface SAPApplicationServerInstancesStartInstanceOptionalParams
 }
 
 /** Contains response data for the startInstance operation. */
-export type SAPApplicationServerInstancesStartInstanceResponse = OperationStatusResult;
+export type SAPApplicationServerInstancesStartInstanceResponse =
+  OperationStatusResult;
 
 /** Optional parameters. */
 export interface SAPApplicationServerInstancesStopInstanceOptionalParams
@@ -2804,14 +2815,16 @@ export interface SAPApplicationServerInstancesStopInstanceOptionalParams
 }
 
 /** Contains response data for the stopInstance operation. */
-export type SAPApplicationServerInstancesStopInstanceResponse = OperationStatusResult;
+export type SAPApplicationServerInstancesStopInstanceResponse =
+  OperationStatusResult;
 
 /** Optional parameters. */
 export interface SAPApplicationServerInstancesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type SAPApplicationServerInstancesListNextResponse = SAPApplicationServerInstanceList;
+export type SAPApplicationServerInstancesListNextResponse =
+  SAPApplicationServerInstanceList;
 
 /** Optional parameters. */
 export interface MonitorsListOptionalParams

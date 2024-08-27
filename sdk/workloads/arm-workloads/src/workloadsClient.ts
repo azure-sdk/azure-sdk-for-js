@@ -11,7 +11,7 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
@@ -22,7 +22,7 @@ import {
   MonitorsImpl,
   ProviderInstancesImpl,
   SapLandscapeMonitorOperationsImpl,
-  OperationsImpl
+  OperationsImpl,
 } from "./operations";
 import {
   SAPVirtualInstances,
@@ -32,7 +32,7 @@ import {
   Monitors,
   ProviderInstances,
   SapLandscapeMonitorOperations,
-  Operations
+  Operations,
 } from "./operationsInterfaces";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
@@ -45,7 +45,7 @@ import {
   SAPDiskConfigurationsOptionalParams,
   SAPDiskConfigurationsResponse,
   SAPAvailabilityZoneDetailsOptionalParams,
-  SAPAvailabilityZoneDetailsResponse
+  SAPAvailabilityZoneDetailsResponse,
 } from "./models";
 
 export class WorkloadsClient extends coreClient.ServiceClient {
@@ -62,7 +62,7 @@ export class WorkloadsClient extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: WorkloadsClientOptionalParams
+    options?: WorkloadsClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -77,7 +77,7 @@ export class WorkloadsClient extends coreClient.ServiceClient {
     }
     const defaults: WorkloadsClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
     const packageDetails = `azsdk-js-arm-workloads/1.0.1`;
@@ -90,20 +90,21 @@ export class WorkloadsClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -113,7 +114,7 @@ export class WorkloadsClient extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -123,9 +124,9 @@ export class WorkloadsClient extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -138,12 +139,12 @@ export class WorkloadsClient extends coreClient.ServiceClient {
     this.sAPCentralInstances = new SAPCentralInstancesImpl(this);
     this.sAPDatabaseInstances = new SAPDatabaseInstancesImpl(this);
     this.sAPApplicationServerInstances = new SAPApplicationServerInstancesImpl(
-      this
+      this,
     );
     this.monitors = new MonitorsImpl(this);
     this.providerInstances = new ProviderInstancesImpl(this);
     this.sapLandscapeMonitorOperations = new SapLandscapeMonitorOperationsImpl(
-      this
+      this,
     );
     this.operations = new OperationsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
@@ -158,7 +159,7 @@ export class WorkloadsClient extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -172,7 +173,7 @@ export class WorkloadsClient extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
@@ -185,11 +186,11 @@ export class WorkloadsClient extends coreClient.ServiceClient {
    */
   sAPSizingRecommendations(
     location: string,
-    options?: SAPSizingRecommendationsOptionalParams
+    options?: SAPSizingRecommendationsOptionalParams,
   ): Promise<SAPSizingRecommendationsResponse> {
     return this.sendOperationRequest(
       { location, options },
-      sAPSizingRecommendationsOperationSpec
+      sAPSizingRecommendationsOperationSpec,
     );
   }
 
@@ -200,11 +201,11 @@ export class WorkloadsClient extends coreClient.ServiceClient {
    */
   sAPSupportedSku(
     location: string,
-    options?: SAPSupportedSkuOptionalParams
+    options?: SAPSupportedSkuOptionalParams,
   ): Promise<SAPSupportedSkuResponse> {
     return this.sendOperationRequest(
       { location, options },
-      sAPSupportedSkuOperationSpec
+      sAPSupportedSkuOperationSpec,
     );
   }
 
@@ -215,11 +216,11 @@ export class WorkloadsClient extends coreClient.ServiceClient {
    */
   sAPDiskConfigurations(
     location: string,
-    options?: SAPDiskConfigurationsOptionalParams
+    options?: SAPDiskConfigurationsOptionalParams,
   ): Promise<SAPDiskConfigurationsResponse> {
     return this.sendOperationRequest(
       { location, options },
-      sAPDiskConfigurationsOperationSpec
+      sAPDiskConfigurationsOperationSpec,
     );
   }
 
@@ -230,11 +231,11 @@ export class WorkloadsClient extends coreClient.ServiceClient {
    */
   sAPAvailabilityZoneDetails(
     location: string,
-    options?: SAPAvailabilityZoneDetailsOptionalParams
+    options?: SAPAvailabilityZoneDetailsOptionalParams,
   ): Promise<SAPAvailabilityZoneDetailsResponse> {
     return this.sendOperationRequest(
       { location, options },
-      sAPAvailabilityZoneDetailsOperationSpec
+      sAPAvailabilityZoneDetailsOperationSpec,
     );
   }
 
@@ -251,94 +252,90 @@ export class WorkloadsClient extends coreClient.ServiceClient {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const sAPSizingRecommendationsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Workloads/locations/{location}/sapVirtualInstanceMetadata/default/getSizingRecommendations",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Workloads/locations/{location}/sapVirtualInstanceMetadata/default/getSizingRecommendations",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.SAPSizingRecommendationResult
+      bodyMapper: Mappers.SAPSizingRecommendationResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.sAPSizingRecommendation,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const sAPSupportedSkuOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Workloads/locations/{location}/sapVirtualInstanceMetadata/default/getSapSupportedSku",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Workloads/locations/{location}/sapVirtualInstanceMetadata/default/getSapSupportedSku",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.SAPSupportedResourceSkusResult
+      bodyMapper: Mappers.SAPSupportedResourceSkusResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.sAPSupportedSku,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const sAPDiskConfigurationsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Workloads/locations/{location}/sapVirtualInstanceMetadata/default/getDiskConfigurations",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Workloads/locations/{location}/sapVirtualInstanceMetadata/default/getDiskConfigurations",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.SAPDiskConfigurationsResult
+      bodyMapper: Mappers.SAPDiskConfigurationsResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.sAPDiskConfigurations,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const sAPAvailabilityZoneDetailsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Workloads/locations/{location}/sapVirtualInstanceMetadata/default/getAvailabilityZoneDetails",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Workloads/locations/{location}/sapVirtualInstanceMetadata/default/getAvailabilityZoneDetails",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.SAPAvailabilityZoneDetailsResult
+      bodyMapper: Mappers.SAPAvailabilityZoneDetailsResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.sAPAvailabilityZoneDetails,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };

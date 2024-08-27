@@ -20,7 +20,7 @@ import {
   MonitorsDeleteResponse,
   UpdateMonitorRequest,
   MonitorsUpdateOptionalParams,
-  MonitorsUpdateResponse
+  MonitorsUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface Monitors {
    * @param options The options parameters.
    */
   list(
-    options?: MonitorsListOptionalParams
+    options?: MonitorsListOptionalParams,
   ): PagedAsyncIterableIterator<Monitor>;
   /**
    * Gets a list of SAP monitors in the specified resource group.
@@ -41,7 +41,7 @@ export interface Monitors {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: MonitorsListByResourceGroupOptionalParams
+    options?: MonitorsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Monitor>;
   /**
    * Gets properties of a SAP monitor for the specified subscription, resource group, and resource name.
@@ -52,7 +52,7 @@ export interface Monitors {
   get(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsGetOptionalParams
+    options?: MonitorsGetOptionalParams,
   ): Promise<MonitorsGetResponse>;
   /**
    * Creates a SAP monitor for the specified subscription, resource group, and resource name.
@@ -65,7 +65,7 @@ export interface Monitors {
     resourceGroupName: string,
     monitorName: string,
     monitorParameter: Monitor,
-    options?: MonitorsCreateOptionalParams
+    options?: MonitorsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MonitorsCreateResponse>,
@@ -83,7 +83,7 @@ export interface Monitors {
     resourceGroupName: string,
     monitorName: string,
     monitorParameter: Monitor,
-    options?: MonitorsCreateOptionalParams
+    options?: MonitorsCreateOptionalParams,
   ): Promise<MonitorsCreateResponse>;
   /**
    * Deletes a SAP monitor with the specified subscription, resource group, and SAP monitor name.
@@ -94,7 +94,7 @@ export interface Monitors {
   beginDelete(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsDeleteOptionalParams
+    options?: MonitorsDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MonitorsDeleteResponse>,
@@ -110,7 +110,7 @@ export interface Monitors {
   beginDeleteAndWait(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsDeleteOptionalParams
+    options?: MonitorsDeleteOptionalParams,
   ): Promise<MonitorsDeleteResponse>;
   /**
    * Patches the Tags field of a SAP monitor for the specified subscription, resource group, and SAP
@@ -124,6 +124,6 @@ export interface Monitors {
     resourceGroupName: string,
     monitorName: string,
     body: UpdateMonitorRequest,
-    options?: MonitorsUpdateOptionalParams
+    options?: MonitorsUpdateOptionalParams,
   ): Promise<MonitorsUpdateResponse>;
 }
