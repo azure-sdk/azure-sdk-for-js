@@ -482,6 +482,9 @@ dependencies:
   '@rush-temp/arm-mixedreality':
     specifier: file:./projects/arm-mixedreality.tgz
     version: file:projects/arm-mixedreality.tgz
+  '@rush-temp/arm-mobilecore':
+    specifier: file:./projects/arm-mobilecore.tgz
+    version: file:projects/arm-mobilecore.tgz
   '@rush-temp/arm-mobilenetwork':
     specifier: file:./projects/arm-mobilenetwork.tgz
     version: file:projects/arm-mobilenetwork.tgz
@@ -3801,13 +3804,13 @@ packages:
     resolution: {integrity: sha512-fB3Zu92ucau0iQ0JMCFQE7b/dv8Ot07NI3KaZIkIUNXq82k4eBAqUaneXfleGY9JWskeS9y+u0nXMyspcuQrCg==}
     dependencies:
       '@types/connect': 3.4.38
-      '@types/node': 18.19.46
+      '@types/node': 22.5.0
     dev: false
 
   /@types/bunyan@1.8.9:
     resolution: {integrity: sha512-ZqS9JGpBxVOvsawzmVt30sP++gSQMTejCkIAQ3VdadOcRE8izTyW66hufvwLeH+YEGP6Js2AW7Gz+RMyvrEbmw==}
     dependencies:
-      '@types/node': 18.19.46
+      '@types/node': 22.5.0
     dev: false
 
   /@types/chai-as-promised@7.1.8:
@@ -3823,7 +3826,7 @@ packages:
   /@types/connect@3.4.38:
     resolution: {integrity: sha512-K6uROf1LD88uDQqJCktA4yzL1YYAK6NgfsI0v/mTgyPKWsX1CnJ0XPSDhViejru1GcRkLWb8RlzFYJRqGUbaug==}
     dependencies:
-      '@types/node': 18.19.46
+      '@types/node': 22.5.0
     dev: false
 
   /@types/cookie@0.4.1:
@@ -3837,7 +3840,7 @@ packages:
   /@types/cors@2.8.17:
     resolution: {integrity: sha512-8CGDvrBj1zgo2qE+oS3pOCyYNqCPryMWY2bGfwA0dcfopWGgxs+78df0Rs3rc9THP4JkOhLsAa+15VdpAqkcUA==}
     dependencies:
-      '@types/node': 18.19.46
+      '@types/node': 22.5.0
     dev: false
 
   /@types/debug@4.1.12:
@@ -3876,7 +3879,7 @@ packages:
   /@types/express-serve-static-core@4.19.5:
     resolution: {integrity: sha512-y6W03tvrACO72aijJ5uF02FRq5cgDR9lUxddQ8vyF+GvmjJQqbzDcJngEjURc+ZsG31VI3hODNZJ2URj86pzmg==}
     dependencies:
-      '@types/node': 18.19.46
+      '@types/node': 22.5.0
       '@types/qs': 6.9.15
       '@types/range-parser': 1.2.7
       '@types/send': 0.17.4
@@ -3895,7 +3898,7 @@ packages:
     resolution: {integrity: sha512-yTbItCNreRooED33qjunPthRcSjERP1r4MqCZc7wv0u2sUkzTFp45tgUfS5+r7FrZPdmCCNflLhVSP/o+SemsQ==}
     dependencies:
       '@types/jsonfile': 6.1.4
-      '@types/node': 18.19.46
+      '@types/node': 22.5.0
     dev: false
 
   /@types/http-errors@2.0.4:
@@ -3912,7 +3915,7 @@ packages:
   /@types/is-buffer@2.0.2:
     resolution: {integrity: sha512-G6OXy83Va+xEo8XgqAJYOuvOMxeey9xM5XKkvwJNmN8rVdcB+r15HvHsG86hl86JvU0y1aa7Z2ERkNFYWw9ySg==}
     dependencies:
-      '@types/node': 18.19.46
+      '@types/node': 22.5.0
     dev: false
 
   /@types/json-schema@7.0.15:
@@ -3922,7 +3925,7 @@ packages:
   /@types/jsonfile@6.1.4:
     resolution: {integrity: sha512-D5qGUYwjvnNNextdU59/+fI+spnwtTFmyQP0h+PfIOSkNfpU6AOICUOkm4i0OnSk+NyjdPJrxCDro0sJsWlRpQ==}
     dependencies:
-      '@types/node': 18.19.46
+      '@types/node': 22.5.0
     dev: false
 
   /@types/jsonwebtoken@9.0.6:
@@ -3987,13 +3990,13 @@ packages:
   /@types/mysql@2.15.22:
     resolution: {integrity: sha512-wK1pzsJVVAjYCSZWQoWHziQZbNggXFDUEIGf54g4ZM/ERuP86uGdWeKZWMYlqTPMZfHJJvLPyogXGvCOg87yLQ==}
     dependencies:
-      '@types/node': 18.19.46
+      '@types/node': 22.5.0
     dev: false
 
   /@types/node-fetch@2.6.11:
     resolution: {integrity: sha512-24xFj9R5+rfQJLRyM56qh+wnVSYhyXC2tkoBndtY0U+vubqNsYXGjufB2nn8Q6gt0LrARwL6UBtMCSVCwl4B1g==}
     dependencies:
-      '@types/node': 18.19.46
+      '@types/node': 22.5.0
       form-data: 4.0.0
     dev: false
 
@@ -4034,7 +4037,7 @@ packages:
   /@types/pg@8.6.1:
     resolution: {integrity: sha512-1Kc4oAGzAl7uqUStZCDvaLFqZrW9qWSjXOmBfdgyBP5La7Us6Mg4GBvRlSoaZMhQF/zSj1C8CtKMBkoiT8eL8w==}
     dependencies:
-      '@types/node': 18.19.46
+      '@types/node': 22.5.0
       pg-protocol: 1.6.1
       pg-types: 2.2.0
     dev: false
@@ -4061,7 +4064,7 @@ packages:
   /@types/readdir-glob@1.1.5:
     resolution: {integrity: sha512-raiuEPUYqXu+nvtY2Pe8s8FEmZ3x5yAH4VkLdihcPdalvsHltomrRC9BzuStrJ9yk06470hS0Crw0f1pXqD+Hg==}
     dependencies:
-      '@types/node': 18.19.46
+      '@types/node': 22.5.0
     dev: false
 
   /@types/resolve@1.20.2:
@@ -4080,14 +4083,14 @@ packages:
     resolution: {integrity: sha512-x2EM6TJOybec7c52BX0ZspPodMsQUd5L6PRwOunVyVUhXiBSKf3AezDL8Dgvgt5o0UfKNfuA0eMLr2wLT4AiBA==}
     dependencies:
       '@types/mime': 1.3.5
-      '@types/node': 18.19.46
+      '@types/node': 22.5.0
     dev: false
 
   /@types/serve-static@1.15.7:
     resolution: {integrity: sha512-W8Ym+h8nhuRwaKPaDw34QUkwsGi6Rc4yYqvKFo5rm2FUEhCFbzVWrxXUxuKK8TASjWsysJY0nsmNCGhCOIsrOw==}
     dependencies:
       '@types/http-errors': 2.0.4
-      '@types/node': 18.19.46
+      '@types/node': 22.5.0
       '@types/send': 0.17.4
     dev: false
 
@@ -4118,7 +4121,7 @@ packages:
   /@types/through@0.0.33:
     resolution: {integrity: sha512-HsJ+z3QuETzP3cswwtzt2vEIiHBk/dCcHGhbmG5X3ecnwFD/lPrMpliGXxSCg03L9AhrdwA4Oz/qfspkDW+xGQ==}
     dependencies:
-      '@types/node': 18.19.46
+      '@types/node': 22.5.0
     dev: false
 
   /@types/tough-cookie@4.0.5:
@@ -4152,7 +4155,7 @@ packages:
   /@types/ws@7.4.7:
     resolution: {integrity: sha512-JQbbmxZTZehdc2iszGKs5oC3NFnjeay7mtAWrdt7qNtAVK0g19muApzAy4bm9byz79xa2ZnO/BOBC2R8RC5Lww==}
     dependencies:
-      '@types/node': 18.19.46
+      '@types/node': 22.5.0
     dev: false
 
   /@types/ws@8.5.12:
@@ -4175,7 +4178,7 @@ packages:
     resolution: {integrity: sha512-oJoftv0LSuaDZE3Le4DbKX+KS9G36NzOeSap90UIK0yMA/NhKJhqlSGtNDORNRaIbQfzjXDrQa0ytJ6mNRGz/Q==}
     requiresBuild: true
     dependencies:
-      '@types/node': 18.19.46
+      '@types/node': 22.5.0
     dev: false
     optional: true
 
@@ -4610,7 +4613,7 @@ packages:
   /ajv-formats@3.0.1:
     resolution: {integrity: sha512-8iUql50EUR+uUcdRQ3HDqa6EVyo3docL8g5WJ3FNcWmu62IbkGUue/pEyLBW8VGKKucTPgqeks4fIU1DA4yowQ==}
     dependencies:
-      ajv: 8.13.0
+      ajv: 8.17.1
     dev: false
 
   /ajv@6.12.6:
@@ -5780,7 +5783,7 @@ packages:
     dependencies:
       '@types/cookie': 0.4.1
       '@types/cors': 2.8.17
-      '@types/node': 18.19.46
+      '@types/node': 22.5.0
       accepts: 1.3.8
       base64id: 2.0.0
       cookie: 0.4.2
@@ -8980,7 +8983,7 @@ packages:
       '@protobufjs/path': 1.1.2
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.0
-      '@types/node': 18.19.46
+      '@types/node': 22.5.0
       long: 5.2.3
     dev: false
 
@@ -9094,6 +9097,7 @@ packages:
 
   /queue-tick@1.0.1:
     resolution: {integrity: sha512-kJt5qhMxoszgU/62PLP1CJytzd2NKetjSRnyuj31fDd3Rlcz3fzlFdFLD1SItunPwyqEOkca6GbV612BWfaBag==}
+    requiresBuild: true
     dev: false
 
   /randombytes@2.1.0:
@@ -9990,6 +9994,7 @@ packages:
 
   /text-decoder@1.1.1:
     resolution: {integrity: sha512-8zll7REEv4GDD3x4/0pW+ppIxSNs7H1J10IKFZsuOMscumCdM2a+toDGLPA3T+1+fLBql4zbt5z83GEQGGV5VA==}
+    requiresBuild: true
     dependencies:
       b4a: 1.6.6
     dev: false
@@ -16164,6 +16169,36 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-mobilecore.tgz:
+    resolution: {integrity: sha512-FoojtiujLafdFrvzsI6+uCY5qSR9zTS3dodF6z3T3/bacLRFZCi9R4yi8tqwvKieD9Y63bpeeJGVz2f6TdTBuQ==, tarball: file:projects/arm-mobilecore.tgz}
+    name: '@rush-temp/arm-mobilecore'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-credential': 1.2.0
+      '@azure-tools/test-recorder': 3.5.2
+      '@azure/core-lro': 2.7.2
+      '@azure/identity': 4.4.1
+      '@microsoft/api-extractor': 7.47.7(@types/node@18.19.46)
+      '@types/chai': 4.3.18
+      '@types/mocha': 10.0.7
+      '@types/node': 18.19.46
+      chai: 4.3.10
+      cross-env: 7.0.3
+      dotenv: 16.4.5
+      mkdirp: 3.0.1
+      mocha: 10.7.3
+      rimraf: 5.0.10
+      ts-node: 10.9.2(@types/node@18.19.46)(typescript@5.5.4)
+      tslib: 2.7.0
+      tsx: 4.18.0
+      typescript: 5.5.4
+      uglify-js: 3.19.2
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - supports-color
+    dev: false
+
   file:projects/arm-mobilenetwork.tgz:
     resolution: {integrity: sha512-N41+/v5rZblZCQA7UILLXSZKe8Mf2H9zoCe8Lr+CoisBaD7CMqv+LXnt3HKAa4Gs//sLUD5jAl3D/7abg0TImw==, tarball: file:projects/arm-mobilenetwork.tgz}
     name: '@rush-temp/arm-mobilenetwork'
@@ -20715,7 +20750,7 @@ packages:
     dev: false
 
   file:projects/dev-tool.tgz:
-    resolution: {integrity: sha512-0l9usz9/Q5FamlW4fBEN036jwxJl+zf+sCVRe/qkwkUUdzh/NQMMACT58LpisjFXBZtxTSP3bB4yiyRWmrcf/A==, tarball: file:projects/dev-tool.tgz}
+    resolution: {integrity: sha512-nU8mxxzxOJkacyp1yLwCVijVnXIliMwqrcaDyf4k2kWJe867OAUrFgoN/b8E4kKO6nUUjMjVd4k8bbiFBAluxA==, tarball: file:projects/dev-tool.tgz}
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
@@ -20873,7 +20908,7 @@ packages:
     dev: false
 
   file:projects/eslint-plugin-azure-sdk.tgz:
-    resolution: {integrity: sha512-tWmorIiO3E5Cg/xpr9FEhVs/xadYlAKifOfXL5M9IS0W5RkDoQz5cG/j5wGdcesngZLORNeQnP2JzpD4IJSV1w==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
+    resolution: {integrity: sha512-oxV22dFOSjOwjy/JcuLGQ9vMSCADbwGTFPxixi4Yev3dZ62WdJK/5JPjnmcY0I9mT70h1AA8ywx0ji2YxO802w==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
     name: '@rush-temp/eslint-plugin-azure-sdk'
     version: 0.0.0
     dependencies:
@@ -24608,7 +24643,7 @@ packages:
     dev: false
 
   file:projects/vite-plugin-browser-test-map.tgz:
-    resolution: {integrity: sha512-FNjq7LG7H9fdv14ZyWuYrLmtKW5S2lDb3bo+CTFOAW42HiqFWP5sXlMnlfJ9bvS8zt3N172dnZ+ukpVeuaPCxQ==, tarball: file:projects/vite-plugin-browser-test-map.tgz}
+    resolution: {integrity: sha512-r2a0dEaadQ17iwZCDs+EOziWJLc/xOZLWpYWgW6bYH5Yi60jzvylsURCDYdJmW70Nb7QXbyKjS5Z8jAWEgZajA==, tarball: file:projects/vite-plugin-browser-test-map.tgz}
     name: '@rush-temp/vite-plugin-browser-test-map'
     version: 0.0.0
     dependencies:
