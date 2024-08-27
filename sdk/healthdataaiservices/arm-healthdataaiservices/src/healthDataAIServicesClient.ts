@@ -3,17 +3,26 @@
 
 import { TokenCredential } from "@azure/core-auth";
 import { Pipeline } from "@azure/core-rest-pipeline";
-import { getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
-import { getDeidServicesOperations, DeidServicesOperations } from "./classic/deidServices/index.js";
+import {
+  getOperationsOperations,
+  OperationsOperations,
+} from "./classic/operations/index.js";
+import {
+  getDeidServicesOperations,
+  DeidServicesOperations,
+} from "./classic/deidServices/index.js";
 import {
   getPrivateEndpointConnectionsOperations,
   PrivateEndpointConnectionsOperations,
 } from "./classic/privateEndpointConnections/index.js";
-import { getPrivateLinksOperations, PrivateLinksOperations } from "./classic/privateLinks/index.js";
+import {
+  getPrivateLinksOperations,
+  PrivateLinksOperations,
+} from "./classic/privateLinks/index.js";
 import {
   createHealthDataAIServices,
-  HealthDataAIServicesClientOptionalParams,
   HealthDataAIServicesContext,
+  HealthDataAIServicesClientOptionalParams,
 } from "./api/index.js";
 
 export { HealthDataAIServicesClientOptionalParams } from "./api/healthDataAIServicesContext.js";
@@ -32,7 +41,6 @@ export class HealthDataAIServicesClient {
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
       : "azsdk-js-client";
-
     this._client = createHealthDataAIServices(credential, {
       ...options,
       userAgentOptions: { userAgentPrefix },
