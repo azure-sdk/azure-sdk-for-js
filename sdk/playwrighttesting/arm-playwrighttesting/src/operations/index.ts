@@ -9,3 +9,4 @@
 export * from "./operations";
 export * from "./accounts";
 export * from "./quotas";
+export * from "./accountQuotas";
