@@ -4,42 +4,26 @@
 import {
   Recorder,
   RecorderStartOptions,
-  assertEnvironmentVariable,
+  VitestTestContext,
 } from "@azure-tools/test-recorder";
-import { KnownSchemaFormats, SchemaRegistryClient } from "../../../src";
-import { createTestCredential } from "@azure-tools/test-credential";
 
-export type Format = keyof typeof KnownSchemaFormats;
-
-function getFQNSVarName(format: Format): string {
-  return `SCHEMAREGISTRY_${format.toUpperCase()}_FULLY_QUALIFIED_NAMESPACE`;
-}
-
-export const recorderOptions: RecorderStartOptions = {
-  envSetupForPlayback: {
-    AZURE_CLIENT_ID: "azure_client_id",
-    AZURE_CLIENT_SECRET: "azure_client_secret",
-    AZURE_TENANT_ID: "azuretenantid",
-    [getFQNSVarName(KnownSchemaFormats.Avro)]: "https://endpoint",
-    [getFQNSVarName(KnownSchemaFormats.Json)]: "https://endpoint",
-    [getFQNSVarName(KnownSchemaFormats.Custom)]: "https://endpoint",
-    SCHEMA_REGISTRY_GROUP: "group-1",
-  },
-  removeCentralSanitizers: [
-    "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
-  ],
+const replaceableVariables: Record<string, string> = {
+  SUBSCRIPTION_ID: "azure_subscription_id",
 };
 
-export function createRecordedClient(inputs: {
-  recorder: Recorder;
-  format: Format;
-}): SchemaRegistryClient {
-  const { format, recorder } = inputs;
-  const credential = createTestCredential();
-  const client = new SchemaRegistryClient(
-    assertEnvironmentVariable(getFQNSVarName(format)),
-    credential,
-    recorder.configureClientOptions({}),
-  );
-  return client;
+const recorderEnvSetup: RecorderStartOptions = {
+  envSetupForPlayback: replaceableVariables,
+};
+
+/**
+ * creates the recorder and reads the environment variables from the `.env` file.
+ * Should be called first in the test suite to make sure environment variables are
+ * read before they are being used.
+ */
+export async function createRecorder(
+  context: VitestTestContext,
+): Promise<Recorder> {
+  const recorder = new Recorder(context);
+  await recorder.start(recorderEnvSetup);
+  return recorder;
 }

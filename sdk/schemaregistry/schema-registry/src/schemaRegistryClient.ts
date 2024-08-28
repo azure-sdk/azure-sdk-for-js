@@ -1,202 +1,129 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { DEFAULT_SCOPE, SDK_VERSION } from "./constants";
-import {
-  GetSchemaOptions,
-  GetSchemaPropertiesOptions,
-  RegisterSchemaOptions,
-  Schema,
-  SchemaDescription,
-  SchemaProperties,
-  SchemaRegistry,
-  SchemaRegistryClientOptions,
-} from "./models";
-import {
-  InternalPipelineOptions,
-  bearerTokenAuthenticationPolicy,
-} from "@azure/core-rest-pipeline";
-import { TracingClient, createTracingClient } from "@azure/core-tracing";
-import { buildContentType, convertSchemaIdResponse, convertSchemaResponse } from "./conversions";
-import { GeneratedSchemaRegistryClient } from "./generated/generatedSchemaRegistryClient";
 import { TokenCredential } from "@azure/core-auth";
-import { logger } from "./logger";
+import { Pipeline } from "@azure/core-rest-pipeline";
+import { SchemaContentTypeValues } from "./models/models.js";
+import {
+  ListSchemaGroupsOptionalParams,
+  ListSchemaVersionsOptionalParams,
+  GetSchemaByIdOptionalParams,
+  GetSchemaByVersionOptionalParams,
+  GetSchemaPropertiesByContentOptionalParams,
+  RegisterSchemaOptionalParams,
+} from "./models/options.js";
+import {
+  listSchemaGroups,
+  listSchemaVersions,
+  getSchemaById,
+  getSchemaByVersion,
+  getSchemaPropertiesByContent,
+  registerSchema,
+  createSchemaRegistry,
+  SchemaRegistryContext,
+  SchemaRegistryClientOptionalParams,
+} from "./api/index.js";
+import { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
 
-/**
- * Client for Azure Schema Registry service.
- */
-export class SchemaRegistryClient implements SchemaRegistry {
-  /** The Schema Registry service fully qualified namespace URL. */
-  readonly fullyQualifiedNamespace: string;
+export { SchemaRegistryClientOptionalParams } from "./api/schemaRegistryContext.js";
 
-  /** Underlying autorest generated client. */
-  private readonly _client: GeneratedSchemaRegistryClient;
+export class SchemaRegistryClient {
+  private _client: SchemaRegistryContext;
+  /** The pipeline used by this client to make requests */
+  public readonly pipeline: Pipeline;
 
-  /** The tracing client */
-  private readonly _tracing: TracingClient;
-
-  /**
-   * Creates a new client for Azure Schema Registry service.
-   *
-   * @param fullyQualifiedNamespace - The Schema Registry service qualified namespace URL, for example
-   *                                  https://mynamespace.servicebus.windows.net.
-   * @param credential - Credential to authenticate requests to the service.
-   * @param options - Options to configure API requests to the service.
-   */
+  /** SchemaRegistryClient is a client for registering and retrieving schemas from the Azure Schema Registry service. */
   constructor(
     fullyQualifiedNamespace: string,
     credential: TokenCredential,
-    options: SchemaRegistryClientOptions = {},
+    options: SchemaRegistryClientOptionalParams = {},
   ) {
-    this.fullyQualifiedNamespace = fullyQualifiedNamespace;
-
-    const internalPipelineOptions: InternalPipelineOptions = {
+    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
+    const userAgentPrefix = prefixFromOptions
+      ? `${prefixFromOptions} azsdk-js-client`
+      : "azsdk-js-client";
+    this._client = createSchemaRegistry(fullyQualifiedNamespace, credential, {
       ...options,
-      ...{
-        loggingOptions: {
-          logger: logger.info,
-        },
-      },
-    };
-
-    this._client = new GeneratedSchemaRegistryClient(this.fullyQualifiedNamespace, {
-      endpoint: this.fullyQualifiedNamespace,
-      apiVersion: options.apiVersion,
-      ...internalPipelineOptions,
+      userAgentOptions: { userAgentPrefix },
     });
-
-    this._tracing = createTracingClient({
-      namespace: "Microsoft.EventHub",
-      packageName: "@azure/schema-registry",
-      packageVersion: SDK_VERSION,
-    });
-
-    const authPolicy = bearerTokenAuthenticationPolicy({ credential, scopes: DEFAULT_SCOPE });
-    this._client.pipeline.addPolicy(authPolicy);
+    this.pipeline = this._client.pipeline;
   }
 
-  /**
-   * Registers a new schema and returns its ID.
-   *
-   * If schema of specified name does not exist in the specified group, a schema
-   * is created at version 1. If schema of specified name exists already in
-   * specified group, schema is created at latest version + 1.
-   *
-   * @param schema - Schema to register.
-   * @returns Registered schema's ID.
-   */
-  registerSchema(
-    schema: SchemaDescription,
-    options: RegisterSchemaOptions = {},
-  ): Promise<SchemaProperties> {
-    const { groupName, name: schemaName, definition: schemaContent, format } = schema;
-    return this._tracing.withSpan(
-      "SchemaRegistryClient.registerSchema",
-      options,
-      (updatedOptions) =>
-        this._client.schema
-          .register(groupName, schemaName, buildContentType(format), schemaContent, updatedOptions)
-          .then(convertSchemaIdResponse(format)),
-    );
+  /** Gets the list of schema groups user is authorized to access. */
+  listSchemaGroups(
+    options: ListSchemaGroupsOptionalParams = { requestOptions: {} },
+  ): PagedAsyncIterableIterator<string> {
+    return listSchemaGroups(this._client, options);
   }
 
-  /**
-   * Gets the ID of an existing schema with matching name, group, type, and
-   * definition.
-   *
-   * @param schema - Schema to match.
-   * @returns Matched schema's ID.
-   */
-  getSchemaProperties(
-    schema: SchemaDescription,
-    options: GetSchemaPropertiesOptions = {},
-  ): Promise<SchemaProperties> {
-    const { groupName, name: schemaName, definition: schemaContent, format } = schema;
-    return this._tracing.withSpan(
-      "SchemaRegistryClient.getSchemaProperties",
-      options,
-      (updatedOptions) =>
-        this._client.schema
-          .queryIdByContent(
-            groupName,
-            schemaName,
-            buildContentType(format),
-            schemaContent,
-            updatedOptions,
-          )
-          .then(convertSchemaIdResponse(format)),
-    );
-  }
-
-  /**
-   * Gets an existing schema by ID. If the schema was not found, a RestError with
-   * status code 404 will be thrown, which could be caught as follows:
-   * 
-   * ```js
-   * ...
-   * } catch (e) {
-    if (typeof e === "object" && e.statusCode === 404) {
-      ...;
-    }
-    throw e;
-  }
-   * ```
-   *
-   * @param schemaId - Unique schema ID.
-   * @returns Schema with given ID.
-   */
-  getSchema(schemaId: string, options?: GetSchemaOptions): Promise<Schema>;
-
-  /**
-   * Gets an existing schema by version. If the schema was not found, a RestError with
-   * status code 404 will be thrown, which could be caught as follows:
-   * 
-   * ```js
-   * ...
-   * } catch (e) {
-    if (typeof e === "object" && e.statusCode === 404) {
-      ...;
-    }
-    throw e;
-  }
-   * ```
-   *
-   * @param schemaDescription - schema version.
-   * @returns Schema with given ID.
-   */
-  getSchema(
-    name: string,
+  /** Gets the list of all versions of one schema. */
+  listSchemaVersions(
     groupName: string,
-    version: number,
-    options?: GetSchemaOptions,
-  ): Promise<Schema>;
-  // implementation
-  getSchema(
-    nameOrId: string,
-    groupNameOrOptions?: string | GetSchemaOptions,
-    version?: number,
-    options: GetSchemaOptions = {},
-  ): Promise<Schema> {
-    if (typeof groupNameOrOptions !== "string" && version === undefined) {
-      return this._tracing.withSpan(
-        "SchemaRegistryClient.getSchema",
-        groupNameOrOptions ?? {},
-        (updatedOptions) =>
-          this._client.schema.getById(nameOrId, updatedOptions).then(convertSchemaResponse),
-      );
-    }
-    return this._tracing.withSpan(
-      "SchemaRegistryClient.getSchemaByVersion",
+    schemaName: string,
+    options: ListSchemaVersionsOptionalParams = { requestOptions: {} },
+  ): PagedAsyncIterableIterator<number> {
+    return listSchemaVersions(this._client, groupName, schemaName, options);
+  }
+
+  /** Gets a registered schema by its unique ID.  Azure Schema Registry guarantees that ID is unique within a namespace. Operation response type is based on serialization of schema requested. */
+  getSchemaById(
+    id: string,
+    options: GetSchemaByIdOptionalParams = { requestOptions: {} },
+  ): Promise<Uint8Array> {
+    return getSchemaById(this._client, id, options);
+  }
+
+  /** Gets one specific version of one schema. */
+  getSchemaByVersion(
+    groupName: string,
+    schemaName: string,
+    schemaVersion: number,
+    options: GetSchemaByVersionOptionalParams = { requestOptions: {} },
+  ): Promise<Uint8Array> {
+    return getSchemaByVersion(
+      this._client,
+      groupName,
+      schemaName,
+      schemaVersion,
       options,
-      (updatedOptions) =>
-        this._client.schema
-          .getSchemaVersion(
-            groupNameOrOptions as string,
-            nameOrId,
-            version as number,
-            updatedOptions,
-          )
-          .then(convertSchemaResponse),
+    );
+  }
+
+  /** Gets the properties referencing an existing schema within the specified schema group, as matched by schema content comparison. */
+  getSchemaPropertiesByContent(
+    groupName: string,
+    schemaName: string,
+    contentType: SchemaContentTypeValues,
+    schemaContent: Uint8Array,
+    options: GetSchemaPropertiesByContentOptionalParams = {
+      requestOptions: {},
+    },
+  ): Promise<void> {
+    return getSchemaPropertiesByContent(
+      this._client,
+      groupName,
+      schemaName,
+      contentType,
+      schemaContent,
+      options,
+    );
+  }
+
+  /** Register new schema. If schema of specified name does not exist in specified group, schema is created at version 1. If schema of specified name exists already in specified group, schema is created at latest version + 1. */
+  registerSchema(
+    groupName: string,
+    schemaName: string,
+    contentType: SchemaContentTypeValues,
+    schemaContent: Uint8Array,
+    options: RegisterSchemaOptionalParams = { requestOptions: {} },
+  ): Promise<void> {
+    return registerSchema(
+      this._client,
+      groupName,
+      schemaName,
+      contentType,
+      schemaContent,
+      options,
     );
   }
 }
