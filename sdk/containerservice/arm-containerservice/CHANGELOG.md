@@ -1,16 +1,6 @@
 # Release History
-
-## 21.1.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 21.1.0-beta.1 (2024-08-08)
+    
+## 21.1.0-beta.2 (2024-08-28)
 Compared with version 21.0.0
     
 ### Features Added
@@ -28,7 +18,9 @@ Compared with version 21.0.0
   - Added operation ManagedClusters.listGuardrailsVersions
   - Added operation ManagedClusters.listSafeguardsVersions
   - Added Interface AdvancedNetworking
+  - Added Interface AdvancedNetworkingFqdnPolicy
   - Added Interface AdvancedNetworkingObservability
+  - Added Interface AdvancedNetworkingSecurity
   - Added Interface AgentPoolArtifactStreamingProfile
   - Added Interface AgentPoolDeleteMachinesParameter
   - Added Interface AgentPoolGatewayProfile
@@ -69,6 +61,7 @@ Compared with version 21.0.0
   - Added Interface ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics
   - Added Interface ManagedClusterAzureMonitorProfileContainerInsights
   - Added Interface ManagedClusterBootstrapProfile
+  - Added Interface ManagedClusterIngressProfileNginx
   - Added Interface ManagedClusterNodeProvisioningProfile
   - Added Interface ManagedClusterNodeResourceGroupProfile
   - Added Interface ManagedClusterPropertiesForSnapshot
@@ -140,6 +133,7 @@ Compared with version 21.0.0
   - Added Type Alias ManagedClusterSnapshotsUpdateTagsResponse
   - Added Type Alias ManagedClustersRebalanceLoadBalancersResponse
   - Added Type Alias Mode
+  - Added Type Alias NginxIngressControllerType
   - Added Type Alias NodeProvisioningMode
   - Added Type Alias OperationStatusResultGetByAgentPoolResponse
   - Added Type Alias OperationStatusResultGetResponse
@@ -150,6 +144,7 @@ Compared with version 21.0.0
   - Added Type Alias PodLinkLocalAccess
   - Added Type Alias RestrictionLevel
   - Added Type Alias SafeguardsSupport
+  - Added Type Alias TLSManagement
   - Added Type Alias UndrainableNodeBehavior
   - Interface AgentPool has a new optional parameter artifactStreamingProfile
   - Interface AgentPool has a new optional parameter enableCustomCATrust
@@ -197,6 +192,7 @@ Compared with version 21.0.0
   - Interface ManagedClusterAzureMonitorProfile has a new optional parameter appMonitoring
   - Interface ManagedClusterAzureMonitorProfile has a new optional parameter containerInsights
   - Interface ManagedClusterHttpProxyConfig has a new optional parameter effectiveNoProxy
+  - Interface ManagedClusterIngressProfileWebAppRouting has a new optional parameter nginx
   - Interface ManagedClusterLoadBalancerProfile has a new optional parameter clusterServiceLoadBalancerHealthProbeMode
   - Interface ManagedClusterPoolUpgradeProfile has a new optional parameter componentsByReleases
   - Interface ManagedClustersCreateOrUpdateOptionalParams has a new optional parameter ifMatch
@@ -217,12 +213,14 @@ Compared with version 21.0.0
   - Added Enum KnownIpvsScheduler
   - Added Enum KnownLevel
   - Added Enum KnownMode
+  - Added Enum KnownNginxIngressControllerType
   - Added Enum KnownNodeProvisioningMode
   - Added Enum KnownOperator
   - Added Enum KnownPodIPAllocationMode
   - Added Enum KnownPodLinkLocalAccess
   - Added Enum KnownRestrictionLevel
   - Added Enum KnownSafeguardsSupport
+  - Added Enum KnownTLSManagement
   - Added Enum KnownUndrainableNodeBehavior
   - Enum KnownAgentPoolMode has a new value Gateway
   - Enum KnownAgentPoolType has a new value VirtualMachines
