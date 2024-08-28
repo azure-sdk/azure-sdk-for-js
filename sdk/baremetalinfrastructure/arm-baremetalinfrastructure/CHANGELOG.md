@@ -1,18 +1,24 @@
 # Release History
-
-## 1.0.0-beta.3 (Unreleased)
-
+    
+## 1.0.0-beta.3 (2024-08-28)
+Compared with version 1.0.0-beta.2
+    
 ### Features Added
+
+  - Added Interface AzureBareMetalStorageInstanceBody
+  - Added Interface AzureBareMetalStorageInstanceIdentity
+  - Added Type Alias ResourceIdentityType
+  - Interface AzureBareMetalStorageInstance has a new optional parameter identity
+  - Added Enum KnownResourceIdentityType
 
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
-
+  - Operation AzureBareMetalStorageInstances.update has a new signature
+    
+    
 ## 1.0.0-beta.2 (2023-11-07)
     
-**Features**
+### Features Added
 
   - Added operation group AzureBareMetalStorageInstances
   - Added operation AzureBareMetalInstances.beginRestart
@@ -73,7 +79,7 @@
   - Enum KnownAzureBareMetalHardwareTypeNamesEnum has a new value Sdflex
   - Enum KnownAzureBareMetalInstanceSizeNamesEnum has a new value S448Se
 
-**Breaking Changes**
+### Breaking Changes
 
   - Interface AzureBareMetalInstance no longer has parameter systemData
   - Type of parameter error of interface ErrorResponse is changed from ErrorDefinition to ErrorDetail
