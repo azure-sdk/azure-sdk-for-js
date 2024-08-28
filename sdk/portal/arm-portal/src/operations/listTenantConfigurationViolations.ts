@@ -12,26 +12,27 @@ import { ListTenantConfigurationViolations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { Portal } from "../portal";
+import { PortalForTesting } from "../portalForTesting";
 import {
   Violation,
   ListTenantConfigurationViolationsListNextOptionalParams,
   ListTenantConfigurationViolationsListOptionalParams,
   ListTenantConfigurationViolationsListResponse,
-  ListTenantConfigurationViolationsListNextResponse
+  ListTenantConfigurationViolationsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ListTenantConfigurationViolations operations. */
 export class ListTenantConfigurationViolationsImpl
-  implements ListTenantConfigurationViolations {
-  private readonly client: Portal;
+  implements ListTenantConfigurationViolations
+{
+  private readonly client: PortalForTesting;
 
   /**
    * Initialize a new instance of the class ListTenantConfigurationViolations class.
    * @param client Reference to the service client
    */
-  constructor(client: Portal) {
+  constructor(client: PortalForTesting) {
     this.client = client;
   }
 
@@ -40,7 +41,7 @@ export class ListTenantConfigurationViolationsImpl
    * @param options The options parameters.
    */
   public list(
-    options?: ListTenantConfigurationViolationsListOptionalParams
+    options?: ListTenantConfigurationViolationsListOptionalParams,
   ): PagedAsyncIterableIterator<Violation> {
     const iter = this.listPagingAll(options);
     return {
@@ -55,13 +56,13 @@ export class ListTenantConfigurationViolationsImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: ListTenantConfigurationViolationsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Violation[]> {
     let result: ListTenantConfigurationViolationsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -82,7 +83,7 @@ export class ListTenantConfigurationViolationsImpl
   }
 
   private async *listPagingAll(
-    options?: ListTenantConfigurationViolationsListOptionalParams
+    options?: ListTenantConfigurationViolationsListOptionalParams,
   ): AsyncIterableIterator<Violation> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -94,7 +95,7 @@ export class ListTenantConfigurationViolationsImpl
    * @param options The options parameters.
    */
   private _list(
-    options?: ListTenantConfigurationViolationsListOptionalParams
+    options?: ListTenantConfigurationViolationsListOptionalParams,
   ): Promise<ListTenantConfigurationViolationsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -106,11 +107,11 @@ export class ListTenantConfigurationViolationsImpl
    */
   private _listNext(
     nextLink: string,
-    options?: ListTenantConfigurationViolationsListNextOptionalParams
+    options?: ListTenantConfigurationViolationsListNextOptionalParams,
   ): Promise<ListTenantConfigurationViolationsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -122,29 +123,29 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ViolationsList
+      bodyMapper: Mappers.ViolationsList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ViolationsList
+      bodyMapper: Mappers.ViolationsList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
