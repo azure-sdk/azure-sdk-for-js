@@ -12,7 +12,7 @@ import { VirtualNetworks } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ScVmm } from "../scVmm";
+import { ScVmmForTesting } from "../scVmmForTesting";
 import {
   SimplePollerLike,
   OperationState,
@@ -43,13 +43,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing VirtualNetworks operations. */
 export class VirtualNetworksImpl implements VirtualNetworks {
-  private readonly client: ScVmm;
+  private readonly client: ScVmmForTesting;
 
   /**
    * Initialize a new instance of the class VirtualNetworks class.
    * @param client Reference to the service client
    */
-  constructor(client: ScVmm) {
+  constructor(client: ScVmmForTesting) {
     this.client = client;
   }
 
