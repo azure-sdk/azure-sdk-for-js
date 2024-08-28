@@ -4,14 +4,7 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { ClientOptions } from '@azure-rest/core-client';
 import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
@@ -92,15 +85,6 @@ export interface AutonomousDatabaseBackupsGetOptionalParams extends OperationOpt
 
 // @public
 export interface AutonomousDatabaseBackupsListByAutonomousDatabaseOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface AutonomousDatabaseBackupsOperations {
-    createOrUpdate: (resourceGroupName: string, autonomousdatabasename: string, adbbackupid: string, resource: AutonomousDatabaseBackup, options?: AutonomousDatabaseBackupsCreateOrUpdateOptionalParams) => PollerLike<OperationState<AutonomousDatabaseBackup>, AutonomousDatabaseBackup>;
-    delete: (resourceGroupName: string, autonomousdatabasename: string, adbbackupid: string, options?: AutonomousDatabaseBackupsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, autonomousdatabasename: string, adbbackupid: string, options?: AutonomousDatabaseBackupsGetOptionalParams) => Promise<AutonomousDatabaseBackup>;
-    listByAutonomousDatabase: (resourceGroupName: string, autonomousdatabasename: string, options?: AutonomousDatabaseBackupsListByAutonomousDatabaseOptionalParams) => PagedAsyncIterableIterator<AutonomousDatabaseBackup>;
-    update: (resourceGroupName: string, autonomousdatabasename: string, adbbackupid: string, properties: AutonomousDatabaseBackupUpdate, options?: AutonomousDatabaseBackupsUpdateOptionalParams) => PollerLike<OperationState<AutonomousDatabaseBackup>, AutonomousDatabaseBackup>;
 }
 
 // @public
@@ -222,12 +206,6 @@ export interface AutonomousDatabaseCharacterSetsListByLocationOptionalParams ext
 }
 
 // @public
-export interface AutonomousDatabaseCharacterSetsOperations {
-    get: (location: string, adbscharsetname: string, options?: AutonomousDatabaseCharacterSetsGetOptionalParams) => Promise<AutonomousDatabaseCharacterSet>;
-    listByLocation: (location: string, options?: AutonomousDatabaseCharacterSetsListByLocationOptionalParams) => PagedAsyncIterableIterator<AutonomousDatabaseCharacterSet>;
-}
-
-// @public
 export interface AutonomousDatabaseCloneProperties extends AutonomousDatabaseBaseProperties {
     cloneType: CloneType;
     dataBaseType: "Clone";
@@ -259,12 +237,6 @@ export interface AutonomousDatabaseNationalCharacterSetsGetOptionalParams extend
 
 // @public
 export interface AutonomousDatabaseNationalCharacterSetsListByLocationOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface AutonomousDatabaseNationalCharacterSetsOperations {
-    get: (location: string, adbsncharsetname: string, options?: AutonomousDatabaseNationalCharacterSetsGetOptionalParams) => Promise<AutonomousDatabaseNationalCharacterSet>;
-    listByLocation: (location: string, options?: AutonomousDatabaseNationalCharacterSetsListByLocationOptionalParams) => PagedAsyncIterableIterator<AutonomousDatabaseNationalCharacterSet>;
 }
 
 // @public
@@ -301,21 +273,6 @@ export interface AutonomousDatabasesListByResourceGroupOptionalParams extends Op
 
 // @public
 export interface AutonomousDatabasesListBySubscriptionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface AutonomousDatabasesOperations {
-    createOrUpdate: (resourceGroupName: string, autonomousdatabasename: string, resource: AutonomousDatabase, options?: AutonomousDatabasesCreateOrUpdateOptionalParams) => PollerLike<OperationState<AutonomousDatabase>, AutonomousDatabase>;
-    delete: (resourceGroupName: string, autonomousdatabasename: string, options?: AutonomousDatabasesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    failover: (resourceGroupName: string, autonomousdatabasename: string, body: PeerDbDetails, options?: AutonomousDatabasesFailoverOptionalParams) => PollerLike<OperationState<AutonomousDatabase>, AutonomousDatabase>;
-    generateWallet: (resourceGroupName: string, autonomousdatabasename: string, body: GenerateAutonomousDatabaseWalletDetails, options?: AutonomousDatabasesGenerateWalletOptionalParams) => Promise<AutonomousDatabaseWalletFile>;
-    get: (resourceGroupName: string, autonomousdatabasename: string, options?: AutonomousDatabasesGetOptionalParams) => Promise<AutonomousDatabase>;
-    listByResourceGroup: (resourceGroupName: string, options?: AutonomousDatabasesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<AutonomousDatabase>;
-    listBySubscription: (options?: AutonomousDatabasesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<AutonomousDatabase>;
-    restore: (resourceGroupName: string, autonomousdatabasename: string, body: RestoreAutonomousDatabaseDetails, options?: AutonomousDatabasesRestoreOptionalParams) => PollerLike<OperationState<AutonomousDatabase>, AutonomousDatabase>;
-    shrink: (resourceGroupName: string, autonomousdatabasename: string, options?: AutonomousDatabasesShrinkOptionalParams) => PollerLike<OperationState<AutonomousDatabase>, AutonomousDatabase>;
-    switchover: (resourceGroupName: string, autonomousdatabasename: string, body: PeerDbDetails, options?: AutonomousDatabasesSwitchoverOptionalParams) => PollerLike<OperationState<AutonomousDatabase>, AutonomousDatabase>;
-    update: (resourceGroupName: string, autonomousdatabasename: string, properties: AutonomousDatabaseUpdate, options?: AutonomousDatabasesUpdateOptionalParams) => PollerLike<OperationState<AutonomousDatabase>, AutonomousDatabase>;
 }
 
 // @public
@@ -386,12 +343,6 @@ export interface AutonomousDatabaseVersionsGetOptionalParams extends OperationOp
 
 // @public
 export interface AutonomousDatabaseVersionsListByLocationOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface AutonomousDatabaseVersionsOperations {
-    get: (location: string, autonomousdbversionsname: string, options?: AutonomousDatabaseVersionsGetOptionalParams) => Promise<AutonomousDbVersion>;
-    listByLocation: (location: string, options?: AutonomousDatabaseVersionsListByLocationOptionalParams) => PagedAsyncIterableIterator<AutonomousDbVersion>;
 }
 
 // @public
@@ -509,17 +460,6 @@ export interface CloudExadataInfrastructuresListBySubscriptionOptionalParams ext
 }
 
 // @public
-export interface CloudExadataInfrastructuresOperations {
-    addStorageCapacity: (resourceGroupName: string, cloudexadatainfrastructurename: string, options?: CloudExadataInfrastructuresAddStorageCapacityOptionalParams) => PollerLike<OperationState<CloudExadataInfrastructure>, CloudExadataInfrastructure>;
-    createOrUpdate: (resourceGroupName: string, cloudexadatainfrastructurename: string, resource: CloudExadataInfrastructure, options?: CloudExadataInfrastructuresCreateOrUpdateOptionalParams) => PollerLike<OperationState<CloudExadataInfrastructure>, CloudExadataInfrastructure>;
-    delete: (resourceGroupName: string, cloudexadatainfrastructurename: string, options?: CloudExadataInfrastructuresDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, cloudexadatainfrastructurename: string, options?: CloudExadataInfrastructuresGetOptionalParams) => Promise<CloudExadataInfrastructure>;
-    listByResourceGroup: (resourceGroupName: string, options?: CloudExadataInfrastructuresListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<CloudExadataInfrastructure>;
-    listBySubscription: (options?: CloudExadataInfrastructuresListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<CloudExadataInfrastructure>;
-    update: (resourceGroupName: string, cloudexadatainfrastructurename: string, properties: CloudExadataInfrastructureUpdate, options?: CloudExadataInfrastructuresUpdateOptionalParams) => PollerLike<OperationState<CloudExadataInfrastructure>, CloudExadataInfrastructure>;
-}
-
-// @public
 export interface CloudExadataInfrastructuresUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
@@ -632,19 +572,6 @@ export interface CloudVmClustersListPrivateIpAddressesOptionalParams extends Ope
 }
 
 // @public
-export interface CloudVmClustersOperations {
-    addVms: (resourceGroupName: string, cloudvmclustername: string, body: AddRemoveDbNode, options?: CloudVmClustersAddVmsOptionalParams) => PollerLike<OperationState<CloudVmCluster>, CloudVmCluster>;
-    createOrUpdate: (resourceGroupName: string, cloudvmclustername: string, resource: CloudVmCluster, options?: CloudVmClustersCreateOrUpdateOptionalParams) => PollerLike<OperationState<CloudVmCluster>, CloudVmCluster>;
-    delete: (resourceGroupName: string, cloudvmclustername: string, options?: CloudVmClustersDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, cloudvmclustername: string, options?: CloudVmClustersGetOptionalParams) => Promise<CloudVmCluster>;
-    listByResourceGroup: (resourceGroupName: string, options?: CloudVmClustersListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<CloudVmCluster>;
-    listBySubscription: (options?: CloudVmClustersListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<CloudVmCluster>;
-    listPrivateIpAddresses: (resourceGroupName: string, cloudvmclustername: string, body: PrivateIpAddressesFilter, options?: CloudVmClustersListPrivateIpAddressesOptionalParams) => Promise<PrivateIpAddressProperties[]>;
-    removeVms: (resourceGroupName: string, cloudvmclustername: string, body: AddRemoveDbNode, options?: CloudVmClustersRemoveVmsOptionalParams) => PollerLike<OperationState<CloudVmCluster>, CloudVmCluster>;
-    update: (resourceGroupName: string, cloudvmclustername: string, properties: CloudVmClusterUpdate, options?: CloudVmClustersUpdateOptionalParams) => PollerLike<OperationState<CloudVmCluster>, CloudVmCluster>;
-}
-
-// @public
 export interface CloudVmClustersRemoveVmsOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
@@ -703,44 +630,11 @@ export interface ConnectionUrlType {
 export type ConsumerGroup = string;
 
 // @public
-export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
-    continuationToken?: string;
-};
-
-// @public
 export type CreatedByType = string;
 
 // @public
 export interface CustomerContact {
     email: string;
-}
-
-// @public (undocumented)
-export class DatabaseClient {
-    constructor(credential: TokenCredential, subscriptionId: string, options?: DatabaseClientOptionalParams);
-    readonly autonomousDatabaseBackups: AutonomousDatabaseBackupsOperations;
-    readonly autonomousDatabaseCharacterSets: AutonomousDatabaseCharacterSetsOperations;
-    readonly autonomousDatabaseNationalCharacterSets: AutonomousDatabaseNationalCharacterSetsOperations;
-    readonly autonomousDatabases: AutonomousDatabasesOperations;
-    readonly autonomousDatabaseVersions: AutonomousDatabaseVersionsOperations;
-    readonly cloudExadataInfrastructures: CloudExadataInfrastructuresOperations;
-    readonly cloudVmClusters: CloudVmClustersOperations;
-    readonly dbNodes: DbNodesOperations;
-    readonly dbServers: DbServersOperations;
-    readonly dbSystemShapes: DbSystemShapesOperations;
-    readonly dnsPrivateViews: DnsPrivateViewsOperations;
-    readonly dnsPrivateZones: DnsPrivateZonesOperations;
-    readonly giVersions: GiVersionsOperations;
-    readonly operations: OperationsOperations;
-    readonly oracleSubscriptions: OracleSubscriptionsOperations;
-    readonly pipeline: Pipeline;
-    readonly systemVersions: SystemVersionsOperations;
-    readonly virtualNetworkAddresses: VirtualNetworkAddressesOperations;
-}
-
-// @public
-export interface DatabaseClientOptionalParams extends ClientOptions {
-    apiVersion?: string;
 }
 
 // @public
@@ -834,13 +728,6 @@ export interface DbNodesListByCloudVmClusterOptionalParams extends OperationOpti
 }
 
 // @public
-export interface DbNodesOperations {
-    action: (resourceGroupName: string, cloudvmclustername: string, dbnodeocid: string, body: DbNodeAction, options?: DbNodesActionOptionalParams) => PollerLike<OperationState<DbNode>, DbNode>;
-    get: (resourceGroupName: string, cloudvmclustername: string, dbnodeocid: string, options?: DbNodesGetOptionalParams) => Promise<DbNode>;
-    listByCloudVmCluster: (resourceGroupName: string, cloudvmclustername: string, options?: DbNodesListByCloudVmClusterOptionalParams) => PagedAsyncIterableIterator<DbNode>;
-}
-
-// @public
 export interface DbServer extends ProxyResource {
     properties?: DbServerProperties;
 }
@@ -892,12 +779,6 @@ export interface DbServersListByCloudExadataInfrastructureOptionalParams extends
 }
 
 // @public
-export interface DbServersOperations {
-    get: (resourceGroupName: string, cloudexadatainfrastructurename: string, dbserverocid: string, options?: DbServersGetOptionalParams) => Promise<DbServer>;
-    listByCloudExadataInfrastructure: (resourceGroupName: string, cloudexadatainfrastructurename: string, options?: DbServersListByCloudExadataInfrastructureOptionalParams) => PagedAsyncIterableIterator<DbServer>;
-}
-
-// @public
 export interface DbSystemShape extends ProxyResource {
     properties?: DbSystemShapeProperties;
 }
@@ -935,12 +816,6 @@ export interface DbSystemShapesListByLocationOptionalParams extends OperationOpt
 }
 
 // @public
-export interface DbSystemShapesOperations {
-    get: (location: string, dbsystemshapename: string, options?: DbSystemShapesGetOptionalParams) => Promise<DbSystemShape>;
-    listByLocation: (location: string, options?: DbSystemShapesListByLocationOptionalParams) => PagedAsyncIterableIterator<DbSystemShape>;
-}
-
-// @public
 export type DisasterRecoveryType = string;
 
 // @public
@@ -975,12 +850,6 @@ export interface DnsPrivateViewsListByLocationOptionalParams extends OperationOp
 }
 
 // @public
-export interface DnsPrivateViewsOperations {
-    get: (location: string, dnsprivateviewocid: string, options?: DnsPrivateViewsGetOptionalParams) => Promise<DnsPrivateView>;
-    listByLocation: (location: string, options?: DnsPrivateViewsListByLocationOptionalParams) => PagedAsyncIterableIterator<DnsPrivateView>;
-}
-
-// @public
 export interface DnsPrivateZone extends ProxyResource {
     properties?: DnsPrivateZoneProperties;
 }
@@ -1008,12 +877,6 @@ export type DnsPrivateZonesLifecycleState = string;
 
 // @public
 export interface DnsPrivateZonesListByLocationOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface DnsPrivateZonesOperations {
-    get: (location: string, dnsprivatezonename: string, options?: DnsPrivateZonesGetOptionalParams) => Promise<DnsPrivateZone>;
-    listByLocation: (location: string, options?: DnsPrivateZonesListByLocationOptionalParams) => PagedAsyncIterableIterator<DnsPrivateZone>;
 }
 
 // @public
@@ -1078,12 +941,6 @@ export interface GiVersionsGetOptionalParams extends OperationOptions {
 
 // @public
 export interface GiVersionsListByLocationOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface GiVersionsOperations {
-    get: (location: string, giversionname: string, options?: GiVersionsGetOptionalParams) => Promise<GiVersion>;
-    listByLocation: (location: string, options?: GiVersionsListByLocationOptionalParams) => PagedAsyncIterableIterator<GiVersion>;
 }
 
 // @public
@@ -1581,11 +1438,6 @@ export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface OperationsOperations {
-    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
-}
-
-// @public
 export interface OracleSubscription extends ProxyResource {
     plan?: Plan;
     properties?: OracleSubscriptionProperties;
@@ -1647,19 +1499,6 @@ export interface OracleSubscriptionsListSaasSubscriptionDetailsOptionalParams ex
 }
 
 // @public
-export interface OracleSubscriptionsOperations {
-    addAzureSubscriptions: (body: AzureSubscriptions, options?: OracleSubscriptionsAddAzureSubscriptionsOptionalParams) => PollerLike<OperationState<void>, void>;
-    createOrUpdate: (resource: OracleSubscription, options?: OracleSubscriptionsCreateOrUpdateOptionalParams) => PollerLike<OperationState<OracleSubscription>, OracleSubscription>;
-    delete: (options?: OracleSubscriptionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (options?: OracleSubscriptionsGetOptionalParams) => Promise<OracleSubscription>;
-    listActivationLinks: (options?: OracleSubscriptionsListActivationLinksOptionalParams) => PollerLike<OperationState<void>, void>;
-    listBySubscription: (options?: OracleSubscriptionsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<OracleSubscription>;
-    listCloudAccountDetails: (options?: OracleSubscriptionsListCloudAccountDetailsOptionalParams) => PollerLike<OperationState<void>, void>;
-    listSaasSubscriptionDetails: (options?: OracleSubscriptionsListSaasSubscriptionDetailsOptionalParams) => PollerLike<OperationState<void>, void>;
-    update: (properties: OracleSubscriptionUpdate, options?: OracleSubscriptionsUpdateOptionalParams) => PollerLike<OperationState<OracleSubscription>, OracleSubscription>;
-}
-
-// @public
 export interface OracleSubscriptionsUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
@@ -1678,18 +1517,6 @@ export interface OracleSubscriptionUpdateProperties {
 
 // @public
 export type Origin = string;
-
-// @public
-export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
-    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
-    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
-    next(): Promise<IteratorResult<TElement>>;
-}
-
-// @public
-export interface PageSettings {
-    continuationToken?: string;
-}
 
 // @public
 export type PatchingMode = string;
@@ -1790,16 +1617,6 @@ export interface RestoreAutonomousDatabaseDetails {
 }
 
 // @public
-export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: DatabaseClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
-
-// @public (undocumented)
-export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
-    abortSignal?: AbortSignalLike;
-    processResponseBody?: (result: TResponse) => Promise<TResult>;
-    updateIntervalInMs?: number;
-}
-
-// @public
 export type RoleType = string;
 
 // @public
@@ -1863,12 +1680,6 @@ export interface SystemVersionsListByLocationOptionalParams extends OperationOpt
 }
 
 // @public
-export interface SystemVersionsOperations {
-    get: (location: string, systemversionname: string, options?: SystemVersionsGetOptionalParams) => Promise<SystemVersion>;
-    listByLocation: (location: string, options?: SystemVersionsListByLocationOptionalParams) => PagedAsyncIterableIterator<SystemVersion>;
-}
-
-// @public
 export type TlsAuthenticationType = string;
 
 // @public
@@ -1901,14 +1712,6 @@ export interface VirtualNetworkAddressesGetOptionalParams extends OperationOptio
 
 // @public
 export interface VirtualNetworkAddressesListByCloudVmClusterOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface VirtualNetworkAddressesOperations {
-    createOrUpdate: (resourceGroupName: string, cloudvmclustername: string, virtualnetworkaddressname: string, resource: VirtualNetworkAddress, options?: VirtualNetworkAddressesCreateOrUpdateOptionalParams) => PollerLike<OperationState<VirtualNetworkAddress>, VirtualNetworkAddress>;
-    delete: (resourceGroupName: string, cloudvmclustername: string, virtualnetworkaddressname: string, options?: VirtualNetworkAddressesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, cloudvmclustername: string, virtualnetworkaddressname: string, options?: VirtualNetworkAddressesGetOptionalParams) => Promise<VirtualNetworkAddress>;
-    listByCloudVmCluster: (resourceGroupName: string, cloudvmclustername: string, options?: VirtualNetworkAddressesListByCloudVmClusterOptionalParams) => PagedAsyncIterableIterator<VirtualNetworkAddress>;
 }
 
 // @public
