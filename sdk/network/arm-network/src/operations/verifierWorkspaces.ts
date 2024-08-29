@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { AdminRuleCollections } from "../operationsInterfaces";
+import { VerifierWorkspaces } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,25 +20,28 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  AdminRuleCollection,
-  AdminRuleCollectionsListNextOptionalParams,
-  AdminRuleCollectionsListOptionalParams,
-  AdminRuleCollectionsListResponse,
-  AdminRuleCollectionsGetOptionalParams,
-  AdminRuleCollectionsGetResponse,
-  AdminRuleCollectionsCreateOrUpdateOptionalParams,
-  AdminRuleCollectionsCreateOrUpdateResponse,
-  AdminRuleCollectionsDeleteOptionalParams,
-  AdminRuleCollectionsListNextResponse,
+  VerifierWorkspace,
+  VerifierWorkspacesListNextOptionalParams,
+  VerifierWorkspacesListOptionalParams,
+  VerifierWorkspacesListResponse,
+  VerifierWorkspacesGetOptionalParams,
+  VerifierWorkspacesGetResponse,
+  VerifierWorkspacesCreateOptionalParams,
+  VerifierWorkspacesCreateResponse,
+  VerifierWorkspacesUpdateOptionalParams,
+  VerifierWorkspacesUpdateResponse,
+  VerifierWorkspacesDeleteOptionalParams,
+  VerifierWorkspacesDeleteResponse,
+  VerifierWorkspacesListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing AdminRuleCollections operations. */
-export class AdminRuleCollectionsImpl implements AdminRuleCollections {
+/** Class containing VerifierWorkspaces operations. */
+export class VerifierWorkspacesImpl implements VerifierWorkspaces {
   private readonly client: NetworkManagementClient;
 
   /**
-   * Initialize a new instance of the class AdminRuleCollections class.
+   * Initialize a new instance of the class VerifierWorkspaces class.
    * @param client Reference to the service client
    */
   constructor(client: NetworkManagementClient) {
@@ -46,22 +49,19 @@ export class AdminRuleCollectionsImpl implements AdminRuleCollections {
   }
 
   /**
-   * Lists all the rule collections in a security admin configuration, in a paginated format.
+   * Gets list of Verifier Workspaces.
    * @param resourceGroupName The name of the resource group.
    * @param networkManagerName The name of the network manager.
-   * @param configurationName The name of the network manager Security Configuration.
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
     networkManagerName: string,
-    configurationName: string,
-    options?: AdminRuleCollectionsListOptionalParams,
-  ): PagedAsyncIterableIterator<AdminRuleCollection> {
+    options?: VerifierWorkspacesListOptionalParams,
+  ): PagedAsyncIterableIterator<VerifierWorkspace> {
     const iter = this.listPagingAll(
       resourceGroupName,
       networkManagerName,
-      configurationName,
       options,
     );
     return {
@@ -78,7 +78,6 @@ export class AdminRuleCollectionsImpl implements AdminRuleCollections {
         return this.listPagingPage(
           resourceGroupName,
           networkManagerName,
-          configurationName,
           options,
           settings,
         );
@@ -89,19 +88,13 @@ export class AdminRuleCollectionsImpl implements AdminRuleCollections {
   private async *listPagingPage(
     resourceGroupName: string,
     networkManagerName: string,
-    configurationName: string,
-    options?: AdminRuleCollectionsListOptionalParams,
+    options?: VerifierWorkspacesListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<AdminRuleCollection[]> {
-    let result: AdminRuleCollectionsListResponse;
+  ): AsyncIterableIterator<VerifierWorkspace[]> {
+    let result: VerifierWorkspacesListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(
-        resourceGroupName,
-        networkManagerName,
-        configurationName,
-        options,
-      );
+      result = await this._list(resourceGroupName, networkManagerName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -111,7 +104,6 @@ export class AdminRuleCollectionsImpl implements AdminRuleCollections {
       result = await this._listNext(
         resourceGroupName,
         networkManagerName,
-        configurationName,
         continuationToken,
         options,
       );
@@ -125,13 +117,11 @@ export class AdminRuleCollectionsImpl implements AdminRuleCollections {
   private async *listPagingAll(
     resourceGroupName: string,
     networkManagerName: string,
-    configurationName: string,
-    options?: AdminRuleCollectionsListOptionalParams,
-  ): AsyncIterableIterator<AdminRuleCollection> {
+    options?: VerifierWorkspacesListOptionalParams,
+  ): AsyncIterableIterator<VerifierWorkspace> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       networkManagerName,
-      configurationName,
       options,
     )) {
       yield* page;
@@ -139,100 +129,103 @@ export class AdminRuleCollectionsImpl implements AdminRuleCollections {
   }
 
   /**
-   * Lists all the rule collections in a security admin configuration, in a paginated format.
+   * Gets list of Verifier Workspaces.
    * @param resourceGroupName The name of the resource group.
    * @param networkManagerName The name of the network manager.
-   * @param configurationName The name of the network manager Security Configuration.
    * @param options The options parameters.
    */
   private _list(
     resourceGroupName: string,
     networkManagerName: string,
-    configurationName: string,
-    options?: AdminRuleCollectionsListOptionalParams,
-  ): Promise<AdminRuleCollectionsListResponse> {
+    options?: VerifierWorkspacesListOptionalParams,
+  ): Promise<VerifierWorkspacesListResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, networkManagerName, configurationName, options },
+      { resourceGroupName, networkManagerName, options },
       listOperationSpec,
     );
   }
 
   /**
-   * Gets a network manager security admin configuration rule collection.
+   * Gets Verifier Workspace.
    * @param resourceGroupName The name of the resource group.
    * @param networkManagerName The name of the network manager.
-   * @param configurationName The name of the network manager Security Configuration.
-   * @param ruleCollectionName The name of the network manager security Configuration rule collection.
+   * @param workspaceName Workspace name.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     networkManagerName: string,
-    configurationName: string,
-    ruleCollectionName: string,
-    options?: AdminRuleCollectionsGetOptionalParams,
-  ): Promise<AdminRuleCollectionsGetResponse> {
+    workspaceName: string,
+    options?: VerifierWorkspacesGetOptionalParams,
+  ): Promise<VerifierWorkspacesGetResponse> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        networkManagerName,
-        configurationName,
-        ruleCollectionName,
-        options,
-      },
+      { resourceGroupName, networkManagerName, workspaceName, options },
       getOperationSpec,
     );
   }
 
   /**
-   * Creates or updates an admin rule collection.
+   * Creates Verifier Workspace.
    * @param resourceGroupName The name of the resource group.
    * @param networkManagerName The name of the network manager.
-   * @param configurationName The name of the network manager Security Configuration.
-   * @param ruleCollectionName The name of the network manager security Configuration rule collection.
-   * @param ruleCollection The Rule Collection to create or update
+   * @param workspaceName Workspace name.
+   * @param body Verifier Workspace object to create/update.
    * @param options The options parameters.
    */
-  createOrUpdate(
+  create(
     resourceGroupName: string,
     networkManagerName: string,
-    configurationName: string,
-    ruleCollectionName: string,
-    ruleCollection: AdminRuleCollection,
-    options?: AdminRuleCollectionsCreateOrUpdateOptionalParams,
-  ): Promise<AdminRuleCollectionsCreateOrUpdateResponse> {
+    workspaceName: string,
+    body: VerifierWorkspace,
+    options?: VerifierWorkspacesCreateOptionalParams,
+  ): Promise<VerifierWorkspacesCreateResponse> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        networkManagerName,
-        configurationName,
-        ruleCollectionName,
-        ruleCollection,
-        options,
-      },
-      createOrUpdateOperationSpec,
+      { resourceGroupName, networkManagerName, workspaceName, body, options },
+      createOperationSpec,
     );
   }
 
   /**
-   * Deletes an admin rule collection.
+   * Updates Verifier Workspace.
    * @param resourceGroupName The name of the resource group.
    * @param networkManagerName The name of the network manager.
-   * @param configurationName The name of the network manager Security Configuration.
-   * @param ruleCollectionName The name of the network manager security Configuration rule collection.
+   * @param workspaceName Workspace name.
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    networkManagerName: string,
+    workspaceName: string,
+    options?: VerifierWorkspacesUpdateOptionalParams,
+  ): Promise<VerifierWorkspacesUpdateResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, networkManagerName, workspaceName, options },
+      updateOperationSpec,
+    );
+  }
+
+  /**
+   * Deletes Verifier Workspace.
+   * @param resourceGroupName The name of the resource group.
+   * @param networkManagerName The name of the network manager.
+   * @param workspaceName Workspace name.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     networkManagerName: string,
-    configurationName: string,
-    ruleCollectionName: string,
-    options?: AdminRuleCollectionsDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    workspaceName: string,
+    options?: VerifierWorkspacesDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VerifierWorkspacesDeleteResponse>,
+      VerifierWorkspacesDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<void> => {
+    ): Promise<VerifierWorkspacesDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -269,16 +262,13 @@ export class AdminRuleCollectionsImpl implements AdminRuleCollections {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: {
-        resourceGroupName,
-        networkManagerName,
-        configurationName,
-        ruleCollectionName,
-        options,
-      },
+      args: { resourceGroupName, networkManagerName, workspaceName, options },
       spec: deleteOperationSpec,
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      VerifierWorkspacesDeleteResponse,
+      OperationState<VerifierWorkspacesDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       resourceLocationConfig: "location",
@@ -288,25 +278,22 @@ export class AdminRuleCollectionsImpl implements AdminRuleCollections {
   }
 
   /**
-   * Deletes an admin rule collection.
+   * Deletes Verifier Workspace.
    * @param resourceGroupName The name of the resource group.
    * @param networkManagerName The name of the network manager.
-   * @param configurationName The name of the network manager Security Configuration.
-   * @param ruleCollectionName The name of the network manager security Configuration rule collection.
+   * @param workspaceName Workspace name.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     networkManagerName: string,
-    configurationName: string,
-    ruleCollectionName: string,
-    options?: AdminRuleCollectionsDeleteOptionalParams,
-  ): Promise<void> {
+    workspaceName: string,
+    options?: VerifierWorkspacesDeleteOptionalParams,
+  ): Promise<VerifierWorkspacesDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       networkManagerName,
-      configurationName,
-      ruleCollectionName,
+      workspaceName,
       options,
     );
     return poller.pollUntilDone();
@@ -316,25 +303,17 @@ export class AdminRuleCollectionsImpl implements AdminRuleCollections {
    * ListNext
    * @param resourceGroupName The name of the resource group.
    * @param networkManagerName The name of the network manager.
-   * @param configurationName The name of the network manager Security Configuration.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
     resourceGroupName: string,
     networkManagerName: string,
-    configurationName: string,
     nextLink: string,
-    options?: AdminRuleCollectionsListNextOptionalParams,
-  ): Promise<AdminRuleCollectionsListNextResponse> {
+    options?: VerifierWorkspacesListNextOptionalParams,
+  ): Promise<VerifierWorkspacesListNextResponse> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        networkManagerName,
-        configurationName,
-        nextLink,
-        options,
-      },
+      { resourceGroupName, networkManagerName, nextLink, options },
       listNextOperationSpec,
     );
   }
@@ -343,11 +322,11 @@ export class AdminRuleCollectionsImpl implements AdminRuleCollections {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/verifierWorkspaces",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AdminRuleCollectionListResult,
+      bodyMapper: Mappers.VerifierWorkspaceListResult,
     },
     default: {
       bodyMapper: Mappers.CommonErrorResponse,
@@ -355,25 +334,27 @@ const listOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.top,
-    Parameters.skipToken1,
+    Parameters.skipToken,
+    Parameters.skip,
+    Parameters.top1,
+    Parameters.sortKey,
+    Parameters.sortValue,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.networkManagerName1,
-    Parameters.configurationName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/verifierWorkspaces/{workspaceName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AdminRuleCollection,
+      bodyMapper: Mappers.VerifierWorkspace,
     },
     default: {
       bodyMapper: Mappers.CommonErrorResponse,
@@ -385,60 +366,89 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.networkManagerName1,
-    Parameters.configurationName,
-    Parameters.ruleCollectionName,
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}",
+const createOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/verifierWorkspaces/{workspaceName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.AdminRuleCollection,
+      bodyMapper: Mappers.VerifierWorkspace,
     },
     201: {
-      bodyMapper: Mappers.AdminRuleCollection,
+      bodyMapper: Mappers.VerifierWorkspace,
     },
     default: {
       bodyMapper: Mappers.CommonErrorResponse,
     },
   },
-  requestBody: Parameters.ruleCollection,
+  requestBody: Parameters.body5,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.networkManagerName1,
-    Parameters.configurationName,
-    Parameters.ruleCollectionName,
+    Parameters.workspaceName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const updateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/verifierWorkspaces/{workspaceName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.VerifierWorkspace,
+    },
+    default: {
+      bodyMapper: Mappers.CommonErrorResponse,
+    },
+  },
+  requestBody: Parameters.body6,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.networkManagerName1,
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/verifierWorkspaces/{workspaceName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.VerifierWorkspacesDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.VerifierWorkspacesDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.VerifierWorkspacesDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.VerifierWorkspacesDeleteHeaders,
+    },
     default: {
       bodyMapper: Mappers.CommonErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.force],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.networkManagerName1,
-    Parameters.configurationName,
-    Parameters.ruleCollectionName,
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -448,7 +458,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AdminRuleCollectionListResult,
+      bodyMapper: Mappers.VerifierWorkspaceListResult,
     },
     default: {
       bodyMapper: Mappers.CommonErrorResponse,
@@ -460,7 +470,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.networkManagerName1,
-    Parameters.configurationName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
