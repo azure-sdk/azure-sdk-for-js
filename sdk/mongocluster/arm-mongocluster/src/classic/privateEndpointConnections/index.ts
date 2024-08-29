@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { DocumentDBContext } from "../../api/mongoClusterManagementContext.js";
+import { DocumentDBContext } from "../../api/mongoClusterMgmtContext.js";
 import { PrivateEndpointConnectionResource } from "../../models/models.js";
 import {
-  privateEndpointConnectionsListByMongoCluster,
-  privateEndpointConnectionsGet,
-  privateEndpointConnectionsCreate,
-  privateEndpointConnectionsDelete,
+  listByMongoCluster,
+  get,
+  create,
+  $delete,
 } from "../../api/privateEndpointConnections/index.js";
-import { PagedAsyncIterableIterator } from "../../models/pagingTypes.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 import {
   PrivateEndpointConnectionsListByMongoClusterOptionalParams,
@@ -45,6 +45,11 @@ export interface PrivateEndpointConnectionsOperations {
     PrivateEndpointConnectionResource
   >;
   /** Delete the private endpoint connection */
+  /**
+   *  @fixme delete is a reserved word that cannot be used as an operation name.
+   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
+   *         to the operation to override the generated name.
+   */
   delete: (
     resourceGroupName: string,
     mongoClusterName: string,
@@ -53,14 +58,17 @@ export interface PrivateEndpointConnectionsOperations {
   ) => PollerLike<OperationState<void>, void>;
 }
 
-export function getPrivateEndpointConnections(context: DocumentDBContext, subscriptionId: string) {
+export function getPrivateEndpointConnections(
+  context: DocumentDBContext,
+  subscriptionId: string,
+) {
   return {
     listByMongoCluster: (
       resourceGroupName: string,
       mongoClusterName: string,
       options?: PrivateEndpointConnectionsListByMongoClusterOptionalParams,
     ) =>
-      privateEndpointConnectionsListByMongoCluster(
+      listByMongoCluster(
         context,
         subscriptionId,
         resourceGroupName,
@@ -73,7 +81,7 @@ export function getPrivateEndpointConnections(context: DocumentDBContext, subscr
       privateEndpointConnectionName: string,
       options?: PrivateEndpointConnectionsGetOptionalParams,
     ) =>
-      privateEndpointConnectionsGet(
+      get(
         context,
         subscriptionId,
         resourceGroupName,
@@ -88,7 +96,7 @@ export function getPrivateEndpointConnections(context: DocumentDBContext, subscr
       resource: PrivateEndpointConnectionResource,
       options?: PrivateEndpointConnectionsCreateOptionalParams,
     ) =>
-      privateEndpointConnectionsCreate(
+      create(
         context,
         subscriptionId,
         resourceGroupName,
@@ -103,7 +111,7 @@ export function getPrivateEndpointConnections(context: DocumentDBContext, subscr
       privateEndpointConnectionName: string,
       options?: PrivateEndpointConnectionsDeleteOptionalParams,
     ) =>
-      privateEndpointConnectionsDelete(
+      $delete(
         context,
         subscriptionId,
         resourceGroupName,

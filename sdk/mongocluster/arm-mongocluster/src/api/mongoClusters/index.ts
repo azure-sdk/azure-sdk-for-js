@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { getLongRunningPoller } from "../pollingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
 import {
   mongoClusterPropertiesSerializer,
   mongoClusterUpdatePropertiesSerializer,
@@ -11,42 +9,23 @@ import {
   ListConnectionStringsResult,
   CheckNameAvailabilityRequest,
   CheckNameAvailabilityResponse,
+  PromoteReplicaRequest,
   _MongoClusterListResult,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../models/pagingTypes.js";
-import { buildPagedAsyncIterator } from "../pagingHelpers.js";
-import {
-  isUnexpected,
-  DocumentDBContext as Client,
-  MongoClustersCheckNameAvailability200Response,
-  MongoClustersCheckNameAvailabilityDefaultResponse,
-  MongoClustersCreateOrUpdate200Response,
-  MongoClustersCreateOrUpdate201Response,
-  MongoClustersCreateOrUpdateDefaultResponse,
-  MongoClustersCreateOrUpdateLogicalResponse,
-  MongoClustersDelete202Response,
-  MongoClustersDelete204Response,
-  MongoClustersDeleteDefaultResponse,
-  MongoClustersDeleteLogicalResponse,
-  MongoClustersGet200Response,
-  MongoClustersGetDefaultResponse,
-  MongoClustersList200Response,
-  MongoClustersListByResourceGroup200Response,
-  MongoClustersListByResourceGroupDefaultResponse,
-  MongoClustersListConnectionStrings200Response,
-  MongoClustersListConnectionStringsDefaultResponse,
-  MongoClustersListDefaultResponse,
-  MongoClustersUpdate200Response,
-  MongoClustersUpdate202Response,
-  MongoClustersUpdateDefaultResponse,
-  MongoClustersUpdateLogicalResponse,
-} from "../../rest/index.js";
+import { DocumentDBContext as Client } from "../index.js";
 import {
   StreamableMethod,
   operationOptionsToRequestParameters,
+  PathUncheckedResponse,
   createRestError,
 } from "@azure-rest/core-client";
 import { serializeRecord } from "../../helpers/serializerHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 import {
   MongoClustersGetOptionalParams,
   MongoClustersCreateOrUpdateOptionalParams,
@@ -56,15 +35,16 @@ import {
   MongoClustersListOptionalParams,
   MongoClustersListConnectionStringsOptionalParams,
   MongoClustersCheckNameAvailabilityOptionalParams,
+  MongoClustersPromoteOptionalParams,
 } from "../../models/options.js";
 
-export function _mongoClustersGetSend(
+export function _getSend(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
   mongoClusterName: string,
   options: MongoClustersGetOptionalParams = { requestOptions: {} },
-): StreamableMethod<MongoClustersGet200Response | MongoClustersGetDefaultResponse> {
+): StreamableMethod {
   return context
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}",
@@ -75,10 +55,11 @@ export function _mongoClustersGetSend(
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _mongoClustersGetDeserialize(
-  result: MongoClustersGet200Response | MongoClustersGetDefaultResponse,
+export async function _getDeserialize(
+  result: PathUncheckedResponse,
 ): Promise<MongoCluster> {
-  if (isUnexpected(result)) {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
@@ -112,108 +93,157 @@ export async function _mongoClustersGetDeserialize(
             ? undefined
             : {
                 pointInTimeUTC:
-                  result.body.properties?.restoreParameters?.["pointInTimeUTC"] !== undefined
-                    ? new Date(result.body.properties?.restoreParameters?.["pointInTimeUTC"])
+                  result.body.properties?.restoreParameters?.[
+                    "pointInTimeUTC"
+                  ] !== undefined
+                    ? new Date(
+                        result.body.properties?.restoreParameters?.[
+                          "pointInTimeUTC"
+                        ],
+                      )
                     : undefined,
-                sourceResourceId: result.body.properties?.restoreParameters?.["sourceResourceId"],
+                sourceResourceId:
+                  result.body.properties?.restoreParameters?.[
+                    "sourceResourceId"
+                  ],
               },
-          administratorLogin: result.body.properties?.["administratorLogin"],
-          administratorLoginPassword: result.body.properties?.["administratorLoginPassword"],
+          replicaParameters: !result.body.properties?.replicaParameters
+            ? undefined
+            : {
+                sourceResourceId:
+                  result.body.properties?.replicaParameters?.[
+                    "sourceResourceId"
+                  ],
+                sourceLocation:
+                  result.body.properties?.replicaParameters?.["sourceLocation"],
+              },
+          administrator: !result.body.properties?.administrator
+            ? undefined
+            : {
+                userName: result.body.properties?.administrator?.["userName"],
+                password: result.body.properties?.administrator?.["password"],
+              },
           serverVersion: result.body.properties?.["serverVersion"],
           connectionString: result.body.properties?.["connectionString"],
-          earliestRestoreTime: result.body.properties?.["earliestRestoreTime"],
           provisioningState: result.body.properties?.["provisioningState"],
           clusterStatus: result.body.properties?.["clusterStatus"],
           publicNetworkAccess: result.body.properties?.["publicNetworkAccess"],
-          nodeGroupSpecs:
-            result.body.properties?.["nodeGroupSpecs"] === undefined
-              ? result.body.properties?.["nodeGroupSpecs"]
-              : result.body.properties?.["nodeGroupSpecs"].map((p) => {
-                  return {
-                    sku: p["sku"],
-                    diskSizeGB: p["diskSizeGB"],
-                    enableHa: p["enableHa"],
-                    kind: p["kind"],
-                    nodeCount: p["nodeCount"],
-                  };
-                }),
+          highAvailability: !result.body.properties?.highAvailability
+            ? undefined
+            : {
+                targetMode:
+                  result.body.properties?.highAvailability?.["targetMode"],
+              },
+          storage: !result.body.properties?.storage
+            ? undefined
+            : { sizeGb: result.body.properties?.storage?.["sizeGb"] },
+          sharding: !result.body.properties?.sharding
+            ? undefined
+            : { shardCount: result.body.properties?.sharding?.["shardCount"] },
+          compute: !result.body.properties?.compute
+            ? undefined
+            : { tier: result.body.properties?.compute?.["tier"] },
+          backup: !result.body.properties?.backup
+            ? undefined
+            : {
+                earliestRestoreTime:
+                  result.body.properties?.backup?.["earliestRestoreTime"],
+              },
           privateEndpointConnections:
             result.body.properties?.["privateEndpointConnections"] === undefined
               ? result.body.properties?.["privateEndpointConnections"]
-              : result.body.properties?.["privateEndpointConnections"].map((p) => {
-                  return {
-                    id: p["id"],
-                    name: p["name"],
-                    type: p["type"],
-                    systemData: !p.systemData
-                      ? undefined
-                      : {
-                          createdBy: p.systemData?.["createdBy"],
-                          createdByType: p.systemData?.["createdByType"],
-                          createdAt:
-                            p.systemData?.["createdAt"] !== undefined
-                              ? new Date(p.systemData?.["createdAt"])
-                              : undefined,
-                          lastModifiedBy: p.systemData?.["lastModifiedBy"],
-                          lastModifiedByType: p.systemData?.["lastModifiedByType"],
-                          lastModifiedAt:
-                            p.systemData?.["lastModifiedAt"] !== undefined
-                              ? new Date(p.systemData?.["lastModifiedAt"])
-                              : undefined,
-                        },
-                    properties: !p.properties
-                      ? undefined
-                      : {
-                          groupIds: p.properties?.["groupIds"],
-                          privateEndpoint: !p.properties?.privateEndpoint
-                            ? undefined
-                            : { id: p.properties?.privateEndpoint?.["id"] },
-                          privateLinkServiceConnectionState: {
-                            status: p.properties?.privateLinkServiceConnectionState["status"],
-                            description:
-                              p.properties?.privateLinkServiceConnectionState["description"],
-                            actionsRequired:
-                              p.properties?.privateLinkServiceConnectionState["actionsRequired"],
+              : result.body.properties?.["privateEndpointConnections"].map(
+                  (p: any) => {
+                    return {
+                      id: p["id"],
+                      name: p["name"],
+                      type: p["type"],
+                      systemData: !p.systemData
+                        ? undefined
+                        : {
+                            createdBy: p.systemData?.["createdBy"],
+                            createdByType: p.systemData?.["createdByType"],
+                            createdAt:
+                              p.systemData?.["createdAt"] !== undefined
+                                ? new Date(p.systemData?.["createdAt"])
+                                : undefined,
+                            lastModifiedBy: p.systemData?.["lastModifiedBy"],
+                            lastModifiedByType:
+                              p.systemData?.["lastModifiedByType"],
+                            lastModifiedAt:
+                              p.systemData?.["lastModifiedAt"] !== undefined
+                                ? new Date(p.systemData?.["lastModifiedAt"])
+                                : undefined,
                           },
-                          provisioningState: p.properties?.["provisioningState"],
-                        },
-                  };
-                }),
+                      properties: !p.properties
+                        ? undefined
+                        : {
+                            groupIds: p.properties?.["groupIds"],
+                            privateEndpoint: !p.properties?.privateEndpoint
+                              ? undefined
+                              : { id: p.properties?.privateEndpoint?.["id"] },
+                            privateLinkServiceConnectionState: {
+                              status:
+                                p.properties?.privateLinkServiceConnectionState[
+                                  "status"
+                                ],
+                              description:
+                                p.properties?.privateLinkServiceConnectionState[
+                                  "description"
+                                ],
+                              actionsRequired:
+                                p.properties?.privateLinkServiceConnectionState[
+                                  "actionsRequired"
+                                ],
+                            },
+                            provisioningState:
+                              p.properties?.["provisioningState"],
+                          },
+                    };
+                  },
+                ),
+          previewFeatures: result.body.properties?.["previewFeatures"],
+          replica: !result.body.properties?.replica
+            ? undefined
+            : {
+                sourceResourceId:
+                  result.body.properties?.replica?.["sourceResourceId"],
+                role: result.body.properties?.replica?.["role"],
+                replicationState:
+                  result.body.properties?.replica?.["replicationState"],
+              },
+          infrastructureVersion:
+            result.body.properties?.["infrastructureVersion"],
         },
   };
 }
 
 /** Gets information about a mongo cluster. */
-export async function mongoClustersGet(
+export async function get(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
   mongoClusterName: string,
   options: MongoClustersGetOptionalParams = { requestOptions: {} },
 ): Promise<MongoCluster> {
-  const result = await _mongoClustersGetSend(
+  const result = await _getSend(
     context,
     subscriptionId,
     resourceGroupName,
     mongoClusterName,
     options,
   );
-  return _mongoClustersGetDeserialize(result);
+  return _getDeserialize(result);
 }
 
-export function _mongoClustersCreateOrUpdateSend(
+export function _createOrUpdateSend(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
   mongoClusterName: string,
   resource: MongoCluster,
   options: MongoClustersCreateOrUpdateOptionalParams = { requestOptions: {} },
-): StreamableMethod<
-  | MongoClustersCreateOrUpdate200Response
-  | MongoClustersCreateOrUpdate201Response
-  | MongoClustersCreateOrUpdateDefaultResponse
-  | MongoClustersCreateOrUpdateLogicalResponse
-> {
+): StreamableMethod {
   return context
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}",
@@ -224,7 +254,9 @@ export function _mongoClustersCreateOrUpdateSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       body: {
-        tags: !resource.tags ? resource.tags : (serializeRecord(resource.tags as any) as any),
+        tags: !resource.tags
+          ? resource.tags
+          : (serializeRecord(resource.tags as any) as any),
         location: resource["location"],
         properties: !resource.properties
           ? resource.properties
@@ -233,121 +265,171 @@ export function _mongoClustersCreateOrUpdateSend(
     });
 }
 
-export async function _mongoClustersCreateOrUpdateDeserialize(
-  result:
-    | MongoClustersCreateOrUpdate200Response
-    | MongoClustersCreateOrUpdate201Response
-    | MongoClustersCreateOrUpdateDefaultResponse
-    | MongoClustersCreateOrUpdateLogicalResponse,
+export async function _createOrUpdateDeserialize(
+  result: PathUncheckedResponse,
 ): Promise<MongoCluster> {
-  if (isUnexpected(result)) {
+  const expectedStatuses = ["200", "201"];
+  if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
-  const res = result as unknown as MongoClustersCreateOrUpdateLogicalResponse;
   return {
-    tags: res.body["tags"],
-    location: res.body["location"],
-    id: res.body["id"],
-    name: res.body["name"],
-    type: res.body["type"],
-    systemData: !res.body.systemData
+    tags: result.body["tags"],
+    location: result.body["location"],
+    id: result.body["id"],
+    name: result.body["name"],
+    type: result.body["type"],
+    systemData: !result.body.systemData
       ? undefined
       : {
-          createdBy: res.body.systemData?.["createdBy"],
-          createdByType: res.body.systemData?.["createdByType"],
+          createdBy: result.body.systemData?.["createdBy"],
+          createdByType: result.body.systemData?.["createdByType"],
           createdAt:
-            res.body.systemData?.["createdAt"] !== undefined
-              ? new Date(res.body.systemData?.["createdAt"])
+            result.body.systemData?.["createdAt"] !== undefined
+              ? new Date(result.body.systemData?.["createdAt"])
               : undefined,
-          lastModifiedBy: res.body.systemData?.["lastModifiedBy"],
-          lastModifiedByType: res.body.systemData?.["lastModifiedByType"],
+          lastModifiedBy: result.body.systemData?.["lastModifiedBy"],
+          lastModifiedByType: result.body.systemData?.["lastModifiedByType"],
           lastModifiedAt:
-            res.body.systemData?.["lastModifiedAt"] !== undefined
-              ? new Date(res.body.systemData?.["lastModifiedAt"])
+            result.body.systemData?.["lastModifiedAt"] !== undefined
+              ? new Date(result.body.systemData?.["lastModifiedAt"])
               : undefined,
         },
-    properties: !res.body.properties
+    properties: !result.body.properties
       ? undefined
       : {
-          createMode: res.body.properties?.["createMode"],
-          restoreParameters: !res.body.properties?.restoreParameters
+          createMode: result.body.properties?.["createMode"],
+          restoreParameters: !result.body.properties?.restoreParameters
             ? undefined
             : {
                 pointInTimeUTC:
-                  res.body.properties?.restoreParameters?.["pointInTimeUTC"] !== undefined
-                    ? new Date(res.body.properties?.restoreParameters?.["pointInTimeUTC"])
+                  result.body.properties?.restoreParameters?.[
+                    "pointInTimeUTC"
+                  ] !== undefined
+                    ? new Date(
+                        result.body.properties?.restoreParameters?.[
+                          "pointInTimeUTC"
+                        ],
+                      )
                     : undefined,
-                sourceResourceId: res.body.properties?.restoreParameters?.["sourceResourceId"],
+                sourceResourceId:
+                  result.body.properties?.restoreParameters?.[
+                    "sourceResourceId"
+                  ],
               },
-          administratorLogin: res.body.properties?.["administratorLogin"],
-          administratorLoginPassword: res.body.properties?.["administratorLoginPassword"],
-          serverVersion: res.body.properties?.["serverVersion"],
-          connectionString: res.body.properties?.["connectionString"],
-          earliestRestoreTime: res.body.properties?.["earliestRestoreTime"],
-          provisioningState: res.body.properties?.["provisioningState"],
-          clusterStatus: res.body.properties?.["clusterStatus"],
-          publicNetworkAccess: res.body.properties?.["publicNetworkAccess"],
-          nodeGroupSpecs:
-            res.body.properties?.["nodeGroupSpecs"] === undefined
-              ? res.body.properties?.["nodeGroupSpecs"]
-              : res.body.properties?.["nodeGroupSpecs"].map((p) => {
-                  return {
-                    sku: p["sku"],
-                    diskSizeGB: p["diskSizeGB"],
-                    enableHa: p["enableHa"],
-                    kind: p["kind"],
-                    nodeCount: p["nodeCount"],
-                  };
-                }),
+          replicaParameters: !result.body.properties?.replicaParameters
+            ? undefined
+            : {
+                sourceResourceId:
+                  result.body.properties?.replicaParameters?.[
+                    "sourceResourceId"
+                  ],
+                sourceLocation:
+                  result.body.properties?.replicaParameters?.["sourceLocation"],
+              },
+          administrator: !result.body.properties?.administrator
+            ? undefined
+            : {
+                userName: result.body.properties?.administrator?.["userName"],
+                password: result.body.properties?.administrator?.["password"],
+              },
+          serverVersion: result.body.properties?.["serverVersion"],
+          connectionString: result.body.properties?.["connectionString"],
+          provisioningState: result.body.properties?.["provisioningState"],
+          clusterStatus: result.body.properties?.["clusterStatus"],
+          publicNetworkAccess: result.body.properties?.["publicNetworkAccess"],
+          highAvailability: !result.body.properties?.highAvailability
+            ? undefined
+            : {
+                targetMode:
+                  result.body.properties?.highAvailability?.["targetMode"],
+              },
+          storage: !result.body.properties?.storage
+            ? undefined
+            : { sizeGb: result.body.properties?.storage?.["sizeGb"] },
+          sharding: !result.body.properties?.sharding
+            ? undefined
+            : { shardCount: result.body.properties?.sharding?.["shardCount"] },
+          compute: !result.body.properties?.compute
+            ? undefined
+            : { tier: result.body.properties?.compute?.["tier"] },
+          backup: !result.body.properties?.backup
+            ? undefined
+            : {
+                earliestRestoreTime:
+                  result.body.properties?.backup?.["earliestRestoreTime"],
+              },
           privateEndpointConnections:
-            res.body.properties?.["privateEndpointConnections"] === undefined
-              ? res.body.properties?.["privateEndpointConnections"]
-              : res.body.properties?.["privateEndpointConnections"].map((p) => {
-                  return {
-                    id: p["id"],
-                    name: p["name"],
-                    type: p["type"],
-                    systemData: !p.systemData
-                      ? undefined
-                      : {
-                          createdBy: p.systemData?.["createdBy"],
-                          createdByType: p.systemData?.["createdByType"],
-                          createdAt:
-                            p.systemData?.["createdAt"] !== undefined
-                              ? new Date(p.systemData?.["createdAt"])
-                              : undefined,
-                          lastModifiedBy: p.systemData?.["lastModifiedBy"],
-                          lastModifiedByType: p.systemData?.["lastModifiedByType"],
-                          lastModifiedAt:
-                            p.systemData?.["lastModifiedAt"] !== undefined
-                              ? new Date(p.systemData?.["lastModifiedAt"])
-                              : undefined,
-                        },
-                    properties: !p.properties
-                      ? undefined
-                      : {
-                          groupIds: p.properties?.["groupIds"],
-                          privateEndpoint: !p.properties?.privateEndpoint
-                            ? undefined
-                            : { id: p.properties?.privateEndpoint?.["id"] },
-                          privateLinkServiceConnectionState: {
-                            status: p.properties?.privateLinkServiceConnectionState["status"],
-                            description:
-                              p.properties?.privateLinkServiceConnectionState["description"],
-                            actionsRequired:
-                              p.properties?.privateLinkServiceConnectionState["actionsRequired"],
+            result.body.properties?.["privateEndpointConnections"] === undefined
+              ? result.body.properties?.["privateEndpointConnections"]
+              : result.body.properties?.["privateEndpointConnections"].map(
+                  (p: any) => {
+                    return {
+                      id: p["id"],
+                      name: p["name"],
+                      type: p["type"],
+                      systemData: !p.systemData
+                        ? undefined
+                        : {
+                            createdBy: p.systemData?.["createdBy"],
+                            createdByType: p.systemData?.["createdByType"],
+                            createdAt:
+                              p.systemData?.["createdAt"] !== undefined
+                                ? new Date(p.systemData?.["createdAt"])
+                                : undefined,
+                            lastModifiedBy: p.systemData?.["lastModifiedBy"],
+                            lastModifiedByType:
+                              p.systemData?.["lastModifiedByType"],
+                            lastModifiedAt:
+                              p.systemData?.["lastModifiedAt"] !== undefined
+                                ? new Date(p.systemData?.["lastModifiedAt"])
+                                : undefined,
                           },
-                          provisioningState: p.properties?.["provisioningState"],
-                        },
-                  };
-                }),
+                      properties: !p.properties
+                        ? undefined
+                        : {
+                            groupIds: p.properties?.["groupIds"],
+                            privateEndpoint: !p.properties?.privateEndpoint
+                              ? undefined
+                              : { id: p.properties?.privateEndpoint?.["id"] },
+                            privateLinkServiceConnectionState: {
+                              status:
+                                p.properties?.privateLinkServiceConnectionState[
+                                  "status"
+                                ],
+                              description:
+                                p.properties?.privateLinkServiceConnectionState[
+                                  "description"
+                                ],
+                              actionsRequired:
+                                p.properties?.privateLinkServiceConnectionState[
+                                  "actionsRequired"
+                                ],
+                            },
+                            provisioningState:
+                              p.properties?.["provisioningState"],
+                          },
+                    };
+                  },
+                ),
+          previewFeatures: result.body.properties?.["previewFeatures"],
+          replica: !result.body.properties?.replica
+            ? undefined
+            : {
+                sourceResourceId:
+                  result.body.properties?.replica?.["sourceResourceId"],
+                role: result.body.properties?.replica?.["role"],
+                replicationState:
+                  result.body.properties?.replica?.["replicationState"],
+              },
+          infrastructureVersion:
+            result.body.properties?.["infrastructureVersion"],
         },
   };
 }
 
 /** Create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH. */
-export function mongoClustersCreateOrUpdate(
+export function createOrUpdate(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -355,34 +437,34 @@ export function mongoClustersCreateOrUpdate(
   resource: MongoCluster,
   options: MongoClustersCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<MongoCluster>, MongoCluster> {
-  return getLongRunningPoller(context, _mongoClustersCreateOrUpdateDeserialize, {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _mongoClustersCreateOrUpdateSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        mongoClusterName,
-        resource,
-        options,
-      ),
-  }) as PollerLike<OperationState<MongoCluster>, MongoCluster>;
+  return getLongRunningPoller(
+    context,
+    _createOrUpdateDeserialize,
+    ["200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _createOrUpdateSend(
+          context,
+          subscriptionId,
+          resourceGroupName,
+          mongoClusterName,
+          resource,
+          options,
+        ),
+    },
+  ) as PollerLike<OperationState<MongoCluster>, MongoCluster>;
 }
 
-export function _mongoClustersUpdateSend(
+export function _updateSend(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
   mongoClusterName: string,
   properties: MongoClusterUpdate,
   options: MongoClustersUpdateOptionalParams = { requestOptions: {} },
-): StreamableMethod<
-  | MongoClustersUpdate200Response
-  | MongoClustersUpdate202Response
-  | MongoClustersUpdateDefaultResponse
-  | MongoClustersUpdateLogicalResponse
-> {
+): StreamableMethod {
   return context
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}",
@@ -393,7 +475,9 @@ export function _mongoClustersUpdateSend(
     .patch({
       ...operationOptionsToRequestParameters(options),
       body: {
-        tags: !properties.tags ? properties.tags : (serializeRecord(properties.tags as any) as any),
+        tags: !properties.tags
+          ? properties.tags
+          : (serializeRecord(properties.tags as any) as any),
         properties: !properties.properties
           ? properties.properties
           : mongoClusterUpdatePropertiesSerializer(properties.properties),
@@ -401,121 +485,171 @@ export function _mongoClustersUpdateSend(
     });
 }
 
-export async function _mongoClustersUpdateDeserialize(
-  result:
-    | MongoClustersUpdate200Response
-    | MongoClustersUpdate202Response
-    | MongoClustersUpdateDefaultResponse
-    | MongoClustersUpdateLogicalResponse,
+export async function _updateDeserialize(
+  result: PathUncheckedResponse,
 ): Promise<MongoCluster> {
-  if (isUnexpected(result)) {
+  const expectedStatuses = ["200", "202"];
+  if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
-  const res = result as unknown as MongoClustersUpdateLogicalResponse;
   return {
-    tags: res.body["tags"],
-    location: res.body["location"],
-    id: res.body["id"],
-    name: res.body["name"],
-    type: res.body["type"],
-    systemData: !res.body.systemData
+    tags: result.body["tags"],
+    location: result.body["location"],
+    id: result.body["id"],
+    name: result.body["name"],
+    type: result.body["type"],
+    systemData: !result.body.systemData
       ? undefined
       : {
-          createdBy: res.body.systemData?.["createdBy"],
-          createdByType: res.body.systemData?.["createdByType"],
+          createdBy: result.body.systemData?.["createdBy"],
+          createdByType: result.body.systemData?.["createdByType"],
           createdAt:
-            res.body.systemData?.["createdAt"] !== undefined
-              ? new Date(res.body.systemData?.["createdAt"])
+            result.body.systemData?.["createdAt"] !== undefined
+              ? new Date(result.body.systemData?.["createdAt"])
               : undefined,
-          lastModifiedBy: res.body.systemData?.["lastModifiedBy"],
-          lastModifiedByType: res.body.systemData?.["lastModifiedByType"],
+          lastModifiedBy: result.body.systemData?.["lastModifiedBy"],
+          lastModifiedByType: result.body.systemData?.["lastModifiedByType"],
           lastModifiedAt:
-            res.body.systemData?.["lastModifiedAt"] !== undefined
-              ? new Date(res.body.systemData?.["lastModifiedAt"])
+            result.body.systemData?.["lastModifiedAt"] !== undefined
+              ? new Date(result.body.systemData?.["lastModifiedAt"])
               : undefined,
         },
-    properties: !res.body.properties
+    properties: !result.body.properties
       ? undefined
       : {
-          createMode: res.body.properties?.["createMode"],
-          restoreParameters: !res.body.properties?.restoreParameters
+          createMode: result.body.properties?.["createMode"],
+          restoreParameters: !result.body.properties?.restoreParameters
             ? undefined
             : {
                 pointInTimeUTC:
-                  res.body.properties?.restoreParameters?.["pointInTimeUTC"] !== undefined
-                    ? new Date(res.body.properties?.restoreParameters?.["pointInTimeUTC"])
+                  result.body.properties?.restoreParameters?.[
+                    "pointInTimeUTC"
+                  ] !== undefined
+                    ? new Date(
+                        result.body.properties?.restoreParameters?.[
+                          "pointInTimeUTC"
+                        ],
+                      )
                     : undefined,
-                sourceResourceId: res.body.properties?.restoreParameters?.["sourceResourceId"],
+                sourceResourceId:
+                  result.body.properties?.restoreParameters?.[
+                    "sourceResourceId"
+                  ],
               },
-          administratorLogin: res.body.properties?.["administratorLogin"],
-          administratorLoginPassword: res.body.properties?.["administratorLoginPassword"],
-          serverVersion: res.body.properties?.["serverVersion"],
-          connectionString: res.body.properties?.["connectionString"],
-          earliestRestoreTime: res.body.properties?.["earliestRestoreTime"],
-          provisioningState: res.body.properties?.["provisioningState"],
-          clusterStatus: res.body.properties?.["clusterStatus"],
-          publicNetworkAccess: res.body.properties?.["publicNetworkAccess"],
-          nodeGroupSpecs:
-            res.body.properties?.["nodeGroupSpecs"] === undefined
-              ? res.body.properties?.["nodeGroupSpecs"]
-              : res.body.properties?.["nodeGroupSpecs"].map((p) => {
-                  return {
-                    sku: p["sku"],
-                    diskSizeGB: p["diskSizeGB"],
-                    enableHa: p["enableHa"],
-                    kind: p["kind"],
-                    nodeCount: p["nodeCount"],
-                  };
-                }),
+          replicaParameters: !result.body.properties?.replicaParameters
+            ? undefined
+            : {
+                sourceResourceId:
+                  result.body.properties?.replicaParameters?.[
+                    "sourceResourceId"
+                  ],
+                sourceLocation:
+                  result.body.properties?.replicaParameters?.["sourceLocation"],
+              },
+          administrator: !result.body.properties?.administrator
+            ? undefined
+            : {
+                userName: result.body.properties?.administrator?.["userName"],
+                password: result.body.properties?.administrator?.["password"],
+              },
+          serverVersion: result.body.properties?.["serverVersion"],
+          connectionString: result.body.properties?.["connectionString"],
+          provisioningState: result.body.properties?.["provisioningState"],
+          clusterStatus: result.body.properties?.["clusterStatus"],
+          publicNetworkAccess: result.body.properties?.["publicNetworkAccess"],
+          highAvailability: !result.body.properties?.highAvailability
+            ? undefined
+            : {
+                targetMode:
+                  result.body.properties?.highAvailability?.["targetMode"],
+              },
+          storage: !result.body.properties?.storage
+            ? undefined
+            : { sizeGb: result.body.properties?.storage?.["sizeGb"] },
+          sharding: !result.body.properties?.sharding
+            ? undefined
+            : { shardCount: result.body.properties?.sharding?.["shardCount"] },
+          compute: !result.body.properties?.compute
+            ? undefined
+            : { tier: result.body.properties?.compute?.["tier"] },
+          backup: !result.body.properties?.backup
+            ? undefined
+            : {
+                earliestRestoreTime:
+                  result.body.properties?.backup?.["earliestRestoreTime"],
+              },
           privateEndpointConnections:
-            res.body.properties?.["privateEndpointConnections"] === undefined
-              ? res.body.properties?.["privateEndpointConnections"]
-              : res.body.properties?.["privateEndpointConnections"].map((p) => {
-                  return {
-                    id: p["id"],
-                    name: p["name"],
-                    type: p["type"],
-                    systemData: !p.systemData
-                      ? undefined
-                      : {
-                          createdBy: p.systemData?.["createdBy"],
-                          createdByType: p.systemData?.["createdByType"],
-                          createdAt:
-                            p.systemData?.["createdAt"] !== undefined
-                              ? new Date(p.systemData?.["createdAt"])
-                              : undefined,
-                          lastModifiedBy: p.systemData?.["lastModifiedBy"],
-                          lastModifiedByType: p.systemData?.["lastModifiedByType"],
-                          lastModifiedAt:
-                            p.systemData?.["lastModifiedAt"] !== undefined
-                              ? new Date(p.systemData?.["lastModifiedAt"])
-                              : undefined,
-                        },
-                    properties: !p.properties
-                      ? undefined
-                      : {
-                          groupIds: p.properties?.["groupIds"],
-                          privateEndpoint: !p.properties?.privateEndpoint
-                            ? undefined
-                            : { id: p.properties?.privateEndpoint?.["id"] },
-                          privateLinkServiceConnectionState: {
-                            status: p.properties?.privateLinkServiceConnectionState["status"],
-                            description:
-                              p.properties?.privateLinkServiceConnectionState["description"],
-                            actionsRequired:
-                              p.properties?.privateLinkServiceConnectionState["actionsRequired"],
+            result.body.properties?.["privateEndpointConnections"] === undefined
+              ? result.body.properties?.["privateEndpointConnections"]
+              : result.body.properties?.["privateEndpointConnections"].map(
+                  (p: any) => {
+                    return {
+                      id: p["id"],
+                      name: p["name"],
+                      type: p["type"],
+                      systemData: !p.systemData
+                        ? undefined
+                        : {
+                            createdBy: p.systemData?.["createdBy"],
+                            createdByType: p.systemData?.["createdByType"],
+                            createdAt:
+                              p.systemData?.["createdAt"] !== undefined
+                                ? new Date(p.systemData?.["createdAt"])
+                                : undefined,
+                            lastModifiedBy: p.systemData?.["lastModifiedBy"],
+                            lastModifiedByType:
+                              p.systemData?.["lastModifiedByType"],
+                            lastModifiedAt:
+                              p.systemData?.["lastModifiedAt"] !== undefined
+                                ? new Date(p.systemData?.["lastModifiedAt"])
+                                : undefined,
                           },
-                          provisioningState: p.properties?.["provisioningState"],
-                        },
-                  };
-                }),
+                      properties: !p.properties
+                        ? undefined
+                        : {
+                            groupIds: p.properties?.["groupIds"],
+                            privateEndpoint: !p.properties?.privateEndpoint
+                              ? undefined
+                              : { id: p.properties?.privateEndpoint?.["id"] },
+                            privateLinkServiceConnectionState: {
+                              status:
+                                p.properties?.privateLinkServiceConnectionState[
+                                  "status"
+                                ],
+                              description:
+                                p.properties?.privateLinkServiceConnectionState[
+                                  "description"
+                                ],
+                              actionsRequired:
+                                p.properties?.privateLinkServiceConnectionState[
+                                  "actionsRequired"
+                                ],
+                            },
+                            provisioningState:
+                              p.properties?.["provisioningState"],
+                          },
+                    };
+                  },
+                ),
+          previewFeatures: result.body.properties?.["previewFeatures"],
+          replica: !result.body.properties?.replica
+            ? undefined
+            : {
+                sourceResourceId:
+                  result.body.properties?.replica?.["sourceResourceId"],
+                role: result.body.properties?.replica?.["role"],
+                replicationState:
+                  result.body.properties?.replica?.["replicationState"],
+              },
+          infrastructureVersion:
+            result.body.properties?.["infrastructureVersion"],
         },
   };
 }
 
 /** Updates an existing mongo cluster. The request body can contain one to many of the properties present in the normal mongo cluster definition. */
-export function mongoClustersUpdate(
+export function update(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -523,11 +657,11 @@ export function mongoClustersUpdate(
   properties: MongoClusterUpdate,
   options: MongoClustersUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<MongoCluster>, MongoCluster> {
-  return getLongRunningPoller(context, _mongoClustersUpdateDeserialize, {
+  return getLongRunningPoller(context, _updateDeserialize, ["200", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _mongoClustersUpdateSend(
+      _updateSend(
         context,
         subscriptionId,
         resourceGroupName,
@@ -538,18 +672,13 @@ export function mongoClustersUpdate(
   }) as PollerLike<OperationState<MongoCluster>, MongoCluster>;
 }
 
-export function _mongoClustersDeleteSend(
+export function _$deleteSend(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
   mongoClusterName: string,
   options: MongoClustersDeleteOptionalParams = { requestOptions: {} },
-): StreamableMethod<
-  | MongoClustersDelete202Response
-  | MongoClustersDelete204Response
-  | MongoClustersDeleteDefaultResponse
-  | MongoClustersDeleteLogicalResponse
-> {
+): StreamableMethod {
   return context
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}",
@@ -560,14 +689,11 @@ export function _mongoClustersDeleteSend(
     .delete({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _mongoClustersDeleteDeserialize(
-  result:
-    | MongoClustersDelete202Response
-    | MongoClustersDelete204Response
-    | MongoClustersDeleteDefaultResponse
-    | MongoClustersDeleteLogicalResponse,
+export async function _$deleteDeserialize(
+  result: PathUncheckedResponse,
 ): Promise<void> {
-  if (isUnexpected(result)) {
+  const expectedStatuses = ["202", "204", "200"];
+  if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
@@ -575,37 +701,45 @@ export async function _mongoClustersDeleteDeserialize(
 }
 
 /** Deletes a mongo cluster. */
-export function mongoClustersDelete(
+/**
+ *  @fixme delete is a reserved word that cannot be used as an operation name.
+ *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
+ *         to the operation to override the generated name.
+ */
+export function $delete(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
   mongoClusterName: string,
   options: MongoClustersDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _mongoClustersDeleteDeserialize, {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _mongoClustersDeleteSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        mongoClusterName,
-        options,
-      ),
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _$deleteDeserialize,
+    ["202", "204", "200"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _$deleteSend(
+          context,
+          subscriptionId,
+          resourceGroupName,
+          mongoClusterName,
+          options,
+        ),
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
-export function _mongoClustersListByResourceGroupSend(
+export function _listByResourceGroupSend(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
   options: MongoClustersListByResourceGroupOptionalParams = {
     requestOptions: {},
   },
-): StreamableMethod<
-  MongoClustersListByResourceGroup200Response | MongoClustersListByResourceGroupDefaultResponse
-> {
+): StreamableMethod {
   return context
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters",
@@ -615,17 +749,16 @@ export function _mongoClustersListByResourceGroupSend(
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _mongoClustersListByResourceGroupDeserialize(
-  result:
-    | MongoClustersListByResourceGroup200Response
-    | MongoClustersListByResourceGroupDefaultResponse,
+export async function _listByResourceGroupDeserialize(
+  result: PathUncheckedResponse,
 ): Promise<_MongoClusterListResult> {
-  if (isUnexpected(result)) {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
   return {
-    value: result.body["value"].map((p) => {
+    value: result.body["value"].map((p: any) => {
       return {
         tags: p["tags"],
         location: p["location"],
@@ -656,75 +789,124 @@ export async function _mongoClustersListByResourceGroupDeserialize(
                 ? undefined
                 : {
                     pointInTimeUTC:
-                      p.properties?.restoreParameters?.["pointInTimeUTC"] !== undefined
-                        ? new Date(p.properties?.restoreParameters?.["pointInTimeUTC"])
+                      p.properties?.restoreParameters?.["pointInTimeUTC"] !==
+                      undefined
+                        ? new Date(
+                            p.properties?.restoreParameters?.["pointInTimeUTC"],
+                          )
                         : undefined,
-                    sourceResourceId: p.properties?.restoreParameters?.["sourceResourceId"],
+                    sourceResourceId:
+                      p.properties?.restoreParameters?.["sourceResourceId"],
                   },
-              administratorLogin: p.properties?.["administratorLogin"],
-              administratorLoginPassword: p.properties?.["administratorLoginPassword"],
+              replicaParameters: !p.properties?.replicaParameters
+                ? undefined
+                : {
+                    sourceResourceId:
+                      p.properties?.replicaParameters?.["sourceResourceId"],
+                    sourceLocation:
+                      p.properties?.replicaParameters?.["sourceLocation"],
+                  },
+              administrator: !p.properties?.administrator
+                ? undefined
+                : {
+                    userName: p.properties?.administrator?.["userName"],
+                    password: p.properties?.administrator?.["password"],
+                  },
               serverVersion: p.properties?.["serverVersion"],
               connectionString: p.properties?.["connectionString"],
-              earliestRestoreTime: p.properties?.["earliestRestoreTime"],
               provisioningState: p.properties?.["provisioningState"],
               clusterStatus: p.properties?.["clusterStatus"],
               publicNetworkAccess: p.properties?.["publicNetworkAccess"],
-              nodeGroupSpecs:
-                p.properties?.["nodeGroupSpecs"] === undefined
-                  ? p.properties?.["nodeGroupSpecs"]
-                  : p.properties?.["nodeGroupSpecs"].map((p) => {
-                      return {
-                        sku: p["sku"],
-                        diskSizeGB: p["diskSizeGB"],
-                        enableHa: p["enableHa"],
-                        kind: p["kind"],
-                        nodeCount: p["nodeCount"],
-                      };
-                    }),
+              highAvailability: !p.properties?.highAvailability
+                ? undefined
+                : {
+                    targetMode: p.properties?.highAvailability?.["targetMode"],
+                  },
+              storage: !p.properties?.storage
+                ? undefined
+                : { sizeGb: p.properties?.storage?.["sizeGb"] },
+              sharding: !p.properties?.sharding
+                ? undefined
+                : { shardCount: p.properties?.sharding?.["shardCount"] },
+              compute: !p.properties?.compute
+                ? undefined
+                : { tier: p.properties?.compute?.["tier"] },
+              backup: !p.properties?.backup
+                ? undefined
+                : {
+                    earliestRestoreTime:
+                      p.properties?.backup?.["earliestRestoreTime"],
+                  },
               privateEndpointConnections:
                 p.properties?.["privateEndpointConnections"] === undefined
                   ? p.properties?.["privateEndpointConnections"]
-                  : p.properties?.["privateEndpointConnections"].map((p) => {
-                      return {
-                        id: p["id"],
-                        name: p["name"],
-                        type: p["type"],
-                        systemData: !p.systemData
-                          ? undefined
-                          : {
-                              createdBy: p.systemData?.["createdBy"],
-                              createdByType: p.systemData?.["createdByType"],
-                              createdAt:
-                                p.systemData?.["createdAt"] !== undefined
-                                  ? new Date(p.systemData?.["createdAt"])
-                                  : undefined,
-                              lastModifiedBy: p.systemData?.["lastModifiedBy"],
-                              lastModifiedByType: p.systemData?.["lastModifiedByType"],
-                              lastModifiedAt:
-                                p.systemData?.["lastModifiedAt"] !== undefined
-                                  ? new Date(p.systemData?.["lastModifiedAt"])
-                                  : undefined,
-                            },
-                        properties: !p.properties
-                          ? undefined
-                          : {
-                              groupIds: p.properties?.["groupIds"],
-                              privateEndpoint: !p.properties?.privateEndpoint
-                                ? undefined
-                                : { id: p.properties?.privateEndpoint?.["id"] },
-                              privateLinkServiceConnectionState: {
-                                status: p.properties?.privateLinkServiceConnectionState["status"],
-                                description:
-                                  p.properties?.privateLinkServiceConnectionState["description"],
-                                actionsRequired:
-                                  p.properties?.privateLinkServiceConnectionState[
-                                    "actionsRequired"
-                                  ],
+                  : p.properties?.["privateEndpointConnections"].map(
+                      (p: any) => {
+                        return {
+                          id: p["id"],
+                          name: p["name"],
+                          type: p["type"],
+                          systemData: !p.systemData
+                            ? undefined
+                            : {
+                                createdBy: p.systemData?.["createdBy"],
+                                createdByType: p.systemData?.["createdByType"],
+                                createdAt:
+                                  p.systemData?.["createdAt"] !== undefined
+                                    ? new Date(p.systemData?.["createdAt"])
+                                    : undefined,
+                                lastModifiedBy:
+                                  p.systemData?.["lastModifiedBy"],
+                                lastModifiedByType:
+                                  p.systemData?.["lastModifiedByType"],
+                                lastModifiedAt:
+                                  p.systemData?.["lastModifiedAt"] !== undefined
+                                    ? new Date(p.systemData?.["lastModifiedAt"])
+                                    : undefined,
                               },
-                              provisioningState: p.properties?.["provisioningState"],
-                            },
-                      };
-                    }),
+                          properties: !p.properties
+                            ? undefined
+                            : {
+                                groupIds: p.properties?.["groupIds"],
+                                privateEndpoint: !p.properties?.privateEndpoint
+                                  ? undefined
+                                  : {
+                                      id: p.properties?.privateEndpoint?.["id"],
+                                    },
+                                privateLinkServiceConnectionState: {
+                                  status:
+                                    p.properties
+                                      ?.privateLinkServiceConnectionState[
+                                      "status"
+                                    ],
+                                  description:
+                                    p.properties
+                                      ?.privateLinkServiceConnectionState[
+                                      "description"
+                                    ],
+                                  actionsRequired:
+                                    p.properties
+                                      ?.privateLinkServiceConnectionState[
+                                      "actionsRequired"
+                                    ],
+                                },
+                                provisioningState:
+                                  p.properties?.["provisioningState"],
+                              },
+                        };
+                      },
+                    ),
+              previewFeatures: p.properties?.["previewFeatures"],
+              replica: !p.properties?.replica
+                ? undefined
+                : {
+                    sourceResourceId:
+                      p.properties?.replica?.["sourceResourceId"],
+                    role: p.properties?.replica?.["role"],
+                    replicationState:
+                      p.properties?.replica?.["replicationState"],
+                  },
+              infrastructureVersion: p.properties?.["infrastructureVersion"],
             },
       };
     }),
@@ -733,7 +915,7 @@ export async function _mongoClustersListByResourceGroupDeserialize(
 }
 
 /** List all the mongo clusters in a given resource group. */
-export function mongoClustersListByResourceGroup(
+export function listByResourceGroup(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -744,17 +926,23 @@ export function mongoClustersListByResourceGroup(
   return buildPagedAsyncIterator(
     context,
     () =>
-      _mongoClustersListByResourceGroupSend(context, subscriptionId, resourceGroupName, options),
-    _mongoClustersListByResourceGroupDeserialize,
+      _listByResourceGroupSend(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        options,
+      ),
+    _listByResourceGroupDeserialize,
+    ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
   );
 }
 
-export function _mongoClustersListSend(
+export function _listSend(
   context: Client,
   subscriptionId: string,
   options: MongoClustersListOptionalParams = { requestOptions: {} },
-): StreamableMethod<MongoClustersList200Response | MongoClustersListDefaultResponse> {
+): StreamableMethod {
   return context
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/mongoClusters",
@@ -763,15 +951,16 @@ export function _mongoClustersListSend(
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _mongoClustersListDeserialize(
-  result: MongoClustersList200Response | MongoClustersListDefaultResponse,
+export async function _listDeserialize(
+  result: PathUncheckedResponse,
 ): Promise<_MongoClusterListResult> {
-  if (isUnexpected(result)) {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
   return {
-    value: result.body["value"].map((p) => {
+    value: result.body["value"].map((p: any) => {
       return {
         tags: p["tags"],
         location: p["location"],
@@ -802,75 +991,124 @@ export async function _mongoClustersListDeserialize(
                 ? undefined
                 : {
                     pointInTimeUTC:
-                      p.properties?.restoreParameters?.["pointInTimeUTC"] !== undefined
-                        ? new Date(p.properties?.restoreParameters?.["pointInTimeUTC"])
+                      p.properties?.restoreParameters?.["pointInTimeUTC"] !==
+                      undefined
+                        ? new Date(
+                            p.properties?.restoreParameters?.["pointInTimeUTC"],
+                          )
                         : undefined,
-                    sourceResourceId: p.properties?.restoreParameters?.["sourceResourceId"],
+                    sourceResourceId:
+                      p.properties?.restoreParameters?.["sourceResourceId"],
                   },
-              administratorLogin: p.properties?.["administratorLogin"],
-              administratorLoginPassword: p.properties?.["administratorLoginPassword"],
+              replicaParameters: !p.properties?.replicaParameters
+                ? undefined
+                : {
+                    sourceResourceId:
+                      p.properties?.replicaParameters?.["sourceResourceId"],
+                    sourceLocation:
+                      p.properties?.replicaParameters?.["sourceLocation"],
+                  },
+              administrator: !p.properties?.administrator
+                ? undefined
+                : {
+                    userName: p.properties?.administrator?.["userName"],
+                    password: p.properties?.administrator?.["password"],
+                  },
               serverVersion: p.properties?.["serverVersion"],
               connectionString: p.properties?.["connectionString"],
-              earliestRestoreTime: p.properties?.["earliestRestoreTime"],
               provisioningState: p.properties?.["provisioningState"],
               clusterStatus: p.properties?.["clusterStatus"],
               publicNetworkAccess: p.properties?.["publicNetworkAccess"],
-              nodeGroupSpecs:
-                p.properties?.["nodeGroupSpecs"] === undefined
-                  ? p.properties?.["nodeGroupSpecs"]
-                  : p.properties?.["nodeGroupSpecs"].map((p) => {
-                      return {
-                        sku: p["sku"],
-                        diskSizeGB: p["diskSizeGB"],
-                        enableHa: p["enableHa"],
-                        kind: p["kind"],
-                        nodeCount: p["nodeCount"],
-                      };
-                    }),
+              highAvailability: !p.properties?.highAvailability
+                ? undefined
+                : {
+                    targetMode: p.properties?.highAvailability?.["targetMode"],
+                  },
+              storage: !p.properties?.storage
+                ? undefined
+                : { sizeGb: p.properties?.storage?.["sizeGb"] },
+              sharding: !p.properties?.sharding
+                ? undefined
+                : { shardCount: p.properties?.sharding?.["shardCount"] },
+              compute: !p.properties?.compute
+                ? undefined
+                : { tier: p.properties?.compute?.["tier"] },
+              backup: !p.properties?.backup
+                ? undefined
+                : {
+                    earliestRestoreTime:
+                      p.properties?.backup?.["earliestRestoreTime"],
+                  },
               privateEndpointConnections:
                 p.properties?.["privateEndpointConnections"] === undefined
                   ? p.properties?.["privateEndpointConnections"]
-                  : p.properties?.["privateEndpointConnections"].map((p) => {
-                      return {
-                        id: p["id"],
-                        name: p["name"],
-                        type: p["type"],
-                        systemData: !p.systemData
-                          ? undefined
-                          : {
-                              createdBy: p.systemData?.["createdBy"],
-                              createdByType: p.systemData?.["createdByType"],
-                              createdAt:
-                                p.systemData?.["createdAt"] !== undefined
-                                  ? new Date(p.systemData?.["createdAt"])
-                                  : undefined,
-                              lastModifiedBy: p.systemData?.["lastModifiedBy"],
-                              lastModifiedByType: p.systemData?.["lastModifiedByType"],
-                              lastModifiedAt:
-                                p.systemData?.["lastModifiedAt"] !== undefined
-                                  ? new Date(p.systemData?.["lastModifiedAt"])
-                                  : undefined,
-                            },
-                        properties: !p.properties
-                          ? undefined
-                          : {
-                              groupIds: p.properties?.["groupIds"],
-                              privateEndpoint: !p.properties?.privateEndpoint
-                                ? undefined
-                                : { id: p.properties?.privateEndpoint?.["id"] },
-                              privateLinkServiceConnectionState: {
-                                status: p.properties?.privateLinkServiceConnectionState["status"],
-                                description:
-                                  p.properties?.privateLinkServiceConnectionState["description"],
-                                actionsRequired:
-                                  p.properties?.privateLinkServiceConnectionState[
-                                    "actionsRequired"
-                                  ],
+                  : p.properties?.["privateEndpointConnections"].map(
+                      (p: any) => {
+                        return {
+                          id: p["id"],
+                          name: p["name"],
+                          type: p["type"],
+                          systemData: !p.systemData
+                            ? undefined
+                            : {
+                                createdBy: p.systemData?.["createdBy"],
+                                createdByType: p.systemData?.["createdByType"],
+                                createdAt:
+                                  p.systemData?.["createdAt"] !== undefined
+                                    ? new Date(p.systemData?.["createdAt"])
+                                    : undefined,
+                                lastModifiedBy:
+                                  p.systemData?.["lastModifiedBy"],
+                                lastModifiedByType:
+                                  p.systemData?.["lastModifiedByType"],
+                                lastModifiedAt:
+                                  p.systemData?.["lastModifiedAt"] !== undefined
+                                    ? new Date(p.systemData?.["lastModifiedAt"])
+                                    : undefined,
                               },
-                              provisioningState: p.properties?.["provisioningState"],
-                            },
-                      };
-                    }),
+                          properties: !p.properties
+                            ? undefined
+                            : {
+                                groupIds: p.properties?.["groupIds"],
+                                privateEndpoint: !p.properties?.privateEndpoint
+                                  ? undefined
+                                  : {
+                                      id: p.properties?.privateEndpoint?.["id"],
+                                    },
+                                privateLinkServiceConnectionState: {
+                                  status:
+                                    p.properties
+                                      ?.privateLinkServiceConnectionState[
+                                      "status"
+                                    ],
+                                  description:
+                                    p.properties
+                                      ?.privateLinkServiceConnectionState[
+                                      "description"
+                                    ],
+                                  actionsRequired:
+                                    p.properties
+                                      ?.privateLinkServiceConnectionState[
+                                      "actionsRequired"
+                                    ],
+                                },
+                                provisioningState:
+                                  p.properties?.["provisioningState"],
+                              },
+                        };
+                      },
+                    ),
+              previewFeatures: p.properties?.["previewFeatures"],
+              replica: !p.properties?.replica
+                ? undefined
+                : {
+                    sourceResourceId:
+                      p.properties?.replica?.["sourceResourceId"],
+                    role: p.properties?.replica?.["role"],
+                    replicationState:
+                      p.properties?.replica?.["replicationState"],
+                  },
+              infrastructureVersion: p.properties?.["infrastructureVersion"],
             },
       };
     }),
@@ -879,20 +1117,21 @@ export async function _mongoClustersListDeserialize(
 }
 
 /** List all the mongo clusters in a given subscription. */
-export function mongoClustersList(
+export function list(
   context: Client,
   subscriptionId: string,
   options: MongoClustersListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<MongoCluster> {
   return buildPagedAsyncIterator(
     context,
-    () => _mongoClustersListSend(context, subscriptionId, options),
-    _mongoClustersListDeserialize,
+    () => _listSend(context, subscriptionId, options),
+    _listDeserialize,
+    ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
   );
 }
 
-export function _mongoClustersListConnectionStringsSend(
+export function _listConnectionStringsSend(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -900,9 +1139,7 @@ export function _mongoClustersListConnectionStringsSend(
   options: MongoClustersListConnectionStringsOptionalParams = {
     requestOptions: {},
   },
-): StreamableMethod<
-  MongoClustersListConnectionStrings200Response | MongoClustersListConnectionStringsDefaultResponse
-> {
+): StreamableMethod {
   return context
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/listConnectionStrings",
@@ -913,12 +1150,11 @@ export function _mongoClustersListConnectionStringsSend(
     .post({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _mongoClustersListConnectionStringsDeserialize(
-  result:
-    | MongoClustersListConnectionStrings200Response
-    | MongoClustersListConnectionStringsDefaultResponse,
+export async function _listConnectionStringsDeserialize(
+  result: PathUncheckedResponse,
 ): Promise<ListConnectionStringsResult> {
-  if (isUnexpected(result)) {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
@@ -926,17 +1162,18 @@ export async function _mongoClustersListConnectionStringsDeserialize(
     connectionStrings:
       result.body["connectionStrings"] === undefined
         ? result.body["connectionStrings"]
-        : result.body["connectionStrings"].map((p) => {
+        : result.body["connectionStrings"].map((p: any) => {
             return {
               connectionString: p["connectionString"],
               description: p["description"],
+              name: p["name"],
             };
           }),
   };
 }
 
 /** List mongo cluster connection strings. This includes the default connection string using SCRAM-SHA-256, as well as other connection strings supported by the cluster. */
-export async function mongoClustersListConnectionStrings(
+export async function listConnectionStrings(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -945,17 +1182,17 @@ export async function mongoClustersListConnectionStrings(
     requestOptions: {},
   },
 ): Promise<ListConnectionStringsResult> {
-  const result = await _mongoClustersListConnectionStringsSend(
+  const result = await _listConnectionStringsSend(
     context,
     subscriptionId,
     resourceGroupName,
     mongoClusterName,
     options,
   );
-  return _mongoClustersListConnectionStringsDeserialize(result);
+  return _listConnectionStringsDeserialize(result);
 }
 
-export function _mongoClustersCheckNameAvailabilitySend(
+export function _checkNameAvailabilitySend(
   context: Client,
   subscriptionId: string,
   location: string,
@@ -963,9 +1200,7 @@ export function _mongoClustersCheckNameAvailabilitySend(
   options: MongoClustersCheckNameAvailabilityOptionalParams = {
     requestOptions: {},
   },
-): StreamableMethod<
-  MongoClustersCheckNameAvailability200Response | MongoClustersCheckNameAvailabilityDefaultResponse
-> {
+): StreamableMethod {
   return context
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}/checkMongoClusterNameAvailability",
@@ -978,12 +1213,11 @@ export function _mongoClustersCheckNameAvailabilitySend(
     });
 }
 
-export async function _mongoClustersCheckNameAvailabilityDeserialize(
-  result:
-    | MongoClustersCheckNameAvailability200Response
-    | MongoClustersCheckNameAvailabilityDefaultResponse,
+export async function _checkNameAvailabilityDeserialize(
+  result: PathUncheckedResponse,
 ): Promise<CheckNameAvailabilityResponse> {
-  if (isUnexpected(result)) {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
@@ -995,7 +1229,7 @@ export async function _mongoClustersCheckNameAvailabilityDeserialize(
 }
 
 /** Check if mongo cluster name is available for use. */
-export async function mongoClustersCheckNameAvailability(
+export async function checkNameAvailability(
   context: Client,
   subscriptionId: string,
   location: string,
@@ -1004,12 +1238,68 @@ export async function mongoClustersCheckNameAvailability(
     requestOptions: {},
   },
 ): Promise<CheckNameAvailabilityResponse> {
-  const result = await _mongoClustersCheckNameAvailabilitySend(
+  const result = await _checkNameAvailabilitySend(
     context,
     subscriptionId,
     location,
     body,
     options,
   );
-  return _mongoClustersCheckNameAvailabilityDeserialize(result);
+  return _checkNameAvailabilityDeserialize(result);
+}
+
+export function _promoteSend(
+  context: Client,
+  subscriptionId: string,
+  resourceGroupName: string,
+  mongoClusterName: string,
+  body: PromoteReplicaRequest,
+  options: MongoClustersPromoteOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  return context
+    .path(
+      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/promote",
+      subscriptionId,
+      resourceGroupName,
+      mongoClusterName,
+    )
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      body: { promoteOption: body["promoteOption"], mode: body["mode"] },
+    });
+}
+
+export async function _promoteDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
+  const expectedStatuses = ["202", "200"];
+  if (!expectedStatuses.includes(result.status)) {
+    throw createRestError(result);
+  }
+
+  return;
+}
+
+/** Promotes a replica mongo cluster to a primary role. */
+export function promote(
+  context: Client,
+  subscriptionId: string,
+  resourceGroupName: string,
+  mongoClusterName: string,
+  body: PromoteReplicaRequest,
+  options: MongoClustersPromoteOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<void>, void> {
+  return getLongRunningPoller(context, _promoteDeserialize, ["202", "200"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _promoteSend(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        mongoClusterName,
+        body,
+        options,
+      ),
+  }) as PollerLike<OperationState<void>, void>;
 }
