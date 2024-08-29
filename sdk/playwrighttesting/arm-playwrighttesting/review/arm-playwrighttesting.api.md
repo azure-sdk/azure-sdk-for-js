@@ -16,6 +16,15 @@ export interface Account extends TrackedResource {
 }
 
 // @public
+export interface AccountFreeTrialProperties {
+    readonly allocatedValue: number;
+    readonly createdAt: Date;
+    readonly expiryAt: Date;
+    readonly percentageUsed: number;
+    readonly usedValue: number;
+}
+
+// @public
 export interface AccountListResult {
     nextLink?: string;
     value: Account[];
@@ -24,6 +33,7 @@ export interface AccountListResult {
 // @public
 export interface AccountProperties {
     readonly dashboardUri?: string;
+    localAuth?: EnablementStatus;
     readonly provisioningState?: ProvisioningState;
     regionalAffinity?: EnablementStatus;
     reporting?: EnablementStatus;
@@ -31,16 +41,68 @@ export interface AccountProperties {
 }
 
 // @public
+export interface AccountQuota extends ProxyResource {
+    properties?: AccountQuotaProperties;
+}
+
+// @public
+export interface AccountQuotaListResult {
+    nextLink?: string;
+    value: AccountQuota[];
+}
+
+// @public
+export interface AccountQuotaProperties {
+    freeTrial?: AccountFreeTrialProperties;
+    readonly provisioningState?: ProvisioningState;
+}
+
+// @public
+export interface AccountQuotas {
+    get(resourceGroupName: string, accountName: string, quotaName: QuotaNames, options?: AccountQuotasGetOptionalParams): Promise<AccountQuotasGetResponse>;
+    listByAccount(resourceGroupName: string, accountName: string, options?: AccountQuotasListByAccountOptionalParams): PagedAsyncIterableIterator<AccountQuota>;
+}
+
+// @public
+export interface AccountQuotasGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AccountQuotasGetResponse = AccountQuota;
+
+// @public
+export interface AccountQuotasListByAccountNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AccountQuotasListByAccountNextResponse = AccountQuotaListResult;
+
+// @public
+export interface AccountQuotasListByAccountOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AccountQuotasListByAccountResponse = AccountQuotaListResult;
+
+// @public
 export interface Accounts {
-    beginCreateOrUpdate(resourceGroupName: string, name: string, resource: Account, options?: AccountsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AccountsCreateOrUpdateResponse>, AccountsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, name: string, resource: Account, options?: AccountsCreateOrUpdateOptionalParams): Promise<AccountsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, name: string, options?: AccountsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, name: string, options?: AccountsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, name: string, options?: AccountsGetOptionalParams): Promise<AccountsGetResponse>;
+    beginCreateOrUpdate(resourceGroupName: string, accountName: string, resource: Account, options?: AccountsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AccountsCreateOrUpdateResponse>, AccountsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, accountName: string, resource: Account, options?: AccountsCreateOrUpdateOptionalParams): Promise<AccountsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, accountName: string, options?: AccountsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<AccountsDeleteResponse>, AccountsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, accountName: string, options?: AccountsDeleteOptionalParams): Promise<AccountsDeleteResponse>;
+    checkNameAvailability(body: CheckNameAvailabilityRequest, options?: AccountsCheckNameAvailabilityOptionalParams): Promise<AccountsCheckNameAvailabilityResponse>;
+    get(resourceGroupName: string, accountName: string, options?: AccountsGetOptionalParams): Promise<AccountsGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: AccountsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Account>;
     listBySubscription(options?: AccountsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Account>;
-    update(resourceGroupName: string, name: string, properties: AccountUpdate, options?: AccountsUpdateOptionalParams): Promise<AccountsUpdateResponse>;
+    update(resourceGroupName: string, accountName: string, properties: AccountUpdate, options?: AccountsUpdateOptionalParams): Promise<AccountsUpdateResponse>;
 }
+
+// @public
+export interface AccountsCheckNameAvailabilityOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AccountsCheckNameAvailabilityResponse = CheckNameAvailabilityResponse;
 
 // @public
 export interface AccountsCreateOrUpdateHeaders {
@@ -67,6 +129,9 @@ export interface AccountsDeleteOptionalParams extends coreClient.OperationOption
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type AccountsDeleteResponse = AccountsDeleteHeaders;
 
 // @public
 export interface AccountsGetOptionalParams extends coreClient.OperationOptions {
@@ -120,6 +185,7 @@ export interface AccountUpdate {
 
 // @public
 export interface AccountUpdateProperties {
+    localAuth?: EnablementStatus;
     regionalAffinity?: EnablementStatus;
     reporting?: EnablementStatus;
     scalableExecution?: EnablementStatus;
@@ -127,6 +193,22 @@ export interface AccountUpdateProperties {
 
 // @public
 export type ActionType = string;
+
+// @public
+export type CheckNameAvailabilityReason = string;
+
+// @public
+export interface CheckNameAvailabilityRequest {
+    name?: string;
+    type?: string;
+}
+
+// @public
+export interface CheckNameAvailabilityResponse {
+    message?: string;
+    nameAvailable?: boolean;
+    reason?: CheckNameAvailabilityReason;
+}
 
 // @public
 export type CreatedByType = string;
@@ -157,12 +239,7 @@ export interface ErrorResponse {
 // @public
 export interface FreeTrialProperties {
     readonly accountId: string;
-    readonly allocatedValue: number;
-    readonly createdAt: Date;
-    readonly expiryAt: Date;
-    readonly percentageUsed: number;
     readonly state: FreeTrialState;
-    readonly usedValue: number;
 }
 
 // @public
@@ -174,6 +251,12 @@ export function getContinuationToken(page: unknown): string | undefined;
 // @public
 export enum KnownActionType {
     Internal = "Internal"
+}
+
+// @public
+export enum KnownCheckNameAvailabilityReason {
+    AlreadyExists = "AlreadyExists",
+    Invalid = "Invalid"
 }
 
 // @public
@@ -193,7 +276,17 @@ export enum KnownEnablementStatus {
 // @public
 export enum KnownFreeTrialState {
     Active = "Active",
-    Expired = "Expired"
+    Expired = "Expired",
+    NotEligible = "NotEligible",
+    NotRegistered = "NotRegistered"
+}
+
+// @public
+export enum KnownOfferingType {
+    GeneralAvailability = "GeneralAvailability",
+    NotApplicable = "NotApplicable",
+    PrivatePreview = "PrivatePreview",
+    PublicPreview = "PublicPreview"
 }
 
 // @public
@@ -207,6 +300,7 @@ export enum KnownOrigin {
 export enum KnownProvisioningState {
     Accepted = "Accepted",
     Canceled = "Canceled",
+    Creating = "Creating",
     Deleting = "Deleting",
     Failed = "Failed",
     Succeeded = "Succeeded"
@@ -214,8 +308,12 @@ export enum KnownProvisioningState {
 
 // @public
 export enum KnownQuotaNames {
+    Reporting = "Reporting",
     ScalableExecution = "ScalableExecution"
 }
+
+// @public
+export type OfferingType = string;
 
 // @public
 export interface Operation {
@@ -268,6 +366,8 @@ export class PlaywrightTestingClient extends coreClient.ServiceClient {
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: PlaywrightTestingClientOptionalParams);
     // (undocumented)
+    accountQuotas: AccountQuotas;
+    // (undocumented)
     accounts: Accounts;
     // (undocumented)
     apiVersion: string;
@@ -310,12 +410,13 @@ export type QuotaNames = string;
 // @public
 export interface QuotaProperties {
     freeTrial?: FreeTrialProperties;
+    readonly offeringType?: OfferingType;
     readonly provisioningState?: ProvisioningState;
 }
 
 // @public
 export interface Quotas {
-    get(location: string, name: QuotaNames, options?: QuotasGetOptionalParams): Promise<QuotasGetResponse>;
+    get(location: string, quotaName: QuotaNames, options?: QuotasGetOptionalParams): Promise<QuotasGetResponse>;
     listBySubscription(location: string, options?: QuotasListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Quota>;
 }
 
