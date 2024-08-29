@@ -1,15 +1,19 @@
 # Release History
-
-## 22.1.1 (Unreleased)
-
+    
+## 23.0.0 (2024-08-29)
+    
 ### Features Added
+
+  - Added Interface HostEndpointSettings
+  - Interface ProxyAgentSettings has a new optional parameter imds
+  - Interface ProxyAgentSettings has a new optional parameter wireServer
+  - Enum KnownMode has a new value Disabled
 
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface ProxyAgentSettings no longer has parameter mode
+    
+    
 ## 22.1.0 (2024-08-12)
     
 ### Features Added

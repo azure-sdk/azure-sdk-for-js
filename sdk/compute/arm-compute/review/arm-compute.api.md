@@ -2900,6 +2900,12 @@ export interface HardwareProfile {
 export type HostCaching = "None" | "ReadOnly" | "ReadWrite";
 
 // @public
+export interface HostEndpointSettings {
+    inVMAccessControlProfileReferenceId?: string;
+    mode?: Mode;
+}
+
+// @public
 export type HyperVGeneration = string;
 
 // @public
@@ -3503,6 +3509,7 @@ export enum KnownLinuxVMGuestPatchMode {
 // @public
 export enum KnownMode {
     Audit = "Audit",
+    Disabled = "Disabled",
     Enforce = "Enforce"
 }
 
@@ -4638,8 +4645,9 @@ export interface ProximityPlacementGroupUpdate extends UpdateResource {
 // @public
 export interface ProxyAgentSettings {
     enabled?: boolean;
+    imds?: HostEndpointSettings;
     keyIncarnationId?: number;
-    mode?: Mode;
+    wireServer?: HostEndpointSettings;
 }
 
 // @public
