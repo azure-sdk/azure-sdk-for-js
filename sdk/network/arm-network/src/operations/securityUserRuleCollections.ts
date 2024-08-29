@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { AdminRuleCollections } from "../operationsInterfaces";
+import { SecurityUserRuleCollections } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,25 +20,27 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  AdminRuleCollection,
-  AdminRuleCollectionsListNextOptionalParams,
-  AdminRuleCollectionsListOptionalParams,
-  AdminRuleCollectionsListResponse,
-  AdminRuleCollectionsGetOptionalParams,
-  AdminRuleCollectionsGetResponse,
-  AdminRuleCollectionsCreateOrUpdateOptionalParams,
-  AdminRuleCollectionsCreateOrUpdateResponse,
-  AdminRuleCollectionsDeleteOptionalParams,
-  AdminRuleCollectionsListNextResponse,
+  SecurityUserRuleCollection,
+  SecurityUserRuleCollectionsListNextOptionalParams,
+  SecurityUserRuleCollectionsListOptionalParams,
+  SecurityUserRuleCollectionsListResponse,
+  SecurityUserRuleCollectionsGetOptionalParams,
+  SecurityUserRuleCollectionsGetResponse,
+  SecurityUserRuleCollectionsCreateOrUpdateOptionalParams,
+  SecurityUserRuleCollectionsCreateOrUpdateResponse,
+  SecurityUserRuleCollectionsDeleteOptionalParams,
+  SecurityUserRuleCollectionsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing AdminRuleCollections operations. */
-export class AdminRuleCollectionsImpl implements AdminRuleCollections {
+/** Class containing SecurityUserRuleCollections operations. */
+export class SecurityUserRuleCollectionsImpl
+  implements SecurityUserRuleCollections
+{
   private readonly client: NetworkManagementClient;
 
   /**
-   * Initialize a new instance of the class AdminRuleCollections class.
+   * Initialize a new instance of the class SecurityUserRuleCollections class.
    * @param client Reference to the service client
    */
   constructor(client: NetworkManagementClient) {
@@ -46,8 +48,8 @@ export class AdminRuleCollectionsImpl implements AdminRuleCollections {
   }
 
   /**
-   * Lists all the rule collections in a security admin configuration, in a paginated format.
-   * @param resourceGroupName The name of the resource group.
+   * Lists all the security user rule collections in a security configuration, in a paginated format.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkManagerName The name of the network manager.
    * @param configurationName The name of the network manager Security Configuration.
    * @param options The options parameters.
@@ -56,8 +58,8 @@ export class AdminRuleCollectionsImpl implements AdminRuleCollections {
     resourceGroupName: string,
     networkManagerName: string,
     configurationName: string,
-    options?: AdminRuleCollectionsListOptionalParams,
-  ): PagedAsyncIterableIterator<AdminRuleCollection> {
+    options?: SecurityUserRuleCollectionsListOptionalParams,
+  ): PagedAsyncIterableIterator<SecurityUserRuleCollection> {
     const iter = this.listPagingAll(
       resourceGroupName,
       networkManagerName,
@@ -90,10 +92,10 @@ export class AdminRuleCollectionsImpl implements AdminRuleCollections {
     resourceGroupName: string,
     networkManagerName: string,
     configurationName: string,
-    options?: AdminRuleCollectionsListOptionalParams,
+    options?: SecurityUserRuleCollectionsListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<AdminRuleCollection[]> {
-    let result: AdminRuleCollectionsListResponse;
+  ): AsyncIterableIterator<SecurityUserRuleCollection[]> {
+    let result: SecurityUserRuleCollectionsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(
@@ -126,8 +128,8 @@ export class AdminRuleCollectionsImpl implements AdminRuleCollections {
     resourceGroupName: string,
     networkManagerName: string,
     configurationName: string,
-    options?: AdminRuleCollectionsListOptionalParams,
-  ): AsyncIterableIterator<AdminRuleCollection> {
+    options?: SecurityUserRuleCollectionsListOptionalParams,
+  ): AsyncIterableIterator<SecurityUserRuleCollection> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       networkManagerName,
@@ -139,8 +141,8 @@ export class AdminRuleCollectionsImpl implements AdminRuleCollections {
   }
 
   /**
-   * Lists all the rule collections in a security admin configuration, in a paginated format.
-   * @param resourceGroupName The name of the resource group.
+   * Lists all the security user rule collections in a security configuration, in a paginated format.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkManagerName The name of the network manager.
    * @param configurationName The name of the network manager Security Configuration.
    * @param options The options parameters.
@@ -149,8 +151,8 @@ export class AdminRuleCollectionsImpl implements AdminRuleCollections {
     resourceGroupName: string,
     networkManagerName: string,
     configurationName: string,
-    options?: AdminRuleCollectionsListOptionalParams,
-  ): Promise<AdminRuleCollectionsListResponse> {
+    options?: SecurityUserRuleCollectionsListOptionalParams,
+  ): Promise<SecurityUserRuleCollectionsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, networkManagerName, configurationName, options },
       listOperationSpec,
@@ -158,8 +160,8 @@ export class AdminRuleCollectionsImpl implements AdminRuleCollections {
   }
 
   /**
-   * Gets a network manager security admin configuration rule collection.
-   * @param resourceGroupName The name of the resource group.
+   * Gets a network manager security user configuration rule collection.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkManagerName The name of the network manager.
    * @param configurationName The name of the network manager Security Configuration.
    * @param ruleCollectionName The name of the network manager security Configuration rule collection.
@@ -170,8 +172,8 @@ export class AdminRuleCollectionsImpl implements AdminRuleCollections {
     networkManagerName: string,
     configurationName: string,
     ruleCollectionName: string,
-    options?: AdminRuleCollectionsGetOptionalParams,
-  ): Promise<AdminRuleCollectionsGetResponse> {
+    options?: SecurityUserRuleCollectionsGetOptionalParams,
+  ): Promise<SecurityUserRuleCollectionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -185,12 +187,12 @@ export class AdminRuleCollectionsImpl implements AdminRuleCollections {
   }
 
   /**
-   * Creates or updates an admin rule collection.
-   * @param resourceGroupName The name of the resource group.
+   * Creates or updates a security user rule collection.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkManagerName The name of the network manager.
    * @param configurationName The name of the network manager Security Configuration.
    * @param ruleCollectionName The name of the network manager security Configuration rule collection.
-   * @param ruleCollection The Rule Collection to create or update
+   * @param securityUserRuleCollection The Security User Rule Collection to create or update
    * @param options The options parameters.
    */
   createOrUpdate(
@@ -198,16 +200,16 @@ export class AdminRuleCollectionsImpl implements AdminRuleCollections {
     networkManagerName: string,
     configurationName: string,
     ruleCollectionName: string,
-    ruleCollection: AdminRuleCollection,
-    options?: AdminRuleCollectionsCreateOrUpdateOptionalParams,
-  ): Promise<AdminRuleCollectionsCreateOrUpdateResponse> {
+    securityUserRuleCollection: SecurityUserRuleCollection,
+    options?: SecurityUserRuleCollectionsCreateOrUpdateOptionalParams,
+  ): Promise<SecurityUserRuleCollectionsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         networkManagerName,
         configurationName,
         ruleCollectionName,
-        ruleCollection,
+        securityUserRuleCollection,
         options,
       },
       createOrUpdateOperationSpec,
@@ -215,8 +217,8 @@ export class AdminRuleCollectionsImpl implements AdminRuleCollections {
   }
 
   /**
-   * Deletes an admin rule collection.
-   * @param resourceGroupName The name of the resource group.
+   * Deletes a Security User Rule collection.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkManagerName The name of the network manager.
    * @param configurationName The name of the network manager Security Configuration.
    * @param ruleCollectionName The name of the network manager security Configuration rule collection.
@@ -227,7 +229,7 @@ export class AdminRuleCollectionsImpl implements AdminRuleCollections {
     networkManagerName: string,
     configurationName: string,
     ruleCollectionName: string,
-    options?: AdminRuleCollectionsDeleteOptionalParams,
+    options?: SecurityUserRuleCollectionsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -288,8 +290,8 @@ export class AdminRuleCollectionsImpl implements AdminRuleCollections {
   }
 
   /**
-   * Deletes an admin rule collection.
-   * @param resourceGroupName The name of the resource group.
+   * Deletes a Security User Rule collection.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkManagerName The name of the network manager.
    * @param configurationName The name of the network manager Security Configuration.
    * @param ruleCollectionName The name of the network manager security Configuration rule collection.
@@ -300,7 +302,7 @@ export class AdminRuleCollectionsImpl implements AdminRuleCollections {
     networkManagerName: string,
     configurationName: string,
     ruleCollectionName: string,
-    options?: AdminRuleCollectionsDeleteOptionalParams,
+    options?: SecurityUserRuleCollectionsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
@@ -314,7 +316,7 @@ export class AdminRuleCollectionsImpl implements AdminRuleCollections {
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkManagerName The name of the network manager.
    * @param configurationName The name of the network manager Security Configuration.
    * @param nextLink The nextLink from the previous successful call to the List method.
@@ -325,8 +327,8 @@ export class AdminRuleCollectionsImpl implements AdminRuleCollections {
     networkManagerName: string,
     configurationName: string,
     nextLink: string,
-    options?: AdminRuleCollectionsListNextOptionalParams,
-  ): Promise<AdminRuleCollectionsListNextResponse> {
+    options?: SecurityUserRuleCollectionsListNextOptionalParams,
+  ): Promise<SecurityUserRuleCollectionsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -343,14 +345,14 @@ export class AdminRuleCollectionsImpl implements AdminRuleCollections {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityUserConfigurations/{configurationName}/ruleCollections",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AdminRuleCollectionListResult,
+      bodyMapper: Mappers.SecurityUserRuleCollectionListResult,
     },
     default: {
-      bodyMapper: Mappers.CommonErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
   queryParameters: [
@@ -360,67 +362,67 @@ const listOperationSpec: coreClient.OperationSpec = {
   ],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.networkManagerName1,
-    Parameters.configurationName,
+    Parameters.resourceGroupName1,
+    Parameters.networkManagerName2,
+    Parameters.configurationName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityUserConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AdminRuleCollection,
+      bodyMapper: Mappers.SecurityUserRuleCollection,
     },
     default: {
-      bodyMapper: Mappers.CommonErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.networkManagerName1,
-    Parameters.configurationName,
-    Parameters.ruleCollectionName,
+    Parameters.resourceGroupName1,
+    Parameters.networkManagerName2,
+    Parameters.configurationName1,
+    Parameters.ruleCollectionName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityUserConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.AdminRuleCollection,
+      bodyMapper: Mappers.SecurityUserRuleCollection,
     },
     201: {
-      bodyMapper: Mappers.AdminRuleCollection,
+      bodyMapper: Mappers.SecurityUserRuleCollection,
     },
     default: {
-      bodyMapper: Mappers.CommonErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.ruleCollection,
+  requestBody: Parameters.securityUserRuleCollection,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.networkManagerName1,
-    Parameters.configurationName,
-    Parameters.ruleCollectionName,
+    Parameters.resourceGroupName1,
+    Parameters.networkManagerName2,
+    Parameters.configurationName1,
+    Parameters.ruleCollectionName1,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityUserConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -428,17 +430,17 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CommonErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
   queryParameters: [Parameters.apiVersion, Parameters.force],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.networkManagerName1,
-    Parameters.configurationName,
-    Parameters.ruleCollectionName,
+    Parameters.resourceGroupName1,
+    Parameters.networkManagerName2,
+    Parameters.configurationName1,
+    Parameters.ruleCollectionName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -448,19 +450,19 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AdminRuleCollectionListResult,
+      bodyMapper: Mappers.SecurityUserRuleCollectionListResult,
     },
     default: {
-      bodyMapper: Mappers.CommonErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.networkManagerName1,
-    Parameters.configurationName,
+    Parameters.resourceGroupName1,
+    Parameters.networkManagerName2,
+    Parameters.configurationName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,

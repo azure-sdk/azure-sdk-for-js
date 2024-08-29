@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { AdminRuleCollections } from "../operationsInterfaces";
+import { StaticCidrs } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,25 +20,26 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  AdminRuleCollection,
-  AdminRuleCollectionsListNextOptionalParams,
-  AdminRuleCollectionsListOptionalParams,
-  AdminRuleCollectionsListResponse,
-  AdminRuleCollectionsGetOptionalParams,
-  AdminRuleCollectionsGetResponse,
-  AdminRuleCollectionsCreateOrUpdateOptionalParams,
-  AdminRuleCollectionsCreateOrUpdateResponse,
-  AdminRuleCollectionsDeleteOptionalParams,
-  AdminRuleCollectionsListNextResponse,
+  StaticCidr,
+  StaticCidrsListNextOptionalParams,
+  StaticCidrsListOptionalParams,
+  StaticCidrsListResponse,
+  StaticCidrsCreateOptionalParams,
+  StaticCidrsCreateResponse,
+  StaticCidrsGetOptionalParams,
+  StaticCidrsGetResponse,
+  StaticCidrsDeleteOptionalParams,
+  StaticCidrsDeleteResponse,
+  StaticCidrsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing AdminRuleCollections operations. */
-export class AdminRuleCollectionsImpl implements AdminRuleCollections {
+/** Class containing StaticCidrs operations. */
+export class StaticCidrsImpl implements StaticCidrs {
   private readonly client: NetworkManagementClient;
 
   /**
-   * Initialize a new instance of the class AdminRuleCollections class.
+   * Initialize a new instance of the class StaticCidrs class.
    * @param client Reference to the service client
    */
   constructor(client: NetworkManagementClient) {
@@ -46,22 +47,22 @@ export class AdminRuleCollectionsImpl implements AdminRuleCollections {
   }
 
   /**
-   * Lists all the rule collections in a security admin configuration, in a paginated format.
+   * Gets list of Static CIDR resources at Network Manager level.
    * @param resourceGroupName The name of the resource group.
    * @param networkManagerName The name of the network manager.
-   * @param configurationName The name of the network manager Security Configuration.
+   * @param poolName Pool resource name.
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
     networkManagerName: string,
-    configurationName: string,
-    options?: AdminRuleCollectionsListOptionalParams,
-  ): PagedAsyncIterableIterator<AdminRuleCollection> {
+    poolName: string,
+    options?: StaticCidrsListOptionalParams,
+  ): PagedAsyncIterableIterator<StaticCidr> {
     const iter = this.listPagingAll(
       resourceGroupName,
       networkManagerName,
-      configurationName,
+      poolName,
       options,
     );
     return {
@@ -78,7 +79,7 @@ export class AdminRuleCollectionsImpl implements AdminRuleCollections {
         return this.listPagingPage(
           resourceGroupName,
           networkManagerName,
-          configurationName,
+          poolName,
           options,
           settings,
         );
@@ -89,17 +90,17 @@ export class AdminRuleCollectionsImpl implements AdminRuleCollections {
   private async *listPagingPage(
     resourceGroupName: string,
     networkManagerName: string,
-    configurationName: string,
-    options?: AdminRuleCollectionsListOptionalParams,
+    poolName: string,
+    options?: StaticCidrsListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<AdminRuleCollection[]> {
-    let result: AdminRuleCollectionsListResponse;
+  ): AsyncIterableIterator<StaticCidr[]> {
+    let result: StaticCidrsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(
         resourceGroupName,
         networkManagerName,
-        configurationName,
+        poolName,
         options,
       );
       let page = result.value || [];
@@ -111,7 +112,7 @@ export class AdminRuleCollectionsImpl implements AdminRuleCollections {
       result = await this._listNext(
         resourceGroupName,
         networkManagerName,
-        configurationName,
+        poolName,
         continuationToken,
         options,
       );
@@ -125,13 +126,13 @@ export class AdminRuleCollectionsImpl implements AdminRuleCollections {
   private async *listPagingAll(
     resourceGroupName: string,
     networkManagerName: string,
-    configurationName: string,
-    options?: AdminRuleCollectionsListOptionalParams,
-  ): AsyncIterableIterator<AdminRuleCollection> {
+    poolName: string,
+    options?: StaticCidrsListOptionalParams,
+  ): AsyncIterableIterator<StaticCidr> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       networkManagerName,
-      configurationName,
+      poolName,
       options,
     )) {
       yield* page;
@@ -139,45 +140,72 @@ export class AdminRuleCollectionsImpl implements AdminRuleCollections {
   }
 
   /**
-   * Lists all the rule collections in a security admin configuration, in a paginated format.
+   * Gets list of Static CIDR resources at Network Manager level.
    * @param resourceGroupName The name of the resource group.
    * @param networkManagerName The name of the network manager.
-   * @param configurationName The name of the network manager Security Configuration.
+   * @param poolName Pool resource name.
    * @param options The options parameters.
    */
   private _list(
     resourceGroupName: string,
     networkManagerName: string,
-    configurationName: string,
-    options?: AdminRuleCollectionsListOptionalParams,
-  ): Promise<AdminRuleCollectionsListResponse> {
+    poolName: string,
+    options?: StaticCidrsListOptionalParams,
+  ): Promise<StaticCidrsListResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, networkManagerName, configurationName, options },
+      { resourceGroupName, networkManagerName, poolName, options },
       listOperationSpec,
     );
   }
 
   /**
-   * Gets a network manager security admin configuration rule collection.
+   * Creates/Updates the Static CIDR resource.
    * @param resourceGroupName The name of the resource group.
    * @param networkManagerName The name of the network manager.
-   * @param configurationName The name of the network manager Security Configuration.
-   * @param ruleCollectionName The name of the network manager security Configuration rule collection.
+   * @param poolName IP Address Manager Pool resource name.
+   * @param staticCidrName Static Cidr allocation name.
+   * @param options The options parameters.
+   */
+  create(
+    resourceGroupName: string,
+    networkManagerName: string,
+    poolName: string,
+    staticCidrName: string,
+    options?: StaticCidrsCreateOptionalParams,
+  ): Promise<StaticCidrsCreateResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        networkManagerName,
+        poolName,
+        staticCidrName,
+        options,
+      },
+      createOperationSpec,
+    );
+  }
+
+  /**
+   * Gets the specific Static CIDR resource.
+   * @param resourceGroupName The name of the resource group.
+   * @param networkManagerName The name of the network manager.
+   * @param poolName Pool resource name.
+   * @param staticCidrName StaticCidr resource name to retrieve.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     networkManagerName: string,
-    configurationName: string,
-    ruleCollectionName: string,
-    options?: AdminRuleCollectionsGetOptionalParams,
-  ): Promise<AdminRuleCollectionsGetResponse> {
+    poolName: string,
+    staticCidrName: string,
+    options?: StaticCidrsGetOptionalParams,
+  ): Promise<StaticCidrsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         networkManagerName,
-        configurationName,
-        ruleCollectionName,
+        poolName,
+        staticCidrName,
         options,
       },
       getOperationSpec,
@@ -185,54 +213,29 @@ export class AdminRuleCollectionsImpl implements AdminRuleCollections {
   }
 
   /**
-   * Creates or updates an admin rule collection.
+   * Delete the Static CIDR resource.
    * @param resourceGroupName The name of the resource group.
    * @param networkManagerName The name of the network manager.
-   * @param configurationName The name of the network manager Security Configuration.
-   * @param ruleCollectionName The name of the network manager security Configuration rule collection.
-   * @param ruleCollection The Rule Collection to create or update
-   * @param options The options parameters.
-   */
-  createOrUpdate(
-    resourceGroupName: string,
-    networkManagerName: string,
-    configurationName: string,
-    ruleCollectionName: string,
-    ruleCollection: AdminRuleCollection,
-    options?: AdminRuleCollectionsCreateOrUpdateOptionalParams,
-  ): Promise<AdminRuleCollectionsCreateOrUpdateResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        networkManagerName,
-        configurationName,
-        ruleCollectionName,
-        ruleCollection,
-        options,
-      },
-      createOrUpdateOperationSpec,
-    );
-  }
-
-  /**
-   * Deletes an admin rule collection.
-   * @param resourceGroupName The name of the resource group.
-   * @param networkManagerName The name of the network manager.
-   * @param configurationName The name of the network manager Security Configuration.
-   * @param ruleCollectionName The name of the network manager security Configuration rule collection.
+   * @param poolName Pool resource name.
+   * @param staticCidrName StaticCidr resource name to delete.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     networkManagerName: string,
-    configurationName: string,
-    ruleCollectionName: string,
-    options?: AdminRuleCollectionsDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    poolName: string,
+    staticCidrName: string,
+    options?: StaticCidrsDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<StaticCidrsDeleteResponse>,
+      StaticCidrsDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<void> => {
+    ): Promise<StaticCidrsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -272,13 +275,16 @@ export class AdminRuleCollectionsImpl implements AdminRuleCollections {
       args: {
         resourceGroupName,
         networkManagerName,
-        configurationName,
-        ruleCollectionName,
+        poolName,
+        staticCidrName,
         options,
       },
       spec: deleteOperationSpec,
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      StaticCidrsDeleteResponse,
+      OperationState<StaticCidrsDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       resourceLocationConfig: "location",
@@ -288,25 +294,25 @@ export class AdminRuleCollectionsImpl implements AdminRuleCollections {
   }
 
   /**
-   * Deletes an admin rule collection.
+   * Delete the Static CIDR resource.
    * @param resourceGroupName The name of the resource group.
    * @param networkManagerName The name of the network manager.
-   * @param configurationName The name of the network manager Security Configuration.
-   * @param ruleCollectionName The name of the network manager security Configuration rule collection.
+   * @param poolName Pool resource name.
+   * @param staticCidrName StaticCidr resource name to delete.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     networkManagerName: string,
-    configurationName: string,
-    ruleCollectionName: string,
-    options?: AdminRuleCollectionsDeleteOptionalParams,
-  ): Promise<void> {
+    poolName: string,
+    staticCidrName: string,
+    options?: StaticCidrsDeleteOptionalParams,
+  ): Promise<StaticCidrsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       networkManagerName,
-      configurationName,
-      ruleCollectionName,
+      poolName,
+      staticCidrName,
       options,
     );
     return poller.pollUntilDone();
@@ -316,25 +322,19 @@ export class AdminRuleCollectionsImpl implements AdminRuleCollections {
    * ListNext
    * @param resourceGroupName The name of the resource group.
    * @param networkManagerName The name of the network manager.
-   * @param configurationName The name of the network manager Security Configuration.
+   * @param poolName Pool resource name.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
     resourceGroupName: string,
     networkManagerName: string,
-    configurationName: string,
+    poolName: string,
     nextLink: string,
-    options?: AdminRuleCollectionsListNextOptionalParams,
-  ): Promise<AdminRuleCollectionsListNextResponse> {
+    options?: StaticCidrsListNextOptionalParams,
+  ): Promise<StaticCidrsListNextResponse> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        networkManagerName,
-        configurationName,
-        nextLink,
-        options,
-      },
+      { resourceGroupName, networkManagerName, poolName, nextLink, options },
       listNextOperationSpec,
     );
   }
@@ -343,11 +343,11 @@ export class AdminRuleCollectionsImpl implements AdminRuleCollections {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/ipamPools/{poolName}/staticCidrs",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AdminRuleCollectionListResult,
+      bodyMapper: Mappers.StaticCidrList,
     },
     default: {
       bodyMapper: Mappers.CommonErrorResponse,
@@ -355,90 +355,101 @@ const listOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.top,
-    Parameters.skipToken1,
+    Parameters.skipToken,
+    Parameters.skip,
+    Parameters.top1,
+    Parameters.sortKey,
+    Parameters.sortValue,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.networkManagerName1,
-    Parameters.configurationName,
+    Parameters.poolName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AdminRuleCollection,
-    },
-    default: {
-      bodyMapper: Mappers.CommonErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.networkManagerName1,
-    Parameters.configurationName,
-    Parameters.ruleCollectionName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}",
+const createOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/ipamPools/{poolName}/staticCidrs/{staticCidrName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.AdminRuleCollection,
+      bodyMapper: Mappers.StaticCidr,
     },
     201: {
-      bodyMapper: Mappers.AdminRuleCollection,
+      bodyMapper: Mappers.StaticCidr,
     },
     default: {
       bodyMapper: Mappers.CommonErrorResponse,
     },
   },
-  requestBody: Parameters.ruleCollection,
+  requestBody: Parameters.body2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.networkManagerName1,
-    Parameters.configurationName,
-    Parameters.ruleCollectionName,
+    Parameters.poolName,
+    Parameters.staticCidrName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}",
-  httpMethod: "DELETE",
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/ipamPools/{poolName}/staticCidrs/{staticCidrName}",
+  httpMethod: "GET",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      bodyMapper: Mappers.StaticCidr,
+    },
     default: {
       bodyMapper: Mappers.CommonErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.force],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.networkManagerName1,
-    Parameters.configurationName,
-    Parameters.ruleCollectionName,
+    Parameters.poolName,
+    Parameters.staticCidrName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/ipamPools/{poolName}/staticCidrs/{staticCidrName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {
+      headersMapper: Mappers.StaticCidrsDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.StaticCidrsDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.StaticCidrsDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.StaticCidrsDeleteHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.CommonErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.networkManagerName1,
+    Parameters.poolName,
+    Parameters.staticCidrName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -448,7 +459,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AdminRuleCollectionListResult,
+      bodyMapper: Mappers.StaticCidrList,
     },
     default: {
       bodyMapper: Mappers.CommonErrorResponse,
@@ -460,7 +471,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.networkManagerName1,
-    Parameters.configurationName,
+    Parameters.poolName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
