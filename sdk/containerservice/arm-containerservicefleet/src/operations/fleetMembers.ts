@@ -12,7 +12,7 @@ import { FleetMembers } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ContainerServiceFleetClient } from "../containerServiceFleetClient";
+import { ContainerServiceFleetClientTest } from "../containerServiceFleetClientTest";
 import {
   SimplePollerLike,
   OperationState,
@@ -38,13 +38,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing FleetMembers operations. */
 export class FleetMembersImpl implements FleetMembers {
-  private readonly client: ContainerServiceFleetClient;
+  private readonly client: ContainerServiceFleetClientTest;
 
   /**
    * Initialize a new instance of the class FleetMembers class.
    * @param client Reference to the service client
    */
-  constructor(client: ContainerServiceFleetClient) {
+  constructor(client: ContainerServiceFleetClientTest) {
     this.client = client;
   }
 
