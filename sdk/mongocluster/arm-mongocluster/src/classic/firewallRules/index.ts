@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { DocumentDBContext } from "../../api/mongoClusterManagementContext.js";
+import { DocumentDBContext } from "../../api/documentDBContext.js";
 import { FirewallRule } from "../../models/models.js";
 import {
   firewallRulesGet,
@@ -9,7 +9,7 @@ import {
   firewallRulesDelete,
   firewallRulesListByMongoCluster,
 } from "../../api/firewallRules/index.js";
-import { PagedAsyncIterableIterator } from "../../models/pagingTypes.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 import {
   FirewallRulesGetOptionalParams,
@@ -50,7 +50,10 @@ export interface FirewallRulesOperations {
   ) => PagedAsyncIterableIterator<FirewallRule>;
 }
 
-export function getFirewallRules(context: DocumentDBContext, subscriptionId: string) {
+export function getFirewallRules(
+  context: DocumentDBContext,
+  subscriptionId: string,
+) {
   return {
     get: (
       resourceGroupName: string,
