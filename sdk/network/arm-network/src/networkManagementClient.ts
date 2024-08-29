@@ -60,6 +60,8 @@ import {
   FirewallPolicyDraftsImpl,
   FirewallPolicyDeploymentsImpl,
   FirewallPolicyRuleCollectionGroupDraftsImpl,
+  IpamPoolsImpl,
+  StaticCidrsImpl,
   IpAllocationsImpl,
   IpGroupsImpl,
   LoadBalancersImpl,
@@ -86,10 +88,19 @@ import {
   SecurityAdminConfigurationsImpl,
   AdminRuleCollectionsImpl,
   AdminRulesImpl,
+  SecurityUserConfigurationsImpl,
+  SecurityUserRuleCollectionsImpl,
+  SecurityUserRulesImpl,
+  NetworkManagerRoutingConfigurationsImpl,
+  RoutingRuleCollectionsImpl,
+  RoutingRulesImpl,
   NetworkProfilesImpl,
   NetworkSecurityGroupsImpl,
   SecurityRulesImpl,
   DefaultSecurityRulesImpl,
+  ReachabilityAnalysisIntentsImpl,
+  ReachabilityAnalysisRunsImpl,
+  VerifierWorkspacesImpl,
   NetworkVirtualAppliancesImpl,
   VirtualApplianceSitesImpl,
   VirtualApplianceSkusImpl,
@@ -197,6 +208,8 @@ import {
   FirewallPolicyDrafts,
   FirewallPolicyDeployments,
   FirewallPolicyRuleCollectionGroupDrafts,
+  IpamPools,
+  StaticCidrs,
   IpAllocations,
   IpGroups,
   LoadBalancers,
@@ -223,10 +236,19 @@ import {
   SecurityAdminConfigurations,
   AdminRuleCollections,
   AdminRules,
+  SecurityUserConfigurations,
+  SecurityUserRuleCollections,
+  SecurityUserRules,
+  NetworkManagerRoutingConfigurations,
+  RoutingRuleCollections,
+  RoutingRules,
   NetworkProfiles,
   NetworkSecurityGroups,
   SecurityRules,
   DefaultSecurityRules,
+  ReachabilityAnalysisIntents,
+  ReachabilityAnalysisRuns,
+  VerifierWorkspaces,
   NetworkVirtualAppliances,
   VirtualApplianceSites,
   VirtualApplianceSkus,
@@ -388,7 +410,7 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-network/33.3.1`;
+    const packageDetails = `azsdk-js-arm-network/34.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -509,6 +531,8 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
     this.firewallPolicyDeployments = new FirewallPolicyDeploymentsImpl(this);
     this.firewallPolicyRuleCollectionGroupDrafts =
       new FirewallPolicyRuleCollectionGroupDraftsImpl(this);
+    this.ipamPools = new IpamPoolsImpl(this);
+    this.staticCidrs = new StaticCidrsImpl(this);
     this.ipAllocations = new IpAllocationsImpl(this);
     this.ipGroups = new IpGroupsImpl(this);
     this.loadBalancers = new LoadBalancersImpl(this);
@@ -549,10 +573,24 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
     );
     this.adminRuleCollections = new AdminRuleCollectionsImpl(this);
     this.adminRules = new AdminRulesImpl(this);
+    this.securityUserConfigurations = new SecurityUserConfigurationsImpl(this);
+    this.securityUserRuleCollections = new SecurityUserRuleCollectionsImpl(
+      this,
+    );
+    this.securityUserRules = new SecurityUserRulesImpl(this);
+    this.networkManagerRoutingConfigurations =
+      new NetworkManagerRoutingConfigurationsImpl(this);
+    this.routingRuleCollections = new RoutingRuleCollectionsImpl(this);
+    this.routingRules = new RoutingRulesImpl(this);
     this.networkProfiles = new NetworkProfilesImpl(this);
     this.networkSecurityGroups = new NetworkSecurityGroupsImpl(this);
     this.securityRules = new SecurityRulesImpl(this);
     this.defaultSecurityRules = new DefaultSecurityRulesImpl(this);
+    this.reachabilityAnalysisIntents = new ReachabilityAnalysisIntentsImpl(
+      this,
+    );
+    this.reachabilityAnalysisRuns = new ReachabilityAnalysisRunsImpl(this);
+    this.verifierWorkspaces = new VerifierWorkspacesImpl(this);
     this.networkVirtualAppliances = new NetworkVirtualAppliancesImpl(this);
     this.virtualApplianceSites = new VirtualApplianceSitesImpl(this);
     this.virtualApplianceSkus = new VirtualApplianceSkusImpl(this);
@@ -1714,6 +1752,8 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
   firewallPolicyDrafts: FirewallPolicyDrafts;
   firewallPolicyDeployments: FirewallPolicyDeployments;
   firewallPolicyRuleCollectionGroupDrafts: FirewallPolicyRuleCollectionGroupDrafts;
+  ipamPools: IpamPools;
+  staticCidrs: StaticCidrs;
   ipAllocations: IpAllocations;
   ipGroups: IpGroups;
   loadBalancers: LoadBalancers;
@@ -1740,10 +1780,19 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
   securityAdminConfigurations: SecurityAdminConfigurations;
   adminRuleCollections: AdminRuleCollections;
   adminRules: AdminRules;
+  securityUserConfigurations: SecurityUserConfigurations;
+  securityUserRuleCollections: SecurityUserRuleCollections;
+  securityUserRules: SecurityUserRules;
+  networkManagerRoutingConfigurations: NetworkManagerRoutingConfigurations;
+  routingRuleCollections: RoutingRuleCollections;
+  routingRules: RoutingRules;
   networkProfiles: NetworkProfiles;
   networkSecurityGroups: NetworkSecurityGroups;
   securityRules: SecurityRules;
   defaultSecurityRules: DefaultSecurityRules;
+  reachabilityAnalysisIntents: ReachabilityAnalysisIntents;
+  reachabilityAnalysisRuns: ReachabilityAnalysisRuns;
+  verifierWorkspaces: VerifierWorkspaces;
   networkVirtualAppliances: NetworkVirtualAppliances;
   virtualApplianceSites: VirtualApplianceSites;
   virtualApplianceSkus: VirtualApplianceSkus;
