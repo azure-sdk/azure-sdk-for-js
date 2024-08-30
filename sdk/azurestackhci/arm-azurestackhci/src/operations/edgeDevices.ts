@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { GalleryImagesOperations } from "../operationsInterfaces";
+import { EdgeDevices } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,29 +20,29 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  GalleryImages,
-  GalleryImagesListAllNextOptionalParams,
-  GalleryImagesListAllOptionalParams,
-  GalleryImagesListAllResponse,
-  GalleryImagesGetOptionalParams,
-  GalleryImagesGetResponse,
-  GalleryImagesCreateOrUpdateOptionalParams,
-  GalleryImagesCreateOrUpdateResponse,
-  GalleryImagesDeleteOptionalParams,
-  GalleryImagesDeleteResponse,
-  GalleryImagesUpdateRequest,
-  GalleryImagesUpdateOptionalParams,
-  GalleryImagesUpdateResponse,
-  GalleryImagesListAllNextResponse,
+  EdgeDevice,
+  EdgeDevicesListNextOptionalParams,
+  EdgeDevicesListOptionalParams,
+  EdgeDevicesListResponse,
+  EdgeDevicesGetOptionalParams,
+  EdgeDevicesGetResponse,
+  EdgeDevicesCreateOrUpdateOptionalParams,
+  EdgeDevicesCreateOrUpdateResponse,
+  EdgeDevicesDeleteOptionalParams,
+  EdgeDevicesDeleteResponse,
+  ValidateRequest,
+  EdgeDevicesValidateOptionalParams,
+  EdgeDevicesValidateResponse,
+  EdgeDevicesListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing GalleryImagesOperations operations. */
-export class GalleryImagesOperationsImpl implements GalleryImagesOperations {
+/** Class containing EdgeDevices operations. */
+export class EdgeDevicesImpl implements EdgeDevices {
   private readonly client: AzureStackHCIClient;
 
   /**
-   * Initialize a new instance of the class GalleryImagesOperations class.
+   * Initialize a new instance of the class EdgeDevices class.
    * @param client Reference to the service client
    */
   constructor(client: AzureStackHCIClient) {
@@ -50,14 +50,15 @@ export class GalleryImagesOperationsImpl implements GalleryImagesOperations {
   }
 
   /**
-   * Lists all of the gallery images in the specified subscription. Use the nextLink property in the
-   * response to get the next page of gallery images.
+   * List EdgeDevice resources by parent
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
    * @param options The options parameters.
    */
-  public listAll(
-    options?: GalleryImagesListAllOptionalParams,
-  ): PagedAsyncIterableIterator<GalleryImages> {
-    const iter = this.listAllPagingAll(options);
+  public list(
+    resourceUri: string,
+    options?: EdgeDevicesListOptionalParams,
+  ): PagedAsyncIterableIterator<EdgeDevice> {
+    const iter = this.listPagingAll(resourceUri, options);
     return {
       next() {
         return iter.next();
@@ -69,26 +70,27 @@ export class GalleryImagesOperationsImpl implements GalleryImagesOperations {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listAllPagingPage(options, settings);
+        return this.listPagingPage(resourceUri, options, settings);
       },
     };
   }
 
-  private async *listAllPagingPage(
-    options?: GalleryImagesListAllOptionalParams,
+  private async *listPagingPage(
+    resourceUri: string,
+    options?: EdgeDevicesListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<GalleryImages[]> {
-    let result: GalleryImagesListAllResponse;
+  ): AsyncIterableIterator<EdgeDevice[]> {
+    let result: EdgeDevicesListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listAll(options);
+      result = await this._list(resourceUri, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listAllNext(continuationToken, options);
+      result = await this._listNext(resourceUri, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -96,54 +98,69 @@ export class GalleryImagesOperationsImpl implements GalleryImagesOperations {
     }
   }
 
-  private async *listAllPagingAll(
-    options?: GalleryImagesListAllOptionalParams,
-  ): AsyncIterableIterator<GalleryImages> {
-    for await (const page of this.listAllPagingPage(options)) {
+  private async *listPagingAll(
+    resourceUri: string,
+    options?: EdgeDevicesListOptionalParams,
+  ): AsyncIterableIterator<EdgeDevice> {
+    for await (const page of this.listPagingPage(resourceUri, options)) {
       yield* page;
     }
   }
 
   /**
-   * Gets a gallery image
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param galleryImageName Name of the gallery image
+   * List EdgeDevice resources by parent
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
+   * @param options The options parameters.
+   */
+  private _list(
+    resourceUri: string,
+    options?: EdgeDevicesListOptionalParams,
+  ): Promise<EdgeDevicesListResponse> {
+    return this.client.sendOperationRequest(
+      { resourceUri, options },
+      listOperationSpec,
+    );
+  }
+
+  /**
+   * Get a EdgeDevice
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
+   * @param edgeDeviceName Name of Device
    * @param options The options parameters.
    */
   get(
-    resourceGroupName: string,
-    galleryImageName: string,
-    options?: GalleryImagesGetOptionalParams,
-  ): Promise<GalleryImagesGetResponse> {
+    resourceUri: string,
+    edgeDeviceName: string,
+    options?: EdgeDevicesGetOptionalParams,
+  ): Promise<EdgeDevicesGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, galleryImageName, options },
+      { resourceUri, edgeDeviceName, options },
       getOperationSpec,
     );
   }
 
   /**
-   * The operation to create or update a gallery image. Please note some properties can be set only
-   * during gallery image creation.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param galleryImageName Name of the gallery image
-   * @param galleryImages The gallery images resource definition.
+   * Create a EdgeDevice
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
+   * @param edgeDeviceName Name of Device
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
-    resourceGroupName: string,
-    galleryImageName: string,
-    galleryImages: GalleryImages,
-    options?: GalleryImagesCreateOrUpdateOptionalParams,
+    resourceUri: string,
+    edgeDeviceName: string,
+    resource: EdgeDevice,
+    options?: EdgeDevicesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<GalleryImagesCreateOrUpdateResponse>,
-      GalleryImagesCreateOrUpdateResponse
+      OperationState<EdgeDevicesCreateOrUpdateResponse>,
+      EdgeDevicesCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<GalleryImagesCreateOrUpdateResponse> => {
+    ): Promise<EdgeDevicesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -180,12 +197,12 @@ export class GalleryImagesOperationsImpl implements GalleryImagesOperations {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, galleryImageName, galleryImages, options },
+      args: { resourceUri, edgeDeviceName, resource, options },
       spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
-      GalleryImagesCreateOrUpdateResponse,
-      OperationState<GalleryImagesCreateOrUpdateResponse>
+      EdgeDevicesCreateOrUpdateResponse,
+      OperationState<EdgeDevicesCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -196,48 +213,47 @@ export class GalleryImagesOperationsImpl implements GalleryImagesOperations {
   }
 
   /**
-   * The operation to create or update a gallery image. Please note some properties can be set only
-   * during gallery image creation.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param galleryImageName Name of the gallery image
-   * @param galleryImages The gallery images resource definition.
+   * Create a EdgeDevice
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
+   * @param edgeDeviceName Name of Device
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
-    resourceGroupName: string,
-    galleryImageName: string,
-    galleryImages: GalleryImages,
-    options?: GalleryImagesCreateOrUpdateOptionalParams,
-  ): Promise<GalleryImagesCreateOrUpdateResponse> {
+    resourceUri: string,
+    edgeDeviceName: string,
+    resource: EdgeDevice,
+    options?: EdgeDevicesCreateOrUpdateOptionalParams,
+  ): Promise<EdgeDevicesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
-      resourceGroupName,
-      galleryImageName,
-      galleryImages,
+      resourceUri,
+      edgeDeviceName,
+      resource,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * The operation to delete a gallery image.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param galleryImageName Name of the gallery image
+   * Delete a EdgeDevice
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
+   * @param edgeDeviceName Name of Device
    * @param options The options parameters.
    */
   async beginDelete(
-    resourceGroupName: string,
-    galleryImageName: string,
-    options?: GalleryImagesDeleteOptionalParams,
+    resourceUri: string,
+    edgeDeviceName: string,
+    options?: EdgeDevicesDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<GalleryImagesDeleteResponse>,
-      GalleryImagesDeleteResponse
+      OperationState<EdgeDevicesDeleteResponse>,
+      EdgeDevicesDeleteResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<GalleryImagesDeleteResponse> => {
+    ): Promise<EdgeDevicesDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -274,62 +290,58 @@ export class GalleryImagesOperationsImpl implements GalleryImagesOperations {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, galleryImageName, options },
+      args: { resourceUri, edgeDeviceName, options },
       spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
-      GalleryImagesDeleteResponse,
-      OperationState<GalleryImagesDeleteResponse>
+      EdgeDevicesDeleteResponse,
+      OperationState<EdgeDevicesDeleteResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation",
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * The operation to delete a gallery image.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param galleryImageName Name of the gallery image
+   * Delete a EdgeDevice
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
+   * @param edgeDeviceName Name of Device
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
-    resourceGroupName: string,
-    galleryImageName: string,
-    options?: GalleryImagesDeleteOptionalParams,
-  ): Promise<GalleryImagesDeleteResponse> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      galleryImageName,
-      options,
-    );
+    resourceUri: string,
+    edgeDeviceName: string,
+    options?: EdgeDevicesDeleteOptionalParams,
+  ): Promise<EdgeDevicesDeleteResponse> {
+    const poller = await this.beginDelete(resourceUri, edgeDeviceName, options);
     return poller.pollUntilDone();
   }
 
   /**
-   * The operation to update a gallery image.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param galleryImageName Name of the gallery image
-   * @param galleryImages The gallery images resource patch definition.
+   * A long-running resource action.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
+   * @param edgeDeviceName Name of Device
+   * @param validateRequest The content of the action request
    * @param options The options parameters.
    */
-  async beginUpdate(
-    resourceGroupName: string,
-    galleryImageName: string,
-    galleryImages: GalleryImagesUpdateRequest,
-    options?: GalleryImagesUpdateOptionalParams,
+  async beginValidate(
+    resourceUri: string,
+    edgeDeviceName: string,
+    validateRequest: ValidateRequest,
+    options?: EdgeDevicesValidateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<GalleryImagesUpdateResponse>,
-      GalleryImagesUpdateResponse
+      OperationState<EdgeDevicesValidateResponse>,
+      EdgeDevicesValidateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<GalleryImagesUpdateResponse> => {
+    ): Promise<EdgeDevicesValidateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -366,78 +378,85 @@ export class GalleryImagesOperationsImpl implements GalleryImagesOperations {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, galleryImageName, galleryImages, options },
-      spec: updateOperationSpec,
+      args: { resourceUri, edgeDeviceName, validateRequest, options },
+      spec: validateOperationSpec,
     });
     const poller = await createHttpPoller<
-      GalleryImagesUpdateResponse,
-      OperationState<GalleryImagesUpdateResponse>
+      EdgeDevicesValidateResponse,
+      OperationState<EdgeDevicesValidateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation",
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * The operation to update a gallery image.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param galleryImageName Name of the gallery image
-   * @param galleryImages The gallery images resource patch definition.
+   * A long-running resource action.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
+   * @param edgeDeviceName Name of Device
+   * @param validateRequest The content of the action request
    * @param options The options parameters.
    */
-  async beginUpdateAndWait(
-    resourceGroupName: string,
-    galleryImageName: string,
-    galleryImages: GalleryImagesUpdateRequest,
-    options?: GalleryImagesUpdateOptionalParams,
-  ): Promise<GalleryImagesUpdateResponse> {
-    const poller = await this.beginUpdate(
-      resourceGroupName,
-      galleryImageName,
-      galleryImages,
+  async beginValidateAndWait(
+    resourceUri: string,
+    edgeDeviceName: string,
+    validateRequest: ValidateRequest,
+    options?: EdgeDevicesValidateOptionalParams,
+  ): Promise<EdgeDevicesValidateResponse> {
+    const poller = await this.beginValidate(
+      resourceUri,
+      edgeDeviceName,
+      validateRequest,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Lists all of the gallery images in the specified subscription. Use the nextLink property in the
-   * response to get the next page of gallery images.
+   * ListNext
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
+   * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
-  private _listAll(
-    options?: GalleryImagesListAllOptionalParams,
-  ): Promise<GalleryImagesListAllResponse> {
-    return this.client.sendOperationRequest({ options }, listAllOperationSpec);
-  }
-
-  /**
-   * ListAllNext
-   * @param nextLink The nextLink from the previous successful call to the ListAll method.
-   * @param options The options parameters.
-   */
-  private _listAllNext(
+  private _listNext(
+    resourceUri: string,
     nextLink: string,
-    options?: GalleryImagesListAllNextOptionalParams,
-  ): Promise<GalleryImagesListAllNextResponse> {
+    options?: EdgeDevicesListNextOptionalParams,
+  ): Promise<EdgeDevicesListNextResponse> {
     return this.client.sendOperationRequest(
-      { nextLink, options },
-      listAllNextOperationSpec,
+      { resourceUri, nextLink, options },
+      listNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/galleryImages/{galleryImageName}",
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/{resourceUri}/providers/Microsoft.AzureStackHCI/edgeDevices",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GalleryImages,
+      bodyMapper: Mappers.EdgeDeviceListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.resourceUri],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/{resourceUri}/providers/Microsoft.AzureStackHCI/edgeDevices/{edgeDeviceName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.EdgeDevice,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -446,60 +465,58 @@ const getOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.galleryImageName,
+    Parameters.resourceUri,
+    Parameters.edgeDeviceName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/galleryImages/{galleryImageName}",
+  path: "/{resourceUri}/providers/Microsoft.AzureStackHCI/edgeDevices/{edgeDeviceName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.GalleryImages,
+      bodyMapper: Mappers.EdgeDevice,
     },
     201: {
-      bodyMapper: Mappers.GalleryImages,
+      bodyMapper: Mappers.EdgeDevice,
     },
     202: {
-      bodyMapper: Mappers.GalleryImages,
+      bodyMapper: Mappers.EdgeDevice,
     },
     204: {
-      bodyMapper: Mappers.GalleryImages,
+      bodyMapper: Mappers.EdgeDevice,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.galleryImages,
+  requestBody: Parameters.resource1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.galleryImageName,
+    Parameters.resourceUri,
+    Parameters.edgeDeviceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/galleryImages/{galleryImageName}",
+  path: "/{resourceUri}/providers/Microsoft.AzureStackHCI/edgeDevices/{edgeDeviceName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.GalleryImagesDeleteHeaders,
+      headersMapper: Mappers.EdgeDevicesDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.GalleryImagesDeleteHeaders,
+      headersMapper: Mappers.EdgeDevicesDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.GalleryImagesDeleteHeaders,
+      headersMapper: Mappers.EdgeDevicesDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.GalleryImagesDeleteHeaders,
+      headersMapper: Mappers.EdgeDevicesDeleteHeaders,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -508,67 +525,49 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.galleryImageName,
+    Parameters.resourceUri,
+    Parameters.edgeDeviceName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/galleryImages/{galleryImageName}",
-  httpMethod: "PATCH",
+const validateOperationSpec: coreClient.OperationSpec = {
+  path: "/{resourceUri}/providers/Microsoft.AzureStackHCI/edgeDevices/{edgeDeviceName}/validate",
+  httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.GalleryImages,
+      bodyMapper: Mappers.ValidateResponse,
     },
     201: {
-      bodyMapper: Mappers.GalleryImages,
+      bodyMapper: Mappers.ValidateResponse,
     },
     202: {
-      bodyMapper: Mappers.GalleryImages,
+      bodyMapper: Mappers.ValidateResponse,
     },
     204: {
-      bodyMapper: Mappers.GalleryImages,
+      bodyMapper: Mappers.ValidateResponse,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.galleryImages1,
+  requestBody: Parameters.validateRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.galleryImageName,
+    Parameters.resourceUri,
+    Parameters.edgeDeviceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
-const listAllOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.AzureStackHCI/galleryImages",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.GalleryImagesListResult,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listAllNextOperationSpec: coreClient.OperationSpec = {
+const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GalleryImagesListResult,
+      bodyMapper: Mappers.EdgeDeviceListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -576,8 +575,8 @@ const listAllNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.resourceUri,
   ],
   headerParameters: [Parameters.accept],
   serializer,
