@@ -76,7 +76,7 @@ export interface AzureLargeInstanceOperations {
     get(resourceGroupName: string, azureLargeInstanceName: string, options?: AzureLargeInstanceGetOptionalParams): Promise<AzureLargeInstanceGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: AzureLargeInstanceListByResourceGroupOptionalParams): PagedAsyncIterableIterator<AzureLargeInstance>;
     listBySubscription(options?: AzureLargeInstanceListBySubscriptionOptionalParams): PagedAsyncIterableIterator<AzureLargeInstance>;
-    update(resourceGroupName: string, azureLargeInstanceName: string, tagsParameter: AzureLargeInstanceTagsUpdate, options?: AzureLargeInstanceUpdateOptionalParams): Promise<AzureLargeInstanceUpdateResponse>;
+    update(resourceGroupName: string, azureLargeInstanceName: string, properties: AzureLargeInstanceTagsUpdate, options?: AzureLargeInstanceUpdateOptionalParams): Promise<AzureLargeInstanceUpdateResponse>;
 }
 
 // @public
@@ -213,7 +213,7 @@ export interface AzureLargeStorageInstanceOperations {
     get(resourceGroupName: string, azureLargeStorageInstanceName: string, options?: AzureLargeStorageInstanceGetOptionalParams): Promise<AzureLargeStorageInstanceGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: AzureLargeStorageInstanceListByResourceGroupOptionalParams): PagedAsyncIterableIterator<AzureLargeStorageInstance>;
     listBySubscription(options?: AzureLargeStorageInstanceListBySubscriptionOptionalParams): PagedAsyncIterableIterator<AzureLargeStorageInstance>;
-    update(resourceGroupName: string, azureLargeStorageInstanceName: string, tagsParameter: AzureLargeStorageInstanceTagsUpdate, options?: AzureLargeStorageInstanceUpdateOptionalParams): Promise<AzureLargeStorageInstanceUpdateResponse>;
+    update(resourceGroupName: string, azureLargeStorageInstanceName: string, properties: AzureLargeStorageInstanceTagsUpdate, options?: AzureLargeStorageInstanceUpdateOptionalParams): Promise<AzureLargeStorageInstanceUpdateResponse>;
 }
 
 // @public
@@ -401,11 +401,6 @@ export enum KnownProvisioningState {
     Updating = "Updating"
 }
 
-// @public
-export enum KnownVersions {
-    V20230720Preview = "2023-07-20-preview"
-}
-
 // @public (undocumented)
 export class LargeInstanceManagementClient extends coreClient.ServiceClient {
     // (undocumented)
@@ -560,9 +555,6 @@ export interface TrackedResource extends Resource {
         [propertyName: string]: string;
     };
 }
-
-// @public
-export type Versions = string;
 
 // (No @packageDocumentation comment for this package)
 

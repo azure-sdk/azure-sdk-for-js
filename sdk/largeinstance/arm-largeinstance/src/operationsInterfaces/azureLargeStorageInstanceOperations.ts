@@ -57,13 +57,13 @@ export interface AzureLargeStorageInstanceOperations {
    * subscription, resource group, and instance name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param azureLargeStorageInstanceName Name of the AzureLargeStorageInstance.
-   * @param tagsParameter The resource properties to be updated.
+   * @param properties The resource properties to be updated.
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
     azureLargeStorageInstanceName: string,
-    tagsParameter: AzureLargeStorageInstanceTagsUpdate,
+    properties: AzureLargeStorageInstanceTagsUpdate,
     options?: AzureLargeStorageInstanceUpdateOptionalParams,
   ): Promise<AzureLargeStorageInstanceUpdateResponse>;
 }

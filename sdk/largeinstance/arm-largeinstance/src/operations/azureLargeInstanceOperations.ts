@@ -235,17 +235,17 @@ export class AzureLargeInstanceOperationsImpl
    * subscription, resource group, and instance name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param azureLargeInstanceName Name of the AzureLargeInstance.
-   * @param tagsParameter The resource properties to be updated.
+   * @param properties The resource properties to be updated.
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
     azureLargeInstanceName: string,
-    tagsParameter: AzureLargeInstanceTagsUpdate,
+    properties: AzureLargeInstanceTagsUpdate,
     options?: AzureLargeInstanceUpdateOptionalParams,
   ): Promise<AzureLargeInstanceUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, azureLargeInstanceName, tagsParameter, options },
+      { resourceGroupName, azureLargeInstanceName, properties, options },
       updateOperationSpec,
     );
   }
@@ -623,7 +623,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.tagsParameter,
+  requestBody: Parameters.properties,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

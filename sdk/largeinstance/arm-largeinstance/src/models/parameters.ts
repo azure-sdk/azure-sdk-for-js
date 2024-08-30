@@ -117,8 +117,8 @@ export const contentType: OperationParameter = {
   },
 };
 
-export const tagsParameter: OperationParameter = {
-  parameterPath: "tagsParameter",
+export const properties: OperationParameter = {
+  parameterPath: "properties",
   mapper: AzureLargeInstanceTagsUpdateMapper,
 };
 
@@ -141,7 +141,7 @@ export const azureLargeStorageInstanceName: OperationURLParameter = {
   },
 };
 
-export const tagsParameter1: OperationParameter = {
-  parameterPath: "tagsParameter",
+export const properties1: OperationParameter = {
+  parameterPath: "properties",
   mapper: AzureLargeStorageInstanceTagsUpdateMapper,
 };

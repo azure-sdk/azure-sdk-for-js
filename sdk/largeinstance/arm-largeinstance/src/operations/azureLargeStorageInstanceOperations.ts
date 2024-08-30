@@ -225,22 +225,17 @@ export class AzureLargeStorageInstanceOperationsImpl
    * subscription, resource group, and instance name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param azureLargeStorageInstanceName Name of the AzureLargeStorageInstance.
-   * @param tagsParameter The resource properties to be updated.
+   * @param properties The resource properties to be updated.
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
     azureLargeStorageInstanceName: string,
-    tagsParameter: AzureLargeStorageInstanceTagsUpdate,
+    properties: AzureLargeStorageInstanceTagsUpdate,
     options?: AzureLargeStorageInstanceUpdateOptionalParams,
   ): Promise<AzureLargeStorageInstanceUpdateResponse> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        azureLargeStorageInstanceName,
-        tagsParameter,
-        options,
-      },
+      { resourceGroupName, azureLargeStorageInstanceName, properties, options },
       updateOperationSpec,
     );
   }
@@ -348,7 +343,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.tagsParameter1,
+  requestBody: Parameters.properties1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

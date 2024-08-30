@@ -63,13 +63,13 @@ export interface AzureLargeInstanceOperations {
    * subscription, resource group, and instance name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param azureLargeInstanceName Name of the AzureLargeInstance.
-   * @param tagsParameter The resource properties to be updated.
+   * @param properties The resource properties to be updated.
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
     azureLargeInstanceName: string,
-    tagsParameter: AzureLargeInstanceTagsUpdate,
+    properties: AzureLargeInstanceTagsUpdate,
     options?: AzureLargeInstanceUpdateOptionalParams,
   ): Promise<AzureLargeInstanceUpdateResponse>;
   /**
