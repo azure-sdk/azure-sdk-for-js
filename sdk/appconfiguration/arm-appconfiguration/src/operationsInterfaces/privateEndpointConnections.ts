@@ -15,7 +15,7 @@ import {
   PrivateEndpointConnectionsGetResponse,
   PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
   PrivateEndpointConnectionsCreateOrUpdateResponse,
-  PrivateEndpointConnectionsDeleteOptionalParams
+  PrivateEndpointConnectionsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -23,18 +23,18 @@ import {
 export interface PrivateEndpointConnections {
   /**
    * Lists all private endpoint connections for a configuration store.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param configStoreName The name of the configuration store.
    * @param options The options parameters.
    */
   listByConfigurationStore(
     resourceGroupName: string,
     configStoreName: string,
-    options?: PrivateEndpointConnectionsListByConfigurationStoreOptionalParams
+    options?: PrivateEndpointConnectionsListByConfigurationStoreOptionalParams,
   ): PagedAsyncIterableIterator<PrivateEndpointConnection>;
   /**
    * Gets the specified private endpoint connection associated with the configuration store.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param configStoreName The name of the configuration store.
    * @param privateEndpointConnectionName Private endpoint connection name
    * @param options The options parameters.
@@ -43,13 +43,13 @@ export interface PrivateEndpointConnections {
     resourceGroupName: string,
     configStoreName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsGetOptionalParams
+    options?: PrivateEndpointConnectionsGetOptionalParams,
   ): Promise<PrivateEndpointConnectionsGetResponse>;
   /**
    * Update the state of the specified private endpoint connection associated with the configuration
    * store. This operation cannot be used to create a private endpoint connection. Private endpoint
    * connections must be created with the Network resource provider.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param configStoreName The name of the configuration store.
    * @param privateEndpointConnectionName Private endpoint connection name
    * @param privateEndpointConnection The private endpoint connection properties.
@@ -60,7 +60,7 @@ export interface PrivateEndpointConnections {
     configStoreName: string,
     privateEndpointConnectionName: string,
     privateEndpointConnection: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams
+    options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PrivateEndpointConnectionsCreateOrUpdateResponse>,
@@ -71,7 +71,7 @@ export interface PrivateEndpointConnections {
    * Update the state of the specified private endpoint connection associated with the configuration
    * store. This operation cannot be used to create a private endpoint connection. Private endpoint
    * connections must be created with the Network resource provider.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param configStoreName The name of the configuration store.
    * @param privateEndpointConnectionName Private endpoint connection name
    * @param privateEndpointConnection The private endpoint connection properties.
@@ -82,11 +82,11 @@ export interface PrivateEndpointConnections {
     configStoreName: string,
     privateEndpointConnectionName: string,
     privateEndpointConnection: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams
+    options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
   ): Promise<PrivateEndpointConnectionsCreateOrUpdateResponse>;
   /**
    * Deletes a private endpoint connection.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param configStoreName The name of the configuration store.
    * @param privateEndpointConnectionName Private endpoint connection name
    * @param options The options parameters.
@@ -95,11 +95,11 @@ export interface PrivateEndpointConnections {
     resourceGroupName: string,
     configStoreName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsDeleteOptionalParams
+    options?: PrivateEndpointConnectionsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a private endpoint connection.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param configStoreName The name of the configuration store.
    * @param privateEndpointConnectionName Private endpoint connection name
    * @param options The options parameters.
@@ -108,6 +108,6 @@ export interface PrivateEndpointConnections {
     resourceGroupName: string,
     configStoreName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsDeleteOptionalParams
+    options?: PrivateEndpointConnectionsDeleteOptionalParams,
   ): Promise<void>;
 }
