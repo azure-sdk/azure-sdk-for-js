@@ -15,7 +15,7 @@ import {
   ReplicasGetResponse,
   ReplicasCreateOptionalParams,
   ReplicasCreateResponse,
-  ReplicasDeleteOptionalParams
+  ReplicasDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -23,18 +23,18 @@ import {
 export interface Replicas {
   /**
    * Lists the replicas for a given configuration store.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param configStoreName The name of the configuration store.
    * @param options The options parameters.
    */
   listByConfigurationStore(
     resourceGroupName: string,
     configStoreName: string,
-    options?: ReplicasListByConfigurationStoreOptionalParams
+    options?: ReplicasListByConfigurationStoreOptionalParams,
   ): PagedAsyncIterableIterator<Replica>;
   /**
    * Gets the properties of the specified replica.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param configStoreName The name of the configuration store.
    * @param replicaName The name of the replica.
    * @param options The options parameters.
@@ -43,11 +43,11 @@ export interface Replicas {
     resourceGroupName: string,
     configStoreName: string,
     replicaName: string,
-    options?: ReplicasGetOptionalParams
+    options?: ReplicasGetOptionalParams,
   ): Promise<ReplicasGetResponse>;
   /**
    * Creates a replica with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param configStoreName The name of the configuration store.
    * @param replicaName The name of the replica.
    * @param replicaCreationParameters The parameters for creating a replica.
@@ -58,7 +58,7 @@ export interface Replicas {
     configStoreName: string,
     replicaName: string,
     replicaCreationParameters: Replica,
-    options?: ReplicasCreateOptionalParams
+    options?: ReplicasCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ReplicasCreateResponse>,
@@ -67,7 +67,7 @@ export interface Replicas {
   >;
   /**
    * Creates a replica with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param configStoreName The name of the configuration store.
    * @param replicaName The name of the replica.
    * @param replicaCreationParameters The parameters for creating a replica.
@@ -78,11 +78,11 @@ export interface Replicas {
     configStoreName: string,
     replicaName: string,
     replicaCreationParameters: Replica,
-    options?: ReplicasCreateOptionalParams
+    options?: ReplicasCreateOptionalParams,
   ): Promise<ReplicasCreateResponse>;
   /**
    * Deletes a replica.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param configStoreName The name of the configuration store.
    * @param replicaName The name of the replica.
    * @param options The options parameters.
@@ -91,11 +91,11 @@ export interface Replicas {
     resourceGroupName: string,
     configStoreName: string,
     replicaName: string,
-    options?: ReplicasDeleteOptionalParams
+    options?: ReplicasDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a replica.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param configStoreName The name of the configuration store.
    * @param replicaName The name of the replica.
    * @param options The options parameters.
@@ -104,6 +104,6 @@ export interface Replicas {
     resourceGroupName: string,
     configStoreName: string,
     replicaName: string,
-    options?: ReplicasDeleteOptionalParams
+    options?: ReplicasDeleteOptionalParams,
   ): Promise<void>;
 }
