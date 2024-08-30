@@ -8,5 +8,5 @@
 
 export * from "./operations";
 export * from "./dashboards";
-export * from "./tenantConfigurations";
 export * from "./listTenantConfigurationViolations";
+export * from "./tenantConfigurations";
