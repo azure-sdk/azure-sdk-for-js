@@ -196,6 +196,62 @@ export interface APIKeySpecEntity {
 }
 
 // @public
+export type AuthType = string;
+
+// @public
+export interface AzureBlobStorageSinkConnectorServiceInfo extends ConnectorServiceTypeInfoBase {
+    connectorServiceType: "AzureBlobStorageSinkConnector";
+    storageAccountKey?: string;
+    storageAccountName?: string;
+    storageContainerName?: string;
+}
+
+// @public
+export interface AzureBlobStorageSourceConnectorServiceInfo extends ConnectorServiceTypeInfoBase {
+    connectorServiceType: "AzureBlobStorageSourceConnector";
+    storageAccountKey?: string;
+    storageAccountName?: string;
+    storageContainerName?: string;
+}
+
+// @public
+export interface AzureCosmosDBSinkConnectorServiceInfo extends ConnectorServiceTypeInfoBase {
+    connectorServiceType: "AzureCosmosDBSinkConnector";
+    cosmosConnectionEndpoint?: string;
+    cosmosContainersTopicMapping?: string;
+    cosmosDatabaseName?: string;
+    cosmosIdStrategy?: string;
+    cosmosMasterKey?: string;
+}
+
+// @public
+export interface AzureCosmosDBSourceConnectorServiceInfo extends ConnectorServiceTypeInfoBase {
+    connectorServiceType: "AzureCosmosDBSourceConnector";
+    cosmosConnectionEndpoint?: string;
+    cosmosContainersTopicMapping?: string;
+    cosmosDatabaseName?: string;
+    cosmosMasterKey?: string;
+    cosmosMessageKeyEnabled?: boolean;
+    cosmosMessageKeyField?: string;
+}
+
+// @public
+export interface AzureSynapseAnalyticsSinkConnectorServiceInfo extends ConnectorServiceTypeInfoBase {
+    connectorServiceType: "AzureSynapseAnalyticsSinkConnector";
+    synapseSqlDatabaseName?: string;
+    synapseSqlPassword?: string;
+    synapseSqlServerName?: string;
+    synapseSqlUser?: string;
+}
+
+// @public
+export interface Cluster {
+    beginDelete(resourceGroupName: string, organizationName: string, environmentId: string, clusterId: string, options?: ClusterDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ClusterDeleteResponse>, ClusterDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, organizationName: string, environmentId: string, clusterId: string, options?: ClusterDeleteOptionalParams): Promise<ClusterDeleteResponse>;
+    createOrUpdate(resourceGroupName: string, organizationName: string, environmentId: string, clusterId: string, options?: ClusterCreateOrUpdateOptionalParams): Promise<ClusterCreateOrUpdateResponse>;
+}
+
+// @public
 export interface ClusterByokEntity {
     id?: string;
     related?: string;
@@ -206,6 +262,28 @@ export interface ClusterByokEntity {
 export interface ClusterConfigEntity {
     kind?: string;
 }
+
+// @public
+export interface ClusterCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    body?: SCClusterRecord;
+}
+
+// @public
+export type ClusterCreateOrUpdateResponse = SCClusterRecord;
+
+// @public
+export interface ClusterDeleteHeaders {
+    location?: string;
+}
+
+// @public
+export interface ClusterDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ClusterDeleteResponse = ClusterDeleteHeaders;
 
 // @public
 export interface ClusterEnvironmentEntity {
@@ -297,6 +375,12 @@ export class ConfluentManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     apiVersion: string;
     // (undocumented)
+    cluster: Cluster;
+    // (undocumented)
+    connector: Connector;
+    // (undocumented)
+    environment: Environment;
+    // (undocumented)
     marketplaceAgreements: MarketplaceAgreements;
     // (undocumented)
     organization: Organization;
@@ -304,6 +388,8 @@ export class ConfluentManagementClient extends coreClient.ServiceClient {
     organizationOperations: OrganizationOperations;
     // (undocumented)
     subscriptionId?: string;
+    // (undocumented)
+    topics: Topics;
     // (undocumented)
     validations: Validations;
 }
@@ -316,6 +402,96 @@ export interface ConfluentManagementClientOptionalParams extends coreClient.Serv
 }
 
 // @public
+export interface Connector {
+    beginDelete(resourceGroupName: string, organizationName: string, environmentId: string, clusterId: string, connectorName: string, options?: ConnectorDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ConnectorDeleteResponse>, ConnectorDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, organizationName: string, environmentId: string, clusterId: string, connectorName: string, options?: ConnectorDeleteOptionalParams): Promise<ConnectorDeleteResponse>;
+    createOrUpdate(resourceGroupName: string, organizationName: string, environmentId: string, clusterId: string, connectorName: string, options?: ConnectorCreateOrUpdateOptionalParams): Promise<ConnectorCreateOrUpdateResponse>;
+    get(resourceGroupName: string, organizationName: string, environmentId: string, clusterId: string, connectorName: string, options?: ConnectorGetOptionalParams): Promise<ConnectorGetResponse>;
+    list(resourceGroupName: string, organizationName: string, environmentId: string, clusterId: string, options?: ConnectorListOptionalParams): PagedAsyncIterableIterator<ConnectorResource>;
+}
+
+// @public
+export type ConnectorClass = string;
+
+// @public
+export interface ConnectorCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    body?: ConnectorResource;
+}
+
+// @public
+export type ConnectorCreateOrUpdateResponse = ConnectorResource;
+
+// @public
+export interface ConnectorDeleteHeaders {
+    location?: string;
+}
+
+// @public
+export interface ConnectorDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ConnectorDeleteResponse = ConnectorDeleteHeaders;
+
+// @public
+export interface ConnectorGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ConnectorGetResponse = ConnectorResource;
+
+// @public
+export interface ConnectorInfoBase {
+    connectorClass?: ConnectorClass;
+    connectorId?: string;
+    connectorName?: string;
+    connectorState?: ConnectorStatus;
+    connectorType?: ConnectorType;
+}
+
+// @public
+export interface ConnectorListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ConnectorListNextResponse = ListConnectorsSuccessResponse;
+
+// @public
+export interface ConnectorListOptionalParams extends coreClient.OperationOptions {
+    pageSize?: number;
+    pageToken?: string;
+}
+
+// @public
+export type ConnectorListResponse = ListConnectorsSuccessResponse;
+
+// @public
+export interface ConnectorResource extends ProxyResource {
+    connectorBasicInfo?: ConnectorInfoBase;
+    connectorServiceTypeInfo?: ConnectorServiceTypeInfoBaseUnion;
+    partnerConnectorInfo?: PartnerInfoBaseUnion;
+}
+
+// @public
+export type ConnectorServiceType = string;
+
+// @public
+export interface ConnectorServiceTypeInfoBase {
+    connectorServiceType: "AzureBlobStorageSinkConnector" | "AzureBlobStorageSourceConnector" | "AzureCosmosDBSinkConnector" | "AzureCosmosDBSourceConnector" | "AzureSynapseAnalyticsSinkConnector";
+}
+
+// @public (undocumented)
+export type ConnectorServiceTypeInfoBaseUnion = ConnectorServiceTypeInfoBase | AzureBlobStorageSinkConnectorServiceInfo | AzureBlobStorageSourceConnectorServiceInfo | AzureCosmosDBSinkConnectorServiceInfo | AzureCosmosDBSourceConnectorServiceInfo | AzureSynapseAnalyticsSinkConnectorServiceInfo;
+
+// @public
+export type ConnectorStatus = string;
+
+// @public
+export type ConnectorType = string;
+
+// @public
 export interface CreateAPIKeyModel {
     description?: string;
     name?: string;
@@ -325,11 +501,63 @@ export interface CreateAPIKeyModel {
 export type CreatedByType = string;
 
 // @public
+export type DataFormatType = string;
+
+// @public
+export interface Environment {
+    beginDelete(resourceGroupName: string, organizationName: string, environmentId: string, options?: EnvironmentDeleteOptionalParams): Promise<SimplePollerLike<OperationState<EnvironmentDeleteResponse>, EnvironmentDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, organizationName: string, environmentId: string, options?: EnvironmentDeleteOptionalParams): Promise<EnvironmentDeleteResponse>;
+    createOrUpdate(resourceGroupName: string, organizationName: string, environmentId: string, options?: EnvironmentCreateOrUpdateOptionalParams): Promise<EnvironmentCreateOrUpdateResponse>;
+}
+
+// @public
+export interface EnvironmentCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    body?: SCEnvironmentRecord;
+}
+
+// @public
+export type EnvironmentCreateOrUpdateResponse = SCEnvironmentRecord;
+
+// @public
+export interface EnvironmentDeleteHeaders {
+    location?: string;
+}
+
+// @public
+export interface EnvironmentDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type EnvironmentDeleteResponse = EnvironmentDeleteHeaders;
+
+// @public
 export interface EnvironmentRecord {
     displayName?: string;
     id?: string;
     kind?: string;
     metadata?: MetadataEntity;
+}
+
+// @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
 }
 
 // @public
@@ -362,11 +590,146 @@ export interface InvitationRecord {
 }
 
 // @public
+export interface KafkaAzureBlobStorageSinkConnectorInfo extends PartnerInfoBase {
+    apiKey?: string;
+    apiSecret?: string;
+    authType?: AuthType;
+    flushSize?: string;
+    inputFormat?: DataFormatType;
+    maxTasks?: string;
+    outputFormat?: DataFormatType;
+    partnerConnectorType: "KafkaAzureBlobStorageSink";
+    serviceAccountId?: string;
+    timeInterval?: string;
+    topics?: string[];
+    topicsDir?: string;
+}
+
+// @public
+export interface KafkaAzureBlobStorageSourceConnectorInfo extends PartnerInfoBase {
+    apiKey?: string;
+    apiSecret?: string;
+    authType?: AuthType;
+    inputFormat?: DataFormatType;
+    maxTasks?: string;
+    outputFormat?: DataFormatType;
+    partnerConnectorType: "KafkaAzureBlobStorageSource";
+    serviceAccountId?: string;
+    topicRegex?: string;
+    topicsDir?: string;
+}
+
+// @public
+export interface KafkaAzureCosmosDBSinkConnectorInfo extends PartnerInfoBase {
+    apiKey?: string;
+    apiSecret?: string;
+    authType?: AuthType;
+    flushSize?: string;
+    inputFormat?: DataFormatType;
+    maxTasks?: string;
+    outputFormat?: DataFormatType;
+    partnerConnectorType: "KafkaAzureCosmosDBSink";
+    serviceAccountId?: string;
+    timeInterval?: string;
+    topics?: string[];
+    topicsDir?: string;
+}
+
+// @public
+export interface KafkaAzureCosmosDBSourceConnectorInfo extends PartnerInfoBase {
+    apiKey?: string;
+    apiSecret?: string;
+    authType?: AuthType;
+    inputFormat?: DataFormatType;
+    maxTasks?: string;
+    outputFormat?: DataFormatType;
+    partnerConnectorType: "KafkaAzureCosmosDBSource";
+    serviceAccountId?: string;
+    topicRegex?: string;
+    topicsDir?: string;
+}
+
+// @public
+export interface KafkaAzureSynapseAnalyticsSinkConnectorInfo extends PartnerInfoBase {
+    apiKey?: string;
+    apiSecret?: string;
+    authType?: AuthType;
+    flushSize?: string;
+    inputFormat?: DataFormatType;
+    maxTasks?: string;
+    outputFormat?: DataFormatType;
+    partnerConnectorType: "KafkaAzureSynapseAnalyticsSink";
+    serviceAccountId?: string;
+    timeInterval?: string;
+    topics?: string[];
+    topicsDir?: string;
+}
+
+// @public
+export enum KnownAuthType {
+    KafkaAPIKEY = "KAFKA_API_KEY",
+    ServiceAccount = "SERVICE_ACCOUNT"
+}
+
+// @public
+export enum KnownConnectorClass {
+    Azureblobsink = "AZUREBLOBSINK",
+    Azureblobsource = "AZUREBLOBSOURCE"
+}
+
+// @public
+export enum KnownConnectorServiceType {
+    AzureBlobStorageSinkConnector = "AzureBlobStorageSinkConnector",
+    AzureBlobStorageSourceConnector = "AzureBlobStorageSourceConnector",
+    AzureCosmosDBSinkConnector = "AzureCosmosDBSinkConnector",
+    AzureCosmosDBSourceConnector = "AzureCosmosDBSourceConnector",
+    AzureSynapseAnalyticsSinkConnector = "AzureSynapseAnalyticsSinkConnector"
+}
+
+// @public
+export enum KnownConnectorStatus {
+    Failed = "FAILED",
+    Paused = "PAUSED",
+    Provisioning = "PROVISIONING",
+    Running = "RUNNING"
+}
+
+// @public
+export enum KnownConnectorType {
+    Sink = "SINK",
+    Source = "SOURCE"
+}
+
+// @public
 export enum KnownCreatedByType {
     Application = "Application",
     Key = "Key",
     ManagedIdentity = "ManagedIdentity",
     User = "User"
+}
+
+// @public
+export enum KnownDataFormatType {
+    Avro = "AVRO",
+    Bytes = "BYTES",
+    Json = "JSON",
+    Protobuf = "PROTOBUF",
+    String = "STRING"
+}
+
+// @public
+export enum KnownPackage {
+    Advanced = "ADVANCED",
+    Essentials = "ESSENTIALS"
+}
+
+// @public
+export enum KnownPartnerConnectorType {
+    KafkaAzureBlobStorageSink = "KafkaAzureBlobStorageSink",
+    KafkaAzureBlobStorageSource = "KafkaAzureBlobStorageSource",
+    KafkaAzureCosmosDBSink = "KafkaAzureCosmosDBSink",
+    KafkaAzureCosmosDBSource = "KafkaAzureCosmosDBSource",
+    KafkaAzureSynapseAnalyticsSink = "KafkaAzureSynapseAnalyticsSink"
 }
 
 // @public
@@ -415,6 +778,12 @@ export interface ListClustersSuccessResponse {
 }
 
 // @public
+export interface ListConnectorsSuccessResponse {
+    nextLink?: string;
+    value?: ConnectorResource[];
+}
+
+// @public
 export interface ListRegionsSuccessResponse {
     data?: RegionRecord[];
 }
@@ -423,6 +792,12 @@ export interface ListRegionsSuccessResponse {
 export interface ListSchemaRegistryClustersResponse {
     nextLink?: string;
     value?: SchemaRegistryClusterRecord[];
+}
+
+// @public
+export interface ListTopicsSuccessResponse {
+    nextLink?: string;
+    value?: TopicRecord[];
 }
 
 // @public
@@ -723,7 +1098,25 @@ export interface OrganizationUpdateOptionalParams extends coreClient.OperationOp
 export type OrganizationUpdateResponse = OrganizationResource;
 
 // @public
+export type Package = string;
+
+// @public
+export type PartnerConnectorType = string;
+
+// @public
+export interface PartnerInfoBase {
+    partnerConnectorType: "KafkaAzureBlobStorageSink" | "KafkaAzureBlobStorageSource" | "KafkaAzureCosmosDBSink" | "KafkaAzureCosmosDBSource" | "KafkaAzureSynapseAnalyticsSink";
+}
+
+// @public (undocumented)
+export type PartnerInfoBaseUnion = PartnerInfoBase | KafkaAzureBlobStorageSinkConnectorInfo | KafkaAzureBlobStorageSourceConnectorInfo | KafkaAzureCosmosDBSinkConnectorInfo | KafkaAzureCosmosDBSourceConnectorInfo | KafkaAzureSynapseAnalyticsSinkConnectorInfo;
+
+// @public
 export type ProvisionState = string;
+
+// @public
+export interface ProxyResource extends Resource {
+}
 
 // @public
 export interface RegionRecord {
@@ -740,6 +1133,14 @@ export interface RegionSpecEntity {
     // (undocumented)
     packages?: string[];
     regionName?: string;
+}
+
+// @public
+export interface Resource {
+    readonly id?: string;
+    readonly name?: string;
+    readonly systemData?: SystemData;
+    readonly type?: string;
 }
 
 // @public
@@ -783,6 +1184,7 @@ export interface SCClusterRecord {
     name?: string;
     spec?: SCClusterSpecEntity;
     status?: ClusterStatusEntity;
+    type?: string;
 }
 
 // @public
@@ -797,6 +1199,7 @@ export interface SCClusterSpecEntity {
     kafkaBootstrapEndpoint?: string;
     name?: string;
     network?: SCClusterNetworkEnvironmentEntity;
+    package?: Package;
     region?: string;
     zone?: string;
 }
@@ -816,6 +1219,8 @@ export interface SCEnvironmentRecord {
     kind?: string;
     metadata?: SCMetadataEntity;
     name?: string;
+    streamGovernanceConfig?: StreamGovernanceConfig;
+    type?: string;
 }
 
 // @public
@@ -868,6 +1273,11 @@ export interface ServiceAccountRecord {
 }
 
 // @public
+export interface StreamGovernanceConfig {
+    package?: Package;
+}
+
+// @public
 export interface SystemData {
     createdAt?: Date;
     createdBy?: string;
@@ -875,6 +1285,93 @@ export interface SystemData {
     lastModifiedAt?: Date;
     lastModifiedBy?: string;
     lastModifiedByType?: CreatedByType;
+}
+
+// @public
+export interface TopicMetadataEntity {
+    resourceName?: string;
+    self?: string;
+}
+
+// @public
+export interface TopicRecord {
+    configs?: TopicsRelatedLink;
+    readonly id?: string;
+    inputConfigs?: TopicsInputConfig[];
+    kind?: string;
+    metadata?: TopicMetadataEntity;
+    readonly name?: string;
+    partitions?: TopicsRelatedLink;
+    partitionsCount?: string;
+    partitionsReassignments?: TopicsRelatedLink;
+    replicationFactor?: string;
+    topicId?: string;
+    readonly type?: string;
+}
+
+// @public
+export interface Topics {
+    beginDelete(resourceGroupName: string, organizationName: string, environmentId: string, clusterId: string, topicName: string, options?: TopicsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<TopicsDeleteResponse>, TopicsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, organizationName: string, environmentId: string, clusterId: string, topicName: string, options?: TopicsDeleteOptionalParams): Promise<TopicsDeleteResponse>;
+    create(resourceGroupName: string, organizationName: string, environmentId: string, clusterId: string, topicName: string, options?: TopicsCreateOptionalParams): Promise<TopicsCreateResponse>;
+    get(resourceGroupName: string, organizationName: string, environmentId: string, clusterId: string, topicName: string, options?: TopicsGetOptionalParams): Promise<TopicsGetResponse>;
+    list(resourceGroupName: string, organizationName: string, environmentId: string, clusterId: string, options?: TopicsListOptionalParams): PagedAsyncIterableIterator<TopicRecord>;
+}
+
+// @public
+export interface TopicsCreateOptionalParams extends coreClient.OperationOptions {
+    body?: TopicRecord;
+}
+
+// @public
+export type TopicsCreateResponse = TopicRecord;
+
+// @public
+export interface TopicsDeleteHeaders {
+    location?: string;
+}
+
+// @public
+export interface TopicsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type TopicsDeleteResponse = TopicsDeleteHeaders;
+
+// @public
+export interface TopicsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TopicsGetResponse = TopicRecord;
+
+// @public
+export interface TopicsInputConfig {
+    name?: string;
+    value?: string;
+}
+
+// @public
+export interface TopicsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TopicsListNextResponse = ListTopicsSuccessResponse;
+
+// @public
+export interface TopicsListOptionalParams extends coreClient.OperationOptions {
+    pageSize?: number;
+    pageToken?: string;
+}
+
+// @public
+export type TopicsListResponse = ListTopicsSuccessResponse;
+
+// @public
+export interface TopicsRelatedLink {
+    related?: string;
 }
 
 // @public

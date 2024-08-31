@@ -19,6 +19,10 @@ import {
   CreateAPIKeyModel as CreateAPIKeyModelMapper,
   AccessInviteUserAccountModel as AccessInviteUserAccountModelMapper,
   AccessCreateRoleBindingRequestModel as AccessCreateRoleBindingRequestModelMapper,
+  SCEnvironmentRecord as SCEnvironmentRecordMapper,
+  SCClusterRecord as SCClusterRecordMapper,
+  ConnectorResource as ConnectorResourceMapper,
+  TopicRecord as TopicRecordMapper,
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -48,7 +52,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-02-13",
+    defaultValue: "2024-07-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -231,4 +235,46 @@ export const roleBindingId: OperationURLParameter = {
       name: "String",
     },
   },
+};
+
+export const body8: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: SCEnvironmentRecordMapper,
+};
+
+export const body9: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: SCClusterRecordMapper,
+};
+
+export const connectorName: OperationURLParameter = {
+  parameterPath: "connectorName",
+  mapper: {
+    serializedName: "connectorName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const body10: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: ConnectorResourceMapper,
+};
+
+export const topicName: OperationURLParameter = {
+  parameterPath: "topicName",
+  mapper: {
+    serializedName: "topicName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const body11: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: TopicRecordMapper,
 };
