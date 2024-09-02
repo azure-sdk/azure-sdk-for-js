@@ -4,7 +4,11 @@
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "rootDir": ".",
-    "paths": { "@azure-rest/batch": ["./src/index"] }
+    "paths": {
+      "@azure-rest/batch": [
+        "./src/index"
+      ]
+    }
   },
   "include": [
     "./src/**/*.ts",
