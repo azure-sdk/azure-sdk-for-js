@@ -1,0 +1,21 @@
+{
+  "extends": "../../../tsconfig",
+  "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "rootDir": ".",
+    "paths": {
+      "@azure-rest/livemetrics-rest": [
+        "./src/index"
+      ]
+    }
+  },
+  "include": [
+    "./src/**/*.ts",
+    "./src/**/*.mts",
+    "./src/**/*.cts",
+    "test/**/*.ts",
+    "./test/**/*.ts",
+    "samples-dev/**/*.ts"
+  ]
+}
