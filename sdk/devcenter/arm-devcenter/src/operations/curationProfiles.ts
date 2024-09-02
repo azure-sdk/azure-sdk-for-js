@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { DevBoxDefinitions } from "../operationsInterfaces";
+import { CurationProfiles } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,35 +20,29 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  DevBoxDefinition,
-  DevBoxDefinitionsListByDevCenterNextOptionalParams,
-  DevBoxDefinitionsListByDevCenterOptionalParams,
-  DevBoxDefinitionsListByDevCenterResponse,
-  DevBoxDefinitionsListByProjectNextOptionalParams,
-  DevBoxDefinitionsListByProjectOptionalParams,
-  DevBoxDefinitionsListByProjectResponse,
-  DevBoxDefinitionsGetOptionalParams,
-  DevBoxDefinitionsGetResponse,
-  DevBoxDefinitionsCreateOrUpdateOptionalParams,
-  DevBoxDefinitionsCreateOrUpdateResponse,
-  DevBoxDefinitionUpdate,
-  DevBoxDefinitionsUpdateOptionalParams,
-  DevBoxDefinitionsUpdateResponse,
-  DevBoxDefinitionsDeleteOptionalParams,
-  DevBoxDefinitionsDeleteResponse,
-  DevBoxDefinitionsGetByProjectOptionalParams,
-  DevBoxDefinitionsGetByProjectResponse,
-  DevBoxDefinitionsListByDevCenterNextResponse,
-  DevBoxDefinitionsListByProjectNextResponse,
+  CurationProfile,
+  CurationProfilesListByDevCenterNextOptionalParams,
+  CurationProfilesListByDevCenterOptionalParams,
+  CurationProfilesListByDevCenterResponse,
+  CurationProfilesGetOptionalParams,
+  CurationProfilesGetResponse,
+  CurationProfilesCreateOrUpdateOptionalParams,
+  CurationProfilesCreateOrUpdateResponse,
+  CurationProfileUpdate,
+  CurationProfilesUpdateOptionalParams,
+  CurationProfilesUpdateResponse,
+  CurationProfilesDeleteOptionalParams,
+  CurationProfilesDeleteResponse,
+  CurationProfilesListByDevCenterNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing DevBoxDefinitions operations. */
-export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
+/** Class containing CurationProfiles operations. */
+export class CurationProfilesImpl implements CurationProfiles {
   private readonly client: DevCenterClient;
 
   /**
-   * Initialize a new instance of the class DevBoxDefinitions class.
+   * Initialize a new instance of the class CurationProfiles class.
    * @param client Reference to the service client
    */
   constructor(client: DevCenterClient) {
@@ -56,7 +50,7 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
   }
 
   /**
-   * List Dev Box definitions for a devcenter.
+   * Lists all curation profiles in the dev center
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param options The options parameters.
@@ -64,8 +58,8 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
   public listByDevCenter(
     resourceGroupName: string,
     devCenterName: string,
-    options?: DevBoxDefinitionsListByDevCenterOptionalParams,
-  ): PagedAsyncIterableIterator<DevBoxDefinition> {
+    options?: CurationProfilesListByDevCenterOptionalParams,
+  ): PagedAsyncIterableIterator<CurationProfile> {
     const iter = this.listByDevCenterPagingAll(
       resourceGroupName,
       devCenterName,
@@ -95,10 +89,10 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
   private async *listByDevCenterPagingPage(
     resourceGroupName: string,
     devCenterName: string,
-    options?: DevBoxDefinitionsListByDevCenterOptionalParams,
+    options?: CurationProfilesListByDevCenterOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<DevBoxDefinition[]> {
-    let result: DevBoxDefinitionsListByDevCenterResponse;
+  ): AsyncIterableIterator<CurationProfile[]> {
+    let result: CurationProfilesListByDevCenterResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByDevCenter(
@@ -128,8 +122,8 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
   private async *listByDevCenterPagingAll(
     resourceGroupName: string,
     devCenterName: string,
-    options?: DevBoxDefinitionsListByDevCenterOptionalParams,
-  ): AsyncIterableIterator<DevBoxDefinition> {
+    options?: CurationProfilesListByDevCenterOptionalParams,
+  ): AsyncIterableIterator<CurationProfile> {
     for await (const page of this.listByDevCenterPagingPage(
       resourceGroupName,
       devCenterName,
@@ -140,91 +134,7 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
   }
 
   /**
-   * List Dev Box definitions configured for a project.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param projectName The name of the project.
-   * @param options The options parameters.
-   */
-  public listByProject(
-    resourceGroupName: string,
-    projectName: string,
-    options?: DevBoxDefinitionsListByProjectOptionalParams,
-  ): PagedAsyncIterableIterator<DevBoxDefinition> {
-    const iter = this.listByProjectPagingAll(
-      resourceGroupName,
-      projectName,
-      options,
-    );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listByProjectPagingPage(
-          resourceGroupName,
-          projectName,
-          options,
-          settings,
-        );
-      },
-    };
-  }
-
-  private async *listByProjectPagingPage(
-    resourceGroupName: string,
-    projectName: string,
-    options?: DevBoxDefinitionsListByProjectOptionalParams,
-    settings?: PageSettings,
-  ): AsyncIterableIterator<DevBoxDefinition[]> {
-    let result: DevBoxDefinitionsListByProjectResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByProject(
-        resourceGroupName,
-        projectName,
-        options,
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listByProjectNext(
-        resourceGroupName,
-        projectName,
-        continuationToken,
-        options,
-      );
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listByProjectPagingAll(
-    resourceGroupName: string,
-    projectName: string,
-    options?: DevBoxDefinitionsListByProjectOptionalParams,
-  ): AsyncIterableIterator<DevBoxDefinition> {
-    for await (const page of this.listByProjectPagingPage(
-      resourceGroupName,
-      projectName,
-      options,
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
-   * List Dev Box definitions for a devcenter.
+   * Lists all curation profiles in the dev center
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param options The options parameters.
@@ -232,8 +142,8 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
   private _listByDevCenter(
     resourceGroupName: string,
     devCenterName: string,
-    options?: DevBoxDefinitionsListByDevCenterOptionalParams,
-  ): Promise<DevBoxDefinitionsListByDevCenterResponse> {
+    options?: CurationProfilesListByDevCenterOptionalParams,
+  ): Promise<CurationProfilesListByDevCenterResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, devCenterName, options },
       listByDevCenterOperationSpec,
@@ -241,48 +151,48 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
   }
 
   /**
-   * Gets a Dev Box definition
+   * Gets a specific curation profile.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
-   * @param devBoxDefinitionName The name of the Dev Box definition.
+   * @param curationProfileName The name of the curation profile.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     devCenterName: string,
-    devBoxDefinitionName: string,
-    options?: DevBoxDefinitionsGetOptionalParams,
-  ): Promise<DevBoxDefinitionsGetResponse> {
+    curationProfileName: string,
+    options?: CurationProfilesGetOptionalParams,
+  ): Promise<CurationProfilesGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, devCenterName, devBoxDefinitionName, options },
+      { resourceGroupName, devCenterName, curationProfileName, options },
       getOperationSpec,
     );
   }
 
   /**
-   * Creates or updates a Dev Box definition.
+   * Creates or updates an curation profile.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
-   * @param devBoxDefinitionName The name of the Dev Box definition.
-   * @param body Represents a Dev Box definition.
+   * @param curationProfileName The name of the curation profile.
+   * @param body Represents an curation profile.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     devCenterName: string,
-    devBoxDefinitionName: string,
-    body: DevBoxDefinition,
-    options?: DevBoxDefinitionsCreateOrUpdateOptionalParams,
+    curationProfileName: string,
+    body: CurationProfile,
+    options?: CurationProfilesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<DevBoxDefinitionsCreateOrUpdateResponse>,
-      DevBoxDefinitionsCreateOrUpdateResponse
+      OperationState<CurationProfilesCreateOrUpdateResponse>,
+      CurationProfilesCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<DevBoxDefinitionsCreateOrUpdateResponse> => {
+    ): Promise<CurationProfilesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -322,15 +232,15 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
       args: {
         resourceGroupName,
         devCenterName,
-        devBoxDefinitionName,
+        curationProfileName,
         body,
         options,
       },
       spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
-      DevBoxDefinitionsCreateOrUpdateResponse,
-      OperationState<DevBoxDefinitionsCreateOrUpdateResponse>
+      CurationProfilesCreateOrUpdateResponse,
+      OperationState<CurationProfilesCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -341,24 +251,24 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
   }
 
   /**
-   * Creates or updates a Dev Box definition.
+   * Creates or updates an curation profile.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
-   * @param devBoxDefinitionName The name of the Dev Box definition.
-   * @param body Represents a Dev Box definition.
+   * @param curationProfileName The name of the curation profile.
+   * @param body Represents an curation profile.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     devCenterName: string,
-    devBoxDefinitionName: string,
-    body: DevBoxDefinition,
-    options?: DevBoxDefinitionsCreateOrUpdateOptionalParams,
-  ): Promise<DevBoxDefinitionsCreateOrUpdateResponse> {
+    curationProfileName: string,
+    body: CurationProfile,
+    options?: CurationProfilesCreateOrUpdateOptionalParams,
+  ): Promise<CurationProfilesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       devCenterName,
-      devBoxDefinitionName,
+      curationProfileName,
       body,
       options,
     );
@@ -366,29 +276,29 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
   }
 
   /**
-   * Partially updates a Dev Box definition.
+   * Partially updates an curation profile.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
-   * @param devBoxDefinitionName The name of the Dev Box definition.
-   * @param body Represents a Dev Box definition.
+   * @param curationProfileName The name of the curation profile.
+   * @param body Updatable curation profile properties.
    * @param options The options parameters.
    */
   async beginUpdate(
     resourceGroupName: string,
     devCenterName: string,
-    devBoxDefinitionName: string,
-    body: DevBoxDefinitionUpdate,
-    options?: DevBoxDefinitionsUpdateOptionalParams,
+    curationProfileName: string,
+    body: CurationProfileUpdate,
+    options?: CurationProfilesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<DevBoxDefinitionsUpdateResponse>,
-      DevBoxDefinitionsUpdateResponse
+      OperationState<CurationProfilesUpdateResponse>,
+      CurationProfilesUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<DevBoxDefinitionsUpdateResponse> => {
+    ): Promise<CurationProfilesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -428,15 +338,15 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
       args: {
         resourceGroupName,
         devCenterName,
-        devBoxDefinitionName,
+        curationProfileName,
         body,
         options,
       },
       spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
-      DevBoxDefinitionsUpdateResponse,
-      OperationState<DevBoxDefinitionsUpdateResponse>
+      CurationProfilesUpdateResponse,
+      OperationState<CurationProfilesUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -447,24 +357,24 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
   }
 
   /**
-   * Partially updates a Dev Box definition.
+   * Partially updates an curation profile.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
-   * @param devBoxDefinitionName The name of the Dev Box definition.
-   * @param body Represents a Dev Box definition.
+   * @param curationProfileName The name of the curation profile.
+   * @param body Updatable curation profile properties.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
     devCenterName: string,
-    devBoxDefinitionName: string,
-    body: DevBoxDefinitionUpdate,
-    options?: DevBoxDefinitionsUpdateOptionalParams,
-  ): Promise<DevBoxDefinitionsUpdateResponse> {
+    curationProfileName: string,
+    body: CurationProfileUpdate,
+    options?: CurationProfilesUpdateOptionalParams,
+  ): Promise<CurationProfilesUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       devCenterName,
-      devBoxDefinitionName,
+      curationProfileName,
       body,
       options,
     );
@@ -472,27 +382,27 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
   }
 
   /**
-   * Deletes a Dev Box definition
+   * Deletes an curation profile.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
-   * @param devBoxDefinitionName The name of the Dev Box definition.
+   * @param curationProfileName The name of the curation profile.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     devCenterName: string,
-    devBoxDefinitionName: string,
-    options?: DevBoxDefinitionsDeleteOptionalParams,
+    curationProfileName: string,
+    options?: CurationProfilesDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<DevBoxDefinitionsDeleteResponse>,
-      DevBoxDefinitionsDeleteResponse
+      OperationState<CurationProfilesDeleteResponse>,
+      CurationProfilesDeleteResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<DevBoxDefinitionsDeleteResponse> => {
+    ): Promise<CurationProfilesDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -529,12 +439,12 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, devCenterName, devBoxDefinitionName, options },
+      args: { resourceGroupName, devCenterName, curationProfileName, options },
       spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
-      DevBoxDefinitionsDeleteResponse,
-      OperationState<DevBoxDefinitionsDeleteResponse>
+      CurationProfilesDeleteResponse,
+      OperationState<CurationProfilesDeleteResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -545,61 +455,25 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
   }
 
   /**
-   * Deletes a Dev Box definition
+   * Deletes an curation profile.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
-   * @param devBoxDefinitionName The name of the Dev Box definition.
+   * @param curationProfileName The name of the curation profile.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     devCenterName: string,
-    devBoxDefinitionName: string,
-    options?: DevBoxDefinitionsDeleteOptionalParams,
-  ): Promise<DevBoxDefinitionsDeleteResponse> {
+    curationProfileName: string,
+    options?: CurationProfilesDeleteOptionalParams,
+  ): Promise<CurationProfilesDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       devCenterName,
-      devBoxDefinitionName,
+      curationProfileName,
       options,
     );
     return poller.pollUntilDone();
-  }
-
-  /**
-   * List Dev Box definitions configured for a project.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param projectName The name of the project.
-   * @param options The options parameters.
-   */
-  private _listByProject(
-    resourceGroupName: string,
-    projectName: string,
-    options?: DevBoxDefinitionsListByProjectOptionalParams,
-  ): Promise<DevBoxDefinitionsListByProjectResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, projectName, options },
-      listByProjectOperationSpec,
-    );
-  }
-
-  /**
-   * Gets a Dev Box definition configured for a project
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param projectName The name of the project.
-   * @param devBoxDefinitionName The name of the Dev Box definition.
-   * @param options The options parameters.
-   */
-  getByProject(
-    resourceGroupName: string,
-    projectName: string,
-    devBoxDefinitionName: string,
-    options?: DevBoxDefinitionsGetByProjectOptionalParams,
-  ): Promise<DevBoxDefinitionsGetByProjectResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, projectName, devBoxDefinitionName, options },
-      getByProjectOperationSpec,
-    );
   }
 
   /**
@@ -613,30 +487,11 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
     resourceGroupName: string,
     devCenterName: string,
     nextLink: string,
-    options?: DevBoxDefinitionsListByDevCenterNextOptionalParams,
-  ): Promise<DevBoxDefinitionsListByDevCenterNextResponse> {
+    options?: CurationProfilesListByDevCenterNextOptionalParams,
+  ): Promise<CurationProfilesListByDevCenterNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, devCenterName, nextLink, options },
       listByDevCenterNextOperationSpec,
-    );
-  }
-
-  /**
-   * ListByProjectNext
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param projectName The name of the project.
-   * @param nextLink The nextLink from the previous successful call to the ListByProject method.
-   * @param options The options parameters.
-   */
-  private _listByProjectNext(
-    resourceGroupName: string,
-    projectName: string,
-    nextLink: string,
-    options?: DevBoxDefinitionsListByProjectNextOptionalParams,
-  ): Promise<DevBoxDefinitionsListByProjectNextResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, projectName, nextLink, options },
-      listByProjectNextOperationSpec,
     );
   }
 }
@@ -644,11 +499,11 @@ export class DevBoxDefinitionsImpl implements DevBoxDefinitions {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByDevCenterOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/devboxdefinitions",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/curationProfiles",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DevBoxDefinitionListResult,
+      bodyMapper: Mappers.CurationProfileListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -665,11 +520,11 @@ const listByDevCenterOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/devboxdefinitions/{devBoxDefinitionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/curationProfiles/{curationProfileName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DevBoxDefinition,
+      bodyMapper: Mappers.CurationProfile,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -681,92 +536,92 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.devCenterName,
-    Parameters.devBoxDefinitionName,
+    Parameters.curationProfileName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/devboxdefinitions/{devBoxDefinitionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/curationProfiles/{curationProfileName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.DevBoxDefinition,
+      bodyMapper: Mappers.CurationProfile,
     },
     201: {
-      bodyMapper: Mappers.DevBoxDefinition,
+      bodyMapper: Mappers.CurationProfile,
     },
     202: {
-      bodyMapper: Mappers.DevBoxDefinition,
+      bodyMapper: Mappers.CurationProfile,
     },
     204: {
-      bodyMapper: Mappers.DevBoxDefinition,
+      bodyMapper: Mappers.CurationProfile,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body22,
+  requestBody: Parameters.body8,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.devCenterName,
-    Parameters.devBoxDefinitionName,
+    Parameters.curationProfileName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/devboxdefinitions/{devBoxDefinitionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/curationProfiles/{curationProfileName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.DevBoxDefinition,
+      bodyMapper: Mappers.CurationProfile,
     },
     201: {
-      bodyMapper: Mappers.DevBoxDefinition,
+      bodyMapper: Mappers.CurationProfile,
     },
     202: {
-      bodyMapper: Mappers.DevBoxDefinition,
+      bodyMapper: Mappers.CurationProfile,
     },
     204: {
-      bodyMapper: Mappers.DevBoxDefinition,
+      bodyMapper: Mappers.CurationProfile,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body23,
+  requestBody: Parameters.body9,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.devCenterName,
-    Parameters.devBoxDefinitionName,
+    Parameters.curationProfileName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/devboxdefinitions/{devBoxDefinitionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/curationProfiles/{curationProfileName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.DevBoxDefinitionsDeleteHeaders,
+      headersMapper: Mappers.CurationProfilesDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.DevBoxDefinitionsDeleteHeaders,
+      headersMapper: Mappers.CurationProfilesDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.DevBoxDefinitionsDeleteHeaders,
+      headersMapper: Mappers.CurationProfilesDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.DevBoxDefinitionsDeleteHeaders,
+      headersMapper: Mappers.CurationProfilesDeleteHeaders,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -778,50 +633,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.devCenterName,
-    Parameters.devBoxDefinitionName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listByProjectOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/devboxdefinitions",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DevBoxDefinitionListResult,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.top],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.projectName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const getByProjectOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/devboxdefinitions/{devBoxDefinitionName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DevBoxDefinition,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.projectName,
-    Parameters.devBoxDefinitionName,
+    Parameters.curationProfileName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -831,7 +643,7 @@ const listByDevCenterNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DevBoxDefinitionListResult,
+      bodyMapper: Mappers.CurationProfileListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -843,27 +655,6 @@ const listByDevCenterNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.nextLink,
     Parameters.devCenterName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listByProjectNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DevBoxDefinitionListResult,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.nextLink,
-    Parameters.projectName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
