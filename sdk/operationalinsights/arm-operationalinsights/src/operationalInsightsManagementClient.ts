@@ -10,52 +10,52 @@ import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
-  QueryPacksImpl,
-  QueriesImpl,
+  AvailableServiceTiersImpl,
+  ClustersImpl,
   DataExportsImpl,
   DataSourcesImpl,
+  GatewaysImpl,
   IntelligencePacksImpl,
   LinkedServicesImpl,
   LinkedStorageAccountsImpl,
   ManagementGroupsImpl,
-  OperationStatusesImpl,
-  SharedKeysOperationsImpl,
-  UsagesImpl,
-  StorageInsightConfigsImpl,
-  SavedSearchesImpl,
-  AvailableServiceTiersImpl,
-  GatewaysImpl,
-  SchemaOperationsImpl,
-  WorkspacePurgeImpl,
-  ClustersImpl,
   OperationsImpl,
+  OperationStatusesImpl,
+  SavedSearchesImpl,
+  SchemaOperationsImpl,
+  SharedKeysOperationsImpl,
+  StorageInsightConfigsImpl,
+  TablesImpl,
+  UsagesImpl,
+  WorkspacePurgeImpl,
   WorkspacesImpl,
   DeletedWorkspacesImpl,
-  TablesImpl
+  QueriesImpl,
+  QueryPacksImpl,
 } from "./operations";
 import {
-  QueryPacks,
-  Queries,
+  AvailableServiceTiers,
+  Clusters,
   DataExports,
   DataSources,
+  Gateways,
   IntelligencePacks,
   LinkedServices,
   LinkedStorageAccounts,
   ManagementGroups,
-  OperationStatuses,
-  SharedKeysOperations,
-  Usages,
-  StorageInsightConfigs,
-  SavedSearches,
-  AvailableServiceTiers,
-  Gateways,
-  SchemaOperations,
-  WorkspacePurge,
-  Clusters,
   Operations,
+  OperationStatuses,
+  SavedSearches,
+  SchemaOperations,
+  SharedKeysOperations,
+  StorageInsightConfigs,
+  Tables,
+  Usages,
+  WorkspacePurge,
   Workspaces,
   DeletedWorkspaces,
-  Tables
+  Queries,
+  QueryPacks,
 } from "./operationsInterfaces";
 import { OperationalInsightsManagementClientOptionalParams } from "./models";
 
@@ -72,7 +72,7 @@ export class OperationalInsightsManagementClient extends coreClient.ServiceClien
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: OperationalInsightsManagementClientOptionalParams
+    options?: OperationalInsightsManagementClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -87,10 +87,10 @@ export class OperationalInsightsManagementClient extends coreClient.ServiceClien
     }
     const defaults: OperationalInsightsManagementClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-operationalinsights/9.0.1`;
+    const packageDetails = `azsdk-js-arm-operationalinsights/10.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -100,20 +100,21 @@ export class OperationalInsightsManagementClient extends coreClient.ServiceClien
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -123,7 +124,7 @@ export class OperationalInsightsManagementClient extends coreClient.ServiceClien
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -133,9 +134,9 @@ export class OperationalInsightsManagementClient extends coreClient.ServiceClien
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -143,50 +144,50 @@ export class OperationalInsightsManagementClient extends coreClient.ServiceClien
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.queryPacks = new QueryPacksImpl(this);
-    this.queries = new QueriesImpl(this);
+    this.availableServiceTiers = new AvailableServiceTiersImpl(this);
+    this.clusters = new ClustersImpl(this);
     this.dataExports = new DataExportsImpl(this);
     this.dataSources = new DataSourcesImpl(this);
+    this.gateways = new GatewaysImpl(this);
     this.intelligencePacks = new IntelligencePacksImpl(this);
     this.linkedServices = new LinkedServicesImpl(this);
     this.linkedStorageAccounts = new LinkedStorageAccountsImpl(this);
     this.managementGroups = new ManagementGroupsImpl(this);
-    this.operationStatuses = new OperationStatusesImpl(this);
-    this.sharedKeysOperations = new SharedKeysOperationsImpl(this);
-    this.usages = new UsagesImpl(this);
-    this.storageInsightConfigs = new StorageInsightConfigsImpl(this);
-    this.savedSearches = new SavedSearchesImpl(this);
-    this.availableServiceTiers = new AvailableServiceTiersImpl(this);
-    this.gateways = new GatewaysImpl(this);
-    this.schemaOperations = new SchemaOperationsImpl(this);
-    this.workspacePurge = new WorkspacePurgeImpl(this);
-    this.clusters = new ClustersImpl(this);
     this.operations = new OperationsImpl(this);
+    this.operationStatuses = new OperationStatusesImpl(this);
+    this.savedSearches = new SavedSearchesImpl(this);
+    this.schemaOperations = new SchemaOperationsImpl(this);
+    this.sharedKeysOperations = new SharedKeysOperationsImpl(this);
+    this.storageInsightConfigs = new StorageInsightConfigsImpl(this);
+    this.tables = new TablesImpl(this);
+    this.usages = new UsagesImpl(this);
+    this.workspacePurge = new WorkspacePurgeImpl(this);
     this.workspaces = new WorkspacesImpl(this);
     this.deletedWorkspaces = new DeletedWorkspacesImpl(this);
-    this.tables = new TablesImpl(this);
+    this.queries = new QueriesImpl(this);
+    this.queryPacks = new QueryPacksImpl(this);
   }
 
-  queryPacks: QueryPacks;
-  queries: Queries;
+  availableServiceTiers: AvailableServiceTiers;
+  clusters: Clusters;
   dataExports: DataExports;
   dataSources: DataSources;
+  gateways: Gateways;
   intelligencePacks: IntelligencePacks;
   linkedServices: LinkedServices;
   linkedStorageAccounts: LinkedStorageAccounts;
   managementGroups: ManagementGroups;
-  operationStatuses: OperationStatuses;
-  sharedKeysOperations: SharedKeysOperations;
-  usages: Usages;
-  storageInsightConfigs: StorageInsightConfigs;
-  savedSearches: SavedSearches;
-  availableServiceTiers: AvailableServiceTiers;
-  gateways: Gateways;
-  schemaOperations: SchemaOperations;
-  workspacePurge: WorkspacePurge;
-  clusters: Clusters;
   operations: Operations;
+  operationStatuses: OperationStatuses;
+  savedSearches: SavedSearches;
+  schemaOperations: SchemaOperations;
+  sharedKeysOperations: SharedKeysOperations;
+  storageInsightConfigs: StorageInsightConfigs;
+  tables: Tables;
+  usages: Usages;
+  workspacePurge: WorkspacePurge;
   workspaces: Workspaces;
   deletedWorkspaces: DeletedWorkspaces;
-  tables: Tables;
+  queries: Queries;
+  queryPacks: QueryPacks;
 }

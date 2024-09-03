@@ -7,10 +7,12 @@
  */
 
 import {
-  SharedKeysGetSharedKeysOptionalParams,
-  SharedKeysGetSharedKeysResponse,
+  SharedKeysListOptionalParams,
+  SharedKeysListResponse,
+  SharedKeysGetOptionalParams,
+  SharedKeysGetResponse,
   SharedKeysRegenerateOptionalParams,
-  SharedKeysRegenerateResponse
+  SharedKeysRegenerateResponse,
 } from "../models";
 
 /** Interface representing a SharedKeysOperations. */
@@ -21,11 +23,22 @@ export interface SharedKeysOperations {
    * @param workspaceName The name of the workspace.
    * @param options The options parameters.
    */
-  getSharedKeys(
+  list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: SharedKeysGetSharedKeysOptionalParams
-  ): Promise<SharedKeysGetSharedKeysResponse>;
+    options?: SharedKeysListOptionalParams,
+  ): Promise<SharedKeysListResponse>;
+  /**
+   * Gets the shared keys for a workspace.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: SharedKeysGetOptionalParams,
+  ): Promise<SharedKeysGetResponse>;
   /**
    * Regenerates the shared keys for a Log Analytics Workspace. These keys are used to connect Microsoft
    * Operational Insights agents to the workspace.
@@ -36,6 +49,6 @@ export interface SharedKeysOperations {
   regenerate(
     resourceGroupName: string,
     workspaceName: string,
-    options?: SharedKeysRegenerateOptionalParams
+    options?: SharedKeysRegenerateOptionalParams,
   ): Promise<SharedKeysRegenerateResponse>;
 }

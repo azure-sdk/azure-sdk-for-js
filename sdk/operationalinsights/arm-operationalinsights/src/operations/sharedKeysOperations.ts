@@ -12,10 +12,12 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { OperationalInsightsManagementClient } from "../operationalInsightsManagementClient";
 import {
-  SharedKeysGetSharedKeysOptionalParams,
-  SharedKeysGetSharedKeysResponse,
+  SharedKeysListOptionalParams,
+  SharedKeysListResponse,
+  SharedKeysGetOptionalParams,
+  SharedKeysGetResponse,
   SharedKeysRegenerateOptionalParams,
-  SharedKeysRegenerateResponse
+  SharedKeysRegenerateResponse,
 } from "../models";
 
 /** Class containing SharedKeysOperations operations. */
@@ -36,14 +38,31 @@ export class SharedKeysOperationsImpl implements SharedKeysOperations {
    * @param workspaceName The name of the workspace.
    * @param options The options parameters.
    */
-  getSharedKeys(
+  list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: SharedKeysGetSharedKeysOptionalParams
-  ): Promise<SharedKeysGetSharedKeysResponse> {
+    options?: SharedKeysListOptionalParams,
+  ): Promise<SharedKeysListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
-      getSharedKeysOperationSpec
+      listOperationSpec,
+    );
+  }
+
+  /**
+   * Gets the shared keys for a workspace.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: SharedKeysGetOptionalParams,
+  ): Promise<SharedKeysGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, workspaceName, options },
+      getOperationSpec,
     );
   }
 
@@ -57,52 +76,77 @@ export class SharedKeysOperationsImpl implements SharedKeysOperations {
   regenerate(
     resourceGroupName: string,
     workspaceName: string,
-    options?: SharedKeysRegenerateOptionalParams
+    options?: SharedKeysRegenerateOptionalParams,
   ): Promise<SharedKeysRegenerateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
-      regenerateOperationSpec
+      regenerateOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getSharedKeysOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/sharedKeys",
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/listkeys",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.SharedKeys
-    }
+      bodyMapper: Mappers.SharedKeys,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/sharedKeys",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SharedKeys,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const regenerateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/regenerateSharedKey",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/regenerateSharedKey",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.SharedKeys
-    }
+      bodyMapper: Mappers.SharedKeys,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
