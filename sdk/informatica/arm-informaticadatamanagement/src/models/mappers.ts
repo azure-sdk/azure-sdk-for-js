@@ -1012,6 +1012,18 @@ export const InfaServerlessFetchConfigProperties: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      serverlessRuntimeDataDisks: {
+        serializedName: "serverlessRuntimeDataDisks",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ServerlessRuntimeDataDisk",
+            },
+          },
+        },
+      },
       platform: {
         serializedName: "platform",
         type: {
@@ -1062,6 +1074,45 @@ export const InfaServerlessFetchConfigProperties: coreClient.CompositeMapper = {
       },
       serverlessArmResourceId: {
         serializedName: "serverlessArmResourceId",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ServerlessRuntimeDataDisk: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ServerlessRuntimeDataDisk",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String",
+        },
+      },
+      serverHostOrIpAddress: {
+        serializedName: "serverHostOrIpAddress",
+        type: {
+          name: "String",
+        },
+      },
+      sourceMount: {
+        serializedName: "sourceMount",
+        type: {
+          name: "String",
+        },
+      },
+      targetMount: {
+        serializedName: "targetMount",
+        type: {
+          name: "String",
+        },
+      },
+      mountOptions: {
+        serializedName: "mountOptions",
         type: {
           name: "String",
         },
@@ -1448,6 +1499,18 @@ export const InformaticaServerlessRuntimeProperties: coreClient.CompositeMapper 
             name: "String",
           },
         },
+        serverlessRuntimeDataDisks: {
+          serializedName: "serverlessRuntimeDataDisks",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "ServerlessRuntimeDataDisk",
+              },
+            },
+          },
+        },
         serverlessRuntimeConfig: {
           serializedName: "serverlessRuntimeConfig",
           type: {
@@ -1664,6 +1727,18 @@ export const ServerlessRuntimePropertiesCustomUpdate: coreClient.CompositeMapper
           serializedName: "supplementaryFileLocation",
           type: {
             name: "String",
+          },
+        },
+        serverlessRuntimeDataDisks: {
+          serializedName: "serverlessRuntimeDataDisks",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "ServerlessRuntimeDataDisk",
+              },
+            },
           },
         },
         serverlessRuntimeConfig: {

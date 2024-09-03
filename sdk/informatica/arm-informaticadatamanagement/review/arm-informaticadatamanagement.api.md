@@ -130,6 +130,7 @@ export interface InfaServerlessFetchConfigProperties {
     region?: string;
     resourceGroupName?: string;
     serverlessArmResourceId?: string;
+    serverlessRuntimeDataDisks?: ServerlessRuntimeDataDisk[];
     subnet?: string;
     subscriptionId?: string;
     supplementaryFileLocation?: string;
@@ -200,6 +201,7 @@ export interface InformaticaServerlessRuntimeProperties {
     readonly provisioningState?: ProvisioningState;
     serverlessAccountLocation: string;
     serverlessRuntimeConfig?: ServerlessRuntimeConfigProperties;
+    serverlessRuntimeDataDisks?: ServerlessRuntimeDataDisk[];
     serverlessRuntimeNetworkProfile?: ServerlessRuntimeNetworkProfile;
     serverlessRuntimeTags?: ServerlessRuntimeTag[];
     serverlessRuntimeUserContextProperties?: ServerlessRuntimeUserContextProperties;
@@ -546,6 +548,15 @@ export interface ServerlessRuntimeConfigPropertiesUpdate {
 }
 
 // @public
+export interface ServerlessRuntimeDataDisk {
+    mountOptions?: string;
+    serverHostOrIpAddress?: string;
+    sourceMount?: string;
+    targetMount?: string;
+    type?: string;
+}
+
+// @public
 export interface ServerlessRuntimeDependency {
     appContextId: string;
     description: string;
@@ -575,6 +586,7 @@ export interface ServerlessRuntimePropertiesCustomUpdate {
     platform?: PlatformType;
     serverlessAccountLocation?: string;
     serverlessRuntimeConfig?: ServerlessRuntimeConfigPropertiesUpdate;
+    serverlessRuntimeDataDisks?: ServerlessRuntimeDataDisk[];
     serverlessRuntimeNetworkProfile?: ServerlessRuntimeNetworkProfileUpdate;
     serverlessRuntimeTags?: ServerlessRuntimeTag[];
     serverlessRuntimeUserContextProperties?: ServerlessRuntimeUserContextPropertiesUpdate;

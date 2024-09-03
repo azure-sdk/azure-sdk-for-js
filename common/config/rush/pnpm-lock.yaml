@@ -13847,7 +13847,7 @@ packages:
     dev: false
 
   file:projects/arm-datafactory.tgz:
-    resolution: {integrity: sha512-Q/UgF/jHUhFWs4a2VHg5BPu4EacOjaoAJqlLqGFX3ZwG0GZDoRx8FtqHRw8p4jzKB5vuOrEV/3GzXjtsgu1WWg==, tarball: file:projects/arm-datafactory.tgz}
+    resolution: {integrity: sha512-OjurQ7/SHnCoMLxEpSFGvaVMi0A2ZKFX6rJ/jwbdMCikCifxpU7FWz3q7qpsBMKSUwwPiN6m0entDZOQ2Ya3DQ==, tarball: file:projects/arm-datafactory.tgz}
     name: '@rush-temp/arm-datafactory'
     version: 0.0.0
     dependencies:
@@ -15263,7 +15263,7 @@ packages:
     dev: false
 
   file:projects/arm-informaticadatamanagement.tgz:
-    resolution: {integrity: sha512-4ZoBX8l7MMUojMK0UPDFYD+WekFgLiDDH1gXAxCxbiQK7DsI6slk4e1jA92nZVKhcOeKjQlvxUazv3npWw/7aA==, tarball: file:projects/arm-informaticadatamanagement.tgz}
+    resolution: {integrity: sha512-FknBSmKQyyaDWLF9bKr4P5BWfL1u+nKej8pns2KyujzIAUo3WThIve2ntaySa4G4C595P7vmp3Kgtq/LBGSH0g==, tarball: file:projects/arm-informaticadatamanagement.tgz}
     name: '@rush-temp/arm-informaticadatamanagement'
     version: 0.0.0
     dependencies:
@@ -15282,10 +15282,10 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.7.3
       rimraf: 5.0.10
-      ts-node: 10.9.2(@types/node@18.19.46)(typescript@5.4.5)
+      ts-node: 10.9.2(@types/node@18.19.46)(typescript@5.5.4)
       tslib: 2.7.0
       tsx: 4.18.0
-      typescript: 5.4.5
+      typescript: 5.5.4
       uglify-js: 3.19.2
     transitivePeerDependencies:
       - '@swc/core'
@@ -17289,7 +17289,7 @@ packages:
     dev: false
 
   file:projects/arm-quota.tgz:
-    resolution: {integrity: sha512-xk059uR7eCCN3t024cWSE4S9muFzgPyN0kwgYPtQ9y/4+OQwdv8wvBqclcnw++X7ttxE5uPz9P6NgkNQS+HINA==, tarball: file:projects/arm-quota.tgz}
+    resolution: {integrity: sha512-DT26fngJRNaDs9vD1pNoxWWP94MBNU2psw6cuM97r8fzubsU/y5f2u9WsdMzNs5HZT5md5gTN8b8h6aG1M6/Yw==, tarball: file:projects/arm-quota.tgz}
     name: '@rush-temp/arm-quota'
     version: 0.0.0
     dependencies:
@@ -20371,7 +20371,7 @@ packages:
     dev: false
 
   file:projects/core-rest-pipeline.tgz:
-    resolution: {integrity: sha512-Ckt9WaQnIP5+x4m60yXQvQMFfFFmvIVzG5Y2cLKI/6XWnjD9mx5RfL20OpOmwGFT04KnyxWUZoVxalNLlieF8Q==, tarball: file:projects/core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-Y89gCuNnHD3FSHtxVO2vCgGgCF27cFz7Hd+Xlmfgu5s/Fz8lm4IjZqOm165C2xjS7EWmWmrIEfXKwGfVQcZnBA==, tarball: file:projects/core-rest-pipeline.tgz}
     name: '@rush-temp/core-rest-pipeline'
     version: 0.0.0
     dependencies:
@@ -21561,7 +21561,7 @@ packages:
     dev: false
 
   file:projects/identity.tgz:
-    resolution: {integrity: sha512-sjF9+fskcd/8aI964QgNTcos2w8b0MgC0Zu5Vwn3xmjQtQjWMvPy3o85VZx6+vq4GFHOsou0tobu1krKLtvZJA==, tarball: file:projects/identity.tgz}
+    resolution: {integrity: sha512-5EkTlu2q3ZkjPIlIBMu4R++aneg//XjawueoiPtgIS2Be16wcAhkmossUcKDv1whl1evCy79PC5drQIvn1Yi6Q==, tarball: file:projects/identity.tgz}
     name: '@rush-temp/identity'
     version: 0.0.0
     dependencies:

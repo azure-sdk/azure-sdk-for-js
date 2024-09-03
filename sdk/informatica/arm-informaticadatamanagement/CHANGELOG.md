@@ -1,15 +1,15 @@
 # Release History
-
-## 1.0.1 (Unreleased)
-
+    
+## 1.1.0 (2024-09-03)
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface ServerlessRuntimeDataDisk
+  - Interface InfaServerlessFetchConfigProperties has a new optional parameter serverlessRuntimeDataDisks
+  - Interface InformaticaServerlessRuntimeProperties has a new optional parameter serverlessRuntimeDataDisks
+  - Interface ServerlessRuntimePropertiesCustomUpdate has a new optional parameter serverlessRuntimeDataDisks
+    
+    
 ## 1.0.0 (2024-07-15)
 
 ### Features Added
