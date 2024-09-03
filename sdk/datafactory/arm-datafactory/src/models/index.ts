@@ -160,6 +160,7 @@ export type DatasetUnion =
   | XmlDataset
   | OrcDataset
   | BinaryDataset
+  | IcebergDataset
   | AzureBlobDataset
   | AzureTableDataset
   | AzureSqlTableDataset
@@ -360,7 +361,8 @@ export type FormatWriteSettingsUnion =
   | OrcWriteSettings
   | ParquetWriteSettings
   | DelimitedTextWriteSettings
-  | JsonWriteSettings;
+  | JsonWriteSettings
+  | IcebergWriteSettings;
 export type CopySourceUnion =
   | CopySource
   | AvroSource
@@ -419,6 +421,7 @@ export type CopySinkUnion =
   | AvroSink
   | ParquetSink
   | BinarySink
+  | IcebergSink
   | BlobSink
   | FileSystemSink
   | DocumentDbCollectionSink
@@ -1454,6 +1457,7 @@ export interface Dataset {
     | "Xml"
     | "Orc"
     | "Binary"
+    | "Iceberg"
     | "AzureBlob"
     | "AzureTable"
     | "AzureSqlTable"
@@ -3258,7 +3262,8 @@ export interface FormatWriteSettings {
     | "OrcWriteSettings"
     | "ParquetWriteSettings"
     | "DelimitedTextWriteSettings"
-    | "JsonWriteSettings";
+    | "JsonWriteSettings"
+    | "IcebergWriteSettings";
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
 }
@@ -3401,6 +3406,7 @@ export interface CopySink {
     | "AvroSink"
     | "ParquetSink"
     | "BinarySink"
+    | "IcebergSink"
     | "BlobSink"
     | "FileSystemSink"
     | "DocumentDbCollectionSink"
@@ -7358,6 +7364,14 @@ export interface BinaryDataset extends Dataset {
   compression?: DatasetCompression;
 }
 
+/** Iceberg dataset. */
+export interface IcebergDataset extends Dataset {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Iceberg";
+  /** The location of the iceberg storage. Setting a file name is not allowed for iceberg format. */
+  location?: DatasetLocationUnion;
+}
+
 /** The Azure Blob storage. */
 export interface AzureBlobDataset extends Dataset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -9482,6 +9496,12 @@ export interface JsonWriteSettings extends FormatWriteSettings {
   filePattern?: any;
 }
 
+/** Iceberg write settings. */
+export interface IcebergWriteSettings extends FormatWriteSettings {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "IcebergWriteSettings";
+}
+
 /** A copy activity Avro source. */
 export interface AvroSource extends CopySource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -10169,6 +10189,16 @@ export interface BinarySink extends CopySink {
   type: "BinarySink";
   /** Binary store settings. */
   storeSettings?: StoreWriteSettingsUnion;
+}
+
+/** A copy activity Iceberg sink. */
+export interface IcebergSink extends CopySink {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "IcebergSink";
+  /** Iceberg store settings. */
+  storeSettings?: StoreWriteSettingsUnion;
+  /** Iceberg format settings. */
+  formatSettings?: IcebergWriteSettings;
 }
 
 /** A copy activity Azure Blob sink. */
