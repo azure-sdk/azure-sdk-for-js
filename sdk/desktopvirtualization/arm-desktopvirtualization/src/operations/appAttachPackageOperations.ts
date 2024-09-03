@@ -8,41 +8,39 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { HostPools } from "../operationsInterfaces";
+import { AppAttachPackageOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DesktopVirtualizationAPIClient } from "../desktopVirtualizationAPIClient";
 import {
-  HostPool,
-  HostPoolsListNextOptionalParams,
-  HostPoolsListOptionalParams,
-  HostPoolsListResponse,
-  HostPoolsListByResourceGroupNextOptionalParams,
-  HostPoolsListByResourceGroupOptionalParams,
-  HostPoolsListByResourceGroupResponse,
-  HostPoolsGetOptionalParams,
-  HostPoolsGetResponse,
-  HostPoolsCreateOrUpdateOptionalParams,
-  HostPoolsCreateOrUpdateResponse,
-  HostPoolsDeleteOptionalParams,
-  HostPoolsUpdateOptionalParams,
-  HostPoolsUpdateResponse,
-  HostPoolsRetrieveRegistrationTokenOptionalParams,
-  HostPoolsRetrieveRegistrationTokenResponse,
-  HostPoolsListRegistrationTokensOptionalParams,
-  HostPoolsListRegistrationTokensResponse,
-  HostPoolsListNextResponse,
-  HostPoolsListByResourceGroupNextResponse,
+  AppAttachPackage,
+  AppAttachPackageListBySubscriptionNextOptionalParams,
+  AppAttachPackageListBySubscriptionOptionalParams,
+  AppAttachPackageListBySubscriptionResponse,
+  AppAttachPackageListByResourceGroupNextOptionalParams,
+  AppAttachPackageListByResourceGroupOptionalParams,
+  AppAttachPackageListByResourceGroupResponse,
+  AppAttachPackageGetOptionalParams,
+  AppAttachPackageGetResponse,
+  AppAttachPackageCreateOrUpdateOptionalParams,
+  AppAttachPackageCreateOrUpdateResponse,
+  AppAttachPackageDeleteOptionalParams,
+  AppAttachPackageUpdateOptionalParams,
+  AppAttachPackageUpdateResponse,
+  AppAttachPackageListBySubscriptionNextResponse,
+  AppAttachPackageListByResourceGroupNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing HostPools operations. */
-export class HostPoolsImpl implements HostPools {
+/** Class containing AppAttachPackageOperations operations. */
+export class AppAttachPackageOperationsImpl
+  implements AppAttachPackageOperations
+{
   private readonly client: DesktopVirtualizationAPIClient;
 
   /**
-   * Initialize a new instance of the class HostPools class.
+   * Initialize a new instance of the class AppAttachPackageOperations class.
    * @param client Reference to the service client
    */
   constructor(client: DesktopVirtualizationAPIClient) {
@@ -50,13 +48,13 @@ export class HostPoolsImpl implements HostPools {
   }
 
   /**
-   * List hostPools in subscription.
+   * List App Attach packages in subscription.
    * @param options The options parameters.
    */
-  public list(
-    options?: HostPoolsListOptionalParams,
-  ): PagedAsyncIterableIterator<HostPool> {
-    const iter = this.listPagingAll(options);
+  public listBySubscription(
+    options?: AppAttachPackageListBySubscriptionOptionalParams,
+  ): PagedAsyncIterableIterator<AppAttachPackage> {
+    const iter = this.listBySubscriptionPagingAll(options);
     return {
       next() {
         return iter.next();
@@ -68,26 +66,26 @@ export class HostPoolsImpl implements HostPools {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(options, settings);
+        return this.listBySubscriptionPagingPage(options, settings);
       },
     };
   }
 
-  private async *listPagingPage(
-    options?: HostPoolsListOptionalParams,
+  private async *listBySubscriptionPagingPage(
+    options?: AppAttachPackageListBySubscriptionOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<HostPool[]> {
-    let result: HostPoolsListResponse;
+  ): AsyncIterableIterator<AppAttachPackage[]> {
+    let result: AppAttachPackageListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(options);
+      result = await this._listBySubscription(options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(continuationToken, options);
+      result = await this._listBySubscriptionNext(continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -95,23 +93,23 @@ export class HostPoolsImpl implements HostPools {
     }
   }
 
-  private async *listPagingAll(
-    options?: HostPoolsListOptionalParams,
-  ): AsyncIterableIterator<HostPool> {
-    for await (const page of this.listPagingPage(options)) {
+  private async *listBySubscriptionPagingAll(
+    options?: AppAttachPackageListBySubscriptionOptionalParams,
+  ): AsyncIterableIterator<AppAttachPackage> {
+    for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * List hostPools.
+   * List App Attach packages in resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: HostPoolsListByResourceGroupOptionalParams,
-  ): PagedAsyncIterableIterator<HostPool> {
+    options?: AppAttachPackageListByResourceGroupOptionalParams,
+  ): PagedAsyncIterableIterator<AppAttachPackage> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
       next() {
@@ -135,10 +133,10 @@ export class HostPoolsImpl implements HostPools {
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: HostPoolsListByResourceGroupOptionalParams,
+    options?: AppAttachPackageListByResourceGroupOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<HostPool[]> {
-    let result: HostPoolsListByResourceGroupResponse;
+  ): AsyncIterableIterator<AppAttachPackage[]> {
+    let result: AppAttachPackageListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByResourceGroup(resourceGroupName, options);
@@ -162,8 +160,8 @@ export class HostPoolsImpl implements HostPools {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: HostPoolsListByResourceGroupOptionalParams,
-  ): AsyncIterableIterator<HostPool> {
+    options?: AppAttachPackageListByResourceGroupOptionalParams,
+  ): AsyncIterableIterator<AppAttachPackage> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
       options,
@@ -173,24 +171,27 @@ export class HostPoolsImpl implements HostPools {
   }
 
   /**
-   * List hostPools in subscription.
+   * List App Attach packages in subscription.
    * @param options The options parameters.
    */
-  private _list(
-    options?: HostPoolsListOptionalParams,
-  ): Promise<HostPoolsListResponse> {
-    return this.client.sendOperationRequest({ options }, listOperationSpec);
+  private _listBySubscription(
+    options?: AppAttachPackageListBySubscriptionOptionalParams,
+  ): Promise<AppAttachPackageListBySubscriptionResponse> {
+    return this.client.sendOperationRequest(
+      { options },
+      listBySubscriptionOperationSpec,
+    );
   }
 
   /**
-   * List hostPools.
+   * List App Attach packages in resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: HostPoolsListByResourceGroupOptionalParams,
-  ): Promise<HostPoolsListByResourceGroupResponse> {
+    options?: AppAttachPackageListByResourceGroupOptionalParams,
+  ): Promise<AppAttachPackageListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
       listByResourceGroupOperationSpec,
@@ -198,121 +199,87 @@ export class HostPoolsImpl implements HostPools {
   }
 
   /**
-   * Get a host pool.
+   * Get an app attach package.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param hostPoolName The name of the host pool within the specified resource group
+   * @param appAttachPackageName The name of the App Attach package arm object
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    hostPoolName: string,
-    options?: HostPoolsGetOptionalParams,
-  ): Promise<HostPoolsGetResponse> {
+    appAttachPackageName: string,
+    options?: AppAttachPackageGetOptionalParams,
+  ): Promise<AppAttachPackageGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, hostPoolName, options },
+      { resourceGroupName, appAttachPackageName, options },
       getOperationSpec,
     );
   }
 
   /**
-   * Create or update a host pool.
+   * Create or update an App Attach package.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param hostPoolName The name of the host pool within the specified resource group
-   * @param hostPool Object containing HostPool definitions.
+   * @param appAttachPackageName The name of the App Attach package arm object
+   * @param appAttachPackage Object containing App Attach Package definitions.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
-    hostPoolName: string,
-    hostPool: HostPool,
-    options?: HostPoolsCreateOrUpdateOptionalParams,
-  ): Promise<HostPoolsCreateOrUpdateResponse> {
+    appAttachPackageName: string,
+    appAttachPackage: AppAttachPackage,
+    options?: AppAttachPackageCreateOrUpdateOptionalParams,
+  ): Promise<AppAttachPackageCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, hostPoolName, hostPool, options },
+      { resourceGroupName, appAttachPackageName, appAttachPackage, options },
       createOrUpdateOperationSpec,
     );
   }
 
   /**
-   * Remove a host pool.
+   * Remove an App Attach Package.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param hostPoolName The name of the host pool within the specified resource group
+   * @param appAttachPackageName The name of the App Attach package arm object
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
-    hostPoolName: string,
-    options?: HostPoolsDeleteOptionalParams,
+    appAttachPackageName: string,
+    options?: AppAttachPackageDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, hostPoolName, options },
+      { resourceGroupName, appAttachPackageName, options },
       deleteOperationSpec,
     );
   }
 
   /**
-   * Update a host pool.
+   * Update an App Attach Package
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param hostPoolName The name of the host pool within the specified resource group
+   * @param appAttachPackageName The name of the App Attach package arm object
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
-    hostPoolName: string,
-    options?: HostPoolsUpdateOptionalParams,
-  ): Promise<HostPoolsUpdateResponse> {
+    appAttachPackageName: string,
+    options?: AppAttachPackageUpdateOptionalParams,
+  ): Promise<AppAttachPackageUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, hostPoolName, options },
+      { resourceGroupName, appAttachPackageName, options },
       updateOperationSpec,
     );
   }
 
   /**
-   * Registration token of the host pool.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param hostPoolName The name of the host pool within the specified resource group
+   * ListBySubscriptionNext
+   * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
    * @param options The options parameters.
    */
-  retrieveRegistrationToken(
-    resourceGroupName: string,
-    hostPoolName: string,
-    options?: HostPoolsRetrieveRegistrationTokenOptionalParams,
-  ): Promise<HostPoolsRetrieveRegistrationTokenResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, hostPoolName, options },
-      retrieveRegistrationTokenOperationSpec,
-    );
-  }
-
-  /**
-   * Operation to list the RegistrationTokens associated with the HostPool.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param hostPoolName The name of the host pool within the specified resource group
-   * @param options The options parameters.
-   */
-  listRegistrationTokens(
-    resourceGroupName: string,
-    hostPoolName: string,
-    options?: HostPoolsListRegistrationTokensOptionalParams,
-  ): Promise<HostPoolsListRegistrationTokensResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, hostPoolName, options },
-      listRegistrationTokensOperationSpec,
-    );
-  }
-
-  /**
-   * ListNext
-   * @param nextLink The nextLink from the previous successful call to the List method.
-   * @param options The options parameters.
-   */
-  private _listNext(
+  private _listBySubscriptionNext(
     nextLink: string,
-    options?: HostPoolsListNextOptionalParams,
-  ): Promise<HostPoolsListNextResponse> {
+    options?: AppAttachPackageListBySubscriptionNextOptionalParams,
+  ): Promise<AppAttachPackageListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec,
+      listBySubscriptionNextOperationSpec,
     );
   }
 
@@ -325,8 +292,8 @@ export class HostPoolsImpl implements HostPools {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: HostPoolsListByResourceGroupNextOptionalParams,
-  ): Promise<HostPoolsListByResourceGroupNextResponse> {
+    options?: AppAttachPackageListByResourceGroupNextOptionalParams,
+  ): Promise<AppAttachPackageListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
       listByResourceGroupNextOperationSpec,
@@ -336,44 +303,34 @@ export class HostPoolsImpl implements HostPools {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DesktopVirtualization/hostPools",
+const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DesktopVirtualization/appAttachPackages",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.HostPoolList,
+      bodyMapper: Mappers.AppAttachPackageList,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.pageSize,
-    Parameters.isDescending,
-    Parameters.initialSkip,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/appAttachPackages",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.HostPoolList,
+      bodyMapper: Mappers.AppAttachPackageList,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.pageSize,
-    Parameters.isDescending,
-    Parameters.initialSkip,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -383,14 +340,14 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/appAttachPackages/{appAttachPackageName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.HostPool,
+      bodyMapper: Mappers.AppAttachPackage,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -398,45 +355,45 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.hostPoolName,
+    Parameters.appAttachPackageName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/appAttachPackages/{appAttachPackageName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.HostPool,
+      bodyMapper: Mappers.AppAttachPackage,
     },
     201: {
-      bodyMapper: Mappers.HostPool,
+      bodyMapper: Mappers.AppAttachPackage,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.hostPool,
+  requestBody: Parameters.appAttachPackage,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.hostPoolName,
+    Parameters.appAttachPackageName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/appAttachPackages/{appAttachPackageName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion, Parameters.force],
@@ -444,85 +401,43 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.hostPoolName,
+    Parameters.appAttachPackageName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/appAttachPackages/{appAttachPackageName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.HostPool,
+      bodyMapper: Mappers.AppAttachPackage,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.hostPool1,
+  requestBody: Parameters.appAttachPackagePatch,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.hostPoolName,
+    Parameters.appAttachPackageName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
-const retrieveRegistrationTokenOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/retrieveRegistrationToken",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.RegistrationInfo,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.hostPoolName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listRegistrationTokensOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/listRegistrationTokens",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.RegistrationTokenList,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.hostPoolName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listNextOperationSpec: coreClient.OperationSpec = {
+const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.HostPoolList,
+      bodyMapper: Mappers.AppAttachPackageList,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [
@@ -538,10 +453,10 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.HostPoolList,
+      bodyMapper: Mappers.AppAttachPackageList,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [

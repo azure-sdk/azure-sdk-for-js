@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  ScalingPlanPooledSchedule,
+  ScalingPlanPooledSchedulePut,
   ScalingPlanPooledSchedulesListOptionalParams,
   ScalingPlanPooledSchedulesGetOptionalParams,
   ScalingPlanPooledSchedulesGetResponse,
@@ -16,7 +16,7 @@ import {
   ScalingPlanPooledSchedulesCreateResponse,
   ScalingPlanPooledSchedulesDeleteOptionalParams,
   ScalingPlanPooledSchedulesUpdateOptionalParams,
-  ScalingPlanPooledSchedulesUpdateResponse
+  ScalingPlanPooledSchedulesUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,8 +31,8 @@ export interface ScalingPlanPooledSchedules {
   list(
     resourceGroupName: string,
     scalingPlanName: string,
-    options?: ScalingPlanPooledSchedulesListOptionalParams
-  ): PagedAsyncIterableIterator<ScalingPlanPooledSchedule>;
+    options?: ScalingPlanPooledSchedulesListOptionalParams,
+  ): PagedAsyncIterableIterator<ScalingPlanPooledSchedulePut>;
   /**
    * Get a ScalingPlanPooledSchedule.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -44,7 +44,7 @@ export interface ScalingPlanPooledSchedules {
     resourceGroupName: string,
     scalingPlanName: string,
     scalingPlanScheduleName: string,
-    options?: ScalingPlanPooledSchedulesGetOptionalParams
+    options?: ScalingPlanPooledSchedulesGetOptionalParams,
   ): Promise<ScalingPlanPooledSchedulesGetResponse>;
   /**
    * Create or update a ScalingPlanPooledSchedule.
@@ -58,8 +58,8 @@ export interface ScalingPlanPooledSchedules {
     resourceGroupName: string,
     scalingPlanName: string,
     scalingPlanScheduleName: string,
-    scalingPlanSchedule: ScalingPlanPooledSchedule,
-    options?: ScalingPlanPooledSchedulesCreateOptionalParams
+    scalingPlanSchedule: ScalingPlanPooledSchedulePut,
+    options?: ScalingPlanPooledSchedulesCreateOptionalParams,
   ): Promise<ScalingPlanPooledSchedulesCreateResponse>;
   /**
    * Remove a ScalingPlanPooledSchedule.
@@ -72,7 +72,7 @@ export interface ScalingPlanPooledSchedules {
     resourceGroupName: string,
     scalingPlanName: string,
     scalingPlanScheduleName: string,
-    options?: ScalingPlanPooledSchedulesDeleteOptionalParams
+    options?: ScalingPlanPooledSchedulesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Update a ScalingPlanPooledSchedule.
@@ -85,6 +85,6 @@ export interface ScalingPlanPooledSchedules {
     resourceGroupName: string,
     scalingPlanName: string,
     scalingPlanScheduleName: string,
-    options?: ScalingPlanPooledSchedulesUpdateOptionalParams
+    options?: ScalingPlanPooledSchedulesUpdateOptionalParams,
   ): Promise<ScalingPlanPooledSchedulesUpdateResponse>;
 }

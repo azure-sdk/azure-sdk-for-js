@@ -9,20 +9,27 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   Workspace,
-  WorkspacesListByResourceGroupOptionalParams,
   WorkspacesListBySubscriptionOptionalParams,
+  WorkspacesListByResourceGroupOptionalParams,
   WorkspacesGetOptionalParams,
   WorkspacesGetResponse,
   WorkspacesCreateOrUpdateOptionalParams,
   WorkspacesCreateOrUpdateResponse,
   WorkspacesDeleteOptionalParams,
   WorkspacesUpdateOptionalParams,
-  WorkspacesUpdateResponse
+  WorkspacesUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Workspaces. */
 export interface Workspaces {
+  /**
+   * List workspaces in subscription.
+   * @param options The options parameters.
+   */
+  listBySubscription(
+    options?: WorkspacesListBySubscriptionOptionalParams,
+  ): PagedAsyncIterableIterator<Workspace>;
   /**
    * List workspaces.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -30,14 +37,7 @@ export interface Workspaces {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: WorkspacesListByResourceGroupOptionalParams
-  ): PagedAsyncIterableIterator<Workspace>;
-  /**
-   * List workspaces in subscription.
-   * @param options The options parameters.
-   */
-  listBySubscription(
-    options?: WorkspacesListBySubscriptionOptionalParams
+    options?: WorkspacesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Workspace>;
   /**
    * Get a workspace.
@@ -48,7 +48,7 @@ export interface Workspaces {
   get(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspacesGetOptionalParams
+    options?: WorkspacesGetOptionalParams,
   ): Promise<WorkspacesGetResponse>;
   /**
    * Create or update a workspace.
@@ -61,7 +61,7 @@ export interface Workspaces {
     resourceGroupName: string,
     workspaceName: string,
     workspace: Workspace,
-    options?: WorkspacesCreateOrUpdateOptionalParams
+    options?: WorkspacesCreateOrUpdateOptionalParams,
   ): Promise<WorkspacesCreateOrUpdateResponse>;
   /**
    * Remove a workspace.
@@ -72,7 +72,7 @@ export interface Workspaces {
   delete(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspacesDeleteOptionalParams
+    options?: WorkspacesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Update a workspace.
@@ -83,6 +83,6 @@ export interface Workspaces {
   update(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspacesUpdateOptionalParams
+    options?: WorkspacesUpdateOptionalParams,
   ): Promise<WorkspacesUpdateResponse>;
 }

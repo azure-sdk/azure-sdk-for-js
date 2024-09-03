@@ -9,20 +9,27 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   ApplicationGroup,
-  ApplicationGroupsListByResourceGroupOptionalParams,
   ApplicationGroupsListBySubscriptionOptionalParams,
+  ApplicationGroupsListByResourceGroupOptionalParams,
   ApplicationGroupsGetOptionalParams,
   ApplicationGroupsGetResponse,
   ApplicationGroupsCreateOrUpdateOptionalParams,
   ApplicationGroupsCreateOrUpdateResponse,
   ApplicationGroupsDeleteOptionalParams,
   ApplicationGroupsUpdateOptionalParams,
-  ApplicationGroupsUpdateResponse
+  ApplicationGroupsUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ApplicationGroups. */
 export interface ApplicationGroups {
+  /**
+   * List applicationGroups in subscription.
+   * @param options The options parameters.
+   */
+  listBySubscription(
+    options?: ApplicationGroupsListBySubscriptionOptionalParams,
+  ): PagedAsyncIterableIterator<ApplicationGroup>;
   /**
    * List applicationGroups.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -30,14 +37,7 @@ export interface ApplicationGroups {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: ApplicationGroupsListByResourceGroupOptionalParams
-  ): PagedAsyncIterableIterator<ApplicationGroup>;
-  /**
-   * List applicationGroups in subscription.
-   * @param options The options parameters.
-   */
-  listBySubscription(
-    options?: ApplicationGroupsListBySubscriptionOptionalParams
+    options?: ApplicationGroupsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<ApplicationGroup>;
   /**
    * Get an application group.
@@ -48,7 +48,7 @@ export interface ApplicationGroups {
   get(
     resourceGroupName: string,
     applicationGroupName: string,
-    options?: ApplicationGroupsGetOptionalParams
+    options?: ApplicationGroupsGetOptionalParams,
   ): Promise<ApplicationGroupsGetResponse>;
   /**
    * Create or update an applicationGroup.
@@ -61,7 +61,7 @@ export interface ApplicationGroups {
     resourceGroupName: string,
     applicationGroupName: string,
     applicationGroup: ApplicationGroup,
-    options?: ApplicationGroupsCreateOrUpdateOptionalParams
+    options?: ApplicationGroupsCreateOrUpdateOptionalParams,
   ): Promise<ApplicationGroupsCreateOrUpdateResponse>;
   /**
    * Remove an applicationGroup.
@@ -72,7 +72,7 @@ export interface ApplicationGroups {
   delete(
     resourceGroupName: string,
     applicationGroupName: string,
-    options?: ApplicationGroupsDeleteOptionalParams
+    options?: ApplicationGroupsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Update an applicationGroup.
@@ -83,6 +83,6 @@ export interface ApplicationGroups {
   update(
     resourceGroupName: string,
     applicationGroupName: string,
-    options?: ApplicationGroupsUpdateOptionalParams
+    options?: ApplicationGroupsUpdateOptionalParams,
   ): Promise<ApplicationGroupsUpdateResponse>;
 }
