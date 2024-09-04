@@ -11777,7 +11777,7 @@ packages:
     dev: false
 
   file:projects/ai-translation-document.tgz:
-    resolution: {integrity: sha512-e6cs/GSLJTOH4U1Hy1w/Zdy849U5IgcA6eAdu/e8S5FA/CxgBuO3PNZtJG5c9YrLreqQlNRMB4FelcCPRSE3dg==, tarball: file:projects/ai-translation-document.tgz}
+    resolution: {integrity: sha512-Rm/i4rUb5Xopy5LlWxpAL/IEd4VB0ZvJ2Ax2jgKPWycEypmCmGIyzf/LcQ87M9BTU0V8sPOHB7qw8w/p9bYTnQ==, tarball: file:projects/ai-translation-document.tgz}
     name: '@rush-temp/ai-translation-document'
     version: 0.0.0
     dependencies:
@@ -16718,7 +16718,7 @@ packages:
     dev: false
 
   file:projects/arm-newrelicobservability.tgz:
-    resolution: {integrity: sha512-O4w3wJjlBG8lJxb00WGPRmvBl8pUVFvsUn7KMszAyY5q1LoqRD/P/adX7omQvj+RBYzzLPkG9t9Rd+7sIwnZyA==, tarball: file:projects/arm-newrelicobservability.tgz}
+    resolution: {integrity: sha512-jnxSt03rIl6BP8Nv90yDkN2B+fnVfqyhL0VD6KzD2xhTzMPw3gD2MTKqD3VuoOpEqT2zqRkdEhiL993d9ohgLg==, tarball: file:projects/arm-newrelicobservability.tgz}
     name: '@rush-temp/arm-newrelicobservability'
     version: 0.0.0
     dependencies:
@@ -16739,6 +16739,7 @@ packages:
       rimraf: 5.0.10
       ts-node: 10.9.2(@types/node@18.19.48)(typescript@5.5.4)
       tslib: 2.7.0
+      tsx: 4.19.0
       typescript: 5.5.4
       uglify-js: 3.19.3
     transitivePeerDependencies:

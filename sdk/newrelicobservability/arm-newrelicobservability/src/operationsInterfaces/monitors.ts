@@ -41,6 +41,8 @@ import {
   MonitorsSwitchBillingResponse,
   MonitorsVmHostPayloadOptionalParams,
   MonitorsVmHostPayloadResponse,
+  MonitorsResubscribeOptionalParams,
+  MonitorsResubscribeResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -243,4 +245,31 @@ export interface Monitors {
     monitorName: string,
     options?: MonitorsVmHostPayloadOptionalParams,
   ): Promise<MonitorsVmHostPayloadResponse>;
+  /**
+   * Resubscribe the NewRelic Organization.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param monitorName Monitor resource name
+   * @param options The options parameters.
+   */
+  beginResubscribe(
+    resourceGroupName: string,
+    monitorName: string,
+    options?: MonitorsResubscribeOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<MonitorsResubscribeResponse>,
+      MonitorsResubscribeResponse
+    >
+  >;
+  /**
+   * Resubscribe the NewRelic Organization.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param monitorName Monitor resource name
+   * @param options The options parameters.
+   */
+  beginResubscribeAndWait(
+    resourceGroupName: string,
+    monitorName: string,
+    options?: MonitorsResubscribeOptionalParams,
+  ): Promise<MonitorsResubscribeResponse>;
 }
