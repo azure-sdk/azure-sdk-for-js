@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { RequestParameters } from "@azure-rest/core-client";
 import { DevBox, Environment } from "./models.js";
@@ -71,8 +71,8 @@ export interface CreateOrReplaceEnvironmentBodyParam {
   body: Environment;
 }
 
-export type CreateOrReplaceEnvironmentParameters = CreateOrReplaceEnvironmentBodyParam &
-  RequestParameters;
+export type CreateOrReplaceEnvironmentParameters =
+  CreateOrReplaceEnvironmentBodyParam & RequestParameters;
 export type DeleteEnvironmentParameters = RequestParameters;
 export type ListCatalogsByProjectParameters = RequestParameters;
 export type GetCatalogParameters = RequestParameters;
