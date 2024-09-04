@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 export {
   createHealthDataAIServices,
-  HealthDataAIServicesClientOptionalParams,
   HealthDataAIServicesContext,
+  HealthDataAIServicesClientOptionalParams,
 } from "./healthDataAIServicesContext.js";
 export {
   deidServicesGet,

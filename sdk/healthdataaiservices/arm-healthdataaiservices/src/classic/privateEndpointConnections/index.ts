@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { HealthDataAIServicesContext } from "../../api/healthDataAIServicesContext.js";
 import { PrivateEndpointConnectionResource } from "../../models/models.js";
@@ -9,7 +9,7 @@ import {
   privateEndpointConnectionsDelete,
   privateEndpointConnectionsListByDeidService,
 } from "../../api/privateEndpointConnections/index.js";
-import { PagedAsyncIterableIterator } from "../../models/pagingTypes.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 import {
   PrivateEndpointConnectionsGetOptionalParams,

@@ -1,20 +1,21 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
-import { PrivateLinkResource, _PrivateLinkResourceListResult } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../models/pagingTypes.js";
-import { buildPagedAsyncIterator } from "../pagingHelpers.js";
 import {
-  isUnexpected,
-  HealthDataAIServicesContext as Client,
-  PrivateLinksListByDeidService200Response,
-  PrivateLinksListByDeidServiceDefaultResponse,
-} from "../../rest/index.js";
+  PrivateLinkResource,
+  _PrivateLinkResourceListResult,
+} from "../../models/models.js";
+import { HealthDataAIServicesContext as Client } from "../index.js";
 import {
   StreamableMethod,
   operationOptionsToRequestParameters,
+  PathUncheckedResponse,
   createRestError,
 } from "@azure-rest/core-client";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { PrivateLinksListByDeidServiceOptionalParams } from "../../models/options.js";
 
 export function _privateLinksListByDeidServiceSend(
@@ -23,9 +24,7 @@ export function _privateLinksListByDeidServiceSend(
   resourceGroupName: string,
   deidServiceName: string,
   options: PrivateLinksListByDeidServiceOptionalParams = { requestOptions: {} },
-): StreamableMethod<
-  PrivateLinksListByDeidService200Response | PrivateLinksListByDeidServiceDefaultResponse
-> {
+): StreamableMethod {
   return context
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthDataAIServices/deidServices/{deidServiceName}/privateLinkResources",
@@ -37,14 +36,15 @@ export function _privateLinksListByDeidServiceSend(
 }
 
 export async function _privateLinksListByDeidServiceDeserialize(
-  result: PrivateLinksListByDeidService200Response | PrivateLinksListByDeidServiceDefaultResponse,
+  result: PathUncheckedResponse,
 ): Promise<_PrivateLinkResourceListResult> {
-  if (isUnexpected(result)) {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
   return {
-    value: result.body["value"].map((p) => {
+    value: result.body["value"].map((p: any) => {
       return {
         id: p["id"],
         name: p["name"],
@@ -97,6 +97,7 @@ export function privateLinksListByDeidService(
         options,
       ),
     _privateLinksListByDeidServiceDeserialize,
+    ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
   );
 }

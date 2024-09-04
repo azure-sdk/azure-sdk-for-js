@@ -1,36 +1,24 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
-import { getLongRunningPoller } from "../pollingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
 import {
   privateEndpointConnectionPropertiesSerializer,
   PrivateEndpointConnectionResource,
   _PrivateEndpointConnectionResourceListResult,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../models/pagingTypes.js";
-import { buildPagedAsyncIterator } from "../pagingHelpers.js";
-import {
-  isUnexpected,
-  HealthDataAIServicesContext as Client,
-  PrivateEndpointConnectionsCreate200Response,
-  PrivateEndpointConnectionsCreate201Response,
-  PrivateEndpointConnectionsCreateDefaultResponse,
-  PrivateEndpointConnectionsCreateLogicalResponse,
-  PrivateEndpointConnectionsDelete202Response,
-  PrivateEndpointConnectionsDelete204Response,
-  PrivateEndpointConnectionsDeleteDefaultResponse,
-  PrivateEndpointConnectionsDeleteLogicalResponse,
-  PrivateEndpointConnectionsGet200Response,
-  PrivateEndpointConnectionsGetDefaultResponse,
-  PrivateEndpointConnectionsListByDeidService200Response,
-  PrivateEndpointConnectionsListByDeidServiceDefaultResponse,
-} from "../../rest/index.js";
+import { HealthDataAIServicesContext as Client } from "../index.js";
 import {
   StreamableMethod,
   operationOptionsToRequestParameters,
+  PathUncheckedResponse,
   createRestError,
 } from "@azure-rest/core-client";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 import {
   PrivateEndpointConnectionsGetOptionalParams,
   PrivateEndpointConnectionsCreateOptionalParams,
@@ -45,9 +33,7 @@ export function _privateEndpointConnectionsGetSend(
   deidServiceName: string,
   privateEndpointConnectionName: string,
   options: PrivateEndpointConnectionsGetOptionalParams = { requestOptions: {} },
-): StreamableMethod<
-  PrivateEndpointConnectionsGet200Response | PrivateEndpointConnectionsGetDefaultResponse
-> {
+): StreamableMethod {
   return context
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthDataAIServices/deidServices/{deidServiceName}/privateEndpointConnections/{privateEndpointConnectionName}",
@@ -60,9 +46,10 @@ export function _privateEndpointConnectionsGetSend(
 }
 
 export async function _privateEndpointConnectionsGetDeserialize(
-  result: PrivateEndpointConnectionsGet200Response | PrivateEndpointConnectionsGetDefaultResponse,
+  result: PathUncheckedResponse,
 ): Promise<PrivateEndpointConnectionResource> {
-  if (isUnexpected(result)) {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
@@ -94,10 +81,18 @@ export async function _privateEndpointConnectionsGetDeserialize(
             ? undefined
             : { id: result.body.properties?.privateEndpoint?.["id"] },
           privateLinkServiceConnectionState: {
-            status: result.body.properties?.privateLinkServiceConnectionState["status"],
-            description: result.body.properties?.privateLinkServiceConnectionState["description"],
+            status:
+              result.body.properties?.privateLinkServiceConnectionState[
+                "status"
+              ],
+            description:
+              result.body.properties?.privateLinkServiceConnectionState[
+                "description"
+              ],
             actionsRequired:
-              result.body.properties?.privateLinkServiceConnectionState["actionsRequired"],
+              result.body.properties?.privateLinkServiceConnectionState[
+                "actionsRequired"
+              ],
           },
           provisioningState: result.body.properties?.["provisioningState"],
         },
@@ -134,12 +129,7 @@ export function _privateEndpointConnectionsCreateSend(
   options: PrivateEndpointConnectionsCreateOptionalParams = {
     requestOptions: {},
   },
-): StreamableMethod<
-  | PrivateEndpointConnectionsCreate200Response
-  | PrivateEndpointConnectionsCreate201Response
-  | PrivateEndpointConnectionsCreateDefaultResponse
-  | PrivateEndpointConnectionsCreateLogicalResponse
-> {
+): StreamableMethod {
   return context
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthDataAIServices/deidServices/{deidServiceName}/privateEndpointConnections/{privateEndpointConnectionName}",
@@ -159,51 +149,55 @@ export function _privateEndpointConnectionsCreateSend(
 }
 
 export async function _privateEndpointConnectionsCreateDeserialize(
-  result:
-    | PrivateEndpointConnectionsCreate200Response
-    | PrivateEndpointConnectionsCreate201Response
-    | PrivateEndpointConnectionsCreateDefaultResponse
-    | PrivateEndpointConnectionsCreateLogicalResponse,
+  result: PathUncheckedResponse,
 ): Promise<PrivateEndpointConnectionResource> {
-  if (isUnexpected(result)) {
+  const expectedStatuses = ["200", "201"];
+  if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
-  const res = result as unknown as PrivateEndpointConnectionsCreateLogicalResponse;
   return {
-    id: res.body["id"],
-    name: res.body["name"],
-    type: res.body["type"],
-    systemData: !res.body.systemData
+    id: result.body["id"],
+    name: result.body["name"],
+    type: result.body["type"],
+    systemData: !result.body.systemData
       ? undefined
       : {
-          createdBy: res.body.systemData?.["createdBy"],
-          createdByType: res.body.systemData?.["createdByType"],
+          createdBy: result.body.systemData?.["createdBy"],
+          createdByType: result.body.systemData?.["createdByType"],
           createdAt:
-            res.body.systemData?.["createdAt"] !== undefined
-              ? new Date(res.body.systemData?.["createdAt"])
+            result.body.systemData?.["createdAt"] !== undefined
+              ? new Date(result.body.systemData?.["createdAt"])
               : undefined,
-          lastModifiedBy: res.body.systemData?.["lastModifiedBy"],
-          lastModifiedByType: res.body.systemData?.["lastModifiedByType"],
+          lastModifiedBy: result.body.systemData?.["lastModifiedBy"],
+          lastModifiedByType: result.body.systemData?.["lastModifiedByType"],
           lastModifiedAt:
-            res.body.systemData?.["lastModifiedAt"] !== undefined
-              ? new Date(res.body.systemData?.["lastModifiedAt"])
+            result.body.systemData?.["lastModifiedAt"] !== undefined
+              ? new Date(result.body.systemData?.["lastModifiedAt"])
               : undefined,
         },
-    properties: !res.body.properties
+    properties: !result.body.properties
       ? undefined
       : {
-          groupIds: res.body.properties?.["groupIds"],
-          privateEndpoint: !res.body.properties?.privateEndpoint
+          groupIds: result.body.properties?.["groupIds"],
+          privateEndpoint: !result.body.properties?.privateEndpoint
             ? undefined
-            : { id: res.body.properties?.privateEndpoint?.["id"] },
+            : { id: result.body.properties?.privateEndpoint?.["id"] },
           privateLinkServiceConnectionState: {
-            status: res.body.properties?.privateLinkServiceConnectionState["status"],
-            description: res.body.properties?.privateLinkServiceConnectionState["description"],
+            status:
+              result.body.properties?.privateLinkServiceConnectionState[
+                "status"
+              ],
+            description:
+              result.body.properties?.privateLinkServiceConnectionState[
+                "description"
+              ],
             actionsRequired:
-              res.body.properties?.privateLinkServiceConnectionState["actionsRequired"],
+              result.body.properties?.privateLinkServiceConnectionState[
+                "actionsRequired"
+              ],
           },
-          provisioningState: res.body.properties?.["provisioningState"],
+          provisioningState: result.body.properties?.["provisioningState"],
         },
   };
 }
@@ -223,20 +217,25 @@ export function privateEndpointConnectionsCreate(
   OperationState<PrivateEndpointConnectionResource>,
   PrivateEndpointConnectionResource
 > {
-  return getLongRunningPoller(context, _privateEndpointConnectionsCreateDeserialize, {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _privateEndpointConnectionsCreateSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        deidServiceName,
-        privateEndpointConnectionName,
-        resource,
-        options,
-      ),
-  }) as PollerLike<
+  return getLongRunningPoller(
+    context,
+    _privateEndpointConnectionsCreateDeserialize,
+    ["200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _privateEndpointConnectionsCreateSend(
+          context,
+          subscriptionId,
+          resourceGroupName,
+          deidServiceName,
+          privateEndpointConnectionName,
+          resource,
+          options,
+        ),
+    },
+  ) as PollerLike<
     OperationState<PrivateEndpointConnectionResource>,
     PrivateEndpointConnectionResource
   >;
@@ -251,12 +250,7 @@ export function _privateEndpointConnectionsDeleteSend(
   options: PrivateEndpointConnectionsDeleteOptionalParams = {
     requestOptions: {},
   },
-): StreamableMethod<
-  | PrivateEndpointConnectionsDelete202Response
-  | PrivateEndpointConnectionsDelete204Response
-  | PrivateEndpointConnectionsDeleteDefaultResponse
-  | PrivateEndpointConnectionsDeleteLogicalResponse
-> {
+): StreamableMethod {
   return context
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthDataAIServices/deidServices/{deidServiceName}/privateEndpointConnections/{privateEndpointConnectionName}",
@@ -269,13 +263,10 @@ export function _privateEndpointConnectionsDeleteSend(
 }
 
 export async function _privateEndpointConnectionsDeleteDeserialize(
-  result:
-    | PrivateEndpointConnectionsDelete202Response
-    | PrivateEndpointConnectionsDelete204Response
-    | PrivateEndpointConnectionsDeleteDefaultResponse
-    | PrivateEndpointConnectionsDeleteLogicalResponse,
+  result: PathUncheckedResponse,
 ): Promise<void> {
-  if (isUnexpected(result)) {
+  const expectedStatuses = ["202", "204", "200"];
+  if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
@@ -293,19 +284,24 @@ export function privateEndpointConnectionsDelete(
     requestOptions: {},
   },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _privateEndpointConnectionsDeleteDeserialize, {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _privateEndpointConnectionsDeleteSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        deidServiceName,
-        privateEndpointConnectionName,
-        options,
-      ),
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _privateEndpointConnectionsDeleteDeserialize,
+    ["202", "204", "200"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _privateEndpointConnectionsDeleteSend(
+          context,
+          subscriptionId,
+          resourceGroupName,
+          deidServiceName,
+          privateEndpointConnectionName,
+          options,
+        ),
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _privateEndpointConnectionsListByDeidServiceSend(
@@ -316,10 +312,7 @@ export function _privateEndpointConnectionsListByDeidServiceSend(
   options: PrivateEndpointConnectionsListByDeidServiceOptionalParams = {
     requestOptions: {},
   },
-): StreamableMethod<
-  | PrivateEndpointConnectionsListByDeidService200Response
-  | PrivateEndpointConnectionsListByDeidServiceDefaultResponse
-> {
+): StreamableMethod {
   return context
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthDataAIServices/deidServices/{deidServiceName}/privateEndpointConnections",
@@ -331,16 +324,15 @@ export function _privateEndpointConnectionsListByDeidServiceSend(
 }
 
 export async function _privateEndpointConnectionsListByDeidServiceDeserialize(
-  result:
-    | PrivateEndpointConnectionsListByDeidService200Response
-    | PrivateEndpointConnectionsListByDeidServiceDefaultResponse,
+  result: PathUncheckedResponse,
 ): Promise<_PrivateEndpointConnectionResourceListResult> {
-  if (isUnexpected(result)) {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
   return {
-    value: result.body["value"].map((p) => {
+    value: result.body["value"].map((p: any) => {
       return {
         id: p["id"],
         name: p["name"],
@@ -369,9 +361,16 @@ export async function _privateEndpointConnectionsListByDeidServiceDeserialize(
                 ? undefined
                 : { id: p.properties?.privateEndpoint?.["id"] },
               privateLinkServiceConnectionState: {
-                status: p.properties?.privateLinkServiceConnectionState["status"],
-                description: p.properties?.privateLinkServiceConnectionState["description"],
-                actionsRequired: p.properties?.privateLinkServiceConnectionState["actionsRequired"],
+                status:
+                  p.properties?.privateLinkServiceConnectionState["status"],
+                description:
+                  p.properties?.privateLinkServiceConnectionState[
+                    "description"
+                  ],
+                actionsRequired:
+                  p.properties?.privateLinkServiceConnectionState[
+                    "actionsRequired"
+                  ],
               },
               provisioningState: p.properties?.["provisioningState"],
             },
@@ -402,6 +401,7 @@ export function privateEndpointConnectionsListByDeidService(
         options,
       ),
     _privateEndpointConnectionsListByDeidServiceDeserialize,
+    ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
   );
 }
