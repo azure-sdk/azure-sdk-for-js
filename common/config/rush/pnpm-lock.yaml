@@ -11730,7 +11730,7 @@ packages:
     dev: false
 
   file:projects/ai-translation-document.tgz:
-    resolution: {integrity: sha512-e6cs/GSLJTOH4U1Hy1w/Zdy849U5IgcA6eAdu/e8S5FA/CxgBuO3PNZtJG5c9YrLreqQlNRMB4FelcCPRSE3dg==, tarball: file:projects/ai-translation-document.tgz}
+    resolution: {integrity: sha512-Rm/i4rUb5Xopy5LlWxpAL/IEd4VB0ZvJ2Ax2jgKPWycEypmCmGIyzf/LcQ87M9BTU0V8sPOHB7qw8w/p9bYTnQ==, tarball: file:projects/ai-translation-document.tgz}
     name: '@rush-temp/ai-translation-document'
     version: 0.0.0
     dependencies:
@@ -15142,7 +15142,7 @@ packages:
     dev: false
 
   file:projects/arm-hybridcompute.tgz:
-    resolution: {integrity: sha512-piHmNUXYyLYB3zYcjPVPoB2JlkIrf60nv+aGdOG/Uo5lqXDa4vjd2MY2yFITHVKZGDudVNZQPEWgi+27vwKzLg==, tarball: file:projects/arm-hybridcompute.tgz}
+    resolution: {integrity: sha512-RqGhgTloyH1VNtz5ZagttRrgCElo2dk68YbMSafzhwFOBR8rsQcMcwyHXWOF7ncaJ4yKovDX+oMAjN8g3WWB7A==, tarball: file:projects/arm-hybridcompute.tgz}
     name: '@rush-temp/arm-hybridcompute'
     version: 0.0.0
     dependencies:
@@ -15161,10 +15161,10 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.7.3
       rimraf: 5.0.10
-      ts-node: 10.9.2(@types/node@18.19.48)(typescript@5.4.5)
+      ts-node: 10.9.2(@types/node@18.19.48)(typescript@5.5.4)
       tslib: 2.7.0
       tsx: 4.19.0
-      typescript: 5.4.5
+      typescript: 5.5.4
       uglify-js: 3.19.3
     transitivePeerDependencies:
       - '@swc/core'
