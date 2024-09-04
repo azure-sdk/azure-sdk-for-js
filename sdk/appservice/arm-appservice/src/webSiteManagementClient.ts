@@ -20,9 +20,9 @@ import {
   AppServiceCertificateOrdersImpl,
   CertificateOrdersDiagnosticsImpl,
   CertificateRegistrationProviderImpl,
+  DomainRegistrationProviderImpl,
   DomainsImpl,
   TopLevelDomainsImpl,
-  DomainRegistrationProviderImpl,
   AppServiceEnvironmentsImpl,
   AppServicePlansImpl,
   CertificatesImpl,
@@ -52,9 +52,9 @@ import {
   AppServiceCertificateOrders,
   CertificateOrdersDiagnostics,
   CertificateRegistrationProvider,
+  DomainRegistrationProvider,
   Domains,
   TopLevelDomains,
-  DomainRegistrationProvider,
   AppServiceEnvironments,
   AppServicePlans,
   Certificates,
@@ -113,6 +113,10 @@ import {
   ListPremierAddOnOffersNextOptionalParams,
   ListPremierAddOnOffersOptionalParams,
   ListPremierAddOnOffersResponse,
+  StaticSiteRegion,
+  ListStaticSiteRegionsNextOptionalParams,
+  ListStaticSiteRegionsOptionalParams,
+  ListStaticSiteRegionsResponse,
   GetPublishingUserOptionalParams,
   GetPublishingUserResponse,
   User,
@@ -145,6 +149,7 @@ import {
   ListGeoRegionsNextResponse,
   ListSiteIdentifiersAssignedToHostNameNextResponse,
   ListPremierAddOnOffersNextResponse,
+  ListStaticSiteRegionsNextResponse,
 } from "./models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -195,7 +200,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-appservice/15.0.1`;
+    const packageDetails = `azsdk-js-arm-appservice/15.1.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -249,7 +254,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-12-01";
+    this.apiVersion = options.apiVersion || "2024-04-01";
     this.appServiceCertificateOrders = new AppServiceCertificateOrdersImpl(
       this,
     );
@@ -258,9 +263,9 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
     );
     this.certificateRegistrationProvider =
       new CertificateRegistrationProviderImpl(this);
+    this.domainRegistrationProvider = new DomainRegistrationProviderImpl(this);
     this.domains = new DomainsImpl(this);
     this.topLevelDomains = new TopLevelDomainsImpl(this);
-    this.domainRegistrationProvider = new DomainRegistrationProviderImpl(this);
     this.appServiceEnvironments = new AppServiceEnvironmentsImpl(this);
     this.appServicePlans = new AppServicePlansImpl(this);
     this.certificates = new CertificatesImpl(this);
@@ -727,6 +732,63 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
   }
 
   /**
+   * Description for Get a list of available Static Site regions.
+   * @param options The options parameters.
+   */
+  public listStaticSiteRegions(
+    options?: ListStaticSiteRegionsOptionalParams,
+  ): PagedAsyncIterableIterator<StaticSiteRegion> {
+    const iter = this.listStaticSiteRegionsPagingAll(options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listStaticSiteRegionsPagingPage(options, settings);
+      },
+    };
+  }
+
+  private async *listStaticSiteRegionsPagingPage(
+    options?: ListStaticSiteRegionsOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<StaticSiteRegion[]> {
+    let result: ListStaticSiteRegionsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listStaticSiteRegions(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listStaticSiteRegionsNext(
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listStaticSiteRegionsPagingAll(
+    options?: ListStaticSiteRegionsOptionalParams,
+  ): AsyncIterableIterator<StaticSiteRegion> {
+    for await (const page of this.listStaticSiteRegionsPagingPage(options)) {
+      yield* page;
+    }
+  }
+
+  /**
    * Description for Gets publishing user
    * @param options The options parameters.
    */
@@ -979,6 +1041,19 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
   }
 
   /**
+   * Description for Get a list of available Static Site regions.
+   * @param options The options parameters.
+   */
+  private _listStaticSiteRegions(
+    options?: ListStaticSiteRegionsOptionalParams,
+  ): Promise<ListStaticSiteRegionsResponse> {
+    return this.sendOperationRequest(
+      { options },
+      listStaticSiteRegionsOperationSpec,
+    );
+  }
+
+  /**
    * ListSourceControlsNext
    * @param nextLink The nextLink from the previous successful call to the ListSourceControls method.
    * @param options The options parameters.
@@ -1087,12 +1162,27 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
     );
   }
 
+  /**
+   * ListStaticSiteRegionsNext
+   * @param nextLink The nextLink from the previous successful call to the ListStaticSiteRegions method.
+   * @param options The options parameters.
+   */
+  private _listStaticSiteRegionsNext(
+    nextLink: string,
+    options?: ListStaticSiteRegionsNextOptionalParams,
+  ): Promise<ListStaticSiteRegionsNextResponse> {
+    return this.sendOperationRequest(
+      { nextLink, options },
+      listStaticSiteRegionsNextOperationSpec,
+    );
+  }
+
   appServiceCertificateOrders: AppServiceCertificateOrders;
   certificateOrdersDiagnostics: CertificateOrdersDiagnostics;
   certificateRegistrationProvider: CertificateRegistrationProvider;
+  domainRegistrationProvider: DomainRegistrationProvider;
   domains: Domains;
   topLevelDomains: TopLevelDomains;
-  domainRegistrationProvider: DomainRegistrationProvider;
   appServiceEnvironments: AppServiceEnvironments;
   appServicePlans: AppServicePlans;
   certificates: Certificates;
@@ -1453,6 +1543,22 @@ const validateMoveOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer,
 };
+const listStaticSiteRegionsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Web/staticSiteRegions",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.StaticSiteRegionCollection,
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.sku],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const listSourceControlsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -1571,6 +1677,25 @@ const listPremierAddOnOffersNextOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.PremierAddOnOfferCollection,
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listStaticSiteRegionsNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.StaticSiteRegionCollection,
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse,
