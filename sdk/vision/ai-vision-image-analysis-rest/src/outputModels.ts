@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 /** Represents the outcome of an Image Analysis operation. */
 export interface ImageAnalysisResultOutput {
