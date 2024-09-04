@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 /** Element containing the text for translation. */
 export interface InputTextItem {
@@ -18,7 +18,7 @@ export interface DictionaryExampleTextItem extends InputTextItem {
 }
 
 /** Alias for TextType */
-export type TextType = string | "Plain" | "Html";
+export type TextType = string;
 /** Translator profanity actions */
 export type ProfanityAction = "NoAction" | "Marked" | "Deleted";
 /** Translator profanity markers */

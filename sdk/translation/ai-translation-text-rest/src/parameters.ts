@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
 import { RequestParameters } from "@azure-rest/core-client";
@@ -83,6 +83,8 @@ export interface TranslateQueryParamProperties {
   /**
    * Defines whether the text being translated is plain text or HTML text. Any HTML needs to be a well-formed,
    * complete element. Possible values are: plain (default) or html.
+   *
+   * Possible values: "Plain", "Html"
    */
   textType?: TextType;
   /**
