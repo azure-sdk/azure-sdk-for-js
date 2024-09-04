@@ -1,18 +1,19 @@
 # Release History
-
-## 5.1.1 (Unreleased)
-
+    
+## 5.2.0 (2024-09-04)
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group SubscriptionOperation
+  - Added Interface SubscriptionCreationResult
+  - Added Interface SubscriptionOperationGetHeaders
+  - Added Interface SubscriptionOperationGetOptionalParams
+  - Added Type Alias SubscriptionOperationGetResponse
+    
+    
 ## 5.1.0 (2022-11-11)
     
-**Features**
+### Features Added
 
   - Added Type Alias Provisioning
   - Interface AcceptOwnershipStatusResponse has a new optional parameter provisioningState
@@ -29,13 +30,13 @@
     
 ## 5.0.1 (2022-05-05)
 
-**Features**
+### Features Added
 
   - Bug fix
 
 ## 5.0.0 (2022-01-17)
     
-**Features**
+### Features Added
 
   - Added operation group SubscriptionOperations
   - Added operation group Subscriptions
@@ -69,7 +70,7 @@
   - Class SubscriptionClient has a new parameter subscriptions
   - Class SubscriptionClient has a new parameter tenants
 
-**Breaking Changes**
+### Breaking Changes
 
   - Removed operation group Subscription
   - Interface CanceledSubscriptionId no longer has parameter value
@@ -88,4 +89,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).

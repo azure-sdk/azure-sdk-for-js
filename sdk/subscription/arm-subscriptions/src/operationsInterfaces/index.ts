@@ -9,6 +9,7 @@
 export * from "./subscriptions";
 export * from "./tenants";
 export * from "./subscriptionOperations";
+export * from "./subscriptionOperation";
 export * from "./operations";
 export * from "./alias";
 export * from "./subscriptionPolicy";
