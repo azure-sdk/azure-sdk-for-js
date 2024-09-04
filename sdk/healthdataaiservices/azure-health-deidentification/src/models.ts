@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 /** A job containing a batch of documents to de-identify. */
 export interface DeidentificationJob {

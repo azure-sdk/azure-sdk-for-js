@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { Paged } from "@azure/core-paging";
 import { ErrorModel } from "@azure-rest/core-client";
