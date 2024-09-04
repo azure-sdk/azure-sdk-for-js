@@ -1,7 +1,4 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
 /** Translation job Status Response */
