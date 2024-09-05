@@ -12793,7 +12793,7 @@ packages:
     dev: false
 
   file:projects/arm-billing.tgz:
-    resolution: {integrity: sha512-FXyG1I9p+Y3rCU9yl503SMPYgEWGc+oPBAPeLF5d5kK4FBin4fJqk0D7LK4ZIYusE4OTricpA3cmmO/fNWdbQQ==, tarball: file:projects/arm-billing.tgz}
+    resolution: {integrity: sha512-X3Ss7x7n5lU/x31DmuXnMD7YKFAfvQ5h1JCo6TndLN7/HLsBeuWm3+lXdncF3lJX57YhDKGoTxW2Ubv1ch3pTA==, tarball: file:projects/arm-billing.tgz}
     name: '@rush-temp/arm-billing'
     version: 0.0.0
     dependencies:
@@ -18447,7 +18447,7 @@ packages:
     dev: false
 
   file:projects/arm-sql.tgz:
-    resolution: {integrity: sha512-jAEmxePLAQYwQA1+pc90ne5yg9S17zaCEdxcWSs+mzffP6aaMgCyTRVsMUWgn8KSw9Yi6zC0xzzf11OOYq3lKg==, tarball: file:projects/arm-sql.tgz}
+    resolution: {integrity: sha512-sq7RD5mZRl5zCMT84wVMLjgJv6CZdeIZZ3NUPQfrXnQSIDdsYqEiww3zUvEYGNrUwqzQfhapu6e8L2vhfbYq5g==, tarball: file:projects/arm-sql.tgz}
     name: '@rush-temp/arm-sql'
     version: 0.0.0
     dependencies:
@@ -18469,6 +18469,7 @@ packages:
       rimraf: 5.0.10
       ts-node: 10.9.2(@types/node@18.19.48)(typescript@5.5.4)
       tslib: 2.7.0
+      tsx: 4.19.0
       typescript: 5.5.4
       uglify-js: 3.19.3
     transitivePeerDependencies:
