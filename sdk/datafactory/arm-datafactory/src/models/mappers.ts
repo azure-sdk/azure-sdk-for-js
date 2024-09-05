@@ -14674,6 +14674,18 @@ export const MariaDBLinkedService: coreClient.CompositeMapper = {
           name: "any",
         },
       },
+      sslMode: {
+        serializedName: "typeProperties.sslMode",
+        type: {
+          name: "any",
+        },
+      },
+      useSystemTrustStore: {
+        serializedName: "typeProperties.useSystemTrustStore",
+        type: {
+          name: "any",
+        },
+      },
       password: {
         serializedName: "typeProperties.password",
         type: {
@@ -17600,6 +17612,27 @@ export const BinaryDataset: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "DatasetCompression",
+        },
+      },
+    },
+  },
+};
+
+export const IcebergDataset: coreClient.CompositeMapper = {
+  serializedName: "Iceberg",
+  type: {
+    name: "Composite",
+    className: "IcebergDataset",
+    uberParent: "Dataset",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator: Dataset.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...Dataset.type.modelProperties,
+      location: {
+        serializedName: "typeProperties.location",
+        type: {
+          name: "Composite",
+          className: "DatasetLocation",
         },
       },
     },
@@ -23297,6 +23330,20 @@ export const JsonWriteSettings: coreClient.CompositeMapper = {
   },
 };
 
+export const IcebergWriteSettings: coreClient.CompositeMapper = {
+  serializedName: "IcebergWriteSettings",
+  type: {
+    name: "Composite",
+    className: "IcebergWriteSettings",
+    uberParent: "FormatWriteSettings",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator: FormatWriteSettings.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...FormatWriteSettings.type.modelProperties,
+    },
+  },
+};
+
 export const AvroSource: coreClient.CompositeMapper = {
   serializedName: "AvroSource",
   type: {
@@ -24986,6 +25033,34 @@ export const BinarySink: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "StoreWriteSettings",
+        },
+      },
+    },
+  },
+};
+
+export const IcebergSink: coreClient.CompositeMapper = {
+  serializedName: "IcebergSink",
+  type: {
+    name: "Composite",
+    className: "IcebergSink",
+    uberParent: "CopySink",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator: CopySink.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...CopySink.type.modelProperties,
+      storeSettings: {
+        serializedName: "storeSettings",
+        type: {
+          name: "Composite",
+          className: "StoreWriteSettings",
+        },
+      },
+      formatSettings: {
+        serializedName: "formatSettings",
+        type: {
+          name: "Composite",
+          className: "IcebergWriteSettings",
         },
       },
     },
@@ -30611,6 +30686,7 @@ export let discriminators = {
   "Dataset.Xml": XmlDataset,
   "Dataset.Orc": OrcDataset,
   "Dataset.Binary": BinaryDataset,
+  "Dataset.Iceberg": IcebergDataset,
   "Dataset.AzureBlob": AzureBlobDataset,
   "Dataset.AzureTable": AzureTableDataset,
   "Dataset.AzureSqlTable": AzureSqlTableDataset,
@@ -30796,6 +30872,7 @@ export let discriminators = {
   "FormatWriteSettings.ParquetWriteSettings": ParquetWriteSettings,
   "FormatWriteSettings.DelimitedTextWriteSettings": DelimitedTextWriteSettings,
   "FormatWriteSettings.JsonWriteSettings": JsonWriteSettings,
+  "FormatWriteSettings.IcebergWriteSettings": IcebergWriteSettings,
   "CopySource.AvroSource": AvroSource,
   "CopySource.ExcelSource": ExcelSource,
   "CopySource.ParquetSource": ParquetSource,
@@ -30850,6 +30927,7 @@ export let discriminators = {
   "CopySink.AvroSink": AvroSink,
   "CopySink.ParquetSink": ParquetSink,
   "CopySink.BinarySink": BinarySink,
+  "CopySink.IcebergSink": IcebergSink,
   "CopySink.BlobSink": BlobSink,
   "CopySink.FileSystemSink": FileSystemSink,
   "CopySink.DocumentDbCollectionSink": DocumentDbCollectionSink,
