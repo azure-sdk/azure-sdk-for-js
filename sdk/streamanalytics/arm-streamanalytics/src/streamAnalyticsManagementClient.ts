@@ -8,28 +8,31 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
+import {
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest,
+} from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
-  FunctionsImpl,
-  InputsImpl,
-  OutputsImpl,
   OperationsImpl,
   StreamingJobsImpl,
-  SkuOperationsImpl,
-  SubscriptionsImpl,
+  InputsImpl,
+  OutputsImpl,
   TransformationsImpl,
+  FunctionsImpl,
+  SubscriptionsImpl,
   ClustersImpl,
   PrivateEndpointsImpl,
 } from "./operations";
 import {
-  Functions,
-  Inputs,
-  Outputs,
   Operations,
   StreamingJobs,
-  SkuOperations,
-  Subscriptions,
+  Inputs,
+  Outputs,
   Transformations,
+  Functions,
+  Subscriptions,
   Clusters,
   PrivateEndpoints,
 } from "./operationsInterfaces";
@@ -37,6 +40,7 @@ import { StreamAnalyticsManagementClientOptionalParams } from "./models";
 
 export class StreamAnalyticsManagementClient extends coreClient.ServiceClient {
   $host: string;
+  apiVersion: string;
   subscriptionId: string;
 
   /**
@@ -66,7 +70,7 @@ export class StreamAnalyticsManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-streamanalytics/5.0.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-streamanalytics/5.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -120,26 +124,54 @@ export class StreamAnalyticsManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.functions = new FunctionsImpl(this);
-    this.inputs = new InputsImpl(this);
-    this.outputs = new OutputsImpl(this);
+    this.apiVersion = options.apiVersion || "2020-03-01";
     this.operations = new OperationsImpl(this);
     this.streamingJobs = new StreamingJobsImpl(this);
-    this.skuOperations = new SkuOperationsImpl(this);
-    this.subscriptions = new SubscriptionsImpl(this);
+    this.inputs = new InputsImpl(this);
+    this.outputs = new OutputsImpl(this);
     this.transformations = new TransformationsImpl(this);
+    this.functions = new FunctionsImpl(this);
+    this.subscriptions = new SubscriptionsImpl(this);
     this.clusters = new ClustersImpl(this);
     this.privateEndpoints = new PrivateEndpointsImpl(this);
+    this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
-  functions: Functions;
-  inputs: Inputs;
-  outputs: Outputs;
+  /** A function that adds a policy that sets the api-version (or equivalent) to reflect the library version. */
+  private addCustomApiVersionPolicy(apiVersion?: string) {
+    if (!apiVersion) {
+      return;
+    }
+    const apiVersionPolicy = {
+      name: "CustomApiVersionPolicy",
+      async sendRequest(
+        request: PipelineRequest,
+        next: SendRequest,
+      ): Promise<PipelineResponse> {
+        const param = request.url.split("?");
+        if (param.length > 1) {
+          const newParams = param[1].split("&").map((item) => {
+            if (item.indexOf("api-version") > -1) {
+              return "api-version=" + apiVersion;
+            } else {
+              return item;
+            }
+          });
+          request.url = param[0] + "?" + newParams.join("&");
+        }
+        return next(request);
+      },
+    };
+    this.pipeline.addPolicy(apiVersionPolicy);
+  }
+
   operations: Operations;
   streamingJobs: StreamingJobs;
-  skuOperations: SkuOperations;
-  subscriptions: Subscriptions;
+  inputs: Inputs;
+  outputs: Outputs;
   transformations: Transformations;
+  functions: Functions;
+  subscriptions: Subscriptions;
   clusters: Clusters;
   privateEndpoints: PrivateEndpoints;
 }

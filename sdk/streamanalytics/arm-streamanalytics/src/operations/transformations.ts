@@ -142,8 +142,8 @@ const createOrReplaceOperationSpec: coreClient.OperationSpec = {
     Parameters.transformationName,
   ],
   headerParameters: [
-    Parameters.contentType,
     Parameters.accept,
+    Parameters.contentType,
     Parameters.ifMatch,
     Parameters.ifNoneMatch,
   ],
@@ -172,8 +172,8 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.transformationName,
   ],
   headerParameters: [
-    Parameters.contentType,
     Parameters.accept,
+    Parameters.contentType,
     Parameters.ifMatch,
   ],
   mediaType: "json",
