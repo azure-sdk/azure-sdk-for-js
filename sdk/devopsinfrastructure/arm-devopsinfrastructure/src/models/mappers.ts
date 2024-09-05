@@ -581,10 +581,10 @@ export const SystemData: coreClient.CompositeMapper = {
   },
 };
 
-export const QuotaListResult: coreClient.CompositeMapper = {
+export const PagedQuota: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "QuotaListResult",
+    className: "PagedQuota",
     modelProperties: {
       value: {
         serializedName: "value",
@@ -609,11 +609,25 @@ export const QuotaListResult: coreClient.CompositeMapper = {
   },
 };
 
-export const QuotaProperties: coreClient.CompositeMapper = {
+export const Quota: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "QuotaProperties",
+    className: "Quota",
     modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "Composite",
+          className: "QuotaName",
+        },
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
       unit: {
         serializedName: "unit",
         required: true,
@@ -633,13 +647,6 @@ export const QuotaProperties: coreClient.CompositeMapper = {
         required: true,
         type: {
           name: "Number",
-        },
-      },
-      name: {
-        serializedName: "name",
-        type: {
-          name: "Composite",
-          className: "QuotaName",
         },
       },
     },
@@ -1015,7 +1022,7 @@ export const PoolUpdateProperties: coreClient.CompositeMapper = {
         serializedName: "agentProfile",
         type: {
           name: "Composite",
-          className: "AgentProfileUpdate",
+          className: "AgentProfile",
         },
       },
       fabricProfile: {
@@ -1027,62 +1034,6 @@ export const PoolUpdateProperties: coreClient.CompositeMapper = {
       },
       devCenterProjectResourceId: {
         serializedName: "devCenterProjectResourceId",
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const AgentProfileUpdate: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "AgentProfileUpdate",
-    uberParent: "AgentProfileUpdate",
-    polymorphicDiscriminator: {
-      serializedName: "kind",
-      clientName: "kind",
-    },
-    modelProperties: {
-      kind: {
-        serializedName: "kind",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-      resourcePredictions: {
-        serializedName: "resourcePredictions",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } },
-        },
-      },
-      resourcePredictionsProfile: {
-        serializedName: "resourcePredictionsProfile",
-        type: {
-          name: "Composite",
-          className: "ResourcePredictionsProfileUpdate",
-        },
-      },
-    },
-  },
-};
-
-export const ResourcePredictionsProfileUpdate: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ResourcePredictionsProfileUpdate",
-    uberParent: "ResourcePredictionsProfileUpdate",
-    polymorphicDiscriminator: {
-      serializedName: "kind",
-      clientName: "kind",
-    },
-    modelProperties: {
-      kind: {
-        serializedName: "kind",
-        required: true,
         type: {
           name: "String",
         },
@@ -1653,80 +1604,6 @@ export const VmssFabricProfile: coreClient.CompositeMapper = {
   },
 };
 
-export const StatefulUpdate: coreClient.CompositeMapper = {
-  serializedName: "Stateful",
-  type: {
-    name: "Composite",
-    className: "StatefulUpdate",
-    uberParent: "AgentProfileUpdate",
-    polymorphicDiscriminator: AgentProfileUpdate.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...AgentProfileUpdate.type.modelProperties,
-      maxAgentLifetime: {
-        serializedName: "maxAgentLifetime",
-        type: {
-          name: "String",
-        },
-      },
-      gracePeriodTimeSpan: {
-        serializedName: "gracePeriodTimeSpan",
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const StatelessAgentProfileUpdate: coreClient.CompositeMapper = {
-  serializedName: "Stateless",
-  type: {
-    name: "Composite",
-    className: "StatelessAgentProfileUpdate",
-    uberParent: "AgentProfileUpdate",
-    polymorphicDiscriminator: AgentProfileUpdate.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...AgentProfileUpdate.type.modelProperties,
-    },
-  },
-};
-
-export const AutomaticResourcePredictionsProfileUpdate: coreClient.CompositeMapper =
-  {
-    serializedName: "Automatic",
-    type: {
-      name: "Composite",
-      className: "AutomaticResourcePredictionsProfileUpdate",
-      uberParent: "ResourcePredictionsProfileUpdate",
-      polymorphicDiscriminator:
-        ResourcePredictionsProfileUpdate.type.polymorphicDiscriminator,
-      modelProperties: {
-        ...ResourcePredictionsProfileUpdate.type.modelProperties,
-        predictionPreference: {
-          serializedName: "predictionPreference",
-          type: {
-            name: "String",
-          },
-        },
-      },
-    },
-  };
-
-export const ManualResourcePredictionsProfileUpdate: coreClient.CompositeMapper =
-  {
-    serializedName: "Manual",
-    type: {
-      name: "Composite",
-      className: "ManualResourcePredictionsProfileUpdate",
-      uberParent: "ResourcePredictionsProfileUpdate",
-      polymorphicDiscriminator:
-        ResourcePredictionsProfileUpdate.type.polymorphicDiscriminator,
-      modelProperties: {
-        ...ResourcePredictionsProfileUpdate.type.modelProperties,
-      },
-    },
-  };
-
 export const ResourceSku: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1738,23 +1615,6 @@ export const ResourceSku: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ResourceSkuProperties",
-        },
-      },
-    },
-  },
-};
-
-export const Quota: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "Quota",
-    modelProperties: {
-      ...ProxyResource.type.modelProperties,
-      properties: {
-        serializedName: "properties",
-        type: {
-          name: "Composite",
-          className: "QuotaProperties",
         },
       },
     },
@@ -1881,8 +1741,6 @@ export let discriminators = {
   AgentProfile: AgentProfile,
   ResourcePredictionsProfile: ResourcePredictionsProfile,
   FabricProfile: FabricProfile,
-  AgentProfileUpdate: AgentProfileUpdate,
-  ResourcePredictionsProfileUpdate: ResourcePredictionsProfileUpdate,
   "OrganizationProfile.AzureDevOps": AzureDevOpsOrganizationProfile,
   "OrganizationProfile.GitHub": GitHubOrganizationProfile,
   "AgentProfile.Stateful": Stateful,
@@ -1890,10 +1748,4 @@ export let discriminators = {
   "ResourcePredictionsProfile.Automatic": AutomaticResourcePredictionsProfile,
   "ResourcePredictionsProfile.Manual": ManualResourcePredictionsProfile,
   "FabricProfile.Vmss": VmssFabricProfile,
-  "AgentProfileUpdate.Stateful": StatefulUpdate,
-  "AgentProfileUpdate.Stateless": StatelessAgentProfileUpdate,
-  "ResourcePredictionsProfileUpdate.Automatic":
-    AutomaticResourcePredictionsProfileUpdate,
-  "ResourcePredictionsProfileUpdate.Manual":
-    ManualResourcePredictionsProfileUpdate,
 };

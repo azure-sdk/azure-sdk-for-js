@@ -12,7 +12,7 @@ import { Sku } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ManagedDevOpsInfrastructure } from "../managedDevOpsInfrastructure";
+import { ManagedDevOpsInfrastructureTest } from "../managedDevOpsInfrastructureTest";
 import {
   ResourceSku,
   SkuListByLocationNextOptionalParams,
@@ -24,13 +24,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Sku operations. */
 export class SkuImpl implements Sku {
-  private readonly client: ManagedDevOpsInfrastructure;
+  private readonly client: ManagedDevOpsInfrastructureTest;
 
   /**
    * Initialize a new instance of the class Sku class.
    * @param client Reference to the service client
    */
-  constructor(client: ManagedDevOpsInfrastructure) {
+  constructor(client: ManagedDevOpsInfrastructureTest) {
     this.client = client;
   }
 
