@@ -1,16 +1,7 @@
 # Release History
-
-## 10.0.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 10.0.0-beta.1 (2023-07-04)
+    
+## 10.0.0-beta.2 (2024-09-06)
+Compared with version 9.0.0
     
 ### Features Added
 
@@ -150,7 +141,9 @@
   - Added Interface OperationListResult
   - Added Interface OperationsListNextOptionalParams
   - Added Interface OperationsListOptionalParams
+  - Added Interface PIMOnlyModeSettings
   - Added Interface RecordAllDecisionsProperties
+  - Added Interface RoleManagementPolicyPimOnlyModeRule
   - Added Interface ScopeAccessReviewDefaultSettingsGetOptionalParams
   - Added Interface ScopeAccessReviewDefaultSettingsPutOptionalParams
   - Added Interface ScopeAccessReviewHistoryDefinitionCreateOptionalParams
@@ -186,6 +179,7 @@
   - Added Interface TooManyOwnersAssignedToResourceAlertIncidentProperties
   - Added Interface TooManyPermanentOwnersAssignedToResourceAlertConfigurationProperties
   - Added Interface TooManyPermanentOwnersAssignedToResourceAlertIncidentProperties
+  - Added Interface UsersOrServicePrincipalSet
   - Added Type Alias AccessRecommendationType
   - Added Type Alias AccessReviewActorIdentityType
   - Added Type Alias AccessReviewApplyResult
@@ -254,8 +248,10 @@
   - Added Type Alias DecisionResourceType
   - Added Type Alias DecisionTargetType
   - Added Type Alias DefaultDecisionType
+  - Added Type Alias ExcludedPrincipalTypes
   - Added Type Alias OperationsListNextResponse
   - Added Type Alias OperationsListResponse
+  - Added Type Alias PIMOnlyMode
   - Added Type Alias RecordAllDecisionsResult
   - Added Type Alias ScopeAccessReviewDefaultSettingsGetResponse
   - Added Type Alias ScopeAccessReviewDefaultSettingsPutResponse
@@ -283,6 +279,8 @@
   - Added Type Alias TenantLevelAccessReviewInstanceContactedReviewersListResponse
   - Interface Permission has a new optional parameter condition
   - Interface Permission has a new optional parameter conditionVersion
+  - Interface RoleManagementPolicyExpirationRule has a new optional parameter exceptionMembers
+  - Type of parameter ruleType of interface RoleManagementPolicyRule is changed from "RoleManagementPolicyApprovalRule" | "RoleManagementPolicyAuthenticationContextRule" | "RoleManagementPolicyEnablementRule" | "RoleManagementPolicyExpirationRule" | "RoleManagementPolicyNotificationRule" to "RoleManagementPolicyApprovalRule" | "RoleManagementPolicyAuthenticationContextRule" | "RoleManagementPolicyEnablementRule" | "RoleManagementPolicyExpirationRule" | "RoleManagementPolicyNotificationRule" | "RoleManagementPolicyPimOnlyModeRule"
   - Added Enum KnownAccessRecommendationType
   - Added Enum KnownAccessReviewActorIdentityType
   - Added Enum KnownAccessReviewApplyResult
@@ -302,13 +300,16 @@
   - Added Enum KnownDecisionResourceType
   - Added Enum KnownDecisionTargetType
   - Added Enum KnownDefaultDecisionType
+  - Added Enum KnownExcludedPrincipalTypes
+  - Added Enum KnownPIMOnlyMode
   - Added Enum KnownRecordAllDecisionsResult
   - Added Enum KnownSeverityLevel
-  - Class AuthorizationManagementClient has a new signature
+  - Enum KnownRoleManagementPolicyRuleType has a new value RoleManagementPolicyPimOnlyModeRule
+  - Enum KnownUserType has a new value ServicePrincipal
 
 ### Breaking Changes
 
-  - Interface RoleManagementPolicyAssignment no longer has parameter effectiveRules
+  - Class AuthorizationManagementClient has a new signature
     
     
 ## 9.0.0 (2023-04-21)
@@ -319,4 +320,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).

@@ -23,7 +23,7 @@ import {
   RoleManagementPoliciesUpdateOptionalParams,
   RoleManagementPoliciesUpdateResponse,
   RoleManagementPoliciesDeleteOptionalParams,
-  RoleManagementPoliciesListForScopeNextResponse
+  RoleManagementPoliciesListForScopeNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -46,7 +46,7 @@ export class RoleManagementPoliciesImpl implements RoleManagementPolicies {
    */
   public listForScope(
     scope: string,
-    options?: RoleManagementPoliciesListForScopeOptionalParams
+    options?: RoleManagementPoliciesListForScopeOptionalParams,
   ): PagedAsyncIterableIterator<RoleManagementPolicy> {
     const iter = this.listForScopePagingAll(scope, options);
     return {
@@ -61,14 +61,14 @@ export class RoleManagementPoliciesImpl implements RoleManagementPolicies {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listForScopePagingPage(scope, options, settings);
-      }
+      },
     };
   }
 
   private async *listForScopePagingPage(
     scope: string,
     options?: RoleManagementPoliciesListForScopeOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<RoleManagementPolicy[]> {
     let result: RoleManagementPoliciesListForScopeResponse;
     let continuationToken = settings?.continuationToken;
@@ -90,7 +90,7 @@ export class RoleManagementPoliciesImpl implements RoleManagementPolicies {
 
   private async *listForScopePagingAll(
     scope: string,
-    options?: RoleManagementPoliciesListForScopeOptionalParams
+    options?: RoleManagementPoliciesListForScopeOptionalParams,
   ): AsyncIterableIterator<RoleManagementPolicy> {
     for await (const page of this.listForScopePagingPage(scope, options)) {
       yield* page;
@@ -106,11 +106,11 @@ export class RoleManagementPoliciesImpl implements RoleManagementPolicies {
   get(
     scope: string,
     roleManagementPolicyName: string,
-    options?: RoleManagementPoliciesGetOptionalParams
+    options?: RoleManagementPoliciesGetOptionalParams,
   ): Promise<RoleManagementPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       { scope, roleManagementPolicyName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -125,11 +125,11 @@ export class RoleManagementPoliciesImpl implements RoleManagementPolicies {
     scope: string,
     roleManagementPolicyName: string,
     parameters: RoleManagementPolicy,
-    options?: RoleManagementPoliciesUpdateOptionalParams
+    options?: RoleManagementPoliciesUpdateOptionalParams,
   ): Promise<RoleManagementPoliciesUpdateResponse> {
     return this.client.sendOperationRequest(
       { scope, roleManagementPolicyName, parameters, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -142,11 +142,11 @@ export class RoleManagementPoliciesImpl implements RoleManagementPolicies {
   delete(
     scope: string,
     roleManagementPolicyName: string,
-    options?: RoleManagementPoliciesDeleteOptionalParams
+    options?: RoleManagementPoliciesDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { scope, roleManagementPolicyName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -157,11 +157,11 @@ export class RoleManagementPoliciesImpl implements RoleManagementPolicies {
    */
   private _listForScope(
     scope: string,
-    options?: RoleManagementPoliciesListForScopeOptionalParams
+    options?: RoleManagementPoliciesListForScopeOptionalParams,
   ): Promise<RoleManagementPoliciesListForScopeResponse> {
     return this.client.sendOperationRequest(
       { scope, options },
-      listForScopeOperationSpec
+      listForScopeOperationSpec,
     );
   }
 
@@ -174,11 +174,11 @@ export class RoleManagementPoliciesImpl implements RoleManagementPolicies {
   private _listForScopeNext(
     scope: string,
     nextLink: string,
-    options?: RoleManagementPoliciesListForScopeNextOptionalParams
+    options?: RoleManagementPoliciesListForScopeNextOptionalParams,
   ): Promise<RoleManagementPoliciesListForScopeNextResponse> {
     return this.client.sendOperationRequest(
       { scope, nextLink, options },
-      listForScopeNextOperationSpec
+      listForScopeNextOperationSpec,
     );
   }
 }
@@ -186,97 +186,94 @@ export class RoleManagementPoliciesImpl implements RoleManagementPolicies {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Authorization/roleManagementPolicies/{roleManagementPolicyName}",
+  path: "/{scope}/providers/Microsoft.Authorization/roleManagementPolicies/{roleManagementPolicyName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RoleManagementPolicy
+      bodyMapper: Mappers.RoleManagementPolicy,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
-    Parameters.roleManagementPolicyName
+    Parameters.roleManagementPolicyName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Authorization/roleManagementPolicies/{roleManagementPolicyName}",
+  path: "/{scope}/providers/Microsoft.Authorization/roleManagementPolicies/{roleManagementPolicyName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.RoleManagementPolicy
+      bodyMapper: Mappers.RoleManagementPolicy,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters3,
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
-    Parameters.roleManagementPolicyName
+    Parameters.roleManagementPolicyName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Authorization/roleManagementPolicies/{roleManagementPolicyName}",
+  path: "/{scope}/providers/Microsoft.Authorization/roleManagementPolicies/{roleManagementPolicyName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
-    Parameters.roleManagementPolicyName
+    Parameters.roleManagementPolicyName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listForScopeOperationSpec: coreClient.OperationSpec = {
   path: "/{scope}/providers/Microsoft.Authorization/roleManagementPolicies",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RoleManagementPolicyListResult
+      bodyMapper: Mappers.RoleManagementPolicyListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [Parameters.$host, Parameters.scope],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listForScopeNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RoleManagementPolicyListResult
+      bodyMapper: Mappers.RoleManagementPolicyListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.scope],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

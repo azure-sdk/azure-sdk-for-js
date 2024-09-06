@@ -12542,7 +12542,7 @@ packages:
     dev: false
 
   file:projects/arm-authorization.tgz:
-    resolution: {integrity: sha512-QUXBw75W/xuESE7mouVPCVoBTu6aCXpVXnn2PujkrFGm2n5aDXUkzrklJOagfFDHxffGZHNJR9bKUZwkWZ9zCA==, tarball: file:projects/arm-authorization.tgz}
+    resolution: {integrity: sha512-be7ISEKTSHoFBMH+5XTCWUJ2acxr7G9oAK+dXQYqSWgwjCUgfYeMeWHnna0TL8SgDh8HHjgUnkE4Wt6YWg0NDA==, tarball: file:projects/arm-authorization.tgz}
     name: '@rush-temp/arm-authorization'
     version: 0.0.0
     dependencies:
@@ -12563,6 +12563,7 @@ packages:
       rimraf: 5.0.10
       ts-node: 10.9.2(@types/node@18.19.48)(typescript@5.5.4)
       tslib: 2.7.0
+      tsx: 4.19.0
       typescript: 5.5.4
       uglify-js: 3.19.3
     transitivePeerDependencies:
@@ -12808,7 +12809,7 @@ packages:
     dev: false
 
   file:projects/arm-billing.tgz:
-    resolution: {integrity: sha512-FXyG1I9p+Y3rCU9yl503SMPYgEWGc+oPBAPeLF5d5kK4FBin4fJqk0D7LK4ZIYusE4OTricpA3cmmO/fNWdbQQ==, tarball: file:projects/arm-billing.tgz}
+    resolution: {integrity: sha512-X3Ss7x7n5lU/x31DmuXnMD7YKFAfvQ5h1JCo6TndLN7/HLsBeuWm3+lXdncF3lJX57YhDKGoTxW2Ubv1ch3pTA==, tarball: file:projects/arm-billing.tgz}
     name: '@rush-temp/arm-billing'
     version: 0.0.0
     dependencies:
@@ -14734,7 +14735,7 @@ packages:
     dev: false
 
   file:projects/arm-eventhub.tgz:
-    resolution: {integrity: sha512-XqGGgdiWd0zbXpqsvvyMXxDy5WANEis+oGAVFWc2QTfgngSoIlFaVLBiBh7r6r4rj/nZm8SExFzaGY7cWp2w3Q==, tarball: file:projects/arm-eventhub.tgz}
+    resolution: {integrity: sha512-e2Puc3ITGaif0OvhG0He9bKI3UK9rWlgN4k4zzgwlJPKoZJsGyDzb/fQPAHG+gbO/OnmH6USZCCRpeUVWcK8oA==, tarball: file:projects/arm-eventhub.tgz}
     name: '@rush-temp/arm-eventhub'
     version: 0.0.0
     dependencies:
@@ -16343,7 +16344,7 @@ packages:
     dev: false
 
   file:projects/arm-monitor.tgz:
-    resolution: {integrity: sha512-kp8BpFXpMU04/C+fUDgnJ5mNmZBFLje3bnypHgQRBiPJlXwseyLZFQdcY7/zC2VdwlAzEmg1RfSYKrUiZKjkLg==, tarball: file:projects/arm-monitor.tgz}
+    resolution: {integrity: sha512-77Wuc0zmxIBdS17wwCC920i1r2R+pIgJwqnAoIvoj8AqOuEyZKgkXR7rv7Lyjja1ESczzof4BeC5zWmgN5ByGQ==, tarball: file:projects/arm-monitor.tgz}
     name: '@rush-temp/arm-monitor'
     version: 0.0.0
     dependencies:
@@ -22644,7 +22645,7 @@ packages:
     dev: false
 
   file:projects/notification-hubs.tgz:
-    resolution: {integrity: sha512-pCiK37AcCnfrQYqfF6X8XfoBbQqGDqoC2yX1Ix8whOk0szTDWvfJ+NYpOeSL79kk/Y6soAau6fb11NQVEmymzw==, tarball: file:projects/notification-hubs.tgz}
+    resolution: {integrity: sha512-+e2HyuiiVOagxBxCfpK6Gh1UBUV4xvlvaWdXooe0k+zAyc+nXPYddrSlFaK3t+Tbtx8oyFqOgiZ5eOKrLVo2dw==, tarball: file:projects/notification-hubs.tgz}
     name: '@rush-temp/notification-hubs'
     version: 0.0.0
     dependencies:
