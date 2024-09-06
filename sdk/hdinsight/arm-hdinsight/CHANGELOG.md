@@ -1,6 +1,6 @@
 # Release History
     
-## 1.3.0-beta.2 (2024-08-13)
+## 1.3.0-beta.3 (2024-09-06)
 Compared with version 1.2.1
     
 ### Features Added
@@ -21,13 +21,6 @@ Compared with version 1.2.1
   - Interface NetworkProperties has a new optional parameter publicIpTag
   - Interface StorageAccount has a new optional parameter enableSecureChannel
   - Added Enum KnownOutboundDependenciesManagedType
-    
-    
-## 1.3.0-beta.1 (2023-07-06)
-    
-### Features Added
-
-  - Interface StorageAccount has a new optional parameter enableSecureChannel
     
 ## 1.2.1 (2023-01-10)
 
