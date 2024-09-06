@@ -4912,7 +4912,6 @@ export interface PurchaseRequest {
 export interface RebillDetails {
     readonly creditNoteDocumentId?: string;
     readonly invoiceDocumentId?: string;
-    readonly rebillDetails?: RebillDetails;
 }
 
 // @public
@@ -5242,8 +5241,7 @@ export interface ReservationPurchaseRequest {
     billingPlan?: ReservationBillingPlan;
     readonly billingScopeId?: string;
     displayName?: string;
-    instanceFlexibilityPropertiesInstanceFlexibility?: InstanceFlexibility;
-    instanceFlexibilityPropertiesReservedResourcePropertiesInstanceFlexibility?: InstanceFlexibility;
+    instanceFlexibility?: InstanceFlexibility;
     location?: string;
     quantity?: number;
     renew?: boolean;
@@ -5760,7 +5758,7 @@ export interface TransactionProperties {
     azureCreditApplied?: TransactionPropertiesAzureCreditApplied;
     azurePlan?: string;
     billingCurrency?: string;
-    billingProfileDisplayName?: any;
+    billingProfileDisplayName?: string;
     billingProfileId?: string;
     consumptionCommitmentDecremented?: TransactionPropertiesConsumptionCommitmentDecremented;
     creditType?: CreditType;

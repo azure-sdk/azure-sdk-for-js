@@ -447,8 +447,8 @@ const listByBillingProfileOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.billingProfileName,
     Parameters.billingAccountName1,
-    Parameters.billingProfileName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -467,8 +467,8 @@ const getByBillingProfileOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.billingProfileName,
     Parameters.billingAccountName1,
-    Parameters.billingProfileName1,
     Parameters.paymentMethodName,
   ],
   headerParameters: [Parameters.accept],
@@ -571,8 +571,8 @@ const listByBillingProfileNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
+    Parameters.billingProfileName,
     Parameters.billingAccountName1,
-    Parameters.billingProfileName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,

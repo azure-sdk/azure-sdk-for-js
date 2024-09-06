@@ -4726,13 +4726,6 @@ export const RebillDetails: coreClient.CompositeMapper = {
           name: "String",
         },
       },
-      rebillDetails: {
-        serializedName: "rebillDetails",
-        type: {
-          name: "Composite",
-          className: "RebillDetails",
-        },
-      },
     },
   },
 };
@@ -6131,7 +6124,7 @@ export const ReservationPurchaseRequest: coreClient.CompositeMapper = {
           name: "Boolean",
         },
       },
-      instanceFlexibilityPropertiesInstanceFlexibility: {
+      instanceFlexibility: {
         serializedName: "properties.instanceFlexibility",
         type: {
           name: "String",
@@ -6143,14 +6136,6 @@ export const ReservationPurchaseRequest: coreClient.CompositeMapper = {
           name: "DateTime",
         },
       },
-      instanceFlexibilityPropertiesReservedResourcePropertiesInstanceFlexibility:
-        {
-          serializedName:
-            "properties.reservedResourceProperties.instanceFlexibility",
-          type: {
-            name: "String",
-          },
-        },
     },
   },
 };
@@ -6496,7 +6481,7 @@ export const TransactionProperties: coreClient.CompositeMapper = {
       billingProfileDisplayName: {
         serializedName: "billingProfileDisplayName",
         type: {
-          name: "any",
+          name: "String",
         },
       },
       billingProfileId: {

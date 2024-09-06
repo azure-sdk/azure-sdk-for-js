@@ -236,9 +236,6 @@ export const search: OperationQueryParameter = {
 export const billingProfileName: OperationURLParameter = {
   parameterPath: "billingProfileName",
   mapper: {
-    constraints: {
-      Pattern: new RegExp("^[a-zA-Z\\d-_]{1,128}$"),
-    },
     serializedName: "billingProfileName",
     required: true,
     type: {
@@ -368,9 +365,6 @@ export const parameters5: OperationParameter = {
 export const customerName: OperationURLParameter = {
   parameterPath: "customerName",
   mapper: {
-    constraints: {
-      Pattern: new RegExp("^[a-zA-Z\\d-_]{1,128}$"),
-    },
     serializedName: "customerName",
     required: true,
     type: {
@@ -382,9 +376,6 @@ export const customerName: OperationURLParameter = {
 export const invoiceSectionName: OperationURLParameter = {
   parameterPath: "invoiceSectionName",
   mapper: {
-    constraints: {
-      Pattern: new RegExp("^[a-zA-Z\\d-_]{1,128}$"),
-    },
     serializedName: "invoiceSectionName",
     required: true,
     type: {
@@ -396,9 +387,6 @@ export const invoiceSectionName: OperationURLParameter = {
 export const departmentName: OperationURLParameter = {
   parameterPath: "departmentName",
   mapper: {
-    constraints: {
-      Pattern: new RegExp("^[a-zA-Z\\d-_]{1,128}$"),
-    },
     serializedName: "departmentName",
     required: true,
     type: {
@@ -410,9 +398,6 @@ export const departmentName: OperationURLParameter = {
 export const enrollmentAccountName: OperationURLParameter = {
   parameterPath: "enrollmentAccountName",
   mapper: {
-    constraints: {
-      Pattern: new RegExp("^[a-zA-Z\\d-_]{1,128}$"),
-    },
     serializedName: "enrollmentAccountName",
     required: true,
     type: {
@@ -626,43 +611,10 @@ export const billingAccountName1: OperationURLParameter = {
   },
 };
 
-export const billingProfileName1: OperationURLParameter = {
-  parameterPath: "billingProfileName",
-  mapper: {
-    serializedName: "billingProfileName",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
 export const billingSubscriptionName: OperationURLParameter = {
   parameterPath: "billingSubscriptionName",
   mapper: {
     serializedName: "billingSubscriptionName",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const customerName1: OperationURLParameter = {
-  parameterPath: "customerName",
-  mapper: {
-    serializedName: "customerName",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const invoiceSectionName1: OperationURLParameter = {
-  parameterPath: "invoiceSectionName",
-  mapper: {
-    serializedName: "invoiceSectionName",
     required: true,
     type: {
       name: "String",

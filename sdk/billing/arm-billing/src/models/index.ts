@@ -2359,11 +2359,6 @@ export interface RebillDetails {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly creditNoteDocumentId?: string;
-  /**
-   * The rebill details of an invoice.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly rebillDetails?: RebillDetails;
 }
 
 /** The details of refund request. */
@@ -3031,11 +3026,9 @@ export interface ReservationPurchaseRequest {
   /** Setting this to true will automatically purchase a new benefit on the expiration date time. */
   renew?: boolean;
   /** Allows reservation discount to be applied across skus within the same auto fit group. Not all skus support instance size flexibility. */
-  instanceFlexibilityPropertiesInstanceFlexibility?: InstanceFlexibility;
+  instanceFlexibility?: InstanceFlexibility;
   /** This is the date-time when the Azure hybrid benefit needs to be reviewed. */
   reviewDateTime?: Date;
-  /** Turning this on will apply the reservation discount to other VMs in the same VM size group. Only specify for VirtualMachines reserved resource type. */
-  instanceFlexibilityPropertiesReservedResourcePropertiesInstanceFlexibility?: InstanceFlexibility;
 }
 
 /** The name of sku */
@@ -3164,7 +3157,7 @@ export interface TransactionProperties {
   /** The ISO 4217 code for the currency in which this transaction is billed. */
   billingCurrency?: string;
   /** The name of the billing profile. */
-  billingProfileDisplayName?: any;
+  billingProfileDisplayName?: string;
   /** The fully qualified ID that uniquely identifies a billing profile. */
   billingProfileId?: string;
   /** The amount of Microsoft Azure Consumption Commitment(MACC) decrement through the transaction. */

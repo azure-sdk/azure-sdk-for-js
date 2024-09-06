@@ -1,6 +1,6 @@
 # Release History
     
-## 5.0.0 (2024-09-04)
+## 5.0.0 (2024-09-06)
     
 ### Features Added
 
@@ -1301,6 +1301,7 @@
   - Interface ProductsListByBillingAccountNextOptionalParams no longer has parameter filter
   - Interface ProductsListByBillingProfileNextOptionalParams no longer has parameter filter
   - Interface ProductsListByInvoiceSectionNextOptionalParams no longer has parameter filter
+  - Interface RebillDetails no longer has parameter rebillDetails
   - Interface Reservation no longer has parameter id
   - Interface Reservation no longer has parameter name
   - Interface Reservation no longer has parameter type
@@ -1356,9 +1357,6 @@
   - Type of parameter error of interface ErrorResponse is changed from ErrorDetails to ErrorDetail
   - Type of parameter billingProfileSpendingLimit of interface InvoiceSectionWithCreateSubPermission is changed from SpendingLimitForBillingProfile to SpendingLimit
   - Type of parameter billingProfileStatusReasonCode of interface InvoiceSectionWithCreateSubPermission is changed from StatusReasonCodeForBillingProfile to BillingProfileStatusReasonCode
-  - Type of parameter rebillDetails of interface RebillDetails is changed from {
-        [propertyName: string]: RebillDetails;
-    } to RebillDetails
   - Type of parameter effectiveDateTime of interface Reservation is changed from string to Date
   - Class BillingManagementClient no longer has parameter billingPeriods
   - Class BillingManagementClient no longer has parameter billingRoleDefinitions
