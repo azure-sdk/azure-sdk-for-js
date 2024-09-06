@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   Operation,
-  ApiManagementOperationsListOptionalParams
+  ApiManagementOperationsListOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -20,6 +20,6 @@ export interface ApiManagementOperations {
    * @param options The options parameters.
    */
   list(
-    options?: ApiManagementOperationsListOptionalParams
+    options?: ApiManagementOperationsListOptionalParams,
   ): PagedAsyncIterableIterator<Operation>;
 }
