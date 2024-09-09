@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   GetJobParameters,
@@ -31,11 +31,15 @@ import { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface GetJob {
   /** Resource read operation template. */
-  get(options?: GetJobParameters): StreamableMethod<GetJob200Response | GetJobDefaultResponse>;
+  get(
+    options?: GetJobParameters,
+  ): StreamableMethod<GetJob200Response | GetJobDefaultResponse>;
   /** Long-running resource create or replace operation template. */
   put(
     options: CreateJobParameters,
-  ): StreamableMethod<CreateJob200Response | CreateJob201Response | CreateJobDefaultResponse>;
+  ): StreamableMethod<
+    CreateJob200Response | CreateJob201Response | CreateJobDefaultResponse
+  >;
   /** Removes the record of the job from the service. Does not delete any documents. */
   delete(
     options?: DeleteJobParameters,
@@ -53,7 +57,9 @@ export interface ListJobDocuments {
   /** Resource list operation template. */
   get(
     options?: ListJobDocumentsParameters,
-  ): StreamableMethod<ListJobDocuments200Response | ListJobDocumentsDefaultResponse>;
+  ): StreamableMethod<
+    ListJobDocuments200Response | ListJobDocumentsDefaultResponse
+  >;
 }
 
 export interface CancelJob {
@@ -89,6 +95,6 @@ export interface Routes {
   (path: "/deid"): Deidentify;
 }
 
-export type DeidentificationClient = Client & {
+export type DeidServicesClient = Client & {
   path: Routes;
 };
