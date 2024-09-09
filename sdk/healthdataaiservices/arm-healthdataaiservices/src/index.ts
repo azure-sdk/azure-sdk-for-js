@@ -1,5 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
+
+import {
+  PageSettings,
+  ContinuablePage,
+  PagedAsyncIterableIterator,
+} from "./static-helpers/pagingHelpers.js";
 
 export {
   HealthDataAIServicesClient,
@@ -59,9 +65,6 @@ export {
   PrivateEndpointConnectionsDeleteOptionalParams,
   PrivateEndpointConnectionsListByDeidServiceOptionalParams,
   PrivateLinksListByDeidServiceOptionalParams,
-  PageSettings,
-  ContinuablePage,
-  PagedAsyncIterableIterator,
 } from "./models/index.js";
 export {
   DeidServicesOperations,
@@ -69,3 +72,4 @@ export {
   PrivateEndpointConnectionsOperations,
   PrivateLinksOperations,
 } from "./classic/index.js";
+export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
