@@ -1,20 +1,16 @@
 {
   "extends": "../../../tsconfig",
   "compilerOptions": {
-    "paths": {
-      "@azure/openai": ["./src/index.js"]
-    },
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "rootDir": "."
+    "rootDir": ".",
+    "skipLibCheck": true
   },
-  "exclude": ["./samples/**/*.ts"],
   "include": [
     "./src/**/*.ts",
     "./src/**/*.mts",
     "./src/**/*.cts",
-    "./samples-dev/**/*.ts",
-    "./test/**/*.ts",
-    "./test/**/*.mts"
+    "test/**/*.ts",
+    "./test/**/*.ts"
   ]
 }

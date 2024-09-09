@@ -4,12 +4,8 @@
 
 ```ts
 
-import { ClientOptions } from '@azure-rest/core-client';
 import { ErrorModel } from '@azure-rest/core-client';
-import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type AudioTaskLabel = string;
@@ -1264,34 +1260,6 @@ export type OnYourDataVectorSearchAuthenticationOptionsUnion = OnYourDataVectorS
 
 // @public
 export type OnYourDataVectorSearchAuthenticationType = string;
-
-// @public (undocumented)
-export class OpenAIClient {
-    constructor(endpointParam: string, credential: KeyCredential | TokenCredential, options?: OpenAIClientOptionalParams);
-    cancelBatch(batchId: string, options?: CancelBatchOptionalParams): Promise<Batch>;
-    createBatch(createBatchRequest: BatchCreateRequest, options?: CreateBatchOptionalParams): Promise<Batch>;
-    deleteFile(fileId: string, options?: DeleteFileOptionalParams): Promise<FileDeletionStatus>;
-    generateSpeechFromText(deploymentId: string, body: SpeechGenerationOptions, options?: GenerateSpeechFromTextOptionalParams): Promise<Uint8Array>;
-    getAudioTranscriptionAsPlainText(deploymentId: string, body: AudioTranscriptionOptions, options?: GetAudioTranscriptionAsPlainTextOptionalParams): Promise<string>;
-    getAudioTranscriptionAsResponseObject(deploymentId: string, body: AudioTranscriptionOptions, options?: GetAudioTranscriptionAsResponseObjectOptionalParams): Promise<AudioTranscription>;
-    getAudioTranslationAsPlainText(deploymentId: string, body: AudioTranslationOptions, options?: GetAudioTranslationAsPlainTextOptionalParams): Promise<string>;
-    getAudioTranslationAsResponseObject(deploymentId: string, body: AudioTranslationOptions, options?: GetAudioTranslationAsResponseObjectOptionalParams): Promise<AudioTranslation>;
-    getBatch(batchId: string, options?: GetBatchOptionalParams): Promise<Batch>;
-    getChatCompletions(deploymentId: string, body: ChatCompletionsOptions, options?: GetChatCompletionsOptionalParams): Promise<ChatCompletions>;
-    getCompletions(deploymentId: string, body: CompletionsOptions, options?: GetCompletionsOptionalParams): Promise<Completions>;
-    getEmbeddings(deploymentId: string, body: EmbeddingsOptions, options?: GetEmbeddingsOptionalParams): Promise<Embeddings>;
-    getFile(fileId: string, options?: GetFileOptionalParams): Promise<OpenAIFile>;
-    getFileContent(fileId: string, options?: GetFileContentOptionalParams): Promise<Uint8Array>;
-    getImageGenerations(deploymentId: string, body: ImageGenerationOptions, options?: GetImageGenerationsOptionalParams): Promise<ImageGenerations>;
-    listBatches(options?: ListBatchesOptionalParams): Promise<OpenAIPageableListOfBatch>;
-    listFiles(options?: ListFilesOptionalParams): Promise<FileListResponse>;
-    readonly pipeline: Pipeline;
-    uploadFile(file: Uint8Array, purpose: FilePurpose, options?: UploadFileOptionalParams): Promise<OpenAIFile>;
-}
-
-// @public
-export interface OpenAIClientOptionalParams extends ClientOptions {
-}
 
 // @public
 export interface OpenAIFile {

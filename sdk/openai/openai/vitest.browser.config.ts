@@ -1,23 +1,37 @@
-
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { defineConfig, mergeConfig } from "vitest/config";
-import viteConfig from "../../../vitest.browser.shared.config.ts";
+import { defineConfig } from "vitest/config";
+import { relativeRecordingsPath } from "@azure-tools/test-recorder";
 
-export default mergeConfig(
-  viteConfig,
-  defineConfig({
-    optimizeDeps: {
-      include: ["@azure/openai", "@azure/openai/types"],
+process.env.RECORDINGS_RELATIVE_PATH = relativeRecordingsPath();
+
+export default defineConfig({
+  define: {
+    "process.env": process.env,
+  },
+  test: {
+    reporters: ["basic", "junit"],
+    outputFile: {
+      junit: "test-results.browser.xml",
     },
-    test: {
-      testTimeout: 170000,
-      hookTimeout: 25000,
-      fileParallelism: false,
-      include: [
-        "dist-test/browser/test/**/*.spec.js",
-      ],
+    browser: {
+      enabled: true,
+      headless: true,
+      name: "chromium",
+      provider: "playwright",
     },
-  }),
-);
+    fakeTimers: {
+      toFake: ["setTimeout", "Date"],
+    },
+    watch: false,
+    include: ["dist-test/browser/**/*.spec.js"],
+    coverage: {
+      include: ["dist-test/browser/**/*.spec.js"],
+      provider: "istanbul",
+      reporter: ["text", "json", "html"],
+      reportsDirectory: "coverage-browser",
+    },
+    testTimeout: 1200000,
+  },
+});
