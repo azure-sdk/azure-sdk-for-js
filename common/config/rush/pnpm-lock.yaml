@@ -10491,6 +10491,12 @@ packages:
     hasBin: true
     dev: false
 
+  /typescript@5.6.2:
+    resolution: {integrity: sha512-NW8ByodCSNCwZeghjN3o+JX5OFH0Ojg6sadjEKY4huZ52TqbJTJnDo5+Tw98lSy63NZvi4n+ez5m2u5d4PkZyw==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+    dev: false
+
   /ua-parser-js@0.7.38:
     resolution: {integrity: sha512-fYmIy7fKTSFAhG3fuPlubeGaMoAd6r0rSnfEsO5nEY55i26KSLt9EH7PLQiiqPUhNqYIJvSkTy1oArIcXAbPbA==}
     dev: false
@@ -12231,7 +12237,7 @@ packages:
     dev: false
 
   file:projects/arm-appconfiguration.tgz:
-    resolution: {integrity: sha512-lCQNAsbeCwjO9ysZRusChuTJJqx3ZnJxNsrW2iwgJojrw7fU618rnfEL7oWAqO4U/XjNdSIHgR1Njt0emKrnLQ==, tarball: file:projects/arm-appconfiguration.tgz}
+    resolution: {integrity: sha512-ZtyMSHQA5t0k37HWrHQkRJNa+k+TLfb0+hDnkHEh1skJMmJ/g0YXDN8A65MRkdctqYMybn4E0HKFrgXfTxCyFg==, tarball: file:projects/arm-appconfiguration.tgz}
     name: '@rush-temp/arm-appconfiguration'
     version: 0.0.0
     dependencies:
@@ -12252,6 +12258,7 @@ packages:
       rimraf: 5.0.10
       ts-node: 10.9.2(@types/node@18.19.48)(typescript@5.5.4)
       tslib: 2.7.0
+      tsx: 4.19.0
       typescript: 5.5.4
       uglify-js: 3.19.3
     transitivePeerDependencies:
@@ -12808,7 +12815,7 @@ packages:
     dev: false
 
   file:projects/arm-billing.tgz:
-    resolution: {integrity: sha512-FXyG1I9p+Y3rCU9yl503SMPYgEWGc+oPBAPeLF5d5kK4FBin4fJqk0D7LK4ZIYusE4OTricpA3cmmO/fNWdbQQ==, tarball: file:projects/arm-billing.tgz}
+    resolution: {integrity: sha512-X3Ss7x7n5lU/x31DmuXnMD7YKFAfvQ5h1JCo6TndLN7/HLsBeuWm3+lXdncF3lJX57YhDKGoTxW2Ubv1ch3pTA==, tarball: file:projects/arm-billing.tgz}
     name: '@rush-temp/arm-billing'
     version: 0.0.0
     dependencies:
@@ -14734,7 +14741,7 @@ packages:
     dev: false
 
   file:projects/arm-eventhub.tgz:
-    resolution: {integrity: sha512-XqGGgdiWd0zbXpqsvvyMXxDy5WANEis+oGAVFWc2QTfgngSoIlFaVLBiBh7r6r4rj/nZm8SExFzaGY7cWp2w3Q==, tarball: file:projects/arm-eventhub.tgz}
+    resolution: {integrity: sha512-e2Puc3ITGaif0OvhG0He9bKI3UK9rWlgN4k4zzgwlJPKoZJsGyDzb/fQPAHG+gbO/OnmH6USZCCRpeUVWcK8oA==, tarball: file:projects/arm-eventhub.tgz}
     name: '@rush-temp/arm-eventhub'
     version: 0.0.0
     dependencies:
@@ -16343,7 +16350,7 @@ packages:
     dev: false
 
   file:projects/arm-monitor.tgz:
-    resolution: {integrity: sha512-kp8BpFXpMU04/C+fUDgnJ5mNmZBFLje3bnypHgQRBiPJlXwseyLZFQdcY7/zC2VdwlAzEmg1RfSYKrUiZKjkLg==, tarball: file:projects/arm-monitor.tgz}
+    resolution: {integrity: sha512-77Wuc0zmxIBdS17wwCC920i1r2R+pIgJwqnAoIvoj8AqOuEyZKgkXR7rv7Lyjja1ESczzof4BeC5zWmgN5ByGQ==, tarball: file:projects/arm-monitor.tgz}
     name: '@rush-temp/arm-monitor'
     version: 0.0.0
     dependencies:
@@ -20811,7 +20818,7 @@ packages:
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
-      '@_ts/max': /typescript@5.5.4
+      '@_ts/max': /typescript@5.6.2
       '@_ts/min': /typescript@4.2.4
       '@azure/identity': 4.4.1
       '@eslint/js': 9.9.1
@@ -22644,7 +22651,7 @@ packages:
     dev: false
 
   file:projects/notification-hubs.tgz:
-    resolution: {integrity: sha512-pCiK37AcCnfrQYqfF6X8XfoBbQqGDqoC2yX1Ix8whOk0szTDWvfJ+NYpOeSL79kk/Y6soAau6fb11NQVEmymzw==, tarball: file:projects/notification-hubs.tgz}
+    resolution: {integrity: sha512-+e2HyuiiVOagxBxCfpK6Gh1UBUV4xvlvaWdXooe0k+zAyc+nXPYddrSlFaK3t+Tbtx8oyFqOgiZ5eOKrLVo2dw==, tarball: file:projects/notification-hubs.tgz}
     name: '@rush-temp/notification-hubs'
     version: 0.0.0
     dependencies:
@@ -22683,7 +22690,7 @@ packages:
     dev: false
 
   file:projects/openai.tgz:
-    resolution: {integrity: sha512-mPhqyNX5wqFbBOS3584gnXo0fADb39yPzcDfCen3ke0lRYdozj3xAeanKaiCTi9qfbFypd5X/RwdHIWbINwhhQ==, tarball: file:projects/openai.tgz}
+    resolution: {integrity: sha512-XWR16e+8J78etH7+Koi7RTCxYvCjbGcBXPd+Jk6FCfeZhSQmR1s/X7oyFoLRKj29fCaSmstugpF/YCI63F7kwg==, tarball: file:projects/openai.tgz}
     name: '@rush-temp/openai'
     version: 0.0.0
     dependencies:
