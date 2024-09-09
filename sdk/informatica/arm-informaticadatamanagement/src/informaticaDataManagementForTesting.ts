@@ -24,15 +24,15 @@ import {
   Organizations,
   ServerlessRuntimes,
 } from "./operationsInterfaces";
-import { InformaticaDataManagementOptionalParams } from "./models";
+import { InformaticaDataManagementForTestingOptionalParams } from "./models";
 
-export class InformaticaDataManagement extends coreClient.ServiceClient {
+export class InformaticaDataManagementForTesting extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
   subscriptionId: string;
 
   /**
-   * Initializes a new instance of the InformaticaDataManagement class.
+   * Initializes a new instance of the InformaticaDataManagementForTesting class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param subscriptionId The ID of the target subscription.
    * @param options The parameter options
@@ -40,7 +40,7 @@ export class InformaticaDataManagement extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: InformaticaDataManagementOptionalParams,
+    options?: InformaticaDataManagementForTestingOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -53,12 +53,12 @@ export class InformaticaDataManagement extends coreClient.ServiceClient {
     if (!options) {
       options = {};
     }
-    const defaults: InformaticaDataManagementOptionalParams = {
+    const defaults: InformaticaDataManagementForTestingOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-informaticadatamanagement/1.0.1`;
+    const packageDetails = `azsdk-js-arm-informaticadatamanagement/2.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

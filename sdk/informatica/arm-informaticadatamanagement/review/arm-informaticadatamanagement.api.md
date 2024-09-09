@@ -139,10 +139,10 @@ export interface InfaServerlessFetchConfigProperties {
 }
 
 // @public (undocumented)
-export class InformaticaDataManagement extends coreClient.ServiceClient {
+export class InformaticaDataManagementForTesting extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: InformaticaDataManagementOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: InformaticaDataManagementForTestingOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -156,7 +156,7 @@ export class InformaticaDataManagement extends coreClient.ServiceClient {
 }
 
 // @public
-export interface InformaticaDataManagementOptionalParams extends coreClient.ServiceClientOptions {
+export interface InformaticaDataManagementForTestingOptionalParams extends coreClient.ServiceClientOptions {
     $host?: string;
     apiVersion?: string;
     endpoint?: string;
