@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { RawHttpHeaders } from "@azure/core-rest-pipeline";
 import { HttpResponse } from "@azure-rest/core-client";
@@ -698,13 +698,15 @@ export interface ListJobPreparationAndReleaseTaskStatus200Headers {
 }
 
 /** The request has succeeded. */
-export interface ListJobPreparationAndReleaseTaskStatus200Response extends HttpResponse {
+export interface ListJobPreparationAndReleaseTaskStatus200Response
+  extends HttpResponse {
   status: "200";
   body: BatchJobPreparationAndReleaseTaskStatusListResultOutput;
   headers: RawHttpHeaders & ListJobPreparationAndReleaseTaskStatus200Headers;
 }
 
-export interface ListJobPreparationAndReleaseTaskStatusDefaultResponse extends HttpResponse {
+export interface ListJobPreparationAndReleaseTaskStatusDefaultResponse
+  extends HttpResponse {
   status: string;
   body: BatchErrorOutput;
 }
@@ -1463,7 +1465,8 @@ export interface GetNodeRemoteLoginSettings200Response extends HttpResponse {
   headers: RawHttpHeaders & GetNodeRemoteLoginSettings200Headers;
 }
 
-export interface GetNodeRemoteLoginSettingsDefaultResponse extends HttpResponse {
+export interface GetNodeRemoteLoginSettingsDefaultResponse
+  extends HttpResponse {
   status: string;
   body: BatchErrorOutput;
 }
