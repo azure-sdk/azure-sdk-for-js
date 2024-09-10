@@ -82,7 +82,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion10],
+  queryParameters: [Parameters.apiVersion8],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceId,
@@ -106,7 +106,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.defenderForStorageSetting,
-  queryParameters: [Parameters.apiVersion10],
+  queryParameters: [Parameters.apiVersion8],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceId,
