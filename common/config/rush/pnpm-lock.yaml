@@ -17953,7 +17953,7 @@ packages:
     dev: false
 
   file:projects/arm-security.tgz:
-    resolution: {integrity: sha512-B70NAL/cD6aCD6ZFWPaQ2fCRsoA4j8ZnFsGa/y9vDILw/37omK/X06fg1L3eItXDa85rnxAKEyVISb4/CmSlMQ==, tarball: file:projects/arm-security.tgz}
+    resolution: {integrity: sha512-OY99Vo6BRV0FW7OYRiZs3Bl0VyaA5vFJVMeG3d0S8vQWQR5mecwa4g24N6RhyUc4lF2Z/GdsqyWydco69qF8Xw==, tarball: file:projects/arm-security.tgz}
     name: '@rush-temp/arm-security'
     version: 0.0.0
     dependencies:
@@ -17975,6 +17975,7 @@ packages:
       rimraf: 5.0.10
       ts-node: 10.9.2(@types/node@18.19.50)(typescript@5.5.4)
       tslib: 2.7.0
+      tsx: 4.19.0
       typescript: 5.5.4
       uglify-js: 3.19.3
     transitivePeerDependencies:
@@ -23642,7 +23643,7 @@ packages:
     dev: false
 
   file:projects/schema-registry.tgz:
-    resolution: {integrity: sha512-ykg9DG1Gu7IPionLL0+efdSqVe0OlS1QDWaif5POoetpaaOQyZQIsckMD6LTVTz4F6Ripx1S6M7YCXsYV76lWQ==, tarball: file:projects/schema-registry.tgz}
+    resolution: {integrity: sha512-x72Sp3S5RVjaKQusCeOucvpmDoSQlBbAxc08R99hRkZKNQ8QtuUlcn7sBhwSnpQ6M3G/VQtaSgPWqsusfxZbOQ==, tarball: file:projects/schema-registry.tgz}
     name: '@rush-temp/schema-registry'
     version: 0.0.0
     dependencies:
