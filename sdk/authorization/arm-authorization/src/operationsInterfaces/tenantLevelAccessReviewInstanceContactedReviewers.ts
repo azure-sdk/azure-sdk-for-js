@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   AccessReviewContactedReviewer,
-  TenantLevelAccessReviewInstanceContactedReviewersListOptionalParams
+  TenantLevelAccessReviewInstanceContactedReviewersListOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -24,6 +24,6 @@ export interface TenantLevelAccessReviewInstanceContactedReviewers {
   list(
     scheduleDefinitionId: string,
     id: string,
-    options?: TenantLevelAccessReviewInstanceContactedReviewersListOptionalParams
+    options?: TenantLevelAccessReviewInstanceContactedReviewersListOptionalParams,
   ): PagedAsyncIterableIterator<AccessReviewContactedReviewer>;
 }

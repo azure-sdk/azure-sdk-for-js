@@ -17,7 +17,7 @@ import {
   RoleDefinitionsCreateOrUpdateOptionalParams,
   RoleDefinitionsCreateOrUpdateResponse,
   RoleDefinitionsGetByIdOptionalParams,
-  RoleDefinitionsGetByIdResponse
+  RoleDefinitionsGetByIdResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface RoleDefinitions {
    */
   list(
     scope: string,
-    options?: RoleDefinitionsListOptionalParams
+    options?: RoleDefinitionsListOptionalParams,
   ): PagedAsyncIterableIterator<RoleDefinition>;
   /**
    * Deletes a role definition.
@@ -47,7 +47,7 @@ export interface RoleDefinitions {
   delete(
     scope: string,
     roleDefinitionId: string,
-    options?: RoleDefinitionsDeleteOptionalParams
+    options?: RoleDefinitionsDeleteOptionalParams,
   ): Promise<RoleDefinitionsDeleteResponse>;
   /**
    * Get role definition by ID (GUID).
@@ -61,7 +61,7 @@ export interface RoleDefinitions {
   get(
     scope: string,
     roleDefinitionId: string,
-    options?: RoleDefinitionsGetOptionalParams
+    options?: RoleDefinitionsGetOptionalParams,
   ): Promise<RoleDefinitionsGetResponse>;
   /**
    * Creates or updates a role definition.
@@ -77,7 +77,7 @@ export interface RoleDefinitions {
     scope: string,
     roleDefinitionId: string,
     roleDefinition: RoleDefinition,
-    options?: RoleDefinitionsCreateOrUpdateOptionalParams
+    options?: RoleDefinitionsCreateOrUpdateOptionalParams,
   ): Promise<RoleDefinitionsCreateOrUpdateResponse>;
   /**
    * Gets a role definition by ID.
@@ -90,6 +90,6 @@ export interface RoleDefinitions {
    */
   getById(
     roleId: string,
-    options?: RoleDefinitionsGetByIdOptionalParams
+    options?: RoleDefinitionsGetByIdOptionalParams,
   ): Promise<RoleDefinitionsGetByIdResponse>;
 }
