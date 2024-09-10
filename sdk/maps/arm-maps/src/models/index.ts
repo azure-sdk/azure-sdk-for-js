@@ -10,29 +10,13 @@ import * as coreClient from "@azure/core-client";
 
 /** The SKU of the Maps Account. */
 export interface Sku {
-  /** The name of the SKU, in standard format (such as S0). */
+  /** The name of the SKU, in standard format (such as G2). */
   name: Name;
   /**
    * Gets the sku tier. This is based on the SKU name.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly tier?: string;
-}
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
 }
 
 /** Managed service identity (system assigned and/or user assigned identities) */
@@ -50,7 +34,9 @@ export interface ManagedServiceIdentity {
   /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
+  userAssignedIdentities?: {
+    [propertyName: string]: UserAssignedIdentity | null;
+  };
 }
 
 /** User assigned identity properties */
@@ -67,26 +53,28 @@ export interface UserAssignedIdentity {
   readonly clientId?: string;
 }
 
-/** Additional Map account properties */
+/** Additional Maps account properties */
 export interface MapsAccountProperties {
   /**
-   * A unique identifier for the maps account
+   * A unique identifier for the Maps Account
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly uniqueId?: string;
   /** Allows toggle functionality on Azure Policy to disable Azure Maps local authentication support. This will disable Shared Keys and Shared Access Signature Token authentication from any usage. */
   disableLocalAuth?: boolean;
   /**
-   * The provisioning state of the Map account resource, Account updates can only be performed on terminal states. Terminal states: `Succeeded` and `Failed`
+   * The provisioning state of the Maps account resource, Account updates can only be performed on terminal states. Terminal states: `Succeeded` and `Failed`
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: string;
-  /** The array of associated resources to the Map account. Linked resource in the array cannot individually update, you must update all linked resources in the array together. These resources may be used on operations on the Azure Maps REST API. Access is controlled by the Map Account Managed Identity(s) permissions to those resource(s). */
+  /** The array of associated resources to the Maps account. Linked resource in the array cannot individually update, you must update all linked resources in the array together. These resources may be used on operations on the Azure Maps REST API. Access is controlled by the Maps Account Managed Identity(s) permissions to those resource(s). */
   linkedResources?: LinkedResource[];
   /** Specifies CORS rules for the Blob service. You can include up to five CorsRule elements in the request. If no CorsRule elements are included in the request body, all CORS rules will be deleted, and CORS will be disabled for the Blob service. */
   cors?: CorsRules;
-  /** (Optional) Discouraged to include in resource definition. Only needed where it is possible to disable platform (AKA infrastructure) encryption. Azure SQL TDE is an example of this. Values are enabled and disabled. */
+  /** All encryption configuration for a resource. */
   encryption?: Encryption;
+  /** List of additional data processing regions for the Maps Account, which may result in requests being processed in another geography. Some features or results may be restricted to specific regions. By default, Maps REST APIs process requests according to the account location or the [geographic scope](https://learn.microsoft.com/azure/azure-maps/geographic-scope). */
+  locations?: LocationsItem[];
 }
 
 /** Linked resource is reference to a resource deployed in an Azure subscription, add the linked resource `uniqueName` value as an optional parameter for operations on Azure Maps Geospatial REST APIs. */
@@ -109,36 +97,44 @@ export interface CorsRule {
   allowedOrigins: string[];
 }
 
-/** (Optional) Discouraged to include in resource definition. Only needed where it is possible to disable platform (AKA infrastructure) encryption. Azure SQL TDE is an example of this. Values are enabled and disabled. */
+/** All encryption configuration for a resource. */
 export interface Encryption {
-  /** Values are enabled and disabled. */
+  /** (Optional) Discouraged to include in resource definition. Only needed where it is possible to disable platform (AKA infrastructure) encryption. Azure SQL TDE is an example of this. Values are enabled and disabled. */
   infrastructureEncryption?: InfrastructureEncryption;
   /** All Customer-managed key encryption properties for the resource. */
-  customerManagedKeyEncryption?: CustomerManagedKeyEncryption;
+  customerManagedKeyEncryption?: EncryptionCustomerManagedKeyEncryption;
 }
 
 /** All Customer-managed key encryption properties for the resource. */
-export interface CustomerManagedKeyEncryption {
+export interface EncryptionCustomerManagedKeyEncryption {
   /** All identity configuration for Customer-managed key settings defining which identity should be used to auth to Key Vault. */
-  keyEncryptionKeyIdentity?: CustomerManagedKeyEncryptionKeyIdentity;
-  /** key encryption key Url, versioned or non-versioned. Ex: https://contosovault.vault.azure.net/keys/contosokek/562a4bb76b524a1493a6afe8e536ee78 or https://contosovault.vault.azure.net/keys/contosokek. */
+  keyEncryptionKeyIdentity?: EncryptionCustomerManagedKeyEncryptionKeyIdentity;
+  /** key encryption key Url, versioned or unversioned. Ex: https://contosovault.vault.azure.net/keys/contosokek/562a4bb76b524a1493a6afe8e536ee78 or https://contosovault.vault.azure.net/keys/contosokek. */
   keyEncryptionKeyUrl?: string;
 }
 
 /** All identity configuration for Customer-managed key settings defining which identity should be used to auth to Key Vault. */
-export interface CustomerManagedKeyEncryptionKeyIdentity {
-  /** Values can be systemAssignedIdentity or userAssignedIdentity */
-  identityType?: IdentityType;
-  /** user assigned identity to use for accessing key encryption key Url. Ex: /subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/<resource group>/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myId. Mutually exclusive with identityType systemAssignedIdentity and delegatedResourceIdentity. */
+export interface EncryptionCustomerManagedKeyEncryptionKeyIdentity {
+  /** The type of identity to use. Values can be systemAssignedIdentity, userAssignedIdentity, or delegatedResourceIdentity. */
+  identityType?: EncryptionCustomerManagedKeyEncryptionKeyIdentityType;
+  /** User assigned identity to use for accessing key encryption key Url. Ex: /subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/<resource group>/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myId. Mutually exclusive with identityType systemAssignedIdentity. */
   userAssignedIdentityResourceId?: string;
+  /** application client identity to use for accessing key encryption key Url in a different tenant. Ex: f83c6b1b-4d34-47e4-bb34-9d83df58b540 */
+  federatedClientId?: string;
   /** delegated identity to use for accessing key encryption key Url. Ex: /subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/<resource group>/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myId. Mutually exclusive with identityType systemAssignedIdentity and userAssignedIdentity - internal use only. */
   delegatedIdentityClientId?: string;
+}
+
+/** Data processing location. */
+export interface LocationsItem {
+  /** The location name. */
+  locationName: string;
 }
 
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
   /**
-   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
@@ -152,6 +148,27 @@ export interface Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
 }
 
 /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
@@ -214,23 +231,25 @@ export interface MapsAccountUpdateParameters {
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: ManagedServiceIdentity;
   /**
-   * A unique identifier for the maps account
+   * A unique identifier for the Maps Account
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly uniqueId?: string;
   /** Allows toggle functionality on Azure Policy to disable Azure Maps local authentication support. This will disable Shared Keys and Shared Access Signature Token authentication from any usage. */
   disableLocalAuth?: boolean;
   /**
-   * The provisioning state of the Map account resource, Account updates can only be performed on terminal states. Terminal states: `Succeeded` and `Failed`
+   * The provisioning state of the Maps account resource, Account updates can only be performed on terminal states. Terminal states: `Succeeded` and `Failed`
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: string;
-  /** The array of associated resources to the Map account. Linked resource in the array cannot individually update, you must update all linked resources in the array together. These resources may be used on operations on the Azure Maps REST API. Access is controlled by the Map Account Managed Identity(s) permissions to those resource(s). */
+  /** The array of associated resources to the Maps account. Linked resource in the array cannot individually update, you must update all linked resources in the array together. These resources may be used on operations on the Azure Maps REST API. Access is controlled by the Maps Account Managed Identity(s) permissions to those resource(s). */
   linkedResources?: LinkedResource[];
   /** Specifies CORS rules for the Blob service. You can include up to five CorsRule elements in the request. If no CorsRule elements are included in the request body, all CORS rules will be deleted, and CORS will be disabled for the Blob service. */
   cors?: CorsRules;
-  /** (Optional) Discouraged to include in resource definition. Only needed where it is possible to disable platform (AKA infrastructure) encryption. Azure SQL TDE is an example of this. Values are enabled and disabled. */
+  /** All encryption configuration for a resource. */
   encryption?: Encryption;
+  /** List of additional data processing regions for the Maps Account, which may result in requests being processed in another geography. Some features or results may be restricted to specific regions. By default, Maps REST APIs process requests according to the account location or the [geographic scope](https://learn.microsoft.com/azure/azure-maps/geographic-scope). */
+  locations?: LocationsItem[];
 }
 
 /** A list of Maps Accounts. */
@@ -249,9 +268,9 @@ export interface MapsAccounts {
 
 /** Parameters used to create an account Shared Access Signature (SAS) token. The REST API access control is provided by Azure Maps Role Based Access (RBAC) identity and access. */
 export interface AccountSasParameters {
-  /** The Map account key to use for signing. Picking `primaryKey` or `secondaryKey` will use the Map account Shared Keys, and using `managedIdentity` will use the auto-renewed private key to sign the SAS. */
+  /** The Maps account key to use for signing. Picking `primaryKey` or `secondaryKey` will use the Maps account Shared Keys, and using `managedIdentity` will use the auto-renewed private key to sign the SAS. */
   signingKey: SigningKey;
-  /** The principal Id also known as the object Id of a User Assigned Managed Identity currently assigned to the Map Account. To assign a Managed Identity of the account, use operation Create or Update an assign a User Assigned Identity resource Id. */
+  /** The principal Id also known as the object Id of a User Assigned Managed Identity currently assigned to the Maps Account. To assign a Managed Identity of the account, use operation Create or Update an assign a User Assigned Identity resource Id. */
   principalId: string;
   /** Optional, allows control of which region locations are permitted access to Azure Maps REST APIs with the SAS token. Example: "eastus", "westus2". Omitting this parameter will allow all region locations to be accessible. */
   regions?: string[];
@@ -302,98 +321,68 @@ export interface MapsKeySpecification {
   keyType: KeyType;
 }
 
-/** The set of operations available for Maps. */
-export interface MapsOperations {
+/** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
+export interface OperationListResult {
   /**
-   * An operation available for Maps.
+   * List of operations supported by the resource provider
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly value?: OperationDetail[];
+  readonly value?: Operation[];
   /**
-   * URL client should use to fetch the next page (per server side paging).
-   * It's null for now, added for future use.
+   * URL to get the next set of operation list results (if there are any).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
-/** Operation detail payload */
-export interface OperationDetail {
-  /** Name of the operation */
-  name?: string;
-  /** Indicates whether the operation is a data action */
-  isDataAction?: boolean;
-  /** Display of the operation */
+/** Details of a REST API operation, returned from the Resource Provider Operations API */
+export interface Operation {
+  /**
+   * The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isDataAction?: boolean;
+  /** Localized display information for this particular operation. */
   display?: OperationDisplay;
-  /** Origin of the operation */
-  origin?: string;
-  /** One property of operation, include metric specifications. */
-  serviceSpecification?: ServiceSpecification;
+  /**
+   * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly origin?: Origin;
+  /**
+   * Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly actionType?: ActionType;
 }
 
-/** Operation display payload */
+/** Localized display information for this particular operation. */
 export interface OperationDisplay {
-  /** Resource provider of the operation */
-  provider?: string;
-  /** Resource of the operation */
-  resource?: string;
-  /** Localized friendly name for the operation */
-  operation?: string;
-  /** Localized friendly description for the operation */
-  description?: string;
-}
-
-/** One property of operation, include metric specifications. */
-export interface ServiceSpecification {
-  /** Metric specifications of operation. */
-  metricSpecifications?: MetricSpecification[];
-}
-
-/** Metric specification of operation. */
-export interface MetricSpecification {
-  /** Name of metric specification. */
-  name?: string;
-  /** Display name of metric specification. */
-  displayName?: string;
-  /** Display description of metric specification. */
-  displayDescription?: string;
-  /** Unit could be Count. */
-  unit?: string;
-  /** Dimensions of map account. */
-  dimensions?: Dimension[];
-  /** Aggregation type could be Average. */
-  aggregationType?: string;
-  /** The property to decide fill gap with zero or not. */
-  fillGapWithZero?: boolean;
-  /** The category this metric specification belong to, could be Capacity. */
-  category?: string;
-  /** Account Resource Id. */
-  resourceIdDimensionNameOverride?: string;
-  /** Source metrics account. */
-  sourceMdmAccount?: string;
-  /** Internal metric name. */
-  internalMetricName?: string;
-  /** Lock aggregation type for metrics. */
-  lockAggregationType?: string;
-  /** Metrics namespace. */
-  sourceMdmNamespace?: string;
-  /** Allowed aggregation types for metrics. */
-  supportedAggregationTypes?: string;
-}
-
-/** Dimension of map account, for example API Category, Api Name, Result Type, and Response Code. */
-export interface Dimension {
-  /** Display name of dimension. */
-  name?: string;
-  /** Display name of dimension. */
-  displayName?: string;
-  /** Internal name of the dimension. */
-  internalName?: string;
-  /** Internal metric name of the dimension. */
-  internalMetricName?: string;
-  /** Source Mdm Namespace of the dimension. */
-  sourceMdmNamespace?: string;
-  /** Flag to indicate exporting to Azure Monitor. */
-  toBeExportedToShoebox?: boolean;
+  /**
+   * The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provider?: string;
+  /**
+   * The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resource?: string;
+  /**
+   * The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operation?: string;
+  /**
+   * The short, localized friendly description of the operation; suitable for tool tips and detailed views.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
 }
 
 /** A list of Creator resources. */
@@ -419,6 +408,10 @@ export interface CreatorProperties {
   readonly provisioningState?: string;
   /** The storage units to be allocated. Integer values from 1 to 100, inclusive. */
   storageUnits: number;
+  /** The total allocated storage unit size in bytes for the creator resource. */
+  totalStorageUnitSizeInBytes?: number;
+  /** The consumed storage unit size in bytes for the creator resource. */
+  consumedStorageUnitSizeInBytes?: number;
 }
 
 /** Parameters used to update an existing Creator resource. */
@@ -432,6 +425,10 @@ export interface CreatorUpdateParameters {
   readonly provisioningState?: string;
   /** The storage units to be allocated. Integer values from 1 to 100, inclusive. */
   storageUnits?: number;
+  /** The total allocated storage unit size in bytes for the creator resource. */
+  totalStorageUnitSizeInBytes?: number;
+  /** The consumed storage unit size in bytes for the creator resource. */
+  consumedStorageUnitSizeInBytes?: number;
 }
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
@@ -448,11 +445,6 @@ export interface MapsAccount extends TrackedResource {
   sku: Sku;
   /** Get or Set Kind property. */
   kind?: Kind;
-  /**
-   * Metadata pertaining to creation and last modification of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: ManagedServiceIdentity;
   /** The map account properties. */
@@ -463,21 +455,12 @@ export interface MapsAccount extends TrackedResource {
 export interface Creator extends TrackedResource {
   /** The Creator resource properties. */
   properties: CreatorProperties;
-  /**
-   * The system meta data relating to this resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
 }
 
 /** Known values of {@link Name} that the service accepts. */
 export enum KnownName {
-  /** S0 */
-  S0 = "S0",
-  /** S1 */
-  S1 = "S1",
   /** G2 */
-  G2 = "G2"
+  G2 = "G2",
 }
 
 /**
@@ -485,18 +468,14 @@ export enum KnownName {
  * {@link KnownName} can be used interchangeably with Name,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **S0** \
- * **S1** \
  * **G2**
  */
 export type Name = string;
 
 /** Known values of {@link Kind} that the service accepts. */
 export enum KnownKind {
-  /** Gen1 */
-  Gen1 = "Gen1",
   /** Gen2 */
-  Gen2 = "Gen2"
+  Gen2 = "Gen2",
 }
 
 /**
@@ -504,10 +483,72 @@ export enum KnownKind {
  * {@link KnownKind} can be used interchangeably with Kind,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Gen1** \
  * **Gen2**
  */
 export type Kind = string;
+
+/** Known values of {@link ManagedServiceIdentityType} that the service accepts. */
+export enum KnownManagedServiceIdentityType {
+  /** None */
+  None = "None",
+  /** SystemAssigned */
+  SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
+  UserAssigned = "UserAssigned",
+  /** SystemAssignedUserAssigned */
+  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
+}
+
+/**
+ * Defines values for ManagedServiceIdentityType. \
+ * {@link KnownManagedServiceIdentityType} can be used interchangeably with ManagedServiceIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **SystemAssigned** \
+ * **UserAssigned** \
+ * **SystemAssigned,UserAssigned**
+ */
+export type ManagedServiceIdentityType = string;
+
+/** Known values of {@link InfrastructureEncryption} that the service accepts. */
+export enum KnownInfrastructureEncryption {
+  /** Enabled */
+  Enabled = "enabled",
+  /** Disabled */
+  Disabled = "disabled",
+}
+
+/**
+ * Defines values for InfrastructureEncryption. \
+ * {@link KnownInfrastructureEncryption} can be used interchangeably with InfrastructureEncryption,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **enabled** \
+ * **disabled**
+ */
+export type InfrastructureEncryption = string;
+
+/** Known values of {@link EncryptionCustomerManagedKeyEncryptionKeyIdentityType} that the service accepts. */
+export enum KnownEncryptionCustomerManagedKeyEncryptionKeyIdentityType {
+  /** SystemAssignedIdentity */
+  SystemAssignedIdentity = "systemAssignedIdentity",
+  /** UserAssignedIdentity */
+  UserAssignedIdentity = "userAssignedIdentity",
+  /** DelegatedResourceIdentity */
+  DelegatedResourceIdentity = "delegatedResourceIdentity",
+}
+
+/**
+ * Defines values for EncryptionCustomerManagedKeyEncryptionKeyIdentityType. \
+ * {@link KnownEncryptionCustomerManagedKeyEncryptionKeyIdentityType} can be used interchangeably with EncryptionCustomerManagedKeyEncryptionKeyIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **systemAssignedIdentity** \
+ * **userAssignedIdentity** \
+ * **delegatedResourceIdentity**
+ */
+export type EncryptionCustomerManagedKeyEncryptionKeyIdentityType = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
@@ -518,7 +559,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -533,69 +574,6 @@ export enum KnownCreatedByType {
  */
 export type CreatedByType = string;
 
-/** Known values of {@link ManagedServiceIdentityType} that the service accepts. */
-export enum KnownManagedServiceIdentityType {
-  /** None */
-  None = "None",
-  /** SystemAssigned */
-  SystemAssigned = "SystemAssigned",
-  /** UserAssigned */
-  UserAssigned = "UserAssigned",
-  /** SystemAssignedUserAssigned */
-  SystemAssignedUserAssigned = "SystemAssigned, UserAssigned"
-}
-
-/**
- * Defines values for ManagedServiceIdentityType. \
- * {@link KnownManagedServiceIdentityType} can be used interchangeably with ManagedServiceIdentityType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **None** \
- * **SystemAssigned** \
- * **UserAssigned** \
- * **SystemAssigned, UserAssigned**
- */
-export type ManagedServiceIdentityType = string;
-
-/** Known values of {@link InfrastructureEncryption} that the service accepts. */
-export enum KnownInfrastructureEncryption {
-  /** Enabled */
-  Enabled = "enabled",
-  /** Disabled */
-  Disabled = "disabled"
-}
-
-/**
- * Defines values for InfrastructureEncryption. \
- * {@link KnownInfrastructureEncryption} can be used interchangeably with InfrastructureEncryption,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **enabled** \
- * **disabled**
- */
-export type InfrastructureEncryption = string;
-
-/** Known values of {@link IdentityType} that the service accepts. */
-export enum KnownIdentityType {
-  /** SystemAssignedIdentity */
-  SystemAssignedIdentity = "systemAssignedIdentity",
-  /** UserAssignedIdentity */
-  UserAssignedIdentity = "userAssignedIdentity",
-  /** DelegatedResourceIdentity */
-  DelegatedResourceIdentity = "delegatedResourceIdentity"
-}
-
-/**
- * Defines values for IdentityType. \
- * {@link KnownIdentityType} can be used interchangeably with IdentityType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **systemAssignedIdentity** \
- * **userAssignedIdentity** \
- * **delegatedResourceIdentity**
- */
-export type IdentityType = string;
-
 /** Known values of {@link SigningKey} that the service accepts. */
 export enum KnownSigningKey {
   /** PrimaryKey */
@@ -603,7 +581,7 @@ export enum KnownSigningKey {
   /** SecondaryKey */
   SecondaryKey = "secondaryKey",
   /** ManagedIdentity */
-  ManagedIdentity = "managedIdentity"
+  ManagedIdentity = "managedIdentity",
 }
 
 /**
@@ -622,7 +600,7 @@ export enum KnownKeyType {
   /** Primary */
   Primary = "primary",
   /** Secondary */
-  Secondary = "secondary"
+  Secondary = "secondary",
 }
 
 /**
@@ -634,6 +612,42 @@ export enum KnownKeyType {
  * **secondary**
  */
 export type KeyType = string;
+
+/** Known values of {@link Origin} that the service accepts. */
+export enum KnownOrigin {
+  /** User */
+  User = "user",
+  /** System */
+  System = "system",
+  /** UserSystem */
+  UserSystem = "user,system",
+}
+
+/**
+ * Defines values for Origin. \
+ * {@link KnownOrigin} can be used interchangeably with Origin,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **user** \
+ * **system** \
+ * **user,system**
+ */
+export type Origin = string;
+
+/** Known values of {@link ActionType} that the service accepts. */
+export enum KnownActionType {
+  /** Internal */
+  Internal = "Internal",
+}
+
+/**
+ * Defines values for ActionType. \
+ * {@link KnownActionType} can be used interchangeably with ActionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Internal**
+ */
+export type ActionType = string;
 
 /** Optional parameters. */
 export interface AccountsCreateOrUpdateOptionalParams
@@ -714,28 +728,14 @@ export interface MapsListOperationsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listOperations operation. */
-export type MapsListOperationsResponse = MapsOperations;
-
-/** Optional parameters. */
-export interface MapsListSubscriptionOperationsOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listSubscriptionOperations operation. */
-export type MapsListSubscriptionOperationsResponse = MapsOperations;
+export type MapsListOperationsResponse = OperationListResult;
 
 /** Optional parameters. */
 export interface MapsListOperationsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listOperationsNext operation. */
-export type MapsListOperationsNextResponse = MapsOperations;
-
-/** Optional parameters. */
-export interface MapsListSubscriptionOperationsNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listSubscriptionOperationsNext operation. */
-export type MapsListSubscriptionOperationsNextResponse = MapsOperations;
+export type MapsListOperationsNextResponse = OperationListResult;
 
 /** Optional parameters. */
 export interface CreatorsListByAccountOptionalParams

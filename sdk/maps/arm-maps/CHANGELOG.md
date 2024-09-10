@@ -1,15 +1,46 @@
 # Release History
-
-## 3.1.1 (Unreleased)
-
+    
+## 4.0.0-beta.1 (2024-09-10)
+Compared with version 3.1.0
+    
 ### Features Added
+
+  - Added Interface EncryptionCustomerManagedKeyEncryption
+  - Added Interface EncryptionCustomerManagedKeyEncryptionKeyIdentity
+  - Added Interface LocationsItem
+  - Added Interface Operation
+  - Added Interface OperationListResult
+  - Added Type Alias ActionType
+  - Added Type Alias EncryptionCustomerManagedKeyEncryptionKeyIdentityType
+  - Added Type Alias Origin
+  - Interface CreatorProperties has a new optional parameter consumedStorageUnitSizeInBytes
+  - Interface CreatorProperties has a new optional parameter totalStorageUnitSizeInBytes
+  - Interface CreatorUpdateParameters has a new optional parameter consumedStorageUnitSizeInBytes
+  - Interface CreatorUpdateParameters has a new optional parameter totalStorageUnitSizeInBytes
+  - Interface MapsAccountProperties has a new optional parameter locations
+  - Interface MapsAccountUpdateParameters has a new optional parameter locations
+  - Interface Resource has a new optional parameter systemData
+  - Added Enum KnownActionType
+  - Added Enum KnownEncryptionCustomerManagedKeyEncryptionKeyIdentityType
+  - Added Enum KnownOrigin
 
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation group MapsOperations
+  - Removed operation Maps.listSubscriptionOperations
+  - Interface Creator no longer has parameter systemData
+  - Interface MapsAccount no longer has parameter systemData
+  - Type of parameter customerManagedKeyEncryption of interface Encryption is changed from CustomerManagedKeyEncryption to EncryptionCustomerManagedKeyEncryption
+  - Type of parameter userAssignedIdentities of interface ManagedServiceIdentity is changed from {
+        [propertyName: string]: UserAssignedIdentity;
+    } to {
+        [propertyName: string]: UserAssignedIdentity | null;
+    }
+  - Removed Enum KnownIdentityType
+  - Enum KnownKind no longer has value Gen1
+  - Enum KnownName no longer has value S0
+  - Enum KnownName no longer has value S1
+    
 ## 3.1.0 (2023-08-08)
 
 ### Features Added
@@ -61,4 +92,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).
