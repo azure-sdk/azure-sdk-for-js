@@ -12,7 +12,7 @@ import { Deployments } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AzureAPICenter } from "../azureAPICenter";
+import { AzureAPICenterForTesting } from "../azureAPICenterForTesting";
 import {
   Deployment,
   DeploymentsListNextOptionalParams,
@@ -31,13 +31,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Deployments operations. */
 export class DeploymentsImpl implements Deployments {
-  private readonly client: AzureAPICenter;
+  private readonly client: AzureAPICenterForTesting;
 
   /**
    * Initialize a new instance of the class Deployments class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureAPICenter) {
+  constructor(client: AzureAPICenterForTesting) {
     this.client = client;
   }
 
