@@ -11,6 +11,7 @@ export * from "./registeredIdentities";
 export * from "./replicationUsages";
 export * from "./privateLinkResourcesOperations";
 export * from "./recoveryServices";
+export * from "./deletedVaults";
 export * from "./vaults";
 export * from "./operations";
 export * from "./vaultExtendedInfo";

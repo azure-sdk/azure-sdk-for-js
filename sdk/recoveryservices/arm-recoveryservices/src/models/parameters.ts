@@ -15,6 +15,7 @@ import {
   CertificateRequest as CertificateRequestMapper,
   CheckNameAvailabilityParameters as CheckNameAvailabilityParametersMapper,
   ResourceCapabilities as ResourceCapabilitiesMapper,
+  DeletedVaultUndeleteInput as DeletedVaultUndeleteInputMapper,
   Vault as VaultMapper,
   PatchVault as PatchVaultMapper,
   VaultExtendedInfoResource as VaultExtendedInfoResourceMapper,
@@ -78,7 +79,7 @@ export const subscriptionId: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-04-01",
+    defaultValue: "2024-09-30-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -179,6 +180,53 @@ export const input1: OperationParameter = {
   mapper: ResourceCapabilitiesMapper,
 };
 
+export const location1: OperationURLParameter = {
+  parameterPath: "location",
+  mapper: {
+    constraints: {
+      MinLength: 1,
+    },
+    serializedName: "location",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const deletedVaultName: OperationURLParameter = {
+  parameterPath: "deletedVaultName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[A-Za-z][A-Za-z0-9-]*$"),
+    },
+    serializedName: "deletedVaultName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const undeleteInput: OperationParameter = {
+  parameterPath: "undeleteInput",
+  mapper: DeletedVaultUndeleteInputMapper,
+};
+
+export const operationId: OperationURLParameter = {
+  parameterPath: "operationId",
+  mapper: {
+    constraints: {
+      MinLength: 1,
+    },
+    serializedName: "operationId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
 export const vault: OperationParameter = {
   parameterPath: "vault",
   mapper: VaultMapper,
@@ -204,7 +252,7 @@ export const resourceExtendedInfoDetails: OperationParameter = {
   mapper: VaultExtendedInfoResourceMapper,
 };
 
-export const operationId: OperationURLParameter = {
+export const operationId1: OperationURLParameter = {
   parameterPath: "operationId",
   mapper: {
     serializedName: "operationId",

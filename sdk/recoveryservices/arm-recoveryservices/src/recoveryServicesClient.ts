@@ -20,6 +20,7 @@ import {
   ReplicationUsagesImpl,
   PrivateLinkResourcesOperationsImpl,
   RecoveryServicesImpl,
+  DeletedVaultsImpl,
   VaultsImpl,
   OperationsImpl,
   VaultExtendedInfoImpl,
@@ -31,6 +32,7 @@ import {
   ReplicationUsages,
   PrivateLinkResourcesOperations,
   RecoveryServices,
+  DeletedVaults,
   Vaults,
   Operations,
   VaultExtendedInfo,
@@ -50,16 +52,19 @@ export class RecoveryServicesClient extends coreClient.ServiceClient {
   $host: string;
   subscriptionId: string;
   apiVersion: string;
+  deletedVaultName: string;
 
   /**
    * Initializes a new instance of the RecoveryServicesClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param subscriptionId The ID of the target subscription.
+   * @param deletedVaultName The name of the deleted recovery services vault.
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
+    deletedVaultName: string,
     options?: RecoveryServicesClientOptionalParams,
   ) {
     if (credentials === undefined) {
@@ -67,6 +72,9 @@ export class RecoveryServicesClient extends coreClient.ServiceClient {
     }
     if (subscriptionId === undefined) {
       throw new Error("'subscriptionId' cannot be null");
+    }
+    if (deletedVaultName === undefined) {
+      throw new Error("'deletedVaultName' cannot be null");
     }
 
     // Initializing default values for options
@@ -78,7 +86,7 @@ export class RecoveryServicesClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-recoveryservices/6.0.1`;
+    const packageDetails = `azsdk-js-arm-recoveryservices/7.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -129,16 +137,18 @@ export class RecoveryServicesClient extends coreClient.ServiceClient {
     }
     // Parameter assignments
     this.subscriptionId = subscriptionId;
+    this.deletedVaultName = deletedVaultName;
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-04-01";
+    this.apiVersion = options.apiVersion || "2024-09-30-preview";
     this.vaultCertificates = new VaultCertificatesImpl(this);
     this.registeredIdentities = new RegisteredIdentitiesImpl(this);
     this.replicationUsages = new ReplicationUsagesImpl(this);
     this.privateLinkResourcesOperations =
       new PrivateLinkResourcesOperationsImpl(this);
     this.recoveryServices = new RecoveryServicesImpl(this);
+    this.deletedVaults = new DeletedVaultsImpl(this);
     this.vaults = new VaultsImpl(this);
     this.operations = new OperationsImpl(this);
     this.vaultExtendedInfo = new VaultExtendedInfoImpl(this);
@@ -217,6 +227,7 @@ export class RecoveryServicesClient extends coreClient.ServiceClient {
   replicationUsages: ReplicationUsages;
   privateLinkResourcesOperations: PrivateLinkResourcesOperations;
   recoveryServices: RecoveryServices;
+  deletedVaults: DeletedVaults;
   vaults: Vaults;
   operations: Operations;
   vaultExtendedInfo: VaultExtendedInfo;
@@ -242,7 +253,7 @@ const getOperationStatusOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vaultName,
-    Parameters.operationId,
+    Parameters.operationId1,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -265,7 +276,7 @@ const getOperationResultOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vaultName,
-    Parameters.operationId,
+    Parameters.operationId1,
   ],
   headerParameters: [Parameters.accept],
   serializer,

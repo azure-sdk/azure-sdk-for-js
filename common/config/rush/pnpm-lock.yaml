@@ -17410,7 +17410,7 @@ packages:
     dev: false
 
   file:projects/arm-recoveryservices.tgz:
-    resolution: {integrity: sha512-06A+DFamgjqnrd2zLMyYwoU48g7Bbwf/paXpGdKklU7SqcmCxUbtZUJTrZEtYngnXQSeAt58brXVBnGYE0evPA==, tarball: file:projects/arm-recoveryservices.tgz}
+    resolution: {integrity: sha512-eYhTG5aBnsNRzWccB9V9r+hMk9Z8Lcidclp5/xDvFJ+ywLUyGrMvg/aba4B4jr3S1g09ghQrn+uYqjvTUWinTw==, tarball: file:projects/arm-recoveryservices.tgz}
     name: '@rush-temp/arm-recoveryservices'
     version: 0.0.0
     dependencies:
@@ -17427,11 +17427,12 @@ packages:
       cross-env: 7.0.3
       dotenv: 16.4.5
       esm: 3.2.25
-      mkdirp: 2.1.6
+      mkdirp: 3.0.1
       mocha: 10.7.3
       rimraf: 5.0.10
       ts-node: 10.9.2(@types/node@18.19.50)(typescript@5.5.4)
       tslib: 2.7.0
+      tsx: 4.19.0
       typescript: 5.5.4
       uglify-js: 3.19.3
     transitivePeerDependencies:
@@ -23642,7 +23643,7 @@ packages:
     dev: false
 
   file:projects/schema-registry.tgz:
-    resolution: {integrity: sha512-ykg9DG1Gu7IPionLL0+efdSqVe0OlS1QDWaif5POoetpaaOQyZQIsckMD6LTVTz4F6Ripx1S6M7YCXsYV76lWQ==, tarball: file:projects/schema-registry.tgz}
+    resolution: {integrity: sha512-x72Sp3S5RVjaKQusCeOucvpmDoSQlBbAxc08R99hRkZKNQ8QtuUlcn7sBhwSnpQ6M3G/VQtaSgPWqsusfxZbOQ==, tarball: file:projects/schema-registry.tgz}
     name: '@rush-temp/schema-registry'
     version: 0.0.0
     dependencies:
