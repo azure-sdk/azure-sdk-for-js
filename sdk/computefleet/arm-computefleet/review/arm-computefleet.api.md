@@ -4,14 +4,11 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { ClientOptions } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
+import * as coreAuth from '@azure/core-auth';
+import * as coreClient from '@azure/core-client';
 import { OperationState } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
+import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export type ActionType = string;
@@ -50,17 +47,10 @@ export interface ApplicationProfile {
     galleryApplications?: VMGalleryApplication[];
 }
 
-// @public (undocumented)
-export class AzureFleetClient {
-    constructor(credential: TokenCredential, subscriptionId: string, options?: AzureFleetClientOptionalParams);
-    readonly fleets: FleetsOperations;
-    readonly operations: OperationsOperations;
-    readonly pipeline: Pipeline;
-}
-
 // @public
-export interface AzureFleetClientOptionalParams extends ClientOptions {
-    apiVersion?: string;
+export interface BasePriorityProfile {
+    capacity?: number;
+    minCapacity?: number;
 }
 
 // @public
@@ -96,17 +86,16 @@ export interface CapacityReservationProfile {
     capacityReservationGroup?: SubResource;
 }
 
+// @public (undocumented)
+export interface ComponentsQjfoe3SchemasManagedserviceidentityupdatePropertiesUserassignedidentitiesAdditionalproperties extends UserAssignedIdentity {
+}
+
 // @public
 export interface ComputeProfile {
     baseVirtualMachineProfile: BaseVirtualMachineProfile;
     computeApiVersion?: string;
     platformFaultDomainCount?: number;
 }
-
-// @public
-export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
-    continuationToken?: string;
-};
 
 // @public
 export type CreatedByType = string;
@@ -155,7 +144,7 @@ export interface EncryptionIdentity {
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, any>;
+    readonly info?: Record<string, unknown>;
     readonly type?: string;
 }
 
@@ -178,10 +167,22 @@ export type EvictionPolicy = string;
 
 // @public
 export interface Fleet extends TrackedResource {
+    computeProfile?: ComputeProfile;
     identity?: ManagedServiceIdentity;
     plan?: Plan;
-    properties?: FleetProperties;
+    readonly provisioningState?: ProvisioningState;
+    regularPriorityProfile?: RegularPriorityProfile;
+    spotPriorityProfile?: SpotPriorityProfile;
+    readonly timeCreated?: Date;
+    readonly uniqueId?: string;
+    vmSizesProfile?: VmSizeProfile[];
     zones?: string[];
+}
+
+// @public
+export interface FleetListResult {
+    nextLink?: string;
+    value: Fleet[];
 }
 
 // @public
@@ -196,54 +197,124 @@ export interface FleetProperties {
 }
 
 // @public
-export interface FleetsCreateOrUpdateOptionalParams extends OperationOptions {
+export interface Fleets {
+    beginCreateOrUpdate(resourceGroupName: string, fleetName: string, resource: Fleet, options?: FleetsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<FleetsCreateOrUpdateResponse>, FleetsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, fleetName: string, resource: Fleet, options?: FleetsCreateOrUpdateOptionalParams): Promise<FleetsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, fleetName: string, options?: FleetsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<FleetsDeleteResponse>, FleetsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, fleetName: string, options?: FleetsDeleteOptionalParams): Promise<FleetsDeleteResponse>;
+    beginUpdate(resourceGroupName: string, fleetName: string, properties: FleetUpdate, options?: FleetsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<FleetsUpdateResponse>, FleetsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, fleetName: string, properties: FleetUpdate, options?: FleetsUpdateOptionalParams): Promise<FleetsUpdateResponse>;
+    get(resourceGroupName: string, fleetName: string, options?: FleetsGetOptionalParams): Promise<FleetsGetResponse>;
+    listByResourceGroup(resourceGroupName: string, options?: FleetsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Fleet>;
+    listBySubscription(options?: FleetsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Fleet>;
+    listVirtualMachineScaleSets(resourceGroupName: string, name: string, options?: FleetsListVirtualMachineScaleSetsOptionalParams): PagedAsyncIterableIterator<VirtualMachineScaleSet>;
+}
+
+// @public
+export interface FleetsCreateOrUpdateHeaders {
+    retryAfter?: number;
+}
+
+// @public
+export interface FleetsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface FleetsDeleteOptionalParams extends OperationOptions {
+export type FleetsCreateOrUpdateResponse = Fleet;
+
+// @public
+export interface FleetsDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface FleetsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface FleetsGetOptionalParams extends OperationOptions {
+export type FleetsDeleteResponse = FleetsDeleteHeaders;
+
+// @public
+export interface FleetsGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface FleetsListByResourceGroupOptionalParams extends OperationOptions {
+export type FleetsGetResponse = Fleet;
+
+// @public
+export interface FleetsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface FleetsListBySubscriptionOptionalParams extends OperationOptions {
+export type FleetsListByResourceGroupNextResponse = FleetListResult;
+
+// @public
+export interface FleetsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface FleetsListVirtualMachineScaleSetsOptionalParams extends OperationOptions {
+export type FleetsListByResourceGroupResponse = FleetListResult;
+
+// @public
+export interface FleetsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface FleetsOperations {
-    createOrUpdate: (resourceGroupName: string, fleetName: string, resource: Fleet, options?: FleetsCreateOrUpdateOptionalParams) => PollerLike<OperationState<Fleet>, Fleet>;
-    delete: (resourceGroupName: string, fleetName: string, options?: FleetsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, fleetName: string, options?: FleetsGetOptionalParams) => Promise<Fleet>;
-    listByResourceGroup: (resourceGroupName: string, options?: FleetsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Fleet>;
-    listBySubscription: (options?: FleetsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<Fleet>;
-    listVirtualMachineScaleSets: (resourceGroupName: string, name: string, options?: FleetsListVirtualMachineScaleSetsOptionalParams) => PagedAsyncIterableIterator<VirtualMachineScaleSet>;
-    update: (resourceGroupName: string, fleetName: string, properties: FleetUpdate, options?: FleetsUpdateOptionalParams) => PollerLike<OperationState<Fleet>, Fleet>;
+export type FleetsListBySubscriptionNextResponse = FleetListResult;
+
+// @public
+export interface FleetsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface FleetsUpdateOptionalParams extends OperationOptions {
+export type FleetsListBySubscriptionResponse = FleetListResult;
+
+// @public
+export interface FleetsListVirtualMachineScaleSetsNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FleetsListVirtualMachineScaleSetsNextResponse = VirtualMachineScaleSetListResult;
+
+// @public
+export interface FleetsListVirtualMachineScaleSetsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FleetsListVirtualMachineScaleSetsResponse = VirtualMachineScaleSetListResult;
+
+// @public
+export interface FleetsUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface FleetsUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type FleetsUpdateResponse = Fleet;
 
 // @public
 export interface FleetUpdate {
     identity?: ManagedServiceIdentityUpdate;
     plan?: ResourcePlanUpdate;
     properties?: FleetProperties;
-    tags?: Record<string, string>;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
+
+// @public
+export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export interface ImageReference {
@@ -313,7 +384,7 @@ export enum KnownDiffDiskPlacement {
 // @public
 export enum KnownDiskControllerTypes {
     NVMe = "NVMe",
-    SCSI = "SCSI"
+    Scsi = "SCSI"
 }
 
 // @public
@@ -373,9 +444,9 @@ export enum KnownLinuxVMGuestPatchMode {
 
 // @public
 export enum KnownManagedServiceIdentityType {
-    "SystemAssigned,UserAssigned" = "SystemAssigned,UserAssigned",
     None = "None",
     SystemAssigned = "SystemAssigned",
+    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
     UserAssigned = "UserAssigned"
 }
 
@@ -387,7 +458,7 @@ export enum KnownMode {
 
 // @public
 export enum KnownNetworkApiVersion {
-    "2020-11-01" = "2020-11-01"
+    V20201101 = "2020-11-01"
 }
 
 // @public
@@ -414,15 +485,26 @@ export enum KnownOperatingSystemTypes {
 
 // @public
 export enum KnownOrigin {
-    "user,system" = "user,system",
-    system = "system",
-    user = "user"
+    System = "system",
+    User = "user",
+    UserSystem = "user,system"
 }
 
 // @public
 export enum KnownProtocolTypes {
     Http = "Http",
     Https = "Https"
+}
+
+// @public
+export enum KnownProvisioningState {
+    Canceled = "Canceled",
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Migrating = "Migrating",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
 }
 
 // @public
@@ -441,13 +523,6 @@ export enum KnownPublicIPAddressSkuTier {
 export enum KnownRegularPriorityAllocationStrategy {
     LowestPrice = "LowestPrice",
     Prioritized = "Prioritized"
-}
-
-// @public
-export enum KnownResourceProvisioningState {
-    Canceled = "Canceled",
-    Failed = "Failed",
-    Succeeded = "Succeeded"
 }
 
 // @public
@@ -477,14 +552,21 @@ export enum KnownSpotAllocationStrategy {
 }
 
 // @public
+export enum KnownStatusLevelTypes {
+    Error = "Error",
+    Info = "Info",
+    Warning = "Warning"
+}
+
+// @public
 export enum KnownStorageAccountTypes {
-    Premium_LRS = "Premium_LRS",
-    Premium_ZRS = "Premium_ZRS",
-    PremiumV2_LRS = "PremiumV2_LRS",
-    Standard_LRS = "Standard_LRS",
-    StandardSSD_LRS = "StandardSSD_LRS",
-    StandardSSD_ZRS = "StandardSSD_ZRS",
-    UltraSSD_LRS = "UltraSSD_LRS"
+    PremiumLRS = "Premium_LRS",
+    PremiumV2LRS = "PremiumV2_LRS",
+    PremiumZRS = "Premium_ZRS",
+    StandardLRS = "Standard_LRS",
+    StandardSSDLRS = "StandardSSD_LRS",
+    StandardSSDZRS = "StandardSSD_ZRS",
+    UltraSSDLRS = "UltraSSD_LRS"
 }
 
 // @public
@@ -544,7 +626,9 @@ export interface ManagedServiceIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type: ManagedServiceIdentityType;
-    userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
+    userAssignedIdentities?: {
+        [propertyName: string]: UserAssignedIdentity | null;
+    };
 }
 
 // @public
@@ -553,7 +637,31 @@ export type ManagedServiceIdentityType = string;
 // @public
 export interface ManagedServiceIdentityUpdate {
     type?: ManagedServiceIdentityType;
-    userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
+    userAssignedIdentities?: {
+        [propertyName: string]: ComponentsQjfoe3SchemasManagedserviceidentityupdatePropertiesUserassignedidentitiesAdditionalproperties | null;
+    };
+}
+
+// @public (undocumented)
+export class MicrosoftAzureFleetForTesting extends coreClient.ServiceClient {
+    // (undocumented)
+    $host: string;
+    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: MicrosoftAzureFleetForTestingOptionalParams);
+    // (undocumented)
+    apiVersion: string;
+    // (undocumented)
+    fleets: Fleets;
+    // (undocumented)
+    operations: Operations;
+    // (undocumented)
+    subscriptionId: string;
+}
+
+// @public
+export interface MicrosoftAzureFleetForTestingOptionalParams extends coreClient.ServiceClientOptions {
+    $host?: string;
+    apiVersion?: string;
+    endpoint?: string;
 }
 
 // @public
@@ -573,8 +681,8 @@ export type OperatingSystemTypes = string;
 
 // @public
 export interface Operation {
-    actionType?: ActionType;
-    readonly display?: OperationDisplay;
+    readonly actionType?: ActionType;
+    display?: OperationDisplay;
     readonly isDataAction?: boolean;
     readonly name?: string;
     readonly origin?: Origin;
@@ -589,13 +697,29 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationsListOptionalParams extends OperationOptions {
+export interface OperationListResult {
+    readonly nextLink?: string;
+    readonly value?: Operation[];
 }
 
 // @public
-export interface OperationsOperations {
-    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
+export interface Operations {
+    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
 }
+
+// @public
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OperationsListNextResponse = OperationListResult;
+
+// @public
+export interface OperationsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OperationsListResponse = OperationListResult;
 
 // @public
 export type Origin = string;
@@ -604,18 +728,6 @@ export type Origin = string;
 export interface OSImageNotificationProfile {
     enable?: boolean;
     notBeforeTimeout?: string;
-}
-
-// @public
-export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
-    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
-    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
-    next(): Promise<IteratorResult<TElement>>;
-}
-
-// @public
-export interface PageSettings {
-    continuationToken?: string;
 }
 
 // @public
@@ -639,7 +751,7 @@ export interface Plan {
 export type ProtocolTypes = string;
 
 // @public
-export type ProvisioningState = string | ResourceProvisioningState | "Creating" | "Updating" | "Deleting" | "Migrating";
+export type ProvisioningState = string;
 
 // @public
 export interface ProxyAgentSettings {
@@ -685,19 +797,6 @@ export interface ResourcePlanUpdate {
     promotionCode?: string;
     publisher?: string;
     version?: string;
-}
-
-// @public
-export type ResourceProvisioningState = string;
-
-// @public
-export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: AzureFleetClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
-
-// @public (undocumented)
-export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
-    abortSignal?: AbortSignalLike;
-    processResponseBody?: (result: TResponse) => Promise<TResult>;
-    updateIntervalInMs?: number;
 }
 
 // @public
@@ -761,11 +860,19 @@ export interface SshPublicKey {
 }
 
 // @public
+export type StatusLevelTypes = string;
+
+// @public
 export type StorageAccountTypes = string;
 
 // @public
 export interface SubResource {
     id?: string;
+}
+
+// @public
+export interface SubResourceReadOnly {
+    readonly id?: string;
 }
 
 // @public
@@ -787,7 +894,9 @@ export interface TerminateNotificationProfile {
 // @public
 export interface TrackedResource extends Resource {
     location: string;
-    tags?: Record<string, string>;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
@@ -815,9 +924,6 @@ export interface VaultSecretGroup {
 }
 
 // @public
-export type Versions = "2023-11-01-preview" | "2024-05-01-preview";
-
-// @public
 export interface VirtualHardDisk {
     uri?: string;
 }
@@ -826,6 +932,7 @@ export interface VirtualHardDisk {
 export interface VirtualMachineScaleSet {
     readonly error?: ApiError;
     readonly id: string;
+    readonly name: string;
     readonly operationStatus: ProvisioningState;
     readonly type?: string;
 }
@@ -835,7 +942,7 @@ export interface VirtualMachineScaleSetDataDisk {
     caching?: CachingTypes;
     createOption: DiskCreateOptionTypes;
     deleteOption?: DiskDeleteOptionTypes;
-    diskIOPSReadWrite?: number;
+    diskIopsReadWrite?: number;
     diskMBpsReadWrite?: number;
     diskSizeGB?: number;
     lun: number;
@@ -863,12 +970,16 @@ export interface VirtualMachineScaleSetExtensionProperties {
     autoUpgradeMinorVersion?: boolean;
     enableAutomaticUpgrade?: boolean;
     forceUpdateTag?: string;
-    protectedSettings?: Record<string, any>;
+    protectedSettings?: {
+        [propertyName: string]: any;
+    };
     protectedSettingsFromKeyVault?: KeyVaultSecretReference;
     provisionAfterExtensions?: string[];
     readonly provisioningState?: string;
     publisher?: string;
-    settings?: Record<string, any>;
+    settings?: {
+        [propertyName: string]: any;
+    };
     suppressFailures?: boolean;
     type?: string;
     typeHandlerVersion?: string;
@@ -901,6 +1012,12 @@ export interface VirtualMachineScaleSetIPConfigurationProperties {
 export interface VirtualMachineScaleSetIpTag {
     ipTagType?: string;
     tag?: string;
+}
+
+// @public
+export interface VirtualMachineScaleSetListResult {
+    nextLink?: string;
+    value: VirtualMachineScaleSet[];
 }
 
 // @public
