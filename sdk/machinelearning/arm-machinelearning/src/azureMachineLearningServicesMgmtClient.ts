@@ -15,17 +15,10 @@ import {
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
-  OperationsImpl,
-  WorkspacesImpl,
   UsagesImpl,
   VirtualMachineSizesImpl,
   QuotasImpl,
   ComputeOperationsImpl,
-  PrivateEndpointConnectionsImpl,
-  PrivateLinkResourcesImpl,
-  WorkspaceConnectionsImpl,
-  ManagedNetworkSettingsRuleImpl,
-  ManagedNetworkProvisionsImpl,
   RegistryCodeContainersImpl,
   RegistryCodeVersionsImpl,
   RegistryComponentContainersImpl,
@@ -35,6 +28,7 @@ import {
   RegistryDataReferencesImpl,
   RegistryEnvironmentContainersImpl,
   RegistryEnvironmentVersionsImpl,
+  MarketplaceSubscriptionsImpl,
   RegistryModelContainersImpl,
   RegistryModelVersionsImpl,
   BatchEndpointsImpl,
@@ -54,7 +48,6 @@ import {
   FeaturestoreEntityContainersImpl,
   FeaturestoreEntityVersionsImpl,
   JobsImpl,
-  MarketplaceSubscriptionsImpl,
   ModelContainersImpl,
   ModelVersionsImpl,
   OnlineEndpointsImpl,
@@ -63,19 +56,30 @@ import {
   ServerlessEndpointsImpl,
   RegistriesImpl,
   WorkspaceFeaturesImpl,
+  OperationsImpl,
+  WorkspacesImpl,
+  WorkspaceConnectionsImpl,
+  ConnectionImpl,
+  ConnectionRaiBlocklistsImpl,
+  ConnectionRaiBlocklistImpl,
+  ConnectionRaiBlocklistItemImpl,
+  ConnectionRaiBlocklistItemsImpl,
+  ConnectionRaiPoliciesImpl,
+  ConnectionRaiPolicyImpl,
+  EndpointDeploymentImpl,
+  EndpointOperationsImpl,
+  RaiPoliciesImpl,
+  RaiPolicyImpl,
+  ManagedNetworkSettingsRuleImpl,
+  PrivateEndpointConnectionsImpl,
+  PrivateLinkResourcesImpl,
+  ManagedNetworkProvisionsImpl,
 } from "./operations";
 import {
-  Operations,
-  Workspaces,
   Usages,
   VirtualMachineSizes,
   Quotas,
   ComputeOperations,
-  PrivateEndpointConnections,
-  PrivateLinkResources,
-  WorkspaceConnections,
-  ManagedNetworkSettingsRule,
-  ManagedNetworkProvisions,
   RegistryCodeContainers,
   RegistryCodeVersions,
   RegistryComponentContainers,
@@ -85,6 +89,7 @@ import {
   RegistryDataReferences,
   RegistryEnvironmentContainers,
   RegistryEnvironmentVersions,
+  MarketplaceSubscriptions,
   RegistryModelContainers,
   RegistryModelVersions,
   BatchEndpoints,
@@ -104,7 +109,6 @@ import {
   FeaturestoreEntityContainers,
   FeaturestoreEntityVersions,
   Jobs,
-  MarketplaceSubscriptions,
   ModelContainers,
   ModelVersions,
   OnlineEndpoints,
@@ -113,16 +117,34 @@ import {
   ServerlessEndpoints,
   Registries,
   WorkspaceFeatures,
+  Operations,
+  Workspaces,
+  WorkspaceConnections,
+  Connection,
+  ConnectionRaiBlocklists,
+  ConnectionRaiBlocklist,
+  ConnectionRaiBlocklistItem,
+  ConnectionRaiBlocklistItems,
+  ConnectionRaiPolicies,
+  ConnectionRaiPolicy,
+  EndpointDeployment,
+  EndpointOperations,
+  RaiPolicies,
+  RaiPolicy,
+  ManagedNetworkSettingsRule,
+  PrivateEndpointConnections,
+  PrivateLinkResources,
+  ManagedNetworkProvisions,
 } from "./operationsInterfaces";
-import { AzureMachineLearningServicesManagementClientOptionalParams } from "./models";
+import { AzureMachineLearningServicesMgmtClientOptionalParams } from "./models";
 
-export class AzureMachineLearningServicesManagementClient extends coreClient.ServiceClient {
+export class AzureMachineLearningServicesMgmtClient extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
   subscriptionId: string;
 
   /**
-   * Initializes a new instance of the AzureMachineLearningServicesManagementClient class.
+   * Initializes a new instance of the AzureMachineLearningServicesMgmtClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param subscriptionId The ID of the target subscription.
    * @param options The parameter options
@@ -130,7 +152,7 @@ export class AzureMachineLearningServicesManagementClient extends coreClient.Ser
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: AzureMachineLearningServicesManagementClientOptionalParams,
+    options?: AzureMachineLearningServicesMgmtClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -143,13 +165,12 @@ export class AzureMachineLearningServicesManagementClient extends coreClient.Ser
     if (!options) {
       options = {};
     }
-    const defaults: AzureMachineLearningServicesManagementClientOptionalParams =
-      {
-        requestContentType: "application/json; charset=utf-8",
-        credential: credentials,
-      };
+    const defaults: AzureMachineLearningServicesMgmtClientOptionalParams = {
+      requestContentType: "application/json; charset=utf-8",
+      credential: credentials,
+    };
 
-    const packageDetails = `azsdk-js-arm-machinelearning/3.0.0`;
+    const packageDetails = `azsdk-js-arm-machinelearning/1.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -203,18 +224,11 @@ export class AzureMachineLearningServicesManagementClient extends coreClient.Ser
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-04-01";
-    this.operations = new OperationsImpl(this);
-    this.workspaces = new WorkspacesImpl(this);
+    this.apiVersion = options.apiVersion || "2024-10-01-preview";
     this.usages = new UsagesImpl(this);
     this.virtualMachineSizes = new VirtualMachineSizesImpl(this);
     this.quotas = new QuotasImpl(this);
     this.computeOperations = new ComputeOperationsImpl(this);
-    this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
-    this.privateLinkResources = new PrivateLinkResourcesImpl(this);
-    this.workspaceConnections = new WorkspaceConnectionsImpl(this);
-    this.managedNetworkSettingsRule = new ManagedNetworkSettingsRuleImpl(this);
-    this.managedNetworkProvisions = new ManagedNetworkProvisionsImpl(this);
     this.registryCodeContainers = new RegistryCodeContainersImpl(this);
     this.registryCodeVersions = new RegistryCodeVersionsImpl(this);
     this.registryComponentContainers = new RegistryComponentContainersImpl(
@@ -230,6 +244,7 @@ export class AzureMachineLearningServicesManagementClient extends coreClient.Ser
     this.registryEnvironmentVersions = new RegistryEnvironmentVersionsImpl(
       this,
     );
+    this.marketplaceSubscriptions = new MarketplaceSubscriptionsImpl(this);
     this.registryModelContainers = new RegistryModelContainersImpl(this);
     this.registryModelVersions = new RegistryModelVersionsImpl(this);
     this.batchEndpoints = new BatchEndpointsImpl(this);
@@ -251,7 +266,6 @@ export class AzureMachineLearningServicesManagementClient extends coreClient.Ser
     );
     this.featurestoreEntityVersions = new FeaturestoreEntityVersionsImpl(this);
     this.jobs = new JobsImpl(this);
-    this.marketplaceSubscriptions = new MarketplaceSubscriptionsImpl(this);
     this.modelContainers = new ModelContainersImpl(this);
     this.modelVersions = new ModelVersionsImpl(this);
     this.onlineEndpoints = new OnlineEndpointsImpl(this);
@@ -260,6 +274,26 @@ export class AzureMachineLearningServicesManagementClient extends coreClient.Ser
     this.serverlessEndpoints = new ServerlessEndpointsImpl(this);
     this.registries = new RegistriesImpl(this);
     this.workspaceFeatures = new WorkspaceFeaturesImpl(this);
+    this.operations = new OperationsImpl(this);
+    this.workspaces = new WorkspacesImpl(this);
+    this.workspaceConnections = new WorkspaceConnectionsImpl(this);
+    this.connection = new ConnectionImpl(this);
+    this.connectionRaiBlocklists = new ConnectionRaiBlocklistsImpl(this);
+    this.connectionRaiBlocklist = new ConnectionRaiBlocklistImpl(this);
+    this.connectionRaiBlocklistItem = new ConnectionRaiBlocklistItemImpl(this);
+    this.connectionRaiBlocklistItems = new ConnectionRaiBlocklistItemsImpl(
+      this,
+    );
+    this.connectionRaiPolicies = new ConnectionRaiPoliciesImpl(this);
+    this.connectionRaiPolicy = new ConnectionRaiPolicyImpl(this);
+    this.endpointDeployment = new EndpointDeploymentImpl(this);
+    this.endpointOperations = new EndpointOperationsImpl(this);
+    this.raiPolicies = new RaiPoliciesImpl(this);
+    this.raiPolicy = new RaiPolicyImpl(this);
+    this.managedNetworkSettingsRule = new ManagedNetworkSettingsRuleImpl(this);
+    this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
+    this.privateLinkResources = new PrivateLinkResourcesImpl(this);
+    this.managedNetworkProvisions = new ManagedNetworkProvisionsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -291,17 +325,10 @@ export class AzureMachineLearningServicesManagementClient extends coreClient.Ser
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
-  operations: Operations;
-  workspaces: Workspaces;
   usages: Usages;
   virtualMachineSizes: VirtualMachineSizes;
   quotas: Quotas;
   computeOperations: ComputeOperations;
-  privateEndpointConnections: PrivateEndpointConnections;
-  privateLinkResources: PrivateLinkResources;
-  workspaceConnections: WorkspaceConnections;
-  managedNetworkSettingsRule: ManagedNetworkSettingsRule;
-  managedNetworkProvisions: ManagedNetworkProvisions;
   registryCodeContainers: RegistryCodeContainers;
   registryCodeVersions: RegistryCodeVersions;
   registryComponentContainers: RegistryComponentContainers;
@@ -311,6 +338,7 @@ export class AzureMachineLearningServicesManagementClient extends coreClient.Ser
   registryDataReferences: RegistryDataReferences;
   registryEnvironmentContainers: RegistryEnvironmentContainers;
   registryEnvironmentVersions: RegistryEnvironmentVersions;
+  marketplaceSubscriptions: MarketplaceSubscriptions;
   registryModelContainers: RegistryModelContainers;
   registryModelVersions: RegistryModelVersions;
   batchEndpoints: BatchEndpoints;
@@ -330,7 +358,6 @@ export class AzureMachineLearningServicesManagementClient extends coreClient.Ser
   featurestoreEntityContainers: FeaturestoreEntityContainers;
   featurestoreEntityVersions: FeaturestoreEntityVersions;
   jobs: Jobs;
-  marketplaceSubscriptions: MarketplaceSubscriptions;
   modelContainers: ModelContainers;
   modelVersions: ModelVersions;
   onlineEndpoints: OnlineEndpoints;
@@ -339,4 +366,22 @@ export class AzureMachineLearningServicesManagementClient extends coreClient.Ser
   serverlessEndpoints: ServerlessEndpoints;
   registries: Registries;
   workspaceFeatures: WorkspaceFeatures;
+  operations: Operations;
+  workspaces: Workspaces;
+  workspaceConnections: WorkspaceConnections;
+  connection: Connection;
+  connectionRaiBlocklists: ConnectionRaiBlocklists;
+  connectionRaiBlocklist: ConnectionRaiBlocklist;
+  connectionRaiBlocklistItem: ConnectionRaiBlocklistItem;
+  connectionRaiBlocklistItems: ConnectionRaiBlocklistItems;
+  connectionRaiPolicies: ConnectionRaiPolicies;
+  connectionRaiPolicy: ConnectionRaiPolicy;
+  endpointDeployment: EndpointDeployment;
+  endpointOperations: EndpointOperations;
+  raiPolicies: RaiPolicies;
+  raiPolicy: RaiPolicy;
+  managedNetworkSettingsRule: ManagedNetworkSettingsRule;
+  privateEndpointConnections: PrivateEndpointConnections;
+  privateLinkResources: PrivateLinkResources;
+  managedNetworkProvisions: ManagedNetworkProvisions;
 }
