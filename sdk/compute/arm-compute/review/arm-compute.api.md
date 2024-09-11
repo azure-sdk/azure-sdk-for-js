@@ -2755,6 +2755,7 @@ export interface GalleryImageVersions {
 
 // @public
 export interface GalleryImageVersionSafetyProfile extends GalleryArtifactSafetyProfileBase {
+    blockDeletionBeforeEndOfLife?: boolean;
     readonly policyViolations?: PolicyViolation[];
     readonly reportedForPolicyViolation?: boolean;
 }
