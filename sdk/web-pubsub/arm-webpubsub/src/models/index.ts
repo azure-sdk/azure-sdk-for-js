@@ -8,6 +8,11 @@
 
 import * as coreClient from "@azure/core-client";
 
+export type ClientConnectionCountRuleUnion =
+  | ClientConnectionCountRule
+  | ThrottleByJwtCustomClaimRule
+  | ThrottleByJwtSignatureRule
+  | ThrottleByUserIdRule;
 export type EventListenerFilterUnion = EventListenerFilter | EventNameFilter;
 export type EventListenerEndpointUnion =
   | EventListenerEndpoint
@@ -224,7 +229,7 @@ export interface ResourceSku {
   /**
    * The name of the SKU. Required.
    *
-   * Allowed values: Standard_S1, Free_F1, Premium_P1
+   * Allowed values: Standard_S1, Free_F1, Premium_P1, Premium_P2
    */
   name: string;
   /**
@@ -244,12 +249,14 @@ export interface ResourceSku {
    */
   readonly family?: string;
   /**
-   * Optional, integer. The unit count of the resource. 1 by default.
+   * Optional, integer. The unit count of the resource.
+   * 1 for Free_F1/Standard_S1/Premium_P1, 100 for Premium_P2 by default.
    *
    * If present, following values are allowed:
-   *     Free: 1;
-   *     Standard: 1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100;
-   *     Premium:  1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100;
+   *     Free_F1: 1;
+   *     Standard_S1: 1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100;
+   *     Premium_P1:  1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100;
+   *     Premium_P2:  100,200,300,400,500,600,700,800,900,1000;
    */
   capacity?: number;
 }
@@ -396,6 +403,31 @@ export interface IPRule {
   action?: ACLAction;
 }
 
+/** Application firewall settings for the resource */
+export interface ApplicationFirewallSettings {
+  /** Rules to control the client connection count */
+  clientConnectionCountRules?: ClientConnectionCountRuleUnion[];
+}
+
+/** A base class for client connection count rules */
+export interface ClientConnectionCountRule {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type:
+    | "ThrottleByJwtCustomClaimRule"
+    | "ThrottleByJwtSignatureRule"
+    | "ThrottleByUserIdRule";
+}
+
+/** SocketIO settings for the resource */
+export interface WebPubSubSocketIOSettings {
+  /**
+   * The service mode of Web PubSub for Socket.IO. Values allowed:
+   * "Default": have your own backend Socket.IO server
+   * "Serverless": your application doesn't have a backend server
+   */
+  serviceMode?: string;
+}
+
 /** A class represent managed identities used for request and response */
 export interface ManagedIdentity {
   /** Represents the identity type: systemAssigned, userAssigned, None */
@@ -485,13 +517,17 @@ export interface WebPubSubHubProperties {
   eventListeners?: EventListener[];
   /** The settings for configuring if anonymous connections are allowed for this hub: "allow" or "deny". Default to "deny". */
   anonymousConnectPolicy?: string;
+  /** The settings for configuring the WebSocket ping-pong interval in seconds for all clients in the hub. Valid range: 1 to 120. Default to 20 seconds. */
+  webSocketKeepAliveIntervalInSeconds?: number;
 }
 
 /** Properties of event handler. */
 export interface EventHandler {
   /**
-   * Gets or sets the EventHandler URL template. You can use a predefined parameter {hub} and {event} inside the template, the value of the EventHandler URL is dynamically calculated when the client request comes in.
-   * For example, UrlTemplate can be `http://example.com/api/{hub}/{event}`. The host part can't contains parameters.
+   * Gets or sets the URL template for the event handler. The actual URL is calculated when the corresponding event is triggered.
+   * The template supports predefined parameters syntax: `{event}`, `{hub}`, and KeyVault reference syntax `{@Microsoft.KeyVault(SecretUri=_your_secret_identifier_)}`
+   * For example, if the template is `http://example.com/api/{event}`, when `connect` event is triggered, a POST request will be sent to the URL `http://example.com/chat/api/connect`.
+   * Note: Parameters are not allowed in the hostname of the URL, and curly brackets `{}` are reserved for parameter syntax only. If your URL path contains literal curly brackets, please URL-encode them to ensure proper handling.
    */
   urlTemplate: string;
   /**
@@ -610,6 +646,14 @@ export interface ReplicaList {
   nextLink?: string;
 }
 
+/** A list of shared private link resources */
+export interface SharedPrivateLinkResourceList {
+  /** The list of the shared private link resources */
+  value?: SharedPrivateLinkResource[];
+  /** Request URL that can be used to query next page of private endpoint connections. Returned when the total number of requested private endpoint connections exceed maximum page size. */
+  nextLink?: string;
+}
+
 /** The list skus operation response */
 export interface SkuList {
   /**
@@ -673,14 +717,6 @@ export interface SkuCapacity {
   readonly scaleType?: ScaleType;
 }
 
-/** A list of shared private link resources */
-export interface SharedPrivateLinkResourceList {
-  /** The list of the shared private link resources */
-  value?: SharedPrivateLinkResource[];
-  /** Request URL that can be used to query next page of private endpoint connections. Returned when the total number of requested private endpoint connections exceed maximum page size. */
-  nextLink?: string;
-}
-
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
@@ -696,6 +732,33 @@ export interface TrackedResource extends Resource {
 export interface PrivateEndpointACL extends NetworkACL {
   /** Name of the private endpoint connection */
   name: string;
+}
+
+/** Throttle the client connection by a custom JWT claim */
+export interface ThrottleByJwtCustomClaimRule
+  extends ClientConnectionCountRule {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "ThrottleByJwtCustomClaimRule";
+  /** The name of the claim in the JWT token. The client connection with the same claim value will be aggregated. If the claim is not found in the token, the connection will be allowed. */
+  claimName: string;
+  /** Maximum connection count allowed for the same Jwt claim value. Clients with the same Jwt claim will get rejected if the connection count exceeds this value. Default value is 20. */
+  maxCount?: number;
+}
+
+/** Throttle the client connection by the JWT signature */
+export interface ThrottleByJwtSignatureRule extends ClientConnectionCountRule {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "ThrottleByJwtSignatureRule";
+  /** Maximum connection count allowed for the same JWT signature. Clients with the same JWT signature will get rejected if the connection count exceeds this value. Default value is 20. */
+  maxCount?: number;
+}
+
+/** Throttle the client connection by the user ID */
+export interface ThrottleByUserIdRule extends ClientConnectionCountRule {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "ThrottleByUserIdRule";
+  /** Maximum connection count allowed for the same user ID. Clients with the same user ID will get rejected if the connection count exceeds this value. Default value is 20. */
+  maxCount?: number;
 }
 
 /** Filter events by their name. */
@@ -758,6 +821,8 @@ export interface SharedPrivateLinkResource extends ProxyResource {
   readonly provisioningState?: ProvisioningState;
   /** The request message for requesting approval of the shared private link resource */
   requestMessage?: string;
+  /** A list of FQDNs for third party private link service */
+  fqdns?: string[];
   /**
    * Status of the shared private link resource
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -872,6 +937,8 @@ export interface WebPubSubResource extends TrackedResource {
   resourceLogConfiguration?: ResourceLogConfiguration;
   /** Network ACLs for the resource */
   networkACLs?: WebPubSubNetworkACLs;
+  /** Application firewall settings for the resource */
+  applicationFirewall?: ApplicationFirewallSettings;
   /**
    * Enable or disable public network access. Default to "Enabled".
    * When it's Enabled, network ACLs still apply.
@@ -897,11 +964,13 @@ export interface WebPubSubResource extends TrackedResource {
    */
   regionEndpointEnabled?: string;
   /**
-   * Stop or start the resource.  Default to "false".
+   * Stop or start the resource.  Default to "False".
    * When it's true, the data plane of the resource is shutdown.
    * When it's false, the data plane of the resource is started.
    */
   resourceStopped?: string;
+  /** SocketIO settings for the resource */
+  socketIO?: WebPubSubSocketIOSettings;
 }
 
 /** A class represent a replica resource. */
@@ -960,7 +1029,7 @@ export enum KnownWebPubSubSkuTier {
   /** Standard */
   Standard = "Standard",
   /** Premium */
-  Premium = "Premium"
+  Premium = "Premium",
 }
 
 /**
@@ -994,7 +1063,7 @@ export enum KnownProvisioningState {
   /** Deleting */
   Deleting = "Deleting",
   /** Moving */
-  Moving = "Moving"
+  Moving = "Moving",
 }
 
 /**
@@ -1023,7 +1092,7 @@ export enum KnownPrivateLinkServiceConnectionStatus {
   /** Rejected */
   Rejected = "Rejected",
   /** Disconnected */
-  Disconnected = "Disconnected"
+  Disconnected = "Disconnected",
 }
 
 /**
@@ -1047,7 +1116,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -1073,7 +1142,7 @@ export enum KnownSharedPrivateLinkResourceStatus {
   /** Disconnected */
   Disconnected = "Disconnected",
   /** Timeout */
-  Timeout = "Timeout"
+  Timeout = "Timeout",
 }
 
 /**
@@ -1094,7 +1163,7 @@ export enum KnownACLAction {
   /** Allow */
   Allow = "Allow",
   /** Deny */
-  Deny = "Deny"
+  Deny = "Deny",
 }
 
 /**
@@ -1116,7 +1185,7 @@ export enum KnownWebPubSubRequestType {
   /** Restapi */
   Restapi = "RESTAPI",
   /** Trace */
-  Trace = "Trace"
+  Trace = "Trace",
 }
 
 /**
@@ -1131,12 +1200,33 @@ export enum KnownWebPubSubRequestType {
  */
 export type WebPubSubRequestType = string;
 
+/** Known values of {@link ClientConnectionCountRuleDiscriminator} that the service accepts. */
+export enum KnownClientConnectionCountRuleDiscriminator {
+  /** ThrottleByJwtSignatureRule */
+  ThrottleByJwtSignatureRule = "ThrottleByJwtSignatureRule",
+  /** ThrottleByUserIdRule */
+  ThrottleByUserIdRule = "ThrottleByUserIdRule",
+  /** ThrottleByJwtCustomClaimRule */
+  ThrottleByJwtCustomClaimRule = "ThrottleByJwtCustomClaimRule",
+}
+
+/**
+ * Defines values for ClientConnectionCountRuleDiscriminator. \
+ * {@link KnownClientConnectionCountRuleDiscriminator} can be used interchangeably with ClientConnectionCountRuleDiscriminator,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ThrottleByJwtSignatureRule** \
+ * **ThrottleByUserIdRule** \
+ * **ThrottleByJwtCustomClaimRule**
+ */
+export type ClientConnectionCountRuleDiscriminator = string;
+
 /** Known values of {@link ServiceKind} that the service accepts. */
 export enum KnownServiceKind {
   /** WebPubSub */
   WebPubSub = "WebPubSub",
   /** SocketIO */
-  SocketIO = "SocketIO"
+  SocketIO = "SocketIO",
 }
 
 /**
@@ -1156,7 +1246,7 @@ export enum KnownManagedIdentityType {
   /** SystemAssigned */
   SystemAssigned = "SystemAssigned",
   /** UserAssigned */
-  UserAssigned = "UserAssigned"
+  UserAssigned = "UserAssigned",
 }
 
 /**
@@ -1175,7 +1265,7 @@ export enum KnownUpstreamAuthType {
   /** None */
   None = "None",
   /** ManagedIdentity */
-  ManagedIdentity = "ManagedIdentity"
+  ManagedIdentity = "ManagedIdentity",
 }
 
 /**
@@ -1191,7 +1281,7 @@ export type UpstreamAuthType = string;
 /** Known values of {@link EventListenerFilterDiscriminator} that the service accepts. */
 export enum KnownEventListenerFilterDiscriminator {
   /** EventName */
-  EventName = "EventName"
+  EventName = "EventName",
 }
 
 /**
@@ -1206,7 +1296,7 @@ export type EventListenerFilterDiscriminator = string;
 /** Known values of {@link EventListenerEndpointDiscriminator} that the service accepts. */
 export enum KnownEventListenerEndpointDiscriminator {
   /** EventHub */
-  EventHub = "EventHub"
+  EventHub = "EventHub",
 }
 
 /**
@@ -1225,7 +1315,7 @@ export enum KnownKeyType {
   /** Secondary */
   Secondary = "Secondary",
   /** Salt */
-  Salt = "Salt"
+  Salt = "Salt",
 }
 
 /**
@@ -1246,7 +1336,7 @@ export enum KnownScaleType {
   /** Manual */
   Manual = "Manual",
   /** Automatic */
-  Automatic = "Automatic"
+  Automatic = "Automatic",
 }
 
 /**
@@ -1431,7 +1521,8 @@ export interface WebPubSubCustomCertificatesCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type WebPubSubCustomCertificatesCreateOrUpdateResponse = CustomCertificate;
+export type WebPubSubCustomCertificatesCreateOrUpdateResponse =
+  CustomCertificate;
 
 /** Optional parameters. */
 export interface WebPubSubCustomCertificatesDeleteOptionalParams
@@ -1533,21 +1624,24 @@ export interface WebPubSubPrivateEndpointConnectionsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type WebPubSubPrivateEndpointConnectionsListResponse = PrivateEndpointConnectionList;
+export type WebPubSubPrivateEndpointConnectionsListResponse =
+  PrivateEndpointConnectionList;
 
 /** Optional parameters. */
 export interface WebPubSubPrivateEndpointConnectionsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type WebPubSubPrivateEndpointConnectionsGetResponse = PrivateEndpointConnection;
+export type WebPubSubPrivateEndpointConnectionsGetResponse =
+  PrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface WebPubSubPrivateEndpointConnectionsUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
-export type WebPubSubPrivateEndpointConnectionsUpdateResponse = PrivateEndpointConnection;
+export type WebPubSubPrivateEndpointConnectionsUpdateResponse =
+  PrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface WebPubSubPrivateEndpointConnectionsDeleteOptionalParams
@@ -1563,7 +1657,8 @@ export interface WebPubSubPrivateEndpointConnectionsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type WebPubSubPrivateEndpointConnectionsListNextResponse = PrivateEndpointConnectionList;
+export type WebPubSubPrivateEndpointConnectionsListNextResponse =
+  PrivateEndpointConnectionList;
 
 /** Optional parameters. */
 export interface WebPubSubPrivateLinkResourcesListOptionalParams
@@ -1577,7 +1672,8 @@ export interface WebPubSubPrivateLinkResourcesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type WebPubSubPrivateLinkResourcesListNextResponse = PrivateLinkResourceList;
+export type WebPubSubPrivateLinkResourcesListNextResponse =
+  PrivateLinkResourceList;
 
 /** Optional parameters. */
 export interface WebPubSubReplicasListOptionalParams
@@ -1641,18 +1737,57 @@ export interface WebPubSubReplicasListNextOptionalParams
 export type WebPubSubReplicasListNextResponse = ReplicaList;
 
 /** Optional parameters. */
+export interface WebPubSubReplicaSharedPrivateLinkResourcesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type WebPubSubReplicaSharedPrivateLinkResourcesListResponse =
+  SharedPrivateLinkResourceList;
+
+/** Optional parameters. */
+export interface WebPubSubReplicaSharedPrivateLinkResourcesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type WebPubSubReplicaSharedPrivateLinkResourcesGetResponse =
+  SharedPrivateLinkResource;
+
+/** Optional parameters. */
+export interface WebPubSubReplicaSharedPrivateLinkResourcesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type WebPubSubReplicaSharedPrivateLinkResourcesCreateOrUpdateResponse =
+  SharedPrivateLinkResource;
+
+/** Optional parameters. */
+export interface WebPubSubReplicaSharedPrivateLinkResourcesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type WebPubSubReplicaSharedPrivateLinkResourcesListNextResponse =
+  SharedPrivateLinkResourceList;
+
+/** Optional parameters. */
 export interface WebPubSubSharedPrivateLinkResourcesListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type WebPubSubSharedPrivateLinkResourcesListResponse = SharedPrivateLinkResourceList;
+export type WebPubSubSharedPrivateLinkResourcesListResponse =
+  SharedPrivateLinkResourceList;
 
 /** Optional parameters. */
 export interface WebPubSubSharedPrivateLinkResourcesGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type WebPubSubSharedPrivateLinkResourcesGetResponse = SharedPrivateLinkResource;
+export type WebPubSubSharedPrivateLinkResourcesGetResponse =
+  SharedPrivateLinkResource;
 
 /** Optional parameters. */
 export interface WebPubSubSharedPrivateLinkResourcesCreateOrUpdateOptionalParams
@@ -1664,7 +1799,8 @@ export interface WebPubSubSharedPrivateLinkResourcesCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type WebPubSubSharedPrivateLinkResourcesCreateOrUpdateResponse = SharedPrivateLinkResource;
+export type WebPubSubSharedPrivateLinkResourcesCreateOrUpdateResponse =
+  SharedPrivateLinkResource;
 
 /** Optional parameters. */
 export interface WebPubSubSharedPrivateLinkResourcesDeleteOptionalParams
@@ -1680,7 +1816,8 @@ export interface WebPubSubSharedPrivateLinkResourcesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type WebPubSubSharedPrivateLinkResourcesListNextResponse = SharedPrivateLinkResourceList;
+export type WebPubSubSharedPrivateLinkResourcesListNextResponse =
+  SharedPrivateLinkResourceList;
 
 /** Optional parameters. */
 export interface WebPubSubManagementClientOptionalParams
