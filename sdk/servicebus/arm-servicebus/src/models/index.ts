@@ -984,7 +984,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -1006,7 +1006,7 @@ export enum KnownTlsVersion {
   /** One1 */
   One1 = "1.1",
   /** One2 */
-  One2 = "1.2"
+  One2 = "1.2",
 }
 
 /**
@@ -1029,7 +1029,7 @@ export enum KnownPrivateLinkConnectionStatus {
   /** Rejected */
   Rejected = "Rejected",
   /** Disconnected */
-  Disconnected = "Disconnected"
+  Disconnected = "Disconnected",
 }
 
 /**
@@ -1057,7 +1057,7 @@ export enum KnownEndPointProvisioningState {
   /** Canceled */
   Canceled = "Canceled",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -1081,7 +1081,7 @@ export enum KnownPublicNetworkAccess {
   /** Disabled */
   Disabled = "Disabled",
   /** SecuredByPerimeter */
-  SecuredByPerimeter = "SecuredByPerimeter"
+  SecuredByPerimeter = "SecuredByPerimeter",
 }
 
 /**
@@ -1098,7 +1098,7 @@ export type PublicNetworkAccess = string;
 /** Known values of {@link MigrationConfigurationName} that the service accepts. */
 export enum KnownMigrationConfigurationName {
   /** Default */
-  Default = "$default"
+  Default = "$default",
 }
 
 /**
@@ -1115,7 +1115,7 @@ export enum KnownDefaultAction {
   /** Allow */
   Allow = "Allow",
   /** Deny */
-  Deny = "Deny"
+  Deny = "Deny",
 }
 
 /**
@@ -1131,7 +1131,7 @@ export type DefaultAction = string;
 /** Known values of {@link NetworkRuleIPAction} that the service accepts. */
 export enum KnownNetworkRuleIPAction {
   /** Allow */
-  Allow = "Allow"
+  Allow = "Allow",
 }
 
 /**
@@ -1148,7 +1148,7 @@ export enum KnownPublicNetworkAccessFlag {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -1278,14 +1278,16 @@ export interface NamespacesListAuthorizationRulesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAuthorizationRules operation. */
-export type NamespacesListAuthorizationRulesResponse = SBAuthorizationRuleListResult;
+export type NamespacesListAuthorizationRulesResponse =
+  SBAuthorizationRuleListResult;
 
 /** Optional parameters. */
 export interface NamespacesCreateOrUpdateAuthorizationRuleOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdateAuthorizationRule operation. */
-export type NamespacesCreateOrUpdateAuthorizationRuleResponse = SBAuthorizationRule;
+export type NamespacesCreateOrUpdateAuthorizationRuleResponse =
+  SBAuthorizationRule;
 
 /** Optional parameters. */
 export interface NamespacesDeleteAuthorizationRuleOptionalParams
@@ -1317,7 +1319,8 @@ export interface NamespacesCheckNameAvailabilityOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkNameAvailability operation. */
-export type NamespacesCheckNameAvailabilityResponse = CheckNameAvailabilityResult;
+export type NamespacesCheckNameAvailabilityResponse =
+  CheckNameAvailabilityResult;
 
 /** Optional parameters. */
 export interface NamespacesListNextOptionalParams
@@ -1338,28 +1341,32 @@ export interface NamespacesListNetworkRuleSetsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNetworkRuleSetsNext operation. */
-export type NamespacesListNetworkRuleSetsNextResponse = NetworkRuleSetListResult;
+export type NamespacesListNetworkRuleSetsNextResponse =
+  NetworkRuleSetListResult;
 
 /** Optional parameters. */
 export interface NamespacesListAuthorizationRulesNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAuthorizationRulesNext operation. */
-export type NamespacesListAuthorizationRulesNextResponse = SBAuthorizationRuleListResult;
+export type NamespacesListAuthorizationRulesNextResponse =
+  SBAuthorizationRuleListResult;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionListResult;
+export type PrivateEndpointConnectionsListResponse =
+  PrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
-export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnection;
+export type PrivateEndpointConnectionsCreateOrUpdateResponse =
+  PrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsDeleteOptionalParams
@@ -1382,7 +1389,8 @@ export interface PrivateEndpointConnectionsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type PrivateEndpointConnectionsListNextResponse = PrivateEndpointConnectionListResult;
+export type PrivateEndpointConnectionsListNextResponse =
+  PrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
 export interface PrivateLinkResourcesGetOptionalParams
@@ -1446,14 +1454,16 @@ export interface DisasterRecoveryConfigsListAuthorizationRulesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAuthorizationRules operation. */
-export type DisasterRecoveryConfigsListAuthorizationRulesResponse = SBAuthorizationRuleListResult;
+export type DisasterRecoveryConfigsListAuthorizationRulesResponse =
+  SBAuthorizationRuleListResult;
 
 /** Optional parameters. */
 export interface DisasterRecoveryConfigsGetAuthorizationRuleOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getAuthorizationRule operation. */
-export type DisasterRecoveryConfigsGetAuthorizationRuleResponse = SBAuthorizationRule;
+export type DisasterRecoveryConfigsGetAuthorizationRuleResponse =
+  SBAuthorizationRule;
 
 /** Optional parameters. */
 export interface DisasterRecoveryConfigsListKeysOptionalParams
@@ -1467,21 +1477,24 @@ export interface DisasterRecoveryConfigsCheckNameAvailabilityOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkNameAvailability operation. */
-export type DisasterRecoveryConfigsCheckNameAvailabilityResponse = CheckNameAvailabilityResult;
+export type DisasterRecoveryConfigsCheckNameAvailabilityResponse =
+  CheckNameAvailabilityResult;
 
 /** Optional parameters. */
 export interface DisasterRecoveryConfigsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type DisasterRecoveryConfigsListNextResponse = ArmDisasterRecoveryListResult;
+export type DisasterRecoveryConfigsListNextResponse =
+  ArmDisasterRecoveryListResult;
 
 /** Optional parameters. */
 export interface DisasterRecoveryConfigsListAuthorizationRulesNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAuthorizationRulesNext operation. */
-export type DisasterRecoveryConfigsListAuthorizationRulesNextResponse = SBAuthorizationRuleListResult;
+export type DisasterRecoveryConfigsListAuthorizationRulesNextResponse =
+  SBAuthorizationRuleListResult;
 
 /** Optional parameters. */
 export interface MigrationConfigsListOptionalParams
@@ -1500,7 +1513,8 @@ export interface MigrationConfigsCreateAndStartMigrationOptionalParams
 }
 
 /** Contains response data for the createAndStartMigration operation. */
-export type MigrationConfigsCreateAndStartMigrationResponse = MigrationConfigProperties;
+export type MigrationConfigsCreateAndStartMigrationResponse =
+  MigrationConfigProperties;
 
 /** Optional parameters. */
 export interface MigrationConfigsDeleteOptionalParams
@@ -1533,7 +1547,8 @@ export interface QueuesListAuthorizationRulesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAuthorizationRules operation. */
-export type QueuesListAuthorizationRulesResponse = SBAuthorizationRuleListResult;
+export type QueuesListAuthorizationRulesResponse =
+  SBAuthorizationRuleListResult;
 
 /** Optional parameters. */
 export interface QueuesCreateOrUpdateAuthorizationRuleOptionalParams
@@ -1601,7 +1616,8 @@ export interface QueuesListAuthorizationRulesNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAuthorizationRulesNext operation. */
-export type QueuesListAuthorizationRulesNextResponse = SBAuthorizationRuleListResult;
+export type QueuesListAuthorizationRulesNextResponse =
+  SBAuthorizationRuleListResult;
 
 /** Optional parameters. */
 export interface QueuesListByNamespaceNextOptionalParams
@@ -1615,7 +1631,8 @@ export interface TopicsListAuthorizationRulesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAuthorizationRules operation. */
-export type TopicsListAuthorizationRulesResponse = SBAuthorizationRuleListResult;
+export type TopicsListAuthorizationRulesResponse =
+  SBAuthorizationRuleListResult;
 
 /** Optional parameters. */
 export interface TopicsCreateOrUpdateAuthorizationRuleOptionalParams
@@ -1683,7 +1700,8 @@ export interface TopicsListAuthorizationRulesNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAuthorizationRulesNext operation. */
-export type TopicsListAuthorizationRulesNextResponse = SBAuthorizationRuleListResult;
+export type TopicsListAuthorizationRulesNextResponse =
+  SBAuthorizationRuleListResult;
 
 /** Optional parameters. */
 export interface TopicsListByNamespaceNextOptionalParams
