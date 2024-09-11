@@ -46,124 +46,6 @@ export interface ActiveConnectionsNotInAllowedRange extends TimeWindowCustomAler
     ruleType: "ActiveConnectionsNotInAllowedRange";
 }
 
-// @public (undocumented)
-export interface AdaptiveApplicationControlGroup extends Resource, Location_2 {
-    readonly configurationStatus?: ConfigurationStatus;
-    enforcementMode?: EnforcementMode;
-    readonly issues?: AdaptiveApplicationControlIssueSummary[];
-    // (undocumented)
-    pathRecommendations?: PathRecommendation[];
-    protectionMode?: ProtectionMode;
-    readonly recommendationStatus?: RecommendationStatus;
-    readonly sourceSystem?: SourceSystem;
-    // (undocumented)
-    vmRecommendations?: VmRecommendation[];
-}
-
-// @public
-export interface AdaptiveApplicationControlGroups {
-    // (undocumented)
-    value?: AdaptiveApplicationControlGroup[];
-}
-
-// @public
-export type AdaptiveApplicationControlIssue = string;
-
-// @public
-export interface AdaptiveApplicationControlIssueSummary {
-    issue?: AdaptiveApplicationControlIssue;
-    numberOfVms?: number;
-}
-
-// @public
-export interface AdaptiveApplicationControls {
-    delete(ascLocation: string, groupName: string, options?: AdaptiveApplicationControlsDeleteOptionalParams): Promise<void>;
-    get(ascLocation: string, groupName: string, options?: AdaptiveApplicationControlsGetOptionalParams): Promise<AdaptiveApplicationControlsGetResponse>;
-    list(options?: AdaptiveApplicationControlsListOptionalParams): Promise<AdaptiveApplicationControlsListResponse>;
-    put(ascLocation: string, groupName: string, body: AdaptiveApplicationControlGroup, options?: AdaptiveApplicationControlsPutOptionalParams): Promise<AdaptiveApplicationControlsPutResponse>;
-}
-
-// @public
-export interface AdaptiveApplicationControlsDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface AdaptiveApplicationControlsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AdaptiveApplicationControlsGetResponse = AdaptiveApplicationControlGroup;
-
-// @public
-export interface AdaptiveApplicationControlsListOptionalParams extends coreClient.OperationOptions {
-    includePathRecommendations?: boolean;
-    summary?: boolean;
-}
-
-// @public
-export type AdaptiveApplicationControlsListResponse = AdaptiveApplicationControlGroups;
-
-// @public
-export interface AdaptiveApplicationControlsPutOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AdaptiveApplicationControlsPutResponse = AdaptiveApplicationControlGroup;
-
-// @public
-export interface AdaptiveNetworkHardening extends Resource {
-    effectiveNetworkSecurityGroups?: EffectiveNetworkSecurityGroups[];
-    rules?: Rule[];
-    rulesCalculationTime?: Date;
-}
-
-// @public (undocumented)
-export interface AdaptiveNetworkHardeningEnforceRequest {
-    networkSecurityGroups: string[];
-    rules: Rule[];
-}
-
-// @public
-export interface AdaptiveNetworkHardenings {
-    beginEnforce(resourceGroupName: string, resourceNamespace: string, resourceType: string, resourceName: string, adaptiveNetworkHardeningResourceName: string, body: AdaptiveNetworkHardeningEnforceRequest, options?: AdaptiveNetworkHardeningsEnforceOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginEnforceAndWait(resourceGroupName: string, resourceNamespace: string, resourceType: string, resourceName: string, adaptiveNetworkHardeningResourceName: string, body: AdaptiveNetworkHardeningEnforceRequest, options?: AdaptiveNetworkHardeningsEnforceOptionalParams): Promise<void>;
-    get(resourceGroupName: string, resourceNamespace: string, resourceType: string, resourceName: string, adaptiveNetworkHardeningResourceName: string, options?: AdaptiveNetworkHardeningsGetOptionalParams): Promise<AdaptiveNetworkHardeningsGetResponse>;
-    listByExtendedResource(resourceGroupName: string, resourceNamespace: string, resourceType: string, resourceName: string, options?: AdaptiveNetworkHardeningsListByExtendedResourceOptionalParams): PagedAsyncIterableIterator<AdaptiveNetworkHardening>;
-}
-
-// @public
-export interface AdaptiveNetworkHardeningsEnforceOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface AdaptiveNetworkHardeningsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AdaptiveNetworkHardeningsGetResponse = AdaptiveNetworkHardening;
-
-// @public
-export interface AdaptiveNetworkHardeningsList {
-    nextLink?: string;
-    value?: AdaptiveNetworkHardening[];
-}
-
-// @public
-export interface AdaptiveNetworkHardeningsListByExtendedResourceNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AdaptiveNetworkHardeningsListByExtendedResourceNextResponse = AdaptiveNetworkHardeningsList;
-
-// @public
-export interface AdaptiveNetworkHardeningsListByExtendedResourceOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AdaptiveNetworkHardeningsListByExtendedResourceResponse = AdaptiveNetworkHardeningsList;
-
 // @public
 export interface AdditionalData {
     assessedResourceType: "SqlServerVulnerability" | "ContainerRegistryVulnerability" | "ServerVulnerabilityAssessment";
@@ -734,6 +616,27 @@ export type ApplicationsListResponse = ApplicationsList;
 export type ApplicationSourceResourceType = string;
 
 // @public
+export interface ArcAutoProvisioning {
+    configuration?: ArcAutoProvisioningConfiguration;
+    enabled?: boolean;
+}
+
+// @public
+export interface ArcAutoProvisioningAws extends ArcAutoProvisioning {
+    cloudRoleArn?: string;
+}
+
+// @public
+export interface ArcAutoProvisioningConfiguration {
+    privateLinkScope?: string;
+    proxy?: string;
+}
+
+// @public
+export interface ArcAutoProvisioningGcp extends ArcAutoProvisioning {
+}
+
+// @public
 export interface AscLocation extends Resource {
     properties?: Record<string, unknown>;
 }
@@ -1186,7 +1089,7 @@ export interface AzureDevOpsOrgListResponse {
 export interface AzureDevOpsOrgProperties {
     actionableRemediation?: ActionableRemediation;
     onboardingState?: OnboardingState;
-    provisioningState?: DevOpsProvisioningState;
+    readonly provisioningState?: DevOpsProvisioningState;
     readonly provisioningStatusMessage?: string;
     readonly provisioningStatusUpdateTimeUtc?: Date;
 }
@@ -1274,7 +1177,7 @@ export interface AzureDevOpsProjectProperties {
     onboardingState?: OnboardingState;
     parentOrgName?: string;
     readonly projectId?: string;
-    provisioningState?: DevOpsProvisioningState;
+    readonly provisioningState?: DevOpsProvisioningState;
     readonly provisioningStatusMessage?: string;
     readonly provisioningStatusUpdateTimeUtc?: Date;
 }
@@ -1372,7 +1275,7 @@ export interface AzureDevOpsRepositoryProperties {
     onboardingState?: OnboardingState;
     parentOrgName?: string;
     parentProjectName?: string;
-    provisioningState?: DevOpsProvisioningState;
+    readonly provisioningState?: DevOpsProvisioningState;
     readonly provisioningStatusMessage?: string;
     readonly provisioningStatusUpdateTimeUtc?: Date;
     readonly repoId?: string;
@@ -1519,11 +1422,11 @@ export type CloudName = string;
 // @public
 export interface CloudOffering {
     readonly description?: string;
-    offeringType: "CspmMonitorAws" | "DefenderForContainersAws" | "DefenderForServersAws" | "DefenderForDatabasesAws" | "InformationProtectionAws" | "CspmMonitorGcp" | "DefenderForServersGcp" | "DefenderForDatabasesGcp" | "DefenderForContainersGcp" | "CspmMonitorGithub" | "CspmMonitorAzureDevOps" | "DefenderCspmAws" | "DefenderCspmGcp" | "DefenderForDevOpsGithub" | "DefenderForDevOpsAzureDevOps" | "CspmMonitorGitLab" | "DefenderForDevOpsGitLab";
+    offeringType: "CspmMonitorAws" | "DefenderForContainersAws" | "DefenderForServersAws" | "DefenderForDatabasesAws" | "CspmMonitorGcp" | "DefenderForServersGcp" | "DefenderForDatabasesGcp" | "DefenderForContainersGcp" | "CspmMonitorGithub" | "CspmMonitorAzureDevOps" | "DefenderCspmAws" | "DefenderCspmGcp" | "CspmMonitorGitLab";
 }
 
 // @public (undocumented)
-export type CloudOfferingUnion = CloudOffering | CspmMonitorAwsOffering | DefenderForContainersAwsOffering | DefenderForServersAwsOffering | DefenderFoDatabasesAwsOffering | InformationProtectionAwsOffering | CspmMonitorGcpOffering | DefenderForServersGcpOffering | DefenderForDatabasesGcpOffering | DefenderForContainersGcpOffering | CspmMonitorGithubOffering | CspmMonitorAzureDevOpsOffering | DefenderCspmAwsOffering | DefenderCspmGcpOffering | DefenderForDevOpsGithubOffering | DefenderForDevOpsAzureDevOpsOffering | CspmMonitorGitLabOffering | DefenderForDevOpsGitLabOffering;
+export type CloudOfferingUnion = CloudOffering | CspmMonitorAwsOffering | DefenderForContainersAwsOffering | DefenderForServersAwsOffering | DefenderFoDatabasesAwsOffering | CspmMonitorGcpOffering | DefenderForServersGcpOffering | DefenderForDatabasesGcpOffering | DefenderForContainersGcpOffering | CspmMonitorGithubOffering | CspmMonitorAzureDevOpsOffering | DefenderCspmAwsOffering | DefenderCspmGcpOffering | CspmMonitorGitLabOffering;
 
 // @public
 export type Code = string;
@@ -1618,9 +1521,6 @@ export interface Condition {
     property?: string;
     value?: string;
 }
-
-// @public
-export type ConfigurationStatus = string;
 
 // @public
 export interface ConnectableResource {
@@ -2005,18 +1905,7 @@ export interface DefenderCspmAwsOfferingMdcContainersImageAssessment {
 }
 
 // @public
-export interface DefenderCspmAwsOfferingVmScanners {
-    configuration?: DefenderCspmAwsOfferingVmScannersConfiguration;
-    enabled?: boolean;
-}
-
-// @public
-export interface DefenderCspmAwsOfferingVmScannersConfiguration {
-    cloudRoleArn?: string;
-    exclusionTags?: {
-        [propertyName: string]: string;
-    };
-    scanningMode?: ScanningMode;
+export interface DefenderCspmAwsOfferingVmScanners extends VmScannersAws {
 }
 
 // @public
@@ -2058,17 +1947,7 @@ export interface DefenderCspmGcpOfferingMdcContainersImageAssessment {
 }
 
 // @public
-export interface DefenderCspmGcpOfferingVmScanners {
-    configuration?: DefenderCspmGcpOfferingVmScannersConfiguration;
-    enabled?: boolean;
-}
-
-// @public
-export interface DefenderCspmGcpOfferingVmScannersConfiguration {
-    exclusionTags?: {
-        [propertyName: string]: string;
-    };
-    scanningMode?: ScanningMode;
+export interface DefenderCspmGcpOfferingVmScanners extends VmScannersGcp {
 }
 
 // @public
@@ -2080,16 +1959,7 @@ export interface DefenderFoDatabasesAwsOffering extends CloudOffering {
 }
 
 // @public
-export interface DefenderFoDatabasesAwsOfferingArcAutoProvisioning {
-    cloudRoleArn?: string;
-    configuration?: DefenderFoDatabasesAwsOfferingArcAutoProvisioningConfiguration;
-    enabled?: boolean;
-}
-
-// @public
-export interface DefenderFoDatabasesAwsOfferingArcAutoProvisioningConfiguration {
-    privateLinkScope?: string;
-    proxy?: string;
+export interface DefenderFoDatabasesAwsOfferingArcAutoProvisioning extends ArcAutoProvisioningAws {
 }
 
 // @public
@@ -2106,33 +1976,23 @@ export interface DefenderFoDatabasesAwsOfferingRds {
 
 // @public
 export interface DefenderForContainersAwsOffering extends CloudOffering {
-    autoProvisioning?: boolean;
     cloudWatchToKinesis?: DefenderForContainersAwsOfferingCloudWatchToKinesis;
-    containerVulnerabilityAssessment?: DefenderForContainersAwsOfferingContainerVulnerabilityAssessment;
-    containerVulnerabilityAssessmentTask?: DefenderForContainersAwsOfferingContainerVulnerabilityAssessmentTask;
-    enableContainerVulnerabilityAssessment?: boolean;
+    dataCollectionExternalId?: string;
+    enableAuditLogsAutoProvisioning?: boolean;
+    enableDefenderAgentAutoProvisioning?: boolean;
+    enablePolicyAgentAutoProvisioning?: boolean;
     kinesisToS3?: DefenderForContainersAwsOfferingKinesisToS3;
     kubeAuditRetentionTime?: number;
-    kubernetesScubaReader?: DefenderForContainersAwsOfferingKubernetesScubaReader;
+    kubernetesDataCollection?: DefenderForContainersAwsOfferingKubernetesDataCollection;
     kubernetesService?: DefenderForContainersAwsOfferingKubernetesService;
     mdcContainersAgentlessDiscoveryK8S?: DefenderForContainersAwsOfferingMdcContainersAgentlessDiscoveryK8S;
     mdcContainersImageAssessment?: DefenderForContainersAwsOfferingMdcContainersImageAssessment;
     offeringType: "DefenderForContainersAws";
-    scubaExternalId?: string;
+    vmScanners?: DefenderForContainersAwsOfferingVmScanners;
 }
 
 // @public
 export interface DefenderForContainersAwsOfferingCloudWatchToKinesis {
-    cloudRoleArn?: string;
-}
-
-// @public
-export interface DefenderForContainersAwsOfferingContainerVulnerabilityAssessment {
-    cloudRoleArn?: string;
-}
-
-// @public
-export interface DefenderForContainersAwsOfferingContainerVulnerabilityAssessmentTask {
     cloudRoleArn?: string;
 }
 
@@ -2142,7 +2002,7 @@ export interface DefenderForContainersAwsOfferingKinesisToS3 {
 }
 
 // @public
-export interface DefenderForContainersAwsOfferingKubernetesScubaReader {
+export interface DefenderForContainersAwsOfferingKubernetesDataCollection {
     cloudRoleArn?: string;
 }
 
@@ -2164,15 +2024,20 @@ export interface DefenderForContainersAwsOfferingMdcContainersImageAssessment {
 }
 
 // @public
+export interface DefenderForContainersAwsOfferingVmScanners extends VmScannersAws {
+}
+
+// @public
 export interface DefenderForContainersGcpOffering extends CloudOffering {
-    auditLogsAutoProvisioningFlag?: boolean;
     dataPipelineNativeCloudConnection?: DefenderForContainersGcpOfferingDataPipelineNativeCloudConnection;
-    defenderAgentAutoProvisioningFlag?: boolean;
+    enableAuditLogsAutoProvisioning?: boolean;
+    enableDefenderAgentAutoProvisioning?: boolean;
+    enablePolicyAgentAutoProvisioning?: boolean;
     mdcContainersAgentlessDiscoveryK8S?: DefenderForContainersGcpOfferingMdcContainersAgentlessDiscoveryK8S;
     mdcContainersImageAssessment?: DefenderForContainersGcpOfferingMdcContainersImageAssessment;
     nativeCloudConnection?: DefenderForContainersGcpOfferingNativeCloudConnection;
     offeringType: "DefenderForContainersGcp";
-    policyAgentAutoProvisioningFlag?: boolean;
+    vmScanners?: DefenderForContainersGcpOfferingVmScanners;
 }
 
 // @public
@@ -2202,6 +2067,10 @@ export interface DefenderForContainersGcpOfferingNativeCloudConnection {
 }
 
 // @public
+export interface DefenderForContainersGcpOfferingVmScanners extends VmScannersGcp {
+}
+
+// @public
 export interface DefenderForDatabasesGcpOffering extends CloudOffering {
     arcAutoProvisioning?: DefenderForDatabasesGcpOfferingArcAutoProvisioning;
     defenderForDatabasesArcAutoProvisioning?: DefenderForDatabasesGcpOfferingDefenderForDatabasesArcAutoProvisioning;
@@ -2209,36 +2078,13 @@ export interface DefenderForDatabasesGcpOffering extends CloudOffering {
 }
 
 // @public
-export interface DefenderForDatabasesGcpOfferingArcAutoProvisioning {
-    configuration?: DefenderForDatabasesGcpOfferingArcAutoProvisioningConfiguration;
-    enabled?: boolean;
-}
-
-// @public
-export interface DefenderForDatabasesGcpOfferingArcAutoProvisioningConfiguration {
-    privateLinkScope?: string;
-    proxy?: string;
+export interface DefenderForDatabasesGcpOfferingArcAutoProvisioning extends ArcAutoProvisioningGcp {
 }
 
 // @public
 export interface DefenderForDatabasesGcpOfferingDefenderForDatabasesArcAutoProvisioning {
     serviceAccountEmailAddress?: string;
     workloadIdentityProviderId?: string;
-}
-
-// @public
-export interface DefenderForDevOpsAzureDevOpsOffering extends CloudOffering {
-    offeringType: "DefenderForDevOpsAzureDevOps";
-}
-
-// @public
-export interface DefenderForDevOpsGithubOffering extends CloudOffering {
-    offeringType: "DefenderForDevOpsGithub";
-}
-
-// @public
-export interface DefenderForDevOpsGitLabOffering extends CloudOffering {
-    offeringType: "DefenderForDevOpsGitLab";
 }
 
 // @public
@@ -2253,16 +2099,7 @@ export interface DefenderForServersAwsOffering extends CloudOffering {
 }
 
 // @public
-export interface DefenderForServersAwsOfferingArcAutoProvisioning {
-    cloudRoleArn?: string;
-    configuration?: DefenderForServersAwsOfferingArcAutoProvisioningConfiguration;
-    enabled?: boolean;
-}
-
-// @public
-export interface DefenderForServersAwsOfferingArcAutoProvisioningConfiguration {
-    privateLinkScope?: string;
-    proxy?: string;
+export interface DefenderForServersAwsOfferingArcAutoProvisioning extends ArcAutoProvisioningAws {
 }
 
 // @public
@@ -2293,18 +2130,7 @@ export interface DefenderForServersAwsOfferingVaAutoProvisioningConfiguration {
 }
 
 // @public
-export interface DefenderForServersAwsOfferingVmScanners {
-    configuration?: DefenderForServersAwsOfferingVmScannersConfiguration;
-    enabled?: boolean;
-}
-
-// @public
-export interface DefenderForServersAwsOfferingVmScannersConfiguration {
-    cloudRoleArn?: string;
-    exclusionTags?: {
-        [propertyName: string]: string;
-    };
-    scanningMode?: ScanningMode;
+export interface DefenderForServersAwsOfferingVmScanners extends VmScannersAws {
 }
 
 // @public
@@ -2319,15 +2145,7 @@ export interface DefenderForServersGcpOffering extends CloudOffering {
 }
 
 // @public
-export interface DefenderForServersGcpOfferingArcAutoProvisioning {
-    configuration?: DefenderForServersGcpOfferingArcAutoProvisioningConfiguration;
-    enabled?: boolean;
-}
-
-// @public
-export interface DefenderForServersGcpOfferingArcAutoProvisioningConfiguration {
-    privateLinkScope?: string;
-    proxy?: string;
+export interface DefenderForServersGcpOfferingArcAutoProvisioning extends ArcAutoProvisioningGcp {
 }
 
 // @public
@@ -2359,23 +2177,13 @@ export interface DefenderForServersGcpOfferingVaAutoProvisioningConfiguration {
 }
 
 // @public
-export interface DefenderForServersGcpOfferingVmScanners {
-    configuration?: DefenderForServersGcpOfferingVmScannersConfiguration;
-    enabled?: boolean;
-}
-
-// @public
-export interface DefenderForServersGcpOfferingVmScannersConfiguration {
-    exclusionTags?: {
-        [propertyName: string]: string;
-    };
-    scanningMode?: ScanningMode;
+export interface DefenderForServersGcpOfferingVmScanners extends VmScannersGcp {
 }
 
 // @public
 export interface DefenderForStorage {
-    create(resourceId: string, settingName: SettingName, defenderForStorageSetting: DefenderForStorageSetting, options?: DefenderForStorageCreateOptionalParams): Promise<DefenderForStorageCreateResponse>;
-    get(resourceId: string, settingName: SettingName, options?: DefenderForStorageGetOptionalParams): Promise<DefenderForStorageGetResponse>;
+    create(resourceId: string, settingName: SettingNameAutoGenerated, defenderForStorageSetting: DefenderForStorageSetting, options?: DefenderForStorageCreateOptionalParams): Promise<DefenderForStorageCreateResponse>;
+    get(resourceId: string, settingName: SettingNameAutoGenerated, options?: DefenderForStorageGetOptionalParams): Promise<DefenderForStorageGetResponse>;
 }
 
 // @public
@@ -2394,14 +2202,15 @@ export type DefenderForStorageGetResponse = DefenderForStorageSetting;
 
 // @public
 export interface DefenderForStorageSetting extends Resource {
-    capGBPerMonth?: number;
-    isEnabledPropertiesIsEnabled?: boolean;
-    isEnabledPropertiesMalwareScanningOnUploadIsEnabled?: boolean;
-    isEnabledPropertiesSensitiveDataDiscoveryIsEnabled?: boolean;
-    readonly operationStatusPropertiesMalwareScanningOperationStatus?: OperationStatus;
-    readonly operationStatusPropertiesSensitiveDataDiscoveryOperationStatus?: OperationStatus;
+    properties?: DefenderForStorageSettingProperties;
+}
+
+// @public
+export interface DefenderForStorageSettingProperties {
+    isEnabled?: boolean;
+    malwareScanning?: MalwareScanningProperties;
     overrideSubscriptionLevelSettings?: boolean;
-    scanResultsEventGridTopicResourceId?: string;
+    sensitiveDataDiscovery?: SensitiveDataDiscoveryProperties;
 }
 
 // @public
@@ -2409,6 +2218,9 @@ export interface DenylistCustomAlertRule extends ListCustomAlertRule {
     denylistValues: string[];
     ruleType: "DenylistCustomAlertRule";
 }
+
+// @public
+export type DescendantBehavior = string;
 
 // @public
 export type DesiredOnboardingState = string;
@@ -2468,6 +2280,12 @@ export interface DeviceSecurityGroupsListOptionalParams extends coreClient.Opera
 export type DeviceSecurityGroupsListResponse = DeviceSecurityGroupList;
 
 // @public
+export interface DevOpsCapability {
+    readonly name?: string;
+    readonly value?: string;
+}
+
+// @public
 export interface DevOpsConfiguration extends ProxyResource {
     properties?: DevOpsConfigurationProperties;
     readonly systemData?: SystemData;
@@ -2483,7 +2301,8 @@ export interface DevOpsConfigurationListResponse {
 export interface DevOpsConfigurationProperties {
     authorization?: Authorization;
     autoDiscovery?: AutoDiscovery;
-    provisioningState?: DevOpsProvisioningState;
+    readonly capabilities?: DevOpsCapability[];
+    readonly provisioningState?: DevOpsProvisioningState;
     readonly provisioningStatusMessage?: string;
     readonly provisioningStatusUpdateTimeUtc?: Date;
     topLevelInventoryList?: string[];
@@ -2559,10 +2378,156 @@ export interface DevOpsOperationResultsGetOptionalParams extends coreClient.Oper
 export type DevOpsOperationResultsGetResponse = OperationStatusResult;
 
 // @public
-export type DevOpsProvisioningState = string;
+export interface DevOpsPolicies {
+    get(resourceGroupName: string, securityConnectorName: string, policyName: string, options?: DevOpsPoliciesGetOptionalParams): Promise<DevOpsPoliciesGetResponse>;
+    list(resourceGroupName: string, securityConnectorName: string, options?: DevOpsPoliciesListOptionalParams): PagedAsyncIterableIterator<DevOpsPolicy>;
+}
 
 // @public
-export type Direction = string;
+export interface DevOpsPoliciesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DevOpsPoliciesGetResponse = DevOpsPolicy;
+
+// @public
+export interface DevOpsPoliciesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DevOpsPoliciesListNextResponse = DevOpsPolicyListResponse;
+
+// @public
+export interface DevOpsPoliciesListOptionalParams extends coreClient.OperationOptions {
+    devOpsPolicyType?: string;
+}
+
+// @public
+export type DevOpsPoliciesListResponse = DevOpsPolicyListResponse;
+
+// @public
+export interface DevOpsPolicy extends ProxyResource {
+    properties?: DevOpsPolicyProperties;
+    readonly systemData?: SystemData;
+}
+
+// @public
+export interface DevOpsPolicyAssignment extends ProxyResource {
+    properties?: DevOpsPolicyAssignmentProperties;
+    readonly systemData?: SystemData;
+}
+
+// @public
+export interface DevOpsPolicyAssignmentListResponse {
+    nextLink?: string;
+    value?: DevOpsPolicyAssignment[];
+}
+
+// @public
+export interface DevOpsPolicyAssignmentProperties {
+    assignedAt?: Date;
+    descendantBehavior?: DescendantBehavior;
+    policy?: DevOpsPolicyDescriptor;
+    readonly provisioningState?: DevOpsProvisioningState;
+    readonly provisioningStatusMessage?: string;
+    readonly provisioningStatusUpdateTimeUtc?: Date;
+    resourceId?: string;
+}
+
+// @public
+export interface DevOpsPolicyAssignments {
+    beginCreateOrUpdate(resourceGroupName: string, securityConnectorName: string, policyAssignmentId: string, devOpsPolicyAssignment: DevOpsPolicyAssignment, options?: DevOpsPolicyAssignmentsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DevOpsPolicyAssignmentsCreateOrUpdateResponse>, DevOpsPolicyAssignmentsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, securityConnectorName: string, policyAssignmentId: string, devOpsPolicyAssignment: DevOpsPolicyAssignment, options?: DevOpsPolicyAssignmentsCreateOrUpdateOptionalParams): Promise<DevOpsPolicyAssignmentsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, securityConnectorName: string, policyAssignmentId: string, options?: DevOpsPolicyAssignmentsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, securityConnectorName: string, policyAssignmentId: string, options?: DevOpsPolicyAssignmentsDeleteOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, securityConnectorName: string, policyAssignmentId: string, devOpsPolicyAssignment: DevOpsPolicyAssignment, options?: DevOpsPolicyAssignmentsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DevOpsPolicyAssignmentsUpdateResponse>, DevOpsPolicyAssignmentsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, securityConnectorName: string, policyAssignmentId: string, devOpsPolicyAssignment: DevOpsPolicyAssignment, options?: DevOpsPolicyAssignmentsUpdateOptionalParams): Promise<DevOpsPolicyAssignmentsUpdateResponse>;
+    get(resourceGroupName: string, securityConnectorName: string, policyAssignmentId: string, options?: DevOpsPolicyAssignmentsGetOptionalParams): Promise<DevOpsPolicyAssignmentsGetResponse>;
+    list(resourceGroupName: string, securityConnectorName: string, options?: DevOpsPolicyAssignmentsListOptionalParams): PagedAsyncIterableIterator<DevOpsPolicyAssignment>;
+}
+
+// @public
+export interface DevOpsPolicyAssignmentsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type DevOpsPolicyAssignmentsCreateOrUpdateResponse = DevOpsPolicyAssignment;
+
+// @public
+export interface DevOpsPolicyAssignmentsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface DevOpsPolicyAssignmentsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DevOpsPolicyAssignmentsGetResponse = DevOpsPolicyAssignment;
+
+// @public
+export interface DevOpsPolicyAssignmentsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DevOpsPolicyAssignmentsListNextResponse = DevOpsPolicyAssignmentListResponse;
+
+// @public
+export interface DevOpsPolicyAssignmentsListOptionalParams extends coreClient.OperationOptions {
+    devOpsPolicyType?: string;
+    resourceId?: string;
+}
+
+// @public
+export type DevOpsPolicyAssignmentsListResponse = DevOpsPolicyAssignmentListResponse;
+
+// @public
+export interface DevOpsPolicyAssignmentsUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type DevOpsPolicyAssignmentsUpdateResponse = DevOpsPolicyAssignment;
+
+// @public
+export interface DevOpsPolicyDescriptor {
+    policyId?: string;
+    policyName?: string;
+    policyType?: DevOpsPolicyType;
+    policyVersion?: string;
+}
+
+// @public
+export interface DevOpsPolicyListResponse {
+    nextLink?: string;
+    value?: DevOpsPolicy[];
+}
+
+// @public
+export interface DevOpsPolicyProperties {
+    content?: string;
+    readonly policyId?: string;
+    readonly provisioningState?: DevOpsProvisioningState;
+    readonly provisioningStatusMessage?: string;
+    readonly provisioningStatusUpdateTimeUtc?: Date;
+    source?: DevOpsPolicySource;
+    type?: DevOpsPolicyType;
+    version?: string;
+    readonly webUrl?: string;
+}
+
+// @public
+export type DevOpsPolicySource = string;
+
+// @public
+export type DevOpsPolicyType = string;
+
+// @public
+export type DevOpsProvisioningState = string;
 
 // @public
 export interface DirectMethodInvokesNotInAllowedRange extends TimeWindowCustomAlertRule {
@@ -2627,22 +2592,10 @@ export interface DiscoveredSecuritySolutionsListOptionalParams extends coreClien
 export type DiscoveredSecuritySolutionsListResponse = DiscoveredSecuritySolutionList;
 
 // @public
-export interface EffectiveNetworkSecurityGroups {
-    networkInterface?: string;
-    networkSecurityGroups?: string[];
-}
-
-// @public
 export type EndOfSupportStatus = string;
 
 // @public
 export type Enforce = string;
-
-// @public
-export type EnforcementMode = string;
-
-// @public
-export type EnforcementSupport = string;
 
 // @public
 export interface EnvironmentData {
@@ -2728,7 +2681,7 @@ export interface Extension {
     };
     isEnabled: IsEnabled;
     name: string;
-    readonly operationStatus?: OperationStatusAutoGenerated;
+    readonly operationStatus?: OperationStatus;
 }
 
 // @public
@@ -2808,9 +2761,6 @@ export interface FailedLocalLoginsNotInAllowedRange extends TimeWindowCustomAler
 }
 
 // @public
-export type FileType = string;
-
-// @public
 export interface FileUploadsNotInAllowedRange extends TimeWindowCustomAlertRule {
     ruleType: "FileUploadsNotInAllowedRange";
 }
@@ -2881,13 +2831,6 @@ export interface GetSensitivitySettingsListResponse {
 }
 
 // @public
-export type GetSensitivitySettingsOperationResponse = GetSensitivitySettingsResponse;
-
-// @public
-export interface GetSensitivitySettingsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
 export interface GetSensitivitySettingsResponse {
     readonly id?: string;
     readonly name?: string;
@@ -2936,7 +2879,7 @@ export interface GitHubOwnerProperties {
     readonly gitHubInternalId?: string;
     onboardingState?: OnboardingState;
     readonly ownerUrl?: string;
-    provisioningState?: DevOpsProvisioningState;
+    readonly provisioningState?: DevOpsProvisioningState;
     readonly provisioningStatusMessage?: string;
     readonly provisioningStatusUpdateTimeUtc?: Date;
 }
@@ -3005,7 +2948,7 @@ export interface GitHubRepositoryListResponse {
 export interface GitHubRepositoryProperties {
     onboardingState?: OnboardingState;
     parentOwnerName?: string;
-    provisioningState?: DevOpsProvisioningState;
+    readonly provisioningState?: DevOpsProvisioningState;
     readonly provisioningStatusMessage?: string;
     readonly provisioningStatusUpdateTimeUtc?: Date;
     readonly repoFullName?: string;
@@ -3058,7 +3001,7 @@ export interface GitLabGroupProperties {
     readonly fullyQualifiedFriendlyName?: string;
     readonly fullyQualifiedName?: string;
     onboardingState?: OnboardingState;
-    provisioningState?: DevOpsProvisioningState;
+    readonly provisioningState?: DevOpsProvisioningState;
     readonly provisioningStatusMessage?: string;
     readonly provisioningStatusUpdateTimeUtc?: Date;
     readonly url?: string;
@@ -3117,7 +3060,7 @@ export interface GitLabProjectProperties {
     readonly fullyQualifiedName?: string;
     readonly fullyQualifiedParentGroupName?: string;
     onboardingState?: OnboardingState;
-    provisioningState?: DevOpsProvisioningState;
+    readonly provisioningState?: DevOpsProvisioningState;
     readonly provisioningStatusMessage?: string;
     readonly provisioningStatusUpdateTimeUtc?: Date;
     readonly url?: string;
@@ -3462,17 +3405,6 @@ export interface Identity {
 
 // @public
 export type ImplementationEffort = string;
-
-// @public
-export interface InformationProtectionAwsOffering extends CloudOffering {
-    informationProtection?: InformationProtectionAwsOfferingInformationProtection;
-    offeringType: "InformationProtectionAws";
-}
-
-// @public
-export interface InformationProtectionAwsOfferingInformationProtection {
-    cloudRoleArn?: string;
-}
 
 // @public
 export interface InformationProtectionKeyword {
@@ -4052,16 +3984,6 @@ export enum KnownActionType {
 }
 
 // @public
-export enum KnownAdaptiveApplicationControlIssue {
-    ExecutableViolationsAudited = "ExecutableViolationsAudited",
-    MsiAndScriptViolationsAudited = "MsiAndScriptViolationsAudited",
-    MsiAndScriptViolationsBlocked = "MsiAndScriptViolationsBlocked",
-    RulesViolatedManually = "RulesViolatedManually",
-    ViolationsAudited = "ViolationsAudited",
-    ViolationsBlocked = "ViolationsBlocked"
-}
-
-// @public
 export enum KnownAdditionalWorkspaceDataType {
     Alerts = "Alerts",
     RawEvents = "RawEvents"
@@ -4195,15 +4117,6 @@ export enum KnownCode {
 }
 
 // @public
-export enum KnownConfigurationStatus {
-    Configured = "Configured",
-    Failed = "Failed",
-    InProgress = "InProgress",
-    NoStatus = "NoStatus",
-    NotConfigured = "NotConfigured"
-}
-
-// @public
 export enum KnownConnectionType {
     External = "External",
     Internal = "Internal"
@@ -4229,9 +4142,29 @@ export enum KnownDataSource {
 }
 
 // @public
+export enum KnownDescendantBehavior {
+    FallBack = "FallBack",
+    Override = "Override",
+    Unknown = "Unknown"
+}
+
+// @public
 export enum KnownDesiredOnboardingState {
     Disabled = "Disabled",
     Enabled = "Enabled"
+}
+
+// @public
+export enum KnownDevOpsPolicySource {
+    BuiltIn = "BuiltIn",
+    Unknown = "Unknown",
+    UserDefined = "UserDefined"
+}
+
+// @public
+export enum KnownDevOpsPolicyType {
+    Pipeline = "Pipeline",
+    Unknown = "Unknown"
 }
 
 // @public
@@ -4243,12 +4176,6 @@ export enum KnownDevOpsProvisioningState {
     Pending = "Pending",
     PendingDeletion = "PendingDeletion",
     Succeeded = "Succeeded"
-}
-
-// @public
-export enum KnownDirection {
-    Inbound = "Inbound",
-    Outbound = "Outbound"
 }
 
 // @public
@@ -4264,20 +4191,6 @@ export enum KnownEndOfSupportStatus {
 export enum KnownEnforce {
     False = "False",
     True = "True"
-}
-
-// @public
-export enum KnownEnforcementMode {
-    Audit = "Audit",
-    Enforce = "Enforce",
-    None = "None"
-}
-
-// @public
-export enum KnownEnforcementSupport {
-    NotSupported = "NotSupported",
-    Supported = "Supported",
-    Unknown = "Unknown"
 }
 
 // @public
@@ -4327,16 +4240,6 @@ export enum KnownExternalSecuritySolutionKind {
     AAD = "AAD",
     ATA = "ATA",
     CEF = "CEF"
-}
-
-// @public
-export enum KnownFileType {
-    Dll = "Dll",
-    Exe = "Exe",
-    Executable = "Executable",
-    Msi = "Msi",
-    Script = "Script",
-    Unknown = "Unknown"
 }
 
 // @public
@@ -4461,12 +4364,8 @@ export enum KnownOfferingType {
     DefenderForContainersGcp = "DefenderForContainersGcp",
     DefenderForDatabasesAws = "DefenderForDatabasesAws",
     DefenderForDatabasesGcp = "DefenderForDatabasesGcp",
-    DefenderForDevOpsAzureDevOps = "DefenderForDevOpsAzureDevOps",
-    DefenderForDevOpsGithub = "DefenderForDevOpsGithub",
-    DefenderForDevOpsGitLab = "DefenderForDevOpsGitLab",
     DefenderForServersAws = "DefenderForServersAws",
-    DefenderForServersGcp = "DefenderForServersGcp",
-    InformationProtectionAws = "InformationProtectionAws"
+    DefenderForServersGcp = "DefenderForServersGcp"
 }
 
 // @public
@@ -4540,24 +4439,9 @@ export enum KnownProvisioningState {
 }
 
 // @public
-export enum KnownRecommendationAction {
-    Add = "Add",
-    Recommended = "Recommended",
-    Remove = "Remove"
-}
-
-// @public
 export enum KnownRecommendationConfigStatus {
     Disabled = "Disabled",
     Enabled = "Enabled"
-}
-
-// @public
-export enum KnownRecommendationStatus {
-    NoStatus = "NoStatus",
-    NotAvailable = "NotAvailable",
-    NotRecommended = "NotRecommended",
-    Recommended = "Recommended"
 }
 
 // @public
@@ -4722,16 +4606,16 @@ export enum KnownSettingKind {
 
 // @public
 export enum KnownSettingName {
-    Current = "current"
-}
-
-// @public
-export enum KnownSettingNameAutoGenerated {
     Mcas = "MCAS",
     Sentinel = "Sentinel",
     Wdatp = "WDATP",
     WdatpExcludeLinuxPublicPreview = "WDATP_EXCLUDE_LINUX_PUBLIC_PREVIEW",
     WdatpUnifiedSolution = "WDATP_UNIFIED_SOLUTION"
+}
+
+// @public
+export enum KnownSettingNameAutoGenerated {
+    Current = "current"
 }
 
 // @public
@@ -4753,15 +4637,6 @@ export enum KnownSource {
     Azure = "Azure",
     OnPremise = "OnPremise",
     OnPremiseSql = "OnPremiseSql"
-}
-
-// @public
-export enum KnownSourceSystem {
-    AzureAppLocker = "Azure_AppLocker",
-    AzureAuditD = "Azure_AuditD",
-    NonAzureAppLocker = "NonAzure_AppLocker",
-    NonAzureAuditD = "NonAzure_AuditD",
-    None = "None"
 }
 
 // @public
@@ -4965,12 +4840,6 @@ export enum KnownThreats {
 }
 
 // @public
-export enum KnownTransportProtocol {
-    TCP = "TCP",
-    UDP = "UDP"
-}
-
-// @public
 export enum KnownType {
     Qualys = "Qualys",
     TVM = "TVM"
@@ -5056,6 +4925,13 @@ export interface LogAnalyticsIdentifier extends ResourceIdentifier {
     readonly workspaceId?: string;
     readonly workspaceResourceGroup?: string;
     readonly workspaceSubscriptionId?: string;
+}
+
+// @public
+export interface MalwareScanningProperties {
+    onUpload?: OnUploadProperties;
+    readonly operationStatus?: OperationStatusAutoGenerated;
+    scanResultsEventGridTopicResourceId?: string;
 }
 
 // @public
@@ -5158,6 +5034,20 @@ export interface OnPremiseSqlResourceDetails extends OnPremiseResourceDetails {
     source: "OnPremiseSql";
 }
 
+// @public (undocumented)
+export interface OnUploadFilters {
+    excludeBlobsLargerThan?: any;
+    excludeBlobsWithPrefix?: string[];
+    excludeBlobsWithSuffix?: string[];
+}
+
+// @public
+export interface OnUploadProperties {
+    capGBPerMonth?: number;
+    filters?: OnUploadFilters;
+    isEnabled?: boolean;
+}
+
 // @public
 export interface Operation {
     display?: OperationDisplay;
@@ -5208,13 +5098,13 @@ export type OperationsListResponse = OperationList;
 
 // @public
 export interface OperationStatus {
-    code?: string;
+    code?: Code;
     message?: string;
 }
 
 // @public
 export interface OperationStatusAutoGenerated {
-    code?: Code;
+    code?: string;
     message?: string;
 }
 
@@ -5235,21 +5125,6 @@ export type Operator = string;
 
 // @public
 export type OrganizationMembershipType = string;
-
-// @public
-export interface PathRecommendation {
-    action?: RecommendationAction;
-    common?: boolean;
-    configurationStatus?: ConfigurationStatus;
-    fileType?: FileType;
-    path?: string;
-    publisherInfo?: PublisherInfo;
-    type?: RecommendationType;
-    // (undocumented)
-    usernames?: UserRecommendation[];
-    // (undocumented)
-    userSids?: string[];
-}
 
 // @public
 export type PermissionProperty = string;
@@ -5320,14 +5195,6 @@ export interface ProcessNotAllowed extends AllowlistCustomAlertRule {
 export type PropertyType = string;
 
 // @public
-export interface ProtectionMode {
-    exe?: EnforcementMode;
-    executable?: EnforcementMode;
-    msi?: EnforcementMode;
-    script?: EnforcementMode;
-}
-
-// @public
 export type Protocol = string;
 
 // @public
@@ -5341,14 +5208,6 @@ export interface ProxyResource extends ResourceAutoGenerated {
 export interface ProxyServerProperties {
     ip?: string;
     port?: string;
-}
-
-// @public
-export interface PublisherInfo {
-    binaryName?: string;
-    productName?: string;
-    publisherName?: string;
-    version?: string;
 }
 
 // @public
@@ -5367,9 +5226,6 @@ export interface QueuePurgesNotInAllowedRange extends TimeWindowCustomAlertRule 
 export type Rank = "None" | "Low" | "Medium" | "High" | "Critical";
 
 // @public
-export type RecommendationAction = string;
-
-// @public
 export type RecommendationConfigStatus = string;
 
 // @public
@@ -5378,9 +5234,6 @@ export interface RecommendationConfigurationProperties {
     recommendationType: RecommendationType;
     status: RecommendationConfigStatus;
 }
-
-// @public
-export type RecommendationStatus = string;
 
 // @public
 export type RecommendationType = string;
@@ -5589,15 +5442,6 @@ export type ResourcesCoverageStatus = string;
 
 // @public
 export type ResourceStatus = string;
-
-// @public
-export interface Rule {
-    destinationPort?: number;
-    direction?: Direction;
-    ipAddresses?: string[];
-    name?: string;
-    protocols?: TransportProtocol[];
-}
 
 // @public
 export type RuleCategory = string;
@@ -6028,10 +5872,6 @@ export class SecurityCenter extends coreClient.ServiceClient {
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: SecurityCenterOptionalParams);
     constructor(credentials: coreAuth.TokenCredential, options?: SecurityCenterOptionalParams);
     // (undocumented)
-    adaptiveApplicationControls: AdaptiveApplicationControls;
-    // (undocumented)
-    adaptiveNetworkHardenings: AdaptiveNetworkHardenings;
-    // (undocumented)
     advancedThreatProtection: AdvancedThreatProtection;
     // (undocumented)
     alerts: Alerts;
@@ -6078,10 +5918,13 @@ export class SecurityCenter extends coreClient.ServiceClient {
     // (undocumented)
     devOpsOperationResults: DevOpsOperationResults;
     // (undocumented)
+    devOpsPolicies: DevOpsPolicies;
+    // (undocumented)
+    devOpsPolicyAssignments: DevOpsPolicyAssignments;
+    // (undocumented)
     discoveredSecuritySolutions: DiscoveredSecuritySolutions;
     // (undocumented)
     externalSecuritySolutions: ExternalSecuritySolutions;
-    getSensitivitySettings(options?: GetSensitivitySettingsOptionalParams): Promise<GetSensitivitySettingsOperationResponse>;
     // (undocumented)
     gitHubOwners: GitHubOwners;
     // (undocumented)
@@ -6168,7 +6011,6 @@ export class SecurityCenter extends coreClient.ServiceClient {
     tasks: Tasks;
     // (undocumented)
     topology: Topology;
-    updateSensitivitySettings(sensitivitySettings: UpdateSensitivitySettingsRequest, options?: UpdateSensitivitySettingsOptionalParams): Promise<UpdateSensitivitySettingsResponse>;
     // (undocumented)
     workspaceSettings: WorkspaceSettings;
 }
@@ -6539,6 +6381,12 @@ export interface SecurityTaskParameters {
 }
 
 // @public
+export interface SensitiveDataDiscoveryProperties {
+    isEnabled?: boolean;
+    readonly operationStatus?: OperationStatusAutoGenerated;
+}
+
+// @public
 export interface SensitivityLabel {
     description?: string;
     displayName?: string;
@@ -6549,8 +6397,24 @@ export interface SensitivityLabel {
 
 // @public
 export interface SensitivitySettings {
+    createOrUpdate(sensitivitySettings: UpdateSensitivitySettingsRequest, options?: SensitivitySettingsCreateOrUpdateOptionalParams): Promise<SensitivitySettingsCreateOrUpdateResponse>;
+    get(options?: SensitivitySettingsGetOptionalParams): Promise<SensitivitySettingsGetResponse>;
     list(options?: SensitivitySettingsListOptionalParams): Promise<SensitivitySettingsListResponse>;
 }
+
+// @public
+export interface SensitivitySettingsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SensitivitySettingsCreateOrUpdateResponse = GetSensitivitySettingsResponse;
+
+// @public
+export interface SensitivitySettingsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SensitivitySettingsGetResponse = GetSensitivitySettingsResponse;
 
 // @public
 export interface SensitivitySettingsListOptionalParams extends coreClient.OperationOptions {
@@ -6708,9 +6572,9 @@ export type SettingNameAutoGenerated = string;
 
 // @public
 export interface Settings {
-    get(settingName: SettingNameAutoGenerated, options?: SettingsGetOptionalParams): Promise<SettingsGetResponse>;
+    get(settingName: SettingName, options?: SettingsGetOptionalParams): Promise<SettingsGetResponse>;
     list(options?: SettingsListOptionalParams): PagedAsyncIterableIterator<SettingUnion>;
-    update(settingName: SettingNameAutoGenerated, setting: SettingUnion, options?: SettingsUpdateOptionalParams): Promise<SettingsUpdateResponse>;
+    update(settingName: SettingName, setting: SettingUnion, options?: SettingsUpdateOptionalParams): Promise<SettingsUpdateResponse>;
 }
 
 // @public
@@ -6820,9 +6684,6 @@ export interface SoftwaresList {
 
 // @public
 export type Source = string;
-
-// @public
-export type SourceSystem = string;
 
 // @public
 export type SourceType = string;
@@ -7222,9 +7083,6 @@ export interface TrackedResource extends Resource, AzureTrackedResourceLocation,
 }
 
 // @public
-export type TransportProtocol = string;
-
-// @public
 export interface TwinUpdatesNotInAllowedRange extends TimeWindowCustomAlertRule {
     ruleType: "TwinUpdatesNotInAllowedRange";
 }
@@ -7247,18 +7105,11 @@ export interface UpdateIotSecuritySolutionData extends TagsResource {
 }
 
 // @public
-export interface UpdateSensitivitySettingsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
 export interface UpdateSensitivitySettingsRequest {
     sensitiveInfoTypesIds: string[];
     sensitivityThresholdLabelId?: string;
     sensitivityThresholdLabelOrder?: number;
 }
-
-// @public
-export type UpdateSensitivitySettingsResponse = GetSensitivitySettingsResponse;
 
 // @public
 export interface UserDefinedResourcesProperties {
@@ -7268,12 +7119,6 @@ export interface UserDefinedResourcesProperties {
 
 // @public
 export type UserImpact = string;
-
-// @public
-export interface UserRecommendation {
-    recommendationAction?: RecommendationAction;
-    username?: string;
-}
 
 // @public
 export type ValueType = string;
@@ -7298,11 +7143,26 @@ export interface VendorReference {
 }
 
 // @public
-export interface VmRecommendation {
-    configurationStatus?: ConfigurationStatus;
-    enforcementSupport?: EnforcementSupport;
-    recommendationAction?: RecommendationAction;
-    resourceId?: string;
+export interface VmScannersAws extends VmScannersBase {
+    cloudRoleArn?: string;
+}
+
+// @public
+export interface VmScannersBase {
+    configuration?: VmScannersBaseConfiguration;
+    enabled?: boolean;
+}
+
+// @public
+export interface VmScannersBaseConfiguration {
+    exclusionTags?: {
+        [propertyName: string]: string;
+    };
+    scanningMode?: ScanningMode;
+}
+
+// @public
+export interface VmScannersGcp extends VmScannersBase {
 }
 
 // @public
