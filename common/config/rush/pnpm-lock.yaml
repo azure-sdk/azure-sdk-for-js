@@ -16166,12 +16166,13 @@ packages:
     dev: false
 
   file:projects/arm-migrate.tgz:
-    resolution: {integrity: sha512-kQsavrqMgvUmMmLVn1hB0k+Tv4JYGbtdu0StZP1G41cAavGEIPoN8gjo80Z+qlA5EoKZMTtsLa9pbYuSX5nG2w==, tarball: file:projects/arm-migrate.tgz}
+    resolution: {integrity: sha512-4sc0YzS02kRivXGasS+/FKvA9G9BZDBlk67R9IOTCaA402mulOiWgvRqBbNZcepeLEhoq1+TshXew/0nEDN8iw==, tarball: file:projects/arm-migrate.tgz}
     name: '@rush-temp/arm-migrate'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
+      '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
       '@microsoft/api-extractor': 7.47.8(@types/node@18.19.50)
       '@types/chai': 4.3.19
@@ -16185,6 +16186,7 @@ packages:
       rimraf: 5.0.10
       ts-node: 10.9.2(@types/node@18.19.50)(typescript@5.5.4)
       tslib: 2.7.0
+      tsx: 4.19.0
       typescript: 5.5.4
       uglify-js: 3.19.3
     transitivePeerDependencies:
@@ -23755,7 +23757,7 @@ packages:
     dev: false
 
   file:projects/service-bus.tgz:
-    resolution: {integrity: sha512-cGQF+Z00t0R9e/YZbdiNh5tsKt8OcUTukL0XQqT7O9z8S+Yr20Du/H9UPEncOH055//F1GdQBhFAodgymPa1aw==, tarball: file:projects/service-bus.tgz}
+    resolution: {integrity: sha512-/qbDiimKPXxVgo/f0UNUYp0Go8bCihidXs97egK/xuen7KFfBY6OXOXu/giA/gTXJjol6h5SKLUe5LGKD7yCMA==, tarball: file:projects/service-bus.tgz}
     name: '@rush-temp/service-bus'
     version: 0.0.0
     dependencies:
