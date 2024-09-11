@@ -17601,6 +17601,12 @@ export const GalleryImageVersionSafetyProfile: coreClient.CompositeMapper = {
           },
         },
       },
+      blockDeletionBeforeEndOfLife: {
+        serializedName: "blockDeletionBeforeEndOfLife",
+        type: {
+          name: "Boolean",
+        },
+      },
     },
   },
 };
