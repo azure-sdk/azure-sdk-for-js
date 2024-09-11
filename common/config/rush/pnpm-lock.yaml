@@ -9154,6 +9154,7 @@ packages:
 
   /queue-tick@1.0.1:
     resolution: {integrity: sha512-kJt5qhMxoszgU/62PLP1CJytzd2NKetjSRnyuj31fDd3Rlcz3fzlFdFLD1SItunPwyqEOkca6GbV612BWfaBag==}
+    requiresBuild: true
     dev: false
 
   /randombytes@2.1.0:
@@ -10069,6 +10070,7 @@ packages:
 
   /text-decoder@1.1.1:
     resolution: {integrity: sha512-8zll7REEv4GDD3x4/0pW+ppIxSNs7H1J10IKFZsuOMscumCdM2a+toDGLPA3T+1+fLBql4zbt5z83GEQGGV5VA==}
+    requiresBuild: true
     dependencies:
       b4a: 1.6.6
     dev: false
@@ -18470,7 +18472,7 @@ packages:
     dev: false
 
   file:projects/arm-sql.tgz:
-    resolution: {integrity: sha512-jAEmxePLAQYwQA1+pc90ne5yg9S17zaCEdxcWSs+mzffP6aaMgCyTRVsMUWgn8KSw9Yi6zC0xzzf11OOYq3lKg==, tarball: file:projects/arm-sql.tgz}
+    resolution: {integrity: sha512-sq7RD5mZRl5zCMT84wVMLjgJv6CZdeIZZ3NUPQfrXnQSIDdsYqEiww3zUvEYGNrUwqzQfhapu6e8L2vhfbYq5g==, tarball: file:projects/arm-sql.tgz}
     name: '@rush-temp/arm-sql'
     version: 0.0.0
     dependencies:
@@ -18492,6 +18494,7 @@ packages:
       rimraf: 5.0.10
       ts-node: 10.9.2(@types/node@18.19.50)(typescript@5.5.4)
       tslib: 2.7.0
+      tsx: 4.19.0
       typescript: 5.5.4
       uglify-js: 3.19.3
     transitivePeerDependencies:
@@ -23755,7 +23758,7 @@ packages:
     dev: false
 
   file:projects/service-bus.tgz:
-    resolution: {integrity: sha512-cGQF+Z00t0R9e/YZbdiNh5tsKt8OcUTukL0XQqT7O9z8S+Yr20Du/H9UPEncOH055//F1GdQBhFAodgymPa1aw==, tarball: file:projects/service-bus.tgz}
+    resolution: {integrity: sha512-/qbDiimKPXxVgo/f0UNUYp0Go8bCihidXs97egK/xuen7KFfBY6OXOXu/giA/gTXJjol6h5SKLUe5LGKD7yCMA==, tarball: file:projects/service-bus.tgz}
     name: '@rush-temp/service-bus'
     version: 0.0.0
     dependencies:
