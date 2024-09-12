@@ -2909,7 +2909,7 @@ export interface InvoiceProperties {
     readonly isMonthlyInvoice?: boolean;
     readonly payments?: Payment[];
     readonly purchaseOrderNumber?: string;
-    rebillDetails?: InvoicePropertiesRebillDetails;
+    readonly rebillDetails?: RebillDetails;
     refundDetails?: InvoicePropertiesRefundDetails;
     readonly specialTaxationType?: SpecialTaxationType;
     readonly status?: InvoiceStatus;
@@ -2938,10 +2938,6 @@ export interface InvoicePropertiesCreditAmount extends Amount {
 
 // @public
 export interface InvoicePropertiesFreeAzureCreditApplied extends Amount {
-}
-
-// @public
-export interface InvoicePropertiesRebillDetails extends RebillDetails {
 }
 
 // @public
@@ -5242,8 +5238,7 @@ export interface ReservationPurchaseRequest {
     billingPlan?: ReservationBillingPlan;
     readonly billingScopeId?: string;
     displayName?: string;
-    instanceFlexibilityPropertiesInstanceFlexibility?: InstanceFlexibility;
-    instanceFlexibilityPropertiesReservedResourcePropertiesInstanceFlexibility?: InstanceFlexibility;
+    instanceFlexibility?: InstanceFlexibility;
     location?: string;
     quantity?: number;
     renew?: boolean;
@@ -5760,7 +5755,7 @@ export interface TransactionProperties {
     azureCreditApplied?: TransactionPropertiesAzureCreditApplied;
     azurePlan?: string;
     billingCurrency?: string;
-    billingProfileDisplayName?: any;
+    billingProfileDisplayName?: string;
     billingProfileId?: string;
     consumptionCommitmentDecremented?: TransactionPropertiesConsumptionCommitmentDecremented;
     creditType?: CreditType;

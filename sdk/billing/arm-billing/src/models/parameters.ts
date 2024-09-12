@@ -237,7 +237,7 @@ export const billingProfileName: OperationURLParameter = {
   parameterPath: "billingProfileName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^[a-zA-Z\\d-_]{1,128}$"),
+      Pattern: new RegExp("^[a-zA-Z0-9-_]{1,128}$"),
     },
     serializedName: "billingProfileName",
     required: true,
@@ -369,7 +369,7 @@ export const customerName: OperationURLParameter = {
   parameterPath: "customerName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^[a-zA-Z\\d-_]{1,128}$"),
+      Pattern: new RegExp("^[a-zA-Z0-9-_]{1,128}$"),
     },
     serializedName: "customerName",
     required: true,
@@ -383,7 +383,7 @@ export const invoiceSectionName: OperationURLParameter = {
   parameterPath: "invoiceSectionName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^[a-zA-Z\\d-_]{1,128}$"),
+      Pattern: new RegExp("^[a-zA-Z0-9-_]{1,128}$"),
     },
     serializedName: "invoiceSectionName",
     required: true,
@@ -397,7 +397,7 @@ export const departmentName: OperationURLParameter = {
   parameterPath: "departmentName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^[a-zA-Z\\d-_]{1,128}$"),
+      Pattern: new RegExp("^[a-zA-Z0-9-_]{1,128}$"),
     },
     serializedName: "departmentName",
     required: true,
@@ -411,7 +411,7 @@ export const enrollmentAccountName: OperationURLParameter = {
   parameterPath: "enrollmentAccountName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^[a-zA-Z\\d-_]{1,128}$"),
+      Pattern: new RegExp("^[a-zA-Z0-9-_]{1,128}$"),
     },
     serializedName: "enrollmentAccountName",
     required: true,
