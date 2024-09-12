@@ -1,0 +1,3161 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { serializeRecord } from "../helpers/serializerHelpers.js";
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  readonly id?: string;
+  /** The name of the resource */
+  readonly name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  readonly type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  readonly systemData?: SystemData;
+}
+
+export function resourceSerializer(item: Resource) {
+  return item as any;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  /** User */
+  User = "User",
+  /** Application */
+  Application = "Application",
+  /** ManagedIdentity */
+  ManagedIdentity = "ManagedIdentity",
+  /** Key */
+  Key = "Key",
+}
+
+/**
+ * The kind of entity that created the resource. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
+
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
+
+export function proxyResourceSerializer(item: ProxyResource) {
+  return item as any;
+}
+
+/** Instance dataflowEndpoint resource */
+export interface DataflowEndpointResource extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: DataflowEndpointProperties;
+  /** Edge location of the resource. */
+  extendedLocation: ExtendedLocation;
+}
+
+export function dataflowEndpointResourceSerializer(
+  item: DataflowEndpointResource,
+): Record<string, unknown> {
+  return {
+    properties: !item.properties
+      ? item.properties
+      : dataflowEndpointPropertiesSerializer(item.properties),
+    extendedLocation: extendedLocationSerializer(item.extendedLocation),
+  };
+}
+
+/** DataflowEndpoint Resource properties. NOTE - Only one type of endpoint is supported for one Resource */
+export interface DataflowEndpointProperties {
+  /** Endpoint Type. */
+  endpointType: EndpointType;
+  /** Azure Data Explorer endpoint. */
+  dataExplorerSettings?: DataflowEndpointDataExplorer;
+  /** Azure Data Lake endpoint. */
+  dataLakeStorageSettings?: DataflowEndpointDataLakeStorage;
+  /** Microsoft Fabric endpoint. */
+  fabricOneLakeSettings?: DataflowEndpointFabricOneLake;
+  /** Kafka endpoint. */
+  kafkaSettings?: DataflowEndpointKafka;
+  /** Local persistent volume endpoint. */
+  localStorageSettings?: DataflowEndpointLocalStorage;
+  /** Broker endpoint. */
+  mqttSettings?: DataflowEndpointMqtt;
+  /** The status of the last operation. */
+  readonly provisioningState?: ProvisioningState;
+}
+
+export function dataflowEndpointPropertiesSerializer(
+  item: DataflowEndpointProperties,
+): Record<string, unknown> {
+  return {
+    endpointType: item["endpointType"],
+    dataExplorerSettings: !item.dataExplorerSettings
+      ? item.dataExplorerSettings
+      : dataflowEndpointDataExplorerSerializer(item.dataExplorerSettings),
+    dataLakeStorageSettings: !item.dataLakeStorageSettings
+      ? item.dataLakeStorageSettings
+      : dataflowEndpointDataLakeStorageSerializer(item.dataLakeStorageSettings),
+    fabricOneLakeSettings: !item.fabricOneLakeSettings
+      ? item.fabricOneLakeSettings
+      : dataflowEndpointFabricOneLakeSerializer(item.fabricOneLakeSettings),
+    kafkaSettings: !item.kafkaSettings
+      ? item.kafkaSettings
+      : dataflowEndpointKafkaSerializer(item.kafkaSettings),
+    localStorageSettings: !item.localStorageSettings
+      ? item.localStorageSettings
+      : dataflowEndpointLocalStorageSerializer(item.localStorageSettings),
+    mqttSettings: !item.mqttSettings
+      ? item.mqttSettings
+      : dataflowEndpointMqttSerializer(item.mqttSettings),
+  };
+}
+
+/** Known values of {@link EndpointType} that the service accepts. */
+export enum KnownEndpointType {
+  /** DataExplorer */
+  DataExplorer = "DataExplorer",
+  /** DataLakeStorage */
+  DataLakeStorage = "DataLakeStorage",
+  /** FabricOneLake */
+  FabricOneLake = "FabricOneLake",
+  /** Kafka */
+  Kafka = "Kafka",
+  /** LocalStorage */
+  LocalStorage = "LocalStorage",
+  /** Mqtt */
+  Mqtt = "Mqtt",
+}
+
+/**
+ * DataflowEndpoint Type properties \
+ * {@link KnownEndpointType} can be used interchangeably with EndpointType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **DataExplorer** \
+ * **DataLakeStorage** \
+ * **FabricOneLake** \
+ * **Kafka** \
+ * **LocalStorage** \
+ * **Mqtt**
+ */
+export type EndpointType = string;
+
+/** Azure Data Explorer endpoint properties */
+export interface DataflowEndpointDataExplorer {
+  /** Authentication configuration. NOTE - only authentication property is allowed per entry. */
+  authentication: DataflowEndpointDataExplorerAuthentication;
+  /** Database name. */
+  database: string;
+  /** Host of the Azure Data Explorer in the form of <cluster>.<region>.kusto.windows.net . */
+  host: string;
+  /** Azure Data Explorer endpoint batching configuration. */
+  batching?: BatchingConfiguration;
+}
+
+export function dataflowEndpointDataExplorerSerializer(
+  item: DataflowEndpointDataExplorer,
+): Record<string, unknown> {
+  return {
+    authentication: dataflowEndpointDataExplorerAuthenticationSerializer(
+      item.authentication,
+    ),
+    database: item["database"],
+    host: item["host"],
+    batching: !item.batching
+      ? item.batching
+      : batchingConfigurationSerializer(item.batching),
+  };
+}
+
+/** Azure Data Explorer Authentication properties. NOTE - only authentication property is allowed per entry. */
+export interface DataflowEndpointDataExplorerAuthentication {
+  /** Mode of Authentication. */
+  method: DataExplorerAuthMethod;
+  /** System-assigned managed identity authentication. */
+  systemAssignedManagedIdentitySettings?: DataflowEndpointAuthenticationSystemAssignedManagedIdentity;
+  /** User-assigned managed identity authentication. */
+  userAssignedManagedIdentitySettings?: DataflowEndpointAuthenticationUserAssignedManagedIdentity;
+}
+
+export function dataflowEndpointDataExplorerAuthenticationSerializer(
+  item: DataflowEndpointDataExplorerAuthentication,
+): Record<string, unknown> {
+  return {
+    method: item["method"],
+    systemAssignedManagedIdentitySettings:
+      !item.systemAssignedManagedIdentitySettings
+        ? item.systemAssignedManagedIdentitySettings
+        : dataflowEndpointAuthenticationSystemAssignedManagedIdentitySerializer(
+            item.systemAssignedManagedIdentitySettings,
+          ),
+    userAssignedManagedIdentitySettings:
+      !item.userAssignedManagedIdentitySettings
+        ? item.userAssignedManagedIdentitySettings
+        : dataflowEndpointAuthenticationUserAssignedManagedIdentitySerializer(
+            item.userAssignedManagedIdentitySettings,
+          ),
+  };
+}
+
+/** Known values of {@link ManagedIdentityMethod} that the service accepts. */
+export enum KnownManagedIdentityMethod {
+  /** SystemAssignedManagedIdentity */
+  SystemAssignedManagedIdentity = "SystemAssignedManagedIdentity",
+  /** UserAssignedManagedIdentity */
+  UserAssignedManagedIdentity = "UserAssignedManagedIdentity",
+}
+
+/**
+ * Managed Identity Method \
+ * {@link KnownManagedIdentityMethod} can be used interchangeably with ManagedIdentityMethod,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SystemAssignedManagedIdentity** \
+ * **UserAssignedManagedIdentity**
+ */
+export type ManagedIdentityMethod = string;
+
+/** DataflowEndpoint Authentication SystemAssignedManagedIdentity properties */
+export interface DataflowEndpointAuthenticationSystemAssignedManagedIdentity {
+  /** Audience of the service to authenticate against. Optional; defaults to the audience for Service host configuration. */
+  audience?: string;
+}
+
+export function dataflowEndpointAuthenticationSystemAssignedManagedIdentitySerializer(
+  item: DataflowEndpointAuthenticationSystemAssignedManagedIdentity,
+): Record<string, unknown> {
+  return {
+    audience: item["audience"],
+  };
+}
+
+/** DataflowEndpoint Authentication UserAssignedManagedIdentity properties */
+export interface DataflowEndpointAuthenticationUserAssignedManagedIdentity {
+  /** Client ID for the user-assigned managed identity. */
+  clientId: string;
+  /** Resource identifier (application ID URI) of the resource, affixed with the .default suffix. */
+  scope?: string;
+  /** Tenant ID. */
+  tenantId: string;
+}
+
+export function dataflowEndpointAuthenticationUserAssignedManagedIdentitySerializer(
+  item: DataflowEndpointAuthenticationUserAssignedManagedIdentity,
+): Record<string, unknown> {
+  return {
+    clientId: item["clientId"],
+    scope: item["scope"],
+    tenantId: item["tenantId"],
+  };
+}
+
+/** Batching configuration */
+export interface BatchingConfiguration {
+  /** Batching latency in seconds. */
+  latencySeconds?: number;
+  /** Maximum number of messages in a batch. */
+  maxMessages?: number;
+}
+
+export function batchingConfigurationSerializer(
+  item: BatchingConfiguration,
+): Record<string, unknown> {
+  return {
+    latencySeconds: item["latencySeconds"],
+    maxMessages: item["maxMessages"],
+  };
+}
+
+/** Azure Data Lake endpoint properties */
+export interface DataflowEndpointDataLakeStorage {
+  /** Authentication configuration. NOTE - only authentication property is allowed per entry. */
+  authentication: DataflowEndpointDataLakeStorageAuthentication;
+  /** Host of the Azure Data Lake in the form of <account>.blob.core.windows.net . */
+  host: string;
+  /** Azure Data Lake endpoint batching configuration. */
+  batching?: BatchingConfiguration;
+}
+
+export function dataflowEndpointDataLakeStorageSerializer(
+  item: DataflowEndpointDataLakeStorage,
+): Record<string, unknown> {
+  return {
+    authentication: dataflowEndpointDataLakeStorageAuthenticationSerializer(
+      item.authentication,
+    ),
+    host: item["host"],
+    batching: !item.batching
+      ? item.batching
+      : batchingConfigurationSerializer(item.batching),
+  };
+}
+
+/** Azure Data Lake endpoint Authentication properties.  NOTE Enum - Only one method is supported for one entry */
+export interface DataflowEndpointDataLakeStorageAuthentication {
+  /** Mode of Authentication. */
+  method: DataLakeStorageAuthMethod;
+  /** SAS token authentication. */
+  accessTokenSettings?: DataflowEndpointAuthenticationAccessToken;
+  /** System-assigned managed identity authentication. */
+  systemAssignedManagedIdentitySettings?: DataflowEndpointAuthenticationSystemAssignedManagedIdentity;
+  /** User-assigned managed identity authentication. */
+  userAssignedManagedIdentitySettings?: DataflowEndpointAuthenticationUserAssignedManagedIdentity;
+}
+
+export function dataflowEndpointDataLakeStorageAuthenticationSerializer(
+  item: DataflowEndpointDataLakeStorageAuthentication,
+): Record<string, unknown> {
+  return {
+    method: item["method"],
+    accessTokenSettings: !item.accessTokenSettings
+      ? item.accessTokenSettings
+      : dataflowEndpointAuthenticationAccessTokenSerializer(
+          item.accessTokenSettings,
+        ),
+    systemAssignedManagedIdentitySettings:
+      !item.systemAssignedManagedIdentitySettings
+        ? item.systemAssignedManagedIdentitySettings
+        : dataflowEndpointAuthenticationSystemAssignedManagedIdentitySerializer(
+            item.systemAssignedManagedIdentitySettings,
+          ),
+    userAssignedManagedIdentitySettings:
+      !item.userAssignedManagedIdentitySettings
+        ? item.userAssignedManagedIdentitySettings
+        : dataflowEndpointAuthenticationUserAssignedManagedIdentitySerializer(
+            item.userAssignedManagedIdentitySettings,
+          ),
+  };
+}
+
+/** Known values of {@link AccessTokenMethod} that the service accepts. */
+export enum KnownAccessTokenMethod {
+  /** AccessToken */
+  AccessToken = "AccessToken",
+}
+
+/**
+ * Access Token Method \
+ * {@link KnownAccessTokenMethod} can be used interchangeably with AccessTokenMethod,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AccessToken**
+ */
+export type AccessTokenMethod = string;
+
+/** DataflowEndpoint Authentication Access Token properties */
+export interface DataflowEndpointAuthenticationAccessToken {
+  /** Token secret name. */
+  secretRef: string;
+}
+
+export function dataflowEndpointAuthenticationAccessTokenSerializer(
+  item: DataflowEndpointAuthenticationAccessToken,
+): Record<string, unknown> {
+  return {
+    secretRef: item["secretRef"],
+  };
+}
+
+/** Microsoft Fabric endpoint properties */
+export interface DataflowEndpointFabricOneLake {
+  /** Authentication configuration. NOTE - only one authentication property is allowed per entry. */
+  authentication: DataflowEndpointFabricOneLakeAuthentication;
+  /** Names of the workspace and lakehouse. */
+  names: DataflowEndpointFabricOneLakeNames;
+  /** Type of location of the data in the workspace. Can be either tables or files. */
+  oneLakePathType: DataflowEndpointFabricPathType;
+  /** Host of the Microsoft Fabric in the form of https://<host>.fabric.microsoft.com. */
+  host: string;
+  /** Batching configuration. */
+  batching?: BatchingConfiguration;
+}
+
+export function dataflowEndpointFabricOneLakeSerializer(
+  item: DataflowEndpointFabricOneLake,
+): Record<string, unknown> {
+  return {
+    authentication: dataflowEndpointFabricOneLakeAuthenticationSerializer(
+      item.authentication,
+    ),
+    names: dataflowEndpointFabricOneLakeNamesSerializer(item.names),
+    oneLakePathType: item["oneLakePathType"],
+    host: item["host"],
+    batching: !item.batching
+      ? item.batching
+      : batchingConfigurationSerializer(item.batching),
+  };
+}
+
+/** Microsoft Fabric endpoint. Authentication properties. NOTE - Only one method is supported for one entry */
+export interface DataflowEndpointFabricOneLakeAuthentication {
+  /** Mode of Authentication. */
+  method: FabricOneLakeAuthMethod;
+  /** System-assigned managed identity authentication. */
+  systemAssignedManagedIdentitySettings?: DataflowEndpointAuthenticationSystemAssignedManagedIdentity;
+  /** User-assigned managed identity authentication. */
+  userAssignedManagedIdentitySettings?: DataflowEndpointAuthenticationUserAssignedManagedIdentity;
+}
+
+export function dataflowEndpointFabricOneLakeAuthenticationSerializer(
+  item: DataflowEndpointFabricOneLakeAuthentication,
+): Record<string, unknown> {
+  return {
+    method: item["method"],
+    systemAssignedManagedIdentitySettings:
+      !item.systemAssignedManagedIdentitySettings
+        ? item.systemAssignedManagedIdentitySettings
+        : dataflowEndpointAuthenticationSystemAssignedManagedIdentitySerializer(
+            item.systemAssignedManagedIdentitySettings,
+          ),
+    userAssignedManagedIdentitySettings:
+      !item.userAssignedManagedIdentitySettings
+        ? item.userAssignedManagedIdentitySettings
+        : dataflowEndpointAuthenticationUserAssignedManagedIdentitySerializer(
+            item.userAssignedManagedIdentitySettings,
+          ),
+  };
+}
+
+/** Microsoft Fabric endpoint Names properties */
+export interface DataflowEndpointFabricOneLakeNames {
+  /** Lakehouse name. */
+  lakehouseName: string;
+  /** Workspace name. */
+  workspaceName: string;
+}
+
+export function dataflowEndpointFabricOneLakeNamesSerializer(
+  item: DataflowEndpointFabricOneLakeNames,
+): Record<string, unknown> {
+  return {
+    lakehouseName: item["lakehouseName"],
+    workspaceName: item["workspaceName"],
+  };
+}
+
+/** Known values of {@link DataflowEndpointFabricPathType} that the service accepts. */
+export enum KnownDataflowEndpointFabricPathType {
+  /** Files */
+  Files = "Files",
+  /** Tables */
+  Tables = "Tables",
+}
+
+/**
+ * DataflowEndpoint Fabric Path Type properties \
+ * {@link KnownDataflowEndpointFabricPathType} can be used interchangeably with DataflowEndpointFabricPathType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Files** \
+ * **Tables**
+ */
+export type DataflowEndpointFabricPathType = string;
+
+/** Kafka endpoint properties */
+export interface DataflowEndpointKafka {
+  /** Authentication configuration. NOTE - only authentication property is allowed per entry. */
+  authentication: DataflowEndpointKafkaAuthentication;
+  /** Consumer group ID. */
+  consumerGroupId?: string;
+  /** Kafka endpoint host. */
+  host: string;
+  /** Batching configuration. */
+  batching?: DataflowEndpointKafkaBatching;
+  /** Copy Broker properties. No effect if the endpoint is used as a source or if the dataflow doesn't have an Broker source. */
+  copyMqttProperties?: OperationalMode;
+  /** Compression. Can be none, gzip, lz4, or snappy. No effect if the endpoint is used as a source. */
+  compression?: DataflowEndpointKafkaCompression;
+  /** Kafka acks. Can be all, one, or zero. No effect if the endpoint is used as a source. */
+  kafkaAcks?: DataflowEndpointKafkaAcks;
+  /** Partition handling strategy. Can be default or static. No effect if the endpoint is used as a source. */
+  partitionStrategy?: DataflowEndpointKafkaPartitionStrategy;
+  /** TLS configuration. */
+  tls?: TlsProperties;
+  /** Cloud event mapping config. */
+  cloudEventAttributes?: CloudEventAttributeType;
+}
+
+export function dataflowEndpointKafkaSerializer(
+  item: DataflowEndpointKafka,
+): Record<string, unknown> {
+  return {
+    authentication: dataflowEndpointKafkaAuthenticationSerializer(
+      item.authentication,
+    ),
+    consumerGroupId: item["consumerGroupId"],
+    host: item["host"],
+    batching: !item.batching
+      ? item.batching
+      : dataflowEndpointKafkaBatchingSerializer(item.batching),
+    copyMqttProperties: item["copyMqttProperties"],
+    compression: item["compression"],
+    kafkaAcks: item["kafkaAcks"],
+    partitionStrategy: item["partitionStrategy"],
+    tls: !item.tls ? item.tls : tlsPropertiesSerializer(item.tls),
+    cloudEventAttributes: item["cloudEventAttributes"],
+  };
+}
+
+/** Kafka endpoint Authentication properties. NOTE - only authentication property is allowed per entry */
+export interface DataflowEndpointKafkaAuthentication {
+  /** Mode of Authentication. */
+  method: KafkaAuthMethod;
+  /** System-assigned managed identity authentication. */
+  systemAssignedManagedIdentitySettings?: DataflowEndpointAuthenticationSystemAssignedManagedIdentity;
+  /** User-assigned managed identity authentication. */
+  userAssignedManagedIdentitySettings?: DataflowEndpointAuthenticationUserAssignedManagedIdentity;
+  /** SASL authentication. */
+  saslSettings?: DataflowEndpointAuthenticationSasl;
+  /** X.509 certificate authentication. */
+  x509CertificateSettings?: DataflowEndpointAuthenticationX509;
+}
+
+export function dataflowEndpointKafkaAuthenticationSerializer(
+  item: DataflowEndpointKafkaAuthentication,
+): Record<string, unknown> {
+  return {
+    method: item["method"],
+    systemAssignedManagedIdentitySettings:
+      !item.systemAssignedManagedIdentitySettings
+        ? item.systemAssignedManagedIdentitySettings
+        : dataflowEndpointAuthenticationSystemAssignedManagedIdentitySerializer(
+            item.systemAssignedManagedIdentitySettings,
+          ),
+    userAssignedManagedIdentitySettings:
+      !item.userAssignedManagedIdentitySettings
+        ? item.userAssignedManagedIdentitySettings
+        : dataflowEndpointAuthenticationUserAssignedManagedIdentitySerializer(
+            item.userAssignedManagedIdentitySettings,
+          ),
+    saslSettings: !item.saslSettings
+      ? item.saslSettings
+      : dataflowEndpointAuthenticationSaslSerializer(item.saslSettings),
+    x509CertificateSettings: !item.x509CertificateSettings
+      ? item.x509CertificateSettings
+      : dataflowEndpointAuthenticationX509Serializer(
+          item.x509CertificateSettings,
+        ),
+  };
+}
+
+/** Known values of {@link SaslMethod} that the service accepts. */
+export enum KnownSaslMethod {
+  /** Sasl */
+  Sasl = "Sasl",
+}
+
+/**
+ * Sasl Method \
+ * {@link KnownSaslMethod} can be used interchangeably with SaslMethod,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Sasl**
+ */
+export type SaslMethod = string;
+
+/** Known values of {@link X509CertificateMethod} that the service accepts. */
+export enum KnownX509CertificateMethod {
+  /** X509Certificate */
+  X509Certificate = "X509Certificate",
+}
+
+/**
+ * x509 Certificate Method \
+ * {@link KnownX509CertificateMethod} can be used interchangeably with X509CertificateMethod,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **X509Certificate**
+ */
+export type X509CertificateMethod = string;
+
+/** Known values of {@link AnonymousMethod} that the service accepts. */
+export enum KnownAnonymousMethod {
+  /** Anonymous */
+  Anonymous = "Anonymous",
+}
+
+/**
+ * x509 Certificate Method \
+ * {@link KnownAnonymousMethod} can be used interchangeably with AnonymousMethod,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Anonymous**
+ */
+export type AnonymousMethod = string;
+
+/** DataflowEndpoint Authentication Sasl properties */
+export interface DataflowEndpointAuthenticationSasl {
+  /** Type of SASL authentication. Can be PLAIN, SCRAM-SHA-256, or SCRAM-SHA-512. */
+  saslType: DataflowEndpointAuthenticationSaslType;
+  /** Token secret name. */
+  secretRef: string;
+}
+
+export function dataflowEndpointAuthenticationSaslSerializer(
+  item: DataflowEndpointAuthenticationSasl,
+): Record<string, unknown> {
+  return {
+    saslType: item["saslType"],
+    secretRef: item["secretRef"],
+  };
+}
+
+/** Known values of {@link DataflowEndpointAuthenticationSaslType} that the service accepts. */
+export enum KnownDataflowEndpointAuthenticationSaslType {
+  /** Plain */
+  Plain = "Plain",
+  /** ScramSha256 */
+  ScramSha256 = "ScramSha256",
+  /** ScramSha512 */
+  ScramSha512 = "ScramSha512",
+}
+
+/**
+ * DataflowEndpoint Authentication Sasl Type properties \
+ * {@link KnownDataflowEndpointAuthenticationSaslType} can be used interchangeably with DataflowEndpointAuthenticationSaslType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Plain** \
+ * **ScramSha256** \
+ * **ScramSha512**
+ */
+export type DataflowEndpointAuthenticationSaslType = string;
+
+/** DataflowEndpoint Authentication X509 properties */
+export interface DataflowEndpointAuthenticationX509 {
+  /** Secret reference of the X.509 certificate. */
+  secretRef: string;
+}
+
+export function dataflowEndpointAuthenticationX509Serializer(
+  item: DataflowEndpointAuthenticationX509,
+): Record<string, unknown> {
+  return {
+    secretRef: item["secretRef"],
+  };
+}
+
+/** Kafka endpoint Batching properties */
+export interface DataflowEndpointKafkaBatching {
+  /** Mode for batching. */
+  mode?: OperationalMode;
+  /** Batching latency in milliseconds. */
+  latencyMs?: number;
+  /** Maximum number of bytes in a batch. */
+  maxBytes?: number;
+  /** Maximum number of messages in a batch. */
+  maxMessages?: number;
+}
+
+export function dataflowEndpointKafkaBatchingSerializer(
+  item: DataflowEndpointKafkaBatching,
+): Record<string, unknown> {
+  return {
+    mode: item["mode"],
+    latencyMs: item["latencyMs"],
+    maxBytes: item["maxBytes"],
+    maxMessages: item["maxMessages"],
+  };
+}
+
+/** Known values of {@link OperationalMode} that the service accepts. */
+export enum KnownOperationalMode {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled",
+}
+
+/**
+ * Mode properties \
+ * {@link KnownOperationalMode} can be used interchangeably with OperationalMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type OperationalMode = string;
+
+/** Known values of {@link DataflowEndpointKafkaCompression} that the service accepts. */
+export enum KnownDataflowEndpointKafkaCompression {
+  /** None */
+  None = "None",
+  /** Gzip */
+  Gzip = "Gzip",
+  /** Snappy */
+  Snappy = "Snappy",
+  /** Lz4 */
+  Lz4 = "Lz4",
+}
+
+/**
+ * Kafka endpoint Compression properties \
+ * {@link KnownDataflowEndpointKafkaCompression} can be used interchangeably with DataflowEndpointKafkaCompression,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **Gzip** \
+ * **Snappy** \
+ * **Lz4**
+ */
+export type DataflowEndpointKafkaCompression = string;
+
+/** Known values of {@link DataflowEndpointKafkaAcks} that the service accepts. */
+export enum KnownDataflowEndpointKafkaAcks {
+  /** Zero */
+  Zero = "Zero",
+  /** One */
+  One = "One",
+  /** All */
+  All = "All",
+}
+
+/**
+ * DataflowEndpoint Kafka Acks properties \
+ * {@link KnownDataflowEndpointKafkaAcks} can be used interchangeably with DataflowEndpointKafkaAcks,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Zero** \
+ * **One** \
+ * **All**
+ */
+export type DataflowEndpointKafkaAcks = string;
+
+/** Known values of {@link DataflowEndpointKafkaPartitionStrategy} that the service accepts. */
+export enum KnownDataflowEndpointKafkaPartitionStrategy {
+  /** Default */
+  Default = "Default",
+  /** Static */
+  Static = "Static",
+  /** Topic */
+  Topic = "Topic",
+  /** Property */
+  Property = "Property",
+}
+
+/**
+ * DataflowEndpoint Kafka Partition Strategy properties \
+ * {@link KnownDataflowEndpointKafkaPartitionStrategy} can be used interchangeably with DataflowEndpointKafkaPartitionStrategy,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Default** \
+ * **Static** \
+ * **Topic** \
+ * **Property**
+ */
+export type DataflowEndpointKafkaPartitionStrategy = string;
+
+/** Tls properties */
+export interface TlsProperties {
+  /** Mode for TLS. */
+  mode?: OperationalMode;
+  /** Trusted CA certificate config map. */
+  trustedCaCertificateConfigMapRef?: string;
+}
+
+export function tlsPropertiesSerializer(
+  item: TlsProperties,
+): Record<string, unknown> {
+  return {
+    mode: item["mode"],
+    trustedCaCertificateConfigMapRef: item["trustedCaCertificateConfigMapRef"],
+  };
+}
+
+/** Known values of {@link CloudEventAttributeType} that the service accepts. */
+export enum KnownCloudEventAttributeType {
+  /** Propagate */
+  Propagate = "Propagate",
+  /** CreateOrRemap */
+  CreateOrRemap = "CreateOrRemap",
+}
+
+/**
+ * How to map events to the cloud. \
+ * {@link KnownCloudEventAttributeType} can be used interchangeably with CloudEventAttributeType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Propagate** \
+ * **CreateOrRemap**
+ */
+export type CloudEventAttributeType = string;
+
+/** Local persistent volume endpoint properties */
+export interface DataflowEndpointLocalStorage {
+  /** Persistent volume claim name. */
+  persistentVolumeClaimRef: string;
+}
+
+export function dataflowEndpointLocalStorageSerializer(
+  item: DataflowEndpointLocalStorage,
+): Record<string, unknown> {
+  return {
+    persistentVolumeClaimRef: item["persistentVolumeClaimRef"],
+  };
+}
+
+/** Broker endpoint properties */
+export interface DataflowEndpointMqtt {
+  /** authentication properties. DEFAULT: kubernetes.audience=aio-mq-internal. NOTE - Enum field only property is allowed */
+  authentication: DataflowEndpointMqttAuthentication;
+  /** Client ID prefix. Client ID generated by the dataflow is <prefix>-TBD. Optional; no prefix if omitted. */
+  clientIdPrefix?: string;
+  /** Host of the Broker in the form of <hostname>:<port>. Optional; connects to Broker if omitted. */
+  host?: string;
+  /** Enable or disable websockets. */
+  protocol?: BrokerProtocolType;
+  /** Broker KeepAlive for connection in seconds. */
+  keepAliveSeconds?: number;
+  /** Whether or not to keep the retain setting. */
+  retain?: MqttRetainType;
+  /** The max number of messages to keep in flight. For subscribe, this is the receive maximum. For publish, this is the maximum number of messages to send before waiting for an ack. */
+  maxInflightMessages?: number;
+  /** Qos for Broker connection. */
+  qos?: number;
+  /** Session expiry in seconds. */
+  sessionExpirySeconds?: number;
+  /** TLS configuration. */
+  tls?: TlsProperties;
+  /** Cloud event mapping config. */
+  cloudEventAttributes?: CloudEventAttributeType;
+}
+
+export function dataflowEndpointMqttSerializer(
+  item: DataflowEndpointMqtt,
+): Record<string, unknown> {
+  return {
+    authentication: dataflowEndpointMqttAuthenticationSerializer(
+      item.authentication,
+    ),
+    clientIdPrefix: item["clientIdPrefix"],
+    host: item["host"],
+    protocol: item["protocol"],
+    keepAliveSeconds: item["keepAliveSeconds"],
+    retain: item["retain"],
+    maxInflightMessages: item["maxInflightMessages"],
+    qos: item["qos"],
+    sessionExpirySeconds: item["sessionExpirySeconds"],
+    tls: !item.tls ? item.tls : tlsPropertiesSerializer(item.tls),
+    cloudEventAttributes: item["cloudEventAttributes"],
+  };
+}
+
+/** Mqtt endpoint Authentication properties. NOTE - only authentication property is allowed per entry. */
+export interface DataflowEndpointMqttAuthentication {
+  /** Mode of Authentication. */
+  method: MqttAuthMethod;
+  /** System-assigned managed identity authentication. */
+  systemAssignedManagedIdentitySettings?: DataflowEndpointAuthenticationSystemAssignedManagedIdentity;
+  /** User-assigned managed identity authentication. */
+  userAssignedManagedIdentitySettings?: DataflowEndpointAuthenticationUserAssignedManagedIdentity;
+  /** Kubernetes service account token authentication. Default audience if not set is aio-mq-internal */
+  serviceAccountTokenSettings?: DataflowEndpointAuthenticationServiceAccountToken;
+  /** X.509 certificate authentication. */
+  x509CertificateSettings?: DataflowEndpointAuthenticationX509;
+}
+
+export function dataflowEndpointMqttAuthenticationSerializer(
+  item: DataflowEndpointMqttAuthentication,
+): Record<string, unknown> {
+  return {
+    method: item["method"],
+    systemAssignedManagedIdentitySettings:
+      !item.systemAssignedManagedIdentitySettings
+        ? item.systemAssignedManagedIdentitySettings
+        : dataflowEndpointAuthenticationSystemAssignedManagedIdentitySerializer(
+            item.systemAssignedManagedIdentitySettings,
+          ),
+    userAssignedManagedIdentitySettings:
+      !item.userAssignedManagedIdentitySettings
+        ? item.userAssignedManagedIdentitySettings
+        : dataflowEndpointAuthenticationUserAssignedManagedIdentitySerializer(
+            item.userAssignedManagedIdentitySettings,
+          ),
+    serviceAccountTokenSettings: !item.serviceAccountTokenSettings
+      ? item.serviceAccountTokenSettings
+      : dataflowEndpointAuthenticationServiceAccountTokenSerializer(
+          item.serviceAccountTokenSettings,
+        ),
+    x509CertificateSettings: !item.x509CertificateSettings
+      ? item.x509CertificateSettings
+      : dataflowEndpointAuthenticationX509Serializer(
+          item.x509CertificateSettings,
+        ),
+  };
+}
+
+/** Known values of {@link ServiceAccountTokenMethod} that the service accepts. */
+export enum KnownServiceAccountTokenMethod {
+  /** ServiceAccountToken */
+  ServiceAccountToken = "ServiceAccountToken",
+}
+
+/**
+ * Service Account Token Method \
+ * {@link KnownServiceAccountTokenMethod} can be used interchangeably with ServiceAccountTokenMethod,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ServiceAccountToken**
+ */
+export type ServiceAccountTokenMethod = string;
+
+/** Service Account Token for BrokerAuthentication */
+export interface DataflowEndpointAuthenticationServiceAccountToken {
+  /** Audience of the service account. Optional, defaults to the broker internal service account audience. */
+  audience: string;
+}
+
+export function dataflowEndpointAuthenticationServiceAccountTokenSerializer(
+  item: DataflowEndpointAuthenticationServiceAccountToken,
+): Record<string, unknown> {
+  return {
+    audience: item["audience"],
+  };
+}
+
+/** Known values of {@link BrokerProtocolType} that the service accepts. */
+export enum KnownBrokerProtocolType {
+  /** Mqtt */
+  Mqtt = "Mqtt",
+  /** WebSockets */
+  WebSockets = "WebSockets",
+}
+
+/**
+ * Broker Protocol types \
+ * {@link KnownBrokerProtocolType} can be used interchangeably with BrokerProtocolType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Mqtt** \
+ * **WebSockets**
+ */
+export type BrokerProtocolType = string;
+
+/** Known values of {@link MqttRetainType} that the service accepts. */
+export enum KnownMqttRetainType {
+  /** Keep */
+  Keep = "Keep",
+  /** Never */
+  Never = "Never",
+}
+
+/**
+ * Broker Retain types \
+ * {@link KnownMqttRetainType} can be used interchangeably with MqttRetainType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Keep** \
+ * **Never**
+ */
+export type MqttRetainType = string;
+
+/** Known values of {@link ResourceProvisioningState} that the service accepts. */
+export enum KnownResourceProvisioningState {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled",
+}
+
+/**
+ * The provisioning state of a resource type. \
+ * {@link KnownResourceProvisioningState} can be used interchangeably with ResourceProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled**
+ */
+export type ResourceProvisioningState = string;
+
+/** Extended location is an extension of Azure locations. They provide a way to use their Azure ARC enabled Kubernetes clusters as target locations for deploying Azure services instances. */
+export interface ExtendedLocation {
+  /** The name of the extended location. */
+  name: string;
+  /** Type of ExtendedLocation. */
+  type: ExtendedLocationType;
+}
+
+export function extendedLocationSerializer(
+  item: ExtendedLocation,
+): Record<string, unknown> {
+  return {
+    name: item["name"],
+    type: item["type"],
+  };
+}
+
+/** Known values of {@link ExtendedLocationType} that the service accepts. */
+export enum KnownExtendedLocationType {
+  /** CustomLocation */
+  CustomLocation = "CustomLocation",
+}
+
+/**
+ * The enum defining type of ExtendedLocation accepted. \
+ * {@link KnownExtendedLocationType} can be used interchangeably with ExtendedLocationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **CustomLocation**
+ */
+export type ExtendedLocationType = string;
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /** The error code. */
+  readonly code?: string;
+  /** The error message. */
+  readonly message?: string;
+  /** The error target. */
+  readonly target?: string;
+  /** The error details. */
+  readonly details?: ErrorDetail[];
+  /** The error additional info. */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /** The additional info type. */
+  readonly type?: string;
+  /** The additional info. */
+  readonly info?: Record<string, any>;
+}
+
+/** The response of a DataflowEndpointResource list operation. */
+export interface _DataflowEndpointResourceListResult {
+  /** The DataflowEndpointResource items on this page */
+  value: DataflowEndpointResource[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** Instance dataflowProfile dataflow resource */
+export interface DataflowResource extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: DataflowProperties;
+  /** Edge location of the resource. */
+  extendedLocation: ExtendedLocation;
+}
+
+export function dataflowResourceSerializer(
+  item: DataflowResource,
+): Record<string, unknown> {
+  return {
+    properties: !item.properties
+      ? item.properties
+      : dataflowPropertiesSerializer(item.properties),
+    extendedLocation: extendedLocationSerializer(item.extendedLocation),
+  };
+}
+
+/** Dataflow Resource properties */
+export interface DataflowProperties {
+  /** Mode for Dataflow. Optional; defaults to Enabled. */
+  mode?: OperationalMode;
+  /** List of operations including source and destination references as well as transformation. */
+  operations: DataflowOperationDetails[];
+  /** The status of the last operation. */
+  readonly provisioningState?: ProvisioningState;
+}
+
+export function dataflowPropertiesSerializer(
+  item: DataflowProperties,
+): Record<string, unknown> {
+  return {
+    mode: item["mode"],
+    operations: item["operations"].map(dataflowOperationDetailsSerializer),
+  };
+}
+
+/** Dataflow Operation properties. NOTE - One only method is allowed to be used for one entry. */
+export interface DataflowOperationDetails {
+  /** Type of operation. */
+  operationType: OperationType;
+  /** Optional user provided name of the transformation. */
+  name?: string;
+  /** Source configuration. */
+  sourceSettings?: DataflowSourceOperationSettings;
+  /** Built In Transformation configuration. */
+  builtInTransformationSettings?: DataflowBuiltInTransformationSettings;
+  /** Destination configuration. */
+  destinationSettings?: DataflowDestinationOperationSettings;
+}
+
+export function dataflowOperationDetailsSerializer(
+  item: DataflowOperationDetails,
+): Record<string, unknown> {
+  return {
+    operationType: item["operationType"],
+    name: item["name"],
+    sourceSettings: !item.sourceSettings
+      ? item.sourceSettings
+      : dataflowSourceOperationSettingsSerializer(item.sourceSettings),
+    builtInTransformationSettings: !item.builtInTransformationSettings
+      ? item.builtInTransformationSettings
+      : dataflowBuiltInTransformationSettingsSerializer(
+          item.builtInTransformationSettings,
+        ),
+    destinationSettings: !item.destinationSettings
+      ? item.destinationSettings
+      : dataflowDestinationOperationSettingsSerializer(
+          item.destinationSettings,
+        ),
+  };
+}
+
+/** Known values of {@link OperationType} that the service accepts. */
+export enum KnownOperationType {
+  /** Source */
+  Source = "Source",
+  /** Destination */
+  Destination = "Destination",
+  /** BuiltInTransformation */
+  BuiltInTransformation = "BuiltInTransformation",
+}
+
+/**
+ * Dataflow Operation Type properties \
+ * {@link KnownOperationType} can be used interchangeably with OperationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Source** \
+ * **Destination** \
+ * **BuiltInTransformation**
+ */
+export type OperationType = string;
+
+/** Dataflow Source Operation properties */
+export interface DataflowSourceOperationSettings {
+  /** Reference to the Dataflow Endpoint resource. Can only be of Broker and Kafka type. */
+  endpointRef: string;
+  /** Reference to the resource in Azure Device Registry where the data in the endpoint originates from. */
+  assetRef?: string;
+  /** Content is a JSON Schema. Allowed: JSON Schema/draft-7. */
+  serializationFormat?: SourceSerializationFormat;
+  /** Schema CR reference. Data will be deserialized according to the schema, and dropped if it doesn't match. */
+  schemaRef?: string;
+  /** List of source locations. Can be Broker or Kafka topics. Supports wildcards # and +. */
+  dataSources: string[];
+}
+
+export function dataflowSourceOperationSettingsSerializer(
+  item: DataflowSourceOperationSettings,
+): Record<string, unknown> {
+  return {
+    endpointRef: item["endpointRef"],
+    assetRef: item["assetRef"],
+    serializationFormat: item["serializationFormat"],
+    schemaRef: item["schemaRef"],
+    dataSources: item["dataSources"],
+  };
+}
+
+/** Known values of {@link SourceSerializationFormat} that the service accepts. */
+export enum KnownSourceSerializationFormat {
+  /** Json */
+  Json = "Json",
+}
+
+/**
+ * Serialization Format properties \
+ * {@link KnownSourceSerializationFormat} can be used interchangeably with SourceSerializationFormat,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Json**
+ */
+export type SourceSerializationFormat = string;
+
+/** Dataflow BuiltIn Transformation properties */
+export interface DataflowBuiltInTransformationSettings {
+  /** Serialization format. Optional; defaults to JSON. Allowed value JSON Schema/draft-7, Parquet. Default: Json */
+  serializationFormat?: TransformationSerializationFormat;
+  /** Reference to the schema that describes the output of the transformation. */
+  schemaRef?: string;
+  /** Enrich data from Broker State Store. Dataset references a key in Broker State Store. */
+  datasets?: DataflowBuiltInTransformationDataset[];
+  /** Filters input record or datapoints based on condition. */
+  filter?: DataflowBuiltInTransformationFilter[];
+  /** Maps input to output message. */
+  map?: DataflowBuiltInTransformationMap[];
+}
+
+export function dataflowBuiltInTransformationSettingsSerializer(
+  item: DataflowBuiltInTransformationSettings,
+): Record<string, unknown> {
+  return {
+    serializationFormat: item["serializationFormat"],
+    schemaRef: item["schemaRef"],
+    datasets:
+      item["datasets"] === undefined
+        ? item["datasets"]
+        : item["datasets"].map(dataflowBuiltInTransformationDatasetSerializer),
+    filter:
+      item["filter"] === undefined
+        ? item["filter"]
+        : item["filter"].map(dataflowBuiltInTransformationFilterSerializer),
+    map:
+      item["map"] === undefined
+        ? item["map"]
+        : item["map"].map(dataflowBuiltInTransformationMapSerializer),
+  };
+}
+
+/** Known values of {@link TransformationSerializationFormat} that the service accepts. */
+export enum KnownTransformationSerializationFormat {
+  /** Delta */
+  Delta = "Delta",
+  /** Json */
+  Json = "Json",
+  /** Parquet */
+  Parquet = "Parquet",
+}
+
+/**
+ * Transformation Format properties \
+ * {@link KnownTransformationSerializationFormat} can be used interchangeably with TransformationSerializationFormat,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Delta** \
+ * **Json** \
+ * **Parquet**
+ */
+export type TransformationSerializationFormat = string;
+
+/** Dataflow BuiltIn Transformation dataset properties */
+export interface DataflowBuiltInTransformationDataset {
+  /** The key of the dataset. */
+  key: string;
+  /** A user provided optional description of the dataset. */
+  description?: string;
+  /** The reference to the schema that describes the dataset. Allowed: JSON Schema/draft-7. */
+  schemaRef?: string;
+  /** List of fields for enriching from the Broker State Store. */
+  inputs: string[];
+  /** Condition to enrich data from Broker State Store. Example: $1 < 0 || $1 > $2 (Assuming inputs section $1 and $2 are provided) */
+  expression?: string;
+}
+
+export function dataflowBuiltInTransformationDatasetSerializer(
+  item: DataflowBuiltInTransformationDataset,
+): Record<string, unknown> {
+  return {
+    key: item["key"],
+    description: item["description"],
+    schemaRef: item["schemaRef"],
+    inputs: item["inputs"],
+    expression: item["expression"],
+  };
+}
+
+/** Dataflow BuiltIn Transformation filter properties */
+export interface DataflowBuiltInTransformationFilter {
+  /** The type of dataflow operation. */
+  type?: FilterType;
+  /** A user provided optional description of the filter. */
+  description?: string;
+  /** List of fields for filtering in JSON path expression. */
+  inputs: string[];
+  /** Condition to filter data. Can reference input fields with {n} where n is the index of the input field starting from 1. Example: $1 < 0 || $1 > $2 (Assuming inputs section $1 and $2 are provided) */
+  expression: string;
+}
+
+export function dataflowBuiltInTransformationFilterSerializer(
+  item: DataflowBuiltInTransformationFilter,
+): Record<string, unknown> {
+  return {
+    type: item["type"],
+    description: item["description"],
+    inputs: item["inputs"],
+    expression: item["expression"],
+  };
+}
+
+/** Known values of {@link FilterType} that the service accepts. */
+export enum KnownFilterType {
+  /** Filter */
+  Filter = "Filter",
+}
+
+/**
+ * Filter Type properties \
+ * {@link KnownFilterType} can be used interchangeably with FilterType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Filter**
+ */
+export type FilterType = string;
+
+/** Dataflow BuiltIn Transformation map properties */
+export interface DataflowBuiltInTransformationMap {
+  /** Type of transformation. */
+  type?: DataflowMappingType;
+  /** A user provided optional description of the mapping function. */
+  description?: string;
+  /** List of fields for mapping in JSON path expression. */
+  inputs: string[];
+  /** Modify the inputs field(s) to the final output field. Example: $1 * 2.2 (Assuming inputs section $1 is provided) */
+  expression?: string;
+  /** Where and how the input fields to be organized in the output record. */
+  output: string;
+}
+
+export function dataflowBuiltInTransformationMapSerializer(
+  item: DataflowBuiltInTransformationMap,
+): Record<string, unknown> {
+  return {
+    type: item["type"],
+    description: item["description"],
+    inputs: item["inputs"],
+    expression: item["expression"],
+    output: item["output"],
+  };
+}
+
+/** Known values of {@link DataflowMappingType} that the service accepts. */
+export enum KnownDataflowMappingType {
+  /** NewProperties */
+  NewProperties = "NewProperties",
+  /** Rename */
+  Rename = "Rename",
+  /** Compute */
+  Compute = "Compute",
+  /** PassThrough */
+  PassThrough = "PassThrough",
+  /** BuiltInFunction */
+  BuiltInFunction = "BuiltInFunction",
+}
+
+/**
+ * Dataflow type mapping properties \
+ * {@link KnownDataflowMappingType} can be used interchangeably with DataflowMappingType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NewProperties** \
+ * **Rename** \
+ * **Compute** \
+ * **PassThrough** \
+ * **BuiltInFunction**
+ */
+export type DataflowMappingType = string;
+
+/** Dataflow Destination Operation properties */
+export interface DataflowDestinationOperationSettings {
+  /** Reference to the Endpoint CR. Can be of Broker, Kafka, Fabric, ADLS, ADX type. */
+  endpointRef: string;
+  /** Destination location, can be a topic or table name. Supports dynamic values with $topic, $systemProperties, $userProperties, $payload, $context, and $subscription. */
+  dataDestination: string;
+}
+
+export function dataflowDestinationOperationSettingsSerializer(
+  item: DataflowDestinationOperationSettings,
+): Record<string, unknown> {
+  return {
+    endpointRef: item["endpointRef"],
+    dataDestination: item["dataDestination"],
+  };
+}
+
+/** The response of a DataflowResource list operation. */
+export interface _DataflowResourceListResult {
+  /** The DataflowResource items on this page */
+  value: DataflowResource[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** Instance dataflowProfile resource */
+export interface DataflowProfileResource extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: DataflowProfileProperties;
+  /** Edge location of the resource. */
+  extendedLocation: ExtendedLocation;
+}
+
+export function dataflowProfileResourceSerializer(
+  item: DataflowProfileResource,
+): Record<string, unknown> {
+  return {
+    properties: !item.properties
+      ? item.properties
+      : dataflowProfilePropertiesSerializer(item.properties),
+    extendedLocation: extendedLocationSerializer(item.extendedLocation),
+  };
+}
+
+/** DataflowProfile Resource properties */
+export interface DataflowProfileProperties {
+  /** Spec defines the desired identities of NBC diagnostics settings. */
+  diagnostics?: ProfileDiagnostics;
+  /** To manually scale the dataflow profile, specify the maximum number of instances you want to run. */
+  instanceCount?: number;
+  /** The status of the last operation. */
+  readonly provisioningState?: ProvisioningState;
+}
+
+export function dataflowProfilePropertiesSerializer(
+  item: DataflowProfileProperties,
+): Record<string, unknown> {
+  return {
+    diagnostics: !item.diagnostics
+      ? item.diagnostics
+      : profileDiagnosticsSerializer(item.diagnostics),
+    instanceCount: item["instanceCount"],
+  };
+}
+
+/** DataflowProfile Diagnostics properties */
+export interface ProfileDiagnostics {
+  /** Diagnostic log settings for the resource. */
+  logs?: DiagnosticsLogs;
+  /** The metrics settings for the resource. */
+  metrics?: Metrics;
+}
+
+export function profileDiagnosticsSerializer(
+  item: ProfileDiagnostics,
+): Record<string, unknown> {
+  return {
+    logs: !item.logs ? item.logs : diagnosticsLogsSerializer(item.logs),
+    metrics: !item.metrics ? item.metrics : metricsSerializer(item.metrics),
+  };
+}
+
+/** Diagnostic Log properties */
+export interface DiagnosticsLogs {
+  /** The open telemetry export configuration. */
+  opentelemetryExportConfig?: OpenTelemetryLogExportConfig;
+  /** The log level. Examples - 'debug', 'info', 'warn', 'error', 'trace'. */
+  level?: string;
+}
+
+export function diagnosticsLogsSerializer(
+  item: DiagnosticsLogs,
+): Record<string, unknown> {
+  return {
+    opentelemetryExportConfig: !item.opentelemetryExportConfig
+      ? item.opentelemetryExportConfig
+      : openTelemetryLogExportConfigSerializer(item.opentelemetryExportConfig),
+    level: item["level"],
+  };
+}
+
+/** OpenTelemetry Log Export Configuration properties */
+export interface OpenTelemetryLogExportConfig {
+  /** The open telemetry collector endpoint to export to. */
+  otlpGrpcEndpoint: string;
+  /** How often to export the metrics to the open telemetry collector. */
+  intervalSeconds?: number;
+  /** The log level. Examples - 'debug', 'info', 'warn', 'error', 'trace'. */
+  level?: string;
+}
+
+export function openTelemetryLogExportConfigSerializer(
+  item: OpenTelemetryLogExportConfig,
+): Record<string, unknown> {
+  return {
+    otlpGrpcEndpoint: item["otlpGrpcEndpoint"],
+    intervalSeconds: item["intervalSeconds"],
+    level: item["level"],
+  };
+}
+
+/** Diagnostic Metrics properties */
+export interface Metrics {
+  /** The open telemetry export configuration. */
+  opentelemetryExportConfig?: OpenTelemetryExportConfig;
+  /** The prometheus port to expose the metrics. */
+  prometheusPort?: number;
+}
+
+export function metricsSerializer(item: Metrics): Record<string, unknown> {
+  return {
+    opentelemetryExportConfig: !item.opentelemetryExportConfig
+      ? item.opentelemetryExportConfig
+      : openTelemetryExportConfigSerializer(item.opentelemetryExportConfig),
+    prometheusPort: item["prometheusPort"],
+  };
+}
+
+/** OpenTelemetry Export Configuration properties */
+export interface OpenTelemetryExportConfig {
+  /** The open telemetry collector endpoint to export to. */
+  otlpGrpcEndpoint: string;
+  /** How often to export the metrics to the open telemetry collector. */
+  intervalSeconds?: number;
+}
+
+export function openTelemetryExportConfigSerializer(
+  item: OpenTelemetryExportConfig,
+): Record<string, unknown> {
+  return {
+    otlpGrpcEndpoint: item["otlpGrpcEndpoint"],
+    intervalSeconds: item["intervalSeconds"],
+  };
+}
+
+/** The response of a DataflowProfileResource list operation. */
+export interface _DataflowProfileResourceListResult {
+  /** The DataflowProfileResource items on this page */
+  value: DataflowProfileResource[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** Instance broker authorizations resource */
+export interface BrokerAuthorizationResource extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: BrokerAuthorizationProperties;
+  /** Edge location of the resource. */
+  extendedLocation: ExtendedLocation;
+}
+
+export function brokerAuthorizationResourceSerializer(
+  item: BrokerAuthorizationResource,
+): Record<string, unknown> {
+  return {
+    properties: !item.properties
+      ? item.properties
+      : brokerAuthorizationPropertiesSerializer(item.properties),
+    extendedLocation: extendedLocationSerializer(item.extendedLocation),
+  };
+}
+
+/** BrokerAuthorization Resource properties */
+export interface BrokerAuthorizationProperties {
+  /** The list of authorization policies supported by the Authorization Resource. */
+  authorizationPolicies: AuthorizationConfig;
+  /** The status of the last operation. */
+  readonly provisioningState?: ProvisioningState;
+}
+
+export function brokerAuthorizationPropertiesSerializer(
+  item: BrokerAuthorizationProperties,
+): Record<string, unknown> {
+  return {
+    authorizationPolicies: authorizationConfigSerializer(
+      item.authorizationPolicies,
+    ),
+  };
+}
+
+/** Broker AuthorizationConfig properties */
+export interface AuthorizationConfig {
+  /** Enable caching of the authorization rules. */
+  cache?: OperationalMode;
+  /** The authorization rules to follow. If no rule is set, but Authorization Resource is used that would mean DenyAll. */
+  rules?: AuthorizationRule[];
+}
+
+export function authorizationConfigSerializer(
+  item: AuthorizationConfig,
+): Record<string, unknown> {
+  return {
+    cache: item["cache"],
+    rules:
+      item["rules"] === undefined
+        ? item["rules"]
+        : item["rules"].map(authorizationRuleSerializer),
+  };
+}
+
+/** AuthorizationConfig Rule Properties */
+export interface AuthorizationRule {
+  /** Give access to Broker methods and topics. */
+  brokerResources: BrokerResourceRule[];
+  /** Give access to clients based on the following properties. */
+  principals: PrincipalDetails;
+  /** Give access to state store resources. */
+  stateStoreResources?: StateStoreResourceRule[];
+}
+
+export function authorizationRuleSerializer(
+  item: AuthorizationRule,
+): Record<string, unknown> {
+  return {
+    brokerResources: item["brokerResources"].map(brokerResourceRuleSerializer),
+    principals: principalDetailsSerializer(item.principals),
+    stateStoreResources:
+      item["stateStoreResources"] === undefined
+        ? item["stateStoreResources"]
+        : item["stateStoreResources"].map(stateStoreResourceRuleSerializer),
+  };
+}
+
+/** Broker Resource Rule properties. This defines the objects that represent the actions or topics, such as - method.Connect, method.Publish, etc. */
+export interface BrokerResourceRule {
+  /** Give access for a Broker method (i.e., Connect, Subscribe, or Publish). */
+  method: BrokerResourceDefinitionMethods;
+  /** A list of client IDs that match the clients. The client IDs are case-sensitive and must match the client IDs provided by the clients during connection. This subfield may be set if the method is Connect. */
+  clientIds?: string[];
+  /** A list of topics or topic patterns that match the topics that the clients can publish or subscribe to. This subfield is required if the method is Publish or Subscribe. */
+  topics?: string[];
+}
+
+export function brokerResourceRuleSerializer(
+  item: BrokerResourceRule,
+): Record<string, unknown> {
+  return {
+    method: item["method"],
+    clientIds: item["clientIds"],
+    topics: item["topics"],
+  };
+}
+
+/** Known values of {@link BrokerResourceDefinitionMethods} that the service accepts. */
+export enum KnownBrokerResourceDefinitionMethods {
+  /** Connect */
+  Connect = "Connect",
+  /** Publish */
+  Publish = "Publish",
+  /** Subscribe */
+  Subscribe = "Subscribe",
+}
+
+/**
+ * BrokerResourceDefinitionMethods methods allowed \
+ * {@link KnownBrokerResourceDefinitionMethods} can be used interchangeably with BrokerResourceDefinitionMethods,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Connect** \
+ * **Publish** \
+ * **Subscribe**
+ */
+export type BrokerResourceDefinitionMethods = string;
+
+/** PrincipalDefinition properties of Rule */
+export interface PrincipalDetails {
+  /** A list of key-value pairs that match the attributes of the clients. The attributes are case-sensitive and must match the attributes provided by the clients during authentication. */
+  attributes?: Record<string, string>[];
+  /** A list of client IDs that match the clients. The client IDs are case-sensitive and must match the client IDs provided by the clients during connection. */
+  clientIds?: string[];
+  /** A list of usernames that match the clients. The usernames are case-sensitive and must match the usernames provided by the clients during authentication. */
+  usernames?: string[];
+}
+
+export function principalDetailsSerializer(
+  item: PrincipalDetails,
+): Record<string, unknown> {
+  return {
+    attributes: item["attributes"],
+    clientIds: item["clientIds"],
+    usernames: item["usernames"],
+  };
+}
+
+/** State Store Resource Rule properties. */
+export interface StateStoreResourceRule {
+  /** Allowed keyTypes pattern, string, binary. The key type used for matching, for example pattern tries to match the key to a glob-style pattern and string checks key is equal to value provided in keys. */
+  keyType: StateStoreResourceKeyTypes;
+  /** Give access to state store keys for the corresponding principals defined. When key type is pattern set glob-style pattern (e.g., '*', 'clients/*'). */
+  keys: string[];
+  /** Give access for `Read`, `Write` and `ReadWrite` access level. */
+  method: StateStoreResourceDefinitionMethods;
+}
+
+export function stateStoreResourceRuleSerializer(
+  item: StateStoreResourceRule,
+): Record<string, unknown> {
+  return {
+    keyType: item["keyType"],
+    keys: item["keys"],
+    method: item["method"],
+  };
+}
+
+/** Known values of {@link StateStoreResourceKeyTypes} that the service accepts. */
+export enum KnownStateStoreResourceKeyTypes {
+  /** Pattern */
+  Pattern = "Pattern",
+  /** String */
+  String = "String",
+  /** Binary */
+  Binary = "Binary",
+}
+
+/**
+ * StateStoreResourceKeyTypes properties \
+ * {@link KnownStateStoreResourceKeyTypes} can be used interchangeably with StateStoreResourceKeyTypes,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Pattern** \
+ * **String** \
+ * **Binary**
+ */
+export type StateStoreResourceKeyTypes = string;
+
+/** Known values of {@link StateStoreResourceDefinitionMethods} that the service accepts. */
+export enum KnownStateStoreResourceDefinitionMethods {
+  /** Read */
+  Read = "Read",
+  /** Write */
+  Write = "Write",
+  /** ReadWrite */
+  ReadWrite = "ReadWrite",
+}
+
+/**
+ * StateStoreResourceDefinitionMethods methods allowed \
+ * {@link KnownStateStoreResourceDefinitionMethods} can be used interchangeably with StateStoreResourceDefinitionMethods,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Read** \
+ * **Write** \
+ * **ReadWrite**
+ */
+export type StateStoreResourceDefinitionMethods = string;
+
+/** The response of a BrokerAuthorizationResource list operation. */
+export interface _BrokerAuthorizationResourceListResult {
+  /** The BrokerAuthorizationResource items on this page */
+  value: BrokerAuthorizationResource[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** Instance broker authentication resource */
+export interface BrokerAuthenticationResource extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: BrokerAuthenticationProperties;
+  /** Edge location of the resource. */
+  extendedLocation: ExtendedLocation;
+}
+
+export function brokerAuthenticationResourceSerializer(
+  item: BrokerAuthenticationResource,
+): Record<string, unknown> {
+  return {
+    properties: !item.properties
+      ? item.properties
+      : brokerAuthenticationPropertiesSerializer(item.properties),
+    extendedLocation: extendedLocationSerializer(item.extendedLocation),
+  };
+}
+
+/** BrokerAuthentication Resource properties */
+export interface BrokerAuthenticationProperties {
+  /** Defines a set of Broker authentication methods to be used on `BrokerListeners`. For each array element one authenticator type supported. */
+  authenticationMethods: BrokerAuthenticatorMethods[];
+  /** The status of the last operation. */
+  readonly provisioningState?: ProvisioningState;
+}
+
+export function brokerAuthenticationPropertiesSerializer(
+  item: BrokerAuthenticationProperties,
+): Record<string, unknown> {
+  return {
+    authenticationMethods: item["authenticationMethods"].map(
+      brokerAuthenticatorMethodsSerializer,
+    ),
+  };
+}
+
+/** Set of broker authentication policies. Only one method is supported for each entry. */
+export interface BrokerAuthenticatorMethods {
+  /** Custom authentication configuration. */
+  method: BrokerAuthenticationMethod;
+  /** Custom authentication configuration. */
+  customSettings?: BrokerAuthenticatorMethodCustom;
+  /** ServiceAccountToken authentication configuration. */
+  serviceAccountTokenSettings?: BrokerAuthenticatorMethodSat;
+  /** X.509 authentication configuration. */
+  x509Settings?: BrokerAuthenticatorMethodX509;
+}
+
+export function brokerAuthenticatorMethodsSerializer(
+  item: BrokerAuthenticatorMethods,
+): Record<string, unknown> {
+  return {
+    method: item["method"],
+    customSettings: !item.customSettings
+      ? item.customSettings
+      : brokerAuthenticatorMethodCustomSerializer(item.customSettings),
+    serviceAccountTokenSettings: !item.serviceAccountTokenSettings
+      ? item.serviceAccountTokenSettings
+      : brokerAuthenticatorMethodSatSerializer(
+          item.serviceAccountTokenSettings,
+        ),
+    x509Settings: !item.x509Settings
+      ? item.x509Settings
+      : brokerAuthenticatorMethodX509Serializer(item.x509Settings),
+  };
+}
+
+/** Known values of {@link BrokerAuthenticationMethod} that the service accepts. */
+export enum KnownBrokerAuthenticationMethod {
+  /** Custom */
+  Custom = "Custom",
+  /** ServiceAccountToken */
+  ServiceAccountToken = "ServiceAccountToken",
+  /** X509 */
+  X509 = "X509",
+}
+
+/**
+ * Broker Authentication Mode \
+ * {@link KnownBrokerAuthenticationMethod} can be used interchangeably with BrokerAuthenticationMethod,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Custom** \
+ * **ServiceAccountToken** \
+ * **X509**
+ */
+export type BrokerAuthenticationMethod = string;
+
+/** Custom method for BrokerAuthentication */
+export interface BrokerAuthenticatorMethodCustom {
+  /** Optional authentication needed for authenticating with the custom authentication server. */
+  auth?: BrokerAuthenticatorCustomAuth;
+  /** Optional CA certificate for validating the custom authentication server's certificate. */
+  caCertConfigMap?: string;
+  /** Endpoint of the custom authentication server. Must be an HTTPS endpoint. */
+  endpoint: string;
+  /** Additional HTTP headers to pass to the custom authentication server. */
+  headers?: Record<string, string>;
+}
+
+export function brokerAuthenticatorMethodCustomSerializer(
+  item: BrokerAuthenticatorMethodCustom,
+): Record<string, unknown> {
+  return {
+    auth: !item.auth
+      ? item.auth
+      : brokerAuthenticatorCustomAuthSerializer(item.auth),
+    caCertConfigMap: item["caCertConfigMap"],
+    endpoint: item["endpoint"],
+    headers: !item.headers
+      ? item.headers
+      : (serializeRecord(item.headers as any) as any),
+  };
+}
+
+/** Custom Authentication properties */
+export interface BrokerAuthenticatorCustomAuth {
+  /** X509 Custom Auth type details. */
+  x509: X509ManualCertificate;
+}
+
+export function brokerAuthenticatorCustomAuthSerializer(
+  item: BrokerAuthenticatorCustomAuth,
+): Record<string, unknown> {
+  return {
+    x509: x509ManualCertificateSerializer(item.x509),
+  };
+}
+
+/** X509 Certificate Authentication properties. */
+export interface X509ManualCertificate {
+  /** Kubernetes secret containing an X.509 client certificate. This is a reference to the secret through an identifying name, not the secret itself. */
+  secretRef: string;
+}
+
+export function x509ManualCertificateSerializer(
+  item: X509ManualCertificate,
+): Record<string, unknown> {
+  return {
+    secretRef: item["secretRef"],
+  };
+}
+
+/** Service Account Token for BrokerAuthentication */
+export interface BrokerAuthenticatorMethodSat {
+  /** List of allowed audience. */
+  audiences: string[];
+}
+
+export function brokerAuthenticatorMethodSatSerializer(
+  item: BrokerAuthenticatorMethodSat,
+): Record<string, unknown> {
+  return {
+    audiences: item["audiences"],
+  };
+}
+
+/** X509 for BrokerAuthentication. */
+export interface BrokerAuthenticatorMethodX509 {
+  /** X509 authorization attributes properties. */
+  authorizationAttributes?: Record<
+    string,
+    BrokerAuthenticatorMethodX509Attributes
+  >;
+  /** Name of the trusted client ca cert resource. */
+  trustedClientCaCert?: string;
+}
+
+export function brokerAuthenticatorMethodX509Serializer(
+  item: BrokerAuthenticatorMethodX509,
+): Record<string, unknown> {
+  return {
+    authorizationAttributes: !item.authorizationAttributes
+      ? item.authorizationAttributes
+      : (serializeRecord(
+          item.authorizationAttributes as any,
+          brokerAuthenticatorMethodX509AttributesSerializer,
+        ) as any),
+    trustedClientCaCert: item["trustedClientCaCert"],
+  };
+}
+
+/** BrokerAuthenticatorMethodX509Attributes properties. */
+export interface BrokerAuthenticatorMethodX509Attributes {
+  /** Attributes object. */
+  attributes: Record<string, string>;
+  /** Subject of the X509 attribute. */
+  subject: string;
+}
+
+export function brokerAuthenticatorMethodX509AttributesSerializer(
+  item: BrokerAuthenticatorMethodX509Attributes,
+): Record<string, unknown> {
+  return {
+    attributes: serializeRecord(item.attributes as any) as any,
+    subject: item["subject"],
+  };
+}
+
+/** The response of a BrokerAuthenticationResource list operation. */
+export interface _BrokerAuthenticationResourceListResult {
+  /** The BrokerAuthenticationResource items on this page */
+  value: BrokerAuthenticationResource[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** Instance broker resource */
+export interface BrokerListenerResource extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: BrokerListenerProperties;
+  /** Edge location of the resource. */
+  extendedLocation: ExtendedLocation;
+}
+
+export function brokerListenerResourceSerializer(
+  item: BrokerListenerResource,
+): Record<string, unknown> {
+  return {
+    properties: !item.properties
+      ? item.properties
+      : brokerListenerPropertiesSerializer(item.properties),
+    extendedLocation: extendedLocationSerializer(item.extendedLocation),
+  };
+}
+
+/** Defines a Broker listener. A listener is a collection of ports on which the broker accepts connections from clients. */
+export interface BrokerListenerProperties {
+  /** Kubernetes Service name of this listener. */
+  serviceName?: string;
+  /** Ports on which this listener accepts client connections. */
+  ports: ListenerPort[];
+  /** Kubernetes Service type of this listener. */
+  serviceType?: ServiceType;
+  /** The status of the last operation. */
+  readonly provisioningState?: ProvisioningState;
+}
+
+export function brokerListenerPropertiesSerializer(
+  item: BrokerListenerProperties,
+): Record<string, unknown> {
+  return {
+    serviceName: item["serviceName"],
+    ports: item["ports"].map(listenerPortSerializer),
+    serviceType: item["serviceType"],
+  };
+}
+
+/** Defines a TCP port on which a `BrokerListener` listens. */
+export interface ListenerPort {
+  /** Reference to client authentication settings. Omit to disable authentication. */
+  authenticationRef?: string;
+  /** Reference to client authorization settings. Omit to disable authorization. */
+  authorizationRef?: string;
+  /** Kubernetes node port. Only relevant when this port is associated with a `NodePort` listener. */
+  nodePort?: number;
+  /** TCP port for accepting client connections. */
+  port: number;
+  /** Protocol to use for client connections. */
+  protocol?: BrokerProtocolType;
+  /** TLS server certificate settings for this port. Omit to disable TLS. */
+  tls?: TlsCertMethod;
+}
+
+export function listenerPortSerializer(
+  item: ListenerPort,
+): Record<string, unknown> {
+  return {
+    authenticationRef: item["authenticationRef"],
+    authorizationRef: item["authorizationRef"],
+    nodePort: item["nodePort"],
+    port: item["port"],
+    protocol: item["protocol"],
+    tls: !item.tls ? item.tls : tlsCertMethodSerializer(item.tls),
+  };
+}
+
+/** Collection of different TLS types, NOTE- Enum at a time only one of them needs to be supported */
+export interface TlsCertMethod {
+  /** Mode of TLS server certificate management. */
+  mode: TlsCertMethodMode;
+  /** Option 1 - Automatic TLS server certificate management with cert-manager. */
+  certManagerCertificateSpec?: CertManagerCertificateSpec;
+  /** Option 2 - Manual TLS server certificate management through a defined secret. */
+  manual?: X509ManualCertificate;
+}
+
+export function tlsCertMethodSerializer(
+  item: TlsCertMethod,
+): Record<string, unknown> {
+  return {
+    mode: item["mode"],
+    certManagerCertificateSpec: !item.certManagerCertificateSpec
+      ? item.certManagerCertificateSpec
+      : certManagerCertificateSpecSerializer(item.certManagerCertificateSpec),
+    manual: !item.manual
+      ? item.manual
+      : x509ManualCertificateSerializer(item.manual),
+  };
+}
+
+/** Known values of {@link TlsCertMethodMode} that the service accepts. */
+export enum KnownTlsCertMethodMode {
+  /** Automatic */
+  Automatic = "Automatic",
+  /** Manual */
+  Manual = "Manual",
+}
+
+/**
+ * Broker Authentication Mode \
+ * {@link KnownTlsCertMethodMode} can be used interchangeably with TlsCertMethodMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Automatic** \
+ * **Manual**
+ */
+export type TlsCertMethodMode = string;
+
+/** Automatic TLS server certificate management with cert-manager */
+export interface CertManagerCertificateSpec {
+  /** Lifetime of certificate. Must be specified using a Go time.Duration format (h|m|s). E.g. 240h for 240 hours and 45m for 45 minutes. */
+  duration?: string;
+  /** Secret for storing server certificate. Any existing data will be overwritten. This is a reference to the secret through an identifying name, not the secret itself. */
+  secretName?: string;
+  /** When to begin renewing certificate. Must be specified using a Go time.Duration format (h|m|s). E.g. 240h for 240 hours and 45m for 45 minutes. */
+  renewBefore?: string;
+  /** cert-manager issuerRef. */
+  issuerRef: CertManagerIssuerRef;
+  /** Type of certificate private key. */
+  privateKey?: CertManagerPrivateKey;
+  /** Additional Subject Alternative Names (SANs) to include in the certificate. */
+  san?: SanForCert;
+}
+
+export function certManagerCertificateSpecSerializer(
+  item: CertManagerCertificateSpec,
+): Record<string, unknown> {
+  return {
+    duration: item["duration"],
+    secretName: item["secretName"],
+    renewBefore: item["renewBefore"],
+    issuerRef: certManagerIssuerRefSerializer(item.issuerRef),
+    privateKey: !item.privateKey
+      ? item.privateKey
+      : certManagerPrivateKeySerializer(item.privateKey),
+    san: !item.san ? item.san : sanForCertSerializer(item.san),
+  };
+}
+
+/** Cert-Manager issuerRef properties */
+export interface CertManagerIssuerRef {
+  /** group of issuer. */
+  group: string;
+  /** kind of issuer (Issuer or ClusterIssuer). */
+  kind: CertManagerIssuerKind;
+  /** name of issuer. */
+  name: string;
+}
+
+export function certManagerIssuerRefSerializer(
+  item: CertManagerIssuerRef,
+): Record<string, unknown> {
+  return {
+    group: item["group"],
+    kind: item["kind"],
+    name: item["name"],
+  };
+}
+
+/** Known values of {@link CertManagerIssuerKind} that the service accepts. */
+export enum KnownCertManagerIssuerKind {
+  /** Issuer */
+  Issuer = "Issuer",
+  /** ClusterIssuer */
+  ClusterIssuer = "ClusterIssuer",
+}
+
+/**
+ * CertManagerIssuerKind properties \
+ * {@link KnownCertManagerIssuerKind} can be used interchangeably with CertManagerIssuerKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Issuer** \
+ * **ClusterIssuer**
+ */
+export type CertManagerIssuerKind = string;
+
+/** Cert Manager private key properties */
+export interface CertManagerPrivateKey {
+  /** algorithm for private key. */
+  algorithm: PrivateKeyAlgorithm;
+  /** cert-manager private key rotationPolicy. */
+  rotationPolicy: PrivateKeyRotationPolicy;
+}
+
+export function certManagerPrivateKeySerializer(
+  item: CertManagerPrivateKey,
+): Record<string, unknown> {
+  return {
+    algorithm: item["algorithm"],
+    rotationPolicy: item["rotationPolicy"],
+  };
+}
+
+/** Known values of {@link PrivateKeyAlgorithm} that the service accepts. */
+export enum KnownPrivateKeyAlgorithm {
+  /** Ec256 */
+  Ec256 = "Ec256",
+  /** Ec384 */
+  Ec384 = "Ec384",
+  /** Ec521 */
+  Ec521 = "Ec521",
+  /** Ed25519 */
+  Ed25519 = "Ed25519",
+  /** Rsa2048 */
+  Rsa2048 = "Rsa2048",
+  /** Rsa4096 */
+  Rsa4096 = "Rsa4096",
+  /** Rsa8192 */
+  Rsa8192 = "Rsa8192",
+}
+
+/**
+ * Private key algorithm types. \
+ * {@link KnownPrivateKeyAlgorithm} can be used interchangeably with PrivateKeyAlgorithm,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Ec256** \
+ * **Ec384** \
+ * **Ec521** \
+ * **Ed25519** \
+ * **Rsa2048** \
+ * **Rsa4096** \
+ * **Rsa8192**
+ */
+export type PrivateKeyAlgorithm = string;
+
+/** Known values of {@link PrivateKeyRotationPolicy} that the service accepts. */
+export enum KnownPrivateKeyRotationPolicy {
+  /** Always */
+  Always = "Always",
+  /** Never */
+  Never = "Never",
+}
+
+/**
+ * Private key rotation policy. \
+ * {@link KnownPrivateKeyRotationPolicy} can be used interchangeably with PrivateKeyRotationPolicy,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Always** \
+ * **Never**
+ */
+export type PrivateKeyRotationPolicy = string;
+
+/** Subject Alternative Names (SANs) for certificate. */
+export interface SanForCert {
+  /** DNS SANs. */
+  dns: string[];
+  /** IP address SANs. */
+  ip: string[];
+}
+
+export function sanForCertSerializer(
+  item: SanForCert,
+): Record<string, unknown> {
+  return {
+    dns: item["dns"],
+    ip: item["ip"],
+  };
+}
+
+/** Known values of {@link ServiceType} that the service accepts. */
+export enum KnownServiceType {
+  /** ClusterIp */
+  ClusterIp = "ClusterIp",
+  /** LoadBalancer */
+  LoadBalancer = "LoadBalancer",
+  /** NodePort */
+  NodePort = "NodePort",
+}
+
+/**
+ * Kubernetes Service Types supported by Listener \
+ * {@link KnownServiceType} can be used interchangeably with ServiceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ClusterIp** \
+ * **LoadBalancer** \
+ * **NodePort**
+ */
+export type ServiceType = string;
+
+/** The response of a BrokerListenerResource list operation. */
+export interface _BrokerListenerResourceListResult {
+  /** The BrokerListenerResource items on this page */
+  value: BrokerListenerResource[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** Instance broker resource */
+export interface BrokerResource extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: BrokerProperties;
+  /** Edge location of the resource. */
+  extendedLocation: ExtendedLocation;
+}
+
+export function brokerResourceSerializer(
+  item: BrokerResource,
+): Record<string, unknown> {
+  return {
+    properties: !item.properties
+      ? item.properties
+      : brokerPropertiesSerializer(item.properties),
+    extendedLocation: extendedLocationSerializer(item.extendedLocation),
+  };
+}
+
+/** Broker Resource properties */
+export interface BrokerProperties {
+  /** Advanced settings of Broker. */
+  advanced?: AdvancedSettings;
+  /** The cardinality details of the broker. */
+  cardinality?: Cardinality;
+  /** Spec defines the desired identities of Broker diagnostics settings. */
+  diagnostics?: BrokerDiagnostics;
+  /** Settings of Disk Backed Message Buffer. */
+  diskBackedMessageBuffer?: DiskBackedMessageBuffer;
+  /** This setting controls whether Kubernetes CPU resource limits are requested. Increasing the number of replicas or workers proportionally increases the amount of CPU resources requested. If this setting is enabled and there are insufficient CPU resources, an error will be emitted. */
+  generateResourceLimits?: GenerateResourceLimits;
+  /** Memory profile of Broker. */
+  memoryProfile?: BrokerMemoryProfile;
+  /** The status of the last operation. */
+  readonly provisioningState?: ProvisioningState;
+}
+
+export function brokerPropertiesSerializer(
+  item: BrokerProperties,
+): Record<string, unknown> {
+  return {
+    advanced: !item.advanced
+      ? item.advanced
+      : advancedSettingsSerializer(item.advanced),
+    cardinality: !item.cardinality
+      ? item.cardinality
+      : cardinalitySerializer(item.cardinality),
+    diagnostics: !item.diagnostics
+      ? item.diagnostics
+      : brokerDiagnosticsSerializer(item.diagnostics),
+    diskBackedMessageBuffer: !item.diskBackedMessageBuffer
+      ? item.diskBackedMessageBuffer
+      : diskBackedMessageBufferSerializer(item.diskBackedMessageBuffer),
+    generateResourceLimits: !item.generateResourceLimits
+      ? item.generateResourceLimits
+      : generateResourceLimitsSerializer(item.generateResourceLimits),
+    memoryProfile: item["memoryProfile"],
+  };
+}
+
+/** Broker Advanced Settings */
+export interface AdvancedSettings {
+  /** Configurations related to All Clients. */
+  clients?: ClientConfig;
+  /** The setting to enable or disable encryption of internal Traffic. */
+  encryptInternalTraffic?: OperationalMode;
+  /** Certificate rotation and private key configuration. */
+  internalCerts?: CertManagerCertConfig;
+}
+
+export function advancedSettingsSerializer(
+  item: AdvancedSettings,
+): Record<string, unknown> {
+  return {
+    clients: !item.clients
+      ? item.clients
+      : clientConfigSerializer(item.clients),
+    encryptInternalTraffic: item["encryptInternalTraffic"],
+    internalCerts: !item.internalCerts
+      ? item.internalCerts
+      : certManagerCertConfigSerializer(item.internalCerts),
+  };
+}
+
+/** The settings of Client Config. */
+export interface ClientConfig {
+  /** Upper bound of Session Expiry Interval, in seconds. */
+  maxSessionExpirySeconds?: number;
+  /** Upper bound of Message Expiry Interval, in seconds. */
+  maxMessageExpirySeconds?: number;
+  /** Max message size for a packet in Bytes. */
+  maxPacketSizeBytes?: number;
+  /** The limit on the number of queued messages for a subscriber. */
+  subscriberQueueLimit?: SubscriberQueueLimit;
+  /** Upper bound of Receive Maximum that a client can request in the CONNECT packet. */
+  maxReceiveMaximum?: number;
+  /** Upper bound of a client's Keep Alive, in seconds. */
+  maxKeepAliveSeconds?: number;
+}
+
+export function clientConfigSerializer(
+  item: ClientConfig,
+): Record<string, unknown> {
+  return {
+    maxSessionExpirySeconds: item["maxSessionExpirySeconds"],
+    maxMessageExpirySeconds: item["maxMessageExpirySeconds"],
+    maxPacketSizeBytes: item["maxPacketSizeBytes"],
+    subscriberQueueLimit: !item.subscriberQueueLimit
+      ? item.subscriberQueueLimit
+      : subscriberQueueLimitSerializer(item.subscriberQueueLimit),
+    maxReceiveMaximum: item["maxReceiveMaximum"],
+    maxKeepAliveSeconds: item["maxKeepAliveSeconds"],
+  };
+}
+
+/** The settings of Subscriber Queue Limit. */
+export interface SubscriberQueueLimit {
+  /** The maximum length of the queue before messages start getting dropped. */
+  length?: number;
+  /** The strategy to use for dropping messages from the queue. */
+  strategy?: SubscriberMessageDropStrategy;
+}
+
+export function subscriberQueueLimitSerializer(
+  item: SubscriberQueueLimit,
+): Record<string, unknown> {
+  return {
+    length: item["length"],
+    strategy: item["strategy"],
+  };
+}
+
+/** Known values of {@link SubscriberMessageDropStrategy} that the service accepts. */
+export enum KnownSubscriberMessageDropStrategy {
+  /** None */
+  None = "None",
+  /** DropOldest */
+  DropOldest = "DropOldest",
+}
+
+/**
+ * The enum defining strategies for dropping messages from the subscriber queue. \
+ * {@link KnownSubscriberMessageDropStrategy} can be used interchangeably with SubscriberMessageDropStrategy,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **DropOldest**
+ */
+export type SubscriberMessageDropStrategy = string;
+
+/** Cert Manager Cert properties */
+export interface CertManagerCertConfig {
+  /** Lifetime of certificate. Must be specified using a Go time.Duration format (h|m|s). E.g. 240h for 240 hours and 45m for 45 minutes. */
+  duration: string;
+  /** When to begin renewing certificate. Must be specified using a Go time.Duration format (h|m|s). E.g. 240h for 240 hours and 45m for 45 minutes. */
+  renewBefore: string;
+  /** Configuration of certificate private key. */
+  privateKey: CertManagerPrivateKey;
+}
+
+export function certManagerCertConfigSerializer(
+  item: CertManagerCertConfig,
+): Record<string, unknown> {
+  return {
+    duration: item["duration"],
+    renewBefore: item["renewBefore"],
+    privateKey: certManagerPrivateKeySerializer(item.privateKey),
+  };
+}
+
+/** Cardinality properties */
+export interface Cardinality {
+  /** The backend broker desired properties */
+  backendChain: BackendChain;
+  /** The frontend desired properties */
+  frontend: Frontend;
+}
+
+export function cardinalitySerializer(
+  item: Cardinality,
+): Record<string, unknown> {
+  return {
+    backendChain: backendChainSerializer(item.backendChain),
+    frontend: frontendSerializer(item.frontend),
+  };
+}
+
+/** Desired properties of the backend instances of the broker */
+export interface BackendChain {
+  /** The desired number of physical backend partitions. */
+  partitions: number;
+  /** The desired numbers of backend replicas (pods) in a physical partition. */
+  redundancyFactor: number;
+  /** Number of logical backend workers per replica (pod). */
+  workers?: number;
+}
+
+export function backendChainSerializer(
+  item: BackendChain,
+): Record<string, unknown> {
+  return {
+    partitions: item["partitions"],
+    redundancyFactor: item["redundancyFactor"],
+    workers: item["workers"],
+  };
+}
+
+/** The desired properties of the frontend instances of the Broker */
+export interface Frontend {
+  /** The desired number of frontend instances (pods). */
+  replicas: number;
+  /** Number of logical frontend workers per instance (pod). */
+  workers?: number;
+}
+
+export function frontendSerializer(item: Frontend): Record<string, unknown> {
+  return {
+    replicas: item["replicas"],
+    workers: item["workers"],
+  };
+}
+
+/** Broker Diagnostic Setting properties */
+export interface BrokerDiagnostics {
+  /** Diagnostic log settings for the resource. */
+  logs?: DiagnosticsLogs;
+  /** The metrics settings for the resource. */
+  metrics?: Metrics;
+  /** The self check properties. */
+  selfCheck?: SelfCheck;
+  /** The trace properties. */
+  traces?: Traces;
+}
+
+export function brokerDiagnosticsSerializer(
+  item: BrokerDiagnostics,
+): Record<string, unknown> {
+  return {
+    logs: !item.logs ? item.logs : diagnosticsLogsSerializer(item.logs),
+    metrics: !item.metrics ? item.metrics : metricsSerializer(item.metrics),
+    selfCheck: !item.selfCheck
+      ? item.selfCheck
+      : selfCheckSerializer(item.selfCheck),
+    traces: !item.traces ? item.traces : tracesSerializer(item.traces),
+  };
+}
+
+/** Broker Diagnostic Self check properties */
+export interface SelfCheck {
+  /** The toggle to enable/disable self check. */
+  mode?: OperationalMode;
+  /** The self check interval. */
+  intervalSeconds?: number;
+  /** The timeout for self check. */
+  timeoutSeconds?: number;
+}
+
+export function selfCheckSerializer(item: SelfCheck): Record<string, unknown> {
+  return {
+    mode: item["mode"],
+    intervalSeconds: item["intervalSeconds"],
+    timeoutSeconds: item["timeoutSeconds"],
+  };
+}
+
+/** Broker Diagnostic Trace properties */
+export interface Traces {
+  /** The toggle to enable/disable traces. */
+  mode?: OperationalMode;
+  /** The open telemetry export configuration. */
+  opentelemetryExportConfig?: OpenTelemetryExportConfig;
+  /** The cache size in megabytes. */
+  cacheSizeMegabytes?: number;
+  /** The self tracing properties. */
+  selfTracing?: SelfTracing;
+  /** The span channel capacity. */
+  spanChannelCapacity?: number;
+}
+
+export function tracesSerializer(item: Traces): Record<string, unknown> {
+  return {
+    mode: item["mode"],
+    opentelemetryExportConfig: !item.opentelemetryExportConfig
+      ? item.opentelemetryExportConfig
+      : openTelemetryExportConfigSerializer(item.opentelemetryExportConfig),
+    cacheSizeMegabytes: item["cacheSizeMegabytes"],
+    selfTracing: !item.selfTracing
+      ? item.selfTracing
+      : selfTracingSerializer(item.selfTracing),
+    spanChannelCapacity: item["spanChannelCapacity"],
+  };
+}
+
+/** Diagnostic Self tracing properties */
+export interface SelfTracing {
+  /** The toggle to enable/disable self tracing. */
+  mode?: OperationalMode;
+  /** The self tracing interval. */
+  intervalSeconds?: number;
+}
+
+export function selfTracingSerializer(
+  item: SelfTracing,
+): Record<string, unknown> {
+  return {
+    mode: item["mode"],
+    intervalSeconds: item["intervalSeconds"],
+  };
+}
+
+/** DiskBackedMessageBuffer properties */
+export interface DiskBackedMessageBuffer {
+  /** The max size of the message buffer on disk. If a PVC template is specified using one of ephemeralVolumeClaimSpec or persistentVolumeClaimSpec, then this size is used as the request and limit sizes of that template. If neither ephemeralVolumeClaimSpec nor persistentVolumeClaimSpec are specified, then an emptyDir volume is mounted with this size as its limit. See <https://kubernetes.io/docs/concepts/storage/volumes/#emptydir> for details. */
+  maxSize: string;
+  /** Use the specified persistent volume claim template to mount a "generic ephemeral volume" for the message buffer. See <https://kubernetes.io/docs/concepts/storage/ephemeral-volumes/#generic-ephemeral-volumes> for details. */
+  ephemeralVolumeClaimSpec?: VolumeClaimSpec;
+  /** Use the specified persistent volume claim template to mount a persistent volume for the message buffer. */
+  persistentVolumeClaimSpec?: VolumeClaimSpec;
+}
+
+export function diskBackedMessageBufferSerializer(
+  item: DiskBackedMessageBuffer,
+): Record<string, unknown> {
+  return {
+    maxSize: item["maxSize"],
+    ephemeralVolumeClaimSpec: !item.ephemeralVolumeClaimSpec
+      ? item.ephemeralVolumeClaimSpec
+      : volumeClaimSpecSerializer(item.ephemeralVolumeClaimSpec),
+    persistentVolumeClaimSpec: !item.persistentVolumeClaimSpec
+      ? item.persistentVolumeClaimSpec
+      : volumeClaimSpecSerializer(item.persistentVolumeClaimSpec),
+  };
+}
+
+/** VolumeClaimSpec properties */
+export interface VolumeClaimSpec {
+  /** VolumeName is the binding reference to the PersistentVolume backing this claim. */
+  volumeName?: string;
+  /** volumeMode defines what type of volume is required by the claim. Value of Filesystem is implied when not included in claim spec. This is a beta feature. */
+  volumeMode?: string;
+  /** Name of the StorageClass required by the claim. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#class-1 */
+  storageClassName?: string;
+  /** AccessModes contains the desired access modes the volume should have. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#access-modes-1 */
+  accessModes?: string[];
+  /** This field can be used to specify either: * An existing VolumeSnapshot object (snapshot.storage.k8s.io/VolumeSnapshot) * An existing PVC (PersistentVolumeClaim) If the provisioner or an external controller can support the specified data source, it will create a new volume based on the contents of the specified data source. If the AnyVolumeDataSource feature gate is enabled, this field will always have the same contents as the DataSourceRef field. */
+  dataSource?: LocalKubernetesReference;
+  /** Specifies the object from which to populate the volume with data, if a non-empty volume is desired. This may be any local object from a non-empty API group (non core object) or a PersistentVolumeClaim object. When this field is specified, volume binding will only succeed if the type of the specified object matches some installed volume populator or dynamic provisioner. This field will replace the functionality of the DataSource field and as such if both fields are non-empty, they must have the same value. For backwards compatibility, both fields (DataSource and DataSourceRef) will be set to the same value automatically if one of them is empty and the other is non-empty. There are two important differences between DataSource and DataSourceRef: * While DataSource only allows two specific types of objects, DataSourceRef allows any non-core object, as well as PersistentVolumeClaim objects. * While DataSource ignores disallowed values (dropping them), DataSourceRef preserves all values, and generates an error if a disallowed value is specified. (Beta) Using this field requires the AnyVolumeDataSource feature gate to be enabled. */
+  dataSourceRef?: KubernetesReference;
+  /** Resources represents the minimum resources the volume should have. If RecoverVolumeExpansionFailure feature is enabled users are allowed to specify resource requirements that are lower than previous value but must still be higher than capacity recorded in the status field of the claim. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#resources */
+  resources?: VolumeClaimResourceRequirements;
+  /** A label query over volumes to consider for binding. */
+  selector?: VolumeClaimSpecSelector;
+}
+
+export function volumeClaimSpecSerializer(
+  item: VolumeClaimSpec,
+): Record<string, unknown> {
+  return {
+    volumeName: item["volumeName"],
+    volumeMode: item["volumeMode"],
+    storageClassName: item["storageClassName"],
+    accessModes: item["accessModes"],
+    dataSource: !item.dataSource
+      ? item.dataSource
+      : localKubernetesReferenceSerializer(item.dataSource),
+    dataSourceRef: !item.dataSourceRef
+      ? item.dataSourceRef
+      : kubernetesReferenceSerializer(item.dataSourceRef),
+    resources: !item.resources
+      ? item.resources
+      : volumeClaimResourceRequirementsSerializer(item.resources),
+    selector: !item.selector
+      ? item.selector
+      : volumeClaimSpecSelectorSerializer(item.selector),
+  };
+}
+
+/** Kubernetes reference */
+export interface LocalKubernetesReference {
+  /** APIGroup is the group for the resource being referenced. If APIGroup is not specified, the specified Kind must be in the core API group. For any other third-party types, APIGroup is required. */
+  apiGroup?: string;
+  /** Kind is the type of resource being referenced */
+  kind: string;
+  /** Name is the name of resource being referenced */
+  name: string;
+}
+
+export function localKubernetesReferenceSerializer(
+  item: LocalKubernetesReference,
+): Record<string, unknown> {
+  return {
+    apiGroup: item["apiGroup"],
+    kind: item["kind"],
+    name: item["name"],
+  };
+}
+
+/** Kubernetes reference */
+export interface KubernetesReference {
+  /** APIGroup is the group for the resource being referenced. If APIGroup is not specified, the specified Kind must be in the core API group. For any other third-party types, APIGroup is required. */
+  apiGroup?: string;
+  /** Kind is the type of resource being referenced */
+  kind: string;
+  /** Name is the name of resource being referenced */
+  name: string;
+  /** Namespace is the namespace of the resource being referenced. This field is required when the resource has a namespace. */
+  namespace?: string;
+}
+
+export function kubernetesReferenceSerializer(
+  item: KubernetesReference,
+): Record<string, unknown> {
+  return {
+    apiGroup: item["apiGroup"],
+    kind: item["kind"],
+    name: item["name"],
+    namespace: item["namespace"],
+  };
+}
+
+/** VolumeClaimResourceRequirements properties */
+export interface VolumeClaimResourceRequirements {
+  /** Limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/ */
+  limits?: Record<string, string>;
+  /** Requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/ */
+  requests?: Record<string, string>;
+}
+
+export function volumeClaimResourceRequirementsSerializer(
+  item: VolumeClaimResourceRequirements,
+): Record<string, unknown> {
+  return {
+    limits: !item.limits
+      ? item.limits
+      : (serializeRecord(item.limits as any) as any),
+    requests: !item.requests
+      ? item.requests
+      : (serializeRecord(item.requests as any) as any),
+  };
+}
+
+/** VolumeClaimSpecSelector properties */
+export interface VolumeClaimSpecSelector {
+  /** MatchExpressions is a list of label selector requirements. The requirements are ANDed. */
+  matchExpressions?: VolumeClaimSpecSelectorMatchExpressions[];
+  /** MatchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is "key", the operator is "In", and the values array contains only "value". The requirements are ANDed. */
+  matchLabels?: Record<string, string>;
+}
+
+export function volumeClaimSpecSelectorSerializer(
+  item: VolumeClaimSpecSelector,
+): Record<string, unknown> {
+  return {
+    matchExpressions:
+      item["matchExpressions"] === undefined
+        ? item["matchExpressions"]
+        : item["matchExpressions"].map(
+            volumeClaimSpecSelectorMatchExpressionsSerializer,
+          ),
+    matchLabels: !item.matchLabels
+      ? item.matchLabels
+      : (serializeRecord(item.matchLabels as any) as any),
+  };
+}
+
+/** VolumeClaimSpecSelectorMatchExpressions properties */
+export interface VolumeClaimSpecSelectorMatchExpressions {
+  /** key is the label key that the selector applies to. */
+  key: string;
+  /** operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist. */
+  operator: OperatorValues;
+  /** values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch. */
+  values?: string[];
+}
+
+export function volumeClaimSpecSelectorMatchExpressionsSerializer(
+  item: VolumeClaimSpecSelectorMatchExpressions,
+): Record<string, unknown> {
+  return {
+    key: item["key"],
+    operator: item["operator"],
+    values: item["values"],
+  };
+}
+
+/** Known values of {@link OperatorValues} that the service accepts. */
+export enum KnownOperatorValues {
+  /** In */
+  In = "In",
+  /** NotIn */
+  NotIn = "NotIn",
+  /** Exists */
+  Exists = "Exists",
+  /** DoesNotExist */
+  DoesNotExist = "DoesNotExist",
+}
+
+/**
+ * Valid operators are In, NotIn, Exists and DoesNotExist. \
+ * {@link KnownOperatorValues} can be used interchangeably with OperatorValues,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **In** \
+ * **NotIn** \
+ * **Exists** \
+ * **DoesNotExist**
+ */
+export type OperatorValues = string;
+
+/** GenerateResourceLimits properties */
+export interface GenerateResourceLimits {
+  /** The toggle to enable/disable cpu resource limits. */
+  cpu?: OperationalMode;
+}
+
+export function generateResourceLimitsSerializer(
+  item: GenerateResourceLimits,
+): Record<string, unknown> {
+  return {
+    cpu: item["cpu"],
+  };
+}
+
+/** Known values of {@link BrokerMemoryProfile} that the service accepts. */
+export enum KnownBrokerMemoryProfile {
+  /** Tiny */
+  Tiny = "Tiny",
+  /** Low */
+  Low = "Low",
+  /** Medium */
+  Medium = "Medium",
+  /** High */
+  High = "High",
+}
+
+/**
+ * The memory profile settings of the Broker \
+ * {@link KnownBrokerMemoryProfile} can be used interchangeably with BrokerMemoryProfile,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Tiny** \
+ * **Low** \
+ * **Medium** \
+ * **High**
+ */
+export type BrokerMemoryProfile = string;
+
+/** The response of a BrokerResource list operation. */
+export interface _BrokerResourceListResult {
+  /** The BrokerResource items on this page */
+  value: BrokerResource[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
+export interface TrackedResource extends Resource {
+  /** Resource tags. */
+  tags?: Record<string, string>;
+  /** The geo-location where the resource lives */
+  location: string;
+}
+
+export function trackedResourceSerializer(
+  item: TrackedResource,
+): Record<string, unknown> {
+  return {
+    tags: !item.tags ? item.tags : (serializeRecord(item.tags as any) as any),
+    location: item["location"],
+  };
+}
+
+/** A Instance resource is a logical container for a set of child resources. */
+export interface InstanceResource extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: InstanceProperties;
+  /** Edge location of the resource. */
+  extendedLocation: ExtendedLocation;
+  /** The managed service identities assigned to this resource. */
+  identity?: ManagedServiceIdentity;
+}
+
+export function instanceResourceSerializer(
+  item: InstanceResource,
+): Record<string, unknown> {
+  return {
+    tags: !item.tags ? item.tags : (serializeRecord(item.tags as any) as any),
+    location: item["location"],
+    properties: !item.properties
+      ? item.properties
+      : instancePropertiesSerializer(item.properties),
+    extendedLocation: extendedLocationSerializer(item.extendedLocation),
+    identity: !item.identity
+      ? item.identity
+      : managedServiceIdentitySerializer(item.identity),
+  };
+}
+
+/** The properties of the Instance resource. */
+export interface InstanceProperties {
+  /** Detailed description of the Instance. */
+  description?: string;
+  /** The status of the last operation. */
+  readonly provisioningState?: ProvisioningState;
+  /** The Azure IoT Operations version. */
+  readonly version?: string;
+  /** The reference to the Schema Registry for this AIO Instance. */
+  schemaRegistryNamespace: string;
+  /** The configuration for components of the AIO Instance. */
+  components?: Components;
+}
+
+export function instancePropertiesSerializer(
+  item: InstanceProperties,
+): Record<string, unknown> {
+  return {
+    description: item["description"],
+    schemaRegistryNamespace: item["schemaRegistryNamespace"],
+    components: !item.components
+      ? item.components
+      : componentsSerializer(item.components),
+  };
+}
+
+/** The configuration for components of the AIO Instance. */
+export interface Components {
+  /** The properties of the ADR instance. */
+  adr?: AdrProperties;
+  /** The properties of the AKRI instance. */
+  akri?: AkriInstanceProperties;
+  /** The properties of the connectors instance. */
+  connectors?: ConnectorInstanceProperties;
+  /** The properties of the dataflows instance. */
+  dataflows?: DataflowInstanceProperties;
+  /** The properties of the device provisioning instance. */
+  schemaRegistry?: SchemaRegistryInstanceProperties;
+}
+
+export function componentsSerializer(
+  item: Components,
+): Record<string, unknown> {
+  return {
+    adr: !item.adr ? item.adr : adrPropertiesSerializer(item.adr),
+    akri: !item.akri ? item.akri : akriInstancePropertiesSerializer(item.akri),
+    connectors: !item.connectors
+      ? item.connectors
+      : connectorInstancePropertiesSerializer(item.connectors),
+    dataflows: !item.dataflows
+      ? item.dataflows
+      : dataflowInstancePropertiesSerializer(item.dataflows),
+    schemaRegistry: !item.schemaRegistry
+      ? item.schemaRegistry
+      : schemaRegistryInstancePropertiesSerializer(item.schemaRegistry),
+  };
+}
+
+/** The properties of an ADR instance. */
+export interface AdrProperties {
+  /** This determines if the ADR service is enabled. */
+  state: OperationalMode;
+}
+
+export function adrPropertiesSerializer(
+  item: AdrProperties,
+): Record<string, unknown> {
+  return {
+    state: item["state"],
+  };
+}
+
+/** The properties of an AKRI instance. */
+export interface AkriInstanceProperties {
+  /** This determines if the AKRI service is enabled. */
+  state: OperationalMode;
+}
+
+export function akriInstancePropertiesSerializer(
+  item: AkriInstanceProperties,
+): Record<string, unknown> {
+  return {
+    state: item["state"],
+  };
+}
+
+/** The properties of a  Connector instance. */
+export interface ConnectorInstanceProperties {
+  /** This determines if the Connector service is enabled. */
+  state: OperationalMode;
+}
+
+export function connectorInstancePropertiesSerializer(
+  item: ConnectorInstanceProperties,
+): Record<string, unknown> {
+  return {
+    state: item["state"],
+  };
+}
+
+/** The properties of an Dataflow instance. */
+export interface DataflowInstanceProperties {
+  /** This determines if the Dataflow service is enabled. */
+  state: OperationalMode;
+}
+
+export function dataflowInstancePropertiesSerializer(
+  item: DataflowInstanceProperties,
+): Record<string, unknown> {
+  return {
+    state: item["state"],
+  };
+}
+
+/** The properties of a Schema Registry instance. */
+export interface SchemaRegistryInstanceProperties {
+  /** This determines if the Schema Registry service is enabled. */
+  state: OperationalMode;
+}
+
+export function schemaRegistryInstancePropertiesSerializer(
+  item: SchemaRegistryInstanceProperties,
+): Record<string, unknown> {
+  return {
+    state: item["state"],
+  };
+}
+
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface ManagedServiceIdentity {
+  /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
+  readonly principalId?: string;
+  /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
+  readonly tenantId?: string;
+  /** The type of managed identity assigned to this resource. */
+  type: ManagedServiceIdentityType;
+  /** The identities assigned to this resource by the user. */
+  userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
+}
+
+export function managedServiceIdentitySerializer(
+  item: ManagedServiceIdentity,
+): Record<string, unknown> {
+  return {
+    type: item["type"],
+    userAssignedIdentities: !item.userAssignedIdentities
+      ? item.userAssignedIdentities
+      : (serializeRecord(
+          item.userAssignedIdentities as any,
+          userAssignedIdentitySerializer,
+        ) as any),
+  };
+}
+
+/** Known values of {@link ManagedServiceIdentityType} that the service accepts. */
+export enum KnownManagedServiceIdentityType {
+  /** None */
+  None = "None",
+  /** SystemAssigned */
+  SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
+  UserAssigned = "UserAssigned",
+  /** SystemAndUserAssigned */
+  SystemAndUserAssigned = "SystemAssigned,UserAssigned",
+}
+
+/**
+ * Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). \
+ * {@link KnownManagedServiceIdentityType} can be used interchangeably with ManagedServiceIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **SystemAssigned** \
+ * **UserAssigned** \
+ * **SystemAssigned,UserAssigned**
+ */
+export type ManagedServiceIdentityType = string;
+
+/** User assigned identity properties */
+export interface UserAssignedIdentity {
+  /** The principal ID of the assigned identity. */
+  readonly principalId?: string;
+  /** The client ID of the assigned identity. */
+  readonly clientId?: string;
+}
+
+export function userAssignedIdentitySerializer(item: UserAssignedIdentity) {
+  return item as any;
+}
+
+/** The Instance update model. */
+export interface InstancePatchModel {
+  /** Resource tags. */
+  tags?: Record<string, string>;
+  /** The managed service identities assigned to this resource. */
+  identity?: ManagedServiceIdentity;
+}
+
+export function instancePatchModelSerializer(
+  item: InstancePatchModel,
+): Record<string, unknown> {
+  return {
+    tags: !item.tags ? item.tags : (serializeRecord(item.tags as any) as any),
+    identity: !item.identity
+      ? item.identity
+      : managedServiceIdentitySerializer(item.identity),
+  };
+}
+
+/** The response of a InstanceResource list operation. */
+export interface _InstanceResourceListResult {
+  /** The InstanceResource items on this page */
+  value: InstanceResource[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
+export interface _OperationListResult {
+  /** The Operation items on this page */
+  value: Operation[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** Details of a REST API operation, returned from the Resource Provider Operations API */
+export interface Operation {
+  /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
+  readonly name?: string;
+  /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for Azure Resource Manager/control-plane operations. */
+  readonly isDataAction?: boolean;
+  /** Localized display information for this particular operation. */
+  readonly display?: OperationDisplay;
+  /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
+  readonly origin?: Origin;
+  /** Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
+  actionType?: ActionType;
+}
+
+/** Localized display information for and operation. */
+export interface OperationDisplay {
+  /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
+  readonly provider?: string;
+  /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
+  readonly resource?: string;
+  /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
+  readonly operation?: string;
+  /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
+  readonly description?: string;
+}
+
+/** Known values of {@link Origin} that the service accepts. */
+export enum KnownOrigin {
+  /** user */
+  user = "user",
+  /** system */
+  system = "system",
+  /** user,system */
+  "user,system" = "user,system",
+}
+
+/**
+ * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" \
+ * {@link KnownOrigin} can be used interchangeably with Origin,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **user** \
+ * **system** \
+ * **user,system**
+ */
+export type Origin = string;
+
+/** Known values of {@link ActionType} that the service accepts. */
+export enum KnownActionType {
+  /** Internal */
+  Internal = "Internal",
+}
+
+/**
+ * Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. \
+ * {@link KnownActionType} can be used interchangeably with ActionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Internal**
+ */
+export type ActionType = string;
+/** Api versions */
+export type Versions = "2024-08-15-preview";
+/** Alias for DataExplorerAuthMethod */
+export type DataExplorerAuthMethod = ManagedIdentityMethod;
+/** Alias for DataLakeStorageAuthMethod */
+export type DataLakeStorageAuthMethod =
+  | ManagedIdentityMethod
+  | AccessTokenMethod;
+/** Alias for FabricOneLakeAuthMethod */
+export type FabricOneLakeAuthMethod = ManagedIdentityMethod;
+/** Alias for KafkaAuthMethod */
+export type KafkaAuthMethod =
+  | ManagedIdentityMethod
+  | SaslMethod
+  | X509CertificateMethod
+  | AnonymousMethod;
+/** Alias for MqttAuthMethod */
+export type MqttAuthMethod =
+  | ManagedIdentityMethod
+  | ServiceAccountTokenMethod
+  | X509CertificateMethod
+  | AnonymousMethod;
+/** Alias for ProvisioningState */
+export type ProvisioningState =
+  | string
+  | ResourceProvisioningState
+  | "Provisioning"
+  | "Updating"
+  | "Deleting"
+  | "Accepted";
